@@ -12,7 +12,7 @@ const WobblyRowContainer = styled.div.attrs({
   className: 'font-white',
 })`
   position: relative;
-  background-color: ${props => props.theme.newColor('neutral.700')};
+  background-color: ${props => props.theme.color('neutral.700')};
 `;
 
 const WobblyRowPattern = styled.div`

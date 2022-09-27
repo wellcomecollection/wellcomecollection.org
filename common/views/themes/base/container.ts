@@ -36,15 +36,15 @@ export const container = `
 
     &::-webkit-scrollbar {
       height: 18px;
-      background: ${themeValues.newColor('white')};
+      background: ${themeValues.color('white')};
     }
 
     &::-webkit-scrollbar-thumb {
       border-radius: 0;
       border-style: solid;
-      border-color: ${themeValues.newColor('white')};
+      border-color: ${themeValues.color('white')};
       border-width: 0 ${themeValues.containerPadding.small}px 12px;
-      background: ${themeValues.newColor('neutral.400')};
+      background: ${themeValues.color('neutral.400')};
 
       @include respond-to('medium') {
         border-left-width: ${themeValues.containerPadding.medium}px;

@@ -19,11 +19,11 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
   overflow: hidden;
   flex-direction: column;
 
-  background: ${props => props.theme.newColor('warmNeutral.300')};
+  background: ${props => props.theme.color('warmNeutral.300')};
   min-height: ${props => props.theme.minCardHeight}px;
 
   .card-theme.card-theme--white & {
-    background: ${props => props.theme.newColor('white')};
+    background: ${props => props.theme.color('white')};
   }
 
   .card-theme.card-theme--transparent & {
@@ -32,7 +32,7 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
   }
 
   .card-theme.bg-neutral-700 & {
-    color: ${props => props.theme.newColor('white')};
+    color: ${props => props.theme.color('white')};
   }
 `;
 

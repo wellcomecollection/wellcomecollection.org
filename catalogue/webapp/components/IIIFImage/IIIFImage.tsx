@@ -16,7 +16,7 @@ import {
 const StyledImage = styled(Image).attrs({ className: 'font-neutral-700' })<{
   background: string;
 }>`
-  background-color: ${props => props.theme.newColor(props.background)};
+  background-color: ${props => props.theme.color(props.background)};
 `;
 
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {

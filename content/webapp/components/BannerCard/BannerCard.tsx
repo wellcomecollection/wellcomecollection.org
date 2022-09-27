@@ -22,9 +22,9 @@ const CardOuter = styled.a<CardOuterProps>`
   flex-direction: column-reverse;
   overflow: hidden;
   text-decoration: none;
-  background: ${props => props.theme.newColor(props.background)};
+  background: ${props => props.theme.color(props.background)};
   color: ${props =>
-    props.theme.newColor(
+    props.theme.color(
       props.background === 'neutral.700' ? 'warmNeutral.300' : 'black'
     )};
 
@@ -41,7 +41,7 @@ const TextWrapper = styled.div<TextWrapperProps>`
   ${props => props.theme.media.large`
     flex-grow: 2;
     `};
-  border-left: 4px solid ${props => props.theme.newColor(props.highlightColor)};
+  border-left: 4px solid ${props => props.theme.color(props.highlightColor)};
 `;
 
 type ImageWrapperProps = {

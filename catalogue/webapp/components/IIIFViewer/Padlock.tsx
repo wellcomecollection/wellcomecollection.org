@@ -24,7 +24,7 @@ const StyledPadlock = styled.div`
   &::after,
   > div::before,
   > div::after {
-    background-color: ${props => props.theme.newColor('black')};
+    background-color: ${props => props.theme.color('black')};
   }
 
   /* top bar */
@@ -33,7 +33,7 @@ const StyledPadlock = styled.div`
     height: 70%;
     left: 20%;
     border-radius: 40%;
-    background-color: ${props => props.theme.newColor('warmNeutral.400')};
+    background-color: ${props => props.theme.color('warmNeutral.400')};
   }
 
   &::after {
@@ -50,7 +50,7 @@ const StyledPadlock = styled.div`
     height: 62%;
     left: 10%;
     bottom: 0;
-    background-color: ${props => props.theme.newColor('yellow')};
+    background-color: ${props => props.theme.color('yellow')};
     border-radius: 15%;
     z-index: 1;
 

@@ -67,7 +67,7 @@ const YellowBox = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   'aria-live': 'polite',
 })`
-  border: 12px solid ${props => props.theme.newColor('yellow')};
+  border: 12px solid ${props => props.theme.color('yellow')};
 
   p {
     max-width: 600px;

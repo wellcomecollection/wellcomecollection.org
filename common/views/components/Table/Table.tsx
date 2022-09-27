@@ -113,7 +113,7 @@ const TableTr = styled.tr`
     border-bottom: ${props =>
       props.withBorder
         ? `1px dotted
-      ${props => props.theme.newColor('neutral.500')}`
+      ${props => props.theme.color('neutral.500')}`
         : 'none'};
   }
 
@@ -121,7 +121,7 @@ const TableTr = styled.tr`
     border-top: ${props =>
       props.withBorder
         ? `1px dotted
-      ${props => props.theme.newColor('neutral.500')}`
+      ${props => props.theme.color('neutral.500')}`
         : 'none'};
   }
 `;
@@ -133,7 +133,7 @@ const TableTh = styled(Space).attrs({
 })`
   font-weight: bold;
   background: ${props =>
-    props.plain ? 'transparent' : props.theme.newColor('warmNeutral.400')};
+    props.plain ? 'transparent' : props.theme.color('warmNeutral.400')};
   white-space: nowrap;
 
   ${TableTbody}.has-row-headers & {

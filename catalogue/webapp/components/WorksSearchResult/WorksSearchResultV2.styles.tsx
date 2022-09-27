@@ -18,7 +18,7 @@ export const Preview = styled(Space)`
   max-width: 120px;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
   margin-right: 1rem;
-  background-color: ${props => props.theme.newColor('black')};
+  background-color: ${props => props.theme.color('black')};
 
   ${props => props.theme.media.medium`
   margin-bottom: 0;
@@ -43,7 +43,7 @@ export const WorkInformation = styled(Space).attrs({
   className: font('intr', 5),
   v: { size: 'xs', properties: ['margin-bottom'] },
 })`
-  color: ${props => props.theme.newColor('neutral.600')};
+  color: ${props => props.theme.color('neutral.600')};
 `;
 
 export const WorkInformationItem = styled.span`

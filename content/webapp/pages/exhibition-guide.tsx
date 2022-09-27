@@ -54,14 +54,14 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 const PromoContainer = styled.div`
-  background: ${props => props.theme.newColor('warmNeutral.300')};
+  background: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 const Stop = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
-  background: ${props => props.theme.newColor('warmNeutral.300')};
+  background: ${props => props.theme.color('warmNeutral.300')};
   height: 100%;
 `;
 
@@ -93,11 +93,11 @@ const TypeLink = styled.a`
   height: 100%;
   width: 100%;
   text-decoration: none;
-  background: ${props => props.theme.newColor(props.color)};
+  background: ${props => props.theme.color(props.color)};
 
   &:hover,
   &:focus {
-    background: ${props => props.theme.newColor('neutral.400')};
+    background: ${props => props.theme.color('neutral.400')};
   }
 `;
 
@@ -142,7 +142,7 @@ const Header = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
   },
 })`
-  background: ${props => props.theme.newColor(props.color)};
+  background: ${props => props.theme.color(props.color)};
 `;
 
 const typeNames = [

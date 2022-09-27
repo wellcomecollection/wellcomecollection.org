@@ -18,7 +18,7 @@ const ZoomedImageContainer = styled.div`
   z-index: 5;
   width: 100%;
   height: 100%;
-  background: ${props => props.theme.newColor('black')};
+  background: ${props => props.theme.color('black')};
 `;
 
 const Controls = styled.div`

@@ -36,7 +36,7 @@ const includes = [
 ];
 
 const ToolbarContainer = styled.div`
-  background-color: ${props => props.theme.newColor('accent.purple')};
+  background-color: ${props => props.theme.color('accent.purple')};
   z-index: 100;
 `;
 

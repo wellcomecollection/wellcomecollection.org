@@ -122,7 +122,7 @@ export const typography = css<GlobalStyleProps>`
     ${fontFamilyMixin('intr', true)}
     ${fontSizeMixin(4)}
     line-height: 1.5;
-    color: ${themeValues.newColor('black')};
+    color: ${themeValues.color('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
@@ -189,7 +189,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .more-link {
-    color: ${themeValues.newColor('accent.green')};
+    color: ${themeValues.color('accent.green')};
     text-decoration: none;
 
     &:hover,
@@ -245,7 +245,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     *::selection {
-      background: ${themeValues.newColor('accent.turquoise')}4d;
+      background: ${themeValues.color('accent.turquoise')}4d;
     }
 
     ul {
@@ -276,7 +276,7 @@ export const typography = css<GlobalStyleProps>`
       transition: color ${themeValues.transitionProperties};
 
       &:hover {
-        color: ${themeValues.newColor('accent.green')};
+        color: ${themeValues.color('accent.green')};
         text-decoration-color: transparent;
       }
     }
@@ -290,7 +290,7 @@ export const typography = css<GlobalStyleProps>`
   .drop-cap {
     ${fontFamilyMixin('wb', true)}
     font-size: 3em;
-    color: ${themeValues.newColor('black')};
+    color: ${themeValues.color('black')};
     float: left;
     line-height: 1em;
     padding-right: 0.1em;
@@ -299,7 +299,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .quote {
-    border-left: 12px solid ${themeValues.newColor('warmNeutral.400')};
+    border-left: 12px solid ${themeValues.color('warmNeutral.400')};
     padding-left: 0.9em;
 
     p {
@@ -321,7 +321,7 @@ export const typography = css<GlobalStyleProps>`
       ${fontFamilyMixin('wb', true)}
       position: absolute;
       content: '“';
-      color: ${themeValues.newColor('accent.blue')};
+      color: ${themeValues.color('accent.blue')};
       left: -14px;
       top: 0.12em;
       font-size: 2em;

@@ -9,7 +9,7 @@ const List = styled.ul.attrs({
   className:
     'no-margin no-padding plain-list flex-inline flex--v-center flex--h-center',
 })`
-  border: 2px solid ${props => props.theme.newColor('neutral.600')};
+  border: 2px solid ${props => props.theme.color('neutral.600')};
   border-radius: 5px;
 `;
 
@@ -17,7 +17,7 @@ const Item = styled.li<{ isActive: boolean }>`
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.newColor('neutral.600')};
+    background: ${props.theme.color('neutral.600')};
   `}
 `;
 
@@ -38,7 +38,7 @@ const ButtonInner = styled(Space).attrs({
   },
   className: `flex flex--v-center flex--h-center ${font('intb', 5)}`,
 })<{ isActive: boolean }>`
-  color: ${props => props.theme.newColor('white')};
+  color: ${props => props.theme.color('white')};
 `;
 
 type Props = {

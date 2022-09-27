@@ -31,14 +31,14 @@ export const ErrorAlert = styled(AlertBox)`
 
 export const SuccessMessage = styled(AlertBox)`
   background-color: rgba(0, 120, 108, 0.1);
-  color: ${props => props.theme.newColor('validation.green')};
+  color: ${props => props.theme.color('validation.green')};
 `;
 
 export const HighlightMessage = styled(Space).attrs({
   as: 'p',
   h: { size: 'm', properties: ['padding-left'] },
 })`
-  border-left: 13px solid ${props => props.theme.newColor('yellow')};
+  border-left: 13px solid ${props => props.theme.color('yellow')};
 `;
 
 export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })``;
@@ -83,7 +83,7 @@ export const Cancel = styled.button.attrs({
 export const YellowBorder = styled(Space).attrs({
   h: { size: 's', properties: ['padding-left'] },
 })`
-  border-left: 10px solid ${props => props.theme.newColor('yellow')};
+  border-left: 10px solid ${props => props.theme.color('yellow')};
 `;
 
 export const FullWidthButton = styled.div`

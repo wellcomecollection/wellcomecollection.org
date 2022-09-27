@@ -60,13 +60,13 @@ const Wrapper = styled.div<{ isCreamy: boolean }>`
   overflow: auto;
   ${props =>
     props.isCreamy &&
-    `background-color: ${props.theme.newColor('warmNeutral.300')}`};
+    `background-color: ${props.theme.color('warmNeutral.300')}`};
 `;
 
 const ShameBorder = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 // FIXME: obviously we can't carry on like this!
 const ShameWhatWeDoHack = () => (

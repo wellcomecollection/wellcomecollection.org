@@ -22,7 +22,7 @@ const GridWrapper = styled(Space).attrs({
     properties: ['margin-bottom', 'padding-bottom'],
   },
 })`
-  border-bottom: 1px solid ${props => props.theme.newColor('neutral.300')};
+  border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
 const EventContainer = styled(Space).attrs({
@@ -42,7 +42,7 @@ const EventContainer = styled(Space).attrs({
   className: font('intb', 5),
 })`
   display: inline-block;
-  background-color: ${props => props.theme.newColor('yellow')};
+  background-color: ${props => props.theme.color('yellow')};
 `;
 
 const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {

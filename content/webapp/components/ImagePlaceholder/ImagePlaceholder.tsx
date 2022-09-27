@@ -7,7 +7,7 @@ const Wrapper = styled.div<{
   color: ColorSelection | undefined;
 }>`
   position: relative;
-  background: ${props => props.theme.newColor(props.color)};
+  background: ${props => props.theme.color(props.color)};
 `;
 
 const Pattern = styled.div`

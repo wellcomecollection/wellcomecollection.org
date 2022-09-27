@@ -43,7 +43,7 @@ const Wrapper = styled(Space).attrs({
   },
 })`
   display: flex;
-  background-color: ${props => props.theme.newColor('warmNeutral.400')};
+  background-color: ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {

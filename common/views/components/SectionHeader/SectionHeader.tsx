@@ -7,7 +7,7 @@ const YellowBox = styled.div`
   display: inline-block;
   width: 60px;
   height: 18px;
-  background: ${props => props.theme.newColor('yellow')};
+  background: ${props => props.theme.color('yellow')};
 
   ${props => props.theme.media.medium`
     width: 58px;
@@ -21,7 +21,7 @@ const YellowBox = styled.div`
 
 const TitleWrapper = styled.span`
   .bg-neutral-700 & {
-    color: ${props => props.theme.newColor('white')};
+    color: ${props => props.theme.color('white')};
   }
 `;
 

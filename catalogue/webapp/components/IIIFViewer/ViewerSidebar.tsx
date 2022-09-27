@@ -72,10 +72,10 @@ const AccordionInner = styled(Space).attrs({
 `;
 
 const Item = styled.div`
-  border-bottom: 1px solid ${props => props.theme.newColor('neutral.600')};
+  border-bottom: 1px solid ${props => props.theme.color('neutral.600')};
 
   &:first-child {
-    border-top: 1px solid ${props => props.theme.newColor('neutral.600')};
+    border-top: 1px solid ${props => props.theme.color('neutral.600')};
   }
 `;
 

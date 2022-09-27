@@ -5,16 +5,16 @@ import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
-import { NewPaletteColor } from '@weco/common/views/themes/config';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type BaseButtonProps = {
   href?: string;
 };
 
 export type ButtonColors = {
-  border: NewPaletteColor;
-  background: NewPaletteColor;
-  text: NewPaletteColor;
+  border: PaletteColor;
+  background: PaletteColor;
+  text: PaletteColor;
 };
 
 export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
@@ -42,9 +42,9 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
 
   &[disabled],
   &.disabled {
-    background: ${props => props.theme.newColor('neutral.600')};
-    border-color: ${props => props.theme.newColor('neutral.600')};
-    color: ${props => props.theme.newColor('white')};
+    background: ${props => props.theme.color('neutral.600')};
+    border-color: ${props => props.theme.color('neutral.600')};
+    color: ${props => props.theme.color('white')};
     cursor: not-allowed;
 
     &:hover {
@@ -157,16 +157,16 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   })
 )<SolidButtonProps>`
   background: ${props =>
-    props.theme.newColor(
+    props.theme.color(
       props?.colors?.background || props.theme.buttonColors.default.background
     )};
   color: ${props =>
-    props.theme.newColor(
+    props.theme.color(
       props?.colors?.text || props.theme.buttonColors.default.text
     )};
   border: 2px solid
     ${props =>
-      props.theme.newColor(
+      props.theme.color(
         props?.colors?.border || props.theme.buttonColors.default.border
       )};
 

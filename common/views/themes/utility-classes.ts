@@ -4,7 +4,7 @@ import { GlobalStyleProps } from './default';
 import { respondTo, respondBetween, visuallyHidden } from './mixins';
 
 export const utilityClasses = css<GlobalStyleProps>`
-  ${Object.entries(themeValues.newColors)
+  ${Object.entries(themeValues.colors)
     .map(([key, value]) => {
       if (!key.includes('.')) {
         return `
@@ -296,12 +296,12 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .promo-link {
     height: 100%;
-    color: ${themeValues.newColor('black')};
+    color: ${themeValues.color('black')};
 
     &:hover .promo-link__title,
     &:focus .promo-link__title {
       text-decoration: underline;
-      text-decoration-color: ${themeValues.newColor('black')};
+      text-decoration-color: ${themeValues.color('black')};
     }
   }
 
@@ -386,7 +386,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     &:focus {
       .card-link__title {
         text-decoration: underline;
-        text-decoration-color: ${themeValues.newColor('black')};
+        text-decoration-color: ${themeValues.color('black')};
       }
     }
   }
@@ -399,7 +399,7 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   noscript {
-    background: ${themeValues.newColor('white')};
-    color: ${themeValues.newColor('black')};
+    background: ${themeValues.color('white')};
+    color: ${themeValues.color('black')};
   }
 `;

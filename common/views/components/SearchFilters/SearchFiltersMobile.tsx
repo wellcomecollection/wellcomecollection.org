@@ -38,7 +38,7 @@ const PaletteColorPicker = dynamic(
 const SearchFiltersContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background-color: ${props => props.theme.newColor('white')};
+  background-color: ${props => props.theme.color('white')};
 `;
 
 const ShameButtonWrap = styled(Space).attrs({
@@ -54,7 +54,7 @@ const FiltersHeader = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const ActiveFilters = styled(Space).attrs({
@@ -66,7 +66,7 @@ const ActiveFilters = styled(Space).attrs({
   className: 'font-black rounded-corners',
 })`
   display: inline-block;
-  background-color: ${props => props.theme.newColor('yellow')};
+  background-color: ${props => props.theme.color('yellow')};
   text-align: center;
   min-width: 24px;
 `;
@@ -82,7 +82,7 @@ const FiltersBody = styled(Space).attrs({
 const FilterSection = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const FiltersScrollable = styled.div`
@@ -99,8 +99,8 @@ const FiltersFooter = styled(Space).attrs({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${props => props.theme.newColor('white')};
-  border-top: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
+  background-color: ${props => props.theme.color('white')};
+  border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
   position: fixed;
   bottom: 0;
   left: 0;

@@ -23,7 +23,7 @@ export const decorators = [
   },
 ];
 
-const themeColors = Object.entries(theme.newColors).map(([key, value]) => ({
+const themeColors = Object.entries(theme.colors).map(([key, value]) => ({
   name: key,
   value: value.base,
 }));

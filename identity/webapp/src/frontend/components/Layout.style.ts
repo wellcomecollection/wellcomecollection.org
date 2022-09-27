@@ -6,7 +6,7 @@ export const Container = styled(Space).attrs({
   v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   background-color: white;
-  border: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
+  border: 1px solid ${props => props.theme.color('warmNeutral.400')};
   border-radius: 10px;
 `;
 
@@ -28,7 +28,7 @@ export const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
 `;
 
 export const Header = styled(Space)`
-  background: ${props => props.theme.newColor('white')};
+  background: ${props => props.theme.color('white')};
 `;
 
 export const Title = styled.h1.attrs({ className: font('wb', 0) })``;

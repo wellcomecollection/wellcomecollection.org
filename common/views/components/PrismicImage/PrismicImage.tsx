@@ -5,7 +5,7 @@ import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
 import { ImageType } from '../../../model/image';
 
 const StyledImage = styled(Image).attrs({ className: 'font-white' })`
-  background-color: ${props => props.theme.newColor('neutral.700')};
+  background-color: ${props => props.theme.color('neutral.700')};
 `;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;

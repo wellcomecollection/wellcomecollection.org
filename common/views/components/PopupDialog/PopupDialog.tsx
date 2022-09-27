@@ -44,7 +44,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   line-height: 1;
   display: inline-flex;
   align-items: center;
-  color: ${props => props.theme.newColor('accent.purple')};
+  color: ${props => props.theme.color('accent.purple')};
   position: fixed;
   transform: ${props =>
     props.isActive || !props.shouldStartAnimation
@@ -53,7 +53,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   bottom: 20px;
   left: 20px;
   z-index: 3;
-  background: ${props => props.theme.newColor('white')};
+  background: ${props => props.theme.color('white')};
   opacity: ${props => (props.isActive || !props.shouldStartAnimation ? 0 : 1)};
   transition: opacity 500ms ease, filter 500ms ease, transform 500ms ease;
   transition-delay: ${props => (props.isActive ? '0ms' : '500ms')};
@@ -64,11 +64,11 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   &:focus {
     outline: 0;
     border: 0;
-    color: ${props => props.theme.newColor('white')};
-    background: ${props => props.theme.newColor('accent.purple')};
+    color: ${props => props.theme.color('white')};
+    background: ${props => props.theme.color('accent.purple')};
 
     .icon__shape {
-      fill: ${props => props.theme.newColor('white')};
+      fill: ${props => props.theme.color('white')};
     }
   }
 `;
@@ -91,7 +91,7 @@ const PopupDialogWindow = styled(Space).attrs({
   },
   className: 'font-accent-purple',
 })<PopupDialogWindowProps>`
-  background-color: ${props => props.theme.newColor('white')};
+  background-color: ${props => props.theme.color('white')};
   border-radius: 20px 0 20px 0;
   box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.7);
   opacity: ${props => (props.isActive ? 1 : 0)};
@@ -148,8 +148,8 @@ const PopupDialogCTA = styled(Space).attrs({
   className: `${font('intb', 5, { small: 3, medium: 3 })} rounded-corners`,
 })`
   display: inline-block;
-  background-color: ${props => props.theme.newColor('accent.purple')};
-  color: ${props => props.theme.newColor('white')};
+  background-color: ${props => props.theme.color('accent.purple')};
+  color: ${props => props.theme.color('white')};
   transition: all 500ms ease;
   border: 2px solid transparent;
   text-decoration: none;
@@ -157,9 +157,9 @@ const PopupDialogCTA = styled(Space).attrs({
   &:hover,
   &:focus {
     outline: 0;
-    color: ${props => props.theme.newColor('accent.purple')};
-    border-color: ${props => props.theme.newColor('accent.purple')};
-    background: ${props => props.theme.newColor('white')};
+    color: ${props => props.theme.color('accent.purple')};
+    border-color: ${props => props.theme.color('accent.purple')};
+    background: ${props => props.theme.color('white')};
   }
 `;
 

@@ -6,7 +6,7 @@ const StyledInput = styled(Space).attrs({
   type: 'number',
 })`
   outline: none;
-  border: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
+  border: 1px solid ${props => props.theme.color('warmNeutral.400')};
   padding: 12px;
   border-radius: 3px;
   appearance: none;
@@ -19,7 +19,7 @@ const StyledInput = styled(Space).attrs({
   }
 
   &:focus {
-    border: 2px solid ${props => props.theme.newColor('black')};
+    border: 2px solid ${props => props.theme.color('black')};
     padding: 11px;
   }
 `;

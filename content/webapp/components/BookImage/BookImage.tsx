@@ -9,7 +9,7 @@ import { ImageType } from '@weco/common/model/image';
 
 const BookPromoImageContainer = styled.div`
   position: relative;
-  background-color: ${props => props.theme.newColor('warmNeutral.300')};
+  background-color: ${props => props.theme.color('warmNeutral.300')};
   height: 0;
   padding-top: 100%;
   transform: rotate(-2deg);

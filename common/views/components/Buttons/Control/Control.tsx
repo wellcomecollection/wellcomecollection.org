@@ -50,28 +50,28 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   ${props =>
     props.colorScheme === 'light' &&
     `
-    background: ${props.theme.newColor('white')};
-    border: 2px solid ${props.theme.newColor('accent.green')};
+    background: ${props.theme.color('white')};
+    border: 2px solid ${props.theme.color('accent.green')};
 
     .icon__shape {
-      fill: ${props.theme.newColor('accent.green')};
+      fill: ${props.theme.color('accent.green')};
     }
 
     &:hover,
     &:focus {
-      background: ${props.theme.newColor('accent.green')};
+      background: ${props.theme.color('accent.green')};
 
       .icon__shape {
-        fill: ${props.theme.newColor('white')};
+        fill: ${props.theme.color('white')};
       }
     }
 
     &[disabled] {
       background: transparent;
-      border-color: ${props.theme.newColor('neutral.500')};
+      border-color: ${props.theme.color('neutral.500')};
 
       .icon__shape {
-        fill: ${props.theme.newColor('neutral.500')};
+        fill: ${props.theme.color('neutral.500')};
       }
     }
   `}
@@ -80,19 +80,19 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     props.colorScheme === 'dark' &&
     `
     border: 0;
-    background: ${props.theme.newColor('accent.green')};
+    background: ${props.theme.color('accent.green')};
 
     .icon__shape {
-      fill: ${props.theme.newColor('white')};
+      fill: ${props.theme.color('white')};
     }
 
     &:hover,
     &:focus {
-      background: ${props.theme.newColor('black')};
+      background: ${props.theme.color('black')};
     }
 
     &[disabled] {
-      background: ${props.theme.newColor('neutral.500')};
+      background: ${props.theme.color('neutral.500')};
     }
   `}
 
@@ -104,21 +104,21 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     background: #1f1f1f;
 
     .icon__shape {
-      fill: ${props.theme.newColor('white')};
+      fill: ${props.theme.color('white')};
       transition: all ${props.theme.transitionProperties};
     }
 
     &:hover,
     &:focus {
       .icon__shape {
-        fill: ${props.theme.newColor('yellow')};
+        fill: ${props.theme.color('yellow')};
       }
     }
 
 
     &[disabled] {
       .icon__shape {
-        fill: ${props.theme.newColor('neutral.400')};
+        fill: ${props.theme.color('neutral.400')};
       }
     }
   `}
@@ -126,25 +126,25 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   ${props =>
     props.colorScheme === 'black-on-white' &&
     `
-    background: ${props.theme.newColor('white')};
+    background: ${props.theme.color('white')};
     border: none;
 
     .icon__shape {
-      fill: ${props.theme.newColor('neutral.700')};
+      fill: ${props.theme.color('neutral.700')};
     }
 
     &:hover,
     &:focus {
-      background: ${props.theme.newColor('yellow')};
+      background: ${props.theme.color('yellow')};
 
       .icon__shape {
-        fill: ${props.theme.newColor('neutral.700')};
+        fill: ${props.theme.color('neutral.700')};
       }
     }
 
     &[disabled] {
       .icon__shape {
-        fill: ${props.theme.newColor('neutral.600')};
+        fill: ${props.theme.color('neutral.600')};
       }
     }
   `}

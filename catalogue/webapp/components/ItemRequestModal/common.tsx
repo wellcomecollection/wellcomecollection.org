@@ -9,7 +9,7 @@ export const CTAs = styled(Space).attrs({
 const CurrentRequestCount = styled(Space).attrs({
   h: { size: 's', properties: ['padding-left', 'margin-left'] },
 })`
-  border-left: 5px solid ${props => props.theme.newColor('yellow')};
+  border-left: 5px solid ${props => props.theme.color('yellow')};
 `;
 
 export const CurrentRequests: FC<{
