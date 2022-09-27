@@ -62,8 +62,24 @@ export function getCalendarRows(date: Date): Date[][] {
   return groupIntoSize(rows, 7);
 }
 
-export function firstDayOfWeek(date: Date, dates: Date[][]): Date {
-  const currentWeek = dates.find(weekDates =>
+/** Given a list of weeks, return the first day of the week that
+ * contains the given date.
+ *
+ * e.g. if we're looking for 8 September 2022 in the weeks of September:
+ *
+ *      September 2022
+ *   Mo Tu We Th Fr Sa Su
+ * [           1  2  3  4 ]
+ * [  5  6  7  8  9 10 11 ] << currentWeek
+ * [ 12 13 14 15 16 17 18 ]
+ * [ 19 20 21 22 23 24 25 ]
+ * [ 26 27 28 29 30       ]
+ *
+ * then this would return Monday 5 September.
+ *
+ */
+export function firstDayOfWeek(date: Date, weeks: Date[][]): Date {
+  const currentWeek = weeks.find(weekDates =>
     weekDates?.some(weekDate => weekDate && isSameDay(weekDate, date))
   );
   return (currentWeek && currentWeek[0]) || date;
