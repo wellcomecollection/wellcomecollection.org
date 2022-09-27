@@ -70,7 +70,7 @@ const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
 
 const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
   as: `h${props.level}`,
-  className: font('wb', 3),
+  className: font('intb', 3),
   v: { size: 's', properties: ['margin-bottom'] },
 }))<{ level: number }>``;
 
