@@ -1,4 +1,5 @@
 import { formatDateRangeWithMessage } from './StatusIndicator';
+import * as dateUtils from '@weco/common/utils/dates';
 
 describe('formatDateRangeWithMessage', () => {
   it('formats a range that hasn’t started yet', () => {
@@ -58,7 +59,32 @@ describe('formatDateRangeWithMessage', () => {
       expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
+    it('says "Final week" if the last day is today in London, if not UTC', () => {
+      // These are the dates for the "In the Air" exhibition, as entered
+      // in Prismic.  The first day the public could see it was on
+      // Thursday 19 May, and the last day is Sunday 16 October.
+      //
+      // Somebody looking at the website on noon on Sunday should see it as
+      // still open.
+      const spyOnToday = jest.spyOn(dateUtils, 'today');
+      spyOnToday.mockImplementation(
+        () => new Date('2022-10-16T12:00:00.000+0100')
+      );
+
+      const inTheAir = {
+        start: new Date('2022-05-19T00:00:00.000+0100'),
+        end: new Date('2022-10-16T00:00:00.000+0100'),
+      };
+
+      const result = formatDateRangeWithMessage(inTheAir);
+
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
+    });
+
     it('says "Final week" if the last day is tomorrow', () => {
+      const spyOnToday = jest.spyOn(dateUtils, 'today');
+      spyOnToday.mockImplementation(() => new Date());
+
       const end = new Date();
       end.setDate(end.getDate() + 1);
       const tomorrow = new Date(end);
