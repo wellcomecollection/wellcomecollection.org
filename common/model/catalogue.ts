@@ -68,7 +68,7 @@ type Period = {
   type: 'Period';
 };
 
-type IdentifierType = {
+export type IdentifierType = {
   id: string;
   label: string;
   type: 'IdentifierType';
