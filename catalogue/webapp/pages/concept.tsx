@@ -400,6 +400,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       toggles: serverData.toggles,
     });
 
+    if (conceptResponse.type === 'Error') {
+      if (conceptResponse.httpStatus === 404) {
+        return { notFound: true };
+      }
+      return appError(
+        context,
+        conceptResponse.httpStatus,
+        conceptResponse.description
+      );
+    }
+
     const worksAboutPromise = getWorks({
       params: { 'subjects.label': [conceptResponse.label] },
       toggles: serverData.toggles,
@@ -435,17 +446,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       imagesAboutPromise,
       imagesByPromise,
     ]);
-
-    if (conceptResponse.type === 'Error') {
-      if (conceptResponse.httpStatus === 404) {
-        return { notFound: true };
-      }
-      return appError(
-        context,
-        conceptResponse.httpStatus,
-        conceptResponse.description
-      );
-    }
 
     const worksAbout =
       worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
