@@ -7,7 +7,7 @@ import {
   isFuture,
   isPast,
   isSameDay,
-  today as getToday,
+  today,
 } from '@weco/common/utils/dates';
 
 type Props = {
@@ -23,13 +23,11 @@ export function formatDateRangeWithMessage({
   start: Date;
   end: Date;
 }): { text: string; color: string } {
-  const today = getToday();
+  const sevenDaysTime = addDays(today(), 7);
 
-  const sevenDaysTime = addDays(getToday(), 7);
-
-  const opensToday = isSameDay(start, today);
-  const closesToday = isSameDay(end, today);
-  const closesInSevenDays = today < end && end < sevenDaysTime;
+  const opensToday = isSameDay(start, today());
+  const closesToday = isSameDay(end, today());
+  const closesInSevenDays = today() < end && end < sevenDaysTime;
 
   if (!opensToday && isFuture(start)) {
     return { text: 'Coming soon', color: 'neutral.500' };
