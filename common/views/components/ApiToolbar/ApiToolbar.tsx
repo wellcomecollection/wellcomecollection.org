@@ -201,6 +201,22 @@ function getRouteProps(path: string) {
 
         return tzitzitLink ? [tzitzitLink] : [];
       };
+
+    case '/concept':
+      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
+        const { id } = query;
+
+        const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${id}`;
+
+        const apiLink = {
+          id: 'json',
+          label: 'JSON',
+          link: apiUrl,
+        };
+
+        return [apiLink];
+      };
+
     case '/item':
       return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { workId } = query;
