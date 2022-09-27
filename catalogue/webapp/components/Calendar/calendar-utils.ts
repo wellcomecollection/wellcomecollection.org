@@ -106,8 +106,8 @@ export function firstDayOfWeek(date: Date, weeks: Date[][]): Date {
  * then this would return Sunday 11 September.
  *
  */
-export function lastDayOfWeek(date: Date, dates: Date[][]): Date {
-  const currentWeek = dates.find(week =>
+export function lastDayOfWeek(date: Date, weeks: Date[][]): Date {
+  const currentWeek = weeks.find(week =>
     week?.some(day => day && isSameDay(day, date, 'London'))
   );
   return (currentWeek && currentWeek[currentWeek.length - 1]) || date;
