@@ -57,7 +57,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { RichTextField } from '@prismicio/types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { classNames } from '@weco/common/utils/classnames';
-import { getSeriesColor } from 'utils/colors';
+import { getSeriesColor } from '../utils/colors';
 
 type SerialisedSeriesProps = SeriesBasic & {
   items: ArticleBasic[];

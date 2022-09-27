@@ -2,12 +2,13 @@ import { FC } from 'react';
 import type { ColorSelection } from '../../types/color-selections';
 import { transparentGif, repeatingLs } from '@weco/common/utils/backgrounds';
 import styled from 'styled-components';
+import { getSeriesColor } from '../../utils/colors';
 
 const Wrapper = styled.div<{
   color: ColorSelection;
 }>`
   position: relative;
-  background: ${props => props.theme.newColor(props.color)};
+  background: ${props => props.theme.newColor(getSeriesColor(props.color))};
 `;
 
 const Pattern = styled.div`
@@ -25,7 +26,7 @@ type Props = {
 };
 
 const ImagePlaceholder: FC<Props> = ({ color }: Props) => (
-  <Wrapper color={color || 'accent.purple'}>
+  <Wrapper color={color || 'purple'}>
     <img src={transparentGif} alt="" width="1" height="1" />
     <Pattern />
   </Wrapper>

@@ -2,7 +2,7 @@ import { font } from '@weco/common/utils/classnames';
 import { ColorSelection } from '../../types/color-selections';
 import Number from '@weco/common/views/components/Number/Number';
 import { FunctionComponent, ReactElement } from 'react';
-import { getSeriesColor } from 'utils/colors';
+import { getSeriesColor } from '../../utils/colors';
 
 type Props = {
   number: number;
