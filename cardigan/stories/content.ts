@@ -782,7 +782,7 @@ export const article: Article = {
       ],
       type: 'series',
       schedule: [],
-      color: 'validation.green',
+      color: 'accent.green',
       items: [],
       seasons: [],
     },
