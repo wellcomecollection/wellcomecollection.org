@@ -87,22 +87,14 @@ const StoryPromoContainer = styled.div.attrs({
   }
 `;
 
-// TODO we need to support old colors (teal/red/green/purple) so fix it better as part of
-// https://github.com/wellcomecollection/wellcomecollection.org/issues/8540
-// For now, using a patch
 const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
-  let color = 'accent.purple';
-  if ((series.color as string) === 'teal') color = 'accent.blue';
-  if ((series.color as string) === 'red') color = 'validation.red';
-  if ((series.color as string) === 'green') color = 'validation.green';
-
   return (
     <div>
       <Layout12>
         <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <h2
             className={`h1 ${classNames({
-              ['font-' + color]: true,
+              ['font-' + series.color]: true,
             })} plain-link no-margin`}
           >
             <a className="plain-link" href={`/series/${series.id}`}>

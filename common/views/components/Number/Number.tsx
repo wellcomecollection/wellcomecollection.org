@@ -28,6 +28,7 @@ const Number: FunctionComponent<Props> = ({
     as="span"
     h={{ size: 's', properties: ['margin-left'] }}
     className={font('wb', 5)}
+    color={color}
   >
     <span
       className={color === 'yellow' ? 'font-black' : 'font-white'}
