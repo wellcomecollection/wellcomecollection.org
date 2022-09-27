@@ -43,7 +43,7 @@ const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
 `;
 
 const PlayPauseInner = styled.div`
-  border: 2px solid ${props => props.theme.newColor('accent.green')};
+  border: 2px solid ${props => props.theme.color('accent.green')};
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -108,7 +108,7 @@ const PlayRateLabel = styled.label<{ isActive: boolean }>`
   border-radius: 5px;
   text-align: center;
   background: ${props =>
-    props.isActive ? props.theme.newColor('yellow') : undefined}; ;
+    props.isActive ? props.theme.color('yellow') : undefined}; ;
 `;
 
 const formatVolume = (vol: number): string => {

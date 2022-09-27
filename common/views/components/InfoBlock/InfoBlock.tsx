@@ -10,7 +10,7 @@ import { themeValues } from '@weco/common/views/themes/config';
 const Wrapper = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })`
-  border-left: 16px solid ${props => props.theme.newColor('yellow')};
+  border-left: 16px solid ${props => props.theme.color('yellow')};
 `;
 
 export type Props = {

@@ -49,7 +49,7 @@ type JauntyBoxProps = {
 };
 const JauntyBox = styled(Space)<JauntyBoxProps>`
   display: inline-block;
-  background-color: ${props => props.theme.newColor('yellow')};
+  background-color: ${props => props.theme.color('yellow')};
   padding-left: 30px;
   padding-right: 42px;
   margin-left: -12px;

@@ -21,8 +21,8 @@ const PickUpDate = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom'],
   },
 })`
-  border-top: 1px solid ${props => props.theme.newColor('neutral.300')};
-  border-bottom: 1px solid ${props => props.theme.newColor('neutral.300')};
+  border-top: 1px solid ${props => props.theme.color('neutral.300')};
+  border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 
   @media (min-width: 800px) {
     display: flex;

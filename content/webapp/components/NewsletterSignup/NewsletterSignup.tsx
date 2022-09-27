@@ -20,8 +20,8 @@ const ErrorBox = styled(Space).attrs({
   },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
-  border: 1px solid ${props => props.theme.newColor('validation.red')};
-  color: ${props => props.theme.newColor('validation.red')};
+  border: 1px solid ${props => props.theme.color('validation.red')};
+  color: ${props => props.theme.color('validation.red')};
 `;
 
 type Props = {

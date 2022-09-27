@@ -43,7 +43,7 @@ const StandaloneTitle = styled(Space).attrs({
   position: relative;
 
   background: ${props =>
-    props.theme.newColor(getTypeColor('captions-and-transcripts'))};
+    props.theme.color(getTypeColor('captions-and-transcripts'))};
 `;
 
 const ContextTitle = styled(Space).attrs<{ level: number }>(props => ({
@@ -65,7 +65,7 @@ const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
       : null,
   })
 )<{ backgroundColor: string; hasPadding: boolean }>`
-  background: ${props => props.theme.newColor(props.backgroundColor)};
+  background: ${props => props.theme.color(props.backgroundColor)};
 `;
 
 const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
@@ -113,7 +113,7 @@ const Caption = styled(Space).attrs({
   className: `spaced-text ${font('intr', 5)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
-  border-left: 20px solid ${props => props.theme.newColor('yellow')};
+  border-left: 20px solid ${props => props.theme.color('yellow')};
 `;
 
 const PrismicImageWrapper = styled.div`
@@ -125,7 +125,7 @@ const Transcription = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
-  border-left: 20px solid ${props => props.theme.newColor('accent.lightBlue')};
+  border-left: 20px solid ${props => props.theme.color('accent.lightBlue')};
 `;
 
 type Stop = {

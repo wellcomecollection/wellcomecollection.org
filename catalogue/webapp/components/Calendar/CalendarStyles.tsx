@@ -8,7 +8,7 @@ export const DatePicker = styled.div`
     border-style: none;
     background: transparent;
     cursor: pointer;
-    border: 1px solid ${props => props.theme.newColor('neutral.500')};
+    border: 1px solid ${props => props.theme.color('neutral.500')};
     :disabled {
       cursor: default;
     }
@@ -16,9 +16,9 @@ export const DatePicker = styled.div`
 `;
 
 export const Header = styled.div`
-  background-color: ${props => props.theme.newColor('white')};
+  background-color: ${props => props.theme.color('white')};
   display: flex;
-  color: ${props => props.theme.newColor('neutral.600')};
+  color: ${props => props.theme.color('neutral.600')};
 
   div {
     margin-left: auto;
@@ -28,14 +28,14 @@ export const Header = styled.div`
 export const Message = styled.p.attrs(() => ({
   className: font('intr', 6),
 }))`
-  background: ${props => props.theme.newColor('yellow')};
+  background: ${props => props.theme.color('yellow')};
   padding: ${props => `${props.theme.spacingUnit * 2}px`};
   margin: ${props => `${props.theme.spacingUnit}px`};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
 `;
 
 export const Table = styled.table`
-  color: ${props => props.theme.newColor('neutral.600')};
+  color: ${props => props.theme.color('neutral.600')};
 
   th,
   td {
@@ -58,20 +58,20 @@ export const Td = styled.td<TdProps>`
 
   &[aria-disabled='true'] {
     cursor: default;
-    color: ${props => props.theme.newColor('neutral.400')};
+    color: ${props => props.theme.color('neutral.400')};
   }
 
   &[tabindex='0']:focus {
-    background: ${props => props.theme.newColor('accent.green')};
-    color: ${props => props.theme.newColor('white')};
+    background: ${props => props.theme.color('accent.green')};
+    color: ${props => props.theme.color('white')};
     outline: 0;
     box-shadow: ${props =>
       props.isKeyboard ? props.theme.focusBoxShadow : 'none'};
   }
 
   &[aria-selected='true'] {
-    background: ${props => props.theme.newColor('yellow')};
-    color: ${props => props.theme.newColor('black')};
+    background: ${props => props.theme.color('yellow')};
+    color: ${props => props.theme.color('black')};
   }
 `;
 
@@ -88,5 +88,5 @@ export const CalendarButton = styled.button`
   line-height: 2em;
   border-radius: 50%;
   margin-left: 0.5em;
-  background: ${props => props.theme.newColor('neutral.500')};
+  background: ${props => props.theme.color('neutral.500')};
 `;

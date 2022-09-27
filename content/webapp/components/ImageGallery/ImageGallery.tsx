@@ -70,22 +70,22 @@ const Gallery = styled.div.attrs({
       display: inherit;
     }
 
-    color: ${props.theme.newColor('white')};
+    color: ${props.theme.color('white')};
     background: linear-gradient(
-      ${props.theme.newColor(props.pageBackground)} 100px,
-      ${props.theme.newColor('neutral.700')} 100px
+      ${props.theme.color(props.pageBackground)} 100px,
+      ${props.theme.color('neutral.700')} 100px
     );
 
     @media (min-width: ${props.theme.sizes.medium}px) {
       background: linear-gradient(
-        ${props.theme.newColor(props.pageBackground)} 200px,
-        ${props.theme.newColor('neutral.700')} 200px
+        ${props.theme.color(props.pageBackground)} 200px,
+        ${props.theme.color('neutral.700')} 200px
       );
 
       ${
         props.isStandalone &&
         `
-        background: ${props.theme.newColor('neutral.700')};
+        background: ${props.theme.color('neutral.700')};
       `
       }
     }
@@ -96,7 +96,7 @@ const Gallery = styled.div.attrs({
   ${props =>
     props.isStandalone &&
     `
-    background: ${props.theme.newColor('neutral.700')};
+    background: ${props.theme.color('neutral.700')};
 
     &:before {
       top: 0;

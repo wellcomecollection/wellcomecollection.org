@@ -26,16 +26,16 @@ const Tab = styled(Space).attrs({
   className: font('intb', 5),
 })<TabProps>`
   display: inline-flex;
-  background: ${props => props.theme.newColor('white')};
+  background: ${props => props.theme.color('white')};
   border-width: 1px 1px 0 1px;
   border-style: solid;
-  border-color: ${props => props.theme.newColor('warmNeutral.400')};
+  border-color: ${props => props.theme.color('warmNeutral.400')};
 
   ${props =>
     props.isActive &&
     `
-    border-color: ${props.theme.newColor('warmNeutral.300')};
-    background: ${props.theme.newColor('warmNeutral.300')};
+    border-color: ${props.theme.color('warmNeutral.300')};
+    background: ${props.theme.color('warmNeutral.300')};
   `}
 
   ${props =>
@@ -54,7 +54,7 @@ const Tab = styled(Space).attrs({
 `;
 
 const TabPanel = styled(Space)`
-  background: ${props => props.theme.newColor('warmNeutral.300')};
+  background: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 type Props = {

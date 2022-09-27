@@ -10,7 +10,7 @@ const WobblyEdgeContainer = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  background-color: ${props => props.theme.newColor('warmNeutral.300')};
+  background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 type Props = {

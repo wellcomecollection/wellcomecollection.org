@@ -118,11 +118,11 @@ const Sidebar = styled.div<{
 
   ${props => props.theme.media.medium`
     grid-area: desktop-main-start / left-edge / bottom-edge / desktop-sidebar-end;
-    border-right: 1px solid ${props.theme.newColor('black')};
+    border-right: 1px solid ${props.theme.color('black')};
   `}
 
-  background: ${props => props.theme.newColor('neutral.700')};
-  color: ${props => props.theme.newColor('white')};
+  background: ${props => props.theme.color('neutral.700')};
+  color: ${props => props.theme.color('white')};
   overflow: auto;
   z-index: 5;
 `;
@@ -130,7 +130,7 @@ const Sidebar = styled.div<{
 const Topbar = styled.div<{
   isDesktopSidebarActive: boolean;
 }>`
-  background: ${props => props.theme.newColor('neutral.700')};
+  background: ${props => props.theme.color('neutral.700')};
   grid-area: top-edge / left-edge / desktop-topbar-end / right-edge;
   z-index: 4; // TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile. If we move the downloads, this can be simplified
 
@@ -143,8 +143,8 @@ const Main = styled.div<{
   isResizing: boolean;
   isDesktopSidebarActive: boolean;
 }>`
-  background: ${props => props.theme.newColor('black')};
-  color: ${props => props.theme.newColor('white')};
+  background: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
   overflow: auto;
   position: relative;
 
@@ -185,7 +185,7 @@ const Thumbnails = styled.div<{
   isActive: boolean;
   isDesktopSidebarActive: boolean;
 }>`
-  background: ${props => props.theme.newColor('neutral.700')};
+  background: ${props => props.theme.color('neutral.700')};
   transform: translateY(${props => (props.isActive ? '0' : '100%')});
   transition: transform 250ms ease;
   z-index: 3;

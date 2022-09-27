@@ -42,7 +42,7 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   padding: 1em 0.3em;
   cursor: pointer;
   color: ${props =>
-    props.theme.newColor(
+    props.theme.color(
       props.isDarkMode
         ? props.selected
           ? 'white'
@@ -61,7 +61,7 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     left: 0;
     width: 0;
     background-color: ${props =>
-      props.theme.newColor(
+      props.theme.color(
         props.isDarkMode
           ? props.selected
             ? 'white'

@@ -14,14 +14,14 @@ const LabelContainer = styled(Space).attrs({
 })<LabelContainerProps>`
   white-space: nowrap;
   line-height: 1;
-  color: ${props => props.theme.newColor(props.fontColor)};
-  background-color: ${props => props.theme.newColor(props.labelColor)};
+  color: ${props => props.theme.color(props.fontColor)};
+  background-color: ${props => props.theme.color(props.labelColor)};
 
   ${props => {
     if (props.labelColor === 'white' || props.labelColor === 'transparent') {
-      return `border: 1px solid ${props.theme.newColor('neutral.500')};`;
+      return `border: 1px solid ${props.theme.color('neutral.500')};`;
     } else {
-      return `border: 1px solid ${props.theme.newColor(props.labelColor)};`;
+      return `border: 1px solid ${props.theme.color(props.labelColor)};`;
     }
   }}
 `;

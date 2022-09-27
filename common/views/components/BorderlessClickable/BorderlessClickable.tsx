@@ -24,17 +24,17 @@ type StyleProps = {
 
 export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
   background: transparent;
-  color: ${props => props.theme.newColor('neutral.700')};
+  color: ${props => props.theme.color('neutral.700')};
   padding: 10px 8px;
 
   &:hover {
-    background: ${props => props.theme.newColor('neutral.300')};
+    background: ${props => props.theme.color('neutral.300')};
   }
 
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.newColor('neutral.300')};
+    background: ${props.theme.color('neutral.300')};
   `}
 `;
 

@@ -72,18 +72,18 @@ type Props = {
 };
 
 const ArticlesContainer = styled.div`
-  background-color: ${props => props.theme.newColor('warmNeutral.300')};
+  background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 const StoryPromoContainer = styled.div.attrs({
   className: 'container container--scroll touch-scroll',
 })`
   &::-webkit-scrollbar {
-    background: ${props => props.theme.newColor('warmNeutral.300')};
+    background: ${props => props.theme.color('warmNeutral.300')};
   }
 
   &::-webkit-scrollbar-thumb {
-    border-color: ${props => props.theme.newColor('warmNeutral.300')};
+    border-color: ${props => props.theme.color('warmNeutral.300')};
   }
 `;
 

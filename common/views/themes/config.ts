@@ -84,7 +84,7 @@ export const spacingUnits = {
 };
 
 // suggested new colors
-const newColors = {
+const colors = {
   // Core
   // Wrap in core? Looks better for lightYellow but worse for the others...
   white: '#ffffff',
@@ -123,12 +123,12 @@ const newColors = {
   'validation.green': '#0b7051',
 };
 
-const getNewColor = (name: NewPaletteColor): string => {
+const getColor = (name: PaletteColor): string => {
   // In some cases, these get passed in, see ButtonColors for example.
   // But better not to use it if possible.
   if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
 
-  return newColors[name];
+  return colors[name];
 };
 
 export const sizes = {
@@ -250,8 +250,8 @@ export const themeValues = {
   navHeight: 85,
   fontVerticalOffset: '0.15em',
   grid,
-  newColors,
-  newColor: getNewColor,
+  colors,
+  color: getColor,
   minCardHeight: 385,
   buttonColors: {
     default: defaultButtonColors,
@@ -266,8 +266,8 @@ export const themeValues = {
 
 export type Breakpoint = keyof typeof sizes;
 
-export type NewPaletteColor =
-  | keyof typeof newColors
+export type PaletteColor =
+  | keyof typeof colors
   | 'transparent'
   | 'inherit'
   | 'currentColor';

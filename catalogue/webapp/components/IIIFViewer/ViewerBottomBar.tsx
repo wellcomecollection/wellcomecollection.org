@@ -13,8 +13,8 @@ import { expand, gridView, singlePage } from '@weco/common/icons';
 const BottomBar = styled.div`
   position: relative;
   z-index: 3;
-  background: ${props => props.theme.newColor('neutral.700')};
-  color: ${props => props.theme.newColor('white')};
+  background: ${props => props.theme.color('neutral.700')};
+  color: ${props => props.theme.color('white')};
   display: flex;
   justify-content: space-between;
 `;

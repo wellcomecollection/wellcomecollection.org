@@ -5,7 +5,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 const ColorSection = styled.div<{ bgColor: string }>`
-  background-color: ${props => props.theme.newColor(props.bgColor)};
+  background-color: ${props => props.theme.color(props.bgColor)};
 `;
 
 export const Spacing: FunctionComponent = () => {

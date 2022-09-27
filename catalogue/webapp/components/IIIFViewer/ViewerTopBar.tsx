@@ -40,8 +40,8 @@ export const ShameButton = styled.button.attrs(() => ({
 
   &[disabled],
   &.disabled {
-    background: ${props => props.theme.newColor('neutral.600')};
-    border-color: ${props => props.theme.newColor('neutral.600')};
+    background: ${props => props.theme.color('neutral.600')};
+    border-color: ${props => props.theme.color('neutral.600')};
     cursor: not-allowed;
   }
 
@@ -70,7 +70,7 @@ export const ShameButton = styled.button.attrs(() => ({
     props.isDark &&
     `
     border: 2px solid transparent;
-    color: ${props.theme.newColor('white')};
+    color: ${props.theme.color('white')};
     background: transparent;
     outline: none;
     transition: all ${props.theme.transitionProperties};
@@ -84,21 +84,21 @@ export const ShameButton = styled.button.attrs(() => ({
     }
 
     &:not([disabled]):hover {
-      border: 2px solid ${props.theme.newColor('white')};
+      border: 2px solid ${props.theme.color('white')};
     }
   `}
 
   ${props =>
     !props.isDark &&
     `
-    background: ${props.theme.newColor('white')};
-    color: ${props.theme.newColor('accent.green')};
-    border: 1px solid ${props.theme.newColor('accent.green')};
+    background: ${props.theme.color('white')};
+    color: ${props.theme.color('accent.green')};
+    border: 1px solid ${props.theme.color('accent.green')};
 
     &:not([disabled]):hover,
     &:not([disabled]):focus {
-      background: ${props.theme.newColor('accent.green')};
-      color: ${props.theme.newColor('white')};
+      background: ${props.theme.color('accent.green')};
+      color: ${props.theme.color('white')};
     }
   `}
 `;
@@ -109,8 +109,8 @@ const TopBar = styled.div<{
 }>`
   position: relative;
   z-index: 3;
-  background: ${props => props.theme.newColor('neutral.700')};
-  color: ${props => props.theme.newColor('white')};
+  background: ${props => props.theme.color('neutral.700')};
+  color: ${props => props.theme.color('white')};
   justify-content: space-between;
   display: ${props => (props.isZooming ? 'none' : 'grid')};
   grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
@@ -154,7 +154,7 @@ const Sidebar = styled(Space).attrs({
   ${props =>
     !props.isZooming &&
     props.theme.media.medium`
-    border-right: 1px solid ${props => props.theme.newColor('black')};
+    border-right: 1px solid ${props => props.theme.color('black')};
   `}
 `;
 

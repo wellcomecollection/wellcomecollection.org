@@ -21,7 +21,7 @@ const InfoContainer = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })`
-  background-color: ${props => props.theme.newColor('yellow')};
+  background-color: ${props => props.theme.color('yellow')};
 `;
 
 const InfoBox: FC<Props> = ({ title, items, children }) => {

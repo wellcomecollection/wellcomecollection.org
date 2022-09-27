@@ -54,7 +54,7 @@ const TaslIcon = styled.span.attrs({
 `;
 
 const InfoContainer = styled(Space)`
-  background-color: ${props => props.theme.newColor('black')};
+  background-color: ${props => props.theme.color('black')};
   padding-right: 36px;
 `;
 

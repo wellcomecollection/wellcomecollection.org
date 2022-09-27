@@ -12,7 +12,7 @@ const HeadingLink = styled.a.attrs({
 })`
   cursor: pointer;
   text-decoration: underline;
-  color: ${props => props.theme.newColor('accent.green')};
+  color: ${props => props.theme.color('accent.green')};
 `;
 
 const TextContainer = styled.div`

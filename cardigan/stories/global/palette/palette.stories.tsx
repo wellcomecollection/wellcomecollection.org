@@ -50,7 +50,7 @@ const PaletteColor = styled.div<{ hasBorder: boolean }>`
   margin-right: 15px;
   border: 1px solid
     ${props =>
-      props.hasBorder ? props.theme.newColor('neutral.500') : 'transparent'};
+      props.hasBorder ? props.theme.color('neutral.500') : 'transparent'};
 
   &:before {
     content: '';
@@ -149,7 +149,7 @@ let objectColors: ColorsObject = {
   },
 };
 
-Object.entries(themeValues.newColors)
+Object.entries(themeValues.colors)
   .map(([key, value]) => {
     if (!key.includes('.')) {
       const rgb = hexToRgb(value);

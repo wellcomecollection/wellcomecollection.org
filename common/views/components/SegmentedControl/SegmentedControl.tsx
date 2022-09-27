@@ -23,19 +23,19 @@ const DrawerItem = styled(Space).attrs({
   as: 'li',
   className: `${font('wb', 4)} segmented-control__drawer-item`,
 })<DrawerItemProps>`
-  border-bottom: 1px solid ${props => props.theme.newColor('neutral.300')};
+  border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 
   ${props =>
     props.isFirst &&
     `
-    border-top: 1px solid ${props.theme.newColor('neutral.300')};
+    border-top: 1px solid ${props.theme.color('neutral.300')};
   `}
 `;
 
 const List = styled.ul.attrs({
   className: 'segmented-control__list rounded-diagonal',
 })`
-  border: 1px solid ${props => props.theme.newColor('black')};
+  border: 1px solid ${props => props.theme.color('black')};
   margin: 0 !important;
   padding: 0;
   list-style: none;
@@ -51,7 +51,7 @@ const Item = styled.li.attrs({
 })<ItemProps>`
   display: flex;
   line-height: 1;
-  border-right: 1px solid ${props => props.theme.newColor('black')};
+  border-right: 1px solid ${props => props.theme.color('black')};
 
   ${props =>
     props.isLast &&
@@ -70,7 +70,7 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   display: block;
 
   background-color: ${props =>
-    props.theme.newColor(props.isActive ? 'black' : 'white')};
+    props.theme.color(props.isActive ? 'black' : 'white')};
 
   ${props =>
     props.theme.makeSpacePropertyValues(
@@ -90,7 +90,7 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   &:hover,
   &:focus {
     background: ${props =>
-      props.theme.newColor(props.isActive ? 'neutral.600' : 'warmNeutral.400')};
+      props.theme.color(props.isActive ? 'neutral.600' : 'warmNeutral.400')};
   }
 `;
 
@@ -182,14 +182,14 @@ const MobileControlsContainer = styled(Space).attrs({
     'segmented-control__button-text font-white rounded-diagonal',
 })`
   display: flex;
-  background-color: ${props => props.theme.newColor('black')};
+  background-color: ${props => props.theme.color('black')};
 `;
 
 const MobileControlsModal = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: 'segmented-control__body',
 })`
-  background-color: ${props => props.theme.newColor('white')};
+  background-color: ${props => props.theme.color('white')};
 `;
 
 type Props = {

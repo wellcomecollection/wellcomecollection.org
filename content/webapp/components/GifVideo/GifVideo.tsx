@@ -35,10 +35,10 @@ const Text = styled.span.attrs({
   className: font('lr', 5),
 })<{ isPlaying: boolean }>`
   display: block;
-  background: ${props => props.theme.newColor('neutral.700')};
+  background: ${props => props.theme.color('neutral.700')};
   padding: 6px;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
-  color: ${props => props.theme.newColor('white')};
+  color: ${props => props.theme.color('white')};
 
   &:before {
     content: '${props => (props.isPlaying ? 'pause' : 'play')}';
