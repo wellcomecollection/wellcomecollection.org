@@ -20,7 +20,8 @@ const IconContainer = styled.div<IconContainerProps>`
   width: 1em;
   height: 1em;
   border-radius: 50%;
-  background: ${props => props.theme.color(props.open ? 'black' : 'green')};
+  background: ${props =>
+    props.theme.newColor(props.open ? 'black' : 'accent.green')};
 
   .icon {
     transition: transform 300ms ease;
@@ -90,7 +91,7 @@ const ExplanatoryText: FunctionComponent<Props> = ({
                 icon={plus}
                 rotate={showContent ? 45 : undefined}
                 matchText={true}
-                color={'white'}
+                color="white"
               />
             </IconContainer>
           </Space>

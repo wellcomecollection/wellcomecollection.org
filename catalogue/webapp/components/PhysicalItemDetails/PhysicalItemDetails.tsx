@@ -33,7 +33,7 @@ const Wrapper = styled(Space).attrs({
   ${props =>
     props.underline &&
     `
-    border-bottom: 1px solid ${props.theme.color('pumice')};
+    border-bottom: 1px solid ${props.theme.newColor('warmNeutral.400')};
   `}
 `;
 

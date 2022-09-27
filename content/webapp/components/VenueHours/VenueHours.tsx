@@ -49,7 +49,7 @@ type JauntyBoxProps = {
 };
 const JauntyBox = styled(Space)<JauntyBoxProps>`
   display: inline-block;
-  background-color: ${props => props.theme.color('yellow')};
+  background-color: ${props => props.theme.newColor('yellow')};
   padding-left: 30px;
   padding-right: 42px;
   margin-left: -12px;
@@ -98,7 +98,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         <>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <span className="is-hidden-s">
-              <Divider color="pumice" isKeyline={true} />
+              <Divider color="warmNeutral.400" isKeyline={true} />
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>

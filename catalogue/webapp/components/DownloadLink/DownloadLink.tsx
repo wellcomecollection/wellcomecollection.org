@@ -12,8 +12,8 @@ const DownloadLinkStyle = styled.a.attrs({
 })`
   display: inline-block;
   white-space: nowrap;
-  background: ${props => props.theme.color('white')};
-  color: ${props => props.theme.color('green')};
+  background: ${props => props.theme.newColor('white')};
+  color: ${props => props.theme.newColor('accent.green')};
   text-decoration: none;
   .icon__shape {
     fill: currentColor;
@@ -58,7 +58,7 @@ const DownloadLink: FunctionComponent<Props> = ({
         <Space
           as="span"
           h={{ size: 'm', properties: ['margin-left'] }}
-          className={`${font('intb', 5)} font-pewter`}
+          className={`${font('intb', 5)} font-neutral-600`}
         >
           {format}
         </Space>

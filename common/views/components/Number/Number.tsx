@@ -9,7 +9,8 @@ type Props = {
 };
 
 const Wrapper = styled(Space)<{ color?: string }>`
-  background-color: ${props => props.theme.color(props.color || 'purple')};
+  background-color: ${props =>
+    props.theme.newColor(props.color ? props.color : 'accent.purple')};
 
   transform: rotateZ(-6deg);
   width: 24px;

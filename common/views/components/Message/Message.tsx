@@ -12,7 +12,7 @@ const Wrapper = styled(Space).attrs({
   className: font('intb', 5),
 })`
   display: inline-block;
-  border-left: 5px solid ${props => props.theme.color('yellow')};
+  border-left: 5px solid ${props => props.theme.newColor('yellow')};
 `;
 
 type Props = {

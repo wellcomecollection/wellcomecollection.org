@@ -81,7 +81,10 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
           )}
           <Details>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <LabelsList labels={cardLabels} defaultLabelColor="cream" />
+              <LabelsList
+                labels={cardLabels}
+                defaultLabelColor="warmNeutral.300"
+              />
             </Space>
             <WorkTitleHeading className={`${font('intb', 4)} card-link__title`}>
               <WorkTitle title={work.title} />

@@ -10,7 +10,6 @@ export type ColumnKey =
   | 'shiftL'
   | 'shiftXl';
 
-type ColorVariant = 'base' | 'light' | 'dark';
 type GridProperties = {
   padding: number;
   gutter: number;
@@ -84,44 +83,53 @@ export const spacingUnits = {
   '10': 64,
 };
 
-export const colors = {
-  white: { base: '#ffffff', dark: '', light: '' },
-  black: { base: '#121212', dark: '', light: '' },
-  purple: { base: '#944aa0', dark: '', light: '' },
-  teal: { base: '#006272', dark: '', light: '' },
-  cyan: { base: '#298187', dark: '', light: '' },
-  turquoise: { base: '#5cb8bf', dark: '', light: '#d3e8e6' },
-  red: { base: '#e01b2f', dark: '#c1192a', light: '' },
-  orange: { base: '#e87500', dark: '', light: '' },
-  yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
-  brown: { base: '#815e48', dark: '', light: '' },
-  cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
-  green: { base: '#007868', dark: '#146a5c', light: '' },
-  charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
-  pewter: { base: '#6b6b6b', dark: '', light: '' },
-  silver: { base: '#8f8f8f', dark: '', light: '' },
-  marble: { base: '#bcbab5', dark: '', light: '' },
-  pumice: { base: '#d9d6ce', dark: '', light: '' },
-  smoke: { base: '#e8e8e8', dark: '', light: '' },
-  // The following 'black' is only to be used for the item viewer
-  coal: { base: '#1f1f1f', dark: '', light: '' },
-  //
-  transparent: {
-    base: 'transparent',
-    dark: 'transparent',
-    light: 'transparent',
-  },
-  // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
-  inherit: { base: 'inherit', dark: '', light: '' },
-  currentColor: { base: 'currentColor', dark: '', light: '' },
-  newPaletteBlue: { base: '#7bc1ce', dark: '#304978', light: '' },
-  newPaletteMint: { base: '#acddbd', dark: '##79EDB1', light: '' },
-  newPaletteOrange: { base: '#e7b792', dark: '#C44343', light: '' },
-  newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
+// suggested new colors
+const newColors = {
+  // Core
+  // Wrap in core? Looks better for lightYellow but worse for the others...
+  white: '#ffffff',
+  black: '#121212',
+  yellow: '#ffce3c',
+  lightYellow: '#ffebad',
+
+  // Accents
+  'accent.purple': '#724e91',
+  'accent.lightPurple': '#baa4cd',
+  'accent.turquoise': '#1dbebb',
+  'accent.lightTurquoise': '#a2eeed',
+  'accent.blue': '#27476e',
+  'accent.lightBlue': '#a4bfdf',
+  'accent.green': '#4f7d68',
+  'accent.lightGreen': '#9bc0af',
+  'accent.salmon': '#ff6f59',
+  'accent.lightSalmon': '#ff9585',
+
+  // Neutral is a greyscale. Some have a matching warm colour, which sometimes suits our core yellow best.
+  // Their HSL Lightness is commented next to them, which explains how some match warm colours.
+  'neutral.200': '#fbfaf4', // lightness: 97 - matches warmNeutral.200
+  'neutral.300': '#e8e8e8', // lightness: 91 - matches warmNeutral.300
+  'neutral.400': '#d9d9d9', // lightness: 85 - matches warmNeutral.400
+  'neutral.500': '#8f8f8f', // lightness: 56
+  'neutral.600': '#6b6b6b', // lightness: 42
+  'neutral.700': '#323232', // lightness: 20
+
+  // Warm neutrals have equivalents in neutral (see lightness), but with a tinge of yellow to match the core colour.
+  'warmNeutral.200': '#fff9e6', // lightness: 95 - matches neutral.200
+  'warmNeutral.300': '#edece4', // lightness: 91 - matches neutral.300
+  'warmNeutral.400': '#d9d8d0', // lightness: 83 - matches neutral.400
+
+  // Validation, should only be used for that purpose. Consider other colours for other purposes.
+  'validation.red': '#e01b2f',
+  'validation.green': '#0b7051',
 };
 
-const getColor = (name: PaletteColor, variant: ColorVariant = 'base'): string =>
-  colors[name][variant];
+const getNewColor = (name: NewPaletteColor): string => {
+  // In some cases, these get passed in, see ButtonColors for example.
+  // But better not to use it if possible.
+  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+
+  return newColors[name];
+};
 
 export const sizes = {
   small: 0,
@@ -135,14 +143,14 @@ export const sizes = {
 };
 
 const defaultButtonColors: ButtonColors = {
-  border: 'green',
-  background: 'green',
+  border: 'accent.green',
+  background: 'accent.green',
   text: 'white',
 };
 
 const dangerButtonColors: ButtonColors = {
-  border: 'red',
-  background: 'red',
+  border: 'validation.red',
+  background: 'validation.red',
   text: 'white',
 };
 
@@ -150,15 +158,15 @@ const dangerButtonColors: ButtonColors = {
 // TODO: Work out and document which variants we want to use when/where/why
 // (and possibly improve naming at that point)
 const charcoalWhiteCharcoal: ButtonColors = {
-  border: 'charcoal',
+  border: 'neutral.700', // legacy charcoal color
   background: 'white',
-  text: 'charcoal',
+  text: 'neutral.700', // legacy charcoal color
 };
 
 const greenTransparentGreen: ButtonColors = {
-  border: 'green',
+  border: 'accent.green',
   background: 'transparent',
-  text: 'green',
+  text: 'accent.green',
 };
 
 const whiteTransparentWhite: ButtonColors = {
@@ -168,15 +176,15 @@ const whiteTransparentWhite: ButtonColors = {
 };
 
 const pumiceTransparentCharcoal: ButtonColors = {
-  border: 'pumice',
+  border: 'warmNeutral.400', // legacy pumice color
   background: 'transparent',
-  text: 'charcoal',
+  text: 'neutral.700', // legacy charcoal color
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
-  border: 'marble',
+  border: 'neutral.400', // legacy pumice color
   background: 'white',
-  text: 'charcoal',
+  text: 'neutral.700', // legacy charcoal color
 };
 
 export const themeValues = {
@@ -242,8 +250,8 @@ export const themeValues = {
   navHeight: 85,
   fontVerticalOffset: '0.15em',
   grid,
-  colors,
-  color: getColor,
+  newColors,
+  newColor: getNewColor,
   minCardHeight: 385,
   buttonColors: {
     default: defaultButtonColors,
@@ -257,4 +265,9 @@ export const themeValues = {
 };
 
 export type Breakpoint = keyof typeof sizes;
-export type PaletteColor = keyof typeof colors;
+
+export type NewPaletteColor =
+  | keyof typeof newColors
+  | 'transparent'
+  | 'inherit'
+  | 'currentColor';

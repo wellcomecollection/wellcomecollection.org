@@ -43,7 +43,7 @@ const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
 `;
 
 const PlayPauseInner = styled.div`
-  border: 2px solid ${props => props.theme.color('green')};
+  border: 2px solid ${props => props.theme.newColor('accent.green')};
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -108,7 +108,7 @@ const PlayRateLabel = styled.label<{ isActive: boolean }>`
   border-radius: 5px;
   text-align: center;
   background: ${props =>
-    props.isActive ? props.theme.color('yellow') : undefined}; ;
+    props.isActive ? props.theme.newColor('yellow') : undefined}; ;
 `;
 
 const formatVolume = (vol: number): string => {
@@ -218,7 +218,7 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
       <VolumeControlWrapper isMuted={isMuted || volume === 0}>
         <MuteUnmuteButton onClick={onVolumeButtonClick}>
           <Icon
-            color="pewter"
+            color="neutral.600"
             icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
           />
         </MuteUnmuteButton>
@@ -394,7 +394,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
       <AudioPlayerGrid>
         <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
           <PlayPauseInner>
-            <Icon color="green" icon={isPlaying ? pause : play} />
+            <Icon color="accent.green" icon={isPlaying ? pause : play} />
           </PlayPauseInner>
         </PlayPauseButton>
 

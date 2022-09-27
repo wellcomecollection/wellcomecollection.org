@@ -4,16 +4,28 @@ import { GlobalStyleProps } from './default';
 import { respondTo, respondBetween, visuallyHidden } from './mixins';
 
 export const utilityClasses = css<GlobalStyleProps>`
-  ${Object.entries(themeValues.colors)
+  ${Object.entries(themeValues.newColors)
     .map(([key, value]) => {
-      return `
-  .font-${key} {
-    color: ${value.base};
+      if (!key.includes('.')) {
+        return `
+        .font-${key} {
+          color: ${value};
 
-    .icon__shape {
-      fill: ${value.base};
-    }
-  }`;
+          .icon__shape {
+            fill: ${value};
+          }
+        }`;
+      } else {
+        const colorName = key.split('.');
+        return `
+        .font-${colorName[0]}-${colorName[1]} {
+          color: ${value};
+
+          .icon__shape {
+            fill: ${value};
+          }
+        }`;
+      }
     })
     .join(' ')}
 
@@ -137,7 +149,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     appearance: none;
     font-family: inherit;
     letter-spacing: inherit;
-    background: ${themeValues.color('transparent')};
+    background: transparent;
     border: 0;
     text-align: left;
   }
@@ -284,12 +296,12 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .promo-link {
     height: 100%;
-    color: ${themeValues.color('black')};
+    color: ${themeValues.newColor('black')};
 
     &:hover .promo-link__title,
     &:focus .promo-link__title {
       text-decoration: underline;
-      text-decoration-color: ${themeValues.color('black')};
+      text-decoration-color: ${themeValues.newColor('black')};
     }
   }
 
@@ -374,7 +386,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     &:focus {
       .card-link__title {
         text-decoration: underline;
-        text-decoration-color: ${themeValues.color('black')};
+        text-decoration-color: ${themeValues.newColor('black')};
       }
     }
   }
@@ -387,7 +399,7 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   noscript {
-    background: ${themeValues.color('white')};
-    color: ${themeValues.color('black')};
+    background: ${themeValues.newColor('white')};
+    color: ${themeValues.newColor('black')};
   }
 `;

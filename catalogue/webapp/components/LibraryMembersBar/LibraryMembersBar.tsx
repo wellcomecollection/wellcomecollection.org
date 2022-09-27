@@ -14,7 +14,7 @@ const StyledComponent = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background: ${props => props.theme.color('turquoise', 'light')};
+  background: ${props => props.theme.newColor('accent.lightTurquoise')};
   display: flex;
   align-items: center;
   position: relative;

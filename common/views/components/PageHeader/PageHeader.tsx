@@ -27,7 +27,7 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 export const headerSpaceSize = 'l';
 const HeroPictureBackground = styled.div<{ bgColor: string }>`
   position: absolute;
-  background-color: ${props => props.theme.color(props.bgColor)};
+  background-color: ${props => props.theme.newColor(props.bgColor)};
   height: 50%;
   width: 100%;
   bottom: -${props => props.theme.spaceAtBreakpoints.small[headerSpaceSize]}px;
@@ -79,7 +79,7 @@ type Props = {
   FeaturedMedia?: FeaturedMedia;
   HeroPicture?: ReactElement<typeof Picture>;
   isFree?: boolean;
-  heroImageBgColor?: 'white' | 'cream';
+  heroImageBgColor?: 'white' | 'warmNeutral.300';
   backgroundTexture?: string;
   highlightHeading?: boolean;
   asyncBreadcrumbsRoute?: string;

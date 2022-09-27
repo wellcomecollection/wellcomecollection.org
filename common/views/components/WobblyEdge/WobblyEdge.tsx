@@ -45,7 +45,7 @@ const Edge = styled.div.attrs({
     }
   `}
 
-  background: ${props => props.theme.color(props.background)};
+  background: ${props => props.theme.newColor(props.background)};
 
   ${props =>
     props.isRotated &&

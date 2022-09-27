@@ -238,7 +238,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
             ) : null}
             {article.contributors.length > 0 && ' '}
 
-            <span className={`block font-pewter ${font('intr', 6)}`}>
+            <span className={`block font-neutral-600 ${font('intr', 6)}`}>
               <HTMLDate date={article.datePublished} />
             </span>
           </p>
@@ -268,7 +268,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
         isImageGallery || isPodcast ? undefined : maybeFeaturedMedia
       }
       HeroPicture={isImageGallery || isPodcast ? undefined : maybeHeroPicture}
-      heroImageBgColor={isImageGallery ? 'white' : 'cream'}
+      heroImageBgColor={isImageGallery ? 'white' : 'warmNeutral.300'}
       TitleTopper={TitleTopper}
       isContentTypeInfoBeforeMedia={true}
     />

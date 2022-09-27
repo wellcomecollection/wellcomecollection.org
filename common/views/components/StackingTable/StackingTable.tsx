@@ -47,7 +47,7 @@ type TrProps = {
 const StyledTr = styled(Space).attrs({
   as: 'tr',
 })<TrProps>`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 
   &:last-of-type {
     border: none;
@@ -76,9 +76,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
   className: font('intb', 5),
 }))<ThProps>`
   background: ${props =>
-    props.plain
-      ? props.theme.color('transparent')
-      : props.theme.color('pumice')};
+    props.plain ? 'transparent' : props.theme.newColor('warmNeutral.400')};
   white-space: nowrap;
   text-align: left;
   vertical-align: top;

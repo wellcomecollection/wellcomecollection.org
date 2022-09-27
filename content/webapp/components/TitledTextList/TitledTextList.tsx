@@ -12,7 +12,7 @@ const HeadingLink = styled.a.attrs({
 })`
   cursor: pointer;
   text-decoration: underline;
-  color: ${props => props.theme.color('green')};
+  color: ${props => props.theme.newColor('accent.green')};
 `;
 
 const TextContainer = styled.div`
@@ -51,7 +51,7 @@ const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
             {item?.label?.title && (
               <LabelsList
                 labels={[{ text: item.label.title }]}
-                defaultLabelColor="cream"
+                defaultLabelColor="warmNeutral.300"
               />
             )}
           </Space>

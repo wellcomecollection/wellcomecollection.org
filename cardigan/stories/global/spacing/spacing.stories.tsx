@@ -5,39 +5,39 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 const ColorSection = styled.div<{ bgColor: string }>`
-  background-color: ${props => props.theme.color(props.bgColor)};
+  background-color: ${props => props.theme.newColor(props.bgColor)};
 `;
 
 export const Spacing: FunctionComponent = () => {
   return (
-    <ColorSection bgColor="cream" className="font-white">
+    <ColorSection bgColor="warmNeutral.300" className="font-white">
       <SpacingSection>
-        <ColorSection bgColor="green" style={{ minHeight: '200px' }}>
+        <ColorSection bgColor="accent.green" style={{ minHeight: '200px' }}>
           Section
         </ColorSection>
       </SpacingSection>
       <SpacingSection>
-        <ColorSection bgColor="green" style={{ minHeight: '200px' }}>
+        <ColorSection bgColor="accent.green" style={{ minHeight: '200px' }}>
           Section
           <SpacingComponent>
-            <ColorSection bgColor="teal" style={{ minHeight: '100px' }}>
+            <ColorSection bgColor="accent.blue" style={{ minHeight: '100px' }}>
               Component
             </ColorSection>
           </SpacingComponent>
           <SpacingComponent>
-            <ColorSection bgColor="teal" style={{ minHeight: '100px' }}>
+            <ColorSection bgColor="accent.blue" style={{ minHeight: '100px' }}>
               Component
             </ColorSection>
           </SpacingComponent>
           <SpacingComponent>
-            <ColorSection bgColor="teal" style={{ minHeight: '100px' }}>
+            <ColorSection bgColor="accent.blue" style={{ minHeight: '100px' }}>
               Component
             </ColorSection>
           </SpacingComponent>
         </ColorSection>
       </SpacingSection>
       <SpacingSection>
-        <ColorSection bgColor="green" style={{ minHeight: '200px' }}>
+        <ColorSection bgColor="accent.green" style={{ minHeight: '200px' }}>
           Section
         </ColorSection>
       </SpacingSection>

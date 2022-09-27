@@ -56,6 +56,7 @@ import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/seri
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { RichTextField } from '@prismicio/types';
 import { useToggles } from '@weco/common/server-data/Context';
+import { classNames } from '@weco/common/utils/classnames';
 
 type SerialisedSeriesProps = SeriesBasic & {
   items: ArticleBasic[];
@@ -71,15 +72,39 @@ type Props = {
 };
 
 const ArticlesContainer = styled.div`
-  background-color: ${props => props.theme.color('cream')};
+  background-color: ${props => props.theme.newColor('warmNeutral.300')};
 `;
 
+const StoryPromoContainer = styled.div.attrs({
+  className: 'container container--scroll touch-scroll',
+})`
+  &::-webkit-scrollbar {
+    background: ${props => props.theme.newColor('warmNeutral.300')};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-color: ${props => props.theme.newColor('warmNeutral.300')};
+  }
+`;
+
+// TODO we need to support old colors (teal/red/green/purple) so fix it better as part of
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/8540
+// For now, using a patch
 const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
+  let color = 'accent.purple';
+  if ((series.color as string) === 'teal') color = 'accent.blue';
+  if ((series.color as string) === 'red') color = 'validation.red';
+  if ((series.color as string) === 'green') color = 'validation.green';
+
   return (
     <div>
       <Layout12>
         <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-          <h2 className={`h1 font-${series.color} plain-link no-margin`}>
+          <h2
+            className={`h1 ${classNames({
+              ['font-' + color]: true,
+            })} plain-link no-margin`}
+          >
             <a className="plain-link" href={`/series/${series.id}`}>
               {series.title}
             </a>
@@ -274,13 +299,13 @@ const StoriesPage: FC<Props> = ({
             <Layout12>
               <FeaturedCardArticle
                 article={firstArticle}
-                background="charcoal"
+                background="neutral.700"
                 color="white"
               />
             </Layout12>
           </Space>
           <div className="row__wobbly-background" />
-          <div className="container container--scroll container--scroll-cream touch-scroll">
+          <StoryPromoContainer>
             <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
               <div className="grid grid--scroll grid--theme-4 card-theme card-theme--transparent">
                 {articles.slice(1, 5).map((article, i) => {
@@ -294,7 +319,7 @@ const StoriesPage: FC<Props> = ({
                 })}
               </div>
             </Space>
-          </div>
+          </StoryPromoContainer>
         </ArticlesContainer>
       </SpacingSection>
 

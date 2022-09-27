@@ -49,7 +49,7 @@ const leadingColor = 'yellow';
 const ConceptHero = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background-color: ${props => props.theme.color(leadingColor, 'light')};
+  background-color: ${props => props.theme.newColor('lightYellow')};
 `;
 
 const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
@@ -58,7 +58,7 @@ const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
 
 // TODO when LabelColor is refactored, maybe switch to using Label?
 const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
-  background-color: ${props => props.theme.color('cream', 'dark')};
+  background-color: ${props => props.theme.newColor('warmNeutral.300')};
   padding: 5px;
 `;
 
@@ -69,19 +69,18 @@ const ConceptDescription = styled.section`
 const ConceptImages = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.newColor('black')};
 
   .sectionTitle {
-    color: ${props => props.theme.color('white')};
+    color: ${props => props.theme.newColor('white')};
   }
 `;
 
 const ConceptWorksHeader = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top'] },
 })<{ hasWorksTabs: boolean }>`
-  background-color: ${({ hasWorksTabs }) =>
-    // todo add this colour to palette to replace paler yellow? or keep both?
-    hasWorksTabs ? '#fbfaf4' : 'white'};
+  background-color: ${({ hasWorksTabs, theme }) =>
+    theme.newColor(hasWorksTabs ? 'warmNeutral.300' : 'white')};};
 `;
 
 const SeeMoreButton = ({ text, link }: { text: string; link: LinkProps }) => (

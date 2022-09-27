@@ -16,7 +16,7 @@ const Wrapper = styled(Space).attrs({
   className: 'font-white',
 })`
   position: relative;
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.newColor('black')};
 `;
 
 const FooterNavWrapper = styled(Space).attrs({
@@ -25,8 +25,8 @@ const FooterNavWrapper = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom'],
   },
 })`
-  border-top: 1px solid ${props => props.theme.color('charcoal')};
-  border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+  border-top: 1px solid ${props => props.theme.newColor('neutral.700')};
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.700')};
 `;
 
 const HygieneNav = styled(Space).attrs({
@@ -35,7 +35,7 @@ const HygieneNav = styled(Space).attrs({
 })`
   position: relative;
   flex: 1;
-  border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.700')};
 `;
 
 const HygieneList = styled(Space).attrs({
@@ -47,7 +47,7 @@ const HygieneList = styled(Space).attrs({
   padding: 0;
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid ${props => props.theme.color('charcoal')};
+  border-top: 1px solid ${props => props.theme.newColor('neutral.700')};
 `;
 
 const FooterBottom = styled(Space).attrs({
@@ -57,7 +57,7 @@ const FooterBottom = styled(Space).attrs({
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
-  border-top: 1px solid ${props => props.theme.color('charcoal')};
+  border-top: 1px solid ${props => props.theme.newColor('neutral.700')};
 `;
 
 const NavBrand = styled.a`
@@ -85,13 +85,13 @@ const FooterStrap = styled(Space).attrs({
   display: flex;
   align-items: center;
   min-width: 220px;
-  border-bottom: 1px solid charcoal;
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.700')};
   width: 100%;
 
   ${props => props.theme.media.medium`
     width: auto;
     border-bottom: 0;
-    border-right: 1px solid ${props.theme.color('charcoal')};
+    border-right: 1px solid ${props.theme.newColor('neutral.700')};
     margin-right: 24px;
     padding-right: 24px;
   `}
@@ -121,11 +121,11 @@ const HygieneItem = styled.li.attrs({
     padding: 0.5em 0;
     display: block;
     text-decoration: none;
-    border-left: 1px solid ${props => props.theme.color('charcoal')};
+    border-left: 1px solid ${props => props.theme.newColor('neutral.700')};
     transition: color 200ms ease;
 
     &:hover {
-      color: ${props => props.theme.color('green')};
+      color: ${props => props.theme.newColor('accent.green')};
     }
 
     ${props => props.theme.media.xlarge`
@@ -139,7 +139,7 @@ const HygieneItem = styled.li.attrs({
       border-left: 0;
 
       ${props => props.theme.media.large`
-        border-left: 1px solid ${props => props.theme.color('charcoal')};
+        border-left: 1px solid ${props => props.theme.newColor('neutral.700')};
         justify-content: center;
       `}
 
@@ -148,7 +148,7 @@ const HygieneItem = styled.li.attrs({
       `}
 
       .icon__shape {
-        fill: ${props => props.theme.color('currentColor')};
+        fill: currentColor;
       }
     }
   }
@@ -160,7 +160,7 @@ const HygieneItem = styled.li.attrs({
 
 const TopBorderBox = styled.div`
   @media (min-width: ${props => props.theme.sizes.large}px) {
-    border-top: 1px solid ${props => props.theme.color('charcoal')};
+    border-top: 1px solid ${props => props.theme.newColor('neutral.700')};
     border-bottom: 0;
   }
 `;

@@ -28,7 +28,9 @@ const Quote: FC<Props> = ({ text, citation, isPullOrReview }) => {
         <footer className="quote__footer flex">
           <cite
             className={
-              'quote__cite flex flex--v-end font-pewter' + ' ' + font('intr', 5)
+              'quote__cite flex flex--v-end font-neutral-600' +
+              ' ' +
+              font('intr', 5)
             }
           >
             <PrismicHtmlBlock html={citation} />

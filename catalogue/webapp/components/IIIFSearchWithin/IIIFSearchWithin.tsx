@@ -43,13 +43,13 @@ const ResultsHeader = styled(Space).attrs({
   as: 'h3',
   v: { size: 'm', properties: ['margin-top'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('silver')};
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.500')};
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
 `;
 
 const ListItem = styled.li`
   list-style: none;
-  border-bottom: 1px solid ${props => props.theme.color('silver')};
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.500')};
 `;
 
 const SearchResult = styled.button.attrs({
@@ -58,10 +58,10 @@ const SearchResult = styled.button.attrs({
   cursor: pointer;
   display: block;
   padding: ${props => `${props.theme.spacingUnit * 2}px 0`};
-  color: ${props => props.theme.color('white')};
-  background: ${props => props.theme.color('transparent')};
+  color: ${props => props.theme.newColor('white')};
+  background: transparent;
   &:hover {
-    background: ${props => props.theme.color('black')};
+    background: ${props => props.theme.newColor('black')};
   }
 `;
 
@@ -70,7 +70,7 @@ const HitData = styled(Space).attrs({
   className: font('intb', 6),
 })`
   display: block;
-  background: ${props => props.theme.color('charcoal')};
+  background: ${props => props.theme.newColor('neutral.700')};
   padding: ${props => `0 ${props.theme.spacingUnit}px`};
 `;
 

@@ -19,15 +19,14 @@ function getTypeColor(type: string): string {
   // in order to get the exhibition guides work deployed
   switch (type) {
     case 'bsl':
-      return 'newPaletteBlue';
+      return 'accent.lightBlue';
     case 'audio-without-descriptions':
-      return 'newPaletteOrange';
+      return 'accent.lightSalmon';
     case 'audio-with-descriptions':
-      return 'newPaletteSalmon';
+      return 'accent.lightPurple';
     case 'captions-and-transcripts':
-      return 'newPaletteMint';
     default:
-      return 'newPaletteMint';
+      return 'accent.lightGreen';
   }
 }
 
@@ -44,7 +43,7 @@ const StandaloneTitle = styled(Space).attrs({
   position: relative;
 
   background: ${props =>
-    props.theme.color(getTypeColor('captions-and-transcripts'))};
+    props.theme.newColor(getTypeColor('captions-and-transcripts'))};
 `;
 
 const ContextTitle = styled(Space).attrs<{ level: number }>(props => ({
@@ -65,9 +64,8 @@ const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
       ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
       : null,
   })
-)<{ backgroundColor: string; backgroundShade: string; hasPadding: boolean }>`
-  background: ${props =>
-    props.theme.color(props.backgroundColor, props.backgroundShade)};
+)<{ backgroundColor: string; hasPadding: boolean }>`
+  background: ${props => props.theme.newColor(props.backgroundColor)};
 `;
 
 const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
@@ -115,7 +113,7 @@ const Caption = styled(Space).attrs({
   className: `spaced-text ${font('intr', 5)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
-  border-left: 20px solid ${props => props.theme.color('yellow')};
+  border-left: 20px solid ${props => props.theme.newColor('yellow')};
 `;
 
 const PrismicImageWrapper = styled.div`
@@ -127,7 +125,7 @@ const Transcription = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
-  border-left: 20px solid ${props => props.theme.color('newPaletteBlue')};
+  border-left: 20px solid ${props => props.theme.newColor('accent.lightBlue')};
 `;
 
 type Stop = {
@@ -219,7 +217,7 @@ const Stop: FC<{
                 properties: ['margin-bottom'],
               }}
             >
-              <Divider color="pumice" isKeyline={true} />
+              <Divider color="warmNeutral.400" isKeyline={true} />
             </Space>
           )}
           <div className="flex flex--wrap">
@@ -245,8 +243,7 @@ const Stop: FC<{
           condition={hasContext}
           wrapper={children => (
             <ContextContainer
-              backgroundColor={isFirstStop ? 'white' : 'cream'}
-              backgroundShade={isFirstStop ? 'base' : 'light'}
+              backgroundColor={isFirstStop ? 'white' : 'warmNeutral.300'}
               hasPadding={!isFirstStop}
             >
               {children}

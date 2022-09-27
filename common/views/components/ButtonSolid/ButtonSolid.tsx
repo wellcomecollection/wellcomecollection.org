@@ -5,16 +5,16 @@ import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { NewPaletteColor } from '@weco/common/views/themes/config';
 
 type BaseButtonProps = {
   href?: string;
 };
 
 export type ButtonColors = {
-  border: PaletteColor;
-  background: PaletteColor;
-  text: PaletteColor;
+  border: NewPaletteColor;
+  background: NewPaletteColor;
+  text: NewPaletteColor;
 };
 
 export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
@@ -42,9 +42,9 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
 
   &[disabled],
   &.disabled {
-    background: ${props => props.theme.color('pewter')};
-    border-color: ${props => props.theme.color('pewter')};
-    color: ${props => props.theme.color('white')};
+    background: ${props => props.theme.newColor('neutral.600')};
+    border-color: ${props => props.theme.newColor('neutral.600')};
+    color: ${props => props.theme.newColor('white')};
     cursor: not-allowed;
 
     &:hover {
@@ -157,51 +157,25 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   })
 )<SolidButtonProps>`
   background: ${props =>
-    props.theme.color(
+    props.theme.newColor(
       props?.colors?.background || props.theme.buttonColors.default.background
     )};
   color: ${props =>
-    props.theme.color(
+    props.theme.newColor(
       props?.colors?.text || props.theme.buttonColors.default.text
     )};
   border: 2px solid
     ${props =>
-      props.theme.color(
+      props.theme.newColor(
         props?.colors?.border || props.theme.buttonColors.default.border
       )};
 
   padding: ${({ size }) => getPadding(size)};
 
+  // TODO use a function to lighten the colours on hover
+  // In the meantime, use underline
   &:not([disabled]):hover {
-    background: ${props =>
-      props.theme.color(
-        props?.colors?.background ||
-          props.theme.buttonColors.default.background,
-        'dark'
-      )};
-    border-color: ${props =>
-      props.theme.color(
-        props?.colors?.border || props.theme.buttonColors.default.border,
-        'dark'
-      )};
-
-    ${props =>
-      props?.colors?.background === 'transparent' &&
-      `
-      text-decoration: underline;
-    `};
-
-    ${props =>
-      props.hoverUnderline === false &&
-      `
-      text-decoration: none;
-    `}
-
-    ${props =>
-      props.hoverUnderline === true &&
-      `
-      text-decoration: underline;
-    `}
+    text-decoration: underline;
   }
 `;
 

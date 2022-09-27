@@ -31,7 +31,7 @@ const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: 'tokens',
 })`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
 `;
 
 type CancelFilterProps = {
@@ -59,7 +59,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
           properties: ['margin-right'],
         }}
       >
-        <Icon icon={cross} matchText={true} color="silver" />
+        <Icon icon={cross} matchText={true} color="neutral.500" />
       </Space>
       <span className="visually-hidden">remove </span>
       {text || children}

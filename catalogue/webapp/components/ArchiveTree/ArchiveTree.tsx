@@ -23,7 +23,7 @@ import { chevron, tree } from '@weco/common/icons';
 import { trackEvent } from '@weco/common/utils/ga';
 
 const TreeContainer = styled.div`
-  border-right: 1px solid ${props => props.theme.color('pumice')};
+  border-right: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 const instructions =
@@ -56,7 +56,7 @@ const Tree = styled.div<{ isEnhanced?: boolean }>`
       content: ${props => (props.isEnhanced ? `'${instructions}'` : null)};
       z-index: 2;
       top: 0;
-      background: ${props => props.theme.color('yellow')};
+      background: ${props => props.theme.newColor('yellow')};
       padding: ${props => `${props.theme.spacingUnit * 2}px`};
       margin: ${props => `${props.theme.spacingUnit}px`};
       border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
@@ -90,7 +90,7 @@ const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
   padding: 0;
   &:focus {
     outline: ${props =>
-      !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
+      !props.hideFocus ? `2px solid ${props.theme.newColor('black')}` : 'none'};
   }
 
   &.guideline::before,
@@ -101,7 +101,7 @@ const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
   }
 
   &.guideline::before {
-    border-left: 1px solid ${props => props.theme.color('yellow')};
+    border-left: 1px solid ${props => props.theme.newColor('yellow')};
     width: 0;
     top: ${`${verticalGuidePosition}px`};
     left: ${`${controlWidth / 2}px`};
@@ -113,7 +113,7 @@ const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: ${props => props.theme.color('yellow')};
+    background: ${props => props.theme.newColor('yellow')};
     left: ${`${controlWidth / 2 - 3}px`};
     bottom: ${`${controlHeight / 2}px`};
   }
@@ -136,15 +136,17 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
     top: ${`${(controlHeight - circleHeight) / 2}px`};
     left: ${`${(controlWidth - circleWidth) / 2}px`};
     background: ${props =>
-      props.highlightCondition === 'primary'
-        ? props.theme.color('yellow')
-        : props.highlightCondition === 'secondary'
-        ? props.theme.color('yellow', 'light')
-        : props.theme.color('smoke')};
+      props.theme.newColor(
+        props.highlightCondition === 'primary'
+          ? 'yellow'
+          : props.highlightCondition === 'secondary'
+          ? 'lightYellow'
+          : 'neutral.300'
+      )};
     border: ${props =>
       props.highlightCondition === 'secondary'
-        ? `1px solid ${props.theme.color('yellow')}`
-        : `2px solid ${props.theme.color('white')}`};
+        ? `1px solid ${props.theme.newColor('yellow')}`
+        : `2px solid ${props.theme.newColor('white')}`};
     border-radius: 50%;
   }
   .icon {
@@ -166,9 +168,9 @@ const StyledLink = styled.a<StyledLinkProps>`
   display: inline-block;
   min-height: ${`${controlHeight}px`};
   line-height: 1;
-  color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.newColor('black')};
   background: ${props =>
-    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
+    props.isCurrent ? props.theme.newColor('yellow') : 'transparent'};
   cursor: pointer;
   margin-left: ${props =>
     props.hasControl ? `-${controlWidth / 2}px` : `${controlWidth / 2}px`};
@@ -196,7 +198,7 @@ const RefNumber = styled.span.attrs({
 })`
   line-height: 1;
   display: block;
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.newColor('neutral.600')};
   text-decoration: none;
 `;
 

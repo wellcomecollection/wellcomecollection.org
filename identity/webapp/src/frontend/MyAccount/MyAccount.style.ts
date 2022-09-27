@@ -4,7 +4,7 @@ import Space from '@weco/common/views/components/styled/Space';
 export const ProgressBar = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
   border-radius: 7px; /* (height of inner div) / 2 + padding */
   border: 2px solid black;
   width: 300px;
@@ -12,7 +12,7 @@ export const ProgressBar = styled(Space).attrs({
 `;
 
 export const ProgressIndicator = styled.div<{ percentage: number }>`
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.newColor('black')};
   width: ${props => `${props.percentage}%`};
   height: 10px;
 `;
@@ -66,7 +66,7 @@ const colours = {
   success: css`
     background-color: rgba(0, 120, 108, 0.1);
     border: 1px solid rgba(0, 120, 108, 0.3);
-    color: ${props => props.theme.color('green', 'dark')};
+    color: ${props => props.theme.newColor('black')};
   `,
   failure: css`
     background-color: rgba(224, 27, 47, 0.1);
@@ -94,7 +94,7 @@ export const StatusAlert = styled(Space).attrs({
 `;
 
 export const Section = styled.section`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1em;

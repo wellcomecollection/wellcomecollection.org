@@ -2,19 +2,46 @@ import { FunctionComponent } from 'react';
 import { themeValues } from '@weco/common/views/themes/config';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
+import Divider from '@weco/common/views/components/Divider/Divider';
+
+type ColorsObject = {
+  [name: string]: Category;
+};
+
+type Category = {
+  name: string;
+  description: string;
+  colors?: ColorObject[];
+};
+
+type ColorObject = {
+  hex: string;
+  rgb: { r: string; g: string; b: string };
+  hsl: { h: string; s: string; l: string };
+};
 
 const PaletteSection = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
 
+const SectionWrapper = styled.div`
+  margin: 1rem 0;
+`;
+
+const SectionTitle = styled.h2.attrs({ className: 'h2' })`
+  padding: 2rem 0 0;
+`;
+
+const SectionDescription = styled.p.attrs({ className: font('intr', 6) })``;
+
 const PaletteBlock = styled.div`
   flex-basis: 25%;
   margin-bottom: 15px;
 `;
 
-const PaletteName = styled.h2.attrs({
-  classname: font('lr', 5),
+const PaletteName = styled.h3.attrs({
+  classname: font('lr', 6),
 })``;
 
 const PaletteColor = styled.div<{ hasBorder: boolean }>`
@@ -22,7 +49,8 @@ const PaletteColor = styled.div<{ hasBorder: boolean }>`
   min-width: 200px;
   margin-right: 15px;
   border: 1px solid
-    ${props => props.theme.color(props.hasBorder ? 'silver' : 'transparent')};
+    ${props =>
+      props.hasBorder ? props.theme.newColor('neutral.500') : 'transparent'};
 
   &:before {
     content: '';
@@ -32,11 +60,11 @@ const PaletteColor = styled.div<{ hasBorder: boolean }>`
 `;
 
 const PaletteHex = styled.div.attrs({
-  className: font('lr', 5),
+  className: font('lr', 6),
 })``;
 
 const PaletteCode = styled.code.attrs({
-  className: font('lr', 5),
+  className: font('lr', 6),
 })``;
 
 function hexToRgb(hex) {
@@ -50,40 +78,151 @@ function hexToRgb(hex) {
     : null;
 }
 
-const colorsArr = Object.entries(themeValues.colors)
+// Code taken from https://css-tricks.com/converting-color-spaces-in-javascript/
+function rgbToHsl({ r, g, b }) {
+  // Make r, g, and b fractions of 1
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  // Find greatest and smallest channel values
+  const cmin = Math.min(r, g, b);
+  const cmax = Math.max(r, g, b);
+  const delta = cmax - cmin;
+  let h = 0;
+  let s = 0;
+  let l = 0;
+
+  // Calculate hue
+  // No difference
+  if (delta === 0) h = 0;
+  // Red is max
+  else if (cmax === r) h = ((g - b) / delta) % 6;
+  // Green is max
+  else if (cmax === g) h = (b - r) / delta + 2;
+  // Blue is max
+  else h = (r - g) / delta + 4;
+
+  h = Math.round(h * 60);
+
+  // Make negative hues positive behind 360°
+  if (h < 0) h += 360;
+
+  // Calculate lightness
+  l = (cmax + cmin) / 2;
+
+  // Calculate saturation
+  s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+  // Multiply l and s by 100
+  s = +(s * 100).toFixed(1);
+  l = +(l * 100).toFixed(1);
+
+  return { h, s, l };
+}
+
+let objectColors: ColorsObject = {
+  core: {
+    name: 'Core',
+    description:
+      'The core colour theme is defined as black, white and yellow. This is a constant theme which persists across the product. As a result, any additional colours should be complimentary to these.',
+  },
+  accent: {
+    name: 'Accents',
+    description:
+      'Chosen to match the core yellow, accent colours are interspersed where appropriate for uses such as: defining a theme or differentiating types of content.',
+  },
+  neutral: {
+    name: 'Neutrals',
+    description:
+      'The neutral theme is used for structural page elements such as dividers and UI components. Their variable names follow Material design and font-weight inspired naming, where the "thicker" the font, the darker the grey. Some of them have equivalents in warmNeutrals, twinned through their name. They are considered equivalents because of their luminosity levels.',
+  },
+  warmNeutral: {
+    name: 'Warm Neutrals',
+    description:
+      'Warmer versions of Neutrals, they all match their equivalent in name, but with a warmer tone reminiscent of the core yellow. They are considered equivalents because of their luminosity levels.',
+  },
+  validation: {
+    name: 'Validation',
+    description:
+      'These colours should be used solely for validation purposes. We encourage the use of different shades if for other purposes.',
+  },
+};
+
+Object.entries(themeValues.newColors)
   .map(([key, value]) => {
-    return (
-      value.base.indexOf('#') > -1 && {
-        // Don't display e.g. 'currentColor' or 'transparent'
-        name: key.replace(/'/g, ''),
-        hex: value.base,
-        rgb: hexToRgb(value.base),
-      }
-    );
+    if (!key.includes('.')) {
+      const rgb = hexToRgb(value);
+      objectColors.core.colors = {
+        ...objectColors.core.colors,
+        [key]: {
+          hex: value,
+          rgb,
+          hsl: rgbToHsl(rgb),
+        },
+      };
+    } else {
+      const rgb = hexToRgb(value);
+      const [category, colorName] = key.split('.');
+
+      objectColors = {
+        ...objectColors,
+        [category]: {
+          ...objectColors[category],
+          colors: {
+            ...objectColors[category].colors,
+            [colorName]: {
+              hex: value,
+              rgb,
+              hsl: rgbToHsl(rgb),
+            },
+          },
+        },
+      };
+    }
   })
   .filter(Boolean);
 
-export const Palette: FunctionComponent = () => {
-  return (
-    <PaletteSection>
-      {colorsArr.map(color => (
-        <PaletteBlock key={color.name}>
-          <PaletteName>{color.name}</PaletteName>
-          <PaletteColor
-            hasBorder={color.name === 'white'}
-            style={{ background: color.hex }}
-          />
-          <PaletteHex>
-            Hex: <PaletteCode>{color.hex}</PaletteCode>
-          </PaletteHex>
-          <PaletteHex>
-            RGB:{' '}
-            <PaletteCode>
-              {color.rgb.r}, {color.rgb.g}, {color.rgb.b}
-            </PaletteCode>
-          </PaletteHex>
-        </PaletteBlock>
-      ))}
-    </PaletteSection>
-  );
-};
+export const Palette: FunctionComponent = () => (
+  <>
+    {Object.keys(objectColors).map((category, i) => (
+      <SectionWrapper key={category}>
+        {i !== 0 && <Divider color="black" isKeyline={true} />}
+        <SectionTitle>{objectColors[category].name}</SectionTitle>
+        <SectionDescription>
+          {objectColors[category].description}
+        </SectionDescription>
+        <PaletteSection>
+          {Object.entries(objectColors[category].colors).map(
+            ([colorName, colorValues]) => (
+              <PaletteBlock key={colorName}>
+                <PaletteName>{colorName}</PaletteName>
+                <PaletteColor
+                  hasBorder={colorName === 'white'}
+                  style={{ background: colorValues.hex }}
+                />
+                <PaletteHex>
+                  Hex: <PaletteCode>{colorValues.hex}</PaletteCode>
+                </PaletteHex>
+                <PaletteHex>
+                  RGB:{' '}
+                  <PaletteCode>
+                    {colorValues.rgb.r}, {colorValues.rgb.g},{' '}
+                    {colorValues.rgb.b}
+                  </PaletteCode>
+                </PaletteHex>
+                <PaletteHex>
+                  HSL:{' '}
+                  <PaletteCode>
+                    {colorValues.hsl.h}, {colorValues.hsl.s},{' '}
+                    {colorValues.hsl.l}%
+                  </PaletteCode>
+                </PaletteHex>
+              </PaletteBlock>
+            )
+          )}
+        </PaletteSection>
+      </SectionWrapper>
+    ))}
+  </>
+);

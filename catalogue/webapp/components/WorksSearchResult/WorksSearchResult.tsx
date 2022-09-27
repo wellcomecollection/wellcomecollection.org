@@ -24,7 +24,7 @@ type Props = {
 };
 
 const Wrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 const Container = styled.div`
@@ -154,7 +154,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   properties: ['margin-top'],
                 }}
               >
-                <LabelsList labels={cardLabels} defaultLabelColor="cream" />
+                <LabelsList
+                  labels={cardLabels}
+                  defaultLabelColor="warmNeutral.300"
+                />
               </Space>
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (

@@ -29,8 +29,8 @@ const Wrapper = styled.div.attrs({
   align-items: center;
   position: relative;
   z-index: 6;
-  background-color: ${props => props.theme.color('white')};
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  background-color: ${props => props.theme.newColor('white')};
+  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 
   ${props =>
     props.isBurgerOpen &&
@@ -73,7 +73,7 @@ const BurgerTrigger = styled.a<{ isActive: boolean }>`
     left: 0;
     right: 0;
     height: 2px;
-    background: ${props => props.theme.color('black')};
+    background: ${props => props.theme.newColor('black')};
     transition: transform 400ms ease;
     transform-origin: center center;
 
@@ -120,7 +120,7 @@ const HeaderBrand = styled.div`
       flex: 0 0 auto;
       margin-right: 1.5rem;
       padding-right: 1.5rem;
-      border-right: 1px solid ${props.theme.color('pumice')};
+      border-right: 1px solid ${props.theme.newColor('warmNeutral.400')};
       width: auto;
       display: block;
     `
@@ -135,7 +135,7 @@ const HeaderBrand = styled.div`
 
 const HeaderNav = styled.nav<{ isActive: boolean }>`
   display: ${props => (props.isActive ? 'block' : 'none')};
-  background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.newColor('white')};
   position: absolute;
   top: 100%;
   left: 0;
@@ -149,7 +149,7 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
       'small',
       'headerMedium',
       `
-      border-top: 1px solid ${props.theme.color('pumice')};
+      border-top: 1px solid ${props.theme.newColor('warmNeutral.400')};
       height: calc(100vh - 84px);
       overflow: auto;
     `
@@ -190,7 +190,7 @@ const HeaderList = styled.ul`
 `;
 
 const HeaderItem = styled.li`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 
   // TODO: the vw units below are tightly coupled to the
   // number of nav items and number of characters in them.
@@ -243,7 +243,7 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
     height: 0.6rem;
     left: 0;
     width: 0;
-    background: ${props => props.theme.color('yellow')};
+    background: ${props => props.theme.newColor('yellow')};
     z-index: -1;
     transition: width 200ms ease;
 

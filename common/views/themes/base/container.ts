@@ -36,15 +36,15 @@ export const container = `
 
     &::-webkit-scrollbar {
       height: 18px;
-      background: ${themeValues.color('white')};
+      background: ${themeValues.newColor('white')};
     }
 
     &::-webkit-scrollbar-thumb {
       border-radius: 0;
       border-style: solid;
-      border-color: ${themeValues.color('white')};
+      border-color: ${themeValues.newColor('white')};
       border-width: 0 ${themeValues.containerPadding.small}px 12px;
-      background: ${themeValues.color('marble')};
+      background: ${themeValues.newColor('neutral.400')};
 
       @include respond-to('medium') {
         border-left-width: ${themeValues.containerPadding.medium}px;
@@ -64,15 +64,5 @@ export const container = `
     }
   `
   )}
-}
-
-.container--scroll-cream {
-  &::-webkit-scrollbar {
-    background: ${themeValues.color('cream')};
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-color: ${themeValues.color('cream')};
-  }
 }
 `;

@@ -101,7 +101,7 @@ const Wrapper = styled(Space).attrs<{
   bg-${props.rowBackgroundColor}
     card-theme--${props.cardBackgroundColor}`, // Keeping bg-[color] class as some components below are styled based on this parent class.
 }))<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
-  background-color: ${props => props.theme.color(props.rowBackgroundColor)};
+  background-color: ${props => props.theme.newColor(props.rowBackgroundColor)};
 `;
 
 const Body: FunctionComponent<Props> = ({
@@ -130,24 +130,24 @@ const Body: FunctionComponent<Props> = ({
   const sectionThemes = [
     {
       rowBackground: 'white',
-      cardBackground: 'cream',
-      featuredCardBackground: 'charcoal',
+      cardBackground: 'warmNeutral.300',
+      featuredCardBackground: 'neutral.700',
       featuredCardText: 'white',
     },
     {
-      rowBackground: 'cream',
+      rowBackground: 'warmNeutral.300',
       cardBackground: 'white',
       featuredCardBackground: 'white',
       featuredCardText: 'black',
     },
     {
       rowBackground: 'white',
-      cardBackground: 'cream',
-      featuredCardBackground: 'cream',
+      cardBackground: 'warmNeutral.300',
+      featuredCardBackground: 'warmNeutral.300',
       featuredCardText: 'black',
     },
     {
-      rowBackground: 'charcoal',
+      rowBackground: 'neutral.700',
       cardBackground: 'transparent',
       featuredCardBackground: 'white',
       featuredCardText: 'black',

@@ -22,7 +22,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
     list-style: none;
     margin: 0 !important;
     padding: 0;
-    border-left: 1px solid ${props => props.theme.color('pewter')};
+    border-left: 1px solid ${props => props.theme.newColor('neutral.600')};
   `;
 
   const Item = styled(Space).attrs({
@@ -45,7 +45,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
           left: -1px;
           bottom: 0;
           width: 4px;
-          background: ${props.theme.color('yellow')};
+          background: ${props.theme.newColor('yellow')};
         }
       `}
 

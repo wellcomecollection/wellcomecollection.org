@@ -12,7 +12,7 @@ import { Card } from '../../types/card';
 import { Label } from '@weco/common/model/labels';
 import { Link } from '../../types/link';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import { grid, font } from '@weco/common/utils/classnames';
+import { grid, font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
@@ -215,10 +215,10 @@ const FeaturedCardRight = styled.div<HasIsReversed>`
 const FeaturedCardCopy = styled(Space).attrs<{ color: string }>(props => ({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: `font-${props.color}`,
+  className: classNames({ [`font-${props.color}`]: true }),
 }))<{ background: string }>`
   flex: 1;
-  background-color: ${props => props.theme.color(props.background)};
+  background-color: ${props => props.theme.newColor(props.background)};
 
   ${props => props.theme.media.large`
     margin-right: -${props => props.theme.gutter.large}px;
@@ -229,7 +229,7 @@ const FeaturedCardShim = styled.div.attrs<{ background: string }>({
   className: `is-hidden-s is-hidden-m ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`,
 })<HasIsReversed & { background: string }>`
   position: relative;
-  background-color: ${props => props.theme.color(props.background)};
+  background-color: ${props => props.theme.newColor(props.background)};
   height: 21px;
   /* Prevent a white line appearing above the shim because of browser rounding errors */
   top: -1px;

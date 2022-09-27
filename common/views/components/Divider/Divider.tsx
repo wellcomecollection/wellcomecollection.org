@@ -1,9 +1,9 @@
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { NewPaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
-  color: PaletteColor;
+  color: NewPaletteColor;
   isStub?: boolean;
   isKeyline?: boolean;
   isThin?: boolean;
@@ -16,7 +16,7 @@ const Rule = styled.hr<Props>`
   ${props =>
     props.color &&
     `
-    background-color: ${props.theme.color(props.color)};
+    background-color: ${props.theme.newColor(props.color)};
   `}
 
   ${props =>

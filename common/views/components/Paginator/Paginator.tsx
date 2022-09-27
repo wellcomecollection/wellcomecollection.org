@@ -149,7 +149,7 @@ const Paginator: FunctionComponent<Props> = ({
             </Space>
           )}
 
-          <span className="font-pewter">
+          <span className="font-neutral-600">
             Page {currentPage} of {totalPages}
           </span>
 

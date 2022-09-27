@@ -56,12 +56,6 @@ const toggles = {
       description: 'View pages related to exhibition guides',
     },
     {
-      id: 'newPalette',
-      title: 'New Colour Palette',
-      initialValue: false,
-      description: 'View pages with the new colour palette',
-    },
-    {
       id: 'readingTime',
       title: 'Reading time',
       initialValue: false,

@@ -8,7 +8,7 @@ import Favicons from '@weco/common/views/components/Favicons/Favicons';
 
 const Main = styled.div`
   @media (min-width: ${props => props.theme.sizes.medium}px) {
-    background: ${props => props.theme.color('cream')};
+    background: ${props => props.theme.newColor('warmNeutral.300')};
     min-height: calc(100vh - ${props => props.theme.navHeight}px);
   }
 `;

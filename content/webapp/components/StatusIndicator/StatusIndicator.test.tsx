@@ -7,7 +7,7 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Coming soon', color: 'marble' });
+    expect(result).toEqual({ text: 'Coming soon', color: 'neutral.500' });
   });
 
   describe('formats an event that is past', () => {
@@ -17,7 +17,7 @@ describe('formatDateRangeWithMessage', () => {
         end: new Date(1999, 2, 1),
       });
 
-      expect(result).toEqual({ text: 'Past', color: 'marble' });
+      expect(result).toEqual({ text: 'Past', color: 'neutral.500' });
     });
 
     it('says "Past" if the last day was yesterday', () => {
@@ -30,7 +30,7 @@ describe('formatDateRangeWithMessage', () => {
         end: yesterday,
       });
 
-      expect(result).toEqual({ text: 'Past', color: 'marble' });
+      expect(result).toEqual({ text: 'Past', color: 'neutral.500' });
     });
 
     it('does not say "Past" if the last day is today', () => {
@@ -42,7 +42,7 @@ describe('formatDateRangeWithMessage', () => {
         end: today,
       });
 
-      expect(result).not.toEqual({ text: 'Past', color: 'marble' });
+      expect(result).not.toEqual({ text: 'Past', color: 'neutral.500' });
     });
   });
 
@@ -55,7 +55,7 @@ describe('formatDateRangeWithMessage', () => {
         end: today,
       });
 
-      expect(result).toEqual({ text: 'Final week', color: 'orange' });
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
     it('says "Final week" if the last day is tomorrow', () => {
@@ -68,7 +68,7 @@ describe('formatDateRangeWithMessage', () => {
         end: tomorrow,
       });
 
-      expect(result).toEqual({ text: 'Final week', color: 'orange' });
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
     it('says "Final week" if the last day is 6 days away', () => {
@@ -80,7 +80,7 @@ describe('formatDateRangeWithMessage', () => {
         end,
       });
 
-      expect(result).toEqual({ text: 'Final week', color: 'orange' });
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
     it('says "Now on" if the last day is 7 or more days away', () => {
@@ -92,7 +92,7 @@ describe('formatDateRangeWithMessage', () => {
         end,
       });
 
-      expect(result).toEqual({ text: 'Now on', color: 'green' });
+      expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
     });
   });
 
@@ -102,7 +102,7 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Now on', color: 'green' });
+    expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
   });
 
   it('says "Now on" for a currently running event', () => {
@@ -111,6 +111,6 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Now on', color: 'green' });
+    expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
   });
 });

@@ -12,7 +12,7 @@ type TextInputWrapProps = {
 export const TextInputWrap = styled.div<TextInputWrapProps>`
   display: flex;
   position: relative;
-  border: 1px solid ${props => props.theme.color('pumice')};
+  border: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
   border-radius: 6px;
   font-size: ${props => (props.big ? '20px' : '16px')};
 
@@ -31,7 +31,7 @@ export const TextInputWrap = styled.div<TextInputWrapProps>`
   ${props =>
     props.hasErrorBorder &&
     `
-    box-shadow: 0 0 0 1px ${props.theme.color('red')};
+    box-shadow: 0 0 0 1px ${props.theme.newColor('validation.red')};
   `}
 `;
 
@@ -61,7 +61,7 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
   transition: top 125ms ease-in, font-size 125ms ease-in,
     transform 125ms ease-in;
   pointer-events: none;
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.newColor('neutral.600')};
 
   ${props =>
     (!props.isEnhanced || props.hasValue) &&
@@ -91,7 +91,7 @@ export const TextInputInput = styled.input.attrs(props => ({
 
   &:focus {
     outline: 0;
-    border-color: ${props => props.theme.color('turquoise')};
+    border-color: ${props => props.theme.newColor('accent.turquoise')};
   }
 
   &:-ms-clear {
@@ -103,7 +103,7 @@ export const TextInputInput = styled.input.attrs(props => ({
     `
       &,
       &:focus {
-        border-color: ${props.theme.color('red')};
+        border-color: ${props.theme.newColor('validation.red')};
       }
     `}
 `;
@@ -127,7 +127,7 @@ export const TextInputErrorMessage = styled.span.attrs({
   font-size: 14px;
   margin-top: 10px;
   padding-left: 15px;
-  color: ${props => props.theme.color('red')};
+  color: ${props => props.theme.newColor('validation.red')};
 `;
 
 type Props = {
@@ -235,7 +235,7 @@ const Input: FC<Props> = (
         />
         {isValid && showValidity && (
           <TextInputCheckmark>
-            <Icon icon={check} color={'green'} />
+            <Icon icon={check} color="validation.green" />
           </TextInputCheckmark>
         )}
       </TextInputWrap>

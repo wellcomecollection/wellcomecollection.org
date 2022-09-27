@@ -60,7 +60,7 @@ const Link = styled(Space).attrs({
   as: 'a',
   className: font('intb', 6),
 })<LinkProps>`
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.newColor('white')};
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -68,7 +68,7 @@ const Link = styled(Space).attrs({
 
   &:hover,
   &:focus {
-    color: ${props => props.theme.color('green')};
+    color: ${props => props.theme.newColor('accent.green')};
   }
 `;
 
@@ -124,7 +124,7 @@ const FooterSocial: FC = () => (
       <Cell key={item.title}>
         <Link href={item.url}>
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-            <Icon icon={item.icon} color="green" />
+            <Icon icon={item.icon} color="currentColor" />
           </Space>
           <span>{item.title}</span>
           <span className="visually-hidden">{item.service}</span>

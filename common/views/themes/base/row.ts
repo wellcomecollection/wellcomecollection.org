@@ -14,7 +14,7 @@ export const row = `
   right: 0;
   height: 15%;
   transition: height 600ms ease;
-  background: ${themeValues.color('white')};
+  background: ${themeValues.newColor('white')};
 
   &:after {
     position: absolute;

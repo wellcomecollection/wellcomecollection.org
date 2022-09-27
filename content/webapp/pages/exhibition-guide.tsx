@@ -54,14 +54,14 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 const PromoContainer = styled.div`
-  background: ${props => props.theme.color('cream')};
+  background: ${props => props.theme.newColor('warmNeutral.300')};
 `;
 
 const Stop = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
-  background: ${props => props.theme.color('cream')};
+  background: ${props => props.theme.newColor('warmNeutral.300')};
   height: 100%;
 `;
 
@@ -93,11 +93,11 @@ const TypeLink = styled.a`
   height: 100%;
   width: 100%;
   text-decoration: none;
-  background: ${props => props.theme.color(props.color)};
+  background: ${props => props.theme.newColor(props.color)};
 
   &:hover,
   &:focus {
-    background: ${props => props.theme.color('marble')};
+    background: ${props => props.theme.newColor('neutral.400')};
   }
 `;
 
@@ -106,10 +106,10 @@ type TypeOptionProps = {
   title: string;
   text: string;
   color:
-    | 'newPaletteOrange'
-    | 'newPaletteMint'
-    | 'newPaletteSalmon'
-    | 'newPaletteBlue';
+    | 'accent.lightSalmon'
+    | 'accent.lightGreen'
+    | 'accent.lightPurple'
+    | 'accent.lightBlue';
   icon?: IconSvg;
   onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
@@ -142,7 +142,7 @@ const Header = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
   },
 })`
-  background: ${props => props.theme.color(props.color)};
+  background: ${props => props.theme.newColor(props.color)};
 `;
 
 const typeNames = [
@@ -378,7 +378,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           url={`/${pathname}/audio-without-descriptions`}
           title="Listen, without audio descriptions"
           text="Find out more about the exhibition with short audio tracks."
-          color="newPaletteOrange"
+          color="accent.lightSalmon"
           onClick={() => {
             cookieHandler(
               'WC_userPreferenceGuideType',
@@ -393,7 +393,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           title="Listen, with audio descriptions"
           text="Find out more about the exhibition with short audio tracks,
         including descriptions of the objects."
-          color="newPaletteSalmon"
+          color="accent.lightPurple"
           icon={audioDescribed}
           onClick={() => {
             cookieHandler(
@@ -409,7 +409,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           title="Read captions and transcripts"
           text="All the wall and label texts from the gallery, and images of the
               objects, great for those without headphones."
-          color="newPaletteMint"
+          color="accent.lightGreen"
           icon={speechToText}
           onClick={() => {
             cookieHandler(
@@ -424,7 +424,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           url={`/${pathname}/bsl`}
           title="Watch BSL videos"
           text="Commentary about the exhibition in British Sign Language videos."
-          color="newPaletteBlue"
+          color="accent.lightBlue"
           icon={britishSignLanguage}
           onClick={() => {
             cookieHandler('WC_userPreferenceGuideType', 'bsl');
@@ -438,15 +438,14 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
 function getTypeColor(type?: GuideType): string {
   switch (type) {
     case 'bsl':
-      return 'newPaletteBlue';
+      return 'accent.lightBlue';
     case 'audio-without-descriptions':
-      return 'newPaletteOrange';
+      return 'accent.lightSalmon';
     case 'audio-with-descriptions':
-      return 'newPaletteSalmon';
+      return 'accent.lightPurple';
     case 'captions-and-transcripts':
-      return 'newPaletteMint';
     default:
-      return 'newPaletteMint';
+      return 'accent.lightGreen';
   }
 }
 
