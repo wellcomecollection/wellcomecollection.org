@@ -29,6 +29,7 @@ import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { useToggles } from '@weco/common/server-data/Context';
+import styled from 'styled-components';
 
 type Props = {
   article: Article;
@@ -199,15 +200,23 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
     />
   );
 
+  const ContentTypeInfoSection = styled.span`
+    &:not(:first-child):before {
+      content: ' | ';
+      margin: 0 4px;
+    }
+  `;
+
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
       <div className="flex flex--h-baseline">
+
         <Space v={{ size: 's', properties: ['margin-top'] }}>
           <p className={`no-margin ${font('intr', 6)}`}>
             {article.contributors.length > 0 &&
               article.contributors.map(({ contributor, role }, i, arr) => (
-                <Fragment key={contributor.id}>
+                <ContentTypeInfoSection key={contributor.id}>
                   {role && role.describedBy && (
                     <span>
                       {i === 0
@@ -217,24 +226,13 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                     </span>
                   )}
                   <span className={font('intb', 6)}>{contributor.name}</span>
-                  <Space
-                    as="span"
-                    h={{
-                      size: 's',
-                      properties: ['margin-left', 'margin-right'],
-                    }}
-                  >
-                    {arr.length > 1 && i < arr.length - 1 && '|'}
-                  </Space>
-                </Fragment>
+                </ContentTypeInfoSection>
               ))}
             {readingTime && article.readingTime ? (
-              <>
-                <span className={font('intr', 6)}>
-                  <span className={font('intr', 5)}>| </span> reading time{' '}
-                  <span className={font('intb', 6)}>{article.readingTime}</span>
-                </span>
-              </>
+              <ContentTypeInfoSection>
+                Average reading time{' '}
+                <span className={font('intb', 6)}>{article.readingTime}</span>
+              </ContentTypeInfoSection>
             ) : null}
             {article.contributors.length > 0 && ' '}
 
