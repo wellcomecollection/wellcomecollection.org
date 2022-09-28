@@ -19,19 +19,17 @@ type Props = {
 
 const WobblyEdgedContainer: FunctionComponent<Props> = ({
   children,
-}: Props) => {
-  return (
-    <Wrapper>
-      <WobblyEdgeContainer>
-        <WobblyEdge isRotated={true} background="white" />
-      </WobblyEdgeContainer>
-      <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
-        <Layout8>{children}</Layout8>
-      </Space>
-      <WobblyEdgeContainer>
-        <WobblyEdge background="white" />
-      </WobblyEdgeContainer>
-    </Wrapper>
-  );
-};
+}: Props) => (
+  <Wrapper>
+    <WobblyEdgeContainer>
+      <WobblyEdge isRotated={true} background="white" />
+    </WobblyEdgeContainer>
+    <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+      <Layout8>{children}</Layout8>
+    </Space>
+    <WobblyEdgeContainer>
+      <WobblyEdge background="white" />
+    </WobblyEdgeContainer>
+  </Wrapper>
+);
 export default WobblyEdgedContainer;
