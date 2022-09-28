@@ -7,13 +7,11 @@ import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 type Props = {
   children: ReactNode;
 };
-export const ContextDecorator: FunctionComponent<Props> = ({ children }) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle isFontsLoaded={useIsFontsLoaded()} />
-      <AppContextProvider>
-        <div className="enhanced">{children}</div>
-      </AppContextProvider>
-    </ThemeProvider>
-  );
-};
+export const ContextDecorator: FunctionComponent<Props> = ({ children }) => (
+  <ThemeProvider theme={theme}>
+    <GlobalStyle isFontsLoaded={useIsFontsLoaded()} />
+    <AppContextProvider>
+      <div className="enhanced">{children}</div>
+    </AppContextProvider>
+  </ThemeProvider>
+);
