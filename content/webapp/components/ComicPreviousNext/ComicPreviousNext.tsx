@@ -23,12 +23,12 @@ const Root = styled.div`
 
 const Link = styled.a<{ isNext: boolean }>`
   position: absolute;
-  color: ${props => props.theme.color('charcoal')};
+  color: ${props => props.theme.color('neutral.700')};
   left: ${props => (props.isNext ? undefined : 0)};
   right: ${props => (props.isNext ? 0 : undefined)};
   height: 80px;
   width: 340px;
-  background: ${props => props.theme.color('cream')};
+  background: ${props => props.theme.color('warmNeutral.300')};
   overflow: hidden;
   border-radius: ${props => (props.isNext ? '6px 0 0 6px' : '0 6px 6px 0')};
   transition: transform ${props => props.theme.transitionProperties};
@@ -36,7 +36,7 @@ const Link = styled.a<{ isNext: boolean }>`
   pointer-events: all;
 
   ${props => props.theme.media.medium`
-    transform: translateX(${props => (props.isNext ? '300px' : '-300px')});
+    transform: translateX(${props.isNext ? '300px' : '-300px'});
     height: 160px;
 
     &:hover,
@@ -86,7 +86,7 @@ const Chevron = styled(Space).attrs({
   transform: translateX(${props => (props.isNext ? '-6px' : '6px')});
 
   ${props => props.theme.media.medium`
-    transform: translateX(${props => (props.isNext ? '2px' : '-2px')});
+    transform: translateX(${props.isNext ? '2px' : '-2px'});
   `}
 
   ${props => props.theme.media.large`
