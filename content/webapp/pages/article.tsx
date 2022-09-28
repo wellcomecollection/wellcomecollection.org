@@ -228,7 +228,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                   </Space>
                 </Fragment>
               ))}
-            {!readingTime && article.readingTime ? (
+            {readingTime && article.readingTime ? (
               <>
                 <span className={font('intr', 6)}>
                   <span className={font('intr', 5)}>
