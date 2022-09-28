@@ -27,7 +27,7 @@ const MoreLink: FunctionComponent<Props> = ({
 
   return (
     <ButtonSolidLink
-      colors={themeValues.buttonColors.greenTransparentGreen}
+      colors={themeValues.buttonColors.charcoalTransparentCharcoal}
       isIconAfter={true}
       clickHandler={handleClick}
       text={name}

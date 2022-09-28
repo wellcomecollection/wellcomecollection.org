@@ -31,7 +31,11 @@ const Number: FunctionComponent<Props> = ({
     color={color}
   >
     <span
-      className={color === 'yellow' ? 'font-black' : 'font-white'}
+      className={
+        color === 'yellow' || color === 'accent.salmon'
+          ? 'font-black'
+          : 'font-white'
+      }
       style={{ transform: 'rotateZ(6deg) scale(1.2)' }}
     >
       {number}
