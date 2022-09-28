@@ -118,7 +118,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
 
   const readingTimeInMinutes =
     Math.round(readingTime(allArticleText(genericFields.body)).minutes) +
-    ' min';
+    ' minutes';
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
     series => transformSeries(series as SeriesPrismicDocument)

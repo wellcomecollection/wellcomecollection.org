@@ -228,10 +228,22 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                   </Space>
                 </Fragment>
               ))}
-            {readingTime && article.readingTime ? (
+            {!readingTime && article.readingTime ? (
               <>
                 <span className={font('intr', 6)}>
-                  <span className={font('intr', 5)}>| </span> reading time{' '}
+                  <span className={font('intr', 5)}>
+                    {' '}
+                    <Space
+                      as="span"
+                      h={{
+                        size: 's',
+                        properties: ['margin-right'],
+                      }}
+                    >
+                      |
+                    </Space>
+                  </span>{' '}
+                  Average reading time{' '}
                   <span className={font('intb', 6)}>{article.readingTime}</span>
                 </span>
               </>
