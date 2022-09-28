@@ -9,6 +9,7 @@ import {
   isSameDay,
   today,
 } from '@weco/common/utils/dates';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
   start: Date;
@@ -22,7 +23,7 @@ export function formatDateRangeWithMessage({
 }: {
   start: Date;
   end: Date;
-}): { text: string; color: string } {
+}): { text: string; color: PaletteColor } {
   const sevenDaysTime = addDays(today(), 7);
 
   const opensToday = isSameDay(start, today(), 'London');
@@ -42,7 +43,7 @@ export function formatDateRangeWithMessage({
 
 const StatusIndicator: FC<Props> = ({ start, end, statusOverride }: Props) => {
   const { color, text } = statusOverride
-    ? { color: 'neutral.500', text: statusOverride }
+    ? { color: 'neutral.500' as PaletteColor, text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
 
   return (

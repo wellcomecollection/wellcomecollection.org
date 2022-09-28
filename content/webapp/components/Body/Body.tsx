@@ -56,6 +56,7 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismicT from '@prismicio/types';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -93,11 +94,18 @@ type Props = {
   comicPreviousNext?: ComicPreviousNextProps;
 };
 
+type SectionTheme = {
+  rowBackground: PaletteColor;
+  cardBackground: PaletteColor;
+  featuredCardBackground: PaletteColor;
+  featuredCardText: PaletteColor;
+};
+
 type ContentListSlice = BodySlice & { type: 'contentList' };
 
 const Wrapper = styled(Space).attrs<{
-  rowBackgroundColor: string;
-  cardBackgroundColor: string;
+  rowBackgroundColor: PaletteColor;
+  cardBackgroundColor: PaletteColor;
 }>(props => ({
   className: classNames({
     'row card-theme': true,
@@ -107,7 +115,7 @@ const Wrapper = styled(Space).attrs<{
       'transparent',
     ].includes(props.cardBackgroundColor),
   }),
-}))<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
+}))<{ rowBackgroundColor: PaletteColor; cardBackgroundColor: PaletteColor }>`
   background-color: ${props => props.theme.color(props.rowBackgroundColor)};
 `;
 
@@ -135,7 +143,8 @@ const Body: FunctionComponent<Props> = ({
   let imageGalleryIdCount = 1;
 
   const sections: ContentListSlice[] = body.filter(isContentList);
-  const sectionThemes = [
+
+  const sectionThemes: SectionTheme[] = [
     {
       rowBackground: 'white',
       cardBackground: 'warmNeutral.300',

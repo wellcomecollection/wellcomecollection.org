@@ -21,11 +21,12 @@ import Space from '../styled/Space';
 import styled from 'styled-components';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 // The `bottom` values here are coupled to the space
 // beneath the Header in ContentPage.tsx
 export const headerSpaceSize = 'l';
-const HeroPictureBackground = styled.div<{ bgColor: string }>`
+const HeroPictureBackground = styled.div<{ bgColor: PaletteColor }>`
   position: absolute;
   background-color: ${props => props.theme.color(props.bgColor)};
   height: 50%;
@@ -79,7 +80,7 @@ type Props = {
   FeaturedMedia?: FeaturedMedia;
   HeroPicture?: ReactElement<typeof Picture>;
   isFree?: boolean;
-  heroImageBgColor?: 'white' | 'warmNeutral.300';
+  heroImageBgColor?: 'warmNeutral.300' | 'white';
   backgroundTexture?: string;
   highlightHeading?: boolean;
   asyncBreadcrumbsRoute?: string;

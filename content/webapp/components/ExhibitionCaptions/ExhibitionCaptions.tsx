@@ -10,7 +10,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
-import { themeValues } from '@weco/common/views/themes/config';
+import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 function getTypeColor(type: string): string {
@@ -64,7 +64,7 @@ const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
       ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
       : null,
   })
-)<{ backgroundColor: string; hasPadding: boolean }>`
+)<{ backgroundColor: PaletteColor; hasPadding: boolean }>`
   background: ${props => props.theme.color(props.backgroundColor)};
 `;
 

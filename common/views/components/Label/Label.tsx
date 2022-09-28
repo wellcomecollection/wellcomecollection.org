@@ -1,12 +1,13 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { Label as LabelType, LabelColor } from '../../../model/labels';
 import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import styled from 'styled-components';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type LabelContainerProps = {
-  fontColor: string;
-  labelColor: string;
+  fontColor: PaletteColor;
+  labelColor: PaletteColor;
 };
 
 const LabelContainer = styled(Space).attrs({

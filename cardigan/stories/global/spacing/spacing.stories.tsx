@@ -3,8 +3,9 @@ import styled from 'styled-components';
 
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
-const ColorSection = styled.div<{ bgColor: string }>`
+const ColorSection = styled.div<{ bgColor: PaletteColor }>`
   background-color: ${props => props.theme.color(props.bgColor)};
 `;
 

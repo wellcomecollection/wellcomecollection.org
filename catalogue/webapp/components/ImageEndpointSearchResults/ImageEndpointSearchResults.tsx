@@ -16,10 +16,11 @@ import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
   images: CatalogueResultsList<Image>;
-  background?: string;
+  background?: PaletteColor;
 };
 
 type GalleryImageProps = Image & {
