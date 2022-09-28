@@ -25,6 +25,7 @@ import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import {
   CatalogueResultsList,
   Concept as ConceptType,
+  IdentifierType,
   Image as ImageType,
   Work as WorkType,
 } from '@weco/common/model/catalogue';
@@ -35,6 +36,7 @@ import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 import { font } from '@weco/common/utils/classnames';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar/ApiToolbar';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -42,6 +44,7 @@ type Props = {
   worksBy: CatalogueResultsList<WorkType> | undefined;
   imagesAbout: CatalogueResultsList<ImageType> | undefined;
   imagesBy: CatalogueResultsList<ImageType> | undefined;
+  apiToolbarLinks: ApiToolbarLink[];
 };
 
 const leadingColor = 'yellow';
@@ -104,6 +107,7 @@ export const ConceptPage: NextPage<Props> = ({
   worksBy,
   imagesAbout,
   imagesBy,
+  apiToolbarLinks,
 }) => {
   const [selectedWorksTab, setSelectedWorksTab] = useState('works-about');
   const [selectedImagesTab, setSelectedImagesTab] = useState('images-about');
@@ -122,6 +126,7 @@ export const ConceptPage: NextPage<Props> = ({
       siteSection="collections"
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
+      apiToolbarLinks={apiToolbarLinks}
     >
       <ConceptHero>
         <div className="container">
@@ -335,6 +340,44 @@ export const ConceptPage: NextPage<Props> = ({
   );
 };
 
+function getDisplayIdentifierType(identifierType: IdentifierType): string {
+  switch (identifierType.id) {
+    case 'lc-names':
+      return 'LC Names';
+    case 'lc-subjects':
+      return 'LCSH';
+    case 'nlm-mesh':
+      return 'MeSH';
+    default:
+      return identifierType.label;
+  }
+}
+
+function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;
+
+  const apiLink = {
+    id: 'json',
+    label: 'JSON',
+    link: apiUrl,
+  };
+
+  const identifiers = (concept.identifiers || []).map(id =>
+    id.identifierType.id === 'label-derived'
+      ? {
+          id: id.value,
+          label: 'Label-derived identifier',
+        }
+      : {
+          id: id.value,
+          label: getDisplayIdentifierType(id.identifierType),
+          value: id.value,
+        }
+  );
+
+  return [apiLink, ...identifiers];
+}
+
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
@@ -356,6 +399,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       id,
       toggles: serverData.toggles,
     });
+
+    if (conceptResponse.type === 'Error') {
+      if (conceptResponse.httpStatus === 404) {
+        return { notFound: true };
+      }
+      return appError(
+        context,
+        conceptResponse.httpStatus,
+        conceptResponse.description
+      );
+    }
 
     const worksAboutPromise = getWorks({
       params: { 'subjects.label': [conceptResponse.label] },
@@ -393,17 +447,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       imagesByPromise,
     ]);
 
-    if (conceptResponse.type === 'Error') {
-      if (conceptResponse.httpStatus === 404) {
-        return { notFound: true };
-      }
-      return appError(
-        context,
-        conceptResponse.httpStatus,
-        conceptResponse.description
-      );
-    }
-
     const worksAbout =
       worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
     const worksBy =
@@ -413,6 +456,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const imagesBy =
       imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
 
+    const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
+
     return {
       props: removeUndefinedProps({
         conceptResponse,
@@ -420,6 +465,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         worksBy,
         imagesAbout,
         imagesBy,
+        apiToolbarLinks,
         serverData,
       }),
     };

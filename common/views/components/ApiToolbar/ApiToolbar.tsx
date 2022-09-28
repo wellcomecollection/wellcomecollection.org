@@ -201,6 +201,7 @@ function getRouteProps(path: string) {
 
         return tzitzitLink ? [tzitzitLink] : [];
       };
+
     case '/item':
       return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { workId } = query;
