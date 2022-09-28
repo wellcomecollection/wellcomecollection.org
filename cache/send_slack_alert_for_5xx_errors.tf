@@ -16,7 +16,9 @@ module "slack_alerts_for_5xx" {
   # but I don't see it defined there.  Is this topic defined in Terraform?
   alarm_topic_arn = "arn:aws:sns:us-east-1:130871440101:experience_lambda_error_alarm"
 
-  timeout = 30
+  # Note: we used to specify a 30 second timeout here, but occasionally
+  # the Lambda would error if there were lots of log events.
+  timeout = 300
 }
 
 resource "aws_lambda_permission" "allow_lambda" {
