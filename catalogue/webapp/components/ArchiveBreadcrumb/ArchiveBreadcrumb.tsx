@@ -82,13 +82,11 @@ type ArchiveWorkLinkProps = {
 const ArchiveWorkLink: FunctionComponent<ArchiveWorkLinkProps> = ({
   id,
   children,
-}: ArchiveWorkLinkProps) => {
-  return (
-    <WorkLink id={id} source="archive_tree">
-      {children}
-    </WorkLink>
-  );
-};
+}: ArchiveWorkLinkProps) => (
+  <WorkLink id={id} source="archive_tree">
+    {children}
+  </WorkLink>
+);
 
 type Props = {
   work: Work;
