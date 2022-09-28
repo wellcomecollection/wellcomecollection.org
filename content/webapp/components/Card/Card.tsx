@@ -31,7 +31,7 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
     min-height: auto;
   }
 
-  .card-theme.bg-neutral-700 & {
+  .card-theme.bg-dark & {
     color: ${props => props.theme.color('white')};
   }
 `;

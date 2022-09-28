@@ -6,7 +6,7 @@ import React, {
   Fragment,
 } from 'react';
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import {
   defaultSerializer,
@@ -97,9 +97,14 @@ const Wrapper = styled(Space).attrs<{
   rowBackgroundColor: string;
   cardBackgroundColor: string;
 }>(props => ({
-  className: `row card-theme
-  bg-${props.rowBackgroundColor}
-    card-theme--${props.cardBackgroundColor}`, // Keeping bg-[color] class as some components below are styled based on this parent class.
+  className: classNames({
+    'row card-theme': true,
+    'bg-dark': props.rowBackgroundColor === 'neutral.700',
+    [`card-theme--${props.cardBackgroundColor}`]: [
+      'white',
+      'transparent',
+    ].includes(props.cardBackgroundColor),
+  }),
 }))<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
   background-color: ${props => props.theme.color(props.rowBackgroundColor)};
 `;
