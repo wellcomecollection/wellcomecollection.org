@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -9,12 +9,7 @@ import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTime
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 
-type ContainerProps = {
-  children: ReactNode;
-};
-const Container: FunctionComponent<ContainerProps> = ({
-  children,
-}: ContainerProps) => (
+const Container: FunctionComponent = ({ children }) => (
   <SpacingSection>
     <SpacingComponent>
       <div>

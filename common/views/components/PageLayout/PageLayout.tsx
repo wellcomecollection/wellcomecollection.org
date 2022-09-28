@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponent, ReactNode } from 'react';
+import React, { useContext, FunctionComponent } from 'react';
 import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
@@ -47,7 +47,6 @@ export type Props = {
   siteSection: SiteSection | null;
   image?: ImageType;
   rssUrl?: string;
-  children: ReactNode;
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
   excludeRoleMain?: boolean;

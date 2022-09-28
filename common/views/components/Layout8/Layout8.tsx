@@ -1,15 +1,11 @@
-import { ReactNode, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import Layout from '../Layout/Layout';
 
 type Props = {
-  children: ReactNode;
   shift?: boolean;
 };
 
-const Layout8: FunctionComponent<Props> = ({
-  children,
-  shift = true,
-}: Props) => (
+const Layout8: FunctionComponent<Props> = ({ children, shift = true }) => (
   <Layout
     gridSizes={{
       s: 12,

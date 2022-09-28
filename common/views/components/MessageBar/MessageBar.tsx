@@ -1,4 +1,4 @@
-import { ReactNode, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
 import Space, { SpaceComponentProps } from '../styled/Space';
@@ -21,10 +21,9 @@ const ColouredTag: FunctionComponent<SpaceComponentProps> = styled.span.attrs({
 
 type Props = {
   tagText?: string;
-  children: ReactNode;
 };
 
-const MessageBar: FunctionComponent<Props> = ({ tagText, children }: Props) => (
+const MessageBar: FunctionComponent<Props> = ({ tagText, children }) => (
   <Space
     v={{
       size: 'm',

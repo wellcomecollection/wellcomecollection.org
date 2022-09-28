@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  useState,
-  useContext,
-  RefObject,
-  ReactNode,
-} from 'react';
+import { FunctionComponent, useState, useContext, RefObject } from 'react';
 import NextLink from 'next/link';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { FixedSizeList } from 'react-window';
@@ -81,7 +75,6 @@ const Item = styled.div`
 
 type AccordionItemProps = {
   title: string;
-  children: ReactNode;
   testId?: string;
 };
 

@@ -1,15 +1,11 @@
-import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 type Props = {
   id: string;
-  children: ReactElement;
 };
 
-const SearchFormSortByPortal: FunctionComponent<Props> = ({
-  id,
-  children,
-}: Props): ReactElement<Props> => {
+const SearchFormSortByPortal: FunctionComponent<Props> = ({ id, children }) => {
   const mount = document.getElementById(id);
   const [element] = useState(document.createElement('div'));
 

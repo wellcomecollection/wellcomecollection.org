@@ -1,12 +1,11 @@
-import { Fragment, FunctionComponent, ReactNode } from 'react';
+import { Fragment, FunctionComponent } from 'react';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
 type Props = {
   color: 'warmNeutral.300' | 'white';
-  children: ReactNode;
 };
 
-const WobblyBottom: FunctionComponent<Props> = ({ color, children }: Props) => (
+const WobblyBottom: FunctionComponent<Props> = ({ color, children }) => (
   <div className="relative">
     <Fragment>
       {children}

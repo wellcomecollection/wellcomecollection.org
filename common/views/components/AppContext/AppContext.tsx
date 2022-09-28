@@ -1,12 +1,5 @@
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
-import {
-  createContext,
-  useState,
-  useEffect,
-  ReactElement,
-  FC,
-  ReactNode,
-} from 'react';
+import { createContext, useState, useEffect, ReactElement, FC } from 'react';
 import theme, { Size } from '../../../views/themes/default';
 
 type AppContextProps = {
@@ -29,10 +22,6 @@ const appContextDefaults = {
 
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
 
-type AppContextProviderProps = {
-  children: ReactNode;
-};
-
 function getWindowSize(): Size {
   switch (true) {
     case window.innerWidth < theme.sizes.medium:
@@ -46,9 +35,7 @@ function getWindowSize(): Size {
   }
 }
 
-export const AppContextProvider: FC<AppContextProviderProps> = ({
-  children,
-}: AppContextProviderProps): ReactElement<AppContextProviderProps> => {
+export const AppContextProvider: FC = ({ children }): ReactElement => {
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
   const [isKeyboard, setIsKeyboard] = useState(appContextDefaults.isKeyboard);
   const [isFullSupportBrowser, setIsFullSupportBrowser] = useState(

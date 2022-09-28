@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -14,7 +14,6 @@ type InfoBoxItem = LabelField & {
 type Props = {
   title: string;
   items: InfoBoxItem[];
-  children: ReactNode;
 };
 
 const InfoContainer = styled(Space).attrs({

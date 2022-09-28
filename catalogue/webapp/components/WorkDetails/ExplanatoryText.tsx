@@ -1,11 +1,5 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import {
-  useState,
-  useEffect,
-  useContext,
-  FunctionComponent,
-  ReactElement,
-} from 'react';
+import { useState, useEffect, useContext, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { plus } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
@@ -61,14 +55,13 @@ const Content = styled.div<ContentProps>`
 type Props = {
   id: string;
   controlText: string;
-  children: ReactElement;
 };
 
 const ExplanatoryText: FunctionComponent<Props> = ({
   id,
   controlText,
   children,
-}: Props) => {
+}) => {
   const { isEnhanced, isKeyboard } = useContext(AppContext);
   const [showContent, setShowContent] = useState(true);
   useEffect(() => {

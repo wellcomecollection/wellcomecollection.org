@@ -62,13 +62,12 @@ const Map = dynamic(import('../Map/Map'), {
 
 type LayoutWidthProps = {
   width: 8 | 10;
-  children: ReactNode;
 };
 
 const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   width,
   children,
-}: LayoutWidthProps): ReactElement | null => {
+}): ReactElement | null => {
   switch (true) {
     case width === 10:
       return <Layout10>{children}</Layout10>;

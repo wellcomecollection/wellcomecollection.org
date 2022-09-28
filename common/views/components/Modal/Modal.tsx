@@ -1,5 +1,4 @@
 import {
-  ReactNode,
   useEffect,
   useRef,
   useContext,
@@ -24,7 +23,6 @@ type BaseModalProps = {
 };
 
 type Props = {
-  children: ReactNode;
   isActive: boolean;
   setIsActive: (value: boolean) => void;
   width?: string | null;
@@ -191,7 +189,7 @@ const Modal: FunctionComponent<Props> = ({
   removeCloseButton = false,
   showOverlay = true,
   modalStyle = 'default',
-}: Props) => {
+}) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = determineModal(modalStyle);

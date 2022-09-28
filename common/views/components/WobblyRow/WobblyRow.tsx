@@ -1,12 +1,8 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { grid } from '../../../utils/classnames';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import { repeatingLsBlack } from '../../../utils/backgrounds';
-
-type Props = {
-  children: ReactNode;
-};
 
 const WobblyRowContainer = styled.div.attrs({
   className: 'font-white',
@@ -28,7 +24,7 @@ const WobblyRowPattern = styled.div`
   height: 100%;
 `;
 
-const WobblyRow: FunctionComponent<Props> = ({ children }: Props) => (
+const WobblyRow: FunctionComponent = ({ children }) => (
   <WobblyRowContainer>
     <WobblyRowPattern />
     <div className="container">

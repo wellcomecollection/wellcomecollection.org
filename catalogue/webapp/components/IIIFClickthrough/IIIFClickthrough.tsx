@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { AuthService, AuthServiceService } from '../../model/iiif';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -22,7 +22,6 @@ type Props = {
   authService: AuthService | undefined;
   tokenService: AuthServiceService | undefined;
   trackingId: string;
-  children: ReactNode;
 };
 
 const IIIFClickthrough: FunctionComponent<Props> = ({
@@ -30,7 +29,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
   tokenService,
   trackingId,
   children,
-}: Props) => {
+}) => {
   const [origin, setOrigin] = useState<string>();
   const showClickthroughMessage = useShowClickthrough(
     authService,

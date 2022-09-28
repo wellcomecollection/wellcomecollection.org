@@ -1,9 +1,8 @@
-import { ReactNode, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import Layout from '../Layout/Layout';
 
 type Props = {
   isCentered?: boolean;
-  children: ReactNode;
 };
 
 const Layout10: FunctionComponent<Props> = ({

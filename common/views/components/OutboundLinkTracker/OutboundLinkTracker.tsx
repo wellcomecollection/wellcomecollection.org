@@ -1,12 +1,8 @@
-import React, { FunctionComponent, ReactNode, useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { isExternal } from '../../../utils/domain';
 
-type Props = {
-  children: ReactNode;
-};
-
-const OutboundLinkTracker: FunctionComponent<Props> = ({ children }: Props) => {
+const OutboundLinkTracker: FunctionComponent = ({ children }) => {
   function handleClick(event: MouseEvent) {
     if (event.target instanceof HTMLAnchorElement) {
       const url = event.target.href;
