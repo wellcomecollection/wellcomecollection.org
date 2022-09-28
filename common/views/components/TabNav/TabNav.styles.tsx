@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Space from '../styled/Space';
-import { classNames } from '../../../utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
+import { classNames } from '@weco/common/utils/classnames';
 
 export const TabsContainer = styled.div.attrs({
   className: 'no-margin',
@@ -46,10 +46,10 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
       props.isDarkMode
         ? props.selected
           ? 'white'
-          : 'pumice'
+          : 'warmNeutral.400'
         : props.selected
         ? 'black'
-        : 'pewter'
+        : 'neutral.600'
     )};
   transition: all ${props => props.theme.transitionProperties};
 
@@ -60,17 +60,16 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     height: 3px;
     left: 0;
     width: 0;
-    background-color: ${props => {
-      return props.theme.color(
+    background-color: ${props =>
+      props.theme.color(
         props.isDarkMode
           ? props.selected
             ? 'white'
-            : 'pumice'
+            : 'warmNeutral.400'
           : props.selected
           ? 'black'
-          : 'pewter'
-      );
-    }};
+          : 'neutral.600'
+      )};
     z-index: -1;
     transition: width 200ms ease;
   }

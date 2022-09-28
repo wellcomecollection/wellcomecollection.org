@@ -59,7 +59,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
           properties: ['margin-right'],
         }}
       >
-        <Icon icon={cross} matchText={true} color="silver" />
+        <Icon icon={cross} matchText={true} color="neutral.500" />
       </Space>
       <span className="visually-hidden">remove </span>
       {text || children}

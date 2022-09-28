@@ -32,16 +32,18 @@ const VolumeWrapper = styled.div`
 `;
 
 const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
-  className: 'plain-button no-padding',
+  className: 'plain-button',
   ariaPressed: props.isPlaying,
 }))<{ isPlaying: boolean }>`
+  padding: 0;
+
   svg {
     transform: translateX(${props => (!props.isPlaying ? '2px' : '0')});
   }
 `;
 
 const PlayPauseInner = styled.div`
-  border: 2px solid ${props => props.theme.color('green')};
+  border: 2px solid ${props => props.theme.color('accent.green')};
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -51,9 +53,11 @@ const PlayPauseInner = styled.div`
 `;
 
 const MuteUnmuteButton = styled.button.attrs<{ isMuted: boolean }>(props => ({
-  className: 'plain-button no-padding',
+  className: 'plain-button',
   ariaPressed: props.isMuted,
-}))``;
+}))`
+  padding: 0;
+`;
 
 // FIXME: this exists because the `volumeMute` icon I created is 1px off
 const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
@@ -69,8 +73,9 @@ const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
 `;
 
 const PlayRateWrapper = styled.div.attrs({
-  className: `flex ${font('intr', 6)}`,
+  className: font('intr', 6),
 })`
+  display: flex;
   gap: 5px;
 `;
 
@@ -213,7 +218,7 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
       <VolumeControlWrapper isMuted={isMuted || volume === 0}>
         <MuteUnmuteButton onClick={onVolumeButtonClick}>
           <Icon
-            color="pewter"
+            color="neutral.600"
             icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
           />
         </MuteUnmuteButton>
@@ -389,7 +394,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
       <AudioPlayerGrid>
         <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
           <PlayPauseInner>
-            <Icon color="green" icon={isPlaying ? pause : play} />
+            <Icon color="accent.green" icon={isPlaying ? pause : play} />
           </PlayPauseInner>
         </PlayPauseButton>
 

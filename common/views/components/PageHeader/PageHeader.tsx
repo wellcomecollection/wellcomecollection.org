@@ -79,7 +79,7 @@ type Props = {
   FeaturedMedia?: FeaturedMedia;
   HeroPicture?: ReactElement<typeof Picture>;
   isFree?: boolean;
-  heroImageBgColor?: 'white' | 'cream';
+  heroImageBgColor?: 'white' | 'warmNeutral.300';
   backgroundTexture?: string;
   highlightHeading?: boolean;
   asyncBreadcrumbsRoute?: string;

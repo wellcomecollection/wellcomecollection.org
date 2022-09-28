@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import Link, { LinkProps } from 'next/link';
 
 // Helpers/Utils
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from 'services/catalogue';
@@ -11,17 +12,20 @@ import { getWorks } from '../services/catalogue/works';
 import { getImages } from 'services/catalogue/images';
 import { toLink as toImagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import { toLink as toWorksLink } from '@weco/common/views/components/WorksLink/WorksLink';
+import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import WorksSearchResultsV2 from '../components/WorksSearchResults/WorksSearchResultsV2';
 import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 // Types
 import {
   CatalogueResultsList,
   Concept as ConceptType,
+  IdentifierType,
   Image as ImageType,
   Work as WorkType,
 } from '@weco/common/model/catalogue';
@@ -32,7 +36,7 @@ import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 import { font } from '@weco/common/utils/classnames';
-import { LinkProps } from 'next/link';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar/ApiToolbar';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -40,6 +44,7 @@ type Props = {
   worksBy: CatalogueResultsList<WorkType> | undefined;
   imagesAbout: CatalogueResultsList<ImageType> | undefined;
   imagesBy: CatalogueResultsList<ImageType> | undefined;
+  apiToolbarLinks: ApiToolbarLink[];
 };
 
 const leadingColor = 'yellow';
@@ -47,15 +52,16 @@ const leadingColor = 'yellow';
 const ConceptHero = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background-color: ${props => props.theme.color(leadingColor, 'light')};
+  background-color: ${props => props.theme.color('lightYellow')};
 `;
 
 const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
   margin-bottom: 1rem;
 `;
 
-const TypeLabel = styled.span.attrs({ className: font('intr', 6) })`
-  background-color: ${props => props.theme.color('cream', 'dark')};
+// TODO when LabelColor is refactored, maybe switch to using Label?
+const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
   padding: 5px;
 `;
 
@@ -76,9 +82,8 @@ const ConceptImages = styled(Space).attrs({
 const ConceptWorksHeader = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top'] },
 })<{ hasWorksTabs: boolean }>`
-  background-color: ${({ hasWorksTabs }) =>
-    // todo add this colour to palette to replace paler yellow? or keep both?
-    hasWorksTabs ? '#fbfaf4' : 'white'};
+  background-color: ${({ hasWorksTabs, theme }) =>
+    theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};};
 `;
 
 const SeeMoreButton = ({ text, link }: { text: string; link: LinkProps }) => (
@@ -102,6 +107,7 @@ export const ConceptPage: NextPage<Props> = ({
   worksBy,
   imagesAbout,
   imagesBy,
+  apiToolbarLinks,
 }) => {
   const [selectedWorksTab, setSelectedWorksTab] = useState('works-about');
   const [selectedImagesTab, setSelectedImagesTab] = useState('images-about');
@@ -112,25 +118,35 @@ export const ConceptPage: NextPage<Props> = ({
   const hasImagesTabs = !!(imagesBy?.totalResults && imagesAbout?.totalResults);
 
   return (
-    // TODO fill meta information; wait for confirmation on description
     <CataloguePageLayout
       title={conceptResponse.label}
-      description={`Find out more about ${conceptResponse.label} by browsing related works and images from Wellcome Collection.`}
+      description={pageDescriptionConcepts(conceptResponse.label)}
       url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
       openGraphType="website"
       siteSection="collections"
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
+      apiToolbarLinks={apiToolbarLinks}
     >
       <ConceptHero>
         <div className="container">
           <TypeLabel>{conceptResponse.type}</TypeLabel>
           <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
             <HeroTitle>{conceptResponse.label}</HeroTitle>
-            {/* TODO get copy from Jonathan */}
             <ConceptDescription className={font('intr', 5)}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-              dapibus suscipit enim nec aliquam.
+              <BetaMessage
+                message={
+                  <>
+                    We&rsquo;re working to improve the information on this page.
+                    You can <Link href="/user-panel">join our user panel</Link>{' '}
+                    or{' '}
+                    <Link href="https://roadmap.wellcomecollection.org/">
+                      submit an idea
+                    </Link>{' '}
+                    that would help you use our website.
+                  </>
+                }
+              />
             </ConceptDescription>
           </Space>
         </div>
@@ -324,6 +340,44 @@ export const ConceptPage: NextPage<Props> = ({
   );
 };
 
+function getDisplayIdentifierType(identifierType: IdentifierType): string {
+  switch (identifierType.id) {
+    case 'lc-names':
+      return 'LC Names';
+    case 'lc-subjects':
+      return 'LCSH';
+    case 'nlm-mesh':
+      return 'MeSH';
+    default:
+      return identifierType.label;
+  }
+}
+
+function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;
+
+  const apiLink = {
+    id: 'json',
+    label: 'JSON',
+    link: apiUrl,
+  };
+
+  const identifiers = (concept.identifiers || []).map(id =>
+    id.identifierType.id === 'label-derived'
+      ? {
+          id: id.value,
+          label: 'Label-derived identifier',
+        }
+      : {
+          id: id.value,
+          label: getDisplayIdentifierType(id.identifierType),
+          value: id.value,
+        }
+  );
+
+  return [apiLink, ...identifiers];
+}
+
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
@@ -345,6 +399,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       id,
       toggles: serverData.toggles,
     });
+
+    if (conceptResponse.type === 'Error') {
+      if (conceptResponse.httpStatus === 404) {
+        return { notFound: true };
+      }
+      return appError(
+        context,
+        conceptResponse.httpStatus,
+        conceptResponse.description
+      );
+    }
 
     const worksAboutPromise = getWorks({
       params: { 'subjects.label': [conceptResponse.label] },
@@ -382,17 +447,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       imagesByPromise,
     ]);
 
-    if (conceptResponse.type === 'Error') {
-      if (conceptResponse.httpStatus === 404) {
-        return { notFound: true };
-      }
-      return appError(
-        context,
-        conceptResponse.httpStatus,
-        conceptResponse.description
-      );
-    }
-
     const worksAbout =
       worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
     const worksBy =
@@ -402,6 +456,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const imagesBy =
       imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
 
+    const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
+
     return {
       props: removeUndefinedProps({
         conceptResponse,
@@ -409,6 +465,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         worksBy,
         imagesAbout,
         imagesBy,
+        apiToolbarLinks,
         serverData,
       }),
     };

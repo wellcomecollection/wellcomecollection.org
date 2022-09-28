@@ -23,7 +23,7 @@ import { chevron, tree } from '@weco/common/icons';
 import { trackEvent } from '@weco/common/utils/ga';
 
 const TreeContainer = styled.div`
-  border-right: 1px solid ${props => props.theme.color('pumice')};
+  border-right: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const instructions =
@@ -136,11 +136,13 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
     top: ${`${(controlHeight - circleHeight) / 2}px`};
     left: ${`${(controlWidth - circleWidth) / 2}px`};
     background: ${props =>
-      props.highlightCondition === 'primary'
-        ? props.theme.color('yellow')
-        : props.highlightCondition === 'secondary'
-        ? props.theme.color('yellow', 'light')
-        : props.theme.color('smoke')};
+      props.theme.color(
+        props.highlightCondition === 'primary'
+          ? 'yellow'
+          : props.highlightCondition === 'secondary'
+          ? 'lightYellow'
+          : 'neutral.300'
+      )};
     border: ${props =>
       props.highlightCondition === 'secondary'
         ? `1px solid ${props.theme.color('yellow')}`
@@ -168,7 +170,7 @@ const StyledLink = styled.a<StyledLinkProps>`
   line-height: 1;
   color: ${props => props.theme.color('black')};
   background: ${props =>
-    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
+    props.isCurrent ? props.theme.color('yellow') : 'transparent'};
   cursor: pointer;
   margin-left: ${props =>
     props.hasControl ? `-${controlWidth / 2}px` : `${controlWidth / 2}px`};
@@ -196,7 +198,7 @@ const RefNumber = styled.span.attrs({
 })`
   line-height: 1;
   display: block;
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.color('neutral.600')};
   text-decoration: none;
 `;
 

@@ -29,7 +29,9 @@ import Outro from '../Outro/Outro';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { Contributor } from '../../types/contributors';
 
-export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
+export const PageBackgroundContext = createContext<'warmNeutral.300' | 'white'>(
+  'white'
+);
 
 type Props = {
   id: string;
@@ -57,13 +59,14 @@ type Props = {
 const Wrapper = styled.div<{ isCreamy: boolean }>`
   overflow: auto;
   ${props =>
-    props.isCreamy && `background-color: ${props.theme.color('cream')}`};
+    props.isCreamy &&
+    `background-color: ${props.theme.color('warmNeutral.300')}`};
 `;
 
 const ShameBorder = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 // FIXME: obviously we can't carry on like this!
 const ShameWhatWeDoHack = () => (
@@ -131,7 +134,9 @@ const ContentPage = ({
   }
 
   return (
-    <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
+    <PageBackgroundContext.Provider
+      value={isCreamy ? 'warmNeutral.300' : 'white'}
+    >
       <article data-wio-id={id}>
         {sectionLevelPages.includes(id) ? (
           Header

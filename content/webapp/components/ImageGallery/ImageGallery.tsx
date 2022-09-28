@@ -27,16 +27,21 @@ import ComicPreviousNext, {
 const GalleryTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
   as: 'span',
-  className: 'flex flex--v-top',
-})``;
+  /* TODO: There is no class flex--v-top, what is this mean to do? */
+  className: 'flex--v-top',
+})`
+  display: flex;
+`;
 
 const Gallery = styled.div.attrs({
-  className: 'row relative',
+  className: 'row',
 })<{
   isActive: boolean;
   isStandalone: boolean;
-  pageBackground: 'cream' | 'white';
+  pageBackground: 'warmNeutral.300' | 'white';
 }>`
+  position: relative;
+
   .caption {
     display: none;
   }
@@ -71,19 +76,19 @@ const Gallery = styled.div.attrs({
     color: ${props.theme.color('white')};
     background: linear-gradient(
       ${props.theme.color(props.pageBackground)} 100px,
-      ${props.theme.color('charcoal')} 100px
+      ${props.theme.color('neutral.700')} 100px
     );
 
     @media (min-width: ${props.theme.sizes.medium}px) {
       background: linear-gradient(
         ${props.theme.color(props.pageBackground)} 200px,
-        ${props.theme.color('charcoal')} 200px
+        ${props.theme.color('neutral.700')} 200px
       );
 
       ${
         props.isStandalone &&
         `
-        background: ${props.theme.color('charcoal')};
+        background: ${props.theme.color('neutral.700')};
       `
       }
     }
@@ -94,7 +99,7 @@ const Gallery = styled.div.attrs({
   ${props =>
     props.isStandalone &&
     `
-    background: ${props.theme.color('charcoal')};
+    background: ${props.theme.color('neutral.700')};
 
     &:before {
       top: 0;

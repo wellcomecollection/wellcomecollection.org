@@ -41,7 +41,9 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
                 {
                   text: item.format.title,
                   labelColor:
-                    item.format.title === 'Season' ? 'orange' : undefined,
+                    item.format.title === 'Season'
+                      ? 'accent.salmon'
+                      : undefined,
                 },
               ]
             : []
@@ -50,7 +52,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
           url: item.link || '',
           text: item.title || '',
         }}
-        background="charcoal"
+        background="neutral.700"
         color="white"
       >
         {item.title && <h2 className="font-wb font-size-2">{item.title}</h2>}

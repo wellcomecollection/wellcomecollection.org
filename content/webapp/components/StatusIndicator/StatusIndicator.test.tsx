@@ -1,4 +1,5 @@
 import { formatDateRangeWithMessage } from './StatusIndicator';
+import * as dateUtils from '@weco/common/utils/dates';
 
 describe('formatDateRangeWithMessage', () => {
   it('formats a range that hasn’t started yet', () => {
@@ -7,7 +8,7 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Coming soon', color: 'marble' });
+    expect(result).toEqual({ text: 'Coming soon', color: 'neutral.500' });
   });
 
   describe('formats an event that is past', () => {
@@ -17,7 +18,7 @@ describe('formatDateRangeWithMessage', () => {
         end: new Date(1999, 2, 1),
       });
 
-      expect(result).toEqual({ text: 'Past', color: 'marble' });
+      expect(result).toEqual({ text: 'Past', color: 'neutral.500' });
     });
 
     it('says "Past" if the last day was yesterday', () => {
@@ -30,7 +31,7 @@ describe('formatDateRangeWithMessage', () => {
         end: yesterday,
       });
 
-      expect(result).toEqual({ text: 'Past', color: 'marble' });
+      expect(result).toEqual({ text: 'Past', color: 'neutral.500' });
     });
 
     it('does not say "Past" if the last day is today', () => {
@@ -42,11 +43,11 @@ describe('formatDateRangeWithMessage', () => {
         end: today,
       });
 
-      expect(result).not.toEqual({ text: 'Past', color: 'marble' });
+      expect(result).not.toEqual({ text: 'Past', color: 'neutral.500' });
     });
   });
 
-  describe('formats an event in its final week', () => {
+  describe('formats an event that is close to ending', () => {
     it('says "Final week" if the last day is today', () => {
       const today = new Date();
 
@@ -55,10 +56,35 @@ describe('formatDateRangeWithMessage', () => {
         end: today,
       });
 
-      expect(result).toEqual({ text: 'Final week', color: 'orange' });
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
+    });
+
+    it('says "Final week" if the last day is today in London, if not UTC', () => {
+      // These are the dates for the "In the Air" exhibition, as entered
+      // in Prismic.  The first day the public could see it was on
+      // Thursday 19 May, and the last day is Sunday 16 October.
+      //
+      // Somebody looking at the website on noon on Sunday should see it as
+      // still open.
+      const spyOnToday = jest.spyOn(dateUtils, 'today');
+      spyOnToday.mockImplementation(
+        () => new Date('2022-10-16T12:00:00.000+0100')
+      );
+
+      const inTheAir = {
+        start: new Date('2022-05-19T00:00:00.000+0100'),
+        end: new Date('2022-10-16T00:00:00.000+0100'),
+      };
+
+      const result = formatDateRangeWithMessage(inTheAir);
+
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
     it('says "Final week" if the last day is tomorrow', () => {
+      const spyOnToday = jest.spyOn(dateUtils, 'today');
+      spyOnToday.mockImplementation(() => new Date());
+
       const end = new Date();
       end.setDate(end.getDate() + 1);
       const tomorrow = new Date(end);
@@ -68,7 +94,7 @@ describe('formatDateRangeWithMessage', () => {
         end: tomorrow,
       });
 
-      expect(result).toEqual({ text: 'Final week', color: 'orange' });
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
     it('says "Final week" if the last day is 6 days away', () => {
@@ -80,7 +106,7 @@ describe('formatDateRangeWithMessage', () => {
         end,
       });
 
-      expect(result).toEqual({ text: 'Final week', color: 'orange' });
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
     it('says "Now on" if the last day is 7 or more days away', () => {
@@ -92,7 +118,7 @@ describe('formatDateRangeWithMessage', () => {
         end,
       });
 
-      expect(result).toEqual({ text: 'Now on', color: 'green' });
+      expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
     });
   });
 
@@ -102,7 +128,7 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Now on', color: 'green' });
+    expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
   });
 
   it('says "Now on" for a currently running event', () => {
@@ -111,6 +137,31 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Now on', color: 'green' });
+    expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
+  });
+
+  it('says "Coming soon" if the first day is today in UTC, but not in London', () => {
+    // These are the dates for the "In the Air" exhibition, as entered
+    // in Prismic.  The first day the public could see it was on
+    // Thursday 19 May, and the last day is Sunday 16 October.
+    //
+    // Somebody looking at the website on noon on Wednesday should see it
+    // as not yet open.
+    const wednesday = new Date('2022-05-18T12:00:00.000+0100');
+
+    const spyOnToday = jest.spyOn(dateUtils, 'today');
+    spyOnToday.mockImplementation(() => wednesday);
+
+    const spyOnIsFuture = jest.spyOn(dateUtils, 'isFuture');
+    spyOnIsFuture.mockImplementation(d => wednesday < d);
+
+    const inTheAir = {
+      start: new Date('2022-05-19T00:00:00.000+0100'),
+      end: new Date('2022-10-16T00:00:00.000+0100'),
+    };
+
+    const result = formatDateRangeWithMessage(inTheAir);
+
+    expect(result).toEqual({ text: 'Coming soon', color: 'neutral.500' });
   });
 });

@@ -5,7 +5,6 @@ import ReactGA from 'react-ga';
 import React, { useEffect, FunctionComponent } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../views/themes/default';
-import newTheme from '../themes/newThemeDefault';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import { trackEvent } from '../../utils/ga';
@@ -358,9 +357,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         <ServerDataContext.Provider value={serverData}>
           <UserProvider>
             <AppContextProvider>
-              <ThemeProvider
-                theme={serverData.toggles.newPalette ? newTheme : theme}
-              >
+              <ThemeProvider theme={theme}>
                 <GlobalStyle
                   toggles={serverData.toggles}
                   isFontsLoaded={useIsFontsLoaded()}

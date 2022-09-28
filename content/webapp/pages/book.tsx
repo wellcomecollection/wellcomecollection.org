@@ -21,7 +21,7 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 
 const MetadataWrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.color('smoke')};
+  border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
 type Props = {

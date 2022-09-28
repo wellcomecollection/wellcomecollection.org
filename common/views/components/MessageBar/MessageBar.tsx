@@ -7,7 +7,7 @@ const ColouredTag: FunctionComponent<SpaceComponentProps> = styled.span.attrs({
   className: `font-white ${font('intb', 6)}`,
 })<SpaceComponentProps>`
   display: inline-block;
-  background-color: ${props => props.theme.color('charcoal')};
+  background-color: ${props => props.theme.color('neutral.700')};
   padding: 0.2em 0.5em;
   text-transform: uppercase;
   ${props =>

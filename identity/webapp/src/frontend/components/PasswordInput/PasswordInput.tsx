@@ -52,7 +52,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
           onClick={toggleVisibility}
           aria-label={isVisible ? 'Hide password' : 'Show password'}
         >
-          <Icon icon={isVisible ? a11YVisual : eye} color={'silver'} />
+          <Icon icon={isVisible ? a11YVisual : eye} color="neutral.500" />
         </ShowPasswordButton>
       </TextInputWrap>
     </>

@@ -9,10 +9,10 @@ type TextInputWrapProps = {
   big: boolean;
   hasErrorBorder: boolean;
 };
-export const TextInputWrap = styled.div.attrs({
-  className: 'flex relative',
-})<TextInputWrapProps>`
-  border: 1px solid ${props => props.theme.color('pumice')};
+export const TextInputWrap = styled.div<TextInputWrapProps>`
+  display: flex;
+  position: relative;
+  border: 1px solid ${props => props.theme.color('warmNeutral.400')};
   border-radius: 6px;
   font-size: ${props => (props.big ? '20px' : '16px')};
 
@@ -31,7 +31,7 @@ export const TextInputWrap = styled.div.attrs({
   ${props =>
     props.hasErrorBorder &&
     `
-    box-shadow: 0 0 0 1px ${props.theme.color('red')};
+    box-shadow: 0 0 0 1px ${props.theme.color('validation.red')};
   `}
 `;
 
@@ -39,9 +39,9 @@ type TextInputLabelProps = {
   isEnhanced: boolean;
   hasValue: boolean;
 };
-export const TextInputLabel = styled.label.attrs({
-  className: 'absolute',
-})<TextInputLabelProps>`
+export const TextInputLabel = styled.label<TextInputLabelProps>`
+  position: absolute;
+
   /* Styles for browsers that don't support :focus-within (<=IE11) */
   font-size: 14px;
   transform: translateY(0%);
@@ -61,7 +61,7 @@ export const TextInputLabel = styled.label.attrs({
   transition: top 125ms ease-in, font-size 125ms ease-in,
     transform 125ms ease-in;
   pointer-events: none;
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.color('neutral.600')};
 
   ${props =>
     (!props.isEnhanced || props.hasValue) &&
@@ -91,7 +91,7 @@ export const TextInputInput = styled.input.attrs(props => ({
 
   &:focus {
     outline: 0;
-    border-color: ${props => props.theme.color('turquoise')};
+    border-color: ${props => props.theme.color('accent.turquoise')};
   }
 
   &:-ms-clear {
@@ -103,15 +103,15 @@ export const TextInputInput = styled.input.attrs(props => ({
     `
       &,
       &:focus {
-        border-color: ${props.theme.color('red')};
+        border-color: ${props.theme.color('validation.red')};
       }
     `}
 `;
 
 const TextInputCheckmark = styled.span.attrs({
   'data-test-id': 'TextInputCheckmark',
-  className: 'absolute',
 })`
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   right: 10px;
@@ -127,7 +127,7 @@ export const TextInputErrorMessage = styled.span.attrs({
   font-size: 14px;
   margin-top: 10px;
   padding-left: 15px;
-  color: ${props => props.theme.color('red')};
+  color: ${props => props.theme.color('validation.red')};
 `;
 
 type Props = {
@@ -235,7 +235,7 @@ const Input: FC<Props> = (
         />
         {isValid && showValidity && (
           <TextInputCheckmark>
-            <Icon icon={check} color={'green'} />
+            <Icon icon={check} color="validation.green" />
           </TextInputCheckmark>
         )}
       </TextInputWrap>

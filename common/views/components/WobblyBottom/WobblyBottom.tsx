@@ -2,7 +2,7 @@ import { Fragment, FunctionComponent, ReactNode } from 'react';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
 type Props = {
-  color: 'cream' | 'white';
+  color: 'warmNeutral.300' | 'white';
   children: ReactNode;
 };
 

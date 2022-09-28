@@ -4,7 +4,7 @@ import { transparentGif, repeatingLs } from '@weco/common/utils/backgrounds';
 import styled from 'styled-components';
 
 const Wrapper = styled.div<{
-  color: ColorSelection;
+  color: ColorSelection | undefined;
 }>`
   position: relative;
   background: ${props => props.theme.color(props.color)};
@@ -25,7 +25,7 @@ type Props = {
 };
 
 const ImagePlaceholder: FC<Props> = ({ color }: Props) => (
-  <Wrapper color={color || 'purple'}>
+  <Wrapper color={color}>
     <img src={transparentGif} alt="" width="1" height="1" />
     <Pattern />
   </Wrapper>

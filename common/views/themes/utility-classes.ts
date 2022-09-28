@@ -1,28 +1,36 @@
 import { themeValues } from './config';
 import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
-import { respondTo, respondBetween, visuallyHidden, clearfix } from './mixins';
+import { respondTo, respondBetween, visuallyHidden } from './mixins';
 
 export const utilityClasses = css<GlobalStyleProps>`
   ${Object.entries(themeValues.colors)
     .map(([key, value]) => {
-      return `
-  .font-${key} {
-    color: ${value.base};
+      if (!key.includes('.')) {
+        return `
+        .font-${key} {
+          color: ${value};
 
-    .icon__shape {
-      fill: ${value.base};
-    }
-  }`;
+          .icon__shape {
+            fill: ${value};
+          }
+        }`;
+      } else {
+        const colorName = key.split('.');
+        return `
+        .font-${colorName[0]}-${colorName[1]} {
+          color: ${value};
+
+          .icon__shape {
+            fill: ${value};
+          }
+        }`;
+      }
     })
     .join(' ')}
 
   .transition-bg {
     transition: background ${themeValues.transitionProperties};
-  }
-
-  .caps {
-    text-transform: uppercase;
   }
 
   .is-hidden {
@@ -89,15 +97,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: flex;
   }
 
-  .flex-l-up {
-    ${respondTo(
-      'large',
-      `
-    display: flex;
-  `
-    )}
-  }
-
   .flex--column {
     flex-direction: column;
   }
@@ -146,19 +145,11 @@ export const utilityClasses = css<GlobalStyleProps>`
     cursor: pointer;
   }
 
-  .pointer-events-none {
-    pointer-events: none;
-  }
-
-  .pointer-events-all {
-    pointer-events: all;
-  }
-
   .plain-button {
     appearance: none;
     font-family: inherit;
     letter-spacing: inherit;
-    background: ${themeValues.color('transparent')};
+    background: transparent;
     border: 0;
     text-align: left;
   }
@@ -232,83 +223,9 @@ export const utilityClasses = css<GlobalStyleProps>`
     float: left;
   }
 
-  .rotate-r-8 {
-    transform: rotate(8deg);
-  }
-
   .h-center {
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .text--truncate {
-    max-height: 80px;
-    overflow: hidden;
-
-    &:after {
-      position: absolute;
-      top: 45px;
-      content: '';
-      display: block;
-      width: 100%;
-      height: 35px;
-      background: linear-gradient(
-        rgba(255, 255, 255, 0.001),
-        ${themeValues.color('white')}
-      ); // Safari doesn't like transparent (shows as grey), so giving a value very close to transparent.
-    }
-  }
-
-  .flush-container-left {
-    position: absolute;
-    left: ${themeValues.containerPadding.small}px;
-
-    ${respondTo(
-      'medium',
-      `
-    left: ${themeValues.containerPadding.medium}px;
-  `
-    )}
-
-    ${respondTo(
-      'large',
-      `
-    left: ${themeValues.containerPadding.large}px;
-  `
-    )}
-
-  ${respondTo(
-      'xlarge',
-      `
-    left: calc(((100vw - ${themeValues.sizes.xlarge}px) / 2) + ${themeValues.containerPadding.xlarge}px)
-  `
-    )}
-  }
-
-  .flush-container-right {
-    position: absolute;
-    right: ${themeValues.containerPadding.small}px;
-
-    ${respondTo(
-      'medium',
-      `
-    right: ${themeValues.containerPadding.medium}px;
-  `
-    )}
-
-    ${respondTo(
-      'large',
-      `
-    right: ${themeValues.containerPadding.large}px;
-  `
-    )}
-
-  ${respondTo(
-      'xlarge',
-      `
-    right: calc(((100vw - ${themeValues.sizes.xlarge}px) / 2) + ${themeValues.containerPadding.xlarge}px)
-  `
-    )}
   }
 
   .no-margin {
@@ -377,15 +294,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     )}
   }
 
-  .margin-h-auto {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .margin-top-auto {
-    margin-top: auto;
-  }
-
   .promo-link {
     height: 100%;
     color: ${themeValues.color('black')};
@@ -439,22 +347,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     height: 100%;
   }
 
-  .full-max-width {
-    max-width: 100%;
-  }
-
-  // Images
-  .width-inherit {
-    width: inherit;
-  }
-
-  .image-max-height-restricted {
-    max-height: 90vh;
-    max-width: 100%;
-    width: auto;
-    margin: 0 auto;
-  }
-
   // For when we get HTML out of systems like Prismic
   .first-para-no-margin p:first-of-type {
     margin: 0;
@@ -478,34 +370,12 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .opacity-0 {
-    opacity: 0;
-  }
-
   .hidden {
     visibility: hidden;
   }
 
   .overflow-hidden {
     overflow: hidden;
-  }
-
-  .cursor-zoom-in {
-    cursor: zoom-in;
-  }
-
-  // Used mainly for images
-  .max-height-70vh {
-    max-height: 70vh;
-  }
-
-  .width-auto {
-    width: auto;
-    max-width: 100%;
-  }
-
-  .clearfix {
-    ${clearfix}
   }
 
   // TODO: use this for e.g. Promo hover behaviour too

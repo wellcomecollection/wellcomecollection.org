@@ -12,7 +12,7 @@ const CookieNoticeStyle = styled.div.attrs({
   className: font('intb', 4),
 })`
   position: fixed;
-  background: ${props => props.theme.color('teal')};
+  background: ${props => props.theme.color('accent.blue')};
   color: ${props => props.theme.color('white')};
   bottom: 0;
   left: 0;

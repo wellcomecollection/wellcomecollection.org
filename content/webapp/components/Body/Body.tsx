@@ -6,7 +6,7 @@ import React, {
   Fragment,
 } from 'react';
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import {
   defaultSerializer,
@@ -99,9 +99,14 @@ const Wrapper = styled(Space).attrs<{
   rowBackgroundColor: string;
   cardBackgroundColor: string;
 }>(props => ({
-  className: `row card-theme
-  bg-${props.rowBackgroundColor}
-    card-theme--${props.cardBackgroundColor}`, // Keeping bg-[color] class as some components below are styled based on this parent class.
+  className: classNames({
+    'row card-theme': true,
+    'bg-dark': props.rowBackgroundColor === 'neutral.700',
+    [`card-theme--${props.cardBackgroundColor}`]: [
+      'white',
+      'transparent',
+    ].includes(props.cardBackgroundColor),
+  }),
 }))<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
   background-color: ${props => props.theme.color(props.rowBackgroundColor)};
 `;
@@ -133,24 +138,24 @@ const Body: FunctionComponent<Props> = ({
   const sectionThemes = [
     {
       rowBackground: 'white',
-      cardBackground: 'cream',
-      featuredCardBackground: 'charcoal',
+      cardBackground: 'warmNeutral.300',
+      featuredCardBackground: 'neutral.700',
       featuredCardText: 'white',
     },
     {
-      rowBackground: 'cream',
+      rowBackground: 'warmNeutral.300',
       cardBackground: 'white',
       featuredCardBackground: 'white',
       featuredCardText: 'black',
     },
     {
       rowBackground: 'white',
-      cardBackground: 'cream',
-      featuredCardBackground: 'cream',
+      cardBackground: 'warmNeutral.300',
+      featuredCardBackground: 'warmNeutral.300',
       featuredCardText: 'black',
     },
     {
-      rowBackground: 'charcoal',
+      rowBackground: 'neutral.700',
       cardBackground: 'transparent',
       featuredCardBackground: 'white',
       featuredCardText: 'black',

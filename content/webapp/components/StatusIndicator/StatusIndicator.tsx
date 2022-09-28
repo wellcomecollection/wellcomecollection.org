@@ -2,7 +2,13 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import { FC } from 'react';
-import { isFuture, isPast, isSameDay } from '@weco/common/utils/dates';
+import {
+  addDays,
+  isFuture,
+  isPast,
+  isSameDay,
+  today,
+} from '@weco/common/utils/dates';
 
 type Props = {
   start: Date;
@@ -17,28 +23,26 @@ export function formatDateRangeWithMessage({
   start: Date;
   end: Date;
 }): { text: string; color: string } {
-  const today = new Date();
+  const sevenDaysTime = addDays(today(), 7);
 
-  const sevenDaysTime = new Date();
-  sevenDaysTime.setDate(sevenDaysTime.getDate() + 7);
+  const opensToday = isSameDay(start, today(), 'London');
+  const closesToday = isSameDay(end, today(), 'London');
+  const closesInSevenDays = today() < end && end < sevenDaysTime;
 
-  const closesToday = isSameDay(end, today);
-  const closesInSevenDays = today < end && end < sevenDaysTime;
-
-  if (!isSameDay(today, start) && isFuture(start)) {
-    return { text: 'Coming soon', color: 'marble' };
-  } else if (!isSameDay(today, end) && isPast(end)) {
-    return { text: 'Past', color: 'marble' };
+  if (!opensToday && isFuture(start)) {
+    return { text: 'Coming soon', color: 'neutral.500' };
+  } else if (!closesToday && isPast(end)) {
+    return { text: 'Past', color: 'neutral.500' };
   } else if (closesToday || closesInSevenDays) {
-    return { text: 'Final week', color: 'orange' };
+    return { text: 'Final week', color: 'accent.salmon' };
   } else {
-    return { text: 'Now on', color: 'green' };
+    return { text: 'Now on', color: 'validation.green' };
   }
 }
 
 const StatusIndicator: FC<Props> = ({ start, end, statusOverride }: Props) => {
   const { color, text } = statusOverride
-    ? { color: 'marble', text: statusOverride }
+    ? { color: 'neutral.500', text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
 
   return (

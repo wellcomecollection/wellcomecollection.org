@@ -35,7 +35,7 @@ const ContentTypeInfo = (
         <p className="no-margin">
           <span>By </span>
           <span className={font('intb', 6)}>Naomi Paxton</span>{' '}
-          <span className={`${font('intr', 6)} font-pewter`}>
+          <span className={`${font('intr', 6)} font-neutral-600`}>
             17 April 2019
           </span>
         </p>
@@ -139,7 +139,7 @@ const EventContentTypeInfo = () => (
           h={{ size: 'xs', properties: ['margin-right'] }}
           className="flex flex--v-center"
         >
-          <Dot color="marble" />
+          <Dot color="neutral.500" />
         </Space>
         {'Past'}
       </div>
@@ -155,7 +155,7 @@ const ExhibitionContentTypeInfo = () => (
         h={{ size: 'xs', properties: ['margin-right'] }}
         className="flex flex--v-center"
       >
-        <Dot color="marble" />
+        <Dot color="neutral.500" />
       </Space>
       {'Closed'}
     </div>
