@@ -79,14 +79,16 @@ const Item = styled.div`
   }
 `;
 
-const AccordionItem = ({
-  title,
-  children,
-  testId,
-}: {
+type AccordionItemProps = {
   title: string;
   children: ReactNode;
   testId?: string;
+};
+
+const AccordionItem: FunctionComponent<AccordionItemProps> = ({
+  title,
+  children,
+  testId,
 }) => {
   const [isActive, setIsActive] = useState(false);
   return (
