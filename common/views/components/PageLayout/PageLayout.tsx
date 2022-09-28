@@ -130,8 +130,9 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   const socialPreviewCardImage = getCrop(image, '32:15') || image;
 
   const imageUrl =
-    socialPreviewCardImage &&
-    convertImageUri(socialPreviewCardImage.contentUrl, 800);
+    (socialPreviewCardImage &&
+      convertImageUri(socialPreviewCardImage.contentUrl, 800)) ||
+    'https://i.wellcomecollection.org/assets/images/wellcome-collection-social.png';
   const imageAltText = socialPreviewCardImage?.alt || '';
 
   return (
@@ -140,25 +141,20 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <title>{fullTitle}</title>
         <meta name="description" content={description || ''} />
         <link rel="canonical" href={absoluteUrl} />
-        {imageUrl && <meta property="og:image" content={imageUrl} />}
         {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
         <meta property="og:site_name" content="Wellcome Collection" />
         <meta property="og:type" content={openGraphType} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={absoluteUrl} />
-        {/* we add itemprop="image" as it's required for WhatsApp */}
-        {imageUrl && (
-          <meta
-            key="og:image"
-            property="og:image"
-            content={imageUrl}
-            itemProp="image"
-          />
-        )}
-        {imageUrl && (
-          <meta key="og:image:width" property="og:image:width" content="1200" />
-        )}
+        <meta
+          key="og:image"
+          property="og:image"
+          content={imageUrl}
+          itemProp="image" // itemProp is required for WhatsApp
+        />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+
         <meta
           key="twitter:card"
           name="twitter:card"
