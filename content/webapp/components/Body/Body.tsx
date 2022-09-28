@@ -55,6 +55,7 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import { isNotUndefined } from '@weco/common/utils/array';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismicT from '@prismicio/types';
+import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -89,6 +90,7 @@ type Props = {
   isLanding?: boolean;
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
+  comicPreviousNext?: ComicPreviousNextProps;
 };
 
 type ContentListSlice = BodySlice & { type: 'contentList' };
@@ -119,6 +121,7 @@ const Body: FunctionComponent<Props> = ({
   isLanding = false,
   sectionLevelPage = false,
   staticContent = null,
+  comicPreviousNext,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -379,7 +382,11 @@ const Body: FunctionComponent<Props> = ({
               )}
               {slice.type === 'imageGallery' && (
                 <SpacingComponent>
-                  <ImageGallery {...slice.value} id={imageGalleryIdCount++} />
+                  <ImageGallery
+                    {...slice.value}
+                    id={imageGalleryIdCount++}
+                    comicPreviousNext={comicPreviousNext}
+                  />
                 </SpacingComponent>
               )}
               {slice.type === 'quote' && (

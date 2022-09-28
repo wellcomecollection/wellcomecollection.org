@@ -252,10 +252,10 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const maybeFeaturedMedia = !maybeHeroPicture
     ? getFeaturedMedia(article)
     : undefined;
-  const isImageGallery =
-    article.format &&
-    (article.format.id === ArticleFormatIds.ImageGallery ||
-      article.format.id === ArticleFormatIds.Comic);
+  const isComicFormat = article.format?.id === ArticleFormatIds.Comic;
+  const isImageGalleryFormat =
+    article.format?.id === ArticleFormatIds.ImageGallery;
+  const isImageGallery = isImageGalleryFormat || isComicFormat;
 
   const Header = (
     <PageHeader
@@ -280,6 +280,16 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
     })
     .filter(Boolean);
 
+  function getComicPreviousNext() {
+    return listOfSeries?.map(({ articles }) => {
+      const positionInSeries = articles.findIndex(a => a.id === article.id);
+      const previous = articles[positionInSeries + 1];
+      const next = articles[positionInSeries - 1];
+
+      return { previous, next };
+    })[0];
+  }
+
   return (
     <PageLayout
       title={article.title}
@@ -297,6 +307,9 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
         Body={
           <Body
             body={article.body}
+            comicPreviousNext={
+              isComicFormat ? getComicPreviousNext() : undefined
+            }
             isDropCapped={true}
             pageId={article.id}
             minWidth={isPodcast ? 10 : 8}
