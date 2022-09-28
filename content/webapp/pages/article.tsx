@@ -29,6 +29,7 @@ import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { useToggles } from '@weco/common/server-data/Context';
+import styled from 'styled-components';
 
 type Props = {
   article: Article;
@@ -199,6 +200,13 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
     />
   );
 
+  const ReadingTime = styled.span`
+    :before {
+      content: ' | ';
+      margin: 0 4px;
+    }
+  `;
+
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -229,24 +237,11 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                 </Fragment>
               ))}
             {readingTime && article.readingTime ? (
-              <>
-                <span className={font('intr', 6)}>
-                  <span className={font('intr', 5)}>
-                    {' '}
-                    <Space
-                      as="span"
-                      h={{
-                        size: 's',
-                        properties: ['margin-right'],
-                      }}
-                    >
-                      |
-                    </Space>
-                  </span>{' '}
-                  Average reading time{' '}
-                  <span className={font('intb', 6)}>{article.readingTime}</span>
-                </span>
-              </>
+              <ReadingTime>
+                {' '}
+                Average reading time{' '}
+                <span className={font('intb', 6)}>{article.readingTime}</span>
+              </ReadingTime>
             ) : null}
             {article.contributors.length > 0 && ' '}
 
