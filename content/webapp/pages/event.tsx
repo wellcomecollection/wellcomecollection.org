@@ -58,6 +58,7 @@ import { isDayPast, isPast } from '@weco/common/utils/dates';
 
 import * as prismicT from '@prismicio/types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -84,7 +85,7 @@ type Props = {
 // TODO: Probably use the StatusIndicator?
 type EventStatusProps = {
   text: string;
-  color: string;
+  color: PaletteColor;
 };
 function EventStatus({ text, color }: EventStatusProps) {
   return (

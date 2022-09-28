@@ -12,9 +12,10 @@ import {
   convertBreakpointSizesToSizes,
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 const StyledImage = styled(Image).attrs({ className: 'font-neutral-700' })<{
-  background: string;
+  background: PaletteColor;
 }>`
   background-color: ${props => props.theme.color(props.background)};
 `;
@@ -33,7 +34,7 @@ export type Props = {
   layout: 'raw' | 'fill' | 'fixed';
   priority?: boolean;
   width?: number;
-  background?: string;
+  background?: PaletteColor;
 };
 
 const IIIFImage: FC<Props> = ({

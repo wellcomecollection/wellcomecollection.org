@@ -25,6 +25,7 @@ import { Book } from '../../types/books';
 import { Event } from '../../types/events';
 import { Guide } from '../../types/guides';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type PartialFeaturedCard = {
   id: string;
@@ -34,8 +35,8 @@ type PartialFeaturedCard = {
 };
 
 type Props = PartialFeaturedCard & {
-  background: string;
-  color: string;
+  background: PaletteColor;
+  color: PaletteColor;
   isReversed?: boolean;
 };
 
@@ -90,8 +91,8 @@ export function convertItemToFeaturedCardProps(
 
 type FeaturedCardArticleProps = {
   article: ArticleBasic;
-  background: string;
-  color: string;
+  background: PaletteColor;
+  color: PaletteColor;
 };
 
 type FeaturedCardArticleBodyProps = {
@@ -127,8 +128,8 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
 
 type FeaturedCardExhibitionProps = {
   exhibition: ExhibitionBasic;
-  background: string;
-  color: string;
+  background: PaletteColor;
+  color: PaletteColor;
 };
 
 type FeaturedCardExhibitionBodyProps = {
@@ -212,11 +213,13 @@ const FeaturedCardRight = styled.div<HasIsReversed>`
   `}
 `;
 
-const FeaturedCardCopy = styled(Space).attrs<{ color: string }>(props => ({
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({ [`font-${props.color}`]: true }),
-}))<{ background: string }>`
+const FeaturedCardCopy = styled(Space).attrs<{ color: PaletteColor }>(
+  props => ({
+    h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+    v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+    className: classNames({ [`font-${props.color}`]: true }),
+  })
+)<{ background: PaletteColor }>`
   flex: 1;
   background-color: ${props => props.theme.color(props.background)};
 
@@ -225,9 +228,9 @@ const FeaturedCardCopy = styled(Space).attrs<{ color: string }>(props => ({
   `}
 `;
 
-const FeaturedCardShim = styled.div.attrs<{ background: string }>({
+const FeaturedCardShim = styled.div.attrs<{ background: PaletteColor }>({
   className: `is-hidden-s is-hidden-m ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`,
-})<HasIsReversed & { background: string }>`
+})<HasIsReversed & { background: PaletteColor }>`
   position: relative;
   background-color: ${props => props.theme.color(props.background)};
   height: 21px;
