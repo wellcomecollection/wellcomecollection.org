@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
 
-type ColorsObject = {
+type PaletteColors = {
   [id: string]: Category;
 };
 
@@ -133,7 +133,7 @@ function rgbToHsl({ r, g, b }: RGB): HSL {
   return { h, s, l };
 }
 
-let objectColors: ColorsObject = {
+let paletteColors: PaletteColors = {
   core: {
     label: 'Core',
     description:
@@ -165,8 +165,8 @@ Object.entries(themeValues.colors)
   .map(([key, value]) => {
     if (!key.includes('.')) {
       const rgb = hexToRgb(value);
-      objectColors.core.colors = {
-        ...objectColors.core.colors,
+      paletteColors.core.colors = {
+        ...paletteColors.core.colors,
         [key]: {
           hex: value,
           rgb,
@@ -177,12 +177,12 @@ Object.entries(themeValues.colors)
       const rgb = hexToRgb(value);
       const [category, colorName] = key.split('.');
 
-      objectColors = {
-        ...objectColors,
+      paletteColors = {
+        ...paletteColors,
         [category]: {
-          ...objectColors[category],
+          ...paletteColors[category],
           colors: {
-            ...objectColors[category].colors,
+            ...paletteColors[category].colors,
             [colorName]: {
               hex: value,
               rgb,
@@ -197,15 +197,15 @@ Object.entries(themeValues.colors)
 
 export const Palette: FunctionComponent = () => (
   <>
-    {Object.keys(objectColors).map((category, i) => (
+    {Object.keys(paletteColors).map((category, i) => (
       <SectionWrapper key={category}>
         {i !== 0 && <Divider color="black" isKeyline={true} />}
-        <SectionTitle>{objectColors[category].label}</SectionTitle>
+        <SectionTitle>{paletteColors[category].label}</SectionTitle>
         <SectionDescription>
-          {objectColors[category].description}
+          {paletteColors[category].description}
         </SectionDescription>
         <PaletteSection>
-          {Object.entries(objectColors[category].colors).map(
+          {Object.entries(paletteColors[category].colors).map(
             ([colorName, colorValues]) => (
               <PaletteBlock key={colorName}>
                 <PaletteName>{colorName}</PaletteName>
