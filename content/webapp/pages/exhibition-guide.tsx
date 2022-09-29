@@ -320,13 +320,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
               <VideoEmbed embedUrl={bsl.embedUrl} />
             )}
           </Stop>
-        ) : (
-          <Stop key={index} id={dasherizeShorten(title)}>
-            <span className={font('intb', 5)}>
-              {number}. {title}
-            </span>
-          </Stop>
-        );
+        ) : null;
       })}
     />
   );
@@ -364,6 +358,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   const hasCaptionsOrTranscripts = stops.some(
     stop => stop.caption.length > 0 || stop.transcription.length > 0
   );
+
   const hasAudioWithoutDescriptions = stops.some(
     stop => stop.audioWithoutDescription?.url
   );
