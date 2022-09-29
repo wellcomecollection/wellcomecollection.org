@@ -1,9 +1,4 @@
-import {
-  css,
-  CSSObject,
-  SimpleInterpolation,
-  createGlobalStyle,
-} from 'styled-components';
+import { css, createGlobalStyle } from 'styled-components';
 import { SpaceOverrides } from '../components/styled/Space';
 import {
   typography,
@@ -62,23 +57,15 @@ function makeSpacePropertyValues(
     .join('');
 }
 
-// https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
-// using min-width because of
-// https://zellwk.com/blog/how-to-write-mobile-first-css/
 export type Size = keyof typeof themeValues.sizes;
-type MediaMethodArgs = [
-  TemplateStringsArray | CSSObject,
-  SimpleInterpolation[]
-];
-
-const media = Object.keys(themeValues.sizes).reduce((acc, label) => {
-  acc[label] = (...args: MediaMethodArgs) => css`
-    @media (min-width: ${themeValues.sizes[label]}px) {
-      ${css(...args)}
+const media =
+  (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
+  (styles: TemplateStringsArray | string): string => {
+    if (minOrMaxWidth === 'max-width') {
+      return `@media (max-width: ${themeValues.sizes[sizeLabel]}px) {${styles}}`;
     }
-  `;
-  return acc;
-}, {} as Record<Size, (...args: MediaMethodArgs) => string>);
+    return `@media (min-width: ${themeValues.sizes[sizeLabel]}px) {${styles}}`;
+  };
 
 const theme = {
   ...themeValues,
@@ -138,12 +125,12 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     ${Object.keys(themeValues.sizes).map(
       size => css`
         .${cls[size as Size].displayNone} {
-          ${props => props.theme.media[size]`
+          ${props => props.theme.media(size as Size)`
           display: none;
         `}
         }
         .${cls[size as Size].displayBlock} {
-          ${props => props.theme.media[size]`
+          ${props => props.theme.media(size as Size)`
           display: block;
         `}
         }

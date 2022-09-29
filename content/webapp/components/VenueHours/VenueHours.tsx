@@ -22,23 +22,25 @@ import { Venue } from '@weco/common/model/opening-hours';
 import { Weight } from '../../types/body';
 
 const VenueHoursImage = styled(Space)`
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     width: 50%;
   `}
-  ${props => props.theme.media.large`
-    float: left;
-    width: 33%;
-    padding-right: ${props => 5 * props.theme.spacingUnit}px;
-  `}
+  ${props =>
+    props.theme.media('large')(`
+      float: left;
+      width: 33%;
+      padding-right: ${props => 5 * props.theme.spacingUnit}px;
+    `)}
 `;
 
 const VenueHoursTimes = styled(Space)`
-  ${props => props.theme.media.medium`
-    float: left;
-    width:33%;
-    min-width: 240px;
-    padding-right: ${props => 5 * props.theme.spacingUnit}px;
-  `}
+  ${props =>
+    props.theme.media('medium')(`
+      float: left;
+      width:33%;
+      min-width: 240px;
+      padding-right: ${props => 5 * props.theme.spacingUnit}px;
+    `)}
 `;
 
 type JauntyBoxProps = {
@@ -55,10 +57,12 @@ const JauntyBox = styled(Space)<JauntyBoxProps>`
   margin-left: -12px;
   margin-right: -12px;
 
-  ${props => props.theme.media.medium`
-    margin-left: -24px;
-    margin-right: -24px;
-  `}
+  ${props =>
+    props.theme.media('medium')(`
+      margin-left: -24px;
+      margin-right: -24px;
+    `)}
+
   clip-path: ${({ topLeft, topRight, bottomRight, bottomLeft }) =>
     `polygon(
       ${topLeft} ${topLeft},

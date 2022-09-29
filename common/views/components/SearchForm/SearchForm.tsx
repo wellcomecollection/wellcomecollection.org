@@ -43,16 +43,16 @@ const SearchButtonWrapper = styled.div`
   right: ${props => props.theme.spacingUnits['5'] + 6}px;
 
   ${props =>
-    props.theme.media.medium`
-    top: ${props.theme.spacingUnits['4'] + 6}px;
-    right: ${props.theme.spacingUnits['6'] + 6}px;
-  `}
+    props.theme.media('medium')(`
+      top: ${props.theme.spacingUnits['4'] + 6}px;
+      right: ${props.theme.spacingUnits['6'] + 6}px;
+    `)}
 
   ${props =>
-    props.theme.media.large`
-    top: ${props.theme.spacingUnits['5'] + 6}px;
-    right: ${props.theme.spacingUnits['8'] + 6}px;
-  `}
+    props.theme.media('large')(`
+      top: ${props.theme.spacingUnits['5'] + 6}px;
+      right: ${props.theme.spacingUnits['8'] + 6}px;
+    `)}
 `;
 
 const SearchSortOrderWrapper = styled(Space).attrs({

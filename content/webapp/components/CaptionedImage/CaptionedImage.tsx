@@ -38,9 +38,11 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
   margin: 0 auto;
   @supports not (aspect-ratio: auto) {
     max-width: 90%;
-    ${props => props.theme.media.large`
-      max-width: ${props.aspectRatio > 1 ? '80%' : '50%'};
-    `};
+
+    ${props =>
+      props.theme.media('large')(`
+        max-width: ${props.aspectRatio > 1 ? '80%' : '50%'};
+      `)};
   }
 `;
 

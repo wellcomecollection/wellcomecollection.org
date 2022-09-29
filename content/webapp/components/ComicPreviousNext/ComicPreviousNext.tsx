@@ -16,7 +16,7 @@ const Root = styled.div`
   overflow: hidden;
   pointer-events: none;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     top: 40%;
   `}
 `;
@@ -35,15 +35,16 @@ const Link = styled.a<{ isNext: boolean }>`
   transform: translateX(${props => (props.isNext ? '320px' : '-320px')});
   pointer-events: all;
 
-  ${props => props.theme.media.medium`
-    transform: translateX(${props.isNext ? '300px' : '-300px'});
-    height: 160px;
+  ${props =>
+    props.theme.media('medium')(`
+      transform: translateX(${props.isNext ? '300px' : '-300px'});
+      height: 160px;
 
-    &:hover,
-    &:focus {
-      transform: translateX(0);
-    }
-  `};
+      &:hover,
+      &:focus {
+        transform: translateX(0);
+      }
+    `)};
 `;
 
 const Inner = styled(Space).attrs({
@@ -85,13 +86,15 @@ const Chevron = styled(Space).attrs({
 })<{ isNext: boolean }>`
   transform: translateX(${props => (props.isNext ? '-6px' : '6px')});
 
-  ${props => props.theme.media.medium`
-    transform: translateX(${props.isNext ? '2px' : '-2px'});
-  `}
+  ${props =>
+    props.theme.media('medium')(`
+      transform: translateX(${props.isNext ? '2px' : '-2px'});
+    `)}
 
-  ${props => props.theme.media.large`
-    transform: translateX(${props.isNext ? '-2px' : '2px'});
-  `}
+  ${props =>
+    props.theme.media('large')(`
+      transform: translateX(${props.isNext ? '-2px' : '2px'});
+    `)}
 `;
 
 export type Props = {

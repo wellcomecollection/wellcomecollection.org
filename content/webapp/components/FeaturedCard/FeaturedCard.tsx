@@ -172,7 +172,7 @@ const FeaturedCardWrap = styled.div`
   margin-left: -${props => props.theme.gutter.small}px;
   margin-right: -${props => props.theme.gutter.small}px;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     margin-left: 0;
     margin-right: 0;
   `}
@@ -201,16 +201,17 @@ const FeaturedCardRight = styled.div<HasIsReversed>`
   height: 100%;
   min-height: 200px;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     padding-left: 0;
     padding-right: 0;
   `}
 
-  ${props => props.theme.media.large`
-    margin-left: ${props =>
-      props.isReversed ? 0 : -props.theme.gutter.large + 'px'};
-    transform: translateY(0);
-  `}
+  ${props =>
+    props.theme.media('large')(`
+      margin-left: ${props =>
+        props.isReversed ? 0 : -props.theme.gutter.large + 'px'};
+      transform: translateY(0);
+    `)}
 `;
 
 const FeaturedCardCopy = styled(Space).attrs<{ color: PaletteColor }>(
@@ -223,9 +224,10 @@ const FeaturedCardCopy = styled(Space).attrs<{ color: PaletteColor }>(
   flex: 1;
   background-color: ${props => props.theme.color(props.background)};
 
-  ${props => props.theme.media.large`
-    margin-right: -${props => props.theme.gutter.large}px;
-  `}
+  ${props =>
+    props.theme.media('large')(`
+      margin-right: -${props => props.theme.gutter.large}px;
+  `)}
 `;
 
 const FeaturedCardShim = styled.div.attrs<{ background: PaletteColor }>({

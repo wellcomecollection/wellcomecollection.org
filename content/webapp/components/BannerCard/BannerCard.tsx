@@ -28,9 +28,9 @@ const CardOuter = styled.a<CardOuterProps>`
       props.background === 'neutral.700' ? 'warmNeutral.300' : 'black'
     )};
 
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     flex-direction: row;
-    `}
+  `}
 `;
 
 type TextWrapperProps = {
@@ -38,9 +38,9 @@ type TextWrapperProps = {
 };
 
 const TextWrapper = styled.div<TextWrapperProps>`
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     flex-grow: 2;
-    `};
+  `};
   border-left: 4px solid ${props => props.theme.color(props.highlightColor)};
 `;
 
@@ -54,7 +54,7 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
   background-repeat: no-repeat;
   background-position: center top;
   height: 300px;
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     background-position: center center;
     height: auto;
     min-width: 38%;

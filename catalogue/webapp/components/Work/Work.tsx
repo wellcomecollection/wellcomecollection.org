@@ -20,7 +20,7 @@ import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     display: flex;
   `}
 `;

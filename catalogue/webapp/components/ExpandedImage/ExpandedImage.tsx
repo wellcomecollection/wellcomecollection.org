@@ -39,7 +39,7 @@ type CanvasLink = {
 const ImageWrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-basis: 40%;
     order: 2;
     height: auto;
@@ -59,7 +59,7 @@ const ImageLink = styled.a`
 `;
 
 const InfoWrapper = styled.div`
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-basis: 60%;
     padding-right: 20px;
     order: 1;
@@ -68,7 +68,7 @@ const InfoWrapper = styled.div`
 `;
 
 const ExpandedImageContainer = styled.div`
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     overflow: auto;
     display: flex;
   `}

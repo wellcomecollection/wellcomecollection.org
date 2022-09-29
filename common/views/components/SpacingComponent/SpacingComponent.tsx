@@ -8,13 +8,15 @@ const SpacingComponentEl = styled.div.attrs({
   & + .spacing-component {
     margin-top: ${props => props.theme.spaceAtBreakpoints.small.l}px;
 
-    ${props => props.theme.media.medium`
-      margin-top: ${props.theme.spaceAtBreakpoints.medium.l}px;
-    `}
+    ${props =>
+      props.theme.media('medium')(`
+        margin-top: ${props.theme.spaceAtBreakpoints.medium.l}px;
+      `)}
 
-    ${props => props.theme.media.large`
-      margin-top: ${props.theme.spaceAtBreakpoints.large.l}px;
-    `}
+    ${props =>
+      props.theme.media('large')(`
+        margin-top: ${props.theme.spaceAtBreakpoints.large.l}px;
+      `)}
   }
 `;
 

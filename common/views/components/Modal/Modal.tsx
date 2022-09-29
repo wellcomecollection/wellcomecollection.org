@@ -42,7 +42,7 @@ const Overlay = styled.div`
   right: 0;
   bottom: 0;
   background: transparent;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     background: rgba(0, 0, 0, 0.7);
   `}
 `;
@@ -76,11 +76,12 @@ const CloseButton = styled(Space).attrs<CloseButtonProps>({
     transform: translateX(-50%) translateY(-50%);
   }
 
-  ${props => props.theme.media.medium`
+  ${props =>
+    props.theme.media('medium')(`
     background: none;
     color: ${props => props.theme.color('neutral.600')};
     position: absolute;
-  `}
+  `)}
 `;
 
 const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
@@ -122,7 +123,8 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
     transform: scale(1);
   }
 
-  ${props => props.theme.media.medium`
+  ${props =>
+    props.theme.media('medium')(`
     top: 50%;
     left: 50%;
     right: auto;
@@ -144,7 +146,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
       opacity: 1;
       transform: scale(1) translateX(-50%) translateY(-50%);
     }
-  `}
+  `)}
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
   }

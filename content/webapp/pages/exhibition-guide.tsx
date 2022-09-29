@@ -72,7 +72,7 @@ const TypeList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     gap: 50px;
   `}
 `;
@@ -83,7 +83,7 @@ const TypeItem = styled.li`
   flex-shrink: 0;
   position: relative;
   min-height: 200px;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-basis: calc(50% - 25px);
   `}
 `;
