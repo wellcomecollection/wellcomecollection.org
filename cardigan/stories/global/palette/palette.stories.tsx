@@ -163,18 +163,19 @@ let paletteColors: PaletteColors = {
 
 Object.entries(themeValues.colors)
   .map(([key, value]) => {
+    const rgb = hexToRgb(value);
+    const newColor: ColorObject = {
+      hex: value,
+      rgb,
+      hsl: rgbToHsl(rgb),
+    };
+
     if (!key.includes('.')) {
-      const rgb = hexToRgb(value);
       paletteColors.core.colors = {
         ...paletteColors.core.colors,
-        [key]: {
-          hex: value,
-          rgb,
-          hsl: rgbToHsl(rgb),
-        },
+        [key]: newColor,
       };
     } else {
-      const rgb = hexToRgb(value);
       const [category, colorName] = key.split('.');
 
       paletteColors = {
@@ -183,11 +184,7 @@ Object.entries(themeValues.colors)
           ...paletteColors[category],
           colors: {
             ...paletteColors[category].colors,
-            [colorName]: {
-              hex: value,
-              rgb,
-              hsl: rgbToHsl(rgb),
-            },
+            [colorName]: newColor,
           },
         },
       };
