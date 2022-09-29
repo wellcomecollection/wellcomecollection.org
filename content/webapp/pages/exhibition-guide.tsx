@@ -43,7 +43,7 @@ import GridFactory, {
   threeUpGridSizesMap,
   twoUpGridSizesMap,
 } from '@weco/content/components/Body/GridFactory';
-import { themeValues } from '@weco/common/views/themes/config';
+import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   britishSignLanguage,
@@ -88,7 +88,7 @@ const TypeItem = styled.li`
   `}
 `;
 
-const TypeLink = styled.a`
+const TypeLink = styled.a<{ color: PaletteColor }>`
   display: block;
   height: 100%;
   width: 100%;
@@ -141,7 +141,7 @@ const Header = styled(Space).attrs({
     size: 'xl',
     properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
   },
-})`
+})<{ color: PaletteColor }>`
   background: ${props => props.theme.color(props.color)};
 `;
 
@@ -435,7 +435,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
-function getTypeColor(type?: GuideType): string {
+function getTypeColor(type?: GuideType): PaletteColor {
   switch (type) {
     case 'bsl':
       return 'accent.lightBlue';
