@@ -11,7 +11,7 @@ type PaletteColors = {
 type Category = {
   label: string;
   description: string;
-  colors?: ColorObject[];
+  colors?: Record<string, ColorObject>;
 };
 
 type ColorObject = {
