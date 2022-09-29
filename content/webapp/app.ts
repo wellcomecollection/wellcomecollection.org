@@ -17,6 +17,7 @@ import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Periods } from './types/periods';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import * as prismic from '@prismicio/client';
+import { vanityUrls } from '@weco/common/data/vanity-urls';
 
 const periodPaths = Object.values(Periods).join('|');
 
@@ -46,18 +47,6 @@ function pageVanityUrl(
 
   route(url, template, router, app, { id: pageId });
 }
-
-type VanityUrl = {
-  url: string;
-  pageId: string;
-};
-
-const vanityUrls: VanityUrl[] = [
-  {
-    url: '/what-we-do',
-    pageId: prismicPageIds.whatWeDo,
-  },
-];
 
 // A Prismic ID is an alphanumeric string, plus underscore and hyphen
 //
@@ -136,30 +125,9 @@ const appPromise = nextApp
     ); // :type(${guideType})
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
-    vanityUrls.forEach(({ url, pageId }) =>
-      pageVanityUrl(router, nextApp, url, pageId)
+    vanityUrls.forEach(({ url, pageId, template = '/page' }) =>
+      pageVanityUrl(router, nextApp, url, pageId, template)
     );
-
-    pageVanityUrl(
-      router,
-      nextApp,
-      '/opening-times',
-      prismicPageIds.openingTimes
-    );
-    pageVanityUrl(router, nextApp, '/press', prismicPageIds.press);
-    pageVanityUrl(router, nextApp, '/venue-hire', prismicPageIds.venueHire);
-    pageVanityUrl(router, nextApp, '/access', prismicPageIds.access);
-    pageVanityUrl(router, nextApp, '/youth', prismicPageIds.youth);
-    pageVanityUrl(router, nextApp, '/schools', prismicPageIds.schools);
-    pageVanityUrl(
-      router,
-      nextApp,
-      '/covid-welcome-back',
-      prismicPageIds.covidWelcomeBack
-    );
-    pageVanityUrl(router, nextApp, '/about-us', prismicPageIds.aboutUs);
-    pageVanityUrl(router, nextApp, '/get-involved', prismicPageIds.getInvolved);
-    pageVanityUrl(router, nextApp, '/user-panel', prismicPageIds.userPanel);
 
     router.redirect(
       `/pages/${prismicPageIds.stories}`,
