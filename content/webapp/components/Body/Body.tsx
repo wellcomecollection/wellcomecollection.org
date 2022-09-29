@@ -6,7 +6,7 @@ import React, {
   Fragment,
 } from 'react';
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import {
   defaultSerializer,
@@ -55,6 +55,8 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import { isNotUndefined } from '@weco/common/utils/array';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismicT from '@prismicio/types';
+import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -89,18 +91,31 @@ type Props = {
   isLanding?: boolean;
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
+  comicPreviousNext?: ComicPreviousNextProps;
+};
+
+type SectionTheme = {
+  rowBackground: PaletteColor;
+  cardBackground: PaletteColor;
+  featuredCardBackground: PaletteColor;
+  featuredCardText: PaletteColor;
 };
 
 type ContentListSlice = BodySlice & { type: 'contentList' };
 
 const Wrapper = styled(Space).attrs<{
-  rowBackgroundColor: string;
-  cardBackgroundColor: string;
+  rowBackgroundColor: PaletteColor;
+  cardBackgroundColor: PaletteColor;
 }>(props => ({
-  className: `row card-theme
-  bg-${props.rowBackgroundColor}
-    card-theme--${props.cardBackgroundColor}`, // Keeping bg-[color] class as some components below are styled based on this parent class.
-}))<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
+  className: classNames({
+    'row card-theme': true,
+    'bg-dark': props.rowBackgroundColor === 'neutral.700',
+    [`card-theme--${props.cardBackgroundColor}`]: [
+      'white',
+      'transparent',
+    ].includes(props.cardBackgroundColor),
+  }),
+}))<{ rowBackgroundColor: PaletteColor; cardBackgroundColor: PaletteColor }>`
   background-color: ${props => props.theme.color(props.rowBackgroundColor)};
 `;
 
@@ -114,6 +129,7 @@ const Body: FunctionComponent<Props> = ({
   isLanding = false,
   sectionLevelPage = false,
   staticContent = null,
+  comicPreviousNext,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -127,27 +143,28 @@ const Body: FunctionComponent<Props> = ({
   let imageGalleryIdCount = 1;
 
   const sections: ContentListSlice[] = body.filter(isContentList);
-  const sectionThemes = [
+
+  const sectionThemes: SectionTheme[] = [
     {
       rowBackground: 'white',
-      cardBackground: 'cream',
-      featuredCardBackground: 'charcoal',
+      cardBackground: 'warmNeutral.300',
+      featuredCardBackground: 'neutral.700',
       featuredCardText: 'white',
     },
     {
-      rowBackground: 'cream',
+      rowBackground: 'warmNeutral.300',
       cardBackground: 'white',
       featuredCardBackground: 'white',
       featuredCardText: 'black',
     },
     {
       rowBackground: 'white',
-      cardBackground: 'cream',
-      featuredCardBackground: 'cream',
+      cardBackground: 'warmNeutral.300',
+      featuredCardBackground: 'warmNeutral.300',
       featuredCardText: 'black',
     },
     {
-      rowBackground: 'charcoal',
+      rowBackground: 'neutral.700',
       cardBackground: 'transparent',
       featuredCardBackground: 'white',
       featuredCardText: 'black',
@@ -374,7 +391,11 @@ const Body: FunctionComponent<Props> = ({
               )}
               {slice.type === 'imageGallery' && (
                 <SpacingComponent>
-                  <ImageGallery {...slice.value} id={imageGalleryIdCount++} />
+                  <ImageGallery
+                    {...slice.value}
+                    id={imageGalleryIdCount++}
+                    comicPreviousNext={comicPreviousNext}
+                  />
                 </SpacingComponent>
               )}
               {slice.type === 'quote' && (

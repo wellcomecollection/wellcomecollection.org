@@ -1,35 +1,42 @@
 import { useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import Link, { LinkProps } from 'next/link';
 
 // Helpers/Utils
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from 'services/catalogue';
 import { getConcept } from 'services/catalogue/concepts';
 import { getWorks } from '../services/catalogue/works';
 import { getImages } from 'services/catalogue/images';
+import { toLink as toImagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
+import { toLink as toWorksLink } from '@weco/common/views/components/WorksLink/WorksLink';
+import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import WorksSearchResultsV2 from '../components/WorksSearchResults/WorksSearchResultsV2';
 import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 // Types
 import {
   CatalogueResultsList,
   Concept as ConceptType,
+  IdentifierType,
   Image as ImageType,
   Work as WorkType,
 } from '@weco/common/model/catalogue';
 
 // Styles
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
 import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
+import { font } from '@weco/common/utils/classnames';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar/ApiToolbar';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -37,26 +44,34 @@ type Props = {
   worksBy: CatalogueResultsList<WorkType> | undefined;
   imagesAbout: CatalogueResultsList<ImageType> | undefined;
   imagesBy: CatalogueResultsList<ImageType> | undefined;
+  apiToolbarLinks: ApiToolbarLink[];
 };
 
 const leadingColor = 'yellow';
 
-// TODO use preset styles for h1, are there any with this big a font-size?
-const ConceptHero = styled(Space)`
-  background-color: ${props => props.theme.color(leadingColor, 'light')};
+const ConceptHero = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('lightYellow')};
+`;
 
-  h1 {
-    font-size: 3.1875rem;
-    line-height: 1.2;
-    margin-bottom: 2.125rem;
-  }
+const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
+  margin-bottom: 1rem;
+`;
+
+// TODO when LabelColor is refactored, maybe switch to using Label?
+const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+  padding: 5px;
 `;
 
 const ConceptDescription = styled.section`
   max-width: 600px;
 `;
 
-const ConceptImages = styled(Space)`
+const ConceptImages = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
   background-color: ${props => props.theme.color('black')};
 
   .sectionTitle {
@@ -64,40 +79,14 @@ const ConceptImages = styled(Space)`
   }
 `;
 
-const ConceptWorksHeader = styled(Space)<{ hasWorksTabs: boolean }>`
+const ConceptWorksHeader = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top'] },
+})<{ hasWorksTabs: boolean }>`
   background-color: ${({ hasWorksTabs, theme }) =>
-    hasWorksTabs ? theme.color('cream') : 'white'};
+    theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};};
 `;
 
-// Taken from https://github.com/wellcomecollection/docs/tree/main/rfcs/050-concepts-api
-const FAKE_DATA = {
-  id: 'azxzhnuh',
-  identifiers: [
-    {
-      identifierType: 'lc-names',
-      value: 'n12345678',
-      type: 'Identifier',
-    },
-  ],
-
-  label: 'Florence Nightingale',
-  alternativeLabels: ['The Lady with the Lamp'],
-
-  type: 'Person',
-  description:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sagittis lacinia mauris id condimentum. Donec elementum dictum urna, id interdum massa imperdiet vel. Phasellus ultricies, lacus vitae efficitur pellentesque, magna ipsum pharetra metus, vel dictum ex enim et purus.',
-
-  // not locations
-  urls: [
-    {
-      label: 'Read more on Wikipedia',
-      url: '#',
-    },
-  ],
-};
-
-// TODO change to use ButtonSolid when refactor is over (with David)
-const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
+const SeeMoreButton = ({ text, link }: { text: string; link: LinkProps }) => (
   <ButtonSolidLink
     text={text}
     link={link}
@@ -118,6 +107,7 @@ export const ConceptPage: NextPage<Props> = ({
   worksBy,
   imagesAbout,
   imagesBy,
+  apiToolbarLinks,
 }) => {
   const [selectedWorksTab, setSelectedWorksTab] = useState('works-about');
   const [selectedImagesTab, setSelectedImagesTab] = useState('images-about');
@@ -128,73 +118,72 @@ export const ConceptPage: NextPage<Props> = ({
   const hasImagesTabs = !!(imagesBy?.totalResults && imagesAbout?.totalResults);
 
   return (
-    // TODO fill meta information; who decides this?
     <CataloguePageLayout
       title={conceptResponse.label}
-      description="<TBC>"
+      description={pageDescriptionConcepts(conceptResponse.label)}
       url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
       openGraphType="website"
       siteSection="collections"
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
+      apiToolbarLinks={apiToolbarLinks}
     >
-      <ConceptHero
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-      >
+      <ConceptHero>
         <div className="container">
-          <ConceptDescription>
-            <h1 className="font-intb">{conceptResponse.label}</h1>
-            {/* TODO dynamise */}
-            {FAKE_DATA.description && (
-              <p className="font-size-5">{FAKE_DATA.description}</p>
-            )}
-            {/* TODO dynamise */}
-            {FAKE_DATA.urls?.length > 0 &&
-              FAKE_DATA.urls.map(link => {
-                /* TODO Could they be internal links? Check if external to display arrow, decide on rel. */
-                return (
-                  <a
-                    key={link.url}
-                    href={link.url}
-                    rel="nofollow"
-                    className={font('intr', 6)}
-                  >
-                    {link.label} ↗
-                  </a>
-                );
-              })}
-          </ConceptDescription>
+          <TypeLabel>{conceptResponse.type}</TypeLabel>
+          <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
+            <HeroTitle>{conceptResponse.label}</HeroTitle>
+            <ConceptDescription className={font('intr', 5)}>
+              <BetaMessage
+                message={
+                  <>
+                    We&rsquo;re working to improve the information on this page.
+                    You can <Link href="/user-panel">join our user panel</Link>{' '}
+                    or{' '}
+                    <Link href="https://roadmap.wellcomecollection.org/">
+                      submit an idea
+                    </Link>{' '}
+                    that would help you use our website.
+                  </>
+                }
+              />
+            </ConceptDescription>
+          </Space>
         </div>
       </ConceptHero>
 
+      {/* Images */}
       {hasImages && (
-        <ConceptImages
-          as="section"
-          v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-        >
+        <ConceptImages as="section">
           <div className="container">
-            <h2 className={`sectionTitle ${font('wb', 3)}`}>Images</h2>
+            <h2 className="h2 sectionTitle">Images</h2>
 
             {hasImagesTabs && (
               <TabNavV2
+                id="images"
+                selectedTab={selectedImagesTab}
                 items={[
                   {
                     id: 'images-about',
-                    text: `Images about ${conceptResponse.label} ${
-                      imagesAbout ? `(${imagesAbout.totalResults})` : ''
-                    }`,
+                    text: (
+                      <>
+                        {`About this ${conceptResponse.type.toLowerCase()} `}
+                        <span className="is-hidden-s">{`(${imagesAbout.totalResults})`}</span>
+                      </>
+                    ),
                     selected: selectedImagesTab === 'images-about',
                   },
                   {
                     id: 'images-by',
-                    text: `Images by ${conceptResponse.label} ${
-                      imagesBy ? `(${imagesBy.totalResults})` : ''
-                    }`,
+                    text: (
+                      <>
+                        {`By this ${conceptResponse.type.toLowerCase()} `}
+                        <span className="is-hidden-s">{`(${imagesBy.totalResults})`}</span>
+                      </>
+                    ),
                     selected: selectedImagesTab === 'images-by',
                   },
                 ]}
-                // TODO do we want to change these? Decide when we land on a color
-                // color={leadingColor}
                 setSelectedTab={setSelectedImagesTab}
                 isDarkMode
               />
@@ -202,7 +191,11 @@ export const ConceptPage: NextPage<Props> = ({
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
               {((hasImagesTabs && selectedImagesTab === 'images-about') ||
                 (!hasImagesTabs && !!imagesAbout?.totalResults)) && (
-                <>
+                <div
+                  role="tabpanel"
+                  id="tabpanel-imagesAbout"
+                  aria-labelledby="tab-imagesAbout"
+                >
                   <ImageEndpointSearchResults
                     images={imagesAbout}
                     background="transparent"
@@ -210,59 +203,77 @@ export const ConceptPage: NextPage<Props> = ({
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
                     <SeeMoreButton
                       text={`All images (${imagesAbout.totalResults})`}
-                      link={`/images?source.subjects.label=${conceptResponse.label}`}
+                      link={toImagesLink(
+                        {
+                          'source.subjects.label': [conceptResponse.label],
+                        },
+                        'concept/images_about'
+                      )}
                     />
                   </Space>
-                </>
+                </div>
               )}
               {((hasImagesTabs && selectedImagesTab === 'images-by') ||
                 (!hasImagesTabs && !!imagesBy?.totalResults)) && (
-                <>
+                <div
+                  role="tabpanel"
+                  id="tabpanel-imagesBy"
+                  aria-labelledby="tab-imagesBy"
+                >
                   <ImageEndpointSearchResults
                     images={imagesBy}
                     background="transparent"
                   />
                   <SeeMoreButton
                     text={`All images (${imagesBy.totalResults})`}
-                    link={`/images?source.subjects.label=${conceptResponse.label}`}
+                    link={toImagesLink(
+                      {
+                        'source.contributors.agent.label': [
+                          conceptResponse.label,
+                        ],
+                      },
+                      'concept/images_by'
+                    )}
                   />
-                </>
+                </div>
               )}
             </Space>
           </div>
         </ConceptImages>
       )}
 
+      {/* Works */}
       {hasWorks && (
         <>
-          <ConceptWorksHeader
-            as="div"
-            v={{ size: 'xl', properties: ['padding-top'] }}
-            hasWorksTabs={hasWorksTabs}
-          >
+          <ConceptWorksHeader hasWorksTabs={hasWorksTabs}>
             <div className="container">
-              <h2 className={`${font('wb', 3)}`}>Works</h2>
-              {/* TODO responsive tabs + accessible navigation */}
+              <h2 className="h2">Works</h2>
               {hasWorksTabs && (
                 <TabNavV2
+                  id="works"
+                  selectedTab={selectedWorksTab}
                   items={[
                     {
                       id: 'works-about',
-                      text: `Works about ${conceptResponse.label} ${
-                        worksAbout ? `(${worksAbout.totalResults})` : ''
-                      }`,
+                      text: (
+                        <>
+                          {`About this ${conceptResponse.type.toLowerCase()} `}
+                          <span className="is-hidden-s">{`(${worksAbout.totalResults})`}</span>
+                        </>
+                      ),
                       selected: selectedWorksTab === 'works-about',
                     },
                     {
                       id: 'works-by',
-                      text: `Works by ${conceptResponse.label} ${
-                        worksBy ? `(${worksBy.totalResults})` : ''
-                      }`,
+                      text: (
+                        <>
+                          {`By this ${conceptResponse.type.toLowerCase()} `}
+                          <span className="is-hidden-s">{`(${worksBy.totalResults})`}</span>
+                        </>
+                      ),
                       selected: selectedWorksTab === 'works-by',
                     },
                   ]}
-                  // TODO do we want to change these? Decide when we land on a color
-                  // color={leadingColor}
                   setSelectedTab={setSelectedWorksTab}
                 />
               )}
@@ -279,26 +290,44 @@ export const ConceptPage: NextPage<Props> = ({
             <div className="container">
               {((hasWorksTabs && selectedWorksTab === 'works-about') ||
                 (!hasWorksTabs && !!worksAbout?.totalResults)) && (
-                <div role="tabpanel">
+                <div
+                  role="tabpanel"
+                  id="tabpanel-worksAbout"
+                  aria-labelledby="tab-worksAbout"
+                >
                   {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
                   <WorksSearchResultsV2 works={worksAbout} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksAbout.totalResults})`}
-                      link={`/works?subjects.label=${conceptResponse.label}`}
+                      link={toWorksLink(
+                        {
+                          'subjects.label': [conceptResponse.label],
+                        },
+                        'concept/works_about'
+                      )}
                     />
                   </Space>
                 </div>
               )}
               {((hasWorksTabs && selectedWorksTab === 'works-by') ||
                 (!hasWorksTabs && !!worksBy?.totalResults)) && (
-                <div role="tabpanel">
+                <div
+                  role="tabpanel"
+                  id="tabpanel-worksBy"
+                  aria-labelledby="tab-worksBy"
+                >
                   {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
                   <WorksSearchResultsV2 works={worksBy} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksBy.totalResults})`}
-                      link={`/works?subjects.label=${conceptResponse.label}`}
+                      link={toWorksLink(
+                        {
+                          'contributors.agent.label': [conceptResponse.label],
+                        },
+                        'concept/works_by'
+                      )}
                     />
                   </Space>
                 </div>
@@ -310,6 +339,44 @@ export const ConceptPage: NextPage<Props> = ({
     </CataloguePageLayout>
   );
 };
+
+function getDisplayIdentifierType(identifierType: IdentifierType): string {
+  switch (identifierType.id) {
+    case 'lc-names':
+      return 'LC Names';
+    case 'lc-subjects':
+      return 'LCSH';
+    case 'nlm-mesh':
+      return 'MeSH';
+    default:
+      return identifierType.label;
+  }
+}
+
+function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;
+
+  const apiLink = {
+    id: 'json',
+    label: 'JSON',
+    link: apiUrl,
+  };
+
+  const identifiers = (concept.identifiers || []).map(id =>
+    id.identifierType.id === 'label-derived'
+      ? {
+          id: id.value,
+          label: 'Label-derived identifier',
+        }
+      : {
+          id: id.value,
+          label: getDisplayIdentifierType(id.identifierType),
+          value: id.value,
+        }
+  );
+
+  return [apiLink, ...identifiers];
+}
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -333,6 +400,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       toggles: serverData.toggles,
     });
 
+    if (conceptResponse.type === 'Error') {
+      if (conceptResponse.httpStatus === 404) {
+        return { notFound: true };
+      }
+      return appError(
+        context,
+        conceptResponse.httpStatus,
+        conceptResponse.description
+      );
+    }
+
     const worksAboutPromise = getWorks({
       params: { 'subjects.label': [conceptResponse.label] },
       toggles: serverData.toggles,
@@ -348,13 +426,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const imagesAboutPromise = getImages({
       params: { 'source.subjects.label': [conceptResponse.label] },
       toggles: serverData.toggles,
-      pageSize: 8,
+      pageSize: 10,
     });
 
     const imagesByPromise = getImages({
       params: { 'source.contributors.agent.label': [conceptResponse.label] },
       toggles: serverData.toggles,
-      pageSize: 8,
+      pageSize: 10,
     });
 
     const [
@@ -369,17 +447,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       imagesByPromise,
     ]);
 
-    if (conceptResponse.type === 'Error') {
-      if (conceptResponse.httpStatus === 404) {
-        return { notFound: true };
-      }
-      return appError(
-        context,
-        conceptResponse.httpStatus,
-        conceptResponse.description
-      );
-    }
-
     const worksAbout =
       worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
     const worksBy =
@@ -389,6 +456,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const imagesBy =
       imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
 
+    const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
+
     return {
       props: removeUndefinedProps({
         conceptResponse,
@@ -396,6 +465,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         worksBy,
         imagesAbout,
         imagesBy,
+        apiToolbarLinks,
         serverData,
       }),
     };

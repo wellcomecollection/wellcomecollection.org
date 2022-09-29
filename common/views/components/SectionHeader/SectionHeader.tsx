@@ -20,7 +20,7 @@ const YellowBox = styled.div`
 `;
 
 const TitleWrapper = styled.span`
-  .bg-charcoal & {
+  .bg-dark & {
     color: ${props => props.theme.color('white')};
   }
 `;

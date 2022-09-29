@@ -25,6 +25,20 @@ async function getPrismicApiRefById(id: string): Promise<string> {
   return json.refs.find(r => r.id === id).ref;
 }
 
+/** Returns a list of all the Prismic documents in a given snapshot directory. */
+export function getPrismicDocuments(snapshotDir: string): any[] {
+  const documents: any[] = [];
+
+  fs.readdirSync(snapshotDir).forEach(file => {
+    const data = fs.readFileSync(`${snapshotDir}/${file}`);
+    const json: { results: any[] } = JSON.parse(data.toString());
+
+    documents.push(...json.results);
+  });
+
+  return documents;
+}
+
 type ApiResponse = {
   pageNumber: number;
   json: any;

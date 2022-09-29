@@ -23,18 +23,19 @@ const Tab = styled(Space).attrs({
   as: 'span',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: `flex-inline ${font('intb', 5)}`,
+  className: font('intb', 5),
 })<TabProps>`
+  display: inline-flex;
   background: ${props => props.theme.color('white')};
-  border-left: 1px solid ${props => props.theme.color('pumice')};
-  border-top: 1px solid ${props => props.theme.color('pumice')};
-  border-right: 1px solid ${props => props.theme.color('pumice')};
+  border-width: 1px 1px 0 1px;
+  border-style: solid;
+  border-color: ${props => props.theme.color('warmNeutral.400')};
 
   ${props =>
     props.isActive &&
     `
-    border-color: ${props.theme.color('cream')};
-    background: ${props.theme.color('cream')};
+    border-color: ${props.theme.color('warmNeutral.300')};
+    background: ${props.theme.color('warmNeutral.300')};
   `}
 
   ${props =>
@@ -53,7 +54,7 @@ const Tab = styled(Space).attrs({
 `;
 
 const TabPanel = styled(Space)`
-  background: ${props => props.theme.color('cream')};
+  background: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 type Props = {

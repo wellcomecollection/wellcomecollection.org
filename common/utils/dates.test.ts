@@ -31,20 +31,20 @@ describe('isSameDay', () => {
 
   describe('ComparisonMode', () => {
     const september19Midnight = new Date(
-      // aka Sun Sep 18 2022 23:00:00 UTC
+      // = Sep 18 2022 23:00:00 UTC
       'Mon Sep 19 2022 00:00:00 GMT+0100 (British Summer Time)'
     );
     const september18TwentyThreeThirty = new Date(
-      // aka Sun Sep 18 2022 22:30:00 UTC
+      // = Sep 18 2022 22:30:00 UTC
       'Sun Sep 18 2022 23:30:00 GMT+0100 (British Summer Time)'
     );
     const september19MidnightThirty = new Date(
-      // aka Sun Sep 18 2022 23:30:00 UTC
+      // = Sep 18 2022 23:30:00 UTC
       'Mon Sep 19 2022 00:30:00 GMT+0100 (British Summer Time)'
     );
     const september19Midday = new Date(
-      // aka Sun Sep 18 2022 11:00:00 UTC
-     'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
+      // = Sep 19 2022 11:00:00 UTC
+      'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
     );
 
     it('says midnight {x} BST in London is on the same day as midday {x} BST using a comparison mode of "London"', () => {
@@ -115,6 +115,34 @@ describe('isSameDayOrBefore', () => {
 
     expect(isSameDayOrBefore(date1, date2)).toEqual(true);
     expect(isSameDayOrBefore(date2, date1)).toEqual(true);
+  });
+
+  it('says two times on the same day in London are the same, even if they’re different UTC days', () => {
+    const date1 = new Date(
+      // =    -01T23:30:00 UTC
+      '2002-09-02T00:30:00+0100'
+    );
+    const date2 = new Date(
+      // =    -02T00:30:00 UTC
+      '2002-09-02T01:30:00+0100'
+    );
+
+    expect(isSameDayOrBefore(date1, date2)).toEqual(true);
+    expect(isSameDayOrBefore(date2, date1)).toEqual(true);
+  });
+
+  it('knows how dates on different days in London are ordered, even if they’re the same UTC day', () => {
+    const date1 = new Date(
+      // =    -01T22:30:00 UTC
+      '2002-09-01T23:30:00+0100'
+    );
+    const date2 = new Date(
+      // =    -01T23:30:00 UTC
+      '2002-09-02T00:30:00+0100'
+    );
+
+    expect(isSameDayOrBefore(date1, date2)).toEqual(true);
+    expect(isSameDayOrBefore(date2, date1)).toEqual(false);
   });
 
   it('knows how dates on different days are ordered', () => {

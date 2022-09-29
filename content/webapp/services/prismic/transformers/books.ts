@@ -4,7 +4,6 @@ import {
   transformGenericFields,
   asRichText,
   asText,
-  transformTimestamp,
   transformSingleLevelGroup,
 } from '.';
 import { isFilledLinkToWebField } from '@weco/common/services/prismic/types';
@@ -12,6 +11,7 @@ import { transformSeason } from './seasons';
 import { transformPromoToCaptionedImage } from './images';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 export function transformBookToBookBasic(book: Book): BookBasic {
   // returns what is required to render BookPromos and book JSON-LD

@@ -58,21 +58,23 @@ import { isDayPast, isPast } from '@weco/common/utils/dates';
 
 import * as prismicT from '@prismicio/types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
     size: 'm',
     properties: ['padding-top', 'padding-bottom'],
   },
-  className: 'flex flex--h-space-between',
 })`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
 type Props = {
@@ -83,7 +85,7 @@ type Props = {
 // TODO: Probably use the StatusIndicator?
 type EventStatusProps = {
   text: string;
-  color: string;
+  color: PaletteColor;
 };
 function EventStatus({ text, color }: EventStatusProps) {
   return (
@@ -111,7 +113,7 @@ function DateList(event: Event) {
             <TimeWrapper key={index}>
               <div
                 className={classNames({
-                  'font-pewer': isDayPast(eventTime.range.endDateTime),
+                  'font-neutral-600': isDayPast(eventTime.range.endDateTime),
                   'flex-1': true,
                 })}
               >
@@ -121,11 +123,11 @@ function DateList(event: Event) {
                 />
               </div>
 
-              {isDayPast(eventTime.range.endDateTime) ? (
-                <>{EventStatus({ text: 'Past', color: 'marble' })}</>
-              ) : eventTime.isFullyBooked ? (
-                EventStatus({ text: 'Full', color: 'red' })
-              ) : null}
+              {isDayPast(eventTime.range.endDateTime)
+                ? EventStatus({ text: 'Past', color: 'neutral.500' })
+                : eventTime.isFullyBooked
+                ? EventStatus({ text: 'Full', color: 'validation.red' })
+                : null}
             </TimeWrapper>
           );
         })}
@@ -265,14 +267,16 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
             }}
             className="flex flex--wrap"
           >
-            <EventDateRange event={event} />
+            <div className="inline">
+              <EventDateRange event={event} />
+            </div>
             <Space h={{ size: 's', properties: ['margin-left'] }}>
               {!event.isPast && <EventDatesLink id={event.id} />}
             </Space>
           </Space>
-          {event.isPast && EventStatus({ text: 'Past', color: 'marble' })}
+          {event.isPast && EventStatus({ text: 'Past', color: 'neutral.500' })}
           {upcomingDatesFullyBooked(event) &&
-            EventStatus({ text: 'Fully booked', color: 'red' })}
+            EventStatus({ text: 'Fully booked', color: 'validation.red' })}
         </>
       }
       HeroPicture={undefined}
@@ -345,10 +349,9 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                     {event.thirdPartyBooking.name && (
                       <Space v={{ size: 's', properties: ['margin-top'] }}>
                         <p
-                          className={`no-margin font-charcoal ${font(
-                            'intr',
-                            5
-                          )}`}
+                          className={
+                            'no-margin font-neutral-700' + ' ' + font('intr', 5)
+                          }
                         >
                           with {event.thirdPartyBooking.name}
                         </p>
@@ -390,7 +393,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                       properties: ['margin-top'],
                     }}
                     as="a"
-                    className={`block font-charcoal ${font('intb', 5)}`}
+                    className={`block font-neutral-700 ${font('intb', 5)}`}
                   >
                     <span>{event.bookingEnquiryTeam.email}</span>
                   </Space>

@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component, Fragment, ReactElement } from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -23,20 +23,23 @@ const DrawerItem = styled(Space).attrs({
   as: 'li',
   className: `${font('wb', 4)} segmented-control__drawer-item`,
 })<DrawerItemProps>`
-  border-bottom: 1px solid ${props => props.theme.color('smoke')};
+  border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 
   ${props =>
     props.isFirst &&
     `
-    border-top: 1px solid ${props.theme.color('smoke')};
+    border-top: 1px solid ${props.theme.color('neutral.300')};
   `}
 `;
 
 const List = styled.ul.attrs({
-  className:
-    'segmented-control__list no-margin no-padding plain-list rounded-diagonal overflow-hidden',
+  className: 'segmented-control__list rounded-diagonal',
 })`
   border: 1px solid ${props => props.theme.color('black')};
+  margin: 0 !important;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
 `;
 
 type ItemProps = {
@@ -87,13 +90,11 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   &:hover,
   &:focus {
     background: ${props =>
-      props.isActive
-        ? props.theme.color('pewter')
-        : props.theme.color('pumice')};
+      props.theme.color(props.isActive ? 'neutral.600' : 'warmNeutral.400')};
   }
 `;
 
-const Wrapper = styled.div.attrs({})<IsActiveProps>`
+const Wrapper = styled.div<IsActiveProps>`
   .segmented-control__drawer {
     display: none;
 
@@ -175,10 +176,10 @@ const Wrapper = styled.div.attrs({})<IsActiveProps>`
 const MobileControlsContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: `${font(
-    'wb',
-    4
-  )} segmented-control__button-text font-white flex--h-space-between rounded-diagonal`,
+  className:
+    font('wb', 4) +
+    ' ' +
+    'segmented-control__button-text font-white rounded-diagonal',
 })`
   display: flex;
   background-color: ${props => props.theme.color('black')};
@@ -211,7 +212,7 @@ class SegmentedControl extends Component<Props, State> {
     isActive: false,
   };
 
-  setActiveId(id: string) {
+  setActiveId(id: string): void {
     this.setState({
       activeId: id,
     });
@@ -221,13 +222,13 @@ class SegmentedControl extends Component<Props, State> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.setActiveId(
       this.props.activeId || (this.props.items[0] && this.props.items[0].id)
     );
   }
 
-  render() {
+  render(): ReactElement {
     const { id, items, extraClasses } = this.props;
     const { activeId, isActive } = this.state;
 
@@ -269,7 +270,7 @@ class SegmentedControl extends Component<Props, State> {
                 <DrawerItem isFirst={i === 0} key={item.id}>
                   <a
                     onClick={e => {
-                      const url = e.currentTarget.getAttribute('href')!;
+                      const url = e.currentTarget.href;
                       const isHash = url.startsWith('#');
 
                       trackEvent({
@@ -305,7 +306,7 @@ class SegmentedControl extends Component<Props, State> {
               <ItemInner
                 isActive={item.id === activeId}
                 onClick={e => {
-                  const url = e.currentTarget.getAttribute('href')!;
+                  const url = e.currentTarget.href;
                   const isHash = url.startsWith('#');
 
                   trackEvent({

@@ -31,7 +31,7 @@ export const ErrorAlert = styled(AlertBox)`
 
 export const SuccessMessage = styled(AlertBox)`
   background-color: rgba(0, 120, 108, 0.1);
-  color: ${props => props.theme.color('green')};
+  color: ${props => props.theme.color('validation.green')};
 `;
 
 export const HighlightMessage = styled(Space).attrs({

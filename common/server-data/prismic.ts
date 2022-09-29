@@ -96,16 +96,24 @@ async function fetchPrismicValues(): Promise<PrismicData> {
 
   const zipped = keys.reduce((acc, key, i) => {
     const result = values[i];
-    // we use `null` over `undefined` so it will be in the JSON
-    const value = result.status === 'fulfilled' ? result.value : null;
 
-    if (result.status === 'rejected') {
-      console.error(`Failed to fetch ${keys[i]} from Prismic`, result.reason);
+    // If we don't get a result from Prismic, we want to bail out immediately,
+    // rather than writing bad server data.
+    //
+    // e.g. if Prismic times out sometimes we'll get `undefined` for the collectionVenues,
+    // which throws a TypeError when we try to render it on a page.  Better to wait for
+    // the next interval, and use the cached version of the data, than 500.
+    //
+    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7954
+    if (result.status !== 'fulfilled') {
+      throw new Error(
+        `Failed to fetch ${keys[i]} from Prismic: ${result.reason}`
+      );
     }
 
     return {
       ...acc,
-      [key]: value,
+      [key]: result.value,
     };
   }, {});
 

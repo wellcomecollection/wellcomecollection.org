@@ -68,7 +68,7 @@ type Period = {
   type: 'Period';
 };
 
-type IdentifierType = {
+export type IdentifierType = {
   id: string;
   label: string;
   type: 'IdentifierType';
@@ -115,7 +115,14 @@ type Genre = {
   type: 'Genre';
 };
 
-type ConceptType = 'Concept' | 'Period' | 'Place';
+type ConceptType =
+  | 'Subject'
+  | 'Meeting'
+  | 'Organisation'
+  | 'Person'
+  | 'Concept'
+  | 'Period'
+  | 'Place';
 
 export type Concept = {
   id?: string;
@@ -340,4 +347,8 @@ export type CatalogueResultsList<Result extends ResultType> = {
     : Result extends Concept
     ? ConceptAggregations
     : null;
+
+  // We include the URL used to fetch data from the catalogue API for
+  // debugging purposes.
+  _requestUrl: string;
 };

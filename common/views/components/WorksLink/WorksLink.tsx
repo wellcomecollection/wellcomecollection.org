@@ -20,6 +20,8 @@ const worksPropsSources = [
   'canonical_link',
   'meta_link',
   'search/paginator',
+  'concept/works_about',
+  'concept/works_by',
   'works_search_context',
   'work_details/contributors',
   'work_details/genres',
@@ -109,4 +111,4 @@ const WorksLink: FunctionComponent<Props> = ({
 };
 
 export default WorksLink;
-export { toLink, fromQuery, emptyWorksProps };
+export { toLink, toQuery, fromQuery, emptyWorksProps };

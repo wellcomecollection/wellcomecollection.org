@@ -17,7 +17,7 @@ const NavLink = styled(Space).attrs({
   transition: color 200ms ease;
 
   &:hover {
-    color: ${props => props.theme.color('green')};
+    color: ${props => props.theme.color('accent.green')};
   }
 `;
 

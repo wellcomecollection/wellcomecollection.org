@@ -21,11 +21,16 @@ const expectSearchParam = (
 ) => {
   console.info('expectSearchParam', { expectedKey, expectedVal });
   const params = new URLSearchParams(page.url());
-  expect(
-    Array.from(params).find(
-      ([key, val]) => key === expectedKey && val === expectedVal
-    )
-  ).toBeTruthy();
+
+  const foundMatchingParam = Array.from(params).find(
+    ([key, val]) => key === expectedKey && val === expectedVal
+  );
+
+  if (!foundMatchingParam) {
+    console.log(page.url());
+  }
+
+  expect(foundMatchingParam).toBeTruthy();
 };
 
 const openDropdown = async (label: string, page: Page) => {
@@ -60,7 +65,11 @@ const navigateToNextPage = async (page: Page) => {
   // another hack
   await Promise.all([
     safeWaitForNavigation(page),
-    page.click('[aria-label="pagination"]:nth-of-type(1) a'),
+    page.click(
+      `[aria-label="pagination"]${
+        isMobile(page) ? ':not(.is-hidden-s)' : ''
+      }:nth-of-type(1) a`
+    ),
   ]);
 };
 
@@ -168,6 +177,50 @@ test.describe(
 
       expectSearchParam('availabilities', 'closed-stores', page);
 
+      await navigateToResult(6, page);
+    });
+  }
+);
+
+test.describe(
+  'Scenario 6: The reader is searching for works from a particular year',
+  () => {
+    test('the work should be browsable to from the search results', async ({
+      page,
+      context,
+    }) => {
+      // TODO: For some reason `"Filters"` isn't working on mobile.  The original
+      // purpose of this test was to check the logic behind the filters, not the UI.
+      // See https://wellcome.slack.com/archives/C8X9YKM5X/p1663763975934799
+      //
+      // Ideally we'd also be able to test mobile in this test, but it's not critical.
+      if (isMobile(page)) {
+        return;
+      }
+
+      await worksSearch(context, page);
+      await searchFor('brain', page);
+      await openDropdown('Dates', page);
+
+      // Note: if you put both `page.locator(…).fill(…)` commands in a
+      // single Promise.all(), they can interfere in such a way that only
+      // one of them ends up in the final URL. :-/
+
+      await Promise.all([
+        page.locator('input[name="production.dates.from"]').fill('1939'),
+        safeWaitForNavigation(page),
+      ]);
+
+      await Promise.all([
+        page.locator('input[name="production.dates.to"]').fill('2001'),
+        safeWaitForNavigation(page),
+      ]);
+
+      expectSearchParam('production.dates.from', '1939', page);
+      expectSearchParam('production.dates.to', '2001', page);
+
+      // This is a check that we have actually loaded some results from
+      // the API, and the API hasn't just errored out.
       await navigateToResult(6, page);
     });
   }

@@ -9,19 +9,22 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { check, indicator } from '@weco/common/icons';
 
-const CheckboxRadioLabel = styled.label.attrs({
-  className: 'flex-inline flex--v-center',
-})`
+const CheckboxRadioLabel = styled.label`
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
 `;
 
 const CheckboxRadioBoxSpan = styled.span<{ type: string }>``;
-const CheckboxRadioBox = styled(CheckboxRadioBoxSpan).attrs({
-  className: 'flex-inline flex--v-center flex--h-center relative',
-})`
+const CheckboxRadioBox = styled(CheckboxRadioBoxSpan)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
   width: 1.3em;
   height: 1.3em;
-  border: 2px solid ${props => props.theme.color('pumice')};
+  border: 2px solid ${props => props.theme.color('warmNeutral.400')};
   border-radius: ${props => (props.type === 'radio' ? '50%' : '0')};
 
   .icon {

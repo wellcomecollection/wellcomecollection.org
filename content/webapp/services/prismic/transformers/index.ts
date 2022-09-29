@@ -4,7 +4,6 @@ import {
   FilledLinkToDocumentField,
   KeyTextField,
   RichTextField,
-  TimestampField,
 } from '@prismicio/types';
 import { CommonPrismicFields, WithArticleFormat } from '../types';
 import {
@@ -47,10 +46,6 @@ export function transformFormat(document: {
       description: asHtml(format.data.description),
     };
   }
-}
-
-export function transformTimestamp(field: TimestampField): Date | undefined {
-  return prismicH.asDate(field) || undefined;
 }
 
 // Prismic often returns empty RichText fields as `[]`, this filters them out

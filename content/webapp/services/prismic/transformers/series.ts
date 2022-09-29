@@ -1,22 +1,19 @@
 import { Series, SeriesBasic } from '../../../types/series';
 import { SeriesPrismicDocument } from '../types/series';
-import {
-  asTitle,
-  transformGenericFields,
-  transformSingleLevelGroup,
-  transformTimestamp,
-} from '.';
+import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
 import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '../../../types/article-schedule-items';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformContributors } from './contributors';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { getSeriesColor } from '../../../utils/colors';
 
 export function transformSeries(document: SeriesPrismicDocument): Series {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const standfirst = genericFields.standfirst || undefined;
-  const color = data.color || undefined;
+  const color = getSeriesColor(data.color || undefined);
   const schedule: ArticleScheduleItem[] = data.schedule
     ? (data.schedule
         .map((item, i) => {
@@ -55,10 +52,14 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
 }
 
 export function transformSeriesToSeriesBasic(series: Series): SeriesBasic {
-  return (({ id, title, color, schedule }) => ({
+  return (({ id, type, title, labels, color, schedule, promo, image }) => ({
     id,
+    type,
     title,
+    labels,
     color,
     schedule,
+    promo,
+    image,
   }))(series);
 }

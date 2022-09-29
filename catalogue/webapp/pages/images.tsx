@@ -7,7 +7,6 @@ import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import { imagesRouteToApiUrl } from '@weco/common/services/catalogue/api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import { getImages } from '../services/catalogue/images';
@@ -28,6 +27,7 @@ import {
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -142,7 +142,7 @@ const Images: NextPage<Props> = ({
       </Head>
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Image search`}
-        description="Search Wellcome Collection images"
+        description={pageDescriptions.images}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         url={toLink({ ...imagesRouteProps, source: 'canonical_link' }).as}
@@ -150,6 +150,17 @@ const Images: NextPage<Props> = ({
         jsonLd={{ '@type': 'WebPage' }}
         siteSection="collections"
         image={undefined}
+        apiToolbarLinks={
+          images
+            ? [
+                {
+                  id: 'catalogue-api-query',
+                  label: 'Catalogue API query',
+                  link: images._requestUrl,
+                },
+              ]
+            : []
+        }
       >
         <Space
           v={{
@@ -251,7 +262,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       'source.subjects.label',
       'source.contributors.agent.label',
     ];
-    const apiProps = imagesRouteToApiUrl(params, { aggregations });
+    const apiProps = {
+      ...params,
+      aggregations,
+    };
     const images = await getImages({
       params: apiProps,
       toggles: serverData.toggles,

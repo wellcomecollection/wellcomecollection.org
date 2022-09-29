@@ -66,7 +66,7 @@ const colours = {
   success: css`
     background-color: rgba(0, 120, 108, 0.1);
     border: 1px solid rgba(0, 120, 108, 0.3);
-    color: ${props => props.theme.color('green', 'dark')};
+    color: ${props => props.theme.color('black')};
   `,
   failure: css`
     background-color: rgba(224, 27, 47, 0.1);
@@ -94,7 +94,7 @@ export const StatusAlert = styled(Space).attrs({
 `;
 
 export const Section = styled.section`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1em;

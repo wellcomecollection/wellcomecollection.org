@@ -24,7 +24,7 @@ type Props = {
 };
 
 const Wrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const Container = styled.div`
@@ -40,8 +40,8 @@ const Details = styled.div`
 `;
 const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
   h: { size: 'm', properties: ['padding-left'] },
-  className: 'text-align-center',
 }))`
+  text-align: center;
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 178px;
@@ -154,7 +154,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   properties: ['margin-top'],
                 }}
               >
-                <LabelsList labels={cardLabels} defaultLabelColor="cream" />
+                <LabelsList
+                  labels={cardLabels}
+                  defaultLabelColor="warmNeutral.300"
+                />
               </Space>
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (

@@ -50,12 +50,13 @@ const FilterSection = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
-const List = styled.ul.attrs({
-  className: 'no-margin no-padding plain-list',
-})`
+const List = styled.ul`
+  margin: 0 !important;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   > * {
@@ -66,10 +67,12 @@ const List = styled.ul.attrs({
 const FiltersFooter = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: 'flex flex--v-center flex--h-space-between',
 })`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: ${props => props.theme.color('white')};
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
   position: fixed;
   bottom: 0;
   left: 0;
@@ -82,7 +85,7 @@ const FiltersHeader = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   position: absolute;
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   text-align: center;
   top: 0px;
   left: 0px;

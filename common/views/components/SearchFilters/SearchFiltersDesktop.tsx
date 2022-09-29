@@ -43,7 +43,7 @@ const Wrapper = styled(Space).attrs({
   },
 })`
   display: flex;
-  background-color: ${props => props.theme.color('pumice')};
+  background-color: ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {

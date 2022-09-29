@@ -8,7 +8,7 @@ export const DatePicker = styled.div`
     border-style: none;
     background: transparent;
     cursor: pointer;
-    border: 1px solid ${props => props.theme.color('silver')};
+    border: 1px solid ${props => props.theme.color('neutral.500')};
     :disabled {
       cursor: default;
     }
@@ -18,7 +18,7 @@ export const DatePicker = styled.div`
 export const Header = styled.div`
   background-color: ${props => props.theme.color('white')};
   display: flex;
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.color('neutral.600')};
 
   div {
     margin-left: auto;
@@ -35,7 +35,7 @@ export const Message = styled.p.attrs(() => ({
 `;
 
 export const Table = styled.table`
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.color('neutral.600')};
 
   th,
   td {
@@ -54,15 +54,15 @@ export const Td = styled.td<TdProps>`
   position: relative;
   cursor: pointer;
   border-radius: 50%;
-  border: 1px solid ${props => props.theme.color('transparent')};
+  border: 1px solid transparent;
 
   &[aria-disabled='true'] {
     cursor: default;
-    color: ${props => props.theme.color('marble')};
+    color: ${props => props.theme.color('neutral.400')};
   }
 
   &[tabindex='0']:focus {
-    background: ${props => props.theme.color('green')};
+    background: ${props => props.theme.color('accent.green')};
     color: ${props => props.theme.color('white')};
     outline: 0;
     box-shadow: ${props =>
@@ -88,5 +88,5 @@ export const CalendarButton = styled.button`
   line-height: 2em;
   border-radius: 50%;
   margin-left: 0.5em;
-  background: ${props => props.theme.color('silver')};
+  background: ${props => props.theme.color('neutral.500')};
 `;

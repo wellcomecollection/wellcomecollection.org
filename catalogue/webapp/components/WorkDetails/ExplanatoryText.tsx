@@ -20,7 +20,8 @@ const IconContainer = styled.div<IconContainerProps>`
   width: 1em;
   height: 1em;
   border-radius: 50%;
-  background: ${props => props.theme.color(props.open ? 'black' : 'green')};
+  background: ${props =>
+    props.theme.color(props.open ? 'black' : 'accent.green')};
 
   .icon {
     transition: transform 300ms ease;
@@ -33,8 +34,11 @@ type ControlProps = {
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const Control = styled.button.attrs(props => ({
-  className: `plain-button flex flex--v-center ${font('intb', 5)}`,
+  className: `plain-button ${font('intb', 5)}`,
 }))<ControlProps>`
+  display: flex;
+  align-items: center;
+
   cursor: pointer;
   padding: 0;
   &:focus {
@@ -87,7 +91,7 @@ const ExplanatoryText: FunctionComponent<Props> = ({
                 icon={plus}
                 rotate={showContent ? 45 : undefined}
                 matchText={true}
-                color={'white'}
+                color="white"
               />
             </IconContainer>
           </Space>

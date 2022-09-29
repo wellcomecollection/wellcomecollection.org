@@ -6,9 +6,10 @@ import { GaEvent, trackEvent } from '../../../../utils/ga';
 import styled from 'styled-components';
 import { IconSvg } from '@weco/common/icons';
 
-const ControlInner = styled.div.attrs({
-  className: 'flex-inline flex--v-center flex--h-center',
-})`
+const ControlInner = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 `;
@@ -50,15 +51,15 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     props.colorScheme === 'light' &&
     `
     background: ${props.theme.color('white')};
-    border: 2px solid ${props.theme.color('green')};
+    border: 2px solid ${props.theme.color('accent.green')};
 
     .icon__shape {
-      fill: ${props.theme.color('green')};
+      fill: ${props.theme.color('accent.green')};
     }
 
     &:hover,
     &:focus {
-      background: ${props.theme.color('green')};
+      background: ${props.theme.color('accent.green')};
 
       .icon__shape {
         fill: ${props.theme.color('white')};
@@ -66,11 +67,11 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     }
 
     &[disabled] {
-      background: ${props.theme.color('transparent')};
-      border-color: ${props.theme.color('silver')};
+      background: transparent;
+      border-color: ${props.theme.color('neutral.500')};
 
       .icon__shape {
-        fill: ${props.theme.color('silver')};
+        fill: ${props.theme.color('neutral.500')};
       }
     }
   `}
@@ -79,7 +80,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     props.colorScheme === 'dark' &&
     `
     border: 0;
-    background: ${props.theme.color('green')};
+    background: ${props.theme.color('accent.green')};
 
     .icon__shape {
       fill: ${props.theme.color('white')};
@@ -91,7 +92,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     }
 
     &[disabled] {
-      background: ${props.theme.color('silver')};
+      background: ${props.theme.color('neutral.500')};
     }
   `}
 
@@ -117,7 +118,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
 
     &[disabled] {
       .icon__shape {
-        fill: ${props.theme.color('marble')};
+        fill: ${props.theme.color('neutral.400')};
       }
     }
   `}
@@ -129,7 +130,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     border: none;
 
     .icon__shape {
-      fill: ${props.theme.color('charcoal')};
+      fill: ${props.theme.color('neutral.700')};
     }
 
     &:hover,
@@ -137,13 +138,13 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
       background: ${props.theme.color('yellow')};
 
       .icon__shape {
-        fill: ${props.theme.color('charcoal')};
+        fill: ${props.theme.color('neutral.700')};
       }
     }
 
     &[disabled] {
       .icon__shape {
-        fill: ${props.theme.color('pewter')};
+        fill: ${props.theme.color('neutral.600')};
       }
     }
   `}

@@ -13,6 +13,7 @@ const contentTypes = [
   'webcomics',
   'guide-formats',
   'exhibition-guides',
+  'stories-landing',
 ] as const;
 
 export type ContentType = typeof contentTypes[number];

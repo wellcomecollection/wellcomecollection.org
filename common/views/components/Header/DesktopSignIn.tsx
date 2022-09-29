@@ -52,10 +52,11 @@ const DesktopSignIn: FC = () => {
             />
           </span>
           <span
-            className={`display-none headerMedium-display-block headerLarge-display-none ${font(
-              'intr',
-              6
-            )}`}
+            className={
+              'display-none headerMedium-display-block headerLarge-display-none' +
+              ' ' +
+              font('intr', 6)
+            }
           >
             <DropdownButton
               label=""

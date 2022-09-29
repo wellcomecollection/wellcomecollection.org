@@ -7,7 +7,7 @@ import {
 import { trackEvent } from '@weco/common/utils/ga';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import { Label } from '@weco/common/model/labels';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import ImageType from '@weco/common/views/components/PrismicImage/PrismicImage';

@@ -22,7 +22,7 @@ const NoScriptViewerEl = styled.div`
   display: flex;
   flex-direction: row-reverse;
   height: calc(100vh - ${props => props.theme.navHeight}px);
-  background-color: ${props => props.theme.color('charcoal')};
+  background-color: ${props => props.theme.color('neutral.700')};
 `;
 
 const NoScriptViewerMain = styled.div`
@@ -58,7 +58,7 @@ const StaticThumbnailsContainer = styled.div`
   height: 100%;
   width: 25%;
   border-top: none;
-  border-right: 1px solid ${props => props.theme.color('pewter')};
+  border-right: 1px solid ${props => props.theme.color('neutral.600')};
 `;
 
 const ThumbnailLink = styled.a`

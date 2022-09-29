@@ -24,12 +24,13 @@ type WrapperProps = {
 };
 
 const Wrapper = styled.div.attrs({
-  className: 'grid flex--v-center',
+  className: 'grid',
 })<WrapperProps>`
+  align-items: center;
   position: relative;
   z-index: 6;
   background-color: ${props => props.theme.color('white')};
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 
   ${props =>
     props.isBurgerOpen &&
@@ -119,7 +120,7 @@ const HeaderBrand = styled.div`
       flex: 0 0 auto;
       margin-right: 1.5rem;
       padding-right: 1.5rem;
-      border-right: 1px solid ${props.theme.color('pumice')};
+      border-right: 1px solid ${props.theme.color('warmNeutral.400')};
       width: auto;
       display: block;
     `
@@ -148,7 +149,7 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
       'small',
       'headerMedium',
       `
-      border-top: 1px solid ${props.theme.color('pumice')};
+      border-top: 1px solid ${props.theme.color('warmNeutral.400')};
       height: calc(100vh - 84px);
       overflow: auto;
     `
@@ -189,7 +190,7 @@ const HeaderList = styled.ul`
 `;
 
 const HeaderItem = styled.li`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 
   // TODO: the vw units below are tightly coupled to the
   // number of nav items and number of characters in them.

@@ -7,7 +7,7 @@ import {
 import { grid, font, classNames } from '@weco/common/utils/classnames';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';

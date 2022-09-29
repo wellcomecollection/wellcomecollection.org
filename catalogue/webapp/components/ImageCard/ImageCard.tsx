@@ -8,6 +8,7 @@ import { ImageType } from '@weco/common/model/image';
 import IIIFImage from '../IIIFImage/IIIFImage';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
   id: string;
@@ -15,7 +16,7 @@ type Props = {
   image: ImageType;
   layout: 'raw' | 'fill' | 'fixed';
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
-  background?: string;
+  background?: PaletteColor;
 };
 
 const StyledLink = styled.a<{
