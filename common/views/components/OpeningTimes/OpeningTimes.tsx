@@ -23,7 +23,7 @@ const OpeningTimesList = styled.ul.attrs({
 // This is chosen to be wider than any of the venue names, but not so wide as
 // to leave lots of space between the name and the opening hours.
 //
-// The choice of '90px' is somewhat arbitrary, just based on what looked okay locally.
+// The exact value is somewhat arbitrary, based on what looked okay locally.
 const VenueName = styled.div`
   display: inline-block;
   width: 90px;

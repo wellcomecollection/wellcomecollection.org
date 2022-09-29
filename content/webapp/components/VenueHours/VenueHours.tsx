@@ -70,6 +70,16 @@ const JauntyBox = styled(Space)<JauntyBoxProps>`
 
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 
+// This is chosen to be wider than the names of days of the week
+// (in particular 'Wednesday'), but not so wide as to leave lots
+// of space between the name and the opening hours.
+//
+// The exact value is somewhat arbitrary, based on what looked okay locally.
+const DayOfWeek = styled.div`
+  display: inline-block;
+  width: 100px;
+`;
+
 type Props = {
   venue: Venue;
   weight: Weight;
@@ -134,7 +144,8 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           {venue?.openingHours.regular.map(
             ({ dayOfWeek, opens, closes, isClosed }) => (
               <li key={dayOfWeek}>
-                {dayOfWeek} {isClosed ? 'Closed' : `${opens} – ${closes}`}
+                <DayOfWeek>{dayOfWeek}</DayOfWeek>{' '}
+                {isClosed ? 'Closed' : `${opens} – ${closes}`}
               </li>
             )
           )}
