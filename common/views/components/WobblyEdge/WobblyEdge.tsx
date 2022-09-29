@@ -55,7 +55,7 @@ const Edge = styled.div.attrs({
     margin-top: 0;
     top: -2px;
 
-    ${props => props.theme.media('large')`
+    ${props.theme.media('large')`
       margin-top: 0;
       top: -2px;
     `}

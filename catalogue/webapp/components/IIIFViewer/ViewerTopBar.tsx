@@ -78,7 +78,8 @@ export const ShameButton = styled.button.attrs(() => ({
     .btn__text {
       position: absolute;
       right: 100%;
-      ${props => props.theme.media('large')`
+
+      ${props.theme.media('large')`
         position: static;
       `}
     }

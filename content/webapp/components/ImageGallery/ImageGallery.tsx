@@ -79,8 +79,7 @@ const Gallery = styled.div.attrs({
       ${props.theme.color('neutral.700')} 100px
     );
 
-    ${props =>
-      props.theme.media('medium')(`
+    ${props.theme.media('medium')(`
       background: linear-gradient(
         ${props.theme.color(props.pageBackground)} 200px,
         ${props.theme.color('neutral.700')} 200px
@@ -102,7 +101,7 @@ const Gallery = styled.div.attrs({
     &:before {
       top: 0;
 
-      ${props => props.theme.media('medium')`
+      ${props.theme.media('medium')`
         top: 0;
       `}
     }
@@ -137,13 +136,14 @@ const Gallery = styled.div.attrs({
     opacity: 0;
     transition: opacity 400ms ease;
 
-    ${props => props.theme.media('medium')`
+    ${props =>
+      props.theme.media('medium')(`
       top: 200px;
 
       ${props.isStandalone && `top: 0;`}
 
       ${props.isActive && `opacity: 0.1;`}
-    `}
+    `)}
 
     ${props => props.isActive && `opacity: 0.1;`}
 
