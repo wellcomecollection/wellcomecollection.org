@@ -11,6 +11,8 @@
  *
  *       This is to avoid splitting the Google juice for that page over two URLs.
  *
+ * Note: there is currently no mechanism for _removing_ vanity URLs that won't break
+ * incoming links; please be v careful about removing items from this list.
  */
 
 import { prismicPageIds } from './hardcoded-ids';
