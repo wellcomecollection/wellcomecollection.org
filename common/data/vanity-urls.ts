@@ -66,4 +66,11 @@ export const vanityUrls: VanityUrl[] = [
     url: '/youth',
     pageId: prismicPageIds.youth,
   },
+  // This was added for the the printed gallery guide that will accompany
+  // the Grace Ndiritu exhibition.
+  // See https://wellcome.slack.com/archives/C8X9YKM5X/p1664363102626599
+  {
+    url: '/colonial-roots',
+    pageId: 'YLnsihAAACEAfsuu',
+  },
 ];
