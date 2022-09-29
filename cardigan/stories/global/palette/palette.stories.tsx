@@ -5,11 +5,11 @@ import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
 
 type ColorsObject = {
-  [name: string]: Category;
+  [id: string]: Category;
 };
 
 type Category = {
-  name: string;
+  label: string;
   description: string;
   colors?: ColorObject[];
 };
@@ -135,27 +135,27 @@ function rgbToHsl({ r, g, b }: RGB): HSL {
 
 let objectColors: ColorsObject = {
   core: {
-    name: 'Core',
+    label: 'Core',
     description:
       'The core colour theme is defined as black, white and yellow. This is a constant theme which persists across the product. As a result, any additional colours should be complimentary to these.',
   },
   accent: {
-    name: 'Accents',
+    label: 'Accents',
     description:
       'Chosen to match the core yellow, accent colours are interspersed where appropriate for uses such as: defining a theme or differentiating types of content.',
   },
   neutral: {
-    name: 'Neutrals',
+    label: 'Neutrals',
     description:
       'The neutral theme is used for structural page elements such as dividers and UI components. Their variable names follow Material design and font-weight inspired naming, where the "thicker" the font, the darker the grey. Some of them have equivalents in warmNeutrals, twinned through their name. They are considered equivalents because of their luminosity levels.',
   },
   warmNeutral: {
-    name: 'Warm Neutrals',
+    label: 'Warm Neutrals',
     description:
       'Warmer versions of Neutrals, they all match their equivalent in name, but with a warmer tone reminiscent of the core yellow. They are considered equivalents because of their luminosity levels.',
   },
   validation: {
-    name: 'Validation',
+    label: 'Validation',
     description:
       'These colours should be used solely for validation purposes. We encourage the use of different shades if for other purposes.',
   },
@@ -200,7 +200,7 @@ export const Palette: FunctionComponent = () => (
     {Object.keys(objectColors).map((category, i) => (
       <SectionWrapper key={category}>
         {i !== 0 && <Divider color="black" isKeyline={true} />}
-        <SectionTitle>{objectColors[category].name}</SectionTitle>
+        <SectionTitle>{objectColors[category].label}</SectionTitle>
         <SectionDescription>
           {objectColors[category].description}
         </SectionDescription>
