@@ -6,13 +6,22 @@ import {
   getNameFromCollectionVenue,
 } from '@weco/common/data/hardcoded-ids';
 import { FC } from 'react';
+import styled from 'styled-components';
 
 type Props = {
   venues: Venue[];
 };
 
+const OpeningTimesList = styled.ul.attrs({
+  'data-chromatic': 'ignore',
+})`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
 const OpeningTimes: FC<Props> = ({ venues }) => (
-  <ul className="plain-list no-padding no-margin" data-chromatic="ignore">
+  <OpeningTimesList>
     {venues.map(venue => {
       const todaysHours = getTodaysVenueHours(venue);
       return (
@@ -41,6 +50,6 @@ const OpeningTimes: FC<Props> = ({ venues }) => (
         )
       );
     })}
-  </ul>
+  </OpeningTimesList>
 );
 export default OpeningTimes;
