@@ -323,7 +323,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                   <VideoEmbed embedUrl={bsl.embedUrl} />
                 )}
               </Stop>
-            ) : null;
+            ) : null; // We've decided to omit stops that don't have content for the selected type.
           })
           .filter(Boolean) as ReactElement[]
       }
