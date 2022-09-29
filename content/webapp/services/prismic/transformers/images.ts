@@ -19,7 +19,7 @@ export const placeHolderImage: ImageType = {
 };
 
 export function transformCaptionedImage(
-  frag: { image: Image; caption: RichTextField },
+  frag: { image: Image; caption: RichTextField; hasRoundedCorners: boolean },
   crop?: Crop
 ): CaptionedImage {
   if (isEmptyObj(frag.image)) {
@@ -32,6 +32,7 @@ export function transformCaptionedImage(
           spans: [],
         },
       ],
+      hasRoundedCorners: false,
     };
   }
 
@@ -39,6 +40,7 @@ export function transformCaptionedImage(
   return {
     image: transformImage(image) || placeHolderImage,
     caption: asRichText(frag.caption) || [],
+    hasRoundedCorners: frag.hasRoundedCorners,
   };
 }
 
@@ -49,7 +51,10 @@ export function transformPromoToCaptionedImage(
   // We could do more complicated checking here, but this is what we always use.
   if (frag.length > 0) {
     const promo = frag[0]!;
-    return transformCaptionedImage(promo.primary, crop);
+    return transformCaptionedImage(
+      { ...promo.primary, hasRoundedCorners: false },
+      crop
+    );
   } else {
     return undefined;
   }
