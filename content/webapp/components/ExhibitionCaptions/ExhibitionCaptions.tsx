@@ -94,9 +94,7 @@ const Tombstone = styled(Space).attrs({
   }
 `;
 
-const CaptionTranscription = styled.div.attrs({
-  className: 'spaced-text',
-})`
+const CaptionTranscription = styled.div`
   flex-basis: 100%;
   max-width: 45em;
 
@@ -121,7 +119,6 @@ const PrismicImageWrapper = styled.div`
 `;
 
 const Transcription = styled(Space).attrs({
-  className: 'spaced-text',
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
