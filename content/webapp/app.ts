@@ -47,6 +47,18 @@ function pageVanityUrl(
   route(url, template, router, app, { id: pageId });
 }
 
+type VanityUrl = {
+  url: string;
+  pageId: string;
+};
+
+const vanityUrls: VanityUrl[] = [
+  {
+    url: '/what-we-do',
+    pageId: prismicPageIds.whatWeDo,
+  },
+];
+
 // A Prismic ID is an alphanumeric string, plus underscore and hyphen
 //
 // We filter out any requests for pages that obviously aren't Prismic IDs; we know
@@ -124,13 +136,16 @@ const appPromise = nextApp
     ); // :type(${guideType})
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
+    vanityUrls.forEach(({ url, pageId }) =>
+      pageVanityUrl(router, nextApp, url, pageId)
+    );
+
     pageVanityUrl(
       router,
       nextApp,
       '/opening-times',
       prismicPageIds.openingTimes
     );
-    pageVanityUrl(router, nextApp, '/what-we-do', prismicPageIds.whatWeDo);
     pageVanityUrl(router, nextApp, '/press', prismicPageIds.press);
     pageVanityUrl(router, nextApp, '/venue-hire', prismicPageIds.venueHire);
     pageVanityUrl(router, nextApp, '/access', prismicPageIds.access);
