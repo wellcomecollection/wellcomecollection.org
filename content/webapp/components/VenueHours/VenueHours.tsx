@@ -29,7 +29,7 @@ const VenueHoursImage = styled(Space)`
     props.theme.media('large')(`
       float: left;
       width: 33%;
-      padding-right: ${props => 5 * props.theme.spacingUnit}px;
+      padding-right: ${5 * props.theme.spacingUnit}px;
     `)}
 `;
 
@@ -39,7 +39,7 @@ const VenueHoursTimes = styled(Space)`
       float: left;
       width:33%;
       min-width: 240px;
-      padding-right: ${props => 5 * props.theme.spacingUnit}px;
+      padding-right: ${5 * props.theme.spacingUnit}px;
     `)}
 `;
 

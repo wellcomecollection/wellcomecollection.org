@@ -208,8 +208,7 @@ const FeaturedCardRight = styled.div<HasIsReversed>`
 
   ${props =>
     props.theme.media('large')(`
-      margin-left: ${props =>
-        props.isReversed ? 0 : -props.theme.gutter.large + 'px'};
+      margin-left: ${props.isReversed ? 0 : -props.theme.gutter.large + 'px'};
       transform: translateY(0);
     `)}
 `;
@@ -226,8 +225,8 @@ const FeaturedCardCopy = styled(Space).attrs<{ color: PaletteColor }>(
 
   ${props =>
     props.theme.media('large')(`
-      margin-right: -${props => props.theme.gutter.large}px;
-  `)}
+      margin-right: -${props.theme.gutter.large}px;
+    `)}
 `;
 
 const FeaturedCardShim = styled.div.attrs<{ background: PaletteColor }>({

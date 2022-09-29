@@ -141,7 +141,7 @@ const HygieneItem = styled.li.attrs({
 
       ${props =>
         props.theme.media('large')(`
-          border-left: 1px solid ${props => props.theme.color('neutral.700')};
+          border-left: 1px solid ${props.theme.color('neutral.700')};
           justify-content: center;
         `)}
 
