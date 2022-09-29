@@ -20,6 +20,15 @@ const OpeningTimesList = styled.ul.attrs({
   margin: 0;
 `;
 
+// This is chosen to be wider than any of the venue names, but not so wide as
+// to leave lots of space between the name and the opening hours.
+//
+// The choice of '90px' is somewhat arbitrary, just based on what looked okay locally.
+const VenueName = styled.div`
+  display: inline-block;
+  width: 90px;
+`;
+
 const OpeningTimes: FC<Props> = ({ venues }) => (
   <OpeningTimesList>
     {venues.map(venue => {
@@ -34,9 +43,11 @@ const OpeningTimes: FC<Props> = ({ venues }) => (
             as="li"
             key={venue.id}
           >
-            {venue.id === collectionVenueId.restaurant.id
-              ? 'Kitchen '
-              : `${getNameFromCollectionVenue(venue.id)} `}
+            <VenueName>
+              {venue.id === collectionVenueId.restaurant.id
+                ? 'Kitchen '
+                : `${getNameFromCollectionVenue(venue.id)} `}
+            </VenueName>
             {todaysHours.isClosed ? (
               'closed'
             ) : (
