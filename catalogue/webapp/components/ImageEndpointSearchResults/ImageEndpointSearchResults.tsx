@@ -16,10 +16,11 @@ import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
   images: CatalogueResultsList<Image>;
-  background?: string;
+  background?: PaletteColor;
 };
 
 type GalleryImageProps = Image & {
@@ -85,20 +86,21 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   );
 
   const imageRenderer = useCallback(galleryImage => {
+    const photo: GalleryImageProps = galleryImage.photo;
     return (
       <ImageContainer key={galleryImage.key} role="listitem">
         <ImageCard
-          id={galleryImage.photo.id}
-          workId={galleryImage.photo.workId}
+          id={photo.id}
+          workId={photo.source.id}
           image={{
-            contentUrl: galleryImage.photo.src,
-            width: galleryImage.photo.width - imageMargin * 2,
-            height: galleryImage.photo.height,
-            alt: galleryImage.photo.source.title,
+            contentUrl: photo.src,
+            width: photo.width - imageMargin * 2,
+            height: photo.height,
+            alt: photo.source.title,
           }}
           onClick={event => {
             event.preventDefault();
-            setExpandedImage(galleryImage.photo);
+            setExpandedImage(photo);
             setIsActive(true);
           }}
           layout="fixed"

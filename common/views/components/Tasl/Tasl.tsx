@@ -30,8 +30,9 @@ type TaslButtonProps = {
 };
 
 const TaslButton = styled.button.attrs({
-  className: 'plain-button absolute',
+  className: 'plain-button',
 })<TaslButtonProps>`
+  position: absolute;
   right: 0;
   top: ${props => (props.positionAtTop ? '2px' : 'auto')};
   bottom: ${props => (props.positionAtTop ? 'auto' : '2px')};
@@ -41,8 +42,10 @@ type TaslIconProps = {
   isEnhanced: boolean;
 };
 const TaslIcon = styled.span.attrs({
-  className: 'flex--v-center flex--h-center font-white',
+  className: 'font-white',
 })<TaslIconProps>`
+  align-items: center;
+  justify-content: center;
   background: rgba(29, 29, 29, 0.61);
   width: ${props => `${props.theme.iconDimension}px`};
   height: ${props => `${props.theme.iconDimension}px`};

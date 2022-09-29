@@ -160,7 +160,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   a {
-    color: ${themeValues.color('inherit')};
+    color: inherit;
     text-decoration: underline;
 
     &:hover {
@@ -189,7 +189,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .more-link {
-    color: ${themeValues.color('green')};
+    color: ${themeValues.color('accent.green')};
     text-decoration: none;
 
     &:hover,
@@ -245,7 +245,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     *::selection {
-      background: ${themeValues.color('turquoise')}4d;
+      background: ${themeValues.color('accent.turquoise')}4d;
     }
 
     ul {
@@ -262,7 +262,7 @@ export const typography = css<GlobalStyleProps>`
           display: inline-block;
           vertical-align: middle;
           border-radius: 0.1em;
-          background: ${themeValues.color('currentColor')};
+          background: currentColor;
           margin-right: 6px;
           margin-left: -12px;
         }
@@ -276,7 +276,7 @@ export const typography = css<GlobalStyleProps>`
       transition: color ${themeValues.transitionProperties};
 
       &:hover {
-        color: ${themeValues.color('green')};
+        color: ${themeValues.color('accent.green')};
         text-decoration-color: transparent;
       }
     }
@@ -299,7 +299,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .quote {
-    border-left: 12px solid ${themeValues.color('pumice')};
+    border-left: 12px solid ${themeValues.color('warmNeutral.400')};
     padding-left: 0.9em;
 
     p {
@@ -314,14 +314,14 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .quote--pull {
-    border-color: ${themeValues.color('transparent')};
+    border-color: transparent;
     position: relative;
 
     &:before {
       ${fontFamilyMixin('wb', true)}
       position: absolute;
       content: '“';
-      color: ${themeValues.color('teal')};
+      color: ${themeValues.color('accent.blue')};
       left: -14px;
       top: 0.12em;
       font-size: 2em;

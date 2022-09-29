@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { EventBasic } from '../../types/events';
 import CompactCard from '../CompactCard/CompactCard';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';

@@ -18,11 +18,14 @@ const Video = styled.video`
 
 const PlayPause = styled.button.attrs({
   'aria-label': 'play/pause button',
-  className: 'no-margin no-padding plain-button absolute',
+  className: 'plain-button',
 })`
+  margin: 0 !important;
+  padding: 0;
   background: transparent;
   border: 0;
   appearance: none;
+  position: absolute;
   top: 6px;
   left: 6px;
   transition: opacity 600ms ease;
@@ -32,7 +35,7 @@ const Text = styled.span.attrs({
   className: font('lr', 5),
 })<{ isPlaying: boolean }>`
   display: block;
-  background: ${props => props.theme.color('charcoal')};
+  background: ${props => props.theme.color('neutral.700')};
   padding: 6px;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   color: ${props => props.theme.color('white')};

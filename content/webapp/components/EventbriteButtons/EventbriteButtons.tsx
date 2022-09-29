@@ -83,7 +83,7 @@ const EventbriteButtons: FC<Props> = ({ event }) => {
               </Space>
             </>
           )}
-          <p className={`font-charcoal no-margin ${font('intr', 5)}`}>
+          <p className={`font-neutral-700 no-margin ${font('intr', 5)}`}>
             Tickets via Eventbrite
           </p>
         </>

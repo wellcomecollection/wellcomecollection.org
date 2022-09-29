@@ -72,10 +72,10 @@ const AccordionInner = styled(Space).attrs({
 `;
 
 const Item = styled.div`
-  border-bottom: 1px solid ${props => props.theme.color('pewter')};
+  border-bottom: 1px solid ${props => props.theme.color('neutral.600')};
 
   &:first-child {
-    border-top: 1px solid ${props => props.theme.color('pewter')};
+    border-top: 1px solid ${props => props.theme.color('neutral.600')};
   }
 `;
 
@@ -212,10 +212,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
         </Space>
       </Inner>
       <Inner>
-        <AccordionItem
-          title="Licence and credit"
-          testId="license-and-credit"
-        >
+        <AccordionItem title="Licence and credit" testId="license-and-credit">
           <div className={font('intr', 6)}>
             {license && license.label && (
               <p>

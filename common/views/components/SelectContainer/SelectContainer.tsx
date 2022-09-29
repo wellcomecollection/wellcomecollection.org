@@ -31,7 +31,7 @@ const StyledSelect = styled.div.attrs({
     font-weight: inherit;
     appearance: none;
     padding: 6px 36px 6px 12px;
-    border: 2px solid ${props => props.theme.color('pumice')};
+    border: 2px solid ${props => props.theme.color('warmNeutral.400')};
     border-radius: ${props => props.theme.borderRadiusUnit}px;
     background-color: ${props => props.theme.color('white')};
     width: 100%;

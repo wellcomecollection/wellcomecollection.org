@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
+import { font } from '@weco/common/utils/classnames';
 
 export const Container = styled.div`
   ${props => props.theme.media.medium`
@@ -38,9 +39,18 @@ export const Details = styled.div`
 `}
 `;
 
-export const WorkInformation = styled.div`
-  display: flex;
-  color: ${props => props.theme.color('pewter')};
+export const WorkInformation = styled(Space).attrs({
+  className: font('intr', 5),
+  v: { size: 'xs', properties: ['margin-bottom'] },
+})`
+  color: ${props => props.theme.color('neutral.600')};
+`;
+
+export const WorkInformationItem = styled.span`
+  &:not(:first-child)::before {
+    content: ' | ';
+    margin: 0 4px;
+  }
 `;
 
 export const WorkTitleHeading = styled.h3`

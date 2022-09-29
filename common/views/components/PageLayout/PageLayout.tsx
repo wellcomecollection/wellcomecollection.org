@@ -18,7 +18,7 @@ import { wellcomeCollectionGallery } from '../../../data/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
-import ApiToolbar from '../ApiToolbar/ApiToolbar';
+import ApiToolbar, { ApiToolbarLink } from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
@@ -53,6 +53,7 @@ export type Props = {
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
   headerProps?: HeaderProps;
+  apiToolbarLinks?: ApiToolbarLink[];
 };
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
@@ -70,6 +71,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   hideFooter = false,
   excludeRoleMain = false,
   headerProps,
+  apiToolbarLinks = [],
 }) => {
   const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
@@ -130,8 +132,9 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   const socialPreviewCardImage = getCrop(image, '32:15') || image;
 
   const imageUrl =
-    socialPreviewCardImage &&
-    convertImageUri(socialPreviewCardImage.contentUrl, 800);
+    (socialPreviewCardImage &&
+      convertImageUri(socialPreviewCardImage.contentUrl, 800)) ||
+    'https://i.wellcomecollection.org/assets/images/wellcome-collection-social.png';
   const imageAltText = socialPreviewCardImage?.alt || '';
 
   return (
@@ -140,25 +143,20 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <title>{fullTitle}</title>
         <meta name="description" content={description || ''} />
         <link rel="canonical" href={absoluteUrl} />
-        {imageUrl && <meta property="og:image" content={imageUrl} />}
         {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
         <meta property="og:site_name" content="Wellcome Collection" />
         <meta property="og:type" content={openGraphType} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={absoluteUrl} />
-        {/* we add itemprop="image" as it's required for WhatsApp */}
-        {imageUrl && (
-          <meta
-            key="og:image"
-            property="og:image"
-            content={imageUrl}
-            itemProp="image"
-          />
-        )}
-        {imageUrl && (
-          <meta key="og:image:width" property="og:image:width" content="1200" />
-        )}
+        <meta
+          key="og:image"
+          property="og:image"
+          content={imageUrl}
+          itemProp="image" // itemProp is required for WhatsApp
+        />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+
         <meta
           key="twitter:card"
           name="twitter:card"
@@ -254,7 +252,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       </Head>
 
       <div id="root">
-        {apiToolbar && <ApiToolbar />}
+        {apiToolbar && <ApiToolbar extraLinks={apiToolbarLinks} />}
         <CookieNotice source={url.pathname || ''} />
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content

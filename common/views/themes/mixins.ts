@@ -30,17 +30,6 @@ export const visuallyHidden = `
   white-space: nowrap;
 `;
 
-export const clearfix = `
-  &:before,
-  &:after {
-    content: '';
-    display: table;
-  }
-
-  &:after {
-    clear: both;
-}`;
-
 export function gridCells(columns: number, key: ColumnKey): string {
   return [...Array(columns).keys()]
     .map(c => {

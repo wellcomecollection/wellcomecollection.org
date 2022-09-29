@@ -68,7 +68,7 @@ const FeaturedCardTemplate = args => {
 };
 export const featuredCard = FeaturedCardTemplate.bind({});
 featuredCard.args = {
-  background: 'charcoal',
+  background: 'neutral.700',
   color: 'white',
   isReversed: false,
 };

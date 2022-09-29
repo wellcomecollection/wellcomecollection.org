@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
@@ -13,7 +13,7 @@ import {
 } from '../../../model/catalogue';
 import { looksLikePrismicId } from '../../../services/prismic';
 
-type Prop = {
+export type ApiToolbarLink = {
   id: string;
   label: string;
   value?: string;
@@ -36,7 +36,7 @@ const includes = [
 ];
 
 const ToolbarContainer = styled.div`
-  background-color: ${props => props.theme.color('purple')};
+  background-color: ${props => props.theme.color('accent.purple')};
   z-index: 100;
 `;
 
@@ -60,7 +60,7 @@ function setTzitzitParams({
   sourceLink: string;
   licence: License | undefined;
   contributors: Contributor[] | undefined;
-}): Prop | undefined {
+}): ApiToolbarLink | undefined {
   const licenceId = licence?.id.toUpperCase();
 
   // We should not be using in copyright images in Stories
@@ -83,7 +83,7 @@ function setTzitzitParams({
 
 async function createTzitzitImageLink(
   imageId: string
-): Promise<Prop | undefined> {
+): Promise<ApiToolbarLink | undefined> {
   const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
   const image: Image = await fetch(apiUrl).then(res => res.json());
 
@@ -97,7 +97,7 @@ async function createTzitzitImageLink(
 
 async function createTzitzitWorkLink(
   workId: string
-): Promise<Prop | undefined> {
+): Promise<ApiToolbarLink | undefined> {
   const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=items,contributors`;
   const work: Work = await fetch(apiUrl).then(res => res.json());
 
@@ -119,10 +119,44 @@ async function createTzitzitWorkLink(
   });
 }
 
+function getAnchorLinkUrls() {
+  // This function currently only extracts the ids from h2, h3, and h4 tags
+  const getAllHeadingIds = [...document.querySelectorAll('h2, h3, h4')].map(
+    item => item.id
+  );
+  // This function extracts any apiToolbar ids with the view to extracting the data-toolbar values
+  // This can be used across the codebase (where apiToolbar id is used) but at the moment is only used in audio & BSL guides
+  // Please note: an audio/BSL guide must contain and audio or video file with an accompanying title or no id will exist
+  // and no link will be created
+  const extractedAudioBSLAttributes = [
+    ...document.querySelectorAll('#apiToolbar'),
+  ].map(el => el.getAttribute('data-toolbar-anchor'));
+
+  // Remove empty ids and then append them to the current url with # to
+  // create the anchor link
+  // e.g. weco.org/guides/exhibitions/YvUALRAAACMA2h8V/captions-and-transcripts#anchor-id
+  const extractedHeadingIdURLs = getAllHeadingIds
+    .filter(Boolean)
+    .map(id => `${document.URL}#${id}`);
+  const extractedAudioBSLURLs = extractedAudioBSLAttributes
+    .filter(Boolean)
+    .map(id => `${document.URL}#${id}`);
+  const csvAsSingleColumn =
+    extractedHeadingIdURLs.join('\n') + extractedAudioBSLURLs.join('\n');
+  // Push the list of urls to the clipboard
+  if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+    return navigator.clipboard.writeText(csvAsSingleColumn).then(() => {
+      alert('All anchor links on this page have been copied to clipboard!');
+    });
+  return alert(
+    'The Clipboard API is not available. No anchor links have been copied.'
+  );
+}
+
 function getRouteProps(path: string) {
   switch (path) {
     case '/work':
-      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { id } = query;
         const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=${includes}`;
         const work: Work = await fetch(apiUrl).then(res => res.json());
@@ -154,21 +188,22 @@ function getRouteProps(path: string) {
             label: id.identifierType.label,
             value: id.value,
           })),
-        ].filter(Boolean) as Prop[];
+        ].filter(Boolean) as ApiToolbarLink[];
 
         return links;
       };
 
     case '/image':
-      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { id } = query;
 
         const tzitzitLink = await createTzitzitImageLink(id as string);
 
         return tzitzitLink ? [tzitzitLink] : [];
       };
+
     case '/item':
-      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { workId } = query;
 
         const tzitzitLink = await createTzitzitWorkLink(workId as string);
@@ -176,7 +211,7 @@ function getRouteProps(path: string) {
         return tzitzitLink ? [tzitzitLink] : [];
       };
     default:
-      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { id } = query;
 
         // On some Prismic pages, the ID will be in the query data, e.g. /events/YeViLhAAAJMQM7IY
@@ -201,10 +236,14 @@ function getRouteProps(path: string) {
   }
 }
 
-const ApiToolbar: FunctionComponent = () => {
+type Props = {
+  extraLinks?: ApiToolbarLink[];
+};
+
+const ApiToolbar: FC<Props> = ({ extraLinks = [] }) => {
   const cookieName = 'apiToolbarMini';
   const router = useRouter();
-  const [props, setProps] = useState<Prop[]>([]);
+  const [links, setLinks] = useState<ApiToolbarLink[]>([]);
   const [mini, setMini] = useState<boolean>(false);
 
   useIsomorphicLayoutEffect(() => {
@@ -214,11 +253,11 @@ const ApiToolbar: FunctionComponent = () => {
   useEffect(() => {
     const fn = getRouteProps(router.route);
     if (fn) {
-      fn(router.query).then(setProps);
+      fn(router.query).then(setLinks);
     }
   }, [router.route, router.query]);
 
-  const propValue = (prop: Prop) => {
+  const propValue = (prop: ApiToolbarLink) => {
     return `${prop.label}${prop.value ? ` : ${prop.value}` : ''}`;
   };
 
@@ -241,7 +280,7 @@ const ApiToolbar: FunctionComponent = () => {
               API toolbar
             </span>
             <ul className="flex plain-list no-margin font-size-5">
-              {props.map(prop => (
+              {extraLinks.concat(links).map(prop => (
                 <li
                   key={prop.id}
                   style={{
@@ -258,6 +297,16 @@ const ApiToolbar: FunctionComponent = () => {
           </>
         )}
       </div>
+      <button
+        className="plain-button"
+        type="button"
+        onClick={() => {
+          getAnchorLinkUrls();
+        }}
+        style={{ padding: '10px' }}
+      >
+        <>⚓️</>
+      </button>
 
       <button
         className="plain-button"

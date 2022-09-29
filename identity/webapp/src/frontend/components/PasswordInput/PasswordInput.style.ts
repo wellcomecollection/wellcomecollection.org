@@ -14,7 +14,7 @@ export const RulesListWrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   className: font('intr', 5),
 })`
-  border: 1px solid ${props => props.theme.color('smoke')};
+  border: 1px solid ${props => props.theme.color('neutral.300')};
   border-radius: ${props => props.theme.borderRadiusUnit}px;
 `;
 

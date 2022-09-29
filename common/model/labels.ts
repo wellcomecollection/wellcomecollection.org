@@ -1,8 +1,8 @@
 export type LabelColor =
-  | 'orange'
+  | 'accent.salmon'
   | 'yellow'
   | 'black'
-  | 'cream'
+  | 'warmNeutral.300'
   | 'white'
   | 'transparent';
 

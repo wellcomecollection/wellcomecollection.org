@@ -1,18 +1,3 @@
-import { quoteVal } from '../../utils/csv';
-import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
-import { WorksProps } from '../../views/components/WorksLink/WorksLink';
-
-function toIsoDateString(s: string | undefined): string | undefined {
-  if (s) {
-    try {
-      return new Date(s).toISOString().split('T')[0];
-    } catch (e) {
-      return undefined;
-    }
-  }
-  return undefined;
-}
-
 type ItemsLocationsAccessConditionsStatus =
   | 'open'
   | 'open-with-advisory'
@@ -64,48 +49,3 @@ export type CatalogueImagesApiProps = {
 export type CatalogueConceptsApiProps = {
   page?: number;
 };
-
-export function worksRouteToApiUrl(
-  worksProps: WorksProps,
-  overrides: Partial<CatalogueWorksApiProps>
-): CatalogueWorksApiProps {
-  return {
-    query: worksProps.query,
-    page: worksProps.page,
-    workType: worksProps.workType,
-    'items.locations.locationType': worksProps['items.locations.locationType'],
-    availabilities: worksProps.availabilities,
-    sort: worksProps.sort,
-    sortOrder: worksProps.sortOrder,
-    'partOf.title': worksProps['partOf.title'],
-    'production.dates.from': toIsoDateString(
-      worksProps['production.dates.from']
-    ),
-    'production.dates.to': toIsoDateString(worksProps['production.dates.to']),
-    languages: worksProps.languages,
-    'genres.label': worksProps['genres.label'].map(quoteVal),
-    'subjects.label': worksProps['subjects.label'].map(quoteVal),
-    'contributors.agent.label':
-      worksProps['contributors.agent.label'].map(quoteVal),
-    ...overrides,
-  };
-}
-
-export function imagesRouteToApiUrl(
-  imagesRouteProps: ImagesProps,
-  overrides: Partial<CatalogueImagesApiProps>
-): CatalogueImagesApiProps {
-  return {
-    query: imagesRouteProps.query,
-    page: imagesRouteProps.page,
-    color: imagesRouteProps.color,
-    'locations.license': imagesRouteProps['locations.license'],
-    'source.genres.label':
-      imagesRouteProps['source.genres.label'].map(quoteVal),
-    'source.subjects.label':
-      imagesRouteProps['source.subjects.label'].map(quoteVal),
-    'source.contributors.agent.label':
-      imagesRouteProps['source.contributors.agent.label'].map(quoteVal),
-    ...overrides,
-  };
-}

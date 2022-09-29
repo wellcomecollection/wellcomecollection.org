@@ -42,8 +42,8 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
 
   &[disabled],
   &.disabled {
-    background: ${props => props.theme.color('pewter')};
-    border-color: ${props => props.theme.color('pewter')};
+    background: ${props => props.theme.color('neutral.600')};
+    border-color: ${props => props.theme.color('neutral.600')};
     color: ${props => props.theme.color('white')};
     cursor: not-allowed;
 
@@ -75,8 +75,10 @@ const BaseButtonInnerSpan = styled.span<BaseButtonInnerProps>``;
 export const BaseButtonInner = styled(
   BaseButtonInnerSpan
 ).attrs<BaseButtonInnerProps>(props => ({
-  className: `${font(props.isInline ? 'intr' : 'intb', 5)} flex flex--v-center`,
+  className: font(props.isInline ? 'intr' : 'intb', 5),
 }))`
+  display: flex;
+  align-items: center;
   height: 1em;
 `;
 
@@ -91,8 +93,9 @@ export const ButtonIconWrapper = styled(
     size: 'xs',
     properties: [`${props.iconAfter ? 'margin-left' : 'margin-right'}`],
   },
-  className: 'flex-inline',
 }))<ButtonIconWrapperAttrsProps>`
+  display: inline-flex;
+
   // Prevent icon within .spaced-text parent having top margin
   margin-top: 0;
 `;
@@ -169,36 +172,10 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
 
   padding: ${({ size }) => getPadding(size)};
 
+  // TODO use a function to lighten the colours on hover
+  // In the meantime, use underline
   &:not([disabled]):hover {
-    background: ${props =>
-      props.theme.color(
-        props?.colors?.background ||
-          props.theme.buttonColors.default.background,
-        'dark'
-      )};
-    border-color: ${props =>
-      props.theme.color(
-        props?.colors?.border || props.theme.buttonColors.default.border,
-        'dark'
-      )};
-
-    ${props =>
-      props?.colors?.background === 'transparent' &&
-      `
-      text-decoration: underline;
-    `};
-
-    ${props =>
-      props.hoverUnderline === false &&
-      `
-      text-decoration: none;
-    `}
-
-    ${props =>
-      props.hoverUnderline === true &&
-      `
-      text-decoration: underline;
-    `}
+    text-decoration: underline;
   }
 `;
 

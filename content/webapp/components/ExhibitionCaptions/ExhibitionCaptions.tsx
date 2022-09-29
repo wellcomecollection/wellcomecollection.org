@@ -10,8 +10,8 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
-import { themeValues } from '@weco/common/views/themes/config';
-import { dasherize } from '@weco/common/utils/grammar';
+import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 function getTypeColor(type: string): string {
   // importing this from exhibition-guide.tsx was causing a storybook build failure
@@ -19,15 +19,14 @@ function getTypeColor(type: string): string {
   // in order to get the exhibition guides work deployed
   switch (type) {
     case 'bsl':
-      return 'newPaletteBlue';
+      return 'accent.lightBlue';
     case 'audio-without-descriptions':
-      return 'newPaletteOrange';
+      return 'accent.lightSalmon';
     case 'audio-with-descriptions':
-      return 'newPaletteSalmon';
+      return 'accent.lightPurple';
     case 'captions-and-transcripts':
-      return 'newPaletteMint';
     default:
-      return 'newPaletteMint';
+      return 'accent.lightGreen';
   }
 }
 
@@ -65,14 +64,13 @@ const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
       ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
       : null,
   })
-)<{ backgroundColor: string; backgroundShade: string; hasPadding: boolean }>`
-  background: ${props =>
-    props.theme.color(props.backgroundColor, props.backgroundShade)};
+)<{ backgroundColor: PaletteColor; hasPadding: boolean }>`
+  background: ${props => props.theme.color(props.backgroundColor)};
 `;
 
 const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
   as: `h${props.level}`,
-  className: font('wb', 3),
+  className: font('intb', 3),
   v: { size: 's', properties: ['margin-bottom'] },
 }))<{ level: number }>``;
 
@@ -112,7 +110,7 @@ const CaptionTranscription = styled.div.attrs({
 `;
 
 const Caption = styled(Space).attrs({
-  className: `spaced-text ${font('intr', 5)}`,
+  className: `spaced-text ${font('intr', 4)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 20px solid ${props => props.theme.color('yellow')};
@@ -127,7 +125,7 @@ const Transcription = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
-  border-left: 20px solid ${props => props.theme.color('newPaletteBlue')};
+  border-left: 20px solid ${props => props.theme.color('accent.lightBlue')};
 `;
 
 type Stop = {
@@ -221,7 +219,7 @@ const Stop: FC<{
                 properties: ['margin-bottom'],
               }}
             >
-              <Divider color="pumice" isKeyline={true} />
+              <Divider color="warmNeutral.400" isKeyline={true} />
             </Space>
           )}
           <div className="flex flex--wrap">
@@ -235,7 +233,7 @@ const Stop: FC<{
               }}
               v={{ size: 'l', properties: ['margin-bottom'] }}
             >
-              <StandaloneTitle id={dasherize(`${standaloneTitle}`)}>
+              <StandaloneTitle id={dasherizeShorten(`${standaloneTitle}`)}>
                 {standaloneTitle}
               </StandaloneTitle>
             </Space>
@@ -247,8 +245,7 @@ const Stop: FC<{
           condition={hasContext}
           wrapper={children => (
             <ContextContainer
-              backgroundColor={isFirstStop ? 'white' : 'cream'}
-              backgroundShade={isFirstStop ? 'base' : 'light'}
+              backgroundColor={isFirstStop ? 'white' : 'warmNeutral.300'}
               hasPadding={!isFirstStop}
             >
               {children}
@@ -260,7 +257,7 @@ const Stop: FC<{
               {!hasContext && (
                 <TombstoneTitle
                   level={tombstoneHeadingLevel}
-                  id={dasherize(title)}
+                  id={dasherizeShorten(title)}
                 >
                   {title}
                 </TombstoneTitle>
@@ -277,7 +274,7 @@ const Stop: FC<{
                 <>
                   {title.length > 0 && (
                     <ContextTitle
-                      id={dasherize(title)}
+                      id={dasherizeShorten(title)}
                       level={contextHeadingLevel}
                     >
                       {title}

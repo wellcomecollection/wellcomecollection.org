@@ -20,3 +20,11 @@ acrossMultipleDays.args = {
   end: oneWeekFromNow,
 };
 acrossMultipleDays.storyName = 'Across multiple days';
+
+export const withSplit = Template.bind({});
+withSplit.args = {
+  start: now,
+  end: oneHourFromNow,
+  splitTime: true,
+};
+withSplit.storyName = 'With date/time on separate lines';

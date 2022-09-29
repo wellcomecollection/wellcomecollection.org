@@ -24,10 +24,13 @@
  * †: https://prismic.io/docs/technologies/query-predicates-reference-rest-api
  * see: https://prismic.io/docs/core-concepts/slices
  */
-import Prismic from '@prismicio/client';
 import yargs from 'yargs';
 import body from './src/parts/body';
 import articleBody from './src/parts/article-body';
+import {
+  downloadPrismicSnapshot,
+  getPrismicDocuments,
+} from './downloadSnapshot';
 
 const { label, type } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --label [string] --type [string]')
@@ -37,41 +40,6 @@ const { label, type } = yargs(process.argv.slice(2))
   })
   .parseSync();
 
-let a;
-async function api() {
-  if (!a) {
-    a = await Prismic.getApi(
-      'https://wellcomecollection.cdn.prismic.io/api/v2'
-    );
-  }
-
-  return a;
-}
-
-async function* getAllResults() {
-  let response = await (await api()).query('', { pageSize: 100 });
-
-  while (true) {
-    const results = response.results;
-
-    if (results.length === 0) {
-      break;
-    }
-
-    for (const result of results) {
-      yield result;
-    }
-
-    if (!response.next_page) {
-      break;
-    }
-
-    response = await (
-      await api()
-    ).query('', { pageSize: 100, page: response.page + 1 });
-  }
-}
-
 async function main() {
   const sliceNames = Object.keys(articleBody.config.choices).concat(
     Object.keys(body.config.choices)
@@ -80,7 +48,9 @@ async function main() {
   const sliceCounter = new Map(sliceNames.map(sliceName => [sliceName, 0]));
   const matches = [];
 
-  for await (const result of getAllResults()) {
+  const snapshotDir = await downloadPrismicSnapshot();
+
+  for (const result of getPrismicDocuments(snapshotDir)) {
     if (result.data.body) {
       for (const slice of result.data.body) {
         sliceCounter.set(

@@ -95,8 +95,19 @@ export async function catalogueQuery<Params, Result extends ResultType>(
     const res = await catalogueFetch(url);
     const json = await res.json();
 
-    return json;
+    if (json.type === 'Error') {
+      console.warn(
+        `Received error from catalogue API query ${url}: ` +
+          JSON.stringify(json)
+      );
+    }
+
+    return {
+      ...json,
+      _requestUrl: url,
+    };
   } catch (error) {
+    console.error(`Unable to fetch catalogue API URL ${url}`, error);
     return catalogueApiError();
   }
 }

@@ -153,7 +153,7 @@ const Download: NextPage<Props> = ({
               {license && (
                 <>
                   <SpacingComponent>
-                    <Divider color="pumice" isKeyline={true} />
+                    <Divider color="warmNeutral.400" isKeyline={true} />
                   </SpacingComponent>
                   <SpacingComponent>
                     <div>

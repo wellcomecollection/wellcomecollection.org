@@ -39,12 +39,12 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: `${font(
-    'intb',
-    5
-  )} plain-button line-height-1 flex-inline flex--v-center`,
+  className: `${font('intb', 5)} plain-button`,
 }))<PopupDialogOpenProps>`
-  color: ${props => props.theme.color('purple')};
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  color: ${props => props.theme.color('accent.purple')};
   position: fixed;
   transform: ${props =>
     props.isActive || !props.shouldStartAnimation
@@ -65,7 +65,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     outline: 0;
     border: 0;
     color: ${props => props.theme.color('white')};
-    background: ${props => props.theme.color('purple')};
+    background: ${props => props.theme.color('accent.purple')};
 
     .icon__shape {
       fill: ${props => props.theme.color('white')};
@@ -89,7 +89,7 @@ const PopupDialogWindow = styled(Space).attrs({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 6, medium: 6, large: 6 },
   },
-  className: 'font-purple',
+  className: 'font-accent-purple',
 })<PopupDialogWindowProps>`
   background-color: ${props => props.theme.color('white')};
   border-radius: 20px 0 20px 0;
@@ -109,9 +109,16 @@ const PopupDialogWindow = styled(Space).attrs({
 `;
 
 const PopupDialogClose = styled.button.attrs({
-  className:
-    'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center',
+  className: 'plain-button',
 })<{ isKeyboard: boolean }>`
+  margin: 0 !important;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
   top: 10px;
   right: 10px;
 
@@ -138,12 +145,10 @@ const PopupDialogCTA = styled(Space).attrs({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: `${font('intb', 5, {
-    small: 3,
-    medium: 3,
-  })} rounded-corners inline-block`,
+  className: `${font('intb', 5, { small: 3, medium: 3 })} rounded-corners`,
 })`
-  background-color: ${props => props.theme.color('purple')};
+  display: inline-block;
+  background-color: ${props => props.theme.color('accent.purple')};
   color: ${props => props.theme.color('white')};
   transition: all 500ms ease;
   border: 2px solid transparent;
@@ -152,8 +157,8 @@ const PopupDialogCTA = styled(Space).attrs({
   &:hover,
   &:focus {
     outline: 0;
-    color: ${props => props.theme.color('purple')};
-    border-color: ${props => props.theme.color('purple')};
+    color: ${props => props.theme.color('accent.purple')};
+    border-color: ${props => props.theme.color('accent.purple')};
     background: ${props => props.theme.color('white')};
   }
 `;
@@ -290,7 +295,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             overrides: { medium: 2, large: 2 },
           }}
         >
-          <Icon icon={chat} color="purple" />
+          <Icon icon={chat} color="accent.purple" />
         </Space>
         {openButtonText}
       </PopupDialogOpen>
@@ -314,7 +319,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             });
           }}
         >
-          <Icon icon={clear} title="Close dialog" color="purple" />
+          <Icon icon={clear} title="Close dialog" color="accent.purple" />
         </PopupDialogClose>
         <Space
           h={{

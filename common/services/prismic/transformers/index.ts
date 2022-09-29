@@ -1,12 +1,13 @@
 import { Tasl } from '../../../model/tasl';
 import { licenseTypeArray } from '../../../model/license';
-import { LinkField } from '@prismicio/types';
 import linkResolver from '../link-resolver';
 import {
   isFilledLinkToDocument,
   isFilledLinkToMediaField,
   isFilledLinkToWebField,
 } from '../types';
+import * as prismicH from '@prismicio/helpers';
+import * as prismicT from '@prismicio/types';
 
 export function transformTaslFromString(pipedString: string | null): Tasl {
   if (pipedString === null) {
@@ -54,7 +55,7 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
 }
 
 export function transformLink(
-  link?: LinkField<string, string, any>
+  link?: prismicT.LinkField<string, string, any>
 ): string | undefined {
   if (link) {
     if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
@@ -65,4 +66,17 @@ export function transformLink(
       console.warn(`Unable to construct link for ${JSON.stringify(link)}`);
     }
   }
+}
+
+/** Transform a Prismic timestamp into a JavaScript date.
+ *
+ * Note: this is preferable to passing a value to the `Date` constructor
+ * (i.e. `new Date(…)`) because it handles the timezone offset which is present
+ * in Prismic timestamps, whereas some older browsers can't parse that.
+ *
+ */
+export function transformTimestamp(
+  field: prismicT.TimestampField
+): Date | undefined {
+  return prismicH.asDate(field) || undefined;
 }

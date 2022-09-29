@@ -1,6 +1,6 @@
 import { useRef, useEffect, FunctionComponent } from 'react';
 import { arrow, cc, ccBy, wellcome } from '@weco/common/icons';
-import { font, grid, classNames } from '../../../utils/classnames';
+import { font, grid } from '../../../utils/classnames';
 import FooterWellcomeLogo from './FooterWellcomeLogo';
 import FooterNav from './FooterNav';
 import FindUs from '../FindUs/FindUs';
@@ -25,31 +25,39 @@ const FooterNavWrapper = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom'],
   },
 })`
-  border-top: 1px solid ${props => props.theme.color('charcoal')};
-  border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+  border-top: 1px solid ${props => props.theme.color('neutral.700')};
+  border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
 `;
 
 const HygieneNav = styled(Space).attrs({
   as: 'nav',
   h: { size: 'l', properties: ['margin-bottom'] },
-  className: 'relative flex-1',
 })`
-  border-bottom: 1px solid ${props => props.theme.color('charcoal')};
+  position: relative;
+  flex: 1;
+  border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
 `;
 
 const HygieneList = styled(Space).attrs({
   as: 'ul',
   h: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
-  className: 'plain-list no-margin no-padding flex flex--h-space-between',
 })`
-  border-top: 1px solid ${props => props.theme.color('charcoal')};
+  list-style: none;
+  margin: 0 !important;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid ${props => props.theme.color('neutral.700')};
 `;
 
 const FooterBottom = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-bottom'] },
-  className: 'flex flex--wrap flex--h-space-between flex--v-start',
 })`
-  border-top: 1px solid ${props => props.theme.color('charcoal')};
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-top: 1px solid ${props => props.theme.color('neutral.700')};
 `;
 
 const NavBrand = styled.a`
@@ -58,10 +66,10 @@ const NavBrand = styled.a`
   display: block;
 `;
 
-const FooterLeft = styled.div.attrs({
-  className: 'flex flex--v-start',
-})`
+const FooterLeft = styled.div`
+  display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
 
   ${props => props.theme.media.medium`
     flex-wrap: nowrap;
@@ -73,18 +81,17 @@ const FooterStrap = styled(Space).attrs({
     size: 'm',
     properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
   },
-  className: classNames({
-    'flex flex--v-center': true,
-  }),
 })`
+  display: flex;
+  align-items: center;
   min-width: 220px;
-  border-bottom: 1px solid charcoal;
+  border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
   width: 100%;
 
   ${props => props.theme.media.medium`
     width: auto;
     border-bottom: 0;
-    border-right: 1px solid ${props.theme.color('charcoal')};
+    border-right: 1px solid ${props.theme.color('neutral.700')};
     margin-right: 24px;
     padding-right: 24px;
   `}
@@ -114,11 +121,11 @@ const HygieneItem = styled.li.attrs({
     padding: 0.5em 0;
     display: block;
     text-decoration: none;
-    border-left: 1px solid ${props => props.theme.color('charcoal')};
+    border-left: 1px solid ${props => props.theme.color('neutral.700')};
     transition: color 200ms ease;
 
     &:hover {
-      color: ${props => props.theme.color('green')};
+      color: ${props => props.theme.color('accent.green')};
     }
 
     ${props => props.theme.media.xlarge`
@@ -132,7 +139,7 @@ const HygieneItem = styled.li.attrs({
       border-left: 0;
 
       ${props => props.theme.media.large`
-        border-left: 1px solid ${props => props.theme.color('charcoal')};
+        border-left: 1px solid ${props => props.theme.color('neutral.700')};
         justify-content: center;
       `}
 
@@ -141,7 +148,7 @@ const HygieneItem = styled.li.attrs({
       `}
 
       .icon__shape {
-        fill: ${props => props.theme.color('currentColor')};
+        fill: currentColor;
       }
     }
   }
@@ -153,7 +160,7 @@ const HygieneItem = styled.li.attrs({
 
 const TopBorderBox = styled.div`
   @media (min-width: ${props => props.theme.sizes.large}px) {
-    border-top: 1px solid ${props => props.theme.color('charcoal')};
+    border-top: 1px solid ${props => props.theme.color('neutral.700')};
     border-bottom: 0;
   }
 `;

@@ -1,4 +1,5 @@
-import { transformGenericFields, transformTimestamp } from '.';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { transformGenericFields } from '.';
 import { Season } from '../../../types/seasons';
 import { SeasonPrismicDocument } from '../types/seasons';
 

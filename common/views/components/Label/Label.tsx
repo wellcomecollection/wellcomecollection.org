@@ -1,23 +1,26 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { Label as LabelType, LabelColor } from '../../../model/labels';
 import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import styled from 'styled-components';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type LabelContainerProps = {
-  fontColor: string;
-  labelColor: string;
+  fontColor: PaletteColor;
+  labelColor: PaletteColor;
 };
 
 const LabelContainer = styled(Space).attrs({
-  className: `nowrap line-height-1 ${font('intb', 6)}`,
+  className: font('intb', 6),
 })<LabelContainerProps>`
+  white-space: nowrap;
+  line-height: 1;
   color: ${props => props.theme.color(props.fontColor)};
   background-color: ${props => props.theme.color(props.labelColor)};
 
   ${props => {
     if (props.labelColor === 'white' || props.labelColor === 'transparent') {
-      return `border: 1px solid ${props.theme.color('silver')};`;
+      return `border: 1px solid ${props.theme.color('neutral.500')};`;
     } else {
       return `border: 1px solid ${props.theme.color(props.labelColor)};`;
     }
