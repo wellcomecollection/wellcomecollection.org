@@ -161,10 +161,11 @@ const HygieneItem = styled.li.attrs({
 `;
 
 const TopBorderBox = styled.div`
-  @media (min-width: ${props => props.theme.sizes.large}px) {
-    border-top: 1px solid ${props => props.theme.color('neutral.700')};
+  ${props =>
+    props.theme.media('large')(`
+    border-top: 1px solid ${props.theme.color('neutral.700')};
     border-bottom: 0;
-  }
+  `)}
 `;
 type Props = {
   hide: boolean;

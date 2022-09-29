@@ -78,9 +78,9 @@ export const ShameButton = styled.button.attrs(() => ({
     .btn__text {
       position: absolute;
       right: 100%;
-      @media (min-width: ${props.theme.sizes.large}px) {
+      ${props => props.theme.media('large')`
         position: static;
-      }
+      `}
     }
 
     &:not([disabled]):hover {

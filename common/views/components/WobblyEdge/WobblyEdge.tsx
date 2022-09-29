@@ -29,10 +29,10 @@ const Edge = styled.div.attrs({
   transition: -webkit-clip-path 2000ms ease-in-out, clip-path 2000ms ease-in-out;
   display: none;
 
-  @media (min-width: ${props => props.theme.sizes.large}px) {
+  ${props => props.theme.media('large')`
     max-height: 60px;
     margin-top: -60px;
-  }
+  `}
 
   ${props =>
     props.isEnhanced &&
@@ -55,10 +55,10 @@ const Edge = styled.div.attrs({
     margin-top: 0;
     top: -2px;
 
-    @media (min-width: ${props.theme.sizes.large}px) {
+    ${props => props.theme.media('large')`
       margin-top: 0;
       top: -2px;
-    }
+    `}
   `}
 `;
 

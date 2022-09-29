@@ -101,9 +101,9 @@ const Wrapper = styled.div<IsActiveProps>`
     .enhanced & {
       display: block;
 
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
+      ${props => props.theme.media('medium')`
         display: none;
-      }
+      `}
     }
   }
 
@@ -149,17 +149,17 @@ const Wrapper = styled.div<IsActiveProps>`
     .enhanced & {
       display: none;
 
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
+      ${props => props.theme.media('medium')`
         display: flex;
-      }
+      `}
     }
   }
 
   &.segmented-control__list--inline {
     .enhanced & {
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
+      ${props => props.theme.media('medium')`
         display: inline-block;
-      }
+      `}
     }
   }
 
