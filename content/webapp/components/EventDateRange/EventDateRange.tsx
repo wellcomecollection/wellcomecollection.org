@@ -25,7 +25,7 @@ type Props = {
  *
  * On the event page, we can display the full list of dates, but in certain contexts
  * (e.g. event promo cards, the event header) we can only show a single range.
- * This function choose which range to use.
+ * This function chooses a suitable snapshot of an event.
  *
  *    - If we're on the event page, we want to highlight the next time this event
  *      is happening.  If today is August, we'd show the event in September.
