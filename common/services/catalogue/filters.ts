@@ -96,12 +96,7 @@ function filterOptionsWithNonAggregates({
 
   return nonAggregateOptions
     .concat(options)
-    .filter(
-      option =>
-        showEmptyBuckets ||
-        (option.count && option.count > 0) ||
-        option.selected
-    );
+    .filter(option => showEmptyBuckets || option.count || option.selected);
 }
 
 /** Creates the label for a filter in the GUI.
