@@ -16,6 +16,7 @@ import { ServerDataContext } from '../../server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
 import usePrismicPreview from '../../services/app/usePrismicPreview';
+import useMaintainPageHeight from '../../services/app/useMaintainPageHeight';
 
 type Pageview = {
   name: string;
@@ -37,31 +38,6 @@ export type WithGaDimensions = {
 const gaDimensionKeys = {
   partOf: 'dimension3',
 };
-
-function makeSurePageIsTallEnough() {
-  const pageHeightCache: number[] = [];
-  const html = document.querySelector('html');
-
-  Router.events.on('routeChangeStart', () => {
-    document &&
-      document.documentElement &&
-      pageHeightCache.push(document.documentElement.offsetHeight);
-  });
-
-  Router.events.on('routeChangeComplete', () => {
-    if (html) {
-      html.style.height = 'initial';
-    }
-  });
-
-  Router.beforePopState(() => {
-    if (html) {
-      html.style.height = `${pageHeightCache.pop()}px`;
-    }
-
-    return true;
-  });
-}
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -105,9 +81,8 @@ const WecoApp: FunctionComponent<AppProps> = ({
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  // enhanced
+  useMaintainPageHeight();
   useEffect(() => {
-    makeSurePageIsTallEnough();
     document.documentElement.classList.add('enhanced');
   }, []);
 
