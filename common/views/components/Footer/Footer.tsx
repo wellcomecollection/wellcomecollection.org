@@ -1,169 +1,36 @@
 import { useRef, useEffect, FunctionComponent } from 'react';
-import { arrow, cc, ccBy, wellcome } from '@weco/common/icons';
-import { font, grid } from '../../../utils/classnames';
+
+// Components
 import FooterWellcomeLogo from './FooterWellcomeLogo';
 import FooterNav from './FooterNav';
 import FindUs from '../FindUs/FindUs';
 import FooterSocial from './FooterSocial';
-import Icon from '../Icon/Icon';
-import styled from 'styled-components';
-import Space from '../styled/Space';
-import OpeningTimes from '../OpeningTimes/OpeningTimes';
-import { Venue } from '../../../model/opening-hours';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { arrow, cc, ccBy, wellcome } from '@weco/common/icons';
+import Space from '@weco/common/views/components/styled/Space';
+import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
+import {
+  Wrapper,
+  FooterUsefulInformation,
+  FooterOpeningTimes,
+  NavBrand,
+  FooterNavWrapper,
+  TopBorderBox,
+  FooterBottom,
+  FooterLeft,
+  FooterStrap,
+  HygieneItem,
+  HygieneList,
+  HygieneNav,
+  StrapText,
+} from './Footer.styles';
 
-const Wrapper = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top'] },
-  className: 'font-white',
-})`
-  position: relative;
-  background-color: ${props => props.theme.color('black')};
-`;
+// Utils/Helpers
+import { font, grid } from '@weco/common/utils/classnames';
 
-const FooterNavWrapper = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['padding-top', 'padding-bottom'],
-  },
-})`
-  border-top: 1px solid ${props => props.theme.color('neutral.700')};
-  border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
-`;
+// Types
+import { Venue } from '@weco/common/model/opening-hours';
 
-const HygieneNav = styled(Space).attrs({
-  as: 'nav',
-  h: { size: 'l', properties: ['margin-bottom'] },
-})`
-  position: relative;
-  flex: 1;
-  border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
-`;
-
-const HygieneList = styled(Space).attrs({
-  as: 'ul',
-  h: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
-})`
-  list-style: none;
-  margin: 0 !important;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px solid ${props => props.theme.color('neutral.700')};
-`;
-
-const FooterBottom = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-bottom'] },
-})`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  border-top: 1px solid ${props => props.theme.color('neutral.700')};
-`;
-
-const NavBrand = styled.a`
-  position: absolute;
-  bottom: 0;
-  display: block;
-`;
-
-const FooterLeft = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-
-  ${props => props.theme.media.medium`
-    flex-wrap: nowrap;
-  `}
-`;
-
-const FooterStrap = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
-  },
-})`
-  display: flex;
-  align-items: center;
-  min-width: 220px;
-  border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
-  width: 100%;
-
-  ${props => props.theme.media.medium`
-    width: auto;
-    border-bottom: 0;
-    border-right: 1px solid ${props.theme.color('neutral.700')};
-    margin-right: 24px;
-    padding-right: 24px;
-  `}
-`;
-
-const StrapText = styled.div`
-  max-width: 10rem;
-`;
-
-const HygieneItem = styled.li.attrs({
-  className: font('intb', 6),
-})`
-  width: 100%;
-  text-align: center;
-
-  &:last-child {
-    position: absolute;
-    bottom: -45px;
-    left: 0;
-
-    ${props => props.theme.media.large`
-      position: static;
-    `}
-  }
-
-  a {
-    padding: 0.5em 0;
-    display: block;
-    text-decoration: none;
-    border-left: 1px solid ${props => props.theme.color('neutral.700')};
-    transition: color 200ms ease;
-
-    &:hover {
-      color: ${props => props.theme.color('accent.green')};
-    }
-
-    ${props => props.theme.media.xlarge`
-      padding-left: 2em;
-      padding-right: 2em;
-    `}
-
-    &.footer__hygiene-link--back-to-top {
-      display: flex;
-      align-items: center;
-      border-left: 0;
-
-      ${props => props.theme.media.large`
-        border-left: 1px solid ${props => props.theme.color('neutral.700')};
-        justify-content: center;
-      `}
-
-      ${props => props.theme.media.xlarge`
-        padding-right: 0;
-      `}
-
-      .icon__shape {
-        fill: currentColor;
-      }
-    }
-  }
-
-  &:first-child a {
-    border-left: 0;
-  }
-`;
-
-const TopBorderBox = styled.div`
-  @media (min-width: ${props => props.theme.sizes.large}px) {
-    border-top: 1px solid ${props => props.theme.color('neutral.700')};
-    border-bottom: 0;
-  }
-`;
 type Props = {
   hide: boolean;
   venues: Venue[];
@@ -178,6 +45,74 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
   }, []);
   return (
     <Wrapper ref={footer}>
+      <div className="container">
+        <Space as="h3" v={{ size: 'l', properties: ['padding-bottom'] }}>
+          <FooterWellcomeLogo />
+        </Space>
+
+        <FooterUsefulInformation>
+          <FindUs />
+
+          <FooterOpeningTimes>
+            <h4 className={font('intb', 5)}>{`Today's opening times`}</h4>
+            {venues && <OpeningTimes venues={venues} />}
+            <Space as="p" v={{ size: 's', properties: ['margin-top'] }}>
+              <a href="/opening-times">Opening times</a>
+            </Space>
+          </FooterOpeningTimes>
+
+          <FooterNav />
+        </FooterUsefulInformation>
+
+        <HygieneNav>
+          <HygieneList>
+            <HygieneItem>
+              <a
+                href="https://wellcome.org/jobs"
+                className="footer__hygiene-link"
+              >
+                Jobs
+              </a>
+            </HygieneItem>
+            <HygieneItem>
+              <a
+                href="https://wellcome.org/who-we-are/privacy-and-terms"
+                className="footer__hygiene-link"
+              >
+                Privacy
+              </a>
+            </HygieneItem>
+            <HygieneItem>
+              <a
+                href="https://wellcome.org/who-we-are/privacy-and-terms"
+                className="footer__hygiene-link"
+              >
+                Cookies
+              </a>
+            </HygieneItem>
+            <HygieneItem>
+              <a
+                href="https://wellcomecollection.org/press"
+                className="footer__hygiene-link"
+              >
+                Media office
+              </a>
+            </HygieneItem>
+            <HygieneItem>
+              <a
+                href="https://developers.wellcomecollection.org"
+                className="footer__hygiene-link"
+              >
+                Developers
+              </a>
+            </HygieneItem>
+          </HygieneList>
+        </HygieneNav>
+      </div>
+    </Wrapper>
+  );
+  return (
+    <Wrapper>
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 4 })}>
