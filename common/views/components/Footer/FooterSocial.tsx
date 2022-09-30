@@ -89,7 +89,7 @@ const FooterSocial: FC = () => (
     {items.map(item => (
       <Cell key={item.title}>
         <Link href={item.url}>
-          <Icon icon={item.icon} color="currentColor" />
+          <Icon icon={item.icon} />
           <span className="visually-hidden">{item.service}</span>
         </Link>
       </Cell>
