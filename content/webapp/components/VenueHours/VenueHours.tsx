@@ -174,6 +174,12 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
               <ul
                 className={`plain-list no-padding no-margin ${font('intr', 5)}`}
               >
+                {/* 
+                  This will format the date of the exception as e.g. 'Saturday 1 October'.
+
+                  The year is omitted because these periods are only displayed when they're
+                  happening imminently (within a few weeks), and so the year is unambiguous.
+                 */}
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
                     {p.overrideDate && formatDay(p.overrideDate)}{' '}

@@ -35,6 +35,11 @@ it('formats a timestamp', () => {
 
   const result3 = formatTime(new Date('2009-03-27T08:00:01Z'));
   expect(result3).toEqual('08:00');
+
+  // Note: this is 11:28 UTC; we're checking that formatTime is using
+  // London time.
+  const result4 = formatTime(new Date('2022-09-29T12:28:33+0100'));
+  expect(result4).toEqual('12:28');
 });
 
 it('formats a year', () => {

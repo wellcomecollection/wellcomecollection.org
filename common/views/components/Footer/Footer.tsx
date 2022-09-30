@@ -238,7 +238,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
                 <div className={`${font('intr', 5)} float-l`}>
                   <h4
                     className={`${font('intb', 5)} no-margin`}
-                  >{`Today's opening times`}</h4>
+                  >{`Today’s opening times`}</h4>
                   {venues && <OpeningTimes venues={venues} />}
                   <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
                     <a href="/opening-times">Opening times</a>
