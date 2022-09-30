@@ -17,6 +17,7 @@ import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Periods } from './types/periods';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import * as prismic from '@prismicio/client';
+import { vanityUrls } from '@weco/common/data/vanity-urls';
 
 const periodPaths = Object.values(Periods).join('|');
 
@@ -124,27 +125,9 @@ const appPromise = nextApp
     ); // :type(${guideType})
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
-    pageVanityUrl(
-      router,
-      nextApp,
-      '/opening-times',
-      prismicPageIds.openingTimes
+    vanityUrls.forEach(({ url, pageId, template = '/page' }) =>
+      pageVanityUrl(router, nextApp, url, pageId, template)
     );
-    pageVanityUrl(router, nextApp, '/what-we-do', prismicPageIds.whatWeDo);
-    pageVanityUrl(router, nextApp, '/press', prismicPageIds.press);
-    pageVanityUrl(router, nextApp, '/venue-hire', prismicPageIds.venueHire);
-    pageVanityUrl(router, nextApp, '/access', prismicPageIds.access);
-    pageVanityUrl(router, nextApp, '/youth', prismicPageIds.youth);
-    pageVanityUrl(router, nextApp, '/schools', prismicPageIds.schools);
-    pageVanityUrl(
-      router,
-      nextApp,
-      '/covid-welcome-back',
-      prismicPageIds.covidWelcomeBack
-    );
-    pageVanityUrl(router, nextApp, '/about-us', prismicPageIds.aboutUs);
-    pageVanityUrl(router, nextApp, '/get-involved', prismicPageIds.getInvolved);
-    pageVanityUrl(router, nextApp, '/user-panel', prismicPageIds.userPanel);
 
     router.redirect(
       `/pages/${prismicPageIds.stories}`,

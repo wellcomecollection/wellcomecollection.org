@@ -544,8 +544,11 @@ const ExhibitionGuidePage: FC<Props> = props => {
             <Layout10 isCentered={false}>
               {userPreferenceSet ? (
                 <p>
-                  This exhibition has {numberedStops.length} stops. You selected
-                  this type of guide previously, but you can also select{' '}
+                  {type !== 'captions-and-transcripts' && (
+                    <>This exhibition has {numberedStops.length} stops. </>
+                  )}
+                  You selected this type of guide previously, but you can also
+                  select{' '}
                   <a
                     href={`/guides/exhibitions/${exhibitionGuide.id}`}
                     onClick={() => {
@@ -556,7 +559,11 @@ const ExhibitionGuidePage: FC<Props> = props => {
                   </a>
                 </p>
               ) : (
-                <p>This exhibition has {numberedStops.length} stops.</p>
+                <>
+                  {type !== 'captions-and-transcripts' && (
+                    <p>This exhibition has {numberedStops.length} stops.</p>
+                  )}
+                </>
               )}
             </Layout10>
           </Space>

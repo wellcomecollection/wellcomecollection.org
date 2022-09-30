@@ -29,6 +29,7 @@ const CaptionedImageFigure = styled.div<CaptionedImageProps>`
 
 type ImageContainerInnerProps = {
   aspectRatio: number;
+  hasRoundedCorners: boolean;
 };
 
 const ImageContainerInner = styled.div<ImageContainerInnerProps>`
@@ -36,6 +37,16 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
   max-height: 80vh;
   aspect-ratio: ${props => props.aspectRatio};
   margin: 0 auto;
+
+  ${props =>
+    props.hasRoundedCorners &&
+    `
+    > div {
+      border-radius:  clamp(10px, 2vw, 26px);
+      overflow: hidden;
+    }
+  `}
+
   @supports not (aspect-ratio: auto) {
     max-width: 90%;
 
@@ -56,6 +67,7 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
   preCaptionNode,
   image,
   isBody,
+  hasRoundedCorners,
 }) => {
   // Note: the default quality here was originally 45, but this caused images to
   // appear very fuzzy on stories.
@@ -68,7 +80,10 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1653466941113029
   return (
     <CaptionedImageFigure isBody={isBody}>
-      <ImageContainerInner aspectRatio={image.width / image.height}>
+      <ImageContainerInner
+        aspectRatio={image.width / image.height}
+        hasRoundedCorners={hasRoundedCorners}
+      >
         <ImageWithTasl
           Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={image.tasl}

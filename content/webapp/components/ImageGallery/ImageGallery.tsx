@@ -351,6 +351,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 <CaptionedImage
                   image={captionedImage.image}
                   caption={captionedImage.caption}
+                  hasRoundedCorners={captionedImage.hasRoundedCorners}
                   preCaptionNode={
                     items.length > 1 ? (
                       <Space
