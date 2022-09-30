@@ -18,10 +18,10 @@ export const Tab = styled.button.attrs({
   flex: 1 1 50%;
   text-align: center;
 
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
+  ${props => props.theme.media('medium')`
     flex: 0 1 auto;
     text-align: left;
-  }
+  `}
 `;
 
 type NavItemInnerProps = {

@@ -48,7 +48,7 @@ const Tab = styled(Space).attrs({
 
   width: 100%;
   text-align: center;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     width: auto;
   `}
 `;

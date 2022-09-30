@@ -39,21 +39,23 @@ const GalleryContainer = styled.div`
     justify-content: space-around;
   }
 
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
+  ${props =>
+    props.theme.media('medium')(`
     margin: 0 -${imageMargin}px;
 
     .react-photo-gallery--gallery > div {
       justify-content: flex-start;
     }
-  }
+  `)}
 `;
 const ImageContainer = styled.li`
   margin: 0 ${imageMargin ? imageMargin / 2 : 0}px
     ${imageMargin ? imageMargin / 2 : 0}px;
 
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
+  ${props =>
+    props.theme.media('medium')(`
     margin: 0 ${imageMargin}px ${imageMargin}px;
-  }
+  `)}
 `;
 
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({

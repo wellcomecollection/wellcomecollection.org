@@ -22,7 +22,7 @@ const Wrapper = styled(Space).attrs({
   display: flex;
   flex-wrap: wrap;
 
-  ${props => props.theme.media.xlarge`
+  ${props => props.theme.media('xlarge')`
     justify-content: space-between;
     flex-wrap: nowrap;
   `}
@@ -32,17 +32,17 @@ const Cell = styled.div`
   flex-basis: 100%;
   min-width: 100%;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-basis: 50%;
     min-width: 50%;
   `}
 
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     flex-basis: 25%;
     min-width: 25%;
   `}
 
-  ${props => props.theme.media.xlarge`
+  ${props => props.theme.media('xlarge')`
     flex-basis: auto;
     min-width: 0;
   `}

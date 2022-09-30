@@ -28,12 +28,12 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     display: flex;
   `}
 `;
 const Details = styled.div`
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-grow: 1;
     max-width: 800px;
   `}
@@ -50,7 +50,7 @@ const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
   margin-top: ${props => props.theme.spacingUnit * 2}px;
   position: relative;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     margin-top: 0;
   `}
 

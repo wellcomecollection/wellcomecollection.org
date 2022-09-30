@@ -11,7 +11,7 @@ import { newsletterAddressBook } from '../../../data/dotdigital';
 
 const FormElementWrapper = styled.div`
   width: 100%;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     display: flex;
     flex: 1;
     align-items: flex-start;
@@ -25,7 +25,7 @@ const ShameButtonWrap = styled.div`
     margin-top: 10px;
     justify-content: center;
 
-    ${props => props.theme.media.medium`
+    ${props => props.theme.media('medium')`
       margin-left: 10px;
       margin-top: 0;
     `}
@@ -56,7 +56,7 @@ const NewsletterForm = styled.form.attrs({
       undefined
     )}
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-wrap: nowrap;
     min-width: 300px;
   `}
@@ -80,7 +80,7 @@ const BoxInner = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  ${props => props.theme.media.xlarge`
+  ${props => props.theme.media('xlarge')`
     flex-wrap: nowrap;
   `}
 `;
@@ -91,7 +91,7 @@ const CopyWrap = styled(Space).attrs({
 })`
   flex-basis: 100%;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-basis: auto;
   `}
 `;

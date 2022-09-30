@@ -47,9 +47,9 @@ const Tree = styled.div<{ isEnhanced?: boolean }>`
     position: relative;
     padding-left: 0;
     margin: 0;
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
+    ${props => props.theme.media('medium')`
       width: 375px;
-    }
+    `}
     &::before {
       display: none;
       position: absolute;
