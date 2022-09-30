@@ -7,7 +7,6 @@ import theme, { GlobalStyle } from '../../views/themes/default';
 import newTheme from '../themes/newThemeDefault';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
-import { trackEvent } from '../../utils/ga';
 import { AppContextProvider } from '../components/AppContext/AppContext';
 import ErrorPage from '../components/ErrorPage/ErrorPage';
 import { trackPageview } from '../../services/conversion/track';
@@ -38,42 +37,6 @@ export type WithGaDimensions = {
 const gaDimensionKeys = {
   partOf: 'dimension3',
 };
-
-let engagement;
-let previouslyAccruedTimeOnSpaPage = 0;
-let accruedHiddenTimeOnPage = 0;
-let pageVisibilityLastChanged = 0;
-
-function triggerEngagement() {
-  ReactGA.event({
-    category: 'Engagement',
-    action: 'Time on page >=',
-    label: '10 seconds',
-  });
-}
-
-function trackVisibleTimeOnPage() {
-  const accruedVisibleTimeOnPage = Math.round(
-    window.performance.now() -
-      previouslyAccruedTimeOnSpaPage -
-      accruedHiddenTimeOnPage
-  );
-  trackEvent({
-    category: 'Engagement',
-    action: 'time page is visible',
-    value: accruedVisibleTimeOnPage,
-    nonInteraction: true,
-    transport: 'beacon',
-  });
-}
-
-function calculateHiddenTimeOnPage() {
-  if (!document.hidden) {
-    accruedHiddenTimeOnPage = accruedHiddenTimeOnPage +=
-      window.performance.now() - pageVisibilityLastChanged;
-  }
-  pageVisibilityLastChanged = window.performance.now();
-}
 
 function makeSurePageIsTallEnough() {
   const pageHeightCache: number[] = [];
@@ -196,54 +159,6 @@ const WecoApp: FunctionComponent<AppProps> = ({
 
     return () => {
       Router.events.off('routeChangeComplete', trackGaPageview);
-    };
-  }, []);
-
-  // Time on page
-  useEffect(() => {
-    function trackAndResetVisibleTime() {
-      trackVisibleTimeOnPage();
-      previouslyAccruedTimeOnSpaPage = window.performance.now();
-      pageVisibilityLastChanged = 0;
-      accruedHiddenTimeOnPage = 0;
-    }
-
-    function resetEngagementTimeout() {
-      clearTimeout(engagement);
-      engagement = setTimeout(triggerEngagement, 10000);
-    }
-
-    Router.events.on('routeChangeStart', trackAndResetVisibleTime);
-    Router.events.on('routeChangeComplete', resetEngagementTimeout);
-
-    engagement = setTimeout(triggerEngagement, 10000);
-
-    try {
-      if (document.hidden) {
-        // in case page is opened in a new tab
-        pageVisibilityLastChanged = window.performance.now();
-      }
-      document.addEventListener('visibilitychange', calculateHiddenTimeOnPage);
-      window.addEventListener('beforeunload', trackVisibleTimeOnPage);
-    } catch (error) {
-      trackEvent({
-        category: 'Engagement',
-        action: 'unable to track time page is visible',
-        nonInteraction: true,
-      });
-    }
-
-    return () => {
-      Router.events.off('routeChangeStart', trackAndResetVisibleTime);
-      Router.events.off('routeChangeComplete', resetEngagementTimeout);
-
-      try {
-        document.removeEventListener(
-          'visibilitychange',
-          calculateHiddenTimeOnPage
-        );
-        window.removeEventListener('beforeunload', trackVisibleTimeOnPage);
-      } catch (error) {}
     };
   }, []);
 
