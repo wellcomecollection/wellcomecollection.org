@@ -6,13 +6,31 @@ import {
   getNameFromCollectionVenue,
 } from '@weco/common/data/hardcoded-ids';
 import { FC } from 'react';
+import styled from 'styled-components';
 
 type Props = {
   venues: Venue[];
 };
 
+const OpeningTimesList = styled.ul.attrs({
+  'data-chromatic': 'ignore',
+})`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+// This is chosen to be wider than any of the venue names, but not so wide as
+// to leave lots of space between the name and the opening hours.
+//
+// The exact value is somewhat arbitrary, based on what looked okay locally.
+const VenueName = styled.div`
+  display: inline-block;
+  width: 90px;
+`;
+
 const OpeningTimes: FC<Props> = ({ venues }) => (
-  <ul className="plain-list no-padding no-margin" data-chromatic="ignore">
+  <OpeningTimesList>
     {venues.map(venue => {
       const todaysHours = getTodaysVenueHours(venue);
       return (
@@ -25,9 +43,11 @@ const OpeningTimes: FC<Props> = ({ venues }) => (
             as="li"
             key={venue.id}
           >
-            {venue.id === collectionVenueId.restaurant.id
-              ? 'Kitchen '
-              : `${getNameFromCollectionVenue(venue.id)} `}
+            <VenueName>
+              {venue.id === collectionVenueId.restaurant.id
+                ? 'Kitchen '
+                : `${getNameFromCollectionVenue(venue.id)} `}
+            </VenueName>
             {todaysHours.isClosed ? (
               'closed'
             ) : (
@@ -41,6 +61,6 @@ const OpeningTimes: FC<Props> = ({ venues }) => (
         )
       );
     })}
-  </ul>
+  </OpeningTimesList>
 );
 export default OpeningTimes;
