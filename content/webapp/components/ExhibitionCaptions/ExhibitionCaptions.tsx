@@ -13,7 +13,7 @@ import { font } from '@weco/common/utils/classnames';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 
-function getTypeColor(type: string): string {
+function getTypeColor(type: string): PaletteColor {
   // importing this from exhibition-guide.tsx was causing a storybook build failure
   // need to investigate why, but am duplicating the function here for now
   // in order to get the exhibition guides work deployed
