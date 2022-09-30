@@ -60,12 +60,8 @@ function makeSpacePropertyValues(
 export type Size = keyof typeof themeValues.sizes;
 const media =
   (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
-  (styles: TemplateStringsArray | string): string => {
-    if (minOrMaxWidth === 'max-width') {
-      return `@media (max-width: ${themeValues.sizes[sizeLabel]}px) {${styles}}`;
-    }
-    return `@media (min-width: ${themeValues.sizes[sizeLabel]}px) {${styles}}`;
-  };
+  (styles: TemplateStringsArray | string): string =>
+    `@media (${minOrMaxWidth}: ${themeValues.sizes[sizeLabel]}px) {${styles}}`;
 
 const theme = {
   ...themeValues,
