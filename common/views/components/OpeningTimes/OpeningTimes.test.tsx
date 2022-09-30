@@ -5,6 +5,7 @@ import {
 } from '../../../test/fixtures/enzyme-helpers';
 import { venues } from '../../../test/fixtures/components/venues';
 import * as serviceOpeningTimes from '@weco/common/services/prismic/opening-times';
+import { shopVenue } from '../../../test/fixtures/components/shop-venue';
 
 describe('OpeningTimes', () => {
   const spyOnGetTodaysVenueHours = jest.spyOn(
@@ -63,7 +64,8 @@ describe('OpeningTimes', () => {
         isClosed: true,
       };
     });
-    const component = shallowWithTheme(<OpeningTimes venues={venues} />);
-    expect(component.html().match('Shop closed')).toBeTruthy();
+    const component = shallowWithTheme(<OpeningTimes venues={[shopVenue]} />);
+    expect(component.html().includes('Shop')).toBeTruthy();
+    expect(component.html().includes('closed')).toBeTruthy();
   });
 });
