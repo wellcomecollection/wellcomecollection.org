@@ -1,14 +1,8 @@
-import ReactGA from 'react-ga';
+import ReactGA, { EventArgs as GaEvent } from 'react-ga';
 
-export type GaEvent = {
-  category: string;
-  action: string;
-  label?: string;
-  value?: number;
-  nonInteraction?: boolean;
-  transport?: 'beacon';
-};
-
+// TODO this wrapper function is redundant but pervasive; consider getting rid of it
 export function trackEvent(gaEvent: GaEvent): void {
   ReactGA.event(gaEvent);
 }
+
+export type { GaEvent };
