@@ -8,23 +8,21 @@ type Props = {
   id: string;
 };
 
-const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => {
-  return (
-    <a
-      href="#dates"
-      onClick={() => {
-        trackEvent({
-          category: 'EventDatesLink',
-          action: 'follow link',
-          label: id,
-        });
-      }}
-      className={`flex-inline flex-v-center ${font('intb', 5)}`}
-    >
-      <Icon icon={arrowSmall} color="black" rotate={90} />
-      <span>{`See all dates`}</span>
-    </a>
-  );
-};
+const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => (
+  <a
+    href="#dates"
+    onClick={() => {
+      trackEvent({
+        category: 'EventDatesLink',
+        action: 'follow link',
+        label: id,
+      });
+    }}
+    className={`flex-inline flex-v-center ${font('intb', 5)}`}
+  >
+    <Icon icon={arrowSmall} color="black" rotate={90} />
+    <span>See all dates</span>
+  </a>
+);
 
 export default EventDatesLink;
