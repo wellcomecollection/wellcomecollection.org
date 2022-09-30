@@ -6,7 +6,7 @@ import { DayNumber } from '@weco/common/model/opening-hours';
 import { isRequestableDate } from '../../utils/dates';
 import { isTruthy } from '@weco/common/utils/array';
 import { getDatesBetween } from '@weco/common/utils/dates';
-import { dateAsValue } from '../../components/ItemRequestModal/format-date';
+import { dateAsValue } from '../ItemRequestModal/format-date';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 
 type Props = {

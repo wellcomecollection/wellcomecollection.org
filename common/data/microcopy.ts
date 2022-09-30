@@ -98,10 +98,6 @@ export const sierraAccessMethodtoNewLabel = {
 
 export const inOurBuilding = 'In our building';
 
-// These are the instructions for people navigating the calendar component with a keyboard.
-export const calendarInstructions =
-  'Use the arrow keys to move around the calendar. Use the home key to move to the beginning of a row. Use the end key to move to the end of a row. When focused on a date you can select it with the Enter or Space key.';
-
 export const requestingDisabled =
   'Requesting is temporarily unavailable while we perform maintenance work. In the meantime, email library@wellcomecollection.org the details of your request and when you would like to consult it and we can retrieve the items for you.';
 
