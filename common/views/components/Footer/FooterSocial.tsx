@@ -12,16 +12,6 @@ import {
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-const Wrapper = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['margin-top'],
-  },
-})`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
 const Cell = styled(Space).attrs({
   h: { size: 'm', properties: ['margin-right'] },
 })`
@@ -45,7 +35,7 @@ const Link = styled(Space).attrs({
   as: 'a',
 })<LinkProps>`
   display: flex;
-  padding: 7px;
+  padding: 6px;
 `;
 
 type SocialItem = {
@@ -95,7 +85,7 @@ const items: SocialItem[] = [
 ];
 
 const FooterSocial: FC = () => (
-  <Wrapper>
+  <>
     {items.map(item => (
       <Cell key={item.title}>
         <Link href={item.url}>
@@ -104,7 +94,7 @@ const FooterSocial: FC = () => (
         </Link>
       </Cell>
     ))}
-  </Wrapper>
+  </>
 );
 
 export default FooterSocial;
