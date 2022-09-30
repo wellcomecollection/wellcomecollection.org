@@ -3,28 +3,33 @@ import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { arrowSmall } from '@weco/common/icons';
+import styled from 'styled-components';
 
 type Props = {
   id: string;
 };
 
-const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => {
-  return (
-    <a
-      href="#dates"
-      onClick={() => {
-        trackEvent({
-          category: 'EventDatesLink',
-          action: 'follow link',
-          label: id,
-        });
-      }}
-      className={`flex-inline flex-v-center ${font('intb', 5)}`}
-    >
-      <Icon icon={arrowSmall} color="black" rotate={90} />
-      <span>{`See all dates`}</span>
-    </a>
-  );
-};
+const Wrapper = styled.a.attrs({
+  className: font('intb', 5),
+})`
+  display: inline-flex;
+  align-items: center;
+`;
+
+const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => (
+  <Wrapper
+    href="#dates"
+    onClick={() => {
+      trackEvent({
+        category: 'EventDatesLink',
+        action: 'follow link',
+        label: id,
+      });
+    }}
+  >
+    <Icon icon={arrowSmall} color="black" rotate={90} />
+    <span>See all dates</span>
+  </Wrapper>
+);
 
 export default EventDatesLink;
