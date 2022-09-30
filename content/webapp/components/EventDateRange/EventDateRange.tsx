@@ -1,5 +1,5 @@
 import { DateRange as DateRangeType } from '@weco/common/model/date-range';
-import { isSameDay } from '@weco/common/utils/dates';
+import { isSameDay, today } from '@weco/common/utils/dates';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { FC } from 'react';
 import { HasTimeRanges } from '../../types/events';
@@ -38,9 +38,9 @@ type Props = {
  */
 export function getEarliestFutureDateRange(
   dateRanges: DateRangeType[],
-  fromDate: Date | undefined = new Date()
+  fromDate: Date | undefined = today()
 ): DateRangeType | undefined {
-  const now = new Date();
+  const now = today();
 
   return dateRanges
     .sort((a, b) => (a.start > b.start ? 1 : -1))
