@@ -323,6 +323,15 @@ const StoriesPage: FC<Props> = ({
                 <SectionHeader title={`${storiesLanding.storiesTitle}`} />
               </SpacingComponent>
             )}
+            {storiesLanding.storiesDescription && (
+              <SpacingComponent>
+                <Layout12>
+                  <PrismicHtmlBlock
+                    html={storiesLanding.storiesDescription as RichTextField}
+                  />
+                </Layout12>
+              </SpacingComponent>
+            )}
             <SpacingComponent>
               <CardGrid
                 items={storiesLanding.stories}
