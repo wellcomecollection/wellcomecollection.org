@@ -3,9 +3,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 
 export const Container = styled.div`
-  ${props => props.theme.media.medium`
-  display: flex;
-`}
+  ${props => props.theme.media('medium')`
+    display: flex;
+  `}
 `;
 
 export const Preview = styled(Space)`
@@ -20,9 +20,9 @@ export const Preview = styled(Space)`
   margin-right: 1rem;
   background-color: ${props => props.theme.color('black')};
 
-  ${props => props.theme.media.medium`
-  margin-bottom: 0;
-`}
+  ${props => props.theme.media('medium')`
+    margin-bottom: 0;
+  `}
 `;
 
 export const PreviewImage = styled.img`
@@ -34,9 +34,10 @@ export const PreviewImage = styled.img`
 
 export const Details = styled.div`
   flex: 1 1 100%;
-  ${props => props.theme.media.medium`
-  max-width: 900px;
-`}
+
+  ${props => props.theme.media('medium')`
+    max-width: 900px;
+  `}
 `;
 
 export const WorkInformation = styled(Space).attrs({

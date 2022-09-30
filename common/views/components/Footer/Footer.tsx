@@ -71,7 +71,7 @@ const FooterLeft = styled.div`
   flex-wrap: wrap;
   align-items: flex-start;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-wrap: nowrap;
   `}
 `;
@@ -88,13 +88,14 @@ const FooterStrap = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
   width: 100%;
 
-  ${props => props.theme.media.medium`
-    width: auto;
-    border-bottom: 0;
-    border-right: 1px solid ${props.theme.color('neutral.700')};
-    margin-right: 24px;
-    padding-right: 24px;
-  `}
+  ${props =>
+    props.theme.media('medium')(`
+      width: auto;
+      border-bottom: 0;
+      border-right: 1px solid ${props.theme.color('neutral.700')};
+      margin-right: 24px;
+      padding-right: 24px;
+  `)}
 `;
 
 const StrapText = styled.div`
@@ -112,7 +113,7 @@ const HygieneItem = styled.li.attrs({
     bottom: -45px;
     left: 0;
 
-    ${props => props.theme.media.large`
+    ${props => props.theme.media('large')`
       position: static;
     `}
   }
@@ -128,7 +129,7 @@ const HygieneItem = styled.li.attrs({
       color: ${props => props.theme.color('accent.green')};
     }
 
-    ${props => props.theme.media.xlarge`
+    ${props => props.theme.media('xlarge')`
       padding-left: 2em;
       padding-right: 2em;
     `}
@@ -138,12 +139,13 @@ const HygieneItem = styled.li.attrs({
       align-items: center;
       border-left: 0;
 
-      ${props => props.theme.media.large`
-        border-left: 1px solid ${props => props.theme.color('neutral.700')};
-        justify-content: center;
-      `}
+      ${props =>
+        props.theme.media('large')(`
+          border-left: 1px solid ${props.theme.color('neutral.700')};
+          justify-content: center;
+        `)}
 
-      ${props => props.theme.media.xlarge`
+      ${props => props.theme.media('xlarge')`
         padding-right: 0;
       `}
 
@@ -159,10 +161,11 @@ const HygieneItem = styled.li.attrs({
 `;
 
 const TopBorderBox = styled.div`
-  @media (min-width: ${props => props.theme.sizes.large}px) {
-    border-top: 1px solid ${props => props.theme.color('neutral.700')};
+  ${props =>
+    props.theme.media('large')(`
+    border-top: 1px solid ${props.theme.color('neutral.700')};
     border-bottom: 0;
-  }
+  `)}
 `;
 type Props = {
   hide: boolean;

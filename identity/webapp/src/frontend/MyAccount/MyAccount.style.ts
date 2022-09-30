@@ -33,9 +33,9 @@ export const ButtonAlign = styled.div`
 `;
 
 export const ModalContainer = styled.aside`
-  @media screen and (min-width: 600px) {
+  ${props => props.theme.media('medium')`
     width: 24em;
-  }
+  `}
 `;
 
 export const ItemTitle = styled.span`
@@ -43,9 +43,9 @@ export const ItemTitle = styled.span`
   min-width: 300px;
   max-width: 600px;
 
-  @media (max-width: ${props => props.theme.sizes.large}px) {
+  ${props => props.theme.media('large', 'max-width')`
     min-width: 100%;
-  }
+  `}
 `;
 
 export const ItemStatus = styled.span`
@@ -101,9 +101,9 @@ export const Section = styled.section`
   align-items: center;
   padding: 1em 0;
 
-  @media screen and (min-width: 600px) {
+  ${props => props.theme.media('medium')`
     grid-template-columns: 3fr 2fr;
-  }
+  `}
 
   & > h2 {
     grid-column: 1 / -1;

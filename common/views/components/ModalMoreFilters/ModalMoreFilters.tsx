@@ -35,7 +35,7 @@ const ModalInner = styled(Space).attrs({
   flex-direction: column;
   min-width: 320px;
   max-width: 650px;
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     width: 650px;
     top: 10px;
   `}

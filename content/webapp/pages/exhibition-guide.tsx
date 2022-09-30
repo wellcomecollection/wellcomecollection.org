@@ -43,7 +43,7 @@ import GridFactory, {
   threeUpGridSizesMap,
   twoUpGridSizesMap,
 } from '@weco/content/components/Body/GridFactory';
-import { themeValues } from '@weco/common/views/themes/config';
+import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   britishSignLanguage,
@@ -72,7 +72,7 @@ const TypeList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     gap: 50px;
   `}
 `;
@@ -83,12 +83,12 @@ const TypeItem = styled.li`
   flex-shrink: 0;
   position: relative;
   min-height: 200px;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-basis: calc(50% - 25px);
   `}
 `;
 
-const TypeLink = styled.a`
+const TypeLink = styled.a<{ color: PaletteColor }>`
   display: block;
   height: 100%;
   width: 100%;
@@ -141,7 +141,7 @@ const Header = styled(Space).attrs({
     size: 'xl',
     properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
   },
-})`
+})<{ color: PaletteColor }>`
   background: ${props => props.theme.color(props.color)};
 `;
 
@@ -435,7 +435,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
-function getTypeColor(type?: GuideType): string {
+function getTypeColor(type?: GuideType): PaletteColor {
   switch (type) {
     case 'bsl':
       return 'accent.lightBlue';

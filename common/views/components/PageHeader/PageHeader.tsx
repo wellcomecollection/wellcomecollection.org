@@ -33,25 +33,26 @@ const HeroPictureBackground = styled.div<{ bgColor: PaletteColor }>`
   width: 100%;
   bottom: -${props => props.theme.spaceAtBreakpoints.small[headerSpaceSize]}px;
 
-  ${props => props.theme.media.medium`
-    bottom: -${props =>
-      props.theme.spaceAtBreakpoints.medium[headerSpaceSize]}px;
-  `}
+  ${props =>
+    props.theme.media('medium')(
+      `bottom: -${props.theme.spaceAtBreakpoints.medium[headerSpaceSize]}px;`
+    )}
 
-  ${props => props.theme.media.large`
-    bottom: -${props =>
-      props.theme.spaceAtBreakpoints.large[headerSpaceSize]}px;
-  `}
+  ${props =>
+    props.theme.media('large')(
+      `bottom: -${props.theme.spaceAtBreakpoints.large[headerSpaceSize]}px;`
+    )}
 `;
 
 const HeroPictureContainer = styled.div`
   max-width: 1450px;
   margin: 0 auto;
 
-  ${props => props.theme.media.medium`
-    padding-left: 24px;
-    padding-right: 24px;
-  `}
+  ${props =>
+    props.theme.media('medium')`
+      padding-left: 24px;
+      padding-right: 24px;
+    `}
 `;
 
 export type FeaturedMedia =

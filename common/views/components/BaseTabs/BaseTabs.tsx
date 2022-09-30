@@ -33,7 +33,7 @@ const Tab = styled.button.attrs((props: TabProps) => ({
     outline: 0;
   }
   width: 50%;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     width: auto;
   `}
 `;

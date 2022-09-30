@@ -87,18 +87,18 @@ const Grid = styled.div`
   .viewer-desktop {
     display: none;
 
-    ${props => props.theme.media.medium`
+    ${props => props.theme.media('medium')`
       display: inherit;
     `}
   }
 
   .viewer-mobile {
-    ${props => props.theme.media.medium`
+    ${props => props.theme.media('medium')`
       display: none;
     `}
   }
 
-  ${props => props.theme.media.xlarge`
+  ${props => props.theme.media('xlarge')`
     grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   `}
 `;
@@ -110,16 +110,18 @@ const Sidebar = styled.div<{
   display: ${props => (props.isActiveMobile ? 'inherit' : 'none')};
   align-content: start;
 
-  ${props => props.theme.media.medium`
-    display: ${props => (props.isActiveDesktop ? 'inherit' : 'none')};
-  `}
+  ${props =>
+    props.theme.media('medium')(`
+      display: ${props.isActiveDesktop ? 'inherit' : 'none'};
+    `)}
 
   grid-area: desktop-main-start / left-edge / bottom-edge /right-edge;
 
-  ${props => props.theme.media.medium`
-    grid-area: desktop-main-start / left-edge / bottom-edge / desktop-sidebar-end;
-    border-right: 1px solid ${props.theme.color('black')};
-  `}
+  ${props =>
+    props.theme.media('medium')(`
+      grid-area: desktop-main-start / left-edge / bottom-edge / desktop-sidebar-end;
+      border-right: 1px solid ${props.theme.color('black')};
+    `)}
 
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
@@ -134,7 +136,7 @@ const Topbar = styled.div<{
   grid-area: top-edge / left-edge / desktop-topbar-end / right-edge;
   z-index: 4; // TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile. If we move the downloads, this can be simplified
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     z-index: 5;
   `}
 `;
@@ -155,11 +157,12 @@ const Main = styled.div<{
 
   grid-area: desktop-main-start / left-edge / mobile-main-end / right-edge;
 
-  ${props => props.theme.media.medium`
-  grid-area: desktop-main-start / ${
-    props.isDesktopSidebarActive ? 'main-start' : 'left-edge'
-  } / bottom-edge / right-edge;
-  `}
+  ${props =>
+    props.theme.media('medium')(`
+      grid-area: desktop-main-start / ${
+        props.isDesktopSidebarActive ? 'main-start' : 'left-edge'
+      } / bottom-edge / right-edge;
+    `)}
 `;
 
 const Zoom = styled.div`
@@ -171,7 +174,7 @@ const BottomBar = styled.div<{
 }>`
   display: inherit;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     display: none;
   `}
 
@@ -191,14 +194,14 @@ const Thumbnails = styled.div<{
   z-index: 3;
   grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     grid-area: desktop-main-start / desktop-sidebar-end / bottom-edge / right-edge;
   `}
 
   ${props =>
     !props.isDesktopSidebarActive &&
-    props.theme.media.medium`
-    grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
+    props.theme.media('medium')`
+      grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
   `}
 `;
 
