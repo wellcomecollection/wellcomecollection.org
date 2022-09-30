@@ -89,7 +89,7 @@ function filterOptionsWithNonAggregates({
     .filter(({ value }) => !aggregationValues.includes(value))
     .map(({ label, value }) => ({
       id: toHtmlId(value),
-      value: value,
+      value,
       label,
       selected: true,
     }));
