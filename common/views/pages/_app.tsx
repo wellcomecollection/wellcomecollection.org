@@ -1,4 +1,3 @@
-import { GetServerSidePropsContext } from 'next';
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
@@ -17,13 +16,7 @@ import { isServerData, defaultServerData } from '../../server-data/types';
 import { ServerDataContext } from '../../server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
-import { PrismicData, SimplifiedPrismicData } from '../../server-data/prismic';
-
-declare global {
-  interface Window {
-    prismic: PrismicData | SimplifiedPrismicData | { endpoint: string };
-  }
-}
+import usePrismicPreview from '../../services/app/usePrismicPreview';
 
 type Pageview = {
   name: string;
@@ -107,8 +100,6 @@ function makeSurePageIsTallEnough() {
   });
 }
 
-export type WecoAppProps = AppProps;
-
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
 // We just use the route to determine if this is an error page to ignore
@@ -118,22 +109,22 @@ function isErrorPage(route: string): boolean {
   switch (route) {
     case '/404':
     case '/500':
-    case '/ _error':
+    case '/_error':
       return true;
     default:
       return false;
   }
 }
 
-const WecoApp: FunctionComponent<WecoAppProps> = ({
+const dev = process.env.NODE_ENV !== 'production';
+
+const WecoApp: FunctionComponent<AppProps> = ({
   Component,
   pageProps,
   router,
 }) => {
-  // We throw on dev as all pages should set this
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
-  const dev = process.env.NODE_ENV !== 'production';
   const isServerDataSet = isServerData(pageProps.serverData);
 
   // We allow error pages through as they don't need, and can't set
@@ -256,65 +247,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     };
   }, []);
 
-  // prismic warnings
-  // TODO: This should be componentized
-  useEffect(() => {
-    // Prismic preview and validation warnings
-    if (document.cookie.match('isPreview=true')) {
-      window.prismic = {
-        endpoint: 'https://wellcomecollection.cdn.prismic.io/api/v2',
-      };
-      const prismicScript = document.createElement('script');
-      prismicScript.src = '//static.cdn.prismic.io/prismic.min.js';
-      document.head && document.head.appendChild(prismicScript);
-      (function () {
-        const validationBar = document.createElement('div');
-        validationBar.style.position = 'fixed';
-        validationBar.style.width = '375px';
-        validationBar.style.padding = '15px';
-        validationBar.style.background = '#e01b2f';
-        validationBar.style.color = '#ffffff';
-        validationBar.style.bottom = '0';
-        validationBar.style.right = '0';
-        validationBar.style.fontSize = '12px';
-        validationBar.style.zIndex = '2147483000';
-
-        const validationFails: string[] = [];
-
-        const descriptionEl = document.querySelector(
-          'meta[name="description"]'
-        );
-        if (descriptionEl && !descriptionEl.getAttribute('content')) {
-          validationFails.push(`
-            <b>Warning:</b>
-            This piece of content is missing its description.
-            This helps with search engine results and sharing on social channels.
-            (If this is from Prismic, it's the promo text).
-          `);
-        }
-
-        const imageEl = document.querySelector('meta[property="og:image"]');
-        if (imageEl && !imageEl.getAttribute('content')) {
-          validationFails.push(`
-            <b>Warning:</b>
-            This piece of content is missing its promo image.
-            This is the image that will be shown across our site,
-            as well as on social media.
-          `);
-        }
-
-        if (validationFails.length > 0) {
-          validationFails.forEach(function (validationFail) {
-            const div = document.createElement('div');
-            div.style.marginBottom = '6px';
-            div.innerHTML = validationFail;
-            validationBar.appendChild(div);
-          });
-          document.body && document.body.appendChild(validationBar);
-        }
-      })();
-    }
-  }, []);
+  usePrismicPreview(Boolean(document.cookie.match('isPreview=true')));
 
   // We use this method as suggested to optimise the client/server bundles
   // https://github.com/vercel/next.js/issues/5354#issuecomment-520305040
