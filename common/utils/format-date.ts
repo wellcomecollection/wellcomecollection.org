@@ -21,7 +21,7 @@ export function formatDayDate(date: Date): string {
   return `${formatDay(date)} ${formatDate(date)}`;
 }
 
-/** Formats a date as the day of the month, the name of the month, and the yea.r
+/** Formats a date as the day of the month, the name of the month, and the year.
  *
  * e.g. '29 September 2022'
  */
