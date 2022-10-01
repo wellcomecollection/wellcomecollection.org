@@ -1,4 +1,4 @@
-import link from './parts/link';
+import { documentLink } from './parts/link';
 import list from './parts/list';
 import title from './parts/title';
 import { multiLineText } from './parts/structured-text';
@@ -20,13 +20,18 @@ const featuredBooks: CustomType = {
       storiesTitle: title,
       storiesDescription: multiLineText({ label: 'description' }),
       stories: list('stories', {
-        story: link('story/series', 'document', ['articles', 'series']),
+        story: documentLink({
+          label: 'story/series',
+          linkedTypes: ['articles', 'series'],
+        }),
       }),
     },
     'Featured books': {
       booksTitle: title,
       booksDescription: multiLineText({ label: 'description' }),
-      books: list('books', { book: link('book', 'document', ['books']) }),
+      books: list('books', {
+        book: documentLink({ label: 'book', linkedType: 'books' }),
+      }),
     },
   },
 };

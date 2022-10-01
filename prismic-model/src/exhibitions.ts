@@ -2,7 +2,7 @@ import title from './parts/title';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
-import link from './parts/link';
+import { documentLink } from './parts/link';
 import list from './parts/list';
 import { singleLineText } from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
@@ -18,7 +18,10 @@ const exhibitions: CustomType = {
   status: true,
   json: {
     Exhibition: {
-      format: link('Format', 'document', ['exhibition-formats']),
+      format: documentLink({
+        label: 'Format',
+        linkedType: 'exhibition-formats',
+      }),
       title,
       shortTitle: singleLineText({
         label: 'Short title',
@@ -41,20 +44,23 @@ const exhibitions: CustomType = {
     },
     'In this exhibition': {
       exhibits: list('Exhibits', {
-        item: link('Exhibit', 'document', ['exhibitions']),
+        item: documentLink({ label: 'Exhibit', linkedType: 'exhibitions' }),
       }),
       events: list('Gallery tours', {
-        item: link('Gallery tour', 'document', ['events']),
+        item: documentLink({ label: 'Gallery tour', linkedType: 'events' }),
       }),
     },
     'About this exhibition': {
       articles: list('Articles', {
-        item: link('Article', 'document', ['articles']),
+        item: documentLink({ label: 'Article', linkedType: 'articles' }),
       }),
     },
     Resources: {
       resources: list('Resources', {
-        resource: link('Resource', 'document', ['exhibition-resources']),
+        resource: documentLink({
+          label: 'Resource',
+          linkedType: 'exhibition-resources',
+        }),
       }),
     },
     Contributors: contributorsWithTitle(),
@@ -68,11 +74,19 @@ const exhibitions: CustomType = {
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+        season: documentLink({
+          label: 'Season',
+          linkedType: 'seasons',
+          placeholder: 'Select a Season',
+        }),
       }),
       parents: list('Parents', {
         order: number('Order'),
-        parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
+        parent: documentLink({
+          label: 'Parent',
+          linkedType: 'exhibitions',
+          placeholder: 'Select a parent',
+        }),
       }),
     },
   },

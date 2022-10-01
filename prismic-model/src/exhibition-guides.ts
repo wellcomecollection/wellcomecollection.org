@@ -1,6 +1,6 @@
 import { CustomType } from './types/CustomType';
 import title from './parts/title';
-import link from './parts/link';
+import link, { documentLink } from './parts/link';
 import list from './parts/list';
 import image from './parts/image';
 import { multiLineText, singleLineText } from './parts/structured-text';
@@ -15,9 +15,10 @@ const exhibitionGuides: CustomType = {
   json: {
     Guide: {
       title,
-      'related-exhibition': link('Related Exhibition', 'document', [
-        'exhibitions',
-      ]),
+      'related-exhibition': documentLink({
+        label: 'Related Exhibition',
+        linkedType: 'exhibitions',
+      }),
       introText: multiLineText({
         label: 'Introductory text',
         placeholder:

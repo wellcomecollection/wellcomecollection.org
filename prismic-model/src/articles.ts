@@ -1,7 +1,7 @@
 import title from './parts/title';
 import promo from './parts/promo';
 import list from './parts/list';
-import link from './parts/link';
+import link, { documentLink } from './parts/link';
 import number from './parts/number';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
@@ -16,7 +16,7 @@ const articles: CustomType = {
   json: {
     Story: {
       title,
-      format: link('Format', 'document', ['article-formats']),
+      format: documentLink({ label: 'Format', linkedType: 'article-formats' }),
       body: articleBody,
     },
     Outro: {
@@ -47,15 +47,23 @@ const articles: CustomType = {
     },
     'Content relationships': {
       series: list('Series', {
-        series: link('Series', 'document', ['series']),
+        series: documentLink({ label: 'Series', linkedType: 'series' }),
         positionInSeries: number('Position in series'),
       }),
       seasons: list('Seasons', {
-        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+        season: documentLink({
+          label: 'Season',
+          linkedType: 'seasons',
+          placeholder: 'Select a Season',
+        }),
       }),
       parents: list('Parents', {
         order: number('Order'),
-        parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
+        parent: documentLink({
+          label: 'Parent',
+          linkedType: 'exhibitions',
+          placeholder: 'Select a parent',
+        }),
       }),
     },
     Overrides: {

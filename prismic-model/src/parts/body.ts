@@ -5,7 +5,7 @@ import gifVideoSlice from './gif-video-slice';
 import iframeSlice from './iframe-slice';
 import table from './table';
 import title from './title';
-import link from './link';
+import link, { documentLink } from './link';
 import text from './text';
 import embed from './embed';
 import mediaObject from './media-object';
@@ -105,13 +105,16 @@ export default {
       }),
       collectionVenue: slice('Collection venue', {
         nonRepeat: {
-          content: link('Content item', 'document', ['collection-venue']),
+          content: documentLink({
+            label: 'Content item',
+            linkedType: 'collection-venue',
+          }),
           showClosingTimes: booleanDeprecated('Show closing times'),
         },
       }),
       contact: slice('Contact', {
         nonRepeat: {
-          content: link('Content item', 'document', ['teams']),
+          content: documentLink({ label: 'Content item', linkedType: 'teams' }),
         },
       }),
       discussion: slice('Discussion', {
@@ -148,7 +151,7 @@ export default {
             extraTextOptions: ['heading4', 'list-item'],
           }),
           link: link('Link'),
-          label: link('tag', 'document', ['labels']),
+          label: documentLink({ label: 'tag', linkedType: 'labels' }),
         },
       }),
       contentList: slice('(β) Content list', {
@@ -156,18 +159,21 @@ export default {
           title,
         },
         repeat: {
-          content: link('Content item', 'document', [
-            'pages',
-            'event-series',
-            'books',
-            'events',
-            'articles',
-            'exhibitions',
-            'card',
-            'seasons',
-            'landing-pages',
-            'guides',
-          ]),
+          content: documentLink({
+            label: 'Content item',
+            linkedTypes: [
+              'pages',
+              'event-series',
+              'books',
+              'events',
+              'articles',
+              'exhibitions',
+              'card',
+              'seasons',
+              'landing-pages',
+              'guides',
+            ],
+          }),
         },
       }),
       searchResults: slice('(β) Search results', {

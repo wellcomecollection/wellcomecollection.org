@@ -6,7 +6,7 @@ import list from './parts/list';
 import select from './parts/select';
 import timestamp from './parts/timestamp';
 import { singleLineText } from './parts/structured-text';
-import link from './parts/link';
+import { documentLink } from './parts/link';
 import { CustomType } from './types/CustomType';
 
 // This is called `ArticleSeries` and the id `series`, as it was a
@@ -37,7 +37,11 @@ const articleSeries: CustomType = {
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+        season: documentLink({
+          label: 'Season',
+          linkedType: 'seasons',
+          placeholder: 'Select a Season',
+        }),
       }),
     },
   },

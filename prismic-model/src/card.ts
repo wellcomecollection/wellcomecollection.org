@@ -1,7 +1,7 @@
 import { singleLineText } from './parts/structured-text';
 import title from './parts/title';
 import image from './parts/image';
-import link from './parts/link';
+import link, { documentLink } from './parts/link';
 import { CustomType } from './types/CustomType';
 
 const card: CustomType = {
@@ -12,11 +12,10 @@ const card: CustomType = {
   json: {
     Card: {
       title,
-      format: link('Format', 'document', [
-        'event-formats',
-        'article-formats',
-        'labels',
-      ]),
+      format: documentLink({
+        label: 'Format',
+        linkedTypes: ['event-formats', 'article-formats', 'labels'],
+      }),
       description: singleLineText({ label: 'Description' }),
       image: image('Image'),
       link: link('Link'),
