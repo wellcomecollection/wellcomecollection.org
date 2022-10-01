@@ -22,7 +22,7 @@ const globalAlert: CustomType = {
       }),
       routeRegex: text(
         'Write a pipe-separated (|) list of page paths here if you only want the alert to display on certain pages. Leave empty if you want the alert to appear on all pages.',
-        'path(s) to match'
+        { placeholder: 'path(s) to match' }
       ),
     },
   },

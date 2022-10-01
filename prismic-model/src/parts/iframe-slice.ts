@@ -5,7 +5,7 @@ export default function () {
     type: 'Slice',
     fieldset: 'Iframe',
     'non-repeat': {
-      iframeSrc: text('iframe src', 'iframe src'),
+      iframeSrc: text('iframe src', { placeholder: 'iframe src' }),
       previewImage: {
         type: 'Image',
         config: {
