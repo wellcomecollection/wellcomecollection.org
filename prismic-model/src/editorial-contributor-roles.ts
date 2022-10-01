@@ -9,8 +9,7 @@ const editorialContributorRoles: CustomType = {
   status: true,
   json: {
     Contributor: {
-      title: singleLineText({
-        label: 'Title',
+      title: singleLineText('Title', {
         extraTextOptions: ['heading1'],
       }),
       describedBy: text('Word to describe output of the role'),

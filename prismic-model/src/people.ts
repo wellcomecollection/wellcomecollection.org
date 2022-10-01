@@ -18,7 +18,7 @@ const people: CustomType = {
       image: image('Image'),
       sameAs: list('Same as', {
         link: text('Link'),
-        title: singleLineText({ label: 'Link text' }),
+        title: singleLineText('Link text'),
       }),
     },
   },

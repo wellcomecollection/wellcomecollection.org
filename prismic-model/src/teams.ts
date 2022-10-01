@@ -8,11 +8,8 @@ const teams = {
   status: true,
   json: {
     Team: {
-      title: singleLineText({
-        label: 'Title',
-        extraTextOptions: ['heading1'],
-      }),
-      subtitle: singleLineText({ label: 'Subtitle' }),
+      title: singleLineText('Title', { extraTextOptions: ['heading1'] }),
+      subtitle: singleLineText('Subtitle'),
       email: text('Email'),
       phone: text('Phone'),
       url: text('URL'),

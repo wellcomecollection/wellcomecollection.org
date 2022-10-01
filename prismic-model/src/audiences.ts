@@ -10,7 +10,7 @@ const audiences: CustomType = {
   json: {
     Audience: {
       title,
-      description: singleLineText({ label: 'Description' }),
+      description: singleLineText('Description'),
     },
   },
 };
