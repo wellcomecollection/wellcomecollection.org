@@ -6,7 +6,7 @@ export default function boolean(
     type: 'Boolean',
     config: {
       default_value: props?.defaultValue || false,
-      label: label,
+      label,
     },
   };
 }

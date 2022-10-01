@@ -38,7 +38,7 @@ function structuredText({
       // This is too complicated but it's because we've overloaded this type with things like keywords.
       // See interpretation-types.abbreviation for an example.
       [singleOrMulti]: textOptions,
-      label: label,
+      label,
       placeholder,
     },
   };
