@@ -19,7 +19,7 @@ const guides: CustomType = {
       datePublished: timestamp('Date published'),
       showOnThisPage: boolean(
         "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body",
-        false
+        { defaultValue: false }
       ),
       body,
     },

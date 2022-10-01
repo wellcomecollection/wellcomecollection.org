@@ -29,7 +29,6 @@ function link(
 export default link;
 
 type DocumentLinkProps = {
-  label: string;
   placeholder?: string;
 } & (
   | {
@@ -40,29 +39,17 @@ type DocumentLinkProps = {
     }
 );
 
-export function documentLink(props: DocumentLinkProps) {
+export function documentLink(label: string, props: DocumentLinkProps) {
   const linkMask =
     'linkedType' in props ? [props.linkedType] : props.linkedTypes;
 
-  return link(props.label, 'document', linkMask, props.placeholder);
+  return link(label, 'document', linkMask, props.placeholder);
 }
 
-type WebLinkProps =
-  | {
-      label: string;
-      placeholder: string;
-    }
-  | string;
-
-export function webLink(props: WebLinkProps) {
-  if (typeof props === 'string') {
-    const label = props;
-    return link(label, 'web');
-  } else {
-    return link(props.label, 'web', [], props.placeholder);
-  }
+export function webLink(label: string, props?: { placeholder: string }) {
+  return link(label, 'web', [], props?.placeholder);
 }
 
-export function mediaLink(label: string) {
-  return link(label, 'media');
+export function mediaLink(label: string, props?: { placeholder: string }) {
+  return link(label, 'media', [], props?.placeholder);
 }

@@ -1,6 +1,6 @@
 import { singleLineText } from './structured-text';
 import text from './text';
-import link from './link';
+import { mediaLink } from './link';
 import select from './select';
 import boolean from './boolean';
 
@@ -15,7 +15,7 @@ export default function () {
         'title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink'
       ),
       // TODO: Media link
-      video: mediaLink({ label: 'Video', placeholder: 'Video' }),
+      video: mediaLink('Video', { placeholder: 'Video' }),
       playbackRate: select('Playback rate', [
         '0.1',
         '0.25',
@@ -27,10 +27,10 @@ export default function () {
         '1.75',
         '2',
       ]),
-      autoPlay: boolean('Auto play', true),
-      loop: boolean('Loop video', true),
-      mute: boolean('Mute video', true),
-      showControls: boolean('Show controls', false),
+      autoPlay: boolean('Auto play', { defaultValue: true }),
+      loop: boolean('Loop video', { defaultValue: true }),
+      mute: boolean('Mute video', { defaultValue: true }),
+      showControls: boolean('Show controls', { defaultValue: false }),
     },
   };
 }

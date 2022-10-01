@@ -1,7 +1,7 @@
 import { singleLineText } from './parts/structured-text';
 import text from './parts/text';
 import boolean from './parts/boolean';
-import link, { webLink } from './parts/link';
+import { webLink } from './parts/link';
 import { CustomType } from './types/CustomType';
 
 const popupDialog: CustomType = {
@@ -16,7 +16,7 @@ const popupDialog: CustomType = {
       text: singleLineText({ label: 'Text inside the open dialog' }),
       linkText: text('CTA inside the open dialog button text'),
       link: webLink('CTA inside the open dialog button link'),
-      isShown: boolean('Is shown?', false),
+      isShown: boolean('Is shown?', { defaultValue: false }),
     },
   },
 };

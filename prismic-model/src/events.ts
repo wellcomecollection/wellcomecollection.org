@@ -54,8 +54,8 @@ const events: CustomType = {
       locations: list('Locations', {
         location: documentLink({ label: 'Location', linkedType: 'places' }),
       }),
-      isOnline: boolean('Happens Online?', false),
-      availableOnline: boolean('Available Online?', false),
+      isOnline: boolean('Happens Online?', { defaultValue: false }),
+      availableOnline: boolean('Available Online?', { defaultValue: false }),
       times: list('Times', {
         startDateTime: timestamp('Start'),
         endDateTime: timestamp('End'),
