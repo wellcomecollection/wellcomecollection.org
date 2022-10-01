@@ -1,8 +1,12 @@
+type SelectProps = {
+  options: string[];
+  defaultValue?: string;
+  placeholder?: string;
+};
+
 export default function select(
   label: string,
-  options: string[],
-  defaultValue?: string,
-  placeholder?: string
+  { options, defaultValue, placeholder }: SelectProps
 ) {
   return {
     type: 'Select',

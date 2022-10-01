@@ -18,13 +18,13 @@ const articleSeries: CustomType = {
   status: true,
   json: {
     'Story series': {
-      title: title,
-      color: select('Colour', ['green', 'purple', 'red', 'teal']),
+      title,
+      color: select('Colour', { options: ['green', 'purple', 'red', 'teal'] }),
       body,
     },
     Schedule: {
       schedule: list('Schedule', {
-        title: title,
+        title,
         publishDate: timestamp('Date to be published'),
       }),
     },

@@ -15,7 +15,11 @@ const globalAlert: CustomType = {
         extraTextOptions: ['heading2'],
         placeholder: 'text',
       }),
-      isShown: select('Display', ['hide', 'show'], 'hide', 'Show or hide'),
+      isShown: select('Display', {
+        options: ['hide', 'show'],
+        defaultValue: 'hide',
+        placeholder: 'Show or hide',
+      }),
       routeRegex: text(
         'Write a pipe-separated (|) list of page paths here if you only want the alert to display on certain pages. Leave empty if you want the alert to appear on all pages.',
         'path(s) to match'

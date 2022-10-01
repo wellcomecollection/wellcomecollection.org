@@ -110,13 +110,15 @@ const collectionVenue: CustomType = {
         config: {
           fields: {
             overrideDate: timestamp('Override date'),
-            type: select('Override type', [
-              'Bank holiday',
-              'Easter',
-              'Christmas and New Year',
-              'Late Spectacular',
-              'other',
-            ]),
+            type: select('Override type', {
+              options: [
+                'Bank holiday',
+                'Easter',
+                'Christmas and New Year',
+                'Late Spectacular',
+                'other',
+              ],
+            }),
             startDateTime: timestamp('Opens'),
             endDateTime: timestamp('Closes'),
           },
