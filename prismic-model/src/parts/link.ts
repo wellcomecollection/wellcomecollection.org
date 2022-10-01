@@ -46,3 +46,23 @@ export function documentLink(props: DocumentLinkProps) {
 
   return link(props.label, 'document', linkMask, props.placeholder);
 }
+
+type WebLinkProps =
+  | {
+      label: string;
+      placeholder: string;
+    }
+  | string;
+
+export function webLink(props: WebLinkProps) {
+  if (typeof props === 'string') {
+    const label = props;
+    return link(label, 'web');
+  } else {
+    return link(props.label, 'web', [], props.placeholder);
+  }
+}
+
+export function mediaLink(label: string) {
+  return link(label, 'media');
+}

@@ -1,7 +1,7 @@
 import title from './parts/title';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
-import link, { documentLink } from './parts/link';
+import { documentLink, webLink } from './parts/link';
 import list from './parts/list';
 import { multiLineText, singleLineText } from './parts/structured-text';
 import embed from './parts/embed';
@@ -29,10 +29,8 @@ function reservationBlock(prefix?: string) {
     [prefix ? `${prefix}ThirdPartyBookingName` : 'thirdPartyBookingName']: text(
       'Third party booking name'
     ),
-    [prefix ? `${prefix}ThirdPartyBookingUrl` : 'thirdPartyBookingUrl']: link(
-      'Third party booking url',
-      'web'
-    ),
+    [prefix ? `${prefix}ThirdPartyBookingUrl` : 'thirdPartyBookingUrl']:
+      webLink('Third party booking url'),
     [prefix ? `${prefix}BookingInformation` : 'bookingInformation']:
       multiLineText({ label: 'Extra information' }),
     [prefix ? `${prefix}Policies` : 'policies']: list('Policies', {

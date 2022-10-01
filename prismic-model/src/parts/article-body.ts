@@ -1,6 +1,6 @@
 import body, { slice } from './body';
 import heading from './heading';
-import link from './link';
+import { mediaLink, webLink } from './link';
 import text from './text';
 import { multiLineText, singleLineText } from './structured-text';
 import gifVideoSlice from './gif-video-slice';
@@ -226,7 +226,7 @@ export default {
           title: heading({ label: 'Title', level: 2 }),
         },
         repeat: {
-          link: link('Link', 'web'),
+          link: webLink('Link'),
           linkText: text('Link text'),
         },
       }),
@@ -275,7 +275,7 @@ export default {
       audioPlayer: slice('Audio Player', {
         nonRepeat: {
           title,
-          audio: link('Audio', 'media', []),
+          audio: mediaLink('Audio'),
         },
       }),
     },

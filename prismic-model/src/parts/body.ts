@@ -5,7 +5,7 @@ import gifVideoSlice from './gif-video-slice';
 import iframeSlice from './iframe-slice';
 import table from './table';
 import title from './title';
-import link, { documentLink } from './link';
+import link, { documentLink, mediaLink, webLink } from './link';
 import text from './text';
 import embed from './embed';
 import mediaObject from './media-object';
@@ -128,7 +128,7 @@ export default {
           title: heading({ label: 'Title', level: 2 }),
         },
         repeat: {
-          link: link('Link', 'web'),
+          link: webLink('Link'),
           linkText: text('Link text'),
         },
       }),
@@ -139,7 +139,7 @@ export default {
             label: 'Text',
             extraTextOptions: ['heading3', 'list-item'],
           }),
-          link: link('Button link', 'web'),
+          link: webLink('Button link'),
           linkText: text('Button text'),
         },
       }),
@@ -190,7 +190,7 @@ export default {
       audioPlayer: slice('Audio Player', {
         nonRepeat: {
           title,
-          audio: link('Audio', 'media', []),
+          audio: mediaLink('Audio'),
         },
       }),
     },

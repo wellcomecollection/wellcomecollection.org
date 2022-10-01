@@ -1,6 +1,6 @@
 import { CustomType } from './types/CustomType';
 import title from './parts/title';
-import link, { documentLink } from './parts/link';
+import { documentLink, mediaLink } from './parts/link';
 import list from './parts/list';
 import image from './parts/image';
 import { multiLineText, singleLineText } from './parts/structured-text';
@@ -47,15 +47,11 @@ const exhibitionGuides: CustomType = {
           label: 'Context',
           placeholder: 'Optional context for a group of stops',
         }),
-        'audio-with-description': link(
-          'Audio with description (.mp3 file)',
-          'media',
-          []
+        'audio-with-description': mediaLink(
+          'Audio with description (.mp3 file)'
         ),
-        'audio-without-description': link(
-          'Audio without description (.mp3 file)',
-          'media',
-          []
+        'audio-without-description': mediaLink(
+          'Audio without description (.mp3 file)'
         ),
         'bsl-video': embed('Embed (Youtube)'),
         transcript: multiLineText({ label: 'Transcript' }),
