@@ -29,7 +29,7 @@ const webcomics: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       series: list('Series', {

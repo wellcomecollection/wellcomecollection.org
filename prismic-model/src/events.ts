@@ -29,7 +29,7 @@ function reservationBlock(prefix?: string) {
     [prefix ? `${prefix}ThirdPartyBookingUrl` : 'thirdPartyBookingUrl']:
       webLink('Third party booking url'),
     [prefix ? `${prefix}BookingInformation` : 'bookingInformation']:
-      multiLineText({ label: 'Extra information' }),
+      multiLineText('Extra information'),
     [prefix ? `${prefix}Policies` : 'policies']: list('Policies', {
       policy: documentLink('Policy', { linkedType: 'event-policies' }),
     }),
@@ -68,7 +68,7 @@ const events: CustomType = {
           linkedType: 'interpretation-types',
         }),
         isPrimary: booleanDeprecated('Primary interprtation'),
-        extraInformation: multiLineText({ label: 'Extra information' }),
+        extraInformation: multiLineText('Extra information'),
       }),
       audiences: list('Audiences', {
         audience: documentLink('Audience', { linkedType: 'audiences' }),
@@ -90,7 +90,7 @@ const events: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       series: list('Event series', {

@@ -22,7 +22,7 @@ const collectionVenue: CustomType = {
       order: number('Order'),
       image: image('Image'),
       link: webLink('Link', { placeholder: 'Enter url' }),
-      linkText: singleLineText({ label: 'Linktext' }),
+      linkText: singleLineText('Linktext'),
     },
     'Regular opening times': {
       monday: {

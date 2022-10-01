@@ -30,7 +30,7 @@ const pages: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       seasons: list('Seasons', {

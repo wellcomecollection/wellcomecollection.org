@@ -34,7 +34,7 @@ const projects: CustomType = {
       }),
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
   },
 };

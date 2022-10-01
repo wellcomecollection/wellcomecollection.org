@@ -9,7 +9,7 @@ const contributors = list('Contributors', {
   contributor: documentLink('Contributor', {
     linkedTypes: ['people', 'organisations'],
   }),
-  description: multiLineText({ label: 'Contributor description override' }),
+  description: multiLineText('Contributor description override'),
 });
 
 export default contributors;

@@ -21,18 +21,15 @@ const articles: CustomType = {
     },
     Outro: {
       outroResearchItem: link('Outro: Research item'),
-      outroResearchLinkText: singleLineText({
-        label: 'Outro: Research link text',
+      outroResearchLinkText: singleLineText('Outro: Research link text', {
         overrideTextOptions: ['paragraph'],
       }),
       outroReadItem: link('Outro: Read item'),
-      outroReadLinkText: singleLineText({
-        label: 'Outro: Read link text',
+      outroReadLinkText: singleLineText('Outro: Read link text', {
         overrideTextOptions: ['paragraph'],
       }),
       outroVisitItem: link('Outro: Visit item'),
-      outroVisitLinkText: singleLineText({
-        label: 'Outro: Visit link text',
+      outroVisitLinkText: singleLineText('Outro: Visit link text', {
         overrideTextOptions: ['paragraph'],
       }),
     },
@@ -41,9 +38,7 @@ const articles: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({
-        label: 'Metadata description',
-      }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       series: list('Series', {

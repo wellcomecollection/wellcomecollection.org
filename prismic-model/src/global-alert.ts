@@ -10,8 +10,7 @@ const globalAlert: CustomType = {
   status: true,
   json: {
     'Global alert': {
-      text: multiLineText({
-        label: 'text',
+      text: multiLineText('text', {
         extraTextOptions: ['heading2'],
         placeholder: 'text',
       }),

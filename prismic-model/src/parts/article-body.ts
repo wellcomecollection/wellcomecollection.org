@@ -95,8 +95,7 @@ export default {
         type: 'Slice',
         fieldset: 'Text',
         'non-repeat': {
-          text: multiLineText({
-            label: 'Text',
+          text: multiLineText('Text', {
             overrideTextOptions: [
               'heading2',
               'heading3',
@@ -136,8 +135,7 @@ export default {
         type: 'Slice',
         fieldset: 'Standfirst',
         'non-repeat': {
-          text: singleLineText({
-            label: 'Standfirst',
+          text: singleLineText('Standfirst', {
             overrideTextOptions: ['strong', 'em', 'hyperlink'],
           }),
         },
@@ -151,8 +149,7 @@ export default {
             type: 'Embed',
             fieldset: 'Embed',
           },
-          caption: singleLineText({
-            label: 'Caption',
+          caption: singleLineText('Caption', {
             placeholder: 'Caption',
             overrideTextOptions: ['hyperlink', 'em'],
           }),
@@ -208,8 +205,7 @@ export default {
             type: 'Embed',
             fieldset: 'YouTube embed',
           },
-          caption: singleLineText({
-            label: 'Caption',
+          caption: singleLineText('Caption', {
             placeholder: 'Caption',
             overrideTextOptions: ['hyperlink', 'em'],
           }),
@@ -218,7 +214,7 @@ export default {
       discussion: slice('Discussion', {
         nonRepeat: {
           title: heading({ label: 'Title', level: 2 }),
-          text: multiLineText({ label: 'Text' }),
+          text: multiLineText('Text'),
         },
       }),
       tagList: slice('Tag List', {
@@ -242,18 +238,15 @@ export default {
               label: 'List style',
             },
           },
-          description: multiLineText({
-            label: 'Description',
+          description: multiLineText('Description', {
             overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
           }),
         },
         repeat: {
-          title: singleLineText({
-            label: 'Title',
+          title: singleLineText('Title', {
             overrideTextOptions: ['heading1'],
           }),
-          subtitle: singleLineText({
-            label: 'Subtitle',
+          subtitle: singleLineText('Subtitle', {
             overrideTextOptions: ['heading2'],
           }),
           image: {
@@ -262,12 +255,10 @@ export default {
               label: 'Image',
             },
           },
-          caption: singleLineText({
-            label: 'Caption',
+          caption: singleLineText('Caption', {
             overrideTextOptions: ['strong', 'em', 'hyperlink'],
           }),
-          description: multiLineText({
-            label: 'Description',
+          description: multiLineText('Description', {
             overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
           }),
         },

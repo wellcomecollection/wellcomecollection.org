@@ -14,9 +14,8 @@ export default {
           label: 'Editorial image',
         },
         'non-repeat': {
-          caption: singleLineText({
+          caption: singleLineText('Promo text', {
             overrideTextOptions: ['paragraph'],
-            label: 'Promo text',
           }),
           image: image('Promo image'),
           link: text('Link override'),

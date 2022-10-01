@@ -18,7 +18,7 @@ const books: CustomType = {
   json: {
     Book: {
       title,
-      subtitle: singleLineText({ label: 'Subtitle' }),
+      subtitle: singleLineText('Subtitle'),
       body: body,
       orderLink: webLink('Order link'),
       price: text('Price'),
@@ -26,8 +26,8 @@ const books: CustomType = {
       extent: text('Extent'),
       isbn: text('ISBN'),
       reviews: list('Reviews', {
-        text: multiLineText({ label: 'Review' }),
-        citation: singleLineText({ label: 'Citation' }),
+        text: multiLineText('Review'),
+        citation: singleLineText('Citation'),
       }),
       datePublished: timestamp('Date published'),
     },
@@ -36,7 +36,7 @@ const books: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       seasons: list('Seasons', {

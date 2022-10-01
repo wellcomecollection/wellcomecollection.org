@@ -11,14 +11,13 @@ const featuredBooks: CustomType = {
   status: true,
   json: {
     Main: {
-      introText: multiLineText({
-        label: 'Introductory text',
+      introText: multiLineText('Introductory text', {
         placeholder: 'This will appear at the top of the stories landing page.',
       }),
     },
     'Featured stories/series': {
       storiesTitle: title,
-      storiesDescription: multiLineText({ label: 'description' }),
+      storiesDescription: multiLineText('description'),
       stories: list('stories', {
         story: documentLink('story/series', {
           linkedTypes: ['articles', 'series'],
@@ -27,7 +26,7 @@ const featuredBooks: CustomType = {
     },
     'Featured books': {
       booksTitle: title,
-      booksDescription: multiLineText({ label: 'description' }),
+      booksDescription: multiLineText('description'),
       books: list('books', {
         book: documentLink('book', { linkedType: 'books' }),
       }),

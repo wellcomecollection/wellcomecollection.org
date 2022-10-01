@@ -4,7 +4,7 @@ import image from './image';
 
 const mediaObject = {
   title,
-  text: multiLineText({ label: 'Text' }),
+  text: multiLineText('Text'),
   image: image('Image'),
 };
 

@@ -63,8 +63,7 @@ export default {
     choices: {
       text: slice('Text', {
         nonRepeat: {
-          text: multiLineText({
-            label: 'Text',
+          text: multiLineText('Text', {
             extraTextOptions: ['heading2', 'heading3', 'list-item'],
           }),
         },
@@ -76,20 +75,20 @@ export default {
       iframe: iframeSlice(),
       quote: slice('Quote', {
         nonRepeat: {
-          text: multiLineText({ label: 'Quote' }),
-          citation: singleLineText({ label: 'Citation' }),
+          text: multiLineText('Quote'),
+          citation: singleLineText('Citation'),
         },
       }),
       standfirst: slice('Standfirst', {
         nonRepeat: {
-          text: singleLineText({ label: 'Standfirst' }),
+          text: singleLineText('Standfirst'),
         },
       }),
       table: table(),
       embed: slice('Embed', {
         nonRepeat: {
           embed: embed('Embed (Youtube, Vimeo etc)'),
-          caption: singleLineText({ label: 'Caption' }),
+          caption: singleLineText('Caption'),
         },
       }),
       map: slice('Map', {
@@ -119,7 +118,7 @@ export default {
       discussion: slice('Discussion', {
         nonRepeat: {
           title: heading({ label: 'Title', level: 2 }),
-          text: multiLineText({ label: 'Text' }),
+          text: multiLineText('Text'),
         },
       }),
       tagList: slice('Tag List', {
@@ -134,8 +133,7 @@ export default {
       infoBlock: slice('Info block', {
         nonRepeat: {
           title: heading({ label: 'Title', level: 2 }),
-          text: multiLineText({
-            label: 'Text',
+          text: multiLineText('Text', {
             extraTextOptions: ['heading3', 'list-item'],
           }),
           link: webLink('Button link'),
@@ -145,8 +143,7 @@ export default {
       titledTextList: slice('Titled text list', {
         repeat: {
           title: heading({ label: 'Title', level: 3 }),
-          text: multiLineText({
-            label: 'Text',
+          text: multiLineText('Text', {
             extraTextOptions: ['heading4', 'list-item'],
           }),
           link: link('Link'),

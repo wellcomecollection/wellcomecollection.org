@@ -7,8 +7,7 @@ export default function heading({
   label: string;
   level?: 1 | 2 | 3;
 }) {
-  return singleLineText({
-    label,
+  return singleLineText(label, {
     overrideTextOptions: [`heading${level}`],
   });
 }

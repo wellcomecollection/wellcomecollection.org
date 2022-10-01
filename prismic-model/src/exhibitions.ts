@@ -20,23 +20,16 @@ const exhibitions: CustomType = {
     Exhibition: {
       format: documentLink('Format', { linkedType: 'exhibition-formats' }),
       title,
-      shortTitle: singleLineText({
-        label: 'Short title',
+      shortTitle: singleLineText('Short title', {
         overrideTextOptions: ['heading1'],
       }),
       body,
       start: timestamp('Start date'),
       end: timestamp('End date'),
       isPermanent: booleanDeprecated('Is permanent?'),
-      statusOverride: singleLineText({
-        label: 'Status override',
-      }),
-      bslInfo: singleLineText({
-        label: 'BSL information',
-      }),
-      audioDescriptionInfo: singleLineText({
-        label: 'Audio description information',
-      }),
+      statusOverride: singleLineText('Status override'),
+      bslInfo: singleLineText('BSL information'),
+      audioDescriptionInfo: singleLineText('Audio description information'),
       place,
     },
     'In this exhibition': {
@@ -64,9 +57,7 @@ const exhibitions: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({
-        label: 'Metadata description',
-      }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       seasons: list('Seasons', {

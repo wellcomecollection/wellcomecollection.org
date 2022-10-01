@@ -18,8 +18,7 @@ const exhibitionGuides: CustomType = {
       'related-exhibition': documentLink('Related Exhibition', {
         linkedType: 'exhibitions',
       }),
-      introText: multiLineText({
-        label: 'Introductory text',
+      introText: multiLineText('Introductory text', {
         placeholder:
           "This will fallback to the related exhibition's promo text if not filled in",
       }),
@@ -30,20 +29,18 @@ const exhibitionGuides: CustomType = {
     // a stop is related to, but removed this to get a first iteration and think about hierarchy structure later
     Components: {
       components: list('Guide Component', {
-        standaloneTitle: singleLineText({
-          label: 'Standalone title',
+        standaloneTitle: singleLineText('Standalone title', {
           placeholder:
             'Provides a group heading for stops on captions and transcription pages',
         }),
         title,
         // Info on the choice for the name 'tombstone' instead of e.g. 'creator'
         // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
-        tombstone: singleLineText({ label: 'Tombstone' }),
-        caption: multiLineText({ label: 'Caption' }),
+        tombstone: singleLineText('Tombstone'),
+        caption: multiLineText('Caption'),
         image: image('image'),
         number: number('Stop number', 'Stop number for this content'),
-        context: multiLineText({
-          label: 'Context',
+        context: multiLineText('Context', {
           placeholder: 'Optional context for a group of stops',
         }),
         'audio-with-description': mediaLink(
@@ -53,7 +50,7 @@ const exhibitionGuides: CustomType = {
           'Audio without description (.mp3 file)'
         ),
         'bsl-video': embed('Embed (Youtube)'),
-        transcript: multiLineText({ label: 'Transcript' }),
+        transcript: multiLineText('Transcript'),
       }),
     },
   },

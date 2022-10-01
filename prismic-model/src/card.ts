@@ -15,7 +15,7 @@ const card: CustomType = {
       format: documentLink('Format', {
         linkedTypes: ['event-formats', 'article-formats', 'labels'],
       }),
-      description: singleLineText({ label: 'Description' }),
+      description: singleLineText('Description'),
       image: image('Image'),
       link: link('Link'),
     },
