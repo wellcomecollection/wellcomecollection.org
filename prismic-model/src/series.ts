@@ -37,8 +37,7 @@ const articleSeries: CustomType = {
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: documentLink({
-          label: 'Season',
+        season: documentLink('Season', {
           linkedType: 'seasons',
           placeholder: 'Select a Season',
         }),

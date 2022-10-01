@@ -15,7 +15,7 @@ const guides: CustomType = {
   json: {
     Guide: {
       title,
-      format: documentLink({ label: 'Format', linkedType: 'guide-formats' }),
+      format: documentLink('Format', { linkedType: 'guide-formats' }),
       datePublished: timestamp('Date published'),
       showOnThisPage: boolean(
         "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body",

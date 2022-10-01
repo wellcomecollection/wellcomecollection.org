@@ -14,8 +14,7 @@ const eventSeries: CustomType = {
   json: {
     'Event series': {
       title,
-      backgroundTexture: documentLink({
-        label: 'Background texture',
+      backgroundTexture: documentLink('Background texture', {
         linkedType: 'background-textures',
       }),
       body,

@@ -15,7 +15,7 @@ const webcomics: CustomType = {
   json: {
     Webcomic: {
       title,
-      format: documentLink({ label: 'Format', linkedType: 'article-formats' }),
+      format: documentLink('Format', { linkedType: 'article-formats' }),
       image: {
         type: 'Image',
         config: {
@@ -33,10 +33,7 @@ const webcomics: CustomType = {
     },
     'Content relationships': {
       series: list('Series', {
-        series: documentLink({
-          label: 'Series',
-          linkedType: 'webcomic-series',
-        }),
+        series: documentLink('Series', { linkedType: 'webcomic-series' }),
       }),
     },
     Overrides: {

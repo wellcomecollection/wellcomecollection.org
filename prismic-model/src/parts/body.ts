@@ -105,8 +105,7 @@ export default {
       }),
       collectionVenue: slice('Collection venue', {
         nonRepeat: {
-          content: documentLink({
-            label: 'Content item',
+          content: documentLink('Content item', {
             linkedType: 'collection-venue',
           }),
           showClosingTimes: booleanDeprecated('Show closing times'),
@@ -114,7 +113,7 @@ export default {
       }),
       contact: slice('Contact', {
         nonRepeat: {
-          content: documentLink({ label: 'Content item', linkedType: 'teams' }),
+          content: documentLink('Content item', { linkedType: 'teams' }),
         },
       }),
       discussion: slice('Discussion', {
@@ -151,7 +150,7 @@ export default {
             extraTextOptions: ['heading4', 'list-item'],
           }),
           link: link('Link'),
-          label: documentLink({ label: 'tag', linkedType: 'labels' }),
+          label: documentLink('tag', { linkedType: 'labels' }),
         },
       }),
       contentList: slice('(β) Content list', {
@@ -159,8 +158,7 @@ export default {
           title,
         },
         repeat: {
-          content: documentLink({
-            label: 'Content item',
+          content: documentLink('Content item', {
             linkedTypes: [
               'pages',
               'event-series',

@@ -16,7 +16,7 @@ const articles: CustomType = {
   json: {
     Story: {
       title,
-      format: documentLink({ label: 'Format', linkedType: 'article-formats' }),
+      format: documentLink('Format', { linkedType: 'article-formats' }),
       body: articleBody,
     },
     Outro: {
@@ -47,20 +47,18 @@ const articles: CustomType = {
     },
     'Content relationships': {
       series: list('Series', {
-        series: documentLink({ label: 'Series', linkedType: 'series' }),
+        series: documentLink('Series', { linkedType: 'series' }),
         positionInSeries: number('Position in series'),
       }),
       seasons: list('Seasons', {
-        season: documentLink({
-          label: 'Season',
+        season: documentLink('Season', {
           linkedType: 'seasons',
           placeholder: 'Select a Season',
         }),
       }),
       parents: list('Parents', {
         order: number('Order'),
-        parent: documentLink({
-          label: 'Parent',
+        parent: documentLink('Parent', {
           linkedType: 'exhibitions',
           placeholder: 'Select a parent',
         }),

@@ -7,8 +7,8 @@ export default function select(
   return {
     type: 'Select',
     config: {
-      label: label,
-      options: options,
+      label,
+      options,
       default_value: defaultValue,
       placeholder,
     },

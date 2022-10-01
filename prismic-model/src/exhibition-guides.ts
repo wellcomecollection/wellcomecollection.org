@@ -15,8 +15,7 @@ const exhibitionGuides: CustomType = {
   json: {
     Guide: {
       title,
-      'related-exhibition': documentLink({
-        label: 'Related Exhibition',
+      'related-exhibition': documentLink('Related Exhibition', {
         linkedType: 'exhibitions',
       }),
       introText: multiLineText({

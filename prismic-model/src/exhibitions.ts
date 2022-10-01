@@ -18,10 +18,7 @@ const exhibitions: CustomType = {
   status: true,
   json: {
     Exhibition: {
-      format: documentLink({
-        label: 'Format',
-        linkedType: 'exhibition-formats',
-      }),
+      format: documentLink('Format', { linkedType: 'exhibition-formats' }),
       title,
       shortTitle: singleLineText({
         label: 'Short title',
@@ -44,21 +41,20 @@ const exhibitions: CustomType = {
     },
     'In this exhibition': {
       exhibits: list('Exhibits', {
-        item: documentLink({ label: 'Exhibit', linkedType: 'exhibitions' }),
+        item: documentLink('Exhibit', { linkedType: 'exhibitions' }),
       }),
       events: list('Gallery tours', {
-        item: documentLink({ label: 'Gallery tour', linkedType: 'events' }),
+        item: documentLink('Gallery tour', { linkedType: 'events' }),
       }),
     },
     'About this exhibition': {
       articles: list('Articles', {
-        item: documentLink({ label: 'Article', linkedType: 'articles' }),
+        item: documentLink('Article', { linkedType: 'articles' }),
       }),
     },
     Resources: {
       resources: list('Resources', {
-        resource: documentLink({
-          label: 'Resource',
+        resource: documentLink('Resource', {
           linkedType: 'exhibition-resources',
         }),
       }),
@@ -74,16 +70,14 @@ const exhibitions: CustomType = {
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: documentLink({
-          label: 'Season',
+        season: documentLink('Season', {
           linkedType: 'seasons',
           placeholder: 'Select a Season',
         }),
       }),
       parents: list('Parents', {
         order: number('Order'),
-        parent: documentLink({
-          label: 'Parent',
+        parent: documentLink('Parent', {
           linkedType: 'exhibitions',
           placeholder: 'Select a parent',
         }),

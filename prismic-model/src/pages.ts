@@ -18,7 +18,7 @@ const pages: CustomType = {
   json: {
     Page: {
       title,
-      format: documentLink({ label: 'Format', linkedType: 'page-formats' }),
+      format: documentLink('Format', { linkedType: 'page-formats' }),
       datePublished: timestamp('Date published'),
       showOnThisPage: boolean(
         "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body",
@@ -34,16 +34,14 @@ const pages: CustomType = {
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: documentLink({
-          label: 'Season',
+        season: documentLink('Season', {
           linkedType: 'seasons',
           placeholder: 'Select a Season',
         }),
       }),
       parents: list('Parent pages', {
         order: number('Order'),
-        parent: documentLink({
-          label: 'Parent page',
+        parent: documentLink('Parent page', {
           linkedTypes: ['pages', 'exhibitions'],
           placeholder: 'Select a parent page',
         }),

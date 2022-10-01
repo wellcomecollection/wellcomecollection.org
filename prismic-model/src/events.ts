@@ -18,10 +18,7 @@ function reservationBlock(prefix?: string) {
     [prefix ? `${prefix}TicketSalesStart` : 'ticketSalesStart']:
       timestamp('Ticket sales start'),
     [prefix ? `${prefix}BookingEnquiryTeam` : 'bookingEnquiryTeam']:
-      documentLink({
-        label: 'Booking enquiry team',
-        linkedType: 'teams',
-      }),
+      documentLink('Booking enquiry team', { linkedType: 'teams' }),
     [prefix ? `${prefix}EventbriteEvent` : 'eventbriteEvent']:
       embed('Eventbrite event'),
     // This is what it was labelled on the UI,
@@ -34,7 +31,7 @@ function reservationBlock(prefix?: string) {
     [prefix ? `${prefix}BookingInformation` : 'bookingInformation']:
       multiLineText({ label: 'Extra information' }),
     [prefix ? `${prefix}Policies` : 'policies']: list('Policies', {
-      policy: documentLink({ label: 'Policy', linkedType: 'event-policies' }),
+      policy: documentLink('Policy', { linkedType: 'event-policies' }),
     }),
     [prefix ? `${prefix}HasEarlyRegistration` : 'hasEarlyRegistration']:
       booleanDeprecated('Early registration'),
@@ -50,9 +47,9 @@ const events: CustomType = {
   json: {
     Event: {
       title,
-      format: documentLink({ label: 'Format', linkedType: 'event-formats' }),
+      format: documentLink('Format', { linkedType: 'event-formats' }),
       locations: list('Locations', {
-        location: documentLink({ label: 'Location', linkedType: 'places' }),
+        location: documentLink('Location', { linkedType: 'places' }),
       }),
       isOnline: boolean('Happens Online?', { defaultValue: false }),
       availableOnline: boolean('Available Online?', { defaultValue: false }),
@@ -67,26 +64,24 @@ const events: CustomType = {
     Access: {
       isRelaxedPerformance: booleanDeprecated('Relaxed'),
       interpretations: list('Interpretations', {
-        interpretationType: documentLink({
-          label: 'Interpretation',
+        interpretationType: documentLink('Interpretation', {
           linkedType: 'interpretation-types',
         }),
         isPrimary: booleanDeprecated('Primary interprtation'),
         extraInformation: multiLineText({ label: 'Extra information' }),
       }),
       audiences: list('Audiences', {
-        audience: documentLink({ label: 'Audience', linkedType: 'audiences' }),
+        audience: documentLink('Audience', { linkedType: 'audiences' }),
       }),
     },
     Reservation: reservationBlock(),
     'Online reservation': reservationBlock('online'),
     Schedule: {
       schedule: list('Events', {
-        event: documentLink({ label: 'Event', linkedType: 'events' }),
+        event: documentLink('Event', { linkedType: 'events' }),
         isNotLinked: booleanDeprecated('Suppress link to event'),
       }),
-      backgroundTexture: documentLink({
-        label: 'Background texture',
+      backgroundTexture: documentLink('Background texture', {
         linkedType: 'background-textures',
       }),
     },
@@ -99,19 +94,17 @@ const events: CustomType = {
     },
     'Content relationships': {
       series: list('Event series', {
-        series: documentLink({ label: 'Series', linkedType: 'event-series' }),
+        series: documentLink('Series', { linkedType: 'event-series' }),
       }),
       seasons: list('Seasons', {
-        season: documentLink({
-          label: 'Season',
+        season: documentLink('Season', {
           linkedType: 'seasons',
           placeholder: 'Select a Season',
         }),
       }),
       parents: list('Parents', {
         order: number('Order'),
-        parent: documentLink({
-          label: 'Parent',
+        parent: documentLink('Parent', {
           linkedType: 'exhibitions',
           placeholder: 'Select a parent',
         }),

@@ -12,8 +12,7 @@ const card: CustomType = {
   json: {
     Card: {
       title,
-      format: documentLink({
-        label: 'Format',
+      format: documentLink('Format', {
         linkedTypes: ['event-formats', 'article-formats', 'labels'],
       }),
       description: singleLineText({ label: 'Description' }),

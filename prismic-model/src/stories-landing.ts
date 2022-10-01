@@ -20,8 +20,7 @@ const featuredBooks: CustomType = {
       storiesTitle: title,
       storiesDescription: multiLineText({ label: 'description' }),
       stories: list('stories', {
-        story: documentLink({
-          label: 'story/series',
+        story: documentLink('story/series', {
           linkedTypes: ['articles', 'series'],
         }),
       }),
@@ -30,7 +29,7 @@ const featuredBooks: CustomType = {
       booksTitle: title,
       booksDescription: multiLineText({ label: 'description' }),
       books: list('books', {
-        book: documentLink({ label: 'book', linkedType: 'books' }),
+        book: documentLink('book', { linkedType: 'books' }),
       }),
     },
   },

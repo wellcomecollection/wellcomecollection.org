@@ -16,7 +16,7 @@ const projects: CustomType = {
   json: {
     Project: {
       title,
-      format: documentLink({ label: 'Format', linkedType: 'project-formats' }),
+      format: documentLink('Format', { linkedType: 'project-formats' }),
       start: timestamp('Start date'),
       end: timestamp('End date'),
       body,
@@ -27,8 +27,7 @@ const projects: CustomType = {
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: documentLink({
-          label: 'Season',
+        season: documentLink('Season', {
           linkedType: 'seasons',
           placeholder: 'Select a Season',
         }),

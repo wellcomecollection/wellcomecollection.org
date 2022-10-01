@@ -10,7 +10,7 @@ const featuredBooks: CustomType = {
   json: {
     'Featured books': {
       books: list('books', {
-        book: documentLink({ label: 'book', linkedType: 'books' }),
+        book: documentLink('book', { linkedType: 'books' }),
       }),
     },
   },

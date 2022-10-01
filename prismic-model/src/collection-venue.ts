@@ -21,7 +21,7 @@ const collectionVenue: CustomType = {
       },
       order: number('Order'),
       image: image('Image'),
-      link: webLink({ label: 'Link', placeholder: 'Enter url' }),
+      link: webLink('Link', { placeholder: 'Enter url' }),
       linkText: singleLineText({ label: 'Linktext' }),
     },
     'Regular opening times': {
