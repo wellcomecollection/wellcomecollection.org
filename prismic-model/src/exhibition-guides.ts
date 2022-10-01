@@ -39,7 +39,9 @@ const exhibitionGuides: CustomType = {
         tombstone: singleLineText('Tombstone'),
         caption: multiLineText('Caption'),
         image: image('image'),
-        number: number('Stop number', 'Stop number for this content'),
+        number: number('Stop number', {
+          placeholder: 'Stop number for this content',
+        }),
         context: multiLineText('Context', {
           placeholder: 'Optional context for a group of stops',
         }),
