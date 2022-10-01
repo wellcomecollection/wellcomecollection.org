@@ -1,5 +1,5 @@
 import title from './parts/title';
-import { multiLineText, singleLineText } from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const interpretationTypes: CustomType = {

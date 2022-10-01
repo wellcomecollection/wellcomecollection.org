@@ -1,5 +1,5 @@
-import { singleLineText } from './structured-text';
-import text from './text';
+import { singleLineText } from './text';
+import text from './keyword';
 import { mediaLink } from './link';
 import select from './select';
 import boolean from './boolean';

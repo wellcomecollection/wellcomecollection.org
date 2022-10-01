@@ -1,4 +1,4 @@
-import text from './parts/text';
+import keyword from './parts/keyword';
 import description from './parts/description';
 import image from './parts/image';
 import list from './parts/list';
@@ -17,7 +17,7 @@ const organisations: CustomType = {
       description: description,
       image: image('Image'),
       sameAs: list('Same as', {
-        link: text('Link'),
+        link: keyword('Link'),
         title: heading('Title (override)'),
       }),
     },

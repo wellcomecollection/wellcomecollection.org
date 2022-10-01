@@ -4,7 +4,7 @@ import timestamp from './parts/timestamp';
 import place from './parts/place';
 import { documentLink } from './parts/link';
 import list from './parts/list';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
 import booleanDeprecated from './parts/boolean-deprecated';

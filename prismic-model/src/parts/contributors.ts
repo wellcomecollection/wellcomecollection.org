@@ -1,4 +1,4 @@
-import { multiLineText } from './structured-text';
+import { multiLineText } from './text';
 import list from './list';
 import { documentLink } from './link';
 

@@ -1,4 +1,4 @@
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import title from './parts/title';
 import image from './parts/image';
 import link, { documentLink } from './parts/link';

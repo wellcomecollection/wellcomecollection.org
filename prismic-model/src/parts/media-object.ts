@@ -1,4 +1,4 @@
-import { multiLineText } from './structured-text';
+import { multiLineText } from './text';
 import title from './title';
 import image from './image';
 

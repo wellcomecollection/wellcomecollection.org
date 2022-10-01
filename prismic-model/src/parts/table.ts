@@ -1,4 +1,4 @@
-import text from './text';
+import text from './keyword';
 
 export default function () {
   return {
@@ -6,7 +6,7 @@ export default function () {
     fieldset: 'Table',
     'non-repeat': {
       caption: text('Table caption (heading)'),
-      tableData: text('Pipe-delimited csv'),
+      tableData: text('Pipe-delimeted csv'),
       hasRowHeaders: {
         type: 'Boolean',
         config: {

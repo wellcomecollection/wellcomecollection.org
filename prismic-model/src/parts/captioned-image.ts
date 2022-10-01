@@ -1,4 +1,4 @@
-import { singleLineText } from './structured-text';
+import { singleLineText } from './text';
 import image from './image';
 import boolean from './boolean';
 

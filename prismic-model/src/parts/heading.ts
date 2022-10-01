@@ -1,4 +1,4 @@
-import { singleLineText } from './structured-text';
+import { singleLineText } from './text';
 
 type Props = { level: 1 | 2 | 3 };
 

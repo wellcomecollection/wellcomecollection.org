@@ -4,7 +4,7 @@ import { documentLink } from './parts/link';
 import promo from './parts/promo';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const webcomics: CustomType = {

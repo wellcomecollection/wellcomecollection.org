@@ -1,7 +1,7 @@
 import { documentLink } from './parts/link';
 import list from './parts/list';
 import title from './parts/title';
-import { multiLineText } from './parts/structured-text';
+import { multiLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const featuredBooks: CustomType = {

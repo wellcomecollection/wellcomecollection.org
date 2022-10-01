@@ -3,7 +3,7 @@ import body from './parts/body';
 import promo from './parts/promo';
 import { documentLink } from './parts/link';
 import timestamp from './parts/timestamp';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import boolean from './parts/boolean';
 import { CustomType } from './types/CustomType';
 

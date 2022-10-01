@@ -1,8 +1,8 @@
 import title from './parts/title';
-import { multiLineText, singleLineText } from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/text';
 import body from './parts/body';
 import { documentLink, webLink } from './parts/link';
-import text from './parts/text';
+import keyword from './parts/keyword';
 import list from './parts/list';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
@@ -21,10 +21,10 @@ const books: CustomType = {
       subtitle: singleLineText('Subtitle'),
       body: body,
       orderLink: webLink('Order link'),
-      price: text('Price'),
-      format: text('Format'),
-      extent: text('Extent'),
-      isbn: text('ISBN'),
+      price: keyword('Price'),
+      format: keyword('Format'),
+      extent: keyword('Extent'),
+      isbn: keyword('ISBN'),
       reviews: list('Reviews', {
         text: multiLineText('Review'),
         citation: singleLineText('Citation'),

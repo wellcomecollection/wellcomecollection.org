@@ -5,7 +5,7 @@ import contributorsWithTitle from './parts/contributorsWithTitle';
 import list from './parts/list';
 import select from './parts/select';
 import timestamp from './parts/timestamp';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import { documentLink } from './parts/link';
 import { CustomType } from './types/CustomType';
 

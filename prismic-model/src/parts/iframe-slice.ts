@@ -1,4 +1,4 @@
-import text from './text';
+import text from './keyword';
 
 export default function () {
   return {

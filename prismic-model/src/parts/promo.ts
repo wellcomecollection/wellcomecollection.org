@@ -1,6 +1,6 @@
 import image from './image';
-import { singleLineText } from './structured-text';
-import text from './text';
+import { singleLineText } from './text';
+import text from './keyword';
 
 export default {
   type: 'Slices',

@@ -5,7 +5,7 @@ import link, { documentLink } from './parts/link';
 import number from './parts/number';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const articles: CustomType = {

@@ -1,5 +1,5 @@
-import { singleLineText } from './parts/structured-text';
-import text from './parts/text';
+import { singleLineText } from './parts/text';
+import keyword from './parts/keyword';
 import { CustomType } from './types/CustomType';
 
 const editorialContributorRoles: CustomType = {
@@ -12,7 +12,7 @@ const editorialContributorRoles: CustomType = {
       title: singleLineText('Title', {
         extraTextOptions: ['heading1'],
       }),
-      describedBy: text('Word to describe output of the role'),
+      describedBy: keyword('Word to describe output of the role'),
     },
   },
 };

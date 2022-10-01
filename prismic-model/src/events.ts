@@ -3,10 +3,10 @@ import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import { documentLink, webLink } from './parts/link';
 import list from './parts/list';
-import { multiLineText, singleLineText } from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/text';
 import embed from './parts/embed';
 import booleanDeprecated from './parts/boolean-deprecated';
-import text from './parts/text';
+import keyword from './parts/keyword';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
 import boolean from './parts/boolean';
@@ -23,9 +23,8 @@ function reservationBlock(prefix?: string) {
       embed('Eventbrite event'),
     // This is what it was labelled on the UI,
     // so that's what we're calling it here
-    [prefix ? `${prefix}ThirdPartyBookingName` : 'thirdPartyBookingName']: text(
-      'Third party booking name'
-    ),
+    [prefix ? `${prefix}ThirdPartyBookingName` : 'thirdPartyBookingName']:
+      keyword('Third party booking name'),
     [prefix ? `${prefix}ThirdPartyBookingUrl` : 'thirdPartyBookingUrl']:
       webLink('Third party booking url'),
     [prefix ? `${prefix}BookingInformation` : 'bookingInformation']:
@@ -35,7 +34,7 @@ function reservationBlock(prefix?: string) {
     }),
     [prefix ? `${prefix}HasEarlyRegistration` : 'hasEarlyRegistration']:
       booleanDeprecated('Early registration'),
-    [prefix ? `${prefix}Cost` : 'cost']: text('Cost'),
+    [prefix ? `${prefix}Cost` : 'cost']: keyword('Cost'),
   };
 }
 

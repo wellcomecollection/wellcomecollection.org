@@ -3,7 +3,7 @@ import title from './parts/title';
 import { documentLink, mediaLink } from './parts/link';
 import list from './parts/list';
 import image from './parts/image';
-import { multiLineText, singleLineText } from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/text';
 import embed from './parts/embed';
 import number from './parts/number';
 

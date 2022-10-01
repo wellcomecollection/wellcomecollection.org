@@ -3,7 +3,7 @@ import number from './parts/number';
 import select from './parts/select';
 import image from './parts/image';
 import { webLink } from './parts/link';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const collectionVenue: CustomType = {

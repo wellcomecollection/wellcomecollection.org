@@ -1,5 +1,5 @@
 import title from './parts/title';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const audiences: CustomType = {

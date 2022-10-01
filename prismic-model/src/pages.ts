@@ -4,7 +4,7 @@ import promo from './parts/promo';
 import { documentLink } from './parts/link';
 import list from './parts/list';
 import timestamp from './parts/timestamp';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import number from './parts/number';
 import boolean from './parts/boolean';
 import contributorsWithTitle from './parts/contributorsWithTitle';
