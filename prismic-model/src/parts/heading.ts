@@ -1,12 +1,10 @@
 import { singleLineText } from './structured-text';
 
-export default function heading({
-  label = 'Title',
-  level = 1,
-}: {
-  label: string;
-  level?: 1 | 2 | 3;
-}) {
+type Props = { level: 1 | 2 | 3 };
+
+export default function heading(label, props?: Props) {
+  const level = props?.level || 1;
+
   return singleLineText(label, {
     overrideTextOptions: [`heading${level}`],
   });

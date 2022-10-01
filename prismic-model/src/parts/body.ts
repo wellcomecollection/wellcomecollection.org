@@ -117,13 +117,13 @@ export default {
       }),
       discussion: slice('Discussion', {
         nonRepeat: {
-          title: heading({ label: 'Title', level: 2 }),
+          title: heading('Title', { level: 2 }),
           text: multiLineText('Text'),
         },
       }),
       tagList: slice('Tag List', {
         nonRepeat: {
-          title: heading({ label: 'Title', level: 2 }),
+          title: heading('Title', { level: 2 }),
         },
         repeat: {
           link: webLink('Link'),
@@ -132,7 +132,7 @@ export default {
       }),
       infoBlock: slice('Info block', {
         nonRepeat: {
-          title: heading({ label: 'Title', level: 2 }),
+          title: heading('Title', { level: 2 }),
           text: multiLineText('Text', {
             extraTextOptions: ['heading3', 'list-item'],
           }),
@@ -142,7 +142,7 @@ export default {
       }),
       titledTextList: slice('Titled text list', {
         repeat: {
-          title: heading({ label: 'Title', level: 3 }),
+          title: heading('Title', { level: 3 }),
           text: multiLineText('Text', {
             extraTextOptions: ['heading4', 'list-item'],
           }),

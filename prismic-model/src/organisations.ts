@@ -18,7 +18,7 @@ const organisations: CustomType = {
       image: image('Image'),
       sameAs: list('Same as', {
         link: text('Link'),
-        title: heading({ label: 'Title (override)' }),
+        title: heading('Title (override)'),
       }),
     },
   },
