@@ -1,5 +1,5 @@
 import { singleLineText } from './text';
-import text from './keyword';
+import keyword from './keyword';
 import { mediaLink } from './link';
 import select from './select';
 import boolean from './boolean';
@@ -10,7 +10,7 @@ export default function () {
     fieldset: 'Gif video',
     'non-repeat': {
       caption: singleLineText('Caption'),
-      tasl: text('TASL', {
+      tasl: keyword('TASL', {
         placeholder:
           'title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink',
       }),

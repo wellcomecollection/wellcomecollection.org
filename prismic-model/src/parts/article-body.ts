@@ -1,7 +1,7 @@
 import body, { slice } from './body';
 import heading from './heading';
 import { mediaLink, webLink } from './link';
-import text from './keyword';
+import keyword from './keyword';
 import { multiLineText, singleLineText } from './text';
 import gifVideoSlice from './gif-video-slice';
 import title from './title';
@@ -223,7 +223,7 @@ export default {
         },
         repeat: {
           link: webLink('Link'),
-          linkText: text('Link text'),
+          linkText: keyword('Link text'),
         },
       }),
       imageList: {

@@ -1,6 +1,6 @@
 import image from './image';
 import { singleLineText } from './text';
-import text from './keyword';
+import keyword from './keyword';
 
 export default {
   type: 'Slices',
@@ -18,7 +18,7 @@ export default {
             overrideTextOptions: ['paragraph'],
           }),
           image: image('Promo image'),
-          link: text('Link override'),
+          link: keyword('Link override'),
         },
       },
     },
