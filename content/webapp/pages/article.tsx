@@ -211,7 +211,6 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
       <div className="flex flex--h-baseline">
-
         <Space v={{ size: 's', properties: ['margin-top'] }}>
           <p className={`no-margin ${font('intr', 6)}`}>
             {article.contributors.length > 0 &&

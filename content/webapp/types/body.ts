@@ -27,7 +27,12 @@ import { Card } from './card';
 import { Season } from './seasons';
 import { Guide } from './guides';
 
-export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
+export type Weight =
+  | 'default'
+  | 'featured'
+  | 'standalone'
+  | 'supporting'
+  | 'frames';
 
 type Slice<TypeName extends string, Value> = {
   type: TypeName;
