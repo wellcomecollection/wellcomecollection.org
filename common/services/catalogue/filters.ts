@@ -4,7 +4,7 @@ import { quoteVal } from '../../utils/csv';
 import { toHtmlId } from '../../utils/string';
 import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
-import { isNotUndefined } from '../../utils/array';
+import { isNotUndefined, isString } from '../../utils/array';
 
 export type DateRangeFilter = {
   type: 'dateRange';
@@ -46,31 +46,72 @@ export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
 type FilterOption = {
   id: string;
   value: string;
-  count: number;
+  count?: number;
   label: string;
   selected: boolean;
 };
 
-function filterOptionsWithNonAggregates(
-  options: FilterOption[],
-  values: string[],
-  showEmptyBuckets = false
-) {
+type SelectedValue = {
+  label: string;
+  value: string;
+};
+
+/** We build the list of available filters from two lists:
+ *
+ *    - the list of aggregated values from the API
+ *    - the list of values the user has already selected, which may not
+ *      appear in the aggregations
+ *
+ * e.g. if a user clicks on an obscure subject from a works page to get a
+ * filtered search, we want to display that obscure subject in the list of
+ * filters even if it doesn't appear in the top N subjects from the API.
+ *
+ */
+function filterOptionsWithNonAggregates({
+  options = [],
+  selectedValues,
+  showEmptyBuckets = false,
+}: {
+  options?: FilterOption[];
+  selectedValues: (string | SelectedValue)[];
+  showEmptyBuckets?: boolean;
+}): FilterOption[] {
   const aggregationValues = options.map(option => option.value);
-  const nonAggregateOptions = values
-    .filter(value => !aggregationValues.includes(value))
-    .map(label => ({
-      id: toHtmlId(label),
-      value: label,
-      count: 0,
-      label: label,
+  const nonAggregateOptions: FilterOption[] = selectedValues
+    .map(value =>
+      isString(value)
+        ? {
+            value,
+            label: value,
+          }
+        : value
+    )
+    .filter(({ value }) => !aggregationValues.includes(value))
+    .map(({ label, value }) => ({
+      id: toHtmlId(value),
+      value,
+      label,
       selected: true,
     }));
 
   return nonAggregateOptions
     .concat(options)
-    .filter(option => showEmptyBuckets || option.count > 0 || option.selected);
+    .filter(option => showEmptyBuckets || option.count || option.selected);
 }
+
+/** Creates the label for a filter in the GUI.
+ *
+ * Note: we intentionally omit the count when we have a filter whose
+ * count is unknown, which happens when we create a filter from a
+ * selected value.
+ */
+export const filterLabel = ({
+  label,
+  count,
+}: {
+  label: string;
+  count?: number;
+}): string => (count ? `${label} (${count})` : label);
 
 type WorksFilterProps = {
   works: CatalogueResultsList<Work>;
@@ -105,16 +146,16 @@ const workTypeFilter = ({
   type: 'checkbox',
   id: 'workType',
   label: 'Formats',
-  options: filterOptionsWithNonAggregates(
-    works?.aggregations?.workType.buckets.map(bucket => ({
+  options: filterOptionsWithNonAggregates({
+    options: works?.aggregations?.workType.buckets.map(bucket => ({
       id: bucket.data.id,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
       selected: props.workType.includes(bucket.data.id),
-    })) || [],
-    props.workType
-  ),
+    })),
+    selectedValues: props.workType,
+  }),
 });
 
 const subjectsFilter = ({
@@ -124,32 +165,38 @@ const subjectsFilter = ({
   type: 'checkbox',
   id: 'subjects.label',
   label: 'Subjects',
-  options: filterOptionsWithNonAggregates(
-    works?.aggregations?.['subjects.label']?.buckets.map(bucket => ({
+  options: filterOptionsWithNonAggregates({
+    options: works?.aggregations?.['subjects.label']?.buckets.map(bucket => ({
       id: toHtmlId(bucket.data.label),
       value: quoteVal(bucket.data.label),
       count: bucket.count,
       label: bucket.data.label,
       selected: props['subjects.label'].includes(bucket.data.label),
-    })) || [],
-    props['subjects.label'].map(quoteVal)
-  ),
+    })),
+    selectedValues: props['subjects.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
+  }),
 });
 
 const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
   id: 'genres.label',
   label: 'Types/Techniques',
-  options: filterOptionsWithNonAggregates(
-    works?.aggregations?.['genres.label']?.buckets.map(bucket => ({
+  options: filterOptionsWithNonAggregates({
+    options: works?.aggregations?.['genres.label']?.buckets.map(bucket => ({
       id: toHtmlId(bucket.data.label),
       value: quoteVal(bucket.data.label),
       count: bucket.count,
       label: bucket.data.label,
       selected: props['genres.label'].includes(bucket.data.label),
-    })) || [],
-    props['genres.label'].map(quoteVal)
-  ),
+    })),
+    selectedValues: props['genres.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
+  }),
 });
 
 const contributorsAgentFilter = ({
@@ -160,8 +207,8 @@ const contributorsAgentFilter = ({
     type: 'checkbox',
     id: 'contributors.agent.label',
     label: 'Contributors',
-    options: filterOptionsWithNonAggregates(
-      works?.aggregations?.['contributors.agent.label']?.buckets.map(
+    options: filterOptionsWithNonAggregates({
+      options: works?.aggregations?.['contributors.agent.label']?.buckets.map(
         bucket => ({
           id: toHtmlId(bucket.data.label),
           value: quoteVal(bucket.data.label),
@@ -171,9 +218,12 @@ const contributorsAgentFilter = ({
             bucket.data.label
           ),
         })
-      ) || [],
-      props['contributors.agent.label'].map(quoteVal)
-    ),
+      ),
+      selectedValues: props['contributors.agent.label'].map(label => ({
+        value: quoteVal(label),
+        label,
+      })),
+    }),
   };
 };
 
@@ -184,16 +234,16 @@ const languagesFilter = ({
   type: 'checkbox',
   id: 'languages',
   label: 'Languages',
-  options: filterOptionsWithNonAggregates(
-    works?.aggregations?.languages?.buckets.map(bucket => ({
+  options: filterOptionsWithNonAggregates({
+    options: works?.aggregations?.languages?.buckets.map(bucket => ({
       id: bucket.data.id,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
       selected: props.languages.includes(bucket.data.id),
-    })) || [],
-    props.languages
-  ),
+    })),
+    selectedValues: props.languages,
+  }),
 });
 
 /*
@@ -214,8 +264,8 @@ const partOfFilter = ({ props }: WorksFilterProps): CheckboxFilter => ({
   label: 'Series',
   excludeFromMoreFilters: true,
   options: props['partOf.title']
-    ? filterOptionsWithNonAggregates(
-        [
+    ? filterOptionsWithNonAggregates({
+        options: [
           {
             id: props['partOf.title'],
             value: props['partOf.title'],
@@ -224,8 +274,8 @@ const partOfFilter = ({ props }: WorksFilterProps): CheckboxFilter => ({
             selected: !!props['partOf.title'],
           },
         ],
-        [props['partOf.title']]
-      )
+        selectedValues: [props['partOf.title']],
+      })
     : [],
 });
 
@@ -236,16 +286,16 @@ const availabilitiesFilter = ({
   type: 'checkbox',
   id: 'availabilities',
   label: 'Locations',
-  options: filterOptionsWithNonAggregates(
-    works?.aggregations?.availabilities?.buckets.map(bucket => ({
+  options: filterOptionsWithNonAggregates({
+    options: works?.aggregations?.availabilities?.buckets.map(bucket => ({
       id: bucket.data.id,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
       selected: props.availabilities.includes(bucket.data.id),
-    })) || [],
-    props.availabilities
-  ),
+    })),
+    selectedValues: props.availabilities,
+  }),
 });
 
 const colorFilter = ({ props }: ImagesFilterProps): ColorFilter => {
@@ -300,17 +350,17 @@ const licensesFilter = ({
   type: 'checkbox',
   id: 'locations.license',
   label: 'Licenses',
-  options: filterOptionsWithNonAggregates(
-    images.aggregations?.license?.buckets.map(bucket => ({
+  options: filterOptionsWithNonAggregates({
+    options: images.aggregations?.license?.buckets.map(bucket => ({
       id: bucket.data.id,
       value: bucket.data.id,
       count: bucket.count,
       label: licenseLabels[bucket.data.id] || bucket.data.label,
       selected: props['locations.license'].includes(bucket.data.id),
-    })) || [],
-    props['locations.license'],
-    true
-  ),
+    })),
+    selectedValues: props['locations.license'],
+    showEmptyBuckets: true,
+  }),
 });
 
 const sourceGenresFilter = ({
@@ -320,16 +370,21 @@ const sourceGenresFilter = ({
   type: 'checkbox',
   id: 'source.genres.label',
   label: 'Types/Techniques',
-  options: filterOptionsWithNonAggregates(
-    images?.aggregations?.['source.genres.label']?.buckets.map(bucket => ({
-      id: toHtmlId(bucket.data.label),
-      value: quoteVal(bucket.data.label),
-      count: bucket.count,
-      label: bucket.data.label,
-      selected: props['source.genres.label'].includes(bucket.data.label),
-    })) || [],
-    props['source.genres.label'].map(quoteVal)
-  ),
+  options: filterOptionsWithNonAggregates({
+    options: images?.aggregations?.['source.genres.label']?.buckets.map(
+      bucket => ({
+        id: toHtmlId(bucket.data.label),
+        value: quoteVal(bucket.data.label),
+        count: bucket.count,
+        label: bucket.data.label,
+        selected: props['source.genres.label'].includes(bucket.data.label),
+      })
+    ),
+    selectedValues: props['source.genres.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
+  }),
 });
 
 const sourceSubjectsFilter = ({
@@ -339,16 +394,21 @@ const sourceSubjectsFilter = ({
   type: 'checkbox',
   id: 'source.subjects.label',
   label: 'Subjects',
-  options: filterOptionsWithNonAggregates(
-    images?.aggregations?.['source.subjects.label']?.buckets.map(bucket => ({
-      id: toHtmlId(bucket.data.label),
-      value: quoteVal(bucket.data.label),
-      count: bucket.count,
-      label: bucket.data.label,
-      selected: props['source.subjects.label'].includes(bucket.data.label),
-    })) || [],
-    props['source.subjects.label'].map(quoteVal)
-  ),
+  options: filterOptionsWithNonAggregates({
+    options: images?.aggregations?.['source.subjects.label']?.buckets.map(
+      bucket => ({
+        id: toHtmlId(bucket.data.label),
+        value: quoteVal(bucket.data.label),
+        count: bucket.count,
+        label: bucket.data.label,
+        selected: props['source.subjects.label'].includes(bucket.data.label),
+      })
+    ),
+    selectedValues: props['source.subjects.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
+  }),
 });
 
 const sourceContributorAgentsFilter = ({
@@ -358,20 +418,23 @@ const sourceContributorAgentsFilter = ({
   type: 'checkbox',
   id: 'source.contributors.agent.label',
   label: 'Contributors',
-  options: filterOptionsWithNonAggregates(
-    images?.aggregations?.['source.contributors.agent.label']?.buckets.map(
-      bucket => ({
-        id: toHtmlId(bucket.data.label),
-        value: quoteVal(bucket.data.label),
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: props['source.contributors.agent.label'].includes(
-          bucket.data.label
-        ),
-      })
-    ) || [],
-    props['source.contributors.agent.label'].map(quoteVal)
-  ),
+  options: filterOptionsWithNonAggregates({
+    options: images?.aggregations?.[
+      'source.contributors.agent.label'
+    ]?.buckets.map(bucket => ({
+      id: toHtmlId(bucket.data.label),
+      value: quoteVal(bucket.data.label),
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props['source.contributors.agent.label'].includes(
+        bucket.data.label
+      ),
+    })),
+    selectedValues: props['source.contributors.agent.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
+  }),
 });
 
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>

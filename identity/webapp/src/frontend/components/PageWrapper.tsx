@@ -7,10 +7,11 @@ import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import Favicons from '@weco/common/views/components/Favicons/Favicons';
 
 const Main = styled.div`
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
-    background: ${props => props.theme.color('warmNeutral.300')};
-    min-height: calc(100vh - ${props => props.theme.navHeight}px);
-  }
+  ${props =>
+    props.theme.media('medium')(`
+      background: ${props.theme.color('warmNeutral.300')};
+      min-height: calc(100vh - ${props.theme.navHeight}px);
+  `)}
 `;
 
 type Props = {

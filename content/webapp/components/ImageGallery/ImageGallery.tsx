@@ -33,9 +33,10 @@ const FrameGridWrap = styled(Space).attrs({
 })`
   position: relative;
 
-  ${props => props.theme.media.medium`
+  ${props =>
+    props.theme.media('medium')(`
     padding: 0;
-  `}
+  `)}
 `;
 
 const FrameGrid = styled.div<{ isThreeUp: boolean }>`
@@ -43,20 +44,15 @@ const FrameGrid = styled.div<{ isThreeUp: boolean }>`
   width: 100%;
   grid-template-columns: 1fr;
 
-  ${props => props.theme.media.medium`
+  ${props =>
+    props.theme.media('medium')(`
     grid-template-columns: 1fr 1fr;
-  `}
+  `)}
 
   ${props =>
-    props.theme.media.large`
-
-    ${
-      props.isThreeUp &&
-      `
-      grid-template-columns: 1fr 1fr 1fr;
-    `
-    }
-  `}
+    props.theme.media('large')(`
+    ${props.isThreeUp && `grid-template-columns: 1fr 1fr 1fr;`}
+  `)}
 `;
 
 const FrameItem = styled.div`
@@ -119,19 +115,16 @@ const Gallery = styled.div.attrs({
       ${props.theme.color('neutral.700')} 100px
     );
 
-    @media (min-width: ${props.theme.sizes.medium}px) {
+    ${props.theme.media('medium')(`
       background: linear-gradient(
         ${props.theme.color(props.pageBackground)} 200px,
         ${props.theme.color('neutral.700')} 200px
       );
 
       ${
-        props.isStandalone &&
-        `
-        background: ${props.theme.color('neutral.700')};
-      `
+        props.isStandalone && `background: ${props.theme.color('neutral.700')};`
       }
-    }
+    `)}
   `}
 
   transition: all 400ms ease;
@@ -144,9 +137,9 @@ const Gallery = styled.div.attrs({
     &:before {
       top: 0;
 
-      @media (min-width: ${props.theme.sizes.medium}px) {
+      ${props.theme.media('medium')`
         top: 0;
-      }
+      `}
     }
   `}
 
@@ -160,9 +153,9 @@ const Gallery = styled.div.attrs({
       width: 100%;
       pointer-events: none;
 
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
+      ${props => props.theme.media('medium')`
         top: 200px;
-      }
+      `}
     }
   }
 
@@ -179,33 +172,14 @@ const Gallery = styled.div.attrs({
     opacity: 0;
     transition: opacity 400ms ease;
 
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
-      top: 200px;
+    ${props => props.isActive && `opacity: 0.1;`}
 
-      ${props =>
-        props.isStandalone &&
-        `
-        top: 0;
-      `}
-
-      ${props =>
-        props.isActive &&
-        `
-        opacity: 0.1;
-      `}
-    }
+    ${props => props.isStandalone && `top: 0;`}
 
     ${props =>
-      props.isActive &&
-      `
-      opacity: 0.1;
-    `}
-
-    ${props =>
-      props.isStandalone &&
-      `
-      top: 0;
-    `}
+      props.theme.media('medium')(`
+        top: 200px;
+    `)}
   }
 
   .standalone-wobbly-edge {
@@ -439,6 +413,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                   <CaptionedImage
                     image={captionedImage.image}
                     caption={captionedImage.caption}
+                    hasRoundedCorners={captionedImage.hasRoundedCorners}
                     preCaptionNode={
                       items.length > 1 ? (
                         <Space

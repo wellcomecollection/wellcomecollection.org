@@ -12,7 +12,7 @@ const MapContainer = styled.div`
   position: relative;
   width: 100%;
   padding-top: 100%;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     padding-top: 56.25%;
   `}
 `;

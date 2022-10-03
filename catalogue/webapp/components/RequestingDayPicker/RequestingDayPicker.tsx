@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { DayNumber } from '@weco/common/model/opening-hours';
-import CalendarSelect from '../Calendar/CalendarSelect';
+import CalendarSelect from '../CalendarSelect/CalendarSelect';
 
 type Props = {
   startDate?: Date;

@@ -270,8 +270,14 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
             <div className="inline">
               <EventDateRange event={event} />
             </div>
+            {/*
+              This 'All dates' link takes the user to the complete list of dates
+              further down the page, but if there's only one date we can skip it.
+             */}
             <Space h={{ size: 's', properties: ['margin-left'] }}>
-              {!event.isPast && <EventDatesLink id={event.id} />}
+              {!event.isPast && event.times.length > 1 && (
+                <EventDatesLink id={event.id} />
+              )}
             </Space>
           </Space>
           {event.isPast && EventStatus({ text: 'Past', color: 'neutral.500' })}

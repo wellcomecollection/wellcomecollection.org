@@ -13,7 +13,7 @@ import { font } from '@weco/common/utils/classnames';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 
-function getTypeColor(type: string): string {
+function getTypeColor(type: string): PaletteColor {
   // importing this from exhibition-guide.tsx was causing a storybook build failure
   // need to investigate why, but am duplicating the function here for now
   // in order to get the exhibition guides work deployed
@@ -80,12 +80,12 @@ const Tombstone = styled(Space).attrs({
   flex-basis: 100%;
   margin-bottom: 1em;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-basis: 40%;
     margin-bottom: 0;
   `}
 
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     flex-basis: 25%;
   `}
 
@@ -94,17 +94,15 @@ const Tombstone = styled(Space).attrs({
   }
 `;
 
-const CaptionTranscription = styled.div.attrs({
-  className: 'spaced-text',
-})`
+const CaptionTranscription = styled.div`
   flex-basis: 100%;
   max-width: 45em;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-basis: 60%;
   `}
 
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     flex-basis: 75%;
   `}
 `;
@@ -113,7 +111,7 @@ const Caption = styled(Space).attrs({
   className: `spaced-text ${font('intr', 4)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
-  border-left: 20px solid ${props => props.theme.color('yellow')};
+  border-left: 20px solid ${props => props.theme.color('lightYellow')};
 `;
 
 const PrismicImageWrapper = styled.div`
@@ -121,7 +119,6 @@ const PrismicImageWrapper = styled.div`
 `;
 
 const Transcription = styled(Space).attrs({
-  className: 'spaced-text',
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
@@ -222,7 +219,7 @@ const Stop: FC<{
           )}
           <div className="flex flex--wrap">
             <Tombstone />
-            {/* This empty Tombstone is needed for correct alignmennt of the standaloneTitle */}
+            {/* This empty Tombstone is needed for correct alignment of the standaloneTitle */}
             <Space
               h={{
                 size: 'm',

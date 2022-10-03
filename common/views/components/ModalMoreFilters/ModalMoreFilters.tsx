@@ -9,6 +9,7 @@ import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
+  filterLabel,
 } from '../../../services/catalogue/filters';
 import { AppContext } from '../AppContext/AppContext';
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
@@ -35,7 +36,7 @@ const ModalInner = styled(Space).attrs({
   flex-direction: column;
   min-width: 320px;
   max-width: 650px;
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     width: 650px;
     top: 10px;
   `}
@@ -110,7 +111,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
             <CheckboxRadio
               id={`desktop-${id}`}
               type="checkbox"
-              text={`${label} (${count})`}
+              text={filterLabel({ label, count })}
               value={value}
               name={f.id}
               checked={selected}

@@ -19,7 +19,7 @@ export const placeHolderImage: ImageType = {
 };
 
 export function transformCaptionedImage(
-  frag: { image: Image; caption: RichTextField },
+  frag: { image: Image; caption: RichTextField; hasRoundedCorners?: boolean },
   crop?: Crop
 ): CaptionedImage {
   if (isEmptyObj(frag.image)) {
@@ -32,6 +32,7 @@ export function transformCaptionedImage(
           spans: [],
         },
       ],
+      hasRoundedCorners: false,
     };
   }
 
@@ -39,6 +40,7 @@ export function transformCaptionedImage(
   return {
     image: transformImage(image) || placeHolderImage,
     caption: asRichText(frag.caption) || [],
+    hasRoundedCorners: Boolean(frag.hasRoundedCorners),
   };
 }
 
