@@ -30,7 +30,7 @@ const NavList = styled.ul<{ isInline: boolean | undefined }>`
       `)}
 
       li {
-        margin-right: 2.5rem;
+        margin-right: 2rem;
 
         &:last-child {
           margin-right: 0;
@@ -66,11 +66,11 @@ const PoliciesNavigation: NavLink[] = [
   { href: 'https://wellcome.org/jobs', title: 'Jobs' },
   {
     href: 'https://wellcome.org/who-we-are/privacy-and-terms',
-    title: 'Privacy',
+    title: 'Privacy & Cookies',
   },
   {
-    href: 'https://wellcome.org/who-we-are/privacy-and-terms',
-    title: 'Cookies',
+    href: 'https://wellcome.org/who-we-are/modern-slavery-statement',
+    title: 'Modern Slavery Statement',
   },
   { href: '/press', title: 'Media office' },
   {

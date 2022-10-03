@@ -114,17 +114,24 @@ const SocialsContainer = styled(Space)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  align-self: flex-start;
   flex: 1 1 100%;
   margin: 1rem 0;
 
   ${props => props.theme.media('medium')`
     flex: 0 1 auto;
-    align-self: flex-start;
     margin: 0;
-  `}
+    `}
 
   ${props => props.theme.media('large')`
+    flex: 0 1 100%;
+    justify-content: flex-end;
     margin-top: 1rem;
+    `}
+
+  ${props => props.theme.media('xlarge')`
+    flex: 0 1 auto;
+    justify-content: space-between;
     `}
 `;
 /** ********************** */
