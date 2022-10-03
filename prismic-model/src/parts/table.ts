@@ -6,7 +6,7 @@ export default function () {
     fieldset: 'Table',
     'non-repeat': {
       caption: keyword('Table caption (heading)'),
-      tableData: keyword('Pipe-delimeted csv'),
+      tableData: keyword('Pipe-delimited csv'),
       hasRowHeaders: {
         type: 'Boolean',
         config: {
