@@ -13,9 +13,6 @@ const FindUs: FunctionComponent = () => (
         <span className="block">{wellcomeCollectionAddress.streetAddress}</span>
         {wellcomeCollectionAddress.addressLocality}{' '}
         {wellcomeCollectionAddress.postalCode}
-        <span className="block">
-          {wellcomeCollectionAddress.addressCountry}
-        </span>
       </Space>
     </a>
     <p>
