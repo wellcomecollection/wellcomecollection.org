@@ -464,7 +464,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
   return (
     <PageLayout
-      title={`${exhibitionGuide.title} ${type && getTypeTitle(type)}` || ''}
+      title={`${exhibitionGuide.title} ${type ? getTypeTitle(type) : ''}` || ''}
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: pathname }}
       jsonLd={jsonLd}
