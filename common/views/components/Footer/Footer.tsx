@@ -15,7 +15,13 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { Venue } from '@weco/common/model/opening-hours';
 
-export const Wrapper = styled(Space).attrs({
+type Props = {
+  hide: boolean;
+  venues: Venue[];
+};
+
+// Styles
+const Wrapper = styled(Space).attrs({
   className: font('intr', 5),
   v: { size: 'xl', properties: ['padding-top'] },
 })`
@@ -24,21 +30,23 @@ export const Wrapper = styled(Space).attrs({
   color: ${props => props.theme.color('white')};
 `;
 
-export const FooterBasicSection = styled(Space).attrs({
+const FooterBasicSection = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-bottom'] },
 })``;
 
 /** ************************ */
 // START OF FOOTER BODY STYLES
 /** ************************ */
-export const FooterNavigationContainer = styled(FooterBasicSection)`
+
+const FooterNavigationContainer = styled(FooterBasicSection)`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 `;
 
 // TODO mismatched links, what do
-export const FindUsContainer = styled(Space).attrs({
+
+const FindUsContainer = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-bottom'] },
 })`
   flex: 1 1 100%;
@@ -62,7 +70,7 @@ export const FindUsContainer = styled(Space).attrs({
   }
 `;
 
-export const OpeningTimesContainer = styled(FooterBasicSection)`
+const OpeningTimesContainer = styled(FooterBasicSection)`
   flex: 1 1 100%;
 
   ${props => props.theme.media('medium')`
@@ -75,7 +83,7 @@ export const OpeningTimesContainer = styled(FooterBasicSection)`
   `}
 `;
 
-export const InternalNavigationContainer = styled(FooterBasicSection)`
+const InternalNavigationContainer = styled(FooterBasicSection)`
   flex: 1 1 50%;
 
   ${props => props.theme.media('medium')`
@@ -83,13 +91,13 @@ export const InternalNavigationContainer = styled(FooterBasicSection)`
 `}
 `;
 
-export const FullWidthDivider = styled(Space).attrs({
+const FullWidthDivider = styled(Space).attrs({
   className: 'is-hidden-s is-hidden-m',
 })`
   flex: 1 1 100%;
 `;
 
-export const PoliciesContainer = styled(Space)`
+const PoliciesContainer = styled(Space)`
   flex: 1 1 30%;
 
   ${props => props.theme.media('medium')`
@@ -103,7 +111,7 @@ export const PoliciesContainer = styled(Space)`
     `}
 `;
 
-export const SocialsContainer = styled(Space)`
+const SocialsContainer = styled(Space)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -124,7 +132,7 @@ export const SocialsContainer = styled(Space)`
 // END OF FOOTER BODY STYLES
 /** ********************** */
 
-export const FooterBottom = styled(Space).attrs({
+const FooterBottom = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-bottom'] },
 })`
   display: flex;
@@ -133,16 +141,12 @@ export const FooterBottom = styled(Space).attrs({
   line-height: 1;
 `;
 
-export const FooterLicense = styled.p.attrs({ className: font('intr', 6) })`
+const FooterLicense = styled.p.attrs({ className: font('intr', 6) })`
   display: inline;
   margin: 0 1rem 1rem 0;
 `;
 
-type Props = {
-  hide: boolean;
-  venues: Venue[];
-};
-
+// Component
 const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
 
