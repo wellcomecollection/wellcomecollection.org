@@ -17,10 +17,21 @@ import {
 
 const typeEnum = 'series';
 
+// TODO map legacy colours in Prismic to use new one
+// So we can clean this up eventually
 export type SeriesPrismicDocument = PrismicDocument<
   {
     color: SelectField<
-      'accent.blue' | 'accent.salmon' | 'accent.green' | 'accent.purple'
+      | 'accent.blue'
+      | 'accent.salmon'
+      | 'accent.green'
+      | 'accent.purple'
+      | 'red'
+      | 'green'
+      | 'teal'
+      | 'purple'
+      | 'orange'
+      | 'turquoise'
     >;
     schedule: GroupField<{
       title: RichTextField;
