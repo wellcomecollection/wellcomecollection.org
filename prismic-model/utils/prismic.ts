@@ -9,6 +9,36 @@ export type Credentials = {
   sessionToken: string;
 };
 
+export async function getLocalType(
+  id: string
+): Promise<CustomType | undefined> {
+  try {
+    return (await import(`../src/${id}`)).default;
+  } catch (e) {
+    console.warn(`Cannot load local type '${id}': ${e}`);
+  }
+}
+
+export async function getCustomType(
+  credentials: Credentials,
+  id: string
+): Promise<CustomType | undefined> {
+  await setEnvsFromSecrets(secrets, credentials);
+
+  const resp = await fetch(`https://customtypes.prismic.io/customtypes/${id}`, {
+    headers: {
+      Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
+      repository: 'wellcomecollection',
+    },
+  });
+
+  if (resp.status === 404) {
+    return undefined;
+  }
+
+  return resp.json();
+}
+
 export async function getContentTypes(
   credentials?: Credentials
 ): Promise<{ id: string; remote: CustomType; local?: CustomType }[]> {
@@ -31,24 +61,10 @@ export async function getContentTypes(
   return Promise.all(
     remoteCustomTypes.map(async remoteCustomType => {
       const { id } = remoteCustomType;
-      // We can get an error here if somebody adds a type in
-      // the Prismic GUI, but doesn't define it locally.
-      //
-      // This error handling logic is meant to make this more
-      // obvious, because otherwise you get an error like:
-      //
-      //      !!! Error: Cannot find module './src/testingtesting123'
-      //
-      try {
-        const localCustomType = (await import(`./src/${id}`)).default;
 
-        return { id, remote: remoteCustomType, local: localCustomType };
-      } catch (e) {
-        console.warn(
-          `Prismic has type ${id}, but it can't be loaded locally: ${e}`
-        );
-        return { id, remote: remoteCustomType };
-      }
+      const localCustomType = await getLocalType(id);
+
+      return { id, remote: remoteCustomType, local: localCustomType };
     })
   );
 }

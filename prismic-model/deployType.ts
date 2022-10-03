@@ -1,14 +1,16 @@
 import yargs from 'yargs';
 import fetch from 'node-fetch';
-import { setEnvsFromSecrets } from '@weco/ts-aws/secrets-manager';
 import { getCreds } from '@weco/ts-aws/sts';
 import prompts from 'prompts';
 import { error, success, warn } from './console';
-import { CustomType } from './src/types/CustomType';
-import { secrets } from './config';
 import { removeUndefinedProps, printDelta } from './utils';
 import { diffString } from 'json-diff';
-import { getContentTypes } from './utils/prismic';
+import {
+  Credentials,
+  getContentTypes,
+  getCustomType,
+  getLocalType,
+} from './utils/prismic';
 
 const { id, argsConfirm } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --id [customTypeId]')
@@ -18,27 +20,57 @@ const { id, argsConfirm } = yargs(process.argv.slice(2))
   })
   .parseSync();
 
+/** When we modify a slice, it may affect multiple types.
+ *
+ * After you deploy a type, this function will check the other types to see if there
+ * are any outstanding diffs, and give you a warning like:
+ *
+ *      Other types have diff between local and remote, may also need deploying:
+ *      exhibitions, events, pages, series, projects, event-series
+ */
+async function checkForOtherDiffs(credentials: Credentials) {
+  const contentTypes = await getContentTypes(credentials);
+
+  const remainingDeltas = contentTypes
+    .filter(({ local }) => typeof local !== 'undefined')
+    .filter(({ local, remote }) => {
+      const delta = diffString(
+        remote,
+        removeUndefinedProps(local), // we'll never get undefined props from Prismic, so we don't want them locally
+        {
+          keepUnchangedValues: true,
+        }
+      );
+
+      return delta.length > 0;
+    });
+
+  if (remainingDeltas.length > 0) {
+    const idString = remainingDeltas.map(d => d.id).join(', ');
+    warn(
+      `Other types have diff between local and remote, may also need deploying: ${idString}`
+    );
+  }
+}
+
 async function run() {
   const credentials = await getCreds('experience', 'developer');
-  await setEnvsFromSecrets(secrets, credentials);
 
-  const resp = await fetch(`https://customtypes.prismic.io/customtypes/${id}`, {
-    headers: {
-      Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
-      repository: 'wellcomecollection',
-    },
-  });
+  const remoteType = await getCustomType(credentials, id);
 
-  if (resp.status === 404) {
+  if (typeof remoteType === 'undefined') {
     error(
       `Prismic does not know about a custom type '${id}'. Do you have the right name?`
     );
     process.exit(1);
   }
 
-  const remoteType: CustomType = await resp.json();
+  const localType = await getLocalType(id);
 
-  const localType = (await import(`./src/${id}`)).default;
+  if (typeof remoteType === 'undefined') {
+    error(`Cannot load local type '${id}'. Do you have the right name?`);
+    process.exit(1);
+  }
 
   const delta = diffString(remoteType, removeUndefinedProps(localType)); // we'll never get undefined props from Prismic, so we don't want them locally
 
@@ -76,29 +108,7 @@ async function run() {
   if (response.status === 204) {
     success(`Updated ${id} successfully`);
 
-    const contentTypes = await getContentTypes(credentials);
-
-    const remainingDeltas = contentTypes
-      .filter(({ local }) => typeof local !== 'undefined')
-      .filter(({ local, remote }) => {
-        const delta = diffString(
-          remote,
-          removeUndefinedProps(local), // we'll never get undefined props from Prismic, so we don't want them locally
-          {
-            keepUnchangedValues: true,
-          }
-        );
-
-        return delta.length > 0;
-      });
-
-    if (remainingDeltas.length > 0) {
-      warn(
-        `Other types have diff between local and remote, may also need deploying: ${remainingDeltas.join(
-          ', '
-        )}`
-      );
-    }
+    await checkForOtherDiffs(credentials);
   } else {
     console.error(response);
     error(`Failed updating ${id}`);
