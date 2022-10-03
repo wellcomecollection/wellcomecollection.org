@@ -2,8 +2,8 @@ import title from './parts/title';
 import promo from './parts/promo';
 import body from './parts/body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import link from './parts/link';
-import { singleLineText } from './parts/structured-text';
+import { documentLink } from './parts/link';
+import { singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const eventSeries: CustomType = {
@@ -14,9 +14,9 @@ const eventSeries: CustomType = {
   json: {
     'Event series': {
       title,
-      backgroundTexture: link('Background texture', 'document', [
-        'background-textures',
-      ]),
+      backgroundTexture: documentLink('Background texture', {
+        linkedType: 'background-textures',
+      }),
       body,
     },
     Contributors: contributorsWithTitle(),
@@ -24,7 +24,7 @@ const eventSeries: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
   },
 };

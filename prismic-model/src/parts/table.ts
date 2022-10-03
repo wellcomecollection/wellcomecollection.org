@@ -1,12 +1,12 @@
-import text from './text';
+import keyword from './keyword';
 
 export default function () {
   return {
     type: 'Slice',
     fieldset: 'Table',
     'non-repeat': {
-      caption: text('Table caption (heading)'),
-      tableData: text('Pipe-delimeted csv'),
+      caption: keyword('Table caption (heading)'),
+      tableData: keyword('Pipe-delimeted csv'),
       hasRowHeaders: {
         type: 'Boolean',
         config: {

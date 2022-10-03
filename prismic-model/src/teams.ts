@@ -1,5 +1,5 @@
-import { singleLineText } from './parts/structured-text';
-import text from './parts/text';
+import { singleLineText } from './parts/text';
+import keyword from './parts/keyword';
 
 const teams = {
   id: 'teams',
@@ -8,14 +8,11 @@ const teams = {
   status: true,
   json: {
     Team: {
-      title: singleLineText({
-        label: 'Title',
-        extraTextOptions: ['heading1'],
-      }),
-      subtitle: singleLineText({ label: 'Subtitle' }),
-      email: text('Email'),
-      phone: text('Phone'),
-      url: text('URL'),
+      title: singleLineText('Title', { extraTextOptions: ['heading1'] }),
+      subtitle: singleLineText('Subtitle'),
+      email: keyword('Email'),
+      phone: keyword('Phone'),
+      url: keyword('URL'),
     },
   },
 };

@@ -1,6 +1,6 @@
-import { multiLineText } from './parts/structured-text';
+import { multiLineText } from './parts/text';
 import select from './parts/select';
-import text from './parts/text';
+import keyword from './parts/keyword';
 import { CustomType } from './types/CustomType';
 
 const globalAlert: CustomType = {
@@ -10,15 +10,18 @@ const globalAlert: CustomType = {
   status: true,
   json: {
     'Global alert': {
-      text: multiLineText({
-        label: 'text',
+      text: multiLineText('text', {
         extraTextOptions: ['heading2'],
         placeholder: 'text',
       }),
-      isShown: select('Display', ['hide', 'show'], 'hide', 'Show or hide'),
-      routeRegex: text(
+      isShown: select('Display', {
+        options: ['hide', 'show'],
+        defaultValue: 'hide',
+        placeholder: 'Show or hide',
+      }),
+      routeRegex: keyword(
         'Write a pipe-separated (|) list of page paths here if you only want the alert to display on certain pages. Leave empty if you want the alert to appear on all pages.',
-        'path(s) to match'
+        { placeholder: 'path(s) to match' }
       ),
     },
   },

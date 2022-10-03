@@ -11,7 +11,7 @@ const Season: CustomType = {
   status: true,
   json: {
     Season: {
-      title: title,
+      title,
       start: timestamp('Start date'),
       end: timestamp('End date'),
       body,
