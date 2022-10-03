@@ -19,7 +19,9 @@ const typeEnum = 'series';
 
 export type SeriesPrismicDocument = PrismicDocument<
   {
-    color: SelectField<'teal' | 'red' | 'green' | 'purple'>;
+    color: SelectField<
+      'accent.blue' | 'accent.salmon' | 'accent.green' | 'accent.purple'
+    >;
     schedule: GroupField<{
       title: RichTextField;
       publishDate: TimestampField;
