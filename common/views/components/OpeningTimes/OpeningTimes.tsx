@@ -37,7 +37,7 @@ const OpeningTimes: FC<Props> = ({ venues }) => (
         todaysHours && (
           <Space
             v={{
-              size: 's',
+              size: 'xs',
               properties: ['margin-top'],
             }}
             as="li"

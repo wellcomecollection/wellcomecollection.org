@@ -1,9 +1,11 @@
 import { useRef, useEffect, FunctionComponent } from 'react';
 
 // Components
+import Space from '@weco/common/views/components/styled/Space';
 import FooterWellcomeLogo from './FooterWellcomeLogo';
 import FindUs from '../FindUs/FindUs';
-import FooterOpeningTimes from './FooterOpeningTimes';
+// import FooterOpeningTimes from './FooterOpeningTimes';
+import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import FooterNav from './FooterNav';
 import FooterSocial from './FooterSocial';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -21,7 +23,8 @@ import {
   SocialsContainer,
 } from './Footer.styles';
 
-// Types
+// Utils / Types
+import { font } from '@weco/common/utils/classnames';
 import { Venue } from '@weco/common/model/opening-hours';
 
 type Props = {
@@ -51,7 +54,11 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
           </FindUsContainer>
 
           <OpeningTimesContainer>
-            <FooterOpeningTimes venues={venues} />
+            <h4 className={font('intb', 5)}>{`Today's opening times`}</h4>
+            {venues && <OpeningTimes venues={venues} />}
+            <Space as="p" v={{ size: 'm', properties: ['margin-top'] }}>
+              <a href="/opening-times">Opening times</a>
+            </Space>
           </OpeningTimesContainer>
 
           <InternalNavigationContainer>
