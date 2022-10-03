@@ -2,8 +2,8 @@ import timestamp from './parts/timestamp';
 import number from './parts/number';
 import select from './parts/select';
 import image from './parts/image';
-import link from './parts/link';
-import { singleLineText } from './parts/structured-text';
+import { webLink } from './parts/link';
+import { singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const collectionVenue: CustomType = {
@@ -21,8 +21,8 @@ const collectionVenue: CustomType = {
       },
       order: number('Order'),
       image: image('Image'),
-      link: link('Link', 'web', [], 'Enter url'),
-      linkText: singleLineText({ label: 'Linktext' }),
+      link: webLink('Link', { placeholder: 'Enter url' }),
+      linkText: singleLineText('Linktext'),
     },
     'Regular opening times': {
       monday: {
@@ -110,13 +110,15 @@ const collectionVenue: CustomType = {
         config: {
           fields: {
             overrideDate: timestamp('Override date'),
-            type: select('Override type', [
-              'Bank holiday',
-              'Easter',
-              'Christmas and New Year',
-              'Late Spectacular',
-              'other',
-            ]),
+            type: select('Override type', {
+              options: [
+                'Bank holiday',
+                'Easter',
+                'Christmas and New Year',
+                'Late Spectacular',
+                'other',
+              ],
+            }),
             startDateTime: timestamp('Opens'),
             endDateTime: timestamp('Closes'),
           },

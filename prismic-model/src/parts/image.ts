@@ -22,15 +22,12 @@ const defaultImagethumbnailSizes = [
   },
 ];
 
-export default function (
-  label: string,
-  thumbnails: Thumbnail[] = defaultImagethumbnailSizes
-) {
+export default function (label: string) {
   return {
     type: 'Image',
     config: {
       label,
-      thumbnails,
+      thumbnails: defaultImagethumbnailSizes,
     },
   };
 }

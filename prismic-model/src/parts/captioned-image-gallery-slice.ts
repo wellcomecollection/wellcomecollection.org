@@ -6,7 +6,7 @@ export default function () {
     type: 'Slice',
     fieldset: 'Image gallery',
     'non-repeat': {
-      title: title,
+      title,
     },
     repeat: captionedImage(),
   };

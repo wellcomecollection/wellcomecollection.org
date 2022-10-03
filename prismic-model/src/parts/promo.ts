@@ -1,6 +1,6 @@
 import image from './image';
-import { singleLineText } from './structured-text';
-import text from './text';
+import { singleLineText } from './text';
+import keyword from './keyword';
 
 export default {
   type: 'Slices',
@@ -14,12 +14,11 @@ export default {
           label: 'Editorial image',
         },
         'non-repeat': {
-          caption: singleLineText({
+          caption: singleLineText('Promo text', {
             overrideTextOptions: ['paragraph'],
-            label: 'Promo text',
           }),
           image: image('Promo image'),
-          link: text('Link override'),
+          link: keyword('Link override'),
         },
       },
     },

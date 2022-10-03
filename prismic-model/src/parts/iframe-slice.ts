@@ -1,11 +1,11 @@
-import text from './text';
+import keyword from './keyword';
 
 export default function () {
   return {
     type: 'Slice',
     fieldset: 'Iframe',
     'non-repeat': {
-      iframeSrc: text('iframe src', 'iframe src'),
+      iframeSrc: keyword('iframe src', { placeholder: 'iframe src' }),
       previewImage: {
         type: 'Image',
         config: {

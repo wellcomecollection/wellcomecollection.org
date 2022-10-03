@@ -1,5 +1,5 @@
 import title from './parts/title';
-import { multiLineText, singleLineText } from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const interpretationTypes: CustomType = {
@@ -12,14 +12,11 @@ const interpretationTypes: CustomType = {
       title,
       // TODO: This should be a Key text field
       // see: https://prismic.io/docs/core-concepts/key-text
-      abbreviation: singleLineText({
-        label: 'Abbreviation',
+      abbreviation: singleLineText('Abbreviation', {
         overrideTextOptions: ['paragraph'],
       }),
-      description: multiLineText({ label: 'Message' }),
-      primaryDescription: multiLineText({
-        label: 'Message if primary interpretation',
-      }),
+      description: multiLineText('Message'),
+      primaryDescription: multiLineText('Message if primary interpretation'),
     },
   },
 };
