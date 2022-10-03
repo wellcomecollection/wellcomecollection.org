@@ -6,6 +6,7 @@ import {
 import { getCookie, hasCookie, setCookie, deleteCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import * as prismicT from '@prismicio/types';
+import { ReactElement, FC, SyntheticEvent } from 'react';
 import { createClient } from '../services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -17,7 +18,6 @@ import {
 } from '../services/prismic/transformers/exhibition-guides';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { FC, SyntheticEvent } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
 import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -283,51 +283,50 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
       overrideGridSizes={
         type === 'bsl' ? twoUpGridSizesMap : threeUpGridSizesMap
       }
-      items={stops.map((stop, index) => {
-        const {
-          number,
-          audioWithDescription,
-          audioWithoutDescription,
-          bsl,
-          title,
-        } = stop;
-        const hasContentOfDesiredType =
-          (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
-          (type === 'audio-without-descriptions' &&
-            audioWithoutDescription?.url) ||
-          (type === 'bsl' && bsl?.embedUrl);
-        return hasContentOfDesiredType ? (
-          <Stop
-            key={index}
-            id="apiToolbar"
-            data-toolbar-anchor={dasherizeShorten(title)}
-          >
-            {type === 'audio-with-descriptions' &&
-              audioWithDescription?.url && (
-                <AudioPlayer
-                  title={`${number}. ${stop.title}`}
-                  audioFile={audioWithDescription.url}
-                />
-              )}
-            {type === 'audio-without-descriptions' &&
-              audioWithoutDescription?.url && (
-                <AudioPlayer
-                  title={`${number}. ${stop.title}`}
-                  audioFile={audioWithoutDescription.url}
-                />
-              )}
-            {type === 'bsl' && bsl.embedUrl && (
-              <VideoEmbed embedUrl={bsl.embedUrl} />
-            )}
-          </Stop>
-        ) : (
-          <Stop key={index} id={dasherizeShorten(title)}>
-            <span className={font('intb', 5)}>
-              {number}. {title}
-            </span>
-          </Stop>
-        );
-      })}
+      items={
+        stops
+          .map((stop, index) => {
+            const {
+              number,
+              audioWithDescription,
+              audioWithoutDescription,
+              bsl,
+              title,
+            } = stop;
+            const hasContentOfDesiredType =
+              (type === 'audio-with-descriptions' &&
+                audioWithDescription?.url) ||
+              (type === 'audio-without-descriptions' &&
+                audioWithoutDescription?.url) ||
+              (type === 'bsl' && bsl?.embedUrl);
+            return hasContentOfDesiredType ? (
+              <Stop
+                key={index}
+                id="apiToolbar"
+                data-toolbar-anchor={dasherizeShorten(title)}
+              >
+                {type === 'audio-with-descriptions' &&
+                  audioWithDescription?.url && (
+                    <AudioPlayer
+                      title={`${number}. ${stop.title}`}
+                      audioFile={audioWithDescription.url}
+                    />
+                  )}
+                {type === 'audio-without-descriptions' &&
+                  audioWithoutDescription?.url && (
+                    <AudioPlayer
+                      title={`${number}. ${stop.title}`}
+                      audioFile={audioWithoutDescription.url}
+                    />
+                  )}
+                {type === 'bsl' && bsl.embedUrl && (
+                  <VideoEmbed embedUrl={bsl.embedUrl} />
+                )}
+              </Stop>
+            ) : null; // We've decided to omit stops that don't have content for the selected type.
+          })
+          .filter(Boolean) as ReactElement[]
+      }
     />
   );
 };
@@ -364,6 +363,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   const hasCaptionsOrTranscripts = stops.some(
     stop => stop.caption.length > 0 || stop.transcription.length > 0
   );
+
   const hasAudioWithoutDescriptions = stops.some(
     stop => stop.audioWithoutDescription?.url
   );
