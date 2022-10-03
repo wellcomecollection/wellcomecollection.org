@@ -5,15 +5,24 @@ import { ColorSelection } from '../types/color-selections';
 // Into the new ones
 export const getSeriesColor = (
   prismicColor:
-    | 'teal'
+    | 'accent.blue'
+    | 'accent.salmon'
+    | 'accent.green'
+    | 'accent.purple'
     | 'red'
     | 'green'
+    | 'teal'
     | 'purple'
-    | 'turquoise'
     | 'orange'
+    | 'turquoise'
     | undefined
 ): ColorSelection => {
   switch (prismicColor) {
+    case 'accent.blue':
+    case 'accent.salmon':
+    case 'accent.green':
+    case 'accent.purple':
+      return prismicColor;
     case 'teal':
     case 'turquoise':
       return 'accent.blue';
