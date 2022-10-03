@@ -12,7 +12,7 @@ const exhibitionResources: CustomType = {
   json: {
     [typeLabel]: {
       ...labelObject[typeLabel],
-      icon: select('Icon type', ['information', 'family']),
+      icon: select('Icon type', { options: ['information', 'family'] }),
     },
   },
 };

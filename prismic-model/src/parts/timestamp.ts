@@ -1,8 +1,8 @@
-export default function timestamp(label = 'Timestamp') {
+export default function timestamp(label: string) {
   return {
     type: 'Timestamp',
     config: {
-      label: label,
+      label,
     },
   };
 }

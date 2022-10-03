@@ -1,10 +1,10 @@
 import title from './parts/title';
 import body from './parts/body';
 import promo from './parts/promo';
-import link from './parts/link';
+import { documentLink } from './parts/link';
 import list from './parts/list';
 import timestamp from './parts/timestamp';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import number from './parts/number';
 import boolean from './parts/boolean';
 import contributorsWithTitle from './parts/contributorsWithTitle';
@@ -18,11 +18,11 @@ const pages: CustomType = {
   json: {
     Page: {
       title,
-      format: link('Format', 'document', ['page-formats']),
+      format: documentLink('Format', { linkedType: 'page-formats' }),
       datePublished: timestamp('Date published'),
       showOnThisPage: boolean(
         "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body",
-        false
+        { defaultValue: false }
       ),
       body,
     },
@@ -30,20 +30,21 @@ const pages: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+        season: documentLink('Season', {
+          linkedType: 'seasons',
+          placeholder: 'Select a Season',
+        }),
       }),
       parents: list('Parent pages', {
         order: number('Order'),
-        parent: link(
-          'Parent page',
-          'document',
-          ['pages', 'exhibitions'],
-          'Select a parent page'
-        ),
+        parent: documentLink('Parent page', {
+          linkedTypes: ['pages', 'exhibitions'],
+          placeholder: 'Select a parent page',
+        }),
       }),
     },
     Contributors: contributorsWithTitle(),

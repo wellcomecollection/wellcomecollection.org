@@ -1,10 +1,10 @@
 import title from './parts/title';
 import list from './parts/list';
-import link from './parts/link';
+import { documentLink } from './parts/link';
 import promo from './parts/promo';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const webcomics: CustomType = {
@@ -15,7 +15,7 @@ const webcomics: CustomType = {
   json: {
     Webcomic: {
       title,
-      format: link('Format', 'document', ['article-formats']),
+      format: documentLink('Format', { linkedType: 'article-formats' }),
       image: {
         type: 'Image',
         config: {
@@ -29,11 +29,11 @@ const webcomics: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       series: list('Series', {
-        series: link('Series', 'document', ['webcomic-series']),
+        series: documentLink('Series', { linkedType: 'webcomic-series' }),
       }),
     },
     Overrides: {

@@ -5,8 +5,8 @@ import contributorsWithTitle from './parts/contributorsWithTitle';
 import list from './parts/list';
 import select from './parts/select';
 import timestamp from './parts/timestamp';
-import { singleLineText } from './parts/structured-text';
-import link from './parts/link';
+import { singleLineText } from './parts/text';
+import { documentLink } from './parts/link';
 import { CustomType } from './types/CustomType';
 
 // This is called `ArticleSeries` and the id `series`, as it was a
@@ -18,13 +18,13 @@ const articleSeries: CustomType = {
   status: true,
   json: {
     'Story series': {
-      title: title,
-      color: select('Colour', ['green', 'purple', 'red', 'teal']),
+      title,
+      color: select('Colour', { options: ['green', 'purple', 'red', 'teal'] }),
       body,
     },
     Schedule: {
       schedule: list('Schedule', {
-        title: title,
+        title,
         publishDate: timestamp('Date to be published'),
       }),
     },
@@ -33,11 +33,14 @@ const articleSeries: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+        season: documentLink('Season', {
+          linkedType: 'seasons',
+          placeholder: 'Select a Season',
+        }),
       }),
     },
   },

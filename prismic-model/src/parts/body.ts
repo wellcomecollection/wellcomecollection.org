@@ -1,12 +1,12 @@
-import { multiLineText, singleLineText } from './structured-text';
+import { multiLineText, singleLineText } from './text';
 import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
 import gifVideoSlice from './gif-video-slice';
 import iframeSlice from './iframe-slice';
 import table from './table';
 import title from './title';
-import link from './link';
-import text from './text';
+import link, { documentLink, mediaLink, webLink } from './link';
+import text from './keyword';
 import embed from './embed';
 import mediaObject from './media-object';
 import heading from './heading';
@@ -63,8 +63,7 @@ export default {
     choices: {
       text: slice('Text', {
         nonRepeat: {
-          text: multiLineText({
-            label: 'Text',
+          text: multiLineText('Text', {
             extraTextOptions: ['heading2', 'heading3', 'list-item'],
           }),
         },
@@ -76,20 +75,20 @@ export default {
       iframe: iframeSlice(),
       quote: slice('Quote', {
         nonRepeat: {
-          text: multiLineText({ label: 'Quote' }),
-          citation: singleLineText({ label: 'Citation' }),
+          text: multiLineText('Quote'),
+          citation: singleLineText('Citation'),
         },
       }),
       standfirst: slice('Standfirst', {
         nonRepeat: {
-          text: singleLineText({ label: 'Standfirst' }),
+          text: singleLineText('Standfirst'),
         },
       }),
       table: table(),
       embed: slice('Embed', {
         nonRepeat: {
           embed: embed('Embed (Youtube, Vimeo etc)'),
-          caption: singleLineText({ label: 'Caption' }),
+          caption: singleLineText('Caption'),
         },
       }),
       map: slice('Map', {
@@ -105,50 +104,50 @@ export default {
       }),
       collectionVenue: slice('Collection venue', {
         nonRepeat: {
-          content: link('Content item', 'document', ['collection-venue']),
+          content: documentLink('Content item', {
+            linkedType: 'collection-venue',
+          }),
           showClosingTimes: booleanDeprecated('Show closing times'),
         },
       }),
       contact: slice('Contact', {
         nonRepeat: {
-          content: link('Content item', 'document', ['teams']),
+          content: documentLink('Content item', { linkedType: 'teams' }),
         },
       }),
       discussion: slice('Discussion', {
         nonRepeat: {
-          title: heading({ label: 'Title', level: 2 }),
-          text: multiLineText({ label: 'Text' }),
+          title: heading('Title', { level: 2 }),
+          text: multiLineText('Text'),
         },
       }),
       tagList: slice('Tag List', {
         nonRepeat: {
-          title: heading({ label: 'Title', level: 2 }),
+          title: heading('Title', { level: 2 }),
         },
         repeat: {
-          link: link('Link', 'web'),
+          link: webLink('Link'),
           linkText: text('Link text'),
         },
       }),
       infoBlock: slice('Info block', {
         nonRepeat: {
-          title: heading({ label: 'Title', level: 2 }),
-          text: multiLineText({
-            label: 'Text',
+          title: heading('Title', { level: 2 }),
+          text: multiLineText('Text', {
             extraTextOptions: ['heading3', 'list-item'],
           }),
-          link: link('Button link', 'web'),
+          link: webLink('Button link'),
           linkText: text('Button text'),
         },
       }),
       titledTextList: slice('Titled text list', {
         repeat: {
-          title: heading({ label: 'Title', level: 3 }),
-          text: multiLineText({
-            label: 'Text',
+          title: heading('Title', { level: 3 }),
+          text: multiLineText('Text', {
             extraTextOptions: ['heading4', 'list-item'],
           }),
           link: link('Link'),
-          label: link('tag', 'document', ['labels']),
+          label: documentLink('tag', { linkedType: 'labels' }),
         },
       }),
       contentList: slice('(β) Content list', {
@@ -156,18 +155,20 @@ export default {
           title,
         },
         repeat: {
-          content: link('Content item', 'document', [
-            'pages',
-            'event-series',
-            'books',
-            'events',
-            'articles',
-            'exhibitions',
-            'card',
-            'seasons',
-            'landing-pages',
-            'guides',
-          ]),
+          content: documentLink('Content item', {
+            linkedTypes: [
+              'pages',
+              'event-series',
+              'books',
+              'events',
+              'articles',
+              'exhibitions',
+              'card',
+              'seasons',
+              'landing-pages',
+              'guides',
+            ],
+          }),
         },
       }),
       searchResults: slice('(β) Search results', {
@@ -184,7 +185,7 @@ export default {
       audioPlayer: slice('Audio Player', {
         nonRepeat: {
           title,
-          audio: link('Audio', 'media', []),
+          audio: mediaLink('Audio'),
         },
       }),
     },

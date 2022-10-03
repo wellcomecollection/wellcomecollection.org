@@ -1,9 +1,9 @@
 import title from './parts/title';
 import body from './parts/body';
 import promo from './parts/promo';
-import { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import link from './parts/link';
+import { documentLink } from './parts/link';
 import list from './parts/list';
 import timestamp from './parts/timestamp';
 import { CustomType } from './types/CustomType';
@@ -16,7 +16,7 @@ const projects: CustomType = {
   json: {
     Project: {
       title,
-      format: link('Format', 'document', ['project-formats']),
+      format: documentLink('Format', { linkedType: 'project-formats' }),
       start: timestamp('Start date'),
       end: timestamp('End date'),
       body,
@@ -27,11 +27,14 @@ const projects: CustomType = {
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+        season: documentLink('Season', {
+          linkedType: 'seasons',
+          placeholder: 'Select a Season',
+        }),
       }),
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
   },
 };

@@ -1,9 +1,9 @@
 import { CustomType } from './types/CustomType';
 import title from './parts/title';
-import link from './parts/link';
+import { documentLink, mediaLink } from './parts/link';
 import list from './parts/list';
 import image from './parts/image';
-import { multiLineText, singleLineText } from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/text';
 import embed from './parts/embed';
 import number from './parts/number';
 
@@ -15,11 +15,10 @@ const exhibitionGuides: CustomType = {
   json: {
     Guide: {
       title,
-      'related-exhibition': link('Related Exhibition', 'document', [
-        'exhibitions',
-      ]),
-      introText: multiLineText({
-        label: 'Introductory text',
+      'related-exhibition': documentLink('Related Exhibition', {
+        linkedType: 'exhibitions',
+      }),
+      introText: multiLineText('Introductory text', {
         placeholder:
           "This will fallback to the related exhibition's promo text if not filled in",
       }),
@@ -30,34 +29,30 @@ const exhibitionGuides: CustomType = {
     // a stop is related to, but removed this to get a first iteration and think about hierarchy structure later
     Components: {
       components: list('Guide Component', {
-        standaloneTitle: singleLineText({
-          label: 'Standalone title',
+        standaloneTitle: singleLineText('Standalone title', {
           placeholder:
             'Provides a group heading for stops on captions and transcription pages',
         }),
         title,
         // Info on the choice for the name 'tombstone' instead of e.g. 'creator'
         // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
-        tombstone: singleLineText({ label: 'Tombstone' }),
-        caption: multiLineText({ label: 'Caption' }),
+        tombstone: singleLineText('Tombstone'),
+        caption: multiLineText('Caption'),
         image: image('image'),
-        number: number('Stop number', 'Stop number for this content'),
-        context: multiLineText({
-          label: 'Context',
+        number: number('Stop number', {
+          placeholder: 'Stop number for this content',
+        }),
+        context: multiLineText('Context', {
           placeholder: 'Optional context for a group of stops',
         }),
-        'audio-with-description': link(
-          'Audio with description (.mp3 file)',
-          'media',
-          []
+        'audio-with-description': mediaLink(
+          'Audio with description (.mp3 file)'
         ),
-        'audio-without-description': link(
-          'Audio without description (.mp3 file)',
-          'media',
-          []
+        'audio-without-description': mediaLink(
+          'Audio without description (.mp3 file)'
         ),
         'bsl-video': embed('Embed (Youtube)'),
-        transcript: multiLineText({ label: 'Transcript' }),
+        transcript: multiLineText('Transcript'),
       }),
     },
   },

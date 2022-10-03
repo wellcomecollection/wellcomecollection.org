@@ -1,9 +1,12 @@
-export default function boolean(label: string, defaultValue = false) {
+export default function boolean(
+  label: string,
+  props?: { defaultValue: boolean }
+) {
   return {
     type: 'Boolean',
     config: {
-      default_value: defaultValue,
-      label: label,
+      default_value: props?.defaultValue || false,
+      label,
     },
   };
 }
