@@ -1,15 +1,14 @@
 import { useRef, useEffect, FunctionComponent } from 'react';
+import styled from 'styled-components';
 
 // Components
 import Space from '@weco/common/views/components/styled/Space';
 import FooterWellcomeLogo from './FooterWellcomeLogo';
 import FindUs from '../FindUs/FindUs';
-// import FooterOpeningTimes from './FooterOpeningTimes';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import FooterNav from './FooterNav';
 import FooterSocial from './FooterSocial';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import styled from 'styled-components';
 
 // Utils / Types
 import { font } from '@weco/common/utils/classnames';
@@ -146,6 +145,20 @@ const FooterLicense = styled.p.attrs({ className: font('intr', 6) })`
   margin: 0 1rem 1rem 0;
 `;
 
+const BackToTopButton = styled.button.attrs({
+  className: 'is-hidden-s plain-button',
+})`
+  text-decoration: underline;
+  color: ${props => props.theme.color('white')};
+  padding: 0;
+  cursor: pointer;
+  margin-bottom: 1rem;
+
+  &:hover {
+    text-decoration: none;
+  }
+`;
+
 // Component
 const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
@@ -169,7 +182,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
           </FindUsContainer>
 
           <OpeningTimesContainer>
-            <h4 className={font('intb', 5)}>{`Today's opening times`}</h4>
+            <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
             {venues && <OpeningTimes venues={venues} />}
             <Space as="p" v={{ size: 'm', properties: ['margin-top'] }}>
               <a href="/opening-times">Opening times</a>
@@ -177,7 +190,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
           </OpeningTimesContainer>
 
           <InternalNavigationContainer>
-            <FooterNav items="InternalNavigation" />
+            <FooterNav type="InternalNavigation" />
           </InternalNavigationContainer>
 
           <FullWidthDivider>
@@ -185,7 +198,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
           </FullWidthDivider>
 
           <PoliciesContainer>
-            <FooterNav isInline items="PoliciesNavigation" />
+            <FooterNav isInline type="PoliciesNavigation" />
           </PoliciesContainer>
 
           <SocialsContainer>
@@ -202,9 +215,16 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
             </a>
           </FooterLicense>
 
-          <a href="#top" className="is-hidden-s">
+          <BackToTopButton
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+              });
+            }}
+          >
             Back to top
-          </a>
+          </BackToTopButton>
         </FooterBottom>
       </div>
     </Wrapper>

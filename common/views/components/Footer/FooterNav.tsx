@@ -80,14 +80,14 @@ const PoliciesNavigation: NavLink[] = [
 ];
 
 const FooterNav = ({
-  items,
+  type,
   isInline,
 }: {
-  items: 'InternalNavigation' | 'PoliciesNavigation';
+  type: 'InternalNavigation' | 'PoliciesNavigation';
   isInline?: boolean;
 }): ReactElement => {
   const itemsList =
-    items === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
+    type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
 
   return (
     <NavList
