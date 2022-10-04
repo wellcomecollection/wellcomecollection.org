@@ -134,7 +134,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   // are a few formats we consider to be 'articles' even if their Prismic 'format'
   // doesn't return them as 'Article' e.g. Book extracts
   // TODO: get definitive list of what we consider to be article and refactor the below function to account for that
-  const isArticleOrSerialFormat = format
+  const showReadingTime = format
     ? Boolean(
         format?.title === 'Article' ||
           format?.title === 'Serial' ||
@@ -150,7 +150,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     format,
     series,
     contributors,
-    readingTime: isArticleOrSerialFormat ? readingTimeInMinutes : undefined,
+    readingTime: showReadingTime ? readingTimeInMinutes : undefined,
     datePublished: new Date(datePublished),
     seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
       transformSeason(season as SeasonPrismicDocument)
