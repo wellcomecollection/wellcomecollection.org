@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useRef, RefObject, useState } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
 import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
@@ -6,6 +6,28 @@ import { ImageType } from '../../../model/image';
 
 const StyledImage = styled(Image).attrs({ className: 'font-white' })`
   background-color: ${props => props.theme.color('neutral.700')};
+`;
+
+const StyledDialog = styled.dialog`
+  height: 90vh;
+  border: 0;
+  padding: 0;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  img {
+    height: 100%;
+    width: auto;
+    display: block;
+  }
+
+  button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
 `;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
@@ -87,9 +109,21 @@ export function createPrismicLoader(maxWidth: number, quality: ImageQuality) {
  * This is aimed solely at the Prismic image rendering for now.
  */
 const PrismicImage: FC<Props> = ({ image, sizes, maxWidth, quality }) => {
+  const dialogRef: RefObject<HTMLDialogElement> = useRef(null);
+  const [didOpenModal, setDidOpenModal] = useState(false);
+
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
     : undefined;
+
+  function openDialog() {
+    dialogRef?.current?.showModal();
+    setDidOpenModal(true);
+  }
+
+  function closeDialog() {
+    dialogRef?.current?.close();
+  }
 
   // Callers pass the CSS width; we triple it so we still get crisp images on
   // high-resolution displays, but remember not to go beyond the original image!
@@ -98,15 +132,26 @@ const PrismicImage: FC<Props> = ({ image, sizes, maxWidth, quality }) => {
     : image.width;
 
   return (
-    <StyledImage
-      width={image.width}
-      height={image.height}
-      layout="responsive"
-      sizes={sizesString}
-      src={image.contentUrl}
-      alt={image.alt || ''}
-      loader={createPrismicLoader(maxLoaderWidth, quality)}
-    />
+    <>
+      <StyledImage
+        onClick={openDialog}
+        width={image.width}
+        height={image.height}
+        layout="responsive"
+        sizes={sizesString}
+        src={image.contentUrl}
+        alt={image.alt || ''}
+        loader={createPrismicLoader(maxLoaderWidth, quality)}
+      />
+      <StyledDialog ref={dialogRef}>
+        {didOpenModal && (
+          <>
+            <button onClick={closeDialog}>close</button>
+            <img src={image.contentUrl} alt={image.alt || ''} />
+          </>
+        )}
+      </StyledDialog>
+    </>
   );
 };
 
