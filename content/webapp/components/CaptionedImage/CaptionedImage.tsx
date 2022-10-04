@@ -1,9 +1,11 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useRef, RefObject, useState } from 'react';
 import Caption from '@weco/common/views/components/Caption/Caption';
 import styled from 'styled-components';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { expand, cross } from '@weco/common/icons';
 
 type CaptionedImageProps = {
   isBody?: boolean;
@@ -13,7 +15,7 @@ const CaptionedImageFigure = styled.div<CaptionedImageProps>`
   margin: 0;
   display: inline-block;
   width: 100%;
-    text-align: center;
+  text-align: center;
 
   ${props =>
     props.isBody &&
@@ -57,6 +59,49 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
   }
 `;
 
+const ZoomButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  color: ${props => props.theme.color('white')};
+  background: ${props => props.theme.color('black')};
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  margin: 0;
+`;
+
+const StyledDialog = styled.dialog`
+  border: 0;
+  padding: 0;
+  max-width: 100%;
+  max-height: 100%;
+  background: ${props => props.theme.color('black')};
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  img {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    object-fit: contain;
+  }
+
+  button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+`;
+
 type UiCaptionedImageProps = CaptionedImageType & {
   isBody?: boolean;
   preCaptionNode?: ReactNode;
@@ -69,6 +114,17 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
   isBody,
   hasRoundedCorners,
 }) => {
+  const dialogRef: RefObject<HTMLDialogElement> = useRef(null);
+  const [didOpenModal, setDidOpenModal] = useState(false);
+
+  function openDialog() {
+    dialogRef?.current?.showModal();
+    setDidOpenModal(true);
+  }
+
+  function closeDialog() {
+    dialogRef?.current?.close();
+  }
   // Note: the default quality here was originally 45, but this caused images to
   // appear very fuzzy on stories.
   //
@@ -84,12 +140,25 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
         aspectRatio={image.width / image.height}
         hasRoundedCorners={hasRoundedCorners}
       >
+        <ZoomButton onClick={openDialog}>
+          <Icon icon={expand} color="white" />
+        </ZoomButton>
         <ImageWithTasl
           Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={image.tasl}
         />
         <Caption caption={caption} preCaptionNode={preCaptionNode} />
       </ImageContainerInner>
+      <StyledDialog ref={dialogRef}>
+        {didOpenModal && (
+          <>
+            <ZoomButton onClick={closeDialog}>
+              <Icon icon={cross} color="white" />
+            </ZoomButton>
+            <img src={image.contentUrl} alt={image.alt || ''} />
+          </>
+        )}
+      </StyledDialog>
     </CaptionedImageFigure>
   );
 };
