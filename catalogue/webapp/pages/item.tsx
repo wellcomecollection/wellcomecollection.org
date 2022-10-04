@@ -34,7 +34,7 @@ import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { WithPageview } from '@weco/common/views/pages/_app';
+import { Pageview } from '@weco/common/services/conversion/track';
 import {
   toLink as itemLink,
   fromQuery,
@@ -85,7 +85,8 @@ type Props = {
   video?: Video;
   audio?: AudioV3;
   iiifImageLocation?: DigitalLocation;
-} & WithPageview;
+  pageview: Pageview;
+};
 
 const ItemPage: NextPage<Props> = ({
   manifest,

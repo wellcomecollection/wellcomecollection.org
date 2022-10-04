@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { Work as WorkType } from '@weco/common/model/catalogue';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { WithPageview } from '@weco/common/views/pages/_app';
+import { Pageview } from '@weco/common/services/conversion/track';
 import { getServerData } from '@weco/common/server-data';
 import Work from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
@@ -10,7 +10,8 @@ import { looksLikeCanonicalId } from 'services/catalogue';
 
 type Props = {
   workResponse: WorkType;
-} & WithPageview;
+  pageview: Pageview;
+};
 
 export const WorkPage: NextPage<Props> = ({ workResponse }) => {
   // TODO: remove the <Work> component and move the JSX in here.

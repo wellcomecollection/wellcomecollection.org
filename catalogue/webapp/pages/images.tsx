@@ -16,7 +16,7 @@ import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '../components/SearchTitle/SearchTitle';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { WithPageview } from '@weco/common/views/pages/_app';
+import { Pageview } from '@weco/common/services/conversion/track';
 import {
   fromQuery,
   ImagesProps,
@@ -29,7 +29,8 @@ import { getServerData } from '@weco/common/server-data';
 type Props = {
   images?: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
-} & WithPageview;
+  pageview: Pageview;
+};
 
 type ImagesPaginationProps = {
   query?: string;

@@ -7,41 +7,25 @@ import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/Outb
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import { AppContextProvider } from '../components/AppContext/AppContext';
 import ErrorPage from '../components/ErrorPage/ErrorPage';
-import { trackPageview } from '../../services/conversion/track';
+import { Pageview, trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
-import { isServerData, defaultServerData } from '../../server-data/types';
+import {
+  isServerData,
+  defaultServerData,
+  ServerData,
+} from '../../server-data/types';
 import { ServerDataContext } from '../../server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
 import usePrismicPreview from '../../services/app/usePrismicPreview';
 import useMaintainPageHeight from '../../services/app/useMaintainPageHeight';
 import {
+  GaDimensions,
   useGoogleAnalyticsUA,
   useGoogleAnalyticsV4,
 } from '../../services/app/analytics';
 import { useOnPageLoad } from '../../services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
-
-type Pageview = {
-  name: string;
-  properties: Record<string, string[] | number[] | string | number | undefined>;
-};
-
-export type WithPageview = {
-  pageview: Pageview;
-};
-
-type GaDimensions = {
-  partOf: string[];
-};
-
-export type WithGaDimensions = {
-  gaDimensions: GaDimensions;
-};
-
-const gaDimensionKeys = {
-  partOf: 'dimension3',
-};
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -61,7 +45,15 @@ function isErrorPage(route: string): boolean {
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const WecoApp: FunctionComponent<AppProps> = ({
+type GlobalProps = Partial<{
+  pageview: Pageview;
+  serverData: ServerData;
+  gaDimensions: GaDimensions;
+}>;
+
+type WecoAppProps = Omit<AppProps, 'pageProps'> & { pageProps: GlobalProps };
+
+const WecoApp: FunctionComponent<WecoAppProps> = ({
   Component,
   pageProps,
   router,
@@ -98,9 +90,8 @@ const WecoApp: FunctionComponent<AppProps> = ({
 
   useOnPageLoad(url => ReactGA.pageview(url));
   useOnPageLoad(() => {
-    const { pageview } = pageProps as { pageview: Pageview };
-    if (pageview) {
-      trackPageview(pageview.name, pageview.properties);
+    if (pageProps.pageview) {
+      trackPageview(pageProps.pageview.name, pageProps.pageview.properties);
     }
   });
 

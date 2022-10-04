@@ -2,7 +2,8 @@ import { Page as PageType } from '../types/pages';
 import Exhibition from '../components/Exhibition/Exhibition';
 import { Exhibition as ExhibitionType } from '../types/exhibitions';
 import Installation from '../components/Installation/Installation';
-import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { GaDimensions } from '@weco/common/services/analytics';
 import { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -20,7 +21,8 @@ type Props = {
   exhibition: ExhibitionType;
   jsonLd: JsonLdObj;
   pages: PageType[];
-} & WithGaDimensions;
+  gaDimensions: GaDimensions;
+};
 
 const ExhibitionPage: FC<Props> = ({ exhibition, pages, jsonLd }) =>
   exhibition.format && exhibition.format.title === 'Installation' ? (

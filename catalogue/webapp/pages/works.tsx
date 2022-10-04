@@ -16,7 +16,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '../components/SearchTitle/SearchTitle';
 import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { WithPageview } from '@weco/common/views/pages/_app';
+import { Pageview } from '@weco/common/services/conversion/track';
 import {
   fromQuery,
   toLink,
@@ -30,7 +30,8 @@ import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 type Props = {
   works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
-} & WithPageview;
+  pageview: Pageview;
+};
 
 const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
   const [loading, setLoading] = useState(false);

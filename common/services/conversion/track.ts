@@ -32,6 +32,11 @@ type Session = {
   timeout: number;
 };
 
+export type Pageview = {
+  name: string;
+  properties: Record<string, string[] | number[] | string | number | undefined>;
+};
+
 const sessionIdLocalStorageKey = 'sessionId';
 const lastTrackedLocalStorageKey = 'lastTracked';
 const sessionTimeout = 1000 * 60 * 30; // 30 minutes

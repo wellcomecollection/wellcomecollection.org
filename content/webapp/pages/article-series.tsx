@@ -9,7 +9,8 @@ import { Series } from '../types/series';
 import { ArticleBasic } from '../types/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { GaDimensions } from '@weco/common/services/analytics';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
@@ -25,7 +26,8 @@ import { transformArticleSeries } from '../services/prismic/transformers/article
 type Props = {
   series: Series;
   articles: ArticleBasic[];
-} & WithGaDimensions;
+  gaDimensions: GaDimensions;
+};
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {

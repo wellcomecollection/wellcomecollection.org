@@ -7,7 +7,7 @@ export const GOOGLE_ANALYTICS_UA_ID = 'UA-55614-6';
 
 const gaCookieFlags = 'SameSite=None;secure';
 
-type GaDimensions = {
+export type GaDimensions = {
   partOf: string[];
 };
 
