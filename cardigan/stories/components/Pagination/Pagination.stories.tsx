@@ -1,34 +1,32 @@
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 
-const Template = args => <Pagination {...args} />;
-export const basic = Template.bind({});
-
-const templateArgs = {
-  pageSize: 10,
-  totalResults: 1000,
-  results: [],
+type Args = {
+  currentPage: number;
+  totalPages: number;
 };
 
-export const bothButtons = Template.bind({});
-bothButtons.args = {
-  ...templateArgs,
+const Template = (args: Args) => (
+  <Pagination
+    paginationRoot="/example"
+    paginatedResults={{
+      pageSize: 10,
+      totalResults: 1000,
+      results: [],
+      ...args,
+    }}
+  />
+);
+
+export const middleOfPagination = Template.bind({});
+middleOfPagination.args = {
   currentPage: 5,
   totalPages: 10,
 };
-bothButtons.name = 'Pagination in the middle of a list';
+middleOfPagination.storyName = 'Midway through pagination';
 
-export const startOfList = Template.bind({});
-startOfList.args = {
-  ...templateArgs,
+export const startOfPagination = Template.bind({});
+startOfPagination.args = {
   currentPage: 1,
   totalPages: 10,
 };
-startOfList.name = 'Pagination in the middle of a list';
-
-export const endOfList = Template.bind({});
-endOfList.args = {
-  ...templateArgs,
-  currentPage: 10,
-  totalPages: 10,
-};
-endOfList.name = 'Pagination at the end of a list';
+startOfPagination.storyName = 'Start of pagination';
