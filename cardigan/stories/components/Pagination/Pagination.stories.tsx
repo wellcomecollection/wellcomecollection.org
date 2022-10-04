@@ -15,7 +15,7 @@ bothButtons.args = {
   currentPage: 5,
   totalPages: 10,
 };
-bothButtons.args = 'Pagination in the middle of a list';
+bothButtons.name = 'Pagination in the middle of a list';
 
 export const startOfList = Template.bind({});
 startOfList.args = {
@@ -23,7 +23,7 @@ startOfList.args = {
   currentPage: 1,
   totalPages: 10,
 };
-startOfList.args = 'Pagination in the middle of a list';
+startOfList.name = 'Pagination in the middle of a list';
 
 export const endOfList = Template.bind({});
 endOfList.args = {
@@ -31,4 +31,4 @@ endOfList.args = {
   currentPage: 10,
   totalPages: 10,
 };
-endOfList.args = 'Pagination at the end of a list';
+endOfList.name = 'Pagination at the end of a list';
