@@ -9,7 +9,11 @@ import { Series } from '../types/series';
 import { ArticleBasic } from '../types/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
+import {
+  appError,
+  AppErrorProps,
+  WithGaDimensions,
+} from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
@@ -21,6 +25,7 @@ import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import * as prismic from '@prismicio/client';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
+import { getPage } from '../utils/query-params';
 
 type Props = {
   series: Series;
@@ -30,10 +35,17 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+
     const { id } = context.query;
 
     if (!looksLikePrismicId(id)) {
       return { notFound: true };
+    }
+
+    const page = getPage(context.query);
+
+    if (typeof page !== 'number') {
+      return appError(context, 400, page.message);
     }
 
     const client = createClient(context);
@@ -49,8 +61,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const articlesQuery = await fetchArticles(client, {
       predicates: [prismic.predicate.at(seriesField, id)],
-      page: 1,
-      pageSize: 100,
+      page,
+      pageSize: 20,
       fetchLinks: seasonsFields,
     });
 
