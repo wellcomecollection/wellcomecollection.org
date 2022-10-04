@@ -159,7 +159,6 @@ const ExhibitionsPage: FC<Props> = props => {
               <Layout12>
                 <div className="text-align-right">
                   <Pagination
-                    totalResults={exhibitions.totalResults}
                     currentPage={exhibitions.currentPage}
                     totalPages={exhibitions.totalPages}
                     prevPage={

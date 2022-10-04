@@ -107,7 +107,6 @@ const LayoutPaginatedResults: FC<Props> = ({
         <Layout12>
           <div className="text-align-right">
             <Pagination
-              totalResults={paginatedResults.totalResults}
               currentPage={paginatedResults.currentPage}
               totalPages={paginatedResults.totalPages}
               prevPage={

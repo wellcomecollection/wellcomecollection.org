@@ -7,17 +7,12 @@ import { arrow } from '@weco/common/icons';
 import styled from 'styled-components';
 
 export type Props = {
-  totalResults: number;
   currentPage: number;
   totalPages: number;
   prevPage?: number;
   nextPage?: number;
   prevQueryString?: string;
   nextQueryString?: string;
-  range?: {
-    beginning: number;
-    end: number;
-  };
 };
 
 const PaginatorContainer = styled(Space).attrs({
