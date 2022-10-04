@@ -51,6 +51,7 @@ const ContextTitle = styled(Space).attrs<{ level: number }>(props => ({
   className: font('wb', 3),
   v: { size: 'm', properties: ['margin-bottom'] },
 }))<{ level: number }>``;
+console.log(ContextTitle, 'this is the output of the styling');
 
 const TranscriptTitle = styled(Space).attrs<{ level: number }>(props => ({
   as: `h${props.level}`,
@@ -214,7 +215,7 @@ const Stop: FC<{
                 properties: ['margin-bottom'],
               }}
             >
-              <Divider color="warmNeutral.400" isKeyline={true} />
+              <Divider color="warmNeutral.400" isKeyline={false} />
             </Space>
           )}
           <div className="flex flex--wrap">
