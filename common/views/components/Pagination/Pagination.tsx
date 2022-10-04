@@ -10,8 +10,7 @@ import { PaginatedResults } from 'services/prismic/types';
 export type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   paginatedResults: PaginatedResults<any>;
-  prevQueryString?: string;
-  nextQueryString?: string;
+  paginationRoot: string;
 };
 
 const PaginatorContainer = styled(Space).attrs({
@@ -34,8 +33,7 @@ const PaginatorWrapper = styled.nav`
 
 const Pagination: FunctionComponent<Props> = ({
   paginatedResults,
-  prevQueryString,
-  nextQueryString,
+  paginationRoot,
 }: Props) => {
   const { currentPage, totalPages } = paginatedResults;
 
@@ -45,7 +43,7 @@ const Pagination: FunctionComponent<Props> = ({
   return (
     <PaginatorContainer>
       <PaginatorWrapper aria-label="pagination">
-        {prevPage && prevQueryString && (
+        {prevPage && (
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <Rotator rotate={180}>
               <Control
@@ -53,10 +51,10 @@ const Pagination: FunctionComponent<Props> = ({
                   // TODO: Fix the type checking here
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore: Works but should be of LinkProps Type
-                  href: prevQueryString,
+                  href: `${paginationRoot}?page=${prevPage}`,
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore: Works but should be of LinkProps Type
-                  as: prevQueryString,
+                  as: `${paginationRoot}?page=${prevPage}`,
                 }}
                 colorScheme="light"
                 icon={arrow}
@@ -70,17 +68,17 @@ const Pagination: FunctionComponent<Props> = ({
           Page {currentPage} of {totalPages}
         </span>
 
-        {nextPage && nextQueryString && (
+        {nextPage && (
           <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
             <Control
               link={{
                 // TODO: Fix the type checking here
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore: Works but should be of LinkProps Type
-                href: nextQueryString,
+                href: `${paginationRoot}?page=${nextPage}`,
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore: Works but should be of LinkProps Type
-                as: nextQueryString,
+                as: `${paginationRoot}?page=${nextPage}`,
               }}
               colorScheme="light"
               icon={arrow}

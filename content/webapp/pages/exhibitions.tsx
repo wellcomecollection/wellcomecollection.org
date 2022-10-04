@@ -92,13 +92,13 @@ const ExhibitionsPage: FC<Props> = props => {
     }
   );
 
-  const paginationRoot = `exhibitions${period ? `/${period}` : ''}`;
+  const paginationRoot = `/exhibitions${period ? `/${period}` : ''}`;
 
   return (
     <PageLayout
       title={title}
       description={pageDescriptions.exhibitions}
-      url={{ pathname: `/exhibitions${period ? `/${period}` : ''}` }}
+      url={{ pathname: paginationRoot }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="whats-on"
@@ -160,20 +160,7 @@ const ExhibitionsPage: FC<Props> = props => {
                 <div className="text-align-right">
                   <Pagination
                     paginatedResults={exhibitions}
-                    prevQueryString={
-                      `/${paginationRoot}` +
-                      (period ? `/${period}` : '') +
-                      (exhibitions.currentPage > 1
-                        ? `?page=${exhibitions.currentPage - 1}`
-                        : '')
-                    }
-                    nextQueryString={
-                      `/${paginationRoot}` +
-                      (period ? `/${period}` : '') +
-                      (exhibitions.currentPage < exhibitions.totalPages
-                        ? `?page=${exhibitions.currentPage + 1}`
-                        : '')
-                    }
+                    paginationRoot={paginationRoot}
                   />
                 </div>
               </Layout12>
