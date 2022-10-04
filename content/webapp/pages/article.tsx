@@ -127,6 +127,7 @@ function getNextUp(
 
 const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
+  const [color, setColor] = useState(article.series[0].color);
   // readingTime toggle
   const { readingTime } = useToggles();
 
@@ -158,6 +159,12 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
 
     setSeries();
   }, []);
+
+  useEffect(() => {
+    if (listOfSeries && listOfSeries.length) {
+      setColor(listOfSeries[0].articles[0].series[0].color);
+    }
+  }, [listOfSeries]);
 
   const breadcrumbs = {
     items: [
@@ -195,7 +202,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const TitleTopper = serial && positionInSerial && (
     <PartNumberIndicator
       number={positionInSerial}
-      color={serial.color}
+      color={color}
       description={isPodcast ? 'Episode' : 'Part'}
     />
   );
@@ -214,7 +221,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
         <Space v={{ size: 's', properties: ['margin-top'] }}>
           <p className={`no-margin ${font('intr', 6)}`}>
             {article.contributors.length > 0 &&
-              article.contributors.map(({ contributor, role }, i, arr) => (
+              article.contributors.map(({ contributor, role }, i) => (
                 <ContentTypeInfoSection key={contributor.id}>
                   {role && role.describedBy && (
                     <span>
