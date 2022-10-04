@@ -19,6 +19,21 @@ const StyledImage = styled(Image).attrs({ className: 'font-neutral-700' })<{
   background-color: ${props => props.background};
 `;
 
+const StyledImageContainer = styled.div<{
+  background: string;
+}>`
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: ${props => props.background};
+    filter: saturate(50%);
+    z-index: -1;
+  }
+`;
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
   return convertImageUri(src, width);
 };
@@ -67,18 +82,20 @@ const IIIFImage: FC<Props> = ({
 
   if (layout === 'fixed') {
     return (
-      <StyledImage
-        layout={layout}
-        sizes={sizesString}
-        src={image.contentUrl}
-        alt={image.alt || ''}
-        loader={IIIFLoader}
-        onLoadingComplete={onLoadingComplete}
-        width={image.width}
-        height={image.height}
-        priority={priority}
-        background={background}
-      />
+      <StyledImageContainer background={background}>
+        <StyledImage
+          layout={layout}
+          sizes={sizesString}
+          src={image.contentUrl}
+          alt={image.alt || ''}
+          loader={IIIFLoader}
+          onLoadingComplete={onLoadingComplete}
+          width={image.width}
+          height={image.height}
+          priority={priority}
+          background="transparent"
+        />
+      </StyledImageContainer>
     );
   }
 
