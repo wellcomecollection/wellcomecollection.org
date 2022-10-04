@@ -26,10 +26,19 @@ import { fetchArticles } from '../services/prismic/fetch/articles';
 import * as prismic from '@prismicio/client';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 import { getPage } from '../utils/query-params';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from 'services/prismic/transformers/articles';
+import { transformQuery } from 'services/prismic/transformers/paginated-results';
+import Space from '@weco/common/views/components/styled/Space';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 
 type Props = {
   series: Series;
-  articles: ArticleBasic[];
+  articles: PaginatedResults<ArticleBasic>;
 } & WithGaDimensions;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -66,20 +75,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       fetchLinks: seasonsFields,
     });
 
-    // TODO: Currently we don't support pagination on article series, which means
-    // anything beyond the first page of results won't be shown.  We should update
-    // the design/rendering of this page to fix that.
-    //
-    // We have at least one series with >100 entries (https://wellcomecollection.org/series/WleP3iQAACUAYEoN);
-    // this warning will tell us if there are more.
-    //
-    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7633
-    if (articlesQuery.total_results_size > articlesQuery.results_size) {
-      console.warn(
-        `Series ${id} has ${articlesQuery.total_results_size} entries, than fit on a single page; some articles have been omitted`
-      );
-    }
-
     // This can occasionally occur if somebody in the Editorial team is
     // trying to preview a series that doesn't have any entries yet.
     //
@@ -92,10 +87,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const { articles, series } = transformArticleSeries(id, articlesQuery);
 
+    const paginatedArticles = transformQuery(articlesQuery, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
+
     return {
       props: removeUndefinedProps({
         series,
-        articles,
+        articles: {
+          ...paginatedArticles,
+          articles,
+        },
         serverData,
         gaDimensions: {
           partOf: series.seasons.map(season => season.id),
@@ -159,8 +161,43 @@ const ArticleSeriesPage: FC<Props> = props => {
         contributors={series.contributors}
         seasons={series.seasons}
       >
-        {articles.length > 0 && (
-          <SearchResults items={series.items} showPosition={true} />
+        <SearchResults items={series.items} showPosition={true} />
+        {articles.totalPages > 1 && (
+          <Space
+            v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <Layout10>
+              <div className="text-align-right">
+                <Pagination
+                  totalResults={articles.totalResults}
+                  currentPage={articles.currentPage}
+                  totalPages={articles.totalPages}
+                  prevPage={
+                    articles.currentPage > 1
+                      ? articles.currentPage - 1
+                      : undefined
+                  }
+                  nextPage={
+                    articles.currentPage < articles.totalPages
+                      ? articles.currentPage + 1
+                      : undefined
+                  }
+                  prevQueryString={
+                    `/series/${series.id}` +
+                    (articles.currentPage > 1
+                      ? `?page=${articles.currentPage - 1}`
+                      : '')
+                  }
+                  nextQueryString={
+                    `/series/${series.id}` +
+                    (articles.currentPage < articles.totalPages
+                      ? `?page=${articles.currentPage + 1}`
+                      : '')
+                  }
+                />
+              </div>
+            </Layout10>
+          </Space>
         )}
       </ContentPage>
     </PageLayout>
