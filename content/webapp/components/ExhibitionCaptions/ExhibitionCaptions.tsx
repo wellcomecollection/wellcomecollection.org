@@ -8,7 +8,6 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
@@ -214,7 +213,6 @@ const Stop: FC<{
                 properties: ['margin-bottom'],
               }}
             >
-              <Divider color="warmNeutral.400" />
             </Space>
           )}
           <div className="flex flex--wrap">
