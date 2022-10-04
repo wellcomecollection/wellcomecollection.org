@@ -107,18 +107,7 @@ const LayoutPaginatedResults: FC<Props> = ({
         <Layout12>
           <div className="text-align-right">
             <Pagination
-              currentPage={paginatedResults.currentPage}
-              totalPages={paginatedResults.totalPages}
-              prevPage={
-                paginatedResults.currentPage > 1
-                  ? paginatedResults.currentPage - 1
-                  : undefined
-              }
-              nextPage={
-                paginatedResults.currentPage < paginatedResults.totalPages
-                  ? paginatedResults.currentPage + 1
-                  : undefined
-              }
+              paginatedResults={paginatedResults}
               prevQueryString={
                 `/${paginationRoot}` +
                 (period ? `/${period}` : '') +

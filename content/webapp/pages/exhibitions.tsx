@@ -159,18 +159,7 @@ const ExhibitionsPage: FC<Props> = props => {
               <Layout12>
                 <div className="text-align-right">
                   <Pagination
-                    currentPage={exhibitions.currentPage}
-                    totalPages={exhibitions.totalPages}
-                    prevPage={
-                      exhibitions.currentPage > 1
-                        ? exhibitions.currentPage - 1
-                        : undefined
-                    }
-                    nextPage={
-                      exhibitions.currentPage < exhibitions.totalPages
-                        ? exhibitions.currentPage + 1
-                        : undefined
-                    }
+                    paginatedResults={exhibitions}
                     prevQueryString={
                       `/${paginationRoot}` +
                       (period ? `/${period}` : '') +

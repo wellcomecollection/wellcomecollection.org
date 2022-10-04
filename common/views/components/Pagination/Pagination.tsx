@@ -5,12 +5,11 @@ import Space from '../styled/Space';
 import Rotator from '../styled/Rotator';
 import { arrow } from '@weco/common/icons';
 import styled from 'styled-components';
+import { PaginatedResults } from 'services/prismic/types';
 
 export type Props = {
-  currentPage: number;
-  totalPages: number;
-  prevPage?: number;
-  nextPage?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  paginatedResults: PaginatedResults<any>;
   prevQueryString?: string;
   nextQueryString?: string;
 };
@@ -34,13 +33,15 @@ const PaginatorWrapper = styled.nav`
 `;
 
 const Pagination: FunctionComponent<Props> = ({
-  currentPage,
-  totalPages,
-  prevPage,
-  nextPage,
+  paginatedResults,
   prevQueryString,
   nextQueryString,
 }: Props) => {
+  const { currentPage, totalPages } = paginatedResults;
+
+  const prevPage = currentPage > 1 ? currentPage - 1 : undefined;
+  const nextPage = currentPage < totalPages ? currentPage + 1 : undefined;
+
   return (
     <PaginatorContainer>
       <PaginatorWrapper aria-label="pagination">
