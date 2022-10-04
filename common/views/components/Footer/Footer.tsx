@@ -1,4 +1,4 @@
-import { useRef, useEffect, FunctionComponent } from 'react';
+import { useRef, useEffect, FC } from 'react';
 import styled from 'styled-components';
 
 // Components
@@ -42,8 +42,6 @@ const FooterNavigationContainer = styled(FooterBasicSection)`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
-
-// TODO mismatched links, what do
 
 const FindUsContainer = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-bottom'] },
@@ -167,7 +165,7 @@ const BackToTopButton = styled.button.attrs({
 `;
 
 // Component
-const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
+const Footer: FC<Props> = ({ venues, hide = false }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
