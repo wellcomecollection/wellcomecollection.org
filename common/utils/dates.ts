@@ -14,21 +14,6 @@ export function today(): Date {
   return new Date();
 }
 
-export function getEarliestFutureDateRange(
-  dateRanges: DateRange[],
-  fromDate: Date | undefined = new Date()
-): DateRange | undefined {
-  const now = new Date();
-
-  return dateRanges
-    .sort((a, b) => (a.start > b.start ? 1 : -1))
-    .find(
-      ({ end }) =>
-        (isSameDay(end, fromDate) || end > fromDate) &&
-        (isSameDay(end, now) || end > now)
-    );
-}
-
 export function isPast(date: Date): boolean {
   const now = new Date();
   return date < now;
