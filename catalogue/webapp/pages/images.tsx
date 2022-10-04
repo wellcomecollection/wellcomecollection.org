@@ -36,7 +36,7 @@ type Props = {
 
 type ImagesPaginationProps = {
   query?: string;
-  page?: number;
+  page: number;
   results: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
   hideMobilePagination?: boolean;
@@ -57,8 +57,8 @@ const ImagesPagination = ({
     <Paginator
       query={query}
       showPortal={false}
-      currentPage={page || 1}
-      pageSize={results.pageSize}
+      currentPage={page}
+      totalPages={results.totalPages}
       totalResults={results.totalResults}
       link={toLink(
         {

@@ -5,18 +5,22 @@ import Space from '../styled/Space';
 import Rotator from '../styled/Rotator';
 import { arrow } from '@weco/common/icons';
 import styled from 'styled-components';
-import { PaginatedResults } from '../../../services/prismic/types';
 import { LinkProps } from '../../../model/link-props';
 
 type PageChangeFunction = (event: Event, page: number) => Promise<void>;
 
+export type PaginatedResultsProps = {
+  currentPage: number;
+  totalPages: number;
+};
+
 export type Props = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  paginatedResults: PaginatedResults<any>;
+  paginatedResults: PaginatedResultsProps;
   paginationRoot: LinkProps;
   hideMobilePagination?: boolean;
   disabled?: boolean;
   onPageChange?: PageChangeFunction;
+  showPortal?: boolean;
 };
 
 const PaginatorContainer = styled(Space).attrs({
@@ -50,6 +54,7 @@ const Pagination: FunctionComponent<Props> = ({
   hideMobilePagination,
   disabled,
   onPageChange,
+  showPortal,
 }: Props) => {
   const { currentPage, totalPages } = paginatedResults;
 
@@ -96,6 +101,7 @@ const Pagination: FunctionComponent<Props> = ({
 
   return (
     <PaginatorContainer>
+      {showPortal && <div id="sort-select-portal"></div>}
       <PaginatorWrapper
         aria-label="pagination"
         hideMobilePagination={hideMobilePagination}

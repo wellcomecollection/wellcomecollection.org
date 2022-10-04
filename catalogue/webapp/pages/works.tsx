@@ -151,8 +151,8 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                         <Paginator
                           query={query}
                           showPortal={true}
-                          currentPage={page || 1}
-                          pageSize={works.pageSize}
+                          currentPage={page}
+                          totalPages={works.totalPages}
                           totalResults={works.totalResults}
                           link={toLink(
                             {
@@ -209,8 +209,8 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                         <Fragment>
                           <Paginator
                             query={query}
-                            currentPage={page || 1}
-                            pageSize={works.pageSize}
+                            currentPage={page}
+                            totalPages={works.totalPages}
                             totalResults={works.totalResults}
                             link={toLink(
                               {

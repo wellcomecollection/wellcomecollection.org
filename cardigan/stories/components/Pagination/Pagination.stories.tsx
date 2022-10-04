@@ -1,20 +1,9 @@
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import Pagination, {
+  PaginatedResultsProps,
+} from '@weco/common/views/components/Pagination/Pagination';
 
-type Args = {
-  currentPage: number;
-  totalPages: number;
-};
-
-const Template = (args: Args) => (
-  <Pagination
-    paginationRoot="/example"
-    paginatedResults={{
-      pageSize: 10,
-      totalResults: 1000,
-      results: [],
-      ...args,
-    }}
-  />
+const Template = (args: PaginatedResultsProps) => (
+  <Pagination paginationRoot="/example" paginatedResults={args} />
 );
 
 export const middleOfPagination = Template.bind({});
