@@ -44,20 +44,31 @@ const Contributor: FC<ContributorType> = ({
                   transform: 'rotateZ(6deg) scale(1.2)',
                 }}
               >
+                {/*
+                  Contributor images should always be in black-and-white. Most
+                  of them are uploaded this way in Prismic, but we can
+                  additionally add a filter here to catch any that are missed.
+                */}
                 <PrismicImage
                   image={contributorImage}
                   maxWidth={72}
                   quality="low"
+                  desaturate={true}
                 />
               </div>
             </div>
           )}
           {contributorImage && contributor.type === 'organisations' && (
             <div style={{ width: '72px' }}>
+              {/*
+                For now don't desaturate organisation images, brands can be picky
+                about that sort of thing.
+              */}
               <PrismicImage
                 image={contributorImage}
                 maxWidth={72}
                 quality="low"
+                desaturate={false}
               />
             </div>
           )}
