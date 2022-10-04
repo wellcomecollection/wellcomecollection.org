@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { Toggles } from '@weco/toggles';
+import Script from 'next/script';
 
 export const GOOGLE_ANALYTICS_V4_ID = 'G-206J7SLYFC';
 export const GOOGLE_ANALYTICS_UA_ID = 'UA-55614-6';
@@ -14,6 +15,27 @@ export type GaDimensions = {
 const gaDimensionKeys = {
   partOf: 'dimension3',
 };
+
+export const GoogleAnalyticsV4: FC = () => (
+  <Script
+    id="google-analytics-v4"
+    src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_V4_ID}`}
+    strategy="afterInteractive"
+  />
+);
+
+export const GoogleAnalyticsUA: FC = () => (
+  <Script
+    id="google-analytics-ua"
+    strategy="afterInteractive"
+    dangerouslySetInnerHTML={{
+      __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());`,
+    }}
+  />
+);
 
 export const useGoogleAnalyticsV4 = (): void =>
   useEffect(() => {

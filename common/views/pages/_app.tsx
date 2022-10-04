@@ -23,7 +23,7 @@ import {
   GaDimensions,
   useGoogleAnalyticsUA,
   useGoogleAnalyticsV4,
-} from '../../services/app/analytics';
+} from '../../services/app/google-analytics';
 import { useOnPageLoad } from '../../services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
 import { NextPageContext } from 'next';
