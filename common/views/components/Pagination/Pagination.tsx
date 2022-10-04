@@ -5,7 +5,7 @@ import Space from '../styled/Space';
 import Rotator from '../styled/Rotator';
 import { arrow } from '@weco/common/icons';
 import styled from 'styled-components';
-import { PaginatedResults } from 'services/prismic/types';
+import { PaginatedResults } from '../../../services/prismic/types';
 
 export type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
