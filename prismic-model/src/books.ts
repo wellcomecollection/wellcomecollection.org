@@ -1,8 +1,8 @@
 import title from './parts/title';
-import { multiLineText, singleLineText } from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/text';
 import body from './parts/body';
-import link from './parts/link';
-import text from './parts/text';
+import { documentLink, webLink } from './parts/link';
+import keyword from './parts/keyword';
 import list from './parts/list';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
@@ -18,16 +18,16 @@ const books: CustomType = {
   json: {
     Book: {
       title,
-      subtitle: singleLineText({ label: 'Subtitle' }),
+      subtitle: singleLineText('Subtitle'),
       body: body,
-      orderLink: link('Order link', 'web'),
-      price: text('Price'),
-      format: text('Format'),
-      extent: text('Extent'),
-      isbn: text('ISBN'),
+      orderLink: webLink('Order link'),
+      price: keyword('Price'),
+      format: keyword('Format'),
+      extent: keyword('Extent'),
+      isbn: keyword('ISBN'),
       reviews: list('Reviews', {
-        text: multiLineText({ label: 'Review' }),
-        citation: singleLineText({ label: 'Citation' }),
+        text: multiLineText('Review'),
+        citation: singleLineText('Citation'),
       }),
       datePublished: timestamp('Date published'),
     },
@@ -36,15 +36,21 @@ const books: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       seasons: list('Seasons', {
-        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+        season: documentLink('Season', {
+          linkedType: 'seasons',
+          placeholder: 'Select a Season',
+        }),
       }),
       parents: list('Parents', {
         order: number('Order'),
-        parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
+        parent: documentLink('Parent', {
+          linkedType: 'exhibitions',
+          placeholder: 'Select a parent',
+        }),
       }),
     },
   },

@@ -66,6 +66,8 @@ export function getWeight(weight: string | null): Weight {
       return weight;
     case 'supporting':
       return weight;
+    case 'frames':
+      return weight;
     default:
       return 'default';
   }
@@ -178,6 +180,7 @@ function transformEditorialImageGallerySlice(
       title: asText(slice.primary.title),
       items: slice.items.map(item => transformCaptionedImage(item)),
       isStandalone: getWeight(slice.slice_label) === 'standalone',
+      isFrames: getWeight(slice.slice_label) === 'frames',
     },
   };
 }

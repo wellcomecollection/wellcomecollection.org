@@ -1,12 +1,12 @@
 import title from './parts/title';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
-import link from './parts/link';
+import { documentLink, webLink } from './parts/link';
 import list from './parts/list';
-import { multiLineText, singleLineText } from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/text';
 import embed from './parts/embed';
 import booleanDeprecated from './parts/boolean-deprecated';
-import text from './parts/text';
+import keyword from './parts/keyword';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
 import boolean from './parts/boolean';
@@ -17,30 +17,24 @@ function reservationBlock(prefix?: string) {
   return {
     [prefix ? `${prefix}TicketSalesStart` : 'ticketSalesStart']:
       timestamp('Ticket sales start'),
-    [prefix ? `${prefix}BookingEnquiryTeam` : 'bookingEnquiryTeam']: link(
-      'Booking enquiry team',
-      'document',
-      ['teams']
-    ),
+    [prefix ? `${prefix}BookingEnquiryTeam` : 'bookingEnquiryTeam']:
+      documentLink('Booking enquiry team', { linkedType: 'teams' }),
     [prefix ? `${prefix}EventbriteEvent` : 'eventbriteEvent']:
       embed('Eventbrite event'),
     // This is what it was labelled on the UI,
     // so that's what we're calling it here
-    [prefix ? `${prefix}ThirdPartyBookingName` : 'thirdPartyBookingName']: text(
-      'Third party booking name'
-    ),
-    [prefix ? `${prefix}ThirdPartyBookingUrl` : 'thirdPartyBookingUrl']: link(
-      'Third party booking url',
-      'web'
-    ),
+    [prefix ? `${prefix}ThirdPartyBookingName` : 'thirdPartyBookingName']:
+      keyword('Third party booking name'),
+    [prefix ? `${prefix}ThirdPartyBookingUrl` : 'thirdPartyBookingUrl']:
+      webLink('Third party booking url'),
     [prefix ? `${prefix}BookingInformation` : 'bookingInformation']:
-      multiLineText({ label: 'Extra information' }),
+      multiLineText('Extra information'),
     [prefix ? `${prefix}Policies` : 'policies']: list('Policies', {
-      policy: link('Policy', 'document', ['event-policies']),
+      policy: documentLink('Policy', { linkedType: 'event-policies' }),
     }),
     [prefix ? `${prefix}HasEarlyRegistration` : 'hasEarlyRegistration']:
       booleanDeprecated('Early registration'),
-    [prefix ? `${prefix}Cost` : 'cost']: text('Cost'),
+    [prefix ? `${prefix}Cost` : 'cost']: keyword('Cost'),
   };
 }
 
@@ -52,12 +46,12 @@ const events: CustomType = {
   json: {
     Event: {
       title,
-      format: link('Format', 'document', ['event-formats']),
+      format: documentLink('Format', { linkedType: 'event-formats' }),
       locations: list('Locations', {
-        location: link('Location', 'document', ['places']),
+        location: documentLink('Location', { linkedType: 'places' }),
       }),
-      isOnline: boolean('Happens Online?', false),
-      availableOnline: boolean('Available Online?', false),
+      isOnline: boolean('Happens Online?', { defaultValue: false }),
+      availableOnline: boolean('Available Online?', { defaultValue: false }),
       times: list('Times', {
         startDateTime: timestamp('Start'),
         endDateTime: timestamp('End'),
@@ -69,44 +63,50 @@ const events: CustomType = {
     Access: {
       isRelaxedPerformance: booleanDeprecated('Relaxed'),
       interpretations: list('Interpretations', {
-        interpretationType: link('Interpretation', 'document', [
-          'interpretation-types',
-        ]),
+        interpretationType: documentLink('Interpretation', {
+          linkedType: 'interpretation-types',
+        }),
         isPrimary: booleanDeprecated('Primary interprtation'),
-        extraInformation: multiLineText({ label: 'Extra information' }),
+        extraInformation: multiLineText('Extra information'),
       }),
       audiences: list('Audiences', {
-        audience: link('Audience', 'document', ['audiences']),
+        audience: documentLink('Audience', { linkedType: 'audiences' }),
       }),
     },
     Reservation: reservationBlock(),
     'Online reservation': reservationBlock('online'),
     Schedule: {
       schedule: list('Events', {
-        event: link('Event', 'document', ['events']),
+        event: documentLink('Event', { linkedType: 'events' }),
         isNotLinked: booleanDeprecated('Suppress link to event'),
       }),
-      backgroundTexture: link('Background texture', 'document', [
-        'background-textures',
-      ]),
+      backgroundTexture: documentLink('Background texture', {
+        linkedType: 'background-textures',
+      }),
     },
     Contributors: contributorsWithTitle(),
     Promo: {
       promo,
     },
     Metadata: {
-      metadataDescription: singleLineText({ label: 'Metadata description' }),
+      metadataDescription: singleLineText('Metadata description'),
     },
     'Content relationships': {
       series: list('Event series', {
-        series: link('Series', 'document', ['event-series']),
+        series: documentLink('Series', { linkedType: 'event-series' }),
       }),
       seasons: list('Seasons', {
-        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+        season: documentLink('Season', {
+          linkedType: 'seasons',
+          placeholder: 'Select a Season',
+        }),
       }),
       parents: list('Parents', {
         order: number('Order'),
-        parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
+        parent: documentLink('Parent', {
+          linkedType: 'exhibitions',
+          placeholder: 'Select a parent',
+        }),
       }),
     },
   },
