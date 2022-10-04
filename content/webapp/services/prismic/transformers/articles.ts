@@ -130,9 +130,18 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   ].filter(isNotUndefined);
 
   const contributors = transformContributors(document);
+  // This is getting a little unwieldy, as i am learning there
+  // are a few formats we consider to be 'articles' even if their Prismic 'format'
+  // doesn't return them as 'Article' e.g. Book extracts
+  // TODO: get definitive list of what we consider to be article and refactor the below function to account for that
   const isArticleOrSerialFormat = format
-    ? Boolean(format?.title === 'Article' || format?.title === 'Serial')
+    ? Boolean(
+        format?.title === 'Article' ||
+          format?.title === 'Serial' ||
+          format?.title === 'Book extract'
+      )
     : Boolean(labels[0]?.text === 'Serial' || labels[0]?.text === 'Article');
+
 
   return {
     ...genericFields,
