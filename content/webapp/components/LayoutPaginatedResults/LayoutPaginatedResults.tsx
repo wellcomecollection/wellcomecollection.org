@@ -105,7 +105,14 @@ const LayoutPaginatedResults: FC<Props> = ({
           <div className="text-align-right">
             <Pagination
               paginatedResults={paginatedResults}
-              paginationRoot={paginationRoot}
+              paginationRoot={{
+                href: {
+                  pathname: paginationRoot,
+                },
+                as: {
+                  pathname: paginationRoot,
+                },
+              }}
             />
           </div>
         </Layout12>

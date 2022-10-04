@@ -160,7 +160,14 @@ const ExhibitionsPage: FC<Props> = props => {
                 <div className="text-align-right">
                   <Pagination
                     paginatedResults={exhibitions}
-                    paginationRoot={paginationRoot}
+                    paginationRoot={{
+                      href: {
+                        pathname: paginationRoot,
+                      },
+                      as: {
+                        pathname: paginationRoot,
+                      },
+                    }}
                   />
                 </div>
               </Layout12>
