@@ -26,6 +26,7 @@ import {
 } from '../../services/app/analytics';
 import { useOnPageLoad } from '../../services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
+import { NextPageContext } from 'next';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -45,11 +46,12 @@ function isErrorPage(route: string): boolean {
 
 const dev = process.env.NODE_ENV !== 'production';
 
-type GlobalProps = Partial<{
-  pageview: Pageview;
+type GlobalProps = {
   serverData: ServerData;
-  gaDimensions: GaDimensions;
-}>;
+  pageview?: Pageview;
+  gaDimensions?: GaDimensions;
+  err?: NextPageContext['err'];
+};
 
 type WecoAppProps = Omit<AppProps, 'pageProps'> & { pageProps: GlobalProps };
 
@@ -112,7 +114,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                 />
                 <OutboundLinkTracker>
                   <LoadingIndicator />
-                  {!pageProps.err && <Component {...pageProps} />}
+                  {!pageProps.err && <Component {...(pageProps as any)} />}
                   {pageProps.err && (
                     <ErrorPage
                       statusCode={pageProps.err.statusCode}
