@@ -1,6 +1,4 @@
 import { AppProps } from 'next/app';
-import Router from 'next/router';
-import ReactGA from 'react-ga';
 import React, { useEffect, FunctionComponent } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../views/themes/default';
@@ -17,6 +15,12 @@ import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
 import usePrismicPreview from '../../services/app/usePrismicPreview';
 import useMaintainPageHeight from '../../services/app/useMaintainPageHeight';
+import {
+  useGoogleAnalyticsUA,
+  useGoogleAnalyticsV4,
+} from '../../services/app/analytics';
+import { useOnPageLoad } from '../../services/app/useOnPageLoad';
+import ReactGA from 'react-ga';
 
 type Pageview = {
   name: string;
@@ -86,70 +90,21 @@ const WecoApp: FunctionComponent<AppProps> = ({
     document.documentElement.classList.add('enhanced');
   }, []);
 
-  const cookieFlags = 'SameSite=None;secure';
-  // GA v4
-  useEffect(() => {
-    window.gtag &&
-      window.gtag('config', 'G-206J7SLYFC', {
-        page_path: `${window.location.pathname}${window.location.search}`,
-        cookie_flags: cookieFlags,
-      });
-  }, []);
+  useGoogleAnalyticsV4();
+  useGoogleAnalyticsUA({
+    toggles: serverData.toggles,
+    gaDimensions: pageProps.gaDimensions,
+  });
 
-  // GA v3
-  useEffect(() => {
-    function trackGaPageview() {
-      ReactGA.pageview(`${window.location.pathname}${window.location.search}`);
-    }
-    ReactGA.initialize([
-      {
-        trackingId: 'UA-55614-6',
-        titleCase: false,
-        gaOptions: {
-          cookieFlags: cookieFlags,
-        },
-      },
-    ]);
-
-    // This allows us to send a gaDimensions prop from a data fetching method
-    // e.g. `getServerSideProps` and store it in the page views.
-    // TODO: Probably best moving this into the PageLayout so it's called explicitly.
-    if (pageProps.gaDimensions) {
-      const {
-        gaDimensions: { partOf },
-      } = pageProps as WithGaDimensions;
-
-      partOf &&
-        partOf.length > 0 &&
-        ReactGA.set({
-          [gaDimensionKeys.partOf]: partOf.join(','),
-        });
-    }
-
-    ReactGA.set({
-      dimension5: JSON.stringify(serverData.toggles),
-    });
-    trackGaPageview();
-    Router.events.on('routeChangeComplete', trackGaPageview);
-
-    return () => {
-      Router.events.off('routeChangeComplete', trackGaPageview);
-    };
-  }, []);
-
-  usePrismicPreview(Boolean(document.cookie.match('isPreview=true')));
-
-  // We use this method as suggested to optimise the client/server bundles
-  // https://github.com/vercel/next.js/issues/5354#issuecomment-520305040
-  const isServer = typeof window === 'undefined';
-  const isClient = !isServer;
-
-  if (isClient) {
+  useOnPageLoad(url => ReactGA.pageview(url));
+  useOnPageLoad(() => {
     const { pageview } = pageProps as { pageview: Pageview };
     if (pageview) {
       trackPageview(pageview.name, pageview.properties);
     }
-  }
+  });
+
+  usePrismicPreview(Boolean(document.cookie.match('isPreview=true')));
 
   return (
     <>
