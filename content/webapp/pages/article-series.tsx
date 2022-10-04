@@ -34,7 +34,6 @@ import {
 import { transformQuery } from 'services/prismic/transformers/paginated-results';
 import Space from '@weco/common/views/components/styled/Space';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 
 type Props = {
   series: Series;
@@ -166,37 +165,35 @@ const ArticleSeriesPage: FC<Props> = props => {
           <Space
             v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <Layout10>
-              <div className="text-align-right">
-                <Pagination
-                  totalResults={articles.totalResults}
-                  currentPage={articles.currentPage}
-                  totalPages={articles.totalPages}
-                  prevPage={
-                    articles.currentPage > 1
-                      ? articles.currentPage - 1
-                      : undefined
-                  }
-                  nextPage={
-                    articles.currentPage < articles.totalPages
-                      ? articles.currentPage + 1
-                      : undefined
-                  }
-                  prevQueryString={
-                    `/series/${series.id}` +
-                    (articles.currentPage > 1
-                      ? `?page=${articles.currentPage - 1}`
-                      : '')
-                  }
-                  nextQueryString={
-                    `/series/${series.id}` +
-                    (articles.currentPage < articles.totalPages
-                      ? `?page=${articles.currentPage + 1}`
-                      : '')
-                  }
-                />
-              </div>
-            </Layout10>
+            <div className="text-align-right">
+              <Pagination
+                totalResults={articles.totalResults}
+                currentPage={articles.currentPage}
+                totalPages={articles.totalPages}
+                prevPage={
+                  articles.currentPage > 1
+                    ? articles.currentPage - 1
+                    : undefined
+                }
+                nextPage={
+                  articles.currentPage < articles.totalPages
+                    ? articles.currentPage + 1
+                    : undefined
+                }
+                prevQueryString={
+                  `/series/${series.id}` +
+                  (articles.currentPage > 1
+                    ? `?page=${articles.currentPage - 1}`
+                    : '')
+                }
+                nextQueryString={
+                  `/series/${series.id}` +
+                  (articles.currentPage < articles.totalPages
+                    ? `?page=${articles.currentPage + 1}`
+                    : '')
+                }
+              />
+            </div>
           </Space>
         )}
       </ContentPage>
