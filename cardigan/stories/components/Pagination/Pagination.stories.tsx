@@ -3,7 +3,13 @@ import Pagination, {
 } from '@weco/common/views/components/Pagination/Pagination';
 
 const Template = (args: PaginatedResultsProps) => (
-  <Pagination paginationRoot="/example" paginatedResults={args} />
+  <Pagination
+    paginationRoot={{
+      href: { pathname: '/example' },
+      as: { pathname: '/example' },
+    }}
+    paginatedResults={args}
+  />
 );
 
 export const middleOfPagination = Template.bind({});
