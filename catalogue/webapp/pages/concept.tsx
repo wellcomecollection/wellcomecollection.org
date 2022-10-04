@@ -196,10 +196,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-imagesAbout"
                   aria-labelledby="tab-imagesAbout"
                 >
-                  <ImageEndpointSearchResults
-                    images={imagesAbout}
-                    background="transparent"
-                  />
+                  <ImageEndpointSearchResults images={imagesAbout} />
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
                     <SeeMoreButton
                       text={`All images (${imagesAbout.totalResults})`}
@@ -220,10 +217,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-imagesBy"
                   aria-labelledby="tab-imagesBy"
                 >
-                  <ImageEndpointSearchResults
-                    images={imagesBy}
-                    background="transparent"
-                  />
+                  <ImageEndpointSearchResults images={imagesBy} />
                   <SeeMoreButton
                     text={`All images (${imagesBy.totalResults})`}
                     link={toImagesLink(

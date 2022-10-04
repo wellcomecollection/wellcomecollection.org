@@ -3,7 +3,6 @@ import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
-import { transparentGreyPNG } from '@weco/common/utils/backgrounds';
 import {
   iiifImageTemplate,
   convertImageUri,
@@ -12,12 +11,12 @@ import {
   convertBreakpointSizesToSizes,
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { PaletteColor } from '@weco/common/views/themes/config';
 
+// Not typed as PaletteColor as we want the averageColor of each image
 const StyledImage = styled(Image).attrs({ className: 'font-neutral-700' })<{
-  background: PaletteColor;
+  background: string;
 }>`
-  background-color: ${props => props.theme.color(props.background)};
+  background-color: ${props => props.background};
 `;
 
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
@@ -34,7 +33,7 @@ export type Props = {
   layout: 'raw' | 'fill' | 'fixed';
   priority?: boolean;
   width?: number;
-  background?: PaletteColor;
+  background?: string;
 };
 
 const IIIFImage: FC<Props> = ({
@@ -44,7 +43,7 @@ const IIIFImage: FC<Props> = ({
   layout,
   priority = false,
   width = 300,
-  background = 'white',
+  background = 'transparent',
 }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
@@ -78,8 +77,6 @@ const IIIFImage: FC<Props> = ({
         width={image.width}
         height={image.height}
         priority={priority}
-        placeholder="blur"
-        blurDataURL={transparentGreyPNG}
         background={background}
       />
     );
