@@ -17,6 +17,7 @@ import {
 import { ServerDataContext } from '../../server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
+import { AppErrorProps } from '../../services/app';
 import usePrismicPreview from '../../services/app/usePrismicPreview';
 import useMaintainPageHeight from '../../services/app/useMaintainPageHeight';
 import {
@@ -26,7 +27,6 @@ import {
 } from '../../services/app/google-analytics';
 import { useOnPageLoad } from '../../services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
-import { NextPageContext } from 'next';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -50,8 +50,7 @@ type GlobalProps = {
   serverData: ServerData;
   pageview?: Pageview;
   gaDimensions?: GaDimensions;
-  err?: NextPageContext['err'];
-};
+} & Partial<AppErrorProps>;
 
 type WecoAppProps = Omit<AppProps, 'pageProps'> & { pageProps: GlobalProps };
 

@@ -22,7 +22,7 @@ import { FeaturedText as FeaturedTextType } from '../types/text';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { GetServerSideProps } from 'next';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '../components/StoryPromo/StoryPromo';

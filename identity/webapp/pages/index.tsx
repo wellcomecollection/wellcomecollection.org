@@ -45,7 +45,7 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import { getServerData } from '@weco/common/server-data';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { useRouter } from 'next/router';
 import {
   Auth0UserProfile,

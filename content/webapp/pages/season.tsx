@@ -7,7 +7,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';

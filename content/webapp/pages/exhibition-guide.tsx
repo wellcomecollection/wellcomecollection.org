@@ -33,7 +33,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import CardGrid from '../components/CardGrid/CardGrid';
 import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';

@@ -25,7 +25,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
-import { GaDimensions } from '@weco/common/services/analytics';
+import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import {
   audioDescribed,
   britishSignLanguage,

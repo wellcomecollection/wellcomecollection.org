@@ -19,7 +19,7 @@ import {
   transformGuideFormat,
 } from '../services/prismic/transformers/guides';
 import { getServerData } from '@weco/common/server-data';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { Guide } from '../types/guides';
 import { Format } from '../types/format';
 import { looksLikePrismicId } from '@weco/common/services/prismic';

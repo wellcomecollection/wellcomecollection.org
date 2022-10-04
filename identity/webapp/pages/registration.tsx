@@ -23,7 +23,7 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { getServerData } from '@weco/common/server-data';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { RegistrationInputs, decodeToken } from '../src/utility/jwt-codec';
