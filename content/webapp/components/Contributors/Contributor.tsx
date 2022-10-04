@@ -4,15 +4,8 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { getCrop, ImageType } from '@weco/common/model/image';
+import { getCrop } from '@weco/common/model/image';
 import { FC } from 'react';
-
-const ContributorImage: FC<{ image: ImageType }> = ({ image }) => (
-  // Contributor images should always be in black-and-white.  Most of
-  // them are uploaded this way in Prismic, but we can additionally
-  // add a filter here to catch any that are missed.
-  <PrismicImage image={image} maxWidth={72} quality="low" desaturate={true} />
-);
 
 const Contributor: FC<ContributorType> = ({
   contributor,
@@ -51,13 +44,32 @@ const Contributor: FC<ContributorType> = ({
                   transform: 'rotateZ(6deg) scale(1.2)',
                 }}
               >
-                <ContributorImage image={contributorImage} />
+                {/*
+                  Contributor images should always be in black-and-white. Most
+                  of them are uploaded this way in Prismic, but we can
+                  additionally add a filter here to catch any that are missed.
+                */}
+                <PrismicImage
+                  image={contributorImage}
+                  maxWidth={72}
+                  quality="low"
+                  desaturate={true}
+                />
               </div>
             </div>
           )}
           {contributorImage && contributor.type === 'organisations' && (
             <div style={{ width: '72px' }}>
-              <ContributorImage image={contributorImage} />
+              {/*
+                For now don't desaturate organisation images, brands can be picky
+                about that sort of thing.
+              */}
+              <PrismicImage
+                image={contributorImage}
+                maxWidth={72}
+                quality="low"
+                desaturate={false}
+              />
             </div>
           )}
         </Space>
