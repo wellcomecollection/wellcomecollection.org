@@ -32,6 +32,7 @@ type SimpleCrop =
 export type ImageType = ImageBase & {
   alt: string | null;
   tasl?: Tasl;
+  averageColor?: string;
 
   // We distinguish between two types of crop:
   //
