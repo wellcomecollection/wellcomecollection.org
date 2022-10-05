@@ -1,54 +1,131 @@
-import { useRef, useEffect, FunctionComponent } from 'react';
-import { arrow, cc, ccBy, wellcome } from '@weco/common/icons';
-import { font, grid } from '../../../utils/classnames';
-import FooterWellcomeLogo from './FooterWellcomeLogo';
-import FooterNav from './FooterNav';
-import FindUs from '../FindUs/FindUs';
-import FooterSocial from './FooterSocial';
-import Icon from '../Icon/Icon';
+import { useRef, useEffect, FC } from 'react';
 import styled from 'styled-components';
-import Space from '../styled/Space';
-import OpeningTimes from '../OpeningTimes/OpeningTimes';
-import { Venue } from '../../../model/opening-hours';
 
+// Components
+import Space from '@weco/common/views/components/styled/Space';
+import FooterWellcomeLogo from './FooterWellcomeLogo';
+import FindUs from '../FindUs/FindUs';
+import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
+import FooterNav from './FooterNav';
+import FooterSocial from './FooterSocial';
+import Divider from '@weco/common/views/components/Divider/Divider';
+
+// Utils / Types
+import { font } from '@weco/common/utils/classnames';
+import { Venue } from '@weco/common/model/opening-hours';
+
+type Props = {
+  hide: boolean;
+  venues: Venue[];
+};
+
+// Styles
 const Wrapper = styled(Space).attrs({
+  className: font('intr', 5),
   v: { size: 'xl', properties: ['padding-top'] },
-  className: 'font-white',
 })`
   position: relative;
   background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
 `;
 
-const FooterNavWrapper = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['padding-top', 'padding-bottom'],
-  },
-})`
-  border-top: 1px solid ${props => props.theme.color('neutral.700')};
-  border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
+const FooterBasicSection = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-bottom'] },
+})``;
+
+/** ************************ */
+// START OF FOOTER BODY STYLES
+/** ************************ */
+
+const FooterNavigationContainer = styled(FooterBasicSection)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
 
-const HygieneNav = styled(Space).attrs({
-  as: 'nav',
-  h: { size: 'l', properties: ['margin-bottom'] },
+const FindUsContainer = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-bottom'] },
 })`
-  position: relative;
-  flex: 1;
-  border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
+  flex: 1 1 100%;
+
+  ${props => props.theme.media('medium')`
+      flex: 1 1 50%;
+      `}
+
+  ${props => props.theme.media('large')`
+      flex: 1 1 20%;
+      margin-right: 2rem;
+    `}
 `;
 
-const HygieneList = styled(Space).attrs({
-  as: 'ul',
-  h: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
+const OpeningTimesContainer = styled(FooterBasicSection)`
+  flex: 1 1 100%;
+
+  ${props => props.theme.media('medium')`
+    flex: 1 1 50%;
+    `}
+
+  ${props => props.theme.media('large')`
+    flex: 1 1 30%;
+    margin-right: 2rem;
+  `}
+`;
+
+const InternalNavigationContainer = styled(FooterBasicSection)`
+  flex: 1 1 50%;
+
+  ${props => props.theme.media('medium')`
+    flex: 1 1 30%;
+`}
+`;
+
+const FullWidthDivider = styled(Space).attrs({
+  className: 'is-hidden-s is-hidden-m',
 })`
-  list-style: none;
-  margin: 0 !important;
-  padding: 0;
+  flex: 1 1 100%;
+`;
+
+const PoliciesContainer = styled(Space)`
+  flex: 1 1 30%;
+
+  ${props => props.theme.media('medium')`
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  `}
+
+  ${props => props.theme.media('large')`
+    margin-top: 1rem;
+    `}
+`;
+
+const SocialsContainer = styled(Space)`
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid ${props => props.theme.color('neutral.700')};
+  align-items: center;
+  align-self: flex-start;
+  flex: 1 1 100%;
+  margin: 1rem 0;
+
+  ${props => props.theme.media('medium')`
+    flex: 0 1 auto;
+    margin: 0;
+    `}
+
+  ${props => props.theme.media('large')`
+    flex: 0 1 100%;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    `}
+
+  ${props => props.theme.media('xlarge')`
+    flex: 0 1 auto;
+    justify-content: space-between;
+    `}
 `;
+/** ********************** */
+// END OF FOOTER BODY STYLES
+/** ********************** */
 
 const FooterBottom = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-bottom'] },
@@ -56,291 +133,94 @@ const FooterBottom = styled(Space).attrs({
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start;
-  border-top: 1px solid ${props => props.theme.color('neutral.700')};
+  line-height: 1;
 `;
 
-const NavBrand = styled.a`
-  position: absolute;
-  bottom: 0;
-  display: block;
+const FooterLicense = styled.p.attrs({ className: font('intr', 6) })`
+  display: inline;
+  margin: 0 1rem 1rem 0;
 `;
 
-const FooterLeft = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-
-  ${props => props.theme.media('medium')`
-    flex-wrap: nowrap;
-  `}
-`;
-
-const FooterStrap = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
-  },
+const BackToTopButton = styled.button.attrs({
+  className: 'is-hidden-s plain-button',
 })`
-  display: flex;
-  align-items: center;
-  min-width: 220px;
-  border-bottom: 1px solid ${props => props.theme.color('neutral.700')};
-  width: 100%;
+  text-decoration: underline;
+  color: ${props => props.theme.color('white')};
+  padding: 0;
+  cursor: pointer;
+  margin-bottom: 1rem;
 
-  ${props =>
-    props.theme.media('medium')(`
-      width: auto;
-      border-bottom: 0;
-      border-right: 1px solid ${props.theme.color('neutral.700')};
-      margin-right: 24px;
-      padding-right: 24px;
-  `)}
-`;
-
-const StrapText = styled.div`
-  max-width: 10rem;
-`;
-
-const HygieneItem = styled.li.attrs({
-  className: font('intb', 6),
-})`
-  width: 100%;
-  text-align: center;
-
-  &:last-child {
-    position: absolute;
-    bottom: -45px;
-    left: 0;
-
-    ${props => props.theme.media('large')`
-      position: static;
-    `}
-  }
-
-  a {
-    padding: 0.5em 0;
-    display: block;
+  &:hover {
     text-decoration: none;
-    border-left: 1px solid ${props => props.theme.color('neutral.700')};
-    transition: color 200ms ease;
-
-    &:hover {
-      color: ${props => props.theme.color('accent.green')};
-    }
-
-    ${props => props.theme.media('xlarge')`
-      padding-left: 2em;
-      padding-right: 2em;
-    `}
-
-    &.footer__hygiene-link--back-to-top {
-      display: flex;
-      align-items: center;
-      border-left: 0;
-
-      ${props =>
-        props.theme.media('large')(`
-          border-left: 1px solid ${props.theme.color('neutral.700')};
-          justify-content: center;
-        `)}
-
-      ${props => props.theme.media('xlarge')`
-        padding-right: 0;
-      `}
-
-      .icon__shape {
-        fill: currentColor;
-      }
-    }
-  }
-
-  &:first-child a {
-    border-left: 0;
   }
 `;
 
-const TopBorderBox = styled.div`
-  ${props =>
-    props.theme.media('large')(`
-    border-top: 1px solid ${props.theme.color('neutral.700')};
-    border-bottom: 0;
-  `)}
-`;
-type Props = {
-  hide: boolean;
-  venues: Venue[];
-};
-
-const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
+// Component
+const Footer: FC<Props> = ({ venues, hide = false }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (hide && footer && footer.current) {
       footer.current.classList.add('is-hidden');
     }
   }, []);
+
   return (
     <Wrapper ref={footer}>
       <div className="container">
-        <div className="grid">
-          <div className={grid({ s: 12, m: 12, l: 4 })}>
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-bottom'],
-              }}
-              as="h3"
-              className={`relative ${font('intr', 4)}`}
-            >
-              <span className="hidden">Wellcome collection</span>
-              <NavBrand href="#">
-                <FooterWellcomeLogo />
-              </NavBrand>
+        <FooterBasicSection as="h3">
+          <FooterWellcomeLogo />
+        </FooterBasicSection>
+
+        <FooterNavigationContainer>
+          <FindUsContainer>
+            <FindUs />
+          </FindUsContainer>
+
+          <OpeningTimesContainer>
+            <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
+            {venues && <OpeningTimes venues={venues} />}
+            <Space as="p" v={{ size: 'm', properties: ['margin-top'] }}>
+              <a href="/opening-times">Opening times</a>
             </Space>
-            <FooterNavWrapper>
-              <FooterNav />
-            </FooterNavWrapper>
-          </div>
-          <div className={grid({ s: 12, m: 6, l: 4 })}>
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-bottom'],
-              }}
-              as="h3"
-              className={`hidden is-hidden-s is-hidden-m ${font('intr', 5)}`}
-            >
-              Finding us:
-            </Space>
-            <TopBorderBox>
-              <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                <FindUs />
-              </Space>
-            </TopBorderBox>
-          </div>
-          <div
-            className={
-              grid({ s: 12, m: 6, l: 4, xl: 4 }) + ' ' + font('intr', 5)
-            }
-          >
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-bottom'],
-              }}
-              as="h3"
-              className={`hidden is-hidden-s is-hidden-m ${font('intr', 5)}`}
-            >
-              {`Opening times:`}
-            </Space>
-            <TopBorderBox>
-              <Space
-                className="flex"
-                v={{ size: 'l', properties: ['padding-top'] }}
-              >
-                <div className={`${font('intr', 5)} float-l`}>
-                  <h4
-                    className={`${font('intb', 5)} no-margin`}
-                  >{`Today’s opening times`}</h4>
-                  {venues && <OpeningTimes venues={venues} />}
-                  <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
-                    <a href="/opening-times">Opening times</a>
-                  </Space>
-                </div>
-              </Space>
-            </TopBorderBox>
-          </div>
-        </div>
-        <FooterSocial />
+          </OpeningTimesContainer>
+
+          <InternalNavigationContainer>
+            <FooterNav type="InternalNavigation" />
+          </InternalNavigationContainer>
+
+          <FullWidthDivider>
+            <Divider color="neutral.700" isKeyline />
+          </FullWidthDivider>
+
+          <PoliciesContainer>
+            <FooterNav isInline type="PoliciesNavigation" />
+          </PoliciesContainer>
+
+          <SocialsContainer>
+            <FooterSocial />
+          </SocialsContainer>
+        </FooterNavigationContainer>
+
         <FooterBottom>
-          <FooterLeft>
-            <FooterStrap className={font('intb', 6)}>
-              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-                <Icon icon={wellcome} />
-              </Space>
-              <StrapText>The free museum and library from Wellcome</StrapText>
-            </FooterStrap>
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
-              }}
-              className={`${font('intb', 6)} flex flex--v-center`}
-            >
-              <div className="flex">
-                <Space h={{ size: 's', properties: ['margin-right'] }}>
-                  <Icon icon={cc} />
-                </Space>
-                <Space h={{ size: 's', properties: ['margin-right'] }}>
-                  <Icon icon={ccBy} />
-                </Space>
-              </div>
-              <p className="no-margin">
-                Except where otherwise noted, content on this site is licensed
-                under a{' '}
-                <a
-                  className="footer__licensing-link"
-                  href="https://creativecommons.org/licenses/by/4.0/"
-                >
-                  {' '}
-                  Creative Commons Attribution 4.0 International Licence
-                </a>
-              </p>
-            </Space>
-          </FooterLeft>
-          <HygieneNav>
-            <HygieneList>
-              <HygieneItem>
-                <a
-                  href="https://wellcome.org/jobs"
-                  className="footer__hygiene-link"
-                >
-                  Jobs
-                </a>
-              </HygieneItem>
-              <HygieneItem>
-                <a
-                  href="https://wellcome.org/who-we-are/privacy-and-terms"
-                  className="footer__hygiene-link"
-                >
-                  Privacy
-                </a>
-              </HygieneItem>
-              <HygieneItem>
-                <a
-                  href="https://wellcome.org/who-we-are/privacy-and-terms"
-                  className="footer__hygiene-link"
-                >
-                  Cookies
-                </a>
-              </HygieneItem>
-              <HygieneItem>
-                <a
-                  href="https://wellcomecollection.org/press"
-                  className="footer__hygiene-link"
-                >
-                  Media office
-                </a>
-              </HygieneItem>
-              <HygieneItem>
-                <a
-                  href="https://developers.wellcomecollection.org"
-                  className="footer__hygiene-link"
-                >
-                  Developers
-                </a>
-              </HygieneItem>
-              <HygieneItem>
-                <a
-                  href="#top"
-                  className="footer__hygiene-link footer__hygiene-link--back-to-top"
-                >
-                  <span>Back to top</span>
-                  <Icon icon={arrow} rotate={270} />
-                </a>
-              </HygieneItem>
-            </HygieneList>
-          </HygieneNav>
+          <FooterLicense>
+            Except where otherwise noted, content on this site is licensed under
+            a{' '}
+            <a href="https://creativecommons.org/licenses/by/4.0/">
+              Creative Commons Attribution 4.0 International Licence
+            </a>
+          </FooterLicense>
+
+          <BackToTopButton
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+              });
+            }}
+          >
+            Back to top
+          </BackToTopButton>
         </FooterBottom>
       </div>
     </Wrapper>
