@@ -95,7 +95,12 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
         />
         <Caption caption={caption} preCaptionNode={preCaptionNode} />
       </ImageContainerInner>
-      <ZoomedImage image={image} zoomRef={zoomRef} isZoom={isZoom} />
+      <ZoomedImage
+        image={image}
+        zoomRef={zoomRef}
+        isZoom={isZoom}
+        setIsZoom={setIsZoom}
+      />
     </CaptionedImageFigure>
   );
 };

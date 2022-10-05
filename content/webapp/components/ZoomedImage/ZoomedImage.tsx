@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction, RefObject } from 'react';
+import { FC, Dispatch, SetStateAction, RefObject, useEffect } from 'react';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { expand, cross } from '@weco/common/icons';
@@ -68,11 +68,26 @@ type ZoomedImageProps = {
   image: ImageType;
   zoomRef: RefObject<HTMLDialogElement>;
   isZoom: boolean;
+  setIsZoom: Dispatch<SetStateAction<boolean>>;
 };
 
-const ZoomedImage: FC<ZoomedImageProps> = ({ image, zoomRef, isZoom }) => {
+const ZoomedImage: FC<ZoomedImageProps> = ({
+  image,
+  zoomRef,
+  isZoom,
+  setIsZoom,
+}) => {
+  useEffect(() => {
+    if (isZoom) {
+      document?.documentElement?.classList.add('is-scroll-locked');
+    } else {
+      document?.documentElement?.classList.remove('is-scroll-locked');
+    }
+  }, [isZoom]);
+
   function closeDialog() {
     zoomRef?.current?.close();
+    setIsZoom(false);
   }
 
   return (
