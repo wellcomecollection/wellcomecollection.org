@@ -11,6 +11,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { expand, cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import LL from '@weco/common/views/components/styled/LL';
+import Image from 'next/image';
+import { createPrismicLoader } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 const ZoomButton = styled.button`
   position: absolute;
@@ -35,14 +37,15 @@ const StyledDialog = styled.dialog`
   padding: 0;
   max-width: 100%;
   max-height: 100%;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: ${props => props.theme.color('neutral.700')};
-
-  img {
-    width: 100vw;
-    height: 100vh;
-    display: block;
-    object-fit: contain;
-  }
+  position: fixed;
+  top: 0;
+  z-index: 3;
 
   button {
     position: absolute;
@@ -86,6 +89,13 @@ const ZoomedImage: FC<ZoomedImageProps> = ({
   setIsZoom,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [imageWidth, setImageWidth] = useState(0);
+
+  useEffect(() => {
+    const viewportWidth = document.documentElement.clientWidth;
+    console.log(viewportWidth);
+    setImageWidth(viewportWidth);
+  }, [isZoom]);
 
   useEffect(() => {
     if (isZoom) {
@@ -101,23 +111,24 @@ const ZoomedImage: FC<ZoomedImageProps> = ({
     setIsLoaded(false);
   }
 
-  return (
+  return isZoom ? (
     <StyledDialog ref={zoomRef}>
-      {isZoom && (
-        <>
-          {!isLoaded && <LL />}
-          <ZoomButton onClick={closeDialog}>
-            <Icon icon={cross} color="white" />
-          </ZoomButton>
-          <img
-            src={image.contentUrl}
-            alt={image.alt || ''}
-            onLoad={() => setIsLoaded(true)}
-          />
-        </>
-      )}
+      {!isLoaded && <LL />}
+      <ZoomButton onClick={closeDialog}>
+        <Icon icon={cross} color="white" />
+      </ZoomButton>
+      <Image
+        width={image.width}
+        height={image.height}
+        layout="intrinsic"
+        src={image.contentUrl}
+        alt={image.alt || ''}
+        objectFit="contain"
+        loader={createPrismicLoader(imageWidth, 'high')}
+        onLoadingComplete={() => setIsLoaded(true)}
+      />
     </StyledDialog>
-  );
+  ) : null;
 };
 
 export { ZoomedImage, ZoomedImageButton };
