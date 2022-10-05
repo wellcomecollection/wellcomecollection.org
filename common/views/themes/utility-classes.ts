@@ -97,10 +97,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: flex;
   }
 
-  .flex--column {
-    flex-direction: column;
-  }
-
   .flex-inline {
     display: inline-flex;
   }
