@@ -1,8 +1,16 @@
-import { FC, Dispatch, SetStateAction, RefObject, useEffect } from 'react';
+import {
+  FC,
+  Dispatch,
+  SetStateAction,
+  RefObject,
+  useEffect,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { expand, cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
+import LL from '@weco/common/views/components/styled/LL';
 
 const ZoomButton = styled.button`
   position: absolute;
@@ -27,7 +35,7 @@ const StyledDialog = styled.dialog`
   padding: 0;
   max-width: 100%;
   max-height: 100%;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color('neutral.700')};
 
   img {
     width: 100vw;
@@ -77,6 +85,8 @@ const ZoomedImage: FC<ZoomedImageProps> = ({
   isZoom,
   setIsZoom,
 }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     if (isZoom) {
       document?.documentElement?.classList.add('is-scroll-locked');
@@ -88,16 +98,22 @@ const ZoomedImage: FC<ZoomedImageProps> = ({
   function closeDialog() {
     zoomRef?.current?.close();
     setIsZoom(false);
+    setIsLoaded(false);
   }
 
   return (
     <StyledDialog ref={zoomRef}>
       {isZoom && (
         <>
+          {!isLoaded && <LL />}
           <ZoomButton onClick={closeDialog}>
             <Icon icon={cross} color="white" />
           </ZoomButton>
-          <img src={image.contentUrl} alt={image.alt || ''} />
+          <img
+            src={image.contentUrl}
+            alt={image.alt || ''}
+            onLoad={() => setIsLoaded(true)}
+          />
         </>
       )}
     </StyledDialog>
