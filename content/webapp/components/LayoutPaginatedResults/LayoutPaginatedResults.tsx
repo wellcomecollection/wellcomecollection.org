@@ -3,7 +3,6 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { font } from '@weco/common/utils/classnames';
-import { Period } from '../../types/periods';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import { EventBasic } from '../../types/events';
 import { ArticleBasic } from '../../types/articles';
@@ -32,7 +31,6 @@ type Props = {
   description?: prismicT.RichTextField;
   paginationRoot: string;
   paginatedResults: PaginatedResultsTypes;
-  period?: Period;
   showFreeAdmissionMessage: boolean;
   children?: ReactElement;
 };
@@ -42,7 +40,6 @@ const LayoutPaginatedResults: FC<Props> = ({
   description,
   paginatedResults,
   paginationRoot,
-  period,
   showFreeAdmissionMessage,
   children,
 }) => (
@@ -107,33 +104,15 @@ const LayoutPaginatedResults: FC<Props> = ({
         <Layout12>
           <div className="text-align-right">
             <Pagination
-              totalResults={paginatedResults.totalResults}
-              currentPage={paginatedResults.currentPage}
-              totalPages={paginatedResults.totalPages}
-              prevPage={
-                paginatedResults.currentPage > 1
-                  ? paginatedResults.currentPage - 1
-                  : undefined
-              }
-              nextPage={
-                paginatedResults.currentPage < paginatedResults.totalPages
-                  ? paginatedResults.currentPage + 1
-                  : undefined
-              }
-              prevQueryString={
-                `/${paginationRoot}` +
-                (period ? `/${period}` : '') +
-                (paginatedResults.currentPage > 1
-                  ? `?page=${paginatedResults.currentPage - 1}`
-                  : '')
-              }
-              nextQueryString={
-                `/${paginationRoot}` +
-                (period ? `/${period}` : '') +
-                (paginatedResults.currentPage < paginatedResults.totalPages
-                  ? `?page=${paginatedResults.currentPage + 1}`
-                  : '')
-              }
+              paginatedResults={paginatedResults}
+              paginationRoot={{
+                href: {
+                  pathname: paginationRoot,
+                },
+                as: {
+                  pathname: paginationRoot,
+                },
+              }}
             />
           </div>
         </Layout12>

@@ -92,13 +92,13 @@ const ExhibitionsPage: FC<Props> = props => {
     }
   );
 
-  const paginationRoot = `exhibitions${period ? `/${period}` : ''}`;
+  const paginationRoot = `/exhibitions${period ? `/${period}` : ''}`;
 
   return (
     <PageLayout
       title={title}
       description={pageDescriptions.exhibitions}
-      url={{ pathname: `/exhibitions${period ? `/${period}` : ''}` }}
+      url={{ pathname: paginationRoot }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="whats-on"
@@ -159,33 +159,15 @@ const ExhibitionsPage: FC<Props> = props => {
               <Layout12>
                 <div className="text-align-right">
                   <Pagination
-                    totalResults={exhibitions.totalResults}
-                    currentPage={exhibitions.currentPage}
-                    totalPages={exhibitions.totalPages}
-                    prevPage={
-                      exhibitions.currentPage > 1
-                        ? exhibitions.currentPage - 1
-                        : undefined
-                    }
-                    nextPage={
-                      exhibitions.currentPage < exhibitions.totalPages
-                        ? exhibitions.currentPage + 1
-                        : undefined
-                    }
-                    prevQueryString={
-                      `/${paginationRoot}` +
-                      (period ? `/${period}` : '') +
-                      (exhibitions.currentPage > 1
-                        ? `?page=${exhibitions.currentPage - 1}`
-                        : '')
-                    }
-                    nextQueryString={
-                      `/${paginationRoot}` +
-                      (period ? `/${period}` : '') +
-                      (exhibitions.currentPage < exhibitions.totalPages
-                        ? `?page=${exhibitions.currentPage + 1}`
-                        : '')
-                    }
+                    paginatedResults={exhibitions}
+                    paginationRoot={{
+                      href: {
+                        pathname: paginationRoot,
+                      },
+                      as: {
+                        pathname: paginationRoot,
+                      },
+                    }}
                   />
                 </div>
               </Layout12>
