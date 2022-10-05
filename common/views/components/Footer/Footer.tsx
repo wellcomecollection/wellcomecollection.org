@@ -56,15 +56,6 @@ const FindUsContainer = styled(Space).attrs({
       flex: 1 1 20%;
       margin-right: 2rem;
     `}
-  
-    .plain-link {
-    transition: color 200ms ease;
-
-    &:hover,
-    &:focus {
-      color: ${props => props.theme.color('accent.lightGreen')};
-    }
-  }
 `;
 
 const OpeningTimesContainer = styled(FooterBasicSection)`

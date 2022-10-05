@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import styled from 'styled-components';
 import {
   wellcomeCollectionGallery,
   wellcomeCollectionAddress,
@@ -6,22 +7,29 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 
+const PlainLink = styled.a.attrs({ className: 'plain-link' })`
+  transition: color 200ms ease;
+
+  &:hover,
+  &:focus {
+    color: ${props => props.theme.color('accent.lightGreen')};
+  }
+`;
+
 const FindUs: FC = () => (
   <>
     <Space v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
-      <a href={wellcomeCollectionAddress.addressMap} className="plain-link">
-        <span className="block">{wellcomeCollectionAddress.streetAddress}</span>
+      <PlainLink href={wellcomeCollectionAddress.addressMap}>
+        {wellcomeCollectionAddress.streetAddress}
+        <br />
         {wellcomeCollectionAddress.addressLocality}{' '}
         {wellcomeCollectionAddress.postalCode}
-      </a>
+      </PlainLink>
     </Space>
     <p>
-      <a
-        className="plain-link"
-        href={`tel:${wellcomeCollectionGallery.telephone}`}
-      >
+      <PlainLink href={`tel:${wellcomeCollectionGallery.telephone}`}>
         {wellcomeCollectionGallery.displayTelephone}
-      </a>
+      </PlainLink>
       <br />
       <a href="mailto:info@wellcomecollection.org">
         info@wellcomecollection.org
