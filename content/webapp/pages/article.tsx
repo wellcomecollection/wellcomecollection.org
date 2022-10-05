@@ -196,11 +196,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const TitleTopper = serial && positionInSerial && (
     <PartNumberIndicator
       number={positionInSerial}
-      color={
-        listOfSeries
-          ? listOfSeries[0].articles[0].series[0].color
-          : serial.color
-      }
+      color={serial.color}
       description={isPodcast ? 'Episode' : 'Part'}
     />
   );
