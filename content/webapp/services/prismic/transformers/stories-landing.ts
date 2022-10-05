@@ -33,6 +33,7 @@ export function transformStoriesLanding(
     books,
   } = storiesLandingDoc.data;
   return {
+    id: storiesLandingDoc.id,
     introText: asRichText(introText) || [],
     storiesTitle: asText(storiesTitle),
     storiesDescription: asRichText(storiesDescription) || [],
