@@ -143,11 +143,13 @@ const ArticleSeriesPage: FC<Props> = props => {
     />
   );
 
+  const paginationRoot = `/series/${series.id}`;
+
   return (
     <PageLayout
       title={series.title}
       description={series.metadataDescription || series.promo?.caption || ''}
-      url={{ pathname: `/series/${series.id}` }}
+      url={{ pathname: paginationRoot }}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'stories'}
       openGraphType={'website'}
@@ -167,31 +169,15 @@ const ArticleSeriesPage: FC<Props> = props => {
           >
             <div className="text-align-right">
               <Pagination
-                totalResults={articles.totalResults}
-                currentPage={articles.currentPage}
-                totalPages={articles.totalPages}
-                prevPage={
-                  articles.currentPage > 1
-                    ? articles.currentPage - 1
-                    : undefined
-                }
-                nextPage={
-                  articles.currentPage < articles.totalPages
-                    ? articles.currentPage + 1
-                    : undefined
-                }
-                prevQueryString={
-                  `/series/${series.id}` +
-                  (articles.currentPage > 1
-                    ? `?page=${articles.currentPage - 1}`
-                    : '')
-                }
-                nextQueryString={
-                  `/series/${series.id}` +
-                  (articles.currentPage < articles.totalPages
-                    ? `?page=${articles.currentPage + 1}`
-                    : '')
-                }
+                paginatedResults={articles}
+                paginationRoot={{
+                  href: {
+                    pathname: paginationRoot,
+                  },
+                  as: {
+                    pathname: paginationRoot,
+                  },
+                }}
               />
             </div>
           </Space>
