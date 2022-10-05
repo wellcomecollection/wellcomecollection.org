@@ -84,10 +84,6 @@ const StyledDialog = styled.dialog`
   max-height: 100%;
   background: ${props => props.theme.color('black')};
 
-  &::backdrop {
-    background: rgba(0, 0, 0, 0.6);
-  }
-
   img {
     width: 100vw;
     height: 100vh;
