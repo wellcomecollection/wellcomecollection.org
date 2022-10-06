@@ -70,7 +70,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                   className={`${font('intb', 5)} no-margin`}
                 >
                   <HTMLTime date={t.range.startDateTime} />
-                  &ndash;
+                  {' – '}
                   <HTMLTime date={t.range.endDateTime} />
                 </h4>
               );
