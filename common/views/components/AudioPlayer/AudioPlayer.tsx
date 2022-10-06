@@ -250,6 +250,11 @@ type ScrubberProps = {
   progressBarRef: Ref<HTMLInputElement>;
 };
 
+const ScrubberWrapper = styled.div`
+  width: 100%;
+  lineheight: 0;
+`;
+
 const Scrubber: FC<ScrubberProps> = ({
   startTime,
   duration,
@@ -258,7 +263,7 @@ const Scrubber: FC<ScrubberProps> = ({
   progressBarRef,
 }) => {
   return (
-    <div style={{ lineHeight: 0 }}>
+    <ScrubberWrapper>
       <label className="visually-hidden" htmlFor={`scrubber-${id}`}>
         Audio time scrubber
       </label>
@@ -275,7 +280,7 @@ const Scrubber: FC<ScrubberProps> = ({
         step="any"
         type="range"
       />
-    </div>
+    </ScrubberWrapper>
   );
 };
 
@@ -398,15 +403,14 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
           </PlayPauseInner>
         </PlayPauseButton>
 
-        <div className="full-width">
-          <Scrubber
-            startTime={startTime}
-            duration={duration}
-            id={id}
-            onChange={onScrubberChange}
-            progressBarRef={progressBarRef}
-          />
-        </div>
+        <Scrubber
+          startTime={startTime}
+          duration={duration}
+          id={id}
+          onChange={onScrubberChange}
+          progressBarRef={progressBarRef}
+        />
+
         {audioPlayerRef.current && (
           <Volume audioPlayer={audioPlayerRef.current} id={id} />
         )}
