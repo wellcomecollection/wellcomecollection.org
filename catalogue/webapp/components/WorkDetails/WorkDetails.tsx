@@ -53,7 +53,6 @@ import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
-import { useToggles } from '@weco/common/server-data/Context';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
 
@@ -318,8 +317,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       </>
     );
   };
-
-  const toggles = useToggles();
 
   const renderContent = () => (
     <>
@@ -653,11 +650,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               /*
               If this is an identified contributor, link to the concepts prototype
               page instead.
-
-              The prototype page will only display if you have the toggle enabled,
-              so don't link there if you don't have the toggle.
               */
-              return toggles.conceptsPages && contributor.agent.id
+              return contributor.agent.id
                 ? {
                     textParts,
                     linkAttributes: {
@@ -748,11 +742,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               /*
               If this is an identified subject, link to the concepts prototype
               page instead.
-
-              The prototype page will only display if you have the toggle enabled,
-              so don't display it if you don't have the toggle.
               */
-              return toggles.conceptsPages && s.id
+              return s.id
                 ? {
                     textParts: [s.concepts[0].label].concat(
                       s.concepts.slice(1).map(c => c.label)

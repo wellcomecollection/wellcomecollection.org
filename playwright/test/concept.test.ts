@@ -8,18 +8,10 @@ const domain = new URL(baseUrl).host;
 
 const test = base.extend({
   context: async ({ context }, use) => {
-    const defaultToggleCookies = await makeDefaultToggleCookies(domain);
-
-    // This adds the conceptsPages toggle so the e2e tests can see the concept pages,
-    // but once they're out from behind a toggle we can remove this.
+    const defaultToggleAndTestCookies = await makeDefaultToggleCookies(domain);
     await context.addCookies([
-      {
-        name: 'toggle_conceptsPages',
-        value: 'true',
-        domain,
-        path: '/',
-      },
-      ...defaultToggleCookies.filter(c => c.name !== 'toggle_conceptsPages'),
+      { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
+      ...defaultToggleAndTestCookies,
     ]);
 
     await use(context);
