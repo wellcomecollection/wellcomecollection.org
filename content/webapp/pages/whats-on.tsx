@@ -76,6 +76,7 @@ import {
   getNextWeekendDateRange,
   startOfDay,
 } from '@weco/common/utils/dates';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 
 const segmentedControlItems = [
   {
@@ -159,9 +160,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
       as="p"
       className={font('intr', 5)}
     >
-      {period === 'today' && (
-        <time dateTime={formatDate(start)}>{formatDate(start)}</time>
-      )}
+      {period === 'today' && <HTMLDate date={start} />}
       {period === 'this-weekend' && (
         <>
           <time dateTime={formatDate(start)}>{formatDay(start)}</time>
@@ -171,7 +170,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
       )}
       {period === 'current-and-coming-up' && (
         <>
-          From <time dateTime={formatDate(start)}>{formatDate(start)}</time>
+          From <HTMLDate date={start} />
         </>
       )}
     </Space>
