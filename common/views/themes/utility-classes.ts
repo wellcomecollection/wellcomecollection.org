@@ -141,10 +141,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     flex: 1;
   }
 
-  .pointer {
-    cursor: pointer;
-  }
-
   .plain-button {
     appearance: none;
     font-family: inherit;
