@@ -30,9 +30,13 @@ const ZoomButton = styled.button`
   border: 0;
   padding: 0;
   margin: 0;
+
+  .icon {
+    margin: 0;
+  }
 `;
 
-const StyledDialog = styled.dialog`
+const StyledDialog = styled.dialog<{ isLoaded: boolean }>`
   position: fixed;
   top: 0;
   bottom: 0;
@@ -58,6 +62,9 @@ const StyledDialog = styled.dialog`
   img {
     max-width: 100vw;
     max-height: 100vh;
+    opacity: ${props => (props.isLoaded ? 1 : 0)};
+    transform: scale(${props => (props.isLoaded ? 1 : 0.6)});
+    transition: all ${props => props.theme.transitionProperties};
   }
 `;
 
@@ -119,9 +126,10 @@ const ZoomedImage: FC<ZoomedImageProps> = ({
   }
 
   return isZoom ? (
-    <StyledDialog ref={zoomRef}>
+    <StyledDialog ref={zoomRef} isLoaded={isLoaded}>
       {!isLoaded && <LL />}
       <ZoomButton onClick={closeDialog}>
+        <span className="visually-hidden">Close</span>
         <Icon icon={cross} color="white" />
       </ZoomButton>
       <Image
