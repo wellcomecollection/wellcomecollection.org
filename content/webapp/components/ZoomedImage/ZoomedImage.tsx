@@ -1,11 +1,4 @@
-import {
-  FC,
-  Dispatch,
-  SetStateAction,
-  RefObject,
-  useEffect,
-  useState,
-} from 'react';
+import { FC, RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { expand, cross } from '@weco/common/icons';
@@ -48,11 +41,14 @@ const StyledDialog = styled.dialog<{ isLoaded: boolean }>`
   max-height: 100%;
   height: 100vh;
   width: 100vw;
-  display: flex;
   justify-content: center;
   align-items: center;
   background: ${props => props.theme.color('neutral.700')};
   z-index: 3;
+
+  &[open] {
+    display: flex;
+  }
 
   button {
     position: absolute;
@@ -70,19 +66,14 @@ const StyledDialog = styled.dialog<{ isLoaded: boolean }>`
 `;
 
 type ZoomedImageButtonProps = {
-  setIsZoom: Dispatch<SetStateAction<boolean>>;
   zoomRef: RefObject<HTMLDialogElement>;
 };
 
-const ZoomedImageButton: FC<ZoomedImageButtonProps> = ({
-  setIsZoom,
-  zoomRef,
-}) => {
+const ZoomedImageButton: FC<ZoomedImageButtonProps> = ({ zoomRef }) => {
   const { zoomImages } = useToggles();
-  console.log(zoomImages);
+
   function openDialog() {
     zoomRef?.current?.showModal();
-    setIsZoom(true);
   }
 
   return zoomImages ? (
@@ -95,56 +86,59 @@ const ZoomedImageButton: FC<ZoomedImageButtonProps> = ({
 type ZoomedImageProps = {
   image: ImageType;
   zoomRef: RefObject<HTMLDialogElement>;
-  isZoom: boolean;
-  setIsZoom: Dispatch<SetStateAction<boolean>>;
 };
 
-const ZoomedImage: FC<ZoomedImageProps> = ({
-  image,
-  zoomRef,
-  isZoom,
-  setIsZoom,
-}) => {
+const ZoomedImage: FC<ZoomedImageProps> = ({ image, zoomRef }) => {
   const { zoomImages } = useToggles();
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageWidth, setImageWidth] = useState(0);
+  const [isZoom, setIsZoom] = useState(false);
 
   useEffect(() => {
-    const viewportWidth = document.documentElement.clientWidth;
-    setImageWidth(viewportWidth);
-  }, [isZoom]);
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (mutation.attributeName === 'open') {
+          const isOpen = Boolean(zoomRef.current?.hasAttribute('open'));
+          setIsZoom(isOpen);
+          setIsLoaded(!isOpen);
+          const viewportWidth = document.documentElement.clientWidth;
+          setImageWidth(viewportWidth);
+        }
+      });
+    });
 
-  useEffect(() => {
-    if (isZoom) {
-      document?.documentElement?.classList.add('is-scroll-locked');
-    } else {
-      document?.documentElement?.classList.remove('is-scroll-locked');
-    }
-  }, [isZoom]);
+    zoomRef.current &&
+      observer.observe(zoomRef.current, {
+        attributes: true,
+      });
+  }, []);
 
   function closeDialog() {
     zoomRef?.current?.close();
-    setIsZoom(false);
     setIsLoaded(false);
   }
 
-  return zoomImages && isZoom ? (
+  return zoomImages ? (
     <StyledDialog ref={zoomRef} isLoaded={isLoaded}>
       {!isLoaded && <LL />}
-      <ZoomButton onClick={closeDialog}>
-        <span className="visually-hidden">Close</span>
-        <Icon icon={cross} color="white" />
-      </ZoomButton>
-      <Image
-        width={image.width}
-        height={image.height}
-        layout="intrinsic"
-        src={image.contentUrl}
-        alt={image.alt || ''}
-        objectFit="contain"
-        loader={createPrismicLoader(imageWidth, 'high')}
-        onLoadingComplete={() => setIsLoaded(true)}
-      />
+      {isZoom && (
+        <>
+          <ZoomButton onClick={closeDialog}>
+            <span className="visually-hidden">Close</span>
+            <Icon icon={cross} color="white" />
+          </ZoomButton>
+          <Image
+            width={image.width}
+            height={image.height}
+            layout="intrinsic"
+            src={image.contentUrl}
+            alt={image.alt || ''}
+            objectFit="contain"
+            loader={createPrismicLoader(imageWidth, 'high')}
+            onLoadingComplete={() => setIsLoaded(true)}
+          />
+        </>
+      )}
     </StyledDialog>
   ) : null;
 };

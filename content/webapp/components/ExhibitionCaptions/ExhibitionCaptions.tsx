@@ -178,7 +178,6 @@ const Stop: FC<{
     transcription,
   } = stop;
   const { isEnhanced } = useContext(AppContext);
-  const [isZoom, setIsZoom] = useState(false);
   const zoomRef: RefObject<HTMLDialogElement> = useRef(null);
   const hasShowFullTranscriptionButton =
     (stop.transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
@@ -286,17 +285,9 @@ const Stop: FC<{
                   {image?.contentUrl && (
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <PrismicImageWrapper>
-                        <ZoomedImageButton
-                          setIsZoom={setIsZoom}
-                          zoomRef={zoomRef}
-                        />
+                        <ZoomedImageButton zoomRef={zoomRef} />
                         <PrismicImage image={image} sizes={{}} quality="low" />
-                        <ZoomedImage
-                          image={image}
-                          setIsZoom={setIsZoom}
-                          zoomRef={zoomRef}
-                          isZoom={isZoom}
-                        />
+                        <ZoomedImage image={image} zoomRef={zoomRef} />
                       </PrismicImageWrapper>
                     </Space>
                   )}
