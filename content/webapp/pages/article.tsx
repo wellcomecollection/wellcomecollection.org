@@ -127,6 +127,7 @@ function getNextUp(
 
 const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
+
   // readingTime toggle
   const { readingTime } = useToggles();
 
@@ -214,7 +215,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
         <Space v={{ size: 's', properties: ['margin-top'] }}>
           <p className={`no-margin ${font('intr', 6)}`}>
             {article.contributors.length > 0 &&
-              article.contributors.map(({ contributor, role }, i, arr) => (
+              article.contributors.map(({ contributor, role }, i) => (
                 <ContentTypeInfoSection key={contributor.id}>
                   {role && role.describedBy && (
                     <span>
