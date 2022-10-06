@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
+const cloudfront = new AWS.CloudFront({ apiVersion: '2006-03-01' });
 
 const fs = require('fs');
 
@@ -18,6 +19,20 @@ try {
     if (err) console.log(err, err.stack);
     else console.log('Finished uploading report.json');
   });
+
+  cloudfront.createInvalidation(
+    {
+      DistributionId: 'EIOS79GG23UUY',
+      InvalidationBatch: {
+        Paths: { Items: ['/pa11y/report.json'], Quantity: 1 },
+        CallerReference: `Pa11yDeployInvalidationCallerReference${Date.now()}`,
+      },
+    },
+    function (err, data) {
+      if (err) console.log(err, err.stack);
+      else console.log('Flushed CloudFront cache for report.json');
+    }
+  );
 } catch (e) {
   console.log('Error:', e.stack);
 }
