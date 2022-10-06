@@ -3,12 +3,20 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import * as prismicT from '@prismicio/types';
+import styled from 'styled-components';
 
 export type Props = {
   text: prismicT.RichTextField;
   citation?: prismicT.RichTextField;
   isPullOrReview: boolean;
 };
+
+const Cite = styled.cite.attrs({
+  className: `quote__cite font-neutral-600 ${font('intr', 5)}`,
+})`
+  display: flex;
+  align-items: flex-end;
+`;
 
 const Quote: FC<Props> = ({ text, citation, isPullOrReview }) => {
   return (
@@ -26,15 +34,9 @@ const Quote: FC<Props> = ({ text, citation, isPullOrReview }) => {
       </Space>
       {citation && (
         <footer className="quote__footer flex">
-          <cite
-            className={
-              'quote__cite flex flex--v-end font-neutral-600' +
-              ' ' +
-              font('intr', 5)
-            }
-          >
+          <Cite>
             <PrismicHtmlBlock html={citation} />
-          </cite>
+          </Cite>
         </footer>
       )}
     </blockquote>

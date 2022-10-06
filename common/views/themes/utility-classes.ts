@@ -105,14 +105,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: inline-flex;
   }
 
-  .flex--v-start {
-    align-items: flex-start;
-  }
-
-  .flex--v-end {
-    align-items: flex-end;
-  }
-
   .flex--v-center {
     align-items: center;
   }
