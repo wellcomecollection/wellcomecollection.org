@@ -29,6 +29,7 @@ import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import styled from 'styled-components';
 
 type Props = {
   works: CatalogueResultsList<Work>;

@@ -266,11 +266,11 @@ const Scrubber: FC<ScrubberProps> = ({
   id,
   progressBarRef,
 }) => {
-  const id = `scrubber-${id}`;
+  const inputId = `scrubber-${id}`;
 
   return (
     <ScrubberWrapper>
-      <label className="visually-hidden" htmlFor={id}>
+      <label className="visually-hidden" htmlFor={inputId}>
         Audio time scrubber
       </label>
       <ScrubberInput
@@ -280,7 +280,7 @@ const Scrubber: FC<ScrubberProps> = ({
           `duration ${formatTime(duration).nonVisual}`
         }
         defaultValue="0"
-        id={id}
+        id={inputId}
         min={0}
         onChange={onChange}
         ref={progressBarRef}
