@@ -6,7 +6,7 @@ import {
   isDayPast,
   isFuture,
   isPast,
-  isSameDay,
+  isSameDayOrBefore,
   startOfDay,
 } from '@weco/common/utils/dates';
 import { Event, EventBasic, HasTimes } from '../../types/events';
@@ -171,7 +171,7 @@ type Range = {
 
 // TODO: maybe use a Map?
 function getRanges({ start, end }: RangeProps, acc: Range[] = []): Range[] {
-  if (start < end || isSameDay(start, end)) {
+  if (isSameDayOrBefore(start, end)) {
     const newStart = addDays(start, 1);
     const newAcc: Range[] = acc.concat([
       {
