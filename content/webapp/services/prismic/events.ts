@@ -124,14 +124,11 @@ export function groupEventsByDay(events: Event[]): EventsGroup[] {
       }));
 
     ranges.forEach(range => {
-      const isInRange = times.find(time => {
-        if (
-          (time.start >= range.start && time.start <= range.end) ||
-          (time.end >= range.start && time.end <= range.end)
-        ) {
-          return true;
-        }
-      });
+      const isInRange = times.find(
+        time =>
+          (range.start <= time.start && time.start <= range.end) ||
+          (range.start <= time.end && time.end <= range.end)
+      );
       const newEvents = isInRange ? range.events.concat([event]) : range.events;
       range.events = newEvents;
     });
