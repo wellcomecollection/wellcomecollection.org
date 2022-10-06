@@ -26,26 +26,18 @@ const Template = args => {
 export const basic = Template.bind({});
 basic.args = {
   backgroundColor: 'white',
-  variant: 'default',
 };
 
 export const stub = Template.bind({});
 stub.args = {
   color: 'black',
-  variant: 'stub',
-  backgroundColor: 'white',
-};
-
-export const thick = Template.bind({});
-thick.args = {
-  color: 'black',
-  variant: 'thick',
+  isStub: true,
   backgroundColor: 'white',
 };
 
 basic.argTypes = {
-  variant: {
-    control: { type: 'inline-radio' },
-    options: ['default', 'stub', 'thick'],
+  backgroundColor: {
+    control: { type: 'select' },
+    options: ['black', 'white'],
   },
 };

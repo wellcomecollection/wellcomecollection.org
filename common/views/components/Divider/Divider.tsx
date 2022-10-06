@@ -4,7 +4,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
   color?: PaletteColor;
-  variant?: 'stub' | 'thick';
+  isStub?: boolean;
 };
 
 const Rule = styled.hr<Props>`
@@ -14,15 +14,12 @@ const Rule = styled.hr<Props>`
   ${props =>
     props.color && `background-color: ${props.theme.color(props.color)};`};
 
-  // Variants
-  ${props => props.variant === 'stub' && 'width: 60px; height: 5px;'}
-
-  ${props => props.variant === 'thick' && 'height: 2px;'}
+  ${props => props.isStub && 'width: 60px; height: 5px;'}
 `;
 
 const Divider: FunctionComponent<Props> = ({
   color = 'warmNeutral.400',
-  variant,
-}: Props): ReactElement => <Rule color={color} variant={variant} />;
+  isStub,
+}: Props): ReactElement => <Rule color={color} isStub={isStub} />;
 
 export default Divider;
