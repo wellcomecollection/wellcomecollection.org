@@ -28,6 +28,7 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import styled from 'styled-components';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -44,6 +45,13 @@ type ImagesPaginationProps = {
   isLoading?: boolean;
 };
 
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
 const ImagesPagination = ({
   query,
   page,
@@ -53,7 +61,7 @@ const ImagesPagination = ({
   hideMobileTotalResults,
   isLoading,
 }: ImagesPaginationProps) => (
-  <div className="flex flex--h-space-between flex--v-center flex--wrap">
+  <PaginationWrapper>
     <Paginator
       query={query}
       showPortal={false}
@@ -79,7 +87,7 @@ const ImagesPagination = ({
       hideMobileTotalResults={hideMobileTotalResults}
       isLoading={isLoading}
     />
-  </div>
+  </PaginationWrapper>
 );
 
 const Images: NextPage<Props> = ({

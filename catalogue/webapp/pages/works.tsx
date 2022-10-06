@@ -35,6 +35,13 @@ type Props = {
   worksRouteProps: WorksRouteProps;
 } & WithPageview;
 
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
 const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
   const [loading, setLoading] = useState(false);
 
@@ -146,7 +153,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
               <div className="container">
                 <div className="grid">
                   <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                    <div className="flex flex--h-space-between flex--v-center flex--wrap">
+                    <PaginationWrapper>
                       <Fragment>
                         <Paginator
                           query={query}
@@ -180,7 +187,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                           hideMobilePagination={true}
                         />
                       </Fragment>
-                    </div>
+                    </PaginationWrapper>
                   </div>
                 </div>
               </div>
