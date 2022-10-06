@@ -64,7 +64,7 @@ const Outro: FC<Props> = ({
 
   return (
     <div>
-      <Divider color="black" isStub={true} />
+      <Divider variant="stub" color="black" />
       <Space
         v={{
           size: 'm',
