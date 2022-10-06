@@ -27,6 +27,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { isFuture } from '@weco/common/utils/dates';
+import styled from 'styled-components';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -69,6 +70,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
   };
+
+const PaginationWrapper = styled(Layout12)`
+  text-align: right;
+`;
 
 const ExhibitionsPage: FC<Props> = props => {
   const { exhibitions, period, title, jsonLd } = props;
@@ -156,21 +161,19 @@ const ExhibitionsPage: FC<Props> = props => {
               itemsPerRow={3}
             />
             {exhibitions.totalPages > 1 && (
-              <Layout12>
-                <div className="text-align-right">
-                  <Pagination
-                    paginatedResults={exhibitions}
-                    paginationRoot={{
-                      href: {
-                        pathname: paginationRoot,
-                      },
-                      as: {
-                        pathname: paginationRoot,
-                      },
-                    }}
-                  />
-                </div>
-              </Layout12>
+              <PaginationWrapper>
+                <Pagination
+                  paginatedResults={exhibitions}
+                  paginationRoot={{
+                    href: {
+                      pathname: paginationRoot,
+                    },
+                    as: {
+                      pathname: paginationRoot,
+                    },
+                  }}
+                />
+              </PaginationWrapper>
             )}
           </SpacingSection>
         </>

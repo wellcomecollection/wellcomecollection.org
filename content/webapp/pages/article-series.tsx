@@ -34,6 +34,7 @@ import {
 import { transformQuery } from 'services/prismic/transformers/paginated-results';
 import Space from '@weco/common/views/components/styled/Space';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import styled from 'styled-components';
 
 type Props = {
   series: Series;
@@ -145,6 +146,12 @@ const ArticleSeriesPage: FC<Props> = props => {
 
   const paginationRoot = `/series/${series.id}`;
 
+  const PaginationWrapper = styled(Space).attrs({
+    v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  })`
+    text-align: right;
+  `;
+
   return (
     <PageLayout
       title={series.title}
@@ -164,23 +171,19 @@ const ArticleSeriesPage: FC<Props> = props => {
       >
         <SearchResults items={series.items} showPosition={true} />
         {articles.totalPages > 1 && (
-          <Space
-            v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <div className="text-align-right">
-              <Pagination
-                paginatedResults={articles}
-                paginationRoot={{
-                  href: {
-                    pathname: paginationRoot,
-                  },
-                  as: {
-                    pathname: paginationRoot,
-                  },
-                }}
-              />
-            </div>
-          </Space>
+          <PaginationWrapper>
+            <Pagination
+              paginatedResults={articles}
+              paginationRoot={{
+                href: {
+                  pathname: paginationRoot,
+                },
+                as: {
+                  pathname: paginationRoot,
+                },
+              }}
+            />
+          </PaginationWrapper>
         )}
       </ContentPage>
     </PageLayout>
