@@ -346,8 +346,13 @@ const ExhibitionStops: FC<StopsProps> = ({ stops, type }) => {
 };
 
 type ExhibitionLinksProps = {
-  stops: ExhibitionGuideComponent[];
   pathname: string;
+  availableTypes: {
+    BSLVideo: boolean;
+    captionsOrTranscripts: boolean;
+    audioWithoutDescriptions: boolean;
+    audioWithDescriptions: boolean;
+  };
 };
 
 function cookieHandler(key: string, data: string) {
@@ -356,24 +361,13 @@ function cookieHandler(key: string, data: string) {
   setCookie(key, data, options);
 }
 
-const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
-  const hasBSLVideo = stops.some(
-    stop => stop.bsl.embedUrl // it can't be undefined can it?
-  );
-  const hasCaptionsOrTranscripts = stops.some(
-    stop => stop.caption.length > 0 || stop.transcription.length > 0
-  );
-
-  const hasAudioWithoutDescriptions = stops.some(
-    stop => stop.audioWithoutDescription?.url
-  );
-  const hasAudioWithDescriptions = stops.some(
-    stop => stop.audioWithDescription?.url
-  );
-
+const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
+  pathname,
+  availableTypes,
+}) => {
   return (
     <TypeList>
-      {hasAudioWithoutDescriptions && (
+      {availableTypes.audioWithoutDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-without-descriptions`}
           title="Listen, without audio descriptions"
@@ -387,7 +381,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           }}
         />
       )}
-      {hasAudioWithDescriptions && (
+      {availableTypes.audioWithDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-with-descriptions`}
           title="Listen, with audio descriptions"
@@ -403,7 +397,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           }}
         />
       )}
-      {hasCaptionsOrTranscripts && (
+      {availableTypes.captionsOrTranscripts && (
         <TypeOption
           url={`/${pathname}/captions-and-transcripts`}
           title="Read captions and transcripts"
@@ -419,7 +413,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           }}
         />
       )}
-      {hasBSLVideo && (
+      {availableTypes.BSLVideo && (
         <TypeOption
           url={`/${pathname}/bsl`}
           title="Watch BSL videos"
@@ -493,7 +487,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </Space>
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
               <ExhibitionLinks
-                stops={exhibitionGuide.components}
+                availableTypes={exhibitionGuide.availableTypes}
                 pathname={pathname}
               />
             </Space>

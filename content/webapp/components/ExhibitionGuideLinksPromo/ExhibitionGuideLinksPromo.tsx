@@ -31,24 +31,31 @@ type Props = {
 // We use this Promo for Exhibition Guides when we want to link to the individual types within a guide
 // and not just the guide itself
 const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
-  const links = [
-    {
+  const links: { url: string; text: string }[] = [];
+  if (exhibitionGuide.availableTypes.audioWithoutDescriptions) {
+    links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-without-descriptions`,
       text: 'Listen to audio guide, without audio description',
-    },
-    {
+    });
+  }
+  if (exhibitionGuide.availableTypes.audioWithDescriptions) {
+    links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-with-descriptions`,
       text: 'Listen to audio guide, with audio description',
-    },
-    {
+    });
+  }
+  if (exhibitionGuide.availableTypes.captionsOrTranscripts) {
+    links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/captions-and-transcripts`,
       text: 'Read captions and transcriptions',
-    },
-    {
+    });
+  }
+  if (exhibitionGuide.availableTypes.BSLVideo) {
+    links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/bsl`,
       text: 'Watch BSL videos',
-    },
-  ];
+    });
+  }
   return (
     <>
       <ExhibitionTitleLink href={`/guides/exhibitions/${exhibitionGuide.id}`}>
