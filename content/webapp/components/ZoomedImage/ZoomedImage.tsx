@@ -13,6 +13,7 @@ import { ImageType } from '@weco/common/model/image';
 import LL from '@weco/common/views/components/styled/LL';
 import Image from 'next/image';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const ZoomButton = styled.button`
   position: absolute;
@@ -77,16 +78,18 @@ const ZoomedImageButton: FC<ZoomedImageButtonProps> = ({
   setIsZoom,
   zoomRef,
 }) => {
+  const { zoomImages } = useToggles();
+  console.log(zoomImages);
   function openDialog() {
     zoomRef?.current?.showModal();
     setIsZoom(true);
   }
 
-  return (
+  return zoomImages ? (
     <ZoomButton onClick={openDialog}>
       <Icon icon={expand} color="white" />
     </ZoomButton>
-  );
+  ) : null;
 };
 
 type ZoomedImageProps = {
@@ -102,12 +105,12 @@ const ZoomedImage: FC<ZoomedImageProps> = ({
   isZoom,
   setIsZoom,
 }) => {
+  const { zoomImages } = useToggles();
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageWidth, setImageWidth] = useState(0);
 
   useEffect(() => {
     const viewportWidth = document.documentElement.clientWidth;
-    console.log(viewportWidth);
     setImageWidth(viewportWidth);
   }, [isZoom]);
 
@@ -125,7 +128,7 @@ const ZoomedImage: FC<ZoomedImageProps> = ({
     setIsLoaded(false);
   }
 
-  return isZoom ? (
+  return zoomImages && isZoom ? (
     <StyledDialog ref={zoomRef} isLoaded={isLoaded}>
       {!isLoaded && <LL />}
       <ZoomButton onClick={closeDialog}>
