@@ -13,7 +13,7 @@ const StyledImage = styled(Image).attrs({
   className: 'font-white',
 })<{ desaturate: 1 | 0 }>`
   background-color: ${props => props.theme.color('neutral.700')};
-  ${props => (props.desaturate === 1 ? 'filter: saturate(0%);' : '')}
+  ${props => props.desaturate === 1 && 'filter: saturate(0%);'}
 `;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
