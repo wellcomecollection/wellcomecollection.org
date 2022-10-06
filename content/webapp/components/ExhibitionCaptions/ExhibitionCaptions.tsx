@@ -1,4 +1,4 @@
-import { FC, useState, useContext, useEffect } from 'react';
+import { FC, useState, useContext, useEffect, RefObject, useRef } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -12,6 +12,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import { ZoomedImage, ZoomedImageButton } from '../ZoomedImage/ZoomedImage';
 
 function getTypeColor(type: string): PaletteColor {
   // importing this from exhibition-guide.tsx was causing a storybook build failure
@@ -115,6 +116,7 @@ const Caption = styled(Space).attrs({
 `;
 
 const PrismicImageWrapper = styled.div`
+  position: relative;
   max-width: 600px;
 `;
 
@@ -176,6 +178,8 @@ const Stop: FC<{
     transcription,
   } = stop;
   const { isEnhanced } = useContext(AppContext);
+  const [isZoom, setIsZoom] = useState(false);
+  const zoomRef: RefObject<HTMLDialogElement> = useRef(null);
   const hasShowFullTranscriptionButton =
     (stop.transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
   const transcriptionFirstParagraph = transcription?.slice(0, 1);
@@ -282,7 +286,17 @@ const Stop: FC<{
                   {image?.contentUrl && (
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <PrismicImageWrapper>
+                        <ZoomedImageButton
+                          setIsZoom={setIsZoom}
+                          zoomRef={zoomRef}
+                        />
                         <PrismicImage image={image} sizes={{}} quality="low" />
+                        <ZoomedImage
+                          image={image}
+                          setIsZoom={setIsZoom}
+                          zoomRef={zoomRef}
+                          isZoom={isZoom}
+                        />
                       </PrismicImageWrapper>
                     </Space>
                   )}
