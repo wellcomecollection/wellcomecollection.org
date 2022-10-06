@@ -23,9 +23,13 @@ const urls = [
   'https://wellcomecollection.org/event-series/WlYT_SQAACcAWccj',
 ];
 
-const promises = urls.map(url => pa11y(url, {chromeLaunchConfig: {
-    args: ['--no-sandbox']
-}}));
+const promises = urls.map(url =>
+  pa11y(url, {
+    chromeLaunchConfig: {
+      args: ['--no-sandbox'],
+    },
+  })
+);
 
 Promise.all(promises).then(async results => {
   await mkdirp('./.dist');
