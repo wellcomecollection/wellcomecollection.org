@@ -9,7 +9,11 @@ import { Series } from '../types/series';
 import { ArticleBasic } from '../types/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
+import {
+  appError,
+  AppErrorProps,
+  WithGaDimensions,
+} from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
@@ -21,19 +25,36 @@ import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import * as prismic from '@prismicio/client';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
+import { getPage } from '../utils/query-params';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from 'services/prismic/transformers/articles';
+import { transformQuery } from 'services/prismic/transformers/paginated-results';
+import Space from '@weco/common/views/components/styled/Space';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import styled from 'styled-components';
 
 type Props = {
   series: Series;
-  articles: ArticleBasic[];
+  articles: PaginatedResults<ArticleBasic>;
 } & WithGaDimensions;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+
     const { id } = context.query;
 
     if (!looksLikePrismicId(id)) {
       return { notFound: true };
+    }
+
+    const page = getPage(context.query);
+
+    if (typeof page !== 'number') {
+      return appError(context, 400, page.message);
     }
 
     const client = createClient(context);
@@ -49,24 +70,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const articlesQuery = await fetchArticles(client, {
       predicates: [prismic.predicate.at(seriesField, id)],
-      page: 1,
-      pageSize: 100,
+      page,
+      pageSize: 20,
       fetchLinks: seasonsFields,
     });
-
-    // TODO: Currently we don't support pagination on article series, which means
-    // anything beyond the first page of results won't be shown.  We should update
-    // the design/rendering of this page to fix that.
-    //
-    // We have at least one series with >100 entries (https://wellcomecollection.org/series/WleP3iQAACUAYEoN);
-    // this warning will tell us if there are more.
-    //
-    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7633
-    if (articlesQuery.total_results_size > articlesQuery.results_size) {
-      console.warn(
-        `Series ${id} has ${articlesQuery.total_results_size} entries, than fit on a single page; some articles have been omitted`
-      );
-    }
 
     // This can occasionally occur if somebody in the Editorial team is
     // trying to preview a series that doesn't have any entries yet.
@@ -80,10 +87,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const { articles, series } = transformArticleSeries(id, articlesQuery);
 
+    const paginatedArticles = transformQuery(articlesQuery, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
+
     return {
       props: removeUndefinedProps({
         series,
-        articles,
+        articles: {
+          ...paginatedArticles,
+          articles,
+        },
         serverData,
         gaDimensions: {
           partOf: series.seasons.map(season => season.id),
@@ -130,11 +144,19 @@ const ArticleSeriesPage: FC<Props> = props => {
     />
   );
 
+  const paginationRoot = `/series/${series.id}`;
+
+  const PaginationWrapper = styled(Space).attrs({
+    v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  })`
+    text-align: right;
+  `;
+
   return (
     <PageLayout
       title={series.title}
       description={series.metadataDescription || series.promo?.caption || ''}
-      url={{ pathname: `/series/${series.id}` }}
+      url={{ pathname: paginationRoot }}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'stories'}
       openGraphType={'website'}
@@ -147,8 +169,21 @@ const ArticleSeriesPage: FC<Props> = props => {
         contributors={series.contributors}
         seasons={series.seasons}
       >
-        {articles.length > 0 && (
-          <SearchResults items={series.items} showPosition={true} />
+        <SearchResults items={series.items} showPosition={true} />
+        {articles.totalPages > 1 && (
+          <PaginationWrapper>
+            <Pagination
+              paginatedResults={articles}
+              paginationRoot={{
+                href: {
+                  pathname: paginationRoot,
+                },
+                as: {
+                  pathname: paginationRoot,
+                },
+              }}
+            />
+          </PaginationWrapper>
         )}
       </ContentPage>
     </PageLayout>

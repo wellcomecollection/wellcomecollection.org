@@ -155,10 +155,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     text-decoration: underline;
   }
 
-  .text-align-right {
-    text-align: right;
-  }
-
   .text-align-center {
     text-align: center;
   }

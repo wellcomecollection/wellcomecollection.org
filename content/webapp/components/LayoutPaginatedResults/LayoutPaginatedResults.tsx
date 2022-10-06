@@ -17,6 +17,7 @@ import { BookBasic } from '../../types/books';
 import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
+import styled from 'styled-components';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
@@ -34,6 +35,10 @@ type Props = {
   showFreeAdmissionMessage: boolean;
   children?: ReactElement;
 };
+
+const PaginationWrapper = styled(Layout12)`
+  text-align: right;
+`;
 
 const LayoutPaginatedResults: FC<Props> = ({
   title,
@@ -101,21 +106,19 @@ const LayoutPaginatedResults: FC<Props> = ({
 
     {paginatedResults.totalPages > 1 && (
       <Space v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}>
-        <Layout12>
-          <div className="text-align-right">
-            <Pagination
-              paginatedResults={paginatedResults}
-              paginationRoot={{
-                href: {
-                  pathname: paginationRoot,
-                },
-                as: {
-                  pathname: paginationRoot,
-                },
-              }}
-            />
-          </div>
-        </Layout12>
+        <PaginationWrapper>
+          <Pagination
+            paginatedResults={paginatedResults}
+            paginationRoot={{
+              href: {
+                pathname: paginationRoot,
+              },
+              as: {
+                pathname: paginationRoot,
+              },
+            }}
+          />
+        </PaginationWrapper>
       </Space>
     )}
   </>
