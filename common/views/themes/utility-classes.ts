@@ -211,10 +211,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: inline-block;
   }
 
-  .nowrap {
-    white-space: nowrap;
-  }
-
   .float-r {
     float: right;
   }
@@ -341,10 +337,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .full-width {
     width: 100%;
-  }
-
-  .full-height {
-    height: 100%;
   }
 
   // For when we get HTML out of systems like Prismic
