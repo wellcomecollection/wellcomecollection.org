@@ -60,7 +60,9 @@ const Burger = styled.div`
   )}
 `;
 
-const BurgerTrigger = styled.a<{ isActive: boolean }>`
+const BurgerTrigger = styled.button.attrs({ className: 'plain-button' })<{
+  isActive: boolean;
+}>`
   position: relative;
   width: 1.2rem;
   height: 0.9rem;
@@ -344,7 +346,6 @@ const Header: FC<Props> = ({
           <Burger>
             <BurgerTrigger
               isActive={isActive}
-              href="#footer-nav-1"
               id="header-burger-trigger"
               aria-label="menu"
               onClick={event => {
