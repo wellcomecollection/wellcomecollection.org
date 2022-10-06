@@ -292,6 +292,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
               audioWithoutDescription,
               bsl,
               title,
+              standaloneTitle,
             } = stop;
             const hasContentOfDesiredType =
               (type === 'audio-with-descriptions' &&
@@ -308,14 +309,22 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                 {type === 'audio-with-descriptions' &&
                   audioWithDescription?.url && (
                     <AudioPlayer
-                      title={`${number}. ${stop.title}`}
+                      title={
+                        stop.title
+                          ? `${number}. ${stop.title}`
+                          : `${number}. ${standaloneTitle}`
+                      }
                       audioFile={audioWithDescription.url}
                     />
                   )}
                 {type === 'audio-without-descriptions' &&
                   audioWithoutDescription?.url && (
                     <AudioPlayer
-                      title={`${number}. ${stop.title}`}
+                      title={
+                        stop.title
+                          ? `${number}. ${stop.title}`
+                          : `${number}. ${standaloneTitle}`
+                      }
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
