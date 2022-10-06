@@ -136,14 +136,12 @@ export function groupEventsByDay(events: Event[]): EventsGroup[] {
 
   // Remove times from event that fall outside the range of the current event group it is in
   const rangesWithFilteredTimes = ranges.map(range => {
-    const start = range.start;
-    const end = range.end;
+    const { start, end } = range;
     const events = range.events.map(event => {
-      const timesInRange = event.times.filter(time => {
-        return (
+      const timesInRange = event.times.filter(
+        time =>
           time.range.startDateTime >= start && time.range.endDateTime <= end
-        );
-      });
+      );
 
       return {
         ...event,
