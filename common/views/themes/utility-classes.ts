@@ -101,14 +101,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: inline-flex;
   }
 
-  .flex--v-start {
-    align-items: flex-start;
-  }
-
-  .flex--v-end {
-    align-items: flex-end;
-  }
-
   .flex--v-center {
     align-items: center;
   }
@@ -135,10 +127,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .flex-1 {
     flex: 1;
-  }
-
-  .pointer {
-    cursor: pointer;
   }
 
   .plain-button {
@@ -205,10 +193,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .inline-block {
     display: inline-block;
-  }
-
-  .nowrap {
-    white-space: nowrap;
   }
 
   .float-r {
@@ -337,10 +321,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .full-width {
     width: 100%;
-  }
-
-  .full-height {
-    height: 100%;
   }
 
   // For when we get HTML out of systems like Prismic

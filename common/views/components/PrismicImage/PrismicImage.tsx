@@ -4,11 +4,16 @@ import styled from 'styled-components';
 import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
 import { ImageType } from '../../../model/image';
 
+// Note: for some reason passing a boolean to desaturate causes a warning;
+// see the commit message for the full stack trace.
+//
+// Since this wrapper is only used in this file, we use the slightly clunkier
+// 1 = true / 0 = false to silence the warning.
 const StyledImage = styled(Image).attrs({
   className: 'font-white',
-})<{ desaturate?: boolean }>`
+})<{ desaturate: 1 | 0 }>`
   background-color: ${props => props.theme.color('neutral.700')};
-  ${props => (props.desaturate ? 'filter: saturate(0%);' : '')}
+  ${props => props.desaturate === 1 && 'filter: saturate(0%);'}
 `;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
@@ -116,7 +121,7 @@ const PrismicImage: FC<Props> = ({
       src={image.contentUrl}
       alt={image.alt || ''}
       loader={createPrismicLoader(maxLoaderWidth, quality)}
-      desaturate={desaturate}
+      desaturate={desaturate ? 1 : 0}
     />
   );
 };

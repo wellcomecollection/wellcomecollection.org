@@ -22,6 +22,14 @@ const BannerContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color('yellow')};
 `;
 
+const CloseButton = styled.button.attrs({
+  className: 'plain-button',
+})`
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+`;
+
 const InfoBanner: FunctionComponent<Props> = ({
   cookieName,
   document,
@@ -85,14 +93,13 @@ const InfoBanner: FunctionComponent<Props> = ({
                 </span>
               </div>
               <Space v={{ size: 'xs', properties: ['margin-top'] }}>
-                <button
-                  className="no-margin no-padding plain-button pointer"
+                <CloseButton
                   onClick={hideInfoBanner}
                   aria-controls="notification"
                 >
                   <Icon icon={cross} title="Close notification" />
                   <span className="visually-hidden">close notification</span>
-                </button>
+                </CloseButton>
               </Space>
             </div>
           </div>
