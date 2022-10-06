@@ -95,9 +95,9 @@ const FooterNav = ({
       aria-label="Footer navigation"
       isInline={isInline}
     >
-      {itemsList.map((link, i) => (
+      {itemsList.map(link => (
         <li key={link.title}>
-          <NavLinkElement id={`footer-nav-${i}`} as="a" href={link.href}>
+          <NavLinkElement as="a" href={link.href}>
             {link.title}
           </NavLinkElement>
         </li>
