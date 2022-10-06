@@ -255,6 +255,10 @@ const ScrubberWrapper = styled.div`
   lineheight: 0;
 `;
 
+const ScrubberInput = styled.input`
+  width: 100%;
+`;
+
 const Scrubber: FC<ScrubberProps> = ({
   startTime,
   duration,
@@ -262,18 +266,21 @@ const Scrubber: FC<ScrubberProps> = ({
   id,
   progressBarRef,
 }) => {
+  const id = `scrubber-${id}`;
+
   return (
     <ScrubberWrapper>
-      <label className="visually-hidden" htmlFor={`scrubber-${id}`}>
+      <label className="visually-hidden" htmlFor={id}>
         Audio time scrubber
       </label>
-      <input
-        className="full-width"
-        aria-valuetext={`Elapsed time: ${
-          formatTime(startTime).nonVisual
-        }, duration ${formatTime(duration).nonVisual}`}
+      <ScrubberInput
+        aria-valuetext={
+          'Elapsed time: ' +
+          `${formatTime(startTime).nonVisual}, ` +
+          `duration ${formatTime(duration).nonVisual}`
+        }
         defaultValue="0"
-        id={`scrubber-${id}`}
+        id={id}
         min={0}
         onChange={onChange}
         ref={progressBarRef}
