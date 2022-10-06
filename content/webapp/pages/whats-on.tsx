@@ -12,7 +12,7 @@ import {
   filterEventsForToday,
   filterEventsForWeekend,
 } from '../services/prismic/events';
-import { formatDay, formatDate } from '@weco/common/utils/format-date';
+import { formatDayName, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
 import {
   getTodaysVenueHours,
@@ -163,9 +163,9 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
       {period === 'today' && <HTMLDate date={start} />}
       {period === 'this-weekend' && (
         <>
-          <time dateTime={formatDate(start)}>{formatDay(start)}</time>
+          <time dateTime={formatDate(start)}>{formatDayName(start)}</time>
           {' – '}
-          <time dateTime={formatDate(end!)}>{formatDay(end!)}</time>
+          <time dateTime={formatDate(end!)}>{formatDayName(end!)}</time>
         </>
       )}
       {period === 'current-and-coming-up' && (
