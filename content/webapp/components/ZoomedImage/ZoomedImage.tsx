@@ -33,8 +33,12 @@ const ZoomButton = styled.button`
 `;
 
 const StyledDialog = styled.dialog`
+  position: fixed;
+  top: 0;
+  bottom: 0;
   border: 0;
   padding: 0;
+  margin: 0;
   max-width: 100%;
   max-height: 100%;
   height: 100vh;
@@ -43,14 +47,17 @@ const StyledDialog = styled.dialog`
   justify-content: center;
   align-items: center;
   background: ${props => props.theme.color('neutral.700')};
-  position: fixed;
-  top: 0;
   z-index: 3;
 
   button {
     position: absolute;
     top: 10px;
     right: 10px;
+  }
+
+  img {
+    max-width: 100vw;
+    max-height: 100vh;
   }
 `;
 
