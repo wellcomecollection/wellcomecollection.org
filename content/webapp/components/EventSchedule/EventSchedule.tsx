@@ -8,6 +8,10 @@ type Props = {
   schedule: EventScheduleType;
 };
 
+// Note: if you're working on this component, a good test case is
+// "Festival of Minds and Bodies" (XagmOxAAACIAo0v8), which is
+// a multi-day event with repeated schedule items.  Some of the items
+// span multiple days.
 const EventSchedule: FC<Props> = ({ schedule }) => {
   const events = schedule.map(({ event }) => event);
   const groupedEvents = groupEventsByDay(events);

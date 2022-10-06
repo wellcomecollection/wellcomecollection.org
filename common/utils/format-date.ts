@@ -6,16 +6,16 @@ function formatLondon(date: Date, options: Intl.DateTimeFormatOptions): string {
 }
 
 /** Formats a date as the day of the week, e.g. 'Monday', 'Tuesday'. */
-export function formatDay(date: Date): string {
+export function formatDayName(date: Date): string {
   return formatLondon(date, { weekday: 'long' });
 }
 
 /** Formats a date as the day of the week, plus the day of the month and the name of the month.
  *
- * e.g. 'Thursday 29 September'
+ * e.g. 'Thursday 29 September 2022'
  */
 export function formatDayDate(date: Date): string {
-  return `${formatDay(date)} ${formatDate(date)}`;
+  return `${formatDayName(date)} ${formatDate(date)}`;
 }
 
 /** Formats a date as the day of the month, the name of the month, and the year.

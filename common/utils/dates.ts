@@ -88,9 +88,7 @@ export function isDayPast(date: Date): boolean {
 
 // Returns the day before the current date
 export function dayBefore(date: Date): Date {
-  const prevDay = new Date(date);
-  prevDay.setDate(date.getDate() - 1);
-  return prevDay;
+  return addDays(date, -1);
 }
 
 // TODO: Does setting these to UTC 00:00:00 cause issues in London?

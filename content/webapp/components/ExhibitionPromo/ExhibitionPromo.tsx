@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { formatDate } from '@weco/common/utils/format-date';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
@@ -10,6 +9,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 
 type Props = {
   exhibition: ExhibitionBasic;
@@ -82,8 +82,9 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
               className={`${font('intr', 5)} no-padding`}
             >
               <>
-                <time dateTime={formatDate(start)}>{formatDate(start)}</time> –{' '}
-                <time dateTime={formatDate(end)}>{formatDate(end)}</time>
+                <HTMLDate date={start} />
+                {' – '}
+                <HTMLDate date={end} />
               </>
             </Space>
           )}

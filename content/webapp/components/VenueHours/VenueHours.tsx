@@ -1,5 +1,5 @@
 import { FunctionComponent, Fragment } from 'react';
-import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
+import { formatDayName, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -197,7 +197,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                  */}
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
-                    {p.overrideDate && formatDay(p.overrideDate)}{' '}
+                    {p.overrideDate && formatDayName(p.overrideDate)}{' '}
                     {p.overrideDate && formatDayMonth(p.overrideDate)}{' '}
                     {p.isClosed ? 'Closed' : `${p.opens} – ${p.closes}`}
                   </li>

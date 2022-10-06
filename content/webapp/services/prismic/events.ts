@@ -6,7 +6,7 @@ import {
   isDayPast,
   isFuture,
   isPast,
-  isSameDay,
+  isSameDayOrBefore,
   startOfDay,
 } from '@weco/common/utils/dates';
 import { Event, EventBasic, HasTimes } from '../../types/events';
@@ -124,14 +124,11 @@ export function groupEventsByDay(events: Event[]): EventsGroup[] {
       }));
 
     ranges.forEach(range => {
-      const isInRange = times.find(time => {
-        if (
-          (time.start >= range.start && time.start <= range.end) ||
-          (time.end >= range.start && time.end <= range.end)
-        ) {
-          return true;
-        }
-      });
+      const isInRange = times.find(
+        time =>
+          (range.start <= time.start && time.start <= range.end) ||
+          (range.start <= time.end && time.end <= range.end)
+      );
       const newEvents = isInRange ? range.events.concat([event]) : range.events;
       range.events = newEvents;
     });
@@ -139,14 +136,12 @@ export function groupEventsByDay(events: Event[]): EventsGroup[] {
 
   // Remove times from event that fall outside the range of the current event group it is in
   const rangesWithFilteredTimes = ranges.map(range => {
-    const start = range.start;
-    const end = range.end;
+    const { start, end } = range;
     const events = range.events.map(event => {
-      const timesInRange = event.times.filter(time => {
-        return (
+      const timesInRange = event.times.filter(
+        time =>
           time.range.startDateTime >= start && time.range.endDateTime <= end
-        );
-      });
+      );
 
       return {
         ...event,
@@ -176,7 +171,7 @@ type Range = {
 
 // TODO: maybe use a Map?
 function getRanges({ start, end }: RangeProps, acc: Range[] = []): Range[] {
-  if (start < end || isSameDay(start, end)) {
+  if (isSameDayOrBefore(start, end)) {
     const newStart = addDays(start, 1);
     const newAcc: Range[] = acc.concat([
       {

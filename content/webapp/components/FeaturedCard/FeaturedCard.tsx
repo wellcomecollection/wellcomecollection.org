@@ -16,7 +16,6 @@ import { grid, font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import { formatDate } from '@weco/common/utils/format-date';
 import { trackEvent } from '@weco/common/utils/ga';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Page } from '../../types/pages';
@@ -26,6 +25,7 @@ import { Event } from '../../types/events';
 import { Guide } from '../../types/guides';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 
 type PartialFeaturedCard = {
   id: string;
@@ -149,13 +149,9 @@ const FeaturedCardExhibitionBody = ({
           className={`${font('intr', 4)} no-margin no-padding`}
         >
           <>
-            <time dateTime={exhibition.start.toUTCString()}>
-              {formatDate(exhibition.start)}
-            </time>
+            <HTMLDate date={exhibition.start} />
             {' – '}
-            <time dateTime={exhibition.end.toISOString()}>
-              {formatDate(exhibition.end)}
-            </time>
+            <HTMLDate date={exhibition.end} />
           </>
         </Space>
       )}
