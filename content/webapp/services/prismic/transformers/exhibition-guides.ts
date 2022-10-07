@@ -116,8 +116,8 @@ export function transformExhibitionGuide(
 ): ExhibitionGuide {
   const { data } = document;
 
-  const components: ExhibitionGuideComponent[] = data.components?.map(
-    component => {
+  const components: ExhibitionGuideComponent[] = data.components
+    ?.map(component => {
       return {
         number: component.number || '',
         title: (component.title && asText(component.title)) || '',
@@ -136,8 +136,10 @@ export function transformExhibitionGuide(
           ? transformYoutubeEmbed(component['bsl-video'])
           : {},
       };
-    }
-  );
+    })
+    .sort(({ number: aNumber }, { number: bNumber }) => {
+      return aNumber - bNumber;
+    });
 
   const introText = (data.introText && asRichText(data.introText)) || [];
   const promo =
