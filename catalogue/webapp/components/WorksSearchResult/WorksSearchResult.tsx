@@ -9,7 +9,6 @@ import {
   getProductionDates,
   getCardLabels,
 } from '../../utils/works';
-import { trackEvent } from '@weco/common/utils/ga';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 
 // Components
@@ -56,19 +55,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
       source="works_search_result"
       passHref
     >
-      <Wrapper
-        as="a"
-        onClick={() => {
-          // TODO remove?
-          // We've left `WorkCard` here for legacy tracking.
-          // We don't really use it.
-          trackEvent({
-            category: 'WorkCard',
-            action: 'follow link',
-            label: work.id,
-          });
-        }}
-      >
+      <Wrapper as="a">
         <Container>
           {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
             <Preview>
