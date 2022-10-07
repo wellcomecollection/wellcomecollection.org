@@ -138,10 +138,12 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     ? Boolean(
         format?.title === 'Article' ||
           format?.title === 'Serial' ||
-          format?.title === 'Book extract'
+          format?.title === 'Book extract' ||
+          format?.title === 'Long read' ||
+          format?.title === 'Photo story' ||
+          format?.title === 'Prose Poem'
       )
     : Boolean(labels[0]?.text === 'Serial' || labels[0]?.text === 'Article');
-
 
   return {
     ...genericFields,
