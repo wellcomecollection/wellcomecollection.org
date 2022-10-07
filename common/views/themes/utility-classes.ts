@@ -191,10 +191,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: inline-block;
   }
 
-  .float-r {
-    float: right;
-  }
-
   .float-l {
     float: left;
   }
