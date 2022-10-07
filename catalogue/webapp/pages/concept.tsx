@@ -17,7 +17,7 @@ import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import WorksSearchResultsV2 from '../components/WorksSearchResults/WorksSearchResultsV2';
+import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
@@ -289,8 +289,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-worksAbout"
                   aria-labelledby="tab-worksAbout"
                 >
-                  {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
-                  <WorksSearchResultsV2 works={worksAbout} />
+                  <WorksSearchResults works={worksAbout} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksAbout.totalResults})`}
@@ -311,8 +310,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-worksBy"
                   aria-labelledby="tab-worksBy"
                 >
-                  {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
-                  <WorksSearchResultsV2 works={worksBy} />
+                  <WorksSearchResults works={worksBy} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksBy.totalResults})`}

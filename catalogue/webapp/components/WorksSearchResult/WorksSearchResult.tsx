@@ -1,66 +1,37 @@
-import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import { FC } from 'react';
+
+// Types
 import { Work } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
+
+// Helpers/Utils
 import {
   getArchiveLabels,
   getProductionDates,
   getCardLabels,
 } from '../../utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import IIIFImage from '../IIIFImage/IIIFImage';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
-import Space, {
-  SpaceComponentProps,
-} from '@weco/common/views/components/styled/Space';
+
+// Components
+import Space from '@weco/common/views/components/styled/Space';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import {
+  Container,
+  Wrapper,
+  Details,
+  Preview,
+  PreviewImage,
+  WorkInformation,
+  WorkInformationItem,
+  WorkTitleHeading,
+} from './WorksSearchResult.styles';
 
 type Props = {
   work: Work;
   resultPosition: number;
 };
-
-const Wrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
-`;
-
-const Container = styled.div`
-  ${props => props.theme.media('medium')`
-    display: flex;
-  `}
-`;
-const Details = styled.div`
-  ${props => props.theme.media('medium')`
-    flex-grow: 1;
-    max-width: 800px;
-  `}
-`;
-const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
-  h: { size: 'm', properties: ['padding-left'] },
-}))`
-  text-align: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 178px;
-  height: 178px;
-  margin-left: auto;
-  margin-top: ${props => props.theme.spacingUnit * 2}px;
-  position: relative;
-
-  ${props => props.theme.media('medium')`
-    margin-top: 0;
-  `}
-
-  img {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-  }
-`;
 
 // TODO: remove, hack to handle the fact that we are pulling through PDF thumbnails.
 // These will be removed from the API at some stage.
@@ -69,10 +40,7 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkSearchResult: FunctionComponent<Props> = ({
-  work,
-  resultPosition,
-}: Props) => {
+const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
@@ -82,101 +50,72 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   )?.agent.label;
 
   return (
-    <Wrapper>
-      <WorkLink
-        id={work.id}
-        resultPosition={resultPosition}
-        source="works_search_result"
-        passHref
+    <WorkLink
+      id={work.id}
+      resultPosition={resultPosition}
+      source="works_search_result"
+      passHref
+    >
+      <Wrapper
+        as="a"
+        onClick={() => {
+          // We've left `WorkCard` here for legacy tracking.
+          // We don't really use it.
+          trackEvent({
+            category: 'WorkCard',
+            action: 'follow link',
+            label: work.id,
+          });
+        }}
       >
-        <Space
-          as="a"
-          v={{
-            size: 'm',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          className="plain-link block card-link"
-          onClick={() => {
-            // We've left `WorkCard` here for legacy tracking.
-            // We don't really use it.
-            trackEvent({
-              category: 'WorkCard',
-              action: 'follow link',
-              label: work.id,
-            });
-          }}
-        >
-          <Container>
-            <Details>
-              <h2 className={`${font('intb', 4)} card-link__title`}>
-                <WorkTitle title={work.title} />
-              </h2>
+        <Container>
+          {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
+            <Preview>
+              <PreviewImage
+                alt={`view ${work.title}`}
+                src={convertIiifImageUri(work.thumbnail.url, 120)}
+              />
+            </Preview>
+          )}
+          <Details>
+            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <LabelsList
+                labels={cardLabels}
+                defaultLabelColor="warmNeutral.300"
+              />
+            </Space>
+            <WorkTitleHeading>
+              <WorkTitle title={work.title} />
+            </WorkTitleHeading>
 
+            <WorkInformation>
               {primaryContributorLabel && (
-                <Space h={{ size: 'm', properties: ['margin-right'] }}>
-                  <LinkLabels
-                    items={[
-                      {
-                        text: primaryContributorLabel,
-                      },
-                    ]}
-                  />
-                </Space>
+                <WorkInformationItem>
+                  {primaryContributorLabel}
+                </WorkInformationItem>
               )}
 
               {productionDates.length > 0 && (
-                <LinkLabels
-                  heading="Date"
-                  items={[
-                    {
-                      text: productionDates[0],
-                      url: null,
-                    },
-                  ]}
-                />
+                <WorkInformationItem>
+                  Date: {productionDates[0]}
+                </WorkInformationItem>
               )}
 
               {archiveLabels?.reference && (
-                <LinkLabels
-                  heading="Reference"
-                  items={[{ text: archiveLabels.reference }]}
-                />
+                <WorkInformationItem>
+                  Reference: {archiveLabels && archiveLabels?.reference}
+                </WorkInformationItem>
               )}
-              {archiveLabels?.partOf && (
-                <LinkLabels
-                  heading="Part of"
-                  items={[{ text: archiveLabels.partOf }]}
-                />
-              )}
-              <Space
-                v={{
-                  size: 'm',
-                  properties: ['margin-top'],
-                }}
-              >
-                <LabelsList
-                  labels={cardLabels}
-                  defaultLabelColor="warmNeutral.300"
-                />
-              </Space>
-            </Details>
-            {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
-              <Preview>
-                <IIIFImage
-                  image={{
-                    alt: '',
-                    contentUrl: convertIiifImageUri(work.thumbnail.url, 178),
-                    width: 178,
-                    height: 178,
-                  }}
-                  layout="fill"
-                />
-              </Preview>
+            </WorkInformation>
+            {archiveLabels?.partOf && (
+              <WorkInformation>
+                Part of: {archiveLabels && archiveLabels?.partOf}
+              </WorkInformation>
             )}
-          </Container>
-        </Space>
-      </WorkLink>
-    </Wrapper>
+          </Details>
+        </Container>
+      </Wrapper>
+    </WorkLink>
   );
 };
-export default WorkSearchResult;
+export default WorkSearchResultV2;
