@@ -59,6 +59,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
       <Wrapper
         as="a"
         onClick={() => {
+          // TODO remove?
           // We've left `WorkCard` here for legacy tracking.
           // We don't really use it.
           trackEvent({
