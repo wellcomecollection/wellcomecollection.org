@@ -177,6 +177,20 @@ function getTypeTitle(type: GuideType): string {
   }
 }
 
+// type titleOptions = {
+//   title?: string;
+//   standaloneTitle: string;
+//   number: number;
+// };
+
+function getTitle(stop: ExhibitionGuideComponent): string {
+  if (stop.title) {
+    return `${stop.number}. ${stop.title}`;
+  } else {
+    return `${stop.number}. ${stop.standaloneTitle}`;
+  }
+}
+
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
@@ -309,22 +323,14 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                 {type === 'audio-with-descriptions' &&
                   audioWithDescription?.url && (
                     <AudioPlayer
-                      title={
-                        stop.title
-                          ? `${number}. ${stop.title}`
-                          : `${number}. ${standaloneTitle}`
-                      }
+                      title={getTitle(stop)}
                       audioFile={audioWithDescription.url}
                     />
                   )}
                 {type === 'audio-without-descriptions' &&
                   audioWithoutDescription?.url && (
                     <AudioPlayer
-                      title={
-                        stop.title
-                          ? `${number}. ${stop.title}`
-                          : `${number}. ${standaloneTitle}`
-                      }
+                      title={getTitle(stop)}
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
@@ -332,9 +338,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                   <figure className="no-margin">
                     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                       <figcaption className={font('intb', 5)}>
-                        {stop.title
-                          ? `${number}. ${stop.title}`
-                          : `${number}. ${standaloneTitle}`}
+                        {getTitle(stop)}
                       </figcaption>
                     </Space>
                     <VideoEmbed embedUrl={bsl.embedUrl} />
