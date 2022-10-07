@@ -177,12 +177,6 @@ function getTypeTitle(type: GuideType): string {
   }
 }
 
-// type titleOptions = {
-//   title?: string;
-//   standaloneTitle: string;
-//   number: number;
-// };
-
 function getTitle(stop: ExhibitionGuideComponent): string {
   if (stop.title) {
     return `${stop.number}. ${stop.title}`;
