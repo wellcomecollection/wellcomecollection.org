@@ -329,7 +329,16 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                     />
                   )}
                 {type === 'bsl' && bsl.embedUrl && (
-                  <VideoEmbed embedUrl={bsl.embedUrl} />
+                  <figure className="no-margin">
+                    <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                      <figcaption className={font('intb', 5)}>
+                        {stop.title
+                          ? `${number}. ${stop.title}`
+                          : `${number}. ${standaloneTitle}`}
+                      </figcaption>
+                    </Space>
+                    <VideoEmbed embedUrl={bsl.embedUrl} />
+                  </figure>
                 )}
               </Stop>
             ) : null; // We've decided to omit stops that don't have content for the selected type.
