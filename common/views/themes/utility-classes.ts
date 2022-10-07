@@ -260,15 +260,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     border-top-left-radius: ${themeValues.borderRadiusUnit}px;
     border-bottom-right-radius: ${themeValues.borderRadiusUnit}px;
   }
-  .rounded-top {
-    border-top-left-radius: ${themeValues.borderRadiusUnit}px;
-    border-top-right-radius: ${themeValues.borderRadiusUnit}px;
-  }
-
-  .rounded-bottom {
-    border-bottom-left-radius: ${themeValues.borderRadiusUnit}px;
-    border-bottom-right-radius: ${themeValues.borderRadiusUnit}px;
-  }
 
   .round {
     border-radius: 50%;
