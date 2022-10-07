@@ -377,14 +377,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const { id } = context.query;
 
-    // Note: These pages don't need to be behind a toggle, but I'm putting them here
-    // as a way to test the concepts toggle.
-    //
-    // We will want a toggle in place for linking to concepts from works pages.
-    if (!serverData.toggles.conceptsPages) {
-      return { notFound: true };
-    }
-
     if (!looksLikeCanonicalId(id)) {
       return { notFound: true };
     }
