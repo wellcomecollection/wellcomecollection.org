@@ -330,6 +330,19 @@ export const exhibitionGuidesLinks: NavLink[] = [
   },
 ];
 
+const GridCell = styled.div.attrs({
+  className: 'grid__cell',
+})`
+  position: relative;
+`;
+
+const Container = styled.div.attrs({
+  className: 'container',
+})`
+  display: flex;
+  align-items: center;
+`;
+
 const Header: FC<Props> = ({
   siteSection,
   customNavLinks,
@@ -339,8 +352,8 @@ const Header: FC<Props> = ({
 
   return (
     <Wrapper isBurgerOpen={isActive}>
-      <div className="relative grid__cell">
-        <div className="flex flex--v-center container">
+      <GridCell>
+        <Container>
           <Burger>
             <BurgerTrigger
               isActive={isActive}
@@ -389,8 +402,8 @@ const Header: FC<Props> = ({
             </HeaderNav>
             {showLibraryLogin && <DesktopSignIn />}
           </NavLoginWrapper>
-        </div>
-      </div>
+        </Container>
+      </GridCell>
     </Wrapper>
   );
 };
