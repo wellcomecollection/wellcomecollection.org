@@ -304,10 +304,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     visibility: hidden;
   }
 
-  .overflow-hidden {
-    overflow: hidden;
-  }
-
   // TODO: use this for e.g. Promo hover behaviour too
   .card-link {
     text-decoration: none;
