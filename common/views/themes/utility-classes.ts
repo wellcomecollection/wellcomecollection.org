@@ -80,10 +80,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     -webkit-overflow-scrolling: touch;
   }
 
-  .v-align-middle {
-    vertical-align: middle;
-  }
-
   .flex {
     display: flex;
   }

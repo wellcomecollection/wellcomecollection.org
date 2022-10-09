@@ -34,6 +34,15 @@ const Wrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('white')};
 `;
 
+const IconWrapper = styled(Space).attrs({
+  h: {
+    size: 'xs',
+    properties: ['margin-right'],
+  },
+})`
+  vertical-align: middle;
+`;
+
 type CancelFilterProps = {
   text?: string;
   children?: ReactNode;
@@ -51,16 +60,9 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
         properties: ['margin-right'],
       }}
     >
-      <Space
-        className="v-align-middle"
-        as="span"
-        h={{
-          size: 'xs',
-          properties: ['margin-right'],
-        }}
-      >
+      <IconWrapper as="span">
         <Icon icon={cross} matchText={true} color="neutral.500" />
-      </Space>
+      </IconWrapper>
       <span className="visually-hidden">remove </span>
       {text || children}
     </Space>
