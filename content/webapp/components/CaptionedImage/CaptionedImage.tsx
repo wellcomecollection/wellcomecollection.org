@@ -5,11 +5,11 @@ import { CaptionedImage as CaptionedImageType } from '@weco/common/model/caption
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 
-type CaptionedImageProps = {
+type CaptionedImageFigureProps = {
   isBody?: boolean;
 };
 
-const CaptionedImageFigure = styled.div<CaptionedImageProps>`
+const CaptionedImageFigure = styled.div<CaptionedImageFigureProps>`
   margin: 0;
   display: inline-block;
   width: 100%;
@@ -57,12 +57,12 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
   }
 `;
 
-type UiCaptionedImageProps = CaptionedImageType & {
+type CaptionedImageProps = CaptionedImageType & {
   isBody?: boolean;
   preCaptionNode?: ReactNode;
 };
 
-const CaptionedImage: FC<UiCaptionedImageProps> = ({
+const CaptionedImage: FC<CaptionedImageProps> = ({
   caption,
   preCaptionNode,
   image,
