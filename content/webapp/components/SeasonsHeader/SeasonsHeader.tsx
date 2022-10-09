@@ -19,6 +19,10 @@ const TextWrapper = styled.div`
   border-left: 1px solid ${props => props.theme.color('accent.salmon')};
 `;
 
+const FeaturedMediaWrapper = styled.div`
+  position: relative;
+`;
+
 type Props = {
   labels: ComponentProps<typeof LabelsList>;
   title: string;
@@ -40,7 +44,9 @@ const SeasonsHeader: FunctionComponent<Props> = ({
     <Layout12>
       <HeaderWrapper>
         <WobblyBottom color="white">
-          {FeaturedMedia && <div className="relative">{FeaturedMedia}</div>}
+          {FeaturedMedia && (
+            <FeaturedMediaWrapper>{FeaturedMedia}</FeaturedMediaWrapper>
+          )}
           <Space
             v={{
               size: 'l',

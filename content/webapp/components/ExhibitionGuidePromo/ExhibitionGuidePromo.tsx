@@ -5,6 +5,11 @@ import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import styled from 'styled-components';
+
+const ImageWrapper = styled.div`
+  position: relative;
+`;
 
 type Props = {
   exhibitionGuide: ExhibitionGuideBasic;
@@ -26,8 +31,8 @@ const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
         });
       }}
     >
-      <div className="relative">
-        {exhibitionGuide.promo?.image && (
+      {exhibitionGuide.promo?.image && (
+        <ImageWrapper>
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
             // users don't have to listen to the alt text before hearing the
@@ -44,8 +49,8 @@ const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
             }}
             quality="low"
           />
-        )}
-      </div>
+        </ImageWrapper>
+      )}
 
       <CardBody>
         <div>
