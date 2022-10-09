@@ -16,6 +16,11 @@ import { Place } from '../../types/places';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import styled from 'styled-components';
+
+const ImageWrapper = styled.div`
+  position: relative;
+`;
 
 type Props = {
   event: EventBasic;
@@ -70,7 +75,7 @@ const EventPromo: FC<Props> = ({
         });
       }}
     >
-      <div className="relative">
+      <ImageWrapper>
         {event.promo?.image && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -95,7 +100,7 @@ const EventPromo: FC<Props> = ({
             <LabelsList labels={event.primaryLabels} />
           </div>
         )}
-      </div>
+      </ImageWrapper>
 
       <CardBody>
         <div>

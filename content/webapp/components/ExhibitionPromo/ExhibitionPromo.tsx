@@ -10,6 +10,11 @@ import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import styled from 'styled-components';
+
+const ImageWrapper = styled.div`
+  position: relative;
+`;
 
 type Props = {
   exhibition: ExhibitionBasic;
@@ -39,7 +44,7 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
         });
       }}
     >
-      <div className="relative">
+      <ImageWrapper>
         {isNotUndefined(image) ? (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -61,7 +66,7 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
         <div style={{ position: 'absolute', bottom: 0 }}>
           <LabelsList labels={labels} />
         </div>
-      </div>
+      </ImageWrapper>
 
       <CardBody>
         <div>
