@@ -71,6 +71,7 @@ type ZoomedPrismicImageProps = {
 
 const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
   const { zoomImages } = useToggles();
+  const [canShowZoom, setCanShowZoom] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageWidth, setImageWidth] = useState(0);
   const [isZoom, setIsZoom] = useState(false);
@@ -82,6 +83,13 @@ const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
     setImageWidth(viewportWidth);
     setIsZoom(true);
   }
+
+  useEffect(() => {
+    // Don't show zoom button on browsers where the API doesn't exist (e.g.
+    // IE11)
+    const testDialog = document.createElement('dialog');
+    setCanShowZoom(Boolean(testDialog.showModal));
+  }, []);
 
   useEffect(() => {
     function handleClose() {
@@ -100,7 +108,7 @@ const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
     setIsLoaded(false);
   }
 
-  return zoomImages ? (
+  return zoomImages && canShowZoom ? (
     <>
       <ZoomButton onClick={openDialog}>
         <Icon icon={expand} color="white" />
