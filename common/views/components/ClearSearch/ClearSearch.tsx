@@ -2,6 +2,17 @@ import { FunctionComponent, RefObject, Dispatch, SetStateAction } from 'react';
 import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import { clear } from '@weco/common/icons';
+import styled from 'styled-components';
+
+const Button = styled.button.attrs({
+  className: 'plain-button',
+})`
+  position: absolute;
+  line-height: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0;
+`;
 
 type Props = {
   inputRef: RefObject<HTMLInputElement>;
@@ -9,6 +20,7 @@ type Props = {
   gaEvent?: GaEvent;
   right?: number;
 };
+
 const ClearSearch: FunctionComponent<Props> = ({
   inputRef,
   setValue,
@@ -16,9 +28,8 @@ const ClearSearch: FunctionComponent<Props> = ({
   right,
 }: Props) => {
   return (
-    <button
+    <Button
       style={right ? { right: `${right}px` } : undefined}
-      className="absolute line-height-1 plain-button v-center no-padding"
       onClick={() => {
         gaEvent && trackEvent(gaEvent);
         setValue('');
@@ -27,7 +38,7 @@ const ClearSearch: FunctionComponent<Props> = ({
       type="button"
     >
       <Icon icon={clear} title="Clear" />
-    </button>
+    </Button>
   );
 };
 

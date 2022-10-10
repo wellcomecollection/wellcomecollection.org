@@ -76,21 +76,12 @@ export const utilityClasses = css<GlobalStyleProps>`
     )}
   }
 
-  .line-height-1.line-height-1 {
-    line-height: 1;
-  }
-
   .touch-scroll {
     -webkit-overflow-scrolling: touch;
   }
 
   .v-align-middle {
     vertical-align: middle;
-  }
-
-  .v-center {
-    top: 50%;
-    transform: translateY(-50%);
   }
 
   .flex {
