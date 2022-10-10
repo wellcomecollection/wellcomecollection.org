@@ -23,7 +23,7 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { getServerData } from '@weco/common/server-data';
-import { AppErrorProps } from '@weco/common/services/app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { RegistrationInputs, decodeToken } from '../src/utility/jwt-codec';
@@ -61,14 +61,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     try {
       token = decodeToken(sessionToken, config.auth0.actionSecret);
     } catch (error) {
-      return {
-        props: {
-          err: {
-            statusCode: 400,
-            message: 'Invalid session_token query parameter',
-          },
-        },
-      };
+      return appError(context, 400, 'Invalid session_token query parameter');
     }
 
     if (typeof token !== 'string') {
