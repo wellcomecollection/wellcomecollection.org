@@ -209,7 +209,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                 <div className="container">
                   <div className="grid">
                     <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                      <div className="flex flex--h-space-between flex--v-center flex--wrap">
+                      <PaginationWrapper>
                         <Paginator
                           query={query}
                           currentPage={page}
@@ -241,7 +241,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                           }}
                           hideMobileTotalResults={true}
                         />
-                      </div>
+                      </PaginationWrapper>
                     </div>
                   </div>
                 </div>
