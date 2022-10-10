@@ -69,6 +69,14 @@ const ResultCount: FC<{ paginatedResults: PaginatedResults<any> }> = ({
   );
 };
 
+const FreeAdmissionMessage: FC = () => (
+  <Layout12>
+    <div className="flex-inline flex--v-center">
+      <span className={font('intb', 4)}>Free admission</span>
+    </div>
+  </Layout12>
+);
+
 const LayoutPaginatedResults: FC<Props> = ({
   title,
   description,
@@ -96,13 +104,7 @@ const LayoutPaginatedResults: FC<Props> = ({
     {paginatedResults.totalPages > 1 && (
       <ResultCount paginatedResults={paginatedResults} />
     )}
-    {showFreeAdmissionMessage && (
-      <Layout12>
-        <div className="flex-inline flex--v-center">
-          <span className={font('intb', 4)}>Free admission</span>
-        </div>
-      </Layout12>
-    )}
+    {showFreeAdmissionMessage && <FreeAdmissionMessage />}
 
     <Space v={{ size: 'l', properties: ['margin-top'] }}>
       {paginatedResults.results.length > 0 ? (
