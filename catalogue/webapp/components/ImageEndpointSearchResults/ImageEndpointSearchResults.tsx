@@ -9,6 +9,7 @@ import Gallery from 'react-photo-gallery';
 import styled from 'styled-components';
 
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { hexToRgb } from '@weco/common/utils/convert-colors';
 import { Image, CatalogueResultsList } from '@weco/common/model/catalogue';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
@@ -16,17 +17,17 @@ import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
   images: CatalogueResultsList<Image>;
-  background?: PaletteColor;
+  background?: string;
 };
 
 type GalleryImageProps = Image & {
   src: string;
   width: number;
   height: number;
+  averageColor?: string;
 };
 
 const imageMargin = 16;
@@ -89,6 +90,8 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
 
   const imageRenderer = useCallback(galleryImage => {
     const photo: GalleryImageProps = galleryImage.photo;
+    const rgbColor = hexToRgb(photo.averageColor || '');
+
     return (
       <ImageContainer key={galleryImage.key} role="listitem">
         <ImageCard
@@ -106,7 +109,11 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             setIsActive(true);
           }}
           layout="fixed"
-          background={background}
+          background={
+            background ||
+            (rgbColor &&
+              `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
+          }
         />
       </ImageContainer>
     );
@@ -155,7 +162,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                     }
                   }}
                   layout="fill"
-                  background={background}
                 />
               </Space>
             </li>

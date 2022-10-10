@@ -4,6 +4,7 @@ import { SeriesBasic } from './series';
 import { BookBasic } from './books';
 
 export type StoriesLanding = {
+  id: string;
   introText: RichTextField;
   storiesTitle?: string;
   storiesDescription?: RichTextField;

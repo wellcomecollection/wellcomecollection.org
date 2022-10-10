@@ -14,21 +14,6 @@ export function today(): Date {
   return new Date();
 }
 
-export function getEarliestFutureDateRange(
-  dateRanges: DateRange[],
-  fromDate: Date | undefined = new Date()
-): DateRange | undefined {
-  const now = new Date();
-
-  return dateRanges
-    .sort((a, b) => (a.start > b.start ? 1 : -1))
-    .find(
-      ({ end }) =>
-        (isSameDay(end, fromDate) || end > fromDate) &&
-        (isSameDay(end, now) || end > now)
-    );
-}
-
 export function isPast(date: Date): boolean {
   const now = new Date();
   return date < now;
@@ -103,9 +88,7 @@ export function isDayPast(date: Date): boolean {
 
 // Returns the day before the current date
 export function dayBefore(date: Date): Date {
-  const prevDay = new Date(date);
-  prevDay.setDate(date.getDate() - 1);
-  return prevDay;
+  return addDays(date, -1);
 }
 
 // TODO: Does setting these to UTC 00:00:00 cause issues in London?

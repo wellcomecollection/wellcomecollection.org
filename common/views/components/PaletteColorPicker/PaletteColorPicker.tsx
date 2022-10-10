@@ -1,8 +1,8 @@
-import styled from 'styled-components';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 import HueSlider from './HueSlider';
-import { hexToHsv, hsvToHex } from './conversions';
-import { font } from '../../../utils/classnames';
+import { hexToHsv, hsvToHex } from '@weco/common/utils/convert-colors';
+import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   name: string;

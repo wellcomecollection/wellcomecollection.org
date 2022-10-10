@@ -1,6 +1,6 @@
 import {
   formatDate,
-  formatDay,
+  formatDayName,
   formatDayDate,
   formatDayMonth,
   formatDuration,
@@ -9,7 +9,7 @@ import {
 } from './format-date';
 
 it('formats a day', () => {
-  const result = formatDay(new Date('2001-01-01'));
+  const result = formatDayName(new Date('2001-01-01'));
 
   expect(result).toEqual('Monday');
 });

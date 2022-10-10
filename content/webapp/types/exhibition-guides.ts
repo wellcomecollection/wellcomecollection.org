@@ -42,6 +42,12 @@ export type ExhibitionGuideBasic = {
   image?: ImageType;
   promo?: ImagePromo;
   relatedExhibition: Exhibit | undefined;
+  availableTypes: {
+    BSLVideo: boolean;
+    captionsOrTranscripts: boolean;
+    audioWithoutDescriptions: boolean;
+    audioWithDescriptions: boolean;
+  };
 };
 
 export type ExhibitionGuide = ExhibitionGuideBasic & {

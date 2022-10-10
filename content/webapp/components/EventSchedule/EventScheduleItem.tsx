@@ -10,6 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { isEventPast } from '../../services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
+import HTMLTime from '@weco/common/views/components/HTMLTime/HTMLTime';
 
 type Props = {
   event: Event;
@@ -62,20 +63,15 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
         >
           {event.times &&
             event.times.map(t => {
-              const startTimeString = t.range.startDateTime.toString();
-              const endTimeString = t.range.endDateTime.toString();
+              const startTimeString = t.range.startDateTime.toISOString();
               return (
                 <h4
                   key={`${event.title} ${startTimeString}`}
                   className={`${font('intb', 5)} no-margin`}
                 >
-                  <time dateTime={startTimeString}>
-                    {formatTime(t.range.startDateTime)}
-                  </time>
-                  &ndash;
-                  <time dateTime={endTimeString}>
-                    {formatTime(t.range.endDateTime)}
-                  </time>
+                  <HTMLTime date={t.range.startDateTime} />
+                  {' – '}
+                  <HTMLTime date={t.range.endDateTime} />
                 </h4>
               );
             })}

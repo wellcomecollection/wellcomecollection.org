@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/Download';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -19,10 +19,7 @@ import {
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
-  className: classNames({
-    'relative flex flex--v-center': true,
-    [font('intb', 5)]: true,
-  }),
+  className: font('intb', 5),
 }))<{ isDark?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
@@ -32,6 +29,9 @@ export const ShameButton = styled.button.attrs(() => ({
   border: 0;
   white-space: nowrap;
   padding: 6px 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
@@ -108,6 +108,7 @@ const TopBar = styled.div<{
   isZooming: boolean;
   isDesktopSidebarActive: boolean;
 }>`
+  display: flex;
   position: relative;
   z-index: 3;
   background: ${props => props.theme.color('neutral.700')};
@@ -218,7 +219,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   } = useContext(ItemViewerContext);
   return (
     <TopBar
-      className="flex"
       isZooming={showZoomed}
       isDesktopSidebarActive={isDesktopSidebarActive}
     >

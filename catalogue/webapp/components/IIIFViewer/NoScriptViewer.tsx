@@ -75,6 +75,13 @@ export const NoScriptViewerPaginatorButtons = styled.div`
   top: 12px;
 `;
 
+const PaginatorWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 /* eslint-disable react/display-name */
 export const PaginatorButtons = (
   isTabbable: boolean,
@@ -86,7 +93,7 @@ export const PaginatorButtons = (
     nextLink,
   }: PaginatorRenderFunctionProps) => {
     return (
-      <div className="flex flex--column flex--v-center flex--h-center">
+      <PaginatorWrapper>
         {prevLink && (
           <Space v={{ size: 's', properties: ['margin-bottom'] }}>
             <Rotator rotate={270}>
@@ -131,7 +138,7 @@ export const PaginatorButtons = (
             </Rotator>
           </Space>
         )}
-      </div>
+      </PaginatorWrapper>
     );
   };
 };

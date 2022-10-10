@@ -1,3 +1,5 @@
+import { FC } from 'react';
+import styled from 'styled-components';
 import {
   facebook,
   instagram,
@@ -7,45 +9,22 @@ import {
   youtube,
   IconSvg,
 } from '@weco/common/icons';
-import { font } from '../../../utils/classnames';
-import Icon from '../Icon/Icon';
-import Space from '../styled/Space';
-import styled from 'styled-components';
-import { FC } from 'react';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
-const Wrapper = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['margin-top'],
-  },
+const Cell = styled(Space).attrs({
+  h: { size: 'm', properties: ['margin-right'] },
 })`
-  display: flex;
-  flex-wrap: wrap;
+  background-color: ${props => props.theme.color('neutral.200')};
+  color: ${props => props.theme.color('black')};
+  border-radius: 50%;
+  transition: all ${props => props.theme.transitionProperties};
 
-  ${props => props.theme.media('xlarge')`
-    justify-content: space-between;
-    flex-wrap: nowrap;
-  `}
-`;
-
-const Cell = styled.div`
-  flex-basis: 100%;
-  min-width: 100%;
-
-  ${props => props.theme.media('medium')`
-    flex-basis: 50%;
-    min-width: 50%;
-  `}
-
-  ${props => props.theme.media('large')`
-    flex-basis: 25%;
-    min-width: 25%;
-  `}
-
-  ${props => props.theme.media('xlarge')`
-    flex-basis: auto;
-    min-width: 0;
-  `}
+  &:hover,
+  &:focus {
+    color: ${props => props.theme.color('neutral.200')};
+    background-color: ${props => props.theme.color('black')};
+  }
 `;
 
 type LinkProps = {
@@ -53,23 +32,10 @@ type LinkProps = {
 };
 
 const Link = styled(Space).attrs({
-  v: {
-    size: 'l',
-    properties: ['margin-bottom'],
-  },
   as: 'a',
-  className: font('intb', 6),
 })<LinkProps>`
-  color: ${props => props.theme.color('white')};
-  text-decoration: none;
   display: flex;
-  align-items: center;
-  transition: color 200ms ease;
-
-  &:hover,
-  &:focus {
-    color: ${props => props.theme.color('accent.green')};
-  }
+  padding: 6px;
 `;
 
 type SocialItem = {
@@ -119,19 +85,16 @@ const items: SocialItem[] = [
 ];
 
 const FooterSocial: FC = () => (
-  <Wrapper>
+  <>
     {items.map(item => (
       <Cell key={item.title}>
         <Link href={item.url}>
-          <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-            <Icon icon={item.icon} color="currentColor" />
-          </Space>
-          <span>{item.title}</span>
+          <Icon icon={item.icon} color="currentColor" />
           <span className="visually-hidden">{item.service}</span>
         </Link>
       </Cell>
     ))}
-  </Wrapper>
+  </>
 );
 
 export default FooterSocial;

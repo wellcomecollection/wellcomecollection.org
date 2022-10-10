@@ -9,6 +9,10 @@ import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { getCrop } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 
+const ImageWrapper = styled.div`
+  position: relative;
+`;
+
 type Props = {
   item: CardType;
 };
@@ -110,7 +114,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
         });
       }}
     >
-      <div className="relative">
+      <ImageWrapper>
         {image && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -131,7 +135,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
             <LabelsList labels={[{ text: item.format.title }]} />
           </div>
         )}
-      </div>
+      </ImageWrapper>
 
       <CardBody>
         <div>

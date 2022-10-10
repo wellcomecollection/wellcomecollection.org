@@ -87,10 +87,11 @@ export const StatusAlert = styled(Space).attrs({
     properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
   },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  className: 'flex flex--v-center',
 })<{ type: keyof typeof colours }>`
   ${props => colours[props.type]}
   border-radius: ${props => props.theme.borderRadiusUnit}px;
+  display: flex;
+  align-items: center;
 `;
 
 export const Section = styled.section`

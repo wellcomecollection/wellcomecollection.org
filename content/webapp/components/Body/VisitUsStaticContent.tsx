@@ -8,10 +8,12 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
+import styled from 'styled-components';
 
 type ContainerProps = {
   children: ReactNode;
 };
+
 const Container: FunctionComponent<ContainerProps> = ({
   children,
 }: ContainerProps) => (
@@ -23,6 +25,12 @@ const Container: FunctionComponent<ContainerProps> = ({
     </SpacingComponent>
   </SpacingSection>
 );
+
+const OpeningTimesWrapper = styled.div.attrs({
+  className: font('intr', 5),
+})`
+  float; left;
+`;
 
 const VisitUsStaticContent: FunctionComponent = () => {
   const { collectionVenues } = usePrismicData();
@@ -36,7 +44,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
         </div>
         <div className={`${grid({ s: 12, l: 5, xl: 5 })} ${font('intr', 4)}`}>
           <div className="flex">
-            <div className={`${font('intr', 5)} float-l`}>
+            <OpeningTimesWrapper>
               <h2 className={`${font('intb', 5)} no-margin`}>
                 Today’s opening times
               </h2>
@@ -49,7 +57,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
               >
                 <a href="/opening-times">Opening times</a>
               </Space>
-            </div>
+            </OpeningTimesWrapper>
           </div>
         </div>
       </div>

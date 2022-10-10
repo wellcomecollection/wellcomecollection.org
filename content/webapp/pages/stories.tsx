@@ -260,6 +260,13 @@ const StoriesPage: FC<Props> = ({
       siteSection="stories"
       image={firstArticle && firstArticle.image}
       rssUrl="https://rss.wellcomecollection.org/stories"
+      apiToolbarLinks={[
+        {
+          id: 'prismic',
+          label: 'Prismic',
+          link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${storiesLanding.id}/`,
+        },
+      ]}
     >
       <PageHeader
         breadcrumbs={{ items: [] }}

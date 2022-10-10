@@ -17,7 +17,7 @@ import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import WorksSearchResultsV2 from '../components/WorksSearchResults/WorksSearchResultsV2';
+import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
@@ -196,10 +196,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-imagesAbout"
                   aria-labelledby="tab-imagesAbout"
                 >
-                  <ImageEndpointSearchResults
-                    images={imagesAbout}
-                    background="transparent"
-                  />
+                  <ImageEndpointSearchResults images={imagesAbout} />
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
                     <SeeMoreButton
                       text={`All images (${imagesAbout.totalResults})`}
@@ -220,10 +217,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-imagesBy"
                   aria-labelledby="tab-imagesBy"
                 >
-                  <ImageEndpointSearchResults
-                    images={imagesBy}
-                    background="transparent"
-                  />
+                  <ImageEndpointSearchResults images={imagesBy} />
                   <SeeMoreButton
                     text={`All images (${imagesBy.totalResults})`}
                     link={toImagesLink(
@@ -295,8 +289,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-worksAbout"
                   aria-labelledby="tab-worksAbout"
                 >
-                  {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
-                  <WorksSearchResultsV2 works={worksAbout} />
+                  <WorksSearchResults works={worksAbout} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksAbout.totalResults})`}
@@ -317,8 +310,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-worksBy"
                   aria-labelledby="tab-worksBy"
                 >
-                  {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
-                  <WorksSearchResultsV2 works={worksBy} />
+                  <WorksSearchResults works={worksBy} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksBy.totalResults})`}
@@ -382,14 +374,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id } = context.query;
-
-    // Note: These pages don't need to be behind a toggle, but I'm putting them here
-    // as a way to test the concepts toggle.
-    //
-    // We will want a toggle in place for linking to concepts from works pages.
-    if (!serverData.toggles.conceptsPages) {
-      return { notFound: true };
-    }
 
     if (!looksLikeCanonicalId(id)) {
       return { notFound: true };

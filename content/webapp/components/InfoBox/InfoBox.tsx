@@ -24,6 +24,13 @@ const InfoContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color('yellow')};
 `;
 
+const InfoIconWrapper = styled(Space).attrs({
+  h: { size: 's', properties: ['margin-right'] },
+  className: font('intb', 4),
+})`
+  float: left;
+`;
+
 const InfoBox: FC<Props> = ({ title, items, children }) => {
   return (
     <>
@@ -32,12 +39,9 @@ const InfoBox: FC<Props> = ({ title, items, children }) => {
         {items.map(({ title, description, icon }, i) => (
           <div key={i}>
             {icon && (title || description) && (
-              <Space
-                h={{ size: 's', properties: ['margin-right'] }}
-                className={`float-l ${font('intb', 4)}`}
-              >
+              <InfoIconWrapper>
                 <Icon icon={icon} />
-              </Space>
+              </InfoIconWrapper>
             )}
             {title && <h3 className={font('intb', 5)}>{title}</h3>}
             {description && (

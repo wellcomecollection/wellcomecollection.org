@@ -29,11 +29,19 @@ import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import styled from 'styled-components';
 
 type Props = {
   works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
 } & WithPageview;
+
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+`;
 
 const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
   const [loading, setLoading] = useState(false);
@@ -146,13 +154,13 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
               <div className="container">
                 <div className="grid">
                   <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                    <div className="flex flex--h-space-between flex--v-center flex--wrap">
+                    <PaginationWrapper>
                       <Fragment>
                         <Paginator
                           query={query}
                           showPortal={true}
-                          currentPage={page || 1}
-                          pageSize={works.pageSize}
+                          currentPage={page}
+                          totalPages={works.totalPages}
                           totalResults={works.totalResults}
                           link={toLink(
                             {
@@ -180,7 +188,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                           hideMobilePagination={true}
                         />
                       </Fragment>
-                    </div>
+                    </PaginationWrapper>
                   </div>
                 </div>
               </div>
@@ -209,8 +217,8 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                         <Fragment>
                           <Paginator
                             query={query}
-                            currentPage={page || 1}
-                            pageSize={works.pageSize}
+                            currentPage={page}
+                            totalPages={works.totalPages}
                             totalResults={works.totalResults}
                             link={toLink(
                               {

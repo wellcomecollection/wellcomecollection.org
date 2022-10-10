@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
@@ -18,9 +18,18 @@ const SearchResultUnorderedList = styled.ul`
 const SearchResultListItem = styled.li`
   flex-basis: 100%;
   max-width: 100%;
+  border-top: 1px solid ${props => props.theme.color('neutral.300')};
+
+  &:first-child {
+    border-top: 0;
+
+    & > a {
+      padding-top: 0;
+    }
+  }
 `;
 
-const WorkSearchResults: FunctionComponent<Props> = ({ works }: Props) => {
+const WorkSearchResults: FC<Props> = ({ works }: Props) => {
   return (
     <SearchResultUnorderedList>
       {works.results.map((result, i) => (

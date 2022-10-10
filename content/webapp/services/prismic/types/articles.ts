@@ -34,6 +34,7 @@ export const seriesFetchLinks: FetchLinks<SeriesPrismicDocument> = [
   'series.title',
   'series.promo',
   'series.schedule',
+  'series.color',
 ];
 
 export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [

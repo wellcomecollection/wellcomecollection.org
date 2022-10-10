@@ -43,13 +43,6 @@ const toggles = {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
     {
-      id: 'conceptsPages',
-      title: 'Concepts pages',
-      initialValue: false,
-      description:
-        'View pages for concepts (subjects and people) and link to them from works pages',
-    },
-    {
       id: 'exhibitionGuides',
       title: 'Exhibition guides',
       initialValue: false,

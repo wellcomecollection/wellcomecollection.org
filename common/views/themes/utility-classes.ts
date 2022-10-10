@@ -76,41 +76,16 @@ export const utilityClasses = css<GlobalStyleProps>`
     )}
   }
 
-  .line-height-1.line-height-1 {
-    line-height: 1;
-  }
-
   .touch-scroll {
     -webkit-overflow-scrolling: touch;
-  }
-
-  .v-align-middle {
-    vertical-align: middle;
-  }
-
-  .v-center {
-    top: 50%;
-    transform: translateY(-50%);
   }
 
   .flex {
     display: flex;
   }
 
-  .flex--column {
-    flex-direction: column;
-  }
-
   .flex-inline {
     display: inline-flex;
-  }
-
-  .flex--v-start {
-    align-items: flex-start;
-  }
-
-  .flex--v-end {
-    align-items: flex-end;
   }
 
   .flex--v-center {
@@ -141,10 +116,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     flex: 1;
   }
 
-  .pointer {
-    cursor: pointer;
-  }
-
   .plain-button {
     appearance: none;
     font-family: inherit;
@@ -169,10 +140,6 @@ export const utilityClasses = css<GlobalStyleProps>`
   .underline-on-hover:hover,
   :link:hover .underline-on-hover {
     text-decoration: underline;
-  }
-
-  .text-align-right {
-    text-align: right;
   }
 
   .text-align-center {
@@ -209,18 +176,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .inline-block {
     display: inline-block;
-  }
-
-  .nowrap {
-    white-space: nowrap;
-  }
-
-  .float-r {
-    float: right;
-  }
-
-  .float-l {
-    float: left;
   }
 
   .h-center {
@@ -265,35 +220,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     padding: 0;
   }
 
-  .no-padding-s.no-padding-s {
-    ${respondBetween(
-      'small',
-      'medium',
-      `
-    padding: 0;
-  `
-    )}
-  }
-
-  .no-padding-m.no-padding-m {
-    ${respondBetween(
-      'medium',
-      'large',
-      `
-    padding: 0;
-  `
-    )}
-  }
-
-  .no-padding-l.no-padding-l {
-    ${respondTo(
-      'large',
-      `
-    padding: 0;
-  `
-    )}
-  }
-
   .promo-link {
     height: 100%;
     color: ${themeValues.color('black')};
@@ -317,15 +243,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     border-top-left-radius: ${themeValues.borderRadiusUnit}px;
     border-bottom-right-radius: ${themeValues.borderRadiusUnit}px;
   }
-  .rounded-top {
-    border-top-left-radius: ${themeValues.borderRadiusUnit}px;
-    border-top-right-radius: ${themeValues.borderRadiusUnit}px;
-  }
-
-  .rounded-bottom {
-    border-bottom-left-radius: ${themeValues.borderRadiusUnit}px;
-    border-bottom-right-radius: ${themeValues.borderRadiusUnit}px;
-  }
 
   .round {
     border-radius: 50%;
@@ -341,10 +258,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .full-width {
     width: 100%;
-  }
-
-  .full-height {
-    height: 100%;
   }
 
   // For when we get HTML out of systems like Prismic
@@ -372,10 +285,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .hidden {
     visibility: hidden;
-  }
-
-  .overflow-hidden {
-    overflow: hidden;
   }
 
   // TODO: use this for e.g. Promo hover behaviour too

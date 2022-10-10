@@ -28,6 +28,7 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import styled from 'styled-components';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -36,13 +37,20 @@ type Props = {
 
 type ImagesPaginationProps = {
   query?: string;
-  page?: number;
+  page: number;
   results: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
   isLoading?: boolean;
 };
+
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+`;
 
 const ImagesPagination = ({
   query,
@@ -53,12 +61,12 @@ const ImagesPagination = ({
   hideMobileTotalResults,
   isLoading,
 }: ImagesPaginationProps) => (
-  <div className="flex flex--h-space-between flex--v-center flex--wrap">
+  <PaginationWrapper>
     <Paginator
       query={query}
       showPortal={false}
-      currentPage={page || 1}
-      pageSize={results.pageSize}
+      currentPage={page}
+      totalPages={results.totalPages}
       totalResults={results.totalResults}
       link={toLink(
         {
@@ -79,7 +87,7 @@ const ImagesPagination = ({
       hideMobileTotalResults={hideMobileTotalResults}
       isLoading={isLoading}
     />
-  </div>
+  </PaginationWrapper>
 );
 
 const Images: NextPage<Props> = ({
