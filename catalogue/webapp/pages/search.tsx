@@ -8,7 +8,7 @@ import { useState } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const SearchPage: NextPage = () => {
-  const [selectedImagesTab, setSelectedImagesTab] = useState('overview-tab');
+  const [selectedTab, setSelectedTab] = useState('overview-tab');
 
   return (
     // TODO review meta info here
@@ -25,38 +25,38 @@ export const SearchPage: NextPage = () => {
         <h1>Search Page</h1>
         <TabNavV2
           id="search-tabs"
-          selectedTab={selectedImagesTab}
+          selectedTab={selectedTab}
           items={[
             {
               id: 'overview-tab',
               text: 'Overview',
-              selected: selectedImagesTab === 'overview-tab',
+              selected: selectedTab === 'overview-tab',
             },
             {
               id: 'exhibitions-tab',
               text: 'Exhibitions and events',
-              selected: selectedImagesTab === 'exhibitions-tab',
+              selected: selectedTab === 'exhibitions-tab',
             },
             {
               id: 'stories-tab',
               text: 'Stories',
-              selected: selectedImagesTab === 'stories-tab',
+              selected: selectedTab === 'stories-tab',
             },
             {
               id: 'images-tab',
               text: 'Images',
-              selected: selectedImagesTab === 'images-tab',
+              selected: selectedTab === 'images-tab',
             },
             {
               id: 'collections-tab',
               text: 'Collections',
-              selected: selectedImagesTab === 'collections-tab',
+              selected: selectedTab === 'collections-tab',
             },
           ]}
-          setSelectedTab={setSelectedImagesTab}
+          setSelectedTab={setSelectedTab}
         />
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          {selectedImagesTab === 'overview-tab' && (
+          {selectedTab === 'overview-tab' && (
             <div
               role="tabpanel"
               id="tabpanel-overviewTab"
@@ -65,7 +65,7 @@ export const SearchPage: NextPage = () => {
               Overview content
             </div>
           )}
-          {selectedImagesTab === 'exhibitions-tab' && (
+          {selectedTab === 'exhibitions-tab' && (
             <div
               role="tabpanel"
               id="tabpanel-exhibitionsTab"
@@ -74,7 +74,7 @@ export const SearchPage: NextPage = () => {
               Exhibitions and events content
             </div>
           )}
-          {selectedImagesTab === 'stories-tab' && (
+          {selectedTab === 'stories-tab' && (
             <div
               role="tabpanel"
               id="tabpanel-storiesTab"
@@ -83,7 +83,7 @@ export const SearchPage: NextPage = () => {
               Stories content
             </div>
           )}
-          {selectedImagesTab === 'images-tab' && (
+          {selectedTab === 'images-tab' && (
             <div
               role="tabpanel"
               id="tabpanel-imagesTab"
@@ -92,7 +92,7 @@ export const SearchPage: NextPage = () => {
               Images content
             </div>
           )}
-          {selectedImagesTab === 'collections-tab' && (
+          {selectedTab === 'collections-tab' && (
             <div
               role="tabpanel"
               id="tabpanel-collectionsTab"
