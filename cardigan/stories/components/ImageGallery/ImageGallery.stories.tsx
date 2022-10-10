@@ -10,9 +10,17 @@ inline.args = {
   id: 'test',
   isStandalone: false,
 };
+
 export const standalone = Template.bind({});
 standalone.args = {
   items: images,
   id: 'test',
   isStandalone: true,
+};
+
+export const frames = Template.bind({});
+frames.args = {
+  items: images,
+  id: 'test',
+  isFrames: true,
 };

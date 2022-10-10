@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/Download';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -19,10 +19,7 @@ import {
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
-  className: classNames({
-    'relative flex flex--v-center': true,
-    [font('intb', 5)]: true,
-  }),
+  className: font('intb', 5),
 }))<{ isDark?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
@@ -32,6 +29,9 @@ export const ShameButton = styled.button.attrs(() => ({
   border: 0;
   white-space: nowrap;
   padding: 6px 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
@@ -40,8 +40,8 @@ export const ShameButton = styled.button.attrs(() => ({
 
   &[disabled],
   &.disabled {
-    background: ${props => props.theme.color('pewter')};
-    border-color: ${props => props.theme.color('pewter')};
+    background: ${props => props.theme.color('neutral.600')};
+    border-color: ${props => props.theme.color('neutral.600')};
     cursor: not-allowed;
   }
 
@@ -56,12 +56,12 @@ export const ShameButton = styled.button.attrs(() => ({
 
   .icon__shape {
     transition: fill ${props => props.theme.transitionProperties};
-    fill: ${props => props.theme.color('currentColor')};
+    fill: currentColor;
   }
 
   .icon__stroke {
     transition: stroke ${props => props.theme.transitionProperties};
-    stroke: ${props => props.theme.color('currentColor')};
+    stroke: currentColor;
   }
 
   overflow: hidden;
@@ -69,7 +69,7 @@ export const ShameButton = styled.button.attrs(() => ({
   ${props =>
     props.isDark &&
     `
-    border: 2px solid ${props.theme.color('transparent')};
+    border: 2px solid transparent;
     color: ${props.theme.color('white')};
     background: transparent;
     outline: none;
@@ -78,9 +78,10 @@ export const ShameButton = styled.button.attrs(() => ({
     .btn__text {
       position: absolute;
       right: 100%;
-      @media (min-width: ${props.theme.sizes.large}px) {
+
+      ${props.theme.media('large')`
         position: static;
-      }
+      `}
     }
 
     &:not([disabled]):hover {
@@ -92,12 +93,12 @@ export const ShameButton = styled.button.attrs(() => ({
     !props.isDark &&
     `
     background: ${props.theme.color('white')};
-    color: ${props.theme.color('green')};
-    border: 1px solid ${props.theme.color('green')};
+    color: ${props.theme.color('accent.green')};
+    border: 1px solid ${props.theme.color('accent.green')};
 
     &:not([disabled]):hover,
     &:not([disabled]):focus {
-      background: ${props.theme.color('green')};
+      background: ${props.theme.color('accent.green')};
       color: ${props.theme.color('white')};
     }
   `}
@@ -107,20 +108,21 @@ const TopBar = styled.div<{
   isZooming: boolean;
   isDesktopSidebarActive: boolean;
 }>`
+  display: flex;
   position: relative;
   z-index: 3;
-  background: ${props => props.theme.color('charcoal')};
+  background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
   justify-content: space-between;
   display: ${props => (props.isZooming ? 'none' : 'grid')};
   grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     display: grid;
   `}
 
   ${props =>
-    props.theme.media.xlarge`
+    props.theme.media('xlarge')`
       grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   `}
 
@@ -132,7 +134,7 @@ const TopBar = styled.div<{
 
   ${props =>
     !props.isDesktopSidebarActive &&
-    props.theme.media.xlarge`
+    props.theme.media('xlarge')`
       grid-template-columns: [left-edge] min-content [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   `}
 `;
@@ -147,15 +149,15 @@ const Sidebar = styled(Space).attrs({
   justify-content: flex-start;
   align-items: center;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     justify-content: flex-end;
   `}
 
   ${props =>
     !props.isZooming &&
-    props.theme.media.medium`
-    border-right: 1px solid ${props => props.theme.color('black')};
-  `}
+    props.theme.media('medium')(`
+      border-right: 1px solid ${props.theme.color('black')};
+  `)}
 `;
 
 const Main = styled(Space).attrs({
@@ -165,7 +167,7 @@ const Main = styled(Space).attrs({
   display: flex;
   justify-content: flex-end;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     justify-content: space-between;
   `}
 `;
@@ -217,7 +219,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   } = useContext(ItemViewerContext);
   return (
     <TopBar
-      className="flex"
       isZooming={showZoomed}
       isDesktopSidebarActive={isDesktopSidebarActive}
     >

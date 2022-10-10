@@ -3,7 +3,6 @@ import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
-import { transparentGreyPNG } from '@weco/common/utils/backgrounds';
 import {
   iiifImageTemplate,
   convertImageUri,
@@ -13,12 +12,28 @@ import {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
-const StyledImage = styled(Image).attrs({ className: 'font-charcoal' })<{
+// Not typed as PaletteColor as we want the averageColor of each image
+const StyledImage = styled(Image).attrs({ className: 'font-neutral-700' })<{
   background: string;
 }>`
-  background-color: ${props => props.theme.color(props.background)};
+  background-color: ${props => props.background};
 `;
 
+const StyledImageContainer = styled.div<{
+  background: string;
+}>`
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: ${props => props.background};
+    filter: saturate(50%);
+    z-index: -1;
+  }
+`;
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
   return convertImageUri(src, width);
 };
@@ -43,7 +58,7 @@ const IIIFImage: FC<Props> = ({
   layout,
   priority = false,
   width = 300,
-  background = 'white',
+  background = 'transparent',
 }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
@@ -67,20 +82,20 @@ const IIIFImage: FC<Props> = ({
 
   if (layout === 'fixed') {
     return (
-      <StyledImage
-        layout={layout}
-        sizes={sizesString}
-        src={image.contentUrl}
-        alt={image.alt || ''}
-        loader={IIIFLoader}
-        onLoadingComplete={onLoadingComplete}
-        width={image.width}
-        height={image.height}
-        priority={priority}
-        placeholder="blur"
-        blurDataURL={transparentGreyPNG}
-        background={background}
-      />
+      <StyledImageContainer background={background}>
+        <StyledImage
+          layout={layout}
+          sizes={sizesString}
+          src={image.contentUrl}
+          alt={image.alt || ''}
+          loader={IIIFLoader}
+          onLoadingComplete={onLoadingComplete}
+          width={image.width}
+          height={image.height}
+          priority={priority}
+          background="transparent"
+        />
+      </StyledImageContainer>
     );
   }
 

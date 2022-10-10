@@ -9,18 +9,18 @@ const YellowBox = styled.div`
   height: 18px;
   background: ${props => props.theme.color('yellow')};
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     width: 58px;
   `}
 
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     width: 64px;
     height: 19px;
   `}
 `;
 
 const TitleWrapper = styled.span`
-  .bg-charcoal & {
+  .bg-dark & {
     color: ${props => props.theme.color('white')};
   }
 `;

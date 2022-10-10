@@ -29,6 +29,8 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { useToggles } from '@weco/common/server-data/Context';
+import styled from 'styled-components';
 
 type Props = {
   article: Article;
@@ -128,6 +130,9 @@ function getNextUp(
 const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
+  // readingTime toggle
+  const { readingTime } = useToggles();
+
   useEffect(() => {
     async function setSeries() {
       const series = article.series[0];
@@ -198,6 +203,13 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
     />
   );
 
+  const ContentTypeInfoSection = styled.span`
+    &:not(:first-child):before {
+      content: ' | ';
+      margin: 0 4px;
+    }
+  `;
+
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -205,8 +217,8 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
         <Space v={{ size: 's', properties: ['margin-top'] }}>
           <p className={`no-margin ${font('intr', 6)}`}>
             {article.contributors.length > 0 &&
-              article.contributors.map(({ contributor, role }, i, arr) => (
-                <Fragment key={contributor.id}>
+              article.contributors.map(({ contributor, role }, i) => (
+                <ContentTypeInfoSection key={contributor.id}>
                   {role && role.describedBy && (
                     <span>
                       {i === 0
@@ -216,21 +228,17 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                     </span>
                   )}
                   <span className={font('intb', 6)}>{contributor.name}</span>
-                  <Space
-                    as="span"
-                    h={{
-                      size: 's',
-                      properties: ['margin-left', 'margin-right'],
-                    }}
-                  >
-                    {arr.length > 1 && i < arr.length - 1 && '|'}
-                  </Space>
-                </Fragment>
+                </ContentTypeInfoSection>
               ))}
-
+            {readingTime && article.readingTime ? (
+              <ContentTypeInfoSection>
+                Average reading time{' '}
+                <span className={font('intb', 6)}>{article.readingTime}</span>
+              </ContentTypeInfoSection>
+            ) : null}
             {article.contributors.length > 0 && ' '}
 
-            <span className={`block font-pewter ${font('intr', 6)}`}>
+            <span className={`block font-neutral-600 ${font('intr', 6)}`}>
               <HTMLDate date={article.datePublished} />
             </span>
           </p>
@@ -244,10 +252,10 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const maybeFeaturedMedia = !maybeHeroPicture
     ? getFeaturedMedia(article)
     : undefined;
-  const isImageGallery =
-    article.format &&
-    (article.format.id === ArticleFormatIds.ImageGallery ||
-      article.format.id === ArticleFormatIds.Comic);
+  const isComicFormat = article.format?.id === ArticleFormatIds.Comic;
+  const isImageGalleryFormat =
+    article.format?.id === ArticleFormatIds.ImageGallery;
+  const isImageGallery = isImageGalleryFormat || isComicFormat;
 
   const Header = (
     <PageHeader
@@ -260,7 +268,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
         isImageGallery || isPodcast ? undefined : maybeFeaturedMedia
       }
       HeroPicture={isImageGallery || isPodcast ? undefined : maybeHeroPicture}
-      heroImageBgColor={isImageGallery ? 'white' : 'cream'}
+      heroImageBgColor={isImageGallery ? 'white' : 'warmNeutral.300'}
       TitleTopper={TitleTopper}
       isContentTypeInfoBeforeMedia={true}
     />
@@ -271,6 +279,16 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       return getNextUp(series, articles, article, positionInSerial, isPodcast);
     })
     .filter(Boolean);
+
+  function getComicPreviousNext() {
+    return listOfSeries?.map(({ articles }) => {
+      const positionInSeries = articles.findIndex(a => a.id === article.id);
+      const previous = articles[positionInSeries + 1];
+      const next = articles[positionInSeries - 1];
+
+      return { previous, next };
+    })[0];
+  }
 
   return (
     <PageLayout
@@ -289,6 +307,9 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
         Body={
           <Body
             body={article.body}
+            comicPreviousNext={
+              isComicFormat ? getComicPreviousNext() : undefined
+            }
             isDropCapped={true}
             pageId={article.id}
             minWidth={isPodcast ? 10 : 8}

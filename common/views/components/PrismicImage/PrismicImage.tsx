@@ -4,8 +4,16 @@ import styled from 'styled-components';
 import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
 import { ImageType } from '../../../model/image';
 
-const StyledImage = styled(Image).attrs({ className: 'font-white' })`
-  background-color: ${props => props.theme.color('charcoal')};
+// Note: for some reason passing a boolean to desaturate causes a warning;
+// see the commit message for the full stack trace.
+//
+// Since this wrapper is only used in this file, we use the slightly clunkier
+// 1 = true / 0 = false to silence the warning.
+const StyledImage = styled(Image).attrs({
+  className: 'font-white',
+})<{ desaturate: 1 | 0 }>`
+  background-color: ${props => props.theme.color('neutral.700')};
+  ${props => props.desaturate === 1 && 'filter: saturate(0%);'}
 `;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
@@ -15,6 +23,7 @@ export type Props = {
   // The maximum width at which the image will be displayed
   maxWidth?: number;
   quality: 'low' | 'high';
+  desaturate?: boolean;
 };
 
 export function convertBreakpointSizesToSizes(
@@ -86,7 +95,13 @@ export function createPrismicLoader(maxWidth: number, quality: ImageQuality) {
  * usurping UiImage which has reached a state where it is so bloated it is hard to refactor.
  * This is aimed solely at the Prismic image rendering for now.
  */
-const PrismicImage: FC<Props> = ({ image, sizes, maxWidth, quality }) => {
+const PrismicImage: FC<Props> = ({
+  image,
+  sizes,
+  maxWidth,
+  quality,
+  desaturate = false,
+}) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
     : undefined;
@@ -106,6 +121,7 @@ const PrismicImage: FC<Props> = ({ image, sizes, maxWidth, quality }) => {
       src={image.contentUrl}
       alt={image.alt || ''}
       loader={createPrismicLoader(maxLoaderWidth, quality)}
+      desaturate={desaturate ? 1 : 0}
     />
   );
 };

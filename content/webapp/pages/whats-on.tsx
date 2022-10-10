@@ -12,7 +12,7 @@ import {
   filterEventsForToday,
   filterEventsForWeekend,
 } from '../services/prismic/events';
-import { formatDay, formatDate } from '@weco/common/utils/format-date';
+import { formatDayName, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
 import {
   getTodaysVenueHours,
@@ -76,6 +76,7 @@ import {
   getNextWeekendDateRange,
   startOfDay,
 } from '@weco/common/utils/dates';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 
 const segmentedControlItems = [
   {
@@ -159,19 +160,17 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
       as="p"
       className={font('intr', 5)}
     >
-      {period === 'today' && (
-        <time dateTime={formatDate(start)}>{formatDate(start)}</time>
-      )}
+      {period === 'today' && <HTMLDate date={start} />}
       {period === 'this-weekend' && (
         <>
-          <time dateTime={formatDate(start)}>{formatDay(start)}</time>
+          <time dateTime={formatDate(start)}>{formatDayName(start)}</time>
           {' – '}
-          <time dateTime={formatDate(end!)}>{formatDay(end!)}</time>
+          <time dateTime={formatDate(end!)}>{formatDayName(end!)}</time>
         </>
       )}
       {period === 'current-and-coming-up' && (
         <>
-          From <time dateTime={formatDate(start)}>{formatDate(start)}</time>
+          From <HTMLDate date={start} />
         </>
       )}
     </Space>
@@ -428,7 +427,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         <Layout12>
                           <FeaturedCardExhibition
                             exhibition={firstExhibition}
-                            background="cream"
+                            background="warmNeutral.300"
                             color="black"
                           />
                         </Layout12>

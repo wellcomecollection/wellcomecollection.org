@@ -1,24 +1,17 @@
 import { DateRange } from '../model/date-range';
 import { formatDayDate } from './format-date';
 
-// This is just to allow us to mock values in tests
+// This is to allow us to mock values in tests, e.g.
+//
+//    import * as dateUtils from '@weco/common/utils/dates';
+//
+//    const spyOnToday = jest.spyOn(dateUtils, 'today');
+//    spyOnToday.mockImplementation(() =>
+//      new Date('2022-09-19T00:00:00Z')
+//    );
+//
 export function today(): Date {
   return new Date();
-}
-
-export function getEarliestFutureDateRange(
-  dateRanges: DateRange[],
-  fromDate: Date | undefined = new Date()
-): DateRange | undefined {
-  const now = new Date();
-
-  return dateRanges
-    .sort((a, b) => (a.start > b.start ? 1 : -1))
-    .find(
-      ({ end }) =>
-        (isSameDay(end, fromDate) || end > fromDate) &&
-        (isSameDay(end, now) || end > now)
-    );
 }
 
 export function isPast(date: Date): boolean {
@@ -95,9 +88,7 @@ export function isDayPast(date: Date): boolean {
 
 // Returns the day before the current date
 export function dayBefore(date: Date): Date {
-  const prevDay = new Date(date);
-  prevDay.setDate(date.getDate() - 1);
-  return prevDay;
+  return addDays(date, -1);
 }
 
 // TODO: Does setting these to UTC 00:00:00 cause issues in London?

@@ -3,7 +3,6 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { font } from '@weco/common/utils/classnames';
-import { Period } from '../../types/periods';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import { EventBasic } from '../../types/events';
 import { ArticleBasic } from '../../types/articles';
@@ -18,6 +17,7 @@ import { BookBasic } from '../../types/books';
 import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
+import styled from 'styled-components';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
@@ -32,17 +32,19 @@ type Props = {
   description?: prismicT.RichTextField;
   paginationRoot: string;
   paginatedResults: PaginatedResultsTypes;
-  period?: Period;
   showFreeAdmissionMessage: boolean;
   children?: ReactElement;
 };
+
+const PaginationWrapper = styled(Layout12)`
+  text-align: right;
+`;
 
 const LayoutPaginatedResults: FC<Props> = ({
   title,
   description,
   paginatedResults,
   paginationRoot,
-  period,
   showFreeAdmissionMessage,
   children,
 }) => (
@@ -69,7 +71,7 @@ const LayoutPaginatedResults: FC<Props> = ({
             size: 'l',
             properties: ['padding-bottom'],
           }}
-          className={`flex flex--v-center font-pewter ${font('lr', 6)}`}
+          className={`flex flex--v-center font-neutral-600 ${font('lr', 6)}`}
         >
           {paginatedResults.pageSize * paginatedResults.currentPage -
             (paginatedResults.pageSize - 1)}
@@ -81,7 +83,7 @@ const LayoutPaginatedResults: FC<Props> = ({
             ? paginatedResults.totalResults
             : null}
         </Space>
-        <Divider color="pumice" isKeyline={true} />
+        <Divider color="warmNeutral.400" isKeyline={true} />
       </Layout12>
     )}
     {showFreeAdmissionMessage && (
@@ -104,39 +106,19 @@ const LayoutPaginatedResults: FC<Props> = ({
 
     {paginatedResults.totalPages > 1 && (
       <Space v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}>
-        <Layout12>
-          <div className="text-align-right">
-            <Pagination
-              totalResults={paginatedResults.totalResults}
-              currentPage={paginatedResults.currentPage}
-              totalPages={paginatedResults.totalPages}
-              prevPage={
-                paginatedResults.currentPage > 1
-                  ? paginatedResults.currentPage - 1
-                  : undefined
-              }
-              nextPage={
-                paginatedResults.currentPage < paginatedResults.totalPages
-                  ? paginatedResults.currentPage + 1
-                  : undefined
-              }
-              prevQueryString={
-                `/${paginationRoot}` +
-                (period ? `/${period}` : '') +
-                (paginatedResults.currentPage > 1
-                  ? `?page=${paginatedResults.currentPage - 1}`
-                  : '')
-              }
-              nextQueryString={
-                `/${paginationRoot}` +
-                (period ? `/${period}` : '') +
-                (paginatedResults.currentPage < paginatedResults.totalPages
-                  ? `?page=${paginatedResults.currentPage + 1}`
-                  : '')
-              }
-            />
-          </div>
-        </Layout12>
+        <PaginationWrapper>
+          <Pagination
+            paginatedResults={paginatedResults}
+            paginationRoot={{
+              href: {
+                pathname: paginationRoot,
+              },
+              as: {
+                pathname: paginationRoot,
+              },
+            }}
+          />
+        </PaginationWrapper>
       </Space>
     )}
   </>

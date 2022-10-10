@@ -33,7 +33,7 @@ const Wrapper = styled(Space).attrs({
   ${props =>
     props.underline &&
     `
-    border-bottom: 1px solid ${props.theme.color('pumice')};
+    border-bottom: 1px solid ${props.theme.color('warmNeutral.400')};
   `}
 `;
 
@@ -66,7 +66,6 @@ export type Props = {
   work: Work;
   accessDataIsStale: boolean;
   userHeldItems?: Set<string>;
-  encoreLink?: string;
   isLast: boolean;
 };
 
@@ -146,23 +145,6 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const shelfmark = locationShelfmark || '';
 
   function createRows() {
-    const requestButton = (
-      <ButtonSolid
-        colors={themeValues.buttonColors.greenTransparentGreen}
-        disabled={userState !== 'signedin'}
-        ref={requestButtonRef}
-        text={'Request item'}
-        clickHandler={() => {
-          trackEvent({
-            category: 'requesting',
-            action: 'initiate_request',
-            label: `/works/${work.id}`,
-          });
-          setRequestModalIsActive(true);
-        }}
-      />
-    );
-
     const headingRow = [
       'Location',
       showAccessStatus ? 'Status' : ' ',
@@ -199,6 +181,23 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     }
 
     if (showButton) {
+      const requestButton = (
+        <ButtonSolid
+          colors={themeValues.buttonColors.greenTransparentGreen}
+          disabled={userState !== 'signedin'}
+          ref={requestButtonRef}
+          text={'Request item'}
+          clickHandler={() => {
+            trackEvent({
+              category: 'requesting',
+              action: 'initiate_request',
+              label: `/works/${work.id}`,
+            });
+            setRequestModalIsActive(true);
+          }}
+        />
+      );
+
       dataRow.push(
         <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
           {requestButton}
@@ -213,15 +212,24 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   return (
     <>
-      <ItemRequestModal
-        isActive={requestModalIsActive}
-        setIsActive={setRequestModalIsActive}
-        item={item}
-        work={work}
-        initialHoldNumber={userHeldItems?.size}
-        onSuccess={() => item.id && completedItemRequests.push(item.id)}
-        openButtonRef={requestButtonRef}
-      />
+      {/*
+        There are pages with hundreds of items, e.g. https://wellcomecollection.org/works/h4t88h83
+
+        There's a notable lag when we create instances of ItemRequestModal for
+        all these items, so if we're never going to show the button, don't bother
+        creating them.  This makes the page much snappier.
+       */}
+      {showButton && (
+        <ItemRequestModal
+          isActive={requestModalIsActive}
+          setIsActive={setRequestModalIsActive}
+          item={item}
+          work={work}
+          initialHoldNumber={userHeldItems?.size}
+          onSuccess={() => item.id && completedItemRequests.push(item.id)}
+          openButtonRef={requestButtonRef}
+        />
+      )}
       <Wrapper underline={!isLast}>
         {(title || itemNote) && (
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>

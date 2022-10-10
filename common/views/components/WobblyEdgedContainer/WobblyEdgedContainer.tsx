@@ -10,7 +10,7 @@ const WobblyEdgeContainer = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  background-color: ${props => props.theme.color('cream')};
+  background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 type Props = {
@@ -23,13 +23,13 @@ const WobblyEdgedContainer: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       <WobblyEdgeContainer>
-        <WobblyEdge isRotated={true} background={'white'} />
+        <WobblyEdge isRotated={true} background="white" />
       </WobblyEdgeContainer>
       <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
         <Layout8>{children}</Layout8>
       </Space>
       <WobblyEdgeContainer>
-        <WobblyEdge background={'white'} />
+        <WobblyEdge background="white" />
       </WobblyEdgeContainer>
     </Wrapper>
   );

@@ -5,11 +5,11 @@ import { CaptionedImage as CaptionedImageType } from '@weco/common/model/caption
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 
-type CaptionedImageProps = {
+type CaptionedImageFigureProps = {
   isBody?: boolean;
 };
 
-const CaptionedImageFigure = styled.div<CaptionedImageProps>`
+const CaptionedImageFigure = styled.div<CaptionedImageFigureProps>`
   margin: 0;
   display: inline-block;
   width: 100%;
@@ -29,6 +29,7 @@ const CaptionedImageFigure = styled.div<CaptionedImageProps>`
 
 type ImageContainerInnerProps = {
   aspectRatio: number;
+  hasRoundedCorners: boolean;
 };
 
 const ImageContainerInner = styled.div<ImageContainerInnerProps>`
@@ -36,24 +37,37 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
   max-height: 80vh;
   aspect-ratio: ${props => props.aspectRatio};
   margin: 0 auto;
+
+  ${props =>
+    props.hasRoundedCorners &&
+    `
+    > div {
+      border-radius:  clamp(10px, 2vw, 26px);
+      overflow: hidden;
+    }
+  `}
+
   @supports not (aspect-ratio: auto) {
     max-width: 90%;
-    ${props => props.theme.media.large`
-      max-width: ${props.aspectRatio > 1 ? '80%' : '50%'};
-    `};
+
+    ${props =>
+      props.theme.media('large')(`
+        max-width: ${props.aspectRatio > 1 ? '80%' : '50%'};
+      `)};
   }
 `;
 
-type UiCaptionedImageProps = CaptionedImageType & {
+type CaptionedImageProps = CaptionedImageType & {
   isBody?: boolean;
   preCaptionNode?: ReactNode;
 };
 
-const CaptionedImage: FC<UiCaptionedImageProps> = ({
+const CaptionedImage: FC<CaptionedImageProps> = ({
   caption,
   preCaptionNode,
   image,
   isBody,
+  hasRoundedCorners,
 }) => {
   // Note: the default quality here was originally 45, but this caused images to
   // appear very fuzzy on stories.
@@ -66,7 +80,10 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1653466941113029
   return (
     <CaptionedImageFigure isBody={isBody}>
-      <ImageContainerInner aspectRatio={image.width / image.height}>
+      <ImageContainerInner
+        aspectRatio={image.width / image.height}
+        hasRoundedCorners={hasRoundedCorners}
+      >
         <ImageWithTasl
           Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={image.tasl}

@@ -4,7 +4,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { ArticleBasic } from '../types/articles';
-import { SeriesBasic } from '../types/series';
+import { SeriesBasic, Series } from '../types/series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
@@ -31,12 +31,14 @@ import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
+import { fetchStoriesLanding } from '../services/prismic/fetch/stories-landing';
 import { fetchFeaturedBooks } from '../services/prismic/fetch/featured-books';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '../services/prismic/transformers/articles';
+import { transformStoriesLanding } from '../services/prismic/transformers/stories-landing';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import {
   pageDescriptions,
@@ -47,12 +49,16 @@ import { transformArticleSeries } from '../services/prismic/transformers/article
 import { transformFeaturedBooks } from '../services/prismic/transformers/featured-books';
 import { transformBookToBookBasic } from '../services/prismic/transformers/books';
 import { BookBasic } from '../types/books';
+import { StoriesLanding } from '../types/stories-landing';
+import { StoriesLandingPrismicDocument } from '../services/prismic/types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { ImagePromo } from '../types/image-promo';
 import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/series';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { RichTextField } from '@prismicio/types';
+import { useToggles } from '@weco/common/server-data/Context';
+import { classNames } from '@weco/common/utils/classnames';
 
 type SerialisedSeriesProps = SeriesBasic & {
-  promo?: ImagePromo;
   items: ArticleBasic[];
 };
 
@@ -61,11 +67,24 @@ type Props = {
   series: SerialisedSeriesProps;
   featuredText?: FeaturedTextType;
   featuredBooks: BookBasic[];
+  storiesLanding: StoriesLanding;
   jsonLd: JsonLdObj[];
 };
 
 const ArticlesContainer = styled.div`
-  background-color: ${props => props.theme.color('cream')};
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
+
+const StoryPromoContainer = styled.div.attrs({
+  className: 'container container--scroll touch-scroll',
+})`
+  &::-webkit-scrollbar {
+    background: ${props => props.theme.color('warmNeutral.300')};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-color: ${props => props.theme.color('warmNeutral.300')};
+  }
 `;
 
 const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
@@ -73,7 +92,11 @@ const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
     <div>
       <Layout12>
         <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-          <h2 className={`h1 font-${series.color} plain-link no-margin`}>
+          <h2
+            className={`h1 ${classNames({
+              ['font-' + series.color]: true,
+            })} plain-link no-margin`}
+          >
             <a className="plain-link" href={`/series/${series.id}`}>
               {series.title}
             </a>
@@ -91,53 +114,83 @@ const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-
     const client = createClient(context);
+    const { newStoriesLanding } = serverData.toggles;
 
     const articlesQueryPromise = fetchArticles(client);
-    const featuredBooksPromise = fetchFeaturedBooks(client);
 
+    // OLD - this content will be replaced by content from the newStoriesLanding type in Prismic
+    // if the newStoriesLanding toggle is on, we'll just return null rather than fetching the content
     // TODO: If we're only looking up this page to get the featured text slice,
     // would it be faster to skip all the fetchLinks?  Is that possible?
-    const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
+    const storiesPagePromise = !newStoriesLanding
+      ? fetchPage(client, prismicPageIds.stories)
+      : Promise.resolve(null);
+    const featuredBooksPromise = !newStoriesLanding
+      ? fetchFeaturedBooks(client)
+      : Promise.resolve(null);
+    const featuredSeriesArticlesPromise = !newStoriesLanding
+      ? fetchArticles(client, {
+          predicates: [
+            prismic.predicate.at(
+              'my.articles.series.series',
+              featuredStoriesSeriesId
+            ),
+          ],
+          page: 1,
+          pageSize: 100,
+        })
+      : Promise.resolve(null);
 
-    const featuredSeriesArticlesQueryPromise = fetchArticles(client, {
-      predicates: [
-        prismic.predicate.at(
-          'my.articles.series.series',
-          featuredStoriesSeriesId
-        ),
-      ],
-      page: 1,
-      pageSize: 100,
-    });
+    // NEW - This is the new content from the newStoriesLanding type in Prismic
+    // if the newStoriesLanding toggle is off, we'll just return an empty object rather than fetch the content
+    const storiesLandingPromise = newStoriesLanding
+      ? fetchStoriesLanding(client)
+      : { data: {} }; // This is only returned when the newStoriesLanding toggle is true
 
     const [
       articlesQuery,
-      featuredSeriesArticles,
-      storiesPage,
+      storiesPageDoc,
+      featuredSeriesArticlesQuery,
       featuredBooksDoc,
+      storiesLandingDoc,
     ] = await Promise.all([
       articlesQueryPromise,
-      featuredSeriesArticlesQueryPromise,
       storiesPagePromise,
+      featuredSeriesArticlesPromise,
       featuredBooksPromise,
+      storiesLandingPromise,
     ]);
 
     const articles = transformQuery(articlesQuery, transformArticle);
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
 
-    const featuredBooks = transformFeaturedBooks(featuredBooksDoc).map(
-      transformBookToBookBasic
-    );
+    const featuredText = storiesPageDoc
+      ? getPageFeaturedText(transformPage(storiesPageDoc!))
+      : undefined; // This is only returned when the newStoriesLanding toggle is false
 
-    // The featured series and stories page should always exist
-    const series = transformArticleSeries(
-      featuredStoriesSeriesId,
-      featuredSeriesArticles
-    )!.series;
-    const featuredText = getPageFeaturedText(transformPage(storiesPage!));
+    const featuredBooks = featuredBooksDoc
+      ? transformFeaturedBooks(featuredBooksDoc).map(transformBookToBookBasic)
+      : []; // This is only returned when the newStoriesLanding toggle is false
+
+    // The featured series and stories page should always exist, when the newStoriesLanding toggle is false
+    const series = featuredSeriesArticlesQuery
+      ? (transformArticleSeries(
+          featuredStoriesSeriesId,
+          featuredSeriesArticlesQuery
+        ).series as Series)
+      : {
+          type: 'series' as const,
+          id: '',
+          title: '',
+          body: [],
+          labels: [],
+          schedule: [],
+          seasons: [],
+          items: [],
+          contributors: [],
+        }; // This is only returned when the newStoriesLanding toggle is false
 
     // Note: an ArticleBasic contains a lot of information, but we only use
     // a little bit of the series information in the <CardGrid> component
@@ -145,19 +198,25 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     //
     // This basic-ification removes some of the heaviest fields that we aren't
     // using, to keep the page weight down.
-    const basicSeries: SerialisedSeriesProps = {
-      ...transformSeriesToSeriesBasic(series),
-      promo: series.promo,
-      items: series.items.map(item => ({
-        ...item,
-        image: undefined,
-        series: item.series.map(s => ({
-          id: s.id,
-          title: s.title,
+    const basicSeries: SerialisedSeriesProps = series
+      ? {
+          ...transformSeriesToSeriesBasic(series),
+          items: series.items,
+        }
+      : {
+          type: 'series',
+          id: '',
+          title: '',
           schedule: [],
-        })),
-      })),
-    };
+          items: [],
+          labels: [],
+        }; // This is only returned when the newStoriesLanding toggle is false
+
+    const storiesLanding =
+      storiesLandingDoc &&
+      transformStoriesLanding(
+        storiesLandingDoc as StoriesLandingPrismicDocument
+      );
 
     if (articles && articles.results) {
       return {
@@ -168,6 +227,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
           featuredBooks,
           jsonLd,
+          storiesLanding,
         }),
       };
     } else {
@@ -181,8 +241,14 @@ const StoriesPage: FC<Props> = ({
   featuredText,
   featuredBooks,
   jsonLd,
+  storiesLanding,
 }) => {
   const firstArticle = articles[0];
+  const { newStoriesLanding } = useToggles();
+
+  const introText = newStoriesLanding
+    ? storiesLanding?.introText
+    : featuredText?.value;
 
   return (
     <PageLayout
@@ -194,6 +260,13 @@ const StoriesPage: FC<Props> = ({
       siteSection="stories"
       image={firstArticle && firstArticle.image}
       rssUrl="https://rss.wellcomecollection.org/stories"
+      apiToolbarLinks={[
+        {
+          id: 'prismic',
+          label: 'Prismic',
+          link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${storiesLanding.id}/`,
+        },
+      ]}
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
@@ -201,25 +274,23 @@ const StoriesPage: FC<Props> = ({
         isContentTypeInfoBeforeMedia={false}
         sectionLevelPage={true}
       />
-      <>
-        {featuredText && featuredText.value && (
-          <Layout8 shift={false}>
-            <div className="body-text spaced-text">
-              <Space
-                v={{
-                  size: 'xl',
-                  properties: ['margin-bottom'],
-                }}
-              >
-                <FeaturedText
-                  html={featuredText.value}
-                  htmlSerializer={defaultSerializer}
-                />
-              </Space>
-            </div>
-          </Layout8>
-        )}
-      </>
+      {introText && (
+        <Layout8 shift={false}>
+          <div className="body-text spaced-text">
+            <Space
+              v={{
+                size: 'xl',
+                properties: ['margin-bottom'],
+              }}
+            >
+              <FeaturedText
+                html={introText}
+                htmlSerializer={defaultSerializer}
+              />
+            </Space>
+          </div>
+        </Layout8>
+      )}
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">
@@ -227,13 +298,13 @@ const StoriesPage: FC<Props> = ({
             <Layout12>
               <FeaturedCardArticle
                 article={firstArticle}
-                background="charcoal"
+                background="neutral.700"
                 color="white"
               />
             </Layout12>
           </Space>
           <div className="row__wobbly-background" />
-          <div className="container container--scroll container--scroll-cream touch-scroll">
+          <StoryPromoContainer>
             <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
               <div className="grid grid--scroll grid--theme-4 card-theme card-theme--transparent">
                 {articles.slice(1, 5).map((article, i) => {
@@ -247,32 +318,84 @@ const StoriesPage: FC<Props> = ({
                 })}
               </div>
             </Space>
-          </div>
+          </StoryPromoContainer>
         </ArticlesContainer>
       </SpacingSection>
 
-      <SpacingSection>
-        <SerialisedSeries series={series} />
-      </SpacingSection>
+      {newStoriesLanding ? (
+        <>
+          <SpacingSection>
+            {storiesLanding.storiesTitle && (
+              <SpacingComponent>
+                <SectionHeader title={`${storiesLanding.storiesTitle}`} />
+              </SpacingComponent>
+            )}
+            {storiesLanding.storiesDescription && (
+              <SpacingComponent>
+                <Layout12>
+                  <PrismicHtmlBlock
+                    html={storiesLanding.storiesDescription as RichTextField}
+                  />
+                </Layout12>
+              </SpacingComponent>
+            )}
+            <SpacingComponent>
+              <CardGrid
+                items={storiesLanding.stories}
+                itemsPerRow={3}
+                links={[{ text: 'More stories', url: '/articles' }]}
+              />
+            </SpacingComponent>
+          </SpacingSection>
 
-      {/* TODO: work out logic for making these dynamic */}
-      <SpacingSection>
-        <SpacingComponent>
-          <SectionHeader title="Books" />
-        </SpacingComponent>
-        <SpacingComponent>
-          <Layout12>
-            <p>{booksPromoOnStoriesPage}</p>
-          </Layout12>
-        </SpacingComponent>
-        <SpacingComponent>
-          <CardGrid
-            items={featuredBooks}
-            itemsPerRow={3}
-            links={[{ text: 'More books', url: '/books' }]}
-          />
-        </SpacingComponent>
-      </SpacingSection>
+          <SpacingSection>
+            {storiesLanding.booksTitle && (
+              <SpacingComponent>
+                <SectionHeader title={`${storiesLanding.booksTitle}`} />
+              </SpacingComponent>
+            )}
+            {storiesLanding.booksDescription && (
+              <SpacingComponent>
+                <Layout12>
+                  <PrismicHtmlBlock
+                    html={storiesLanding.booksDescription as RichTextField}
+                  />
+                </Layout12>
+              </SpacingComponent>
+            )}
+            <SpacingComponent>
+              <CardGrid
+                items={storiesLanding.books}
+                itemsPerRow={3}
+                links={[{ text: 'More books', url: '/books' }]}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        </>
+      ) : (
+        <>
+          <SpacingSection>
+            <SerialisedSeries series={series} />
+          </SpacingSection>
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title="Books" />
+            </SpacingComponent>
+            <SpacingComponent>
+              <Layout12>
+                <p>{booksPromoOnStoriesPage}</p>
+              </Layout12>
+            </SpacingComponent>
+            <SpacingComponent>
+              <CardGrid
+                items={featuredBooks}
+                itemsPerRow={3}
+                links={[{ text: 'More books', url: '/books' }]}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        </>
+      )}
 
       <SpacingSection>
         <SpacingComponent>

@@ -21,36 +21,38 @@ import Space from '../styled/Space';
 import styled from 'styled-components';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 // The `bottom` values here are coupled to the space
 // beneath the Header in ContentPage.tsx
 export const headerSpaceSize = 'l';
-const HeroPictureBackground = styled.div<{ bgColor: string }>`
+const HeroPictureBackground = styled.div<{ bgColor: PaletteColor }>`
   position: absolute;
   background-color: ${props => props.theme.color(props.bgColor)};
   height: 50%;
   width: 100%;
   bottom: -${props => props.theme.spaceAtBreakpoints.small[headerSpaceSize]}px;
 
-  ${props => props.theme.media.medium`
-    bottom: -${props =>
-      props.theme.spaceAtBreakpoints.medium[headerSpaceSize]}px;
-  `}
+  ${props =>
+    props.theme.media('medium')(
+      `bottom: -${props.theme.spaceAtBreakpoints.medium[headerSpaceSize]}px;`
+    )}
 
-  ${props => props.theme.media.large`
-    bottom: -${props =>
-      props.theme.spaceAtBreakpoints.large[headerSpaceSize]}px;
-  `}
+  ${props =>
+    props.theme.media('large')(
+      `bottom: -${props.theme.spaceAtBreakpoints.large[headerSpaceSize]}px;`
+    )}
 `;
 
 const HeroPictureContainer = styled.div`
   max-width: 1450px;
   margin: 0 auto;
 
-  ${props => props.theme.media.medium`
-    padding-left: 24px;
-    padding-right: 24px;
-  `}
+  ${props =>
+    props.theme.media('medium')`
+      padding-left: 24px;
+      padding-right: 24px;
+    `}
 `;
 
 export type FeaturedMedia =
@@ -79,7 +81,7 @@ type Props = {
   FeaturedMedia?: FeaturedMedia;
   HeroPicture?: ReactElement<typeof Picture>;
   isFree?: boolean;
-  heroImageBgColor?: 'white' | 'cream';
+  heroImageBgColor?: 'warmNeutral.300' | 'white';
   backgroundTexture?: string;
   highlightHeading?: boolean;
   asyncBreadcrumbsRoute?: string;

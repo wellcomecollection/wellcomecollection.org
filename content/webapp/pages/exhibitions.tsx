@@ -27,6 +27,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { isFuture } from '@weco/common/utils/dates';
+import styled from 'styled-components';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -70,6 +71,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
+const PaginationWrapper = styled(Layout12)`
+  text-align: right;
+`;
+
 const ExhibitionsPage: FC<Props> = props => {
   const { exhibitions, period, title, jsonLd } = props;
   const firstExhibition = exhibitions[0];
@@ -92,13 +97,13 @@ const ExhibitionsPage: FC<Props> = props => {
     }
   );
 
-  const paginationRoot = `exhibitions${period ? `/${period}` : ''}`;
+  const paginationRoot = `/exhibitions${period ? `/${period}` : ''}`;
 
   return (
     <PageLayout
       title={title}
       description={pageDescriptions.exhibitions}
-      url={{ pathname: `/exhibitions${period ? `/${period}` : ''}` }}
+      url={{ pathname: paginationRoot }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="whats-on"
@@ -156,39 +161,19 @@ const ExhibitionsPage: FC<Props> = props => {
               itemsPerRow={3}
             />
             {exhibitions.totalPages > 1 && (
-              <Layout12>
-                <div className="text-align-right">
-                  <Pagination
-                    totalResults={exhibitions.totalResults}
-                    currentPage={exhibitions.currentPage}
-                    totalPages={exhibitions.totalPages}
-                    prevPage={
-                      exhibitions.currentPage > 1
-                        ? exhibitions.currentPage - 1
-                        : undefined
-                    }
-                    nextPage={
-                      exhibitions.currentPage < exhibitions.totalPages
-                        ? exhibitions.currentPage + 1
-                        : undefined
-                    }
-                    prevQueryString={
-                      `/${paginationRoot}` +
-                      (period ? `/${period}` : '') +
-                      (exhibitions.currentPage > 1
-                        ? `?page=${exhibitions.currentPage - 1}`
-                        : '')
-                    }
-                    nextQueryString={
-                      `/${paginationRoot}` +
-                      (period ? `/${period}` : '') +
-                      (exhibitions.currentPage < exhibitions.totalPages
-                        ? `?page=${exhibitions.currentPage + 1}`
-                        : '')
-                    }
-                  />
-                </div>
-              </Layout12>
+              <PaginationWrapper>
+                <Pagination
+                  paginatedResults={exhibitions}
+                  paginationRoot={{
+                    href: {
+                      pathname: paginationRoot,
+                    },
+                    as: {
+                      pathname: paginationRoot,
+                    },
+                  }}
+                />
+              </PaginationWrapper>
             )}
           </SpacingSection>
         </>

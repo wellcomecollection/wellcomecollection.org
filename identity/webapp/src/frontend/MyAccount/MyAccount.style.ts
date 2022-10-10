@@ -33,9 +33,9 @@ export const ButtonAlign = styled.div`
 `;
 
 export const ModalContainer = styled.aside`
-  @media screen and (min-width: 600px) {
+  ${props => props.theme.media('medium')`
     width: 24em;
-  }
+  `}
 `;
 
 export const ItemTitle = styled.span`
@@ -43,9 +43,9 @@ export const ItemTitle = styled.span`
   min-width: 300px;
   max-width: 600px;
 
-  @media (max-width: ${props => props.theme.sizes.large}px) {
+  ${props => props.theme.media('large', 'max-width')`
     min-width: 100%;
-  }
+  `}
 `;
 
 export const ItemStatus = styled.span`
@@ -66,7 +66,7 @@ const colours = {
   success: css`
     background-color: rgba(0, 120, 108, 0.1);
     border: 1px solid rgba(0, 120, 108, 0.3);
-    color: ${props => props.theme.color('green', 'dark')};
+    color: ${props => props.theme.color('black')};
   `,
   failure: css`
     background-color: rgba(224, 27, 47, 0.1);
@@ -87,23 +87,24 @@ export const StatusAlert = styled(Space).attrs({
     properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
   },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  className: 'flex flex--v-center',
 })<{ type: keyof typeof colours }>`
   ${props => colours[props.type]}
   border-radius: ${props => props.theme.borderRadiusUnit}px;
+  display: flex;
+  align-items: center;
 `;
 
 export const Section = styled.section`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1em;
   align-items: center;
   padding: 1em 0;
 
-  @media screen and (min-width: 600px) {
+  ${props => props.theme.media('medium')`
     grid-template-columns: 3fr 2fr;
-  }
+  `}
 
   & > h2 {
     grid-column: 1 / -1;

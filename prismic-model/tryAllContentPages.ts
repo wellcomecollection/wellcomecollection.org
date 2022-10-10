@@ -9,8 +9,10 @@
  */
 
 import { error } from './console';
-import { downloadPrismicSnapshot } from './downloadSnapshot';
-import fs from 'fs';
+import {
+  downloadPrismicSnapshot,
+  getPrismicDocuments,
+} from './downloadSnapshot';
 import fetch from 'node-fetch';
 import tqdm from 'tqdm';
 
@@ -18,20 +20,6 @@ type PrismicDocument = {
   id: string;
   type: string;
 };
-
-/** Returns a list of all the Prismic documents in a given snapshot directory. */
-function getPrismicDocuments(snapshotDir: string): PrismicDocument[] {
-  const documents: PrismicDocument[] = [];
-
-  fs.readdirSync(snapshotDir).forEach(file => {
-    const data = fs.readFileSync(`${snapshotDir}/${file}`);
-    const json: { results: PrismicDocument[] } = JSON.parse(data.toString());
-
-    documents.push(...json.results);
-  });
-
-  return documents;
-}
 
 // Prismic content types that have documents, but are only visible when they're linked
 // from other types -- they aren't individually addressable.

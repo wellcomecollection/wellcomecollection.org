@@ -9,15 +9,21 @@ import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { getCrop } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 
+const ImageWrapper = styled.div`
+  position: relative;
+`;
+
 type Props = {
   item: CardType;
 };
 
 export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
-  className:
-    'plain-link promo-link rounded-corners overflow-hidden flex-ie-block flex--column',
+  className: 'plain-link promo-link rounded-corners flex-ie-block',
 }))`
-  background: ${props => props.theme.color('cream')};
+  overflow: hidden;
+  flex-direction: column;
+
+  background: ${props => props.theme.color('warmNeutral.300')};
   min-height: ${props => props.theme.minCardHeight}px;
 
   .card-theme.card-theme--white & {
@@ -25,11 +31,11 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
   }
 
   .card-theme.card-theme--transparent & {
-    background: ${props => props.theme.color('transparent')};
+    background: transparent;
     min-height: auto;
   }
 
-  .card-theme.bg-charcoal & {
+  .card-theme.bg-dark & {
     color: ${props => props.theme.color('white')};
   }
 `;
@@ -67,8 +73,10 @@ export const CardBody = styled(Space).attrs(() => ({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: 'flex flex--column flex-1',
 }))`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   justify-content: space-between;
 
   ${props =>
@@ -106,7 +114,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
         });
       }}
     >
-      <div className="relative">
+      <ImageWrapper>
         {image && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -127,7 +135,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
             <LabelsList labels={[{ text: item.format.title }]} />
           </div>
         )}
-      </div>
+      </ImageWrapper>
 
       <CardBody>
         <div>

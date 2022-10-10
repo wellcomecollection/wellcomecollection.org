@@ -237,7 +237,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </Space>
         </Layout12>
         <div className="is-hidden-s">
-          <WobblyEdge background="cream" />
+          <WobblyEdge background="warmNeutral.300" />
         </div>
       </Header>
       <Layout10>

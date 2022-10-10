@@ -24,6 +24,7 @@ import { Format } from '../../../types/format';
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { transformContributors } from './contributors';
 import { noAltTextBecausePromo } from './images';
+import readingTime from 'reading-time';
 
 function transformContentLink(document?: LinkField): MultiContent | undefined {
   if (!document) {
@@ -47,6 +48,7 @@ function transformContentLink(document?: LinkField): MultiContent | undefined {
 
 export function transformArticleToArticleBasic(article: Article): ArticleBasic {
   // returns what is required to render StoryPromos and story JSON-LD
+
   return (({
     type,
     id,
@@ -104,6 +106,20 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     ? (transformLabelType(data.format) as Format<ArticleFormatId>)
     : undefined;
 
+  // Calculating the full reading time of the article by getting all article text
+  function allArticleText(genericBody) {
+    return genericBody
+      .filter(genericBody => genericBody?.type === 'text')
+      .map(element => element.value)
+      .flat()
+      .map(element => element.text)
+      .join(' ');
+  }
+
+  const readingTimeInMinutes =
+    Math.round(readingTime(allArticleText(genericFields.body)).minutes) +
+    ' minutes';
+
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
     series => transformSeries(series as SeriesPrismicDocument)
   );
@@ -114,6 +130,20 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   ].filter(isNotUndefined);
 
   const contributors = transformContributors(document);
+  // This is getting a little unwieldy, as i am learning there
+  // are a few formats we consider to be 'articles' even if their Prismic 'format'
+  // doesn't return them as 'Article' e.g. Book extracts
+  // TODO: get definitive list of what we consider to be article and refactor the below function to account for that
+  const showReadingTime = format
+    ? Boolean(
+        format?.title === 'Article' ||
+          format?.title === 'Serial' ||
+          format?.title === 'Book extract' ||
+          format?.title === 'Long read' ||
+          format?.title === 'Photo story' ||
+          format?.title === 'Prose Poem'
+      )
+    : Boolean(labels[0]?.text === 'Serial' || labels[0]?.text === 'Article');
 
   return {
     ...genericFields,
@@ -122,6 +152,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     format,
     series,
     contributors,
+    readingTime: showReadingTime ? readingTimeInMinutes : undefined,
     datePublished: new Date(datePublished),
     seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
       transformSeason(season as SeasonPrismicDocument)

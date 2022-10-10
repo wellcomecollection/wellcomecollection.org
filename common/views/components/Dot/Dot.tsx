@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
+import { classNames } from '@weco/common/utils/classnames';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 const DotEl = styled.span.attrs({
   'aria-hidden': true,
@@ -12,11 +14,11 @@ const DotEl = styled.span.attrs({
 `;
 
 type Props = {
-  color: string;
+  color: PaletteColor;
 };
 
-const Dot: FunctionComponent<Props> = ({ color }: Props) => {
-  return <DotEl className={`font-${color}`} />;
-};
+const Dot: FC<Props> = ({ color }) => (
+  <DotEl className={classNames({ [`font-${color}`]: true })} />
+);
 
 export default Dot;

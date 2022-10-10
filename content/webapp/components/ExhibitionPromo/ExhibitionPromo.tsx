@@ -1,15 +1,20 @@
 import { FC } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { formatDate } from '@weco/common/utils/format-date';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import styled from 'styled-components';
+
+const ImageWrapper = styled.div`
+  position: relative;
+`;
 
 type Props = {
   exhibition: ExhibitionBasic;
@@ -39,7 +44,7 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
         });
       }}
     >
-      <div className="relative">
+      <ImageWrapper>
         {isNotUndefined(image) ? (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -61,7 +66,7 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
         <div style={{ position: 'absolute', bottom: 0 }}>
           <LabelsList labels={labels} />
         </div>
-      </div>
+      </ImageWrapper>
 
       <CardBody>
         <div>
@@ -82,8 +87,9 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
               className={`${font('intr', 5)} no-padding`}
             >
               <>
-                <time dateTime={formatDate(start)}>{formatDate(start)}</time> –{' '}
-                <time dateTime={formatDate(end)}>{formatDate(end)}</time>
+                <HTMLDate date={start} />
+                {' – '}
+                <HTMLDate date={end} />
               </>
             </Space>
           )}

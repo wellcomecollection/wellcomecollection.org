@@ -166,6 +166,8 @@ const contentRedirects: Record<string, string> = {
   '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
   '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
 
+  '/exhibitions/medicine-man': '/exhibitions/Weoe4SQAAKJwjcDC',
+
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1656920569188629
   '/events/YrCXAREAACEAFSTW': '/events/Yqcv7xEAACEA61Co',
 

@@ -17,18 +17,25 @@ export const pageDescriptions = {
     'We publish thought-provoking books exploring health and human experiences.',
   events:
     'Our events take place both online and in our building. Choose from an inspiring range of free talks, discussions and more.',
+  exhibitionGuides:
+    'Explore our exhibitions using your own device, with audio description, British Sign Language and gallery captions',
   exhibitions:
     'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.',
   guides: 'Guides intro text...',
   homepage:
     'Visit our free museum and library in central London connecting science, medicine, life and art. Explore our exhibitions, live events, gallery tours and café. Fully accessible.',
+  images: 'Search Wellcome Collection images',
   stories:
     'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.',
   userPanel:
     'Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more.',
   whatsOn:
     'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.',
-  exhibitionGuides: 'Exhibition Guides...',
+  works: 'Search the Wellcome Collection catalogue',
+};
+
+export const pageDescriptionConcepts = (label: string): string => {
+  return `Find books, manuscripts, paintings, illustrations, photos and unpublished archives about ${label}, many of them with free online access.`;
 };
 
 export const defaultPageTitle =
@@ -90,10 +97,6 @@ export const sierraAccessMethodtoNewLabel = {
 };
 
 export const inOurBuilding = 'In our building';
-
-// These are the instructions for people navigating the calendar component with a keyboard.
-export const calendarInstructions =
-  'Use the arrow keys to move around the calendar. Use the home key to move to the beginning of a row. Use the end key to move to the end of a row. When focused on a date you can select it with the Enter or Space key.';
 
 export const requestingDisabled =
   'Requesting is temporarily unavailable while we perform maintenance work. In the meantime, email library@wellcomecollection.org the details of your request and when you would like to consult it and we can retrieve the items for you.';

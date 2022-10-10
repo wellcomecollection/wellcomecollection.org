@@ -12,11 +12,15 @@ import * as prismicT from '@prismicio/types';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 
 const HeaderWrapper = styled.div`
-  background: ${props => props.theme.color('charcoal')};
+  background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
 `;
 const TextWrapper = styled.div`
-  border-left: 1px solid ${props => props.theme.color('orange')};
+  border-left: 1px solid ${props => props.theme.color('accent.salmon')};
+`;
+
+const FeaturedMediaWrapper = styled.div`
+  position: relative;
 `;
 
 type Props = {
@@ -40,7 +44,9 @@ const SeasonsHeader: FunctionComponent<Props> = ({
     <Layout12>
       <HeaderWrapper>
         <WobblyBottom color="white">
-          {FeaturedMedia && <div className="relative">{FeaturedMedia}</div>}
+          {FeaturedMedia && (
+            <FeaturedMediaWrapper>{FeaturedMedia}</FeaturedMediaWrapper>
+          )}
           <Space
             v={{
               size: 'l',
@@ -52,7 +58,10 @@ const SeasonsHeader: FunctionComponent<Props> = ({
                 <TextWrapper>
                   <Space h={{ size: 'm', properties: ['padding-left'] }}>
                     {labels && labels.labels.length > 0 && (
-                      <LabelsList {...labels} defaultLabelColor="orange" />
+                      <LabelsList
+                        {...labels}
+                        defaultLabelColor="accent.salmon"
+                      />
                     )}
                     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>

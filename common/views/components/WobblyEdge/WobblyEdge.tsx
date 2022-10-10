@@ -9,6 +9,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import debounce from 'lodash.debounce';
 import { prefixedPropertyStyleObject } from '../../../utils/prefixed-property-style-object';
 import styled from 'styled-components';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 const Edge = styled.div.attrs({
   // This edge is deliberately random. We don't want Chromatic shout when
@@ -16,7 +17,7 @@ const Edge = styled.div.attrs({
   // https://www.chromatic.com/docs/ignoring-elements#ignore-dom-elements
   'data-chromatic': 'ignore',
 })<{
-  background: string;
+  background: PaletteColor;
   isRotated: boolean;
   isEnhanced: boolean;
 }>`
@@ -28,10 +29,10 @@ const Edge = styled.div.attrs({
   transition: -webkit-clip-path 2000ms ease-in-out, clip-path 2000ms ease-in-out;
   display: none;
 
-  @media (min-width: ${props => props.theme.sizes.large}px) {
+  ${props => props.theme.media('large')`
     max-height: 60px;
     margin-top: -60px;
-  }
+  `}
 
   ${props =>
     props.isEnhanced &&
@@ -54,10 +55,10 @@ const Edge = styled.div.attrs({
     margin-top: 0;
     top: -2px;
 
-    @media (min-width: ${props.theme.sizes.large}px) {
+    ${props.theme.media('large')`
       margin-top: 0;
       top: -2px;
-    }
+    `}
   `}
 `;
 
@@ -66,7 +67,7 @@ function randomIntFromInterval(min: number, max: number): number {
 }
 
 type Props = {
-  background: string;
+  background: PaletteColor;
   isRotated?: boolean;
   intensity?: number;
   points?: number;

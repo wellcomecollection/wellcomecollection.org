@@ -95,8 +95,22 @@ export async function catalogueQuery<Params, Result extends ResultType>(
     const res = await catalogueFetch(url);
     const json = await res.json();
 
-    return json;
+    // In general we want to know about errors from the catalogue API, but
+    // HTTP 414 URI Too Long isn't interesting -- it's usually a sign of an
+    // automated tool trying to inject malicious data, and thus can be ignored.
+    if (json.type === 'Error' && json.httpStatus !== 414) {
+      console.warn(
+        `Received error from catalogue API query ${url}: ` +
+          JSON.stringify(json)
+      );
+    }
+
+    return {
+      ...json,
+      _requestUrl: url,
+    };
   } catch (error) {
+    console.error(`Unable to fetch catalogue API URL ${url}`, error);
     return catalogueApiError();
   }
 }

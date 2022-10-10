@@ -48,7 +48,13 @@ const TemplateV2 = ({ items, ...rest }) => {
   }));
 
   return (
-    <TabNavV2 items={itemsSelector} {...rest} setSelectedTab={setSelectedTab} />
+    <TabNavV2
+      id="story-tabs"
+      items={itemsSelector}
+      selectedTab="all"
+      {...rest}
+      setSelectedTab={setSelectedTab}
+    />
   );
 };
 export const basicV2 = TemplateV2.bind({});
@@ -70,10 +76,6 @@ basicV2.args = {
 };
 
 basicV2.argTypes = {
-  color: {
-    type: 'select',
-    options: ['', 'yellow', 'newPaletteOrange', 'newPaletteBlue'],
-  },
   setSelectedTab: {
     table: { disable: true },
   },

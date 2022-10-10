@@ -1,8 +1,8 @@
 import body, { slice } from './body';
 import heading from './heading';
-import link from './link';
-import text from './text';
-import { multiLineText, singleLineText } from './structured-text';
+import { mediaLink, webLink } from './link';
+import keyword from './keyword';
+import { multiLineText, singleLineText } from './text';
 import gifVideoSlice from './gif-video-slice';
 import title from './title';
 
@@ -74,6 +74,10 @@ export default {
           name: 'standalone',
           display: 'Standalone',
         },
+        {
+          name: 'frames',
+          display: 'Frames',
+        },
       ],
       quoteV2: [
         {
@@ -91,8 +95,7 @@ export default {
         type: 'Slice',
         fieldset: 'Text',
         'non-repeat': {
-          text: multiLineText({
-            label: 'Text',
+          text: multiLineText('Text', {
             overrideTextOptions: [
               'heading2',
               'heading3',
@@ -132,8 +135,7 @@ export default {
         type: 'Slice',
         fieldset: 'Standfirst',
         'non-repeat': {
-          text: singleLineText({
-            label: 'Standfirst',
+          text: singleLineText('Standfirst', {
             overrideTextOptions: ['strong', 'em', 'hyperlink'],
           }),
         },
@@ -147,8 +149,7 @@ export default {
             type: 'Embed',
             fieldset: 'Embed',
           },
-          caption: singleLineText({
-            label: 'Caption',
+          caption: singleLineText('Caption', {
             placeholder: 'Caption',
             overrideTextOptions: ['hyperlink', 'em'],
           }),
@@ -204,8 +205,7 @@ export default {
             type: 'Embed',
             fieldset: 'YouTube embed',
           },
-          caption: singleLineText({
-            label: 'Caption',
+          caption: singleLineText('Caption', {
             placeholder: 'Caption',
             overrideTextOptions: ['hyperlink', 'em'],
           }),
@@ -213,17 +213,17 @@ export default {
       },
       discussion: slice('Discussion', {
         nonRepeat: {
-          title: heading({ label: 'Title', level: 2 }),
-          text: multiLineText({ label: 'Text' }),
+          title: heading('Title', { level: 2 }),
+          text: multiLineText('Text'),
         },
       }),
       tagList: slice('Tag List', {
         nonRepeat: {
-          title: heading({ label: 'Title', level: 2 }),
+          title: heading('Title', { level: 2 }),
         },
         repeat: {
-          link: link('Link', 'web'),
-          linkText: text('Link text'),
+          link: webLink('Link'),
+          linkText: keyword('Link text'),
         },
       }),
       imageList: {
@@ -238,18 +238,15 @@ export default {
               label: 'List style',
             },
           },
-          description: multiLineText({
-            label: 'Description',
+          description: multiLineText('Description', {
             overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
           }),
         },
         repeat: {
-          title: singleLineText({
-            label: 'Title',
+          title: singleLineText('Title', {
             overrideTextOptions: ['heading1'],
           }),
-          subtitle: singleLineText({
-            label: 'Subtitle',
+          subtitle: singleLineText('Subtitle', {
             overrideTextOptions: ['heading2'],
           }),
           image: {
@@ -258,12 +255,10 @@ export default {
               label: 'Image',
             },
           },
-          caption: singleLineText({
-            label: 'Caption',
+          caption: singleLineText('Caption', {
             overrideTextOptions: ['strong', 'em', 'hyperlink'],
           }),
-          description: multiLineText({
-            label: 'Description',
+          description: multiLineText('Description', {
             overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
           }),
         },
@@ -271,7 +266,7 @@ export default {
       audioPlayer: slice('Audio Player', {
         nonRepeat: {
           title,
-          audio: link('Audio', 'media', []),
+          audio: mediaLink('Audio'),
         },
       }),
     },

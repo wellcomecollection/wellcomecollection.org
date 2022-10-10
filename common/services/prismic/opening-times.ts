@@ -1,4 +1,4 @@
-import { formatDay } from '../../utils/format-date';
+import { formatDayName } from '../../utils/format-date';
 import {
   OverrideType,
   ExceptionalPeriod,
@@ -160,7 +160,7 @@ export function exceptionalFromRegular(
   dateToGet: Date,
   type: OverrideType
 ): ExceptionalOpeningHoursDay {
-  const currentDay = formatDay(dateToGet);
+  const currentDay = formatDayName(dateToGet);
   const regular = venue.openingHours.regular.find(
     hours => hours.dayOfWeek === currentDay
   );
@@ -257,7 +257,7 @@ export function getTodaysVenueHours(
   venue: Venue
 ): ExceptionalOpeningHoursDay | OpeningHoursDay | undefined {
   const todaysDate = today();
-  const todayString = formatDay(todaysDate);
+  const todayString = formatDayName(todaysDate);
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
     venue.openingHours.exceptional.find(i =>

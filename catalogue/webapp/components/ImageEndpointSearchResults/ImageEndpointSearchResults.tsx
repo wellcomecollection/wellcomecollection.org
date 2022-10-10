@@ -9,6 +9,7 @@ import Gallery from 'react-photo-gallery';
 import styled from 'styled-components';
 
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { hexToRgb } from '@weco/common/utils/convert-colors';
 import { Image, CatalogueResultsList } from '@weco/common/model/catalogue';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
@@ -26,6 +27,7 @@ type GalleryImageProps = Image & {
   src: string;
   width: number;
   height: number;
+  averageColor?: string;
 };
 
 const imageMargin = 16;
@@ -38,21 +40,23 @@ const GalleryContainer = styled.div`
     justify-content: space-around;
   }
 
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
+  ${props =>
+    props.theme.media('medium')(`
     margin: 0 -${imageMargin}px;
 
     .react-photo-gallery--gallery > div {
       justify-content: flex-start;
     }
-  }
+  `)}
 `;
 const ImageContainer = styled.li`
   margin: 0 ${imageMargin ? imageMargin / 2 : 0}px
     ${imageMargin ? imageMargin / 2 : 0}px;
 
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
+  ${props =>
+    props.theme.media('medium')(`
     margin: 0 ${imageMargin}px ${imageMargin}px;
-  }
+  `)}
 `;
 
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
@@ -86,6 +90,8 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
 
   const imageRenderer = useCallback(galleryImage => {
     const photo: GalleryImageProps = galleryImage.photo;
+    const rgbColor = hexToRgb(photo.averageColor || '');
+
     return (
       <ImageContainer key={galleryImage.key} role="listitem">
         <ImageCard
@@ -103,7 +109,11 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             setIsActive(true);
           }}
           layout="fixed"
-          background={background}
+          background={
+            background ||
+            (rgbColor &&
+              `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
+          }
         />
       </ImageContainer>
     );
@@ -152,7 +162,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                     }
                   }}
                   layout="fill"
-                  background={background}
                 />
               </Space>
             </li>

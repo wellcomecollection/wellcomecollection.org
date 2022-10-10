@@ -169,7 +169,7 @@ test.describe(
       await multiVolumeItem(context, page);
       const dates = await page.textContent(workDates);
       // TODO: this text isn't very explanitory and should probably be updated in the DOM
-      expect(dates).toBe('Date1496[7]');
+      expect(dates).toBe('Date:1496[7]');
     });
 
     test('the item has reference number information', async ({
@@ -178,7 +178,7 @@ test.describe(
     }) => {
       await itemWithReferenceNumber(context, page);
       const dates = await page.textContent(referenceNumber);
-      expect(dates).toBe('ReferenceWA/HMM/BU/1');
+      expect(dates).toBe('Reference:WA/HMM/BU/1');
     });
   }
 );

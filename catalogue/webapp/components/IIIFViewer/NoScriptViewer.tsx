@@ -22,7 +22,7 @@ const NoScriptViewerEl = styled.div`
   display: flex;
   flex-direction: row-reverse;
   height: calc(100vh - ${props => props.theme.navHeight}px);
-  background-color: ${props => props.theme.color('charcoal')};
+  background-color: ${props => props.theme.color('neutral.700')};
 `;
 
 const NoScriptViewerMain = styled.div`
@@ -58,7 +58,7 @@ const StaticThumbnailsContainer = styled.div`
   height: 100%;
   width: 25%;
   border-top: none;
-  border-right: 1px solid ${props => props.theme.color('pewter')};
+  border-right: 1px solid ${props => props.theme.color('neutral.600')};
 `;
 
 const ThumbnailLink = styled.a`
@@ -75,6 +75,13 @@ export const NoScriptViewerPaginatorButtons = styled.div`
   top: 12px;
 `;
 
+const PaginatorWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 /* eslint-disable react/display-name */
 export const PaginatorButtons = (
   isTabbable: boolean,
@@ -86,7 +93,7 @@ export const PaginatorButtons = (
     nextLink,
   }: PaginatorRenderFunctionProps) => {
     return (
-      <div className="flex flex--column flex--v-center flex--h-center">
+      <PaginatorWrapper>
         {prevLink && (
           <Space v={{ size: 's', properties: ['margin-bottom'] }}>
             <Rotator rotate={270}>
@@ -131,7 +138,7 @@ export const PaginatorButtons = (
             </Rotator>
           </Space>
         )}
-      </div>
+      </PaginatorWrapper>
     );
   };
 };

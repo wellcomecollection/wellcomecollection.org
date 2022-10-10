@@ -77,7 +77,7 @@ const BooksPage: FunctionComponent<Props> = props => {
             },
           ]}
           paginatedResults={books}
-          paginationRoot={'books'}
+          paginationRoot={'/books'}
         />
       </SpacingSection>
     </PageLayout>

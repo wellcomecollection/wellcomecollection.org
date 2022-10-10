@@ -6,6 +6,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 import { FacilityPromo as FacilityPromoType } from '../../types/facility-promo';
 import { FC } from 'react';
+import styled from 'styled-components';
+
+const ImageWrapper = styled.div.attrs({
+  className: 'rounded-corners',
+})`
+  overflow: hidden;
+`;
 
 const FacilityPromo: FC<FacilityPromoType> = ({
   id,
@@ -33,7 +40,7 @@ const FacilityPromo: FC<FacilityPromoType> = ({
       href={url}
     >
       <div>
-        <div className="rounded-corners overflow-hidden">
+        <ImageWrapper>
           <PrismicImage
             image={uiImageProps}
             sizes={{
@@ -44,7 +51,7 @@ const FacilityPromo: FC<FacilityPromoType> = ({
             }}
             quality="low"
           />
-        </div>
+        </ImageWrapper>
 
         <CardBody>
           <div>

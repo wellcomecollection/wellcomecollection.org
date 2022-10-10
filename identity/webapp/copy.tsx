@@ -86,7 +86,7 @@ export const ApplicationReceived: FC<{ email: string }> = ({ email }) => (
         .
       </p>
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <Divider color="pumice" isKeyline />
+        <Divider color="warmNeutral.400" isKeyline />
       </Space>
       <p>
         <strong>Didn’t receive an email?</strong>

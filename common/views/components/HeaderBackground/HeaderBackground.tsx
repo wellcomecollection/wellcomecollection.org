@@ -19,7 +19,7 @@ const Background = styled.div<{ texture: string | null }>`
   overflow: hidden;
   z-index: -1;
 
-  background-color: ${props => props.theme.color('cream')};
+  background-color: ${props => props.theme.color('warmNeutral.300')};
   ${props =>
     props.texture &&
     `background-image: url(${props.texture});
@@ -45,7 +45,7 @@ const HeaderBackground: FunctionComponent<Props> = ({
     <Background texture={texture}>
       {hasWobblyEdge && (
         <WobblyEdgeContainer>
-          <WobblyEdge isValley={true} intensity={100} background={'white'} />
+          <WobblyEdge isValley={true} intensity={100} background="white" />
         </WobblyEdgeContainer>
       )}
     </Background>

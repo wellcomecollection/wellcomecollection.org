@@ -81,7 +81,7 @@ const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
             },
           ]}
           paginatedResults={articles}
-          paginationRoot={'articles'}
+          paginationRoot={'/articles'}
         />
       </SpacingSection>
     </PageLayout>

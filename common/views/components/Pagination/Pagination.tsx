@@ -1,23 +1,26 @@
 import { FunctionComponent } from 'react';
-import { font } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
 import Rotator from '../styled/Rotator';
 import { arrow } from '@weco/common/icons';
 import styled from 'styled-components';
+import { LinkProps } from '../../../model/link-props';
 
-export type Props = {
-  totalResults: number;
+type PageChangeFunction = (event: Event, page: number) => Promise<void>;
+
+export type PaginatedResultsProps = {
   currentPage: number;
   totalPages: number;
-  prevPage?: number;
-  nextPage?: number;
-  prevQueryString?: string;
-  nextQueryString?: string;
-  range?: {
-    beginning: number;
-    end: number;
-  };
+};
+
+export type Props = {
+  paginatedResults: PaginatedResultsProps;
+  paginationRoot: LinkProps;
+  hideMobilePagination?: boolean;
+  disabled?: boolean;
+  onPageChange?: PageChangeFunction;
+  showPortal?: boolean;
 };
 
 const PaginatorContainer = styled(Space).attrs({
@@ -33,62 +36,116 @@ const PaginatorContainer = styled(Space).attrs({
   justify-content: flex-end;
 `;
 
-const PaginatorWrapper = styled.nav`
+type PaginatorWrapperProps = {
+  hideMobilePagination?: boolean;
+};
+const PaginatorWrapper = styled.nav.attrs<PaginatorWrapperProps>(props => ({
+  className: classNames({
+    'is-hidden-s': Boolean(props.hideMobilePagination),
+  }),
+}))<PaginatorWrapperProps>`
   display: flex;
   align-items: center;
 `;
 
 const Pagination: FunctionComponent<Props> = ({
-  currentPage,
-  totalPages,
-  prevPage,
-  nextPage,
-  prevQueryString,
-  nextQueryString,
+  paginatedResults,
+  paginationRoot,
+  hideMobilePagination,
+  disabled,
+  onPageChange,
+  showPortal,
 }: Props) => {
+  const { currentPage, totalPages } = paginatedResults;
+
+  const prevPage = currentPage > 1 ? currentPage - 1 : undefined;
+  const nextPage = currentPage < totalPages ? currentPage + 1 : undefined;
+
+  const prevQueryString = prevPage
+    ? {
+        href: {
+          ...paginationRoot.href,
+          query: {
+            ...paginationRoot.href.query,
+            page: prevPage,
+          },
+        },
+        as: {
+          ...paginationRoot.as,
+          query: {
+            ...paginationRoot?.as?.query,
+            page: prevPage,
+          },
+        },
+      }
+    : null;
+
+  const nextQueryString = nextPage
+    ? {
+        href: {
+          ...paginationRoot.href,
+          query: {
+            ...paginationRoot.href.query,
+            page: nextPage,
+          },
+        },
+        as: {
+          ...paginationRoot.as,
+          query: {
+            ...paginationRoot?.as?.query,
+            page: nextPage,
+          },
+        },
+      }
+    : null;
+
   return (
     <PaginatorContainer>
-      <PaginatorWrapper aria-label="pagination">
+      {showPortal && <div id="sort-select-portal"></div>}
+      <PaginatorWrapper
+        aria-label="pagination"
+        hideMobilePagination={hideMobilePagination}
+      >
         {prevPage && prevQueryString && (
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <Rotator rotate={180}>
               <Control
-                link={{
-                  // TODO: Fix the type checking here
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore: Works but should be of LinkProps Type
-                  href: prevQueryString,
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore: Works but should be of LinkProps Type
-                  as: prevQueryString,
-                }}
+                link={prevQueryString}
                 colorScheme="light"
                 icon={arrow}
                 text={`Previous (page ${prevPage})`}
+                disabled={disabled}
+                clickHandler={
+                  onPageChange
+                    ? event => {
+                        onPageChange(event, prevPage);
+                      }
+                    : undefined
+                }
               />
             </Rotator>
           </Space>
         )}
 
-        <span className="font-pewter">
+        <span className="font-neutral-600">
           Page {currentPage} of {totalPages}
         </span>
 
         {nextPage && nextQueryString && (
           <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
             <Control
-              link={{
-                // TODO: Fix the type checking here
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore: Works but should be of LinkProps Type
-                href: nextQueryString,
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore: Works but should be of LinkProps Type
-                as: nextQueryString,
-              }}
+              link={nextQueryString}
               colorScheme="light"
               icon={arrow}
               text={`Next (page ${nextPage})`}
+              disabled={disabled}
+              clickHandler={
+                onPageChange
+                  ? event => {
+                      onPageChange(event, nextPage);
+                    }
+                  : undefined
+              }
             />
           </Space>
         )}
@@ -98,64 +155,3 @@ const Pagination: FunctionComponent<Props> = ({
 };
 
 export default Pagination;
-export class PaginationFactory {
-  static fromList(
-    l: [],
-    totalResults: number,
-    currentPage = 1,
-    pageSize = 32,
-    getParams = {}
-  ): Props {
-    const size = l.length;
-    const totalPages = Math.ceil(totalResults / pageSize);
-    const prevPage =
-      totalPages > 1 && currentPage !== 1 ? currentPage - 1 : undefined;
-    const nextPage =
-      totalPages > 1 && currentPage !== totalPages
-        ? currentPage + 1
-        : undefined;
-    const beginning = pageSize * currentPage - pageSize + 1;
-    const range = {
-      beginning,
-      end: beginning + size - 1,
-    };
-    const nextQueryString = buildQueryString(nextPage, getParams);
-    const prevQueryString = buildQueryString(prevPage, getParams);
-    const pagination: Props = {
-      totalResults,
-      currentPage,
-      totalPages,
-      prevPage,
-      nextPage,
-      prevQueryString,
-      nextQueryString,
-      range,
-    };
-    return pagination;
-  }
-}
-
-function buildQueryString(
-  page: number | undefined,
-  getParams: Record<string, string> = {}
-): string {
-  const paramsArray = Object.keys(getParams)
-    .map(key => {
-      if (key !== 'page') {
-        return `${key}=${encodeURIComponent(getParams[key])}`;
-      }
-    })
-    .filter(_ => _);
-
-  const paramsString = paramsArray.join('&');
-
-  if (paramsArray.length && page) {
-    return `?${paramsString}&page=${page}`;
-  } else if (page) {
-    return `?page=${page}`;
-  } else if (paramsArray.length) {
-    return `?${paramsString}`;
-  } else {
-    return '';
-  }
-}

@@ -20,6 +20,7 @@ import {
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
+  filterLabel,
 } from '../../../services/catalogue/filters';
 import ButtonSolid, {
   ButtonTypes,
@@ -54,7 +55,7 @@ const FiltersHeader = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const ActiveFilters = styled(Space).attrs({
@@ -82,7 +83,7 @@ const FiltersBody = styled(Space).attrs({
 const FilterSection = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const FiltersScrollable = styled.div`
@@ -95,10 +96,12 @@ const FiltersScrollable = styled.div`
 const FiltersFooter = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  className: 'flex flex--v-center flex--h-space-between',
 })`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: ${props => props.theme.color('white')};
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
   position: fixed;
   bottom: 0;
   left: 0;
@@ -125,7 +128,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
               <CheckboxRadio
                 id={`mobile-${id}`}
                 type="checkbox"
-                text={`${label} (${count})`}
+                text={filterLabel({ label, count })}
                 value={value}
                 name={f.id}
                 checked={selected}

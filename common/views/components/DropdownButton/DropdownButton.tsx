@@ -10,9 +10,10 @@ import { AppContext } from '../AppContext/AppContext';
 import { chevron, IconSvg } from '../../../icons';
 import { themeValues } from '@weco/common/views/themes/config';
 
-const DropdownWrapper = styled.div.attrs({
-  className: 'flex-inline relative',
-})``;
+const DropdownWrapper = styled.div`
+  display: inline-flex;
+  position: relative;
+`;
 
 type DropdownProps = {
   isActive: boolean;
@@ -65,7 +66,7 @@ const Popper = styled('div')<{ isVisible: boolean }>`
   z-index: ${props => (props.isVisible ? 1 : -1)};
   opacity: ${props => (props.isVisible ? 1 : 0)};
 
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     max-width: calc(50vw - 20px);
   `}
 `;

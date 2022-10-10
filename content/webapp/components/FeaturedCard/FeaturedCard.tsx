@@ -12,11 +12,10 @@ import { Card } from '../../types/card';
 import { Label } from '@weco/common/model/labels';
 import { Link } from '../../types/link';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import { grid, font } from '@weco/common/utils/classnames';
+import { grid, font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
-import { formatDate } from '@weco/common/utils/format-date';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import { trackEvent } from '@weco/common/utils/ga';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Page } from '../../types/pages';
@@ -25,6 +24,8 @@ import { Book } from '../../types/books';
 import { Event } from '../../types/events';
 import { Guide } from '../../types/guides';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { PaletteColor } from '@weco/common/views/themes/config';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 
 type PartialFeaturedCard = {
   id: string;
@@ -34,8 +35,8 @@ type PartialFeaturedCard = {
 };
 
 type Props = PartialFeaturedCard & {
-  background: string;
-  color: string;
+  background: PaletteColor;
+  color: PaletteColor;
   isReversed?: boolean;
 };
 
@@ -90,8 +91,8 @@ export function convertItemToFeaturedCardProps(
 
 type FeaturedCardArticleProps = {
   article: ArticleBasic;
-  background: string;
-  color: string;
+  background: PaletteColor;
+  color: PaletteColor;
 };
 
 type FeaturedCardArticleBodyProps = {
@@ -127,8 +128,8 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
 
 type FeaturedCardExhibitionProps = {
   exhibition: ExhibitionBasic;
-  background: string;
-  color: string;
+  background: PaletteColor;
+  color: PaletteColor;
 };
 
 type FeaturedCardExhibitionBodyProps = {
@@ -148,13 +149,9 @@ const FeaturedCardExhibitionBody = ({
           className={`${font('intr', 4)} no-margin no-padding`}
         >
           <>
-            <time dateTime={exhibition.start.toUTCString()}>
-              {formatDate(exhibition.start)}
-            </time>
+            <HTMLDate date={exhibition.start} />
             {' – '}
-            <time dateTime={exhibition.end.toISOString()}>
-              {formatDate(exhibition.end)}
-            </time>
+            <HTMLDate date={exhibition.end} />
           </>
         </Space>
       )}
@@ -171,7 +168,7 @@ const FeaturedCardWrap = styled.div`
   margin-left: -${props => props.theme.gutter.small}px;
   margin-right: -${props => props.theme.gutter.small}px;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     margin-left: 0;
     margin-right: 0;
   `}
@@ -179,8 +176,9 @@ const FeaturedCardWrap = styled.div`
 
 type HasIsReversed = { isReversed: boolean };
 const FeaturedCardLink = styled.a.attrs(() => ({
-  className: 'grid flex-end promo-link plain-link',
+  className: 'grid promo-link plain-link',
 }))<HasIsReversed>`
+  justify-content: flex-end;
   flex-direction: ${props => (props.isReversed ? 'row-reverse' : 'row')};
 `;
 
@@ -188,9 +186,9 @@ const FeaturedCardLeft = styled.div.attrs({
   className: grid({ s: 12, m: 12, l: 7, xl: 7 }),
 })``;
 
-const FeaturedCardRight = styled.div.attrs({
-  className: 'flex flex--column',
-})<HasIsReversed>`
+const FeaturedCardRight = styled.div<HasIsReversed>`
+  display: flex;
+  flex-direction: column;
   padding-left: ${props => (props.isReversed ? 0 : props.theme.gutter.small)}px;
   padding-right: ${props =>
     props.isReversed ? props.theme.gutter.small : 0}px;
@@ -199,33 +197,37 @@ const FeaturedCardRight = styled.div.attrs({
   height: 100%;
   min-height: 200px;
 
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     padding-left: 0;
     padding-right: 0;
   `}
 
-  ${props => props.theme.media.large`
-    margin-left: ${props =>
-      props.isReversed ? 0 : -props.theme.gutter.large + 'px'};
-    transform: translateY(0);
-  `}
+  ${props =>
+    props.theme.media('large')(`
+      margin-left: ${props.isReversed ? 0 : -props.theme.gutter.large + 'px'};
+      transform: translateY(0);
+    `)}
 `;
 
-const FeaturedCardCopy = styled(Space).attrs<{ color: string }>(props => ({
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: `flex-1 font-${props.color}`,
-}))<{ background: string }>`
+const FeaturedCardCopy = styled(Space).attrs<{ color: PaletteColor }>(
+  props => ({
+    h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+    v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+    className: classNames({ [`font-${props.color}`]: true }),
+  })
+)<{ background: PaletteColor }>`
+  flex: 1;
   background-color: ${props => props.theme.color(props.background)};
 
-  ${props => props.theme.media.large`
-    margin-right: -${props => props.theme.gutter.large}px;
-  `}
+  ${props =>
+    props.theme.media('large')(`
+      margin-right: -${props.theme.gutter.large}px;
+    `)}
 `;
 
-const FeaturedCardShim = styled.div.attrs<{ background: string }>({
+const FeaturedCardShim = styled.div.attrs<{ background: PaletteColor }>({
   className: `is-hidden-s is-hidden-m ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`,
-})<HasIsReversed & { background: string }>`
+})<HasIsReversed & { background: PaletteColor }>`
   position: relative;
   background-color: ${props => props.theme.color(props.background)};
   height: 21px;

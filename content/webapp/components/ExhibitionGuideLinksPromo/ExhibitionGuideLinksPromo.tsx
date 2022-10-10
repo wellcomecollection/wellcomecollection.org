@@ -5,6 +5,10 @@ import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import styled from 'styled-components';
 
+const ImageWrapper = styled.div`
+  position: relative;
+`;
+
 const Type = styled(Space).attrs({
   as: 'li',
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -31,29 +35,36 @@ type Props = {
 // We use this Promo for Exhibition Guides when we want to link to the individual types within a guide
 // and not just the guide itself
 const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
-  const links = [
-    {
+  const links: { url: string; text: string }[] = [];
+  if (exhibitionGuide.availableTypes.audioWithoutDescriptions) {
+    links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-without-descriptions`,
       text: 'Listen to audio guide, without audio description',
-    },
-    {
+    });
+  }
+  if (exhibitionGuide.availableTypes.audioWithDescriptions) {
+    links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-with-descriptions`,
       text: 'Listen to audio guide, with audio description',
-    },
-    {
+    });
+  }
+  if (exhibitionGuide.availableTypes.captionsOrTranscripts) {
+    links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/captions-and-transcripts`,
       text: 'Read captions and transcriptions',
-    },
-    {
+    });
+  }
+  if (exhibitionGuide.availableTypes.BSLVideo) {
+    links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/bsl`,
       text: 'Watch BSL videos',
-    },
-  ];
+    });
+  }
   return (
     <>
       <ExhibitionTitleLink href={`/guides/exhibitions/${exhibitionGuide.id}`}>
-        <div className="relative">
-          {exhibitionGuide.promo?.image && (
+        {exhibitionGuide.promo?.image && (
+          <ImageWrapper>
             <PrismicImage
               // We intentionally omit the alt text on promos, so screen reader
               // users don't have to listen to the alt text before hearing the
@@ -70,8 +81,8 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
               }}
               quality="low"
             />
-          )}
-        </div>
+          </ImageWrapper>
+        )}
 
         <Space
           v={{

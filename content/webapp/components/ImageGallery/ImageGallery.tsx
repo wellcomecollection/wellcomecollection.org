@@ -16,24 +16,68 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import { cross, gallery } from '@weco/common/icons';
 import { PageBackgroundContext } from '../ContentPage/ContentPage';
+import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
+import Tasl from '@weco/common/views/components/Tasl/Tasl';
+import ComicPreviousNext, {
+  Props as ComicPreviousNextProps,
+} from '../ComicPreviousNext/ComicPreviousNext';
+
+const FrameGridWrap = styled(Space).attrs({
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'xl', properties: ['margin-bottom'] },
+})`
+  position: relative;
+
+  ${props =>
+    props.theme.media('medium')(`
+    padding: 0;
+  `)}
+`;
+
+const FrameGrid = styled.div<{ isThreeUp: boolean }>`
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+
+  ${props =>
+    props.theme.media('medium')(`
+    grid-template-columns: 1fr 1fr;
+  `)}
+
+  ${props =>
+    props.theme.media('large')(`
+    ${props.isThreeUp && `grid-template-columns: 1fr 1fr 1fr;`}
+  `)}
+`;
+
+const FrameItem = styled.div`
+  width: 100%;
+  background: ${props => props.theme.color('white')};
+`;
 
 const GalleryTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
   as: 'span',
-  className: 'flex flex--v-top',
-})``;
+  /* TODO: There is no class flex--v-top, what is this mean to do? */
+  className: 'flex--v-top',
+})`
+  display: flex;
+`;
 
 const Gallery = styled.div.attrs({
-  className: 'row relative',
+  className: 'row',
 })<{
   isActive: boolean;
   isStandalone: boolean;
-  pageBackground: 'cream' | 'white';
+  pageBackground: 'warmNeutral.300' | 'white';
 }>`
+  position: relative;
+
   .caption {
     display: none;
   }
@@ -68,22 +112,19 @@ const Gallery = styled.div.attrs({
     color: ${props.theme.color('white')};
     background: linear-gradient(
       ${props.theme.color(props.pageBackground)} 100px,
-      ${props.theme.color('charcoal')} 100px
+      ${props.theme.color('neutral.700')} 100px
     );
 
-    @media (min-width: ${props.theme.sizes.medium}px) {
+    ${props.theme.media('medium')(`
       background: linear-gradient(
         ${props.theme.color(props.pageBackground)} 200px,
-        ${props.theme.color('charcoal')} 200px
+        ${props.theme.color('neutral.700')} 200px
       );
 
       ${
-        props.isStandalone &&
-        `
-        background: ${props.theme.color('charcoal')};
-      `
+        props.isStandalone && `background: ${props.theme.color('neutral.700')};`
       }
-    }
+    `)}
   `}
 
   transition: all 400ms ease;
@@ -91,14 +132,14 @@ const Gallery = styled.div.attrs({
   ${props =>
     props.isStandalone &&
     `
-    background: ${props.theme.color('charcoal')};
+    background: ${props.theme.color('neutral.700')};
 
     &:before {
       top: 0;
 
-      @media (min-width: ${props.theme.sizes.medium}px) {
+      ${props.theme.media('medium')`
         top: 0;
-      }
+      `}
     }
   `}
 
@@ -112,9 +153,9 @@ const Gallery = styled.div.attrs({
       width: 100%;
       pointer-events: none;
 
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
+      ${props => props.theme.media('medium')`
         top: 200px;
-      }
+      `}
     }
   }
 
@@ -131,33 +172,14 @@ const Gallery = styled.div.attrs({
     opacity: 0;
     transition: opacity 400ms ease;
 
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
-      top: 200px;
+    ${props => props.isActive && `opacity: 0.1;`}
 
-      ${props =>
-        props.isStandalone &&
-        `
-        top: 0;
-      `}
-
-      ${props =>
-        props.isActive &&
-        `
-        opacity: 0.1;
-      `}
-    }
+    ${props => props.isStandalone && `top: 0;`}
 
     ${props =>
-      props.isActive &&
-      `
-      opacity: 0.1;
-    `}
-
-    ${props =>
-      props.isStandalone &&
-      `
-      top: 0;
-    `}
+      props.theme.media('medium')(`
+        top: 200px;
+    `)}
   }
 
   .standalone-wobbly-edge {
@@ -185,6 +207,8 @@ export type Props = {
   title?: string;
   items: CaptionedImageProps[];
   isStandalone: boolean;
+  isFrames: boolean;
+  comicPreviousNext?: ComicPreviousNextProps;
 };
 
 const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
@@ -192,6 +216,8 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   title,
   items,
   isStandalone,
+  isFrames,
+  comicPreviousNext,
 }) => {
   const [isActive, setIsActive] = useState(true);
   const openButtonRef = useRef<HTMLButtonElement>(null);
@@ -200,7 +226,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   const pageBackground = useContext(PageBackgroundContext);
 
   useEffect(() => {
-    !isStandalone && setIsActive(false);
+    !isStandalone && !isFrames && setIsActive(false);
   }, []);
 
   function handleOpenClicked() {
@@ -246,13 +272,25 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
     setIsActive(true);
   }
 
-  const itemsToShow = () => {
-    return isActive ? items : [items[0]];
+  const itemsToShow = () => (isActive ? items : [items[0]]);
+  const isThreeUp = itemsToShow().length % 3 === 0;
+
+  const Layout = ({ children }) => {
+    if (isFrames && isThreeUp) {
+      // More landscape so allow more horizontal space
+      return <Layout10>{children}</Layout10>;
+    } else if (isFrames && !isThreeUp) {
+      // More square/portrait so limit horizontal space
+      return <Layout8>{children}</Layout8>;
+    } else {
+      // Not in frames, so image width/height constraint happens on the single image
+      return <Layout12>{children}</Layout12>;
+    }
   };
 
   return (
     <>
-      {!isStandalone && (
+      {!isStandalone && !isFrames && (
         <Layout8>
           <GalleryTitle>
             <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
@@ -266,7 +304,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
       )}
       <Gallery
         isActive={isActive}
-        isStandalone={isStandalone}
+        isStandalone={isStandalone || isFrames}
         id={`image-gallery-${id}`}
         pageBackground={pageBackground}
       >
@@ -278,10 +316,11 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             background: `url(${repeatingLsBlack}) no-repeat top center`,
           }}
         />
-        <Layout12>
+        <Layout>
+          {comicPreviousNext && <ComicPreviousNext {...comicPreviousNext} />}
           <Space
             v={
-              isStandalone
+              isStandalone || isFrames
                 ? {
                     size: 'xl',
                     properties: ['padding-top'],
@@ -290,7 +329,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             }
             className="relative"
           >
-            {isStandalone && (
+            {(isStandalone || isFrames) && (
               <div className="absolute standalone-wobbly-edge">
                 <WobblyEdge isRotated={true} background="white" />
               </div>
@@ -301,7 +340,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
               </div>
             )}
 
-            {!isStandalone && (
+            {!isStandalone && !isFrames && (
               <Space
                 v={{
                   size: 'm',
@@ -335,47 +374,64 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 </Space>
               </Space>
             )}
-            {itemsToShow().map((captionedImage, i) => (
-              <Space
-                v={
-                  isActive
-                    ? {
-                        size: 'xl',
-                        properties: ['margin-bottom'],
-                      }
-                    : undefined
-                }
-                onClick={() => {
-                  if (!isActive) {
-                    handleOpenClicked();
-                  }
-                }}
-                key={captionedImage.image.contentUrl}
-                style={{
-                  cursor: !isActive ? 'pointer' : 'default',
-                }}
-              >
-                <CaptionedImage
-                  image={captionedImage.image}
-                  caption={captionedImage.caption}
-                  preCaptionNode={
-                    items.length > 1 ? (
-                      <Space
-                        v={{
-                          size: 'm',
+            {isFrames && (
+              <FrameGridWrap>
+                <FrameGrid isThreeUp={isThreeUp}>
+                  {itemsToShow().map(captionedImage => (
+                    <FrameItem key={captionedImage.image.contentUrl}>
+                      <HeightRestrictedPrismicImage
+                        image={captionedImage.image}
+                        quality="high"
+                      />
+                    </FrameItem>
+                  ))}
+                </FrameGrid>
+                <Tasl {...itemsToShow()[0].image.tasl} />
+              </FrameGridWrap>
+            )}
+            {!isFrames &&
+              itemsToShow().map((captionedImage, i) => (
+                <Space
+                  v={
+                    isActive
+                      ? {
+                          size: 'xl',
                           properties: ['margin-bottom'],
-                        }}
-                        className={font('intb', 5)}
-                      >
-                        {i + 1} of {items.length}
-                      </Space>
-                    ) : null
+                        }
+                      : undefined
                   }
-                />
-              </Space>
-            ))}
+                  onClick={() => {
+                    if (!isActive) {
+                      handleOpenClicked();
+                    }
+                  }}
+                  key={captionedImage.image.contentUrl}
+                  style={{
+                    cursor: !isActive ? 'pointer' : 'default',
+                  }}
+                >
+                  <CaptionedImage
+                    image={captionedImage.image}
+                    caption={captionedImage.caption}
+                    hasRoundedCorners={captionedImage.hasRoundedCorners}
+                    preCaptionNode={
+                      items.length > 1 ? (
+                        <Space
+                          v={{
+                            size: 'm',
+                            properties: ['margin-bottom'],
+                          }}
+                          className={font('intb', 5)}
+                        >
+                          {i + 1} of {items.length}
+                        </Space>
+                      ) : null
+                    }
+                  />
+                </Space>
+              ))}
 
-            {!isStandalone && (
+            {!isStandalone && !isFrames && (
               <ButtonContainer isHidden={isActive}>
                 <ButtonSolid
                   ref={openButtonRef}
@@ -388,7 +444,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
               </ButtonContainer>
             )}
           </Space>
-        </Layout12>
+        </Layout>
       </Gallery>
     </>
   );

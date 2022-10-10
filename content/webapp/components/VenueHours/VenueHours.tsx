@@ -1,5 +1,5 @@
 import { FunctionComponent, Fragment } from 'react';
-import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
+import { formatDayName, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -22,23 +22,25 @@ import { Venue } from '@weco/common/model/opening-hours';
 import { Weight } from '../../types/body';
 
 const VenueHoursImage = styled(Space)`
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     width: 50%;
   `}
-  ${props => props.theme.media.large`
-    float: left;
-    width: 33%;
-    padding-right: ${props => 5 * props.theme.spacingUnit}px;
-  `}
+  ${props =>
+    props.theme.media('large')(`
+      float: left;
+      width: 33%;
+      padding-right: ${5 * props.theme.spacingUnit}px;
+    `)}
 `;
 
 const VenueHoursTimes = styled(Space)`
-  ${props => props.theme.media.medium`
-    float: left;
-    width:33%;
-    min-width: 240px;
-    padding-right: ${props => 5 * props.theme.spacingUnit}px;
-  `}
+  ${props =>
+    props.theme.media('medium')(`
+      float: left;
+      width:33%;
+      min-width: 240px;
+      padding-right: ${5 * props.theme.spacingUnit}px;
+    `)}
 `;
 
 type JauntyBoxProps = {
@@ -55,10 +57,12 @@ const JauntyBox = styled(Space)<JauntyBoxProps>`
   margin-left: -12px;
   margin-right: -12px;
 
-  ${props => props.theme.media.medium`
-    margin-left: -24px;
-    margin-right: -24px;
-  `}
+  ${props =>
+    props.theme.media('medium')(`
+      margin-left: -24px;
+      margin-right: -24px;
+    `)}
+
   clip-path: ${({ topLeft, topRight, bottomRight, bottomLeft }) =>
     `polygon(
       ${topLeft} ${topLeft},
@@ -69,6 +73,16 @@ const JauntyBox = styled(Space)<JauntyBoxProps>`
 `;
 
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
+
+// This is chosen to be wider than the names of days of the week
+// (in particular 'Wednesday'), but not so wide as to leave lots
+// of space between the name and the opening hours.
+//
+// The exact value is somewhat arbitrary, based on what looked okay locally.
+const DayOfWeek = styled.div`
+  display: inline-block;
+  width: 100px;
+`;
 
 type Props = {
   venue: Venue;
@@ -98,7 +112,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         <>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <span className="is-hidden-s">
-              <Divider color="pumice" isKeyline={true} />
+              <Divider color="warmNeutral.400" isKeyline={true} />
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
@@ -134,7 +148,8 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           {venue?.openingHours.regular.map(
             ({ dayOfWeek, opens, closes, isClosed }) => (
               <li key={dayOfWeek}>
-                {dayOfWeek} {isClosed ? 'Closed' : `${opens} – ${closes}`}
+                <DayOfWeek>{dayOfWeek}</DayOfWeek>{' '}
+                {isClosed ? 'Closed' : `${opens} – ${closes}`}
               </li>
             )
           )}
@@ -174,9 +189,15 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
               <ul
                 className={`plain-list no-padding no-margin ${font('intr', 5)}`}
               >
+                {/* 
+                  This will format the date of the exception as e.g. 'Saturday 1 October'.
+
+                  The year is omitted because these periods are only displayed when they're
+                  happening imminently (within a few weeks), and so the year is unambiguous.
+                 */}
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
-                    {p.overrideDate && formatDay(p.overrideDate)}{' '}
+                    {p.overrideDate && formatDayName(p.overrideDate)}{' '}
                     {p.overrideDate && formatDayMonth(p.overrideDate)}{' '}
                     {p.isClosed ? 'Closed' : `${p.opens} – ${p.closes}`}
                   </li>

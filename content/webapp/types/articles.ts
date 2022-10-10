@@ -28,6 +28,7 @@ export type ArticleBasic = {
 export type Article = GenericContentFields & {
   type: 'articles';
   format?: Format<ArticleFormatId>;
+  readingTime?: string;
   datePublished: Date;
   series: Series[];
   seasons: Season[];
@@ -53,5 +54,7 @@ export function getPositionInSeries(article: ArticleBasic): number | undefined {
 }
 
 export function getArticleColor(article: ArticleBasic): ColorSelection {
-  return article.series.map(series => series.color).find(Boolean) || 'purple';
+  return (
+    article.series.map(series => series.color).find(Boolean) || 'accent.purple'
+  );
 }

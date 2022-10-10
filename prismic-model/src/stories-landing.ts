@@ -1,7 +1,7 @@
-import link from './parts/link';
+import { documentLink } from './parts/link';
 import list from './parts/list';
 import title from './parts/title';
-import { multiLineText } from './parts/structured-text';
+import { multiLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 
 const featuredBooks: CustomType = {
@@ -11,22 +11,25 @@ const featuredBooks: CustomType = {
   status: true,
   json: {
     Main: {
-      introText: multiLineText({
-        label: 'Introductory text',
+      introText: multiLineText('Introductory text', {
         placeholder: 'This will appear at the top of the stories landing page.',
       }),
     },
     'Featured stories/series': {
       storiesTitle: title,
-      storiesDescription: multiLineText({ label: 'description' }),
+      storiesDescription: multiLineText('description'),
       stories: list('stories', {
-        story: link('story/series', 'document', ['articles', 'series']),
+        story: documentLink('story/series', {
+          linkedTypes: ['articles', 'series'],
+        }),
       }),
     },
     'Featured books': {
       booksTitle: title,
-      booksDescription: multiLineText({ label: 'description' }),
-      books: list('books', { book: link('book', 'document', ['books']) }),
+      booksDescription: multiLineText('description'),
+      books: list('books', {
+        book: documentLink('book', { linkedType: 'books' }),
+      }),
     },
   },
 };

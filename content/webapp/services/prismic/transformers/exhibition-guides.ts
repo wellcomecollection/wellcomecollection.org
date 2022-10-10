@@ -51,13 +51,11 @@ import { transformImagePromo } from './images';
 // const filterByGuide = components.filter(value => {
 //   return components[value].caption;
 // });
-//
-// TODO: Filters for guide types
 
 export function transformExhibitionGuideToExhibitionGuideBasic(
   exhibitionGuide: ExhibitionGuide
 ): ExhibitionGuideBasic {
-  // returns what is required to render StoryPromos and story JSON-LD
+  // returns what is required to render ExhibitionGuideLinkPromo
   return (({
     title,
     introText,
@@ -66,6 +64,7 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
     image,
     promo,
     relatedExhibition,
+    availableTypes,
   }) => ({
     title,
     introText,
@@ -74,6 +73,7 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
     image,
     promo,
     relatedExhibition,
+    availableTypes,
   }))(exhibitionGuide);
 }
 
@@ -151,6 +151,18 @@ export function transformExhibitionGuide(
     ? transformRelatedExhibition(data['related-exhibition'])
     : undefined;
 
+  const hasBSLVideo = components.some(component => component.bsl.embedUrl);
+  const hasCaptionsOrTranscripts = components.some(
+    component =>
+      component.caption.length > 0 || component.transcription.length > 0
+  );
+  const hasAudioWithoutDescriptions = components.some(
+    component => component.audioWithoutDescription?.url
+  );
+  const hasAudioWithDescriptions = components.some(
+    component => component.audioWithDescription?.url
+  );
+
   return {
     title: relatedExhibition?.title || '',
     introText,
@@ -159,5 +171,11 @@ export function transformExhibitionGuide(
     relatedExhibition,
     components,
     id: document.id,
+    availableTypes: {
+      BSLVideo: hasBSLVideo,
+      captionsOrTranscripts: hasCaptionsOrTranscripts,
+      audioWithoutDescriptions: hasAudioWithoutDescriptions,
+      audioWithDescriptions: hasAudioWithDescriptions,
+    },
   };
 }

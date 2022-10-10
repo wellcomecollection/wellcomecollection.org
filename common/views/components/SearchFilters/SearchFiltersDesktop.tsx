@@ -18,6 +18,7 @@ import {
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
+  filterLabel,
 } from '../../../services/catalogue/filters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import { ResetActiveFilters } from './ResetActiveFilters';
@@ -43,7 +44,7 @@ const Wrapper = styled(Space).attrs({
   },
 })`
   display: flex;
-  background-color: ${props => props.theme.color('pumice')};
+  background-color: ${props => props.theme.color('warmNeutral.400')};
 `;
 
 const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
@@ -56,7 +57,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
               <CheckboxRadio
                 id={id}
                 type="checkbox"
-                text={`${label} (${count})`}
+                text={filterLabel({ label, count })}
                 value={value}
                 name={f.id}
                 checked={selected}

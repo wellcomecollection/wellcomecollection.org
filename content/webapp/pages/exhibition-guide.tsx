@@ -6,6 +6,7 @@ import {
 import { getCookie, hasCookie, setCookie, deleteCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import * as prismicT from '@prismicio/types';
+import { ReactElement, FC, SyntheticEvent } from 'react';
 import { createClient } from '../services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -17,7 +18,6 @@ import {
 } from '../services/prismic/transformers/exhibition-guides';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { FC, SyntheticEvent } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
 import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -43,7 +43,7 @@ import GridFactory, {
   threeUpGridSizesMap,
   twoUpGridSizesMap,
 } from '@weco/content/components/Body/GridFactory';
-import { themeValues } from '@weco/common/views/themes/config';
+import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   britishSignLanguage,
@@ -51,25 +51,28 @@ import {
   speechToText,
 } from '@weco/common/icons';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { dasherize } from '@weco/common/utils/grammar';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 const PromoContainer = styled.div`
-  background: ${props => props.theme.color('cream')};
+  background: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 const Stop = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
-  background: ${props => props.theme.color('cream')};
+  background: ${props => props.theme.color('warmNeutral.300')};
   height: 100%;
 `;
 
-const TypeList = styled.ul.attrs({
-  className: 'plain-list no-margin no-padding flex flex--wrap',
-})`
+const TypeList = styled.ul`
+  list-style: none;
+  margin: 0 !important;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     gap: 50px;
   `}
 `;
@@ -80,12 +83,12 @@ const TypeItem = styled.li`
   flex-shrink: 0;
   position: relative;
   min-height: 200px;
-  ${props => props.theme.media.medium`
+  ${props => props.theme.media('medium')`
     flex-basis: calc(50% - 25px);
   `}
 `;
 
-const TypeLink = styled.a`
+const TypeLink = styled.a<{ color: PaletteColor }>`
   display: block;
   height: 100%;
   width: 100%;
@@ -94,7 +97,7 @@ const TypeLink = styled.a`
 
   &:hover,
   &:focus {
-    background: ${props => props.theme.color('marble')};
+    background: ${props => props.theme.color('neutral.400')};
   }
 `;
 
@@ -103,10 +106,10 @@ type TypeOptionProps = {
   title: string;
   text: string;
   color:
-    | 'newPaletteOrange'
-    | 'newPaletteMint'
-    | 'newPaletteSalmon'
-    | 'newPaletteBlue';
+    | 'accent.lightSalmon'
+    | 'accent.lightGreen'
+    | 'accent.lightPurple'
+    | 'accent.lightBlue';
   icon?: IconSvg;
   onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
@@ -138,7 +141,7 @@ const Header = styled(Space).attrs({
     size: 'xl',
     properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
   },
-})`
+})<{ color: PaletteColor }>`
   background: ${props => props.theme.color(props.color)};
 `;
 
@@ -280,47 +283,59 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
       overrideGridSizes={
         type === 'bsl' ? twoUpGridSizesMap : threeUpGridSizesMap
       }
-      items={stops.map((stop, index) => {
-        const {
-          number,
-          audioWithDescription,
-          audioWithoutDescription,
-          bsl,
-          title,
-        } = stop;
-        const hasContentOfDesiredType =
-          (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
-          (type === 'audio-without-descriptions' &&
-            audioWithoutDescription?.url) ||
-          (type === 'bsl' && bsl?.embedUrl);
-        return hasContentOfDesiredType ? (
-          <Stop key={index} id={dasherize(title)}>
-            {type === 'audio-with-descriptions' &&
-              audioWithDescription?.url && (
-                <AudioPlayer
-                  title={`${number}. ${stop.title}`}
-                  audioFile={audioWithDescription.url}
-                />
-              )}
-            {type === 'audio-without-descriptions' &&
-              audioWithoutDescription?.url && (
-                <AudioPlayer
-                  title={`${number}. ${stop.title}`}
-                  audioFile={audioWithoutDescription.url}
-                />
-              )}
-            {type === 'bsl' && bsl.embedUrl && (
-              <VideoEmbed embedUrl={bsl.embedUrl} />
-            )}
-          </Stop>
-        ) : (
-          <Stop key={index} id={dasherize(title)}>
-            <span className={font('intb', 5)}>
-              {number}. {title}
-            </span>
-          </Stop>
-        );
-      })}
+      items={
+        stops
+          .map((stop, index) => {
+            const {
+              number,
+              audioWithDescription,
+              audioWithoutDescription,
+              bsl,
+              title,
+              standaloneTitle,
+            } = stop;
+            const hasContentOfDesiredType =
+              (type === 'audio-with-descriptions' &&
+                audioWithDescription?.url) ||
+              (type === 'audio-without-descriptions' &&
+                audioWithoutDescription?.url) ||
+              (type === 'bsl' && bsl?.embedUrl);
+            return hasContentOfDesiredType ? (
+              <Stop
+                key={index}
+                id="apiToolbar"
+                data-toolbar-anchor={dasherizeShorten(title)}
+              >
+                {type === 'audio-with-descriptions' &&
+                  audioWithDescription?.url && (
+                    <AudioPlayer
+                      title={
+                        stop.title
+                          ? `${number}. ${stop.title}`
+                          : `${number}. ${standaloneTitle}`
+                      }
+                      audioFile={audioWithDescription.url}
+                    />
+                  )}
+                {type === 'audio-without-descriptions' &&
+                  audioWithoutDescription?.url && (
+                    <AudioPlayer
+                      title={
+                        stop.title
+                          ? `${number}. ${stop.title}`
+                          : `${number}. ${standaloneTitle}`
+                      }
+                      audioFile={audioWithoutDescription.url}
+                    />
+                  )}
+                {type === 'bsl' && bsl.embedUrl && (
+                  <VideoEmbed embedUrl={bsl.embedUrl} />
+                )}
+              </Stop>
+            ) : null; // We've decided to omit stops that don't have content for the selected type.
+          })
+          .filter(Boolean) as ReactElement[]
+      }
     />
   );
 };
@@ -340,8 +355,13 @@ const ExhibitionStops: FC<StopsProps> = ({ stops, type }) => {
 };
 
 type ExhibitionLinksProps = {
-  stops: ExhibitionGuideComponent[];
   pathname: string;
+  availableTypes: {
+    BSLVideo: boolean;
+    captionsOrTranscripts: boolean;
+    audioWithoutDescriptions: boolean;
+    audioWithDescriptions: boolean;
+  };
 };
 
 function cookieHandler(key: string, data: string) {
@@ -350,28 +370,18 @@ function cookieHandler(key: string, data: string) {
   setCookie(key, data, options);
 }
 
-const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
-  const hasBSLVideo = stops.some(
-    stop => stop.bsl.embedUrl // it can't be undefined can it?
-  );
-  const hasCaptionsOrTranscripts = stops.some(
-    stop => stop.caption.length > 0 || stop.transcription.length > 0
-  );
-  const hasAudioWithoutDescriptions = stops.some(
-    stop => stop.audioWithoutDescription?.url
-  );
-  const hasAudioWithDescriptions = stops.some(
-    stop => stop.audioWithDescription?.url
-  );
-
+const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
+  pathname,
+  availableTypes,
+}) => {
   return (
     <TypeList>
-      {hasAudioWithoutDescriptions && (
+      {availableTypes.audioWithoutDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-without-descriptions`}
           title="Listen, without audio descriptions"
           text="Find out more about the exhibition with short audio tracks."
-          color="newPaletteOrange"
+          color="accent.lightSalmon"
           onClick={() => {
             cookieHandler(
               'WC_userPreferenceGuideType',
@@ -380,13 +390,13 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           }}
         />
       )}
-      {hasAudioWithDescriptions && (
+      {availableTypes.audioWithDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-with-descriptions`}
           title="Listen, with audio descriptions"
           text="Find out more about the exhibition with short audio tracks,
         including descriptions of the objects."
-          color="newPaletteSalmon"
+          color="accent.lightPurple"
           icon={audioDescribed}
           onClick={() => {
             cookieHandler(
@@ -396,13 +406,13 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           }}
         />
       )}
-      {hasCaptionsOrTranscripts && (
+      {availableTypes.captionsOrTranscripts && (
         <TypeOption
           url={`/${pathname}/captions-and-transcripts`}
           title="Read captions and transcripts"
           text="All the wall and label texts from the gallery, and images of the
               objects, great for those without headphones."
-          color="newPaletteMint"
+          color="accent.lightGreen"
           icon={speechToText}
           onClick={() => {
             cookieHandler(
@@ -412,12 +422,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           }}
         />
       )}
-      {hasBSLVideo && (
+      {availableTypes.BSLVideo && (
         <TypeOption
           url={`/${pathname}/bsl`}
           title="Watch BSL videos"
           text="Commentary about the exhibition in British Sign Language videos."
-          color="newPaletteBlue"
+          color="accent.lightBlue"
           icon={britishSignLanguage}
           onClick={() => {
             cookieHandler('WC_userPreferenceGuideType', 'bsl');
@@ -428,18 +438,17 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
-function getTypeColor(type?: GuideType): string {
+function getTypeColor(type?: GuideType): PaletteColor {
   switch (type) {
     case 'bsl':
-      return 'newPaletteBlue';
+      return 'accent.lightBlue';
     case 'audio-without-descriptions':
-      return 'newPaletteOrange';
+      return 'accent.lightSalmon';
     case 'audio-with-descriptions':
-      return 'newPaletteSalmon';
+      return 'accent.lightPurple';
     case 'captions-and-transcripts':
-      return 'newPaletteMint';
     default:
-      return 'newPaletteMint';
+      return 'accent.lightGreen';
   }
 }
 
@@ -458,7 +467,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
   return (
     <PageLayout
-      title={`${exhibitionGuide.title} ${type && getTypeTitle(type)}` || ''}
+      title={`${exhibitionGuide.title} ${type ? getTypeTitle(type) : ''}` || ''}
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: pathname }}
       jsonLd={jsonLd}
@@ -487,7 +496,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </Space>
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
               <ExhibitionLinks
-                stops={exhibitionGuide.components}
+                availableTypes={exhibitionGuide.availableTypes}
                 pathname={pathname}
               />
             </Space>
@@ -538,8 +547,11 @@ const ExhibitionGuidePage: FC<Props> = props => {
             <Layout10 isCentered={false}>
               {userPreferenceSet ? (
                 <p>
-                  This exhibition has {numberedStops.length} stops. You selected
-                  this type of guide previously, but you can also select{' '}
+                  {type !== 'captions-and-transcripts' && (
+                    <>This exhibition has {numberedStops.length} stops. </>
+                  )}
+                  You selected this type of guide previously, but you can also
+                  select{' '}
                   <a
                     href={`/guides/exhibitions/${exhibitionGuide.id}`}
                     onClick={() => {
@@ -550,7 +562,11 @@ const ExhibitionGuidePage: FC<Props> = props => {
                   </a>
                 </p>
               ) : (
-                <p>This exhibition has {numberedStops.length} stops.</p>
+                <>
+                  {type !== 'captions-and-transcripts' && (
+                    <p>This exhibition has {numberedStops.length} stops.</p>
+                  )}
+                </>
               )}
             </Layout10>
           </Space>

@@ -29,6 +29,7 @@ import { Filter } from '../../../services/catalogue/filters';
 import { formDataAsUrlQuery } from '../../../utils/forms';
 
 const SearchInputWrapper = styled.div`
+  position: relative;
   font-size: 20px;
 
   .search-query {
@@ -36,23 +37,22 @@ const SearchInputWrapper = styled.div`
   }
 `;
 
-const SearchButtonWrapper = styled.div.attrs({
-  className: 'absolute',
-})`
+const SearchButtonWrapper = styled.div`
+  position: absolute;
   top: ${props => props.theme.spacingUnits['3'] + 6}px;
   right: ${props => props.theme.spacingUnits['5'] + 6}px;
 
   ${props =>
-    props.theme.media.medium`
-    top: ${props.theme.spacingUnits['4'] + 6}px;
-    right: ${props.theme.spacingUnits['6'] + 6}px;
-  `}
+    props.theme.media('medium')(`
+      top: ${props.theme.spacingUnits['4'] + 6}px;
+      right: ${props.theme.spacingUnits['6'] + 6}px;
+    `)}
 
   ${props =>
-    props.theme.media.large`
-    top: ${props.theme.spacingUnits['5'] + 6}px;
-    right: ${props.theme.spacingUnits['8'] + 6}px;
-  `}
+    props.theme.media('large')(`
+      top: ${props.theme.spacingUnits['5'] + 6}px;
+      right: ${props.theme.spacingUnits['8'] + 6}px;
+    `)}
 `;
 
 const SearchSortOrderWrapper = styled(Space).attrs({
@@ -184,7 +184,7 @@ const SearchForm = forwardRef(
           h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
         >
-          <SearchInputWrapper className="relative">
+          <SearchInputWrapper>
             <TextInput
               id={`${isImageSearch ? 'images' : 'works'}-search-input`}
               label={

@@ -1,27 +1,32 @@
-import { isFuture, isPast, isSameDay } from './dates';
-
-export function formatLondon(
-  date: Date,
-  options: Intl.DateTimeFormatOptions
-): string {
+function formatLondon(date: Date, options: Intl.DateTimeFormatOptions): string {
   return date.toLocaleString('en-GB', {
     ...options,
     timeZone: 'Europe/London',
   });
 }
 
-export function formatDay(date: Date): string {
+/** Formats a date as the day of the week, e.g. 'Monday', 'Tuesday'. */
+export function formatDayName(date: Date): string {
   return formatLondon(date, { weekday: 'long' });
 }
 
+/** Formats a date as the day of the week, plus the day of the month and the name of the month.
+ *
+ * e.g. 'Thursday 29 September 2022'
+ */
 export function formatDayDate(date: Date): string {
-  return `${formatDay(date)} ${formatDate(date)}`;
+  return `${formatDayName(date)} ${formatDate(date)}`;
 }
 
+/** Formats a date as the day of the month, the name of the month, and the year.
+ *
+ * e.g. '29 September 2022'
+ */
 export function formatDate(date: Date): string {
   return `${formatDayMonth(date)} ${formatYear(date)}`;
 }
 
+/** Formats a date as the HH:MM time, using a 24-hour clock, e.g. '09:00' or '13:30' */
 export function formatTime(date: Date): string {
   const hours = formatLondon(date, { hour: '2-digit', hourCycle: 'h23' });
   const minutes = formatLondon(date, { minute: '2-digit' }).padStart(2, '0');
@@ -29,36 +34,12 @@ export function formatTime(date: Date): string {
   return `${hours}:${minutes}`;
 }
 
-export function formatDateRangeWithMessage({
-  start,
-  end,
-}: {
-  start: Date;
-  end: Date;
-}): { text: string; color: string } {
-  const today = new Date();
-
-  const sevenDaysTime = new Date();
-  sevenDaysTime.setDate(sevenDaysTime.getDate() + 7);
-
-  const closesToday = isSameDay(end, today);
-  const closesInSevenDays = today < end && end < sevenDaysTime;
-
-  if (!isSameDay(today, start) && isFuture(start)) {
-    return { text: 'Coming soon', color: 'marble' };
-  } else if (!isSameDay(today, end) && isPast(end)) {
-    return { text: 'Past', color: 'marble' };
-  } else if (closesToday || closesInSevenDays) {
-    return { text: 'Final week', color: 'orange' };
-  } else {
-    return { text: 'Now on', color: 'green' };
-  }
-}
-
+/** Formats a date as the year, e.g. '2022' */
 export function formatYear(date: Date): string {
   return formatLondon(date, { year: 'numeric' });
 }
 
+/** Formats a date as the day of the month and the month, e.g. '29 September' */
 export function formatDayMonth(date: Date): string {
   const day = formatLondon(date, { day: 'numeric' });
   const month = formatLondon(date, { month: 'long' });
@@ -66,6 +47,7 @@ export function formatDayMonth(date: Date): string {
   return `${day} ${month}`;
 }
 
+/** Formats a duration as HH:MM:SS, e.g. '01:02:03' is 1 hour, 2 minutes, 3 seconds. */
 export function formatDuration(seconds: number): string {
   const secondsPerMinute = 60;
   const secondsPerHour = 60 * secondsPerMinute;

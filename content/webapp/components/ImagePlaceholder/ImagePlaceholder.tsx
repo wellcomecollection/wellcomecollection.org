@@ -25,7 +25,7 @@ type Props = {
 };
 
 const ImagePlaceholder: FC<Props> = ({ color }: Props) => (
-  <Wrapper color={color || 'purple'}>
+  <Wrapper color={color || 'accent.purple'}>
     <img src={transparentGif} alt="" width="1" height="1" />
     <Pattern />
   </Wrapper>

@@ -14,7 +14,7 @@ import { getCrop } from '@weco/common/model/image';
 import { themeValues } from '@weco/common/views/themes/config';
 
 type CardOuterProps = {
-  background: 'charcoal' | 'cream';
+  background: 'neutral.700' | 'warmNeutral.300';
 };
 
 const CardOuter = styled.a<CardOuterProps>`
@@ -24,21 +24,23 @@ const CardOuter = styled.a<CardOuterProps>`
   text-decoration: none;
   background: ${props => props.theme.color(props.background)};
   color: ${props =>
-    props.theme.color(props.background === 'charcoal' ? 'cream' : 'black')};
+    props.theme.color(
+      props.background === 'neutral.700' ? 'warmNeutral.300' : 'black'
+    )};
 
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     flex-direction: row;
-    `}
+  `}
 `;
 
 type TextWrapperProps = {
-  highlightColor: 'yellow' | 'orange';
+  highlightColor: 'yellow' | 'accent.salmon';
 };
 
 const TextWrapper = styled.div<TextWrapperProps>`
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     flex-grow: 2;
-    `};
+  `};
   border-left: 4px solid ${props => props.theme.color(props.highlightColor)};
 `;
 
@@ -52,7 +54,7 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
   background-repeat: no-repeat;
   background-position: center top;
   height: 300px;
-  ${props => props.theme.media.large`
+  ${props => props.theme.media('large')`
     background-position: center center;
     height: auto;
     min-width: 38%;
@@ -70,14 +72,14 @@ function getTypeLabel(type: 'seasons') {
 
 type Props = {
   item: Season;
-  background?: 'charcoal' | 'cream';
-  highlightColor?: 'yellow' | 'orange';
+  background?: 'neutral.700' | 'warmNeutral.300';
+  highlightColor?: 'yellow' | 'accent.salmon';
 };
 
 const BannerCard: FunctionComponent<Props> = ({
   item,
-  background = 'charcoal',
-  highlightColor = 'orange',
+  background = 'neutral.700',
+  highlightColor = 'accent.salmon',
 }: Props) => {
   const { type, title, start, end, description, image, link } = {
     type: getTypeLabel(item.type),
@@ -131,7 +133,10 @@ const BannerCard: FunctionComponent<Props> = ({
         h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
       >
         {type && (
-          <LabelsList labels={[{ text: type }]} defaultLabelColor="orange" />
+          <LabelsList
+            labels={[{ text: type }]}
+            defaultLabelColor="accent.salmon"
+          />
         )}
         <Space
           v={{
@@ -149,7 +154,7 @@ const BannerCard: FunctionComponent<Props> = ({
               size: 's',
               properties: ['margin-top', 'margin-bottom'],
             }}
-            className={`${font('intr', 5)} font-marble`}
+            className={`${font('intr', 5)} font-neutral-400`}
           >
             <DateRange start={start} end={end} />
           </Space>

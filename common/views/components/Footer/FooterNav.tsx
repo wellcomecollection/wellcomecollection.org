@@ -1,46 +1,117 @@
-import { FunctionComponent } from 'react';
-import { font } from '../../../utils/classnames';
-import Space from '../styled/Space';
-import { links } from '../Header/Header';
+import { ReactElement } from 'react';
 import styled from 'styled-components';
+import { font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
+import { NavLink, links } from '@weco/common/views/components/Header/Header';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 
-const NavLink = styled(Space).attrs({
-  className: font('wb', 5),
+const NavList = styled.ul<{ isInline: boolean | undefined }>`
+  list-style-type: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+
+  li:first-child a {
+    padding-top: 0;
+  }
+
+  ${props =>
+    props.isInline &&
+    `
+      display: flex;
+      flex-direction: column;
+
+      ${props.theme.media('large')(`
+        flex-direction: row;
+
+        li:first-child a {
+          padding-top: 8px;
+        }
+      `)}
+
+      li {
+        margin-right: 2rem;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+  `}
+`;
+
+const NavLinkElement = styled(Space).attrs({
+  className: font('intr', 5),
   v: {
     size: 's',
     properties: ['padding-top', 'padding-bottom'],
   },
 })`
   display: block;
-  text-decoration: none;
   transition: color 200ms ease;
 
   &:hover {
-    color: ${props => props.theme.color('green')};
+    text-decoration: none;
   }
 `;
 
-const FooterNav: FunctionComponent = () => {
+const InternalNavigation: NavLink[] = [
+  ...links,
+  {
+    href: `/pages/${prismicPageIds.contactUs}`,
+    title: 'Contact us',
+  },
+];
+
+const PoliciesNavigation: NavLink[] = [
+  { href: 'https://wellcome.org/jobs', title: 'Jobs' },
+  { href: '/press', title: 'Media office' },
+  {
+    href: 'https://developers.wellcomecollection.org',
+    title: 'Developers',
+  },
+  {
+    href: 'https://wellcome.org/who-we-are/privacy-and-terms',
+    title: 'Privacy and terms',
+  },
+  {
+    href: 'https://wellcome.org/who-we-are/modern-slavery-statement',
+    title: 'Modern slavery statement',
+  },
+];
+
+const FooterNav = ({
+  type,
+  isInline,
+}: {
+  type: 'InternalNavigation' | 'PoliciesNavigation';
+  isInline?: boolean;
+}): ReactElement => {
+  const itemsList =
+    type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
+
   return (
-    <div>
-      <nav>
-        <ul className="plain-list no-margin no-padding">
-          {links.map((link, i) => (
-            <li key={link.title}>
-              <NavLink id={`footer-nav-${i}`} as="a" href={link.href}>
-                {link.title}
-              </NavLink>
-            </li>
-          ))}
-          <li>
-            <NavLink as="a" href={`/pages/${prismicPageIds.contactUs}`}>
-              Contact us
-            </NavLink>
+    <NavList
+      role="navigation"
+      aria-label="Footer navigation"
+      isInline={isInline}
+    >
+      {itemsList.map((link, i) => {
+        // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here
+        const isBurgerMenuLink = type === 'InternalNavigation' && i === 0;
+
+        return (
+          <li key={link.title}>
+            <NavLinkElement
+              as="a"
+              href={link.href}
+              {...(isBurgerMenuLink && { id: 'footer-nav-1' })}
+            >
+              {link.title}
+            </NavLinkElement>
           </li>
-        </ul>
-      </nav>
-    </div>
+        );
+      })}
+    </NavList>
   );
 };
 

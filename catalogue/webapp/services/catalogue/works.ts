@@ -19,6 +19,11 @@ import {
 } from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
+import {
+  emptyWorksProps,
+  toQuery,
+  WorksProps,
+} from '@weco/common/views/components/WorksLink/WorksLink';
 
 type GetWorkProps = {
   id: string;
@@ -59,11 +64,58 @@ const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
   status,
 });
 
+/** Creates the YYYY-MM-DD date string we pass to the API.
+ *
+ * Note: the filter GUI expects users to enter dates as a four-digit year (e.g. 1939).
+ * We pin to the start/end of the year so that the range is inclusive.
+ *
+ * e.g. a user who searches for works 'to 2001' should find works created in 2001.
+ */
+function toIsoDateString(
+  s: string | undefined,
+  range: 'to' | 'from'
+): string | undefined {
+  if (s) {
+    try {
+      const d = new Date(s);
+      return range === 'from'
+        ? `${d.getUTCFullYear()}-01-01`
+        : `${d.getUTCFullYear()}-12-31`;
+    } catch (e) {
+      return undefined;
+    }
+  }
+  return undefined;
+}
+
+/** Run a query with the works API.
+ *
+ * Note: this method is responsible for encoding parameters in an API-compatible
+ * way, e.g. wrapping strings in quotes.  Callers should pass in an unencoded
+ * set of parameters.
+ *
+ * https://wellcomecollection.org/works?subjects.label=%22Thackrah%2C+Charles+Turner%2C+1795-1833%22
+ */
 export async function getWorks(
   props: QueryProps<CatalogueWorksApiProps>
 ): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
-  const extendedParams = {
+  const params: WorksProps = {
+    ...emptyWorksProps,
     ...props.params,
+  };
+  const query = toQuery(params);
+
+  const extendedParams = {
+    ...params,
+    ...query,
+    'production.dates.from': toIsoDateString(
+      query['production.dates.from'] as string,
+      'from'
+    ),
+    'production.dates.to': toIsoDateString(
+      query['production.dates.to'] as string,
+      'to'
+    ),
     include: worksIncludes,
   };
 

@@ -9,8 +9,16 @@ import * as stories from './Pagination.stories.tsx';
 
 <Description>{Readme}</Description>
 
+<Description>If somebody is midway through a list of pages, we show both the previous and next buttons:</Description>
+
 <Canvas>
-  <Story story={stories.basic} />
+  <Story story={stories.middleOfPagination} />
+</Canvas>
+
+<Description>If somebody is at the start or end of a list of pages, we only show the next/previous button as appropriate, for example:</Description>
+
+<Canvas>
+  <Story story={stories.startOfPagination} />
 </Canvas>
 
 <ArgsTable />
