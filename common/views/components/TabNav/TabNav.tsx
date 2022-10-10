@@ -1,97 +1,129 @@
-import { ComponentType, FC } from 'react';
-import styled from 'styled-components';
-import NextLink from 'next/link';
-import { TextLink } from '../../../model/text-links';
-import { font, classNames } from '../../../utils/classnames';
-import Space, { SpaceComponentProps } from '../styled/Space';
+import {
+  FC,
+  useRef,
+  Dispatch,
+  SetStateAction,
+  ReactNode,
+  KeyboardEvent,
+} from 'react';
+import { trackEvent } from '@weco/common/utils/ga';
+import { font } from '@weco/common/utils/classnames';
+import { TabsContainer, Tab, NavItemInner } from './TabNav.styles';
 
-type SelectableTextLink = TextLink & {
+type SelectableTextLink = {
+  id: string;
+  text: ReactNode;
   selected: boolean;
-  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
 
 type Props = {
+  id: string;
   items: SelectableTextLink[];
+  selectedTab: string;
+  setSelectedTab: Dispatch<SetStateAction<string>>;
+  isDarkMode?: boolean;
 };
 
-const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
-  props => ({
-    className: classNames({
-      selected: props.selected,
-      block: true,
-      relative: true,
-    }),
-  })
-)`
-  z-index: 1;
-  padding: 0 0.3em;
+const TabNav: FC<Props> = ({
+  id,
+  items,
+  selectedTab,
+  setSelectedTab,
+  isDarkMode = false,
+}: Props) => {
+  const tabListRef = useRef<HTMLDivElement>(null);
 
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 0.6rem;
-    left: 0;
-    width: 0;
-    background: ${props => props.theme.color('yellow')};
-    z-index: -1;
-    transition: width 200ms ease;
+  // TODO stole this from BaseTabs. Get together once we get rid of SearchTabs?
+  function focusTabAtIndex(index: number): void {
+    const element = tabListRef?.current?.querySelector(
+      `#tab-${items[index].id}`
+    ) as HTMLDivElement;
+
+    element?.focus();
   }
 
-  &:hover,
-  &:focus {
-    &:after {
-      width: 100%;
-      // Prevent iOS double-tap link issue
-      // https://css-tricks.com/annoying-mobile-double-tap-link-issue/
-      @media (pointer: coarse) {
-        width: 0;
-      }
+  const sendEvent = (id: string) => {
+    trackEvent({
+      category: 'TabNav',
+      action: 'Tab clicked',
+      label: id,
+    });
+  };
+
+  // TODO stole this from BaseTabs. Get together?
+  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    const LEFT = [37, 'ArrowLeft'];
+    const RIGHT = [39, 'ArrowRight'];
+    const HOME = [36, 'Home'];
+    const END = [35, 'End'];
+    const key = event.key || event.keyCode;
+    const isKeyOfInterest = [...LEFT, ...RIGHT, ...HOME, ...END].includes(key);
+
+    if (!isKeyOfInterest) return;
+
+    event.preventDefault();
+    const currentTab = items.find(t => t.id === selectedTab) || items[0];
+    const currentIndex = items.indexOf(currentTab);
+    const nextIndex = items[currentIndex + 1] ? currentIndex + 1 : 0;
+    const prevIndex = items[currentIndex - 1]
+      ? currentIndex - 1
+      : items.length - 1;
+
+    if (LEFT.includes(key)) {
+      setSelectedTab(items[prevIndex].id);
+      focusTabAtIndex(prevIndex);
+      sendEvent(items[prevIndex].id);
     }
-  }
 
-  &.selected:after {
-    width: 100%;
-  }
-`;
+    if (RIGHT.includes(key)) {
+      setSelectedTab(items[nextIndex].id);
+      focusTabAtIndex(nextIndex);
+      sendEvent(items[nextIndex].id);
+    }
 
-const NavItem = ({ link, text, selected, onClick }: SelectableTextLink) => (
-  <NextLink {...link} passHref>
-    <Space
-      v={{
-        size: 'm',
-        properties: ['padding-top', 'padding-bottom'],
-      }}
-      as="a"
-      className="plain-link block"
-      onClick={onClick}
-    >
-      <NavItemInner
-        as="span"
-        h={{ size: 'm', properties: ['margin-right'] }}
-        selected={selected}
-      >
-        {text}
-      </NavItemInner>
-    </Space>
-  </NextLink>
-);
+    if (HOME.includes(key)) {
+      setSelectedTab(items[0].id);
+      focusTabAtIndex(0);
+      sendEvent(items[0].id);
+    }
 
-const TabNav: FC = ({ items }: Props) => {
+    if (END.includes(key)) {
+      setSelectedTab(items[items.length - 1].id);
+      focusTabAtIndex(items.length - 1);
+      sendEvent(items[items.length - 1].id);
+    }
+  };
+
   return (
-    <div className={font('intb', 4)}>
-      <ul className="plain-list no-margin no-padding flex flex--wrap">
+    <div className={font('intb', 5)}>
+      <TabsContainer
+        role="tablist"
+        ref={tabListRef}
+        aria-label={`Tabs for ${id}`}
+      >
         {items.map(item => (
-          <li
-            key={item.text}
-            style={{
-              marginRight: '1vw',
+          <Tab
+            key={item.id}
+            id={`tab-${item.id}`}
+            role="tab"
+            aria-controls={`tabpanel-${item.id}`}
+            tabIndex={item.selected ? 0 : -1}
+            aria-selected={item.selected}
+            onClick={() => {
+              if (!item.selected) {
+                setSelectedTab(item.id);
+
+                sendEvent(item.id);
+              }
             }}
+            onKeyDown={handleKeyDown}
           >
-            <NavItem {...item} />
-          </li>
+            <NavItemInner selected={item.selected} isDarkMode={isDarkMode}>
+              {item.text}
+            </NavItemInner>
+          </Tab>
         ))}
-      </ul>
+      </TabsContainer>
     </div>
   );
 };

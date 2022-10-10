@@ -1,45 +1,7 @@
 import { useState } from 'react';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
-import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 
-const Template = args => <TabNav {...args} />;
-export const basic = Template.bind({});
-basic.args = {
-  items: [
-    {
-      text: 'All',
-      link: {
-        href: {
-          pathname: '',
-        },
-      },
-      selected: true,
-    },
-    {
-      text: 'Books',
-      link: {
-        href: {
-          pathname: '',
-        },
-      },
-
-      selected: false,
-    },
-    {
-      text: 'Pictures',
-      link: {
-        href: {
-          pathname: '',
-        },
-      },
-
-      selected: false,
-    },
-  ],
-};
-basic.storyName = 'TabNav';
-
-const TemplateV2 = ({ items, ...rest }) => {
+const Template = ({ items, ...rest }) => {
   const [selectedTab, setSelectedTab] = useState(items[0].id); //eslint-disable-line
 
   const itemsSelector = items.map(item => ({
@@ -48,7 +10,7 @@ const TemplateV2 = ({ items, ...rest }) => {
   }));
 
   return (
-    <TabNavV2
+    <TabNav
       id="story-tabs"
       items={itemsSelector}
       selectedTab="all"
@@ -57,8 +19,8 @@ const TemplateV2 = ({ items, ...rest }) => {
     />
   );
 };
-export const basicV2 = TemplateV2.bind({});
-basicV2.args = {
+export const basic = Template.bind({});
+basic.args = {
   items: [
     {
       id: 'all',
@@ -75,10 +37,10 @@ basicV2.args = {
   ],
 };
 
-basicV2.argTypes = {
+basic.argTypes = {
   setSelectedTab: {
     table: { disable: true },
   },
 };
 
-basicV2.storyName = 'TabNavV2';
+basic.storyName = 'TabNav';

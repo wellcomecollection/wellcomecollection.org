@@ -34,7 +34,7 @@ import {
 import styled from 'styled-components';
 import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
-import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar/ApiToolbar';
 
@@ -159,7 +159,7 @@ export const ConceptPage: NextPage<Props> = ({
             <h2 className="h2 sectionTitle">Images</h2>
 
             {hasImagesTabs && (
-              <TabNavV2
+              <TabNav
                 id="images"
                 selectedTab={selectedImagesTab}
                 items={[
@@ -243,7 +243,7 @@ export const ConceptPage: NextPage<Props> = ({
             <div className="container">
               <h2 className="h2">Works</h2>
               {hasWorksTabs && (
-                <TabNavV2
+                <TabNav
                   id="works"
                   selectedTab={selectedWorksTab}
                   items={[
