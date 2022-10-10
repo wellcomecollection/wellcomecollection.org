@@ -75,7 +75,7 @@ const navigateToNextPage = async (page: Page) => {
 
 const navigateToResult = async (n = 1, page: Page) => {
   const result = `[role="main"] ul li:nth-of-type(${n}) a`;
-  const searchResultTitle = await page.textContent(`${result} h2`);
+  const searchResultTitle = await page.textContent(`${result} h3`);
 
   await Promise.all([safeWaitForNavigation(page), page.click(result)]);
 
