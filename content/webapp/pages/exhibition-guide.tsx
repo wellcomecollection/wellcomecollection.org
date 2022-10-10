@@ -163,6 +163,7 @@ type Props = {
   type?: GuideType;
   otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
   userPreferenceSet?: string | string[];
+  stopId?: string;
 };
 
 function getTypeTitle(type: GuideType): string {
@@ -180,12 +181,12 @@ function getTypeTitle(type: GuideType): string {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, type, usingQRCode, userPreferenceSet } = context.query;
+    const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
     const { res, req } = context;
 
     if (
       !looksLikePrismicId(id) ||
-      !serverData.toggles.exhibitionGuides ||
+      // !serverData.toggles.exhibitionGuides ||
       (type && !isValidType(type))
     ) {
       return { notFound: true };
@@ -264,6 +265,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
             ),
           },
           userPreferenceSet,
+          stopId: stopId as string,
         }),
       };
     } else {
@@ -362,6 +364,7 @@ type ExhibitionLinksProps = {
     audioWithoutDescriptions: boolean;
     audioWithDescriptions: boolean;
   };
+  stopId?: string;
 };
 
 function cookieHandler(key: string, data: string) {
@@ -373,12 +376,13 @@ function cookieHandler(key: string, data: string) {
 const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
   pathname,
   availableTypes,
+  stopId,
 }) => {
   return (
     <TypeList>
       {availableTypes.audioWithoutDescriptions && (
         <TypeOption
-          url={`/${pathname}/audio-without-descriptions`}
+          url={`/${pathname}/audio-without-descriptions#${stopId}`}
           title="Listen, without audio descriptions"
           text="Find out more about the exhibition with short audio tracks."
           color="accent.lightSalmon"
@@ -392,7 +396,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
       )}
       {availableTypes.audioWithDescriptions && (
         <TypeOption
-          url={`/${pathname}/audio-with-descriptions`}
+          url={`/${pathname}/audio-with-descriptions#${stopId}`}
           title="Listen, with audio descriptions"
           text="Find out more about the exhibition with short audio tracks,
         including descriptions of the objects."
@@ -408,7 +412,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
       )}
       {availableTypes.captionsOrTranscripts && (
         <TypeOption
-          url={`/${pathname}/captions-and-transcripts`}
+          url={`/${pathname}/captions-and-transcripts#${stopId}`}
           title="Read captions and transcripts"
           text="All the wall and label texts from the gallery, and images of the
               objects, great for those without headphones."
@@ -424,7 +428,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
       )}
       {availableTypes.BSLVideo && (
         <TypeOption
-          url={`/${pathname}/bsl`}
+          url={`/${pathname}/bsl#${stopId}`}
           title="Watch BSL videos"
           text="Commentary about the exhibition in British Sign Language videos."
           color="accent.lightBlue"
@@ -459,6 +463,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
     type,
     otherExhibitionGuides,
     userPreferenceSet,
+    stopId,
   } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
@@ -498,6 +503,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
               <ExhibitionLinks
                 availableTypes={exhibitionGuide.availableTypes}
                 pathname={pathname}
+                stopId={stopId}
               />
             </Space>
           </SpacingSection>
