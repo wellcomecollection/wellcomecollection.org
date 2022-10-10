@@ -7,6 +7,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import Image from 'next/image';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { useToggles } from '@weco/common/server-data/Context';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const ZoomButton = styled.button`
   position: absolute;
@@ -86,6 +87,11 @@ const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
     const viewportWidth = document.documentElement.clientWidth;
     setImageWidth(viewportWidth);
     setIsZoom(true);
+    trackEvent({
+      category: 'ZoomedPrismicImage',
+      action: 'Zoom in clicked',
+      label: image.contentUrl,
+    });
   }
 
   useEffect(() => {
