@@ -62,6 +62,10 @@ const StyledDialog = styled.dialog<{ isLoaded: boolean }>`
     opacity: ${props => (props.isLoaded ? 1 : 0)};
     transform: scale(${props => (props.isLoaded ? 1 : 0.6)});
     transition: all ${props => props.theme.transitionProperties};
+
+    @media (prefers-reduced-motion) {
+      transform: scale(1);
+    }
   }
 `;
 
