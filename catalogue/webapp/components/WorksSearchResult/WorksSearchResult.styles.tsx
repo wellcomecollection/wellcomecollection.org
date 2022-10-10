@@ -8,6 +8,13 @@ export const Container = styled.div`
   `}
 `;
 
+export const Wrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  className: 'plain-link card-link',
+})`
+  display: block;
+`;
+
 export const Preview = styled(Space)`
   display: flex;
   flex: 1 1 100%;
@@ -54,6 +61,8 @@ export const WorkInformationItem = styled.span`
   }
 `;
 
-export const WorkTitleHeading = styled.h3`
+export const WorkTitleHeading = styled.h3.attrs({
+  className: `${font('intb', 4)} card-link__title`,
+})`
   margin-bottom: 0.5rem;
 `;
