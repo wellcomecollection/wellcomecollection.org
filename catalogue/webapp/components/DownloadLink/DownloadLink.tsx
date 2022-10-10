@@ -20,6 +20,20 @@ const DownloadLinkStyle = styled.a.attrs({
   }
 `;
 
+const Wrapper = styled.span`
+  display: inline-flex;
+  align-items: center;
+`;
+
+const Link = styled.span.attrs({
+  className: 'underline-on-hover',
+})``;
+
+const Format = styled(Space).attrs({
+  h: { size: 'm', properties: ['margin-left'] },
+  className: `${font('intb', 5)} font-neutral-600`,
+})``;
+
 export type DownloadFormat = 'PDF' | 'PLAIN' | 'JPG' | 'MP4' | 'MP3';
 type Props = {
   isTabbable?: boolean;
@@ -51,19 +65,11 @@ const DownloadLink: FunctionComponent<Props> = ({
       trackGaEvent(trackingEvent);
     }}
   >
-    <span className="flex-inline flex--v-center">
+    <Wrapper>
       <Icon icon={download} />
-      <span className="underline-on-hover">{linkText}</span>
-      {format && (
-        <Space
-          as="span"
-          h={{ size: 'm', properties: ['margin-left'] }}
-          className={`${font('intb', 5)} font-neutral-600`}
-        >
-          {format}
-        </Space>
-      )}
-    </span>
+      <Link>{linkText}</Link>
+      {format && <Format as="span">{format}</Format>}
+    </Wrapper>
   </DownloadLinkStyle>
 );
 
