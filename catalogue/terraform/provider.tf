@@ -33,8 +33,6 @@ provider "aws" {
   }
 }
 
-provider "template" {}
-
 provider "aws" {
   alias  = "platform"
   region = var.aws_region
