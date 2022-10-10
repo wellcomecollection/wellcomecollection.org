@@ -54,7 +54,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     isMobileSidebarActive,
   } = useContext(ItemViewerContext);
   return (
-    <BottomBar className="flex">
+    <BottomBar>
       <LeftZone data-test-id="page-grid-buttons">
         {!showZoomed &&
           canvases &&
