@@ -1,4 +1,4 @@
-import { FC, RefObject, useEffect, useState } from 'react';
+import { FC, RefObject, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { expand, cross } from '@weco/common/icons';
@@ -65,82 +65,69 @@ const StyledDialog = styled.dialog<{ isLoaded: boolean }>`
   }
 `;
 
-type ZoomedImageButtonProps = {
-  zoomRef: RefObject<HTMLDialogElement>;
-};
-
-const ZoomedImageButton: FC<ZoomedImageButtonProps> = ({ zoomRef }) => {
-  const { zoomImages } = useToggles();
-
-  function openDialog() {
-    zoomRef?.current?.showModal();
-  }
-
-  return zoomImages ? (
-    <ZoomButton onClick={openDialog}>
-      <Icon icon={expand} color="white" />
-    </ZoomButton>
-  ) : null;
-};
-
-type ZoomedImageProps = {
+type ZoomedPrismicImageProps = {
   image: ImageType;
-  zoomRef: RefObject<HTMLDialogElement>;
 };
 
-const ZoomedImage: FC<ZoomedImageProps> = ({ image, zoomRef }) => {
+const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
   const { zoomImages } = useToggles();
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageWidth, setImageWidth] = useState(0);
   const [isZoom, setIsZoom] = useState(false);
+  const zoomRef: RefObject<HTMLDialogElement> = useRef(null);
+
+  function openDialog() {
+    zoomRef?.current?.showModal();
+    const viewportWidth = document.documentElement.clientWidth;
+    setImageWidth(viewportWidth);
+    setIsZoom(true);
+  }
 
   useEffect(() => {
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.attributeName === 'open') {
-          const isOpen = Boolean(zoomRef.current?.hasAttribute('open'));
-          setIsZoom(isOpen);
-          setIsLoaded(!isOpen);
-          const viewportWidth = document.documentElement.clientWidth;
-          setImageWidth(viewportWidth);
-        }
-      });
-    });
+    function handleClose() {
+      setIsZoom(false);
+      setIsLoaded(false);
+    }
 
-    zoomRef.current &&
-      observer.observe(zoomRef.current, {
-        attributes: true,
-      });
+    zoomRef?.current?.addEventListener('close', handleClose);
+
+    return zoomRef?.current?.removeEventListener('close', handleClose);
   }, []);
 
   function closeDialog() {
     zoomRef?.current?.close();
+    setIsZoom(false);
     setIsLoaded(false);
   }
 
   return zoomImages ? (
-    <StyledDialog ref={zoomRef} isLoaded={isLoaded}>
-      {!isLoaded && <LL />}
-      {isZoom && (
-        <>
-          <ZoomButton onClick={closeDialog}>
-            <span className="visually-hidden">Close</span>
-            <Icon icon={cross} color="white" />
-          </ZoomButton>
-          <Image
-            width={image.width}
-            height={image.height}
-            layout="intrinsic"
-            src={image.contentUrl}
-            alt={image.alt || ''}
-            objectFit="contain"
-            loader={createPrismicLoader(imageWidth, 'high')}
-            onLoadingComplete={() => setIsLoaded(true)}
-          />
-        </>
-      )}
-    </StyledDialog>
+    <>
+      <ZoomButton onClick={openDialog}>
+        <Icon icon={expand} color="white" />
+      </ZoomButton>
+      <StyledDialog ref={zoomRef} isLoaded={isLoaded}>
+        {!isLoaded && <LL />}
+        {isZoom && (
+          <>
+            <ZoomButton onClick={closeDialog}>
+              <span className="visually-hidden">Close</span>
+              <Icon icon={cross} color="white" />
+            </ZoomButton>
+            <Image
+              width={image.width}
+              height={image.height}
+              layout="intrinsic"
+              src={image.contentUrl}
+              alt={image.alt || ''}
+              objectFit="contain"
+              loader={createPrismicLoader(imageWidth, 'high')}
+              onLoadingComplete={() => setIsLoaded(true)}
+            />
+          </>
+        )}
+      </StyledDialog>
+    </>
   ) : null;
 };
 
-export { ZoomedImage, ZoomedImageButton };
+export default ZoomedPrismicImage;

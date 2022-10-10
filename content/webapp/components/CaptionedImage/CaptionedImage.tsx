@@ -1,10 +1,10 @@
-import { FC, ReactNode, useRef, RefObject } from 'react';
+import { FC, ReactNode } from 'react';
 import Caption from '@weco/common/views/components/Caption/Caption';
 import styled from 'styled-components';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
-import { ZoomedImage, ZoomedImageButton } from '../ZoomedImage/ZoomedImage';
+import ZoomedPrismicImage from '../ZoomedPrismicImage/ZoomedPrismicImage';
 
 type CaptionedImageProps = {
   isBody?: boolean;
@@ -70,7 +70,6 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
   isBody,
   hasRoundedCorners,
 }) => {
-  const zoomRef: RefObject<HTMLDialogElement> = useRef(null);
   // Note: the default quality here was originally 45, but this caused images to
   // appear very fuzzy on stories.
   //
@@ -86,14 +85,13 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
         aspectRatio={image.width / image.height}
         hasRoundedCorners={hasRoundedCorners}
       >
-        <ZoomedImageButton zoomRef={zoomRef} />
+        <ZoomedPrismicImage image={image} />
         <ImageWithTasl
           Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={image.tasl}
         />
         <Caption caption={caption} preCaptionNode={preCaptionNode} />
       </ImageContainerInner>
-      <ZoomedImage image={image} zoomRef={zoomRef} />
     </CaptionedImageFigure>
   );
 };
