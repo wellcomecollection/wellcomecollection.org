@@ -7,6 +7,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { clear, cookies } from '@weco/common/icons';
 import { trackEvent } from '@weco/common/utils/ga';
+import { addDays, today } from '@weco/common/utils/dates';
 
 const CookieNoticeStyle = styled.div.attrs({
   className: font('intb', 4),
@@ -42,8 +43,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
   const [shouldRender, setShouldRender] = useState(true);
   function hideCookieNotice() {
     // Remember that the user has accepted cookies for the next month.
-    const expires = new Date();
-    expires.setDate(new Date().getDate() + 30);
+    const expires = addDays(today(), 30);
 
     cookie.set('WC_cookiesAccepted', 'true', { path: '/', expires });
 
