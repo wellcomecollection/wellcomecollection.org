@@ -7,8 +7,7 @@ import {
   KeyboardEvent,
 } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
-import { font } from '@weco/common/utils/classnames';
-import { TabsContainer, Tab, NavItemInner } from './TabNav.styles';
+import { Wrapper, TabsContainer, Tab, NavItemInner } from './TabNav.styles';
 
 type SelectableTextLink = {
   id: string;
@@ -21,6 +20,7 @@ type Props = {
   items: SelectableTextLink[];
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
+  isInContainer?: boolean;
   isDarkMode?: boolean;
 };
 
@@ -29,6 +29,7 @@ const TabNav: FC<Props> = ({
   items,
   selectedTab,
   setSelectedTab,
+  isInContainer = false,
   isDarkMode = false,
 }: Props) => {
   const tabListRef = useRef<HTMLDivElement>(null);
@@ -95,7 +96,7 @@ const TabNav: FC<Props> = ({
   };
 
   return (
-    <div className={font('intb', 5)}>
+    <Wrapper isInContainer={isInContainer}>
       <TabsContainer
         role="tablist"
         ref={tabListRef}
@@ -124,7 +125,7 @@ const TabNav: FC<Props> = ({
           </Tab>
         ))}
       </TabsContainer>
-    </div>
+    </Wrapper>
   );
 };
 

@@ -3,7 +3,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { getServerData } from '@weco/common/server-data';
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { useState } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -23,8 +23,9 @@ export const SearchPage: NextPage = () => {
     >
       <div className="container">
         <h1>Search Page</h1>
-        <TabNavV2
+        <TabNav
           id="search-tabs"
+          isInContainer
           selectedTab={selectedTab}
           items={[
             {

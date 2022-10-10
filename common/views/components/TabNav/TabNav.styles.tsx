@@ -1,6 +1,26 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
+
+export const Wrapper = styled.div.attrs({ className: font('intb', 5) })<{
+  isInContainer: boolean;
+}>`
+  ${props =>
+    props.isInContainer &&
+    `
+      margin-right: -${props.theme.containerPadding.small}px; 
+
+    ${props =>
+      props.theme.media('medium')(`
+        margin-right: -${props.theme.containerPadding.medium}px; 
+    `)}
+
+    ${props =>
+      props.theme.media('medium')(`
+        margin-right: -${props.theme.containerPadding.large}px; 
+    `)}
+  `}
+`;
 
 export const TabsContainer = styled.div.attrs({
   className: 'no-margin',
@@ -8,6 +28,7 @@ export const TabsContainer = styled.div.attrs({
   display: flex;
   list-style: none;
   padding: 0;
+  overflow-x: scroll;
 `;
 
 export const Tab = styled.button.attrs({
@@ -15,11 +36,9 @@ export const Tab = styled.button.attrs({
 })`
   padding: 0;
   margin-right: 1vw;
-  flex: 1 1 50%;
-  text-align: center;
 
   ${props => props.theme.media('medium')`
-    flex: 0 1 auto;
+    flex: 1 1 100%;
     text-align: left;
   `}
 `;
