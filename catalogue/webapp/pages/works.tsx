@@ -153,39 +153,37 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                 <div className="grid">
                   <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                     <PaginationWrapper>
-                      <Fragment>
-                        <Paginator
-                          query={query}
-                          showPortal={true}
-                          currentPage={page}
-                          totalPages={works.totalPages}
-                          totalResults={works.totalResults}
-                          link={toLink(
+                      <Paginator
+                        query={query}
+                        showPortal={true}
+                        currentPage={page}
+                        totalPages={works.totalPages}
+                        totalResults={works.totalResults}
+                        link={toLink(
+                          {
+                            ...worksRouteProps,
+                          },
+                          'search/paginator'
+                        )}
+                        onPageChange={async (event, newPage) => {
+                          event.preventDefault();
+                          const state = {
+                            ...worksRouteProps,
+                            page: newPage,
+                          };
+                          const link = toLink(
                             {
-                              ...worksRouteProps,
+                              ...state,
                             },
                             'search/paginator'
-                          )}
-                          onPageChange={async (event, newPage) => {
-                            event.preventDefault();
-                            const state = {
-                              ...worksRouteProps,
-                              page: newPage,
-                            };
-                            const link = toLink(
-                              {
-                                ...state,
-                              },
-                              'search/paginator'
-                            );
+                          );
 
-                            Router.push(link.href, link.as).then(() =>
-                              window.scrollTo(0, 0)
-                            );
-                          }}
-                          hideMobilePagination={true}
-                        />
-                      </Fragment>
+                          Router.push(link.href, link.as).then(() =>
+                            window.scrollTo(0, 0)
+                          );
+                        }}
+                        hideMobilePagination={true}
+                      />
                     </PaginationWrapper>
                   </div>
                 </div>
@@ -212,39 +210,37 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                   <div className="grid">
                     <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                       <div className="flex flex--h-space-between flex--v-center flex--wrap">
-                        <Fragment>
-                          <Paginator
-                            query={query}
-                            currentPage={page}
-                            totalPages={works.totalPages}
-                            totalResults={works.totalResults}
-                            link={toLink(
+                        <Paginator
+                          query={query}
+                          currentPage={page}
+                          totalPages={works.totalPages}
+                          totalResults={works.totalResults}
+                          link={toLink(
+                            {
+                              ...worksRouteProps,
+                            },
+                            'search/paginator'
+                          )}
+                          onPageChange={async (event, newPage) => {
+                            event.preventDefault();
+                            const state = {
+                              ...worksRouteProps,
+                              page: newPage,
+                            };
+
+                            const link = toLink(
                               {
-                                ...worksRouteProps,
+                                ...state,
                               },
                               'search/paginator'
-                            )}
-                            onPageChange={async (event, newPage) => {
-                              event.preventDefault();
-                              const state = {
-                                ...worksRouteProps,
-                                page: newPage,
-                              };
+                            );
 
-                              const link = toLink(
-                                {
-                                  ...state,
-                                },
-                                'search/paginator'
-                              );
-
-                              Router.push(link.href, link.as).then(() =>
-                                window.scrollTo(0, 0)
-                              );
-                            }}
-                            hideMobileTotalResults={true}
-                          />
-                        </Fragment>
+                            Router.push(link.href, link.as).then(() =>
+                              window.scrollTo(0, 0)
+                            );
+                          }}
+                          hideMobileTotalResults={true}
+                        />
                       </div>
                     </div>
                   </div>
