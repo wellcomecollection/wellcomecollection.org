@@ -64,7 +64,7 @@ const toggles = {
     {
       id: 'searchPage',
       title: 'Search page',
-      defaultValue: false,
+      initialValue: false,
       description:
         'New search page to help develop new components and functionalities',
     },
