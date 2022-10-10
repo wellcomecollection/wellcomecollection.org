@@ -115,6 +115,7 @@ const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
   return zoomImages && canShowZoom ? (
     <>
       <ZoomButton onClick={openDialog}>
+        <span className="visually-hidden">Zoom image</span>
         <Icon icon={expand} color="white" />
       </ZoomButton>
       <StyledDialog ref={zoomRef} isLoaded={isLoaded}>
@@ -122,7 +123,7 @@ const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
         {isZoom && (
           <>
             <ZoomButton onClick={closeDialog}>
-              <span className="visually-hidden">Close</span>
+              <span className="visually-hidden">Close zoomed image</span>
               <Icon icon={cross} color="white" />
             </ZoomButton>
             <Image
