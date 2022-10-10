@@ -18,7 +18,7 @@
     "@next/bundle-analyzer": "^10.0.1",
     "@next/mdx": "^11.1.2",
     "@popperjs/core": "^2.4.4",
-    "@prismicio/client": "^6.3.0",
+    "@prismicio/client": "^6.7.1",
     "@prismicio/helpers": "^2.2.0",
     "@prismicio/react": "^2.1.1",
     "@segment/snippet": "^4.10.0",

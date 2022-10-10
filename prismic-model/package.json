@@ -11,7 +11,7 @@
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.40.0",
     "@aws-sdk/client-sts": "^3.40.0",
-    "@prismicio/client": "^5.1.0",
+    "@prismicio/client": "^6.7.1",
     "@types/node": "^16.11.7",
     "@types/prompts": "^2.0.14",
     "@types/yargs": "^17.0.5",
