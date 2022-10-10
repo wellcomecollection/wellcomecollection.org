@@ -64,18 +64,18 @@ const InternalNavigation: NavLink[] = [
 
 const PoliciesNavigation: NavLink[] = [
   { href: 'https://wellcome.org/jobs', title: 'Jobs' },
-  {
-    href: 'https://wellcome.org/who-we-are/privacy-and-terms',
-    title: 'Privacy and cookies',
-  },
-  {
-    href: 'https://wellcome.org/who-we-are/modern-slavery-statement',
-    title: 'Modern slavery statement',
-  },
   { href: '/press', title: 'Media office' },
   {
     href: 'https://developers.wellcomecollection.org',
     title: 'Developers',
+  },
+  {
+    href: 'https://wellcome.org/who-we-are/privacy-and-terms',
+    title: 'Privacy and terms',
+  },
+  {
+    href: 'https://wellcome.org/who-we-are/modern-slavery-statement',
+    title: 'Modern slavery statement',
   },
 ];
 

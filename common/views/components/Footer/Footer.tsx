@@ -86,12 +86,13 @@ const FullWidthDivider = styled(Space).attrs({
 `;
 
 const PoliciesContainer = styled(Space)`
-  flex: 1 1 30%;
+  flex: 1 1 50%;
 
   ${props => props.theme.media('medium')`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    flex: 1 1 30%;
   `}
 
   ${props => props.theme.media('large')`
@@ -133,7 +134,6 @@ const FooterBottom = styled(Space).attrs({
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  line-height: 1;
 `;
 
 const FooterLicense = styled.p.attrs({ className: font('intr', 6) })`
