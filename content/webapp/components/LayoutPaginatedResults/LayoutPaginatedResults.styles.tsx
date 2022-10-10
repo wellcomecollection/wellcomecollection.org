@@ -17,3 +17,8 @@ export const ResultCountWrapper = styled(Space).attrs({
   display: flex;
   align-items: center;
 `;
+
+export const FreeAdmissionMessageWrapper = styled(Layout12)`
+  display: inline-flex;
+  align-items: center;
+`;

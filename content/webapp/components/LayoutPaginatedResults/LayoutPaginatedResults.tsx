@@ -18,6 +18,7 @@ import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 import {
+  FreeAdmissionMessageWrapper,
   PaginationWrapper,
   ResultCountWrapper,
 } from './LayoutPaginatedResults.styles';
@@ -58,11 +59,9 @@ const ResultCount: FC<{ paginatedResults: PaginatedResults<any> }> = ({
 };
 
 const FreeAdmissionMessage: FC = () => (
-  <Layout12>
-    <div className="flex-inline flex--v-center">
-      <span className={font('intb', 4)}>Free admission</span>
-    </div>
-  </Layout12>
+  <FreeAdmissionMessageWrapper>
+    <span className={font('intb', 4)}>Free admission</span>
+  </FreeAdmissionMessageWrapper>
 );
 
 const LayoutPaginatedResults: FC<Props> = ({
