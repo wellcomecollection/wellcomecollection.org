@@ -15,6 +15,7 @@ describe('getUpcomingEvents', () => {
             endDateTime: startDateTime,
           },
           isFullyBooked: false,
+          onlineIsFullyBooked: false,
         },
       ],
     }));
