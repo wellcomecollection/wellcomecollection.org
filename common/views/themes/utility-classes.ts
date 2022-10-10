@@ -76,21 +76,8 @@ export const utilityClasses = css<GlobalStyleProps>`
     )}
   }
 
-  .line-height-1.line-height-1 {
-    line-height: 1;
-  }
-
   .touch-scroll {
     -webkit-overflow-scrolling: touch;
-  }
-
-  .v-align-middle {
-    vertical-align: middle;
-  }
-
-  .v-center {
-    top: 50%;
-    transform: translateY(-50%);
   }
 
   .flex {
@@ -191,14 +178,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: inline-block;
   }
 
-  .float-r {
-    float: right;
-  }
-
-  .float-l {
-    float: left;
-  }
-
   .h-center {
     margin-left: auto;
     margin-right: auto;
@@ -241,35 +220,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     padding: 0;
   }
 
-  .no-padding-s.no-padding-s {
-    ${respondBetween(
-      'small',
-      'medium',
-      `
-    padding: 0;
-  `
-    )}
-  }
-
-  .no-padding-m.no-padding-m {
-    ${respondBetween(
-      'medium',
-      'large',
-      `
-    padding: 0;
-  `
-    )}
-  }
-
-  .no-padding-l.no-padding-l {
-    ${respondTo(
-      'large',
-      `
-    padding: 0;
-  `
-    )}
-  }
-
   .promo-link {
     height: 100%;
     color: ${themeValues.color('black')};
@@ -291,15 +241,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .rounded-diagonal {
     border-top-left-radius: ${themeValues.borderRadiusUnit}px;
-    border-bottom-right-radius: ${themeValues.borderRadiusUnit}px;
-  }
-  .rounded-top {
-    border-top-left-radius: ${themeValues.borderRadiusUnit}px;
-    border-top-right-radius: ${themeValues.borderRadiusUnit}px;
-  }
-
-  .rounded-bottom {
-    border-bottom-left-radius: ${themeValues.borderRadiusUnit}px;
     border-bottom-right-radius: ${themeValues.borderRadiusUnit}px;
   }
 
@@ -344,10 +285,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .hidden {
     visibility: hidden;
-  }
-
-  .overflow-hidden {
-    overflow: hidden;
   }
 
   // TODO: use this for e.g. Promo hover behaviour too

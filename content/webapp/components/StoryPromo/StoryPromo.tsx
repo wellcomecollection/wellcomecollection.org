@@ -9,6 +9,11 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
+import styled from 'styled-components';
+
+const ImageWrapper = styled.div`
+  position: relative;
+`;
 
 type Props = {
   article: ArticleBasic & {
@@ -63,7 +68,7 @@ const StoryPromo: FunctionComponent<Props> = ({
       }}
       href={url}
     >
-      <div className="relative">
+      <ImageWrapper>
         {isNotUndefined(image) && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -87,7 +92,7 @@ const StoryPromo: FunctionComponent<Props> = ({
             <LabelsList labels={labels} />
           </div>
         )}
-      </div>
+      </ImageWrapper>
 
       <CardBody>
         <div>
