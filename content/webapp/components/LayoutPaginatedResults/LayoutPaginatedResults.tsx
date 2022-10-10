@@ -17,7 +17,10 @@ import { BookBasic } from '../../types/books';
 import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
-import styled from 'styled-components';
+import {
+  PaginationWrapper,
+  ResultCountWrapper,
+} from './LayoutPaginatedResults.styles';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
@@ -35,21 +38,6 @@ type Props = {
   showFreeAdmissionMessage: boolean;
   children?: ReactElement;
 };
-
-const PaginationWrapper = styled(Layout12)`
-  text-align: right;
-`;
-
-const ResultCountWrapper = styled(Space).attrs({
-  v: {
-    size: 'l',
-    properties: ['padding-bottom'],
-  },
-  className: `font-neutral-600 ${font('lr', 6)}`,
-})`
-  display: flex;
-  align-items: center;
-`;
 
 const ResultCount: FC<{ paginatedResults: PaginatedResults<any> }> = ({
   paginatedResults,
