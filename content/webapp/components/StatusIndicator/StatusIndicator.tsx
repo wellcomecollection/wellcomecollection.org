@@ -10,6 +10,7 @@ import {
   today,
 } from '@weco/common/utils/dates';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import styled from 'styled-components';
 
 type Props = {
   start: Date;
@@ -41,22 +42,32 @@ export function formatDateRangeWithMessage({
   }
 }
 
+const Wrapper = styled.span.attrs({
+  className: font('intr', 5),
+})`
+  display: flex;
+  align-items: center;
+`;
+
+const DotWrapper = styled(Space).attrs({
+  h: { size: 'xs', properties: ['margin-right'] },
+})`
+  display: flex;
+  align-items: center;
+`;
+
 const StatusIndicator: FC<Props> = ({ start, end, statusOverride }: Props) => {
   const { color, text } = statusOverride
     ? { color: 'neutral.500' as PaletteColor, text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
 
   return (
-    <span className={`flex flex--v-center ${font('intr', 5)}`}>
-      <Space
-        as="span"
-        h={{ size: 'xs', properties: ['margin-right'] }}
-        className="flex flex--v-center"
-      >
+    <Wrapper>
+      <DotWrapper as="span">
         <Dot color={color} />
-      </Space>
+      </DotWrapper>
       <span>{text}</span>
-    </span>
+    </Wrapper>
   );
 };
 
