@@ -36,6 +36,8 @@ const appPromise = nextApp.prepare().then(async () => {
 
   route('/concepts/:id', '/concept', router, nextApp);
 
+  route('/search', '/search', router, nextApp);
+
   router.get('/works/management/healthcheck', async ctx => {
     ctx.status = 200;
     ctx.body = 'ok';

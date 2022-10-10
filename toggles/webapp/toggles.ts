@@ -61,6 +61,13 @@ const toggles = {
       description:
         'Uses the new stories-landing type in Prismic to provide page content for /stories. Namely, the introductory text and featured books section (currently being populated from different places), and replaces the hard coded promoted series with a list of editor chosen articles and series.',
     },
+    {
+      id: 'searchPage',
+      title: 'Search page',
+      defaultValue: false,
+      description:
+        'New search page to help develop new components and functionalities',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
