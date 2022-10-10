@@ -261,7 +261,7 @@ export function getTodaysVenueHours(
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
     venue.openingHours.exceptional.find(i =>
-      isSameDay(todaysDate, i.overrideDate, 'London')
+      isSameDay(todaysDate, i.overrideDate)
     );
   const regularOpeningHours =
     venue.openingHours.regular &&

@@ -1,5 +1,5 @@
 import { DateRange } from '../model/date-range';
-import { formatDayDate } from './format-date';
+import { formatDate } from './format-date';
 
 // This is to allow us to mock values in tests, e.g.
 //
@@ -24,36 +24,14 @@ export function isFuture(date: Date): boolean {
   return date > now;
 }
 
-export function isSameMonth(date1: Date, date2: Date): boolean {
-  return (
-    date1.getUTCFullYear() === date2.getUTCFullYear() &&
-    date1.getUTCMonth() === date2.getUTCMonth()
-  );
-}
-
-type ComparisonMode = 'UTC' | 'London';
-
 /** Returns true if `date1` is on the same day as `date2`, false otherwise.
  *
- * Note: this function supports UTC or London comparisons.  We suspect we always
- * want London comparisons -- uses of this function should be examined and tested
- * to decide the correct behaviour, and updated as necessary.
- *
- * If we get to a point where every comparison uses London, we should delete the
- * mode argument and document that requirement explicitly.
+ * This compares the dates in London, not UTC.  See the tests for examples
+ * of edge cases where there are different UTC days but this function still
+ * returns true.
  */
-export function isSameDay(
-  date1: Date,
-  date2: Date,
-  mode: ComparisonMode = 'UTC'
-): boolean {
-  if (mode === 'UTC') {
-    return (
-      isSameMonth(date1, date2) && date1.getUTCDate() === date2.getUTCDate()
-    );
-  } else {
-    return formatDayDate(date1) === formatDayDate(date2);
-  }
+export function isSameDay(date1: Date, date2: Date): boolean {
+  return formatDate(date1) === formatDate(date2);
 }
 
 /** Returns true if `date1` is on the same day or before `date2`,
@@ -73,7 +51,7 @@ export function isSameDay(
  *
  */
 export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
-  return isSameDay(date1, date2, 'London') || date1 <= date2;
+  return isSameDay(date1, date2) || date1 <= date2;
 }
 
 // Returns true if 'date' falls on a past day; false otherwise.

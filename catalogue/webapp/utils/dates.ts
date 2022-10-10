@@ -71,11 +71,7 @@ export function isLibraryOpen(
     return false;
   }
 
-  if (
-    exceptionalClosedDates.find(exception =>
-      isSameDay(date, exception, 'London')
-    )
-  ) {
+  if (exceptionalClosedDates.find(exception => isSameDay(date, exception))) {
     return false;
   }
 
@@ -243,10 +239,12 @@ export function isRequestableDate(params: {
   excludedDays: DayNumber[];
 }): boolean {
   const { date, startDate, endDate, excludedDates, excludedDays } = params;
-  const isExceptionalClosedDay = excludedDates.some(excluded =>
-    isSameDay(excluded, date, 'London')
-  );
-  const isRegularClosedDay = excludedDays.includes(date.getDay() as DayNumber);
+
+  const libraryOpen = isLibraryOpen(date, {
+    regularClosedDays: excludedDays,
+    exceptionalClosedDates: excludedDates,
+  });
+
   return (
     Boolean(
       // no start and end date
@@ -261,7 +259,6 @@ export function isRequestableDate(params: {
         // only end date
         (endDate && !startDate && isSameDayOrBefore(date, endDate))
     ) && // both start and end date
-    !isExceptionalClosedDay &&
-    !isRegularClosedDay
+    !libraryOpen
   );
 }

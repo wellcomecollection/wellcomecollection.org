@@ -39,6 +39,7 @@ describe('getUpcomingEvents', () => {
             endDateTime: new Date(2100, 3, 25, 16, 30, 0),
           },
           isFullyBooked: false,
+          onlineIsFullyBooked: false,
         },
       ],
     }));
@@ -59,6 +60,7 @@ describe('getUpcomingEvents', () => {
               endDateTime: new Date(2100, 3, 25, 17, 30),
             },
             isFullyBooked: false,
+            onlineIsFullyBooked: false,
           },
         ],
       },

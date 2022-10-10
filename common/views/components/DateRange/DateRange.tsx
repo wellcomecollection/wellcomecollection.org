@@ -36,7 +36,7 @@ const DateRange: FunctionComponent<Props> = ({
   end,
   splitTime,
 }: Props) => {
-  return isSameDay(start, end, 'London') ? (
+  return isSameDay(start, end) ? (
     <>
       <HTMLDayDate date={start} />
       {!splitTime && ', '}
