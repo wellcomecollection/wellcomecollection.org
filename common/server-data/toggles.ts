@@ -1,7 +1,7 @@
 import { getCookies } from 'cookies-next';
 import { Toggles, TogglesResp } from '@weco/toggles';
 import { Handler } from './';
-import { GetServerSidePropsContext } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const defaultValue = { toggles: [], tests: [] };
 
@@ -18,6 +18,8 @@ const togglesHandler: Handler<TogglesResp, TogglesResp> = {
   fetch: fetchToggles,
 };
 
+type Context = { req: NextApiRequest; res: NextApiResponse };
+
 /**
  * normally parsing like this should happen in `_app.parseServerDataToAppData`
  * but we need the `req` from the `context` for cookies which we don't
@@ -25,7 +27,7 @@ const togglesHandler: Handler<TogglesResp, TogglesResp> = {
  */
 export function getTogglesFromContext(
   togglesResp: TogglesResp,
-  context: GetServerSidePropsContext
+  context: Context
 ): Toggles {
   const allCookies = getCookies(context);
   const toggles = [...togglesResp.toggles].reduce(
