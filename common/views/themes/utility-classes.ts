@@ -12,7 +12,7 @@ export const utilityClasses = css<GlobalStyleProps>`
           color: ${value};
 
           .icon__shape {
-            fill: ${value};
+            fill: currentColor;
           }
         }`;
       } else {
@@ -22,7 +22,7 @@ export const utilityClasses = css<GlobalStyleProps>`
           color: ${value};
 
           .icon__shape {
-            fill: ${value};
+            fill: currentColor;
           }
         }`;
       }

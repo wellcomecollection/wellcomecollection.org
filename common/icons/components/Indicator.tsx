@@ -8,6 +8,7 @@ const SvgIndicator: IconSvg = props => (
         cy={10}
         r={10}
         className="icon__shape"
+        fill="currentColor"
         fillRule="nonzero"
         transform="translate(2 2)"
       />
