@@ -60,6 +60,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       exhibitionGuidesQueryPromise,
     ]);
 
+    if (!exhibitionGuideQuery) {
+      return { notFound: true };
+    }
+
     const exhibitionGuides = transformQuery(
       exhibitionGuidesQuery,
       transformExhibitionGuide
@@ -90,25 +94,22 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         },
       };
     }
-    if (exhibitionGuideQuery) {
-      const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
 
-      const jsonLd = exhibitionGuideLd(exhibitionGuide);
+    const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
 
-      return {
-        props: removeUndefinedProps({
-          exhibitionGuide,
-          jsonLd,
-          serverData,
-          otherExhibitionGuides: basicExhibitionGuides.results.filter(
-            result => result.id !== id
-          ),
-          userPreferenceSet,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
+    const jsonLd = exhibitionGuideLd(exhibitionGuide);
+
+    return {
+      props: removeUndefinedProps({
+        exhibitionGuide,
+        jsonLd,
+        serverData,
+        otherExhibitionGuides: basicExhibitionGuides.results.filter(
+          result => result.id !== id
+        ),
+        userPreferenceSet,
+      }),
+    };
   };
 
 const ExhibitionGuidePage: FC<Props> = ({
