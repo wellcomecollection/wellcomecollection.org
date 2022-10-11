@@ -95,7 +95,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     }
   });
 
-  usePrismicPreview(Boolean(document.cookie.match('isPreview=true')));
+  usePrismicPreview(() => Boolean(document.cookie.match('isPreview=true')));
 
   return (
     <>

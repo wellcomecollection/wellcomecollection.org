@@ -7,9 +7,9 @@ declare global {
   }
 }
 
-const usePrismicPreview = (shouldDisplay: boolean): void =>
+const usePrismicPreview = (shouldDisplay: () => boolean): void =>
   useEffect(() => {
-    if (shouldDisplay) {
+    if (shouldDisplay()) {
       window.prismic = {
         endpoint: 'https://wellcomecollection.cdn.prismic.io/api/v2',
       };
