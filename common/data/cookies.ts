@@ -12,6 +12,10 @@ const cookies = {
   // the next time they open the guide we'll take them to BSL without
   // asking them to pick again.
   exhibitionGuideType: 'WC_userPreferenceGuideType',
+
+  // This is the cookie used in the popup dialog to remember when somebody
+  // has closed the dialog.
+  popupDialog: 'WC_PopupDialog',
 };
 
 export default cookies;
