@@ -112,7 +112,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         <>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <span className="is-hidden-s">
-              <Divider color="warmNeutral.400" isKeyline={true} />
+              <Divider />
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>

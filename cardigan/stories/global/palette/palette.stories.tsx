@@ -136,7 +136,7 @@ export const Palette: FunctionComponent = () => (
   <>
     {Object.keys(paletteColors).map((category, i) => (
       <SectionWrapper key={category}>
-        {i !== 0 && <Divider color="black" isKeyline={true} />}
+        {i !== 0 && <Divider color="black" />}
         <SectionTitle>{paletteColors[category].label}</SectionTitle>
         <SectionDescription>
           {paletteColors[category].description}

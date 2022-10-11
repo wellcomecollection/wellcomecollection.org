@@ -24,7 +24,8 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import { PageFormatIds } from '@weco/common/data/content-format-ids';
 import { links } from '@weco/common/views/components/Header/Header';
 import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
-import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
+import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -53,7 +54,8 @@ export type Props = {
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
   jsonLd: JsonLdObj;
-} & WithGaDimensions;
+  gaDimensions: GaDimensions;
+};
 
 type OrderInParent = {
   id: string;

@@ -25,7 +25,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
-import { WithGaDimensions } from '@weco/common/views/pages/_app';
+import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import {
   audioDescribed,
   britishSignLanguage,
@@ -80,7 +80,8 @@ const DateWrapper = styled.div.attrs({
 type Props = {
   event: Event;
   jsonLd: JsonLdObj[];
-} & WithGaDimensions;
+  gaDimensions: GaDimensions;
+};
 
 // TODO: Probably use the StatusIndicator?
 type EventStatusProps = {

@@ -83,7 +83,7 @@ const LayoutPaginatedResults: FC<Props> = ({
             ? paginatedResults.totalResults
             : null}
         </Space>
-        <Divider color="warmNeutral.400" isKeyline={true} />
+        <Divider />
       </Layout12>
     )}
     {showFreeAdmissionMessage && (

@@ -211,7 +211,7 @@ const EventPromo: FC<Props> = ({
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 'm', properties: ['padding-bottom'] }}
         >
-          <Divider color="white" isKeyline={true} />
+          <Divider color="white" />
           <Space v={{ size: 's', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}

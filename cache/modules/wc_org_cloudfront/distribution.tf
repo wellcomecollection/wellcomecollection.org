@@ -153,6 +153,28 @@ resource "aws_cloudfront_distribution" "wc_org" {
     }
   }
 
+  # Search
+  ordered_cache_behavior {
+    path_pattern     = "/search*"
+    target_origin_id = local.alb_origin_id
+
+    allowed_methods        = local.stateless_methods
+    cached_methods         = local.stateless_methods
+    viewer_protocol_policy = "redirect-to-https"
+
+    cache_policy_id            = var.cache_policies["weco-apps"]
+    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+    response_headers_policy_id = var.response_policies["weco-security"]
+
+    dynamic "lambda_function_association" {
+      for_each = local.lambda_associations
+      content {
+        event_type = lambda_function_association.value.event_type
+        lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
+  }
+
   # This is for the data fetching routes used in NextJs's getServerSideProps
   # see: https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
   ordered_cache_behavior {

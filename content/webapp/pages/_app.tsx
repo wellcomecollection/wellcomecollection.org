@@ -1,13 +1,13 @@
-import NextApp, { AppContext, NextWebVitalsMetric } from 'next/app';
+import NextApp, { AppContext, AppProps, NextWebVitalsMetric } from 'next/app';
 import { gtagReportWebVitals } from '@weco/common/utils/gtag';
-import App, { WecoAppProps } from '@weco/common/views/pages/_app';
+import App from '@weco/common/views/pages/_app';
 import { ReactElement } from 'react';
 
 export function reportWebVitals(metric: NextWebVitalsMetric): void {
   gtagReportWebVitals(metric);
 }
 
-export default function ContentApp(props: WecoAppProps): ReactElement {
+export default function ContentApp(props: AppProps): ReactElement {
   return <App {...props} />;
 }
 

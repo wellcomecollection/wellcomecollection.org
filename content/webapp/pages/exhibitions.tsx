@@ -4,7 +4,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionLd } from '../services/prismic/transformers/json-ld';

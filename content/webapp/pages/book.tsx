@@ -8,7 +8,8 @@ import { font, grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '../components/BookImage/BookImage';
 import styled from 'styled-components';
-import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
+import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
@@ -26,7 +27,8 @@ const MetadataWrapper = styled.div`
 
 type Props = {
   book: Book;
-} & WithGaDimensions;
+  gaDimensions: GaDimensions;
+};
 
 // FIXME: This is nonsense
 type BookMetadataProps = { book: Book };
