@@ -26,6 +26,12 @@ const cookies = {
 
   // Records whether a user has dismissed our cookie banner.
   cookiesAccepted: 'WC_cookiesAccepted',
+
+  // Remembers whether somebody is using the "mini" version of the API toolbar.
+  apiToolbarMini: 'WC_apiToolbarMini',
+
+  // Causes Segment session info to be logged to the dev console.
+  analyticsDebug: 'WC_analyticsDebug',
 };
 
 export default cookies;

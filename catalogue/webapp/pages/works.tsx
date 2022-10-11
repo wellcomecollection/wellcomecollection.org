@@ -7,7 +7,7 @@ import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePage
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import Space from '@weco/common/views/components/styled/Space';
 import { getWorks } from '../services/catalogue/works';
-import cookies from 'next-cookies';
+import { getCookie } from 'cookies-next';
 import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
@@ -279,7 +279,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       'contributors.agent.label',
     ];
 
-    const _queryType = cookies(context)._queryType;
+    const _queryType = getCookie('_queryType') as string | undefined;
 
     const worksApiProps = {
       ...props,
