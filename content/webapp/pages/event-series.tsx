@@ -7,7 +7,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../utils/page-header';
 import Space from '@weco/common/views/components/styled/Space';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
@@ -163,10 +163,7 @@ const EventSeriesPage: FC<Props> = ({
 
         {pastEvents.length > 0 && (
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <SearchResults
-              items={pastEvents}
-              title="What we've done before"
-            />
+            <SearchResults items={pastEvents} title="What we've done before" />
           </Space>
         )}
       </ContentPage>

@@ -1,10 +1,6 @@
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
-import {
-  appError,
-  AppErrorProps,
-  WithPageview,
-} from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Work, Image } from '@weco/common/model/catalogue';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
@@ -17,12 +13,14 @@ import { getWork } from '../services/catalogue/works';
 import { getImage } from '../services/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
+import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikeCanonicalId } from 'services/catalogue';
 
 type Props = {
   image: Image;
   sourceWork: Work;
-} & WithPageview;
+  pageview: Pageview;
+};
 
 const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
   const title = sourceWork.title || '';

@@ -9,6 +9,10 @@ import Document, {
 import { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import * as snippet from '@segment/snippet';
+import {
+  GoogleAnalyticsUA,
+  GoogleAnalyticsV4,
+} from '../../services/app/google-analytics';
 
 const {
   ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
@@ -60,20 +64,8 @@ class WecoDoc extends Document {
     return (
       <Html lang="en" className="is-keyboard">
         <Head>
-          {/* GA v4 */}
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-206J7SLYFC"
-          ></script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());`,
-            }}
-          />
-
+          <GoogleAnalyticsV4 />
+          <GoogleAnalyticsUA />
           <script
             dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
           />

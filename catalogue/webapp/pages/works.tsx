@@ -14,11 +14,8 @@ import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '../components/SearchTitle/SearchTitle';
 import { GetServerSideProps, NextPage } from 'next';
-import {
-  appError,
-  AppErrorProps,
-  WithPageview,
-} from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { Pageview } from '@weco/common/services/conversion/track';
 import {
   fromQuery,
   toLink,
@@ -34,7 +31,8 @@ import styled from 'styled-components';
 type Props = {
   works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
-} & WithPageview;
+  pageview: Pageview;
+};
 
 const PaginationWrapper = styled.div`
   display: flex;

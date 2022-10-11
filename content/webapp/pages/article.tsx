@@ -11,7 +11,8 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia, getHeroPicture } from '../utils/page-header';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
-import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
+import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
@@ -34,7 +35,8 @@ import styled from 'styled-components';
 type Props = {
   article: Article;
   jsonLd: JsonLdObj;
-} & WithGaDimensions;
+  gaDimensions: GaDimensions;
+};
 
 function articleHasOutro(article: Article) {
   return Boolean(

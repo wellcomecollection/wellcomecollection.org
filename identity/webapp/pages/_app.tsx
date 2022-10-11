@@ -1,13 +1,13 @@
-import NextApp, { AppContext, NextWebVitalsMetric } from 'next/app';
+import NextApp, { AppContext, AppProps, NextWebVitalsMetric } from 'next/app';
 import { gtagReportWebVitals } from '@weco/common/utils/gtag';
-import App, { WecoAppProps } from '@weco/common/views/pages/_app';
+import App from '@weco/common/views/pages/_app';
 
 export function reportWebVitals(metric: NextWebVitalsMetric): void {
   gtagReportWebVitals(metric);
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function IdentityApp(props: WecoAppProps) {
+export default function IdentityApp(props: AppProps) {
   return <App {...props} />;
 }
 

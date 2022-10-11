@@ -24,7 +24,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsText from '../components/WorkDetailsText/WorkDetailsText';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { GetServerSideProps, NextPage } from 'next';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from 'services/catalogue';
 import { looksLikeSierraId } from '@weco/common/services/catalogue/sierra';

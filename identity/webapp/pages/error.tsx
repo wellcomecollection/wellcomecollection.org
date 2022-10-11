@@ -6,7 +6,7 @@ import { Container, Wrapper } from '../src/frontend/components/Layout.style';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { themeValues } from '@weco/common/views/themes/config';

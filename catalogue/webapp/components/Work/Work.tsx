@@ -25,12 +25,6 @@ const ArchiveDetailsContainer = styled.div`
   `}
 `;
 
-declare global {
-  interface Window {
-    dataLayer: Record<string, unknown>[];
-  }
-}
-
 type Props = {
   work: WorkType;
 };
@@ -44,19 +38,7 @@ const Work: FunctionComponent<Props> = ({
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
   );
-
-  const workData = {
-    workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
-  };
-
-  useEffect(() => {
-    window.dataLayer &&
-      window.dataLayer.push({
-        event: 'pageview',
-        work: JSON.stringify(workData),
-      });
-  }, []);
-
+  
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
   const imageUrl =
