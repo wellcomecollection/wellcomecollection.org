@@ -1,10 +1,11 @@
 import {
   ExhibitionGuide,
-  ExhibitionGuideComponent,
+  ExhibitionGuideType,
+  isValidType,
 } from '../../../../types/exhibition-guides';
 import { setCookie, deleteCookie } from 'cookies-next';
 import * as prismicT from '@prismicio/types';
-import { ReactElement, FC } from 'react';
+import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../../../../services/prismic/fetch/exhibition-guides';
 import { transformExhibitionGuide } from '../../../../services/prismic/transformers/exhibition-guides';
@@ -18,30 +19,15 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
-import ExhibitionCaptions from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import GridFactory, {
-  threeUpGridSizesMap,
-  twoUpGridSizesMap,
-} from '@weco/content/components/Body/GridFactory';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { dasherizeShorten } from '@weco/common/utils/grammar';
 import cookies from '@weco/common/data/cookies';
-
-const Stop = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})`
-  background: ${props => props.theme.color('warmNeutral.300')};
-  height: 100%;
-`;
+import ExhibitionGuideStops from 'components/ExhibitionGuideStops/ExhibitionGuideStops';
 
 const Header = styled(Space).attrs({
   v: {
@@ -52,26 +38,14 @@ const Header = styled(Space).attrs({
   background: ${props => props.theme.color(props.color)};
 `;
 
-const typeNames = [
-  'bsl',
-  'audio-with-descriptions',
-  'audio-without-descriptions',
-  'captions-and-transcripts',
-] as const;
-type GuideType = typeof typeNames[number];
-
-function isValidType(type: string | string[] | undefined): type is GuideType {
-  return typeNames.includes(type as any);
-}
-
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
-  type: GuideType;
+  type: ExhibitionGuideType;
   userPreferenceSet?: string | string[];
 };
 
-function getTypeTitle(type: GuideType): string {
+function getTypeTitle(type: ExhibitionGuideType): string {
   switch (type) {
     case 'bsl':
       return 'Watch BSL videos';
@@ -130,90 +104,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-type StopsProps = {
-  stops: ExhibitionGuideComponent[];
-  type: GuideType;
-  id?: number;
-};
-
-const Stops: FC<StopsProps> = ({ stops, type }) => {
-  return (
-    <GridFactory
-      overrideGridSizes={
-        type === 'bsl' ? twoUpGridSizesMap : threeUpGridSizesMap
-      }
-      items={
-        stops
-          .map((stop, index) => {
-            const {
-              number,
-              audioWithDescription,
-              audioWithoutDescription,
-              bsl,
-              title,
-              standaloneTitle,
-            } = stop;
-            const hasContentOfDesiredType =
-              (type === 'audio-with-descriptions' &&
-                audioWithDescription?.url) ||
-              (type === 'audio-without-descriptions' &&
-                audioWithoutDescription?.url) ||
-              (type === 'bsl' && bsl?.embedUrl);
-            return hasContentOfDesiredType ? (
-              <Stop
-                key={index}
-                id="apiToolbar"
-                data-toolbar-anchor={dasherizeShorten(title)}
-              >
-                {type === 'audio-with-descriptions' &&
-                  audioWithDescription?.url && (
-                    <AudioPlayer
-                      title={
-                        stop.title
-                          ? `${number}. ${stop.title}`
-                          : `${number}. ${standaloneTitle}`
-                      }
-                      audioFile={audioWithDescription.url}
-                    />
-                  )}
-                {type === 'audio-without-descriptions' &&
-                  audioWithoutDescription?.url && (
-                    <AudioPlayer
-                      title={
-                        stop.title
-                          ? `${number}. ${stop.title}`
-                          : `${number}. ${standaloneTitle}`
-                      }
-                      audioFile={audioWithoutDescription.url}
-                    />
-                  )}
-                {type === 'bsl' && bsl.embedUrl && (
-                  <VideoEmbed embedUrl={bsl.embedUrl} />
-                )}
-              </Stop>
-            ) : null; // We've decided to omit stops that don't have content for the selected type.
-          })
-          .filter(Boolean) as ReactElement[]
-      }
-    />
-  );
-};
-
-const ExhibitionStops: FC<StopsProps> = ({ stops, type }) => {
-  const numberedStops = stops.filter(c => c.number);
-  switch (type) {
-    case 'bsl':
-    case 'audio-with-descriptions':
-    case 'audio-without-descriptions':
-      return <Stops stops={numberedStops} type={type} />;
-    case 'captions-and-transcripts':
-      return <ExhibitionCaptions stops={stops} />;
-    default:
-      return null;
-  }
-};
-
-function getTypeColor(type?: GuideType): PaletteColor {
+function getTypeColor(type?: ExhibitionGuideType): PaletteColor {
   switch (type) {
     case 'bsl':
       return 'accent.lightBlue';
@@ -312,7 +203,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
         </Layout10>
       </Space>
 
-      <ExhibitionStops type={type} stops={exhibitionGuide.components} />
+      <ExhibitionGuideStops type={type} stops={exhibitionGuide.components} />
     </PageLayout>
   );
 };

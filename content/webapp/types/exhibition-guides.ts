@@ -53,3 +53,17 @@ export type ExhibitionGuideBasic = {
 export type ExhibitionGuide = ExhibitionGuideBasic & {
   components: ExhibitionGuideComponent[];
 };
+
+const typeNames = [
+  'bsl',
+  'audio-with-descriptions',
+  'audio-without-descriptions',
+  'captions-and-transcripts',
+] as const;
+export type ExhibitionGuideType = typeof typeNames[number];
+
+export function isValidType(
+  type: string | string[] | undefined
+): type is ExhibitionGuideType {
+  return typeNames.includes(type as any);
+}
