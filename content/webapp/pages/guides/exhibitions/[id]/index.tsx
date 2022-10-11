@@ -3,7 +3,6 @@ import {
   ExhibitionGuideBasic,
 } from '../../../../types/exhibition-guides';
 import { getCookie, hasCookie, setCookie } from 'cookies-next';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
 import {
@@ -23,11 +22,9 @@ import { exhibitionGuideLd } from '../../../../services/prismic/transformers/jso
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import CardGrid from '../../../../components/CardGrid/CardGrid';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
@@ -38,10 +35,7 @@ import {
   speechToText,
 } from '@weco/common/icons';
 import TypeOption from '../../../../components/ExhibitionGuideTypeOption/ExhibitionGuideTypeOption';
-
-const PromoContainer = styled.div`
-  background: ${props => props.theme.color('warmNeutral.300')};
-`;
+import OtherExhibitionGuides from 'components/OtherExhibitionGuides/OtherExhibitionGuides';
 
 const TypeList = styled.ul`
   list-style: none;
@@ -58,7 +52,7 @@ const TypeList = styled.ul`
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
-  otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
+  otherExhibitionGuides: ExhibitionGuideBasic[];
   userPreferenceSet?: string | string[];
 };
 
@@ -123,12 +117,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           exhibitionGuide,
           jsonLd,
           serverData,
-          otherExhibitionGuides: {
-            ...basicExhibitionGuides,
-            results: basicExhibitionGuides.results.filter(
-              result => result.id !== id
-            ),
-          },
+          otherExhibitionGuides: basicExhibitionGuides.results.filter(
+            result => result.id !== id
+          ),
           userPreferenceSet,
         }),
       };
@@ -263,26 +254,8 @@ const ExhibitionGuidePage: FC<Props> = ({
           </Space>
         </SpacingSection>
       </Layout10>
-      {otherExhibitionGuides.results.length > 0 && (
-        <PromoContainer>
-          <Space
-            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <Layout8 shift={false}>
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <h2 className="h2">Other exhibition guides available</h2>
-              </Space>
-            </Layout8>
-            <CardGrid
-              itemsHaveTransparentBackground={true}
-              items={otherExhibitionGuides.results.map(result => ({
-                ...result,
-                type: 'exhibition-guides-links',
-              }))}
-              itemsPerRow={3}
-            />
-          </Space>
-        </PromoContainer>
+      {otherExhibitionGuides.length > 0 && (
+        <OtherExhibitionGuides otherExhibitionGuides={otherExhibitionGuides} />
       )}
     </PageLayout>
   );
