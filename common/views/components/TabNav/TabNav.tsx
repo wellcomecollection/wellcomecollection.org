@@ -133,7 +133,7 @@ const TabNav: FC<Props> = ({
         ))}
       </TabsContainer>
 
-      {hasDivider && <Divider color="neutral.300" isKeyline />}
+      {hasDivider && <Divider color="neutral.300" />}
     </Wrapper>
   );
 };
