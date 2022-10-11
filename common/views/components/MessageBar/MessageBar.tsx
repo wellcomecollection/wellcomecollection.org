@@ -10,13 +10,7 @@ const ColouredTag: FunctionComponent<SpaceComponentProps> = styled.span.attrs({
   background-color: ${props => props.theme.color('neutral.700')};
   padding: 0.2em 0.5em;
   text-transform: uppercase;
-  ${props =>
-    props.theme.makeSpacePropertyValues(
-      's',
-      ['margin-right'],
-      undefined,
-      undefined
-    )}
+  ${props => props.theme.makeSpacePropertyValues('s', ['margin-right'])}
 `;
 
 type Props = {
