@@ -27,7 +27,8 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import cookies from '@weco/common/data/cookies';
-import ExhibitionGuideStops from 'components/ExhibitionGuideStops/ExhibitionGuideStops';
+import ExhibitionGuideStops from '../../../../components/ExhibitionGuideStops/ExhibitionGuideStops';
+import { getTypeColor } from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
 
 const Header = styled(Space).attrs({
   v: {
@@ -103,20 +104,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
   };
-
-function getTypeColor(type?: ExhibitionGuideType): PaletteColor {
-  switch (type) {
-    case 'bsl':
-      return 'accent.lightBlue';
-    case 'audio-without-descriptions':
-      return 'accent.lightSalmon';
-    case 'audio-with-descriptions':
-      return 'accent.lightPurple';
-    case 'captions-and-transcripts':
-    default:
-      return 'accent.lightGreen';
-  }
-}
 
 const ExhibitionGuidePage: FC<Props> = props => {
   const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;

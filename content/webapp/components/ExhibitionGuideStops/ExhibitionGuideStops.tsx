@@ -13,6 +13,7 @@ import GridFactory, {
   twoUpGridSizesMap,
 } from '@weco/content/components/Body/GridFactory';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import { font } from '@weco/common/utils/classnames';
 
 const Stop = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -21,6 +22,20 @@ const Stop = styled(Space).attrs({
   background: ${props => props.theme.color('warmNeutral.300')};
   height: 100%;
 `;
+
+type VideoPlayerProps = {
+  title: string;
+  videoUrl: string;
+};
+
+const VideoPlayer: FC<VideoPlayerProps> = ({ title, videoUrl }) => (
+  <figure className="no-margin">
+    <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <figcaption className={font('intb', 5)}>{title}</figcaption>
+    </Space>
+    <VideoEmbed embedUrl={videoUrl} />
+  </figure>
+);
 
 type Props = {
   stops: ExhibitionGuideComponent[];
@@ -51,6 +66,9 @@ const Stops: FC<Props> = ({ stops, type }) => {
               (type === 'audio-without-descriptions' &&
                 audioWithoutDescription?.url) ||
               (type === 'bsl' && bsl?.embedUrl);
+
+            const stopTitle = `${number}. ${title || standaloneTitle}`;
+
             return hasContentOfDesiredType ? (
               <Stop
                 key={index}
@@ -60,27 +78,19 @@ const Stops: FC<Props> = ({ stops, type }) => {
                 {type === 'audio-with-descriptions' &&
                   audioWithDescription?.url && (
                     <AudioPlayer
-                      title={
-                        stop.title
-                          ? `${number}. ${stop.title}`
-                          : `${number}. ${standaloneTitle}`
-                      }
+                      title={stopTitle}
                       audioFile={audioWithDescription.url}
                     />
                   )}
                 {type === 'audio-without-descriptions' &&
                   audioWithoutDescription?.url && (
                     <AudioPlayer
-                      title={
-                        stop.title
-                          ? `${number}. ${stop.title}`
-                          : `${number}. ${standaloneTitle}`
-                      }
+                      title={stopTitle}
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
                 {type === 'bsl' && bsl.embedUrl && (
-                  <VideoEmbed embedUrl={bsl.embedUrl} />
+                  <VideoPlayer title={stopTitle} videoUrl={bsl.embedUrl} />
                 )}
               </Stop>
             ) : null; // We've decided to omit stops that don't have content for the selected type.
