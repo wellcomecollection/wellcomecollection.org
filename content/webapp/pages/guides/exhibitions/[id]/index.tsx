@@ -4,7 +4,7 @@ import {
 } from '../../../../types/exhibition-guides';
 import { getCookie, hasCookie, setCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { FC, SyntheticEvent } from 'react';
+import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -16,7 +16,6 @@ import {
 } from '../../../../services/prismic/transformers/exhibition-guides';
 import { transformQuery } from '../../../../services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { IconSvg } from '@weco/common/icons/types';
 import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -33,13 +32,12 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import { PaletteColor } from '@weco/common/views/themes/config';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   britishSignLanguage,
   audioDescribed,
   speechToText,
 } from '@weco/common/icons';
+import TypeOption from '../../../../components/ExhibitionGuideTypeOption/ExhibitionGuideTypeOption';
 
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('warmNeutral.300')};
@@ -56,65 +54,6 @@ const TypeList = styled.ul`
       gap: 50px;
     `}
 `;
-
-const TypeItem = styled.li`
-  flex-basis: 100%;
-  flex-grow: 0;
-  flex-shrink: 0;
-  position: relative;
-  min-height: 200px;
-  ${props => props.theme.media('medium')`
-      flex-basis: calc(50% - 25px);
-    `}
-`;
-
-const TypeLink = styled.a<{ color: PaletteColor }>`
-  display: block;
-  height: 100%;
-  width: 100%;
-  text-decoration: none;
-  background: ${props => props.theme.color(props.color)};
-
-  &:hover,
-  &:focus {
-    background: ${props => props.theme.color('neutral.400')};
-  }
-`;
-
-type TypeOptionProps = {
-  url: string;
-  title: string;
-  text: string;
-  color:
-    | 'accent.lightSalmon'
-    | 'accent.lightGreen'
-    | 'accent.lightPurple'
-    | 'accent.lightBlue';
-  icon?: IconSvg;
-  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
-};
-
-const TypeOption: FC<TypeOptionProps> = ({
-  url,
-  title,
-  text,
-  color,
-  icon,
-  onClick,
-}) => (
-  <TypeItem>
-    <TypeLink href={url} color={color} onClick={onClick}>
-      <Space
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-      >
-        <h2 className="h2">{title}</h2>
-        <p className={font('intr', 5)}>{text}</p>
-        {icon && <Icon icon={icon} />}
-      </Space>
-    </TypeLink>
-  </TypeItem>
-);
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
