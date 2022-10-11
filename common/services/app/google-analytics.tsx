@@ -16,19 +16,23 @@ const gaDimensionKeys = {
   partOf: 'dimension3',
 };
 
+// Don't use the next/script `Script` component for these as in
+// Next.js v11 it does not work when inside a `Head` component
 export const GoogleAnalyticsV4: FC = () => (
-  <Script
+  <script
     id="google-analytics-v4"
     src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_V4_ID}`}
-    strategy="afterInteractive"
+    async={true}
   />
 );
 
 export const GoogleAnalyticsUA: FC = () => (
-  <Script
+  <script
     id="google-analytics-ua"
-    strategy="afterInteractive"
+    async={true}
     dangerouslySetInnerHTML={{
+      // we don't initialize analytics here, as that is done by ReactGA
+      // See `useGoogleAnalyticsUA`
       __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
