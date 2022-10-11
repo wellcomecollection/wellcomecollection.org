@@ -155,7 +155,7 @@ const ItemPage: NextPage<Props> = ({
         `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
       ) {
         if (data.hasOwnProperty('accessToken')) {
-          setShowModal(isTotallyRestricted);
+          setShowModal(Boolean(isTotallyRestricted));
           setShowViewer(!isTotallyRestricted);
         } else {
           setShowModal(true);
@@ -319,7 +319,6 @@ const ItemPage: NextPage<Props> = ({
             currentCanvas={currentCanvas}
             lang={lang}
             canvasOcr={canvasOcr}
-            canvases={canvases}
             workId={workId}
             pageIndex={pageIndex}
             pageSize={pageSize}

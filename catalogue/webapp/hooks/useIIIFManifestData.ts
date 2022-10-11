@@ -18,43 +18,34 @@ const manifestPromises: Map<
   >
 > = new Map();
 const cachedManifestData: Map<string, ManifestData> = new Map();
-const blankLabel = { '': [] };
-const blankManifestV3 = {
-  '@context': '',
-  id: '',
-  type: 'Manifest' as const,
-  label: blankLabel,
-  summary: blankLabel,
-  homepage: [],
-  metadata: [],
-  items: [],
-  services: [],
-  placeholderCanvas: {
-    id: '',
-    type: 'Canvas' as const,
-    label: blankLabel,
-    items: [],
-  },
-  rendering: [],
-};
-
 const useIIIFManifestData = (work: Work): ManifestData => {
   const [manifestData, setManifestData] = useState<ManifestData>({
-    imageCount: 0,
-    childManifestsCount: 0,
-    audio: {
-      sounds: [],
-    },
-    manifestV3: blankManifestV3,
+    // TODO redo values once ManifestData type is settled
+    // function to use here and in transformer to return Object
     v2: {
-      // TODO update with required props
+      title: '',
       imageCount: 0,
       childManifestsCount: 0,
+      showDownloadOptions: false,
+      downloadOptions: [],
+      pdfRendering: undefined,
+      authService: undefined,
+      tokenService: undefined,
+      isAnyImageOpen: true,
+      isTotallyRestricted: false,
+      isCollectionManifest: false,
+      manifests: [],
+      canvases: [],
+      parentManifestUrl: undefined,
+      needsModal: false,
+      searchService: undefined,
+      structures: [],
     },
     v3: {
       audio: {
         sounds: [],
       },
+      services: [],
     },
   });
 

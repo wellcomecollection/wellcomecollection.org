@@ -1,7 +1,6 @@
 import { createContext } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import {
-  IIIFCanvas,
   IIIFManifest,
   IIIFRendering,
   SearchResults,
@@ -18,15 +17,14 @@ type Props = {
   manifestIndex: number | undefined;
   activeIndex: number;
   setActiveIndex: (i: number) => void;
-  canvases: IIIFCanvas[];
   canvasIndex: number;
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
   currentManifestLabel?: string;
   licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
-  downloadOptions: IIIFRendering[];
-  iiifPresentationDownloadOptions: IIIFRendering[];
+  downloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest
+  iiifPresentationDownloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest
   parentManifest: IIIFManifest | undefined;
   lang: string;
   mainAreaWidth: number;
@@ -100,7 +98,6 @@ const ItemViewerContext = createContext<Props>({
   manifest: undefined,
   manifestIndex: undefined,
   activeIndex: 0,
-  canvases: [],
   canvasIndex: 0,
   gridVisible: false,
   currentManifestLabel: undefined,

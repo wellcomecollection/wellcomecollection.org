@@ -173,14 +173,14 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
               .filter(Boolean)
               .filter(resource => resource?.resource?.chars);
             // Get the index of the canvas the hits appear on
-            const index = canvases.findIndex(canvas => {
+            const index = canvases?.findIndex(canvas => {
               const matchingPathname = matchingResources?.[0]?.on || '';
               return (
                 new URL(matchingPathname).pathname ===
                 new URL(canvas['@id']).pathname
               );
             });
-            const matchingCanvas = index && canvases[index];
+            const matchingCanvas = index && canvases?.[index];
             return (
               <ListItem key={i}>
                 <SearchResult

@@ -47,7 +47,6 @@ type IIIFViewerProps = {
   thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
   lang: string;
   canvasOcr?: string;
-  canvases: IIIFCanvas[];
   workId: string;
   pageIndex: number;
   pageSize: number;
@@ -208,7 +207,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   mainPaginatorProps,
   currentCanvas,
   lang,
-  canvases,
   canvasIndex,
   iiifImageLocation,
   work,
@@ -259,6 +257,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const previousManifestIndex = useRef(manifestIndex);
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
   const hasImageService = mainImageService['@id'] && currentCanvas;
+  const { canvases } = { ...manifest?.v2 };
 
   useEffect(() => {
     const fetchImageJson = async () => {
@@ -306,12 +305,13 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         // it was before and scroll to the right place.
         if (previousActiveIndex !== activeIndex) {
           setActiveIndex(previousActiveIndex);
-          scrollViewer(
-            canvases[previousActiveIndex],
-            previousActiveIndex,
-            mainViewerRef?.current,
-            mainArea.contentRect.width
-          );
+          canvases &&
+            scrollViewer(
+              canvases[previousActiveIndex],
+              previousActiveIndex,
+              mainViewerRef?.current,
+              mainArea.contentRect.width
+            );
         }
 
         previousActiveIndex = undefined;
@@ -375,7 +375,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 
   useSkipInitialEffect(() => {
     const canvasParams =
-      canvases.length > 0 || currentCanvas
+      (canvases && canvases.length > 0) || currentCanvas
         ? { canvas: `${activeIndex + 1}` }
         : {};
     const manifest = mainPaginatorProps.link.href.query?.manifest;
@@ -429,7 +429,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         manifest,
         manifestIndex,
         lang,
-        canvases,
         canvasIndex,
         activeIndex,
         gridVisible,
@@ -543,7 +542,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       mainPaginatorProps={mainPaginatorProps}
       thumbsPaginatorProps={thumbsPaginatorProps}
       workId={work.id}
-      canvases={canvases}
+      canvases={canvases || []}
       canvasIndex={canvasIndex}
       pageIndex={pageIndex}
       pageSize={pageSize}

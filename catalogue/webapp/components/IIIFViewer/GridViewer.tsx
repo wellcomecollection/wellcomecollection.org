@@ -150,8 +150,9 @@ const GridViewer: FunctionComponent<Props> = ({
     setGridVisible,
     setActiveIndex,
     activeIndex,
-    canvases,
+    manifest,
     isFullscreen,
+    searchResults,
   } = useContext(ItemViewerContext);
   const { windowSize } = useContext(AppContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -161,7 +162,7 @@ const GridViewer: FunctionComponent<Props> = ({
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
   const { isVisible } = useContext(GlobalInfoBarContext);
-  const { searchResults } = useContext(ItemViewerContext);
+  const { canvases } = { ...manifest?.v2 };
 
   useEffect(() => {
     const rowIndex = Math.floor(activeIndex / columnCount);
@@ -222,7 +223,7 @@ const GridViewer: FunctionComponent<Props> = ({
           columnCount={columnCount}
           columnWidth={columnWidth}
           height={mainAreaHeight}
-          rowCount={canvases.length / columnCount + 1}
+          rowCount={canvases ? canvases.length / columnCount + 1 : 0}
           rowHeight={450}
           width={mainAreaWidth}
           itemData={{

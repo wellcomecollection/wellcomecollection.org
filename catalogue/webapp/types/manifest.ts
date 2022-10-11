@@ -1,6 +1,7 @@
 import {
   IIIFMediaElement,
   IIIFRendering,
+  IIIFCanvas,
 } from '../../webapp/services/iiif/types/manifest/v2';
 import { AudioV3 } from '../../webapp/services/iiif/types/manifest/v3';
 
@@ -17,7 +18,7 @@ export type ManifestData = {
     iiifDownloadEnabled?: boolean;
     firstChildManifestLocation?: string;
     showDownloadOptions: boolean; // TODO do we need this and iiifDownloadEnabled?
-    downloadOptions: any; // TODO type properly
+    downloadOptions: IIIFRendering[];
     // [
     //   {
     //     "@id": "https://iiif.wellcomecollection.org/pdf/b31362758",
@@ -37,7 +38,7 @@ export type ManifestData = {
     isTotallyRestricted: boolean; // TODO type properly
     isCollectionManifest: boolean; // TODO not this, can we use childManifestCount, is it ultimately the same thing
     manifests: any; // TODO type properly
-    canvases: any; // TODO type properly
+    canvases: IIIFCanvas[] | undefined; // TODO return values for all of these if iiif manifest is undefined.
     parentManifestUrl: string | undefined;
     needsModal: any; // TODO type properly
     searchService: any; // TODO type properly

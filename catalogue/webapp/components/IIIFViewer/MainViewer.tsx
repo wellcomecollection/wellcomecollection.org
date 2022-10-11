@@ -355,7 +355,7 @@ const MainViewer: FunctionComponent<Props> = ({
     setActiveIndex,
     mainAreaHeight,
     mainAreaWidth,
-    canvases,
+    manifest,
     canvasIndex,
     setShowZoomed,
     setZoomInfoUrl,
@@ -373,6 +373,8 @@ const MainViewer: FunctionComponent<Props> = ({
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
+  const { canvases } = { ...manifest?.v2 };
+
   function handleOnScroll({ scrollOffset }) {
     timer.current && clearTimeout(timer.current);
     setShowControls(false);
@@ -411,7 +413,7 @@ const MainViewer: FunctionComponent<Props> = ({
         width={mainAreaWidth}
         style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
         height={mainAreaHeight}
-        itemCount={canvases.length}
+        itemCount={canvases?.length || 0}
         itemData={{
           scrollVelocity,
           canvases,

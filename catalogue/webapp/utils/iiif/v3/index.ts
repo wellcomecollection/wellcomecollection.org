@@ -1,8 +1,8 @@
 import {
-  AudioV3,
   AuthService,
   AuthServiceService,
-} from '../../../services/iiif/types/manifest/v2'; // TODO move model to v2 and v3 folders
+} from '../../../services/iiif/types/manifest/v2';
+import { AudioV3 } from '../../../services/iiif/types/manifest/v3';
 import {
   ContentResource,
   IIIFExternalWebResource,

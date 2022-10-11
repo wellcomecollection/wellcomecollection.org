@@ -44,7 +44,10 @@ export function transformManifest(
     ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
     : true;
   const downloadOptions =
-    showDownloadOptions && manifest && getDownloadOptionsFromManifest(manifest);
+    (showDownloadOptions &&
+      manifest &&
+      getDownloadOptionsFromManifest(manifest)) ||
+    [];
 
   const pdfRendering =
     (downloadOptions &&
