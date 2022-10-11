@@ -10,20 +10,12 @@ export const utilityClasses = css<GlobalStyleProps>`
         return `
         .font-${key} {
           color: ${value};
-
-          .icon__shape {
-            fill: currentColor;
-          }
         }`;
       } else {
         const colorName = key.split('.');
         return `
         .font-${colorName[0]}-${colorName[1]} {
           color: ${value};
-
-          .icon__shape {
-            fill: currentColor;
-          }
         }`;
       }
     })

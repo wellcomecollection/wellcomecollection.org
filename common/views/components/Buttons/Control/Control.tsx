@@ -105,7 +105,6 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
 
     .icon__shape {
       fill: ${props.theme.color('white')};
-      transition: all ${props.theme.transitionProperties};
     }
 
     &:hover,

@@ -54,16 +54,6 @@ export const ShameButton = styled.button.attrs(() => ({
     vertical-align: middle;
   }
 
-  .icon__shape {
-    transition: fill ${props => props.theme.transitionProperties};
-    fill: currentColor;
-  }
-
-  .icon__stroke {
-    transition: stroke ${props => props.theme.transitionProperties};
-    stroke: currentColor;
-  }
-
   overflow: hidden;
 
   ${props =>
