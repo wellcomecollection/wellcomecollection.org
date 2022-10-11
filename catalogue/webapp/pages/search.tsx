@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
