@@ -26,7 +26,7 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { GetServerSideProps } from 'next';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import OtherExhibitionGuides from 'components/OtherExhibitionGuides/OtherExhibitionGuides';
 import ExhibitionGuideLinks from 'components/ExhibitionGuideLinks/ExhibitionGuideLinks';
