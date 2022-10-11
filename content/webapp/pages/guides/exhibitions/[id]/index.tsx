@@ -2,7 +2,6 @@ import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
 } from '../../../../types/exhibition-guides';
-import { getCookie, hasCookie } from 'cookies-next';
 import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
 import {
@@ -30,20 +29,17 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import OtherExhibitionGuides from 'components/OtherExhibitionGuides/OtherExhibitionGuides';
 import ExhibitionGuideLinks from 'components/ExhibitionGuideLinks/ExhibitionGuideLinks';
-import cookies from '@weco/common/data/cookies';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
   otherExhibitionGuides: ExhibitionGuideBasic[];
-  userPreferenceSet?: string | string[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, userPreferenceSet } = context.query;
-    const { res, req } = context;
+    const { id } = context.query;
 
     if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
       return { notFound: true };
@@ -76,25 +72,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ),
     };
 
-    const userPreferenceGuideType = getCookie(cookies.exhibitionGuideType, {
-      req,
-      res,
-    });
-    const hasUserPreference = hasCookie(cookies.exhibitionGuideType, {
-      req,
-      res,
-    });
-
-    // We want to check for a user guide type preference cookie, and redirect to the appropriate type
-    if (hasUserPreference) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: `${id}/${userPreferenceGuideType}?userPreferenceSet=true`,
-        },
-      };
-    }
-
     const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
 
     const jsonLd = exhibitionGuideLd(exhibitionGuide);
@@ -107,7 +84,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         otherExhibitionGuides: basicExhibitionGuides.results.filter(
           result => result.id !== id
         ),
-        userPreferenceSet,
       }),
     };
   };
