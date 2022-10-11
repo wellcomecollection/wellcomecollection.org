@@ -97,15 +97,15 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
     manifest,
     searchResults,
     setSearchResults,
-    canvases,
     setIsMobileSidebarActive,
   } = useContext(ItemViewerContext);
+  const { searchService, canvases } = { ...manifest?.v2 };
   async function getSearchResults() {
-    if (manifest?.v2.searchService) {
+    if (searchService) {
       setIsLoading(true);
       try {
         const results = await (
-          await fetch(`${manifest?.v2.searchService['@id']}?q=${value}`)
+          await fetch(`${searchService['@id']}?q=${value}`)
         ).json();
         setIsLoading(false);
         setSearchResults(results);
