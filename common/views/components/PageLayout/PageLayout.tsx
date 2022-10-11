@@ -23,6 +23,7 @@ import { usePrismicData, useToggles } from '../../../server-data/Context';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import cookies from '@weco/common/data/cookies';
 
 export type SiteSection =
   | 'collections'
@@ -263,7 +264,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
             <InfoBanner
               document={globalAlert}
-              cookieName="WC_globalAlert"
+              cookieName={cookies.globalAlert}
               onVisibilityChange={isVisible => {
                 globalInfoBar.setIsVisible(isVisible);
               }}
