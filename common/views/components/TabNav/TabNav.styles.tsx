@@ -2,67 +2,74 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 
-export const Wrapper = styled.div.attrs({ className: font('intb', 5) })<{
-  isInContainer: boolean;
-}>`
+export const Wrapper = styled.div`
   ${props =>
-    props.isInContainer &&
     `
       margin-right: -${props.theme.containerPadding.small}px; 
+      transition: margin ${props => props.theme.transitionProperties};
 
-    ${props =>
-      props.theme.media('medium')(`
+    ${props.theme.media('medium')(`
         margin-right: -${props.theme.containerPadding.medium}px; 
     `)}
 
-    ${props =>
-      props.theme.media('medium')(`
+    ${props.theme.media('large')(`
         margin-right: -${props.theme.containerPadding.large}px; 
+    `)}
+
+    ${props.theme.media('xlarge')(`
+        margin-right: 0; 
     `)}
   `}
 `;
 
-export const TabsContainer = styled.div.attrs({
-  className: 'no-margin',
-})`
+export const TabsContainer = styled.div`
   display: flex;
   list-style: none;
   padding: 0;
+  margin: 0;
   overflow-x: scroll;
 `;
 
 export const Tab = styled.button.attrs({
-  className: 'plain-button no-margin font-intb',
+  className: `plain-button ${font('intb', 5)}`,
 })`
-  padding: 0;
-  margin-right: 1vw;
+  margin: 0;
+  padding: 0 1.5rem 0 0;
+  flex-shrink: 0;
+  transition: padding ${props => props.theme.transitionProperties};
 
-  ${props => props.theme.media('medium')`
-    flex: 1 1 100%;
-    text-align: left;
-  `}
+  &:first-child span {
+    padding-left: 0;
+  }
+
+  ${props =>
+    props.theme.media('medium')(`
+      padding-right: 2rem;
+  `)}
+  ${props =>
+    props.theme.media('large')(`
+      padding-right: 3rem;
+  `)}
 `;
 
 type NavItemInnerProps = {
   selected: boolean;
-  isDarkMode?: boolean;
+  variant?: 'yellow' | 'white';
 };
 export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   return {
     as: 'span',
     className: classNames({ selected: props.selected }),
-    h: { size: 'm', properties: ['margin-right'] },
-    v: { size: 'm', properties: ['padding-top'] },
   };
 })<NavItemInnerProps>`
   display: block;
   position: relative;
   z-index: 1;
-  padding: 1em 0.3em;
+  padding: 1.5rem 0.25rem;
   cursor: pointer;
   color: ${props =>
     props.theme.color(
-      props.isDarkMode
+      props.variant === 'white'
         ? props.selected
           ? 'white'
           : 'warmNeutral.400'
@@ -81,12 +88,16 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     width: 0;
     background-color: ${props =>
       props.theme.color(
-        props.isDarkMode
-          ? props.selected
+        props.selected
+          ? props.variant === 'white'
             ? 'white'
-            : 'warmNeutral.400'
-          : props.selected
-          ? 'black'
+            : props.variant === 'yellow'
+            ? 'yellow'
+            : 'black'
+          : props.variant === 'white'
+          ? 'warmNeutral.400'
+          : props.variant === 'yellow'
+          ? 'lightYellow'
           : 'neutral.600'
       )};
     z-index: -1;

@@ -162,6 +162,7 @@ export const ConceptPage: NextPage<Props> = ({
               <TabNav
                 id="images"
                 selectedTab={selectedImagesTab}
+                variant="white"
                 items={[
                   {
                     id: 'images-about',
@@ -185,7 +186,6 @@ export const ConceptPage: NextPage<Props> = ({
                   },
                 ]}
                 setSelectedTab={setSelectedImagesTab}
-                isDarkMode
               />
             )}
             <Space v={{ size: 'l', properties: ['margin-top'] }}>

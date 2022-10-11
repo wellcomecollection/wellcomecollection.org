@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import { Wrapper, TabsContainer, Tab, NavItemInner } from './TabNav.styles';
+import Divider from '@weco/common/views/components/Divider/Divider';
 
 type SelectableTextLink = {
   id: string;
@@ -20,8 +21,8 @@ type Props = {
   items: SelectableTextLink[];
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
-  isInContainer?: boolean;
-  isDarkMode?: boolean;
+  variant?: 'yellow' | 'white';
+  hasDivider?: boolean;
 };
 
 const TabNav: FC<Props> = ({
@@ -29,8 +30,8 @@ const TabNav: FC<Props> = ({
   items,
   selectedTab,
   setSelectedTab,
-  isInContainer = false,
-  isDarkMode = false,
+  variant,
+  hasDivider,
 }: Props) => {
   const tabListRef = useRef<HTMLDivElement>(null);
 
@@ -96,7 +97,7 @@ const TabNav: FC<Props> = ({
   };
 
   return (
-    <Wrapper isInContainer={isInContainer}>
+    <Wrapper>
       <TabsContainer
         role="tablist"
         ref={tabListRef}
@@ -110,8 +111,14 @@ const TabNav: FC<Props> = ({
             aria-controls={`tabpanel-${item.id}`}
             tabIndex={item.selected ? 0 : -1}
             aria-selected={item.selected}
-            onClick={() => {
+            onClick={e => {
               if (!item.selected) {
+                (e.target as HTMLButtonElement).scrollIntoView({
+                  behavior: 'smooth',
+                  inline: 'start',
+                  block: 'nearest',
+                });
+
                 setSelectedTab(item.id);
 
                 sendEvent(item.id);
@@ -119,12 +126,14 @@ const TabNav: FC<Props> = ({
             }}
             onKeyDown={handleKeyDown}
           >
-            <NavItemInner selected={item.selected} isDarkMode={isDarkMode}>
+            <NavItemInner selected={item.selected} variant={variant}>
               {item.text}
             </NavItemInner>
           </Tab>
         ))}
       </TabsContainer>
+
+      {hasDivider && <Divider color="neutral.300" isKeyline />}
     </Wrapper>
   );
 };
