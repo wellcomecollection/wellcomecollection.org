@@ -100,8 +100,6 @@ const ExhibitionGuideStops: FC<Props> = ({ stops, type }) => {
       return <Stops stops={numberedStops} type={type} />;
     case 'captions-and-transcripts':
       return <ExhibitionCaptions stops={stops} />;
-    default:
-      return null;
   }
 };
 
