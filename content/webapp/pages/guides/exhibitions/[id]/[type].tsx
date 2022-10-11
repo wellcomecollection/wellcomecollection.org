@@ -2,27 +2,27 @@ import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
-} from '../types/exhibition-guides';
+} from '../../../../types/exhibition-guides';
 import { getCookie, hasCookie, setCookie, deleteCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import * as prismicT from '@prismicio/types';
 import { ReactElement, FC, SyntheticEvent } from 'react';
-import { createClient } from '../services/prismic/fetch';
+import { createClient } from '../../../../services/prismic/fetch';
 import {
   fetchExhibitionGuide,
   fetchExhibitionGuides,
-} from '../services/prismic/fetch/exhibition-guides';
+} from '../../../../services/prismic/fetch/exhibition-guides';
 import {
   transformExhibitionGuide,
   transformExhibitionGuideToExhibitionGuideBasic,
-} from '../services/prismic/transformers/exhibition-guides';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
+} from '../../../../services/prismic/transformers/exhibition-guides';
+import { transformQuery } from '../../../../services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { IconSvg } from '@weco/common/icons/types';
 import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
+import { exhibitionGuideLd } from '../../../../services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -30,8 +30,8 @@ import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import CardGrid from '../components/CardGrid/CardGrid';
-import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
+import CardGrid from '../../../../components/CardGrid/CardGrid';
+import ExhibitionCaptions from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
@@ -73,8 +73,8 @@ const TypeList = styled.ul`
   flex-wrap: wrap;
   gap: 20px;
   ${props => props.theme.media('medium')`
-    gap: 50px;
-  `}
+        gap: 50px;
+      `}
 `;
 
 const TypeItem = styled.li`
@@ -84,8 +84,8 @@ const TypeItem = styled.li`
   position: relative;
   min-height: 200px;
   ${props => props.theme.media('medium')`
-    flex-basis: calc(50% - 25px);
-  `}
+        flex-basis: calc(50% - 25px);
+      `}
 `;
 
 const TypeLink = styled.a<{ color: PaletteColor }>`
@@ -395,7 +395,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
           url={`/${pathname}/audio-with-descriptions`}
           title="Listen, with audio descriptions"
           text="Find out more about the exhibition with short audio tracks,
-        including descriptions of the objects."
+            including descriptions of the objects."
           color="accent.lightPurple"
           icon={audioDescribed}
           onClick={() => {
@@ -411,7 +411,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
           url={`/${pathname}/captions-and-transcripts`}
           title="Read captions and transcripts"
           text="All the wall and label texts from the gallery, and images of the
-              objects, great for those without headphones."
+                  objects, great for those without headphones."
           color="accent.lightGreen"
           icon={speechToText}
           onClick={() => {

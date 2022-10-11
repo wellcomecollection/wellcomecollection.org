@@ -1,24 +1,24 @@
-import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
+import { ExhibitionGuideBasic } from '../../../types/exhibition-guides';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
-import { createClient } from '../../services/prismic/fetch';
-import { fetchExhibitionGuides } from '../../services/prismic/fetch/exhibition-guides';
-import { transformQuery } from '../../services/prismic/transformers/paginated-results';
+import { createClient } from '../../../services/prismic/fetch';
+import { fetchExhibitionGuides } from '../../../services/prismic/fetch/exhibition-guides';
+import { transformQuery } from '../../../services/prismic/transformers/paginated-results';
 import {
   transformExhibitionGuide,
   transformExhibitionGuideToExhibitionGuideBasic,
-} from '../../services/prismic/transformers/exhibition-guides';
+} from '../../../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { exhibitionGuideLd } from '../../services/prismic/transformers/json-ld';
-import { getPage } from '../../utils/query-params';
+import { exhibitionGuideLd } from '../../../services/prismic/transformers/json-ld';
+import { getPage } from '../../../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import LayoutPaginatedResults from '../../components/LayoutPaginatedResults/LayoutPaginatedResults';
+import LayoutPaginatedResults from '../../../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 
 type Props = {
