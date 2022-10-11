@@ -30,6 +30,7 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import OtherExhibitionGuides from 'components/OtherExhibitionGuides/OtherExhibitionGuides';
 import ExhibitionGuideLinks from 'components/ExhibitionGuideLinks/ExhibitionGuideLinks';
+import cookies from '@weco/common/data/cookies';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
@@ -71,11 +72,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ),
     };
 
-    const userPreferenceGuideType = getCookie('WC_userPreferenceGuideType', {
+    const userPreferenceGuideType = getCookie(cookies.exhibitionGuideType, {
       req,
       res,
     });
-    const hasUserPreference = hasCookie('WC_userPreferenceGuideType', {
+    const hasUserPreference = hasCookie(cookies.exhibitionGuideType, {
       req,
       res,
     });

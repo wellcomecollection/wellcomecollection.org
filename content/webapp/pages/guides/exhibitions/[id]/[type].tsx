@@ -33,6 +33,7 @@ import GridFactory, {
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import cookies from '@weco/common/data/cookies';
 
 const Stop = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -102,7 +103,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // We want to set a user preference cookie if the qr code url contains a guide type
     // 8 hours (the maximum length of time the collection is open for in a day)
     if (usingQRCode) {
-      setCookie('WC_userPreferenceGuideType', type, {
+      setCookie(cookies.exhibitionGuideType, type, {
         res,
         req,
         maxAge: 8 * 60 * 60,
@@ -270,7 +271,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
                 text="Change guide type"
                 link={`/guides/exhibitions/${exhibitionGuide.id}`}
                 clickHandler={() => {
-                  deleteCookie('WC_userPreferenceGuideType');
+                  deleteCookie(cookies.exhibitionGuideType);
                 }}
               />
             </Space>
@@ -295,7 +296,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
               <a
                 href={`/guides/exhibitions/${exhibitionGuide.id}`}
                 onClick={() => {
-                  deleteCookie('WC_userPreferenceGuideType');
+                  deleteCookie(cookies.exhibitionGuideType);
                 }}
               >
                 another type of guide.

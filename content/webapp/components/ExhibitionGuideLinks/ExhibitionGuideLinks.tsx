@@ -7,6 +7,7 @@ import {
   speechToText,
 } from '@weco/common/icons';
 import TypeOption from './TypeOption';
+import cookies from '@weco/common/data/cookies';
 
 const TypeList = styled.ul`
   list-style: none;
@@ -47,7 +48,7 @@ const ExhibitionGuideLinks: FC<Props> = ({ pathname, availableTypes }) => {
           color="accent.lightSalmon"
           onClick={() => {
             cookieHandler(
-              'WC_userPreferenceGuideType',
+              cookies.exhibitionGuideType,
               'audio-without-descriptions'
             );
           }}
@@ -63,7 +64,7 @@ const ExhibitionGuideLinks: FC<Props> = ({ pathname, availableTypes }) => {
           icon={audioDescribed}
           onClick={() => {
             cookieHandler(
-              'WC_userPreferenceGuideType',
+              cookies.exhibitionGuideType,
               'audio-with-descriptions'
             );
           }}
@@ -79,7 +80,7 @@ const ExhibitionGuideLinks: FC<Props> = ({ pathname, availableTypes }) => {
           icon={speechToText}
           onClick={() => {
             cookieHandler(
-              'WC_userPreferenceGuideType',
+              cookies.exhibitionGuideType,
               'captions-and-transcripts'
             );
           }}
@@ -93,7 +94,7 @@ const ExhibitionGuideLinks: FC<Props> = ({ pathname, availableTypes }) => {
           color="accent.lightBlue"
           icon={britishSignLanguage}
           onClick={() => {
-            cookieHandler('WC_userPreferenceGuideType', 'bsl');
+            cookieHandler(cookies.exhibitionGuideType, 'bsl');
           }}
         />
       )}
