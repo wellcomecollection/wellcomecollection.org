@@ -2,7 +2,7 @@ import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
 } from '../../../../types/exhibition-guides';
-import { getCookie, hasCookie, setCookie } from 'cookies-next';
+import { getCookie, hasCookie } from 'cookies-next';
 import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
 import {
@@ -27,27 +27,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
-import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import {
-  britishSignLanguage,
-  audioDescribed,
-  speechToText,
-} from '@weco/common/icons';
-import TypeOption from '../../../../components/ExhibitionGuideTypeOption/ExhibitionGuideTypeOption';
 import OtherExhibitionGuides from 'components/OtherExhibitionGuides/OtherExhibitionGuides';
-
-const TypeList = styled.ul`
-  list-style: none;
-  margin: 0 !important;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  ${props => props.theme.media('medium')`
-      gap: 50px;
-    `}
-`;
+import ExhibitionGuideLinks from 'components/ExhibitionGuideLinks/ExhibitionGuideLinks';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
@@ -128,90 +110,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-type ExhibitionLinksProps = {
-  pathname: string;
-  availableTypes: {
-    BSLVideo: boolean;
-    captionsOrTranscripts: boolean;
-    audioWithoutDescriptions: boolean;
-    audioWithDescriptions: boolean;
-  };
-};
-
-function cookieHandler(key: string, data: string) {
-  // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
-  const options = { maxAge: 8 * 60 * 60, path: '/' };
-  setCookie(key, data, options);
-}
-
-const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
-  pathname,
-  availableTypes,
-}) => {
-  return (
-    <TypeList>
-      {availableTypes.audioWithoutDescriptions && (
-        <TypeOption
-          url={`/${pathname}/audio-without-descriptions`}
-          title="Listen, without audio descriptions"
-          text="Find out more about the exhibition with short audio tracks."
-          color="accent.lightSalmon"
-          onClick={() => {
-            cookieHandler(
-              'WC_userPreferenceGuideType',
-              'audio-without-descriptions'
-            );
-          }}
-        />
-      )}
-      {availableTypes.audioWithDescriptions && (
-        <TypeOption
-          url={`/${pathname}/audio-with-descriptions`}
-          title="Listen, with audio descriptions"
-          text="Find out more about the exhibition with short audio tracks,
-          including descriptions of the objects."
-          color="accent.lightPurple"
-          icon={audioDescribed}
-          onClick={() => {
-            cookieHandler(
-              'WC_userPreferenceGuideType',
-              'audio-with-descriptions'
-            );
-          }}
-        />
-      )}
-      {availableTypes.captionsOrTranscripts && (
-        <TypeOption
-          url={`/${pathname}/captions-and-transcripts`}
-          title="Read captions and transcripts"
-          text="All the wall and label texts from the gallery, and images of the
-                objects, great for those without headphones."
-          color="accent.lightGreen"
-          icon={speechToText}
-          onClick={() => {
-            cookieHandler(
-              'WC_userPreferenceGuideType',
-              'captions-and-transcripts'
-            );
-          }}
-        />
-      )}
-      {availableTypes.BSLVideo && (
-        <TypeOption
-          url={`/${pathname}/bsl`}
-          title="Watch BSL videos"
-          text="Commentary about the exhibition in British Sign Language videos."
-          color="accent.lightBlue"
-          icon={britishSignLanguage}
-          onClick={() => {
-            cookieHandler('WC_userPreferenceGuideType', 'bsl');
-          }}
-        />
-      )}
-    </TypeList>
-  );
-};
-
 const ExhibitionGuidePage: FC<Props> = ({
   exhibitionGuide,
   jsonLd,
@@ -247,7 +145,7 @@ const ExhibitionGuidePage: FC<Props> = ({
             </Space>
           </Space>
           <Space v={{ size: 'l', properties: ['margin-top'] }}>
-            <ExhibitionLinks
+            <ExhibitionGuideLinks
               availableTypes={exhibitionGuide.availableTypes}
               pathname={pathname}
             />

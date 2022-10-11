@@ -30,7 +30,7 @@ const TypeLink = styled.a<{ color: PaletteColor }>`
   }
 `;
 
-type TypeOptionProps = {
+type Props = {
   url: string;
   title: string;
   text: string;
@@ -43,14 +43,7 @@ type TypeOptionProps = {
   onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
 
-const ExhibitionGuideTypeOption: FC<TypeOptionProps> = ({
-  url,
-  title,
-  text,
-  color,
-  icon,
-  onClick,
-}) => (
+const TypeOption: FC<Props> = ({ url, title, text, color, icon, onClick }) => (
   <TypeItem>
     <TypeLink href={url} color={color} onClick={onClick}>
       <Space
@@ -65,4 +58,4 @@ const ExhibitionGuideTypeOption: FC<TypeOptionProps> = ({
   </TypeItem>
 );
 
-export default ExhibitionGuideTypeOption;
+export default TypeOption;
