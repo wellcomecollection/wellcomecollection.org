@@ -3,7 +3,7 @@ import {
   ExhibitionGuideType,
   isValidType,
 } from '../../../../types/exhibition-guides';
-import { setCookie, deleteCookie, getCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
 import * as prismicT from '@prismicio/types';
 import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
