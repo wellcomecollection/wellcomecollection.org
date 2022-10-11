@@ -4,23 +4,6 @@ import { GlobalStyleProps } from './default';
 import { respondTo, respondBetween, visuallyHidden } from './mixins';
 
 export const utilityClasses = css<GlobalStyleProps>`
-  ${Object.entries(themeValues.colors)
-    .map(([key, value]) => {
-      if (!key.includes('.')) {
-        return `
-        .font-${key} {
-          color: ${value};
-        }`;
-      } else {
-        const colorName = key.split('.');
-        return `
-        .font-${colorName[0]}-${colorName[1]} {
-          color: ${value};
-        }`;
-      }
-    })
-    .join(' ')}
-
   .transition-bg {
     transition: background ${themeValues.transitionProperties};
   }

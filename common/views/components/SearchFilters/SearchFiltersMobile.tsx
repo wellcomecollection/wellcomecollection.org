@@ -64,9 +64,10 @@ const ActiveFilters = styled(Space).attrs({
     properties: ['margin-left', 'padding-left', 'padding-right'],
   },
   v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
-  className: 'font-black rounded-corners',
+  className: 'rounded-corners',
 })`
   display: inline-block;
+  color: ${props => props.theme.color('black')};
   background-color: ${props => props.theme.color('yellow')};
   text-align: center;
   min-width: 24px;

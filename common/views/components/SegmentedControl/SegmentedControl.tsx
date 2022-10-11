@@ -62,13 +62,13 @@ const Item = styled.li.attrs({
 
 const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
-    'is-active font-white': props.isActive,
-    'font-black': !props.isActive,
+    'is-active': props.isActive,
     'plain-link segmented-control__link transition-bg no-visible-focus': true,
   }),
 }))<IsActiveProps>`
   display: block;
 
+  color: ${props => props.theme.color(props.isActive ? 'white' : 'black')};
   background-color: ${props =>
     props.theme.color(props.isActive ? 'black' : 'white')};
 
@@ -177,11 +177,10 @@ const MobileControlsContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className:
-    font('wb', 4) +
-    ' ' +
-    'segmented-control__button-text font-white rounded-diagonal',
+    font('wb', 4) + ' ' + 'segmented-control__button-text rounded-diagonal',
 })`
   display: flex;
+  color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('black')};
 `;
 

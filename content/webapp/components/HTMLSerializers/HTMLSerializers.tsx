@@ -1,9 +1,14 @@
+import { Fragment } from 'react';
+import styled from 'styled-components';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { JSXFunctionSerializer } from '@prismicio/react';
-import { Fragment } from 'react';
 import { RichTextNodeType } from '@prismicio/types';
 import * as prismicH from '@prismicio/helpers';
+
+const DocumentType = styled.span.attrs({ className: 'no-margin' })`
+  color: ${props => props.theme.color('neutral.600')};
+`;
 
 export const defaultSerializer: JSXFunctionSerializer = (
   type,
@@ -168,9 +173,9 @@ export const defaultSerializer: JSXFunctionSerializer = (
             <span className="no-margin">
               <span className="no-margin">{children}</span>{' '}
               <span style={{ whiteSpace: 'nowrap' }}>
-                <span className="no-margin font-neutral-600">
+                <DocumentType>
                   ({documentType} {documentSize}kb)
-                </span>
+                </DocumentType>
               </span>
             </span>
           </a>

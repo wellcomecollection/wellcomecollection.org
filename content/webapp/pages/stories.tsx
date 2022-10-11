@@ -56,7 +56,7 @@ import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/seri
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { RichTextField } from '@prismicio/types';
 import { useToggles } from '@weco/common/server-data/Context';
-import { classNames } from '@weco/common/utils/classnames';
+import { ColorSelection } from '@weco/content/types/color-selections';
 
 type SerialisedSeriesProps = SeriesBasic & {
   items: ArticleBasic[];
@@ -87,20 +87,22 @@ const StoryPromoContainer = styled.div.attrs({
   }
 `;
 
+const SeriesTitle = styled.h2.attrs({
+  className: `h1 plain-link no-margin`,
+})<{ color?: ColorSelection }>`
+  ${props => props.color && `color: ${props.theme.color(props.color)};`};
+`;
+
 const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
   return (
     <div>
       <Layout12>
         <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-          <h2
-            className={`h1 ${classNames({
-              ['font-' + series.color]: true,
-            })} plain-link no-margin`}
-          >
+          <SeriesTitle color={series.color}>
             <a className="plain-link" href={`/series/${series.id}`}>
               {series.title}
             </a>
-          </h2>
+          </SeriesTitle>
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <p className="no-margin">{series.promo?.caption}</p>
           </Space>

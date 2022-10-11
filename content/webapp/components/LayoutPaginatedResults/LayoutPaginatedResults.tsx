@@ -40,6 +40,15 @@ const PaginationWrapper = styled(Layout12)`
   text-align: right;
 `;
 
+const TotalPagesCopy = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-bottom'] },
+  className: font('lr', 6),
+})`
+  display: flex;
+  align-items: center;
+  color: ${props => props.theme.color('neutral.600')};
+`;
+
 const LayoutPaginatedResults: FC<Props> = ({
   title,
   description,
@@ -66,13 +75,7 @@ const LayoutPaginatedResults: FC<Props> = ({
     {children}
     {paginatedResults.totalPages > 1 && (
       <Layout12>
-        <Space
-          v={{
-            size: 'l',
-            properties: ['padding-bottom'],
-          }}
-          className={`flex flex--v-center font-neutral-600 ${font('lr', 6)}`}
-        >
+        <TotalPagesCopy>
           {paginatedResults.pageSize * paginatedResults.currentPage -
             (paginatedResults.pageSize - 1)}
           -
@@ -82,7 +85,7 @@ const LayoutPaginatedResults: FC<Props> = ({
           {paginatedResults.currentPage === paginatedResults.totalPages
             ? paginatedResults.totalResults
             : null}
-        </Space>
+        </TotalPagesCopy>
         <Divider />
       </Layout12>
     )}

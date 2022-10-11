@@ -1,3 +1,5 @@
+import { FC } from 'react';
+import styled from 'styled-components';
 import { font, grid } from '@weco/common/utils/classnames';
 import { Contributor as ContributorType } from '../../types/contributors';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
@@ -5,7 +7,10 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
-import { FC } from 'react';
+
+const ContributorInfoWrapper = styled(Space)`
+  color: ${props => props.theme.color('neutral.600')};
+`;
 
 const Contributor: FC<ContributorType> = ({
   contributor,
@@ -79,19 +84,19 @@ const Contributor: FC<ContributorType> = ({
               {contributor.name}
             </h3>
             {contributor.type === 'people' && contributor.pronouns && (
-              <Space
+              <ContributorInfoWrapper
                 h={{ size: 's', properties: ['margin-left'] }}
-                className={`${font('intr', 5)} font-neutral-600`}
+                className={font('intr', 5)}
               >
                 ({contributor.pronouns})
-              </Space>
+              </ContributorInfoWrapper>
             )}
           </div>
 
           {role && role.title && (
-            <div className={`font-neutral-600 ${font('intb', 5)}`}>
+            <ContributorInfoWrapper className={font('intb', 5)}>
               {role.title}
-            </div>
+            </ContributorInfoWrapper>
           )}
 
           {contributor.sameAs.length > 0 && (

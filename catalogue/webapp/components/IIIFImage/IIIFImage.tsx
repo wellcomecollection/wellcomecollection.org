@@ -13,10 +13,9 @@ import {
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 // Not typed as PaletteColor as we want the averageColor of each image
-const StyledImage = styled(Image).attrs({ className: 'font-neutral-700' })<{
-  background: string;
-}>`
+const StyledImage = styled(Image)<{ background: string }>`
   background-color: ${props => props.background};
+  color: ${props => props.theme.color('neutral.700')};
 `;
 
 const StyledImageContainer = styled.div<{
