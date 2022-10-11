@@ -3,10 +3,10 @@ import {
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
 } from '../../../../types/exhibition-guides';
-import { getCookie, hasCookie, setCookie, deleteCookie } from 'cookies-next';
+import { setCookie, deleteCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import * as prismicT from '@prismicio/types';
-import { ReactElement, FC, SyntheticEvent } from 'react';
+import { ReactElement, FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -18,8 +18,6 @@ import {
 } from '../../../../services/prismic/transformers/exhibition-guides';
 import { transformQuery } from '../../../../services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { IconSvg } from '@weco/common/icons/types';
-import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '../../../../services/prismic/transformers/json-ld';
@@ -29,7 +27,6 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import CardGrid from '../../../../components/CardGrid/CardGrid';
 import ExhibitionCaptions from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
@@ -44,12 +41,6 @@ import GridFactory, {
   twoUpGridSizesMap,
 } from '@weco/content/components/Body/GridFactory';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import {
-  britishSignLanguage,
-  audioDescribed,
-  speechToText,
-} from '@weco/common/icons';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 
@@ -64,77 +55,6 @@ const Stop = styled(Space).attrs({
   background: ${props => props.theme.color('warmNeutral.300')};
   height: 100%;
 `;
-
-const TypeList = styled.ul`
-  list-style: none;
-  margin: 0 !important;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  ${props => props.theme.media('medium')`
-        gap: 50px;
-      `}
-`;
-
-const TypeItem = styled.li`
-  flex-basis: 100%;
-  flex-grow: 0;
-  flex-shrink: 0;
-  position: relative;
-  min-height: 200px;
-  ${props => props.theme.media('medium')`
-        flex-basis: calc(50% - 25px);
-      `}
-`;
-
-const TypeLink = styled.a<{ color: PaletteColor }>`
-  display: block;
-  height: 100%;
-  width: 100%;
-  text-decoration: none;
-  background: ${props => props.theme.color(props.color)};
-
-  &:hover,
-  &:focus {
-    background: ${props => props.theme.color('neutral.400')};
-  }
-`;
-
-type TypeOptionProps = {
-  url: string;
-  title: string;
-  text: string;
-  color:
-    | 'accent.lightSalmon'
-    | 'accent.lightGreen'
-    | 'accent.lightPurple'
-    | 'accent.lightBlue';
-  icon?: IconSvg;
-  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
-};
-
-const TypeOption: FC<TypeOptionProps> = ({
-  url,
-  title,
-  text,
-  color,
-  icon,
-  onClick,
-}) => (
-  <TypeItem>
-    <TypeLink href={url} color={color} onClick={onClick}>
-      <Space
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-      >
-        <h2 className="h2">{title}</h2>
-        <p className={font('intr', 5)}>{text}</p>
-        {icon && <Icon icon={icon} />}
-      </Space>
-    </TypeLink>
-  </TypeItem>
-);
 
 const Header = styled(Space).attrs({
   v: {
@@ -153,14 +73,14 @@ const typeNames = [
 ] as const;
 type GuideType = typeof typeNames[number];
 
-function isValidType(type) {
-  return typeNames.includes(type);
+function isValidType(type: string | string[] | undefined): type is GuideType {
+  return typeNames.includes(type as any);
 }
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
-  type?: GuideType;
+  type: GuideType;
   otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
   userPreferenceSet?: string | string[];
 };
@@ -183,11 +103,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const { id, type, usingQRCode, userPreferenceSet } = context.query;
     const { res, req } = context;
 
-    if (
-      !looksLikePrismicId(id) ||
-      !serverData.toggles.exhibitionGuides ||
-      (type && !isValidType(type))
-    ) {
+    if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
+      return { notFound: true };
+    }
+
+    if (!isValidType(type)) {
       return { notFound: true };
     }
 
@@ -214,15 +134,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ),
     };
 
-    const userPreferenceGuideType = getCookie('WC_userPreferenceGuideType', {
-      req,
-      res,
-    });
-    const hasUserPreference = hasCookie('WC_userPreferenceGuideType', {
-      req,
-      res,
-    });
-
     // We want to set a user preference cookie if the qr code url contains a guide type
     // 8 hours (the maximum length of time the collection is open for in a day)
     if (usingQRCode) {
@@ -234,18 +145,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       });
     }
 
-    // We want to check for a user guide type preference cookie, and redirect to the appropriate type
-    if (
-      hasUserPreference &&
-      context.resolvedUrl === `/guides/exhibitions/${id}`
-    ) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: `${id}/${userPreferenceGuideType}?userPreferenceSet=true`,
-        },
-      };
-    }
     if (exhibitionGuideQuery) {
       const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
 
@@ -256,7 +155,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           exhibitionGuide,
           jsonLd,
           serverData,
-          type: isValidType(type) ? (type as GuideType) : undefined,
+          type,
           otherExhibitionGuides: {
             ...basicExhibitionGuides,
             results: basicExhibitionGuides.results.filter(
@@ -273,7 +172,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
 type StopsProps = {
   stops: ExhibitionGuideComponent[];
-  type?: GuideType;
+  type: GuideType;
   id?: number;
 };
 
@@ -354,90 +253,6 @@ const ExhibitionStops: FC<StopsProps> = ({ stops, type }) => {
   }
 };
 
-type ExhibitionLinksProps = {
-  pathname: string;
-  availableTypes: {
-    BSLVideo: boolean;
-    captionsOrTranscripts: boolean;
-    audioWithoutDescriptions: boolean;
-    audioWithDescriptions: boolean;
-  };
-};
-
-function cookieHandler(key: string, data: string) {
-  // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
-  const options = { maxAge: 8 * 60 * 60, path: '/' };
-  setCookie(key, data, options);
-}
-
-const ExhibitionLinks: FC<ExhibitionLinksProps> = ({
-  pathname,
-  availableTypes,
-}) => {
-  return (
-    <TypeList>
-      {availableTypes.audioWithoutDescriptions && (
-        <TypeOption
-          url={`/${pathname}/audio-without-descriptions`}
-          title="Listen, without audio descriptions"
-          text="Find out more about the exhibition with short audio tracks."
-          color="accent.lightSalmon"
-          onClick={() => {
-            cookieHandler(
-              'WC_userPreferenceGuideType',
-              'audio-without-descriptions'
-            );
-          }}
-        />
-      )}
-      {availableTypes.audioWithDescriptions && (
-        <TypeOption
-          url={`/${pathname}/audio-with-descriptions`}
-          title="Listen, with audio descriptions"
-          text="Find out more about the exhibition with short audio tracks,
-            including descriptions of the objects."
-          color="accent.lightPurple"
-          icon={audioDescribed}
-          onClick={() => {
-            cookieHandler(
-              'WC_userPreferenceGuideType',
-              'audio-with-descriptions'
-            );
-          }}
-        />
-      )}
-      {availableTypes.captionsOrTranscripts && (
-        <TypeOption
-          url={`/${pathname}/captions-and-transcripts`}
-          title="Read captions and transcripts"
-          text="All the wall and label texts from the gallery, and images of the
-                  objects, great for those without headphones."
-          color="accent.lightGreen"
-          icon={speechToText}
-          onClick={() => {
-            cookieHandler(
-              'WC_userPreferenceGuideType',
-              'captions-and-transcripts'
-            );
-          }}
-        />
-      )}
-      {availableTypes.BSLVideo && (
-        <TypeOption
-          url={`/${pathname}/bsl`}
-          title="Watch BSL videos"
-          text="Commentary about the exhibition in British Sign Language videos."
-          color="accent.lightBlue"
-          icon={britishSignLanguage}
-          onClick={() => {
-            cookieHandler('WC_userPreferenceGuideType', 'bsl');
-          }}
-        />
-      )}
-    </TypeList>
-  );
-};
-
 function getTypeColor(type?: GuideType): PaletteColor {
   switch (type) {
     case 'bsl':
@@ -460,9 +275,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
     otherExhibitionGuides,
     userPreferenceSet,
   } = props;
-  const pathname = `guides/exhibitions/${exhibitionGuide.id}${
-    type ? `/${type}` : ''
-  }`;
+  const pathname = `guides/exhibitions/${exhibitionGuide.id}/${type}`;
   const typeColor = getTypeColor(type);
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
   return (
@@ -481,99 +294,71 @@ const ExhibitionGuidePage: FC<Props> = props => {
       hideNewsletterPromo={true}
       hideFooter={true}
     >
-      {!type ? (
-        <Layout10 isCentered={false}>
-          <SpacingSection>
-            <Space
-              v={{ size: 'l', properties: ['margin-top'] }}
-              className={font('wb', 1)}
-            >
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <h1
-                  className={font('wb', 0)}
-                >{`Choose the ${exhibitionGuide.title} guide for you`}</h1>
-              </Space>
-            </Space>
-            <Space v={{ size: 'l', properties: ['margin-top'] }}>
-              <ExhibitionLinks
-                availableTypes={exhibitionGuide.availableTypes}
-                pathname={pathname}
+      <Header color={typeColor}>
+        <Layout8 shift={false}>
+          <>
+            <h1 className="h0">
+              {exhibitionGuide.title}{' '}
+              <div className="h1">{getTypeTitle(type)}</div>
+            </h1>
+
+            {exhibitionGuide.introText?.length > 0 ? (
+              <PrismicHtmlBlock
+                html={exhibitionGuide.introText as prismicT.RichTextField}
+              />
+            ) : (
+              exhibitionGuide.relatedExhibition && (
+                <p>{exhibitionGuide.relatedExhibition.description}</p>
+              )
+            )}
+            <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+              <ButtonSolidLink
+                colors={themeValues.buttonColors.charcoalWhiteCharcoal}
+                text="Change guide type"
+                link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                clickHandler={() => {
+                  deleteCookie('WC_userPreferenceGuideType');
+                }}
               />
             </Space>
-          </SpacingSection>
-        </Layout10>
-      ) : (
-        <>
-          <Header color={typeColor}>
-            <Layout8 shift={false}>
-              <>
-                <h1 className="h0">
-                  {exhibitionGuide.title}{' '}
-                  <div className="h1">{getTypeTitle(type)}</div>
-                </h1>
+            <ButtonSolidLink
+              colors={themeValues.buttonColors.charcoalWhiteCharcoal}
+              text="Change exhibition"
+              link="/guides/exhibitions"
+            />
+          </>
+        </Layout8>
+      </Header>
 
-                {exhibitionGuide.introText?.length > 0 ? (
-                  <PrismicHtmlBlock
-                    html={exhibitionGuide.introText as prismicT.RichTextField}
-                  />
-                ) : (
-                  exhibitionGuide.relatedExhibition && (
-                    <p>{exhibitionGuide.relatedExhibition.description}</p>
-                  )
-                )}
-                <Space
-                  as="span"
-                  h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  <ButtonSolidLink
-                    colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                    text="Change guide type"
-                    link={`/guides/exhibitions/${exhibitionGuide.id}`}
-                    clickHandler={() => {
-                      deleteCookie('WC_userPreferenceGuideType');
-                    }}
-                  />
-                </Space>
-                <ButtonSolidLink
-                  colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                  text="Change exhibition"
-                  link="/guides/exhibitions"
-                />
-              </>
-            </Layout8>
-          </Header>
-
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
-            <Layout10 isCentered={false}>
-              {userPreferenceSet ? (
-                <p>
-                  {type !== 'captions-and-transcripts' && (
-                    <>This exhibition has {numberedStops.length} stops. </>
-                  )}
-                  You selected this type of guide previously, but you can also
-                  select{' '}
-                  <a
-                    href={`/guides/exhibitions/${exhibitionGuide.id}`}
-                    onClick={() => {
-                      deleteCookie('WC_userPreferenceGuideType');
-                    }}
-                  >
-                    another type of guide.
-                  </a>
-                </p>
-              ) : (
-                <>
-                  {type !== 'captions-and-transcripts' && (
-                    <p>This exhibition has {numberedStops.length} stops.</p>
-                  )}
-                </>
+      <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <Layout10 isCentered={false}>
+          {userPreferenceSet ? (
+            <p>
+              {type !== 'captions-and-transcripts' && (
+                <>This exhibition has {numberedStops.length} stops. </>
               )}
-            </Layout10>
-          </Space>
+              You selected this type of guide previously, but you can also
+              select{' '}
+              <a
+                href={`/guides/exhibitions/${exhibitionGuide.id}`}
+                onClick={() => {
+                  deleteCookie('WC_userPreferenceGuideType');
+                }}
+              >
+                another type of guide.
+              </a>
+            </p>
+          ) : (
+            <>
+              {type !== 'captions-and-transcripts' && (
+                <p>This exhibition has {numberedStops.length} stops.</p>
+              )}
+            </>
+          )}
+        </Layout10>
+      </Space>
 
-          <ExhibitionStops type={type} stops={exhibitionGuide.components} />
-        </>
-      )}
+      <ExhibitionStops type={type} stops={exhibitionGuide.components} />
       {otherExhibitionGuides.results.length > 0 && (
         <PromoContainer>
           <Space

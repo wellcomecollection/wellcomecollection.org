@@ -73,7 +73,7 @@ const ExhibitionGuidesPage: FC<Props> = props => {
     <PageLayout
       title={'Exhibition Guides'}
       description={pageDescriptions.exhibitionGuides}
-      url={{ pathname: `/guides/exhibitions` }}
+      url={{ pathname: '/guides/exhibitions' }}
       jsonLd={{ '@type': 'WebPage' }} // TODO
       openGraphType={'website'}
       siteSection={'exhibition-guides'}
