@@ -190,7 +190,7 @@ const Footer: FC<Props> = ({ venues, hide = false }: Props) => {
           </InternalNavigationContainer>
 
           <FullWidthDivider>
-            <Divider color="neutral.700" isKeyline />
+            <Divider color="neutral.700" />
           </FullWidthDivider>
 
           <PoliciesContainer>

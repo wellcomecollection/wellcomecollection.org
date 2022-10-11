@@ -122,7 +122,7 @@ const Work: FunctionComponent<Props> = ({
             </div>
 
             <div className="container">
-              <Divider color="warmNeutral.400" isKeyline={true} />
+              <Divider />
               <ArchiveDetailsContainer>
                 <ArchiveTree work={work} />
                 <Space
