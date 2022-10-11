@@ -116,13 +116,7 @@ const appPromise = nextApp
     route('/newsletter', '/newsletter', router, nextApp);
 
     route('/guides', '/guides', router, nextApp);
-    route('/guides/exhibitions', '/exhibition-guides', router, nextApp);
-    route(
-      `/guides/exhibitions/:id(${prismicId})/:type?`,
-      '/exhibition-guide',
-      router,
-      nextApp
-    ); // :type(${guideType})
+    route('/guides/exhibitions', '/guides/exhibitions', router, nextApp);
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
     vanityUrls.forEach(({ url, pageId, template = '/page' }) =>
