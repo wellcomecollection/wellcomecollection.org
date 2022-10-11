@@ -1,6 +1,7 @@
-import cookies from 'next-cookies';
+import { getCookies } from 'cookies-next';
 import { Toggles, TogglesResp } from '@weco/toggles';
 import { Handler } from './';
+import { GetServerSidePropsContext } from 'next';
 
 const defaultValue = { toggles: [], tests: [] };
 
@@ -22,12 +23,11 @@ const togglesHandler: Handler<TogglesResp, TogglesResp> = {
  * but we need the `req` from the `context` for cookies which we don't
  * have in `_app` - so it lives here
  */
-type CookiesContext = Parameters<typeof cookies>[0];
 export function getTogglesFromContext(
   togglesResp: TogglesResp,
-  context: CookiesContext
+  context: GetServerSidePropsContext
 ): Toggles {
-  const allCookies = cookies(context);
+  const allCookies = getCookies(context);
   const toggles = [...togglesResp.toggles].reduce(
     (acc, toggle) => ({
       ...acc,
