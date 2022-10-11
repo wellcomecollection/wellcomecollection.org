@@ -1,22 +1,13 @@
 import {
   ExhibitionGuide,
-  ExhibitionGuideBasic,
   ExhibitionGuideComponent,
 } from '../../../../types/exhibition-guides';
 import { setCookie, deleteCookie } from 'cookies-next';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 import * as prismicT from '@prismicio/types';
 import { ReactElement, FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
-import {
-  fetchExhibitionGuide,
-  fetchExhibitionGuides,
-} from '../../../../services/prismic/fetch/exhibition-guides';
-import {
-  transformExhibitionGuide,
-  transformExhibitionGuideToExhibitionGuideBasic,
-} from '../../../../services/prismic/transformers/exhibition-guides';
-import { transformQuery } from '../../../../services/prismic/transformers/paginated-results';
+import { fetchExhibitionGuide } from '../../../../services/prismic/fetch/exhibition-guides';
+import { transformExhibitionGuide } from '../../../../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -27,7 +18,6 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
-import CardGrid from '../../../../components/CardGrid/CardGrid';
 import ExhibitionCaptions from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -43,10 +33,6 @@ import GridFactory, {
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
-
-const PromoContainer = styled.div`
-  background: ${props => props.theme.color('warmNeutral.300')};
-`;
 
 const Stop = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -81,7 +67,6 @@ type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
   type: GuideType;
-  otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
   userPreferenceSet?: string | string[];
 };
 
@@ -112,27 +97,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const exhibitionGuideQueryPromise = fetchExhibitionGuide(client, id);
-    const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
-      page: 1,
-    });
-
-    const [exhibitionGuideQuery, exhibitionGuidesQuery] = await Promise.all([
-      exhibitionGuideQueryPromise,
-      exhibitionGuidesQueryPromise,
-    ]);
-
-    const exhibitionGuides = transformQuery(
-      exhibitionGuidesQuery,
-      transformExhibitionGuide
-    );
-
-    const basicExhibitionGuides = {
-      ...exhibitionGuides,
-      results: exhibitionGuides.results.map(
-        transformExhibitionGuideToExhibitionGuideBasic
-      ),
-    };
+    const exhibitionGuideQuery = await fetchExhibitionGuide(client, id);
 
     // We want to set a user preference cookie if the qr code url contains a guide type
     // 8 hours (the maximum length of time the collection is open for in a day)
@@ -156,12 +121,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           jsonLd,
           serverData,
           type,
-          otherExhibitionGuides: {
-            ...basicExhibitionGuides,
-            results: basicExhibitionGuides.results.filter(
-              result => result.id !== id
-            ),
-          },
           userPreferenceSet,
         }),
       };
@@ -268,13 +227,7 @@ function getTypeColor(type?: GuideType): PaletteColor {
 }
 
 const ExhibitionGuidePage: FC<Props> = props => {
-  const {
-    exhibitionGuide,
-    jsonLd,
-    type,
-    otherExhibitionGuides,
-    userPreferenceSet,
-  } = props;
+  const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}/${type}`;
   const typeColor = getTypeColor(type);
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
@@ -359,27 +312,6 @@ const ExhibitionGuidePage: FC<Props> = props => {
       </Space>
 
       <ExhibitionStops type={type} stops={exhibitionGuide.components} />
-      {otherExhibitionGuides.results.length > 0 && (
-        <PromoContainer>
-          <Space
-            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <Layout8 shift={false}>
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <h2 className="h2">Other exhibition guides available</h2>
-              </Space>
-            </Layout8>
-            <CardGrid
-              itemsHaveTransparentBackground={true}
-              items={otherExhibitionGuides.results.map(result => ({
-                ...result,
-                type: 'exhibition-guides-links',
-              }))}
-              itemsPerRow={3}
-            />
-          </Space>
-        </PromoContainer>
-      )}
     </PageLayout>
   );
 };
