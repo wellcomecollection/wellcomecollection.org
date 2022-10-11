@@ -23,6 +23,9 @@ const cookies = {
   // This remmebers when somebody has dismissed the banner you get when
   // you've been redirected from Wellcome Images.
   wellcomeImagesRedirect: 'WC_wellcomeImagesRedirect',
+
+  // Records whether a user has dismissed our cookie banner.
+  cookiesAccepted: 'WC_cookiesAccepted',
 };
 
 export default cookies;
