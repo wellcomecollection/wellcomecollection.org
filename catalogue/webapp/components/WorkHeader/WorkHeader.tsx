@@ -31,7 +31,8 @@ const WorkHeader: FunctionComponent<Props> = ({
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
-  const { childManifestsCount } = useIIIFManifestData(work);
+  const manifestData = useIIIFManifestData(work);
+  const { childManifestsCount } = manifestData?.v2;
 
   const primaryContributorLabel = work.contributors.find(
     contributor => contributor.primary

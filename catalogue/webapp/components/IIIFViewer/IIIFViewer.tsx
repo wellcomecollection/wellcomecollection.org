@@ -12,12 +12,7 @@ import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
 } from '../../utils/works';
-import {
-  getUiExtensions,
-  isUiEnabled,
-  getServiceId,
-  getDownloadOptionsFromManifest,
-} from '../../utils/iiif';
+import { getServiceId } from '../../utils/iiif/v2';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -40,6 +35,7 @@ import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
+import { ManifestData } from '../../types/manifest';
 
 type IIIFViewerProps = {
   title: string;
@@ -55,7 +51,7 @@ type IIIFViewerProps = {
   canvasIndex: number;
   iiifImageLocation?: DigitalLocation;
   work: Work;
-  manifest?: IIIFManifest;
+  manifest?: ManifestData; // TODO change to manifestData
   manifestIndex?: number;
   handleImageError?: () => void;
 };
@@ -351,12 +347,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     getCatalogueLicenseData(digitalLocation.license);
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const showDownloadOptions = manifest
-    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
-    : true;
-
   const imageDownloadOptions =
-    showDownloadOptions && iiifImageLocation
+    manifest?.v2.showDownloadOptions && iiifImageLocation
       ? getDownloadOptionsFromImageUrl({
           url: iiifImageLocation.url,
           width: imageJson?.width,
@@ -371,15 +363,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       height: currentCanvas && currentCanvas.height,
     });
   const iiifPresentationDownloadOptions =
-    (showDownloadOptions &&
-      manifest &&
-      imageDownloads && [
-        ...imageDownloads,
-        ...getDownloadOptionsFromManifest(manifest),
-      ]) ||
+    (manifest?.v2.showDownloadOptions &&
+      imageDownloads && [...imageDownloads, ...manifest.v2.downloadOptions]) ||
     [];
-
-  const downloadOptions = showDownloadOptions
+  const downloadOptions = manifest?.v2.showDownloadOptions
     ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
     : [];
 
@@ -421,12 +408,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     previousManifestIndex.current = manifestIndex;
   }, [manifestIndex]);
 
-  const parentManifestUrl = manifest && manifest.within;
-
   useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
-        parentManifestUrl && (await fetchJson(parentManifestUrl));
+        manifest?.v2.parentManifestUrl &&
+        (await fetchJson(manifest?.v2.parentManifestUrl));
       parentManifest && setParentManifest(parentManifest);
     };
 

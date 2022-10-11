@@ -6,6 +6,7 @@ import {
   IIIFRendering,
   SearchResults,
 } from '../../model/iiif';
+import { ManifestData } from '../../types/manifest';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { UrlTemplate } from 'url-template';
 
@@ -13,7 +14,7 @@ export type RotatedImage = { canvasIndex: number; rotation: number };
 
 type Props = {
   work: Work;
-  manifest: IIIFManifest | undefined;
+  manifest: ManifestData | undefined;
   manifestIndex: number | undefined;
   activeIndex: number;
   setActiveIndex: (i: number) => void;

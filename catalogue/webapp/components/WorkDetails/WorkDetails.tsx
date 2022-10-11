@@ -121,28 +121,27 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
 
+  const manifestData = useIIIFManifestData(work);
   const {
-    imageCount,
-    childManifestsCount,
-    audio,
     video,
     iiifCredit,
-    iiifPresentationDownloadOptions = [],
-    iiifDownloadEnabled,
-    manifestV3,
-  } = useIIIFManifestData(work);
+    iiifPresentationDownloadOptions,
+    childManifestsCount,
+    imageCount,
+  } = { ...manifestData?.v2 };
+  // V3
+  const { audio, services } = { ...manifestData.v3 };
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice
+  // TODO move following to transformer, so it's available on manifestData
   const videoAuthService = video && getMediaClickthroughService(video);
-  const audioAuthService =
-    manifestV3?.services && getMediaClickthroughServiceV3(manifestV3.services);
+  const audioAuthService = services && getMediaClickthroughServiceV3(services);
   const authService = videoAuthService || audioAuthService;
-
   const tokenService = videoAuthService
     ? getTokenService(videoAuthService)
     : audioAuthService
-    ? getTokenServiceV3(audioAuthService['@id'], manifestV3.services)
+    ? getTokenServiceV3(audioAuthService['@id'], services)
     : undefined;
 
   // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
@@ -158,9 +157,12 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       })
     : [];
 
+  const presentationDownloads = iiifPresentationDownloadOptions
+    ? [...iiifPresentationDownloadOptions]
+    : [];
   const downloadOptions = [
     ...iiifImageDownloadOptions,
-    ...iiifPresentationDownloadOptions,
+    ...presentationDownloads,
   ];
 
   // 'About this work' data
@@ -216,7 +218,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     }
   }
 
-  const showDownloadOptions = determineDownloadVisibility(iiifDownloadEnabled);
+  const showDownloadOptions = determineDownloadVisibility(
+    manifestData?.v2.iiifDownloadEnabled
+  );
 
   const itemLinkState = getItemLinkState({
     accessCondition: digitalLocationInfo?.accessCondition,
@@ -336,20 +340,20 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               )
             }
           >
-            {video && (
+            {manifestData?.v2.video && (
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <VideoPlayer
-                  video={video}
+                  video={manifestData?.v2.video}
                   showDownloadOptions={showDownloadOptions}
                 />
               </Space>
             )}
 
-            {audio.sounds.length > 0 && (
+            {manifestData?.v3.audio.sounds.length > 0 && (
               <AudioList
-                items={audio.sounds}
-                thumbnail={audio.thumbnail}
-                transcript={audio.transcript}
+                items={manifestData?.v3.audio.sounds}
+                thumbnail={manifestData?.v3.audio.thumbnail}
+                transcript={manifestData?.v3.audio.transcript}
                 workTitle={work.title}
               />
             )}
@@ -602,10 +606,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           />
         )}
 
-        {/* 
+        {/*
           Note: although production event labels sometimes contain angle brackets, it's
           normally used to denote a period of time, not HTML tags.
-          
+
           e.g. London : County Council, 1900-<1983>
         */}
         {work.production.length > 0 && (

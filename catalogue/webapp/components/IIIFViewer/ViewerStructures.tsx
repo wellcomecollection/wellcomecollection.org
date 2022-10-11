@@ -1,4 +1,4 @@
-import { getStructures, groupStructures, getCanvases } from '../../utils/iiif';
+import { groupStructures } from '../../utils/iiif/v2';
 import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -14,8 +14,8 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
 }: Props) => {
   const { manifest, setActiveIndex, activeIndex, setIsMobileSidebarActive } =
     useContext(ItemViewerContext);
-  const structures = manifest ? getStructures(manifest) : [];
-  const canvases = manifest ? getCanvases(manifest) : [];
+  const structures = manifest?.v2.structures || []; // TODO this in the transformer - always return an array?
+  const canvases = manifest?.v2.canvases || []; // TODO this in the transformer - always return an array? // useCanvas or already available from transformer output?
   const groupedStructures = groupStructures(canvases, structures);
 
   const List = styled.ul`

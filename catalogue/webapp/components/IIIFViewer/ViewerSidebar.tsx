@@ -18,13 +18,11 @@ import {
   getDigitalLocationOfType,
 } from '../../utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
-import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestList from './MultipleManifestList';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
-import { getSearchService } from '../../utils/iiif';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
@@ -138,9 +136,9 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
   const license =
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
-  const { iiifCredit } = useIIIFManifestData(work);
-  const searchService = manifest && getSearchService(manifest);
-  const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
+
+  const credit =
+    (digitalLocation && digitalLocation.credit) || manifest?.v2.iiifCredit;
 
   return (
     <>
@@ -239,7 +237,8 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
             )}
           </div>
         </AccordionItem>
-        {manifest && manifest.structures && manifest.structures.length > 0 && (
+
+        {manifest?.v2.structures && manifest?.v2.structures.length > 0 && (
           <AccordionItem title="Contents">
             <ViewerStructures mainViewerRef={mainViewerRef} />
           </AccordionItem>
@@ -250,8 +249,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </AccordionItem>
         )}
       </Inner>
-
-      {searchService && (
+      {manifest?.v2.searchService && (
         <Inner>
           <IIIFSearchWithin mainViewerRef={mainViewerRef} />
         </Inner>

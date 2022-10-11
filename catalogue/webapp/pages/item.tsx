@@ -3,22 +3,8 @@ import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import { IIIFCanvas, IIIFManifest, AuthService, AudioV3 } from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
-import { fetchJson } from '@weco/common/utils/http';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
-import { Manifest } from '@iiif/presentation-3';
-import {
-  getDownloadOptionsFromManifest,
-  getVideo,
-  getAudioV3,
-  getServiceId,
-  getUiExtensions,
-  isUiEnabled,
-  getAuthService,
-  getTokenService,
-  getIIIFManifest,
-  getIsAnyImageOpen,
-  restrictedAuthServiceUrl,
-} from '../utils/iiif';
+import { getServiceId } from '../utils/iiif/v2';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -45,6 +31,10 @@ import AudioList from '../components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { looksLikeCanonicalId } from 'services/catalogue';
+import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
+import { transformManifest } from '../services/iiif/transformers/manifest';
+import { ManifestData } from '../types/manifest';
+
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -73,14 +63,13 @@ type Video = {
 };
 
 type Props = {
-  manifest?: IIIFManifest;
+  manifestData?: ManifestData;
   manifestIndex?: number;
   work: Work;
   pageSize: number;
   pageIndex: number;
   canvasIndex: number;
   canvasOcr?: string;
-  canvases: IIIFCanvas[];
   currentCanvas?: IIIFCanvas;
   video?: Video;
   audio?: AudioV3;
@@ -89,62 +78,46 @@ type Props = {
 };
 
 const ItemPage: NextPage<Props> = ({
-  manifest,
+  manifestData,
   manifestIndex,
   work,
   pageSize,
   pageIndex,
   canvasIndex,
   canvasOcr,
-  canvases,
   currentCanvas,
-  video,
-  audio,
   iiifImageLocation,
 }) => {
   const workId = work.id;
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
-  const title =
-    (manifest && manifest.label) ||
-    (work && removeIdiomaticTextTags(work.title)) ||
-    '';
+
+  // TODO deconstruct all the props we need here, then shift them over from v2 to v3 as we do them
+  // V2
+  const {
+    title,
+    showDownloadOptions,
+    video,
+    canvases,
+    tokenService,
+    isTotallyRestricted,
+    needsModal,
+    pdfRendering,
+    authService,
+    isAnyImageOpen,
+  } = { ...manifestData?.v2 }; // By using object spread we get an empty object if manifestData is undefined
+  // V3
+  const { audio } = { ...manifestData?.v3 };
+
+  const displayTitle =
+    title || (work && removeIdiomaticTextTags(work.title)) || '';
   const serviceId = getServiceId(currentCanvas);
   const mainImageService = serviceId && {
     '@id': serviceId,
   };
-  const showDownloadOptions = manifest
-    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
-    : true;
-
-  const downloadOptions =
-    showDownloadOptions && manifest && getDownloadOptionsFromManifest(manifest);
-
-  const pdfRendering =
-    (downloadOptions &&
-      downloadOptions.find(option => option.label === 'Download PDF')) ||
-    null;
-
-  const authService = getAuthService(manifest);
-  const tokenService = authService && getTokenService(authService);
-  const isAnyImageOpen = manifest && getIsAnyImageOpen(manifest);
-  const isTotallyRestricted =
-    authService?.['@id'] === restrictedAuthServiceUrl && !isAnyImageOpen;
-
-  function getNeedsModal(authService: AuthService | undefined) {
-    switch (authService?.['@id']) {
-      case undefined:
-        return false;
-      case restrictedAuthServiceUrl:
-        return !isAnyImageOpen;
-      default:
-        return true;
-    }
-  }
-
   const sharedPaginatorProps = {
-    totalResults: canvases ? canvases.length : 1,
+    totalResults: canvases?.length || 1,
     link: itemLink(
       {
         workId,
@@ -155,14 +128,12 @@ const ItemPage: NextPage<Props> = ({
       'viewer/paginator'
     ),
   };
-
   const mainPaginatorProps = {
     currentPage: canvasIndex + 1,
     pageSize: 1,
     linkKey: 'canvas',
     ...sharedPaginatorProps,
   };
-
   const thumbsPaginatorProps = {
     currentPage: pageIndex + 1,
     pageSize,
@@ -192,7 +163,7 @@ const ItemPage: NextPage<Props> = ({
       }
     }
 
-    if (getNeedsModal(authService)) {
+    if (needsModal) {
       window.addEventListener('message', receiveMessage);
 
       return () => window.removeEventListener('message', receiveMessage);
@@ -205,9 +176,10 @@ const ItemPage: NextPage<Props> = ({
   // We only send a langCode if it's unambiguous -- better to send no language
   // than the wrong one.
   const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
+
   return (
     <CataloguePageLayout
-      title={title}
+      title={displayTitle}
       description=""
       url={{ pathname: `/works/${workId}/items` }}
       openGraphType="website"
@@ -227,7 +199,7 @@ const ItemPage: NextPage<Props> = ({
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <Layout12>
             <AudioList
-              items={audio.sounds}
+              items={audio.sounds || []}
               thumbnail={audio.thumbnail}
               transcript={audio.transcript}
               workTitle={work.title}
@@ -274,11 +246,10 @@ const ItemPage: NextPage<Props> = ({
             properties: ['margin-bottom'],
           }}
           as="iframe"
-          title={`PDF: ${title}`}
+          title={`PDF: ${displayTitle}`}
           src={pdfRendering['@id']}
         />
       )}
-
       <Modal
         id="auth-modal"
         isActive={showModal}
@@ -337,10 +308,11 @@ const ItemPage: NextPage<Props> = ({
           </WorkLink>
         </div>
       </Modal>
+
       {showViewer &&
         ((mainImageService && currentCanvas) || iiifImageLocation) && (
           <IIIFViewer
-            title={title}
+            title={displayTitle}
             mainPaginatorProps={mainPaginatorProps}
             thumbsPaginatorProps={thumbsPaginatorProps}
             currentCanvas={currentCanvas}
@@ -354,7 +326,7 @@ const ItemPage: NextPage<Props> = ({
             manifestIndex={manifestIndex}
             iiifImageLocation={iiifImageLocation}
             work={work}
-            manifest={manifest}
+            manifest={manifestData} // TODO change both to transformedManifest
             handleImageError={() => {
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
               reloadAuthIframe(document, iframeId);
@@ -411,48 +383,50 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       };
     }
 
-    // TODO: there is a fair amount of overlap between what we're doing here and
-    // what's happening in useIIIFManifestData. We should refactor this to avoid
-    // duplication.
-
-    const iiifPresentationUrl = getDigitalLocationOfType(
+    const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+    const iiifPresentationLocation = getDigitalLocationOfType(
       work,
       'iiif-presentation'
-    )?.url;
-    const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+    );
+    const iiifManifest =
+      iiifPresentationLocation &&
+      (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
+    const manifestData =
+      iiifManifest && transformManifest(iiifManifest.v2, iiifManifest.v3);
+    const { isCollectionManifest, manifests } = {
+      // TODO NEXT type is any? - move down to where canvases is?
+      ...manifestData?.v2,
+    };
+    // TODO move to utils?
+    // If the manifest is actually a Collection, .i.e. a manifest of manifests,
+    // then we get the first child manifest and use the data from that
+    // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302
+    // from: https://wellcomecollection.org/works/f6qp7m32/items
+    async function getDisplayManifest(
+      manifestData: ManifestData | undefined,
+      manifestIndex
+    ): Promise<ManifestData | undefined> {
+      if (isCollectionManifest) {
+        const firstChildManifestLocation = manifests?.[manifestIndex]['@id'];
+        const firstChildManifest =
+          firstChildManifestLocation &&
+          (await fetchIIIFPresentationManifest(firstChildManifestLocation));
+        const firstChildManifestData =
+          firstChildManifest?.v2 &&
+          firstChildManifest?.v3 &&
+          transformManifest(firstChildManifest.v2, firstChildManifest.v3);
+        return firstChildManifestData;
+      } else {
+        return manifestData;
+      }
+    }
 
-    const manifestOrCollectionPromise =
-      iiifPresentationUrl && getIIIFManifest(iiifPresentationUrl);
-    const manifestV3Promise =
-      iiifPresentationUrl &&
-      getIIIFManifest(iiifPresentationUrl.replace('/v2/', '/v3/'));
-
-    const [manifestOrCollection, manifestV3] = await Promise.all([
-      manifestOrCollectionPromise as Promise<IIIFManifest>,
-      manifestV3Promise as Promise<Manifest>,
-    ]).catch(() => []);
-
-    if (manifestOrCollection) {
-      // This happens when the main manifest is actually a Collection (manifest of manifest).
-      // see: https://wellcomelibrary.org/iiif/collection/b21293302
-      // from: https://wellcomecollection.org/works/f6qp7m32/items
-      const isCollectionManifest =
-        manifestOrCollection['@type'] === 'sc:Collection';
-
-      const manifest = isCollectionManifest
-        ? await fetchJson(
-            manifestOrCollection.manifests[manifestIndex || 0]['@id']
-          )
-        : manifestOrCollection;
-
-      const video = getVideo(manifest);
-      const audio = manifestV3 && getAudioV3(manifestV3);
-
-      const canvases =
-        manifest.sequences && manifest.sequences[0].canvases
-          ? manifest.sequences[0].canvases
-          : [];
-
+    if (manifestData) {
+      const displayManifest = await getDisplayManifest(
+        manifestData,
+        manifestIndex
+      );
+      const { canvases } = { ...displayManifest?.v2 };
       const currentCanvas = canvases?.[canvasIndex];
       const canvasOcr = currentCanvas
         ? await getCanvasOcr(currentCanvas)
@@ -460,17 +434,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
       return {
         props: removeUndefinedProps({
-          manifest,
+          manifestData: displayManifest,
           manifestIndex,
           pageSize,
           pageIndex,
           canvasIndex,
           canvasOcr,
           work,
-          canvases,
           currentCanvas,
-          video,
-          audio,
           iiifImageLocation,
           pageview,
           serverData,

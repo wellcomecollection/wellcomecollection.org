@@ -5,7 +5,6 @@ import {
   RefObject,
   useRef,
 } from 'react';
-import { getSearchService } from '../../utils/iiif';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
@@ -101,13 +100,12 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
     canvases,
     setIsMobileSidebarActive,
   } = useContext(ItemViewerContext);
-  const searchService = manifest && getSearchService(manifest);
   async function getSearchResults() {
-    if (searchService) {
+    if (manifest?.v2.searchService) {
       setIsLoading(true);
       try {
         const results = await (
-          await fetch(`${searchService['@id']}?q=${value}`)
+          await fetch(`${manifest?.v2.searchService['@id']}?q=${value}`)
         ).json();
         setIsLoading(false);
         setSearchResults(results);
