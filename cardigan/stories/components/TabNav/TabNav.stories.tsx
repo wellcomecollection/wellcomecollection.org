@@ -13,7 +13,7 @@ const Wrapper = styled(Space).attrs({
     `background-color: ${props.theme.color(props.backgroundColor)}`};
 `;
 
-const Template = ({ items, backgroundColor, ...rest }) => {
+const Template = ({ items, variant, ...rest }) => {
   const [selectedTab, setSelectedTab] = useState(items[0].id); //eslint-disable-line
 
   const itemsSelector = items.map(item => ({
@@ -23,11 +23,12 @@ const Template = ({ items, backgroundColor, ...rest }) => {
 
   return (
     <div className="container">
-      <Wrapper backgroundColor={backgroundColor}>
+      <Wrapper backgroundColor={variant === 'white' ? 'black' : 'white'}>
         <TabNav
           id="story-tabs"
           items={itemsSelector}
           selectedTab="all"
+          variant={variant}
           {...rest}
           setSelectedTab={setSelectedTab}
         />
@@ -62,7 +63,6 @@ const Template = ({ items, backgroundColor, ...rest }) => {
 };
 export const basic = Template.bind({});
 basic.args = {
-  backgroundColor: 'white',
   hasDivider: true,
   items: [
     {
@@ -87,10 +87,6 @@ basic.argTypes = {
   variant: {
     control: { type: 'inline-radio' },
     options: ['default', 'yellow', 'white'],
-  },
-  backgroundColor: {
-    control: { type: 'inline-radio' },
-    options: ['white', 'black'],
   },
 };
 
