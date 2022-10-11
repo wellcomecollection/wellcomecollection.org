@@ -11,11 +11,9 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import { font } from '@weco/common/utils/classnames';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import { ExhibitionGuideType } from 'types/exhibition-guides';
 
-function getTypeColor(type: string): PaletteColor {
-  // importing this from exhibition-guide.tsx was causing a storybook build failure
-  // need to investigate why, but am duplicating the function here for now
-  // in order to get the exhibition guides work deployed
+export function getTypeColor(type: ExhibitionGuideType): PaletteColor {
   switch (type) {
     case 'bsl':
       return 'accent.lightBlue';
@@ -212,8 +210,7 @@ const Stop: FC<{
                 size: 'xl',
                 properties: ['margin-bottom'],
               }}
-            >
-            </Space>
+            ></Space>
           )}
           <div className="flex flex--wrap">
             <Tombstone />
