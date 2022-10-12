@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { AuthService, AuthServiceService } from '../types/manifest/v2';
+import {
+  AuthService,
+  AuthServiceService,
+} from '../services/iiif/types/manifest/v2';
 
 const useShowClickthrough = (
   authService: AuthService | undefined,
