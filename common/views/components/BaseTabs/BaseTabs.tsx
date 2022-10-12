@@ -22,7 +22,7 @@ type TabProps = {
 };
 
 const Tab = styled.button.attrs((props: TabProps) => ({
-  className: 'plain-button no-padding',
+  className: 'plain-button',
   role: 'tab',
   tabIndex: props.isActive ? 0 : -1,
   'aria-selected': props.isActive,
@@ -32,6 +32,7 @@ const Tab = styled.button.attrs((props: TabProps) => ({
   &:focus {
     outline: 0;
   }
+  padding: 0;
   width: 50%;
   ${props => props.theme.media('medium')`
     width: auto;
