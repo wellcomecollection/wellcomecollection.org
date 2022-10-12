@@ -1,6 +1,6 @@
-import { getIIIFManifest } from '../../../utils/iiif';
+import { getIIIFManifest } from '../../../utils/iiif/v2';
 import { Manifest } from '@iiif/presentation-3';
-import { IIIFManifest } from '../../../model/iiif';
+import { IIIFManifest } from '../types/manifest/v2';
 
 // We currently fetch 2 manifests v2 and v3.
 // Once we've moved everything over to use iiif3, we can stop fetching version 2

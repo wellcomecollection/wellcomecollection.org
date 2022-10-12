@@ -1,4 +1,5 @@
-import { getCanvases, groupStructures, getAudioV3 } from '../../utils/iiif';
+import { getCanvases, groupStructures } from '../../utils/iiif/v2';
+import { getAudioV3 } from '../../utils/iiif/v3';
 import manifest from '@weco/common/__mocks__/iiif-manifest';
 import {
   manifestWithAudioTitles,

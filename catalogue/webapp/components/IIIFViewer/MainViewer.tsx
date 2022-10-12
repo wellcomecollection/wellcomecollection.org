@@ -25,7 +25,7 @@ import {
   getImageAuthService,
   isImageRestricted,
   getThumbnailService,
-} from '../../utils/iiif';
+} from '../../utils/iiif/v2';
 import { font } from '@weco/common/utils/classnames';
 import { IIIFCanvas, SearchResults, AuthService } from '../../model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';

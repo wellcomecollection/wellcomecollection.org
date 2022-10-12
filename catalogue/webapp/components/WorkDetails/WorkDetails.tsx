@@ -20,7 +20,7 @@ import {
   getMediaClickthroughServiceV3,
   getTokenService,
   getTokenServiceV3,
-} from '../../utils/iiif';
+} from '../../utils/iiif/v2';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';

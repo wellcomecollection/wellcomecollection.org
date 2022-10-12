@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
-import { getServiceId } from '../../utils/iiif';
+import { getServiceId } from '../../utils/iiif/v2';
 import IIIFViewerImage from './IIIFViewerImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';

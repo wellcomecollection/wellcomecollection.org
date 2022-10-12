@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import IIIFViewerImage from './IIIFViewerImage';
 import LL from '@weco/common/views/components/styled/LL';
-import { isImageRestricted, getThumbnailService } from '../../utils/iiif';
+import { isImageRestricted, getThumbnailService } from '../../utils/iiif/v2';
 import Padlock from './Padlock';
 import Space from '@weco/common/views/components/styled/Space';
 

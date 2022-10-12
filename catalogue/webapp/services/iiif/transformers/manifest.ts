@@ -4,7 +4,6 @@ import {
   getDownloadOptionsFromManifest,
   getUiExtensions,
   getVideo,
-  getAudioV3,
   isUiEnabled,
   // used in useIIIFManifestData
   getCanvases,
@@ -17,6 +16,8 @@ import {
   getSearchService,
   restrictedAuthServiceUrl, // TODO move this here? don't think it is used elsewhere
 } from '../../../utils/iiif';
+} from '../../../utils/iiif/v2';
+import { getAudioV3 } from '../../../utils/iiif/v3';
 import { Manifest } from '@iiif/presentation-3';
 // TODO replace the following with provided iiif3 types
 import {
