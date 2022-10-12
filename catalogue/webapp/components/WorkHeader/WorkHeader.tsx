@@ -13,7 +13,7 @@ import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import useIIIFManifestData from '../../hooks/useIIIFManifestData';
+import useTransformedManifest from '../../hooks/useTransformedManifest';
 
 const WorkHeaderContainer = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const WorkHeader: FunctionComponent<Props> = ({
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
-  const manifestData = useIIIFManifestData(work);
+  const manifestData = useTransformedManifest(work);
   const { childManifestsCount } = manifestData;
 
   const primaryContributorLabel = work.contributors.find(

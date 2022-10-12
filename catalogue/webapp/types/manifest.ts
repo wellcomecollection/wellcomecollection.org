@@ -7,7 +7,7 @@ import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
 
 // TODO NEXT check all types and if they should really optional
 // TODO fill in missing types
-export type ManifestData = {
+export type TransformedManifest = {
   // From iiifManifest V2:
   title: string;
   imageCount: number;
@@ -36,8 +36,7 @@ export type ManifestData = {
   services: any[]; // TODO
 };
 
-export function createDefaultManifestData(): ManifestData {
-  // TODO redo values once ManifestData type is settled
+export function createDefaultTransformedManifest(): TransformedManifest {
   return {
     title: '',
     imageCount: 0,

@@ -38,11 +38,8 @@ import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
-import { ManifestData } from '../../types/manifest';
+import { TransformedManifest } from '../../types/manifest';
 
-// TODO contents working
-// TODO comment/tidy this file, so we know what's going on
-// TODO move styled components out to their own file
 type IIIFViewerProps = {
   title: string;
   currentCanvas?: IIIFCanvas;
@@ -56,11 +53,11 @@ type IIIFViewerProps = {
   canvasIndex: number;
   iiifImageLocation?: DigitalLocation;
   work: Work;
-  manifest: ManifestData; // TODO change to manifestData
+  manifest: TransformedManifest; // TODO change to transformedData
   manifestIndex?: number;
   handleImageError?: () => void;
 };
-// TODO: Move this to somewhere better?
+
 const LoadingComponent = () => (
   <div
     style={{
@@ -73,6 +70,7 @@ const LoadingComponent = () => (
     <LL />
   </div>
 );
+
 const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
   ssr: false,
   loading: LoadingComponent,

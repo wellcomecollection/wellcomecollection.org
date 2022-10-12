@@ -38,7 +38,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import useIIIFManifestData from '../../hooks/useIIIFManifestData';
+import useTransformedManifest from '../../hooks/useTransformedManifest';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
@@ -121,7 +121,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
 
-  const manifestData = useIIIFManifestData(work);
+  const manifestData = useTransformedManifest(work);
   const {
     video,
     iiifCredit,

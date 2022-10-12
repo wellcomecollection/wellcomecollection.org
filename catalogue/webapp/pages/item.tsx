@@ -34,7 +34,10 @@ import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { looksLikeCanonicalId } from 'services/catalogue';
 import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
 import { transformManifest } from '../services/iiif/transformers/manifest';
-import { ManifestData, createDefaultManifestData } from '../types/manifest';
+import {
+  TransformedManifest,
+  createDefaultTransformedManifest,
+} from '../types/manifest';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -64,7 +67,7 @@ type Video = {
 };
 
 type Props = {
-  manifestData: ManifestData;
+  manifestData: TransformedManifest;
   manifestIndex?: number;
   work: Work;
   pageSize: number;
@@ -403,9 +406,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302
     // from: https://wellcomecollection.org/works/f6qp7m32/items
     async function getDisplayManifest(
-      manifestData: ManifestData,
+      manifestData: TransformedManifest,
       manifestIndex
-    ): Promise<ManifestData> {
+    ): Promise<TransformedManifest> {
       // TODO try with no manifestIndex/fixedManifestIndex
       if (isCollectionManifest) {
         // TODO rename don't use child and not first as depends on the selected one
@@ -413,8 +416,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         const firstChildManifest =
           firstChildManifestLocation &&
           (await fetchIIIFPresentationManifest(firstChildManifestLocation));
-        const firstChildManifestData = transformManifest(firstChildManifest);
-        return firstChildManifestData;
+        const firstChildTransformedManifest = transformManifest(firstChildManifest);
+        return firstChildTransformedManifest;
       } else {
         return manifestData;
       }
@@ -451,7 +454,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (iiifImageLocation) {
       return {
         props: removeUndefinedProps({
-          manifestData: createDefaultManifestData(),
+          manifestData: createDefaultTransformedManifest(),
           pageSize,
           pageIndex,
           canvasIndex,

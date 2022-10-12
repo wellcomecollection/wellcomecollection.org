@@ -1,5 +1,5 @@
 import { IIIFManifests } from '../fetch/manifest';
-import { ManifestData } from '../../../types/manifest';
+import { TransformedManifest } from '../../../types/manifest';
 // TODO move each of these util functions from v2 to v3
 import {
   getDownloadOptionsFromManifest,
@@ -19,7 +19,9 @@ import {
 import { getAudio } from '../../../utils/iiif/v3';
 
 // TODO change manifest/manifestData to transformedManifest everywhere
-export function transformManifest(iiifManifests: IIIFManifests): ManifestData {
+export function transformManifest(
+  iiifManifests: IIIFManifests
+): TransformedManifest {
   const { manifestV2, manifestV3 } = { ...iiifManifests };
 
   // V2
@@ -49,9 +51,8 @@ export function transformManifest(iiifManifests: IIIFManifests): ManifestData {
     [];
 
   const pdfRendering =
-    (downloadOptions &&
-      downloadOptions.find(option => option.label === 'Download PDF')) ||
-    null;
+    downloadOptions &&
+    downloadOptions.find(option => option.label === 'Download PDF');
   const authService = getAuthService(manifestV2);
   const tokenService = authService && getTokenService(authService);
   const isAnyImageOpen = manifestV2 ? getIsAnyImageOpen(manifestV2) : false;
@@ -74,7 +75,7 @@ export function transformManifest(iiifManifests: IIIFManifests): ManifestData {
   const services = manifestV3?.services || []; // TODO getServices - does this exist?
   // TODO don't return v2 or v3 here, we don't need to care from this point on
   return {
-    // Taken from V2:
+    // Taken from V2 manifest:
     title,
     imageCount,
     childManifestsCount,
@@ -97,7 +98,7 @@ export function transformManifest(iiifManifests: IIIFManifests): ManifestData {
     needsModal,
     searchService,
     structures,
-    // Taken from V3:
+    // Taken from V3 manifest:
     audio,
     services,
   };

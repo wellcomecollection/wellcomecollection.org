@@ -5,30 +5,33 @@ import {
   fetchIIIFPresentationManifest,
   IIIFManifests,
 } from '../services/iiif/fetch/manifest';
-import { ManifestData, createDefaultManifestData } from '../types/manifest';
+import {
+  TransformedManifest,
+  createDefaultTransformedManifest,
+} from '../types/manifest';
 import { getDigitalLocationOfType } from '../utils/works';
 
 const manifestPromises: Map<
   string,
   Promise<IIIFManifests | undefined>
 > = new Map();
-const cachedManifestData: Map<string, ManifestData> = new Map();
-const useIIIFManifestData = (work: Work): ManifestData => {
-  const [manifestData, setManifestData] = useState<ManifestData>(
-    createDefaultManifestData()
+const cachedTransformedManifest: Map<string, TransformedManifest> = new Map();
+const useTransformedManifest = (work: Work): TransformedManifest => {
+  const [manifestData, setTransformedManifest] = useState<TransformedManifest>(
+    createDefaultTransformedManifest()
   );
 
   function transformAndUpdate(manifest, id) {
     // TODO types
     const manifestData = transformManifest(manifest);
-    cachedManifestData.set(id, manifestData);
-    setManifestData(manifestData);
+    cachedTransformedManifest.set(id, manifestData);
+    setTransformedManifest(manifestData);
   }
 
   async function updateManifest(work: Work) {
-    const cachedManifest = cachedManifestData.get(work.id);
+    const cachedManifest = cachedTransformedManifest.get(work.id);
     if (cachedManifest) {
-      setManifestData(cachedManifest);
+      setTransformedManifest(cachedManifest);
     } else {
       // If we've started fetching a work, we can just wait for that to resolve
       const existingPromise = manifestPromises.get(work.id);
@@ -60,4 +63,4 @@ const useIIIFManifestData = (work: Work): ManifestData => {
   return manifestData;
 };
 
-export default useIIIFManifestData;
+export default useTransformedManifest;

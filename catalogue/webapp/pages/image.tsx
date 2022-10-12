@@ -15,7 +15,7 @@ import { getServerData } from '@weco/common/server-data';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikeCanonicalId } from 'services/catalogue';
-import { createDefaultManifestData } from '../types/manifest';
+import { createDefaultTransformedManifest } from '../types/manifest';
 
 type Props = {
   image: Image;
@@ -76,7 +76,7 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
           lang={lang}
-          manifest={createDefaultManifestData()}
+          manifest={createDefaultTransformedManifest()}
           workId={sourceWork.id}
           pageIndex={0}
           pageSize={1}
