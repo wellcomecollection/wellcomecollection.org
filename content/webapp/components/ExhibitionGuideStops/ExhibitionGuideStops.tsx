@@ -68,12 +68,13 @@ const Stops: FC<Props> = ({ stops, type }) => {
               (type === 'bsl' && bsl?.embedUrl);
 
             const stopTitle = `${number}. ${title || standaloneTitle}`;
+            const anchorTitleId = `${title || standaloneTitle}`;
 
             return hasContentOfDesiredType ? (
               <Stop
                 key={index}
-                id={dasherizeShorten(title)}
-                data-toolbar-anchor={dasherizeShorten(title)}
+                id={dasherizeShorten(anchorTitleId)}
+                data-toolbar-anchor={'apiToolbar'}
               >
                 {type === 'audio-with-descriptions' &&
                   audioWithDescription?.url && (
