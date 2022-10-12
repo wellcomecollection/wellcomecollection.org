@@ -7,13 +7,13 @@ import {
   ContentResource,
   IIIFExternalWebResource,
   Manifest,
-  Service as ServiceV3,
+  Service,
 } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
 
-export function getTokenServiceV3( // TODO rename - lose V3
+export function getTokenService(
   authServiceId: string,
-  services?: ServiceV3[] // TODO rename - lose V3
+  services?: Service[]
 ): AuthServiceService | undefined {
   const service = (services as AuthService[])?.find(
     s => s?.['@id'] === authServiceId

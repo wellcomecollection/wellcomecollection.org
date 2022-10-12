@@ -120,21 +120,6 @@ export function getMediaClickthroughService(
   }
 }
 
-export function getTokenServiceV3(
-  authServiceId: string,
-  services?: ServiceV3[]
-): AuthServiceService | undefined {
-  const service = (services as AuthService[])?.find(
-    s => s?.['@id'] === authServiceId
-  );
-
-  return service?.service?.find(
-    s =>
-      s.profile === 'http://iiif.io/api/auth/0/token' ||
-      s.profile === 'http://iiif.io/api/auth/1/token'
-  );
-}
-
 export function getTokenService(
   authService: AuthService
 ): AuthServiceService | undefined {
