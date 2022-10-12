@@ -40,6 +40,17 @@ const PaginationWrapper = styled(Layout12)`
   text-align: right;
 `;
 
+const ResultCountWrapper = styled(Space).attrs({
+  v: {
+    size: 'l',
+    properties: ['padding-bottom'],
+  },
+  className: `font-neutral-600 ${font('lr', 6)}`,
+})`
+  display: flex;
+  align-items: center;
+`;
+
 const ResultCount: FC<{ paginatedResults: PaginatedResults<any> }> = ({
   paginatedResults,
 }) => {
@@ -47,18 +58,12 @@ const ResultCount: FC<{ paginatedResults: PaginatedResults<any> }> = ({
 
   return (
     <Layout12>
-      <Space
-        v={{
-          size: 'l',
-          properties: ['padding-bottom'],
-        }}
-        className={`flex flex--v-center font-neutral-600 ${font('lr', 6)}`}
-      >
+      <ResultCountWrapper>
         {pageSize * currentPage - (pageSize - 1)}
-        {' &ndash; '}
+        {' – '}
         {currentPage < totalPages ? pageSize * currentPage : null}
         {currentPage === totalPages ? totalResults : null}
-      </Space>
+      </ResultCountWrapper>
       <Divider />
     </Layout12>
   );
