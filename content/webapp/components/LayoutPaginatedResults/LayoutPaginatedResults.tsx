@@ -42,28 +42,27 @@ const PaginationWrapper = styled(Layout12)`
 
 const ResultCount: FC<{ paginatedResults: PaginatedResults<any> }> = ({
   paginatedResults,
-}) => (
-  <Layout12>
-    <Space
-      v={{
-        size: 'l',
-        properties: ['padding-bottom'],
-      }}
-      className={`flex flex--v-center font-neutral-600 ${font('lr', 6)}`}
-    >
-      {paginatedResults.pageSize * paginatedResults.currentPage -
-        (paginatedResults.pageSize - 1)}
-      -
-      {paginatedResults.currentPage < paginatedResults.totalPages
-        ? paginatedResults.pageSize * paginatedResults.currentPage
-        : null}
-      {paginatedResults.currentPage === paginatedResults.totalPages
-        ? paginatedResults.totalResults
-        : null}
-    </Space>
-    <Divider />
-  </Layout12>
-);
+}) => {
+  const { pageSize, currentPage, totalPages, totalResults } = paginatedResults;
+
+  return (
+    <Layout12>
+      <Space
+        v={{
+          size: 'l',
+          properties: ['padding-bottom'],
+        }}
+        className={`flex flex--v-center font-neutral-600 ${font('lr', 6)}`}
+      >
+        {pageSize * currentPage - (pageSize - 1)}
+        {' &ndash; '}
+        {currentPage < totalPages ? pageSize * currentPage : null}
+        {currentPage === totalPages ? totalResults : null}
+      </Space>
+      <Divider />
+    </Layout12>
+  );
+};
 
 const LayoutPaginatedResults: FC<Props> = ({
   title,
