@@ -13,7 +13,7 @@ import {
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
-import { getAudioV3 } from '../../../utils/iiif/v3';
+import { getAudio } from '../../../utils/iiif/v3';
 import { Manifest } from '@iiif/presentation-3';
 // TODO replace the following with iiif3 types
 import { IIIFManifest } from '../types/manifest/v2';
@@ -69,7 +69,7 @@ export function transformManifest(
   const manifests = manifest?.manifests || []; // TODO use getManifests - does this exist?
   const structures = manifest?.structures || []; // TODO getStructures
   // V3
-  const audio = manifestV3 && getAudioV3(manifestV3);
+  const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || []; // TODO getServices - does this exist?
   return {
     v2: {

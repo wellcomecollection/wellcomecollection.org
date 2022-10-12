@@ -4,8 +4,7 @@ import {
   InternationalString,
 } from '@iiif/presentation-3';
 
-// TODO remove V3
-export type AudioV3 = {
+export type Audio = {
   title?: string;
   sounds: {
     sound: IIIFExternalWebResource;

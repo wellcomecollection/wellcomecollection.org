@@ -2,7 +2,7 @@ import {
   AuthService,
   AuthServiceService,
 } from '../../../services/iiif/types/manifest/v2';
-import { AudioV3 } from '../../../services/iiif/types/manifest/v3';
+import { Audio } from '../../../services/iiif/types/manifest/v3';
 import {
   ContentResource,
   IIIFExternalWebResource,
@@ -26,8 +26,7 @@ export function getTokenServiceV3( // TODO rename - lose V3
   );
 }
 
-export function getAudioV3(manifest: Manifest): AudioV3 {
-  // TODO rename just audio Audio
+export function getAudio(manifest: Manifest): Audio {
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
   const title = canvases.find(c => c?.label?.en)?.[0];
   const audioTypes = ['Audio', 'Sound'];

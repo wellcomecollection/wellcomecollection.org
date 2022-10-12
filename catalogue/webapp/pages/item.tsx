@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import { IIIFCanvas } from '../services/iiif/types/manifest/v2';
-import { AudioV3 } from '../services/iiif/types/manifest/v3';
+import { Audio } from '../services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '../utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { getServiceId } from '../utils/iiif/v2';
@@ -73,7 +73,7 @@ type Props = {
   canvasOcr?: string;
   currentCanvas?: IIIFCanvas;
   video?: Video;
-  audio?: AudioV3;
+  audio?: Audio;
   iiifImageLocation?: DigitalLocation;
   pageview: Pageview;
 };
