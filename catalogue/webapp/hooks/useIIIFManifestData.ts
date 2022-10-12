@@ -50,14 +50,10 @@ const useIIIFManifestData = (work: Work): ManifestData => {
   });
 
   function transformAndUpdate(manifest, id) {
-    const manifestData =
-      manifest?.v2 &&
-      manifest?.v3 &&
-      transformManifest(manifest.v2, manifest.v3);
-    if (manifestData) {
-      cachedManifestData.set(id, manifestData);
-      setManifestData(manifestData);
-    }
+    // TODO types
+    const manifestData = transformManifest(manifest.v2, manifest.v3);
+    cachedManifestData.set(id, manifestData);
+    setManifestData(manifestData);
   }
 
   async function updateManifest(work: Work) {
@@ -85,6 +81,9 @@ const useIIIFManifestData = (work: Work): ManifestData => {
       }
     }
   }
+
+  // TODO when does this get run, i.e. when does the work.id change? and why do we need it - I'm not clear about this
+  // presumably realted to archiveTree
   useEffect(() => {
     updateManifest(work);
   }, [work.id]);

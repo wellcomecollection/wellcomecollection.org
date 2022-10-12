@@ -2,6 +2,11 @@ import { getIIIFManifest } from '../../../utils/iiif/v2';
 import { Manifest } from '@iiif/presentation-3';
 import { IIIFManifest } from '../types/manifest/v2';
 
+export type IIIFManifests = {
+  manifestV2: IIIFManifest | undefined;
+  manifestV3: Manifest | undefined;
+};
+
 async function fetchManifest(
   location: string
 ): Promise<IIIFManifest | Manifest | undefined> {
@@ -21,10 +26,9 @@ async function fetchManifest(
 // and also because v2 manifests will stop being available for audio/visual items.
 // When v2 of the manifest is no longer required by transformManifest()
 // we should stop fetching v2 and just return Manifest | undefined from this function
-export async function fetchIIIFPresentationManifest(location: string): Promise<{
-  v2: IIIFManifest | undefined;
-  v3: Manifest | undefined;
-}> {
+export async function fetchIIIFPresentationManifest(
+  location: string
+): Promise<IIIFManifests> {
   // TODO once we're using v3 everywhere,
   // we'll want the catalogue API to return v3, then we can stop doing the following
   const v3Location = location.replace('/v2/', '/v3/');
@@ -38,7 +42,7 @@ export async function fetchIIIFPresentationManifest(location: string): Promise<{
   ]);
 
   return {
-    v2: iiifManifestV2 as IIIFManifest | undefined,
-    v3: iiifManifestV3 as Manifest | undefined,
+    manifestV2: iiifManifestV2 as IIIFManifest | undefined,
+    manifestV3: iiifManifestV3 as Manifest | undefined,
   };
 }
