@@ -40,6 +40,31 @@ const PaginationWrapper = styled(Layout12)`
   text-align: right;
 `;
 
+const ResultCount: FC<{ paginatedResults: PaginatedResults<any> }> = ({
+  paginatedResults,
+}) => (
+  <Layout12>
+    <Space
+      v={{
+        size: 'l',
+        properties: ['padding-bottom'],
+      }}
+      className={`flex flex--v-center font-neutral-600 ${font('lr', 6)}`}
+    >
+      {paginatedResults.pageSize * paginatedResults.currentPage -
+        (paginatedResults.pageSize - 1)}
+      -
+      {paginatedResults.currentPage < paginatedResults.totalPages
+        ? paginatedResults.pageSize * paginatedResults.currentPage
+        : null}
+      {paginatedResults.currentPage === paginatedResults.totalPages
+        ? paginatedResults.totalResults
+        : null}
+    </Space>
+    <Divider />
+  </Layout12>
+);
+
 const LayoutPaginatedResults: FC<Props> = ({
   title,
   description,
@@ -65,26 +90,7 @@ const LayoutPaginatedResults: FC<Props> = ({
     </SpacingSection>
     {children}
     {paginatedResults.totalPages > 1 && (
-      <Layout12>
-        <Space
-          v={{
-            size: 'l',
-            properties: ['padding-bottom'],
-          }}
-          className={`flex flex--v-center font-neutral-600 ${font('lr', 6)}`}
-        >
-          {paginatedResults.pageSize * paginatedResults.currentPage -
-            (paginatedResults.pageSize - 1)}
-          -
-          {paginatedResults.currentPage < paginatedResults.totalPages
-            ? paginatedResults.pageSize * paginatedResults.currentPage
-            : null}
-          {paginatedResults.currentPage === paginatedResults.totalPages
-            ? paginatedResults.totalResults
-            : null}
-        </Space>
-        <Divider />
-      </Layout12>
+      <ResultCount paginatedResults={paginatedResults} />
     )}
     {showFreeAdmissionMessage && (
       <Layout12>
