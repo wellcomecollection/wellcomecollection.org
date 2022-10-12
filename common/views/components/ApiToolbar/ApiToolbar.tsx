@@ -2,7 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
-import cookies from 'next-cookies';
+import cookies from '@weco/common/data/cookies';
+import { getCookie, setCookie } from 'cookies-next';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
 import {
   Work,
@@ -241,13 +242,12 @@ type Props = {
 };
 
 const ApiToolbar: FC<Props> = ({ extraLinks = [] }) => {
-  const cookieName = 'apiToolbarMini';
   const router = useRouter();
   const [links, setLinks] = useState<ApiToolbarLink[]>([]);
   const [mini, setMini] = useState<boolean>(false);
 
   useIsomorphicLayoutEffect(() => {
-    setMini(cookies({})[cookieName] === 'true');
+    setMini(getCookie(cookies.apiToolbarMini) === true);
   }, []);
 
   useEffect(() => {
@@ -313,7 +313,7 @@ const ApiToolbar: FC<Props> = ({ extraLinks = [] }) => {
         type="button"
         onClick={() => {
           setMini(!mini);
-          document.cookie = `${cookieName}=${!mini}; path=/`;
+          setCookie(cookies.apiToolbarMini, !mini, { path: '/' });
         }}
         style={{ padding: '10px' }}
       >
