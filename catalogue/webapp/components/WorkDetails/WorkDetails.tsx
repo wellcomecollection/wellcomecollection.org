@@ -128,9 +128,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     iiifPresentationDownloadOptions,
     childManifestsCount,
     imageCount,
-  } = { ...manifestData?.v2 };
-  // V3
-  const { audio, services } = { ...manifestData.v3 };
+    audio,
+    services,
+    iiifDownloadEnabled,
+  } = manifestData;
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice
@@ -218,9 +219,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     }
   }
 
-  const showDownloadOptions = determineDownloadVisibility(
-    manifestData?.v2.iiifDownloadEnabled
-  );
+  const showDownloadOptions = determineDownloadVisibility(iiifDownloadEnabled);
 
   const itemLinkState = getItemLinkState({
     accessCondition: digitalLocationInfo?.accessCondition,
@@ -340,20 +339,20 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               )
             }
           >
-            {manifestData?.v2.video && (
+            {video && (
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <VideoPlayer
-                  video={manifestData?.v2.video}
+                  video={video}
                   showDownloadOptions={showDownloadOptions}
                 />
               </Space>
             )}
 
-            {manifestData?.v3.audio.sounds.length > 0 && (
+            {audio?.sounds && audio.sounds.length > 0 && (
               <AudioList
-                items={manifestData?.v3.audio.sounds}
-                thumbnail={manifestData?.v3.audio.thumbnail}
-                transcript={manifestData?.v3.audio.transcript}
+                items={audio?.sounds || []}
+                thumbnail={audio?.thumbnail}
+                transcript={audio?.transcript}
                 workTitle={work.title}
               />
             )}
@@ -694,7 +693,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {/*
           Note: although angle brackets are sometimes used in the lettering field,
           it's usually to denote missing or unclear text, not HTML.
-          
+
           e.g. Patient <...>, sup<erior> mesenteric a<rtery>
           */}
         {work.lettering && (

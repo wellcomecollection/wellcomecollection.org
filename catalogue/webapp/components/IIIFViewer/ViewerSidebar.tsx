@@ -138,7 +138,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
     getCatalogueLicenseData(digitalLocation.license);
 
   const credit =
-    (digitalLocation && digitalLocation.credit) || manifest?.v2.iiifCredit;
+    (digitalLocation && digitalLocation.credit) || manifest.iiifCredit;
 
   return (
     <>
@@ -238,7 +238,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </div>
         </AccordionItem>
 
-        {manifest?.v2.structures && manifest?.v2.structures.length > 0 && (
+        {manifest.structures.length > 0 && (
           <AccordionItem title="Contents">
             <ViewerStructures mainViewerRef={mainViewerRef} />
           </AccordionItem>
@@ -249,7 +249,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </AccordionItem>
         )}
       </Inner>
-      {manifest?.v2.searchService && (
+      {manifest.searchService && (
         <Inner>
           <IIIFSearchWithin mainViewerRef={mainViewerRef} />
         </Inner>

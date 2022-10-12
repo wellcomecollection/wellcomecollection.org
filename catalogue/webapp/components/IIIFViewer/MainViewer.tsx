@@ -373,7 +373,7 @@ const MainViewer: FunctionComponent<Props> = ({
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const { canvases } = { ...manifest?.v2 };
+  const { canvases } = manifest;
 
   function handleOnScroll({ scrollOffset }) {
     timer.current && clearTimeout(timer.current);

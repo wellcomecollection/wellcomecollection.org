@@ -14,8 +14,8 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
 }: Props) => {
   const { manifest, setActiveIndex, activeIndex, setIsMobileSidebarActive } =
     useContext(ItemViewerContext);
-  const structures = manifest?.v2.structures || []; // TODO this in the transformer - always return an array?
-  const canvases = manifest?.v2.canvases || []; // TODO this in the transformer - always return an array? // useCanvas or already available from transformer output?
+  const structures = manifest.structures;
+  const canvases = manifest.canvases;
   const groupedStructures = groupStructures(canvases, structures);
 
   const List = styled.ul`

@@ -5,7 +5,7 @@ import {
   IIIFRendering,
   SearchResults,
 } from '../../services/iiif/types/manifest/v2';
-import { ManifestData } from '../../types/manifest';
+import { ManifestData, createDefaultManifestData } from '../../types/manifest';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { UrlTemplate } from 'url-template';
 
@@ -13,7 +13,7 @@ export type RotatedImage = { canvasIndex: number; rotation: number };
 
 type Props = {
   work: Work;
-  manifest: ManifestData | undefined;
+  manifest: ManifestData;
   manifestIndex: number | undefined;
   activeIndex: number;
   setActiveIndex: (i: number) => void;
@@ -95,7 +95,7 @@ const ItemViewerContext = createContext<Props>({
     availableOnline: false,
     holdings: [],
   },
-  manifest: undefined,
+  manifest: createDefaultManifestData(),
   manifestIndex: undefined,
   activeIndex: 0,
   canvasIndex: 0,

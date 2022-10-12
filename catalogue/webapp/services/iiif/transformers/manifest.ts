@@ -23,7 +23,7 @@ export function transformManifest(iiifManifests: IIIFManifests): ManifestData {
   const { manifestV2, manifestV3 } = { ...iiifManifests };
 
   // V2
-  const title = manifestV2 && manifestV2.label;
+  const title = manifestV2 ? manifestV2.label : '';
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
   const imageCount = canvases.length; // rename to canvasCount
   const childManifestsCount = manifestV2?.manifests

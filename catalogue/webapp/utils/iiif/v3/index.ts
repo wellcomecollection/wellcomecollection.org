@@ -55,7 +55,7 @@ export function getAudio(manifest: Manifest): Audio {
     i => i.type === 'Annotation'
   );
   const thumbnail = placeholderCanvasAnnotation?.body as ContentResource;
-  const transcript = manifest?.rendering?.find(
+  const transcript = manifest.rendering?.find(
     i => i?.['format'] === 'application/pdf'
   );
 

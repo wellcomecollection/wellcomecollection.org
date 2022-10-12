@@ -1,57 +1,26 @@
 import { useEffect, useState } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import { transformManifest } from '../services/iiif/transformers/manifest';
-import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
-import { IIIFManifest } from '../services/iiif/types/manifest/v2';
-import { Manifest } from '@iiif/presentation-3';
-import { ManifestData } from '../types/manifest';
+import {
+  fetchIIIFPresentationManifest,
+  IIIFManifests,
+} from '../services/iiif/fetch/manifest';
+import { ManifestData, createDefaultManifestData } from '../types/manifest';
 import { getDigitalLocationOfType } from '../utils/works';
 
 const manifestPromises: Map<
   string,
-  Promise<
-    | {
-        v2: IIIFManifest;
-        v3: Manifest;
-      }
-    | undefined
-  >
+  Promise<IIIFManifests | undefined>
 > = new Map();
 const cachedManifestData: Map<string, ManifestData> = new Map();
 const useIIIFManifestData = (work: Work): ManifestData => {
-  const [manifestData, setManifestData] = useState<ManifestData>({
-    // TODO redo values once ManifestData type is settled
-    // function to use here and in transformer to return Object
-    v2: {
-      title: '',
-      imageCount: 0,
-      childManifestsCount: 0,
-      showDownloadOptions: false,
-      downloadOptions: [],
-      pdfRendering: undefined,
-      authService: undefined,
-      tokenService: undefined,
-      isAnyImageOpen: true,
-      isTotallyRestricted: false,
-      isCollectionManifest: false,
-      manifests: [],
-      canvases: [],
-      parentManifestUrl: undefined,
-      needsModal: false,
-      searchService: undefined,
-      structures: [],
-    },
-    v3: {
-      audio: {
-        sounds: [],
-      },
-      services: [],
-    },
-  });
+  const [manifestData, setManifestData] = useState<ManifestData>(
+    createDefaultManifestData()
+  );
 
   function transformAndUpdate(manifest, id) {
     // TODO types
-    const manifestData = transformManifest(manifest.v2, manifest.v3);
+    const manifestData = transformManifest(manifest);
     cachedManifestData.set(id, manifestData);
     setManifestData(manifestData);
   }

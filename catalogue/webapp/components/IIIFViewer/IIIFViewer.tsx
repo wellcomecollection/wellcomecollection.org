@@ -40,6 +40,9 @@ import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
 import { ManifestData } from '../../types/manifest';
 
+// TODO contents working
+// TODO comment/tidy this file, so we know what's going on
+// TODO move styled components out to their own file
 type IIIFViewerProps = {
   title: string;
   currentCanvas?: IIIFCanvas;
@@ -53,7 +56,7 @@ type IIIFViewerProps = {
   canvasIndex: number;
   iiifImageLocation?: DigitalLocation;
   work: Work;
-  manifest?: ManifestData; // TODO change to manifestData
+  manifest: ManifestData; // TODO change to manifestData
   manifestIndex?: number;
   handleImageError?: () => void;
 };
@@ -257,7 +260,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const previousManifestIndex = useRef(manifestIndex);
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
   const hasImageService = mainImageService['@id'] && currentCanvas;
-  const { canvases } = { ...manifest?.v2 };
+  const { canvases, showDownloadOptions, downloadOptions, parentManifestUrl } =
+    manifest;
 
   useEffect(() => {
     const fetchImageJson = async () => {
@@ -351,7 +355,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const imageDownloadOptions =
-    manifest?.v2.showDownloadOptions && iiifImageLocation
+    showDownloadOptions && iiifImageLocation
       ? getDownloadOptionsFromImageUrl({
           url: iiifImageLocation.url,
           width: imageJson?.width,
@@ -366,12 +370,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       height: currentCanvas && currentCanvas.height,
     });
   const iiifPresentationDownloadOptions =
-    (manifest?.v2.showDownloadOptions &&
-      imageDownloads && [...imageDownloads, ...manifest.v2.downloadOptions]) ||
-    [];
-  const downloadOptions = manifest?.v2.showDownloadOptions
-    ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
-    : [];
+    (imageDownloads && [...imageDownloads, ...downloadOptions]) || [];
 
   useSkipInitialEffect(() => {
     const canvasParams =
@@ -414,8 +413,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
-        manifest?.v2.parentManifestUrl &&
-        (await fetchJson(manifest?.v2.parentManifestUrl));
+        manifest.parentManifestUrl &&
+        (await fetchJson(parentManifestUrl as string));
       parentManifest && setParentManifest(parentManifest);
     };
 
@@ -435,7 +434,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         currentManifestLabel,
         licenseInfo,
         iiifImageLocationCredit,
-        downloadOptions,
+        // TODO why need both downloadOptions and iiifPresentationDownloadOptions
+        downloadOptions: showDownloadOptions
+          ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
+          : [],
         iiifPresentationDownloadOptions,
         parentManifest,
         mainAreaWidth,

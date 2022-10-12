@@ -34,7 +34,7 @@ import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { looksLikeCanonicalId } from 'services/catalogue';
 import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
 import { transformManifest } from '../services/iiif/transformers/manifest';
-import { ManifestData } from '../types/manifest';
+import { ManifestData, createDefaultManifestData } from '../types/manifest';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -64,7 +64,7 @@ type Video = {
 };
 
 type Props = {
-  manifestData?: ManifestData;
+  manifestData: ManifestData;
   manifestIndex?: number;
   work: Work;
   pageSize: number;
@@ -72,8 +72,8 @@ type Props = {
   canvasIndex: number;
   canvasOcr?: string;
   currentCanvas?: IIIFCanvas;
-  video?: Video;
-  audio?: Audio;
+  video?: Video; // TODO - remove, this is on manifestData
+  audio?: Audio; // TODO - remove, this is on manifestData
   iiifImageLocation?: DigitalLocation;
   pageview: Pageview;
 };
@@ -94,8 +94,6 @@ const ItemPage: NextPage<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
 
-  // TODO deconstruct all the props we need here, then shift them over from v2 to v3 as we do them
-  // V2
   const {
     title,
     showDownloadOptions,
@@ -107,9 +105,8 @@ const ItemPage: NextPage<Props> = ({
     pdfRendering,
     authService,
     isAnyImageOpen,
-  } = { ...manifestData?.v2 }; // By using object spread we get an empty object if manifestData is undefined
-  // V3
-  const { audio } = { ...manifestData?.v3 };
+    audio,
+  } = manifestData;
 
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
@@ -391,30 +388,32 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const iiifManifest =
       iiifPresentationLocation &&
       (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
-    const manifestData =
-      iiifManifest && transformManifest(iiifManifest.v2, iiifManifest.v3);
-    const { isCollectionManifest, manifests } = {
-      // TODO NEXT type is any? - move down to where canvases is?
-      ...manifestData?.v2,
-    };
+
+    const manifestData = transformManifest(
+      iiifManifest || {
+        manifestV2: undefined,
+        manifestV3: undefined,
+      }
+    );
+
+    const { isCollectionManifest, manifests } = manifestData;
     // TODO move to utils?
     // If the manifest is actually a Collection, .i.e. a manifest of manifests,
     // then we get the first child manifest and use the data from that
     // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302
     // from: https://wellcomecollection.org/works/f6qp7m32/items
     async function getDisplayManifest(
-      manifestData: ManifestData | undefined,
+      manifestData: ManifestData,
       manifestIndex
-    ): Promise<ManifestData | undefined> {
+    ): Promise<ManifestData> {
+      // TODO try with no manifestIndex/fixedManifestIndex
       if (isCollectionManifest) {
+        // TODO rename don't use child and not first as depends on the selected one
         const firstChildManifestLocation = manifests?.[manifestIndex]['@id'];
         const firstChildManifest =
           firstChildManifestLocation &&
           (await fetchIIIFPresentationManifest(firstChildManifestLocation));
-        const firstChildManifestData =
-          firstChildManifest?.v2 &&
-          firstChildManifest?.v3 &&
-          transformManifest(firstChildManifest.v2, firstChildManifest.v3);
+        const firstChildManifestData = transformManifest(firstChildManifest);
         return firstChildManifestData;
       } else {
         return manifestData;
@@ -426,8 +425,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         manifestData,
         manifestIndex
       );
-      const { canvases } = { ...displayManifest?.v2 };
-      const currentCanvas = canvases?.[canvasIndex];
+      const { canvases } = displayManifest;
+      const currentCanvas = canvases[canvasIndex];
       const canvasOcr = currentCanvas
         ? await getCanvasOcr(currentCanvas)
         : undefined;
@@ -452,6 +451,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (iiifImageLocation) {
       return {
         props: removeUndefinedProps({
+          manifestData: createDefaultManifestData(),
           pageSize,
           pageIndex,
           canvasIndex,
