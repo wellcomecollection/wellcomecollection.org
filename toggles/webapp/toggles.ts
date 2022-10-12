@@ -68,6 +68,13 @@ const toggles = {
       description:
         'Adds a button to images from Prismic which enables them to be zoomed up to fill the viewport',
     },
+    {
+      id: 'searchPage',
+      title: 'Search page',
+      initialValue: false,
+      description:
+        'New search page to help develop new components and functionalities',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
