@@ -35,6 +35,7 @@ export const vanityUrls: VanityUrl[] = [
   {
     url: '/covid-welcome-back',
     pageId: prismicPageIds.covidWelcomeBack,
+    template: '/covid-welcome-back',
   },
   {
     url: '/get-involved',

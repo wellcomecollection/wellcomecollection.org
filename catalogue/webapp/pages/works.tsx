@@ -7,18 +7,15 @@ import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePage
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import Space from '@weco/common/views/components/styled/Space';
 import { getWorks } from '../services/catalogue/works';
-import cookies from 'next-cookies';
+import { getCookie } from 'cookies-next';
 import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '../components/SearchTitle/SearchTitle';
 import { GetServerSideProps, NextPage } from 'next';
-import {
-  appError,
-  AppErrorProps,
-  WithPageview,
-} from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { Pageview } from '@weco/common/services/conversion/track';
 import {
   fromQuery,
   toLink,
@@ -34,7 +31,8 @@ import styled from 'styled-components';
 type Props = {
   works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
-} & WithPageview;
+  pageview: Pageview;
+};
 
 const PaginationWrapper = styled.div`
   display: flex;
@@ -281,7 +279,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       'contributors.agent.label',
     ];
 
-    const _queryType = cookies(context)._queryType;
+    const _queryType = getCookie('_queryType') as string | undefined;
 
     const worksApiProps = {
       ...props,

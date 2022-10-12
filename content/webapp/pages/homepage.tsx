@@ -18,7 +18,7 @@ import { ExhibitionBasic } from '../types/exhibitions';
 import { EventBasic } from '../types/events';
 import { convertItemToCardProps } from '../types/card';
 import { GetServerSideProps } from 'next';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';

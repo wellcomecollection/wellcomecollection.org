@@ -7,7 +7,8 @@ import {
   KeyboardEvent as ReactKeyboardEvent,
 } from 'react';
 import styled from 'styled-components';
-import cookie from 'cookie-cutter';
+import { hasCookie, setCookie } from 'cookies-next';
+import cookies from '@weco/common/data/cookies';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { font } from '../../../utils/classnames';
@@ -180,16 +181,16 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
   const { isKeyboard } = useContext(AppContext);
 
   function hidePopupDialog() {
-    cookie.set('WC_PopupDialog', 'true', {
+    setCookie(cookies.popupDialog, 'true', {
       path: '/',
-      expires: null,
+      expires: undefined,
     });
 
     setShouldRender(false);
   }
 
   useEffect(() => {
-    setShouldRender(!cookie.get('WC_PopupDialog'));
+    setShouldRender(!hasCookie(cookies.popupDialog));
 
     const timer = setTimeout(() => {
       setShouldStartAnimation(true);

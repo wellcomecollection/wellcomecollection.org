@@ -3,49 +3,23 @@ import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
-  color: PaletteColor;
+  color?: PaletteColor;
   isStub?: boolean;
-  isKeyline?: boolean;
-  isThin?: boolean;
 };
 
 const Rule = styled.hr<Props>`
   text-align: left;
   border: 0;
-
+  height: 1px;
   ${props =>
-    props.color &&
-    `
-    background-color: ${props.theme.color(props.color)};
-  `}
+    props.color && `background-color: ${props.theme.color(props.color)};`};
 
-  ${props =>
-    props.isStub &&
-    `
-    width: 60px;
-    height: 5px;
-  `}
-
-  ${props =>
-    props.isKeyline &&
-    `
-    height: 1px;
-  `}
-
-  ${props =>
-    props.isThin &&
-    `
-    height: 2px;
-  `}
+  ${props => props.isStub && 'width: 60px; height: 5px;'}
 `;
 
 const Divider: FunctionComponent<Props> = ({
-  color,
+  color = 'warmNeutral.400',
   isStub,
-  isKeyline,
-  isThin,
-}: Props): ReactElement => (
-  <Rule color={color} isStub={isStub} isKeyline={isKeyline} isThin={isThin} />
-);
+}: Props): ReactElement => <Rule color={color} isStub={isStub} />;
 
 export default Divider;

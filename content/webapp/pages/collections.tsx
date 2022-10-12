@@ -1,5 +1,5 @@
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { AppErrorProps } from '@weco/common/services/app';
 import CollectionsStaticContent from 'components/Body/CollectionsStaticContent';
 import { GetServerSideProps } from 'next';
 import { FC } from 'react';

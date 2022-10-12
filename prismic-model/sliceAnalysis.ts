@@ -77,10 +77,15 @@ async function main() {
       }
     }
   }
-  console.info(
-    'Slice count',
-    Array.from(sliceCounter.entries()).sort((a, b) => a[1] - b[1])
-  );
+
+  console.info('=== Slice count ==');
+  Array.from(sliceCounter.entries())
+    .sort((a, b) => a[1] - b[1])
+    .forEach(entry =>
+      console.info(`${String(entry[1]).padStart(6, ' ')}\t${entry[0]}`)
+    );
+  console.info('');
+
   console.info(matches);
   console.info(`found ${matches.length}`);
 }

@@ -1,4 +1,5 @@
-import cookies from 'next-cookies';
+import { getCookie } from 'cookies-next';
+import cookies from '@weco/common/data/cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
@@ -30,6 +31,11 @@ interface Conversion {
 type Session = {
   id: string;
   timeout: number;
+};
+
+export type Pageview = {
+  name: string;
+  properties: Record<string, string[] | number[] | string | number | undefined>;
 };
 
 const sessionIdLocalStorageKey = 'sessionId';
@@ -104,7 +110,7 @@ function trackEvent(
 }
 
 function track(conversion: Conversion) {
-  const debug = Boolean(cookies({}).analytics_debug);
+  const debug = getCookie(cookies.analyticsDebug) === true;
   const sessionId = getSessionId();
   const session: Session = {
     id: sessionId,
