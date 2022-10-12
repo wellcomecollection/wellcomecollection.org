@@ -15,7 +15,6 @@ import {
 import { Manifest, Service as ServiceV3 } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
-import { isNotUndefined } from '@weco/common/utils/array';
 
 const isFilledMediaElement = (
   element: IIIFMediaElement | EmptyIIIFMediaElement
@@ -342,19 +341,6 @@ export function getVideo(
       .filter(isFilledMediaElement)
       .find(element => element['@type'] === 'dctypes:MovingImage')
   );
-}
-
-// TODO can probably remove this now, think we just use the v3 one
-export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
-  const audioSequences = (iiifManifest.mediaSequences || [])
-    .flatMap(sequence =>
-      sequence.elements
-        .filter(isFilledMediaElement)
-        .find(element => element['@type'] === 'dctypes:Sound')
-    )
-    .filter(isNotUndefined);
-
-  return audioSequences;
 }
 
 export function getAnnotationFromMediaElement(
