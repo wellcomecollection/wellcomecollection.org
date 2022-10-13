@@ -5,7 +5,7 @@ import {
   IIIFManifest,
   IIIFRendering,
   SearchResults,
-} from '../../model/iiif';
+} from '../../services/iiif/types/manifest/v2';
 import { ManifestData } from '../../types/manifest';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { UrlTemplate } from 'url-template';

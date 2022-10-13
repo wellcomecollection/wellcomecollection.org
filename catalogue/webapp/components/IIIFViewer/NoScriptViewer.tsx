@@ -13,7 +13,7 @@ import Paginator, {
 } from './RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
-import { IIIFCanvas } from '../../model/iiif';
+import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
 import { FunctionComponent } from 'react';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { arrow } from '@weco/common/icons';

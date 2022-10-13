@@ -2,7 +2,7 @@ import Router from 'next/router';
 import { trackEvent } from '@weco/common/utils/ga';
 import { FunctionComponent, useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
-import { IIIFMediaElement } from '../../model/iiif';
+import { IIIFMediaElement } from '../../services/iiif/types/manifest/v2';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
 
 type Props = {

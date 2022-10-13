@@ -6,7 +6,10 @@ import {
   useContext,
 } from 'react';
 import styled from 'styled-components';
-import { IIIFCanvas, IIIFManifest } from '../../model/iiif';
+import {
+  IIIFCanvas,
+  IIIFManifest,
+} from '../../services/iiif/types/manifest/v2';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,

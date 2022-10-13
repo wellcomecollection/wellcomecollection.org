@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react';
-import { IIIFCanvas } from '../../model/iiif';
+import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
 import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -74,7 +74,7 @@ const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>({
     background-color: ${props.theme.color('yellow')};`
       : `
     color: ${props.theme.color('white')};
-    
+
     `};
 `;
 

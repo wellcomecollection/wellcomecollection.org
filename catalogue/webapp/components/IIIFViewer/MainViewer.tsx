@@ -27,7 +27,11 @@ import {
   getThumbnailService,
 } from '../../utils/iiif/v2';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas, SearchResults, AuthService } from '../../model/iiif';
+import {
+  IIIFCanvas,
+  SearchResults,
+  AuthService,
+} from '../../services/iiif/types/manifest/v2';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 
