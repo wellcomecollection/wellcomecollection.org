@@ -67,7 +67,7 @@ type Video = {
 };
 
 type Props = {
-  manifestData: TransformedManifest;
+  transformedManifest: TransformedManifest;
   manifestIndex?: number;
   work: Work;
   pageSize: number;
@@ -75,14 +75,14 @@ type Props = {
   canvasIndex: number;
   canvasOcr?: string;
   currentCanvas?: IIIFCanvas;
-  video?: Video; // TODO - remove, this is on manifestData
-  audio?: Audio; // TODO - remove, this is on manifestData
+  video?: Video; // TODO - remove as this is on manifestData
+  audio?: Audio; // TODO - remove as this is on manifestData
   iiifImageLocation?: DigitalLocation;
   pageview: Pageview;
 };
 
 const ItemPage: NextPage<Props> = ({
-  manifestData,
+  transformedManifest,
   manifestIndex,
   work,
   pageSize,
@@ -109,7 +109,7 @@ const ItemPage: NextPage<Props> = ({
     authService,
     isAnyImageOpen,
     audio,
-  } = manifestData;
+  } = transformedManifest;
 
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
@@ -327,7 +327,7 @@ const ItemPage: NextPage<Props> = ({
             manifestIndex={manifestIndex}
             iiifImageLocation={iiifImageLocation}
             work={work}
-            transformedManifest={manifestData} // TODO change both to transformedManifest
+            transformedManifest={transformedManifest}
             handleImageError={() => {
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
               reloadAuthIframe(document, iframeId);
@@ -439,7 +439,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
       return {
         props: removeUndefinedProps({
-          manifestData: displayManifest,
+          transformedManifest: displayManifest,
           manifestIndex,
           pageSize,
           pageIndex,
@@ -457,7 +457,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (iiifImageLocation) {
       return {
         props: removeUndefinedProps({
-          manifestData: createDefaultTransformedManifest(),
+          transformedManifest: createDefaultTransformedManifest(),
           pageSize,
           pageIndex,
           canvasIndex,
