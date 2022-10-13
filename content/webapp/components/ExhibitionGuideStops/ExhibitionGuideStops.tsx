@@ -12,7 +12,6 @@ import GridFactory, {
   threeUpGridSizesMap,
   twoUpGridSizesMap,
 } from '@weco/content/components/Body/GridFactory';
-import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { font } from '@weco/common/utils/classnames';
 
 const Stop = styled(Space).attrs({
