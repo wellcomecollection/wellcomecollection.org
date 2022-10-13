@@ -59,19 +59,6 @@ const MuteUnmuteButton = styled.button.attrs<{ isMuted: boolean }>(props => ({
   padding: 0;
 `;
 
-// FIXME: this exists because the `volumeMute` icon I created is 1px off
-const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
-  display: flex;
-
-  ${props =>
-    props.isMuted &&
-    `
-    svg {
-      transform: translateY(1px);
-    }
-  `}
-`;
-
 const PlayRateWrapper = styled.div.attrs({
   className: font('intr', 6),
 })`
@@ -215,14 +202,12 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
   };
   return (
     <VolumeWrapper>
-      <VolumeControlWrapper isMuted={isMuted || volume === 0}>
-        <MuteUnmuteButton onClick={onVolumeButtonClick}>
-          <Icon
-            color="neutral.600"
-            icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
-          />
-        </MuteUnmuteButton>
-      </VolumeControlWrapper>
+      <MuteUnmuteButton onClick={onVolumeButtonClick}>
+        <Icon
+          color="neutral.600"
+          icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
+        />
+      </MuteUnmuteButton>
       <div style={{ lineHeight: 0 }}>
         <label htmlFor={`volume-${id}`}>
           <span className="visually-hidden">volume control</span>
