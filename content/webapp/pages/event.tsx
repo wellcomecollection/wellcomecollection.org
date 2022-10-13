@@ -59,6 +59,7 @@ import { isDayPast, isPast } from '@weco/common/utils/dates';
 import * as prismicT from '@prismicio/types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import { a11y } from '@weco/common/data/microcopy';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -462,24 +463,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
               .filter(Boolean) as LabelField[]
           }
         >
-          {/*
-            This message is hard-coded as part of the yellow box rather than specified
-            on the individual access notices for two reasons:
-
-              1.  So we don't repeat it if we have lots of access information on an event
-                  See https://wellcome.slack.com/archives/CUA669WHH/p1664808905110529
-
-              2.  So we always have it on events that don't have any access information, when
-                  it's arguably most important.
-
-           */}
-          <p className={font('intr', 5)}>
-            If you have any queries about accessibility, please email us at{' '}
-            <a href="mailto:access@wellcomecollection.org">
-              access@wellcomecollection.org
-            </a>{' '}
-            or call 020 7611 2222.
-          </p>
+          <p className={font('intr', 5)}>{a11y.defaultEventMessage}</p>
           <p className={`no-margin ${font('intr', 5)}`}>
             <a
               href={`https://wellcomecollection.org/pages/${prismicPageIds.bookingAndAttendingOurEvents}`}

@@ -54,6 +54,25 @@ export const a11y = {
   stepFreeAccess: 'Step-free access is available to all floors of the building',
   largePrintGuides:
     'Large-print guides, transcripts and magnifiers are available in the gallery',
+
+  // This message is hard-coded as part of the yellow box rather than specified
+  // on the individual access notices for two reasons:
+  //
+  //  1. So we don't repeat it if we have lots of access information on an event
+  //     See https://wellcome.slack.com/archives/CUA669WHH/p1664808905110529
+  //
+  //  2. So we always have it on events that don't have any access information, when
+  //     it's arguably most important.
+  //
+  defaultEventMessage: (
+    <>
+      If you have any queries about accessibility, please email us at{' '}
+      <a href="mailto:access@wellcomecollection.org">
+        access@wellcomecollection.org
+      </a>{' '}
+      or call 020 7611 2222.
+    </>
+  ),
 };
 
 export const wellcomeImagesRedirectBanner =
