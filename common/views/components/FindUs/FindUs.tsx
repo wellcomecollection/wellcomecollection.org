@@ -6,6 +6,7 @@ import {
 } from '@weco/common/data/organization';
 import Space from '@weco/common/views/components/styled/Space';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { createScreenreaderLabel } from '../../../utils/telephone-numbers';
 
 const PlainLink = styled.a.attrs({ className: 'plain-link' })`
   transition: color 200ms ease;
@@ -27,7 +28,12 @@ const FindUs: FC = () => (
       </PlainLink>
     </Space>
     <p>
-      <PlainLink href={`tel:${wellcomeCollectionGallery.telephone}`}>
+      <PlainLink
+        href={`tel:${wellcomeCollectionGallery.telephone}`}
+        aria-label={createScreenreaderLabel(
+          wellcomeCollectionGallery.displayTelephone
+        )}
+      >
         {wellcomeCollectionGallery.displayTelephone}
       </PlainLink>
       <br />

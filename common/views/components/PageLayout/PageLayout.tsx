@@ -39,6 +39,11 @@ type HeaderProps = {
   showLibraryLogin?: boolean;
 };
 
+type SkipToContentLink = {
+  anchorId: string;
+  label: string;
+};
+
 export type Props = {
   title: string;
   description: string;
@@ -54,6 +59,7 @@ export type Props = {
   excludeRoleMain?: boolean;
   headerProps?: HeaderProps;
   apiToolbarLinks?: ApiToolbarLink[];
+  skipToContentLinks?: SkipToContentLink[];
 };
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
@@ -71,6 +77,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   excludeRoleMain = false,
   headerProps,
   apiToolbarLinks = [],
+  skipToContentLinks = [],
 }) => {
   const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
@@ -253,6 +260,17 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       <div id="root">
         {apiToolbar && <ApiToolbar extraLinks={apiToolbarLinks} />}
         <CookieNotice source={url.pathname || ''} />
+
+        {skipToContentLinks.map(({ anchorId, label }) => (
+          <a
+            className="visually-hidden visually-hidden-focusable"
+            href={`#${anchorId}`}
+            key={anchorId}
+          >
+            {label}
+          </a>
+        ))}
+
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
@@ -275,6 +293,11 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           id="main"
           className="main"
           role={excludeRoleMain ? undefined : 'main'}
+          // We need tabIndex="-1" so the "Skip to main content" link works for
+          // screen readers.
+          //
+          // See e.g. https://accessibility.oit.ncsu.edu/it-accessibility-at-nc-state/developers/accessibility-handbook/mouse-and-keyboard-events/skip-to-main-content/
+          tabIndex={-1}
         >
           {children}
         </div>

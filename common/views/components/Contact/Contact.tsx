@@ -2,6 +2,7 @@ import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
+import { createScreenreaderLabel } from '../../../utils/telephone-numbers';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left'] },
@@ -37,7 +38,16 @@ const Contact: FunctionComponent<Props> = ({
           </Space>
         )}
       </span>
-      {phone && <span className={`${font('intr', 4)} block`}>{phone}</span>}
+      {phone && (
+        <>
+          <span className="visually-hidden">
+            {createScreenreaderLabel(phone)}
+          </span>
+          <span className={`${font('intr', 4)} block`} aria-hidden="true">
+            {phone}
+          </span>
+        </>
+      )}
       {email && (
         <div>
           <a className={font('intr', 4)} href={`mailto:${email}`}>

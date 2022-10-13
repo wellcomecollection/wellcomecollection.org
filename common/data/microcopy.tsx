@@ -10,6 +10,8 @@
 //      able to edit it themselves, using the GitHub web interface.
 //
 
+import { createScreenreaderLabel } from '../utils/telephone-numbers';
+
 export const pageDescriptions = {
   articles:
     'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.',
@@ -54,6 +56,33 @@ export const a11y = {
   stepFreeAccess: 'Step-free access is available to all floors of the building',
   largePrintGuides:
     'Large-print guides, transcripts and magnifiers are available in the gallery',
+
+  // This message is hard-coded as part of the yellow box rather than specified
+  // on the individual access notices for two reasons:
+  //
+  //  1. So we don't repeat it if we have lots of access information on an event
+  //     See https://wellcome.slack.com/archives/CUA669WHH/p1664808905110529
+  //
+  //  2. So we always have it on events that don't have any access information, when
+  //     it's arguably most important.
+  //
+  defaultEventMessage: (
+    <>
+      If you have any queries about accessibility, please email us at{' '}
+      <a href="mailto:access@wellcomecollection.org">
+        access@wellcomecollection.org
+      </a>{' '}
+      or call{' '}
+      {/*
+        This is to ensure phone numbers are read in a sensible way by
+        screen readers.
+      */}
+      <span className="visually-hidden">
+        {createScreenreaderLabel('020 7611 2222')}
+      </span>
+      <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
+    </>
+  ),
 };
 
 export const wellcomeImagesRedirectBanner =

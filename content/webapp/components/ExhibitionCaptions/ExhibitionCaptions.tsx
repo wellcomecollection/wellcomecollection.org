@@ -125,8 +125,8 @@ const Transcription = styled(Space).attrs({
 `;
 
 type Stop = {
-  standaloneTitle: prismicT.RichTextField;
-  number: number;
+  standaloneTitle: string;
+  number?: number;
   title: string;
   image?: ImageType;
   tombstone: prismicT.RichTextField;

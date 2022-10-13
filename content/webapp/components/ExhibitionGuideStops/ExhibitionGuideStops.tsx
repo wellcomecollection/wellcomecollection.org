@@ -12,7 +12,6 @@ import GridFactory, {
   threeUpGridSizesMap,
   twoUpGridSizesMap,
 } from '@weco/content/components/Body/GridFactory';
-import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { font } from '@weco/common/utils/classnames';
 
 const Stop = styled(Space).attrs({
@@ -26,12 +25,15 @@ const Stop = styled(Space).attrs({
 type VideoPlayerProps = {
   title: string;
   videoUrl: string;
+  titleProps: { role: string; 'aria-level': number };
 };
 
-const VideoPlayer: FC<VideoPlayerProps> = ({ title, videoUrl }) => (
+const VideoPlayer: FC<VideoPlayerProps> = ({ title, videoUrl, titleProps }) => (
   <figure className="no-margin">
     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-      <figcaption className={font('intb', 5)}>{title}</figcaption>
+      <figcaption className={font('intb', 5)} {...titleProps}>
+        {title}
+      </figcaption>
     </Space>
     <VideoEmbed embedUrl={videoUrl} />
   </figure>
@@ -57,8 +59,8 @@ const Stops: FC<Props> = ({ stops, type }) => {
               audioWithDescription,
               audioWithoutDescription,
               bsl,
-              title,
-              standaloneTitle,
+              displayTitle,
+              anchorId,
             } = stop;
             const hasContentOfDesiredType =
               (type === 'audio-with-descriptions' &&
@@ -67,18 +69,32 @@ const Stops: FC<Props> = ({ stops, type }) => {
                 audioWithoutDescription?.url) ||
               (type === 'bsl' && bsl?.embedUrl);
 
-            const stopTitle = `${number}. ${title || standaloneTitle}`;
+            const stopTitle = `${number}. ${displayTitle}`;
+
+            // These props tell screen readers to treat the stop titles as headings,
+            // so screen reader users can jump from stop to stop quickly, without
+            // having to tab through all the control components.
+            const titleProps = {
+              role: 'heading',
+              'aria-level': 2,
+            };
 
             return hasContentOfDesiredType ? (
               <Stop
                 key={index}
-                id={dasherizeShorten(title)}
-                data-toolbar-anchor={dasherizeShorten(title)}
+                id={anchorId}
+                data-toolbar-anchor="api-toolbar"
+                // We need tabIndex="-1" so the "Skip to stop" link works for
+                // screen readers.
+                //
+                // See e.g. https://accessibility.oit.ncsu.edu/it-accessibility-at-nc-state/developers/accessibility-handbook/mouse-and-keyboard-events/skip-to-main-content/
+                tabIndex={-1}
               >
                 {type === 'audio-with-descriptions' &&
                   audioWithDescription?.url && (
                     <AudioPlayer
                       title={stopTitle}
+                      titleProps={titleProps}
                       audioFile={audioWithDescription.url}
                     />
                   )}
@@ -86,11 +102,16 @@ const Stops: FC<Props> = ({ stops, type }) => {
                   audioWithoutDescription?.url && (
                     <AudioPlayer
                       title={stopTitle}
+                      titleProps={titleProps}
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
                 {type === 'bsl' && bsl.embedUrl && (
-                  <VideoPlayer title={stopTitle} videoUrl={bsl.embedUrl} />
+                  <VideoPlayer
+                    title={stopTitle}
+                    titleProps={titleProps}
+                    videoUrl={bsl.embedUrl}
+                  />
                 )}
               </Stop>
             ) : null; // We've decided to omit stops that don't have content for the selected type.

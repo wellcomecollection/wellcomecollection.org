@@ -216,7 +216,10 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
   return (
     <VolumeWrapper>
       <VolumeControlWrapper isMuted={isMuted || volume === 0}>
-        <MuteUnmuteButton onClick={onVolumeButtonClick}>
+        <MuteUnmuteButton
+          onClick={onVolumeButtonClick}
+          aria-label={isMuted ? 'Unmute player' : 'Mute player'}
+        >
           <Icon
             color="neutral.600"
             icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
@@ -283,12 +286,14 @@ export type AudioPlayerProps = {
   audioFile: string;
   title: string;
   idPrefix?: string;
+  titleProps?: { role: string; 'aria-level': number };
 };
 
 export const AudioPlayer: FC<AudioPlayerProps> = ({
   audioFile,
   title,
   idPrefix,
+  titleProps = {},
 }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -388,7 +393,9 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
   return (
     <figure className="no-margin">
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <figcaption className={font('intb', 5)}>{title}</figcaption>
+        <figcaption className={font('intb', 5)} {...titleProps}>
+          {title}
+        </figcaption>
       </Space>
 
       <AudioPlayerGrid>
