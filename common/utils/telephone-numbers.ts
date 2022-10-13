@@ -15,8 +15,6 @@
  *
  *      plus four four zero two zero seven six one one two two two two
  *
- * See https://jhalabi.com/blog/accessibility-phone-number-formatting
- *
  */
 export function createScreenreaderLabel(number: string): string {
   // See https://jhalabi.com/blog/accessibility-phone-number-formatting
@@ -29,8 +27,13 @@ export function createScreenreaderLabel(number: string): string {
   //    plus four four (pause) zero two zero (pause) seven six one one
   //
   // which is closer to how a human would read the number.
-  return Array.from(number.replaceAll(' ', '.'))
-    .filter(c => c === '+' || c === '.' || (c >= '0' && c <= '9'))
-    .join(' ')
-    .replaceAll(' .', '.');
+  const components = number.split(' ');
+
+  const filteredComponents = components.map(c =>
+    Array.from(c)
+      .filter(char => char === '+' || (char >= '0' && char <= '9'))
+      .join(' ')
+  );
+
+  return filteredComponents.join('. ');
 }
