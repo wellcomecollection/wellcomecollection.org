@@ -49,12 +49,6 @@ const toggles = {
       description: 'View pages related to exhibition guides',
     },
     {
-      id: 'readingTime',
-      title: 'Reading time',
-      initialValue: false,
-      description: 'Displays reading time estimate on articles',
-    },
-    {
       id: 'newStoriesLanding',
       title: 'New stories landing page content',
       initialValue: false,
