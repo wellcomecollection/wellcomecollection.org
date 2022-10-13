@@ -31,6 +31,9 @@ export const wellcomeCollectionGallery: Organization = {
   }),
   isAccessibleForFree: true,
   publicAccess: true,
-  telephone: '+4420 7611 2222',
-  displayTelephone: '+44 (0)20 7611 2222',
+  telephone: {
+    href: '+4420 7611 2222',
+    display: '+44 (0)20 7611 2222',
+    'aria-label': 'plus 4 4 0 2 0 7 6 1 1 2 2 2 2',
+  },
 };

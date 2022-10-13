@@ -7,6 +7,12 @@ type PostalAddress = {
   addressCountry?: string;
 };
 
+type Telephone = {
+  href: string;
+  display: string;
+  'aria-label': string;
+};
+
 export type Organization = {
   name: string;
   url: string;
@@ -18,6 +24,5 @@ export type Organization = {
   alternateUrl?: string;
   publicAccess: boolean;
   isAccessibleForFree: boolean;
-  telephone: string;
-  displayTelephone: string;
+  telephone: Telephone;
 };

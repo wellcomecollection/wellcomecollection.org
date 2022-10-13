@@ -27,8 +27,11 @@ const FindUs: FC = () => (
       </PlainLink>
     </Space>
     <p>
-      <PlainLink href={`tel:${wellcomeCollectionGallery.telephone}`}>
-        {wellcomeCollectionGallery.displayTelephone}
+      <PlainLink
+        href={`tel:${wellcomeCollectionGallery.telephone.href}`}
+        aria-label={wellcomeCollectionGallery.telephone['aria-label']}
+      >
+        {wellcomeCollectionGallery.telephone.display}
       </PlainLink>
       <br />
       <a href="mailto:info@wellcomecollection.org">
