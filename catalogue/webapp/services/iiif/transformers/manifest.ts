@@ -7,7 +7,7 @@ import {
   getVideo,
   isUiEnabled,
   getCanvases,
-  getFirstChildManifestLocation,
+  getFirstCollectionManifestLocation,
   getIIIFPresentationCredit,
   getAuthService,
   getTokenService,
@@ -18,7 +18,6 @@ import {
 } from '../../../utils/iiif/v2';
 import { getAudio } from '../../../utils/iiif/v3';
 
-// TODO change manifest/manifestData to transformedManifest everywhere
 export function transformManifest(
   iiifManifests: IIIFManifests
 ): TransformedManifest {
@@ -27,8 +26,8 @@ export function transformManifest(
   // V2
   const title = manifestV2 ? manifestV2.label : '';
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
-  const imageCount = canvases.length; // rename to canvasCount
-  const childManifestsCount = manifestV2?.manifests
+  const canvasCount = canvases.length;
+  const collectionManifestsCount = manifestV2?.manifests
     ? manifestV2.manifests.length
     : 0;
   const video = manifestV2 && getVideo(manifestV2);
@@ -39,8 +38,8 @@ export function transformManifest(
   const iiifDownloadEnabled = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
     : false;
-  const firstChildManifestLocation =
-    manifestV2 && getFirstChildManifestLocation(manifestV2);
+  const firstCollectionManifestLocation =
+    manifestV2 && getFirstCollectionManifestLocation(manifestV2);
   const showDownloadOptions = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
     : true;
@@ -67,23 +66,24 @@ export function transformManifest(
   const parentManifestUrl = manifestV2 && manifestV2.within;
   const needsModal = checkModalRequired(authService, isAnyImageOpen);
   const searchService = manifestV2 && getSearchService(manifestV2);
-  const manifests = manifestV2?.manifests || []; // TODO use getManifests - does this exist?
-  const structures = manifestV2?.structures || []; // TODO getStructures
+  const manifests = manifestV2?.manifests || [];
+  const structures = manifestV2?.structures || [];
 
   // V3
   const audio = manifestV3 && getAudio(manifestV3);
-  const services = manifestV3?.services || []; // TODO getServices - does this exist?
-  // TODO don't return v2 or v3 here, we don't need to care from this point on
+  const services = manifestV3?.services || [];
+
+  // TODO As we move over, further transform the props to exactly what we need
   return {
     // Taken from V2 manifest:
     title,
-    imageCount,
-    childManifestsCount,
+    canvasCount,
+    collectionManifestsCount,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions,
     iiifDownloadEnabled,
-    firstChildManifestLocation,
+    firstCollectionManifestLocation,
     showDownloadOptions,
     downloadOptions,
     pdfRendering,

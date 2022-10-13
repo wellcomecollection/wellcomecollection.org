@@ -32,7 +32,7 @@ const WorkHeader: FunctionComponent<Props> = ({
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
   const manifestData = useTransformedManifest(work);
-  const { childManifestsCount } = manifestData;
+  const { collectionManifestsCount } = manifestData;
 
   const primaryContributorLabel = work.contributors.find(
     contributor => contributor.primary
@@ -112,11 +112,11 @@ const WorkHeader: FunctionComponent<Props> = ({
             />
           </Space>
 
-          {childManifestsCount > 0 && (
+          {collectionManifestsCount > 0 && (
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
               <p className={`${font('intb', 5)} no-margin`}>
-                <Number color="yellow" number={childManifestsCount} />
-                {childManifestsCount === 1 ? ' volume ' : ' volumes '}
+                <Number color="yellow" number={collectionManifestsCount} />
+                {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
                 online
               </p>
             </Space>

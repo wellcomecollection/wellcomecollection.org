@@ -1,6 +1,6 @@
 import {
   getCanvases,
-  getFirstChildManifestLocation,
+  getFirstCollectionManifestLocation,
   getServiceId,
 } from '../../utils/iiif/v2';
 import NextLink from 'next/link';
@@ -113,10 +113,13 @@ const ExpandedImage: FunctionComponent<Props> = ({
     ) => {
       const res = await fetch(manifestLocation);
       const manifest = await res.json();
-      const firstChildManifestLocation =
-        getFirstChildManifestLocation(manifest);
-      if (firstChildManifestLocation) {
-        return fetchDeeplinkCanvasIndex(firstChildManifestLocation, imageUrl);
+      const firstCollectionManifestLocation =
+        getFirstCollectionManifestLocation(manifest); // THIS WILL BE ON TransformedManifest
+      if (firstCollectionManifestLocation) {
+        return fetchDeeplinkCanvasIndex(
+          firstCollectionManifestLocation,
+          imageUrl
+        );
       }
       const canvases = getCanvases(manifest);
       const imageLocationBase = imageUrl.replace('/info.json', '');

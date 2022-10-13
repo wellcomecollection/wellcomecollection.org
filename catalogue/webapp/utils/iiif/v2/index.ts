@@ -339,12 +339,10 @@ export function getAnnotationFromMediaElement(
   );
 }
 
-export function getFirstChildManifestLocation(
+export function getFirstCollectionManifestLocation(
   iiifManifest: IIIFManifest
 ): string | undefined {
-  if (iiifManifest.manifests) {
-    return iiifManifest.manifests.find(manifest => manifest['@id'])['@id'];
-  }
+  return iiifManifest.manifests?.find(manifest => manifest['@id'])?.['@id'];
 }
 
 export function getIIIFPresentationCredit(

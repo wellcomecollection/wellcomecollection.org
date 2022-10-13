@@ -227,6 +227,7 @@ const ItemPage: NextPage<Props> = ({
           </Space>
         </Layout12>
       )}
+      {/* TODO remove this or update unavailable message to something more appropriate */}
       {!(isNotUndefined(audio) && audio?.sounds.length > 0) &&
         !video &&
         !pdfRendering &&
@@ -400,7 +401,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     );
 
     const { isCollectionManifest, manifests } = manifestData;
-    // TODO move to utils?
     // If the manifest is actually a Collection, .i.e. a manifest of manifests,
     // then we get the first child manifest and use the data from that
     // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302
@@ -409,15 +409,18 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       manifestData: TransformedManifest,
       manifestIndex
     ): Promise<TransformedManifest> {
-      // TODO try with no manifestIndex/fixedManifestIndex
       if (isCollectionManifest) {
-        // TODO rename don't use child and not first as depends on the selected one
-        const firstChildManifestLocation = manifests?.[manifestIndex]['@id'];
-        const firstChildManifest =
-          firstChildManifestLocation &&
-          (await fetchIIIFPresentationManifest(firstChildManifestLocation));
-        const firstChildTransformedManifest = transformManifest(firstChildManifest);
-        return firstChildTransformedManifest;
+        const selectedCollectionManifestLocation =
+          manifests?.[manifestIndex]['@id'];
+        const selectedCollectionManifest =
+          selectedCollectionManifestLocation &&
+          (await fetchIIIFPresentationManifest(
+            selectedCollectionManifestLocation
+          ));
+        const firstChildTransformedManifest =
+          selectedCollectionManifest &&
+          transformManifest(selectedCollectionManifest);
+        return firstChildTransformedManifest || manifestData;
       } else {
         return manifestData;
       }

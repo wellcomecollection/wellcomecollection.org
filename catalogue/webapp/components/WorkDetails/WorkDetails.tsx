@@ -126,8 +126,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     video,
     iiifCredit,
     iiifPresentationDownloadOptions,
-    childManifestsCount,
-    imageCount,
+    collectionManifestsCount,
+    canvasCount,
     audio,
     services,
     iiifDownloadEnabled,
@@ -451,7 +451,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 </div>
                 {!(downloadOptions.length > 0) &&
                   sierraIdFromManifestUrl &&
-                  childManifestsCount === 0 && (
+                  collectionManifestsCount === 0 && (
                     <NextLink
                       {...downloadUrl({
                         workId: work.id,
@@ -461,7 +461,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       <a>Download options</a>
                     </NextLink>
                   )}
-                {(childManifestsCount > 0 || imageCount > 0) && (
+                {(collectionManifestsCount > 0 || canvasCount > 0) && (
                   <Space
                     v={{
                       size: 'm',
@@ -470,13 +470,15 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   >
                     <p className={`no-margin ${font('lr', 6)}`}>
                       Contains:{' '}
-                      {childManifestsCount > 0
-                        ? `${childManifestsCount} ${
-                            childManifestsCount === 1 ? 'volume' : 'volumes'
+                      {collectionManifestsCount > 0
+                        ? `${collectionManifestsCount} ${
+                            collectionManifestsCount === 1
+                              ? 'volume'
+                              : 'volumes'
                           }`
-                        : imageCount > 0
-                        ? `${imageCount} ${
-                            imageCount === 1 ? 'image' : 'images'
+                        : canvasCount > 0
+                        ? `${canvasCount} ${
+                            canvasCount === 1 ? 'image' : 'images'
                           }`
                         : ''}
                     </p>

@@ -2,45 +2,57 @@ import {
   IIIFMediaElement,
   IIIFRendering,
   IIIFCanvas,
+  IIIFStructure,
+  AuthService,
+  AuthServiceService,
+  CollectionManifest,
+  Service as Service2,
 } from '../../webapp/services/iiif/types/manifest/v2';
+import { Service } from '@iiif/presentation-3';
 import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
 
-// TODO NEXT check all types and if they should really optional
-// TODO fill in missing types
+// TODO now these are all in one place, it's easier to see we may not need them all
+// For example:
+// Do we need iiifPresentationDownloadOptions and downloadOptions?
+// Do we need searchService and services?
+// Do we need collectionManifestsCount and isCollectionManifest?
+// Do we need canvases and canvasCount?
+// DO we need showDownloadOptions and iiifDownloadEnabled?
+// These should be cleaned up as we move to v3
 export type TransformedManifest = {
-  // From iiifManifest V2:
+  // Currently from iiifManifest V2:
   title: string;
-  imageCount: number;
-  childManifestsCount: number;
+  canvasCount: number;
+  collectionManifestsCount: number;
   video?: IIIFMediaElement;
   iiifCredit?: string;
-  iiifPresentationDownloadOptions?: IIIFRendering[]; // TODO do we need this and downloadOptions? what is the difference
+  iiifPresentationDownloadOptions?: IIIFRendering[];
   iiifDownloadEnabled?: boolean;
-  firstChildManifestLocation?: string;
+  firstCollectionManifestLocation?: string;
   showDownloadOptions: boolean; // TODO do we need this and iiifDownloadEnabled?
   downloadOptions: IIIFRendering[];
-  pdfRendering: any; // TODO type properly
-  authService: any; // TODO type properly
-  tokenService: any; // TODO type properly
-  isAnyImageOpen: boolean; // TODO type properly
-  isTotallyRestricted: boolean; // TODO type properly
-  isCollectionManifest: boolean; // TODO not this, can we use childManifestCount, is it ultimately the same thing
-  manifests: any; // TODO type properly
-  canvases: IIIFCanvas[]; // TODO return values for all of these if iiif manifest is undefined.
+  pdfRendering: IIIFRendering | undefined;
+  authService: AuthService | undefined;
+  tokenService: AuthServiceService | undefined;
+  isAnyImageOpen: boolean;
+  isTotallyRestricted: boolean;
+  isCollectionManifest: boolean;
+  manifests: CollectionManifest[];
+  canvases: IIIFCanvas[];
   parentManifestUrl: string | undefined;
-  needsModal: any; // TODO type properly
-  searchService: any; // TODO type properly
-  structures: any; // TODO type properly
-  // From iiif manifest v3:
+  needsModal: boolean;
+  searchService: Service2 | undefined;
+  structures: IIIFStructure[];
+  // Currently from iiif manifest v3:
   audio: Audio | undefined;
-  services: any[]; // TODO
+  services: Service[];
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {
   return {
     title: '',
-    imageCount: 0,
-    childManifestsCount: 0,
+    canvasCount: 0,
+    collectionManifestsCount: 0,
     showDownloadOptions: false,
     downloadOptions: [],
     pdfRendering: undefined,

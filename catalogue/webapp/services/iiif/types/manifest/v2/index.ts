@@ -34,6 +34,12 @@ export type IIIFImage = {
   resource: IIIFResource;
 };
 
+type OtherContent = {
+  '@id': string;
+  '@type': string;
+  label: string;
+};
+
 export type IIIFCanvas = {
   '@id': string;
   thumbnail: IIIFThumbnail;
@@ -41,7 +47,7 @@ export type IIIFCanvas = {
   images: IIIFImage[];
   width: number;
   height: number;
-  otherContent: any[];
+  otherContent: OtherContent[];
 };
 
 export type IIIFStructure = {
@@ -132,10 +138,18 @@ export type Service = {
   accessHint?: string;
 };
 
+export type CollectionManifest = {
+  '@id': string;
+  type: string;
+  label: string;
+  thumbnail: IIIFThumbnail;
+  within?: string;
+};
+
 export type IIIFManifest = {
   '@id': string;
   label: string;
-  manifests: any; // TODO
+  manifests: CollectionManifest[];
   metadata: IIIFMetadata[];
   mediaSequences?: IIIFMediaSequence[];
   sequences?: IIIFSequence[];

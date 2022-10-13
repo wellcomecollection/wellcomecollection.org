@@ -367,6 +367,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       width: currentCanvas && currentCanvas.width,
       height: currentCanvas && currentCanvas.height,
     });
+  // TODO tidy this up; understand what the difference is between imageDownloads and imageDownloadOptions
   const iiifPresentationDownloadOptions =
     (imageDownloads && [...imageDownloads, ...downloadOptions]) || [];
 
