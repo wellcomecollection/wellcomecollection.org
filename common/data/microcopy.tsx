@@ -72,7 +72,7 @@ export const a11y = {
       <a href="mailto:access@wellcomecollection.org">
         access@wellcomecollection.org
       </a>{' '}
-      or call
+      or call{' '}
       {/*
         This is to ensure phone numbers are read in a sensible way by
         screen readers.
@@ -80,7 +80,7 @@ export const a11y = {
       <span className="visually-hidden">
         {createScreenreaderLabel('020 7611 2222')}
       </span>
-      <span aria-hidden="true">020 7611 2222</span>.
+      <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
     </>
   ),
 };
