@@ -10,6 +10,8 @@
 //      able to edit it themselves, using the GitHub web interface.
 //
 
+import { createScreenreaderLabel } from '../utils/telephone-numbers';
+
 export const pageDescriptions = {
   articles:
     'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.',
@@ -70,7 +72,15 @@ export const a11y = {
       <a href="mailto:access@wellcomecollection.org">
         access@wellcomecollection.org
       </a>{' '}
-      or call 020 7611 2222.
+      or call
+      {/*
+        This is to ensure phone numbers are read in a sensible way by
+        screen readers.
+      */}
+      <span className="visually-hidden">
+        {createScreenreaderLabel('020 7611 2222')}
+      </span>
+      <span aria-hidden="true">020 7611 2222</span>.
     </>
   ),
 };
