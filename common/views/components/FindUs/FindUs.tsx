@@ -31,7 +31,7 @@ const FindUs: FC = () => (
       <PlainLink
         href={`tel:${wellcomeCollectionGallery.telephone}`}
         aria-label={createScreenreaderLabel(
-          wellcomeCollectionGallery.telephone
+          wellcomeCollectionGallery.displayTelephone
         )}
       >
         {wellcomeCollectionGallery.displayTelephone}
