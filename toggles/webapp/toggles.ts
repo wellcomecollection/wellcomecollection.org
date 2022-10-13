@@ -75,13 +75,6 @@ const toggles = {
       description:
         'New search page to help develop new components and functionalities',
     },
-    {
-      id: 'altImageSearch',
-      title: 'Alternative Image Search page',
-      initialValue: false,
-      description:
-        'Displays the "in progress" image search page in its new look',
-    },
   ] as const,
   tests: [] as ABTest[],
 };
