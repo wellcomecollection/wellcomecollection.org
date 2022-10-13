@@ -9,11 +9,13 @@ export const layout = `
   }
 }
 
+body:has(dialog[open]),
 .is-scroll-locked {
   margin: 0;
   height: 100vh;
   overflow: hidden;
 }
+
 
 .is-scroll-locked--to-medium {
   ${respondBetween(

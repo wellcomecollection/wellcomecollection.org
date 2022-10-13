@@ -3,7 +3,7 @@ import {
   ExhibitionGuideType,
   isValidType,
 } from '../../../../types/exhibition-guides';
-import { setCookie, deleteCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
 import * as prismicT from '@prismicio/types';
 import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
@@ -29,6 +29,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import cookies from '@weco/common/data/cookies';
 import ExhibitionGuideStops from '../../../../components/ExhibitionGuideStops/ExhibitionGuideStops';
 import { getTypeColor } from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 const Header = styled(Space).attrs({
   v: {
@@ -61,7 +62,7 @@ function getTypeTitle(type: ExhibitionGuideType): string {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, type, usingQRCode, userPreferenceSet } = context.query;
+    const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
     const { res, req } = context;
 
     if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
@@ -75,15 +76,40 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
     const exhibitionGuideQuery = await fetchExhibitionGuide(client, id);
 
-    // We want to set a user preference cookie if the qr code url contains a guide type
-    // 8 hours (the maximum length of time the collection is open for in a day)
-    if (usingQRCode) {
-      setCookie(cookies.exhibitionGuideType, type, {
-        res,
-        req,
-        maxAge: 8 * 60 * 60,
-        path: '/',
-      });
+    const userPreferenceGuideType = getCookie(cookies.exhibitionGuideType, {
+      req,
+      res,
+    });
+
+    /** When a user opens an exhibition guide on their smartphone, they can
+     * choose which guide to read.  To avoid somebody having to repeatedly select
+     * the same exhibition guide, we "remember" which guide they select in a cookie,
+     * and redirect them the next time they open the guide.
+     *
+     * This logic is deliberately conservative, to avoid causing more confusion:
+     *
+     *    - We only redirect users who've scanned a QR code in the gallery
+     *    - We only redirect users who've expressed an explicit preference for
+     *      a non-default guide type
+     *
+     */
+    if (
+      usingQRCode &&
+      typeof userPreferenceGuideType === 'string' &&
+      userPreferenceGuideType !== type &&
+      typeof stopId === 'string'
+    ) {
+      return {
+        redirect: {
+          permanent: false,
+          // We do a simple replace on the URL so we preserve all other URL information
+          // (e.g. UTM tracking parameters).
+          destination: context.resolvedUrl.replace(
+            `/${type}`,
+            `/${userPreferenceGuideType}`
+          ),
+        },
+      };
     }
 
     if (exhibitionGuideQuery) {

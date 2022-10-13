@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
+import ZoomedPrismicImage from '../ZoomedPrismicImage/ZoomedPrismicImage';
 
 type CaptionedImageFigureProps = {
   isBody?: boolean;
@@ -13,7 +14,7 @@ const CaptionedImageFigure = styled.div<CaptionedImageFigureProps>`
   margin: 0;
   display: inline-block;
   width: 100%;
-    text-align: center;
+  text-align: center;
 
   ${props =>
     props.isBody &&
@@ -84,6 +85,7 @@ const CaptionedImage: FC<CaptionedImageProps> = ({
         aspectRatio={image.width / image.height}
         hasRoundedCorners={hasRoundedCorners}
       >
+        <ZoomedPrismicImage image={image} />
         <ImageWithTasl
           Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={image.tasl}
