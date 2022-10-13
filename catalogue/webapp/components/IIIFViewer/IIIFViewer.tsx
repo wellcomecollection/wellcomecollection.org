@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import {
   IIIFCanvas,
   IIIFManifest,
+  CollectionManifest,
 } from '../../services/iiif/types/manifest/v2';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
@@ -335,7 +336,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     const matchingManifest =
       parentManifest &&
       parentManifest.manifests &&
-      parentManifest.manifests.find((childManifest: IIIFManifest) => {
+      parentManifest.manifests.find((childManifest: CollectionManifest) => {
         return !manifest ? false : childManifest['@id'] === manifest['@id'];
       });
 
