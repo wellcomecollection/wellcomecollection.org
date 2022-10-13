@@ -16,7 +16,7 @@ export type RotatedImage = { canvasIndex: number; rotation: number };
 
 type Props = {
   work: Work;
-  manifest: TransformedManifest;
+  transformedManifest: TransformedManifest;
   manifestIndex: number | undefined;
   activeIndex: number;
   setActiveIndex: (i: number) => void;
@@ -98,7 +98,7 @@ const ItemViewerContext = createContext<Props>({
     availableOnline: false,
     holdings: [],
   },
-  manifest: createDefaultTransformedManifest(),
+  transformedManifest: createDefaultTransformedManifest(),
   manifestIndex: undefined,
   activeIndex: 0,
   canvasIndex: 0,

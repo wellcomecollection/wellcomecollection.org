@@ -17,15 +17,13 @@ const manifestPromises: Map<
 > = new Map();
 const cachedTransformedManifest: Map<string, TransformedManifest> = new Map();
 const useTransformedManifest = (work: Work): TransformedManifest => {
-  const [manifestData, setTransformedManifest] = useState<TransformedManifest>(
-    createDefaultTransformedManifest()
-  );
+  const [transformedManifest, setTransformedManifest] =
+    useState<TransformedManifest>(createDefaultTransformedManifest());
 
-  function transformAndUpdate(manifest, id) {
-    // TODO types
-    const manifestData = transformManifest(manifest);
-    cachedTransformedManifest.set(id, manifestData);
-    setTransformedManifest(manifestData);
+  function transformAndUpdate(manifest: IIIFManifests, id: string) {
+    const transformedManifest = transformManifest(manifest);
+    cachedTransformedManifest.set(id, transformedManifest);
+    setTransformedManifest(transformedManifest);
   }
 
   async function updateManifest(work: Work) {
@@ -37,7 +35,7 @@ const useTransformedManifest = (work: Work): TransformedManifest => {
       const existingPromise = manifestPromises.get(work.id);
       if (existingPromise) {
         const iiifManifest = await existingPromise;
-        transformAndUpdate(iiifManifest, work.id);
+        iiifManifest && transformAndUpdate(iiifManifest, work.id);
       } else {
         const iiifPresentationLocation = getDigitalLocationOfType(
           work,
@@ -49,18 +47,16 @@ const useTransformedManifest = (work: Work): TransformedManifest => {
           fetchIIIFPresentationManifest(iiifPresentationLocation.url)
         );
         const iiifManifest = await manifestPromises.get(work.id);
-        transformAndUpdate(iiifManifest, work.id);
+        iiifManifest && transformAndUpdate(iiifManifest, work.id);
       }
     }
   }
 
-  // TODO when does this get run, i.e. when does the work.id change? and why do we need it - I'm not clear about this
-  // presumably realted to archiveTree
   useEffect(() => {
     updateManifest(work);
   }, [work.id]);
 
-  return manifestData;
+  return transformedManifest;
 };
 
 export default useTransformedManifest;

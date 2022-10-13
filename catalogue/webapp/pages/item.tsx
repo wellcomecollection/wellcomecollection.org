@@ -327,7 +327,7 @@ const ItemPage: NextPage<Props> = ({
             manifestIndex={manifestIndex}
             iiifImageLocation={iiifImageLocation}
             work={work}
-            manifest={manifestData} // TODO change both to transformedManifest
+            transformedManifest={manifestData} // TODO change both to transformedManifest
             handleImageError={() => {
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
               reloadAuthIframe(document, iframeId);
@@ -393,20 +393,20 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       iiifPresentationLocation &&
       (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
 
-    const manifestData = transformManifest(
+    const transformedManifest = transformManifest(
       iiifManifest || {
         manifestV2: undefined,
         manifestV3: undefined,
       }
     );
 
-    const { isCollectionManifest, manifests } = manifestData;
+    const { isCollectionManifest, manifests } = transformedManifest;
     // If the manifest is actually a Collection, .i.e. a manifest of manifests,
     // then we get the first child manifest and use the data from that
     // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302
     // from: https://wellcomecollection.org/works/f6qp7m32/items
     async function getDisplayManifest(
-      manifestData: TransformedManifest,
+      transformedManifest: TransformedManifest,
       manifestIndex
     ): Promise<TransformedManifest> {
       if (isCollectionManifest) {
@@ -420,15 +420,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         const firstChildTransformedManifest =
           selectedCollectionManifest &&
           transformManifest(selectedCollectionManifest);
-        return firstChildTransformedManifest || manifestData;
+        return firstChildTransformedManifest || transformedManifest;
       } else {
-        return manifestData;
+        return transformedManifest;
       }
     }
 
-    if (manifestData) {
+    if (transformedManifest) {
       const displayManifest = await getDisplayManifest(
-        manifestData,
+        transformedManifest,
         manifestIndex
       );
       const { canvases } = displayManifest;

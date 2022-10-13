@@ -205,9 +205,9 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     isDesktopSidebarActive,
     showZoomed,
     isResizing,
-    manifest,
+    transformedManifest,
   } = useContext(ItemViewerContext);
-  const { canvases } = manifest;
+  const { canvases } = transformedManifest;
   return (
     <TopBar
       isZooming={showZoomed}

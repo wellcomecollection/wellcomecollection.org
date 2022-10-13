@@ -121,7 +121,7 @@ type Props = {
 };
 
 const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
-  const { work, manifest, parentManifest, currentManifestLabel } =
+  const { work, transformedManifest, parentManifest, currentManifestLabel } =
     useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
   // Determine digital location
@@ -138,7 +138,8 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
     getCatalogueLicenseData(digitalLocation.license);
 
   const credit =
-    (digitalLocation && digitalLocation.credit) || manifest.iiifCredit;
+    (digitalLocation && digitalLocation.credit) ||
+    transformedManifest.iiifCredit;
 
   return (
     <>
@@ -238,7 +239,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </div>
         </AccordionItem>
 
-        {manifest.structures.length > 0 && (
+        {transformedManifest.structures.length > 0 && (
           <AccordionItem title="Contents">
             <ViewerStructures mainViewerRef={mainViewerRef} />
           </AccordionItem>
@@ -249,7 +250,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </AccordionItem>
         )}
       </Inner>
-      {manifest.searchService && (
+      {transformedManifest.searchService && (
         <Inner>
           <IIIFSearchWithin mainViewerRef={mainViewerRef} />
         </Inner>

@@ -12,10 +12,13 @@ type Props = {
 const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const { manifest, setActiveIndex, activeIndex, setIsMobileSidebarActive } =
-    useContext(ItemViewerContext);
-  const structures = manifest.structures;
-  const canvases = manifest.canvases;
+  const {
+    transformedManifest,
+    setActiveIndex,
+    activeIndex,
+    setIsMobileSidebarActive,
+  } = useContext(ItemViewerContext);
+  const { structures, canvases } = transformedManifest;
   const groupedStructures = groupStructures(canvases, structures);
 
   const List = styled.ul`

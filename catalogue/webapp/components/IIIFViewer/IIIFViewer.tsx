@@ -54,7 +54,7 @@ type IIIFViewerProps = {
   canvasIndex: number;
   iiifImageLocation?: DigitalLocation;
   work: Work;
-  manifest: TransformedManifest; // TODO change to transformedData
+  transformedManifest: TransformedManifest;
   manifestIndex?: number;
   handleImageError?: () => void;
 };
@@ -212,7 +212,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   canvasIndex,
   iiifImageLocation,
   work,
-  manifest,
+  transformedManifest,
   manifestIndex,
   pageSize,
   pageIndex,
@@ -260,7 +260,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
   const hasImageService = mainImageService['@id'] && currentCanvas;
   const { canvases, showDownloadOptions, downloadOptions, parentManifestUrl } =
-    manifest;
+    transformedManifest;
 
   useEffect(() => {
     const fetchImageJson = async () => {
@@ -337,7 +337,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       parentManifest &&
       parentManifest.manifests &&
       parentManifest.manifests.find((childManifest: CollectionManifest) => {
-        return !manifest ? false : childManifest['@id'] === manifest['@id'];
+        return !transformedManifest
+          ? false
+          : childManifest['@id'] === transformedManifest['@id'];
       });
 
     matchingManifest && setCurrentManifestLabel(matchingManifest.label);
@@ -413,7 +415,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
-        manifest.parentManifestUrl &&
+        transformedManifest.parentManifestUrl &&
         (await fetchJson(parentManifestUrl as string));
       parentManifest && setParentManifest(parentManifest);
     };
@@ -425,7 +427,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     <ItemViewerContext.Provider
       value={{
         work,
-        manifest,
+        transformedManifest,
         manifestIndex,
         lang,
         canvasIndex,
@@ -434,7 +436,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         currentManifestLabel,
         licenseInfo,
         iiifImageLocationCredit,
-        // TODO why need both downloadOptions and iiifPresentationDownloadOptions
         downloadOptions: showDownloadOptions
           ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
           : [],

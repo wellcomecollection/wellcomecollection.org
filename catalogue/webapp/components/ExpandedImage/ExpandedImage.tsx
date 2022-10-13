@@ -111,14 +111,16 @@ const ExpandedImage: FunctionComponent<Props> = ({
     ) => {
       const imageLocationBase = imageUrl.replace('/info.json', '');
       const sierraId = sierraIdFromPresentationManifestUrl(manifestLocation);
-      const manifest = await fetchIIIFPresentationManifest(manifestLocation);
-      const manifestData = transformManifest(
-        manifest || {
+      const iiifManifest = await fetchIIIFPresentationManifest(
+        manifestLocation
+      );
+      const transformedManifest = transformManifest(
+        iiifManifest || {
           manifestV2: undefined,
           manifestV3: undefined,
         }
       );
-      const { firstCollectionManifestLocation, canvases } = manifestData;
+      const { firstCollectionManifestLocation, canvases } = transformedManifest;
 
       if (firstCollectionManifestLocation) {
         return fetchDeeplinkCanvasIndex(

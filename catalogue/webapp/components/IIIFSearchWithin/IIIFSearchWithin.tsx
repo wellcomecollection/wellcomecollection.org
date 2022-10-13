@@ -94,12 +94,12 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
   const {
     setActiveIndex,
-    manifest,
+    transformedManifest,
     searchResults,
     setSearchResults,
     setIsMobileSidebarActive,
   } = useContext(ItemViewerContext);
-  const { searchService, canvases } = manifest;
+  const { searchService, canvases } = transformedManifest;
 
   async function getSearchResults() {
     if (searchService) {
