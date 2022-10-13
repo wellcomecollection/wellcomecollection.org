@@ -76,11 +76,10 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
           lang={lang}
-          manifest={createDefaultTransformedManifest()}
+          transformedManifest={createDefaultTransformedManifest()}
           workId={sourceWork.id}
           pageIndex={0}
           pageSize={1}
-          canvases={[]}
           canvasIndex={0}
           iiifImageLocation={iiifImageLocation}
           work={sourceWork}
