@@ -13,9 +13,8 @@ export type Props = {
   quality: ImageQuality;
 };
 
-const PrismicImage = styled(Image).attrs({
-  className: 'font-white',
-})`
+const PrismicImage = styled(Image)`
+  color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 

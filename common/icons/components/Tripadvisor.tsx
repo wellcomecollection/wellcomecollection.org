@@ -4,7 +4,12 @@ import { IconSvg } from '../types';
 
 const SvgTripadvisor: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
-    <g className="icon__shape" fillRule="nonzero" transform="translate(0 5)">
+    <g
+      className="icon__shape"
+      fill="currentColor"
+      fillRule="nonzero"
+      transform="translate(0 5)"
+    >
       <circle cx={6.489} cy={7.911} r={1} />
       <circle cx={17.991} cy={7.893} r={1} />
       <path d="M6.631 5.129a2.773 2.773 0 1 0 0 5.547 2.773 2.773 0 0 0 0-5.547zm0 4.702a1.92 1.92 0 1 1 0-3.84 1.92 1.92 0 0 1 0 3.84z" />

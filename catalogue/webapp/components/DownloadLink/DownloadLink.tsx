@@ -15,9 +15,13 @@ const DownloadLinkStyle = styled.a.attrs({
   background: ${props => props.theme.color('white')};
   color: ${props => props.theme.color('accent.green')};
   text-decoration: none;
-  .icon__shape {
-    fill: currentColor;
-  }
+`;
+
+const Format = styled(Space).attrs({
+  h: { size: 'm', properties: ['margin-left'] },
+  className: font('intb', 5),
+})`
+  color: ${props => props.theme.color('neutral.600')};
 `;
 
 export type DownloadFormat = 'PDF' | 'PLAIN' | 'JPG' | 'MP4' | 'MP3';
@@ -54,15 +58,7 @@ const DownloadLink: FunctionComponent<Props> = ({
     <span className="flex-inline flex--v-center">
       <Icon icon={download} />
       <span className="underline-on-hover">{linkText}</span>
-      {format && (
-        <Space
-          as="span"
-          h={{ size: 'm', properties: ['margin-left'] }}
-          className={`${font('intb', 5)} font-neutral-600`}
-        >
-          {format}
-        </Space>
-      )}
+      {format && <Format as="span">{format}</Format>}
     </span>
   </DownloadLinkStyle>
 );

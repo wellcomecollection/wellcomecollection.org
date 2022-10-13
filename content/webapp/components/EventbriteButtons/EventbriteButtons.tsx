@@ -13,6 +13,13 @@ const Location = styled(Space).attrs({
   className: font('intb', 5),
 })``;
 
+const Copy = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  color: ${props => props.theme.color('neutral.700')};
+  margin: 0;
+`;
+
 type Props = {
   event: Event;
 };
@@ -83,9 +90,7 @@ const EventbriteButtons: FC<Props> = ({ event }) => {
               </Space>
             </>
           )}
-          <p className={`font-neutral-700 no-margin ${font('intr', 5)}`}>
-            Tickets via Eventbrite
-          </p>
+          <Copy>Tickets via Eventbrite</Copy>
         </>
       )}
     </div>

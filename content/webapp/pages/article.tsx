@@ -206,6 +206,11 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
     }
   `;
 
+  const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
+    display: block;
+    color: ${props => props.theme.color('neutral.600')};
+  `;
+
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -234,9 +239,9 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
             ) : null}
             {article.contributors.length > 0 && ' '}
 
-            <span className={`block font-neutral-600 ${font('intr', 6)}`}>
+            <HTMLDateWrapper>
               <HTMLDate date={article.datePublished} />
-            </span>
+            </HTMLDateWrapper>
           </p>
         </Space>
       </div>

@@ -48,6 +48,10 @@ const PaginatorWrapper = styled.nav.attrs<PaginatorWrapperProps>(props => ({
   align-items: center;
 `;
 
+const PageOf = styled.span`
+  color: ${props => props.theme.color('neutral.600')};
+`;
+
 const Pagination: FunctionComponent<Props> = ({
   paginatedResults,
   paginationRoot,
@@ -127,9 +131,9 @@ const Pagination: FunctionComponent<Props> = ({
           </Space>
         )}
 
-        <span className="font-neutral-600">
+        <PageOf>
           Page {currentPage} of {totalPages}
-        </span>
+        </PageOf>
 
         {nextPage && nextQueryString && (
           <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>

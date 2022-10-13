@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from 'react';
 import { IIIFCanvas } from '../../model/iiif';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import IIIFViewerImage from './IIIFViewerImage';
@@ -60,19 +60,22 @@ const ImageContainer = styled.div`
   }
 `;
 
-const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
-  className: classNames({
-    'font-white': !props.isActive,
-    'font-black': !!props.isActive,
-    [font('intb', 6)]: true,
-  }),
-}))<ViewerThumbProps>`
+const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>({
+  className: font('intb', 6),
+})<ViewerThumbProps>`
   padding: 3px 6px;
   border-radius: 3px;
   line-height: 1;
 
   ${props =>
-    !!props.isActive && `background-color: ${props.theme.color('yellow')};`}
+    props.isActive
+      ? `
+    color: ${props.theme.color('black')};
+    background-color: ${props.theme.color('yellow')};`
+      : `
+    color: ${props.theme.color('white')};
+    
+    `};
 `;
 
 type IIIFCanvasThumbnailProps = {

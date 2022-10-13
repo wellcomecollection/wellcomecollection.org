@@ -55,16 +55,6 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   &.disabled {
     pointer-events: none;
   }
-
-  .icon__shape {
-    transition: fill ${props => props.theme.transitionProperties};
-    fill: currentColor;
-  }
-
-  .icon__stroke {
-    transition: stroke ${props => props.theme.transitionProperties};
-    stroke: currentColor;
-  }
 `;
 
 type BaseButtonInnerProps = {

@@ -11,7 +11,7 @@ import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '../components/InfoBox/InfoBox';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
 import EventDateRange from '../components/EventDateRange/EventDateRange';
@@ -78,6 +78,26 @@ const DateWrapper = styled.div.attrs({
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
+const ThirdParty = styled.span.attrs({
+  className: font('intr', 5),
+})`
+  color: ${props => props.theme.color('neutral.700')};
+  margin: 0;
+`;
+
+const EmailTeamCopy = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-top'] },
+  className: font('intb', 5),
+})`
+  display: block;
+  color: ${props => props.theme.color('neutral.700')};
+`;
+
+const DateRangeWrapper = styled.div<{ isPast: boolean }>`
+  ${props => props.isPast && `color: ${props.theme.color('neutral.600')};`};
+  flex: 1;
+`;
+
 type Props = {
   event: Event;
   jsonLd: JsonLdObj[];
@@ -113,17 +133,12 @@ function DateList(event: Event) {
         {event.times.map((eventTime, index) => {
           return (
             <TimeWrapper key={index}>
-              <div
-                className={classNames({
-                  'font-neutral-600': isDayPast(eventTime.range.endDateTime),
-                  'flex-1': true,
-                })}
-              >
+              <DateRangeWrapper isPast={isDayPast(eventTime.range.endDateTime)}>
                 <DateRange
                   start={eventTime.range.startDateTime}
                   end={eventTime.range.endDateTime}
                 />
-              </div>
+              </DateRangeWrapper>
 
               {isDayPast(eventTime.range.endDateTime)
                 ? EventStatus({ text: 'Past', color: 'neutral.500' })
@@ -356,13 +371,9 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                     />
                     {event.thirdPartyBooking.name && (
                       <Space v={{ size: 's', properties: ['margin-top'] }}>
-                        <p
-                          className={
-                            'no-margin font-neutral-700' + ' ' + font('intr', 5)
-                          }
-                        >
+                        <ThirdParty>
                           with {event.thirdPartyBooking.name}
-                        </p>
+                        </ThirdParty>
                       </Space>
                     )}
                   </>
@@ -395,16 +406,9 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                   }?subject=${event.title}`}
                   passHref
                 >
-                  <Space
-                    v={{
-                      size: 's',
-                      properties: ['margin-top'],
-                    }}
-                    as="a"
-                    className={`block font-neutral-700 ${font('intb', 5)}`}
-                  >
+                  <EmailTeamCopy as="a">
                     <span>{event.bookingEnquiryTeam.email}</span>
-                  </Space>
+                  </EmailTeamCopy>
                 </NextLink>
               </>
             )}

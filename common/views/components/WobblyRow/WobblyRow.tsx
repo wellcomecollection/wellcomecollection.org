@@ -8,10 +8,9 @@ type Props = {
   children: ReactNode;
 };
 
-const WobblyRowContainer = styled.div.attrs({
-  className: 'font-white',
-})`
+const WobblyRowContainer = styled.div`
   position: relative;
+  color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 

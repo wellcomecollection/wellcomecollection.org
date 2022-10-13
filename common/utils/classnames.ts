@@ -47,26 +47,12 @@ export function font(
   return `font-${family} font-size-${size} ${overrideClasses || ''}`;
 }
 
-// TODO remove all the checks for . when we get rid of font-[color] classes
-// https://github.com/wellcomecollection/wellcomecollection.org/issues/8418
 type ClassNames = string[] | Record<string, boolean>;
 export function classNames(classNames: ClassNames): string {
   if (Array.isArray(classNames)) {
-    const newClassNames = classNames;
-    classNames.map(className => {
-      if (className.includes('.'))
-        newClassNames[className] = className.replace('.', '-');
-    });
-    return newClassNames.join(' ');
+    return classNames.join(' ');
   } else {
-    let newClassNames = {};
-    Object.keys(classNames).map(k => {
-      newClassNames = {
-        ...newClassNames,
-        [k.includes('.') ? k.replace('.', '-') : k]: classNames[k],
-      };
-    });
-    return conditionalClassNames(newClassNames);
+    return conditionalClassNames(classNames);
   }
 }
 

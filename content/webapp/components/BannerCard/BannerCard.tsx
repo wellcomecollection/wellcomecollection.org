@@ -61,6 +61,16 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
   `};
 `;
 
+const DateRangeWrapper = styled(Space).attrs({
+  v: {
+    size: 's',
+    properties: ['margin-top', 'margin-bottom'],
+  },
+  className: font('intr', 5),
+})`
+  color: ${props => props.theme.color('neutral.400')};
+`;
+
 function getTypeLabel(type: 'seasons') {
   switch (type) {
     case 'seasons':
@@ -149,15 +159,9 @@ const BannerCard: FunctionComponent<Props> = ({
           {title}
         </Space>
         {start && end && (
-          <Space
-            v={{
-              size: 's',
-              properties: ['margin-top', 'margin-bottom'],
-            }}
-            className={`${font('intr', 5)} font-neutral-400`}
-          >
+          <DateRangeWrapper>
             <DateRange start={start} end={end} />
-          </Space>
+          </DateRangeWrapper>
         )}
         <p className={font('intr', 5)}>{description}</p>
         <ButtonSolid
