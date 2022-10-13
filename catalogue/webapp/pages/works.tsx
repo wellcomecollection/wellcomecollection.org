@@ -106,6 +106,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
         openGraphType="website"
         jsonLd={{ '@type': 'WebPage' }}
         siteSection="collections"
+        // TODO: Why do we remove the 'main' role here?
         excludeRoleMain={true}
         apiToolbarLinks={[
           {
