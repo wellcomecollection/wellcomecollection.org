@@ -1,8 +1,4 @@
-import {
-  getCanvases,
-  getFirstCollectionManifestLocation,
-  getServiceId,
-} from '../../utils/iiif/v2';
+import { getServiceId } from '../../utils/iiif/v2';
 import NextLink from 'next/link';
 import { font } from '@weco/common/utils/classnames';
 import {
@@ -24,6 +20,8 @@ import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemL
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 import { eye } from '@weco/common/icons';
 import IIIFImage from '../IIIFImage/IIIFImage';
+import { fetchIIIFPresentationManifest } from '../../services/iiif/fetch/manifest';
+import { transformManifest } from '../../services/iiif/transformers/manifest';
 
 type Props = {
   image: ImageType | undefined;
@@ -111,23 +109,27 @@ const ExpandedImage: FunctionComponent<Props> = ({
       manifestLocation: string,
       imageUrl: string
     ) => {
-      const res = await fetch(manifestLocation);
-      const manifest = await res.json();
-      const firstCollectionManifestLocation =
-        getFirstCollectionManifestLocation(manifest); // THIS WILL BE ON TransformedManifest
+      const imageLocationBase = imageUrl.replace('/info.json', '');
+      const sierraId = sierraIdFromPresentationManifestUrl(manifestLocation);
+      const manifest = await fetchIIIFPresentationManifest(manifestLocation);
+      const manifestData = transformManifest(
+        manifest || {
+          manifestV2: undefined,
+          manifestV3: undefined,
+        }
+      );
+      const { firstCollectionManifestLocation, canvases } = manifestData;
+
       if (firstCollectionManifestLocation) {
         return fetchDeeplinkCanvasIndex(
           firstCollectionManifestLocation,
           imageUrl
         );
       }
-      const canvases = getCanvases(manifest);
-      const imageLocationBase = imageUrl.replace('/info.json', '');
       const canvasIndex = canvases.findIndex(canvas => {
         const serviceId = getServiceId(canvas);
         return serviceId && serviceId.indexOf(imageLocationBase) !== -1;
       });
-      const sierraId = sierraIdFromPresentationManifestUrl(manifestLocation);
       if (canvasIndex !== -1) {
         setCanvasDeeplink({
           canvas: canvasIndex + 1,
