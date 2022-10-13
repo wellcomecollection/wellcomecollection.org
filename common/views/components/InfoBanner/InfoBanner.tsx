@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import cookie from 'cookie-cutter';
+import cookies from '@weco/common/data/cookies';
+import { getCookie, setCookie } from 'cookies-next';
 import { grid, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -11,7 +12,7 @@ import { InferDataInterface } from '../../../services/prismic/types';
 import styled from 'styled-components';
 
 type Props = {
-  cookieName?: string;
+  cookieName: string;
   document: { data: InferDataInterface<GlobalAlertPrismicDocument> };
   onVisibilityChange?: (isVisible: boolean) => void;
 };
@@ -42,13 +43,15 @@ const InfoBanner: FunctionComponent<Props> = ({
   const [isVisible, setIsVisible] = useState<boolean>(defaultValue);
   const prevIsVisible = usePrevious(defaultValue);
   const hideInfoBanner = () => {
-    const singleSessionCookies = ['WC_globalAlert'];
+    const singleSessionCookies = [cookies.globalAlert];
     const isSingleSessionCookie =
       cookieName && singleSessionCookies.indexOf(cookieName) > -1;
 
-    cookie.set(cookieName, 'true', {
+    setCookie(cookieName, 'true', {
       path: '/',
-      expires: isSingleSessionCookie ? null : 'Fri, 31 Dec 2036 23:59:59 GMT',
+      expires: isSingleSessionCookie
+        ? undefined
+        : new Date('2036-12-31T23:59:59Z'),
     });
 
     setIsVisible(false);
@@ -62,7 +65,7 @@ const InfoBanner: FunctionComponent<Props> = ({
   }, [isVisible]);
 
   useEffect(() => {
-    const isAccepted = cookie.get(cookieName);
+    const isAccepted = getCookie(cookieName);
 
     if (!isAccepted) {
       setIsVisible(true);

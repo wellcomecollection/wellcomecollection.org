@@ -62,11 +62,25 @@ const toggles = {
         'Uses the new stories-landing type in Prismic to provide page content for /stories. Namely, the introductory text and featured books section (currently being populated from different places), and replaces the hard coded promoted series with a list of editor chosen articles and series.',
     },
     {
+      id: 'zoomImages',
+      title: 'Enable images from Prismic to fill the viewport',
+      initialValue: false,
+      description:
+        'Adds a button to images from Prismic which enables them to be zoomed up to fill the viewport',
+    },
+    {
       id: 'searchPage',
       title: 'Search page',
       initialValue: false,
       description:
         'New search page to help develop new components and functionalities',
+    },
+    {
+      id: 'altImageSearch',
+      title: 'Alternative Image Search page',
+      initialValue: false,
+      description:
+        'Displays the "in progress" image search page in its new look',
     },
   ] as const,
   tests: [] as ABTest[],

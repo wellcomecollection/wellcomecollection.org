@@ -1,12 +1,14 @@
 import styled from 'styled-components';
-import cookie from 'cookie-cutter';
+import cookies from '@weco/common/data/cookies';
+import { hasCookie, setCookie } from 'cookies-next';
 import { font } from '@weco/common/utils/classnames';
 import { useState, useEffect, FunctionComponent } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { clear, cookies } from '@weco/common/icons';
+import { clear, cookies as cookiesIcon } from '@weco/common/icons';
 import { trackEvent } from '@weco/common/utils/ga';
+import { addDays, today } from '../../../utils/dates';
 
 const CookieNoticeStyle = styled.div.attrs({
   className: font('intb', 4),
@@ -42,10 +44,10 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
   const [shouldRender, setShouldRender] = useState(true);
   function hideCookieNotice() {
     // Remember that the user has accepted cookies for the next month.
-    const expires = new Date();
-    expires.setDate(new Date().getDate() + 30);
-
-    cookie.set('WC_cookiesAccepted', 'true', { path: '/', expires });
+    setCookie(cookies.cookiesAccepted, 'true', {
+      path: '/',
+      expires: addDays(today(), 30),
+    });
 
     trackEvent({
       category: 'CookieNotice',
@@ -57,7 +59,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
   }
 
   useEffect(() => {
-    setShouldRender(!cookie.get('WC_cookiesAccepted'));
+    setShouldRender(!hasCookie(cookies.cookiesAccepted));
   }, []);
 
   return shouldRender ? (
@@ -66,7 +68,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <div className="flex flex--h-space-between">
             <div className="flex flex--v-center">
-              <Icon icon={cookies} />
+              <Icon icon={cookiesIcon} />
               <Space
                 as="span"
                 h={{

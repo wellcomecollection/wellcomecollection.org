@@ -532,6 +532,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                           Credit: {work.title.replace(/\.$/g, '')}.
                           {credit && (
                             <>
+                              {' '}
                               <a
                                 href={`https://wellcomecollection.org/works/${work.id}`}
                               >
@@ -539,7 +540,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                               </a>
                               .
                             </>
-                          )}
+                          )}{' '}
                           {digitalLocationInfo.license.url ? (
                             <a href={digitalLocationInfo.license.url}>
                               {digitalLocationInfo.license.label}

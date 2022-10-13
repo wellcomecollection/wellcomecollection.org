@@ -44,7 +44,6 @@ import { getCrop } from '@weco/common/model/image';
 import { isPicture, isVideoEmbed, BodySlice } from '../types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 
 export type Props = {
   page: PageType;
@@ -53,6 +52,7 @@ export type Props = {
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
+  postOutroContent: ReactElement | null;
   jsonLd: JsonLdObj;
   gaDimensions: GaDimensions;
 };
@@ -162,6 +162,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           children,
           ordersInParents,
           staticContent: null,
+          postOutroContent: null,
           jsonLd,
           serverData,
           vanityUrl,
@@ -181,6 +182,7 @@ export const Page: FC<Props> = ({
   children,
   ordersInParents,
   staticContent,
+  postOutroContent,
   vanityUrl,
   jsonLd,
 }) => {
@@ -335,13 +337,6 @@ export const Page: FC<Props> = ({
   // in the page <head>; it means the canonical URL will match the links
   // we put elsewhere on the website, e.g. in the header.
   const pathname = vanityUrl || `/pages/${page.id}`;
-
-  const postOutroContent =
-    page.id === prismicPageIds.covidWelcomeBack ? (
-      <div style={{ width: '100px' }}>
-        <WeAreGoodToGo />
-      </div>
-    ) : null;
 
   return (
     <PageLayout

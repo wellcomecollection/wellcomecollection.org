@@ -8,6 +8,7 @@ import { asRichText, asText } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.
@@ -125,7 +126,7 @@ export function transformExhibitionGuide(
           (component.title && asText(component.standaloneTitle)) || [],
         tombstone:
           (component.tombstone && asRichText(component.tombstone)) || [],
-        image: component.image,
+        image: transformImage(component.image),
         context: (component.context && asRichText(component.context)) || [],
         caption: (component.caption && asRichText(component.caption)) || [],
         transcription:

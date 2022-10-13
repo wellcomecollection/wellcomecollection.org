@@ -83,6 +83,23 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
+    // We've seen people trying to request a high-numbered page for a series,
+    // presumably by guessing at URLs, e.g. /series/W-XBJxEAAKmng1TG?page=500.
+    //
+    // The transformArticleSeries method expects to get a non-empty list of
+    // articles, so if this page doesn't have any articles, let's 404 here.
+    //
+    // Note: this is a debug rather than a warn because it's more likely to be
+    // somebody guessing about our URL scheme than somebody in Editorial looking
+    // at a yet-to-be-published series.
+    //
+    // Note: we may be able to remove this once we refactor transformArticleSeries,
+    // see https://github.com/wellcomecollection/wellcomecollection.org/issues/8516
+    if (articlesQuery.results_size === 0) {
+      console.debug(`Series ${id} doesn't have any articles on page ${page}`);
+      return { notFound: true };
+    }
+
     const { articles, series } = transformArticleSeries(id, articlesQuery);
 
     const paginatedArticles = transformQuery(articlesQuery, article =>
