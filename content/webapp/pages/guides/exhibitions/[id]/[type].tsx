@@ -29,7 +29,6 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import cookies from '@weco/common/data/cookies';
 import ExhibitionGuideStops from '../../../../components/ExhibitionGuideStops/ExhibitionGuideStops';
 import { getTypeColor } from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
-import { isNotUndefined } from '@weco/common/utils/array';
 
 const Header = styled(Space).attrs({
   v: {
