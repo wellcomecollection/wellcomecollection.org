@@ -262,14 +262,13 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <CookieNotice source={url.pathname || ''} />
 
         {skipToContentLinks.map(({ anchorId, label }) => (
-          <>
-            <a
-              className="visually-hidden visually-hidden-focusable"
-              href={`#${anchorId}`}
-            >
-              {label}
-            </a>
-          </>
+          <a
+            className="visually-hidden visually-hidden-focusable"
+            href={`#${anchorId}`}
+            key={anchorId}
+          >
+            {label}
+          </a>
         ))}
 
         <a className="visually-hidden visually-hidden-focusable" href="#main">
