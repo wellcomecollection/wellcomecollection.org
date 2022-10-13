@@ -275,6 +275,11 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           id="main"
           className="main"
           role={excludeRoleMain ? undefined : 'main'}
+          // We need tabIndex="-1" so the "Skip to main content" link works for
+          // screen readers.
+          //
+          // See e.g. https://accessibility.oit.ncsu.edu/it-accessibility-at-nc-state/developers/accessibility-handbook/mouse-and-keyboard-events/skip-to-main-content/
+          tabIndex={-1}
         >
           {children}
         </div>
