@@ -271,7 +271,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             />
           )}
         {popupDialog.data.isShown && <PopupDialog document={popupDialog} />}
-        <div
+        <main
           id="main"
           className="main"
           role={excludeRoleMain ? undefined : 'main'}
@@ -282,7 +282,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           tabIndex={-1}
         >
           {children}
-        </div>
+        </main>
         {!hideNewsletterPromo && (
           <Space
             v={{
