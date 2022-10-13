@@ -26,12 +26,15 @@ const Stop = styled(Space).attrs({
 type VideoPlayerProps = {
   title: string;
   videoUrl: string;
+  titleProps: { role: string; 'aria-level': number };
 };
 
-const VideoPlayer: FC<VideoPlayerProps> = ({ title, videoUrl }) => (
+const VideoPlayer: FC<VideoPlayerProps> = ({ title, videoUrl, titleProps }) => (
   <figure className="no-margin">
     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-      <figcaption className={font('intb', 5)}>{title}</figcaption>
+      <figcaption className={font('intb', 5)} {...titleProps}>
+        {title}
+      </figcaption>
     </Space>
     <VideoEmbed embedUrl={videoUrl} />
   </figure>
@@ -71,6 +74,14 @@ const Stops: FC<Props> = ({ stops, type }) => {
 
             const stopTitle = `${number}. ${displayTitle}`;
 
+            // These props tell screen readers to treat the stop titles as headings,
+            // so screen reader users can jump from stop to stop quickly, without
+            // having to tab through all the control components.
+            const titleProps = {
+              role: 'heading',
+              'aria-level': 2,
+            };
+
             return hasContentOfDesiredType ? (
               <Stop
                 key={index}
@@ -81,6 +92,7 @@ const Stops: FC<Props> = ({ stops, type }) => {
                   audioWithDescription?.url && (
                     <AudioPlayer
                       title={stopTitle}
+                      titleProps={titleProps}
                       audioFile={audioWithDescription.url}
                     />
                   )}
@@ -88,11 +100,16 @@ const Stops: FC<Props> = ({ stops, type }) => {
                   audioWithoutDescription?.url && (
                     <AudioPlayer
                       title={stopTitle}
+                      titleProps={titleProps}
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
                 {type === 'bsl' && bsl.embedUrl && (
-                  <VideoPlayer title={stopTitle} videoUrl={bsl.embedUrl} />
+                  <VideoPlayer
+                    title={stopTitle}
+                    titleProps={titleProps}
+                    videoUrl={bsl.embedUrl}
+                  />
                 )}
               </Stop>
             ) : null; // We've decided to omit stops that don't have content for the selected type.
