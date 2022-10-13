@@ -14,6 +14,8 @@ export type ExhibitionGuideComponent = {
   number?: number;
   standaloneTitle: string;
   title: string;
+  displayTitle: string;
+  anchorId: string;
   image?: ImageType;
   tombstone: RichTextField;
   caption: RichTextField;

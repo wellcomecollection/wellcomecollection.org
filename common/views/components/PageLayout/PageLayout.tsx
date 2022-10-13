@@ -39,6 +39,11 @@ type HeaderProps = {
   showLibraryLogin?: boolean;
 };
 
+type SkipToContentLink = {
+  anchorId: string;
+  label: string;
+};
+
 export type Props = {
   title: string;
   description: string;
@@ -54,6 +59,7 @@ export type Props = {
   excludeRoleMain?: boolean;
   headerProps?: HeaderProps;
   apiToolbarLinks?: ApiToolbarLink[];
+  skipToContentLinks?: SkipToContentLink[];
 };
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
@@ -71,6 +77,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   excludeRoleMain = false,
   headerProps,
   apiToolbarLinks = [],
+  skipToContentLinks = [],
 }) => {
   const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
@@ -253,6 +260,18 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       <div id="root">
         {apiToolbar && <ApiToolbar extraLinks={apiToolbarLinks} />}
         <CookieNotice source={url.pathname || ''} />
+
+        {skipToContentLinks.map(({ anchorId, label }) => (
+          <>
+            <a
+              className="visually-hidden visually-hidden-focusable"
+              href={`#${anchorId}`}
+            >
+              {label}
+            </a>
+          </>
+        ))}
+
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>

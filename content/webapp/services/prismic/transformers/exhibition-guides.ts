@@ -12,6 +12,7 @@ import {
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.
@@ -121,22 +122,33 @@ export function transformExhibitionGuide(
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
-    (component: ExhibitionGuideComponentPrismicDocument) => ({
-      number: component.number || undefined,
-      title: asTitle(component.title),
-      standaloneTitle: asTitle(component.standaloneTitle),
-      tombstone: (component.tombstone && asRichText(component.tombstone)) || [],
-      image: transformImage(component.image),
-      context: (component.context && asRichText(component.context)) || [],
-      caption: (component.caption && asRichText(component.caption)) || [],
-      transcription:
-        (component.transcript && asRichText(component.transcript)) || [],
-      audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
-      audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
-      bsl: component['bsl-video'].provider_name
-        ? transformYoutubeEmbed(component['bsl-video'])
-        : {},
-    })
+    (component: ExhibitionGuideComponentPrismicDocument) => {
+      const title = asTitle(component.title);
+      const standaloneTitle = asTitle(component.standaloneTitle);
+
+      const displayTitle = title || standaloneTitle;
+      const anchorId = dasherizeShorten(displayTitle);
+
+      return {
+        number: component.number || undefined,
+        title,
+        standaloneTitle,
+        displayTitle,
+        anchorId,
+        tombstone:
+          (component.tombstone && asRichText(component.tombstone)) || [],
+        image: transformImage(component.image),
+        context: (component.context && asRichText(component.context)) || [],
+        caption: (component.caption && asRichText(component.caption)) || [],
+        transcription:
+          (component.transcript && asRichText(component.transcript)) || [],
+        audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
+        audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
+        bsl: component['bsl-video'].provider_name
+          ? transformYoutubeEmbed(component['bsl-video'])
+          : {},
+      };
+    }
   );
 
   const introText = (data.introText && asRichText(data.introText)) || [];

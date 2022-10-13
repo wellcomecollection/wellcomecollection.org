@@ -60,8 +60,8 @@ const Stops: FC<Props> = ({ stops, type }) => {
               audioWithDescription,
               audioWithoutDescription,
               bsl,
-              title,
-              standaloneTitle,
+              displayTitle,
+              anchorId,
             } = stop;
             const hasContentOfDesiredType =
               (type === 'audio-with-descriptions' &&
@@ -69,8 +69,6 @@ const Stops: FC<Props> = ({ stops, type }) => {
               (type === 'audio-without-descriptions' &&
                 audioWithoutDescription?.url) ||
               (type === 'bsl' && bsl?.embedUrl);
-
-            const displayTitle = title || standaloneTitle;
 
             const stopTitle = `${number}. ${displayTitle}`;
 
@@ -85,8 +83,13 @@ const Stops: FC<Props> = ({ stops, type }) => {
             return hasContentOfDesiredType ? (
               <Stop
                 key={index}
-                id={dasherizeShorten(displayTitle)}
-                data-toolbar-anchor={dasherizeShorten(displayTitle)}
+                id={anchorId}
+                data-toolbar-anchor="api-toolbar"
+                // We need tabIndex="-1" so the "Skip to stop" link works for
+                // screen readers.
+                //
+                // See e.g. https://accessibility.oit.ncsu.edu/it-accessibility-at-nc-state/developers/accessibility-handbook/mouse-and-keyboard-events/skip-to-main-content/
+                tabIndex={-1}
               >
                 {type === 'audio-with-descriptions' &&
                   audioWithDescription?.url && (
