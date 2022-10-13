@@ -4,8 +4,11 @@ import {
   ExhibitionGuideComponent,
   Exhibit,
 } from '../../../types/exhibition-guides';
-import { asRichText, asText } from '.';
-import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
+import { asRichText, asText, asTitle } from '.';
+import {
+  ExhibitionGuideComponentPrismicDocument,
+  ExhibitionGuidePrismicDocument,
+} from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -118,26 +121,22 @@ export function transformExhibitionGuide(
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
-    component => {
-      return {
-        number: component.number || '',
-        title: (component.title && asText(component.title)) || '',
-        standaloneTitle:
-          (component.title && asText(component.standaloneTitle)) || [],
-        tombstone:
-          (component.tombstone && asRichText(component.tombstone)) || [],
-        image: transformImage(component.image),
-        context: (component.context && asRichText(component.context)) || [],
-        caption: (component.caption && asRichText(component.caption)) || [],
-        transcription:
-          (component.transcript && asRichText(component.transcript)) || [],
-        audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
-        audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
-        bsl: component['bsl-video'].provider_name
-          ? transformYoutubeEmbed(component['bsl-video'])
-          : {},
-      };
-    }
+    (component: ExhibitionGuideComponentPrismicDocument) => ({
+      number: component.number || undefined,
+      title: asTitle(component.title),
+      standaloneTitle: asTitle(component.standaloneTitle),
+      tombstone: (component.tombstone && asRichText(component.tombstone)) || [],
+      image: transformImage(component.image),
+      context: (component.context && asRichText(component.context)) || [],
+      caption: (component.caption && asRichText(component.caption)) || [],
+      transcription:
+        (component.transcript && asRichText(component.transcript)) || [],
+      audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
+      audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
+      bsl: component['bsl-video'].provider_name
+        ? transformYoutubeEmbed(component['bsl-video'])
+        : {},
+    })
   );
 
   const introText = (data.introText && asRichText(data.introText)) || [];

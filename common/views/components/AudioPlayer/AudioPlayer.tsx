@@ -216,7 +216,10 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
   return (
     <VolumeWrapper>
       <VolumeControlWrapper isMuted={isMuted || volume === 0}>
-        <MuteUnmuteButton onClick={onVolumeButtonClick}>
+        <MuteUnmuteButton
+          onClick={onVolumeButtonClick}
+          aria-label={isMuted ? 'Unmute player' : 'Mute player'}
+        >
           <Icon
             color="neutral.600"
             icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
