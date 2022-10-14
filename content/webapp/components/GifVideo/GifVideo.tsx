@@ -170,8 +170,8 @@ const GifVideo: FunctionComponent<Props> = ({
   }, [autoPlayDisabled]);
 
   return (
-    <figure className="gif-video no-margin text-align-center">
-      <div className="gif-video__inner relative inline-block">
+    <figure className="no-margin text-align-center">
+      <div className="relative inline-block">
         <Video
           ref={videoRef}
           preload="metadata"
