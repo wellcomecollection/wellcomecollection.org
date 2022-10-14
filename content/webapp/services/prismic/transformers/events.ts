@@ -388,7 +388,7 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     primaryLabels,
     title,
     isOnline,
-    locations,
+    locations: locations.map(({ title }) => ({ title })),
     availableOnline,
     scheduleLength,
     series,
