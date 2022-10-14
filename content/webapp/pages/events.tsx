@@ -98,7 +98,7 @@ const EventsPage: FC<Props> = props => {
       jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      image={firstEvent?.image}
+      image={firstEvent?.promo?.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults

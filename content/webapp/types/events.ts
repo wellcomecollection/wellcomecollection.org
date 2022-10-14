@@ -6,7 +6,6 @@ import { Place } from './places';
 import { Season } from './seasons';
 import { Label } from '@weco/common/model/labels';
 import { ImagePromo } from './image-promo';
-import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
 import { EventSeriesBasic } from './event-series';
 
@@ -83,7 +82,6 @@ export type EventBasic = HasTimes & {
   isPast: boolean;
   primaryLabels: Label[];
   secondaryLabels: Label[];
-  image?: ImageType;
   isOnline: boolean;
   locations: Place[];
   availableOnline: boolean;
