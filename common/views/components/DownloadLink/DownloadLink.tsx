@@ -78,15 +78,7 @@ const DownloadLink: FunctionComponent<Props> = ({
     <span className="flex-inline flex--v-center">
       <Icon icon={download} />
       <TextToDisplay>{linkText || children}</TextToDisplay>
-      {format && (
-        <Space
-          as="span"
-          h={{ size: 'm', properties: ['margin-left'] }}
-          className={`${font('intb', 5)} font-neutral-600`}
-        >
-          {format}
-        </Space>
-      )}
+      {format && <Format as="span">{format}</Format>}
     </span>
   </DownloadLinkStyle>
 );

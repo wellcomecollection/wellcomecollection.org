@@ -1,5 +1,4 @@
 import { Fragment } from 'react';
-import styled from 'styled-components';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { JSXFunctionSerializer } from '@prismicio/react';
@@ -7,10 +6,6 @@ import { RichTextNodeType } from '@prismicio/types';
 import * as prismicH from '@prismicio/helpers';
 import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
-
-const DocumentType = styled.span.attrs({ className: 'no-margin' })`
-  color: ${props => props.theme.color('neutral.600')};
-`;
 
 export const defaultSerializer: JSXFunctionSerializer = (
   type,
@@ -119,21 +114,19 @@ export const defaultSerializer: JSXFunctionSerializer = (
 
       if (isDocument) {
         return (
-          <>
-            <DownloadLink
-              href={linkUrl}
-              mimeType={getMimeTypeFromExtension(
-                (fileExtension && fileExtension[0].substring(1)) || ''
-              )}
-              trackingEvent={{
-                category: 'Download link',
-                action: `follow ${documentType} annotation link`,
-                label: nameWithoutSpaces,
-              }}
-            >
-              {children}
-            </DownloadLink>
-          </>
+          <DownloadLink
+            href={linkUrl}
+            mimeType={getMimeTypeFromExtension(
+              (fileExtension && fileExtension[0].substring(1)) || ''
+            )}
+            trackingEvent={{
+              category: 'Download link',
+              action: `follow ${documentType} annotation link`,
+              label: nameWithoutSpaces,
+            }}
+          >
+            {children}
+          </DownloadLink>
         );
       } else {
         return (

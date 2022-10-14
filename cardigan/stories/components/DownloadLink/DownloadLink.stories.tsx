@@ -1,4 +1,4 @@
-import DownloadLink from '../../../../common/views/components/DownloadLink/DownloadLink';
+import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 
 const Template = args => <DownloadLink {...args} />;
 export const basic = Template.bind({});
