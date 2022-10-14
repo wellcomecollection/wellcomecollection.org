@@ -5,15 +5,15 @@ import { classNames, font } from '@weco/common/utils/classnames';
 export const Wrapper = styled.div`
   ${props =>
     `
-      margin-right: -${props.theme.containerPadding.small}px; 
+      margin: 0 -${props.theme.containerPadding.small}px; 
       transition: margin ${props => props.theme.transitionProperties};
 
     ${props.theme.media('medium')(`
-        margin-right: -${props.theme.containerPadding.medium}px; 
+        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem); 
     `)}
 
     ${props.theme.media('large')(`
-        margin-right: -${props.theme.containerPadding.large}px; 
+        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem);
     `)}
 
     ${props.theme.media('xlarge')(`
@@ -28,6 +28,17 @@ export const TabsContainer = styled.div`
   padding: 0;
   margin: 0;
   overflow-x: scroll;
+  padding-left: ${props => props.theme.containerPadding.small}px;
+
+  ${props => `
+    ${props.theme.media('medium')(`
+      padding-left: calc(${props.theme.containerPadding.medium}px - 1rem);
+  `)}
+
+  ${props.theme.media('large')(`
+    padding-left: calc(${props.theme.containerPadding.large}px - 1rem);
+  `)}
+  `}
 `;
 
 export const Tab = styled.button.attrs({
