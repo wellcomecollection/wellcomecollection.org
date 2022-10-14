@@ -49,6 +49,7 @@ import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
 import * as prismicH from '@prismicio/helpers';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { noAltTextBecausePromo } from './images';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -381,7 +382,14 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     cost,
   }) => ({
     type,
-    promo,
+    promo: promo && {
+      ...promo,
+      image: promo.image && {
+        ...promo.image,
+        ...noAltTextBecausePromo,
+        tasl: undefined,
+      },
+    },
     id,
     times,
     isPast,
