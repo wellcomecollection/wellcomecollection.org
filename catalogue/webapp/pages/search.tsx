@@ -3,12 +3,12 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { useState } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const SearchPage: NextPage = () => {
-  const [selectedTab, setSelectedTab] = useState('overview-tab');
+  const [selectedTab, setSelectedTab] = useState('overview');
 
   return (
     // TODO review meta info here
@@ -22,41 +22,43 @@ export const SearchPage: NextPage = () => {
       hideNewsletterPromo={true}
     >
       <div className="container">
-        <h1>Search Page</h1>
-        <TabNavV2
+        <h1 className="visually-hidden">Search Page</h1>
+        <TabNav
           id="search-tabs"
+          hasDivider
+          variant="yellow"
           selectedTab={selectedTab}
           items={[
             {
-              id: 'overview-tab',
+              id: 'overview',
               text: 'Overview',
-              selected: selectedTab === 'overview-tab',
+              selected: selectedTab === 'overview',
             },
             {
-              id: 'exhibitions-tab',
-              text: 'Exhibitions and events',
-              selected: selectedTab === 'exhibitions-tab',
+              id: 'exhibitions',
+              text: 'Exhibitions and events (1032)',
+              selected: selectedTab === 'exhibitions',
             },
             {
-              id: 'stories-tab',
-              text: 'Stories',
-              selected: selectedTab === 'stories-tab',
+              id: 'stories',
+              text: 'Stories (1032)',
+              selected: selectedTab === 'stories',
             },
             {
-              id: 'images-tab',
-              text: 'Images',
-              selected: selectedTab === 'images-tab',
+              id: 'images',
+              text: 'Images (1032)',
+              selected: selectedTab === 'images',
             },
             {
-              id: 'collections-tab',
-              text: 'Collections',
-              selected: selectedTab === 'collections-tab',
+              id: 'collections',
+              text: 'Collections (1032)',
+              selected: selectedTab === 'collections',
             },
           ]}
           setSelectedTab={setSelectedTab}
         />
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          {selectedTab === 'overview-tab' && (
+          {selectedTab === 'overview' && (
             <div
               role="tabpanel"
               id="tabpanel-overviewTab"
@@ -65,7 +67,7 @@ export const SearchPage: NextPage = () => {
               Overview content
             </div>
           )}
-          {selectedTab === 'exhibitions-tab' && (
+          {selectedTab === 'exhibitions' && (
             <div
               role="tabpanel"
               id="tabpanel-exhibitionsTab"
@@ -74,7 +76,7 @@ export const SearchPage: NextPage = () => {
               Exhibitions and events content
             </div>
           )}
-          {selectedTab === 'stories-tab' && (
+          {selectedTab === 'stories' && (
             <div
               role="tabpanel"
               id="tabpanel-storiesTab"
@@ -83,7 +85,7 @@ export const SearchPage: NextPage = () => {
               Stories content
             </div>
           )}
-          {selectedTab === 'images-tab' && (
+          {selectedTab === 'images' && (
             <div
               role="tabpanel"
               id="tabpanel-imagesTab"
@@ -92,7 +94,7 @@ export const SearchPage: NextPage = () => {
               Images content
             </div>
           )}
-          {selectedTab === 'collections-tab' && (
+          {selectedTab === 'collections' && (
             <div
               role="tabpanel"
               id="tabpanel-collectionsTab"
