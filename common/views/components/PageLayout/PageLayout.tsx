@@ -138,10 +138,12 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   const socialPreviewCardImage = getCrop(image, '32:15') || image;
 
   const imageUrl =
-    (socialPreviewCardImage &&
-      convertImageUri(socialPreviewCardImage.contentUrl, 800)) ||
-    'https://i.wellcomecollection.org/assets/images/wellcome-collection-social.png';
+    socialPreviewCardImage &&
+    convertImageUri(socialPreviewCardImage.contentUrl, 800);
   const imageAltText = socialPreviewCardImage?.alt || '';
+
+  const fallbackImageUrl =
+    'https://i.wellcomecollection.org/assets/icons/square_icon.png';
 
   return (
     <>
@@ -158,15 +160,17 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <meta
           key="og:image"
           property="og:image"
-          content={imageUrl}
+          content={imageUrl || fallbackImageUrl}
           itemProp="image" // itemProp is required for WhatsApp
         />
-        <meta key="og:image:width" property="og:image:width" content="1200" />
+        {imageUrl && (
+          <meta key="og:image:width" property="og:image:width" content="1200" />
+        )}
 
         <meta
           key="twitter:card"
           name="twitter:card"
-          content="summary_large_image"
+          content={imageUrl ? 'summary_large_image' : 'summary'}
         />
         <meta
           key="twitter:site"
@@ -174,7 +178,11 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           content="@ExploreWellcome"
         />
         <meta key="twitter:url" name="twitter:url" content={absoluteUrl} />
-        <meta key="twitter:title" name="twitter:title" content={title} />
+        <meta
+          key="twitter:title"
+          name="twitter:title"
+          content={title || 'Wellcome Collection'}
+        />
         <meta
           key="twitter:description"
           name="twitter:description"
