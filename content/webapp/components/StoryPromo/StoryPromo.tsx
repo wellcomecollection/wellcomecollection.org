@@ -15,6 +15,24 @@ const ImageWrapper = styled.div`
   position: relative;
 `;
 
+const Caption = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  display: inline-block;
+  margin: 0;
+`;
+
+const PartOf = styled.div.attrs({
+  className: font('intb', 6),
+})`
+  margin: 0;
+`;
+
+const Labels = styled.div`
+  position: absolute;
+  bottom: 0;
+`;
+
 type Props = {
   article: ArticleBasic & {
     series: { id: string; title: string }[];
@@ -88,9 +106,9 @@ const StoryPromo: FunctionComponent<Props> = ({
         )}
 
         {labels.length > 0 && (
-          <div style={{ position: 'absolute', bottom: 0 }}>
+          <Labels>
             <LabelsList labels={labels} />
-          </div>
+          </Labels>
         )}
       </ImageWrapper>
 
@@ -113,18 +131,16 @@ const StoryPromo: FunctionComponent<Props> = ({
             {article.title}
           </Space>
           {!hidePromoText && isNotUndefined(article.promo?.caption) && (
-            <p className={`inline-block no-margin ${font('intr', 5)}`}>
-              {article.promo?.caption}
-            </p>
+            <Caption>{article.promo?.caption}</Caption>
           )}
         </div>
       </CardBody>
       {article.series.length > 0 && (
         <CardPostBody>
           {article.series.map(series => (
-            <p key={series.id} className={`${font('intb', 6)} no-margin`}>
+            <PartOf key={series.id}>
               <span className={font('intr', 6)}>Part of</span> {series.title}
-            </p>
+            </PartOf>
           ))}
         </CardPostBody>
       )}
