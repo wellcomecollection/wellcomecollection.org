@@ -25,6 +25,13 @@ const ArchiveDetailsContainer = styled.div`
   `}
 `;
 
+const WorkDetailsWrapper = styled(Space).attrs({
+  size: 'xl',
+  properties: ['padding-top'],
+})`
+  flex: 1;
+`;
+
 const Container = styled.div.attrs({
   className: 'container',
 })``;
@@ -133,12 +140,9 @@ const Work: FunctionComponent<Props> = ({
               <Divider />
               <ArchiveDetailsContainer>
                 <ArchiveTree work={work} />
-                <Space
-                  v={{ size: 'xl', properties: ['padding-top'] }}
-                  className="flex-1"
-                >
+                <WorkDetailsWrapper>
                   <WorkDetails work={work} />
-                </Space>
+                </WorkDetailsWrapper>
               </ArchiveDetailsContainer>
             </Container>
           </>
