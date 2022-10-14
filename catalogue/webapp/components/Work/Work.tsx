@@ -25,6 +25,14 @@ const ArchiveDetailsContainer = styled.div`
   `}
 `;
 
+const Container = styled.div.attrs({
+  className: 'container',
+})``;
+
+const Grid = styled.div.attrs({
+  className: 'grid',
+})``;
+
 type Props = {
   work: WorkType;
 };
@@ -38,7 +46,7 @@ const Work: FunctionComponent<Props> = ({
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
   );
-  
+
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
   const imageUrl =
@@ -70,8 +78,8 @@ const Work: FunctionComponent<Props> = ({
         image={image}
         hideNewsletterPromo={true}
       >
-        <div className="container">
-          <div className="grid">
+        <Container>
+          <Grid>
             <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
               <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 <SearchTabs
@@ -86,8 +94,8 @@ const Work: FunctionComponent<Props> = ({
                 />
               </Space>
             </div>
-          </div>
-          <div className="grid">
+          </Grid>
+          <Grid>
             <Space
               v={{
                 size: 's',
@@ -97,13 +105,13 @@ const Work: FunctionComponent<Props> = ({
             >
               <BackToResults />
             </Space>
-          </div>
-        </div>
+          </Grid>
+        </Container>
 
         {isArchive ? (
           <>
-            <div className="container">
-              <div className="grid">
+            <Container>
+              <Grid>
                 <Space
                   v={{
                     size: 's',
@@ -113,15 +121,15 @@ const Work: FunctionComponent<Props> = ({
                 >
                   <ArchiveBreadcrumb work={work} />
                 </Space>
-              </div>
-            </div>
-            <div className="container">
-              <div className="grid">
+              </Grid>
+            </Container>
+            <Container>
+              <Grid>
                 <WorkHeader work={work} />
-              </div>
-            </div>
+              </Grid>
+            </Container>
 
-            <div className="container">
+            <Container>
               <Divider />
               <ArchiveDetailsContainer>
                 <ArchiveTree work={work} />
@@ -132,15 +140,15 @@ const Work: FunctionComponent<Props> = ({
                   <WorkDetails work={work} />
                 </Space>
               </ArchiveDetailsContainer>
-            </div>
+            </Container>
           </>
         ) : (
           <>
-            <div className="container">
-              <div className="grid">
+            <Container>
+              <Grid>
                 <WorkHeader work={work} />
-              </div>
-            </div>
+              </Grid>
+            </Container>
             <WorkDetails work={work} />
           </>
         )}
