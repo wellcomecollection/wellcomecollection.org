@@ -230,7 +230,7 @@ const SearchResults: FunctionComponent<Props> = ({
                 secondaryLabels={[]}
                 description={item.promo?.caption}
                 Image={
-                  getCrop(item.image, 'square') && (
+                  getCrop(item.promo?.image, 'square') && (
                     <PrismicImage
                       image={{
                         // We intentionally omit the alt text on promos, so screen reader
@@ -238,7 +238,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        ...getCrop(item.image, 'square')!,
+                        ...getCrop(item.promo?.image, 'square')!,
                         alt: '',
                       }}
                       sizes={{
