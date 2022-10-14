@@ -2,7 +2,7 @@ import { ReactElement, FunctionComponent } from 'react';
 import { IIIFMediaElement, IIIFAnnotationResource } from '../../model/iiif';
 import { getAnnotationFromMediaElement } from '../../utils/iiif';
 import Space from '@weco/common/views/components/styled/Space';
-import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 
 type Props = {
   media: IIIFMediaElement;

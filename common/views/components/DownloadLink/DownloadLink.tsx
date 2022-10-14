@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { trackEvent } from '@weco/common/services/conversion/track';
 import { download } from '@weco/common/icons';
 
@@ -24,17 +24,36 @@ const Format = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.600')};
 `;
 
+const TextToDisplay = styled.span`
+  margin: 0;
+  text-decoration: none;
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+`;
+
 export type DownloadFormat = 'PDF' | 'PLAIN' | 'JPG' | 'MP4' | 'MP3';
+
+type DisplayText =
+  | {
+      linkText?: never;
+      children: ReactNode;
+    }
+  | {
+      children?: never;
+      linkText: string;
+    };
+
 type Props = {
   isTabbable?: boolean;
   href: string;
-  trackingEvent: GaEvent;
-  linkText: string;
+  trackingEvent?: GaEvent;
   format?: DownloadFormat;
   width?: 'full' | number;
   mimeType: string;
   trackingTags?: string[];
-};
+} & DisplayText;
 const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
   href,
@@ -44,6 +63,7 @@ const DownloadLink: FunctionComponent<Props> = ({
   width,
   mimeType,
   trackingTags = [],
+  children,
 }: Props) => (
   <DownloadLinkStyle
     tabIndex={isTabbable ? undefined : -1}
@@ -52,13 +72,21 @@ const DownloadLink: FunctionComponent<Props> = ({
     href={href}
     onClick={() => {
       trackEvent('download', { width, mimeType, tags: trackingTags });
-      trackGaEvent(trackingEvent);
+      trackingEvent && trackGaEvent(trackingEvent);
     }}
   >
     <span className="flex-inline flex--v-center">
       <Icon icon={download} />
-      <span className="underline-on-hover">{linkText}</span>
-      {format && <Format as="span">{format}</Format>}
+      <TextToDisplay>{linkText || children}</TextToDisplay>
+      {format && (
+        <Space
+          as="span"
+          h={{ size: 'm', properties: ['margin-left'] }}
+          className={`${font('intb', 5)} font-neutral-600`}
+        >
+          {format}
+        </Space>
+      )}
     </span>
   </DownloadLinkStyle>
 );
