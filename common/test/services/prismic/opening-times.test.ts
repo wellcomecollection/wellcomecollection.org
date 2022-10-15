@@ -1,7 +1,7 @@
 import {
   getOverrideDatesForAllVenues,
   groupOverrideDates,
-  exceptionalOpeningPeriodsAllDates,
+  completeDateRangeForExceptionalPeriods,
   getExceptionalVenueDays,
   groupExceptionalVenueDays,
   exceptionalFromRegular,
@@ -224,9 +224,9 @@ describe('opening-times', () => {
     });
   });
 
-  describe('exceptionalOpeningPeriodsAllDates: adds dates to the dates array of a period, so that they are consecutive from the first to last', () => {
+  describe('completeDateRangeForExceptionalPeriods: adds dates to the dates array of a period, so that they are consecutive from the first to last', () => {
     it('fills in missing dates', () => {
-      const result = exceptionalOpeningPeriodsAllDates([
+      const result = completeDateRangeForExceptionalPeriods([
         {
           type: 'Christmas and New Year',
           dates: [

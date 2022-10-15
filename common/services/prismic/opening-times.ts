@@ -138,7 +138,22 @@ export function groupOverrideDates(dates: OverrideDate[]): ExceptionalPeriod[] {
     });
 }
 
-export function exceptionalOpeningPeriodsAllDates(
+/** Replace the dates on each exceptional period with a complete set of dates.
+ *
+ * e.g. if we had an exceptional period
+ *
+ *    type  = other
+ *    dates = 1 Jan, 2 Jan, 5 Jan
+ *
+ * the dates would be replaced with the complete range
+ *
+ *    type  = other
+ *    dates = 1 Jan, 2 Jan, 3 Jan, 4 Jan, 5 Jan
+ *
+ * Note: this function assumes the dates on each ExceptionalPeriod are already sorted.
+ *
+ */
+export function completeDateRangeForExceptionalPeriods(
   exceptionalOpeningPeriods: ExceptionalPeriod[]
 ): ExceptionalPeriod[] {
   return exceptionalOpeningPeriods.map(period => {
