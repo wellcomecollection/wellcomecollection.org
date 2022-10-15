@@ -10,7 +10,7 @@ import { getCrop } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { Label as LabelType } from '@weco/common/model/labels';
 
-const ImageWrapper = styled.div`
+export const CardImageWrapper = styled.div`
   position: relative;
 `;
 
@@ -126,7 +126,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
         });
       }}
     >
-      <ImageWrapper>
+      <CardImageWrapper>
         {image && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -143,7 +143,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
           />
         )}
         {item.format && <CardLabels labels={[{ text: item.format.title }]} />}
-      </ImageWrapper>
+      </CardImageWrapper>
 
       <CardBody>
         <div>

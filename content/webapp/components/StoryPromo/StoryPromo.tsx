@@ -3,16 +3,18 @@ import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody, CardPostBody, CardLabels } from '../Card/Card';
+import {
+  CardOuter,
+  CardBody,
+  CardPostBody,
+  CardLabels,
+  CardImageWrapper,
+} from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import styled from 'styled-components';
-
-const ImageWrapper = styled.div`
-  position: relative;
-`;
 
 const Caption = styled.p.attrs({
   className: font('intr', 5),
@@ -80,7 +82,7 @@ const StoryPromo: FunctionComponent<Props> = ({
       }}
       href={url}
     >
-      <ImageWrapper>
+      <CardImageWrapper>
         {isNotUndefined(image) && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -100,7 +102,7 @@ const StoryPromo: FunctionComponent<Props> = ({
         )}
 
         {labels.length > 0 && <CardLabels labels={labels} />}
-      </ImageWrapper>
+      </CardImageWrapper>
 
       <CardBody>
         <div>
