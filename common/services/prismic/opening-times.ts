@@ -18,12 +18,12 @@ import {
   today,
 } from '../../utils/dates';
 
-/** Returns a list of OverrideDate for which any venue has
- * exceptional opening hours.
+/** Returns a list of OverrideDate for which any venue has exceptional hours.
+ * The list will be sorted in chronological order.
  *
  * e.g. if we had two venues
  *
- *    library.exceptionalOpeningHours = [1 Jan, 2 Jan, 3 Jan]
+ *    library.exceptionalOpeningHours = [3 Jan, 2 Jan, 1 Jan]
  *    gallery.exceptionalOpeningHours = [3 Jan, 4 Jan, 5 Feb]
  *
  * then this would return

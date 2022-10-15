@@ -14,6 +14,7 @@ import {
 import { venues } from '../../../test/fixtures/components/venues';
 import {
   ExceptionalOpeningHoursDay,
+  OverrideType,
   Venue,
 } from '../../../model/opening-hours';
 import * as dateUtils from '../../../utils/dates';
@@ -28,8 +29,8 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
   };
 });
 
-const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx');
-const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4');
+const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx')!;
+const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
 
 describe('opening-times', () => {
   describe('getOverrideDatesForAllVenues: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
@@ -94,6 +95,30 @@ describe('opening-times', () => {
         result.map(date => date.overrideDate?.toString())
       );
       expect(result.length).toEqual(uniqueDates.size);
+    });
+    it('sorts the list of returned dates', () => {
+      const venue = {
+        ...libraryVenue,
+        openingHours: {
+          ...libraryVenue.openingHours,
+          exceptional: [
+            new Date('2003-03-03'),
+            new Date('2001-01-01'),
+            new Date('2002-02-02'),
+          ].map(overrideDate => ({
+            overrideDate,
+            overrideType: 'other' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+          })),
+        },
+      };
+      const result = getOverrideDatesForAllVenues([venue]);
+      expect(result.map(d => d.overrideDate)).toEqual([
+        new Date('2001-01-01'),
+        new Date('2002-02-02'),
+        new Date('2003-03-03'),
+      ]);
     });
   });
 
