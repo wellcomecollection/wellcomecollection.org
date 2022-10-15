@@ -5,7 +5,7 @@ import {
   getExceptionalVenueDays,
   groupExceptionalVenueDays,
   exceptionalFromRegular,
-  backfillExceptionalVenueDays,
+  createExceptionalOpeningHoursDays,
   getUpcomingExceptionalPeriods,
   getVenueById,
   getTodaysVenueHours,
@@ -433,7 +433,7 @@ describe('opening-times', () => {
 
   describe("backfillExceptionalVenueDays: returns the venue's exceptional opening times for each date, and if there is no exceptional opening time for a specific date, then it uses the venue's regular opening times for that day.", () => {
     it('returns an exceptional override date type for each of the dates provided', () => {
-      const result = backfillExceptionalVenueDays(libraryVenue, [
+      const result = createExceptionalOpeningHoursDays(libraryVenue, [
         {
           type: 'Christmas and New Year',
           dates: [
@@ -510,7 +510,7 @@ describe('opening-times', () => {
 
     // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
     it("it doesn't return the regular hours if the override type is 'other'", () => {
-      const result = backfillExceptionalVenueDays(libraryVenue, [
+      const result = createExceptionalOpeningHoursDays(libraryVenue, [
         {
           type: 'Bank holiday',
           dates: [new Date('2021-10-05')],

@@ -9,7 +9,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { getCrop } from '@weco/common/model/image';
 import { clock } from '@weco/common/icons';
 import {
-  backfillExceptionalVenueDays,
+  createExceptionalOpeningHoursDays,
   getUpcomingExceptionalPeriods,
   getOverrideDatesForAllVenues,
   groupOverrideDates,
@@ -96,12 +96,13 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const exceptionalPeriods = groupOverrideDates(allOverrideDates);
   const completeExceptionalPeriods =
     completeDateRangeForExceptionalPeriods(exceptionalPeriods);
-  const backfilledExceptionalPeriods = venue
-    ? backfillExceptionalVenueDays(venue, completeExceptionalPeriods)
+  const exceptionalOpeningHours = venue
+    ? createExceptionalOpeningHoursDays(venue, completeExceptionalPeriods)
     : [];
-  const upcomingExceptionalPeriods =
-    backfilledExceptionalPeriods &&
-    getUpcomingExceptionalPeriods(backfilledExceptionalPeriods);
+
+  const upcomingExceptionalOpeningHours =
+    exceptionalOpeningHours &&
+    getUpcomingExceptionalPeriods(exceptionalOpeningHours);
 
   const isFeatured = weight === 'featured';
   return (

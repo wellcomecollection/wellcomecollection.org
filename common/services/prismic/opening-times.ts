@@ -172,12 +172,18 @@ export function completeDateRangeForExceptionalPeriods(
   });
 }
 
+/** Returns all the exceptional opening hours for a venue. */
 export function getExceptionalVenueDays(
   venue: Venue
 ): ExceptionalOpeningHoursDay[] {
   return (venue.openingHours && venue.openingHours.exceptional) || [];
 }
 
+/** Groups a list of exceptional opening days.
+ *
+ * Each group will have at most 14 days between the first day and the last day.
+ *
+ */
 export function groupExceptionalVenueDays(
   exceptionalDays: ExceptionalOpeningHoursDay[]
 ): ExceptionalOpeningHoursDay[][] {
@@ -233,10 +239,26 @@ export function exceptionalFromRegular(
   };
 }
 
-export function backfillExceptionalVenueDays(
+type ExceptionalOpeningHoursGroup = ExceptionalOpeningHoursDay[];
+
+/** Returns groups of ExceptionalOpeningHoursDay for this venue.
+ *
+ * Each group contains a complete set of opening hours for a venue within
+ * the group's period (at most fourteen days).
+ *
+ *      Mon 1 Jan  = 11am – 5pm
+ *      Tues 2 Jan = 10am – 6pm
+ *      Weds 3 Jan = 11am – 5pm
+ *
+ *      Mon 1 Feb  = closed
+ *      Tues 2 Feb = 10am – 6pm
+ *      Weds 3 Feb = closed
+ *
+ */
+export function createExceptionalOpeningHoursDays(
   venue: Venue,
   allVenueExceptionalPeriods?: ExceptionalPeriod[]
-): ExceptionalOpeningHoursDay[][] {
+): ExceptionalOpeningHoursGroup[] {
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
   );
@@ -267,8 +289,8 @@ export function backfillExceptionalVenueDays(
 }
 
 export function groupConsecutiveExceptionalDays(
-  dates: ExceptionalOpeningHoursDay[]
-): ExceptionalOpeningHoursDay[][] {
+  dates: ExceptionalOpeningHoursGroup
+): ExceptionalOpeningHoursGroup[] {
   return dates
     .sort((a, b) => (a.overrideDate > b.overrideDate ? 1 : -1))
     .reduce((acc, date) => {
@@ -285,7 +307,7 @@ export function groupConsecutiveExceptionalDays(
       }
 
       return acc;
-    }, [] as ExceptionalOpeningHoursDay[][]);
+    }, [] as ExceptionalOpeningHoursGroup[]);
 }
 
 /** Returns a list of all exceptional periods coming up in the next 28 days.
@@ -294,9 +316,9 @@ export function groupConsecutiveExceptionalDays(
  * the site on an exceptional day, it highlights the exceptional hours.
  */
 export function getUpcomingExceptionalPeriods(
-  exceptionalPeriods: ExceptionalOpeningHoursDay[][]
-): ExceptionalOpeningHoursDay[][] {
-  return exceptionalPeriods.filter(period =>
+  openingHoursGroups: ExceptionalOpeningHoursGroup[]
+): ExceptionalOpeningHoursGroup[] {
+  return openingHoursGroups.filter(period =>
     period.some(
       d =>
         isSameDayOrBefore(today(), d.overrideDate) &&
@@ -317,7 +339,7 @@ export function getTodaysVenueHours(
   const todayString = formatDayName(todaysDate);
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
-    venue.openingHours.exceptional.find(i =>
+    venue.openingHours.exceptional?.find(i =>
       isSameDay(todaysDate, i.overrideDate, 'London')
     );
   const regularOpeningHours =
