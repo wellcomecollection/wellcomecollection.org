@@ -245,7 +245,7 @@ describe('opening-times', () => {
 
   describe('getExceptionalVenueDays', () => {
     it('returns all exceptional override dates for a venue', () => {
-      const result = getExceptionalVenueDays(galleriesVenue!);
+      const result = getExceptionalVenueDays(galleriesVenue);
       expect(result).toEqual([
         {
           overrideDate: new Date('2022-01-01'),
@@ -416,7 +416,7 @@ describe('opening-times', () => {
   describe('exceptionalFromRegular', () => {
     it('returns an ExceptionalOpeningHoursDay type for a particular date and venue, generated from the regular hours of that venue.', () => {
       const result = exceptionalFromRegular(
-        libraryVenue!,
+        libraryVenue,
         new Date('2021-12-21'),
         'Bank holiday'
       );
@@ -433,7 +433,7 @@ describe('opening-times', () => {
 
   describe("backfillExceptionalVenueDays: returns the venue's exceptional opening times for each date, and if there is no exceptional opening time for a specific date, then it uses the venue's regular opening times for that day.", () => {
     it('returns an exceptional override date type for each of the dates provided', () => {
-      const result = backfillExceptionalVenueDays(libraryVenue!, [
+      const result = backfillExceptionalVenueDays(libraryVenue, [
         {
           type: 'Christmas and New Year',
           dates: [
@@ -510,7 +510,7 @@ describe('opening-times', () => {
 
     // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
     it("it doesn't return the regular hours if the override type is 'other'", () => {
-      const result = backfillExceptionalVenueDays(libraryVenue!, [
+      const result = backfillExceptionalVenueDays(libraryVenue, [
         {
           type: 'Bank holiday',
           dates: [new Date('2021-10-05')],
@@ -675,7 +675,7 @@ describe('opening-times', () => {
         return new Date('2022-01-19T00:00:00Z');
       });
 
-      const result = getTodaysVenueHours(libraryVenue!);
+      const result = getTodaysVenueHours(libraryVenue);
 
       expect(result).toEqual({
         dayOfWeek: 'Wednesday',
@@ -692,7 +692,7 @@ describe('opening-times', () => {
         return new Date('2023-01-01T00:00:00Z');
       });
 
-      const result = getTodaysVenueHours(libraryVenue!);
+      const result = getTodaysVenueHours(libraryVenue);
       expect(result).toEqual({
         overrideDate: new Date('2023-01-01'),
         overrideType: 'Christmas and New Year',
