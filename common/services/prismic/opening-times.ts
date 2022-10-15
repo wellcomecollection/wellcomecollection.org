@@ -62,9 +62,35 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
     });
 }
 
-export function exceptionalOpeningPeriods(
-  dates: OverrideDate[]
-): ExceptionalPeriod[] {
+/** Groups the list of OverrideDates based on:
+ *
+ *    - whether they fall on dates that are within a week of each other
+ *    - whether they have the same override type
+ *
+ * The groups will be returned in chronological order of their first date.
+ *
+ * e.g. if we had a list of dates
+ *
+ *    1 Jan / bank holiday
+ *    2 Jan / bank holiday
+ *    3 Jan / late spectacular
+ *    4 Jan / late spectacular
+ *    5 Jan / bank holiday
+ *    6 Feb / other
+ *    7 Feb / bank holiday
+ *
+ * it would create four groups:
+ *
+ *    [1 Jan, 2 Jan, 5 Jan] / bank holiday
+ *    [3 Jan, 4 Jan]        / late spectacular
+ *    [6 Feb]               / other
+ *    [7 Feb]               / bank holiday
+ *
+ * Note: this function expects that there will be at most one `OverrideDate` for
+ * each calendar date.
+ *
+ */
+export function groupOverrideDates(dates: OverrideDate[]): ExceptionalPeriod[] {
   dates.sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate));
 
   const groupedExceptionalPeriods: Record<OverrideType, OverrideDate[]> =

@@ -12,7 +12,7 @@ import {
   backfillExceptionalVenueDays,
   getUpcomingExceptionalPeriods,
   getOverrideDatesForAllVenues,
-  exceptionalOpeningPeriods,
+  groupOverrideDates,
   exceptionalOpeningPeriodsAllDates,
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
@@ -93,10 +93,9 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const { collectionVenues } = usePrismicData();
   const venues = transformCollectionVenues(collectionVenues);
   const allOverrideDates = getOverrideDatesForAllVenues(venues);
-  const groupedExceptionalDates = exceptionalOpeningPeriods(allOverrideDates);
-  const exceptionalPeriodsAllDates = exceptionalOpeningPeriodsAllDates(
-    groupedExceptionalDates
-  );
+  const exceptionalPeriods = groupOverrideDates(allOverrideDates);
+  const exceptionalPeriodsAllDates =
+    exceptionalOpeningPeriodsAllDates(exceptionalPeriods);
   const backfilledExceptionalPeriods = venue
     ? backfillExceptionalVenueDays(venue, exceptionalPeriodsAllDates)
     : [];

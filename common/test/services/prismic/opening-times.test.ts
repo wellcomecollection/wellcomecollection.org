@@ -1,6 +1,6 @@
 import {
   getOverrideDatesForAllVenues,
-  exceptionalOpeningPeriods,
+  groupOverrideDates,
   exceptionalOpeningPeriodsAllDates,
   getExceptionalVenueDays,
   groupExceptionalVenueDays,
@@ -122,9 +122,9 @@ describe('opening-times', () => {
     });
   });
 
-  describe('exceptionalOpeningPeriods: groups together override dates based on their proximity to each other and their override type, so we can display them together', () => {
+  describe('groupOverrideDates: groups together override dates based on their proximity to each other and their override type, so we can display them together', () => {
     it('groups together dates with the same overrideType, so that there is never more than 4 days between one date and the next', () => {
-      const result = exceptionalOpeningPeriods([
+      const result = groupOverrideDates([
         { overrideType: 'other', overrideDate: new Date('2020-01-01') },
         { overrideType: 'other', overrideDate: new Date('2020-01-03') },
         { overrideType: 'other', overrideDate: new Date('2020-01-06') },
@@ -151,7 +151,7 @@ describe('opening-times', () => {
     });
 
     it('puts OverrideDates with the same overrideDate but different overrideType into different groups', () => {
-      const result = exceptionalOpeningPeriods([
+      const result = groupOverrideDates([
         { overrideType: 'other', overrideDate: new Date('2020-01-02') },
         { overrideType: 'other', overrideDate: new Date('2020-01-04') },
         {
@@ -172,7 +172,7 @@ describe('opening-times', () => {
     });
 
     it('puts dates in chronological order within their groups', () => {
-      const result = exceptionalOpeningPeriods([
+      const result = groupOverrideDates([
         { overrideType: 'other', overrideDate: new Date('2020-01-04') },
         { overrideType: 'other', overrideDate: new Date('2020-01-07') },
         { overrideType: 'other', overrideDate: new Date('2020-01-02') },
@@ -190,7 +190,7 @@ describe('opening-times', () => {
     });
 
     it('puts Groups in chronological order based on their earliest date', () => {
-      const result = exceptionalOpeningPeriods([
+      const result = groupOverrideDates([
         {
           overrideType: 'Bank holiday',
           overrideDate: new Date('2021-01-05'),
