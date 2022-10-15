@@ -1,10 +1,9 @@
 import { FC } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody } from '../Card/Card';
+import { CardOuter, CardBody, CardLabels } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -63,9 +62,7 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
           />
         ) : undefined}
 
-        <div style={{ position: 'absolute', bottom: 0 }}>
-          <LabelsList labels={labels} />
-        </div>
+        <CardLabels labels={labels} />
       </ImageWrapper>
 
       <CardBody>

@@ -1,10 +1,9 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
+import { CardOuter, CardBody, CardPostBody, CardLabels } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -26,11 +25,6 @@ const PartOf = styled.div.attrs({
   className: font('intb', 6),
 })`
   margin: 0;
-`;
-
-const Labels = styled.div`
-  position: absolute;
-  bottom: 0;
 `;
 
 type Props = {
@@ -105,11 +99,7 @@ const StoryPromo: FunctionComponent<Props> = ({
           />
         )}
 
-        {labels.length > 0 && (
-          <Labels>
-            <LabelsList labels={labels} />
-          </Labels>
-        )}
+        {labels.length > 0 && <CardLabels labels={labels} />}
       </ImageWrapper>
 
       <CardBody>

@@ -7,7 +7,7 @@ import EventDateRange from '../EventDateRange/EventDateRange';
 import { EventBasic } from '../../types/events';
 import { upcomingDatesFullyBooked } from '../../services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
+import { CardOuter, CardBody, CardPostBody, CardLabels } from '../Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -96,9 +96,7 @@ const EventPromo: FC<Props> = ({
         )}
 
         {event.primaryLabels.length > 0 && (
-          <div style={{ position: 'absolute', bottom: 0 }}>
-            <LabelsList labels={event.primaryLabels} />
-          </div>
+          <CardLabels labels={event.primaryLabels} />
         )}
       </ImageWrapper>
 
