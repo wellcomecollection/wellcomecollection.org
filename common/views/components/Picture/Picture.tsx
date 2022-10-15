@@ -6,13 +6,11 @@ import { FunctionComponent } from 'react';
 
 type Props = {
   images: PictureProps[];
-  extraClasses?: string;
   isFull: boolean;
 };
 
 export const Picture: FunctionComponent<Props> = ({
   images,
-  extraClasses,
   isFull = false,
 }: Props) => {
   const lastImage = images[images.length - 1];
@@ -20,7 +18,7 @@ export const Picture: FunctionComponent<Props> = ({
 
   return (
     <figure className="relative no-margin">
-      <picture className={extraClasses || ''}>
+      <picture>
         {images.map(image => {
           if (image.width) {
             const sizes = imageSizes(image.width);
