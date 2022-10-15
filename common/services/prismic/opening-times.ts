@@ -315,7 +315,7 @@ export function groupConsecutiveExceptionalDays(
  * This includes exceptional periods happening today, so that if somebody looks at
  * the site on an exceptional day, it highlights the exceptional hours.
  */
-export function getUpcomingExceptionalPeriods(
+export function getUpcomingExceptionalOpeningHours(
   openingHoursGroups: ExceptionalOpeningHoursGroup[]
 ): ExceptionalOpeningHoursGroup[] {
   return openingHoursGroups.filter(period =>

@@ -10,7 +10,7 @@ import { getCrop } from '@weco/common/model/image';
 import { clock } from '@weco/common/icons';
 import {
   createExceptionalOpeningHoursDays,
-  getUpcomingExceptionalPeriods,
+  getUpcomingExceptionalOpeningHours,
   getOverrideDatesForAllVenues,
   groupOverrideDates,
   completeDateRangeForExceptionalPeriods,
@@ -102,7 +102,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
 
   const upcomingExceptionalOpeningHours =
     exceptionalOpeningHours &&
-    getUpcomingExceptionalPeriods(exceptionalOpeningHours);
+    getUpcomingExceptionalOpeningHours(exceptionalOpeningHours);
 
   const isFeatured = weight === 'featured';
   return (
@@ -154,7 +154,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           )}
         </ul>
       </VenueHoursTimes>
-      {upcomingExceptionalPeriods.map((upcomingExceptionalPeriod, i) => {
+      {upcomingExceptionalOpeningHours.map((upcomingExceptionalPeriod, i) => {
         const firstOverride = upcomingExceptionalPeriod.find(
           date => date.overrideType
         );

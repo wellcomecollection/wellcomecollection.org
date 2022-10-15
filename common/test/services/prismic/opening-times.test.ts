@@ -6,7 +6,7 @@ import {
   groupExceptionalVenueDays,
   exceptionalFromRegular,
   createExceptionalOpeningHoursDays,
-  getUpcomingExceptionalPeriods,
+  getUpcomingExceptionalOpeningHours,
   getVenueById,
   getTodaysVenueHours,
   groupConsecutiveExceptionalDays,
@@ -536,7 +536,7 @@ describe('opening-times', () => {
     });
   });
 
-  describe('getUpcomingExceptionalPeriods', () => {
+  describe('getUpcomingExceptionalOpeningHours', () => {
     const exceptionalPeriods: ExceptionalOpeningHoursDay[][] = [
       [
         {
@@ -592,7 +592,7 @@ describe('opening-times', () => {
       spyOnLondon.mockImplementation(() => {
         return new Date('2021-11-30');
       });
-      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual([]);
     });
 
@@ -602,7 +602,7 @@ describe('opening-times', () => {
       spyOnLondon.mockImplementation(() => {
         return new Date('2021-12-10');
       });
-      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual([
         [
           {
@@ -655,7 +655,7 @@ describe('opening-times', () => {
         return new Date('2022-09-19T00:00:00Z');
       });
 
-      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual(exceptionalPeriods);
     });
   });
