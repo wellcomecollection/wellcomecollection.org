@@ -18,6 +18,22 @@ import {
   today,
 } from '../../utils/dates';
 
+/** Returns a list of OverrideDate for which any venue has
+ * exceptional opening hours.
+ *
+ * e.g. if we had two venues
+ *
+ *    library.exceptionalOpeningHours = [1 Jan, 2 Jan, 3 Jan]
+ *    gallery.exceptionalOpeningHours = [3 Jan, 4 Jan, 5 Feb]
+ *
+ * then this would return
+ *
+ *    [1 Jan, 2 Jan, 3 Jan, 4 Jan, 5 Feb]
+ *
+ * Note: this assumes that two venues with an override on the same date will
+ * always have the same overrideType.
+ *
+ */
 export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
   return venues
     .flatMap(venue => {
