@@ -34,7 +34,7 @@ import {
  * always have the same overrideType.
  *
  */
-export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
+export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
   return venues
     .flatMap(venue => {
       if (venue.openingHours.exceptional) {

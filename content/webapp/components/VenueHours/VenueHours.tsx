@@ -11,7 +11,7 @@ import { clock } from '@weco/common/icons';
 import {
   backfillExceptionalVenueDays,
   getUpcomingExceptionalPeriods,
-  exceptionalOpeningDates,
+  getOverrideDatesForAllVenues,
   exceptionalOpeningPeriods,
   exceptionalOpeningPeriodsAllDates,
 } from '@weco/common/services/prismic/opening-times';
@@ -92,9 +92,8 @@ type Props = {
 const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const { collectionVenues } = usePrismicData();
   const venues = transformCollectionVenues(collectionVenues);
-  const allExceptionalDates = exceptionalOpeningDates(venues);
-  const groupedExceptionalDates =
-    exceptionalOpeningPeriods(allExceptionalDates);
+  const allOverrideDates = getOverrideDatesForAllVenues(venues);
+  const groupedExceptionalDates = exceptionalOpeningPeriods(allOverrideDates);
   const exceptionalPeriodsAllDates = exceptionalOpeningPeriodsAllDates(
     groupedExceptionalDates
   );

@@ -1,5 +1,5 @@
 import {
-  exceptionalOpeningDates,
+  getOverrideDatesForAllVenues,
   exceptionalOpeningPeriods,
   exceptionalOpeningPeriodsAllDates,
   getExceptionalVenueDays,
@@ -32,13 +32,15 @@ const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx');
 const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4');
 
 describe('opening-times', () => {
-  describe('exceptionalOpeningDates: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
+  describe('getOverrideDatesForAllVenues: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
     it('returns an empty array if no venues have dates with exceptional opening hours', () => {
-      const result = exceptionalOpeningDates(venuesWithoutExceptionalDates);
+      const result = getOverrideDatesForAllVenues(
+        venuesWithoutExceptionalDates
+      );
       expect(result).toEqual([]);
     });
     it('returns all dates that have exceptional opening hours for any venue', () => {
-      const result = exceptionalOpeningDates(venues);
+      const result = getOverrideDatesForAllVenues(venues);
       expect(result).toEqual([
         {
           overrideDate: new Date('2021-01-05'),
@@ -87,7 +89,7 @@ describe('opening-times', () => {
       ]);
     });
     it('does not include a date more than once', () => {
-      const result = exceptionalOpeningDates(venues);
+      const result = getOverrideDatesForAllVenues(venues);
       const uniqueDates = new Set(
         result.map(date => date.overrideDate?.toString())
       );
