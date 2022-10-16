@@ -13,7 +13,6 @@ import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
 
 // TODO now these are all in one place, it's easier to see we may not need them all
 // For example:
-// Do we need iiifPresentationDownloadOptions and downloadOptions?
 // Do we need searchService and services?
 // Do we need collectionManifestsCount and isCollectionManifest?
 // Do we need canvases and canvasCount?
@@ -25,10 +24,9 @@ export type TransformedManifest = {
   collectionManifestsCount: number;
   video?: IIIFMediaElement;
   iiifCredit?: string;
-  iiifPresentationDownloadOptions: IIIFRendering[];
   downloadEnabled?: boolean;
-  firstCollectionManifestLocation?: string;
   downloadOptions: IIIFRendering[];
+  firstCollectionManifestLocation?: string;
   pdfRendering: IIIFRendering | undefined;
   authService: AuthService | undefined;
   tokenService: AuthServiceService | undefined;

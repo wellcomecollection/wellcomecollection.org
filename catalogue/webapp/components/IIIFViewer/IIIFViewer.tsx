@@ -54,7 +54,7 @@ type IIIFViewerProps = {
   canvasIndex: number;
   iiifImageLocation?: DigitalLocation;
   work: Work;
-  transformedManifest: TransformedManifest;
+  transformedManifest: TransformedManifest; // TODO this should be optional
   manifestIndex?: number;
   handleImageError?: () => void;
 };
@@ -258,6 +258,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const activeIndexRef = useRef(activeIndex);
   const previousManifestIndex = useRef(manifestIndex);
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
+  // TODO do we sometimes have things that show up twice? // Viewer bug - extra image #7388 - /works/du9ua6nd/items
+  // https://api.wellcomecollection.org/catalogue/v2/works/du9ua6nd?include=identifiers%2Cimages%2Citems%2Csubjects%2Cgenres%2Ccontributors%2Cproduction%2Cnotes%2Cparts%2CpartOf%2CprecededBy%2CsucceededBy%2Clanguages%2Choldings - used to have iiif-image and iiif-presentation now doesn't?
+  // https://api.wellcomecollection.org/catalogue/v2/works/dkbfnjqj?include=identifiers%2Cimages%2Citems%2Csubjects%2Cgenres%2Ccontributors%2Cproduction%2Cnotes%2Cparts%2CpartOf%2CprecededBy%2CsucceededBy%2Clanguages%2Choldings   -  only has iiif-image location
+  // TODO can we default to the right thing earlier? - how do we determine link to /items or /images?
+  // TODO explain why
   const hasImageService = mainImageService['@id'] && currentCanvas;
   const { canvases, downloadEnabled, downloadOptions, parentManifestUrl } =
     transformedManifest;
@@ -350,28 +355,38 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     'iiif-presentation'
   );
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+  // TODO we always default to the imageLocation over the presentation location?
+  // Other way around to show the MainViewer over ImageViewer
   const licenseInfo =
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
-
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
+  // TODO comment when work out what is going on here
   const imageDownloadOptions = iiifImageLocation
     ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocation.url,
+        url: iiifImageLocation.url, // TODO where is this from and is it different from mainImageService['@id'] etc.
         width: imageJson?.width,
         height: imageJson?.height,
       })
     : [];
-  const imageDownloads =
-    mainImageService['@id'] &&
-    getDownloadOptionsFromImageUrl({
-      url: mainImageService['@id'],
-      width: currentCanvas && currentCanvas.width,
-      height: currentCanvas && currentCanvas.height,
-    });
+  // TODO title has gone missing 'Copy 1' - /works/mg56yqa4/items
+  // TODO why imageDownloadOptions and imageDownloads? - miro image and presentation?
+  // ah is this so we can download individual images shown in the viewer?
+  const imageDownloads = mainImageService['@id']
+    ? getDownloadOptionsFromImageUrl({
+        url: mainImageService['@id'],
+        width: currentCanvas && currentCanvas.width,
+        height: currentCanvas && currentCanvas.height,
+      })
+    : [];
+
   // TODO tidy this up; understand what the difference is between imageDownloads and imageDownloadOptions
-  const iiifPresentationDownloadOptions =
-    (imageDownloads && [...imageDownloads, ...downloadOptions]) || [];
+  // TODO rename this
+  const allDownloadOptions = [
+    ...imageDownloadOptions, // imageDownloads //TODO need this too? imageDownloadOptions is the same as live
+    ...imageDownloads,
+    ...downloadOptions,
+  ];
 
   useSkipInitialEffect(() => {
     const canvasParams =
@@ -434,11 +449,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         gridVisible,
         currentManifestLabel,
         licenseInfo,
-        iiifImageLocationCredit,
-        downloadOptions: downloadEnabled
-          ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
+        iiifImageLocationCredit, // TODO what do we do with this and where?
+        // TODO we shouldn't be relying on downloadEnabled from the manifest for the viewer on /images pages
+        downloadOptions: downloadEnabled // TODO rename an split them up - imageDownloads, manifestDownloads, we don't get imageDownloads from the manifest
+          ? allDownloadOptions
           : [],
-        iiifPresentationDownloadOptions,
         parentManifest,
         mainAreaWidth,
         mainAreaHeight,
@@ -487,7 +502,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           ref={mainAreaRef}
         >
           {!showZoomed && <ImageViewerControls />}
-          {hasIiifImage && !hasImageService && (
+          {hasIiifImage && ( //! hasImageService && // TODO here we decide mainViewer versus ImageViewer // Explain what's going on do it better // Decide downloads in the same way?
             <ImageViewer
               infoUrl={iiifImageLocation.url}
               id={imageUrl}

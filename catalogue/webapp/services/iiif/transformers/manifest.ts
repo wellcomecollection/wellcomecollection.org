@@ -35,16 +35,14 @@ export function transformManifest(
     : 0;
   const video = manifestV2 && getVideo(manifestV2);
   const iiifCredit = manifestV2 && getIIIFPresentationCredit(manifestV2);
-  const iiifPresentationDownloadOptions = manifestV2
-    ? getDownloadOptionsFromManifest(manifestV2)
-    : [];
   const downloadEnabled = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
     : true;
+  const downloadOptions = manifestV2
+    ? getDownloadOptionsFromManifest(manifestV2)
+    : [];
   const firstCollectionManifestLocation =
     manifestV2 && getFirstCollectionManifestLocation(manifestV2);
-  const downloadOptions =
-    (manifestV2 && getDownloadOptionsFromManifest(manifestV2)) || [];
 
   const pdfRendering =
     downloadOptions &&
@@ -79,10 +77,9 @@ export function transformManifest(
     collectionManifestsCount,
     video,
     iiifCredit,
-    iiifPresentationDownloadOptions,
     downloadEnabled,
-    firstCollectionManifestLocation,
     downloadOptions,
+    firstCollectionManifestLocation,
     pdfRendering,
     authService,
     tokenService,

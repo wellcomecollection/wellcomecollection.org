@@ -26,8 +26,7 @@ type Props = {
   currentManifestLabel?: string;
   licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
-  downloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest
-  iiifPresentationDownloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest
+  downloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest - nope this also includes imageDownloadOptions
   parentManifest: IIIFManifest | undefined;
   lang: string;
   mainAreaWidth: number;
@@ -107,7 +106,6 @@ const ItemViewerContext = createContext<Props>({
   licenseInfo: undefined,
   iiifImageLocationCredit: '',
   downloadOptions: [],
-  iiifPresentationDownloadOptions: [],
   parentManifest: undefined,
   lang: '',
   mainAreaWidth: 1000,

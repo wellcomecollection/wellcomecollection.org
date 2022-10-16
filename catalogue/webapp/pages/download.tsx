@@ -35,12 +35,8 @@ const DownloadPage: NextPage<Props> = ({
   transformedManifest,
   work,
 }) => {
-  const {
-    title,
-    downloadEnabled,
-    iiifPresentationDownloadOptions,
-    iiifCredit,
-  } = transformedManifest;
+  const { title, downloadEnabled, downloadOptions, iiifCredit } =
+    transformedManifest;
   const displayTitle = title || work?.title || '';
   const iiifImageLocation = work
     ? getDigitalLocationOfType(work, 'iiif-image')
@@ -48,7 +44,7 @@ const DownloadPage: NextPage<Props> = ({
   const iiifPresentationLocation = work
     ? getDigitalLocationOfType(work, 'iiif-presentation')
     : null;
-  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+  const digitalLocation = iiifImageLocation || iiifPresentationLocation; // TODO here we favour imageLocation over manifestLocation
   const license =
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
@@ -66,10 +62,7 @@ const DownloadPage: NextPage<Props> = ({
       })
     : [];
 
-  const downloadOptions = [
-    ...iiifImageDownloadOptions,
-    ...iiifPresentationDownloadOptions,
-  ];
+  const allDownloadOptions = [...iiifImageDownloadOptions, ...downloadOptions];
 
   const credit = (iiifImageLocation && iiifImageLocation.credit) || iiifCredit;
 
@@ -100,11 +93,11 @@ const DownloadPage: NextPage<Props> = ({
           </SpacingComponent>
           {workId && (
             <SpacingComponent>
-              {downloadEnabled && downloadOptions.length !== 0 ? (
+              {downloadEnabled && allDownloadOptions.length !== 0 ? (
                 <Download
                   ariaControlsId="itemDownloads"
                   workId={workId}
-                  downloadOptions={downloadOptions}
+                  downloadOptions={allDownloadOptions}
                 />
               ) : (
                 <p>There are no downloads available.</p>

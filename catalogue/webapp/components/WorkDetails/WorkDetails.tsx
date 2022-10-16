@@ -125,12 +125,12 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const {
     video,
     iiifCredit,
-    iiifPresentationDownloadOptions,
+    downloadEnabled,
+    downloadOptions,
     collectionManifestsCount,
     canvasCount,
     audio,
     services,
-    downloadEnabled,
   } = manifestData;
 
   // We display a content advisory warning at the work level, so it is sufficient
@@ -158,13 +158,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       })
     : [];
 
-  const presentationDownloads = iiifPresentationDownloadOptions
-    ? [...iiifPresentationDownloadOptions]
-    : [];
-  const downloadOptions = [
-    ...iiifImageDownloadOptions,
-    ...presentationDownloads,
-  ];
+  const allDownloadOptions = [...iiifImageDownloadOptions, ...downloadOptions];
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -445,11 +439,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     <Download
                       ariaControlsId="itemDownloads"
                       workId={work.id}
-                      downloadOptions={downloadOptions}
+                      downloadOptions={allDownloadOptions}
                     />
                   )}
                 </div>
-                {!(downloadOptions.length > 0) &&
+                {!(allDownloadOptions.length > 0) &&
                   sierraIdFromManifestUrl &&
                   collectionManifestsCount === 0 && (
                     <NextLink
