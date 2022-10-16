@@ -75,8 +75,8 @@ const GuidePage: FunctionComponent<Props> = ({
       description={pageDescriptions.guides}
       url={{ pathname: '/guides' }}
       jsonLd={{ '@type': 'Webpage' }}
-      openGraphType={'website'}
-      siteSection={'what-we-do'}
+      openGraphType="website"
+      siteSection="what-we-do"
     >
       <SpacingSection>
         <LayoutPaginatedResults
@@ -90,7 +90,7 @@ const GuidePage: FunctionComponent<Props> = ({
             },
           ]}
           paginatedResults={guides}
-          paginationRoot={'/guides'}
+          paginationRoot="/guides"
         >
           <Filters currentId={formatId} guideFormats={guideFormats} />
         </LayoutPaginatedResults>

@@ -96,8 +96,8 @@ const EventsPage: FC<Props> = props => {
       description={pageDescriptions.events}
       url={{ pathname: `/events${period ? `/${period}` : ''}` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={firstEvent?.image}
     >
       <SpacingSection>

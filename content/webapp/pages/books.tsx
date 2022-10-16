@@ -61,8 +61,8 @@ const BooksPage: FunctionComponent<Props> = props => {
       description={pageDescriptions.books}
       url={{ pathname: `/books` }}
       jsonLd={{ '@type': 'WebPage' }}
-      openGraphType={'website'}
-      siteSection={'stories'}
+      openGraphType="website"
+      siteSection="stories"
       image={firstBook && firstBook.cover}
     >
       <SpacingSection>
