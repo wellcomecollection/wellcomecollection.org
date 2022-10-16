@@ -15,7 +15,6 @@ import { font } from '@weco/common/utils/classnames';
 import { Venue } from '@weco/common/model/opening-hours';
 
 type Props = {
-  hide: boolean;
   venues: Venue[];
 };
 
@@ -156,14 +155,8 @@ const BackToTopButton = styled.button.attrs({
 `;
 
 // Component
-const Footer: FC<Props> = ({ venues, hide = false }: Props) => {
+const Footer: FC<Props> = ({ venues }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (hide && footer && footer.current) {
-      footer.current.classList.add('is-hidden');
-    }
-  }, []);
 
   return (
     <Wrapper ref={footer}>
