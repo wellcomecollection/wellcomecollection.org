@@ -264,7 +264,6 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       labels={{ labels: article.labels }}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
-      Background={undefined}
       FeaturedMedia={
         isImageGallery || isPodcast ? undefined : maybeFeaturedMedia
       }

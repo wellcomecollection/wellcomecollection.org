@@ -42,11 +42,7 @@ const ErrorPage: FunctionComponent<Props> = ({
           breadcrumbs={{ items: [] }}
           labels={undefined}
           title={errorMessage}
-          ContentTypeInfo={undefined}
-          Background={undefined}
           backgroundTexture={headerBackgroundLs}
-          FeaturedMedia={undefined}
-          HeroPicture={undefined}
           highlightHeading={true}
         />
         <SpacingSection>

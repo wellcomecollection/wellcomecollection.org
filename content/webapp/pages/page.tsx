@@ -272,7 +272,6 @@ export const Page: FC<Props> = ({
       FeaturedMedia={featuredMedia}
       Background={displayBackground}
       ContentTypeInfo={DateInfo}
-      HeroPicture={undefined}
       backgroundTexture={
         !featuredMedia && !sectionLevelPage ? backgroundTexture : undefined
       }
