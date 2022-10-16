@@ -37,7 +37,7 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
   );
 
   if (putObjectResponseMetadata.httpStatusCode === 200) {
-    console.info(`Put toggles in S3 successfully`);
+    console.info('Put toggles in S3 successfully');
   } else {
     throw new Error(`Error putting toggles in S3 ${putObjectResponseMetadata}`);
   }

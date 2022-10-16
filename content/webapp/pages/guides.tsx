@@ -50,7 +50,7 @@ const Filters: FunctionComponent<FiltersProps> = ({
   return (
     <Layout12>
       <SegmentedControl
-        id={'guidesFilter'}
+        id="guidesFilter"
         activeId={(currentId as string) || 'all'}
         items={items}
       />
@@ -71,7 +71,7 @@ const GuidePage: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <PageLayout
-      title={'Guides'}
+      title="Guides"
       description={pageDescriptions.guides}
       url={{ pathname: '/guides' }}
       jsonLd={{ '@type': 'Webpage' }}

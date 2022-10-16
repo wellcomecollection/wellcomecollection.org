@@ -51,7 +51,7 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
                   setIsActive(!isActive);
                 }}
                 text={
-                  isActive ? `Hide full transcript` : `Read full transcript`
+                  isActive ? 'Hide full transcript' : 'Read full transcript'
                 }
               />
             </ButtonContainer>

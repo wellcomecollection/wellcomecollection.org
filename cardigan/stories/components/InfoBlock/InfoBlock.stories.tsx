@@ -18,6 +18,6 @@ basic.args = {
       spans: [],
     },
   ],
-  slink: { link_type: 'Web', url: `/covid-book-your-ticket` },
+  slink: { link_type: 'Web', url: '/covid-book-your-ticket' },
 };
 basic.storyName = 'InfoBlock';

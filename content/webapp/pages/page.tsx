@@ -343,7 +343,7 @@ export const Page: FC<Props> = ({
       description={page.metadataDescription || page.promo?.caption || ''}
       url={{ pathname }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
+      openGraphType="website"
       siteSection={page?.siteSection as SiteSection}
       image={page.image}
     >

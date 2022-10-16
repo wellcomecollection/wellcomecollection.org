@@ -34,7 +34,7 @@ const SuccessPage: NextPage<Props> = ({ email }) => {
   usePageTitle('Application received');
 
   return (
-    <PageWrapper title={`Registration`}>
+    <PageWrapper title="Registration">
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>

@@ -57,9 +57,9 @@ const BooksPage: FunctionComponent<Props> = props => {
 
   return (
     <PageLayout
-      title={'Books'}
+      title="Books"
       description={pageDescriptions.books}
-      url={{ pathname: `/books` }}
+      url={{ pathname: '/books' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="stories"
@@ -68,7 +68,7 @@ const BooksPage: FunctionComponent<Props> = props => {
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={false}
-          title={'Books'}
+          title="Books"
           description={[
             {
               type: 'paragraph',
@@ -77,7 +77,7 @@ const BooksPage: FunctionComponent<Props> = props => {
             },
           ]}
           paginatedResults={books}
-          paginationRoot={'/books'}
+          paginationRoot="/books"
         />
       </SpacingSection>
     </PageLayout>

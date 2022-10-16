@@ -34,7 +34,7 @@ const Newsletter: FC<Props> = ({ result }) => {
       title="Sign up to our newsletter"
       description={newsletterDescription}
       hideNewsletterPromo={true}
-      url={{ pathname: `/newsletter` }}
+      url={{ pathname: '/newsletter' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="what-we-do"

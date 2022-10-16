@@ -31,9 +31,9 @@ const ErrorPage: FunctionComponent<Props> = ({
     <PageLayout
       title={`${statusCode}`}
       description={`${statusCode}`}
-      url={{ pathname: `/` }}
+      url={{ pathname: '/' }}
       jsonLd={{ '@type': 'WebPage' }}
-      openGraphType={'website'}
+      openGraphType="website"
       hideNewsletterPromo={true}
       siteSection={null}
     >

@@ -170,7 +170,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       ...article.series.slice(0, 1).map(series => ({
         url: `/series/${series.id}`,
         text: series.title || '',
-        prefix: `Part of`,
+        prefix: 'Part of',
       })),
       {
         url: `/articles/${article.id}`,

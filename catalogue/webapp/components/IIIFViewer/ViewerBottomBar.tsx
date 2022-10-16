@@ -71,8 +71,8 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(false);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Detail view button`,
-                      label: `${work.id}`,
+                      action: 'clicked work viewer Detail view button',
+                      label: work.id,
                     });
                   },
                 },
@@ -84,8 +84,8 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(true);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Grid view button`,
-                      label: `${work.id}`,
+                      action: 'clicked work viewer Grid view button',
+                      label: work.id,
                     });
                   },
                 },
