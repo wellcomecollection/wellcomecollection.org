@@ -52,7 +52,7 @@ type IIIFViewerProps = {
   pageIndex: number;
   pageSize: number;
   canvasIndex: number;
-  iiifImageLocation?: DigitalLocation;
+  iiifImageLocation: DigitalLocation | undefined;
   work: Work;
   transformedManifest: TransformedManifest; // TODO this should be optional
   manifestIndex?: number;
