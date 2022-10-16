@@ -53,7 +53,7 @@ export function createDefaultTransformedManifest(): TransformedManifest {
     title: '',
     canvasCount: 0,
     collectionManifestsCount: 0,
-    showDownloadOptions: false,
+    showDownloadOptions: true,
     downloadOptions: [],
     pdfRendering: undefined,
     authService: undefined,
