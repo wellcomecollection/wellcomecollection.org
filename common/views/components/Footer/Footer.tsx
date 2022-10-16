@@ -172,7 +172,7 @@ const Footer: FC<Props> = ({ venues }: Props) => {
 
           <OpeningTimesContainer>
             <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
-            {venues && <OpeningTimes venues={venues} />}
+            <OpeningTimes venues={venues} />
             <Space as="p" v={{ size: 'm', properties: ['margin-top'] }}>
               <a href="/opening-times">Opening times</a>
             </Space>
