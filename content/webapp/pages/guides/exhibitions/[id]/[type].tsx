@@ -157,7 +157,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
     <PageLayout
       title={`${exhibitionGuide.title} ${type ? getTypeTitle(type) : ''}` || ''}
       description={pageDescriptions.exhibitionGuides}
-      url={{ pathname: pathname }}
+      url={{ pathname }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="exhibition-guides"
