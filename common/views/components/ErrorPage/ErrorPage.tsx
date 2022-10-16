@@ -34,9 +34,8 @@ const ErrorPage: FunctionComponent<Props> = ({
       url={{ pathname: `/` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
-      siteSection={null}
-      image={undefined}
       hideNewsletterPromo={true}
+      siteSection={null}
     >
       <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader

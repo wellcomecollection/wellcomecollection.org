@@ -77,7 +77,6 @@ const GuidePage: FunctionComponent<Props> = ({
       jsonLd={{ '@type': 'Webpage' }}
       openGraphType={'website'}
       siteSection={'what-we-do'}
-      image={undefined}
     >
       <SpacingSection>
         <LayoutPaginatedResults

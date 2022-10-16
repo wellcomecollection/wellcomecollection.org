@@ -48,13 +48,8 @@ const Newsletter: FC<Props> = ({ result }) => {
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
-        labels={undefined}
         title="Newsletters"
-        ContentTypeInfo={undefined}
-        Background={undefined}
         backgroundTexture={landingHeaderBackgroundLs}
-        FeaturedMedia={undefined}
-        HeroPicture={undefined}
         highlightHeading={true}
       />
 
