@@ -14,11 +14,20 @@ const DownloadLinkStyle = styled.a.attrs({
   white-space: nowrap;
   background: ${props => props.theme.color('white')};
   color: ${props => props.theme.color('accent.green')};
-  text-decoration: none;
+
+  text-decoration: underline;
+  text-underline-offset: 0.1em;
+  transition: color ${props => props.theme.transitionProperties};
+
+  &:hover {
+    color: ${props => props.theme.color('accent.green')};
+    text-decoration-color: transparent;
+  }
 `;
 
 const DownloadLinkUnStyled = styled.a`
   position: relative;
+  white-space: nowrap;
 `;
 
 const Format = styled(Space).attrs({
@@ -30,10 +39,14 @@ const Format = styled(Space).attrs({
 
 const TextToDisplay = styled.span`
   margin: 0;
-  text-decoration: none;
-  &:hover,
-  &:focus {
-    text-decoration: underline;
+`;
+
+/**
+ * TODO: figure out why Icon isn't able to be wrapped by styled...
+ */
+const IconWrapper = styled.span<{ forceInline: boolean }>`
+  div {
+    ${({ forceInline }) => forceInline && 'top: 5px;'}
   }
 `;
 
@@ -83,9 +96,11 @@ const DownloadLink: FunctionComponent<Props> = ({
       }}
     >
       <span className={linkText && 'flex-inline flex--v-center'}>
-        <Icon icon={download} matchText={!!children} />
+        <IconWrapper forceInline={!!children}>
+          <Icon icon={download} matchText={!!children} />
+        </IconWrapper>
         <TextToDisplay>{linkText || children}</TextToDisplay>
-        {format && <Format as="span">{format}</Format>}
+        {format && <Format as="span">({format})</Format>}
       </span>
     </Wrapper>
   );
