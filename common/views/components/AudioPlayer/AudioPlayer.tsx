@@ -416,7 +416,26 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
 
       <AudioPlayerGrid>
         <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
-          <PlayPauseInner>
+          <PlayPauseInner
+            // We declare the ARIA data on this wrapper rather than relying on the icon label
+            // to avoid a weird behaviour IOS screen reader.
+            //
+            // In particular, some combination of the icon-swapping means that selecting
+            // the button is read as:
+            //
+            //    Button, play
+            //    (user taps button)
+            //    Play, pause
+            //
+            // With these attributes, it's now read as:
+            //
+            //    Play, button
+            //    (user taps button)
+            //    Pause
+            //
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+            role="button"
+          >
             <Icon color="accent.green" icon={isPlaying ? pause : play} />
           </PlayPauseInner>
         </PlayPauseButton>
