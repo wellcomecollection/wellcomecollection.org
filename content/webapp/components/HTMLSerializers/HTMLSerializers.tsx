@@ -97,10 +97,6 @@ export const defaultSerializer: JSXFunctionSerializer = (
       const linkUrl = prismicH.asLink(element.data, linkResolver) || '';
       const isDocument =
         'kind' in element.data ? element.data.kind === 'document' : false;
-      const nameWithoutSpaces =
-        'name' in element.data && element.data.name
-          ? dasherize(element.data.name)
-          : '';
 
       const documentSize =
         isDocument && 'size' in element.data
@@ -129,11 +125,6 @@ export const defaultSerializer: JSXFunctionSerializer = (
             mimeType={getMimeTypeFromExtension(
               (fileExtension && fileExtension[0].substring(1)) || ''
             )}
-            trackingEvent={{
-              category: 'Download link',
-              action: `follow ${documentType} annotation link`,
-              label: nameWithoutSpaces,
-            }}
           >
             {children}{' '}
             <span style={{ whiteSpace: 'nowrap' }}>
