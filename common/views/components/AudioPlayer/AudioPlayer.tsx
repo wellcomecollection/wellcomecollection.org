@@ -418,7 +418,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
         <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
           <PlayPauseInner
             // We declare the ARIA data on this wrapper rather than relying on the icon label
-            // to avoid a weird behaviour IOS screen reader.
+            // to avoid a weird behaviour in the iOS screen reader.
             //
             // In particular, some combination of the icon-swapping means that selecting
             // the button is read as:
