@@ -21,6 +21,11 @@ const TextContainer = styled.div`
   }
 `;
 
+const List = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
 export type Props = {
   items: {
     title?: string;
@@ -32,7 +37,7 @@ export type Props = {
 
 const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
   return (
-    <ul className="plain-list no-padding">
+    <List>
       {items.map((item, i) => {
         return (
           <Space
@@ -57,7 +62,7 @@ const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
           </Space>
         );
       })}
-    </ul>
+    </List>
   );
 };
 export default TitledTextList;
