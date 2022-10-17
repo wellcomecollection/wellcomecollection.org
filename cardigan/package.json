@@ -3,11 +3,13 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "dev": "start-storybook -s ./public -p 9001 -c .storybook",
+    "dev": "start-storybook -s ./public -p 9001 -c .storybook --no-manager-cache",
     "build": "build-storybook -s ./public -c .storybook -o .dist",
     "chromatic": "chromatic"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@storybook/builder-vite": "^0.2.4"
+  },
   "dependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
@@ -36,6 +38,7 @@
     "react": "^17.0.2",
     "style-loader": "^1.0.0",
     "typescript": "^4.8.4",
+    "vite": "^3.1.8",
     "webpack": "^4.40.2"
   }
 }
