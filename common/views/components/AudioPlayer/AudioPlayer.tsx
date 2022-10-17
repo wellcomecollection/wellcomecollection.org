@@ -92,7 +92,6 @@ const SecondRow = styled.div`
 
 const PlayRateRadio = styled.input.attrs({
   type: 'radio',
-  name: 'playback-rate',
 })`
   position: absolute;
   top: 0;
@@ -161,7 +160,14 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
   }
 
   return (
-    <PlayRateWrapper>
+    <PlayRateWrapper
+      // This ARIA role -- combined with the shared `name` on the individual buttons --
+      // tells screen readers that these radio buttons are part of a single group, and
+      // separate from the other buttons on the page.
+      //
+      // e.g. a screen reader will say "1 of 4" instead of "1 of 112" on an exhibition guide.
+      role="radiogroup"
+    >
       {speeds.map(speed => (
         <PlayRateLabel
           key={speed}
@@ -171,6 +177,7 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
           <PlayRateRadio
             id={`playrate-${speed}-${id}`}
             onClick={() => updatePlaybackRate(speed)}
+            name={`playrate-${id}`}
           />
           <span className="visually-hidden">playback rate:</span>
           {speed}
