@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { Fragment, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
@@ -32,6 +32,7 @@ type Props = {
 
 // FIXME: This is nonsense
 type BookMetadataProps = { book: Book };
+
 const BookMetadata = ({ book }: BookMetadataProps) => (
   <Space
     v={{
@@ -42,14 +43,14 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
     className="grid"
   >
     {book.datePublished && (
-      <Fragment>
+      <>
         <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>
           Date published
         </dt>
         <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
           {book.datePublished && <HTMLDate date={book.datePublished} />}
         </dd>
-      </Fragment>
+      </>
     )}
     <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>Format</dt>
     <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
@@ -129,11 +130,11 @@ const BookPage: FunctionComponent<Props> = props => {
       title={book.title}
       FeaturedMedia={FeaturedMedia}
       ContentTypeInfo={
-        <Fragment>
+        <>
           {book.subtitle && (
             <p className={`no-margin ${font('intb', 3)}`}>{book.subtitle}</p>
           )}
-        </Fragment>
+        </>
       }
       isContentTypeInfoBeforeMedia={true}
     />
@@ -156,14 +157,12 @@ const BookPage: FunctionComponent<Props> = props => {
         contributors={book.contributors}
         seasons={book.seasons}
       >
-        <Fragment>
-          <MetadataWrapper>
-            <BookMetadata book={book} />
-          </MetadataWrapper>
-          {book.orderLink && (
-            <ButtonSolidLink link={book.orderLink} text="Buy the book" />
-          )}
-        </Fragment>
+        <MetadataWrapper>
+          <BookMetadata book={book} />
+        </MetadataWrapper>
+        {book.orderLink && (
+          <ButtonSolidLink link={book.orderLink} text="Buy the book" />
+        )}
       </ContentPage>
     </PageLayout>
   );
