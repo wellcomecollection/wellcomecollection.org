@@ -3,24 +3,28 @@ import { imageSizes } from '../../../utils/image-sizes';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { Picture as PictureProps } from '../../../model/picture';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+const Figure = styled.figure`
+  position: relative;
+  margin: 0;
+`;
 
 type Props = {
   images: PictureProps[];
-  extraClasses?: string;
   isFull: boolean;
 };
 
 export const Picture: FunctionComponent<Props> = ({
   images,
-  extraClasses,
   isFull = false,
 }: Props) => {
   const lastImage = images[images.length - 1];
   const { tasl } = lastImage;
 
   return (
-    <figure className="relative no-margin">
-      <picture className={extraClasses || ''}>
+    <Figure>
+      <picture>
         {images.map(image => {
           if (image.width) {
             const sizes = imageSizes(image.width);
@@ -51,7 +55,7 @@ export const Picture: FunctionComponent<Props> = ({
         )}
       </picture>
       {tasl && <Tasl {...tasl} positionTop={isFull} />}
-    </figure>
+    </Figure>
   );
 };
 

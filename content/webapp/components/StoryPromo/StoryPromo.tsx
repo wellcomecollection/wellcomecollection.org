@@ -1,18 +1,32 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
+import {
+  CardOuter,
+  CardBody,
+  CardPostBody,
+  CardLabels,
+  CardImageWrapper,
+} from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import styled from 'styled-components';
 
-const ImageWrapper = styled.div`
-  position: relative;
+const Caption = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  display: inline-block;
+  margin: 0;
+`;
+
+const PartOf = styled.div.attrs({
+  className: font('intb', 6),
+})`
+  margin: 0;
 `;
 
 type Props = {
@@ -68,7 +82,7 @@ const StoryPromo: FunctionComponent<Props> = ({
       }}
       href={url}
     >
-      <ImageWrapper>
+      <CardImageWrapper>
         {isNotUndefined(image) && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -87,12 +101,8 @@ const StoryPromo: FunctionComponent<Props> = ({
           />
         )}
 
-        {labels.length > 0 && (
-          <div style={{ position: 'absolute', bottom: 0 }}>
-            <LabelsList labels={labels} />
-          </div>
-        )}
-      </ImageWrapper>
+        {labels.length > 0 && <CardLabels labels={labels} />}
+      </CardImageWrapper>
 
       <CardBody>
         <div>
@@ -113,18 +123,16 @@ const StoryPromo: FunctionComponent<Props> = ({
             {article.title}
           </Space>
           {!hidePromoText && isNotUndefined(article.promo?.caption) && (
-            <p className={`inline-block no-margin ${font('intr', 5)}`}>
-              {article.promo?.caption}
-            </p>
+            <Caption>{article.promo?.caption}</Caption>
           )}
         </div>
       </CardBody>
       {article.series.length > 0 && (
         <CardPostBody>
           {article.series.map(series => (
-            <p key={series.id} className={`${font('intb', 6)} no-margin`}>
+            <PartOf key={series.id}>
               <span className={font('intr', 6)}>Part of</span> {series.title}
-            </p>
+            </PartOf>
           ))}
         </CardPostBody>
       )}

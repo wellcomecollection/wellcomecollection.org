@@ -6,9 +6,10 @@ import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';
 
 const ShowHideButton = styled.button.attrs({
-  className: `plain-button no-margin no-padding ${font('intr', 5)}`,
+  className: `plain-button no-margin ${font('intr', 5)}`,
 })`
   text-decoration: underline;
+  padding: 0;
 
   &:hover {
     text-decoration: none;
