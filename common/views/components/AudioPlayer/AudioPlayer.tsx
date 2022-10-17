@@ -169,21 +169,30 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
       role="radiogroup"
     >
       <span className="visually-hidden">playback rate:</span>
-      {speeds.map(speed => (
-        <PlayRateLabel
-          key={speed}
-          htmlFor={`playrate-${speed}-${id}`}
-          isActive={audioPlaybackRate === speed}
-        >
-          <PlayRateRadio
-            id={`playrate-${speed}-${id}`}
-            onClick={() => updatePlaybackRate(speed)}
-            name={`playrate-${id}`}
-          />
-          {speed}
-          <span aria-hidden="true">x</span>
-        </PlayRateLabel>
-      ))}
+      {speeds.map(speed => {
+        // We construct this string here rather than directly in the component so these
+        // become a single element on the page.
+        //
+        // If we had them directly in the component, the iOS screen reader would read
+        // the two parts separately,
+        // e.g. "one point five (pause) ex" rather than "one point five ex".
+        const label = `${speed}x`;
+
+        return (
+          <PlayRateLabel
+            key={speed}
+            htmlFor={`playrate-${speed}-${id}`}
+            isActive={audioPlaybackRate === speed}
+          >
+            <PlayRateRadio
+              id={`playrate-${speed}-${id}`}
+              onClick={() => updatePlaybackRate(speed)}
+              name={`playrate-${id}`}
+            />
+            {label}
+          </PlayRateLabel>
+        );
+      })}
     </PlayRateWrapper>
   );
 };
