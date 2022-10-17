@@ -84,6 +84,13 @@ const DayOfWeek = styled.div`
   width: 100px;
 `;
 
+const OpeningHours = styled.ul.attrs({
+  className: `no-margin ${font('intr', 5)}`,
+})`
+  list-style: none;
+  padding: 0;
+`;
+
 type Props = {
   venue: Venue;
   weight: Weight;
@@ -144,7 +151,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         >
           {isFeatured && venue?.name ? venue.name : 'Opening hours'}
         </Space>
-        <ul className={`plain-list no-padding no-margin ${font('intr', 5)}`}>
+        <OpeningHours>
           {venue?.openingHours.regular.map(
             ({ dayOfWeek, opens, closes, isClosed }) => (
               <li key={dayOfWeek}>
@@ -153,7 +160,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
               </li>
             )
           )}
-        </ul>
+        </OpeningHours>
       </VenueHoursTimes>
       {upcomingExceptionalPeriods.map((upcomingExceptionalPeriod, i) => {
         const firstOverride = upcomingExceptionalPeriod.find(
@@ -186,9 +193,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                   <span>{overrideType} hours</span>
                 </div>
               </h3>
-              <ul
-                className={`plain-list no-padding no-margin ${font('intr', 5)}`}
-              >
+              <OpeningHours>
                 {/* 
                   This will format the date of the exception as e.g. 'Saturday 1 October'.
 
@@ -202,7 +207,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                     {p.isClosed ? 'Closed' : `${p.opens} – ${p.closes}`}
                   </li>
                 ))}
-              </ul>
+              </OpeningHours>
             </JauntyBox>
             <br />
           </Fragment>
