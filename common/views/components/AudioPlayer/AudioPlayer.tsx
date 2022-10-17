@@ -168,6 +168,7 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
       // e.g. a screen reader will say "1 of 4" instead of "1 of 112" on an exhibition guide.
       role="radiogroup"
     >
+      <span className="visually-hidden">playback rate:</span>
       {speeds.map(speed => (
         <PlayRateLabel
           key={speed}
@@ -179,7 +180,6 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
             onClick={() => updatePlaybackRate(speed)}
             name={`playrate-${id}`}
           />
-          <span className="visually-hidden">playback rate:</span>
           {speed}
           <span aria-hidden="true">x</span>
         </PlayRateLabel>
