@@ -113,10 +113,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     text-decoration: underline;
   }
 
-  .text-align-center {
-    text-align: center;
-  }
-
   .no-visible-focus {
     &,
     &:focus {
