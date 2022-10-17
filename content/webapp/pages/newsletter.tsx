@@ -34,7 +34,7 @@ const Newsletter: FC<Props> = ({ result }) => {
       title="Sign up to our newsletter"
       description={newsletterDescription}
       hideNewsletterPromo={true}
-      url={{ pathname: `/newsletter` }}
+      url={{ pathname: '/newsletter' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="what-we-do"
@@ -48,13 +48,8 @@ const Newsletter: FC<Props> = ({ result }) => {
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
-        labels={undefined}
         title="Newsletters"
-        ContentTypeInfo={undefined}
-        Background={undefined}
         backgroundTexture={landingHeaderBackgroundLs}
-        FeaturedMedia={undefined}
-        HeroPicture={undefined}
         highlightHeading={true}
       />
 

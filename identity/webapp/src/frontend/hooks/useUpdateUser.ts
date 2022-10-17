@@ -11,7 +11,7 @@ export enum UpdateUserError {
   UNKNOWN = 'UNKNOWN',
 }
 
-type State = 'initial' | 'loading' | 'success' | `error`;
+type State = 'initial' | 'loading' | 'success' | 'error';
 
 type UseUpdateUserMutation = {
   updateUser: (

@@ -329,7 +329,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             <NewsletterPromo />
           </Space>
         )}
-        <Footer hide={hideFooter} venues={venues} />
+        {!hideFooter && <Footer venues={venues} />}
       </div>
     </>
   );

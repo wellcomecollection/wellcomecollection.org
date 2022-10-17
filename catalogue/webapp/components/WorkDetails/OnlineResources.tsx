@@ -56,7 +56,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
           <li className={font('intr', 5)} key={item.location.url}>
             {item.title && `${item.title}: `}
             <a href={item.location.url}>
-              {item.title ? `View resource` : item.location.linkText}
+              {item.title ? 'View resource' : item.location.linkText}
             </a>
           </li>
         ))}
@@ -71,7 +71,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
                     index === 0 ? firstOfRemainingOnlineResourcesRef : undefined
                   }
                 >
-                  {item.title ? `View resource` : item.location.linkText}
+                  {item.title ? 'View resource' : item.location.linkText}
                 </a>
               </li>
             ))}

@@ -78,7 +78,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
     signal => {
       const fetchUserHolds = async () => {
         const holdsResponse = await fetch(
-          `/account/api/users/me/item-requests`,
+          '/account/api/users/me/item-requests',
           {
             signal,
           }

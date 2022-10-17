@@ -31,23 +31,18 @@ const ErrorPage: FunctionComponent<Props> = ({
     <PageLayout
       title={`${statusCode}`}
       description={`${statusCode}`}
-      url={{ pathname: `/` }}
+      url={{ pathname: '/' }}
       jsonLd={{ '@type': 'WebPage' }}
-      openGraphType={'website'}
-      siteSection={null}
-      image={undefined}
+      openGraphType="website"
       hideNewsletterPromo={true}
+      siteSection={null}
     >
       <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader
           breadcrumbs={{ items: [] }}
           labels={undefined}
           title={errorMessage}
-          ContentTypeInfo={undefined}
-          Background={undefined}
           backgroundTexture={headerBackgroundLs}
-          FeaturedMedia={undefined}
-          HeroPicture={undefined}
           highlightHeading={true}
         />
         <SpacingSection>

@@ -34,7 +34,7 @@ const MediaAnnotations: FunctionComponent<Props> = ({
             <DownloadLink
               href={annotation.resource['@id']}
               linkText={`Transcript of ${annotation.resource.label}${typeString}`}
-              format={'PDF'}
+              format="PDF"
               trackingEvent={{
                 category: 'Download link',
                 action: `follow${typeString} annotation link`,

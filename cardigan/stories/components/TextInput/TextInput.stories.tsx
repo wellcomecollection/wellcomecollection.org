@@ -8,10 +8,10 @@ const Template = () => {
   return (
     <TextInput
       required={true}
-      id={'test-id'}
-      type={'email'}
-      name={'email'}
-      label={'Your email address'}
+      id="test-id"
+      type="email"
+      name="email"
+      label="Your email address"
       errorMessage={'Enter a valid email address.'}
       value={value}
       setValue={setValue}

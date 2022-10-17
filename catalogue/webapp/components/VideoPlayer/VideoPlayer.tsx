@@ -20,7 +20,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
   function trackViewingTime() {
     trackEvent({
       category: 'Engagement',
-      action: `Amount of media played`,
+      action: 'Amount of media played',
       value: secondsPlayed,
       nonInteraction: true,
       transport: 'beacon',

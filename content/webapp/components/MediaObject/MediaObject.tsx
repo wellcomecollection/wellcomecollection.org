@@ -79,7 +79,7 @@ export const MediaObject: FunctionComponent<Props> = ({
     <MediaObjectBase
       title={title}
       Image={ImageComponent}
-      partDescription={'Part'}
+      partDescription="Part"
       color={undefined}
       description={description}
       primaryLabels={[]}

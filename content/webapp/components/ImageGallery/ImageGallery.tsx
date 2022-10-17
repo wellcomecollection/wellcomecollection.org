@@ -251,7 +251,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
       }
 
       trackEvent({
-        category: `Control`,
+        category: 'Control',
         action: 'close ImageGallery',
         label: id.toString(),
       });
