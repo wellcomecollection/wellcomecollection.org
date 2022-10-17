@@ -90,10 +90,7 @@ const SecondRow = styled.div`
   grid-column: 1 / -1;
 `;
 
-const PlayRateRadio = styled.input.attrs({
-  type: 'radio',
-  name: 'playback-rate',
-})`
+const PlayRateRadio = styled.input`
   position: absolute;
   top: 0;
   right: 0;
@@ -169,6 +166,8 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
           isActive={audioPlaybackRate === speed}
         >
           <PlayRateRadio
+            type="radio"
+            name={`playback-rate-${id}`}
             id={`playrate-${speed}-${id}`}
             onClick={() => updatePlaybackRate(speed)}
           />
