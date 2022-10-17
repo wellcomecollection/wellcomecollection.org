@@ -6,6 +6,11 @@ import { RichTextNodeType } from '@prismicio/types';
 import * as prismicH from '@prismicio/helpers';
 import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
+import styled from 'styled-components';
+
+const DocumentType = styled.span.attrs({ className: 'no-margin' })`
+  color: ${props => props.theme.color('neutral.600')};
+`;
 
 export const defaultSerializer: JSXFunctionSerializer = (
   type,
@@ -97,6 +102,11 @@ export const defaultSerializer: JSXFunctionSerializer = (
           ? dasherize(element.data.name)
           : '';
 
+      const documentSize =
+        isDocument && 'size' in element.data
+          ? Math.round(parseInt(element.data.size) / 1000)
+          : '';
+
       const isInPage = linkUrl.match(/^https:\/\/(#.*)/i);
       const hashLink = isInPage && isInPage[1];
 
@@ -125,7 +135,12 @@ export const defaultSerializer: JSXFunctionSerializer = (
               label: nameWithoutSpaces,
             }}
           >
-            {children}
+            {children}{' '}
+            <span style={{ whiteSpace: 'nowrap' }}>
+              <DocumentType>
+                ({documentType} {documentSize}kb)
+              </DocumentType>
+            </span>
           </DownloadLink>
         );
       } else {

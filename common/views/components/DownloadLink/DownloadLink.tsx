@@ -17,6 +17,10 @@ const DownloadLinkStyle = styled.a.attrs({
   text-decoration: none;
 `;
 
+const DownloadLinkUnStyled = styled.a`
+  position: relative;
+`;
+
 const Format = styled(Space).attrs({
   h: { size: 'm', properties: ['margin-left'] },
   className: font('intb', 5),
@@ -64,23 +68,27 @@ const DownloadLink: FunctionComponent<Props> = ({
   mimeType,
   trackingTags = [],
   children,
-}: Props) => (
-  <DownloadLinkStyle
-    tabIndex={isTabbable ? undefined : -1}
-    target="_blank"
-    rel="noopener noreferrer"
-    href={href}
-    onClick={() => {
-      trackEvent('download', { width, mimeType, tags: trackingTags });
-      trackingEvent && trackGaEvent(trackingEvent);
-    }}
-  >
-    <span className="flex-inline flex--v-center">
-      <Icon icon={download} />
-      <TextToDisplay>{linkText || children}</TextToDisplay>
-      {format && <Format as="span">{format}</Format>}
-    </span>
-  </DownloadLinkStyle>
-);
+}: Props) => {
+  const Wrapper = linkText ? DownloadLinkStyle : DownloadLinkUnStyled;
+
+  return (
+    <Wrapper
+      tabIndex={isTabbable ? undefined : -1}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={href}
+      onClick={() => {
+        trackEvent('download', { width, mimeType, tags: trackingTags });
+        trackingEvent && trackGaEvent(trackingEvent);
+      }}
+    >
+      <span className={linkText && 'flex-inline flex--v-center'}>
+        <Icon icon={download} matchText={!!children} />
+        <TextToDisplay>{linkText || children}</TextToDisplay>
+        {format && <Format as="span">{format}</Format>}
+      </span>
+    </Wrapper>
+  );
+};
 
 export default DownloadLink;
