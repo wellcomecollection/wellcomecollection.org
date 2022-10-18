@@ -36,8 +36,10 @@ const includes = [
   'holdings',
 ];
 
-const ToolbarContainer = styled.div`
+const ToolbarContainer = styled.div<{ mini: boolean }>`
+  display: ${props => (props.mini ? 'inline-block' : 'flex')};
   background-color: ${props => props.theme.color('accent.purple')};
+  color: ${props => props.theme.color('white')};
   z-index: 100;
 `;
 
@@ -125,13 +127,13 @@ function getAnchorLinkUrls() {
   const getAllHeadingIds = [...document.querySelectorAll('h2, h3, h4')].map(
     item => item.id
   );
-  // This function extracts any apiToolbar ids with the view to extracting the data-toolbar values
-  // This can be used across the codebase (where apiToolbar id is used) but at the moment is only used in audio & BSL guides
+  // This function extracts any data-toolbar-anchor divs with the view to extracting the id values
+  // This can be used across the codebase (where data-toolbar-anchor is used) but at the moment is only used in audio & BSL guides
   // Please note: an audio/BSL guide must contain and audio or video file with an accompanying title or no id will exist
   // and no link will be created
   const extractedAudioBSLAttributes = [
-    ...document.querySelectorAll('#apiToolbar'),
-  ].map(el => el.getAttribute('data-toolbar-anchor'));
+    ...document.querySelectorAll('div[data-toolbar-anchor="apiToolbar"]'),
+  ].map(item => item.id);
 
   // Remove empty ids and then append them to the current url with # to
   // create the anchor link
@@ -142,6 +144,7 @@ function getAnchorLinkUrls() {
   const extractedAudioBSLURLs = extractedAudioBSLAttributes
     .filter(Boolean)
     .map(id => `${document.URL}#${id}`);
+
   const csvAsSingleColumn =
     extractedHeadingIdURLs.join('\n') + extractedAudioBSLURLs.join('\n');
   // Push the list of urls to the clipboard
@@ -262,7 +265,7 @@ const ApiToolbar: FC<Props> = ({ extraLinks = [] }) => {
   };
 
   return (
-    <ToolbarContainer className={`font-white flex ${mini && 'inline-block'}`}>
+    <ToolbarContainer mini={mini}>
       <div
         className="flex flex--v-center"
         style={{

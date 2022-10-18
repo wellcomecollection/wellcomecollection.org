@@ -10,8 +10,8 @@ import {
   getIIIFPresentationCredit,
   getUiExtensions,
   isUiEnabled,
-} from '../utils/iiif';
-import { IIIFManifest } from '../model/iiif';
+} from '../utils/iiif/v2';
+import { IIIFManifest } from '../services/iiif/types/manifest/v2';
 import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';

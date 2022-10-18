@@ -21,8 +21,8 @@ const Header: FC<Props> = ({ title }) => {
             src="https://i.wellcomecollection.org/assets/icons/android-chrome-512x512.png"
             width={90}
             height={90}
-            alt={'Wellcome Collection logo'}
-            title={'Wellcome Collection'}
+            alt="Wellcome Collection logo"
+            title="Wellcome Collection"
             style={{
               marginTop: '-15px',
               marginLeft: '18px',

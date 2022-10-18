@@ -21,6 +21,16 @@ const Wrapper = styled(Space)<{ color?: PaletteColor }>`
   text-align: center;
 `;
 
+const NumberSpan = styled.span<{ color?: PaletteColor }>`
+  color: ${props =>
+    props.theme.color(
+      props.color === 'yellow' || props.color === 'accent.salmon'
+        ? 'black'
+        : 'white'
+    )};
+  transform: rotateZ(6deg) scale(1.2);
+`;
+
 const Number: FunctionComponent<Props> = ({
   number,
   color,
@@ -31,16 +41,7 @@ const Number: FunctionComponent<Props> = ({
     className={font('wb', 5)}
     color={color}
   >
-    <span
-      className={
-        color === 'yellow' || color === 'accent.salmon'
-          ? 'font-black'
-          : 'font-white'
-      }
-      style={{ transform: 'rotateZ(6deg) scale(1.2)' }}
-    >
-      {number}
-    </span>
+    <NumberSpan color={color}>{number}</NumberSpan>
   </Wrapper>
 );
 

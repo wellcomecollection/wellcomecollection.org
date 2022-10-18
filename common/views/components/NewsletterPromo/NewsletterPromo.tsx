@@ -48,13 +48,7 @@ const NewsletterForm = styled.form.attrs({
     flex: 1;
   }
 
-  ${props =>
-    props.theme.makeSpacePropertyValues(
-      'm',
-      ['margin-bottom'],
-      undefined,
-      undefined
-    )}
+  ${props => props.theme.makeSpacePropertyValues('m', ['margin-bottom'])}
 
   ${props => props.theme.media('medium')`
     flex-wrap: nowrap;

@@ -80,7 +80,6 @@ const Installation: FunctionComponent<Props> = ({
           )}
         </>
       }
-      HeroPicture={undefined}
       isContentTypeInfoBeforeMedia={true}
     />
   );

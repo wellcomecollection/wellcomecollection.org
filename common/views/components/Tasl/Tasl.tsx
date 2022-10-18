@@ -41,19 +41,25 @@ const TaslButton = styled.button.attrs({
 type TaslIconProps = {
   isEnhanced: boolean;
 };
-const TaslIcon = styled.span.attrs({
-  className: 'font-white',
-})<TaslIconProps>`
+const TaslIcon = styled.span<TaslIconProps>`
   align-items: center;
   justify-content: center;
   background: rgba(29, 29, 29, 0.61);
+  color: ${props => props.theme.color('white')};
   width: ${props => `${props.theme.iconDimension}px`};
   height: ${props => `${props.theme.iconDimension}px`};
   border-radius: 50%;
   display: ${props => (props.isEnhanced ? 'flex' : 'inline')};
 `;
 
-const InfoContainer = styled(Space)`
+const InfoContainer = styled(Space).attrs({
+  v: {
+    size: 's',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+  h: { size: 's', properties: ['padding-left'] },
+})`
+  color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('black')};
   padding-right: 36px;
 `;
@@ -217,13 +223,7 @@ const Tasl: FunctionComponent<Props> = ({
       </TaslButton>
       <InfoContainer
         id={title || sourceName || copyrightHolder || ''}
-        v={{
-          size: 's',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={{ size: 's', properties: ['padding-left'] }}
         className={classNames({
-          'font-white': true,
           'is-hidden': isEnhanced && !isActive,
         })}
       >

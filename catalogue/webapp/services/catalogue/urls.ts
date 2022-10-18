@@ -12,7 +12,7 @@ export function downloadUrl({
 }: DownloadUrlProps): NextLinkType {
   return {
     href: {
-      pathname: `/download`,
+      pathname: '/download',
       query: {
         workId,
         ...removeEmptyProps({ sierraId }),

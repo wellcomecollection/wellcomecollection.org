@@ -38,10 +38,7 @@ const Wrapper = styled.div.attrs({
     `
   .icon__shape {
     fill: ${props.theme.color(props.color)};
-  }
-
-  .icon__stroke {
-    stroke: ${props.theme.color(props.color)};
+    transition: all ${props => props.theme.transitionProperties};
   }
 `}
 

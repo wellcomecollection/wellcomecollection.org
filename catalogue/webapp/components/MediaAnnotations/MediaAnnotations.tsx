@@ -1,8 +1,11 @@
 import { ReactElement, FunctionComponent } from 'react';
-import { IIIFMediaElement, IIIFAnnotationResource } from '../../model/iiif';
-import { getAnnotationFromMediaElement } from '../../utils/iiif';
+import {
+  IIIFMediaElement,
+  IIIFAnnotationResource,
+} from '../../services/iiif/types/manifest/v2';
+import { getAnnotationFromMediaElement } from '../../utils/iiif/v2';
 import Space from '@weco/common/views/components/styled/Space';
-import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 
 type Props = {
   media: IIIFMediaElement;
@@ -34,7 +37,7 @@ const MediaAnnotations: FunctionComponent<Props> = ({
             <DownloadLink
               href={annotation.resource['@id']}
               linkText={`Transcript of ${annotation.resource.label}${typeString}`}
-              format={'PDF'}
+              format="PDF"
               trackingEvent={{
                 category: 'Download link',
                 action: `follow${typeString} annotation link`,

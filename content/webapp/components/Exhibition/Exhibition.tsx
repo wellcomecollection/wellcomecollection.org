@@ -253,7 +253,6 @@ const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
       breadcrumbs={breadcrumbs}
       labels={{ labels: exhibition.labels }}
       title={exhibition.title}
-      Background={undefined}
       ContentTypeInfo={
         <Fragment>
           {!exhibition.isPermanent && (

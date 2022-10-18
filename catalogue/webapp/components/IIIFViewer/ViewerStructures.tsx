@@ -1,4 +1,4 @@
-import { getStructures, groupStructures, getCanvases } from '../../utils/iiif';
+import { groupStructures } from '../../utils/iiif/v2';
 import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -12,10 +12,13 @@ type Props = {
 const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   mainViewerRef,
 }: Props) => {
-  const { manifest, setActiveIndex, activeIndex, setIsMobileSidebarActive } =
-    useContext(ItemViewerContext);
-  const structures = manifest ? getStructures(manifest) : [];
-  const canvases = manifest ? getCanvases(manifest) : [];
+  const {
+    transformedManifest,
+    setActiveIndex,
+    activeIndex,
+    setIsMobileSidebarActive,
+  } = useContext(ItemViewerContext);
+  const { structures, canvases } = transformedManifest;
   const groupedStructures = groupStructures(canvases, structures);
 
   const List = styled.ul`

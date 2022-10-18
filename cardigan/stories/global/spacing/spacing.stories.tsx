@@ -7,11 +7,12 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 const ColorSection = styled.div<{ bgColor: PaletteColor }>`
   background-color: ${props => props.theme.color(props.bgColor)};
+  color: ${props => props.theme.color('white')};
 `;
 
 export const Spacing: FunctionComponent = () => {
   return (
-    <ColorSection bgColor="warmNeutral.300" className="font-white">
+    <ColorSection bgColor="warmNeutral.300">
       <SpacingSection>
         <ColorSection bgColor="accent.green" style={{ minHeight: '200px' }}>
           Section

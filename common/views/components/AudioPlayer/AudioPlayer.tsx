@@ -79,7 +79,6 @@ const SecondRow = styled.div`
 
 const PlayRateRadio = styled.input.attrs({
   type: 'radio',
-  name: 'playback-rate',
 })`
   position: absolute;
   top: 0;
@@ -148,22 +147,39 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
   }
 
   return (
-    <PlayRateWrapper>
-      {speeds.map(speed => (
-        <PlayRateLabel
-          key={speed}
-          htmlFor={`playrate-${speed}-${id}`}
-          isActive={audioPlaybackRate === speed}
-        >
-          <PlayRateRadio
-            id={`playrate-${speed}-${id}`}
-            onClick={() => updatePlaybackRate(speed)}
-          />
-          <span className="visually-hidden">playback rate:</span>
-          {speed}
-          <span aria-hidden="true">x</span>
-        </PlayRateLabel>
-      ))}
+    <PlayRateWrapper
+      // This ARIA role -- combined with the shared `name` on the individual buttons --
+      // tells screen readers that these radio buttons are part of a single group, and
+      // separate from the other buttons on the page.
+      //
+      // e.g. a screen reader will say "1 of 4" instead of "1 of 112" on an exhibition guide.
+      role="radiogroup"
+    >
+      <span className="visually-hidden">playback rate:</span>
+      {speeds.map(speed => {
+        // We construct this string here rather than directly in the component so these
+        // become a single element on the page.
+        //
+        // If we had them directly in the component, the iOS screen reader would read
+        // the two parts separately,
+        // e.g. "one point five (pause) ex" rather than "one point five ex".
+        const label = `${speed}x`;
+
+        return (
+          <PlayRateLabel
+            key={speed}
+            htmlFor={`playrate-${speed}-${id}`}
+            isActive={audioPlaybackRate === speed}
+          >
+            <PlayRateRadio
+              id={`playrate-${speed}-${id}`}
+              onClick={() => updatePlaybackRate(speed)}
+              name={`playrate-${id}`}
+            />
+            {label}
+          </PlayRateLabel>
+        );
+      })}
     </PlayRateWrapper>
   );
 };
@@ -202,7 +218,10 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
   };
   return (
     <VolumeWrapper>
-      <MuteUnmuteButton onClick={onVolumeButtonClick}>
+      <MuteUnmuteButton
+        onClick={onVolumeButtonClick}
+        aria-label={isMuted ? 'Unmute player' : 'Mute player'}
+      >
         <Icon
           color="neutral.600"
           icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
@@ -268,12 +287,14 @@ export type AudioPlayerProps = {
   audioFile: string;
   title: string;
   idPrefix?: string;
+  titleProps?: { role: string; 'aria-level': number };
 };
 
 export const AudioPlayer: FC<AudioPlayerProps> = ({
   audioFile,
   title,
   idPrefix,
+  titleProps = {},
 }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -373,12 +394,33 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
   return (
     <figure className="no-margin">
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <figcaption className={font('intb', 5)}>{title}</figcaption>
+        <figcaption className={font('intb', 5)} {...titleProps}>
+          {title}
+        </figcaption>
       </Space>
 
       <AudioPlayerGrid>
         <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
-          <PlayPauseInner>
+          <PlayPauseInner
+            // We declare the ARIA data on this wrapper rather than relying on the icon label
+            // to avoid a weird behaviour in the iOS screen reader.
+            //
+            // In particular, some combination of the icon-swapping means that selecting
+            // the button is read as:
+            //
+            //    Button, play
+            //    (user taps button)
+            //    Play, pause
+            //
+            // With these attributes, it's now read as:
+            //
+            //    Play, button
+            //    (user taps button)
+            //    Pause
+            //
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+            role="button"
+          >
             <Icon color="accent.green" icon={isPlaying ? pause : play} />
           </PlayPauseInner>
         </PlayPauseButton>

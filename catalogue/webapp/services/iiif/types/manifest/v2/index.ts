@@ -1,9 +1,3 @@
-import {
-  ContentResource,
-  IIIFExternalWebResource,
-  InternationalString,
-} from '@iiif/presentation-3';
-
 export type IIIFImageServiceSize = {
   width: number;
   height: number;
@@ -40,6 +34,12 @@ export type IIIFImage = {
   resource: IIIFResource;
 };
 
+type OtherContent = {
+  '@id': string;
+  '@type': string;
+  label: string;
+};
+
 export type IIIFCanvas = {
   '@id': string;
   thumbnail: IIIFThumbnail;
@@ -47,7 +47,7 @@ export type IIIFCanvas = {
   images: IIIFImage[];
   width: number;
   height: number;
-  otherContent: any[];
+  otherContent: OtherContent[];
 };
 
 export type IIIFStructure = {
@@ -88,16 +88,6 @@ export type IIIFMediaElement = {
   width?: number;
   resources?: IIIFAnnotationResource[];
   service?: AuthService | AuthService[];
-};
-
-export type AudioV3 = {
-  title?: string;
-  sounds: {
-    sound: IIIFExternalWebResource;
-    title?: string;
-  }[];
-  thumbnail?: ContentResource;
-  transcript?: ContentResource;
 };
 
 // This occurs on some born-digital presentation manifests,
@@ -148,10 +138,18 @@ export type Service = {
   accessHint?: string;
 };
 
+export type CollectionManifest = {
+  '@id': string;
+  type: string;
+  label: string;
+  thumbnail: IIIFThumbnail;
+  within?: string;
+};
+
 export type IIIFManifest = {
   '@id': string;
   label: string;
-  manifests: any; // TODO
+  manifests: CollectionManifest[];
   metadata: IIIFMetadata[];
   mediaSequences?: IIIFMediaSequence[];
   sequences?: IIIFSequence[];
@@ -159,13 +157,6 @@ export type IIIFManifest = {
   license: string;
   within?: string;
   service?: Service | Service[];
-};
-
-export type IIIFImageV3 = {
-  id: string;
-  type: 'Image';
-  label: InternationalString;
-  format: string;
 };
 
 export type SearchService = {

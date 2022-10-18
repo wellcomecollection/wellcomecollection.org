@@ -29,7 +29,6 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import cookies from '@weco/common/data/cookies';
 import ExhibitionGuideStops from '../../../../components/ExhibitionGuideStops/ExhibitionGuideStops';
 import { getTypeColor } from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
-import { isNotUndefined } from '@weco/common/utils/array';
 
 const Header = styled(Space).attrs({
   v: {
@@ -45,6 +44,7 @@ type Props = {
   jsonLd: JsonLdObj;
   type: ExhibitionGuideType;
   userPreferenceSet?: string | string[];
+  stopId?: string;
 };
 
 function getTypeTitle(type: ExhibitionGuideType): string {
@@ -124,6 +124,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
           type,
           userPreferenceSet,
+          stopId: stopId as string | undefined,
         }),
       };
     } else {
@@ -136,21 +137,38 @@ const ExhibitionGuidePage: FC<Props> = props => {
   const pathname = `guides/exhibitions/${exhibitionGuide.id}/${type}`;
   const typeColor = getTypeColor(type);
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
+
+  const thisStopTitle = props.stopId
+    ? exhibitionGuide.components.find(c => c.anchorId === props.stopId)
+        ?.displayTitle
+    : undefined;
+
+  const skipToContentLinks =
+    props.stopId && thisStopTitle
+      ? [
+          {
+            anchorId: props.stopId,
+            label: `Skip to '${thisStopTitle}'`,
+          },
+        ]
+      : [];
+
   return (
     <PageLayout
       title={`${exhibitionGuide.title} ${type ? getTypeTitle(type) : ''}` || ''}
       description={pageDescriptions.exhibitionGuides}
-      url={{ pathname: pathname }}
+      url={{ pathname }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="exhibition-guides"
-      image={exhibitionGuide.image || undefined}
+      image={exhibitionGuide.image}
       headerProps={{
         customNavLinks: exhibitionGuidesLinks,
         showLibraryLogin: false,
       }}
       hideNewsletterPromo={true}
       hideFooter={true}
+      skipToContentLinks={skipToContentLinks}
     >
       <Header color={typeColor}>
         <Layout8 shift={false}>

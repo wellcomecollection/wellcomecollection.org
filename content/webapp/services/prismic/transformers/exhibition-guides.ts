@@ -4,11 +4,15 @@ import {
   ExhibitionGuideComponent,
   Exhibit,
 } from '../../../types/exhibition-guides';
-import { asRichText, asText } from '.';
-import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
+import { asRichText, asText, asTitle } from '.';
+import {
+  ExhibitionGuideComponentPrismicDocument,
+  ExhibitionGuidePrismicDocument,
+} from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.
@@ -118,12 +122,19 @@ export function transformExhibitionGuide(
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
-    component => {
+    (component: ExhibitionGuideComponentPrismicDocument) => {
+      const title = asTitle(component.title);
+      const standaloneTitle = asTitle(component.standaloneTitle);
+
+      const displayTitle = title || standaloneTitle;
+      const anchorId = dasherizeShorten(displayTitle);
+
       return {
-        number: component.number || '',
-        title: (component.title && asText(component.title)) || '',
-        standaloneTitle:
-          (component.title && asText(component.standaloneTitle)) || [],
+        number: component.number || undefined,
+        title,
+        standaloneTitle,
+        displayTitle,
+        anchorId,
         tombstone:
           (component.tombstone && asRichText(component.tombstone)) || [],
         image: transformImage(component.image),

@@ -12,8 +12,9 @@ export type Props = {
 };
 
 const Cite = styled.cite.attrs({
-  className: `quote__cite font-neutral-600 ${font('intr', 5)}`,
+  className: `quote__cite ${font('intr', 5)}`,
 })`
+  color: ${props => props.theme.color('neutral.600')};
   display: flex;
   align-items: flex-end;
 `;

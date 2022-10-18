@@ -18,13 +18,11 @@ import {
   getDigitalLocationOfType,
 } from '../../utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
-import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestList from './MultipleManifestList';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
-import { getSearchService } from '../../utils/iiif';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
@@ -123,8 +121,9 @@ type Props = {
 };
 
 const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
-  const { work, manifest, parentManifest, currentManifestLabel } =
+  const { work, transformedManifest, parentManifest, currentManifestLabel } =
     useContext(ItemViewerContext);
+  const { iiifCredit, structures, searchService } = transformedManifest;
   const productionDates = getProductionDates(work);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -138,8 +137,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
   const license =
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
-  const { iiifCredit } = useIIIFManifestData(work);
-  const searchService = manifest && getSearchService(manifest);
+
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
 
   return (
@@ -239,7 +237,8 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
             )}
           </div>
         </AccordionItem>
-        {manifest && manifest.structures && manifest.structures.length > 0 && (
+
+        {structures.length > 0 && (
           <AccordionItem title="Contents">
             <ViewerStructures mainViewerRef={mainViewerRef} />
           </AccordionItem>
@@ -250,7 +249,6 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </AccordionItem>
         )}
       </Inner>
-
       {searchService && (
         <Inner>
           <IIIFSearchWithin mainViewerRef={mainViewerRef} />

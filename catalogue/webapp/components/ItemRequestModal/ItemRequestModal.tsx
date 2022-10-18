@@ -55,7 +55,7 @@ const ItemRequestModal: FC<Props> = ({
   async function confirmRequest(pickupDate: Date) {
     setRequestingState('requesting');
     try {
-      const response = await fetch(`/account/api/users/me/item-requests`, {
+      const response = await fetch('/account/api/users/me/item-requests', {
         method: 'POST',
         body: JSON.stringify({
           workId: work.id,

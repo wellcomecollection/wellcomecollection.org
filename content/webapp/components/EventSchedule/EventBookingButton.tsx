@@ -18,10 +18,7 @@ function getButtonMarkup(event: Event) {
     return <Message text="Fully booked" />;
   } else {
     return (
-      <div
-        className="js-eventbrite-ticket-button"
-        data-eventbrite-ticket-id={event.eventbriteId}
-      >
+      <div data-eventbrite-ticket-id={event.eventbriteId}>
         <ButtonSolidLink
           link={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
           icon={ticketAvailable}
@@ -59,11 +56,12 @@ const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
       size: 's',
       properties: ['margin-top'],
     },
-    className: `font-neutral-700 ${font('intr', 4)}`,
+    className: font('intr', 4),
     href: `mailto:${props.email}?subject=${props.title}`,
   })
 )<EventBookingButtonProps>`
   display: block;
+  color: ${props => props.theme.color('neutral.700')};
 `;
 
 const EventBookingButton: FC<Props> = ({ event }: Props) => {

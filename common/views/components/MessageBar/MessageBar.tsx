@@ -4,19 +4,14 @@ import { font } from '../../../utils/classnames';
 import Space, { SpaceComponentProps } from '../styled/Space';
 
 const ColouredTag: FunctionComponent<SpaceComponentProps> = styled.span.attrs({
-  className: `font-white ${font('intb', 6)}`,
+  className: font('intb', 6),
 })<SpaceComponentProps>`
   display: inline-block;
+  color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('neutral.700')};
   padding: 0.2em 0.5em;
   text-transform: uppercase;
-  ${props =>
-    props.theme.makeSpacePropertyValues(
-      's',
-      ['margin-right'],
-      undefined,
-      undefined
-    )}
+  ${props => props.theme.makeSpacePropertyValues('s', ['margin-right'])}
 `;
 
 type Props = {
