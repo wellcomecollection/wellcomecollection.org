@@ -2,7 +2,7 @@ import { default as React, Fragment } from 'react';
 import theme from '../../common/views/themes/default';
 import { ContextDecorator } from '../config/decorators';
 import wellcomeTheme from './wellcome-theme';
-import { DocsContainer } from '@storybook/addon-docs/blocks';
+import { DocsContainer } from '@storybook/addon-docs';
 import { grid } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
@@ -42,16 +42,16 @@ export const parameters = {
       disable: true,
     },
   },
-  viewMode: 'docs',
-  previewTabs: {
-    'storybook/docs/panel': { index: -1 },
-  },
-  docs: {
-    theme: wellcomeTheme,
-    container: ({ children, context }) => (
-      <DocsContainer context={context}>
-        <ContextDecorator>{children}</ContextDecorator>
-      </DocsContainer>
-    ),
-  },
+  // viewMode: 'docs',
+  // previewTabs: {
+  //   'storybook/docs/panel': { index: -1 },
+  // },
+  // docs: {
+  //   theme: wellcomeTheme,
+  //   container: ({ children, context }) => (
+  //     <DocsContainer context={context}>
+  //       <ContextDecorator>{children}</ContextDecorator>
+  //     </DocsContainer>
+  //   ),
+  // },
 };

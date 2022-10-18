@@ -1,4 +1,16 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.1.4/lazysizes.min.js" async=""></script>
+<script>
+  window.global = window;
+</script>
+
+<script type="module">
+    import { Buffer } from "buffer";
+    import process from "process";
+    import EventEmitter from "events";
+
+    window.Buffer = Buffer;
+    window.process = process;
+    window.EventEmitter = EventEmitter;
+</script>
 
 <style>
   .sbdocs code[class*="language-"],
