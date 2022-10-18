@@ -68,11 +68,12 @@ const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
 
 const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
   as: `h${props.level}`,
-  className: font('intb', 3),
+  className: font('wb', 2),
   v: { size: 's', properties: ['margin-bottom'] },
 }))<{ level: number }>``;
 
 const Tombstone = styled(Space).attrs({
+  className: font('intb', 4),
   h: { size: 'm', properties: ['padding-right'] },
 })`
   flex-basis: 100%;
@@ -254,7 +255,7 @@ const Stop: FC<{
                   {title}
                 </TombstoneTitle>
               )}
-              <div className={font('intr', 4)}>
+              <div className={font('intb', 4)}>
                 <PrismicHtmlBlock html={tombstone} />
               </div>
             </Tombstone>
