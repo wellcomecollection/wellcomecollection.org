@@ -45,6 +45,7 @@ Digital Platform:
  Alice Richmond
  Jamie Parkinson
  Jonathan Tweed
+ Jennifer Phillips-Bacher
  Natalie Pollecutt
  Alex Chan
  Harrison Pim
@@ -72,7 +73,6 @@ Access:
  James Gorrie
  Alice Fuzier-Cayla
  Robert Kenny
- Jennifer Phillips-Bacher
  Vanessa Peterson
  Maisie Jenkins
  Nick Ward
