@@ -74,18 +74,18 @@ const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
 
 const Tombstone = styled(Space).attrs({
   className: font('intb', 4),
-  h: { size: 'm', properties: ['padding-right'] },
+  h: { size: 'l', properties: ['padding-right'] },
 })`
   flex-basis: 100%;
   margin-bottom: 1em;
 
   ${props => props.theme.media('medium')`
-    flex-basis: 45%;
+    flex-basis: 40%;
     margin-bottom: 0;
   `}
 
   ${props => props.theme.media('large')`
-    flex-basis: 35%;
+    flex-basis: 30%;
   `}
 
   p {
@@ -98,16 +98,16 @@ const CaptionTranscription = styled.div`
   max-width: 45em;
 
   ${props => props.theme.media('medium')`
-    flex-basis: 55%;
+    flex-basis: 60%;
   `}
 
   ${props => props.theme.media('large')`
-    flex-basis: 65%;
+    flex-basis: 70%;
   `}
 `;
 
 const Caption = styled(Space).attrs({
-  className: `spaced-text ${font('intr', 4)}`,
+  className: `spaced-text ${font('intr', 5)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 20px solid ${props => props.theme.color('lightYellow')};
@@ -255,7 +255,7 @@ const Stop: FC<{
                   {title}
                 </TombstoneTitle>
               )}
-              <div className={font('intb', 4)}>
+              <div className={font('intr', 4)}>
                 <PrismicHtmlBlock html={tombstone} />
               </div>
             </Tombstone>
