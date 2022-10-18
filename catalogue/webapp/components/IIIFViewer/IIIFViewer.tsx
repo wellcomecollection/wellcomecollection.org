@@ -40,6 +40,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
 import { TransformedManifest } from '../../types/manifest';
+import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 
 type IIIFViewerProps = {
   title: string;
@@ -262,22 +263,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   // https://api.wellcomecollection.org/catalogue/v2/works/dkbfnjqj?include=identifiers%2Cimages%2Citems%2Csubjects%2Cgenres%2Ccontributors%2Cproduction%2Cnotes%2Cparts%2CpartOf%2CprecededBy%2CsucceededBy%2Clanguages%2Choldings   -  only has iiif-image location
   // TODO can we default to the right thing earlier? - how do we determine link to /items or /images?
   // TODO explain why
+  const transformedIIIFImage = useTransformedIIIFImage(work);
+
   const hasImageService = mainImageService['@id'] && currentCanvas;
   const { canvases, downloadEnabled, downloadOptions, parentManifestUrl } =
     transformedManifest;
-
-  useEffect(() => {
-    const fetchImageJson = async () => {
-      try {
-        if (iiifImageLocation) {
-          const image = await fetch(iiifImageLocation.url);
-          const json = await image.json();
-          setImageJson(json);
-        }
-      } catch (e) {}
-    };
-    fetchImageJson();
-  }, []);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -361,14 +351,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     getCatalogueLicenseData(digitalLocation.license);
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   // TODO comment when work out what is going on here
-  const imageDownloadOptions = iiifImageLocation
-    ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocation.url, // TODO where is this from and is it different from mainImageService['@id'] etc.
-        width: imageJson?.width,
-        height: imageJson?.height,
-      })
-    : [];
-  // TODO title has gone missing 'Copy 1' - /works/mg56yqa4/items
   // TODO why imageDownloadOptions and imageDownloads? - miro image and presentation?
   // ah is this so we can download individual images shown in the viewer?
   const imageDownloads = mainImageService['@id']
@@ -376,6 +358,14 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         url: mainImageService['@id'],
         width: currentCanvas && currentCanvas.width,
         height: currentCanvas && currentCanvas.height,
+      })
+    : [];
+
+  const imageDownloadOptions = iiifImageLocation
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocation.url, // TODO where is this from and is it different from mainImageService['@id'] etc.
+        width: transformedIIIFImage.width,
+        height: transformedIIIFImage.height,
       })
     : [];
 
