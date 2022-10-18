@@ -80,12 +80,12 @@ const Tombstone = styled(Space).attrs({
   margin-bottom: 1em;
 
   ${props => props.theme.media('medium')`
-    flex-basis: 40%;
+    flex-basis: 45%;
     margin-bottom: 0;
   `}
 
   ${props => props.theme.media('large')`
-    flex-basis: 25%;
+    flex-basis: 35%;
   `}
 
   p {
@@ -98,11 +98,11 @@ const CaptionTranscription = styled.div`
   max-width: 45em;
 
   ${props => props.theme.media('medium')`
-    flex-basis: 60%;
+    flex-basis: 55%;
   `}
 
   ${props => props.theme.media('large')`
-    flex-basis: 75%;
+    flex-basis: 65%;
   `}
 `;
 
