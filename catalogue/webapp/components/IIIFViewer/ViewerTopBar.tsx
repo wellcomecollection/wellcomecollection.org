@@ -191,7 +191,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
-    canvases,
     gridVisible,
     setGridVisible,
     work,
@@ -206,7 +205,9 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     isDesktopSidebarActive,
     showZoomed,
     isResizing,
+    transformedManifest,
   } = useContext(ItemViewerContext);
+  const { canvases } = transformedManifest;
   return (
     <TopBar
       isZooming={showZoomed}

@@ -15,7 +15,10 @@ import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
-import { IIIFCanvas, SearchResults } from '../../model/iiif';
+import {
+  IIIFCanvas,
+  SearchResults,
+} from '../../services/iiif/types/manifest/v2';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { scrollViewer } from './MainViewer';
@@ -147,8 +150,9 @@ const GridViewer: FunctionComponent<Props> = ({
     setGridVisible,
     setActiveIndex,
     activeIndex,
-    canvases,
+    transformedManifest,
     isFullscreen,
+    searchResults,
   } = useContext(ItemViewerContext);
   const { windowSize } = useContext(AppContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -158,7 +162,7 @@ const GridViewer: FunctionComponent<Props> = ({
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
   const { isVisible } = useContext(GlobalInfoBarContext);
-  const { searchResults } = useContext(ItemViewerContext);
+  const { canvases } = transformedManifest;
 
   useEffect(() => {
     const rowIndex = Math.floor(activeIndex / columnCount);
@@ -219,7 +223,7 @@ const GridViewer: FunctionComponent<Props> = ({
           columnCount={columnCount}
           columnWidth={columnWidth}
           height={mainAreaHeight}
-          rowCount={canvases.length / columnCount + 1}
+          rowCount={canvases ? canvases.length / columnCount + 1 : 0}
           rowHeight={450}
           width={mainAreaWidth}
           itemData={{

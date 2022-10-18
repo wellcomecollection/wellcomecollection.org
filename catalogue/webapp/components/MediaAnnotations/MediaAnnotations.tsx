@@ -1,6 +1,9 @@
 import { ReactElement, FunctionComponent } from 'react';
-import { IIIFMediaElement, IIIFAnnotationResource } from '../../model/iiif';
-import { getAnnotationFromMediaElement } from '../../utils/iiif';
+import {
+  IIIFMediaElement,
+  IIIFAnnotationResource,
+} from '../../services/iiif/types/manifest/v2';
+import { getAnnotationFromMediaElement } from '../../utils/iiif/v2';
 import Space from '@weco/common/views/components/styled/Space';
 import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 

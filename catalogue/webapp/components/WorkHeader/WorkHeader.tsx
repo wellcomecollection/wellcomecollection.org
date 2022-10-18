@@ -13,7 +13,7 @@ import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import useIIIFManifestData from '../../hooks/useIIIFManifestData';
+import useTransformedManifest from '../../hooks/useTransformedManifest';
 
 const WorkHeaderContainer = styled.div`
   display: flex;
@@ -31,7 +31,8 @@ const WorkHeader: FunctionComponent<Props> = ({
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
-  const { childManifestsCount } = useIIIFManifestData(work);
+  const manifestData = useTransformedManifest(work);
+  const { collectionManifestsCount } = manifestData;
 
   const primaryContributorLabel = work.contributors.find(
     contributor => contributor.primary
@@ -111,11 +112,11 @@ const WorkHeader: FunctionComponent<Props> = ({
             />
           </Space>
 
-          {childManifestsCount > 0 && (
+          {collectionManifestsCount > 0 && (
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
               <p className={`${font('intb', 5)} no-margin`}>
-                <Number color="yellow" number={childManifestsCount} />
-                {childManifestsCount === 1 ? ' volume ' : ' volumes '}
+                <Number color="yellow" number={collectionManifestsCount} />
+                {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
                 online
               </p>
             </Space>

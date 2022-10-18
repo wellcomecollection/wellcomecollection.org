@@ -46,13 +46,14 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const isFullscreenEnabled = useIsFullscreenEnabled();
 
   const {
-    canvases,
+    transformedManifest,
     gridVisible,
     setGridVisible,
     work,
     showZoomed,
     isMobileSidebarActive,
   } = useContext(ItemViewerContext);
+  const { canvases } = transformedManifest;
   return (
     <BottomBar>
       <LeftZone data-test-id="page-grid-buttons">

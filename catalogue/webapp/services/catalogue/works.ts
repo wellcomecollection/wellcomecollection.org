@@ -5,7 +5,7 @@ import {
   ItemsList,
   Work,
 } from '@weco/common/model/catalogue';
-import { IIIFCanvas } from '../../model/iiif';
+import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
 import {
   catalogueApiError,
