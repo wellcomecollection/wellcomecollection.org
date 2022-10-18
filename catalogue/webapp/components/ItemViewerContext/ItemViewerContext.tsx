@@ -47,7 +47,6 @@ type Props = {
   showControls: boolean;
   isLoading: boolean;
   setIsLoading: (v: boolean) => void;
-  setImageJson: (v: boolean) => void;
   setParentManifest: (v: IIIFManifest) => void;
   rotatedImages: { canvasIndex: number; rotation: number }[];
   setShowControls: (v: boolean) => void;
@@ -130,7 +129,6 @@ const ItemViewerContext = createContext<Props>({
   setIsFullscreen: () => undefined,
   setRotatedImages: () => undefined,
   setIsLoading: () => undefined,
-  setImageJson: () => undefined,
   setParentManifest: () => undefined,
   setShowControls: () => undefined,
   errorHandler: () => undefined,

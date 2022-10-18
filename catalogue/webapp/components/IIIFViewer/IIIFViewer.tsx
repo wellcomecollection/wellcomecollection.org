@@ -242,7 +242,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [imageJson, setImageJson] = useState<any>();
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
@@ -480,7 +479,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setShowControls,
         errorHandler: handleImageError,
         setRotatedImages,
-        setImageJson,
         setParentManifest,
         setCurrentManifestLabel,
       }}
