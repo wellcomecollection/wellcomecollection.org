@@ -1,13 +1,11 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs';
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs';
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import Readme from '@weco/common/views/components/MessageBar/README.md';
 import * as stories from './MessageBar.stories.tsx';
 
 <Meta title={`Components/MessageBar`} component={MessageBar} />
 
-# MessageBar
-
-<Description>{Readme}</Description>
+<Readme />
 
 <Canvas>
   <Story story={stories.basic} />

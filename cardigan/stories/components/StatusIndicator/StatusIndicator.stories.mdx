@@ -1,13 +1,11 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs';
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs';
 import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 import Readme from '@weco/content/components/StatusIndicator/README.md';
 import * as stories from './StatusIndicator.stories.tsx';
 
 <Meta title={`Components/StatusIndicator`} component={StatusIndicator} />
 
-# StatusIndicator
-
-<Description>{Readme}</Description>
+<Readme />
 
 <Canvas>
   <Story story={stories.comingSoon} />

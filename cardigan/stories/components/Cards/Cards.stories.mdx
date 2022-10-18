@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs';
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs';
 import CompactCardReadme from '@weco/content/components/CompactCard/README.md';
 import BannerCardReadme from '@weco/content/components/BannerCard/README.md';
 import FeaturedCardReadme from '@weco/content/components/FeaturedCard/README.md';
@@ -11,53 +11,37 @@ import * as stories from './Cards.stories.tsx';
 
 # Cards
 
-## `CompactCard`
-
-<Description>{CompactCardReadme}</Description>
+<CompactCardReadme />
 
 <Canvas>
   <Story story={stories.compactCard} />
 </Canvas>
 
-## `BannerCard`
-
-<Description>{BannerCardReadme}</Description>
+<BannerCardReadme />
 
 <Canvas>
   <Story story={stories.bannerCard} />
 </Canvas>
 
-
-## `FeaturedCard`
-
-<Description>{FeaturedCardReadme}</Description>
+<FeaturedCardReadme />
 
 <Canvas>
   <Story story={stories.featuredCard} />
 </Canvas>
 
-
-## `EventPromo`
-
-<Description>{EventPromoReadme}</Description>
+<EventPromoReadme />
 
 <Canvas>
   <Story story={stories.eventPromo} />
 </Canvas>
 
-
-## `ExhibitionPromo`
-
-<Description>{ExhibitionPromoReadme}</Description>
+<ExhibitionPromoReadme />
 
 <Canvas>
   <Story story={stories.exhibitionPromo} />
 </Canvas>
 
-
-## `StoryPromo`
-
-<Description>{StoryPromoReadme}</Description>
+<StoryPromoReadme />
 
 <Canvas>
   <Story story={stories.storyPromo} />

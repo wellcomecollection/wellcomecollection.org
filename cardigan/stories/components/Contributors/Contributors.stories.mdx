@@ -1,13 +1,11 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs';
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs';
 import Contributors from '@weco/content/components/Contributors/Contributors';
 import Readme from '@weco/content/components/Contributors/README.md';
 import * as stories from './Contributors.stories.tsx';
 
 <Meta title={`Components/Contributors`} component={Contributors} />
 
-# Contributors
-
-<Description>{Readme}</Description>
+<Readme />
 
 <Canvas>
   <Story story={stories.basic} />

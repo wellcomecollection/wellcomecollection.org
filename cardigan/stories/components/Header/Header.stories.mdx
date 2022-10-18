@@ -1,13 +1,11 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs';
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs';
 import Header from '@weco/common/views/components/Header/Header';
 import Readme from '@weco/common/views/components/Header/README.md';
 import * as stories from './Header.stories.tsx';
 
 <Meta title={`Components/Header`} component={Header} />
 
-# Header
-
-<Description>{Readme}</Description>
+<Readme />
 
 <Canvas>
   <Story story={stories.basic} inline={false} />

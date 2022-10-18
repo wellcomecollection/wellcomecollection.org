@@ -12,14 +12,16 @@ module.exports = {
   addons: [
     '@storybook/addon-controls',
     '@storybook/addon-a11y',
-    '@storybook/addon-docs',
     '@storybook/addon-backgrounds',
+    {
+      name: "@storybook/addon-docs",
+      options: { transcludeMarkdown: true },
+    },
   ],
   core: {
     builder: '@storybook/builder-vite',
   },
   async viteFinal(config) {
-    // Merge custom configuration into the default config
     return mergeConfig(config, {
       resolve: {
         alias: {

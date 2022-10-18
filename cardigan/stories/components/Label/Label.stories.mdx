@@ -1,13 +1,11 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs';
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs';
 import Label from '@weco/common/views/components/Label/Label';
 import Readme from '@weco/common/views/components/Label/README.md';
 import * as stories from './Label.stories.tsx';
 
 <Meta title={`Components/Label`} component={Label} />
 
-# Label
-
-<Description>{Readme}</Description>
+<Readme />
 
 <Canvas>
   <Story story={stories.basic} />
