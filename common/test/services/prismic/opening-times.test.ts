@@ -1,12 +1,12 @@
 import {
-  exceptionalOpeningDates,
-  exceptionalOpeningPeriods,
-  exceptionalOpeningPeriodsAllDates,
+  getOverrideDatesForAllVenues,
+  groupOverrideDates,
+  completeDateRangeForExceptionalPeriods,
   getExceptionalVenueDays,
   groupExceptionalVenueDays,
   exceptionalFromRegular,
-  backfillExceptionalVenueDays,
-  getUpcomingExceptionalPeriods,
+  createExceptionalOpeningHoursDays,
+  getUpcomingExceptionalOpeningHours,
   getVenueById,
   getTodaysVenueHours,
   groupConsecutiveExceptionalDays,
@@ -14,6 +14,7 @@ import {
 import { venues } from '../../../test/fixtures/components/venues';
 import {
   ExceptionalOpeningHoursDay,
+  OverrideType,
   Venue,
 } from '../../../model/opening-hours';
 import * as dateUtils from '../../../utils/dates';
@@ -28,17 +29,19 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
   };
 });
 
-const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx');
-const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4');
+const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx')!;
+const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
 
 describe('opening-times', () => {
-  describe('exceptionalOpeningDates: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
+  describe('getOverrideDatesForAllVenues: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
     it('returns an empty array if no venues have dates with exceptional opening hours', () => {
-      const result = exceptionalOpeningDates(venuesWithoutExceptionalDates);
+      const result = getOverrideDatesForAllVenues(
+        venuesWithoutExceptionalDates
+      );
       expect(result).toEqual([]);
     });
     it('returns all dates that have exceptional opening hours for any venue', () => {
-      const result = exceptionalOpeningDates(venues);
+      const result = getOverrideDatesForAllVenues(venues);
       expect(result).toEqual([
         {
           overrideDate: new Date('2021-01-05'),
@@ -87,17 +90,41 @@ describe('opening-times', () => {
       ]);
     });
     it('does not include a date more than once', () => {
-      const result = exceptionalOpeningDates(venues);
+      const result = getOverrideDatesForAllVenues(venues);
       const uniqueDates = new Set(
         result.map(date => date.overrideDate?.toString())
       );
       expect(result.length).toEqual(uniqueDates.size);
     });
+    it('sorts the list of returned dates', () => {
+      const venue = {
+        ...libraryVenue,
+        openingHours: {
+          ...libraryVenue.openingHours,
+          exceptional: [
+            new Date('2003-03-03'),
+            new Date('2001-01-01'),
+            new Date('2002-02-02'),
+          ].map(overrideDate => ({
+            overrideDate,
+            overrideType: 'other' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+          })),
+        },
+      };
+      const result = getOverrideDatesForAllVenues([venue]);
+      expect(result.map(d => d.overrideDate)).toEqual([
+        new Date('2001-01-01'),
+        new Date('2002-02-02'),
+        new Date('2003-03-03'),
+      ]);
+    });
   });
 
-  describe('exceptionalOpeningPeriods: groups together override dates based on their proximity to each other and their override type, so we can display them together', () => {
+  describe('groupOverrideDates: groups together override dates based on their proximity to each other and their override type, so we can display them together', () => {
     it('groups together dates with the same overrideType, so that there is never more than 4 days between one date and the next', () => {
-      const result = exceptionalOpeningPeriods([
+      const result = groupOverrideDates([
         { overrideType: 'other', overrideDate: new Date('2020-01-01') },
         { overrideType: 'other', overrideDate: new Date('2020-01-03') },
         { overrideType: 'other', overrideDate: new Date('2020-01-06') },
@@ -124,7 +151,7 @@ describe('opening-times', () => {
     });
 
     it('puts OverrideDates with the same overrideDate but different overrideType into different groups', () => {
-      const result = exceptionalOpeningPeriods([
+      const result = groupOverrideDates([
         { overrideType: 'other', overrideDate: new Date('2020-01-02') },
         { overrideType: 'other', overrideDate: new Date('2020-01-04') },
         {
@@ -145,7 +172,7 @@ describe('opening-times', () => {
     });
 
     it('puts dates in chronological order within their groups', () => {
-      const result = exceptionalOpeningPeriods([
+      const result = groupOverrideDates([
         { overrideType: 'other', overrideDate: new Date('2020-01-04') },
         { overrideType: 'other', overrideDate: new Date('2020-01-07') },
         { overrideType: 'other', overrideDate: new Date('2020-01-02') },
@@ -163,7 +190,7 @@ describe('opening-times', () => {
     });
 
     it('puts Groups in chronological order based on their earliest date', () => {
-      const result = exceptionalOpeningPeriods([
+      const result = groupOverrideDates([
         {
           overrideType: 'Bank holiday',
           overrideDate: new Date('2021-01-05'),
@@ -197,9 +224,9 @@ describe('opening-times', () => {
     });
   });
 
-  describe('exceptionalOpeningPeriodsAllDates: adds dates to the dates array of a period, so that they are consecutive from the first to last', () => {
+  describe('completeDateRangeForExceptionalPeriods: adds dates to the dates array of a period, so that they are consecutive from the first to last', () => {
     it('fills in missing dates', () => {
-      const result = exceptionalOpeningPeriodsAllDates([
+      const result = completeDateRangeForExceptionalPeriods([
         {
           type: 'Christmas and New Year',
           dates: [
@@ -218,7 +245,7 @@ describe('opening-times', () => {
 
   describe('getExceptionalVenueDays', () => {
     it('returns all exceptional override dates for a venue', () => {
-      const result = getExceptionalVenueDays(galleriesVenue!);
+      const result = getExceptionalVenueDays(galleriesVenue);
       expect(result).toEqual([
         {
           overrideDate: new Date('2022-01-01'),
@@ -389,7 +416,7 @@ describe('opening-times', () => {
   describe('exceptionalFromRegular', () => {
     it('returns an ExceptionalOpeningHoursDay type for a particular date and venue, generated from the regular hours of that venue.', () => {
       const result = exceptionalFromRegular(
-        libraryVenue!,
+        libraryVenue,
         new Date('2021-12-21'),
         'Bank holiday'
       );
@@ -406,7 +433,7 @@ describe('opening-times', () => {
 
   describe("backfillExceptionalVenueDays: returns the venue's exceptional opening times for each date, and if there is no exceptional opening time for a specific date, then it uses the venue's regular opening times for that day.", () => {
     it('returns an exceptional override date type for each of the dates provided', () => {
-      const result = backfillExceptionalVenueDays(libraryVenue!, [
+      const result = createExceptionalOpeningHoursDays(libraryVenue, [
         {
           type: 'Christmas and New Year',
           dates: [
@@ -483,7 +510,7 @@ describe('opening-times', () => {
 
     // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
     it("it doesn't return the regular hours if the override type is 'other'", () => {
-      const result = backfillExceptionalVenueDays(libraryVenue!, [
+      const result = createExceptionalOpeningHoursDays(libraryVenue, [
         {
           type: 'Bank holiday',
           dates: [new Date('2021-10-05')],
@@ -509,7 +536,7 @@ describe('opening-times', () => {
     });
   });
 
-  describe('getUpcomingExceptionalPeriods', () => {
+  describe('getUpcomingExceptionalOpeningHours', () => {
     const exceptionalPeriods: ExceptionalOpeningHoursDay[][] = [
       [
         {
@@ -565,7 +592,7 @@ describe('opening-times', () => {
       spyOnLondon.mockImplementation(() => {
         return new Date('2021-11-30');
       });
-      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual([]);
     });
 
@@ -575,7 +602,7 @@ describe('opening-times', () => {
       spyOnLondon.mockImplementation(() => {
         return new Date('2021-12-10');
       });
-      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual([
         [
           {
@@ -628,7 +655,7 @@ describe('opening-times', () => {
         return new Date('2022-09-19T00:00:00Z');
       });
 
-      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual(exceptionalPeriods);
     });
   });
@@ -648,7 +675,7 @@ describe('opening-times', () => {
         return new Date('2022-01-19T00:00:00Z');
       });
 
-      const result = getTodaysVenueHours(libraryVenue!);
+      const result = getTodaysVenueHours(libraryVenue);
 
       expect(result).toEqual({
         dayOfWeek: 'Wednesday',
@@ -665,7 +692,7 @@ describe('opening-times', () => {
         return new Date('2023-01-01T00:00:00Z');
       });
 
-      const result = getTodaysVenueHours(libraryVenue!);
+      const result = getTodaysVenueHours(libraryVenue);
       expect(result).toEqual({
         overrideDate: new Date('2023-01-01'),
         overrideType: 'Christmas and New Year',

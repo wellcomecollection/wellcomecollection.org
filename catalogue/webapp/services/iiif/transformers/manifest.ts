@@ -24,6 +24,9 @@ export function transformManifest(
   const { manifestV2, manifestV3 } = { ...iiifManifests };
 
   // V2
+  // TODO Be aware when moving the id to v3 the id value changes, the id string will no longer contain /v2/
+  // This causes the matchingManifest not to be found in IIIFViewer
+  const id = manifestV2 ? manifestV2['@id']: '';
   const title = manifestV2 ? manifestV2.label : '';
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
   const canvasCount = canvases.length;
@@ -76,6 +79,7 @@ export function transformManifest(
   // TODO As we move over, further transform the props to exactly what we need
   return {
     // Taken from V2 manifest:
+    id,
     title,
     canvasCount,
     collectionManifestsCount,

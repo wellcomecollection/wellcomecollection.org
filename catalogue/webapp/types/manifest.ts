@@ -44,12 +44,14 @@ export type TransformedManifest = {
   searchService: Service2 | undefined;
   structures: IIIFStructure[];
   // Currently from iiif manifest v3:
+  id: string;
   audio: Audio | undefined;
   services: Service[];
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {
   return {
+    id: '',
     title: '',
     canvasCount: 0,
     collectionManifestsCount: 0,
