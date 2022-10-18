@@ -81,37 +81,57 @@ function getItemLinkState({
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const isArchive = useContext(IsArchiveContext);
-
   const itemUrl = itemLink({ workId: work.id }, 'work');
-
-  // Determine digital location
-  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
-
-  const digitalLocation: DigitalLocation | undefined =
-    iiifPresentationLocation || iiifImageLocation;
-
-
-  const digitalLocationInfo =
-    digitalLocation && getDigitalLocationInfo(digitalLocation);
-  // We need the transformed iiif-image json to get width and height data to display in the download link
   const transformedIIIFImage = useTransformedIIIFImage(work);
-
   const transformedIIIFManifest = useTransformedManifest(work);
   const {
     video,
     iiifCredit,
     downloadEnabled,
-    downloadOptions,
+    downloadOptions: manifestDownloadOptions,
     collectionManifestsCount,
     canvasCount,
     audio,
     services,
   } = transformedIIIFManifest;
+
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
+
+  // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
+  // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
+  // For a iiif-image DigitalLocation we create the download options
+  // from a combination of the DigitalLocation and the iiif-image json to which it points.
+  // The json provides the image width and height used in the link text.
+  // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
+  // gets this data client side.
+  const iiifImageLocationUrl = iiifImageLocation?.url;
+  const iiifImageDownloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocationUrl,
+        width: transformedIIIFImage?.width,
+        height: transformedIIIFImage?.height,
+      })
+    : [];
+
+  const downloadOptions = [
+    ...manifestDownloadOptions,
+    ...iiifImageDownloadOptions,
+  ];
+
+  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
+  // we use the former
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
+
+  // iiif-image locations have credit info.
+  // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
+  const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice
@@ -124,21 +144,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     : audioAuthService
     ? getTokenServiceV3(audioAuthService['@id'], services)
     : undefined;
-
-  // iiif-image locations have credit info.
-  // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
-  const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
-
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImageDownloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocationUrl,
-        width: transformedIIIFImage?.width,
-        height: transformedIIIFImage?.height,
-      })
-    : [];
-
-  const allDownloadOptions = [...iiifImageDownloadOptions, ...downloadOptions];
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -419,11 +424,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     <Download
                       ariaControlsId="itemDownloads"
                       workId={work.id}
-                      downloadOptions={allDownloadOptions}
+                      downloadOptions={downloadOptions}
                     />
                   )}
                 </div>
-                {!(allDownloadOptions.length > 0) &&
+                {!(downloadOptions.length > 0) &&
                   sierraIdFromManifestUrl &&
                   collectionManifestsCount === 0 && (
                     <NextLink
