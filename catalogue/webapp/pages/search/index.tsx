@@ -17,9 +17,9 @@ export const SearchPage: NextPage = () => {
     <CataloguePageLayout
       title="Search Page"
       description={'<TBC>'}
-      url={{ pathname: `/search`, query: {} }}
-      openGraphType={'website'}
-      siteSection={'collections'}
+      url={{ pathname: '/search', query: {} }}
+      openGraphType="website"
+      siteSection="collections"
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
     >

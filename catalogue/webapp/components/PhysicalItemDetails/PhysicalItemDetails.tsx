@@ -186,7 +186,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           colors={themeValues.buttonColors.greenTransparentGreen}
           disabled={userState !== 'signedin'}
           ref={requestButtonRef}
-          text={'Request item'}
+          text="Request item"
           clickHandler={() => {
             trackEvent({
               category: 'requesting',

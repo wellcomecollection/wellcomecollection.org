@@ -15,6 +15,7 @@ import { getServerData } from '@weco/common/server-data';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikeCanonicalId } from 'services/catalogue';
+import { createDefaultTransformedManifest } from '../types/manifest';
 
 type Props = {
   image: Image;
@@ -62,9 +63,9 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
         pathname: `/works/${sourceWork.id}/images`,
         query: { id: image.id },
       }}
-      openGraphType={'website'}
+      openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
-      siteSection={'collections'}
+      siteSection="collections"
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
@@ -75,7 +76,7 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
           lang={lang}
-          canvases={[]}
+          transformedManifest={createDefaultTransformedManifest()}
           workId={sourceWork.id}
           pageIndex={0}
           pageSize={1}

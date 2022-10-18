@@ -35,7 +35,7 @@ function determineSize(viewPortImageDifference): string {
       case viewPortImageDifference > 0.25:
         return '75vw';
       default:
-        return `100vw`;
+        return '100vw';
     }
   }
 }

@@ -61,18 +61,18 @@ const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
 
   return (
     <PageLayout
-      title={'Articles'}
+      title="Articles"
       description={pageDescriptions.articles}
-      url={{ pathname: `/articles` }}
+      url={{ pathname: '/articles' }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'stories'}
+      openGraphType="website"
+      siteSection="stories"
       image={image}
     >
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={false}
-          title={'Stories'}
+          title="Stories"
           description={[
             {
               type: 'paragraph',
@@ -81,7 +81,7 @@ const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
             },
           ]}
           paginatedResults={articles}
-          paginationRoot={'/articles'}
+          paginationRoot="/articles"
         />
       </SpacingSection>
     </PageLayout>

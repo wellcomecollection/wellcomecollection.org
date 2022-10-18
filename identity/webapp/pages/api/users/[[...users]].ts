@@ -17,7 +17,7 @@ const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
   async (req, res) => {
     try {
       const { accessToken } = await auth0.getAccessToken(req, res);
-      const path = `/users/` + (req.query['users'] as string[]).join('/');
+      const path = '/users/' + (req.query['users'] as string[]).join('/');
       const remoteResponse = await identityAxios
         .request({
           url: path,

@@ -46,15 +46,16 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const isFullscreenEnabled = useIsFullscreenEnabled();
 
   const {
-    canvases,
+    transformedManifest,
     gridVisible,
     setGridVisible,
     work,
     showZoomed,
     isMobileSidebarActive,
   } = useContext(ItemViewerContext);
+  const { canvases } = transformedManifest;
   return (
-    <BottomBar className="flex">
+    <BottomBar>
       <LeftZone data-test-id="page-grid-buttons">
         {!showZoomed &&
           canvases &&
@@ -71,8 +72,8 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(false);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Detail view button`,
-                      label: `${work.id}`,
+                      action: 'clicked work viewer Detail view button',
+                      label: work.id,
                     });
                   },
                 },
@@ -84,8 +85,8 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(true);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Grid view button`,
-                      label: `${work.id}`,
+                      action: 'clicked work viewer Grid view button',
+                      label: work.id,
                     });
                   },
                 },

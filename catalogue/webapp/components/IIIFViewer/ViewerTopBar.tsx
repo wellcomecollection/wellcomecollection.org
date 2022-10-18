@@ -191,7 +191,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
-    canvases,
     gridVisible,
     setGridVisible,
     work,
@@ -206,7 +205,9 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     isDesktopSidebarActive,
     showZoomed,
     isResizing,
+    transformedManifest,
   } = useContext(ItemViewerContext);
+  const { canvases } = transformedManifest;
   return (
     <TopBar
       isZooming={showZoomed}
@@ -266,7 +267,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(false);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Detail view button`,
+                      action: 'clicked work viewer Detail view button',
                       label: `${work.id}`,
                     });
                   },
@@ -279,7 +280,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(true);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Grid view button`,
+                      action: 'clicked work viewer Grid view button',
                       label: `${work.id}`,
                     });
                   },

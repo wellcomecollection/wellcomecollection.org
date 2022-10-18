@@ -1,11 +1,14 @@
 import { createContext } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import {
-  IIIFCanvas,
   IIIFManifest,
   IIIFRendering,
   SearchResults,
-} from '../../model/iiif';
+} from '../../services/iiif/types/manifest/v2';
+import {
+  TransformedManifest,
+  createDefaultTransformedManifest,
+} from '../../types/manifest';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { UrlTemplate } from 'url-template';
 
@@ -13,19 +16,18 @@ export type RotatedImage = { canvasIndex: number; rotation: number };
 
 type Props = {
   work: Work;
-  manifest: IIIFManifest | undefined;
+  transformedManifest: TransformedManifest;
   manifestIndex: number | undefined;
   activeIndex: number;
   setActiveIndex: (i: number) => void;
-  canvases: IIIFCanvas[];
   canvasIndex: number;
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
   currentManifestLabel?: string;
   licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
-  downloadOptions: IIIFRendering[];
-  iiifPresentationDownloadOptions: IIIFRendering[];
+  downloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest
+  iiifPresentationDownloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest
   parentManifest: IIIFManifest | undefined;
   lang: string;
   mainAreaWidth: number;
@@ -96,10 +98,9 @@ const ItemViewerContext = createContext<Props>({
     availableOnline: false,
     holdings: [],
   },
-  manifest: undefined,
+  transformedManifest: createDefaultTransformedManifest(),
   manifestIndex: undefined,
   activeIndex: 0,
-  canvases: [],
   canvasIndex: 0,
   gridVisible: false,
   currentManifestLabel: undefined,

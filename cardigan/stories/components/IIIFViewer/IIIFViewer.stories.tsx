@@ -1,3 +1,4 @@
+import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
 import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 import { workFixture } from '@weco/common/test/fixtures/catalogueApi/work';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
@@ -23,7 +24,11 @@ const langCode = 'eng';
 const pageSize = 4;
 const pageIndex = 2;
 const canvasIndex = 8;
-const canvases = manifest.sequences[0].canvases;
+const transformedManifest = transformManifest({
+  manifestV2: manifest,
+  manifestV3: undefined,
+});
+const { canvases } = transformedManifest;
 const currentCanvas = canvases[canvasIndex];
 const sharedPaginatorProps = {
   totalResults: canvases.length,
@@ -67,6 +72,6 @@ basic.args = {
   pageIndex: pageIndex,
   pageSize: pageSize,
   canvasIndex: canvasIndex,
-  canvases: canvases,
+  transformedManifest: transformedManifest,
 };
 basic.storyName = 'IIIFViewer';

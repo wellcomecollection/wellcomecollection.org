@@ -88,7 +88,7 @@ const StoryPromoContainer = styled.div.attrs({
 `;
 
 const SeriesTitle = styled.h2.attrs({
-  className: `h1 plain-link no-margin`,
+  className: 'h1 plain-link no-margin',
 })<{ color?: ColorSelection }>`
   ${props => props.color && `color: ${props.theme.color(props.color)};`};
 `;
@@ -256,7 +256,7 @@ const StoriesPage: FC<Props> = ({
     <PageLayout
       title="Stories"
       description={pageDescriptions.stories}
-      url={{ pathname: `/stories` }}
+      url={{ pathname: '/stories' }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="stories"

@@ -44,6 +44,17 @@ const Text = styled.span.attrs({
     content: '${props => (props.isPlaying ? 'pause' : 'play')}';
   }
 `;
+
+const Figure = styled.figure`
+  margin: 0 !important;
+  text-align: center;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
 export type Props = {
   playbackRate: number;
   videoUrl: string;
@@ -170,8 +181,8 @@ const GifVideo: FunctionComponent<Props> = ({
   }, [autoPlayDisabled]);
 
   return (
-    <figure className="gif-video no-margin text-align-center">
-      <div className="gif-video__inner relative inline-block">
+    <Figure>
+      <Wrapper>
         <Video
           ref={videoRef}
           preload="metadata"
@@ -193,9 +204,9 @@ const GifVideo: FunctionComponent<Props> = ({
             tasl.sourceName ||
             tasl.copyrightHolder ||
             tasl.license) && <Tasl {...tasl} />}
-      </div>
+      </Wrapper>
       {caption && <Caption width={computedVideoWidth} caption={caption} />}
-    </figure>
+    </Figure>
   );
 };
 

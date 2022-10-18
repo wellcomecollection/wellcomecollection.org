@@ -51,7 +51,7 @@ const Index: FC = () => {
             fontFamily,
           }}
         >
-          <Header title={'Pa11y'} />
+          <Header title="Pa11y" />
           <div
             style={{
               maxWidth: '600px',
@@ -100,9 +100,9 @@ const Index: FC = () => {
                         display: 'flex',
                       }}
                     >
-                      <Issue type={'error'}>{errorCount}</Issue>
-                      <Issue type={'warning'}>{warningCount}</Issue>
-                      <Issue type={'notice'}>{noticeCount}</Issue>
+                      <Issue type="error">{errorCount}</Issue>
+                      <Issue type="warning">{warningCount}</Issue>
+                      <Issue type="notice">{noticeCount}</Issue>
                     </div>
                     {issues.map(issue => {
                       return (

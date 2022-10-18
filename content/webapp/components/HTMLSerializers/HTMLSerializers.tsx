@@ -1,10 +1,12 @@
 import { Fragment } from 'react';
-import styled from 'styled-components';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { JSXFunctionSerializer } from '@prismicio/react';
 import { RichTextNodeType } from '@prismicio/types';
 import * as prismicH from '@prismicio/helpers';
+import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
+import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
+import styled from 'styled-components';
 
 const DocumentType = styled.span.attrs({ className: 'no-margin' })`
   color: ${props => props.theme.color('neutral.600')};
@@ -92,13 +94,10 @@ export const defaultSerializer: JSXFunctionSerializer = (
       const target =
         'target' in element.data ? element.data.target || undefined : undefined;
       const rel = target ? 'noopener' : undefined;
-      const linkUrl = prismicH.asLink(element.data, linkResolver)!;
+      const linkUrl = prismicH.asLink(element.data, linkResolver) || '';
       const isDocument =
         'kind' in element.data ? element.data.kind === 'document' : false;
-      const nameWithoutSpaces =
-        'name' in element.data && element.data.name
-          ? dasherize(element.data.name)
-          : '';
+
       const documentSize =
         isDocument && 'size' in element.data
           ? Math.round(parseInt(element.data.size) / 1000)
@@ -121,64 +120,19 @@ export const defaultSerializer: JSXFunctionSerializer = (
 
       if (isDocument) {
         return (
-          <a
-            key={key}
-            target={target}
-            className="no-margin plain-link flex-inline flex--h-baseline"
+          <DownloadLink
             href={linkUrl}
+            mimeType={getMimeTypeFromExtension(
+              (fileExtension && fileExtension[0].substring(1)) || ''
+            )}
           >
-            <span
-              style={{
-                top: '8px',
-                display: 'inline-block',
-                height: '24px',
-                width: '24px',
-                position: 'relative',
-                userSelect: 'none',
-              }}
-            >
-              <canvas
-                height="20"
-                width="20"
-                style={{
-                  display: 'block',
-                  height: '100%',
-                  visibility: 'hidden',
-                }}
-              ></canvas>
-              <svg
-                className="icon__svg no-margin"
-                role="img"
-                aria-labelledby={`icon-download-title-${nameWithoutSpaces}`}
-                fill="currentColor"
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  left: '0',
-                  position: 'absolute',
-                  top: '0',
-                }}
-              >
-                <title id={`icon-download-title-${nameWithoutSpaces}`}>
-                  download
-                </title>
-                <svg viewBox="0 0 26 26">
-                  <path
-                    className="icon__shape"
-                    d="M21.2 21.1H4.8a1 1 0 0 0 0 2h16.4a1 1 0 0 0 0-2zm-8.98-2.38a1 1 0 0 0 1.56 0l4-5a1 1 0 0 0-1.56-1.25L14 15.25V4.1a1 1 0 0 0-2 0v11.15l-2.22-2.78a1 1 0 1 0-1.56 1.25z"
-                  />
-                </svg>
-              </svg>
+            {children}{' '}
+            <span style={{ whiteSpace: 'nowrap' }}>
+              <DocumentType>
+                ({documentType} {documentSize}kb)
+              </DocumentType>
             </span>
-            <span className="no-margin">
-              <span className="no-margin">{children}</span>{' '}
-              <span style={{ whiteSpace: 'nowrap' }}>
-                <DocumentType>
-                  ({documentType} {documentSize}kb)
-                </DocumentType>
-              </span>
-            </span>
-          </a>
+          </DownloadLink>
         );
       } else {
         return (

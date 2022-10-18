@@ -79,11 +79,12 @@ const Stops: FC<Props> = ({ stops, type }) => {
               'aria-level': 2,
             };
 
+
             return hasContentOfDesiredType ? (
               <Stop
                 key={index}
                 id={anchorId}
-                data-toolbar-anchor="api-toolbar"
+                data-toolbar-anchor="apiToolbar"
                 // We need tabIndex="-1" so the "Skip to stop" link works for
                 // screen readers.
                 //

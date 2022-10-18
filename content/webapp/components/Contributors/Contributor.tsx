@@ -41,7 +41,7 @@ const Contributor: FC<ContributorType> = ({
                 height: 72,
                 borderRadius: 6,
                 transform: 'rotateZ(-6deg)',
-                overflow: `hidden`,
+                overflow: 'hidden',
               }}
             >
               <div

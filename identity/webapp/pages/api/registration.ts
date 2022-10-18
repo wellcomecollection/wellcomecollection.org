@@ -91,7 +91,7 @@ export default async (
     !sessionToken
   ) {
     console.error('Missing required fields');
-    res.redirect(302, `/account/error`);
+    res.redirect(302, '/account/error');
     return;
   }
 
@@ -111,6 +111,6 @@ export default async (
     res.redirect(302, redirectUri);
   } catch (error) {
     console.error(error);
-    res.redirect(302, `/account/error`);
+    res.redirect(302, '/account/error');
   }
 };

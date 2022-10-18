@@ -18,10 +18,7 @@ function getButtonMarkup(event: Event) {
     return <Message text="Fully booked" />;
   } else {
     return (
-      <div
-        className="js-eventbrite-ticket-button"
-        data-eventbrite-ticket-id={event.eventbriteId}
-      >
+      <div data-eventbrite-ticket-id={event.eventbriteId}>
         <ButtonSolidLink
           link={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
           icon={ticketAvailable}
