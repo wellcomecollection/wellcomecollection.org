@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   facebook,
   instagram,
-  soundcloud,
+  soundCloud,
   tripadvisor,
   twitter,
   youtube,
@@ -68,7 +68,7 @@ const items: SocialItem[] = [
     url: 'https://soundcloud.com/wellcomecollection',
     title: 'SoundCloud',
     service: 'SoundCloud',
-    icon: soundcloud,
+    icon: soundCloud,
   },
   {
     url: 'https://www.youtube.com/user/WellcomeCollection',
