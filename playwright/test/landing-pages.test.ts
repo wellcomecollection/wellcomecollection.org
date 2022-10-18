@@ -39,7 +39,7 @@ test.describe('Top-level landing pages', () => {
     expect(content).toBe('What’s on');
   });
 
-  test(`the stories page renders with an accessible title`, async ({
+  test('the stories page renders with an accessible title', async ({
     page,
   }) => {
     await gotoWithoutCache(storiesUrl, page);

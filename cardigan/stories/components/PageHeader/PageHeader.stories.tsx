@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { font } from '@weco/common/utils/classnames';
@@ -8,6 +9,10 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import BookImage from '@weco/content/components/BookImage/BookImage';
+
+const Date = styled.span.attrs({ className: font('intr', 6) })`
+  color: ${props => props.theme.color('neutral.600')};
+`;
 
 const breadcrumbItems = [
   {
@@ -35,9 +40,7 @@ const ContentTypeInfo = (
         <p className="no-margin">
           <span>By </span>
           <span className={font('intb', 6)}>Naomi Paxton</span>{' '}
-          <span className={`${font('intr', 6)} font-neutral-600`}>
-            17 April 2019
-          </span>
+          <Date>17 April 2019</Date>
         </p>
       </Space>
     </div>

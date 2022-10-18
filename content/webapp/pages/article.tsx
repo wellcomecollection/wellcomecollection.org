@@ -29,7 +29,6 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { useToggles } from '@weco/common/server-data/Context';
 import styled from 'styled-components';
 
 type Props = {
@@ -130,9 +129,6 @@ function getNextUp(
 const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
-  // readingTime toggle
-  const { readingTime } = useToggles();
-
   useEffect(() => {
     async function setSeries() {
       const series = article.series[0];
@@ -174,7 +170,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       ...article.series.slice(0, 1).map(series => ({
         url: `/series/${series.id}`,
         text: series.title || '',
-        prefix: `Part of`,
+        prefix: 'Part of',
       })),
       {
         url: `/articles/${article.id}`,
@@ -210,6 +206,11 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
     }
   `;
 
+  const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
+    display: block;
+    color: ${props => props.theme.color('neutral.600')};
+  `;
+
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -230,7 +231,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                   <span className={font('intb', 6)}>{contributor.name}</span>
                 </ContentTypeInfoSection>
               ))}
-            {readingTime && article.readingTime ? (
+            {article.readingTime ? (
               <ContentTypeInfoSection>
                 Average reading time{' '}
                 <span className={font('intb', 6)}>{article.readingTime}</span>
@@ -238,9 +239,9 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
             ) : null}
             {article.contributors.length > 0 && ' '}
 
-            <span className={`block font-neutral-600 ${font('intr', 6)}`}>
+            <HTMLDateWrapper>
               <HTMLDate date={article.datePublished} />
-            </span>
+            </HTMLDateWrapper>
           </p>
         </Space>
       </div>
@@ -263,7 +264,6 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       labels={{ labels: article.labels }}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
-      Background={undefined}
       FeaturedMedia={
         isImageGallery || isPodcast ? undefined : maybeFeaturedMedia
       }

@@ -4,31 +4,6 @@ import { GlobalStyleProps } from './default';
 import { respondTo, respondBetween, visuallyHidden } from './mixins';
 
 export const utilityClasses = css<GlobalStyleProps>`
-  ${Object.entries(themeValues.colors)
-    .map(([key, value]) => {
-      if (!key.includes('.')) {
-        return `
-        .font-${key} {
-          color: ${value};
-
-          .icon__shape {
-            fill: ${value};
-          }
-        }`;
-      } else {
-        const colorName = key.split('.');
-        return `
-        .font-${colorName[0]}-${colorName[1]} {
-          color: ${value};
-
-          .icon__shape {
-            fill: ${value};
-          }
-        }`;
-      }
-    })
-    .join(' ')}
-
   .transition-bg {
     transition: background ${themeValues.transitionProperties};
   }
@@ -110,10 +85,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .flex-end {
     justify-content: flex-end;
-  }
-
-  .flex-1 {
-    flex: 1;
   }
 
   .plain-button {

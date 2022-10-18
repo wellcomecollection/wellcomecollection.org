@@ -13,7 +13,7 @@ const CaptionedImageFigure = styled.div<CaptionedImageFigureProps>`
   margin: 0;
   display: inline-block;
   width: 100%;
-    text-align: center;
+  text-align: center;
 
   ${props =>
     props.isBody &&

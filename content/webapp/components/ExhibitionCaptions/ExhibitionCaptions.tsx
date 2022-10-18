@@ -11,6 +11,7 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import { font } from '@weco/common/utils/classnames';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import ZoomedPrismicImage from '../ZoomedPrismicImage/ZoomedPrismicImage';
 import { ExhibitionGuideType } from 'types/exhibition-guides';
 
 export function getTypeColor(type: ExhibitionGuideType): PaletteColor {
@@ -112,6 +113,7 @@ const Caption = styled(Space).attrs({
 `;
 
 const PrismicImageWrapper = styled.div`
+  position: relative;
   max-width: 600px;
 `;
 
@@ -123,8 +125,8 @@ const Transcription = styled(Space).attrs({
 `;
 
 type Stop = {
-  standaloneTitle: prismicT.RichTextField;
-  number: number;
+  standaloneTitle: string;
+  number?: number;
   title: string;
   image?: ImageType;
   tombstone: prismicT.RichTextField;
@@ -277,6 +279,7 @@ const Stop: FC<{
                   {image?.contentUrl && (
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <PrismicImageWrapper>
+                        <ZoomedPrismicImage image={image} />
                         <PrismicImage image={image} sizes={{}} quality="low" />
                       </PrismicImageWrapper>
                     </Space>

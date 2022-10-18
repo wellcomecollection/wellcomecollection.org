@@ -20,7 +20,7 @@ const test = base.extend({
 });
 
 test.describe('User preferences and redirections in exhibition guides', () => {
-  test('shows a single exhibition guide', async ({ page }) => {
+  test.skip('shows a single exhibition guide', async ({ page }) => {
     await gotoWithoutCache(
       `${baseUrl}/guides/exhibitions/${IN_PLAIN_SIGHT}/audio-without-descriptions`,
       page
@@ -30,7 +30,7 @@ test.describe('User preferences and redirections in exhibition guides', () => {
     await expectItemIsVisible('div >> text="Listen to audio"', page);
   });
 
-  test('redirects to another format if we have a preference and come from a QR code', async ({
+  test.skip('redirects to another format if we have a preference and come from a QR code', async ({
     context,
     page,
   }) => {

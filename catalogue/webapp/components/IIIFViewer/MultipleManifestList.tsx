@@ -1,9 +1,13 @@
+import styled from 'styled-components';
 import { useContext, FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { classNames } from '@weco/common/utils/classnames';
 import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
+
+const Anchor = styled.a<{ isManifestIndex: boolean }>`
+  ${props => props.isManifestIndex && `color: ${props.theme.color('yellow')};`};
+`;
 
 const MultipleManifestListPrototype: FunctionComponent = () => {
   const { parentManifest, work, lang, manifestIndex } =
@@ -24,14 +28,12 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
               canvas: 1,
             })}
           >
-            <a
-              className={classNames({
-                'font-yellow': i === manifestIndex,
-              })}
+            <Anchor
+              isManifestIndex={i === manifestIndex}
               aria-current={i === manifestIndex ? 'page' : undefined}
             >
               {manifest.label}
-            </a>
+            </Anchor>
           </NextLink>
         </li>
       ))}

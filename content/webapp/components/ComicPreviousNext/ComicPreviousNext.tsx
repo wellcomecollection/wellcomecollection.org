@@ -27,17 +27,17 @@ const Link = styled.a<{ isNext: boolean }>`
   left: ${props => (props.isNext ? undefined : 0)};
   right: ${props => (props.isNext ? 0 : undefined)};
   height: 80px;
-  width: 340px;
+  width: 360px;
   background: ${props => props.theme.color('warmNeutral.300')};
   overflow: hidden;
   border-radius: ${props => (props.isNext ? '6px 0 0 6px' : '0 6px 6px 0')};
   transition: transform ${props => props.theme.transitionProperties};
-  transform: translateX(${props => (props.isNext ? '320px' : '-320px')});
+  transform: translateX(${props => (props.isNext ? '340px' : '-340px')});
   pointer-events: all;
 
   ${props =>
     props.theme.media('medium')(`
-      transform: translateX(${props.isNext ? '300px' : '-300px'});
+      transform: translateX(${props.isNext ? '320px' : '-320px'});
       height: 160px;
 
       &:hover,
@@ -55,25 +55,25 @@ const Inner = styled(Space).attrs({
   align-items: center;
   justify-content: flex-end;
   flex-direction: ${props => (props.isNext ? 'row-reverse' : 'row')};
-  width: 340px;
   position: absolute;
-  right: ${props => (props.isNext ? undefined : 0)};
-  left: ${props => (props.isNext ? 0 : undefined)};
+  left: 0;
+  right: 0;
   height: 100%;
 `;
 
 const TextWrap = styled.div<{ isNext: boolean }>`
-  padding-left: ${props => (props.isNext ? '40px' : undefined)};
-  padding-right: ${props => (props.isNext ? undefined : '40px')};
+  width: 300px;
+  padding-left: ${props => (props.isNext ? '10px' : undefined)};
+  padding-right: ${props => (props.isNext ? undefined : '10px')};
 `;
 
 const InSeries = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
-  className: font('intr', 3),
+  className: font('intr', 4),
 })``;
 
 const Title = styled.div.attrs({
-  className: font('intb', 2),
+  className: font('intb', 3),
 })`
   white-space: nowrap;
   overflow: hidden;

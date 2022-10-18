@@ -27,7 +27,7 @@ const WorkLink: FunctionComponent<PropsWithChildren<Props>> = ({
   return (
     <NextLink
       href={{
-        pathname: `/work`,
+        pathname: '/work',
         query: {
           id,
           source,

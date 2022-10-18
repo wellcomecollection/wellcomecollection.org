@@ -62,9 +62,9 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
         pathname: `/works/${sourceWork.id}/images`,
         query: { id: image.id },
       }}
-      openGraphType={'website'}
+      openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
-      siteSection={'collections'}
+      siteSection="collections"
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}

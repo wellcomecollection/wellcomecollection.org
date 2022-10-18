@@ -54,16 +54,6 @@ export const ShameButton = styled.button.attrs(() => ({
     vertical-align: middle;
   }
 
-  .icon__shape {
-    transition: fill ${props => props.theme.transitionProperties};
-    fill: currentColor;
-  }
-
-  .icon__stroke {
-    transition: stroke ${props => props.theme.transitionProperties};
-    stroke: currentColor;
-  }
-
   overflow: hidden;
 
   ${props =>
@@ -276,7 +266,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(false);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Detail view button`,
+                      action: 'clicked work viewer Detail view button',
                       label: `${work.id}`,
                     });
                   },
@@ -289,7 +279,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(true);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Grid view button`,
+                      action: 'clicked work viewer Grid view button',
                       label: `${work.id}`,
                     });
                   },

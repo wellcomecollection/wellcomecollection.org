@@ -71,12 +71,12 @@ const ExhibitionGuidesPage: FC<Props> = props => {
 
   return (
     <PageLayout
-      title={'Exhibition Guides'}
+      title="Exhibition Guides"
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: '/guides/exhibitions' }}
       jsonLd={{ '@type': 'WebPage' }} // TODO
-      openGraphType={'website'}
-      siteSection={'exhibition-guides'}
+      openGraphType="website"
+      siteSection="exhibition-guides"
       image={image}
       headerProps={{
         customNavLinks: exhibitionGuidesLinks,
@@ -88,9 +88,9 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={false}
-          title={'Exhibition guides'}
+          title="Exhibition guides"
           paginatedResults={exhibitionGuides}
-          paginationRoot={'exhibition-guides'}
+          paginationRoot="exhibition-guides"
         />
       </SpacingSection>
     </PageLayout>

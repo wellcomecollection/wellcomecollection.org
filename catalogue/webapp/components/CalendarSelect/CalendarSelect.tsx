@@ -58,8 +58,8 @@ const Calendar: FC<Props> = ({
 
   return availableDates ? (
     <Select
-      name={`calendar_dates`}
-      label={`Select a date`}
+      name="calendar_dates"
+      label="Select a date"
       hideLabel={true}
       options={availableDates}
       value={chosenDate || 'Select a date'}

@@ -20,10 +20,6 @@ const CookieNoticeStyle = styled.div.attrs({
   left: 0;
   right: 0;
   z-index: 1000;
-
-  .icon__shape {
-    fill: ${props => props.theme.color('white')};
-  }
 `;
 
 const CloseCookieNotice = styled.button`
@@ -68,7 +64,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <div className="flex flex--h-space-between">
             <div className="flex flex--v-center">
-              <Icon icon={cookiesIcon} />
+              <Icon icon={cookiesIcon} color="white" />
               <Space
                 as="span"
                 h={{
@@ -83,7 +79,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
               </a>
             </div>
             <CloseCookieNotice onClick={hideCookieNotice}>
-              <Icon icon={clear} />
+              <Icon icon={clear} color="white" />
               <span className="visually-hidden">Close cookie notification</span>
             </CloseCookieNotice>
           </div>

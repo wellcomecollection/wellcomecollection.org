@@ -54,7 +54,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     isMobileSidebarActive,
   } = useContext(ItemViewerContext);
   return (
-    <BottomBar className="flex">
+    <BottomBar>
       <LeftZone data-test-id="page-grid-buttons">
         {!showZoomed &&
           canvases &&
@@ -71,8 +71,8 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(false);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Detail view button`,
-                      label: `${work.id}`,
+                      action: 'clicked work viewer Detail view button',
+                      label: work.id,
                     });
                   },
                 },
@@ -84,8 +84,8 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     setGridVisible(true);
                     trackEvent({
                       category: 'Control',
-                      action: `clicked work viewer Grid view button`,
-                      label: `${work.id}`,
+                      action: 'clicked work viewer Grid view button',
+                      label: work.id,
                     });
                   },
                 },

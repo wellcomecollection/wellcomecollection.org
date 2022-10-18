@@ -36,8 +36,10 @@ const includes = [
   'holdings',
 ];
 
-const ToolbarContainer = styled.div`
+const ToolbarContainer = styled.div<{ mini: boolean }>`
+  display: ${props => (props.mini ? 'inline-block' : 'flex')};
   background-color: ${props => props.theme.color('accent.purple')};
+  color: ${props => props.theme.color('white')};
   z-index: 100;
 `;
 
@@ -263,7 +265,7 @@ const ApiToolbar: FC<Props> = ({ extraLinks = [] }) => {
   };
 
   return (
-    <ToolbarContainer className={`font-white flex ${mini && 'inline-block'}`}>
+    <ToolbarContainer mini={mini}>
       <div
         className="flex flex--v-center"
         style={{
