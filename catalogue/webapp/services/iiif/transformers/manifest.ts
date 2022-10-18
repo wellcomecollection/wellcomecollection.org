@@ -38,19 +38,13 @@ export function transformManifest(
   const iiifPresentationDownloadOptions = manifestV2
     ? getDownloadOptionsFromManifest(manifestV2)
     : [];
-  const iiifDownloadEnabled = manifestV2
-    ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
-    : false;
-  const firstCollectionManifestLocation =
-    manifestV2 && getFirstCollectionManifestLocation(manifestV2);
-  const showDownloadOptions = manifestV2
+  const downloadEnabled = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
     : true;
+  const firstCollectionManifestLocation =
+    manifestV2 && getFirstCollectionManifestLocation(manifestV2);
   const downloadOptions =
-    (showDownloadOptions &&
-      manifestV2 &&
-      getDownloadOptionsFromManifest(manifestV2)) ||
-    [];
+    (manifestV2 && getDownloadOptionsFromManifest(manifestV2)) || [];
 
   const pdfRendering =
     downloadOptions &&
@@ -86,9 +80,8 @@ export function transformManifest(
     video,
     iiifCredit,
     iiifPresentationDownloadOptions,
-    iiifDownloadEnabled,
+    downloadEnabled,
     firstCollectionManifestLocation,
-    showDownloadOptions,
     downloadOptions,
     pdfRendering,
     authService,

@@ -97,6 +97,9 @@ const Download: NextPage<Props> = ({
 }: Props) => {
   const downloadsContainer = useRef(null);
   const { isEnhanced } = useContext(AppContext);
+  const downloadOptionsWithoutText = downloadOptions.filter(
+    option => option.format !== 'text/plain'
+  );
 
   return (
     <div
@@ -107,7 +110,7 @@ const Download: NextPage<Props> = ({
       })}
       ref={downloadsContainer}
     >
-      {downloadOptions.length > 0 && (
+      {downloadOptionsWithoutText.length > 0 && (
         <>
           <DropdownButton
             label="Downloads"
@@ -118,37 +121,35 @@ const Download: NextPage<Props> = ({
             <DownloadOptions className={font('intb', 5)}>
               <SpacingComponent>
                 <ul className="plain-list no-margin no-padding">
-                  {downloadOptions
-                    .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
-                    .map(option => {
-                      const action = option['@id'].match(/\/full\/full\//)
-                        ? 'download large work image'
-                        : option['@id'].match(/\/full\/760/)
-                        ? 'download small work image'
-                        : option.label;
-                      const format = getFormatString(option.format);
+                  {downloadOptionsWithoutText.map(option => {
+                    const action = option['@id'].match(/\/full\/full\//)
+                      ? 'download large work image'
+                      : option['@id'].match(/\/full\/760/)
+                      ? 'download small work image'
+                      : option.label;
+                    const format = getFormatString(option.format);
 
-                      return (
-                        <li key={option['@id']}>
-                          <DownloadLink
-                            href={option['@id']}
-                            linkText={
-                              option.label === 'Download as PDF'
-                                ? 'Whole item'
-                                : option.label
-                            }
-                            format={format}
-                            width={option.width}
-                            mimeType={option.format}
-                            trackingEvent={{
-                              category: 'Button',
-                              action,
-                              label: workId,
-                            }}
-                          />
-                        </li>
-                      );
-                    })}
+                    return (
+                      <li key={option['@id']}>
+                        <DownloadLink
+                          href={option['@id']}
+                          linkText={
+                            option.label === 'Download as PDF'
+                              ? 'Whole item'
+                              : option.label
+                          }
+                          format={format}
+                          width={option.width}
+                          mimeType={option.format}
+                          trackingEvent={{
+                            category: 'Button',
+                            action,
+                            label: workId,
+                          }}
+                        />
+                      </li>
+                    );
+                  })}
                 </ul>
               </SpacingComponent>
               {license && (

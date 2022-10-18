@@ -130,7 +130,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     canvasCount,
     audio,
     services,
-    iiifDownloadEnabled,
+    downloadEnabled,
   } = manifestData;
 
   // We display a content advisory warning at the work level, so it is sufficient
@@ -211,15 +211,15 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     return ![...orderedNotes, locationOfWork].some(n => n === note);
   });
 
-  function determineDownloadVisibility(iiifDownloadEnabled) {
+  function determineDownloadVisibility(downloadEnabled) {
     if (digitalLocationInfo?.accessCondition === 'open-with-advisory') {
       return false;
     } else {
-      return iiifDownloadEnabled !== undefined ? iiifDownloadEnabled : true;
+      return downloadEnabled !== undefined ? downloadEnabled : true;
     }
   }
 
-  const showDownloadOptions = determineDownloadVisibility(iiifDownloadEnabled);
+  const showDownloadOptions = determineDownloadVisibility(downloadEnabled);
 
   const itemLinkState = getItemLinkState({
     accessCondition: digitalLocationInfo?.accessCondition,

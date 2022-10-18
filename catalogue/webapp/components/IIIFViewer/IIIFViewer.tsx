@@ -259,7 +259,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const previousManifestIndex = useRef(manifestIndex);
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
   const hasImageService = mainImageService['@id'] && currentCanvas;
-  const { canvases, showDownloadOptions, downloadOptions, parentManifestUrl } =
+  const { canvases, downloadEnabled, downloadOptions, parentManifestUrl } =
     transformedManifest;
 
   useEffect(() => {
@@ -355,14 +355,13 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     getCatalogueLicenseData(digitalLocation.license);
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const imageDownloadOptions =
-    showDownloadOptions && iiifImageLocation
-      ? getDownloadOptionsFromImageUrl({
-          url: iiifImageLocation.url,
-          width: imageJson?.width,
-          height: imageJson?.height,
-        })
-      : [];
+  const imageDownloadOptions = iiifImageLocation
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocation.url,
+        width: imageJson?.width,
+        height: imageJson?.height,
+      })
+    : [];
   const imageDownloads =
     mainImageService['@id'] &&
     getDownloadOptionsFromImageUrl({
@@ -436,7 +435,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         currentManifestLabel,
         licenseInfo,
         iiifImageLocationCredit,
-        downloadOptions: showDownloadOptions
+        downloadOptions: downloadEnabled
           ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
           : [],
         iiifPresentationDownloadOptions,
