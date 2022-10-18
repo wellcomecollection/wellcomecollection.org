@@ -131,7 +131,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   // iiif-image locations have credit info.
   // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
-  const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
+  const credit = digitalLocation?.credit || iiifCredit;
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice

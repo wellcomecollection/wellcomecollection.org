@@ -26,7 +26,7 @@ type Props = {
   currentManifestLabel?: string;
   licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
-  downloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest - nope this also includes imageDownloadOptions
+  downloadOptions: IIIFRendering[]; // This can be downloads from a manifest or created from a iiif-image location
   parentManifest: IIIFManifest | undefined;
   lang: string;
   mainAreaWidth: number;
