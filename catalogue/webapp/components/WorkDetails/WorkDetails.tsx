@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { downloadUrl } from '../../services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
@@ -39,16 +39,13 @@ import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
+import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import LibraryMembersBar from '../LibraryMembersBar/LibraryMembersBar';
 import { eye } from '@weco/common/icons';
-import {
-  abortErrorHandler,
-  useAbortSignalEffect,
-} from '@weco/common/hooks/useAbortSignalEffect';
 import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
@@ -98,30 +95,13 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
 
-  const [imageJson, setImageJson] = useState<{
-    width: number;
-    height: number;
-  }>();
-
-  useAbortSignalEffect(signal => {
-    const fetchImageJson = async () => {
-      try {
-        const imageJson =
-          iiifImageLocation &&
-          (await fetch(iiifImageLocation.url, { signal }).then(resp =>
-            resp.json()
-          ));
-
-        setImageJson(imageJson);
-      } catch (e) {}
-    };
-    fetchImageJson().catch(abortErrorHandler);
-  }, []);
 
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
+  // We need the transformed iiif-image json to get width and height data to display in the download link
+  const transformedIIIFImage = useTransformedIIIFImage(work);
 
-  const manifestData = useTransformedManifest(work);
+  const transformedIIIFManifest = useTransformedManifest(work);
   const {
     video,
     iiifCredit,
@@ -131,7 +111,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     canvasCount,
     audio,
     services,
-  } = manifestData;
+  } = transformedIIIFManifest;
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice
@@ -145,16 +125,16 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     ? getTokenServiceV3(audioAuthService['@id'], services)
     : undefined;
 
-  // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
+  // iiif-image locations have credit info.
+  // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
 
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-
   const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl({
         url: iiifImageLocationUrl,
-        width: imageJson && imageJson.width,
-        height: imageJson && imageJson.height,
+        width: transformedIIIFImage?.width,
+        height: transformedIIIFImage?.height,
       })
     : [];
 
