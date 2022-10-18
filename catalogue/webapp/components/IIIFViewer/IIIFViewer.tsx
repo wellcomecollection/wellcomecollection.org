@@ -339,7 +339,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       parentManifest.manifests.find((childManifest: CollectionManifest) => {
         return !transformedManifest
           ? false
-          : childManifest['@id'] === transformedManifest['@id'];
+          : childManifest['@id'] === transformedManifest.id;
       });
 
     matchingManifest && setCurrentManifestLabel(matchingManifest.label);
