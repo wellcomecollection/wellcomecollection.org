@@ -1,11 +1,13 @@
+import { useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
+
+import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
-import { useState } from 'react';
-import Space from '@weco/common/views/components/styled/Space';
+import SearchHeader from '@weco/catalogue/views/search/searchHeader';
 
 export const SearchPage: NextPage = () => {
   const [selectedTab, setSelectedTab] = useState('overview');
@@ -23,38 +25,8 @@ export const SearchPage: NextPage = () => {
     >
       <div className="container">
         <h1 className="visually-hidden">Search Page</h1>
-        <TabNav
-          id="search-tabs"
-          hasDivider
-          variant="yellow"
+        <SearchHeader
           selectedTab={selectedTab}
-          items={[
-            {
-              id: 'overview',
-              text: 'Overview',
-              selected: selectedTab === 'overview',
-            },
-            {
-              id: 'exhibitions',
-              text: 'Exhibitions and events (1032)',
-              selected: selectedTab === 'exhibitions',
-            },
-            {
-              id: 'stories',
-              text: 'Stories (1032)',
-              selected: selectedTab === 'stories',
-            },
-            {
-              id: 'images',
-              text: 'Images (1032)',
-              selected: selectedTab === 'images',
-            },
-            {
-              id: 'collections',
-              text: 'Collections (1032)',
-              selected: selectedTab === 'collections',
-            },
-          ]}
           setSelectedTab={setSelectedTab}
         />
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
