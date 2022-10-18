@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 import Readme from '@weco/common/views/components/TabNav/README.md';
@@ -8,13 +8,8 @@ import * as stories from './TabNav.stories.tsx';
 
 <Readme />
 
-<Canvas>
   <Story story={stories.basic} />
-</Canvas>
 
-
-<Canvas>
   <Story story={stories.basicV2} />
-</Canvas>
 
 <ArgsTable />

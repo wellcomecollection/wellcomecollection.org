@@ -48,4 +48,8 @@ export const parameters = {
       disable: true,
     },
   },
+  previewTabs: {
+    canvas: { hidden: true},
+    'storybook/docs/panel': { hidden: true }
+  },
 };
