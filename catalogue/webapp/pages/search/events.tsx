@@ -6,18 +6,18 @@ import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getLayout } from 'components/SearchPageLayout/SearchPageLayout';
 
-export const CollectionsSearchPage: NextPageWithLayout = () => {
+export const SearchPage: NextPageWithLayout = () => {
   return (
     <>
-      <h1 className="visually-hidden">Collections Search Page</h1>
+      <h1 className="visually-hidden">Events Search Page</h1>
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-        <div>Collections content</div>
+        <div>Events content</div>
       </Space>
     </>
   );
 };
 
-CollectionsSearchPage.getLayout = getLayout;
+SearchPage.getLayout = getLayout;
 
 export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps
@@ -35,4 +35,4 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-export default CollectionsSearchPage;
+export default SearchPage;

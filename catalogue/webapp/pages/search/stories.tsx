@@ -9,15 +9,9 @@ import { getLayout } from 'components/SearchPageLayout/SearchPageLayout';
 export const SearchPage: NextPageWithLayout = () => {
   return (
     <>
-      <h1 className="visually-hidden">Search Page</h1>
+      <h1 className="visually-hidden">Stories Search Page</h1>
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-        <div
-          role="tabpanel"
-          id="tabpanel-storiesTab"
-          aria-labelledby="tab-storiesTab"
-        >
-          Stories content
-        </div>
+        <div>Stories content</div>
       </Space>
     </>
   );

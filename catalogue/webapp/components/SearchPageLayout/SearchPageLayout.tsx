@@ -2,8 +2,9 @@ import { respondBetween, respondTo } from '@weco/common/views/themes/mixins';
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 const NavBar = styled.nav`
   overflow: scroll;
@@ -106,16 +107,78 @@ const SearchLayout: FunctionComponent = ({ children }) => {
     router.pathname === '/search'
       ? 'overview'
       : router.pathname.slice(router.pathname.lastIndexOf('/') + 1);
+
+  const basePageMetadata = {
+    openGraphType: 'website',
+    siteSection: 'collections',
+    jsonLd: { '@type': 'WebPage' },
+    hideNewsletterPromo: true,
+  } as const;
+
+  const defaultPageLayoutMetadata = {
+    ...basePageMetadata,
+    title: 'Search Page',
+    description: 'TBC',
+    url: { pathname: '/search', query: {} },
+  };
+
+  const [pageLayoutMetadata, setPageLayoutMetadata] = useState(
+    defaultPageLayoutMetadata
+  );
+  useEffect(() => {
+    const { query } = router.query;
+    switch (currentSearchCategory) {
+      case 'overview':
+        setPageLayoutMetadata(defaultPageLayoutMetadata);
+        break;
+      case 'exhibitions':
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description: 'copy pending',
+          title: `${query ? `${query} | ` : ''}Exhibition Search`,
+          url: { pathname: '/search/exhibitions', query: router.query },
+        });
+        break;
+      case 'events':
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description: 'copy pending',
+          title: `${query ? `${query} | ` : ''}Events Search`,
+          url: { pathname: '/search/events', query: router.query },
+        });
+        break;
+      case 'stories':
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description: 'copy pending',
+          title: `${query ? `${query} | ` : ''}Stories Search`,
+          url: { pathname: '/search/stories', query: router.query },
+        });
+        break;
+      case 'images':
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description: pageDescriptions.images,
+          title: `${query ? `${query} | ` : ''}Image Search`,
+          url: { pathname: '/search/images', query: router.query },
+        });
+        break;
+      case 'collections':
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description: 'copy pending',
+          title: `${query ? `${query} | ` : ''}Collections Search`,
+          url: { pathname: '/search/collections', query: router.query },
+        });
+        break;
+
+      default:
+        break;
+    }
+  }, [currentSearchCategory]);
+
   return (
-    <CataloguePageLayout
-      title="Search Page"
-      description={'<TBC>'}
-      url={{ pathname: '/search', query: {} }}
-      openGraphType="website"
-      siteSection="collections"
-      jsonLd={{ '@type': 'WebPage' }}
-      hideNewsletterPromo={true}
-    >
+    <CataloguePageLayout {...pageLayoutMetadata}>
       <div className="container">
         <input placeholder="search..." type="search" />
         <NavBar aria-label="Search Categories">
@@ -135,10 +198,21 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               <Link scroll={false} passHref href={'/search/exhibitions'}>
                 <NavLink
                   aria-current={
-                    currentSearchCategory === 'exhibition' ? 'page' : 'false'
+                    currentSearchCategory === 'exhibitions' ? 'page' : 'false'
                   }
                 >
-                  Exhibitions and Events
+                  Exhibitions
+                </NavLink>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link scroll={false} passHref href={'/search/events'}>
+                <NavLink
+                  aria-current={
+                    currentSearchCategory === 'events' ? 'page' : 'false'
+                  }
+                >
+                  Events
                 </NavLink>
               </Link>
             </NavItem>
