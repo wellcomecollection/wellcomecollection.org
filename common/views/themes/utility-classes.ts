@@ -87,10 +87,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     justify-content: flex-end;
   }
 
-  .flex-1 {
-    flex: 1;
-  }
-
   .plain-button {
     appearance: none;
     font-family: inherit;

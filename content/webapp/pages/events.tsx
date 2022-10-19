@@ -96,8 +96,8 @@ const EventsPage: FC<Props> = props => {
       description={pageDescriptions.events}
       url={{ pathname: `/events${period ? `/${period}` : ''}` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={firstEvent?.image}
     >
       <SpacingSection>
@@ -117,7 +117,7 @@ const EventsPage: FC<Props> = props => {
         {period === 'current-and-coming-up' && (
           <Layout12>
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
-              <MoreLink url={`/events/past`} name={`View past events`} />
+              <MoreLink url={'/events/past'} name="View past events" />
             </Space>
           </Layout12>
         )}

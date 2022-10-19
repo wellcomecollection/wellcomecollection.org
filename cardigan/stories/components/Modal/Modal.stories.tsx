@@ -10,11 +10,11 @@ const Template = () => {
     <div style={{ padding: '50px' }}>
       <ButtonSolid
         ref={openButtonRef}
-        text={'Show modal'}
+        text="Show modal"
         clickHandler={() => setIsActive(true)}
       />
       <Modal
-        id={'test'}
+        id="test"
         openButtonRef={openButtonRef}
         isActive={isActive}
         setIsActive={setIsActive}

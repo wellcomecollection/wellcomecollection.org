@@ -154,7 +154,6 @@ const ArticleSeriesPage: FC<Props> = props => {
         />
       }
       FeaturedMedia={FeaturedMedia}
-      HeroPicture={undefined}
       isContentTypeInfoBeforeMedia={true}
     />
   );
@@ -173,8 +172,8 @@ const ArticleSeriesPage: FC<Props> = props => {
       description={series.metadataDescription || series.promo?.caption || ''}
       url={{ pathname: paginationRoot }}
       jsonLd={{ '@type': 'WebPage' }}
-      siteSection={'stories'}
-      openGraphType={'website'}
+      siteSection="stories"
+      openGraphType="website"
       image={series.image}
     >
       <ContentPage

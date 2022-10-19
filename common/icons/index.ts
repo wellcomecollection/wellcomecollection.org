@@ -87,7 +87,7 @@ export { default as singlePage } from './components/SinglePage';
 export { default as smartphone } from './components/Smartphone';
 export { default as snowflake } from './components/Snowflake';
 export { default as sort } from './components/Sort';
-export { default as soundcloud } from './components/SoundCloud';
+export { default as soundCloud } from './components/SoundCloud';
 export { default as speechToText } from './components/SpeechToText';
 export { default as threeD } from './components/ThreeD';
 export { default as ticket } from './components/Ticket';

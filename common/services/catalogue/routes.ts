@@ -225,7 +225,7 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
     const { workId } = params;
     return {
       href: {
-        pathname: `/item`,
+        pathname: '/item',
         query: ItemRoute.toQuery(params),
       },
       as: {

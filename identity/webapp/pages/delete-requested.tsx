@@ -11,7 +11,7 @@ import { DeleteRequestedText } from '../copy';
 
 const DeleteRequestedPage: NextPage = () => {
   return (
-    <PageWrapper title={`Delete request`}>
+    <PageWrapper title="Delete request">
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>

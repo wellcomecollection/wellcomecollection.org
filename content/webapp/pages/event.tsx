@@ -302,7 +302,6 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
             EventStatus({ text: 'Fully booked', color: 'validation.red' })}
         </>
       }
-      HeroPicture={undefined}
       isFree={!event.cost} // TODO or no online cost
       isContentTypeInfoBeforeMedia={true}
     />

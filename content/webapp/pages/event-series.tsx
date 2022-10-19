@@ -130,10 +130,8 @@ const EventSeriesPage: FC<Props> = ({
       breadcrumbs={breadcrumbs}
       labels={{ labels: series.labels }}
       title={series.title}
-      ContentTypeInfo={undefined}
       Background={<HeaderBackground hasWobblyEdge={true} />}
       FeaturedMedia={FeaturedMedia}
-      HeroPicture={undefined}
     />
   );
 

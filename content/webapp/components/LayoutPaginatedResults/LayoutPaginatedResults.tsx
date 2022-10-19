@@ -64,10 +64,7 @@ const LayoutPaginatedResults: FC<Props> = ({
         labels={undefined}
         title={title}
         ContentTypeInfo={description && <PrismicHtmlBlock html={description} />}
-        Background={undefined}
         backgroundTexture={headerBackgroundLs}
-        FeaturedMedia={undefined}
-        HeroPicture={undefined}
         highlightHeading={true}
         isContentTypeInfoBeforeMedia={false}
       />

@@ -1,16 +1,17 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { IIIFRendering } from '../../model/iiif';
+import { IIIFRendering } from '../../services/iiif/types/manifest/v2';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { ReactElement, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+import DownloadLink, {
+  DownloadFormat,
+} from '@weco/common/views/components/DownloadLink/DownloadLink';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import { NextPage } from 'next';
-import { DownloadFormat } from '../DownloadLink/DownloadLink';
 
 export const DownloadOptions = styled.div.attrs(() => ({
   className: font('intb', 4),

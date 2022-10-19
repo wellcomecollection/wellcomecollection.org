@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
-import DownloadLink from '../DownloadLink/DownloadLink';
+import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 import { IIIFExternalWebResource, ContentResource } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
 
@@ -56,7 +56,7 @@ const AudioList: FC<Props> = ({
             format="PDF"
             trackingEvent={{
               category: 'Download link',
-              action: `follow audio annotation link`,
+              action: 'follow audio annotation link',
               label: transcript.id,
             }}
             mimeType="application/pdf"

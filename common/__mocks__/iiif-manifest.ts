@@ -128,6 +128,7 @@ const manifest = {
         },
       ],
       viewingHint: 'paged',
+      compatibilityHint: '',
       canvases: [
         {
           '@id':
@@ -8046,5 +8047,7 @@ const manifest = {
   ],
   within:
     'https://iiif.wellcomecollection.org/presentation/v2/collections/contributors/xmk3e978',
+  manifests: [],
 };
+
 export default manifest;

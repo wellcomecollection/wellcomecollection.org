@@ -1,45 +1,19 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
-import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
+import Space from '@weco/common/views/components/styled/Space';
 
-const Template = args => <TabNav {...args} />;
-export const basic = Template.bind({});
-basic.args = {
-  items: [
-    {
-      text: 'All',
-      link: {
-        href: {
-          pathname: '',
-        },
-      },
-      selected: true,
-    },
-    {
-      text: 'Books',
-      link: {
-        href: {
-          pathname: '',
-        },
-      },
+const Wrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['margin-bottom'] },
+})<{
+  backgroundColor: 'white' | 'black';
+}>`
+  ${props =>
+    props.backgroundColor &&
+    `background-color: ${props.theme.color(props.backgroundColor)}`};
+`;
 
-      selected: false,
-    },
-    {
-      text: 'Pictures',
-      link: {
-        href: {
-          pathname: '',
-        },
-      },
-
-      selected: false,
-    },
-  ],
-};
-basic.storyName = 'TabNav';
-
-const TemplateV2 = ({ items, ...rest }) => {
+const Template = ({ items, variant, ...rest }) => {
   const [selectedTab, setSelectedTab] = useState(items[0].id); //eslint-disable-line
 
   const itemsSelector = items.map(item => ({
@@ -48,17 +22,48 @@ const TemplateV2 = ({ items, ...rest }) => {
   }));
 
   return (
-    <TabNavV2
-      id="story-tabs"
-      items={itemsSelector}
-      selectedTab="all"
-      {...rest}
-      setSelectedTab={setSelectedTab}
-    />
+    <div className="container">
+      <Wrapper backgroundColor={variant === 'white' ? 'black' : 'white'}>
+        <TabNav
+          id="story-tabs"
+          items={itemsSelector}
+          selectedTab="all"
+          variant={variant}
+          {...rest}
+          setSelectedTab={setSelectedTab}
+        />
+      </Wrapper>
+      <>
+        {selectedTab === 'all' && (
+          <div role="tabpanel" id="tabpanel-all" aria-labelledby="tab-all">
+            All content
+          </div>
+        )}
+        {selectedTab === 'slightly-longer' && (
+          <div
+            role="tabpanel"
+            id="tabpanel-slightly-longer"
+            aria-labelledby="tab-slightly-longer"
+          >
+            Slightly longer content
+          </div>
+        )}
+        {selectedTab === 'pictures' && (
+          <div
+            role="tabpanel"
+            id="tabpanel-pictures"
+            aria-labelledby="tab-pictures"
+          >
+            Pictures content
+          </div>
+        )}
+      </>
+    </div>
   );
 };
-export const basicV2 = TemplateV2.bind({});
-basicV2.args = {
+export const basic = Template.bind({});
+basic.args = {
+  hasDivider: true,
   items: [
     {
       id: 'all',
@@ -75,10 +80,14 @@ basicV2.args = {
   ],
 };
 
-basicV2.argTypes = {
+basic.argTypes = {
   setSelectedTab: {
     table: { disable: true },
   },
+  variant: {
+    control: { type: 'inline-radio' },
+    options: ['default', 'yellow', 'white'],
+  },
 };
 
-basicV2.storyName = 'TabNavV2';
+basic.storyName = 'TabNav';

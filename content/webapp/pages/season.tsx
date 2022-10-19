@@ -116,8 +116,8 @@ const SeasonPage = ({
       description={season.metadataDescription || season.promo?.caption || ''}
       url={{ pathname: `/seasons/${season.id}` }}
       jsonLd={jsonLd}
-      siteSection={'whats-on'}
-      openGraphType={'website'}
+      siteSection="whats-on"
+      openGraphType="website"
       image={season.image}
     >
       <ContentPage

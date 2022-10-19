@@ -1,62 +1,36 @@
+import { useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
+
+import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
-import { useState } from 'react';
-import Space from '@weco/common/views/components/styled/Space';
+import SearchHeader from '@weco/catalogue/views/search/searchHeader';
 
 export const SearchPage: NextPage = () => {
-  const [selectedTab, setSelectedTab] = useState('overview-tab');
+  const [selectedTab, setSelectedTab] = useState('overview');
 
   return (
     // TODO review meta info here
     <CataloguePageLayout
       title="Search Page"
       description={'<TBC>'}
-      url={{ pathname: `/search`, query: {} }}
-      openGraphType={'website'}
-      siteSection={'collections'}
+      url={{ pathname: '/search', query: {} }}
+      openGraphType="website"
+      siteSection="collections"
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
     >
       <div className="container">
-        <h1>Search Page</h1>
-        <TabNavV2
-          id="search-tabs"
+        <h1 className="visually-hidden">Search Page</h1>
+        <SearchHeader
           selectedTab={selectedTab}
-          items={[
-            {
-              id: 'overview-tab',
-              text: 'Overview',
-              selected: selectedTab === 'overview-tab',
-            },
-            {
-              id: 'exhibitions-tab',
-              text: 'Exhibitions and events',
-              selected: selectedTab === 'exhibitions-tab',
-            },
-            {
-              id: 'stories-tab',
-              text: 'Stories',
-              selected: selectedTab === 'stories-tab',
-            },
-            {
-              id: 'images-tab',
-              text: 'Images',
-              selected: selectedTab === 'images-tab',
-            },
-            {
-              id: 'collections-tab',
-              text: 'Collections',
-              selected: selectedTab === 'collections-tab',
-            },
-          ]}
           setSelectedTab={setSelectedTab}
         />
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          {selectedTab === 'overview-tab' && (
+          {selectedTab === 'overview' && (
             <div
               role="tabpanel"
               id="tabpanel-overviewTab"
@@ -65,7 +39,7 @@ export const SearchPage: NextPage = () => {
               Overview content
             </div>
           )}
-          {selectedTab === 'exhibitions-tab' && (
+          {selectedTab === 'exhibitions' && (
             <div
               role="tabpanel"
               id="tabpanel-exhibitionsTab"
@@ -74,7 +48,7 @@ export const SearchPage: NextPage = () => {
               Exhibitions and events content
             </div>
           )}
-          {selectedTab === 'stories-tab' && (
+          {selectedTab === 'stories' && (
             <div
               role="tabpanel"
               id="tabpanel-storiesTab"
@@ -83,7 +57,7 @@ export const SearchPage: NextPage = () => {
               Stories content
             </div>
           )}
-          {selectedTab === 'images-tab' && (
+          {selectedTab === 'images' && (
             <div
               role="tabpanel"
               id="tabpanel-imagesTab"
@@ -92,7 +66,7 @@ export const SearchPage: NextPage = () => {
               Images content
             </div>
           )}
-          {selectedTab === 'collections-tab' && (
+          {selectedTab === 'collections' && (
             <div
               role="tabpanel"
               id="tabpanel-collectionsTab"

@@ -110,7 +110,7 @@ const IndexPage: FC = () => {
         fontFamily,
       }}
     >
-      <Header title={'Toggles'} />
+      <Header title="Toggles" />
       <div
         style={{
           maxWidth: '600px',

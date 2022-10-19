@@ -13,7 +13,7 @@ import { themeValues } from '@weco/common/views/themes/config';
 
 const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
-    <PageWrapper title={`Error`}>
+    <PageWrapper title="Error">
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>

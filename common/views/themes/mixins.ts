@@ -11,9 +11,10 @@ export function respondBetween(
   maxBreakpoint: Breakpoint,
   content: string
 ): string {
-  return `@media (min-width: ${
-    themeValues.sizes[minBreakpoint]
-  }px) and (max-width: ${themeValues.sizes[maxBreakpoint] - 1}px) {
+  const minWidth = `min-width: ${themeValues.sizes[minBreakpoint]}px`;
+  const maxWidth = `max-width: ${themeValues.sizes[maxBreakpoint] - 1}px`;
+
+  return `@media (${minWidth}) and (${maxWidth}) {
     ${content}
   }`;
 }

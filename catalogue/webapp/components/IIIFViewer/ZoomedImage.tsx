@@ -250,7 +250,7 @@ const ZoomedImage: FunctionComponent = () => {
           </Space>
         </Space>
       </Controls>
-      <Image id={`image-viewer-zoomedImage`}>
+      <Image id="image-viewer-zoomedImage">
         {scriptError && <ErrorMessage />}
       </Image>
     </ZoomedImageContainer>

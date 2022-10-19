@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "start-storybook -p 9001 -c .storybook",
     "build": "build-storybook -s ./public -c .storybook -o .dist",
-    "chromatic": "chromatic"
+    "chromatic": "chromatic --only-changed"
   },
   "devDependencies": {
     "@storybook/builder-vite": "^0.2.4"
