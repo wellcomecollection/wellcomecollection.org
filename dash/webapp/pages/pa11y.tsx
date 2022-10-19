@@ -1,4 +1,5 @@
-import { Fragment, useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, FC } from 'react';
+import Head from 'next/head';
 import styled from 'styled-components';
 import Header from '../components/Header';
 
@@ -8,7 +9,7 @@ const Pre = styled.pre`
   background: #e8e8e8;
   margin: 6px 0;
 `;
-const Issue = styled.div`
+const Issue = styled.div<{ type: string }>`
   padding: 12px;
   margin: 6px;
   ${props =>
@@ -35,7 +36,7 @@ const Issue = styled.div`
 `;
 
 const Index: FC = () => {
-  const [resultsList, setResultsList] = useState(null);
+  const [resultsList, setResultsList] = useState([]);
 
   useEffect(() => {
     fetch('https://dash.wellcomecollection.org/pa11y/report.json')
@@ -44,8 +45,11 @@ const Index: FC = () => {
   }, []);
 
   return (
-    resultsList && (
-      <Fragment>
+    <>
+      <Head>
+        <title>Pa11y dashboard</title>
+      </Head>
+      {resultsList && (
         <div
           style={{
             fontFamily,
@@ -59,82 +63,85 @@ const Index: FC = () => {
             }}
           >
             <main>
-              {resultsList.results.map(({ documentTitle, pageUrl, issues }) => {
-                const errorCount = issues.filter(
-                  issue => issue.type === 'error'
-                ).length;
-                const warningCount = issues.filter(
-                  issue => issue.type === 'warning'
-                ).length;
-                const noticeCount = issues.filter(
-                  issue => issue.type === 'notice'
-                ).length;
-                return (
-                  <section
-                    key={pageUrl}
-                    style={{
-                      marginTop: '18px',
-                      padding: '6px 0',
-                      borderTop: '1px solid #d9d6ce',
-                    }}
-                  >
-                    <h2
-                      style={{
-                        marginBottom: '6px',
-                      }}
-                    >
-                      {documentTitle}
-                    </h2>
-                    <h3
-                      style={{
-                        fontWeight: 'normal',
-                        color: '#717171',
-                        fontSize: '14px',
-                        marginTop: 0,
-                      }}
-                    >
-                      {pageUrl}
-                    </h3>
-                    <div
-                      style={{
-                        display: 'flex',
-                      }}
-                    >
-                      <Issue type="error">{errorCount}</Issue>
-                      <Issue type="warning">{warningCount}</Issue>
-                      <Issue type="notice">{noticeCount}</Issue>
-                    </div>
-                    {issues.map(issue => {
-                      return (
-                        <Issue type={issue.type} key={issue.selector}>
-                          <p>
-                            <b>
-                              {issue.type}: {issue.message}
-                            </b>
-                          </p>
+              {resultsList['results'] &&
+                resultsList['results'].map(
+                  ({ documentTitle, pageUrl, issues }) => {
+                    const errorCount = issues.filter(
+                      issue => issue.type === 'error'
+                    ).length;
+                    const warningCount = issues.filter(
+                      issue => issue.type === 'warning'
+                    ).length;
+                    const noticeCount = issues.filter(
+                      issue => issue.type === 'notice'
+                    ).length;
+                    return (
+                      <section
+                        key={pageUrl}
+                        style={{
+                          marginTop: '18px',
+                          padding: '6px 0',
+                          borderTop: '1px solid #d9d6ce',
+                        }}
+                      >
+                        <h2
+                          style={{
+                            marginBottom: '6px',
+                          }}
+                        >
+                          {documentTitle}
+                        </h2>
+                        <h3
+                          style={{
+                            fontWeight: 'normal',
+                            color: '#717171',
+                            fontSize: '14px',
+                            marginTop: 0,
+                          }}
+                        >
+                          {pageUrl}
+                        </h3>
+                        <div
+                          style={{
+                            display: 'flex',
+                          }}
+                        >
+                          <Issue type="error">{errorCount}</Issue>
+                          <Issue type="warning">{warningCount}</Issue>
+                          <Issue type="notice">{noticeCount}</Issue>
+                        </div>
+                        {issues.map(issue => {
+                          return (
+                            <Issue type={issue.type} key={issue.selector}>
+                              <p>
+                                <b>
+                                  {issue.type}: {issue.message}
+                                </b>
+                              </p>
 
-                          <div>Context</div>
-                          <Pre>{issue.context}</Pre>
+                              <div>Context</div>
+                              <Pre>{issue.context}</Pre>
 
-                          <div
-                            style={{
-                              marginTop: '12px',
-                            }}
-                          >
-                            Selector
-                          </div>
-                          <Pre>{issue.selector}</Pre>
-                        </Issue>
-                      );
-                    })}
-                  </section>
-                );
-              })}
+                              <div
+                                style={{
+                                  marginTop: '12px',
+                                }}
+                              >
+                                Selector
+                              </div>
+                              <Pre>{issue.selector}</Pre>
+                            </Issue>
+                          );
+                        })}
+                      </section>
+                    );
+                  }
+                )}
             </main>
           </div>
         </div>
-      </Fragment>
-    )
+      )}
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
+import React, { FC } from 'react';
 import Link from 'next/link';
-import { FC } from 'react';
 
 type Props = { title: string };
 
@@ -37,7 +37,7 @@ const Header: FC<Props> = ({ title }) => {
             padding: 0,
             marginLeft: '18px',
             color: '#323232',
-            weight: 'normal',
+            fontWeight: 'normal',
             lineHeight: '2.5em',
             minWidth: '150px',
           }}

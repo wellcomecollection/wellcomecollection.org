@@ -21,6 +21,8 @@ const urls = [
   'https://wellcomecollection.org/exhibitions/XOVfTREAAOJmx-Uw',
   'https://wellcomecollection.org/events/Wqkd1yUAAB8sW4By',
   'https://wellcomecollection.org/event-series/WlYT_SQAACcAWccj',
+  'https://wellcomecollection.org/concepts/n4fvtc49',
+  'https://wellcomecollection.org/works/a2239muq/items',
 ];
 
 const promises = urls.map(url =>
