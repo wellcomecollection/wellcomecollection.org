@@ -97,9 +97,6 @@ const Download: NextPage<Props> = ({
 }: Props) => {
   const downloadsContainer = useRef(null);
   const { isEnhanced } = useContext(AppContext);
-  const downloadOptionsWithoutText = downloadOptions.filter(
-    option => option.format !== 'text/plain'
-  );
 
   return (
     <div
@@ -110,7 +107,7 @@ const Download: NextPage<Props> = ({
       })}
       ref={downloadsContainer}
     >
-      {downloadOptionsWithoutText.length > 0 && (
+      {downloadOptions.length > 0 && (
         <>
           <DropdownButton
             label="Downloads"
@@ -121,7 +118,6 @@ const Download: NextPage<Props> = ({
             <DownloadOptions className={font('intb', 5)}>
               <SpacingComponent>
                 <ul className="plain-list no-margin no-padding">
-                  {downloadOptionsWithoutText.map(option => {
                   {downloadOptions.map(option => {
                     const action = option.id?.match(/\/full\/full\//)
                       ? 'download large work image'
