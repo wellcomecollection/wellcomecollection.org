@@ -3,7 +3,7 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "dev": "start-storybook -p 9001 -c .storybook --no-manager-cache",
+    "dev": "start-storybook -p 9001 -c .storybook",
     "build": "build-storybook -s ./public -c .storybook -o .dist",
     "chromatic": "chromatic"
   },
@@ -34,7 +34,6 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.12.2",
-    "events": "^3.3.0",
     "faker": "^4.1.0",
     "husky": "^4.3.0",
     "process": "^0.11.10",

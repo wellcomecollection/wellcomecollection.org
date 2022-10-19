@@ -7,7 +7,6 @@ module.exports = {
     '../stories/global/**/*.stories.tsx',
     '../stories/components/**/*.stories.mdx',
     '../stories/components/**/*.stories.tsx',
-    '../stories/docs/**/*.stories.mdx',
   ],
   addons: [
     '@storybook/addon-controls',
@@ -18,10 +17,6 @@ module.exports = {
       options: { transcludeMarkdown: true },
     },
   ],
-  typescript: {
-		check: false,
-		reactDocgen: false,
-	},
   core: {
     builder: '@storybook/builder-vite',
   },
@@ -32,9 +27,7 @@ module.exports = {
           stream: 'stream-browserify',
           process: 'process/browser',
           util: 'util/',
-          events: 'events/',
           http: 'agent-base',
-          https: 'agent-base',
         }
       },
     });

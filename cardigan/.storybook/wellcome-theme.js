@@ -7,5 +7,5 @@ export default create({
   brandTitle: 'Cardigan',
   brandUrl: 'https://wellcomecollection.org',
   brandImage:`/${logo}`,
-  fontBase: '"Helvetica Neue", sans-serif'
+  fontBase: '"Inter", sans-serif'
 });
