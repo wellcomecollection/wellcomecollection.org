@@ -1,4 +1,3 @@
-import { respondBetween, respondTo } from '@weco/common/views/themes/mixins';
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -23,28 +22,8 @@ const NavList = styled.ul`
   margin-block-end: 0;
 `;
 const NavItem = styled.li`
-  ${respondTo(
-    'headerMedium',
-    `
-    border-bottom: 0;
-    margin-right: calc(3vw - 20px);
-  `
-  )}
-
-  ${respondBetween(
-    'headerMedium',
-    'large',
-    `
-    font-size: 1.5vw;
-  `
-  )}
-
-  ${respondTo(
-    'xlarge',
-    `
-    margin-right: 1.4rem;
-  `
-  )}
+  font-size: 1rem;
+  font-size: 16px;
 `;
 const NavLink = styled.a`
   padding: 1.4rem 0.3rem;
@@ -52,16 +31,7 @@ const NavLink = styled.a`
   text-decoration: none;
   position: relative;
   z-index: 1;
-  transition: color 400ms ease;
   white-space: nowrap;
-
-  ${respondTo(
-    'headerMedium',
-    `
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  `
-  )}
 
   &:after {
     content: '';
@@ -72,14 +42,7 @@ const NavLink = styled.a`
     width: 0;
     background: ${props => props.theme.color('yellow')};
     z-index: -1;
-    transition: width 200ms ease;
-
-    ${respondTo(
-      'headerMedium',
-      `
-      // bottom: 0.9rem;
-    `
-    )}
+    transition: width ${props => props.theme.transitionProperties};
   }
 
   &:hover,
@@ -176,10 +139,12 @@ const SearchLayout: FunctionComponent = ({ children }) => {
     <CataloguePageLayout {...pageLayoutMetadata}>
       <div className="container">
         <input placeholder="search..." type="search" />
-        <NavBar aria-label="Search Categories">
+      </div>
+      <NavBar aria-label="Search Categories">
+        <div className="container">
           <NavList>
             <NavItem>
-              <Link scroll={false} passHref href={'/search'}>
+              <Link scroll={false} passHref href="/search">
                 <NavLink
                   aria-current={
                     currentSearchCategory === 'overview' ? 'page' : 'false'
@@ -190,7 +155,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               </Link>
             </NavItem>
             <NavItem>
-              <Link scroll={false} passHref href={'/search/exhibitions'}>
+              <Link scroll={false} passHref href="/search/exhibitions">
                 <NavLink
                   aria-current={
                     currentSearchCategory === 'exhibitions' ? 'page' : 'false'
@@ -201,7 +166,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               </Link>
             </NavItem>
             <NavItem>
-              <Link scroll={false} passHref href={'/search/events'}>
+              <Link scroll={false} passHref href="/search/events">
                 <NavLink
                   aria-current={
                     currentSearchCategory === 'events' ? 'page' : 'false'
@@ -212,7 +177,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               </Link>
             </NavItem>
             <NavItem>
-              <Link scroll={false} passHref href={'/search/stories'}>
+              <Link scroll={false} passHref href="/search/stories">
                 <NavLink
                   aria-current={
                     currentSearchCategory === 'stories' ? 'page' : 'false'
@@ -223,7 +188,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               </Link>
             </NavItem>
             <NavItem>
-              <Link scroll={false} passHref href={'/search/images'}>
+              <Link scroll={false} passHref href="/search/images">
                 <NavLink
                   aria-current={
                     currentSearchCategory === 'images' ? 'page' : 'false'
@@ -234,7 +199,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               </Link>
             </NavItem>
             <NavItem>
-              <Link scroll={false} passHref href={'/search/collections'}>
+              <Link scroll={false} passHref href="/search/collections">
                 <NavLink
                   aria-current={
                     currentSearchCategory === 'collections' ? 'page' : 'false'
@@ -245,14 +210,15 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               </Link>
             </NavItem>
           </NavList>
-        </NavBar>
-        <div>{children}</div>
-      </div>
+        </div>
+      </NavBar>
+
+      {children}
     </CataloguePageLayout>
   );
 };
 
-export const getLayout = (page: ReactElement): JSX.Element => (
+export const getSearchLayout = (page: ReactElement): JSX.Element => (
   <SearchLayout>{page}</SearchLayout>
 );
 

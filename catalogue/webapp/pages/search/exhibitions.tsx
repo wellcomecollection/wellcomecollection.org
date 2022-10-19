@@ -4,7 +4,7 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { getLayout } from 'components/SearchPageLayout/SearchPageLayout';
+import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 
 export const SearchPage: NextPageWithLayout = () => {
   return (
@@ -17,7 +17,7 @@ export const SearchPage: NextPageWithLayout = () => {
   );
 };
 
-SearchPage.getLayout = getLayout;
+SearchPage.getLayout = getSearchLayout;
 
 export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps

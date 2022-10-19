@@ -21,7 +21,7 @@ import {
   toLink,
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import { getServerData } from '@weco/common/server-data';
-import { getLayout } from 'components/SearchPageLayout/SearchPageLayout';
+import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 
 // Types
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
@@ -108,7 +108,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   );
 };
 
-ImagesSearchPage.getLayout = getLayout;
+ImagesSearchPage.getLayout = getSearchLayout;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
