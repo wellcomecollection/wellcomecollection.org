@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 
 const NavBar = styled.nav`
-  overflow: scroll;
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   [aria-current='page'] {
     &:after {
@@ -20,14 +19,10 @@ const NavList = styled.ul`
   list-style: none;
   list-style-position: inside;
   padding-inline-start: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
 `;
 const NavItem = styled.li`
-  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
-
-  // TODO: the vw units below are tightly coupled to the
-  // number of nav items and number of characters in them.
-  // This is a stop-gap ahead of nav design rework.
-
   ${respondTo(
     'headerMedium',
     `
@@ -72,7 +67,7 @@ const NavLink = styled.a`
     content: '';
     position: absolute;
     bottom: 0.1rem;
-    height: 0.1rem;
+    height: 0.2rem;
     left: 0;
     width: 0;
     background: ${props => props.theme.color('yellow')};
