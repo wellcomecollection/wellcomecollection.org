@@ -17,15 +17,18 @@ import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
 // Do we need collectionManifestsCount and isCollectionManifest?
 // Do we need canvases and canvasCount?
 // These should be cleaned up as we move to v3
+
+export type DownloadOption = { id: string; label: string; format: string; width?: 'full' | number }
+
 export type TransformedManifest = {
   // Currently from iiifManifest V2:
+  id: string;
   title: string;
   canvasCount: number;
   collectionManifestsCount: number;
   video?: IIIFMediaElement;
   iiifCredit?: string;
   downloadEnabled?: boolean;
-  downloadOptions: IIIFRendering[];
   firstCollectionManifestLocation?: string;
   pdfRendering: IIIFRendering | undefined;
   authService: AuthService | undefined;
@@ -40,9 +43,9 @@ export type TransformedManifest = {
   searchService: Service2 | undefined;
   structures: IIIFStructure[];
   // Currently from iiif manifest v3:
-  id: string;
   audio: Audio | undefined;
   services: Service[];
+  downloadOptions: DownloadOption[];
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {

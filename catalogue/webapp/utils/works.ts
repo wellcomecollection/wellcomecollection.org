@@ -9,7 +9,7 @@ import {
   PhysicalItem,
   AccessCondition,
 } from '@weco/common/model/catalogue';
-import { IIIFRendering } from '../services/iiif/types/manifest/v2';
+import { DownloadOption } from '../types/manifest';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { Label } from '@weco/common/model/labels';
 import {
@@ -31,7 +31,7 @@ type DownloadImage = {
 
 export function getDownloadOptionsFromImageUrl(
   downloadImage: DownloadImage
-): IIIFRendering[] {
+): DownloadOption[] {
   const smallImageWidth = 760;
   const imageDimensions = {
     fullWidth: downloadImage.width || null,
@@ -47,7 +47,7 @@ export function getDownloadOptionsFromImageUrl(
   if (downloadImage.url) {
     return [
       {
-        '@id': convertIiifImageUri(downloadImage.url, 'full'),
+        id: convertIiifImageUri(downloadImage.url, 'full'),
         format: 'image/jpeg',
         label: `This image (${
           imageDimensions.fullWidth && imageDimensions.fullHeight
@@ -57,7 +57,7 @@ export function getDownloadOptionsFromImageUrl(
         width: 'full',
       },
       {
-        '@id': convertIiifImageUri(downloadImage.url, smallImageWidth),
+        id: convertIiifImageUri(downloadImage.url, smallImageWidth),
         format: 'image/jpeg',
         label: `This image (${
           imageDimensions.smallHeight

@@ -1,5 +1,5 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { IIIFRendering } from '../../services/iiif/types/manifest/v2';
+import { DownloadOption } from '../../types/manifest';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { ReactElement, useContext, useRef } from 'react';
 import styled from 'styled-components';
@@ -77,7 +77,7 @@ export function getCredit(
 type Props = {
   ariaControlsId: string;
   workId: string;
-  downloadOptions: IIIFRendering[];
+  downloadOptions: DownloadOption[];
   title?: string;
   license?: LicenseData;
   iiifImageLocationCredit?: string;
@@ -122,19 +122,19 @@ const Download: NextPage<Props> = ({
               <SpacingComponent>
                 <ul className="plain-list no-margin no-padding">
                   {downloadOptionsWithoutText.map(option => {
-                    const action = option['@id'].match(/\/full\/full\//)
+                  {downloadOptions.map(option => {
+                    const action = option.id?.match(/\/full\/full\//)
                       ? 'download large work image'
-                      : option['@id'].match(/\/full\/760/)
+                      : option.id?.match(/\/full\/760/)
                       ? 'download small work image'
                       : option.label;
                     const format = getFormatString(option.format);
 
                     return (
-                      <li key={option['@id']}>
+                      <li key={option.id}>
                         <DownloadLink
-                          href={option['@id']}
+                          href={option.id}
                           linkText={
-                            option.label === 'Download as PDF'
                               ? 'Whole item'
                               : option.label
                           }
