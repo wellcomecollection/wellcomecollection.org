@@ -131,6 +131,7 @@ const Download: NextPage<Props> = ({
                         <DownloadLink
                           href={option.id}
                           linkText={
+                            option.format === 'application/pdf'
                               ? 'Whole item'
                               : option.label
                           }
