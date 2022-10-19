@@ -7,7 +7,7 @@ import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
 import { exhibitionBasic } from '../../data/prismic/exhibition';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import CompactCardReadme from '@weco/content/components/CompactCard/README.md';
-import { ReadmeDecordator } from '../../../config/decorators';
+import { ReadmeDecorator } from '../../../config/decorators';
 import {
   squareImage,
   singleLineOfText,
@@ -22,7 +22,7 @@ const secondaryLabelList = [{ text: 'Speech-to-text' }];
 const imageProps = squareImage();
 
 const CompactCardTemplate = args => (
-  <ReadmeDecordator
+  <ReadmeDecorator
     WrappedComponent={CompactCard}
     args={args}
     Readme={CompactCardReadme}

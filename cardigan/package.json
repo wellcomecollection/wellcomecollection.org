@@ -36,7 +36,6 @@
     "eslint-plugin-react": "^7.12.2",
     "faker": "^4.1.0",
     "husky": "^4.3.0",
-    "process": "^0.11.10",
     "react": "^17.0.2",
     "stream-browserify": "^3.0.0",
     "style-loader": "^1.0.0",

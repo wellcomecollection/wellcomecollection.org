@@ -25,7 +25,6 @@ module.exports = {
       resolve: {
         alias: {
           stream: 'stream-browserify',
-          process: 'process/browser',
           util: 'util/',
           http: 'agent-base',
         }
