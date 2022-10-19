@@ -2,7 +2,6 @@ import { IIIFManifests } from '../fetch/manifest';
 import { TransformedManifest } from '../../../types/manifest';
 // TODO move each of these util functions from v2 to v3
 import {
-  getDownloadOptionsFromManifest,
   getUiExtensions,
   getVideo,
   isUiEnabled,
@@ -16,7 +15,7 @@ import {
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
-import { getAudio } from '../../../utils/iiif/v3';
+import { getAudio, getDownloadOptionsFromManifest } from '../../../utils/iiif/v3';
 
 export function transformManifest(
   iiifManifests: IIIFManifests
@@ -38,9 +37,6 @@ export function transformManifest(
   const downloadEnabled = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
     : true;
-  const downloadOptions = manifestV2
-    ? getDownloadOptionsFromManifest(manifestV2)
-    : [];
   const firstCollectionManifestLocation =
     manifestV2 && getFirstCollectionManifestLocation(manifestV2);
 
@@ -67,6 +63,9 @@ export function transformManifest(
   // V3
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
+  const downloadOptions = manifestV3
+  ? getDownloadOptionsFromManifest(manifestV3)
+    : [];
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
