@@ -11,13 +11,13 @@ const List = styled(Space).attrs({
     negative: true,
   },
   h: { size: 'm', properties: ['padding-right'] },
-  className: 'plain-list',
 })`
   display: flex;
   padding: 0;
   margin-left: 0;
   margin-top: 0;
   flex-wrap: wrap;
+  list-style: none;
 `;
 
 const ListItem = styled(Space).attrs({

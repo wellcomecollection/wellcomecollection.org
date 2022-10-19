@@ -56,6 +56,7 @@ const FiltersHeader = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
+  text-align: center;
 `;
 
 const ActiveFilters = styled(Space).attrs({
@@ -296,7 +297,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
         >
           <FiltersScrollable>
             <FiltersHeader>
-              <h2 className="h3 text-align-center block">Filters</h2>
+              <h2 className="h2">Filters</h2>
             </FiltersHeader>
 
             <FiltersBody>

@@ -21,6 +21,11 @@ const TextContainer = styled.div`
   }
 `;
 
+const List = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
 export type Props = {
   items: {
     title?: string;
@@ -30,34 +35,26 @@ export type Props = {
   }[];
 };
 
-const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
-  return (
-    <ul className="plain-list no-padding">
-      {items.map((item, i) => {
-        return (
-          <Space
-            v={{ size: 'l', properties: ['margin-bottom'] }}
-            as="li"
-            key={i}
-          >
-            <h3 className="no-margin">
-              <HeadingLink href={item.link}>{item.title}</HeadingLink>
-            </h3>
-            {item.text && (
-              <TextContainer>
-                <PrismicHtmlBlock key={i} html={item.text} />
-              </TextContainer>
-            )}
-            {item?.label?.title && (
-              <LabelsList
-                labels={[{ text: item.label.title }]}
-                defaultLabelColor="warmNeutral.300"
-              />
-            )}
-          </Space>
-        );
-      })}
-    </ul>
-  );
-};
+const TitledTextList: FunctionComponent<Props> = ({ items }) => (
+  <List>
+    {items.map((item, i) => (
+      <Space v={{ size: 'l', properties: ['margin-bottom'] }} as="li" key={i}>
+        <h3 className="no-margin">
+          <HeadingLink href={item.link}>{item.title}</HeadingLink>
+        </h3>
+        {item.text && (
+          <TextContainer>
+            <PrismicHtmlBlock key={i} html={item.text} />
+          </TextContainer>
+        )}
+        {item?.label?.title && (
+          <LabelsList
+            labels={[{ text: item.label.title }]}
+            defaultLabelColor="warmNeutral.300"
+          />
+        )}
+      </Space>
+    ))}
+  </List>
+);
 export default TitledTextList;
