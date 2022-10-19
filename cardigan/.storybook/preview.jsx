@@ -62,4 +62,14 @@ export const parameters = {
       </DocsContainer>
     ),
   },
+  a11y: {
+    config: {
+      rules: [
+        {
+          id: 'color-contrast',
+          selector: '*:not(#readme)',
+        },
+      ],
+    },
+  },
 };

@@ -30,7 +30,7 @@ export const ReadmeDecorator: FC<ReadmeDecoratorProps> = ({
   Readme,
 }) => {
   return (
-    <>
+    <div>
       <WrappedComponent {...args} />
       <Space
         v={{
@@ -48,6 +48,7 @@ export const ReadmeDecorator: FC<ReadmeDecoratorProps> = ({
         }}
       >
         <span
+          id="readme"
           style={{
             position: 'absolute',
             fontSize: '12px',
@@ -64,6 +65,6 @@ export const ReadmeDecorator: FC<ReadmeDecoratorProps> = ({
           <Readme />
         </Space>
       </Space>
-    </>
+    </div>
   );
 };
