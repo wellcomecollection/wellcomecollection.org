@@ -24,10 +24,12 @@ import {
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { getLayout } from 'components/SearchPageLayout/SearchPageLayout';
 
 // Types
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import SearchHeader from 'views/search/searchHeader';
+import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -41,7 +43,7 @@ const Wrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('black')};
 `;
 
-const Images: NextPage<Props> = ({
+const Images: NextPageWithLayout<Props> = ({
   images,
   imagesRouteProps,
 }): ReactElement<Props> => {
@@ -160,6 +162,8 @@ const Images: NextPage<Props> = ({
     </>
   );
 };
+
+Images.getLayout = getLayout;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
