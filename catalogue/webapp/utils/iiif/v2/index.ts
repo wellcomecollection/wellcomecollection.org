@@ -217,41 +217,6 @@ export function getIIIFMetadata(
   return iiifManifest.metadata.find(data => data.label === label);
 }
 
-export function getDownloadOptionsFromManifest(
-  iiifManifest: IIIFManifest
-): IIIFRendering[] {
-  const sequence = iiifManifest.sequences?.find(
-    sequence => sequence['@type'] === 'sc:Sequence'
-  );
-  const sequenceRendering = sequence?.rendering ?? [];
-  const sequenceRenderingArray: IIIFRendering[] = Array.isArray(
-    sequenceRendering
-  )
-    ? sequenceRendering
-    : [sequenceRendering];
-
-  const pdfRenderingArray: IIIFRendering[] = iiifManifest.mediaSequences
-    ? iiifManifest.mediaSequences.reduce((acc: IIIFRendering[], sequence) => {
-        return acc.concat(
-          sequence.elements
-            .filter(isFilledMediaElement)
-            .map(element => {
-              return {
-                '@id': element['@id'],
-                format: element.format,
-                label: `Download ${
-                  element.format === 'application/pdf' ? 'PDF' : 'file'
-                }`,
-                width: element.width,
-              };
-            })
-            .filter(Boolean)
-        );
-      }, [])
-    : [];
-  return [...sequenceRenderingArray, ...pdfRenderingArray].filter(Boolean);
-}
-
 export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
   const sequence =
     iiifManifest.sequences &&
