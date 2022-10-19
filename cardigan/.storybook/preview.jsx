@@ -1,4 +1,4 @@
-import { default as React, Fragment } from 'react';
+import { default as React } from 'react';
 import theme from '../../common/views/themes/default';
 import { ContextDecorator } from '../config/decorators';
 import wellcomeTheme from './wellcome-theme';
