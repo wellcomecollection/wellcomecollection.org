@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FunctionComponent, Fragment } from 'react';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
@@ -9,7 +9,10 @@ type Props = {
   end?: Date;
 };
 
-const DateAndStatusIndicator: FC<Props> = ({ start, end }: Props) => (
+const DateAndStatusIndicator: FunctionComponent<Props> = ({
+  start,
+  end,
+}: Props) => (
   <Fragment>
     <Space v={{ size: 's', properties: ['margin-bottom'] }}>
       {end ? <DateRange start={start} end={end} /> : <HTMLDate date={start} />}

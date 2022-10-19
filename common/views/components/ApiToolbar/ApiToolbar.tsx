@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
@@ -244,7 +244,7 @@ type Props = {
   extraLinks?: ApiToolbarLink[];
 };
 
-const ApiToolbar: FC<Props> = ({ extraLinks = [] }) => {
+const ApiToolbar: FunctionComponent<Props> = ({ extraLinks = [] }) => {
   const router = useRouter();
   const [links, setLinks] = useState<ApiToolbarLink[]>([]);
   const [mini, setMini] = useState<boolean>(false);

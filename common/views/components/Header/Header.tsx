@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
@@ -343,7 +343,7 @@ const Container = styled.div.attrs({
   align-items: center;
 `;
 
-const Header: FC<Props> = ({
+const Header: FunctionComponent<Props> = ({
   siteSection,
   customNavLinks,
   showLibraryLogin = true,

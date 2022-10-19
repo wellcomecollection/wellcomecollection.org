@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import {
   facebook,
@@ -84,7 +84,7 @@ const items: SocialItem[] = [
   },
 ];
 
-const FooterSocial: FC = () => (
+const FooterSocial: FunctionComponent = () => (
   <>
     {items.map(item => (
       <Cell key={item.title}>

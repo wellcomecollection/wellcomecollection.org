@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 const SpacingComponentEl = styled.div.attrs({
@@ -20,7 +20,7 @@ const SpacingComponentEl = styled.div.attrs({
   }
 `;
 
-const SpacingComponent: FC = ({ children }) => {
+const SpacingComponent: FunctionComponent = ({ children }) => {
   return <SpacingComponentEl>{children}</SpacingComponentEl>;
 };
 

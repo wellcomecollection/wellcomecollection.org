@@ -1,4 +1,10 @@
-import { FC, RefObject, useEffect, useState, useRef } from 'react';
+import {
+  FunctionComponent,
+  RefObject,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { expand, cross } from '@weco/common/icons';
@@ -73,7 +79,9 @@ type ZoomedPrismicImageProps = {
   image: ImageType;
 };
 
-const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
+const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
+  image,
+}) => {
   const [canShowZoom, setCanShowZoom] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageWidth, setImageWidth] = useState(0);

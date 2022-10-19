@@ -1,5 +1,12 @@
 import { CSSTransition } from 'react-transition-group';
-import { useState, useRef, useEffect, useContext, FC, ReactNode } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactNode,
+} from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import getFocusableElements from '../../../utils/get-focusable-elements';
@@ -79,7 +86,7 @@ type Props = {
   iconLeft?: IconSvg;
 };
 
-const DropdownButton: FC<Props> = ({
+const DropdownButton: FunctionComponent<Props> = ({
   label,
   children,
   buttonType = 'outlined',

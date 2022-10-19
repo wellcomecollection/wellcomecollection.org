@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 
 // Types
 import { Work } from '@weco/common/model/catalogue';
@@ -39,7 +39,10 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
+const WorkSearchResultV2: FunctionComponent<Props> = ({
+  work,
+  resultPosition,
+}: Props) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);

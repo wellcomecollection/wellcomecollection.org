@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from 'react';
+import { FunctionComponent, FormEvent, useState } from 'react';
 import { useAvailableDates } from './useAvailableDates';
 import { isRequestableDate } from '../../utils/dates';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -56,7 +56,7 @@ type RequestDialogProps = {
   currentHoldNumber?: number;
 };
 
-const RequestDialog: FC<RequestDialogProps> = ({
+const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   work,
   item,
   confirmRequest,

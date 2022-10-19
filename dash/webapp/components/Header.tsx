@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 
 type Props = { title: string };
 
-const Header: FC<Props> = ({ title }) => {
+const Header: FunctionComponent<Props> = ({ title }) => {
   return (
     <div
       style={{

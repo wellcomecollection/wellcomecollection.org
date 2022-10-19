@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { grid, font } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
 import EventbriteButtons from '../EventbriteButtons/EventbriteButtons';
@@ -46,7 +46,10 @@ const EventContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color('yellow')};
 `;
 
-const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
+const EventScheduleItem: FunctionComponent<Props> = ({
+  event,
+  isNotLinked,
+}) => {
   const waitForTicketSales =
     event.ticketSalesStart && !isPast(event.ticketSalesStart);
   const isHybridEvent = event.eventbriteId && event.onlineEventbriteId;
