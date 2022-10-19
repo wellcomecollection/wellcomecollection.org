@@ -1,7 +1,7 @@
 import {
   AuthService,
   AuthServiceService,
-} from '../../../services/iiif/types/manifest/v2';
+} from '../../../services/iiif/types/manifest/v2'; // TODO v3
 import { Audio } from '../../../services/iiif/types/manifest/v3';
 import {
   ContentResource,
@@ -10,6 +10,7 @@ import {
   Service,
 } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { DownloadOption } from '../../../types/manifest';
 
 export function getTokenService(
   authServiceId: string,
@@ -60,4 +61,36 @@ export function getAudio(manifest: Manifest): Audio {
   );
 
   return { title, sounds, thumbnail, transcript };
+}
+
+// The ContentResource type on the Manifest, and applies to the iiifManifest.rendering seems incorrect
+// Temporarily adding this until it is fixed.
+type Rendering = {
+  id?: string;
+  format?: string;
+  label?: {
+    en: string[];
+  };
+}[];
+
+export function getDownloadOptionsFromManifest(
+  iiifManifest: Manifest
+): DownloadOption[] {
+  const rendering = (iiifManifest?.rendering as Rendering) || [];
+  return (
+    rendering
+      .filter(({ id, format }) => {
+        // I'm removing application/zip as we haven't had these before
+        // and the example I've seen is 404ing https://api.wellcomecollection.org/text/v1/b10326947.zip
+        // For details of why we remove text/plain https://github.com/wellcomecollection/wellcomecollection.org/issues/7592
+        return id && format !== 'application/zip' && format !== 'text/plain';
+      })
+      .map(({ id, format, label }) => {
+        return {
+          id,
+          label: label?.en?.[0] || 'Download file',
+          format,
+        } as DownloadOption;
+      }) || []
+  );
 }
