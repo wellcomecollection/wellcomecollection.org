@@ -8,12 +8,12 @@ import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 
 export const CollectionsSearchPage: NextPageWithLayout = () => {
   return (
-    <>
+    <div className="container">
       <h1 className="visually-hidden">Collections Search Page</h1>
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
         <div>Collections content</div>
       </Space>
-    </>
+    </div>
   );
 };
 
