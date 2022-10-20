@@ -193,6 +193,15 @@ const marbleWhiteCharcoal: ButtonColors = {
   text: 'neutral.700', // legacy charcoal color
 };
 
+// New button style introduction
+// If we chose to move forward with new buttons
+// Remove border prop
+const yellowYellowBlack: ButtonColors = {
+  border: 'yellow',
+  background: 'yellow',
+  text: 'black',
+};
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -268,6 +277,7 @@ export const themeValues = {
     pumiceTransparentCharcoal,
     charcoalTransparentCharcoal,
     marbleWhiteCharcoal,
+    yellowYellowBlack,
   },
 };
 
