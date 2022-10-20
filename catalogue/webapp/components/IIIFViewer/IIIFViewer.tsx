@@ -40,6 +40,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
 import { TransformedManifest } from '../../types/manifest';
+import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 
 type IIIFViewerProps = {
   title: string;
@@ -52,7 +53,7 @@ type IIIFViewerProps = {
   pageIndex: number;
   pageSize: number;
   canvasIndex: number;
-  iiifImageLocation?: DigitalLocation;
+  iiifImageLocation: DigitalLocation | undefined;
   work: Work;
   transformedManifest: TransformedManifest;
   manifestIndex?: number;
@@ -242,7 +243,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [imageJson, setImageJson] = useState<any>();
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
@@ -258,22 +258,16 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const activeIndexRef = useRef(activeIndex);
   const previousManifestIndex = useRef(manifestIndex);
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
-  const hasImageService = mainImageService['@id'] && currentCanvas;
-  const { canvases, showDownloadOptions, downloadOptions, parentManifestUrl } =
-    transformedManifest;
+  const transformedIIIFImage = useTransformedIIIFImage(work);
 
-  useEffect(() => {
-    const fetchImageJson = async () => {
-      try {
-        if (iiifImageLocation) {
-          const image = await fetch(iiifImageLocation.url);
-          const json = await image.json();
-          setImageJson(json);
-        }
-      } catch (e) {}
-    };
-    fetchImageJson();
-  }, []);
+  const hasImageService = mainImageService['@id'] && currentCanvas;
+  const {
+    canvases,
+    downloadEnabled,
+    downloadOptions: manifestDownloadOptions,
+    parentManifestUrl,
+    iiifCredit,
+  } = transformedManifest;
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -349,30 +343,50 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     work,
     'iiif-presentation'
   );
-  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+
+  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
+  // we use the former
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+
   const licenseInfo =
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
 
-  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const imageDownloadOptions =
-    showDownloadOptions && iiifImageLocation
-      ? getDownloadOptionsFromImageUrl({
-          url: iiifImageLocation.url,
-          width: imageJson?.width,
-          height: imageJson?.height,
-        })
-      : [];
-  const imageDownloads =
-    mainImageService['@id'] &&
-    getDownloadOptionsFromImageUrl({
-      url: mainImageService['@id'],
-      width: currentCanvas && currentCanvas.width,
-      height: currentCanvas && currentCanvas.height,
-    });
-  // TODO tidy this up; understand what the difference is between imageDownloads and imageDownloadOptions
-  const iiifPresentationDownloadOptions =
-    (imageDownloads && [...imageDownloads, ...downloadOptions]) || [];
+  // iiif-image locations have credit info.
+  // iiif-presentation locations don't have credit info, so we fall back to the data in the manifest
+  const iiifImageLocationCredit = digitalLocation?.credit || iiifCredit;
+
+  // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
+  // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
+  // For a iiif-image DigitalLocation we create the download options
+  // from a combination of the DigitalLocation and the iiif-image json to which it points.
+  // The json provides the image width and height used in the link text.
+  // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
+  // gets this data client side.
+  const iiifImageDownloadOptions = iiifImageLocation
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocation.url,
+        width: transformedIIIFImage.width,
+        height: transformedIIIFImage.height,
+      })
+    : [];
+
+  // We also want to offer download options for each canvas image
+  // in the iiif-presentation manifest when it is being viewed.
+  const canvasImageDownloads = mainImageService['@id']
+    ? getDownloadOptionsFromImageUrl({
+        url: mainImageService['@id'],
+        width: currentCanvas && currentCanvas.width,
+        height: currentCanvas && currentCanvas.height,
+      })
+    : [];
+
+  const downloadOptions = [
+    ...iiifImageDownloadOptions,
+    ...canvasImageDownloads,
+    ...manifestDownloadOptions,
+  ];
 
   useSkipInitialEffect(() => {
     const canvasParams =
@@ -436,10 +450,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         currentManifestLabel,
         licenseInfo,
         iiifImageLocationCredit,
-        downloadOptions: showDownloadOptions
-          ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
-          : [],
-        iiifPresentationDownloadOptions,
+        downloadOptions: downloadEnabled ? downloadOptions : [],
         parentManifest,
         mainAreaWidth,
         mainAreaHeight,
@@ -466,7 +477,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setShowControls,
         errorHandler: handleImageError,
         setRotatedImages,
-        setImageJson,
         setParentManifest,
         setCurrentManifestLabel,
       }}

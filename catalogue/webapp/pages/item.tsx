@@ -99,7 +99,7 @@ const ItemPage: NextPage<Props> = ({
 
   const {
     title,
-    showDownloadOptions,
+    downloadEnabled,
     video,
     canvases,
     tokenService,
@@ -219,7 +219,7 @@ const ItemPage: NextPage<Props> = ({
                 display: 'block',
                 margin: '98px auto auto',
               }}
-              controlsList={!showDownloadOptions ? 'nodownload' : undefined}
+              controlsList={!downloadEnabled ? 'nodownload' : undefined}
             >
               <source src={video['@id']} type={video.format} />
               {`Sorry, your browser doesn't support embedded video.`}

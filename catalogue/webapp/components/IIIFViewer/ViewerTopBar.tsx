@@ -198,7 +198,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     licenseInfo,
     iiifImageLocationCredit,
     downloadOptions,
-    iiifPresentationDownloadOptions,
     setIsMobileSidebarActive,
     setIsDesktopSidebarActive,
     isMobileSidebarActive,
@@ -313,9 +312,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     workId={work.id}
                     license={licenseInfo}
                     iiifImageLocationCredit={iiifImageLocationCredit}
-                    downloadOptions={
-                      downloadOptions || iiifPresentationDownloadOptions
-                    }
+                    downloadOptions={downloadOptions}
                     useDarkControl={true}
                     isInline={true}
                   />
