@@ -11,7 +11,7 @@ export const SearchPage: NextPageWithLayout = () => {
     <>
       <h1 className="visually-hidden">Exhibitions Search Page</h1>
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-        <div>Exhibitions and events content</div>
+        <div>Exhibitions</div>
       </Space>
     </>
   );

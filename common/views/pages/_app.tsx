@@ -61,8 +61,11 @@ type WecoAppProps = Omit<AppProps, 'pageProps'> & {
   Component: NextPageWithLayout;
 };
 
-const WecoApp: FunctionComponent<WecoAppProps> = props => {
-  const { pageProps, router } = props;
+const WecoApp: FunctionComponent<WecoAppProps> = ({
+  pageProps,
+  router,
+  Component,
+}) => {
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
   const isServerDataSet = isServerData(pageProps.serverData);
@@ -102,10 +105,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = props => {
 
   usePrismicPreview(() => Boolean(document.cookie.match('isPreview=true')));
 
-  const getLayout = props.Component.getLayout || (page => <>{page}</>);
+  const getLayout = Component.getLayout || (page => <>{page}</>);
 
-  const Component = () =>
-    getLayout(<props.Component {...(pageProps as any)} />);
+  const ComponentWithLayout = () =>
+    getLayout(<Component {...(pageProps as any)} />);
 
   return (
     <>
@@ -120,7 +123,12 @@ const WecoApp: FunctionComponent<WecoAppProps> = props => {
                 />
                 <OutboundLinkTracker>
                   <LoadingIndicator />
-                  {!pageProps.err && <Component />}
+                  {!pageProps.err &&
+                    (Component.getLayout ? (
+                      <ComponentWithLayout />
+                    ) : (
+                      <Component {...(pageProps as any)} />
+                    ))}
                   {pageProps.err && (
                     <ErrorPage
                       statusCode={pageProps.err.statusCode}
