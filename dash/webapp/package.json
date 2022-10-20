@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.2.0",
-    "@types/react": "^com",
+    "@types/react": "18.0.1",
     "@types/styled-components": "^5.1.15",
     "next": "^11.1.2",
     "next-cookies": "^1.0.4",
