@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 
-const Favicons: FC = () => {
+const Favicons: FunctionComponent = () => {
   return (
     <>
       <link

@@ -5,7 +5,7 @@ import {
   collectionVenueId,
   getNameFromCollectionVenue,
 } from '@weco/common/data/hardcoded-ids';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 type Props = {
@@ -29,7 +29,7 @@ const VenueName = styled.div`
   width: 90px;
 `;
 
-const OpeningTimes: FC<Props> = ({ venues }) => (
+const OpeningTimes: FunctionComponent<Props> = ({ venues }) => (
   <OpeningTimesList>
     {venues.map(venue => {
       const todaysHours = getTodaysVenueHours(venue);

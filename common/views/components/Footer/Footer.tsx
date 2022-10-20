@@ -1,4 +1,4 @@
-import { useRef, useEffect, FC } from 'react';
+import { useRef, useEffect, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 // Components
@@ -155,7 +155,7 @@ const BackToTopButton = styled.button.attrs({
 `;
 
 // Component
-const Footer: FC<Props> = ({ venues }: Props) => {
+const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
 
   return (

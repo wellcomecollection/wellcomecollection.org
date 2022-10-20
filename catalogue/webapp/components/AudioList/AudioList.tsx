@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
@@ -16,7 +16,7 @@ type Props = {
   workTitle: string;
 };
 
-const AudioList: FC<Props> = ({
+const AudioList: FunctionComponent<Props> = ({
   items,
   // thumbnail, TODO: add thumbnail once placeholders have been removed from manifests
   transcript,

@@ -1,5 +1,11 @@
 import { GetServerSideProps } from 'next';
-import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  useState,
+  useEffect,
+  ReactElement,
+} from 'react';
 import { Article, ArticleBasic } from '../types/articles';
 import { Series } from '../types/series';
 import { font } from '@weco/common/utils/classnames';
@@ -126,7 +132,7 @@ function getNextUp(
   }
 }
 
-const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
+const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {

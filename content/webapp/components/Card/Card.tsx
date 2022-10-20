@@ -4,7 +4,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import { FC, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { getCrop } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -106,7 +106,9 @@ const LabelsWrapper = styled.div`
   bottom: 0;
 `;
 
-export const CardLabels: FC<{ labels: LabelType[] }> = ({ labels }) => (
+export const CardLabels: FunctionComponent<{ labels: LabelType[] }> = ({
+  labels,
+}) => (
   <LabelsWrapper>
     <LabelsList labels={labels} />
   </LabelsWrapper>

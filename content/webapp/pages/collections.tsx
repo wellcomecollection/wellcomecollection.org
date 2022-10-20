@@ -2,7 +2,7 @@ import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { AppErrorProps } from '@weco/common/services/app';
 import CollectionsStaticContent from 'components/Body/CollectionsStaticContent';
 import { GetServerSideProps } from 'next';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import * as page from './page';
 
 export const getServerSideProps: GetServerSideProps<
@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps<
   });
 };
 
-const CollectionsPage: FC<page.Props> = (props: page.Props) => {
+const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
   const staticContent = <CollectionsStaticContent />;
   return <page.Page {...props} staticContent={staticContent} />;
 };

@@ -11,7 +11,7 @@
 
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { ExternalLink } from './src/frontend/Registration/Registration.style';
 import { SectionHeading } from './src/frontend/components/Layout.style';
 
@@ -19,36 +19,35 @@ type ValidatedSuccessTextProps = {
   isNewSignUp: boolean;
 };
 
-export const ValidatedSuccessText: FC<ValidatedSuccessTextProps> = ({
-  isNewSignUp,
-}: ValidatedSuccessTextProps) => (
-  <>
-    <SectionHeading as="h1">Email verified</SectionHeading>
-    <p>Thank you for verifying your email address.</p>
-    {isNewSignUp && (
-      <div data-test-id="new-sign-up">
-        <p>
-          You can now request up to 15 items from our closed stores in the
-          library.
-        </p>
-        <p>
-          To complete your membership and access subscription databases,
-          e-journals and e-books, you’ll need to bring a form of photo
-          identification (ID) and proof of your address to our admissions desk
-          when you visit. The identification we accept is detailed on our{' '}
-          <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
-            Library membership page
-          </a>
-          .
-        </p>
-      </div>
-    )}
-  </>
-);
+export const ValidatedSuccessText: FunctionComponent<ValidatedSuccessTextProps> =
+  ({ isNewSignUp }: ValidatedSuccessTextProps) => (
+    <>
+      <SectionHeading as="h1">Email verified</SectionHeading>
+      <p>Thank you for verifying your email address.</p>
+      {isNewSignUp && (
+        <div data-test-id="new-sign-up">
+          <p>
+            You can now request up to 15 items from our closed stores in the
+            library.
+          </p>
+          <p>
+            To complete your membership and access subscription databases,
+            e-journals and e-books, you’ll need to bring a form of photo
+            identification (ID) and proof of your address to our admissions desk
+            when you visit. The identification we accept is detailed on our{' '}
+            <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
+              Library membership page
+            </a>
+            .
+          </p>
+        </div>
+      )}
+    </>
+  );
 
-export const ValidatedFailedText: FC<{ message: string | string[] }> = ({
-  message,
-}) => (
+export const ValidatedFailedText: FunctionComponent<{
+  message: string | string[];
+}> = ({ message }) => (
   <>
     <SectionHeading as="h1">Failed to verify email</SectionHeading>
     <p>{message}</p>
@@ -59,7 +58,9 @@ export const ValidatedFailedText: FC<{ message: string | string[] }> = ({
   </>
 );
 
-export const ApplicationReceived: FC<{ email: string }> = ({ email }) => (
+export const ApplicationReceived: FunctionComponent<{ email: string }> = ({
+  email,
+}) => (
   <>
     <SectionHeading as="h1">Application received</SectionHeading>
     <div className="body-text">
@@ -123,7 +124,7 @@ export const collectionsResearchAgreementLabel = (
   </>
 );
 
-export const DeleteRequestedText: FC = () => (
+export const DeleteRequestedText: FunctionComponent = () => (
   <>
     <SectionHeading as="h1">Delete request received</SectionHeading>
 

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
 import { useUser } from '../UserProvider/UserProvider';
@@ -21,7 +21,7 @@ const AccountA = styled(Space).attrs<AccountAProps>(props => ({
   }
 `;
 
-const DesktopSignIn: FC = () => {
+const DesktopSignIn: FunctionComponent = () => {
   const { state, user } = useUser();
 
   return state === 'initial' || state === 'loading' ? (

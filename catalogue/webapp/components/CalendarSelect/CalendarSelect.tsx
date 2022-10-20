@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import Select, {
   SelectOption,
 } from '@weco/common/views/components/Select/Select';
@@ -44,7 +44,7 @@ function getAvailableDates(
     .filter(isTruthy);
 }
 
-const Calendar: FC<Props> = ({
+const Calendar: FunctionComponent<Props> = ({
   min,
   max,
   excludedDates,

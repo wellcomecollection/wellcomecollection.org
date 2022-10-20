@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent } from 'react';
+import { FunctionComponent, SyntheticEvent } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -43,7 +43,14 @@ type Props = {
   onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
 
-const TypeOption: FC<Props> = ({ url, title, text, color, icon, onClick }) => (
+const TypeOption: FunctionComponent<Props> = ({
+  url,
+  title,
+  text,
+  color,
+  icon,
+  onClick,
+}) => (
   <TypeItem>
     <TypeLink href={url} color={color} onClick={onClick}>
       <Space

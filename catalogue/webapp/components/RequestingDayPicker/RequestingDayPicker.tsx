@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import CalendarSelect from '../CalendarSelect/CalendarSelect';
 
@@ -11,7 +11,7 @@ type Props = {
   setPickUpDate: (date: string) => void;
 };
 
-const RequestingDayPicker: FC<Props> = ({
+const RequestingDayPicker: FunctionComponent<Props> = ({
   startDate,
   endDate,
   exceptionalClosedDates,

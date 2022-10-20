@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import type { ColorSelection } from '../../types/color-selections';
 import { transparentGif, repeatingLs } from '@weco/common/utils/backgrounds';
 import styled from 'styled-components';
@@ -24,7 +24,7 @@ type Props = {
   color?: ColorSelection;
 };
 
-const ImagePlaceholder: FC<Props> = ({ color }: Props) => (
+const ImagePlaceholder: FunctionComponent<Props> = ({ color }: Props) => (
   <Wrapper color={color || 'accent.purple'}>
     <img src={transparentGif} alt="" width="1" height="1" />
     <Pattern />

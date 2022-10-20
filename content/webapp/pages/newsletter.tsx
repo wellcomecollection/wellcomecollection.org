@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import NewsletterSignup from '../components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     };
   };
 
-const Newsletter: FC<Props> = ({ result }) => {
+const Newsletter: FunctionComponent<Props> = ({ result }) => {
   return (
     <PageLayout
       title="Sign up to our newsletter"

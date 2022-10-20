@@ -1,4 +1,4 @@
-import { Fragment, FC } from 'react';
+import { Fragment, FunctionComponent } from 'react';
 import type { EventSchedule as EventScheduleType } from '../../types/events';
 import EventScheduleItem from './EventScheduleItem';
 import { groupEventsByDay } from '../../services/prismic/events';
@@ -12,7 +12,7 @@ type Props = {
 // "Festival of Minds and Bodies" (XagmOxAAACIAo0v8), which is
 // a multi-day event with repeated schedule items.  Some of the items
 // span multiple days.
-const EventSchedule: FC<Props> = ({ schedule }) => {
+const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
   const events = schedule.map(({ event }) => event);
   const groupedEvents = groupEventsByDay(events);
   const isNotLinkedIds = schedule

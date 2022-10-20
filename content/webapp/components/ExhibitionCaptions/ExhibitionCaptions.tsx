@@ -1,4 +1,4 @@
-import { FC, useState, useContext, useEffect } from 'react';
+import { FunctionComponent, useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -159,7 +159,7 @@ function calculateTombstoneHeadingLevel(titlesUsed) {
   }
 }
 
-const Stop: FC<{
+const Stop: FunctionComponent<{
   stop: Stop;
   isFirstStop: boolean;
   titlesUsed: {
@@ -324,7 +324,7 @@ const Stop: FC<{
   );
 };
 
-const ExhibitionCaptions: FC<Props> = ({ stops }) => {
+const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
   const titlesUsed = {
     standalone: false,
     context: false,

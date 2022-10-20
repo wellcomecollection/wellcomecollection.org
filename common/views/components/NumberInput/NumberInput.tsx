@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, FC } from 'react';
+import { ForwardedRef, forwardRef, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 
@@ -28,7 +28,7 @@ type Props = {
   label: string;
 } & JSX.IntrinsicElements['input'];
 
-const Input: FC<Props> = (
+const Input: FunctionComponent<Props> = (
   { label, ...inputProps }: Props,
   ref: ForwardedRef<HTMLInputElement>
 ) => (

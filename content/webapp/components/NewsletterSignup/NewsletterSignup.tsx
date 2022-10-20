@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState, useEffect, FC } from 'react';
+import { SyntheticEvent, useState, useEffect, FunctionComponent } from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { font } from '@weco/common/utils/classnames';
@@ -30,7 +30,7 @@ type Props = {
   isConfirmed?: boolean;
 };
 
-const NewsletterSignup: FC<Props> = ({
+const NewsletterSignup: FunctionComponent<Props> = ({
   isSuccess,
   isError,
   isConfirmed,
