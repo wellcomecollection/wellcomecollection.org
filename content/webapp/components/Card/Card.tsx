@@ -4,7 +4,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import { FunctionComponent, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { getCrop } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
