@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { Label as LabelType, LabelColor } from '../../../model/labels';
 import Label from '../../components/Label/Label';
 import Space from '../styled/Space';
@@ -33,7 +33,7 @@ export type Props = {
   defaultLabelColor?: LabelColor;
 };
 
-const LabelsList: FC<Props> = ({
+const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',
 }: Props) => (

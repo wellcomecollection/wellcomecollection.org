@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 import Tasl, {
   MarkUpProps as TaslProps,
 } from '@weco/common/views/components/Tasl/Tasl';
@@ -17,7 +17,7 @@ type Props = {
   tasl?: TaslProps;
 };
 
-const ImageWithTasl: FC<Props> = ({ Image, tasl }) => (
+const ImageWithTasl: FunctionComponent<Props> = ({ Image, tasl }) => (
   <ImageWrapper>
     {Image}
     {tasl && <Tasl {...tasl} />}

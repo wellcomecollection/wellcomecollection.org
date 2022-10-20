@@ -1,10 +1,13 @@
-import { FC, PropsWithChildren } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import { SectionHeading } from './Layout.style';
 type Props = PropsWithChildren<{
   errorDescription: string;
 }>;
 
-const CustomError: FC<Props> = ({ errorDescription, children }) => {
+const CustomError: FunctionComponent<Props> = ({
+  errorDescription,
+  children,
+}) => {
   switch (errorDescription) {
     case 'user is blocked':
       return (

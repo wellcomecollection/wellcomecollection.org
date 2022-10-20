@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 
 export const CTAs = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top'] },
@@ -12,7 +12,7 @@ const CurrentRequestCount = styled(Space).attrs({
   border-left: 5px solid ${props => props.theme.color('yellow')};
 `;
 
-export const CurrentRequests: FC<{
+export const CurrentRequests: FunctionComponent<{
   allowedHoldRequests: number;
   currentHoldRequests?: number;
 }> = ({ allowedHoldRequests, currentHoldRequests }) =>

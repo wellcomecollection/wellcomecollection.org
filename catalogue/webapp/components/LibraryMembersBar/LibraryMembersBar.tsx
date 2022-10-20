@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -24,7 +24,7 @@ const StyledComponent = styled(Space).attrs({
   }
 `;
 
-const SignInLink: FC = () => {
+const SignInLink: FunctionComponent = () => {
   const loginURL = useLoginURLWithReturnToCurrent();
   return (
     <>
@@ -54,7 +54,7 @@ const SignInLink: FC = () => {
 type ReloadProps = {
   reload: () => void;
 };
-const Reload: FC<ReloadProps> = ({ reload }) => {
+const Reload: FunctionComponent<ReloadProps> = ({ reload }) => {
   return (
     <>
       <span className={font('intb', 5)}>
@@ -78,7 +78,7 @@ const Reload: FC<ReloadProps> = ({ reload }) => {
   );
 };
 
-const LibraryMembersBar: FC = () => {
+const LibraryMembersBar: FunctionComponent = () => {
   const { state, reload } = useUser();
   const { disableRequesting } = useToggles();
   if (disableRequesting) {

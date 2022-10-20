@@ -5,7 +5,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 import { FacilityPromo as FacilityPromoType } from '../../types/facility-promo';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 const ImageWrapper = styled.div.attrs({
@@ -14,7 +14,7 @@ const ImageWrapper = styled.div.attrs({
   overflow: hidden;
 `;
 
-const FacilityPromo: FC<FacilityPromoType> = ({
+const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
   id,
   url,
   title,

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
@@ -19,7 +19,11 @@ const Cite = styled.cite.attrs({
   align-items: flex-end;
 `;
 
-const Quote: FC<Props> = ({ text, citation, isPullOrReview }) => {
+const Quote: FunctionComponent<Props> = ({
+  text,
+  citation,
+  isPullOrReview,
+}) => {
   return (
     <blockquote
       className={classNames({

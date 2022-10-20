@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -121,7 +121,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     };
   };
 
-const ArticleSeriesPage: FC<Props> = props => {
+const ArticleSeriesPage: FunctionComponent<Props> = props => {
   const { series, articles } = props;
   const breadcrumbs = {
     items: [
