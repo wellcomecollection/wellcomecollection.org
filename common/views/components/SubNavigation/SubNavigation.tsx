@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import {
   Wrapper,
   TabsContainer,
@@ -22,7 +22,7 @@ type Props = {
   hasDivider?: boolean;
 };
 
-const TabNav: FC<Props> = ({
+const TabNav: FunctionComponent<Props> = ({
   label,
   items,
   variant,
