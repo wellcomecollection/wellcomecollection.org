@@ -1,6 +1,9 @@
 {
   "name": "@weco/pa11y",
   "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "export": "next export",
     "write-report": "node write-report.js",
     "deploy": "node deploy.js"
   },
