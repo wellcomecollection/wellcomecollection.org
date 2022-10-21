@@ -8,9 +8,24 @@ import {
   IIIFExternalWebResource,
   Manifest,
   Service,
+  InternationalString,
 } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { DownloadOption } from '../../../types/manifest';
+
+function getEnFromInternationalString(
+  internationalString: InternationalString
+): string {
+  return internationalString?.['en']?.[0] || '';
+}
+
+export function transformLabel(
+  label: InternationalString | string | undefined
+): string | undefined {
+  if (typeof label === 'string' || label === undefined) return label;
+
+  return getEnFromInternationalString(label);
+}
 
 export function getTokenService(
   authServiceId: string,
@@ -63,32 +78,34 @@ export function getAudio(manifest: Manifest): Audio {
   return { title, sounds, thumbnail, transcript };
 }
 
-// The ContentResource type on the Manifest, and applies to the iiifManifest.rendering seems incorrect
-// Temporarily adding this until it is fixed.
 type Rendering = {
   id?: string;
   format?: string;
-  label?: {
-    en: string[];
-  };
+  label?: string | InternationalString;
 }[];
 
 export function getDownloadOptionsFromManifest(
   iiifManifest: Manifest
 ): DownloadOption[] {
+  // The ContentResource type on the Manifest, which applies to the iiifManifest.rendering seems incorrect
+  // Temporarily adding this until it is fixed.
   const rendering = (iiifManifest?.rendering as Rendering) || [];
   return (
     rendering
       .filter(({ id, format }) => {
-        // I'm removing application/zip as we haven't had these before
-        // and the example I've seen is 404ing https://api.wellcomecollection.org/text/v1/b10326947.zip
-        // For details of why we remove text/plain https://github.com/wellcomecollection/wellcomecollection.org/issues/7592
-        return id && format !== 'application/zip' && format !== 'text/plain';
+        // I'm removing application/zip (for now?) as we haven't had these before
+        // and the example I've seen is 404ing:
+        // (Work) https://wellcomecollection.org/works/mg56yqa4 ->
+        // (Catalogue response) https://api.wellcomecollection.org/catalogue/v2/works/mg56yqa4?include=items ->
+        // (V3 Manifest) https://iiif.wellcomecollection.org/presentation/v3/b10326947
+        // (rendering - application/zip) https://api.wellcomecollection.org/text/v1/b10326947.zip (returns 404)
+        // For details of why we remove text/plain see https://github.com/wellcomecollection/wellcomecollection.org/issues/7592
+        return id && format !== 'application/zipp' && format !== 'text/plain';
       })
       .map(({ id, format, label }) => {
         return {
           id,
-          label: label?.en?.[0] || 'Download file',
+          label: transformLabel(label) || 'Download file',
           format,
         } as DownloadOption;
       }) || []
