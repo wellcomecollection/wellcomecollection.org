@@ -207,12 +207,12 @@ const ExpandedImage: FunctionComponent<Props> = ({
         </ImageWrapper>
       )}
       <InfoWrapper>
-        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <h2
-            className={`${font('intb', 3)} no-margin`}
-            dangerouslySetInnerHTML={{ __html: displayTitle }}
-          />
-          {displayContributor && (
+        {displayContributor && (
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <h2
+              className={`${font('intb', 3)} no-margin`}
+              dangerouslySetInnerHTML={{ __html: displayTitle }}
+            />
             <Space
               as="h3"
               v={{ size: 's', properties: ['margin-top'] }}
@@ -220,8 +220,8 @@ const ExpandedImage: FunctionComponent<Props> = ({
             >
               {displayContributor}
             </Space>
-          )}
-        </Space>
+          </Space>
+        )}
         {license && (
           <Space
             className={font('intr', 5)}
