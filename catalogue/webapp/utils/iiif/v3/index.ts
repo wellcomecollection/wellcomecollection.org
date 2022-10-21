@@ -61,3 +61,7 @@ export function getAudio(manifest: Manifest): Audio {
 
   return { title, sounds, thumbnail, transcript };
 }
+
+export function getId(id: string): string {
+  return id;
+}
