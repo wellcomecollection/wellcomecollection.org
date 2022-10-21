@@ -1,11 +1,10 @@
-import { useEffect, ReactElement, useContext, useState } from 'react';
-import { GetServerSideProps, NextPage } from 'next';
+import { useEffect, ReactElement, useContext } from 'react';
+import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import Head from 'next/head';
 
 // Components
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
@@ -21,13 +20,12 @@ import {
   ImagesProps,
   toLink,
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
-import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
-import { pageDescriptions } from '@weco/common/data/microcopy';
+import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 
 // Types
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
-import SearchHeader from 'views/search/searchHeader';
+import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -41,34 +39,11 @@ const Wrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('black')};
 `;
 
-const Images: NextPage<Props> = ({
+const ImagesSearchPage: NextPageWithLayout<Props> = ({
   images,
   imagesRouteProps,
 }): ReactElement<Props> => {
-  // const [isLoading, setIsLoading] = useState(false); // For pagination
   const { query, page, color: colorFilter } = imagesRouteProps;
-  const [selectedTab, setSelectedTab] = useState('images');
-
-  // For pagination
-  // useEffect(() => {
-  //   function routeChangeStart() {
-  //     setIsLoading(true);
-  //   }
-  //   function routeChangeComplete() {
-  //     setIsLoading(false);
-  //   }
-  //   Router.events.on('routeChangeStart', routeChangeStart);
-  //   Router.events.on('routeChangeComplete', routeChangeComplete);
-
-  //   return () => {
-  //     Router.events.off('routeChangeStart', routeChangeStart);
-  //     Router.events.off('routeChangeComplete', routeChangeComplete);
-  //   };
-  // }, []);
-
-  const filters = images
-    ? imagesFilters({ images, props: imagesRouteProps })
-    : [];
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -98,68 +73,42 @@ const Images: NextPage<Props> = ({
         )}
       </Head>
       {/* TODO review if this needs updating */}
-      <CataloguePageLayout
-        title={`${query ? `${query} | ` : ''}Image search`}
-        description={pageDescriptions.images}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        url={toLink({ ...imagesRouteProps, source: 'canonical_link' }).as}
-        openGraphType="website"
-        jsonLd={{ '@type': 'WebPage' }}
-        siteSection="collections"
-        image={undefined}
-        apiToolbarLinks={
-          images
-            ? [
-                {
-                  id: 'catalogue-api-query',
-                  label: 'Catalogue API query',
-                  link: images._requestUrl,
-                },
-              ]
-            : []
-        }
-        hideNewsletterPromo={true}
-      >
-        <div className="container">
-          <SearchHeader
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
-          />
-          <Space
-            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <h2 style={{ marginBottom: 0 }}>Filters</h2>
-          </Space>
-        </div>
 
-        <Wrapper>
-          {images?.results && images.results.length > 0 && (
-            <div className="container">
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
-                style={{ color: 'white' }}
-              >
-                <h2 style={{ marginBottom: 0 }}>Sort & Pagination</h2>
-              </Space>
-              <ImageEndpointSearchResults images={images} />
-            </div>
-          )}
-          {images?.results.length === 0 && (
-            <SearchNoResults
-              query={query}
-              hasFilters={!!colorFilter}
-              color="white"
-            />
-          )}
-        </Wrapper>
-      </CataloguePageLayout>
+      <h1 className="visually-hidden">Images Search Page</h1>
+      <div className="container">
+        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
+          <h2 style={{ marginBottom: 0 }}>Filters</h2>
+        </Space>
+      </div>
+
+      <Wrapper>
+        {images?.results && images.results.length > 0 && (
+          <div className="container">
+            <Space
+              v={{
+                size: 'l',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
+              style={{ color: 'white' }}
+            >
+              <h2 style={{ marginBottom: 0 }}>Sort & Pagination</h2>
+            </Space>
+            <ImageEndpointSearchResults images={images} />
+          </div>
+        )}
+        {images?.results.length === 0 && (
+          <SearchNoResults
+            query={query}
+            hasFilters={!!colorFilter}
+            color="white"
+          />
+        )}
+      </Wrapper>
     </>
   );
 };
+
+ImagesSearchPage.getLayout = getSearchLayout;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -202,4 +151,4 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     };
   };
 
-export default Images;
+export default ImagesSearchPage;

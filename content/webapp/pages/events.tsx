@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { orderEventsByNextAvailableDate } from '../services/prismic/events';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
@@ -80,7 +80,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const EventsPage: FC<Props> = props => {
+const EventsPage: FunctionComponent<Props> = props => {
   const { events, title, period, jsonLd } = props;
   const convertedPaginatedResults = {
     ...events,

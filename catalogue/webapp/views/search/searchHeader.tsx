@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction } from 'react';
+import { FunctionComponent, Dispatch, SetStateAction } from 'react';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -8,7 +8,10 @@ type Props = {
 };
 
 // TODO delete this once we figure out the routing strategy, might not be needed
-const SearchHeader: FC<Props> = ({ selectedTab, setSelectedTab }: Props) => {
+const SearchHeader: FunctionComponent<Props> = ({
+  selectedTab,
+  setSelectedTab,
+}: Props) => {
   return (
     <>
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>

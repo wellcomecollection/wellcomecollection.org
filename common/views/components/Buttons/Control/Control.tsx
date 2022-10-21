@@ -1,4 +1,4 @@
-import { forwardRef, FC } from 'react';
+import { forwardRef, FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import { LinkProps } from '../../../../model/link-props';
 import Icon from '../../Icon/Icon';
@@ -187,7 +187,7 @@ const InnerControl = ({ text, icon }: InnerControlProps) => (
 
 type Props = ButtonProps | AnchorProps;
 
-const BaseControl: FC<Props> = (
+const BaseControl: FunctionComponent<Props> = (
   {
     tabIndex,
     link,

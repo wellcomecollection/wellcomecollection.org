@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { grid, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -29,7 +29,7 @@ type Props = {
   title: string;
 };
 
-const SectionHeader: FC<Props> = ({ title }) => {
+const SectionHeader: FunctionComponent<Props> = ({ title }) => {
   return (
     <div className={`row ${font('wb', 2)}`}>
       <div className="container">

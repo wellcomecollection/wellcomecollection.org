@@ -26,8 +26,7 @@ type Props = {
   currentManifestLabel?: string;
   licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
-  downloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest
-  iiifPresentationDownloadOptions: IIIFRendering[]; // TODO remove from here, it's on manifest
+  downloadOptions: IIIFRendering[]; // This can be downloads from a manifest or created from a iiif-image location
   parentManifest: IIIFManifest | undefined;
   lang: string;
   mainAreaWidth: number;
@@ -48,7 +47,6 @@ type Props = {
   showControls: boolean;
   isLoading: boolean;
   setIsLoading: (v: boolean) => void;
-  setImageJson: (v: boolean) => void;
   setParentManifest: (v: IIIFManifest) => void;
   rotatedImages: { canvasIndex: number; rotation: number }[];
   setShowControls: (v: boolean) => void;
@@ -107,7 +105,6 @@ const ItemViewerContext = createContext<Props>({
   licenseInfo: undefined,
   iiifImageLocationCredit: '',
   downloadOptions: [],
-  iiifPresentationDownloadOptions: [],
   parentManifest: undefined,
   lang: '',
   mainAreaWidth: 1000,
@@ -132,7 +129,6 @@ const ItemViewerContext = createContext<Props>({
   setIsFullscreen: () => undefined,
   setRotatedImages: () => undefined,
   setIsLoading: () => undefined,
-  setImageJson: () => undefined,
   setParentManifest: () => undefined,
   setShowControls: () => undefined,
   errorHandler: () => undefined,

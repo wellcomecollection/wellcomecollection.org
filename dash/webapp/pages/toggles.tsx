@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, FC } from 'react';
+import React, { useState, useEffect, useCallback, FunctionComponent } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import getCookies from 'next-cookies';
@@ -68,7 +68,7 @@ type AbTest = {
   description: string;
 };
 
-const IndexPage: FC = () => {
+const IndexPage: FunctionComponent = () => {
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [toggles, setToggles] = useState<Toggle[]>([]);
   const [abTests, setAbTests] = useState<AbTest[]>([]);

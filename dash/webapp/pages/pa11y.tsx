@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import Header from '../components/Header';
@@ -35,7 +35,7 @@ const Issue = styled.div<{ type: string }>`
       : ''}
 `;
 
-const Index: FC = () => {
+const Index: FunctionComponent = () => {
   const [resultsList, setResultsList] = useState([]);
 
   useEffect(() => {

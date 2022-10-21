@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { Label as LabelType, LabelColor } from '../../../model/labels';
 import Label from '../../components/Label/Label';
 import Space from '../styled/Space';
@@ -11,13 +11,13 @@ const List = styled(Space).attrs({
     negative: true,
   },
   h: { size: 'm', properties: ['padding-right'] },
-  className: 'plain-list',
 })`
   display: flex;
   padding: 0;
   margin-left: 0;
   margin-top: 0;
   flex-wrap: wrap;
+  list-style: none;
 `;
 
 const ListItem = styled(Space).attrs({
@@ -33,7 +33,7 @@ export type Props = {
   defaultLabelColor?: LabelColor;
 };
 
-const LabelsList: FC<Props> = ({
+const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',
 }: Props) => (

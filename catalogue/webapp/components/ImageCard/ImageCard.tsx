@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useContext } from 'react';
+import { FunctionComponent, SyntheticEvent, useContext } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
@@ -29,7 +29,7 @@ const StyledLink = styled.a<{
   height: ${props => props.height}px;
 `;
 
-const ImageCard: FC<Props> = ({
+const ImageCard: FunctionComponent<Props> = ({
   id,
   workId,
   image,

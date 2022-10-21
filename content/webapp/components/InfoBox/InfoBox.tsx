@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -31,7 +31,7 @@ const InfoIconWrapper = styled(Space).attrs({
   float: left;
 `;
 
-const InfoBox: FC<Props> = ({ title, items, children }) => {
+const InfoBox: FunctionComponent<Props> = ({ title, items, children }) => {
   return (
     <>
       <h2 className="h2">{title}</h2>

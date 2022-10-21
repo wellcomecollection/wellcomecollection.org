@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import { FunctionComponent } from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
+
 const fontFamily = 'Gadget, sans-serif';
 
-const IndexPage: FC = () => {
+const IndexPage: FunctionComponent = () => {
   return (
     <>
       <Head>

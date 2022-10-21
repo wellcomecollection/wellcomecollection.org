@@ -73,5 +73,6 @@ basic.args = {
   pageSize: pageSize,
   canvasIndex: canvasIndex,
   transformedManifest: transformedManifest,
+  imageLocation: undefined,
 };
 basic.storyName = 'IIIFViewer';

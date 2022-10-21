@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import SelectContainer from '../SelectContainer/SelectContainer';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
   }[];
 };
 
-const SelectUncontrolled: FC<Props> = ({
+const SelectUncontrolled: FunctionComponent<Props> = ({
   name,
   label,
   options,
