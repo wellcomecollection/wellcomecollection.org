@@ -1,5 +1,5 @@
 import { IIIFManifests } from '../fetch/manifest';
-import { TransformedManifest } from '../../../types/manifest';
+import { TransformedManifest, DownloadOption } from '../../../types/manifest';
 // TODO move each of these util functions from v2 to v3
 import {
   getUiExtensions,
@@ -15,7 +15,11 @@ import {
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
-import { getAudio, getDownloadOptionsFromManifest } from '../../../utils/iiif/v3';
+import {
+  getAudio,
+  getDownloadOptionsFromManifest,
+  getPDF,
+} from '../../../utils/iiif/v3';
 
 export function transformManifest(
   iiifManifests: IIIFManifests
@@ -25,7 +29,7 @@ export function transformManifest(
   // V2
   // TODO Be aware when moving the id to v3 the id value changes, the id string will no longer contain /v2/
   // This causes the matchingManifest not to be found in IIIFViewer
-  const id = manifestV2 ? manifestV2['@id']: '';
+  const id = manifestV2 ? manifestV2['@id'] : '';
   const title = manifestV2 ? manifestV2.label : '';
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
   const canvasCount = canvases.length;
@@ -39,10 +43,6 @@ export function transformManifest(
     : true;
   const firstCollectionManifestLocation =
     manifestV2 && getFirstCollectionManifestLocation(manifestV2);
-
-  const pdfRendering =
-    downloadOptions &&
-    downloadOptions.find(option => option.label === 'Download PDF');
   const authService = getAuthService(manifestV2);
   const tokenService = authService && getTokenService(authService);
   const isAnyImageOpen = manifestV2 ? getIsAnyImageOpen(manifestV2) : false;
@@ -64,8 +64,10 @@ export function transformManifest(
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
   const downloadOptions = manifestV3
-  ? getDownloadOptionsFromManifest(manifestV3)
+    ? getDownloadOptionsFromManifest(manifestV3)
     : [];
+
+  const pdf = manifestV3 && getPDF(manifestV3);
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
@@ -77,9 +79,11 @@ export function transformManifest(
     video,
     iiifCredit,
     downloadEnabled,
-    downloadOptions,
+    downloadOptions: [...downloadOptions, pdf].filter(
+      Boolean
+    ) as DownloadOption[], // We add the PDF for items that are PDFs, otherwise they'd have no download option
     firstCollectionManifestLocation,
-    pdfRendering,
+    pdf: pdf,
     authService,
     tokenService,
     isAnyImageOpen,
