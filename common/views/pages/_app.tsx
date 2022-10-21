@@ -107,9 +107,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const getLayout = Component.getLayout || (page => <>{page}</>);
 
-  const ComponentWithLayout = () =>
-    getLayout(<Component {...(pageProps as any)} />);
-
   return (
     <>
       <ApmContextProvider>
@@ -124,11 +121,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                 <OutboundLinkTracker>
                   <LoadingIndicator />
                   {!pageProps.err &&
-                    (Component.getLayout ? (
-                      <ComponentWithLayout />
-                    ) : (
-                      <Component {...(pageProps as any)} />
-                    ))}
+                    getLayout(<Component {...(pageProps as any)} />)}
                   {pageProps.err && (
                     <ErrorPage
                       statusCode={pageProps.err.statusCode}
