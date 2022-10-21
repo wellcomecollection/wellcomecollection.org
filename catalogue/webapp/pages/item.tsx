@@ -105,7 +105,7 @@ const ItemPage: NextPage<Props> = ({
     tokenService,
     isTotallyRestricted,
     needsModal,
-    pdfRendering,
+    pdf,
     authService,
     isAnyImageOpen,
     audio,
@@ -230,7 +230,7 @@ const ItemPage: NextPage<Props> = ({
       {/* TODO remove this or update unavailable message to something more appropriate */}
       {!(isNotUndefined(audio) && audio?.sounds.length > 0) &&
         !video &&
-        !pdfRendering &&
+        !pdf &&
         !mainImageService &&
         !iiifImageLocation && (
           <Layout12>
@@ -241,7 +241,7 @@ const ItemPage: NextPage<Props> = ({
             </Space>
           </Layout12>
         )}
-      {pdfRendering && !mainImageService && (
+      {pdf && !mainImageService && (
         <IframePdfViewer
           v={{
             size: 'l',
@@ -249,7 +249,7 @@ const ItemPage: NextPage<Props> = ({
           }}
           as="iframe"
           title={`PDF: ${displayTitle}`}
-          src={pdfRendering['@id']}
+          src={pdf.id}
         />
       )}
       <Modal

@@ -1,6 +1,5 @@
 import {
   IIIFMediaElement,
-  IIIFRendering,
   IIIFCanvas,
   IIIFStructure,
   AuthService,
@@ -18,7 +17,12 @@ import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
 // Do we need canvases and canvasCount?
 // These should be cleaned up as we move to v3
 
-export type DownloadOption = { id: string; label: string; format: string; width?: 'full' | number }
+export type DownloadOption = {
+  id: string;
+  label: string;
+  format: string;
+  width?: 'full' | number;
+};
 
 export type TransformedManifest = {
   // Currently from iiifManifest V2:
@@ -30,7 +34,6 @@ export type TransformedManifest = {
   iiifCredit?: string;
   downloadEnabled?: boolean;
   firstCollectionManifestLocation?: string;
-  pdfRendering: IIIFRendering | undefined;
   authService: AuthService | undefined;
   tokenService: AuthServiceService | undefined;
   isAnyImageOpen: boolean;
@@ -46,6 +49,7 @@ export type TransformedManifest = {
   audio: Audio | undefined;
   services: Service[];
   downloadOptions: DownloadOption[];
+  pdf: DownloadOption | undefined;
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {
@@ -56,7 +60,7 @@ export function createDefaultTransformedManifest(): TransformedManifest {
     collectionManifestsCount: 0,
     downloadEnabled: true,
     downloadOptions: [],
-    pdfRendering: undefined,
+    pdf: undefined,
     authService: undefined,
     tokenService: undefined,
     isAnyImageOpen: true,
