@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback, FC } from 'react';
+import React, { useState, useEffect, useCallback, FunctionComponent } from 'react';
+import Head from 'next/head';
 import styled from 'styled-components';
 import getCookies from 'next-cookies';
 import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';
 
-const Button = styled.button`
+const Button = styled.button<{ opaque?: boolean }>`
   border: ${props => (props.opaque ? 'none' : '2px solid #007868')};
   color: ${props => (props.opaque ? 'black' : '#007868')};
   display: inline-block;
@@ -24,7 +25,7 @@ const ResetButton = styled(Button)`
   font-size: 1.03rem;
 `;
 
-const Status = styled.div`
+const Status = styled.div<{ active?: boolean }>`
   width: 10px;
   height: 10px;
   margin-left: 10px;
@@ -57,7 +58,7 @@ type Toggle = {
   description: string;
 };
 
-type ToggleStates = { [id: string]: boolean };
+type ToggleStates = { [id: string]: boolean | undefined };
 
 type AbTest = {
   id: string;
@@ -67,7 +68,7 @@ type AbTest = {
   description: string;
 };
 
-const IndexPage: FC = () => {
+const IndexPage: FunctionComponent = () => {
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [toggles, setToggles] = useState<Toggle[]>([]);
   const [abTests, setAbTests] = useState<AbTest[]>([]);
@@ -105,190 +106,195 @@ const IndexPage: FC = () => {
   );
 
   return (
-    <div
-      style={{
-        fontFamily,
-      }}
-    >
-      <Header title="Toggles" />
+    <>
+      <Head>
+        <title>Toggles dashboard</title>
+      </Head>
       <div
         style={{
-          maxWidth: '600px',
-          margin: '0 auto',
+          fontFamily,
         }}
       >
+        <Header title="Toggles" />
         <div
           style={{
-            display: 'flex',
+            maxWidth: '600px',
+            margin: '0 auto',
           }}
         >
-          <h2 style={{ flexGrow: 1 }}>Feature toggles</h2>
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
             }}
-          />
+          >
+            <h2 style={{ flexGrow: 1 }}>Feature toggles</h2>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            />
+          </div>
+          <TextBox>
+            You can turn on a toggle on (👍) or off (👎). Toggles also have a
+            public status which is set for 100% of users.
+          </TextBox>
+          <ResetButton onClick={reset}>
+            🗑&nbsp;&nbsp;Reset all toggles to default&nbsp;&nbsp;🔄
+          </ResetButton>
+          {toggles.length > 0 && (
+            <ul
+              style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              {toggles.map(toggle => (
+                <li
+                  key={toggle.id}
+                  style={{
+                    marginTop: '18px',
+                    borderTop: '1px solid #d9d6ce',
+                    paddingTop: '6px',
+                  }}
+                >
+                  <h3
+                    style={{ marginRight: '6px', marginBottom: '5px' }}
+                    id={`toggle-${toggle.id}`}
+                  >
+                    {toggle.title}
+                  </h3>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      fontSize: '12px',
+                      color: 'grey',
+                    }}
+                  >
+                    Public status: <Status active={toggle.defaultValue} />{' '}
+                    {toggle.defaultValue === true ? 'on' : 'off'}
+                  </div>
+                  <p>{toggle.description}</p>
+                  <Button
+                    onClick={() => {
+                      setCookie(toggle.id, 'true');
+                      setToggleStates(() => ({
+                        ...toggleStates,
+                        [toggle.id]: true,
+                      }));
+                    }}
+                    style={{
+                      opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
+                    }}
+                  >
+                    👍 On
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setCookie(toggle.id, 'false');
+                      setToggleStates(() => ({
+                        ...toggleStates,
+                        [toggle.id]: false,
+                      }));
+                    }}
+                    style={{
+                      opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
+                    }}
+                  >
+                    👎 Off
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          )}
+          {toggles.length === 0 && <p>None for now, check back later…</p>}
+
+          <hr />
+
+          <h2>A/B tests</h2>
+          <TextBox>
+            You can opt-in to a test (👍), explicitly opt-out (👎), or have us
+            forget your choice. If you choose for use to forget, you will be put
+            in to either group randomly according to our A/B decision rules.
+          </TextBox>
+          {abTests.length > 0 && (
+            <ul
+              style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              {abTests.map(toggle => (
+                <li
+                  key={toggle.id}
+                  style={{
+                    marginTop: '18px',
+                    borderTop: '1px solid #d9d6ce',
+                    paddingTop: '6px',
+                  }}
+                >
+                  <h3
+                    style={{ marginRight: '6px', marginBottom: '5px' }}
+                    id={`toggle-${toggle.id}`}
+                  >
+                    {toggle.title}{' '}
+                    <span style={{ fontSize: '12px', color: '#666' }}>
+                      ({toggle.range[0]} - {toggle.range[1]})
+                    </span>
+                  </h3>
+                  <p>{toggle.description}</p>
+                  <Button
+                    onClick={() => {
+                      setCookie(toggle.id, 'true');
+                      setToggleStates({
+                        ...toggleStates,
+                        [toggle.id]: true,
+                      });
+                    }}
+                    style={{
+                      opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
+                    }}
+                  >
+                    👍 Count me in
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setCookie(toggle.id, 'false');
+                      setToggleStates({
+                        ...toggleStates,
+                        [toggle.id]: false,
+                      });
+                    }}
+                    style={{
+                      opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
+                    }}
+                  >
+                    👎 No thanks
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setCookie(toggle.id, null);
+                      setToggleStates({
+                        ...toggleStates,
+                        [toggle.id]: undefined,
+                      });
+                    }}
+                    opaque
+                  >
+                    Forget my choice
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {abTests.length === 0 && <p>None for now, check back later…</p>}
         </div>
-        <TextBox>
-          You can turn on a toggle on (👍) or off (👎). Toggles also have a
-          public status which is set for 100% of users.
-        </TextBox>
-        <ResetButton onClick={reset}>
-          🗑&nbsp;&nbsp;Reset all toggles to default&nbsp;&nbsp;🔄
-        </ResetButton>
-        {toggles.length > 0 && (
-          <ul
-            style={{
-              listStyle: 'none',
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            {toggles.map(toggle => (
-              <li
-                key={toggle.id}
-                style={{
-                  marginTop: '18px',
-                  borderTop: '1px solid #d9d6ce',
-                  paddingTop: '6px',
-                }}
-              >
-                <h3
-                  style={{ marginRight: '6px', marginBottom: '5px' }}
-                  id={`toggle-${toggle.id}`}
-                >
-                  {toggle.title}
-                </h3>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    fontSize: '12px',
-                    color: 'grey',
-                  }}
-                >
-                  Public status: <Status active={toggle.defaultValue} />{' '}
-                  {toggle.defaultValue === true ? 'on' : 'off'}
-                </div>
-                <p>{toggle.description}</p>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, 'true');
-                    setToggleStates(() => ({
-                      ...toggleStates,
-                      [toggle.id]: true,
-                    }));
-                  }}
-                  style={{
-                    opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
-                  }}
-                >
-                  👍 On
-                </Button>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, 'false');
-                    setToggleStates(() => ({
-                      ...toggleStates,
-                      [toggle.id]: false,
-                    }));
-                  }}
-                  style={{
-                    opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
-                  }}
-                >
-                  👎 Off
-                </Button>
-              </li>
-            ))}
-          </ul>
-        )}
-        {toggles.length === 0 && <p>None for now, check back later…</p>}
-
-        <hr />
-
-        <h2>A/B tests</h2>
-        <TextBox>
-          You can opt-in to a test (👍), explicitly opt-out (👎), or have us
-          forget your choice. If you choose for use to forget, you will be put
-          in to either group randomly according to our A/B decision rules.
-        </TextBox>
-        {abTests.length > 0 && (
-          <ul
-            style={{
-              listStyle: 'none',
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            {abTests.map(toggle => (
-              <li
-                key={toggle.id}
-                style={{
-                  marginTop: '18px',
-                  borderTop: '1px solid #d9d6ce',
-                  paddingTop: '6px',
-                }}
-              >
-                <h3
-                  style={{ marginRight: '6px', marginBottom: '5px' }}
-                  id={`toggle-${toggle.id}`}
-                >
-                  {toggle.title}{' '}
-                  <span style={{ fontSize: '12px', color: '#666' }}>
-                    ({toggle.range[0]} - {toggle.range[1]})
-                  </span>
-                </h3>
-                <p>{toggle.description}</p>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, 'true');
-                    setToggleStates({
-                      ...toggleStates,
-                      [toggle.id]: true,
-                    });
-                  }}
-                  style={{
-                    opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
-                  }}
-                >
-                  👍 Count me in
-                </Button>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, 'false');
-                    setToggleStates({
-                      ...toggleStates,
-                      [toggle.id]: false,
-                    });
-                  }}
-                  style={{
-                    opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
-                  }}
-                >
-                  👎 No thanks
-                </Button>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, null);
-                    setToggleStates({
-                      ...toggleStates,
-                      [toggle.id]: undefined,
-                    });
-                  }}
-                  opaque
-                >
-                  Forget my choice
-                </Button>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {abTests.length === 0 && <p>None for now, check back later…</p>}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -55,7 +55,7 @@ export function getLocationText(isOnline?: boolean, place?: Place[]): string {
   }`;
 }
 
-const EventPromo: FC<Props> = ({
+const EventPromo: FunctionComponent<Props> = ({
   event,
   position = 0,
   dateString,

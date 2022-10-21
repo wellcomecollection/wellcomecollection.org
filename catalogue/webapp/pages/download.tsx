@@ -5,13 +5,7 @@ import {
   getDigitalLocationOfType,
 } from '../utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
-import {
-  getDownloadOptionsFromManifest,
-  getIIIFPresentationCredit,
-  getUiExtensions,
-  isUiEnabled,
-} from '../utils/iiif/v2';
-import { IIIFManifest } from '../services/iiif/types/manifest/v2';
+import { TransformedManifest } from '../types/manifest';
 import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
@@ -27,29 +21,30 @@ import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from 'services/catalogue';
-import { looksLikeSierraId } from '@weco/common/services/catalogue/sierra';
+import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
+import { transformManifest } from '../services/iiif/transformers/manifest';
 
 type Props = {
   workId: string;
-  sierraId: string;
-  manifest?: IIIFManifest;
-  work?: Work;
+  transformedManifest: TransformedManifest;
+  work: Work | undefined;
 };
 
 const DownloadPage: NextPage<Props> = ({
   workId,
-  sierraId,
-  manifest,
+  transformedManifest,
   work,
 }) => {
-  const title = (manifest && manifest.label) || (work && work.title) || '';
+  const { title, downloadEnabled, downloadOptions, iiifCredit } =
+    transformedManifest;
+  const displayTitle = title || work?.title || '';
   const iiifImageLocation = work
     ? getDigitalLocationOfType(work, 'iiif-image')
     : null;
   const iiifPresentationLocation = work
     ? getDigitalLocationOfType(work, 'iiif-presentation')
     : null;
-  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+  const digitalLocation = iiifImageLocation || iiifPresentationLocation; // TODO here we favour imageLocation over manifestLocation
   const license =
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
@@ -58,6 +53,7 @@ const DownloadPage: NextPage<Props> = ({
     iiifImageLocation &&
     iiifImageLocation.type === 'DigitalLocation' &&
     iiifImageLocation.url;
+
   const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl({
         url: iiifImageLocationUrl,
@@ -65,28 +61,16 @@ const DownloadPage: NextPage<Props> = ({
         height: undefined,
       })
     : [];
-  const iiifPresentationDownloadOptions = manifest
-    ? getDownloadOptionsFromManifest(manifest)
-    : [];
 
-  const downloadOptions = [
-    ...iiifImageDownloadOptions,
-    ...iiifPresentationDownloadOptions,
-  ];
+  const allDownloadOptions = [...iiifImageDownloadOptions, ...downloadOptions];
 
-  const credit =
-    (iiifImageLocation && iiifImageLocation.credit) ||
-    (manifest && getIIIFPresentationCredit(manifest));
-
-  const showDownloadOptions = manifest
-    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
-    : true;
+  const credit = (iiifImageLocation && iiifImageLocation.credit) || iiifCredit;
 
   return (
     <PageLayout
-      title={title}
+      title={displayTitle}
       description=""
-      url={{ pathname: `/works/${workId}/download`, query: { sierraId } }}
+      url={{ pathname: `/works/${workId}/download` }}
       openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
@@ -104,16 +88,16 @@ const DownloadPage: NextPage<Props> = ({
               id="work-info"
               className={font('intb', 1)}
             >
-              {title}
+              {displayTitle}
             </Space>
           </SpacingComponent>
-          {work && work.id && (
+          {workId && (
             <SpacingComponent>
-              {showDownloadOptions ? (
+              {downloadEnabled && allDownloadOptions.length !== 0 ? (
                 <Download
                   ariaControlsId="itemDownloads"
-                  workId={work.id}
-                  downloadOptions={downloadOptions}
+                  workId={workId}
+                  downloadOptions={allDownloadOptions}
                 />
               ) : (
                 <p>There are no downloads available.</p>
@@ -145,51 +129,13 @@ const DownloadPage: NextPage<Props> = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { workId, sierraId } = context.query;
+    const { workId } = context.query;
 
-    if (!looksLikeCanonicalId(workId) || !looksLikeSierraId(sierraId)) {
+    if (!looksLikeCanonicalId(workId)) {
       return {
         notFound: true,
       };
     }
-
-    const manifestUrl =
-      sierraId &&
-      `https://iiif.wellcomecollection.org/presentation/v2/${sierraId}`;
-
-    const iiifResponse = manifestUrl && (await fetch(manifestUrl));
-
-    // A user should never end up on a /download page that points to a non-existent
-    // IIIF manifest, but we do see a persistent trickle of such requests.
-    // Possibly URLs that used to resolve, but have since been removed?
-    //
-    // In these cases, DLCS returns a 404 and the response text like
-    //
-    //      No IIIF resource found for v2/b18037343
-    //
-    // If we don't catch the 404 here, this bubbles up as an internal server error
-    // when we try to parse the JSON, with the error
-    //
-    //      FetchError: invalid json response body at https://iiif.wellcomecollection.org/presentation/v2/b18037343
-    //      reason: Unexpected token N in JSON at position 0
-    //
-    if (iiifResponse && iiifResponse.status === 404) {
-      return appError(
-        context,
-        404,
-        `There is no IIIF manifest for ${sierraId}`
-      );
-    }
-
-    // I don't know what status codes DLCS should return apart from 200 and 404 --
-    // this warning is to make debugging easier if we see other issues here.
-    if (iiifResponse && iiifResponse.status !== 200) {
-      console.warn(
-        `Unexpected status when fetching IIIF manifest: ${iiifResponse.status}`
-      );
-    }
-
-    const manifest = iiifResponse && (await iiifResponse.json());
 
     const work = await getWork({
       id: workId,
@@ -207,12 +153,25 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       };
     }
 
+    const manifestLocation = getDigitalLocationOfType(
+      work,
+      'iiif-presentation'
+    );
+    const iiifManifest =
+      manifestLocation &&
+      (await fetchIIIFPresentationManifest(manifestLocation.url));
+    const transformedManifest = transformManifest(
+      iiifManifest || {
+        manifestV2: undefined,
+        manifestV3: undefined,
+      }
+    );
+
     return {
       props: removeUndefinedProps({
         serverData,
         workId,
-        sierraId,
-        manifest,
+        transformedManifest,
         work,
       }),
     };

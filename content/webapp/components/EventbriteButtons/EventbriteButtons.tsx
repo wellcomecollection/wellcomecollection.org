@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { Event } from '../../types/events';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
@@ -24,7 +24,7 @@ type Props = {
   event: Event;
 };
 
-const EventbriteButtons: FC<Props> = ({ event }) => {
+const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
   if (!event.eventbriteId && !event.onlineEventbriteId) return null;
   const isHybridEvent = event.eventbriteId && event.onlineEventbriteId;
   return (

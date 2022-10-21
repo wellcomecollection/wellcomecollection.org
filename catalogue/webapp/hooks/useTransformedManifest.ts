@@ -31,7 +31,7 @@ const useTransformedManifest = (work: Work): TransformedManifest => {
     if (cachedManifest) {
       setTransformedManifest(cachedManifest);
     } else {
-      // If we've started fetching a work, we can just wait for that to resolve
+      // If we've started fetching a manifest, we can just wait for that to resolve
       const existingPromise = manifestPromises.get(work.id);
       if (existingPromise) {
         const iiifManifest = await existingPromise;

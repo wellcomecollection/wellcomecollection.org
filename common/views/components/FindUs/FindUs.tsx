@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import {
   wellcomeCollectionGallery,
@@ -17,7 +17,7 @@ const PlainLink = styled.a.attrs({ className: 'plain-link' })`
   }
 `;
 
-const FindUs: FC = () => (
+const FindUs: FunctionComponent = () => (
   <>
     <Space v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
       <PlainLink href={wellcomeCollectionAddress.addressMap}>

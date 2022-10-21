@@ -5,7 +5,10 @@ type LogoProps = {
   height?: number;
 };
 
-export const Logo: React.FC<LogoProps> = ({ width = 128, height = 42 }) => {
+export const Logo: React.FunctionComponent<LogoProps> = ({
+  width = 128,
+  height = 42,
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

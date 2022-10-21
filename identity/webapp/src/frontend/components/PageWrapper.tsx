@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import Header from '@weco/common/views/components/Header/Header';
@@ -18,7 +18,7 @@ type Props = {
   title: string;
 };
 
-export const PageWrapper: FC<Props> = ({ title, children }) => {
+export const PageWrapper: FunctionComponent<Props> = ({ title, children }) => {
   return (
     <>
       <Head>

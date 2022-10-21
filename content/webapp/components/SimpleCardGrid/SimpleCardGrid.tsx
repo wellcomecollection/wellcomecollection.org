@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
 import { getCrop } from '@weco/common/model/image';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 
 type Props = {
   items: readonly CardType[];
@@ -64,7 +64,10 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
   );
 };
 
-const CardGrid: FC<Props> = ({ items, isFeaturedFirst }: Props) => {
+const CardGrid: FunctionComponent<Props> = ({
+  items,
+  isFeaturedFirst,
+}: Props) => {
   const cards = items.filter(item => item.type === 'card');
   const threeCards = isFeaturedFirst ? cards.slice(1) : cards.slice(0, 3);
   const featuredCard = isFeaturedFirst ? cards[0] : cards[3];

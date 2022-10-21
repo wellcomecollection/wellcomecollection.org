@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
 import { respondTo } from '../../themes/mixins';
@@ -47,7 +47,7 @@ const StyledComponent = styled.div.attrs({
   }
 `;
 
-const MobileSignIn: FC = () => {
+const MobileSignIn: FunctionComponent = () => {
   const { user } = useUser();
   return (
     <StyledComponent>

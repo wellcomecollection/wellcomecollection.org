@@ -11,7 +11,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { FC, ReactElement } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 import CardGrid from '../CardGrid/CardGrid';
 import { BookBasic } from '../../types/books';
 import { Guide } from '../../types/guides';
@@ -49,7 +49,7 @@ const TotalPagesCopy = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.600')};
 `;
 
-const LayoutPaginatedResults: FC<Props> = ({
+const LayoutPaginatedResults: FunctionComponent<Props> = ({
   title,
   description,
   paginatedResults,

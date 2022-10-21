@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { ArticleBasic } from '../../types/articles';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -102,7 +102,7 @@ export type Props = {
   next?: ArticleBasic;
 };
 
-const ComicPreviousNext: FC<Props> = ({ previous, next }) => {
+const ComicPreviousNext: FunctionComponent<Props> = ({ previous, next }) => {
   return (
     <Root>
       {previous && (

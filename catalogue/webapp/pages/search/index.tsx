@@ -1,85 +1,23 @@
-import { useState } from 'react';
-import { GetServerSideProps, NextPage } from 'next';
-
-import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import Space from '@weco/common/views/components/styled/Space';
-
+import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import SearchHeader from '@weco/catalogue/views/search/searchHeader';
+import Space from '@weco/common/views/components/styled/Space';
+import { NextPageWithLayout } from '@weco/common/views/pages/_app';
+import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 
-export const SearchPage: NextPage = () => {
-  const [selectedTab, setSelectedTab] = useState('overview');
-
+export const SearchPage: NextPageWithLayout = () => {
   return (
-    // TODO review meta info here
-    <CataloguePageLayout
-      title="Search Page"
-      description={'<TBC>'}
-      url={{ pathname: '/search', query: {} }}
-      openGraphType="website"
-      siteSection="collections"
-      jsonLd={{ '@type': 'WebPage' }}
-      hideNewsletterPromo={true}
-    >
-      <div className="container">
-        <h1 className="visually-hidden">Search Page</h1>
-        <SearchHeader
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-        />
-        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          {selectedTab === 'overview' && (
-            <div
-              role="tabpanel"
-              id="tabpanel-overviewTab"
-              aria-labelledby="tab-overviewTab"
-            >
-              Overview content
-            </div>
-          )}
-          {selectedTab === 'exhibitions' && (
-            <div
-              role="tabpanel"
-              id="tabpanel-exhibitionsTab"
-              aria-labelledby="tab-exhibitionsTab"
-            >
-              Exhibitions and events content
-            </div>
-          )}
-          {selectedTab === 'stories' && (
-            <div
-              role="tabpanel"
-              id="tabpanel-storiesTab"
-              aria-labelledby="tab-storiesTab"
-            >
-              Stories content
-            </div>
-          )}
-          {selectedTab === 'images' && (
-            <div
-              role="tabpanel"
-              id="tabpanel-imagesTab"
-              aria-labelledby="tab-imagesTab"
-            >
-              Images content
-            </div>
-          )}
-          {selectedTab === 'collections' && (
-            <div
-              role="tabpanel"
-              id="tabpanel-collectionsTab"
-              aria-labelledby="tab-collectionsTab"
-            >
-              Collections content
-            </div>
-          )}
-        </Space>
-      </div>
-    </CataloguePageLayout>
+    <>
+      <h1 className="visually-hidden">Overview Search Page</h1>
+      <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+        <div>Overview</div>
+      </Space>
+    </>
   );
 };
+
+SearchPage.getLayout = getSearchLayout;
 
 export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps

@@ -4,7 +4,7 @@ import { Exhibition as ExhibitionType } from '../types/exhibitions';
 import Installation from '../components/Installation/Installation';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -24,7 +24,11 @@ type Props = {
   gaDimensions: GaDimensions;
 };
 
-const ExhibitionPage: FC<Props> = ({ exhibition, pages, jsonLd }) =>
+const ExhibitionPage: FunctionComponent<Props> = ({
+  exhibition,
+  pages,
+  jsonLd,
+}) =>
   exhibition.format && exhibition.format.title === 'Installation' ? (
     <Installation installation={exhibition} jsonLd={jsonLd} />
   ) : (

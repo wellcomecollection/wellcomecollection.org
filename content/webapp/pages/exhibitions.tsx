@@ -1,5 +1,5 @@
 import type { GetServerSideProps } from 'next';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -75,7 +75,7 @@ const PaginationWrapper = styled(Layout12)`
   text-align: right;
 `;
 
-const ExhibitionsPage: FC<Props> = props => {
+const ExhibitionsPage: FunctionComponent<Props> = props => {
   const { exhibitions, period, title, jsonLd } = props;
   const firstExhibition = exhibitions[0];
 

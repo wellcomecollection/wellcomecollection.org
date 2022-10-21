@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app';
-import React, { useEffect, FunctionComponent } from 'react';
+import React, { useEffect, FunctionComponent, ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../views/themes/default';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
@@ -26,6 +26,7 @@ import {
 } from '../../services/app/google-analytics';
 import { useOnPageLoad } from '../../services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
+import { NextPage } from 'next';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -45,18 +46,25 @@ function isErrorPage(route: string): boolean {
 
 const dev = process.env.NODE_ENV !== 'production';
 
+export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactElement;
+};
+
 type GlobalProps = {
   serverData: ServerData;
   pageview?: Pageview;
   gaDimensions?: GaDimensions;
 } & Partial<AppErrorProps>;
 
-type WecoAppProps = Omit<AppProps, 'pageProps'> & { pageProps: GlobalProps };
+type WecoAppProps = Omit<AppProps, 'pageProps'> & {
+  pageProps: GlobalProps;
+  Component: NextPageWithLayout;
+};
 
 const WecoApp: FunctionComponent<WecoAppProps> = ({
-  Component,
   pageProps,
   router,
+  Component,
 }) => {
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
@@ -97,6 +105,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   usePrismicPreview(() => Boolean(document.cookie.match('isPreview=true')));
 
+  const getLayout = Component.getLayout || (page => <>{page}</>);
+
   return (
     <>
       <ApmContextProvider>
@@ -110,7 +120,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                 />
                 <OutboundLinkTracker>
                   <LoadingIndicator />
-                  {!pageProps.err && <Component {...(pageProps as any)} />}
+                  {!pageProps.err &&
+                    getLayout(<Component {...(pageProps as any)} />)}
                   {pageProps.err && (
                     <ErrorPage
                       statusCode={pageProps.err.statusCode}
