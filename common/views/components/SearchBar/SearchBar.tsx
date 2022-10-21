@@ -1,4 +1,4 @@
-import { FC, useState, useRef } from 'react';
+import { FunctionComponent, useState, useRef } from 'react';
 import styled from 'styled-components';
 
 import TextInputV2 from '@weco/common/views/components/TextInput/TextInputV2';
@@ -6,6 +6,7 @@ import ButtonSolidV2 from '@weco/common/views/components/ButtonSolid/ButtonSolid
 import { themeValues } from '@weco/common/views/themes/config';
 
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
+import { useRouter } from 'next/router';
 
 const Container = styled.div`
   display: flex;
@@ -27,32 +28,23 @@ const SearchButtonWrapper = styled.div`
   flex: 0 1 auto;
 `;
 
-// TODO wrap in form with filters?
-const SearchBar: FC = () => {
+const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
   const [inputQuery, setInputQuery] = useState('');
   const searchInput = useRef<HTMLInputElement>(null);
   const searchForm = useRef<HTMLFormElement>(null);
+  const { pathname, push } = useRouter();
 
-  // TODO
   const updateUrl = (form: HTMLFormElement) => {
     const urlQuery = formDataAsUrlQuery(form);
+    push({ pathname, query: urlQuery });
   };
 
   return (
     <form
       role="search"
       ref={searchForm}
-      // action={isImageSearch ? '/images' : '/works'}
-      // aria-describedby={ariaDescribedBy}
       onSubmit={event => {
         event.preventDefault();
-
-        // trackEvent({
-        //   category: 'SearchForm',
-        //   action: 'submit search',
-        //   label: query,
-        // });
-
         updateUrl(event.currentTarget);
         return false;
       }}
@@ -61,15 +53,15 @@ const SearchBar: FC = () => {
         <SearchInputWrapper>
           <TextInputV2
             id="dummy-searchbar"
-            label="Search {type}"
+            label={`Search ${type}`}
             name="query"
             type="search"
             value={inputQuery}
             setValue={setInputQuery}
             ref={searchInput}
             big={true}
-            placeholder=""
-            ariaLabel="Search {type}"
+            placeholder="search..."
+            ariaLabel={`Search ${type}`}
           />
         </SearchInputWrapper>
         <SearchButtonWrapper>

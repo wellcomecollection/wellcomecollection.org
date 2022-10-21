@@ -143,7 +143,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
     <CataloguePageLayout {...pageLayoutMetadata}>
       <div className="container">
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          <SearchBar />
+          <SearchBar type={currentSearchCategory} />
         </Space>
       </div>
       <NavBar aria-label="Search Categories">
