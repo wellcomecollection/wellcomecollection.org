@@ -111,3 +111,28 @@ export function getDownloadOptionsFromManifest(
       }) || []
   );
 }
+
+export function getPDF(iiifManifest: Manifest): DownloadOption | undefined {
+  const allAnnotations = iiifManifest.items
+    .map(item => item.annotations)
+    .flat();
+  const allItems = allAnnotations.map(annotation => annotation?.items).flat();
+  const pdfItem = allItems.find(item => {
+    // The ContentResource type on the Manifest, which applies to the iiifManifest.rendering seems incorrect
+    // Temporarily adding this until it is fixed.
+    const body = (
+      Array.isArray(item?.body) ? item?.body[0] : item?.body
+    ) as Rendering;
+    return body?.format === 'application/pdf'; // TODO type format does not exist on type rendering? eh?
+  });
+  const { id, label, format } = pdfItem?.body || {};
+  if (id) {
+    return {
+      id,
+      label: label?.en?.[0] || 'Download file',
+      format,
+    };
+  }
+}
+
+// TODO create examples of where types erroring
