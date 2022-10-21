@@ -100,7 +100,7 @@ export function getDownloadOptionsFromManifest(
         // (V3 Manifest) https://iiif.wellcomecollection.org/presentation/v3/b10326947
         // (rendering - application/zip) https://api.wellcomecollection.org/text/v1/b10326947.zip (returns 404)
         // For details of why we remove text/plain see https://github.com/wellcomecollection/wellcomecollection.org/issues/7592
-        return id && format !== 'application/zipp' && format !== 'text/plain';
+        return id && format !== 'application/zip' && format !== 'text/plain';
       })
       .map(({ id, format, label }) => {
         return {
