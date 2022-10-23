@@ -68,6 +68,57 @@ export const catalogueFetch = (
   return fetch(url, { ...options, agent: agentKeepAlive });
 };
 
+export const prismicFetch = (
+  url: string,
+  options?: Record<string, string>
+): Promise<Response> => {
+  return fetch(url, { ...options, agent: agentKeepAlive });
+};
+
+export async function prismicQuery<Params, Result extends ResultType>(
+  endpoint: string,
+  { params, toggles, pageSize }: QueryProps<Params>
+): Promise<CatalogueResultsList<Result> | CatalogueApiError> {
+  // const apiOptions = globalApiOptions(toggles);
+  //
+  // const extendedParams = {
+  //   ...params,
+  //   pageSize,
+  // };
+
+  const url = 'https://wellcomecollection.cdn.prismic.io/api';
+  const graphQuery = `{
+  allExhibitionss(fulltext: "cats" sortBy: title_ASC) {
+    edges {
+      node {
+        title
+        _meta {
+          type
+        }
+      }
+    }
+  }`;
+
+  try {
+    const res = await prismicFetch(url, { graphQuery, redirect: 'manual' });
+    const json = await res.json();
+
+    if (json.type === 'Error' && json.httpStatus !== 414) {
+      console.warn(
+        `Received error from prismic API query ${url}: ` + JSON.stringify(json)
+      );
+    }
+
+    return {
+      ...json,
+      _requestUrl: url,
+    };
+  } catch (error) {
+    console.error(`Unable to fetch Prismic API URL ${url}`, error);
+    return catalogueApiError();
+  }
+}
+
 export type QueryProps<Params> = {
   params: Params;
   pageSize?: number;
