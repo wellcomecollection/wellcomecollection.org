@@ -94,13 +94,13 @@ const WorkSearchResultV2: FunctionComponent<Props> = ({
 
               {archiveLabels?.reference && (
                 <WorkInformationItem>
-                  Reference:&nbsp;{archiveLabels && archiveLabels?.reference}
+                  Reference:&nbsp;{archiveLabels?.reference}
                 </WorkInformationItem>
               )}
             </WorkInformation>
             {archiveLabels?.partOf && (
               <WorkInformation>
-                Part of:&nbsp;{archiveLabels && archiveLabels?.partOf}
+                Part of:&nbsp;{archiveLabels?.partOf}
               </WorkInformation>
             )}
           </Details>
