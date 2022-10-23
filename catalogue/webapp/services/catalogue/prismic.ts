@@ -3,12 +3,13 @@ import {
   prismicFetch,
   // globalApiOptions,
   looksLikeCanonicalId,
-  notFound,
+  notFound, QueryProps, catalogueQuery, prismicQuery
   // rootUris,
-} from './index';
+} from "./index";
 
 import { Toggles } from '@weco/toggles';
-import { CatalogueApiError, Concept } from '@weco/common/model/catalogue';
+import { CatalogueApiError, CatalogueResultsList, Concept } from "@weco/common/model/catalogue";
+import { CatalogueConceptsApiProps } from '@weco/common/services/catalogue/api';
 
 type GetArticleProps = {
   id: string;
@@ -18,7 +19,7 @@ type GetArticleProps = {
 type ConceptResponse = Concept | CatalogueApiError;
 
 // to return the article object from Prismic by id
-export async function getArticles({
+export async function getArticle({
   id,
 }: // toggles,
 GetArticleProps): Promise<ConceptResponse> {
@@ -41,4 +42,10 @@ GetArticleProps): Promise<ConceptResponse> {
   } catch (e) {
     return catalogueApiError();
   }
+}
+
+export async function getArticles(
+  props: QueryProps<CatalogueConceptsApiProps>
+): Promise<CatalogueResultsList<Concept> | CatalogueApiError> {
+  return prismicQuery('articles', props);
 }
