@@ -81,28 +81,34 @@ export async function prismicQuery<Params, Result extends ResultType>(
 ): Promise<CatalogueResultsList<Result> | CatalogueApiError> {
   // const apiOptions = globalApiOptions(toggles);
   //
-  // const extendedParams = {
-  //   ...params,
-  //   pageSize,
-  // };
 
   const url = 'https://wellcomecollection.cdn.prismic.io/api';
-  const graphQuery = `{
-  allExhibitionss(fulltext: "cats" sortBy: title_ASC) {
+  const graphQuery = `query searchAllArticlesByText($searchString: String!) {
+  allArticless(fulltext: $searchString sortBy: title_ASC) {
     edges {
       node {
         title
         _meta {
-          type
+          lastPublicationDate
+          id
         }
       }
     }
-  }`;
+  }
+}`;
+  const extendedParams = {
+    searchString: JSON.stringify(params),
+    toggles,
+    pageSize,
+  };
 
   try {
-    const res = await prismicFetch(url, { graphQuery, redirect: 'manual' });
+    const res = await prismicFetch(url, {
+      body: JSON.stringify(graphQuery, extendedParams),
+    });
     const json = await res.json();
 
+    // TODO: We have this error to cover if URI is too long - not sure this should happen with a graphQL query though
     if (json.type === 'Error' && json.httpStatus !== 414) {
       console.warn(
         `Received error from prismic API query ${url}: ` + JSON.stringify(json)
