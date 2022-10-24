@@ -1,4 +1,10 @@
-import { forwardRef, useContext, useState, RefObject, FC } from 'react';
+import {
+  forwardRef,
+  useContext,
+  useState,
+  RefObject,
+  FunctionComponent,
+} from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
@@ -151,7 +157,7 @@ type Props = {
   ariaDescribedBy?: string;
 };
 
-const Input: FC<Props> = (
+const Input: FunctionComponent<Props> = (
   {
     label,
     type,

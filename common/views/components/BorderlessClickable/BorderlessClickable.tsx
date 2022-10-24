@@ -1,6 +1,6 @@
 import {
   ComponentProps,
-  FC,
+  FunctionComponent,
   ReactNode,
   SyntheticEvent,
   forwardRef,
@@ -47,7 +47,7 @@ type Props = {
 };
 
 type BorderlessClickableProps = Props & { as: ClickableElement };
-const Button: FC<BorderlessClickableProps> = (
+const Button: FunctionComponent<BorderlessClickableProps> = (
   {
     as,
     icon,
@@ -104,7 +104,7 @@ const BorderlessClickable = forwardRef<
 >(Button);
 
 type BorderlessLinkProps = Props & ComponentProps<'a'>;
-const Link: FC<BorderlessLinkProps> = (
+const Link: FunctionComponent<BorderlessLinkProps> = (
   {
     icon,
     iconLeft,
@@ -136,7 +136,7 @@ type BorderlessButtonProps = Props &
     trackingEvent?: GaEvent;
     clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
   };
-const ButtonOuter: FC<BorderlessButtonProps> = (
+const ButtonOuter: FunctionComponent<BorderlessButtonProps> = (
   {
     icon,
     iconLeft,

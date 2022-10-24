@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
 
@@ -50,7 +50,7 @@ export type Props = {
   background?: string;
 };
 
-const IIIFImage: FC<Props> = ({
+const IIIFImage: FunctionComponent<Props> = ({
   image,
   sizes,
   onLoadingComplete,

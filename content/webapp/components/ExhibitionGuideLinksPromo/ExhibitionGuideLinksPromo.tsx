@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
@@ -34,7 +34,9 @@ type Props = {
 
 // We use this Promo for Exhibition Guides when we want to link to the individual types within a guide
 // and not just the guide itself
-const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
+const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
+  exhibitionGuide,
+}) => {
   const links: { url: string; text: string }[] = [];
   if (exhibitionGuide.availableTypes.audioWithoutDescriptions) {
     links.push({

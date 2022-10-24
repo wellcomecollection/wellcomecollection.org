@@ -15,10 +15,12 @@ import {
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
+
 import {
   getAudio,
   getDownloadOptionsFromManifest,
   getPDF,
+  getTitle,
 } from '../../../utils/iiif/v3';
 
 export function transformManifest(
@@ -30,7 +32,6 @@ export function transformManifest(
   // TODO Be aware when moving the id to v3 the id value changes, the id string will no longer contain /v2/
   // This causes the matchingManifest not to be found in IIIFViewer
   const id = manifestV2 ? manifestV2['@id'] : '';
-  const title = manifestV2 ? manifestV2.label : '';
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
   const canvasCount = canvases.length;
   const collectionManifestsCount = manifestV2?.manifests
@@ -61,6 +62,7 @@ export function transformManifest(
   const structures = manifestV2?.structures || [];
 
   // V3
+  const title = manifestV3?.label ? getTitle(manifestV3.label) : '';
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
@@ -70,7 +72,6 @@ export function transformManifest(
   return {
     // Taken from V2 manifest:
     id,
-    title,
     canvasCount,
     collectionManifestsCount,
     video,
@@ -88,6 +89,7 @@ export function transformManifest(
     searchService,
     structures,
     // Taken from V3 manifest:
+    title,
     audio,
     services,
     downloadOptions: [...downloadOptions, pdf].filter(

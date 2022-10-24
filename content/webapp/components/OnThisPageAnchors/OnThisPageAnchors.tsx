@@ -2,7 +2,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { Link } from '../../types/link';
 import { font } from '@weco/common/utils/classnames';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 
 const Anchor = styled.a.attrs(() => ({
   className: font('intb', 5),
@@ -14,9 +14,7 @@ type Props = {
   links: Link[];
 };
 
-const OnThisPageAnchors: FunctionComponent<Props> = ({
-  links,
-}: Props): ReactElement<Props> => {
+const OnThisPageAnchors: FunctionComponent<Props> = ({ links }) => {
   return (
     <Space
       h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}

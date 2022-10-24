@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { ImageType } from '../../../model/image';
@@ -61,7 +61,7 @@ export function convertVerticalBreakpointSizesToSizes(
   });
 }
 
-const HeightRestrictedPrismicImage: FC<Props> = ({
+const HeightRestrictedPrismicImage: FunctionComponent<Props> = ({
   image,
   maxWidth,
   quality,

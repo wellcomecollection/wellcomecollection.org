@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
 import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
@@ -96,7 +96,7 @@ export function createPrismicLoader(maxWidth: number, quality: ImageQuality) {
  * usurping UiImage which has reached a state where it is so bloated it is hard to refactor.
  * This is aimed solely at the Prismic image rendering for now.
  */
-const PrismicImage: FC<Props> = ({
+const PrismicImage: FunctionComponent<Props> = ({
   image,
   sizes,
   maxWidth,

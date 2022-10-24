@@ -1,7 +1,7 @@
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Dot from '@weco/common/views/components/Dot/Dot';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import {
   addDays,
   isFuture,
@@ -41,7 +41,11 @@ export function formatDateRangeWithMessage({
   }
 }
 
-const StatusIndicator: FC<Props> = ({ start, end, statusOverride }: Props) => {
+const StatusIndicator: FunctionComponent<Props> = ({
+  start,
+  end,
+  statusOverride,
+}: Props) => {
   const { color, text } = statusOverride
     ? { color: 'neutral.500' as PaletteColor, text: statusOverride }
     : formatDateRangeWithMessage({ start, end });

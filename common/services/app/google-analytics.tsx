@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { Toggles } from '@weco/toggles';
 import Script from 'next/script';
@@ -18,7 +18,7 @@ const gaDimensionKeys = {
 
 // Don't use the next/script `Script` component for these as in
 // Next.js v11 it does not work when inside a `Head` component
-export const GoogleAnalyticsV4: FC = () => (
+export const GoogleAnalyticsV4: FunctionComponent = () => (
   <script
     id="google-analytics-v4"
     src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_V4_ID}`}
@@ -26,7 +26,7 @@ export const GoogleAnalyticsV4: FC = () => (
   />
 );
 
-export const GoogleAnalyticsUA: FC = () => (
+export const GoogleAnalyticsUA: FunctionComponent = () => (
   <script
     id="google-analytics-ua"
     async={true}

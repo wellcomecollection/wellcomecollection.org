@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { Fragment, FunctionComponent } from 'react';
+import { FC, FunctionComponent, ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
@@ -25,14 +25,31 @@ const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
-type Props = {
-  book: Book;
-  gaDimensions: GaDimensions;
+const MetadataKey = styled.dt.attrs({
+  className: grid({ s: 4, m: 4, l: 4, xl: 4 }),
+})`
+  margin: 0;
+`;
+
+const MetadataValue = styled.dd.attrs({
+  className: grid({ s: 8, m: 8, l: 8, xl: 8 }),
+})`
+  margin: 0;
+`;
+
+type MetadataProps = {
+  label: string;
+  value: ReactElement | string | undefined;
 };
 
-// FIXME: This is nonsense
-type BookMetadataProps = { book: Book };
-const BookMetadata = ({ book }: BookMetadataProps) => (
+const Metadata: FC<MetadataProps> = ({ label, value }) => (
+  <>
+    <MetadataKey>{label}</MetadataKey>
+    <MetadataValue>{value}</MetadataValue>
+  </>
+);
+
+const BookMetadata: FC<{ book: Book }> = ({ book }) => (
   <Space
     v={{
       size: 'm',
@@ -42,31 +59,21 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
     className="grid"
   >
     {book.datePublished && (
-      <Fragment>
-        <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>
-          Date published
-        </dt>
-        <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
-          {book.datePublished && <HTMLDate date={book.datePublished} />}
-        </dd>
-      </Fragment>
+      <Metadata
+        label="Date published"
+        value={<HTMLDate date={book.datePublished} />}
+      />
     )}
-    <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>Format</dt>
-    <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
-      {book.format}
-    </dd>
-
-    <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>Extent</dt>
-    <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
-      {book.extent}
-    </dd>
-
-    <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>ISBN</dt>
-    <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
-      {book.isbn}
-    </dd>
+    <Metadata label="Format" value={book.format} />
+    <Metadata label="Extent" value={book.extent} />
+    <Metadata label="ISBN" value={book.isbn} />
   </Space>
 );
+
+type Props = {
+  book: Book;
+  gaDimensions: GaDimensions;
+};
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -129,11 +136,11 @@ const BookPage: FunctionComponent<Props> = props => {
       title={book.title}
       FeaturedMedia={FeaturedMedia}
       ContentTypeInfo={
-        <Fragment>
+        <>
           {book.subtitle && (
             <p className={`no-margin ${font('intb', 3)}`}>{book.subtitle}</p>
           )}
-        </Fragment>
+        </>
       }
       isContentTypeInfoBeforeMedia={true}
     />
@@ -143,7 +150,7 @@ const BookPage: FunctionComponent<Props> = props => {
     <PageLayout
       title={book.title}
       description={book.metadataDescription || book.promo?.caption || ''}
-      url={{ pathname: `/books/${book.id}`, query: {} }}
+      url={{ pathname: `/books/${book.id}` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="book"
       siteSection="stories"
@@ -156,14 +163,12 @@ const BookPage: FunctionComponent<Props> = props => {
         contributors={book.contributors}
         seasons={book.seasons}
       >
-        <Fragment>
-          <MetadataWrapper>
-            <BookMetadata book={book} />
-          </MetadataWrapper>
-          {book.orderLink && (
-            <ButtonSolidLink link={book.orderLink} text="Buy the book" />
-          )}
-        </Fragment>
+        <MetadataWrapper>
+          <BookMetadata book={book} />
+        </MetadataWrapper>
+        {book.orderLink && (
+          <ButtonSolidLink link={book.orderLink} text="Buy the book" />
+        )}
       </ContentPage>
     </PageLayout>
   );

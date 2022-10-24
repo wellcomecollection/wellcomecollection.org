@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { prismicPageIds } from './hardcoded-ids';
 import Layout8 from '../views/components/Layout8/Layout8';
 import Space from '../views/components/styled/Space';
@@ -8,7 +8,7 @@ export const errorMessages = {
   500: 'Internal Server Error',
 };
 
-export const DefaultErrorText: FC = () => (
+export const DefaultErrorText: FunctionComponent = () => (
   <Layout8>
     <Space
       className="body-text"
@@ -34,7 +34,7 @@ export const DefaultErrorText: FC = () => (
   </Layout8>
 );
 
-export const NotFoundErrorText: FC = () => (
+export const NotFoundErrorText: FunctionComponent = () => (
   <Layout8>
     <Space
       className="body-text"

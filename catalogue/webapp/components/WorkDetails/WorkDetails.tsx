@@ -190,7 +190,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     return ![...orderedNotes, locationOfWork].some(n => n === note);
   });
 
-  function determineDownloadVisibility(downloadEnabled) {
+  function determineDownloadVisibility(downloadEnabled: boolean | undefined) {
     if (digitalLocationInfo?.accessCondition === 'open-with-advisory') {
       return false;
     } else {

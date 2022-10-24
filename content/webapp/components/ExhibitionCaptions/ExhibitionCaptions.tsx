@@ -1,4 +1,4 @@
-import { FC, useState, useContext, useEffect } from 'react';
+import { FunctionComponent, useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -68,12 +68,13 @@ const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
 
 const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
   as: `h${props.level}`,
-  className: font('intb', 3),
+  className: font('wb', 3),
   v: { size: 's', properties: ['margin-bottom'] },
 }))<{ level: number }>``;
 
 const Tombstone = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-right'] },
+  className: font('intr', 4),
+  h: { size: 'l', properties: ['padding-right'] },
 })`
   flex-basis: 100%;
   margin-bottom: 1em;
@@ -84,7 +85,7 @@ const Tombstone = styled(Space).attrs({
   `}
 
   ${props => props.theme.media('large')`
-    flex-basis: 25%;
+    flex-basis: 30%;
   `}
 
   p {
@@ -101,12 +102,12 @@ const CaptionTranscription = styled.div`
   `}
 
   ${props => props.theme.media('large')`
-    flex-basis: 75%;
+    flex-basis: 70%;
   `}
 `;
 
 const Caption = styled(Space).attrs({
-  className: `spaced-text ${font('intr', 4)}`,
+  className: `spaced-text ${font('intr', 5)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 20px solid ${props => props.theme.color('lightYellow')};
@@ -118,6 +119,7 @@ const PrismicImageWrapper = styled.div`
 `;
 
 const Transcription = styled(Space).attrs({
+  className: `spaced-text ${font('intr', 5)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
@@ -157,7 +159,7 @@ function calculateTombstoneHeadingLevel(titlesUsed) {
   }
 }
 
-const Stop: FC<{
+const Stop: FunctionComponent<{
   stop: Stop;
   isFirstStop: boolean;
   titlesUsed: {
@@ -322,7 +324,7 @@ const Stop: FC<{
   );
 };
 
-const ExhibitionCaptions: FC<Props> = ({ stops }) => {
+const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
   const titlesUsed = {
     standalone: false,
     context: false,

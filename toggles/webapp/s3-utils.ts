@@ -4,9 +4,14 @@ import {
   PutObjectCommandOutput,
   S3Client,
 } from '@aws-sdk/client-s3';
+import {
+  CloudFrontClient,
+  CreateInvalidationCommand,
+} from '@aws-sdk/client-cloudfront';
+import { getCreds } from '@weco/ts-aws/sts';
 import { Readable } from 'stream';
 import { TogglesResp } from '.';
-import { bucket, key } from './config';
+import { bucket, key, region } from './config';
 
 // see: https://github.com/aws/aws-sdk-js-v3/issues/1877
 async function streamToString(stream: Readable): Promise<string> {
@@ -34,7 +39,7 @@ export async function getTogglesObject(client: S3Client): Promise<TogglesResp> {
 }
 
 export async function putTogglesObject(
-  client: S3Client,
+  s3Client: S3Client,
   obj: TogglesResp
 ): Promise<PutObjectCommandOutput> {
   const putObjectCommand = new PutObjectCommand({
@@ -45,7 +50,20 @@ export async function putTogglesObject(
     ContentType: 'application/json',
   });
 
-  const response = await client.send(putObjectCommand);
+  const response = await s3Client.send(putObjectCommand);
+
+  // create an invalidation on the object
+  const credentials = await getCreds('experience', 'admin');
+  const cloudFrontClient = new CloudFrontClient({ region, credentials });
+  const command = new CreateInvalidationCommand({
+    DistributionId: 'E34PPJX23D6HKG',
+    InvalidationBatch: {
+      Paths: { Items: [`/${key}`], Quantity: 1 },
+      CallerReference: `TogglesInvalidationCallerReference${Date.now()}`,
+    },
+  });
+  const cloudFrontResponse = await cloudFrontClient.send(command);
+  console.info(cloudFrontResponse);
 
   return response;
 }

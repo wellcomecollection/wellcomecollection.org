@@ -1,4 +1,4 @@
-import { useContext, ReactElement, FC } from 'react';
+import { useContext, ReactElement, FunctionComponent } from 'react';
 import { chevron } from '@weco/common/icons';
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
@@ -62,7 +62,11 @@ type Props = {
   children: ReactElement<'select'>;
 };
 
-const SelectContainer: FC<Props> = ({ label, hideLabel, children }) => {
+const SelectContainer: FunctionComponent<Props> = ({
+  label,
+  hideLabel,
+  children,
+}) => {
   const { isKeyboard } = useContext(AppContext);
   const isFontsLoaded = useIsFontsLoaded();
 

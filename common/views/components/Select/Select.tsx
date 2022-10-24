@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FunctionComponent } from 'react';
 import SelectContainer from '../SelectContainer/SelectContainer';
 
 export type SelectOption = {
@@ -15,7 +15,7 @@ type Props = {
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 
-const Select: FC<Props> = ({
+const Select: FunctionComponent<Props> = ({
   name,
   label,
   hideLabel,

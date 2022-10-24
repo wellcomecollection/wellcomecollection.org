@@ -44,11 +44,14 @@ export function getTokenService(
 
 export function getAudio(manifest: Manifest): Audio {
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
-  const title = canvases.find(c => c?.label?.en)?.[0];
+  const firstEnCanvas = canvases.find(c => c?.label?.en);
+  const title = firstEnCanvas?.label
+    ? getEnFromInternationalString(firstEnCanvas.label)
+    : '';
   const audioTypes = ['Audio', 'Sound'];
   const sounds = canvases
     .map(c => {
-      const title = c?.label?.en?.[0];
+      const title = c?.label && getEnFromInternationalString(c.label);
       const annotationPage = c?.items?.find(i => i.type === 'AnnotationPage');
       const annotation = annotationPage?.items?.find(
         i => i.type === 'Annotation'
@@ -134,4 +137,10 @@ export function getPDF(
       format: format || '',
     };
   }
+}
+
+export function getTitle(label: InternationalString | string): string {
+  if (typeof label === 'string') return label;
+
+  return getEnFromInternationalString(label);
 }

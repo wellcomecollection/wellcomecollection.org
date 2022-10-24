@@ -1,5 +1,5 @@
 import { setCookie } from 'cookies-next';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import {
   britishSignLanguage,
@@ -38,7 +38,10 @@ function cookieHandler(key: string, data: string) {
   setCookie(key, data, options);
 }
 
-const ExhibitionGuideLinks: FC<Props> = ({ pathname, availableTypes }) => {
+const ExhibitionGuideLinks: FunctionComponent<Props> = ({
+  pathname,
+  availableTypes,
+}) => {
   return (
     <TypeList>
       {availableTypes.audioWithoutDescriptions && (
