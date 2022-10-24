@@ -8,6 +8,7 @@ import {
   IIIFExternalWebResource,
   InternationalString,
   Manifest,
+  MetadataItem,
   Service,
 } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -76,4 +77,23 @@ export function getTitle(label: InternationalString | string): string {
   if (typeof label === 'string') return label;
 
   return getEnFromInternationalString(label);
+}
+
+export function getIIIFMetadata(
+  manifest: Manifest,
+  label: string
+): MetadataItem | undefined {
+  return (manifest.metadata || []).find(
+    data => getEnFromInternationalString(data.label) === label
+  );
+}
+
+export function getIIIFPresentationCredit(
+  manifest: Manifest
+): string | undefined {
+  const attribution = getIIIFMetadata(manifest, 'Attribution and usage');
+  const maybeValueWithBrTags =
+    attribution?.value && getEnFromInternationalString(attribution.value);
+
+  return maybeValueWithBrTags?.split('<br />')[0];
 }
