@@ -22,7 +22,7 @@ type Props = {
   hasDivider?: boolean;
 };
 
-const TabNav: FunctionComponent<Props> = ({
+const SubNavigation: FunctionComponent<Props> = ({
   label,
   items,
   variant,
@@ -32,19 +32,31 @@ const TabNav: FunctionComponent<Props> = ({
   return (
     <Wrapper aria-label={label}>
       <TabsContainer>
-        {items.map(item => (
-          <Tab key={item.id}>
-            <Link scroll={false} passHref href={item.url}>
-              <NavItemInner
-                variant={variant}
-                selected={currentSection === item.id}
-                aria-current={currentSection === item.id ? 'page' : 'false'}
-              >
-                {item.name}
-              </NavItemInner>
-            </Link>
-          </Tab>
-        ))}
+        {items.map(item => {
+          const isSelected = currentSection === item.id;
+          return (
+            <Tab key={item.id}>
+              <Link scroll={false} passHref href={item.url}>
+                <NavItemInner
+                  variant={variant}
+                  selected={isSelected}
+                  aria-current={isSelected ? 'page' : 'false'}
+                  onClick={e => {
+                    if (!isSelected) {
+                      (e.target as HTMLDivElement).scrollIntoView({
+                        behavior: 'smooth',
+                        inline: 'center',
+                        block: 'nearest',
+                      });
+                    }
+                  }}
+                >
+                  {item.name}
+                </NavItemInner>
+              </Link>
+            </Tab>
+          );
+        })}
       </TabsContainer>
 
       {hasDivider && <Divider color="neutral.300" />}
@@ -52,4 +64,4 @@ const TabNav: FunctionComponent<Props> = ({
   );
 };
 
-export default TabNav;
+export default SubNavigation;
