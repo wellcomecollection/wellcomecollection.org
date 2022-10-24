@@ -125,12 +125,12 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           url: { pathname: '/search/images', query: router.query },
         });
         break;
-      case 'collections':
+      case 'catalogue':
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: 'copy pending',
-          title: `${query ? `${query} | ` : ''}Collections Search`,
-          url: { pathname: '/search/collections', query: router.query },
+          title: `${query ? `${query} | ` : ''}Catalogue Search`,
+          url: { pathname: '/search/catalogue', query: router.query },
         });
         break;
 
@@ -205,13 +205,13 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               </Link>
             </NavItem>
             <NavItem>
-              <Link scroll={false} passHref href="/search/collections">
+              <Link scroll={false} passHref href="/search/catalogue">
                 <NavLink
                   aria-current={
-                    currentSearchCategory === 'collections' ? 'page' : 'false'
+                    currentSearchCategory === 'catalogue' ? 'page' : 'false'
                   }
                 >
-                  Collections
+                  Catalogue
                 </NavLink>
               </Link>
             </NavItem>
