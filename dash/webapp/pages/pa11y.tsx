@@ -89,6 +89,9 @@ const Index: FunctionComponent = () => {
     })
     .sort((a, b) => b.score - a.score);
 
+  const successes = results.filter(({ score }) => score === 0);
+  const failures = results.filter(({ score }) => score > 0);
+
   return (
     <>
       <Head>
@@ -105,10 +108,11 @@ const Index: FunctionComponent = () => {
             style={{
               maxWidth: '600px',
               margin: '0 auto',
+              lineHeight: '1.3em',
             }}
           >
             <main>
-              {results.map(
+              {failures.map(
                 ({
                   documentTitle,
                   pageUrl,
@@ -132,41 +136,31 @@ const Index: FunctionComponent = () => {
                             marginBottom: '6px',
                           }}
                         >
-                          {documentTitle}
+                          {documentTitle.replace('| Wellcome Collection', '')}
                         </h3>
                       </OriginalPageLink>
-                      <div
-                        style={{
-                          display: 'flex',
-                        }}
-                      >
-                        {issues.length === 0 ? (
-                          <Issue type="success">No issues reported</Issue>
-                        ) : (
-                          issues.length > 1 && (
-                            <>
-                              {errors.length > 0 && (
-                                <Issue type="error">
-                                  {errors.length} error
-                                  {errors.length !== 1 ? 's' : ''}
-                                </Issue>
-                              )}
-                              {warnings.length > 0 && (
-                                <Issue type="error">
-                                  {warnings.length} warning
-                                  {warnings.length !== 1 ? 's' : ''}
-                                </Issue>
-                              )}
-                              {notices.length > 0 && (
-                                <Issue type="error">
-                                  {notices.length} notice
-                                  {notices.length !== 1 ? 's' : ''}
-                                </Issue>
-                              )}
-                            </>
-                          )
-                        )}
-                      </div>
+                      {issues.length > 1 && (
+                        <>
+                          {errors.length > 0 && (
+                            <Issue type="error">
+                              {errors.length} error
+                              {errors.length !== 1 ? 's' : ''}
+                            </Issue>
+                          )}
+                          {warnings.length > 0 && (
+                            <Issue type="error">
+                              {warnings.length} warning
+                              {warnings.length !== 1 ? 's' : ''}
+                            </Issue>
+                          )}
+                          {notices.length > 0 && (
+                            <Issue type="error">
+                              {notices.length} notice
+                              {notices.length !== 1 ? 's' : ''}
+                            </Issue>
+                          )}
+                        </>
+                      )}
 
                       {issues.map(issue => {
                         return (
@@ -192,6 +186,31 @@ const Index: FunctionComponent = () => {
                     </section>
                   );
                 }
+              )}
+
+              {successes.length > 0 && (
+                <section
+                  key="successes"
+                  style={{
+                    marginTop: '18px',
+                    padding: '6px 0',
+                    borderTop: '1px solid #d9d6ce',
+                  }}
+                >
+                  <Issue type="success">
+                    No issues reported on the following pages.
+                  </Issue>
+
+                  <ul>
+                    {successes.map(({ pageUrl, documentTitle }) => (
+                      <li key={pageUrl}>
+                        <OriginalPageLink href={pageUrl}>
+                          {documentTitle.replace('| Wellcome Collection', '')}
+                        </OriginalPageLink>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               )}
             </main>
           </div>
