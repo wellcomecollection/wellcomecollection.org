@@ -82,57 +82,56 @@ type Rendering = {
   id?: string;
   format?: string;
   label?: string | InternationalString;
-}[];
+};
 
 export function getDownloadOptionsFromManifest(
-  iiifManifest: Manifest
+  iiifManifest: Manifest | undefined
 ): DownloadOption[] {
   // The ContentResource type on the Manifest, which applies to the iiifManifest.rendering seems incorrect
   // Temporarily adding this until it is fixed.
-  const rendering = (iiifManifest?.rendering as Rendering) || [];
-  return (
-    rendering
-      .filter(({ id, format }) => {
-        // I'm removing application/zip (for now?) as we haven't had these before
-        // and the example I've seen is 404ing:
-        // (Work) https://wellcomecollection.org/works/mg56yqa4 ->
-        // (Catalogue response) https://api.wellcomecollection.org/catalogue/v2/works/mg56yqa4?include=items ->
-        // (V3 Manifest) https://iiif.wellcomecollection.org/presentation/v3/b10326947
-        // (rendering - application/zip) https://api.wellcomecollection.org/text/v1/b10326947.zip (returns 404)
-        // For details of why we remove text/plain see https://github.com/wellcomecollection/wellcomecollection.org/issues/7592
-        return id && format !== 'application/zip' && format !== 'text/plain';
-      })
-      .map(({ id, format, label }) => {
-        return {
-          id,
-          label: transformLabel(label) || 'Download file',
-          format,
-        } as DownloadOption;
-      }) || []
-  );
+  const rendering = (iiifManifest?.rendering as Rendering[]) || [];
+  return rendering
+    .filter(({ id, format }) => {
+      // I'm removing application/zip (for now?) as we haven't had these before
+      // and the example I've seen is 404ing:
+      // (Work) https://wellcomecollection.org/works/mg56yqa4 ->
+      // (Catalogue response) https://api.wellcomecollection.org/catalogue/v2/works/mg56yqa4?include=items ->
+      // (V3 Manifest) https://iiif.wellcomecollection.org/presentation/v3/b10326947
+      // (rendering - application/zip) https://api.wellcomecollection.org/text/v1/b10326947.zip (returns 404)
+      // For details of why we remove text/plain see https://github.com/wellcomecollection/wellcomecollection.org/issues/7592
+      return id && format !== 'application/zip' && format !== 'text/plain';
+    })
+    .map(({ id, format, label }) => {
+      return {
+        id,
+        label: transformLabel(label) || 'Download file',
+        format,
+      } as DownloadOption;
+    });
 }
 
-export function getPDF(iiifManifest: Manifest): DownloadOption | undefined {
-  const allAnnotations = iiifManifest.items
-    .map(item => item.annotations)
-    .flat();
-  const allItems = allAnnotations.map(annotation => annotation?.items).flat();
-  const pdfItem = allItems.find(item => {
-    // The ContentResource type on the Manifest, which applies to the iiifManifest.rendering seems incorrect
-    // Temporarily adding this until it is fixed.
+export function getPDF(
+  iiifManifest: Manifest | undefined
+): DownloadOption | undefined {
+  const allAnnotations = iiifManifest?.items
+    ?.map(item => item.annotations)
+    ?.flat();
+  const allItems = allAnnotations?.map(annotation => annotation?.items).flat();
+  // The Annotation[] type on the Manifest, which applies to pdfItem seems incorrect
+  // Temporarily using Rendering this until it is fixed.
+  const pdfItem = allItems?.find(item => {
     const body = (
       Array.isArray(item?.body) ? item?.body[0] : item?.body
     ) as Rendering;
-    return body?.format === 'application/pdf'; // TODO type format does not exist on type rendering? eh?
+    return body?.format === 'application/pdf';
   });
-  const { id, label, format } = pdfItem?.body || {};
+  const pdfItemBody = pdfItem?.body || {};
+  const { id, label, format } = pdfItemBody as Rendering;
   if (id) {
     return {
       id,
-      label: label?.en?.[0] || 'Download file',
-      format,
+      label: transformLabel(label) || 'Download file',
+      format: format || '',
     };
   }
 }
-
-// TODO create examples of where types erroring

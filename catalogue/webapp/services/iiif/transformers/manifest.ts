@@ -63,11 +63,8 @@ export function transformManifest(
   // V3
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
-  const downloadOptions = manifestV3
-    ? getDownloadOptionsFromManifest(manifestV3)
-    : [];
-
-  const pdf = manifestV3 && getPDF(manifestV3);
+  const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
+  const pdf = getPDF(manifestV3);
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
@@ -79,11 +76,6 @@ export function transformManifest(
     video,
     iiifCredit,
     downloadEnabled,
-    downloadOptions: [...downloadOptions, pdf].filter(
-      Boolean
-    ) as DownloadOption[], // We add the PDF for items that are PDFs, otherwise they'd have no download option
-    firstCollectionManifestLocation,
-    pdf: pdf,
     authService,
     tokenService,
     isAnyImageOpen,
@@ -98,5 +90,10 @@ export function transformManifest(
     // Taken from V3 manifest:
     audio,
     services,
+    downloadOptions: [...downloadOptions, pdf].filter(
+      Boolean
+    ) as DownloadOption[], // We add the PDF for items that are PDFs, otherwise they'd have no download option
+    firstCollectionManifestLocation,
+    pdf: pdf,
   };
 }
