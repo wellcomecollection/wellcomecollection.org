@@ -1,5 +1,5 @@
 import { palette } from '../../views/components/PaletteColorPicker/PaletteColorPicker';
-import { CatalogueResultsList, Work, Image } from '../../model/catalogue';
+import { WorkAggregations, ImageAggregations } from '../../model/catalogue';
 import { quoteVal } from '../../utils/csv';
 import { toHtmlId } from '../../utils/string';
 import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
@@ -114,12 +114,12 @@ export const filterLabel = ({
 }): string => (count ? `${label} (${count})` : label);
 
 type WorksFilterProps = {
-  works: CatalogueResultsList<Work>;
+  works: { aggregations?: WorkAggregations };
   props: WorksProps;
 };
 
 type ImagesFilterProps = {
-  images: CatalogueResultsList<Image>;
+  images: { aggregations?: ImageAggregations };
   props: ImagesProps;
 };
 

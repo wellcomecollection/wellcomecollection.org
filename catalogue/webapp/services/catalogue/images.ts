@@ -2,6 +2,7 @@ import {
   CatalogueApiError,
   CatalogueResultsList,
   Image,
+  ImageAggregations,
 } from '@weco/common/model/catalogue';
 import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/api';
 import {
@@ -46,7 +47,7 @@ type GetImageProps = {
  */
 export async function getImages(
   props: QueryProps<CatalogueImagesApiProps>
-): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
+): Promise<CatalogueResultsList<Image, ImageAggregations> | CatalogueApiError> {
   const params: ImagesProps = {
     ...emptyImagesProps,
     ...props.params,

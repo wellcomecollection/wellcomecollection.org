@@ -10,7 +10,11 @@ import styled from 'styled-components';
 
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { hexToRgb } from '@weco/common/utils/convert-colors';
-import { Image, CatalogueResultsList } from '@weco/common/model/catalogue';
+import {
+  Image,
+  CatalogueResultsList,
+  ImageAggregations,
+} from '@weco/common/model/catalogue';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
@@ -19,7 +23,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
-  images: CatalogueResultsList<Image>;
+  images: CatalogueResultsList<Image, ImageAggregations>;
   background?: string;
 };
 

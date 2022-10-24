@@ -243,8 +243,8 @@ type ArchiveLabels = {
   partOf?: string;
 };
 
-export const isAvailableOnline = (work: Work): boolean =>
-  (work.availabilities ?? []).some(({ id }) => id === 'online');
+const isAvailableOnline = (availabilities: { id: string }[]): boolean =>
+  (availabilities ?? []).some(({ id }) => id === 'online');
 
 const getArchiveRoot = (work: RelatedWork): RelatedWork =>
   work?.partOf?.[0] ? getArchiveRoot(work.partOf[0]) : work;
@@ -260,9 +260,12 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   return undefined;
 };
 
-export const getCardLabels = (work: Work): Label[] => {
-  const cardLabels = [{ text: work.workType.label }];
-  if (isAvailableOnline(work)) {
+export const getCardLabels = (
+  workType: { label: string },
+  availabilities: { id: string }[]
+): Label[] => {
+  const cardLabels = [{ text: workType.label }];
+  if (isAvailableOnline(availabilities)) {
     return [...cardLabels, { text: 'Online', labelColor: 'white' }];
   } else {
     return cardLabels;

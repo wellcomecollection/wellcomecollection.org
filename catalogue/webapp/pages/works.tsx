@@ -24,12 +24,17 @@ import {
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
-import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
+import {
+  CatalogueResultsList,
+  WorkAggregations,
+} from '@weco/common/model/catalogue';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import styled from 'styled-components';
+import { WorkBasic } from '../services/catalogue/types/works';
+import { transformWorkToWorkBasic } from 'services/catalogue/transformers/works';
 
 type Props = {
-  works: CatalogueResultsList<Work>;
+  works: CatalogueResultsList<WorkBasic, WorkAggregations>;
   worksRouteProps: WorksRouteProps;
   pageview: Pageview;
 };
@@ -286,19 +291,24 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       aggregations,
     };
 
-    const works = await getWorks({
+    const worksResponse = await getWorks({
       params: worksApiProps,
       pageSize: 25,
       toggles: serverData.toggles,
     });
 
-    if (works.type === 'Error') {
+    if (worksResponse.type === 'Error') {
       return appError(
         context,
-        works.httpStatus,
-        works.description || works.label
+        worksResponse.httpStatus,
+        worksResponse.description || worksResponse.label
       );
     }
+
+    const works = {
+      ...worksResponse,
+      results: worksResponse.results.map(transformWorkToWorkBasic),
+    };
 
     return {
       props: removeUndefinedProps({
@@ -307,7 +317,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         serverData,
         pageview: {
           name: 'works',
-          properties: works ? { totalResults: works.totalResults } : {},
+          properties: { totalResults: works.totalResults },
         },
       }),
     };

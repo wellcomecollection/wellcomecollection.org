@@ -4,6 +4,7 @@ import {
   CatalogueResultsList,
   ItemsList,
   Work,
+  WorkAggregations,
 } from '@weco/common/model/catalogue';
 import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
@@ -98,7 +99,7 @@ function toIsoDateString(
  */
 export async function getWorks(
   props: QueryProps<CatalogueWorksApiProps>
-): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
+): Promise<CatalogueResultsList<Work, WorkAggregations> | CatalogueApiError> {
   const params: WorksProps = {
     ...emptyWorksProps,
     ...props.params,

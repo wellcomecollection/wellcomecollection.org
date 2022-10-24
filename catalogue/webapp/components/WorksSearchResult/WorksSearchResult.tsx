@@ -1,14 +1,7 @@
 import { FunctionComponent } from 'react';
-
-// Types
-import { Work } from '@weco/common/model/catalogue';
+import { WorkBasic } from 'services/catalogue/types/works';
 
 // Helpers/Utils
-import {
-  getArchiveLabels,
-  getProductionDates,
-  getCardLabels,
-} from '../../utils/works';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 
 // Components
@@ -26,30 +19,25 @@ import {
   WorkInformationItem,
   WorkTitleHeading,
 } from './WorksSearchResult.styles';
+import { getCardLabels } from 'utils/works';
 
 type Props = {
-  work: Work;
+  work: WorkBasic;
   resultPosition: number;
 };
 
 // TODO: remove, hack to handle the fact that we are pulling through PDF thumbnails.
 // These will be removed from the API at some stage.
-function isPdfThumbnail(thumbnail): boolean {
+function isPdfThumbnail(thumbnailUrl: string): boolean {
   // e.g. https://dlcs.io/iiif-img/wellcome/5/b28820769_WG_2006_PAAG-implementing-persistent-identifiers_EN.pdf/full/!200,200/0/default.jpg
-  return Boolean(thumbnail.url.match('.pdf/full'));
+  return Boolean(thumbnailUrl.match('.pdf/full'));
 }
 
 const WorkSearchResultV2: FunctionComponent<Props> = ({
   work,
   resultPosition,
 }: Props) => {
-  const productionDates = getProductionDates(work);
-  const archiveLabels = getArchiveLabels(work);
-  const cardLabels = getCardLabels(work);
-
-  const primaryContributorLabel = work.contributors.find(
-    contributor => contributor.primary
-  )?.agent.label;
+  const cardLabels = getCardLabels(work.workType, work.availabilities);
 
   return (
     <WorkLink
@@ -60,11 +48,11 @@ const WorkSearchResultV2: FunctionComponent<Props> = ({
     >
       <Wrapper as="a">
         <Container>
-          {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
+          {work.thumbnailUrl && !isPdfThumbnail(work.thumbnailUrl) && (
             <Preview>
               <PreviewImage
                 alt={`view ${work.title}`}
-                src={convertIiifImageUri(work.thumbnail.url, 120)}
+                src={convertIiifImageUri(work.thumbnailUrl, 120)}
               />
             </Preview>
           )}
@@ -80,28 +68,26 @@ const WorkSearchResultV2: FunctionComponent<Props> = ({
             </WorkTitleHeading>
 
             <WorkInformation>
-              {primaryContributorLabel && (
+              {work.primaryContributors.length > 0 && (
                 <WorkInformationItem>
-                  {primaryContributorLabel}
+                  {work.primaryContributors[0].label}
                 </WorkInformationItem>
               )}
 
-              {productionDates.length > 0 && (
+              {work.productionDates.length > 0 && (
                 <WorkInformationItem>
-                  Date:&nbsp;{productionDates[0]}
+                  Date:&nbsp;{work.productionDates[0]}
                 </WorkInformationItem>
               )}
 
-              {archiveLabels?.reference && (
+              {work.reference && (
                 <WorkInformationItem>
-                  Reference:&nbsp;{archiveLabels?.reference}
+                  Reference:&nbsp;{work.reference}
                 </WorkInformationItem>
               )}
             </WorkInformation>
-            {archiveLabels?.partOf && (
-              <WorkInformation>
-                Part of:&nbsp;{archiveLabels?.partOf}
-              </WorkInformation>
+            {work.partOf && (
+              <WorkInformation>Part of:&nbsp;{work.partOf}</WorkInformation>
             )}
           </Details>
         </Container>

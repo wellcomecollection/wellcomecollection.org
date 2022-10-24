@@ -74,10 +74,10 @@ export type QueryProps<Params> = {
   toggles: Toggles;
 };
 
-export async function catalogueQuery<Params, Result extends ResultType>(
+export async function catalogueQuery<Params, Result, Aggregations>(
   endpoint: string,
   { params, toggles, pageSize }: QueryProps<Params>
-): Promise<CatalogueResultsList<Result> | CatalogueApiError> {
+): Promise<CatalogueResultsList<Result, Aggregations> | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
 
   const extendedParams = {

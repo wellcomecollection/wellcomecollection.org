@@ -27,7 +27,8 @@ import {
   Concept as ConceptType,
   IdentifierType,
   Image as ImageType,
-  Work as WorkType,
+  ImageAggregations,
+  WorkAggregations,
 } from '@weco/common/model/catalogue';
 
 // Styles
@@ -37,13 +38,15 @@ import Space from '@weco/common/views/components/styled/Space';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar/ApiToolbar';
+import { transformWorkToWorkBasic } from '../services/catalogue/transformers/works';
+import { WorkBasic } from '../services/catalogue/types/works';
 
 type Props = {
   conceptResponse: ConceptType;
-  worksAbout: CatalogueResultsList<WorkType> | undefined;
-  worksBy: CatalogueResultsList<WorkType> | undefined;
-  imagesAbout: CatalogueResultsList<ImageType> | undefined;
-  imagesBy: CatalogueResultsList<ImageType> | undefined;
+  worksAbout: CatalogueResultsList<WorkBasic, WorkAggregations> | undefined;
+  worksBy: CatalogueResultsList<WorkBasic, WorkAggregations> | undefined;
+  imagesAbout: CatalogueResultsList<ImageType, ImageAggregations> | undefined;
+  imagesBy: CatalogueResultsList<ImageType, ImageAggregations> | undefined;
   apiToolbarLinks: ApiToolbarLink[];
 };
 
@@ -432,9 +435,19 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     ]);
 
     const worksAbout =
-      worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
+      worksAboutResponse.type === 'Error'
+        ? undefined
+        : {
+            ...worksAboutResponse,
+            results: worksAboutResponse.results.map(transformWorkToWorkBasic),
+          };
     const worksBy =
-      worksByResponse.type === 'Error' ? undefined : worksByResponse;
+      worksByResponse.type === 'Error'
+        ? undefined
+        : {
+            ...worksByResponse,
+            results: worksByResponse.results.map(transformWorkToWorkBasic),
+          };
     const imagesAbout =
       imagesAboutResponse.type === 'Error' ? undefined : imagesAboutResponse;
     const imagesBy =

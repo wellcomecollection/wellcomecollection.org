@@ -1,10 +1,14 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
-import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
+import {
+  CatalogueResultsList,
+  WorkAggregations,
+} from '@weco/common/model/catalogue';
+import { WorkBasic } from '../../services/catalogue/types/works';
 
 type Props = {
-  works: CatalogueResultsList<Work>;
+  works: CatalogueResultsList<WorkBasic, WorkAggregations>;
 };
 
 const SearchResultUnorderedList = styled.ul`

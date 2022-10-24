@@ -328,11 +328,9 @@ export type ImageAggregations = {
   type: 'Aggregations';
 };
 
-type ConceptAggregations = null;
-
 export type ResultType = Work | Image | Concept;
 
-export type CatalogueResultsList<Result extends ResultType> = {
+export type CatalogueResultsList<Result, Aggregation> = {
   type: 'ResultList';
   totalResults: number;
   totalPages: number;
@@ -340,13 +338,7 @@ export type CatalogueResultsList<Result extends ResultType> = {
   pageSize: number;
   prevPage: string | null;
   nextPage: string | null;
-  aggregations?: Result extends Work
-    ? WorkAggregations
-    : Result extends Image
-    ? ImageAggregations
-    : Result extends Concept
-    ? ConceptAggregations
-    : null;
+  aggregations?: Aggregation;
 
   // We include the URL used to fetch data from the catalogue API for
   // debugging purposes.

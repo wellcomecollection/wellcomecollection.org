@@ -52,6 +52,6 @@ export async function getConcept({
 
 export async function getConcepts(
   props: QueryProps<CatalogueConceptsApiProps>
-): Promise<CatalogueResultsList<Concept> | CatalogueApiError> {
+): Promise<CatalogueResultsList<Concept, null> | CatalogueApiError> {
   return catalogueQuery('concepts', props);
 }

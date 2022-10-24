@@ -30,7 +30,7 @@ const WorkHeader: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
-  const cardLabels = getCardLabels(work);
+  const cardLabels = getCardLabels(work.workType, work.availabilities || []);
   const manifestData = useTransformedManifest(work);
   const { collectionManifestsCount } = manifestData;
 

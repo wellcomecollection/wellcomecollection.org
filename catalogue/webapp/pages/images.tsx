@@ -2,7 +2,11 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
-import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
+import {
+  CatalogueResultsList,
+  Image,
+  ImageAggregations,
+} from '@weco/common/model/catalogue';
 import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
@@ -28,7 +32,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import styled from 'styled-components';
 
 type Props = {
-  images?: CatalogueResultsList<Image>;
+  images?: CatalogueResultsList<Image, ImageAggregations>;
   imagesRouteProps: ImagesProps;
   pageview: Pageview;
 };
@@ -36,7 +40,7 @@ type Props = {
 type ImagesPaginationProps = {
   query?: string;
   page: number;
-  results: CatalogueResultsList<Image>;
+  results: CatalogueResultsList<Image, ImageAggregations>;
   imagesRouteProps: ImagesProps;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;

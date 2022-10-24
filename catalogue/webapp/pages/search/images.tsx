@@ -24,11 +24,15 @@ import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 
 // Types
-import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
+import {
+  CatalogueResultsList,
+  Image,
+  ImageAggregations,
+} from '@weco/common/model/catalogue';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 
 type Props = {
-  images?: CatalogueResultsList<Image>;
+  images?: CatalogueResultsList<Image, ImageAggregations>;
   imagesRouteProps: ImagesProps;
   pageview: Pageview;
 };
