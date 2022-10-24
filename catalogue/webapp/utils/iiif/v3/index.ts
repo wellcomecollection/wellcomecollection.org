@@ -113,7 +113,7 @@ export function getDownloadOptionsFromManifest(
     });
 }
 
-export function getPDF(
+export function getPdf(
   iiifManifest: Manifest | undefined
 ): DownloadOption | undefined {
   const allAnnotations = iiifManifest?.items

@@ -19,7 +19,7 @@ import {
 import {
   getAudio,
   getDownloadOptionsFromManifest,
-  getPDF,
+  getPdf,
   getTitle,
 } from '../../../utils/iiif/v3';
 
@@ -66,7 +66,7 @@ export function transformManifest(
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
-  const pdf = getPDF(manifestV3);
+  const pdf = getPdf(manifestV3);
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
