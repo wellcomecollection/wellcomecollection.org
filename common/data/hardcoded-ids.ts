@@ -3,12 +3,6 @@
 
 export const homepageId = 'XphUbREAACMAgRNP';
 
-// The ID of the series that's featured on the /stories page.
-//
-// Ideally, this should be configurable in Prismic or by the content team,
-// to take devs out of the loop.
-export const featuredStoriesSeriesId = 'YnjwNRAAACIAHakp';
-
 export const collectionVenueId = {
   galleries: {
     id: 'Wsttgx8AAJeSNmJ4',
@@ -39,7 +33,6 @@ export const prismicPageIds = {
   collections: 'YBfeAhMAACEAqBTx',
   whatsOn: 'YD_IQxAAACUAK6HG',
   getInvolved: 'YDaZmxMAACIAT9u8',
-  stories: 'YD_E-BAAACEAK5LX',
   aboutUs: 'Wuw2MSIAACtd3Stq',
   copyrightClearance: 'YGSEhxAAACgAXL4E',
   register: 'X_2eexEAACQAZLBi',
