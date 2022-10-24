@@ -1,8 +1,12 @@
-import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import styled from 'styled-components';
+
+import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
+import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
+import Space from '@weco/common/views/components/styled/Space';
+
 import { pageDescriptions } from '@weco/common/data/microcopy';
 
 const NavBar = styled.nav`
@@ -138,7 +142,9 @@ const SearchLayout: FunctionComponent = ({ children }) => {
   return (
     <CataloguePageLayout {...pageLayoutMetadata}>
       <div className="container">
-        <input placeholder="search..." type="search" />
+        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+          <SearchBar type={currentSearchCategory} />
+        </Space>
       </div>
       <NavBar aria-label="Search Categories">
         <div className="container">
