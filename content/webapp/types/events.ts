@@ -2,11 +2,10 @@ import { Contributor } from './contributors';
 import { GenericContentFields } from './generic-content-fields';
 import { Format } from './format';
 import { LabelField } from '@weco/common/model/label-field';
-import { Place } from './places';
+import { Place, PlaceBasic } from './places';
 import { Season } from './seasons';
 import { Label } from '@weco/common/model/labels';
 import { ImagePromo } from './image-promo';
-import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
 import { EventSeriesBasic } from './event-series';
 
@@ -83,9 +82,8 @@ export type EventBasic = HasTimes & {
   isPast: boolean;
   primaryLabels: Label[];
   secondaryLabels: Label[];
-  image?: ImageType;
   isOnline: boolean;
-  locations: Place[];
+  locations: PlaceBasic[];
   availableOnline: boolean;
   scheduleLength: number;
   series: EventSeriesBasic[];

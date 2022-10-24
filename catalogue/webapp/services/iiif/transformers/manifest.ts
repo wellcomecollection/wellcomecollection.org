@@ -34,9 +34,7 @@ export function transformManifest(
   const id = manifestV2 ? manifestV2['@id'] : '';
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
   const canvasCount = canvases.length;
-  const collectionManifestsCount = manifestV2?.manifests
-    ? manifestV2.manifests.length
-    : 0;
+
   const video = manifestV2 && getVideo(manifestV2);
   const iiifCredit = manifestV2 && getIIIFPresentationCredit(manifestV2);
   const downloadEnabled = manifestV2
@@ -67,13 +65,13 @@ export function transformManifest(
   const services = manifestV3?.services || [];
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
   const pdf = getPdf(manifestV3);
+  const collectionManifestsCount = manifestV3?.items?.length || 0;
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
     // Taken from V2 manifest:
     id,
     canvasCount,
-    collectionManifestsCount,
     video,
     iiifCredit,
     downloadEnabled,
@@ -97,5 +95,6 @@ export function transformManifest(
     ) as DownloadOption[], // We add the PDF for items that are PDFs, otherwise they'd have no download option
     firstCollectionManifestLocation,
     pdf: pdf,
+    collectionManifestsCount,
   };
 }

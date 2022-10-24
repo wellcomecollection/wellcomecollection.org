@@ -18,7 +18,11 @@ import {
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
-import { Venue } from '@weco/common/model/opening-hours';
+import {
+  ExceptionalOpeningHoursDay,
+  OpeningHoursDay,
+  Venue,
+} from '@weco/common/model/opening-hours';
 import { Weight } from '../../types/body';
 
 const VenueHoursImage = styled(Space)`
@@ -84,12 +88,69 @@ const DayOfWeek = styled.div`
   width: 100px;
 `;
 
+export const OverrideDay = styled.div`
+  display: inline-block;
+  width: 200px;
+`;
+
 const OpeningHours = styled.ul.attrs({
   className: `no-margin ${font('intr', 5)}`,
 })`
   list-style: none;
   padding: 0;
 `;
+
+export const DifferentToRegularTime = styled.span`
+  font-weight: bold;
+`;
+
+type UnusualOpeningHoursProps = {
+  regular: OpeningHoursDay;
+  exceptional: ExceptionalOpeningHoursDay;
+};
+
+/** This components highlights when our unusual opening hours differ from
+ * our regular hours.
+ */
+export const UnusualOpeningHours: FunctionComponent<UnusualOpeningHoursProps> =
+  ({ regular, exceptional }) => (
+    <>
+      <OverrideDay>
+        {formatDayName(exceptional.overrideDate)}{' '}
+        {formatDayMonth(exceptional.overrideDate)}
+      </OverrideDay>{' '}
+      {/* Case 1: the venue is closed, and would have been on a regular day */}
+      {exceptional.isClosed && regular.isClosed && 'Closed'}
+      {/* Case 2: the venue is closed, and wouldn't be on a regular day */}
+      {exceptional.isClosed && !regular.isClosed && (
+        <DifferentToRegularTime>Closed</DifferentToRegularTime>
+      )}
+      {/* Case 3: the venue is open, but would normally be closed */}
+      {!exceptional.isClosed && regular.isClosed && (
+        <DifferentToRegularTime>
+          {exceptional.opens} – {exceptional.closes}
+        </DifferentToRegularTime>
+      )}
+      {/* Case 4: the venue is open */}
+      {!exceptional.isClosed && !regular.isClosed && (
+        <>
+          {exceptional.opens !== regular.opens ? (
+            <DifferentToRegularTime>{exceptional.opens}</DifferentToRegularTime>
+          ) : (
+            exceptional.opens
+          )}
+          {' – '}
+          {exceptional.closes !== regular.closes ? (
+            <DifferentToRegularTime>
+              {exceptional.closes}
+            </DifferentToRegularTime>
+          ) : (
+            exceptional.closes
+          )}
+        </>
+      )}
+    </>
+  );
 
 type Props = {
   venue: Venue;
@@ -199,13 +260,23 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                   The year is omitted because these periods are only displayed when they're
                   happening imminently (within a few weeks), and so the year is unambiguous.
                  */}
-                {upcomingExceptionalPeriod.map(p => (
-                  <li key={p.overrideDate?.toString()}>
-                    {p.overrideDate && formatDayName(p.overrideDate)}{' '}
-                    {p.overrideDate && formatDayMonth(p.overrideDate)}{' '}
-                    {p.isClosed ? 'Closed' : `${p.opens} – ${p.closes}`}
-                  </li>
-                ))}
+                {upcomingExceptionalPeriod.map(exceptional => {
+                  const regular = venue.openingHours.regular
+                    .filter(
+                      ({ dayOfWeek }) =>
+                        dayOfWeek === formatDayName(exceptional.overrideDate)
+                    )
+                    .find(_ => _)!;
+
+                  return (
+                    <li key={exceptional.overrideDate.toString()}>
+                      <UnusualOpeningHours
+                        regular={regular}
+                        exceptional={exceptional}
+                      />
+                    </li>
+                  );
+                })}
               </OpeningHours>
             </JauntyBox>
             <br />

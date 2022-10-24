@@ -9,7 +9,6 @@ import { Resource } from './resource';
 import { Season } from './seasons';
 import { ImagePromo } from './image-promo';
 import { Label } from '@weco/common/model/labels';
-import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
 
 // e.g. 'Permanent'
@@ -25,7 +24,7 @@ export type ExhibitionBasic = {
   type: 'exhibitions';
   id: string;
   title: string;
-  promo?: ImagePromo | undefined;
+  promo?: ImagePromo;
   format?: ExhibitionFormat;
   start: Date;
   end?: Date;
@@ -33,7 +32,6 @@ export type ExhibitionBasic = {
   statusOverride?: string;
   contributors: ContributorBasic[];
   labels: Label[];
-  image?: ImageType;
   hideStatus?: boolean;
 };
 
