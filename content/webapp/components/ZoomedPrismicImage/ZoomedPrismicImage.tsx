@@ -1,4 +1,10 @@
-import { FC, RefObject, useEffect, useState, useRef } from 'react';
+import {
+  FunctionComponent,
+  RefObject,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { expand, cross } from '@weco/common/icons';
@@ -6,7 +12,6 @@ import { ImageType } from '@weco/common/model/image';
 import LL from '@weco/common/views/components/styled/LL';
 import Image from 'next/image';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { useToggles } from '@weco/common/server-data/Context';
 import { trackEvent } from '@weco/common/utils/ga';
 
 const ZoomButton = styled.button`
@@ -74,8 +79,9 @@ type ZoomedPrismicImageProps = {
   image: ImageType;
 };
 
-const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
-  const { zoomImages } = useToggles();
+const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
+  image,
+}) => {
   const [canShowZoom, setCanShowZoom] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageWidth, setImageWidth] = useState(0);
@@ -118,7 +124,7 @@ const ZoomedPrismicImage: FC<ZoomedPrismicImageProps> = ({ image }) => {
     setIsLoaded(false);
   }
 
-  return zoomImages && canShowZoom ? (
+  return canShowZoom ? (
     <>
       <ZoomButton onClick={openDialog}>
         <span className="visually-hidden">Zoom image</span>

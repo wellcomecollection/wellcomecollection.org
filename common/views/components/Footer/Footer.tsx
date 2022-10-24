@@ -1,4 +1,4 @@
-import { useRef, useEffect, FC } from 'react';
+import { useRef, useEffect, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 // Components
@@ -15,7 +15,6 @@ import { font } from '@weco/common/utils/classnames';
 import { Venue } from '@weco/common/model/opening-hours';
 
 type Props = {
-  hide: boolean;
   venues: Venue[];
 };
 
@@ -156,14 +155,8 @@ const BackToTopButton = styled.button.attrs({
 `;
 
 // Component
-const Footer: FC<Props> = ({ venues, hide = false }: Props) => {
+const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (hide && footer && footer.current) {
-      footer.current.classList.add('is-hidden');
-    }
-  }, []);
 
   return (
     <Wrapper ref={footer}>
@@ -179,7 +172,7 @@ const Footer: FC<Props> = ({ venues, hide = false }: Props) => {
 
           <OpeningTimesContainer>
             <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
-            {venues && <OpeningTimes venues={venues} />}
+            <OpeningTimes venues={venues} />
             <Space as="p" v={{ size: 'm', properties: ['margin-top'] }}>
               <a href="/opening-times">Opening times</a>
             </Space>

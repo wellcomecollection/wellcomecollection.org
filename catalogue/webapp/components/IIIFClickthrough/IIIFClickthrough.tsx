@@ -1,5 +1,8 @@
 import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
-import { AuthService, AuthServiceService } from '../../model/iiif';
+import {
+  AuthService,
+  AuthServiceService,
+} from '../../../webapp/services/iiif/types/manifest/v2';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';

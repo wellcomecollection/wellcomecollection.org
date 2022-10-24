@@ -17,22 +17,24 @@ try {
 
   s3.putObject(params, function (err, data) {
     if (err) console.log(err, err.stack);
-    else console.log('Finished uploading report.json');
-  });
+    else {
+      console.log('Finished uploading report.json');
 
-  cloudfront.createInvalidation(
-    {
-      DistributionId: 'EIOS79GG23UUY',
-      InvalidationBatch: {
-        Paths: { Items: ['/pa11y/report.json'], Quantity: 1 },
-        CallerReference: `Pa11yDeployInvalidationCallerReference${Date.now()}`,
-      },
-    },
-    function (err, data) {
-      if (err) console.log(err, err.stack);
-      else console.log('Flushed CloudFront cache for report.json');
+      cloudfront.createInvalidation(
+        {
+          DistributionId: 'EIOS79GG23UUY',
+          InvalidationBatch: {
+            Paths: { Items: ['/pa11y/report.json'], Quantity: 1 },
+            CallerReference: `Pa11yDeployInvalidationCallerReference${Date.now()}`,
+          },
+        },
+        function (err, data) {
+          if (err) console.log(err, err.stack);
+          else console.log('Flushed CloudFront cache for report.json');
+        }
+      );
     }
-  );
+  });
 } catch (e) {
   console.log('Error:', e.stack);
 }

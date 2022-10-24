@@ -2,7 +2,7 @@ import {
   ExhibitionGuideComponent,
   ExhibitionGuideType,
 } from '../../types/exhibition-guides';
-import { ReactElement, FC } from 'react';
+import { ReactElement, FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import ExhibitionCaptions from '../ExhibitionCaptions/ExhibitionCaptions';
 import styled from 'styled-components';
@@ -28,7 +28,11 @@ type VideoPlayerProps = {
   titleProps: { role: string; 'aria-level': number };
 };
 
-const VideoPlayer: FC<VideoPlayerProps> = ({ title, videoUrl, titleProps }) => (
+const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
+  title,
+  videoUrl,
+  titleProps,
+}) => (
   <figure className="no-margin">
     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
       <figcaption className={font('intb', 5)} {...titleProps}>
@@ -45,7 +49,7 @@ type Props = {
   id?: number;
 };
 
-const Stops: FC<Props> = ({ stops, type }) => {
+const Stops: FunctionComponent<Props> = ({ stops, type }) => {
   return (
     <GridFactory
       overrideGridSizes={
@@ -83,7 +87,7 @@ const Stops: FC<Props> = ({ stops, type }) => {
               <Stop
                 key={index}
                 id={anchorId}
-                data-toolbar-anchor="api-toolbar"
+                data-toolbar-anchor="apiToolbar"
                 // We need tabIndex="-1" so the "Skip to stop" link works for
                 // screen readers.
                 //
@@ -122,7 +126,7 @@ const Stops: FC<Props> = ({ stops, type }) => {
   );
 };
 
-const ExhibitionGuideStops: FC<Props> = ({ stops, type }) => {
+const ExhibitionGuideStops: FunctionComponent<Props> = ({ stops, type }) => {
   const numberedStops = stops.filter(c => c.number);
   switch (type) {
     case 'bsl':

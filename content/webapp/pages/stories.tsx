@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -88,7 +88,7 @@ const StoryPromoContainer = styled.div.attrs({
 `;
 
 const SeriesTitle = styled.h2.attrs({
-  className: `h1 plain-link no-margin`,
+  className: 'h1 plain-link no-margin',
 })<{ color?: ColorSelection }>`
   ${props => props.color && `color: ${props.theme.color(props.color)};`};
 `;
@@ -237,7 +237,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const StoriesPage: FC<Props> = ({
+const StoriesPage: FunctionComponent<Props> = ({
   series,
   articles,
   featuredText,
@@ -256,7 +256,7 @@ const StoriesPage: FC<Props> = ({
     <PageLayout
       title="Stories"
       description={pageDescriptions.stories}
-      url={{ pathname: `/stories` }}
+      url={{ pathname: '/stories' }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="stories"

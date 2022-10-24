@@ -20,45 +20,41 @@ type ChangeDetailsModalProps = {
   render: (props: ChangeDetailsModalContentProps) => ReactElement;
 };
 
-export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
-  id,
-  buttonText,
-  onComplete,
-  render,
-}) => {
-  const [isActive, setIsActive] = useState(false);
-  const [isModalLoading, setIsModalLoading] = useState(false);
-  const openButton = useRef(null);
+export const ChangeDetailsModal: React.FunctionComponent<ChangeDetailsModalProps> =
+  ({ id, buttonText, onComplete, render }) => {
+    const [isActive, setIsActive] = useState(false);
+    const [isModalLoading, setIsModalLoading] = useState(false);
+    const openButton = useRef(null);
 
-  const handleComplete = (newDetails?: UpdateUserSchema) => {
-    onComplete(newDetails);
-    setIsActive(false);
+    const handleComplete = (newDetails?: UpdateUserSchema) => {
+      onComplete(newDetails);
+      setIsActive(false);
+    };
+
+    const close = () => setIsActive(false);
+
+    return (
+      <>
+        <ButtonSolid
+          colors={themeValues.buttonColors.greenTransparentGreen}
+          text={buttonText}
+          clickHandler={() => setIsActive(true)}
+          ref={openButton}
+        />
+        <Modal
+          id={id}
+          isActive={isActive}
+          setIsActive={setIsActive}
+          openButtonRef={openButton}
+          removeCloseButton={isModalLoading}
+        >
+          {render({
+            onComplete: handleComplete,
+            onCancel: close,
+            isActive,
+            setIsModalLoading,
+          })}
+        </Modal>
+      </>
+    );
   };
-
-  const close = () => setIsActive(false);
-
-  return (
-    <>
-      <ButtonSolid
-        colors={themeValues.buttonColors.greenTransparentGreen}
-        text={buttonText}
-        clickHandler={() => setIsActive(true)}
-        ref={openButton}
-      />
-      <Modal
-        id={id}
-        isActive={isActive}
-        setIsActive={setIsActive}
-        openButtonRef={openButton}
-        removeCloseButton={isModalLoading}
-      >
-        {render({
-          onComplete: handleComplete,
-          onCancel: close,
-          isActive,
-          setIsModalLoading,
-        })}
-      </Modal>
-    </>
-  );
-};

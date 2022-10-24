@@ -1,11 +1,14 @@
 import { createContext } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import {
-  IIIFCanvas,
   IIIFManifest,
   IIIFRendering,
   SearchResults,
-} from '../../model/iiif';
+} from '../../services/iiif/types/manifest/v2';
+import {
+  TransformedManifest,
+  createDefaultTransformedManifest,
+} from '../../types/manifest';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { UrlTemplate } from 'url-template';
 
@@ -13,19 +16,17 @@ export type RotatedImage = { canvasIndex: number; rotation: number };
 
 type Props = {
   work: Work;
-  manifest: IIIFManifest | undefined;
+  transformedManifest: TransformedManifest;
   manifestIndex: number | undefined;
   activeIndex: number;
   setActiveIndex: (i: number) => void;
-  canvases: IIIFCanvas[];
   canvasIndex: number;
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
   currentManifestLabel?: string;
   licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
-  downloadOptions: IIIFRendering[];
-  iiifPresentationDownloadOptions: IIIFRendering[];
+  downloadOptions: IIIFRendering[]; // This can be downloads from a manifest or created from a iiif-image location
   parentManifest: IIIFManifest | undefined;
   lang: string;
   mainAreaWidth: number;
@@ -46,7 +47,6 @@ type Props = {
   showControls: boolean;
   isLoading: boolean;
   setIsLoading: (v: boolean) => void;
-  setImageJson: (v: boolean) => void;
   setParentManifest: (v: IIIFManifest) => void;
   rotatedImages: { canvasIndex: number; rotation: number }[];
   setShowControls: (v: boolean) => void;
@@ -96,17 +96,15 @@ const ItemViewerContext = createContext<Props>({
     availableOnline: false,
     holdings: [],
   },
-  manifest: undefined,
+  transformedManifest: createDefaultTransformedManifest(),
   manifestIndex: undefined,
   activeIndex: 0,
-  canvases: [],
   canvasIndex: 0,
   gridVisible: false,
   currentManifestLabel: undefined,
   licenseInfo: undefined,
   iiifImageLocationCredit: '',
   downloadOptions: [],
-  iiifPresentationDownloadOptions: [],
   parentManifest: undefined,
   lang: '',
   mainAreaWidth: 1000,
@@ -131,7 +129,6 @@ const ItemViewerContext = createContext<Props>({
   setIsFullscreen: () => undefined,
   setRotatedImages: () => undefined,
   setIsLoading: () => undefined,
-  setImageJson: () => undefined,
   setParentManifest: () => undefined,
   setShowControls: () => undefined,
   errorHandler: () => undefined,

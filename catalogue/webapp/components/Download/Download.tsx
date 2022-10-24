@@ -1,16 +1,17 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { IIIFRendering } from '../../model/iiif';
+import { IIIFRendering } from '../../services/iiif/types/manifest/v2';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { ReactElement, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+import DownloadLink, {
+  DownloadFormat,
+} from '@weco/common/views/components/DownloadLink/DownloadLink';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import { NextPage } from 'next';
-import { DownloadFormat } from '../DownloadLink/DownloadLink';
 
 export const DownloadOptions = styled.div.attrs(() => ({
   className: font('intb', 4),
@@ -96,6 +97,9 @@ const Download: NextPage<Props> = ({
 }: Props) => {
   const downloadsContainer = useRef(null);
   const { isEnhanced } = useContext(AppContext);
+  const downloadOptionsWithoutText = downloadOptions.filter(
+    option => option.format !== 'text/plain'
+  );
 
   return (
     <div
@@ -106,7 +110,7 @@ const Download: NextPage<Props> = ({
       })}
       ref={downloadsContainer}
     >
-      {downloadOptions.length > 0 && (
+      {downloadOptionsWithoutText.length > 0 && (
         <>
           <DropdownButton
             label="Downloads"
@@ -117,37 +121,35 @@ const Download: NextPage<Props> = ({
             <DownloadOptions className={font('intb', 5)}>
               <SpacingComponent>
                 <ul className="plain-list no-margin no-padding">
-                  {downloadOptions
-                    .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
-                    .map(option => {
-                      const action = option['@id'].match(/\/full\/full\//)
-                        ? 'download large work image'
-                        : option['@id'].match(/\/full\/760/)
-                        ? 'download small work image'
-                        : option.label;
-                      const format = getFormatString(option.format);
+                  {downloadOptionsWithoutText.map(option => {
+                    const action = option['@id'].match(/\/full\/full\//)
+                      ? 'download large work image'
+                      : option['@id'].match(/\/full\/760/)
+                      ? 'download small work image'
+                      : option.label;
+                    const format = getFormatString(option.format);
 
-                      return (
-                        <li key={option['@id']}>
-                          <DownloadLink
-                            href={option['@id']}
-                            linkText={
-                              option.label === 'Download as PDF'
-                                ? 'Whole item'
-                                : option.label
-                            }
-                            format={format}
-                            width={option.width}
-                            mimeType={option.format}
-                            trackingEvent={{
-                              category: 'Button',
-                              action,
-                              label: workId,
-                            }}
-                          />
-                        </li>
-                      );
-                    })}
+                    return (
+                      <li key={option['@id']}>
+                        <DownloadLink
+                          href={option['@id']}
+                          linkText={
+                            option.label === 'Download as PDF'
+                              ? 'Whole item'
+                              : option.label
+                          }
+                          format={format}
+                          width={option.width}
+                          mimeType={option.format}
+                          trackingEvent={{
+                            category: 'Button',
+                            action,
+                            label: workId,
+                          }}
+                        />
+                      </li>
+                    );
+                  })}
                 </ul>
               </SpacingComponent>
               {license && (

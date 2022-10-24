@@ -1,4 +1,9 @@
-import { FC, useState, useEffect, MutableRefObject } from 'react';
+import {
+  FunctionComponent,
+  useState,
+  useEffect,
+  MutableRefObject,
+} from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import {
   PhysicalItem,
@@ -23,7 +28,7 @@ type Props = {
 
 type RequestingState = 'initial' | 'requesting' | 'confirmed' | 'error';
 
-const ItemRequestModal: FC<Props> = ({
+const ItemRequestModal: FunctionComponent<Props> = ({
   item,
   work,
   setIsActive,
@@ -55,7 +60,7 @@ const ItemRequestModal: FC<Props> = ({
   async function confirmRequest(pickupDate: Date) {
     setRequestingState('requesting');
     try {
-      const response = await fetch(`/account/api/users/me/item-requests`, {
+      const response = await fetch('/account/api/users/me/item-requests', {
         method: 'POST',
         body: JSON.stringify({
           workId: work.id,

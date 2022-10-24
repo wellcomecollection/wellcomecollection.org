@@ -25,9 +25,13 @@ import {
   getImageAuthService,
   isImageRestricted,
   getThumbnailService,
-} from '../../utils/iiif';
+} from '../../utils/iiif/v2';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas, SearchResults, AuthService } from '../../model/iiif';
+import {
+  IIIFCanvas,
+  SearchResults,
+  AuthService,
+} from '../../services/iiif/types/manifest/v2';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 
@@ -351,7 +355,7 @@ const MainViewer: FunctionComponent<Props> = ({
     setActiveIndex,
     mainAreaHeight,
     mainAreaWidth,
-    canvases,
+    transformedManifest,
     canvasIndex,
     setShowZoomed,
     setZoomInfoUrl,
@@ -369,6 +373,8 @@ const MainViewer: FunctionComponent<Props> = ({
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
+  const { canvases } = transformedManifest;
+
   function handleOnScroll({ scrollOffset }) {
     timer.current && clearTimeout(timer.current);
     setShowControls(false);
@@ -407,7 +413,7 @@ const MainViewer: FunctionComponent<Props> = ({
         width={mainAreaWidth}
         style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
         height={mainAreaHeight}
-        itemCount={canvases.length}
+        itemCount={canvases?.length || 0}
         itemData={{
           scrollVelocity,
           canvases,

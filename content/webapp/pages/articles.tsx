@@ -10,7 +10,7 @@ import {
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -54,25 +54,28 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     };
   };
 
-const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
+const ArticlesPage: FunctionComponent<Props> = ({
+  articles,
+  jsonLd,
+}: Props) => {
   // `articles` could be empty if somebody paginates off the end of the list,
   // e.g. /articles?page=500
   const image = articles.results[0]?.image;
 
   return (
     <PageLayout
-      title={'Articles'}
+      title="Articles"
       description={pageDescriptions.articles}
-      url={{ pathname: `/articles` }}
+      url={{ pathname: '/articles' }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'stories'}
+      openGraphType="website"
+      siteSection="stories"
       image={image}
     >
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={false}
-          title={'Stories'}
+          title="Stories"
           description={[
             {
               type: 'paragraph',
@@ -81,7 +84,7 @@ const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
             },
           ]}
           paginatedResults={articles}
-          paginationRoot={'/articles'}
+          paginationRoot="/articles"
         />
       </SpacingSection>
     </PageLayout>

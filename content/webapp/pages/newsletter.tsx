@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import NewsletterSignup from '../components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -28,13 +28,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     };
   };
 
-const Newsletter: FC<Props> = ({ result }) => {
+const Newsletter: FunctionComponent<Props> = ({ result }) => {
   return (
     <PageLayout
       title="Sign up to our newsletter"
       description={newsletterDescription}
       hideNewsletterPromo={true}
-      url={{ pathname: `/newsletter` }}
+      url={{ pathname: '/newsletter' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="what-we-do"
@@ -48,13 +48,8 @@ const Newsletter: FC<Props> = ({ result }) => {
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
-        labels={undefined}
         title="Newsletters"
-        ContentTypeInfo={undefined}
-        Background={undefined}
         backgroundTexture={landingHeaderBackgroundLs}
-        FeaturedMedia={undefined}
-        HeroPicture={undefined}
         highlightHeading={true}
       />
 

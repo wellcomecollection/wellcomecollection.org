@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 
-const WellcomeCollectionBlack: FC = () => (
+const WellcomeCollectionBlack: FunctionComponent = () => (
   <svg
     width="128"
     height="42"

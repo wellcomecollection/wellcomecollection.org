@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
 import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
@@ -78,14 +78,14 @@ export function createPrismicLoader(maxWidth: number, quality: ImageQuality) {
     // This clamps the width to a configured maximum, e.g. if you know the image will
     // only be used in a specific context.  It won't ask Prismic for a larger image.
     if (width < maxWidth) {
-      searchParams.set(`w`, width.toString());
+      searchParams.set('w', width.toString());
     } else {
-      searchParams.set(`w`, maxWidth.toString());
+      searchParams.set('w', maxWidth.toString());
     }
 
-    searchParams.set(`auto`, 'compress,format');
-    searchParams.set(`rect`, url.searchParams.get('rect') || '');
-    searchParams.set(`q`, imageQuality[quality]);
+    searchParams.set('auto', 'compress,format');
+    searchParams.set('rect', url.searchParams.get('rect') || '');
+    searchParams.set('q', imageQuality[quality]);
 
     return `${url.origin}${url.pathname}?${searchParams.toString()}`;
   };
@@ -96,7 +96,7 @@ export function createPrismicLoader(maxWidth: number, quality: ImageQuality) {
  * usurping UiImage which has reached a state where it is so bloated it is hard to refactor.
  * This is aimed solely at the Prismic image rendering for now.
  */
-const PrismicImage: FC<Props> = ({
+const PrismicImage: FunctionComponent<Props> = ({
   image,
   sizes,
   maxWidth,

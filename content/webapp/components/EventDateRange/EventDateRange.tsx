@@ -1,7 +1,7 @@
 import { DateRange as DateRangeType } from '@weco/common/model/date-range';
 import { isSameDayOrBefore, today } from '@weco/common/utils/dates';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { HasTimeRanges } from '../../types/events';
 
 type Props = {
@@ -50,7 +50,11 @@ export function getEarliestFutureDateRange(
     );
 }
 
-const EventDateRange: FC<Props> = ({ event, splitTime, fromDate }: Props) => {
+const EventDateRange: FunctionComponent<Props> = ({
+  event,
+  splitTime,
+  fromDate,
+}: Props) => {
   const dateRanges = event.times.map(({ range }) => ({
     start: range.startDateTime,
     end: range.endDateTime,

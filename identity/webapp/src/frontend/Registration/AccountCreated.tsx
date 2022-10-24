@@ -8,7 +8,7 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import { info2 } from '@weco/common/icons';
 
-export const AccountCreated: React.FC = () => {
+export const AccountCreated: React.FunctionComponent = () => {
   return (
     <PageWrapper title="Account created">
       <Layout10>

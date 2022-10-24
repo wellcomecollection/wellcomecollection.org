@@ -9,11 +9,11 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { getCrop } from '@weco/common/model/image';
 import { clock } from '@weco/common/icons';
 import {
-  backfillExceptionalVenueDays,
-  getUpcomingExceptionalPeriods,
-  exceptionalOpeningDates,
-  exceptionalOpeningPeriods,
-  exceptionalOpeningPeriodsAllDates,
+  createExceptionalOpeningHoursDays,
+  getUpcomingExceptionalOpeningHours,
+  getOverrideDatesForAllVenues,
+  groupOverrideDates,
+  completeDateRangeForExceptionalPeriods,
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import Space from '@weco/common/views/components/styled/Space';
@@ -84,6 +84,13 @@ const DayOfWeek = styled.div`
   width: 100px;
 `;
 
+const OpeningHours = styled.ul.attrs({
+  className: `no-margin ${font('intr', 5)}`,
+})`
+  list-style: none;
+  padding: 0;
+`;
+
 type Props = {
   venue: Venue;
   weight: Weight;
@@ -92,18 +99,17 @@ type Props = {
 const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const { collectionVenues } = usePrismicData();
   const venues = transformCollectionVenues(collectionVenues);
-  const allExceptionalDates = exceptionalOpeningDates(venues);
-  const groupedExceptionalDates =
-    exceptionalOpeningPeriods(allExceptionalDates);
-  const exceptionalPeriodsAllDates = exceptionalOpeningPeriodsAllDates(
-    groupedExceptionalDates
-  );
-  const backfilledExceptionalPeriods = venue
-    ? backfillExceptionalVenueDays(venue, exceptionalPeriodsAllDates)
+  const allOverrideDates = getOverrideDatesForAllVenues(venues);
+  const exceptionalPeriods = groupOverrideDates(allOverrideDates);
+  const completeExceptionalPeriods =
+    completeDateRangeForExceptionalPeriods(exceptionalPeriods);
+  const exceptionalOpeningHours = venue
+    ? createExceptionalOpeningHoursDays(venue, completeExceptionalPeriods)
     : [];
-  const upcomingExceptionalPeriods =
-    backfilledExceptionalPeriods &&
-    getUpcomingExceptionalPeriods(backfilledExceptionalPeriods);
+
+  const upcomingExceptionalOpeningHours =
+    exceptionalOpeningHours &&
+    getUpcomingExceptionalOpeningHours(exceptionalOpeningHours);
 
   const isFeatured = weight === 'featured';
   return (
@@ -144,7 +150,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         >
           {isFeatured && venue?.name ? venue.name : 'Opening hours'}
         </Space>
-        <ul className={`plain-list no-padding no-margin ${font('intr', 5)}`}>
+        <OpeningHours>
           {venue?.openingHours.regular.map(
             ({ dayOfWeek, opens, closes, isClosed }) => (
               <li key={dayOfWeek}>
@@ -153,9 +159,9 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
               </li>
             )
           )}
-        </ul>
+        </OpeningHours>
       </VenueHoursTimes>
-      {upcomingExceptionalPeriods.map((upcomingExceptionalPeriod, i) => {
+      {upcomingExceptionalOpeningHours.map((upcomingExceptionalPeriod, i) => {
         const firstOverride = upcomingExceptionalPeriod.find(
           date => date.overrideType
         );
@@ -186,9 +192,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                   <span>{overrideType} hours</span>
                 </div>
               </h3>
-              <ul
-                className={`plain-list no-padding no-margin ${font('intr', 5)}`}
-              >
+              <OpeningHours>
                 {/* 
                   This will format the date of the exception as e.g. 'Saturday 1 October'.
 
@@ -202,7 +206,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                     {p.isClosed ? 'Closed' : `${p.opens} – ${p.closes}`}
                   </li>
                 ))}
-              </ul>
+              </OpeningHours>
             </JauntyBox>
             <br />
           </Fragment>

@@ -8,8 +8,9 @@ import { FunctionComponent } from 'react';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { getCrop } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { Label as LabelType } from '@weco/common/model/labels';
 
-const ImageWrapper = styled.div`
+export const CardImageWrapper = styled.div`
   position: relative;
 `;
 
@@ -100,6 +101,19 @@ export const CardBody = styled(Space).attrs(() => ({
   }
 `;
 
+const LabelsWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+`;
+
+export const CardLabels: FunctionComponent<{ labels: LabelType[] }> = ({
+  labels,
+}) => (
+  <LabelsWrapper>
+    <LabelsList labels={labels} />
+  </LabelsWrapper>
+);
+
 const Card: FunctionComponent<Props> = ({ item }: Props) => {
   const image = getCrop(item.image, '16:9');
 
@@ -114,7 +128,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
         });
       }}
     >
-      <ImageWrapper>
+      <CardImageWrapper>
         {image && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -130,12 +144,8 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
             quality="low"
           />
         )}
-        {item.format && (
-          <div style={{ position: 'absolute', bottom: 0 }}>
-            <LabelsList labels={[{ text: item.format.title }]} />
-          </div>
-        )}
-      </ImageWrapper>
+        {item.format && <CardLabels labels={[{ text: item.format.title }]} />}
+      </CardImageWrapper>
 
       <CardBody>
         <div>

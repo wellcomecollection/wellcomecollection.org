@@ -79,7 +79,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
               </a>
             </div>
             <CloseCookieNotice onClick={hideCookieNotice}>
-              <Icon icon={clear} />
+              <Icon icon={clear} color="white" />
               <span className="visually-hidden">Close cookie notification</span>
             </CloseCookieNotice>
           </div>

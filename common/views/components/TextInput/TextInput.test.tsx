@@ -20,7 +20,7 @@ const ExampleTextInput = () => {
 };
 
 describe('TextInput', () => {
-  test(`The input will validate when blurred`, () => {
+  test('The input will validate when blurred', () => {
     const wrapper = mountWithTheme(<ExampleTextInput />);
     const input = wrapper.find('input');
 
@@ -33,7 +33,7 @@ describe('TextInput', () => {
       1
     );
   });
-  test(`The input will hide errors at the point it becomes valid`, () => {
+  test('The input will hide errors at the point it becomes valid', () => {
     const wrapper = mountWithTheme(<ExampleTextInput />);
     const input = wrapper.find('input');
 
@@ -54,7 +54,7 @@ describe('TextInput', () => {
       0
     );
   });
-  test(`A valid input will hide its valid state at the point valid input is added`, () => {
+  test('A valid input will hide its valid state at the point valid input is added', () => {
     const wrapper = mountWithTheme(<ExampleTextInput />);
     const input = wrapper.find('input');
 
@@ -72,7 +72,7 @@ describe('TextInput', () => {
     expect(wrapper.find("[data-test-id='TextInputCheckmark']")).toHaveLength(0);
   });
 
-  test(`A valid input will hide its valid state at the point invalid input is added`, () => {
+  test('A valid input will hide its valid state at the point invalid input is added', () => {
     const wrapper = mountWithTheme(<ExampleTextInput />);
     const input = wrapper.find('input');
 

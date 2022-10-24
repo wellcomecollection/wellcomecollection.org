@@ -1,5 +1,5 @@
 import React, {
-  FC,
+  FunctionComponent,
   ComponentProps,
   useState,
   ComponentPropsWithoutRef,
@@ -66,14 +66,14 @@ type DetailListProps = {
   listItems: DetailProps[];
 };
 
-const Detail: FC<DetailProps> = ({ label, value }) => (
+const Detail: FunctionComponent<DetailProps> = ({ label, value }) => (
   <>
     <dt className={font('intb', 5)}>{label}</dt>
     <StyledDd className={font('intr', 5)}>{value}</StyledDd>
   </>
 );
 
-const DetailList: FC<DetailListProps> = ({ listItems }) => {
+const DetailList: FunctionComponent<DetailListProps> = ({ listItems }) => {
   return (
     <StyledDl>
       {listItems.map(item => (
@@ -83,7 +83,7 @@ const DetailList: FC<DetailListProps> = ({ listItems }) => {
   );
 };
 
-const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
+const TextButton: FunctionComponent<ComponentPropsWithoutRef<'button'>> = ({
   children,
   ...props
 }) => (
@@ -101,7 +101,9 @@ const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
   </button>
 );
 
-const RequestsFailed: FC<{ retry: () => void }> = ({ retry }) => (
+const RequestsFailed: FunctionComponent<{ retry: () => void }> = ({
+  retry,
+}) => (
   <p className={font('intr', 5)}>
     Something went wrong fetching your item requests.
     <TextButton
@@ -114,7 +116,7 @@ const RequestsFailed: FC<{ retry: () => void }> = ({ retry }) => (
   </p>
 );
 
-const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
+const AccountStatus: FunctionComponent<ComponentProps<typeof StatusAlert>> = ({
   type,
   children,
 }) => {

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font, grid } from '@weco/common/utils/classnames';
 import { Contributor as ContributorType } from '../../types/contributors';
@@ -12,7 +12,7 @@ const ContributorInfoWrapper = styled(Space)`
   color: ${props => props.theme.color('neutral.600')};
 `;
 
-const Contributor: FC<ContributorType> = ({
+const Contributor: FunctionComponent<ContributorType> = ({
   contributor,
   role,
   description,
@@ -41,7 +41,7 @@ const Contributor: FC<ContributorType> = ({
                 height: 72,
                 borderRadius: 6,
                 transform: 'rotateZ(-6deg)',
-                overflow: `hidden`,
+                overflow: 'hidden',
               }}
             >
               <div

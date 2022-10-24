@@ -1,4 +1,10 @@
-import { forwardRef, SyntheticEvent, ForwardedRef, FC, ReactNode } from 'react';
+import {
+  forwardRef,
+  SyntheticEvent,
+  ForwardedRef,
+  FunctionComponent,
+  ReactNode,
+} from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import { trackEvent, GaEvent } from '../../../utils/ga';
@@ -170,7 +176,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
 `;
 
 // TODO move styles here - styled component
-const Button: FC<ButtonSolidProps> = (
+const Button: FunctionComponent<ButtonSolidProps> = (
   {
     icon,
     text,

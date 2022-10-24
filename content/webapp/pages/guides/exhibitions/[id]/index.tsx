@@ -102,7 +102,7 @@ const ExhibitionGuidePage: FC<Props> = ({
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="exhibition-guides"
-      image={exhibitionGuide.image || undefined}
+      image={exhibitionGuide.image}
       headerProps={{
         customNavLinks: exhibitionGuidesLinks,
         showLibraryLogin: false,

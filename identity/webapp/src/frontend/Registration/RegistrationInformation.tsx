@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { SectionHeading } from '../components/Layout.style';
 import { font } from '@weco/common/utils/classnames';
@@ -8,7 +8,7 @@ type Props = {
   email: string;
 };
 
-const RegistrationInformation: FC<Props> = ({ email }) => {
+const RegistrationInformation: FunctionComponent<Props> = ({ email }) => {
   return (
     <>
       <SectionHeading as="h1">Apply for a library membership</SectionHeading>

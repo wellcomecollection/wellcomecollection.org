@@ -5,7 +5,7 @@ import CompactCard from '../CompactCard/CompactCard';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 
 type Props = {
   researchLinkText?: string;
@@ -16,7 +16,7 @@ type Props = {
   visitItem?: MultiContent;
 };
 
-const Outro: FC<Props> = ({
+const Outro: FunctionComponent<Props> = ({
   researchLinkText,
   researchItem,
   readLinkText,

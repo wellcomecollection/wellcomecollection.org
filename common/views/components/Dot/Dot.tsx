@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 const DotEl = styled.span.attrs({
@@ -17,5 +17,5 @@ type Props = {
   color: PaletteColor;
 };
 
-const Dot: FC<Props> = ({ color }) => <DotEl color={color} />;
+const Dot: FunctionComponent<Props> = ({ color }) => <DotEl color={color} />;
 export default Dot;

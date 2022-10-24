@@ -1,4 +1,4 @@
-import { useState, useContext, FC } from 'react';
+import { useState, useContext, FunctionComponent } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -48,13 +48,7 @@ const NewsletterForm = styled.form.attrs({
     flex: 1;
   }
 
-  ${props =>
-    props.theme.makeSpacePropertyValues(
-      'm',
-      ['margin-bottom'],
-      undefined,
-      undefined
-    )}
+  ${props => props.theme.makeSpacePropertyValues('m', ['margin-bottom'])}
 
   ${props => props.theme.media('medium')`
     flex-wrap: nowrap;
@@ -96,7 +90,7 @@ const CopyWrap = styled(Space).attrs({
   `}
 `;
 
-const NewsletterPromo: FC = () => {
+const NewsletterPromo: FunctionComponent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitError, setIsSubmitError] = useState(false);

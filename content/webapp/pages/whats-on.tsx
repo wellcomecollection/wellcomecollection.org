@@ -394,7 +394,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     <PageLayout
       title={pageTitle}
       description={pageDescriptions.whatsOn}
-      url={{ pathname: `/whats-on` }}
+      url={{ pathname: '/whats-on' }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="whats-on"

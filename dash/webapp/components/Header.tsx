@@ -1,9 +1,9 @@
+import { FunctionComponent } from 'react';
 import Link from 'next/link';
-import { FC } from 'react';
 
 type Props = { title: string };
 
-const Header: FC<Props> = ({ title }) => {
+const Header: FunctionComponent<Props> = ({ title }) => {
   return (
     <div
       style={{
@@ -21,8 +21,8 @@ const Header: FC<Props> = ({ title }) => {
             src="https://i.wellcomecollection.org/assets/icons/android-chrome-512x512.png"
             width={90}
             height={90}
-            alt={'Wellcome Collection logo'}
-            title={'Wellcome Collection'}
+            alt="Wellcome Collection logo"
+            title="Wellcome Collection"
             style={{
               marginTop: '-15px',
               marginLeft: '18px',
@@ -37,7 +37,7 @@ const Header: FC<Props> = ({ title }) => {
             padding: 0,
             marginLeft: '18px',
             color: '#323232',
-            weight: 'normal',
+            fontWeight: 'normal',
             lineHeight: '2.5em',
             minWidth: '150px',
           }}

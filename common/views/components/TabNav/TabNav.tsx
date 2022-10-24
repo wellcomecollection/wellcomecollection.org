@@ -1,5 +1,5 @@
 import {
-  FC,
+  FunctionComponent,
   useRef,
   Dispatch,
   SetStateAction,
@@ -25,7 +25,7 @@ type Props = {
   hasDivider?: boolean;
 };
 
-const TabNav: FC<Props> = ({
+const TabNav: FunctionComponent<Props> = ({
   id,
   items,
   selectedTab,

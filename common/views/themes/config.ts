@@ -110,7 +110,7 @@ const colors = {
   'neutral.300': '#e8e8e8', // lightness: 91 - matches warmNeutral.300
   'neutral.400': '#d9d9d9', // lightness: 85 - matches warmNeutral.400
   'neutral.500': '#8f8f8f', // lightness: 56
-  'neutral.600': '#6b6b6b', // lightness: 42
+  'neutral.600': '#6a6a6a', // suggested: lightness: 42
   'neutral.700': '#323232', // lightness: 20
 
   // Warm neutrals have equivalents in neutral (see lightness), but with a tinge of yellow to match the core colour.

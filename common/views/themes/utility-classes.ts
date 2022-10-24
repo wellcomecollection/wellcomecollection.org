@@ -87,10 +87,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     justify-content: flex-end;
   }
 
-  .flex-1 {
-    flex: 1;
-  }
-
   .plain-button {
     appearance: none;
     font-family: inherit;
@@ -115,10 +111,6 @@ export const utilityClasses = css<GlobalStyleProps>`
   .underline-on-hover:hover,
   :link:hover .underline-on-hover {
     text-decoration: underline;
-  }
-
-  .text-align-center {
-    text-align: center;
   }
 
   .no-visible-focus {

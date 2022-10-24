@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import {
   RulesList,
   RulesListItem,
@@ -29,11 +29,11 @@ const RuleDot = styled.span<DotProps>`
   }
 `;
 
-const Dot: FC<DotProps> = ({ isValid }) => {
+const Dot: FunctionComponent<DotProps> = ({ isValid }) => {
   return (
     <Space h={{ size: 's', properties: ['margin-right'] }}>
       <RuleDot isValid={isValid}>
-        {isValid && <Icon icon={check} matchText color={'white'} />}
+        {isValid && <Icon icon={check} matchText color="white" />}
       </RuleDot>
     </Space>
   );
@@ -46,7 +46,7 @@ type Props = {
   hasNumbers: boolean;
 };
 
-export const PasswordRules: React.FC<Props> = ({
+export const PasswordRules: React.FunctionComponent<Props> = ({
   isAtLeast8Characters,
   hasLowercaseLetters,
   hasUppercaseLetters,

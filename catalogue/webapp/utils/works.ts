@@ -9,7 +9,7 @@ import {
   PhysicalItem,
   AccessCondition,
 } from '@weco/common/model/catalogue';
-import { IIIFRendering } from '../model/iiif';
+import { IIIFRendering } from '../services/iiif/types/manifest/v2';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { Label } from '@weco/common/model/labels';
 import {

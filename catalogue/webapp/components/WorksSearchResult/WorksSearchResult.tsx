@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 
 // Types
 import { Work } from '@weco/common/model/catalogue';
@@ -39,7 +39,10 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
+const WorkSearchResultV2: FunctionComponent<Props> = ({
+  work,
+  resultPosition,
+}: Props) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
@@ -85,19 +88,19 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
 
               {productionDates.length > 0 && (
                 <WorkInformationItem>
-                  Date: {productionDates[0]}
+                  Date:&nbsp;{productionDates[0]}
                 </WorkInformationItem>
               )}
 
               {archiveLabels?.reference && (
                 <WorkInformationItem>
-                  Reference: {archiveLabels && archiveLabels?.reference}
+                  Reference:&nbsp;{archiveLabels?.reference}
                 </WorkInformationItem>
               )}
             </WorkInformation>
             {archiveLabels?.partOf && (
               <WorkInformation>
-                Part of: {archiveLabels && archiveLabels?.partOf}
+                Part of:&nbsp;{archiveLabels?.partOf}
               </WorkInformation>
             )}
           </Details>

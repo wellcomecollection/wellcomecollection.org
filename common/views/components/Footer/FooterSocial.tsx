@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import {
   facebook,
   instagram,
-  soundcloud,
+  soundCloud,
   tripadvisor,
   twitter,
   youtube,
@@ -68,7 +68,7 @@ const items: SocialItem[] = [
     url: 'https://soundcloud.com/wellcomecollection',
     title: 'SoundCloud',
     service: 'SoundCloud',
-    icon: soundcloud,
+    icon: soundCloud,
   },
   {
     url: 'https://www.youtube.com/user/WellcomeCollection',
@@ -84,7 +84,7 @@ const items: SocialItem[] = [
   },
 ];
 
-const FooterSocial: FC = () => (
+const FooterSocial: FunctionComponent = () => (
   <>
     {items.map(item => (
       <Cell key={item.title}>

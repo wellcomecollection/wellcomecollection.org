@@ -1,5 +1,5 @@
 import { Event } from '../../types/events';
-import { FC, Fragment } from 'react';
+import { FunctionComponent, Fragment } from 'react';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Message from '@weco/common/views/components/Message/Message';
 import { font } from '@weco/common/utils/classnames';
@@ -18,10 +18,7 @@ function getButtonMarkup(event: Event) {
     return <Message text="Fully booked" />;
   } else {
     return (
-      <div
-        className="js-eventbrite-ticket-button"
-        data-eventbrite-ticket-id={event.eventbriteId}
-      >
+      <div data-eventbrite-ticket-id={event.eventbriteId}>
         <ButtonSolidLink
           link={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
           icon={ticketAvailable}
@@ -67,7 +64,7 @@ const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
   color: ${props => props.theme.color('neutral.700')};
 `;
 
-const EventBookingButton: FC<Props> = ({ event }: Props) => {
+const EventBookingButton: FunctionComponent<Props> = ({ event }: Props) => {
   const team = event.bookingEnquiryTeam;
 
   return (

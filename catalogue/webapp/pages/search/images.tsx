@@ -1,0 +1,154 @@
+import { useEffect, ReactElement, useContext } from 'react';
+import { GetServerSideProps } from 'next';
+import styled from 'styled-components';
+import Head from 'next/head';
+
+// Components
+import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import Space from '@weco/common/views/components/styled/Space';
+import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+
+// Utils & Helpers
+import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import { getImages } from '@weco/catalogue/services/catalogue/images';
+import { removeUndefinedProps } from '@weco/common/utils/json';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { Pageview } from '@weco/common/services/conversion/track';
+import {
+  fromQuery,
+  ImagesProps,
+  toLink,
+} from '@weco/common/views/components/ImagesLink/ImagesLink';
+import { getServerData } from '@weco/common/server-data';
+import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
+
+// Types
+import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
+import { NextPageWithLayout } from '@weco/common/views/pages/_app';
+
+type Props = {
+  images?: CatalogueResultsList<Image>;
+  imagesRouteProps: ImagesProps;
+  pageview: Pageview;
+};
+
+const Wrapper = styled(Space).attrs({
+  v: { size: 'xl', properties: ['margin-bottom'] },
+})`
+  background-color: ${props => props.theme.color('black')};
+`;
+
+const ImagesSearchPage: NextPageWithLayout<Props> = ({
+  images,
+  imagesRouteProps,
+}): ReactElement<Props> => {
+  const { query, page, color: colorFilter } = imagesRouteProps;
+
+  const { setLink } = useContext(SearchContext);
+  useEffect(() => {
+    const link = toLink({ ...imagesRouteProps }, 'images_search_context');
+    setLink(link);
+  }, [imagesRouteProps]);
+
+  return (
+    <>
+      <Head>
+        {images?.prevPage && (
+          <link
+            rel="prev"
+            href={convertUrlToString(
+              toLink({ ...imagesRouteProps, page: (page || 1) - 1 }, 'unknown')
+                .as
+            )}
+          />
+        )}
+        {images?.nextPage && (
+          <link
+            rel="next"
+            href={convertUrlToString(
+              toLink({ ...imagesRouteProps, page: page + 1 }, 'unknown').as
+            )}
+          />
+        )}
+      </Head>
+      {/* TODO review if this needs updating */}
+
+      <h1 className="visually-hidden">Images Search Page</h1>
+      <div className="container">
+        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
+          <h2 style={{ marginBottom: 0 }}>Filters</h2>
+        </Space>
+      </div>
+
+      <Wrapper>
+        {images?.results && images.results.length > 0 && (
+          <div className="container">
+            <Space
+              v={{
+                size: 'l',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
+              style={{ color: 'white' }}
+            >
+              <h2 style={{ marginBottom: 0 }}>Sort & Pagination</h2>
+            </Space>
+            <ImageEndpointSearchResults images={images} />
+          </div>
+        )}
+        {images?.results.length === 0 && (
+          <SearchNoResults
+            query={query}
+            hasFilters={!!colorFilter}
+            color="white"
+          />
+        )}
+      </Wrapper>
+    </>
+  );
+};
+
+ImagesSearchPage.getLayout = getSearchLayout;
+
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const serverData = await getServerData(context);
+    const params = fromQuery(context.query);
+    const aggregations = [
+      'locations.license',
+      'source.genres.label',
+      'source.subjects.label',
+      'source.contributors.agent.label',
+    ];
+    const apiProps = {
+      ...params,
+      aggregations,
+    };
+    const images = await getImages({
+      params: apiProps,
+      toggles: serverData.toggles,
+      pageSize: 30,
+    });
+
+    if (images && images.type === 'Error') {
+      return appError(context, images.httpStatus, 'Images API error');
+    }
+
+    return {
+      props: removeUndefinedProps({
+        serverData,
+        images,
+        imagesRouteProps: params,
+        pageview: {
+          name: 'images',
+          properties: images
+            ? {
+                totalResults: images.totalResults,
+              }
+            : {},
+        },
+      }),
+    };
+  };
+
+export default ImagesSearchPage;

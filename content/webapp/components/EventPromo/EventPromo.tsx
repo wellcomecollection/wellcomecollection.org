@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -7,7 +7,13 @@ import EventDateRange from '../EventDateRange/EventDateRange';
 import { EventBasic } from '../../types/events';
 import { upcomingDatesFullyBooked } from '../../services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
+import {
+  CardOuter,
+  CardBody,
+  CardPostBody,
+  CardLabels,
+  CardImageWrapper,
+} from '../Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -16,11 +22,6 @@ import { PlaceBasic } from '../../types/places';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import styled from 'styled-components';
-
-const ImageWrapper = styled.div`
-  position: relative;
-`;
 
 type Props = {
   event: EventBasic;
@@ -57,7 +58,7 @@ export function getLocationText(
   }`;
 }
 
-const EventPromo: FC<Props> = ({
+const EventPromo: FunctionComponent<Props> = ({
   event,
   position = 0,
   dateString,
@@ -78,7 +79,7 @@ const EventPromo: FC<Props> = ({
         });
       }}
     >
-      <ImageWrapper>
+      <CardImageWrapper>
         {event.promo?.image && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
@@ -99,11 +100,9 @@ const EventPromo: FC<Props> = ({
         )}
 
         {event.primaryLabels.length > 0 && (
-          <div style={{ position: 'absolute', bottom: 0 }}>
-            <LabelsList labels={event.primaryLabels} />
-          </div>
+          <CardLabels labels={event.primaryLabels} />
         )}
-      </ImageWrapper>
+      </CardImageWrapper>
 
       <CardBody>
         <div>

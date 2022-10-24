@@ -126,7 +126,7 @@ export const response = (event: CloudFrontResponseEvent): void => {
   const toggleCookies = parseToggleCookies(request.headers['x-toggled']);
 
   if (toggleCookies.length > 0) {
-    response.headers[`set-cookie`] = toggleCookies.map(cookie => ({
+    response.headers['set-cookie'] = toggleCookies.map(cookie => ({
       key: 'Set-Cookie',
       value: `${cookie.key}=${cookie.value}; Path=/;`,
     }));

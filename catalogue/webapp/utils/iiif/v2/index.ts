@@ -5,23 +5,16 @@ import {
   IIIFCanvas,
   IIIFStructure,
   IIIFMediaElement,
-  AudioV3,
   Service,
   AuthService,
   AuthServiceService,
   IIIFAnnotationResource,
   IIIFThumbnailService,
   EmptyIIIFMediaElement,
-} from '../model/iiif';
-import {
-  ContentResource,
-  IIIFExternalWebResource,
-  Manifest,
-  Service as ServiceV3,
-} from '@iiif/presentation-3';
+} from '../../../../webapp/services/iiif/types/manifest/v2';
+import { Manifest, Service as ServiceV3 } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
-import { isNotUndefined } from '@weco/common/utils/array';
 
 const isFilledMediaElement = (
   element: IIIFMediaElement | EmptyIIIFMediaElement
@@ -127,21 +120,6 @@ export function getMediaClickthroughService(
   }
 }
 
-export function getTokenServiceV3(
-  authServiceId: string,
-  services?: ServiceV3[]
-): AuthServiceService | undefined {
-  const service = (services as AuthService[])?.find(
-    s => s?.['@id'] === authServiceId
-  );
-
-  return service?.service?.find(
-    s =>
-      s.profile === 'http://iiif.io/api/auth/0/token' ||
-      s.profile === 'http://iiif.io/api/auth/1/token'
-  );
-}
-
 export function getTokenService(
   authService: AuthService
 ): AuthServiceService | undefined {
@@ -153,7 +131,7 @@ export function getTokenService(
   );
 }
 
-export const restrictedAuthServiceUrl =
+const restrictedAuthServiceUrl =
   'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
 export function getImageAuthService(
@@ -177,6 +155,27 @@ export function isImageRestricted(canvas: IIIFCanvas): boolean {
     imageAuthService?.['@id'] === restrictedAuthServiceUrl ||
       imageAuthService === restrictedAuthServiceUrl
   );
+}
+
+export function checkModalRequired(
+  authService: AuthService | undefined,
+  isAnyImageOpen: boolean
+): boolean {
+  switch (authService?.['@id']) {
+    case undefined:
+      return false;
+    case restrictedAuthServiceUrl:
+      return !isAnyImageOpen;
+    default:
+      return true;
+  }
+}
+
+export function checkIsTotallyRestricted(
+  authService: AuthService | undefined,
+  isAnyImageOpen: boolean
+): boolean {
+  return authService?.['@id'] === restrictedAuthServiceUrl && !isAnyImageOpen;
 }
 
 export function getUiExtensions(
@@ -329,54 +328,6 @@ export function getVideo(
   );
 }
 
-export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
-  const audioSequences = (iiifManifest.mediaSequences || [])
-    .flatMap(sequence =>
-      sequence.elements
-        .filter(isFilledMediaElement)
-        .find(element => element['@type'] === 'dctypes:Sound')
-    )
-    .filter(isNotUndefined);
-
-  return audioSequences;
-}
-
-export function getAudioV3(manifest: Manifest): AudioV3 {
-  const canvases = manifest.items.filter(item => item.type === 'Canvas');
-  const title = canvases.find(c => c?.label?.en)?.[0];
-  const audioTypes = ['Audio', 'Sound'];
-  const sounds = canvases
-    .map(c => {
-      const title = c?.label?.en?.[0];
-      const annotationPage = c?.items?.find(i => i.type === 'AnnotationPage');
-      const annotation = annotationPage?.items?.find(
-        i => i.type === 'Annotation'
-      );
-      const sound =
-        audioTypes.includes(
-          (annotation?.body as ContentResource)?.type || ''
-        ) && annotation?.body;
-      return { sound, title };
-    })
-    .filter(s => Boolean(s.sound) && isNotUndefined(s.sound)) as {
-    title?: string;
-    sound: IIIFExternalWebResource;
-  }[];
-
-  const placeholderCanvasItems = manifest.placeholderCanvas?.items?.find(
-    i => i.type === 'AnnotationPage'
-  );
-  const placeholderCanvasAnnotation = placeholderCanvasItems?.items?.find(
-    i => i.type === 'Annotation'
-  );
-  const thumbnail = placeholderCanvasAnnotation?.body as ContentResource;
-  const transcript = manifest?.rendering?.find(
-    i => i?.['format'] === 'application/pdf'
-  );
-
-  return { title, sounds, thumbnail, transcript };
-}
-
 export function getAnnotationFromMediaElement(
   mediaElement: IIIFMediaElement
 ): IIIFAnnotationResource | undefined {
@@ -388,12 +339,10 @@ export function getAnnotationFromMediaElement(
   );
 }
 
-export function getFirstChildManifestLocation(
+export function getFirstCollectionManifestLocation(
   iiifManifest: IIIFManifest
 ): string | undefined {
-  if (iiifManifest.manifests) {
-    return iiifManifest.manifests.find(manifest => manifest['@id'])['@id'];
-  }
+  return iiifManifest.manifests?.find(manifest => manifest['@id'])?.['@id'];
 }
 
 export function getIIIFPresentationCredit(

@@ -1,21 +1,18 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody } from '../Card/Card';
+import { CardOuter, CardBody, CardImageWrapper } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import styled from 'styled-components';
-
-const ImageWrapper = styled.div`
-  position: relative;
-`;
 
 type Props = {
   exhibitionGuide: ExhibitionGuideBasic;
 };
 
-const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
+const ExhibitionGuidePromo: FunctionComponent<Props> = ({
+  exhibitionGuide,
+}) => {
   return (
     <CardOuter
       data-component="ExhibitionGuidePromo"
@@ -32,7 +29,7 @@ const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
       }}
     >
       {exhibitionGuide.promo?.image && (
-        <ImageWrapper>
+        <CardImageWrapper>
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
             // users don't have to listen to the alt text before hearing the
@@ -49,7 +46,7 @@ const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
             }}
             quality="low"
           />
-        </ImageWrapper>
+        </CardImageWrapper>
       )}
 
       <CardBody>

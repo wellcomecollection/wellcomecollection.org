@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { downloadUrl } from '../../services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
@@ -19,8 +19,8 @@ import {
   getMediaClickthroughService,
   getMediaClickthroughServiceV3,
   getTokenService,
-  getTokenServiceV3,
-} from '../../utils/iiif';
+} from '../../utils/iiif/v2';
+import { getTokenService as getTokenServiceV3 } from '../../utils/iiif/v3';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -38,17 +38,14 @@ import { trackEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import useIIIFManifestData from '../../hooks/useIIIFManifestData';
+import useTransformedManifest from '../../hooks/useTransformedManifest';
+import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import LibraryMembersBar from '../LibraryMembersBar/LibraryMembersBar';
 import { eye } from '@weco/common/icons';
-import {
-  abortErrorHandler,
-  useAbortSignalEffect,
-} from '@weco/common/hooks/useAbortSignalEffect';
 import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
@@ -84,84 +81,69 @@ function getItemLinkState({
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const isArchive = useContext(IsArchiveContext);
-
   const itemUrl = itemLink({ workId: work.id }, 'work');
+  const transformedIIIFImage = useTransformedIIIFImage(work);
+  const transformedIIIFManifest = useTransformedManifest(work);
+  const {
+    video,
+    iiifCredit,
+    downloadEnabled,
+    downloadOptions: manifestDownloadOptions,
+    collectionManifestsCount,
+    canvasCount,
+    audio,
+    services,
+  } = transformedIIIFManifest;
 
-  // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
   );
 
-  const digitalLocation: DigitalLocation | undefined =
-    iiifPresentationLocation || iiifImageLocation;
-
-  const [imageJson, setImageJson] = useState<{
-    width: number;
-    height: number;
-  }>();
-
-  useAbortSignalEffect(signal => {
-    const fetchImageJson = async () => {
-      try {
-        const imageJson =
-          iiifImageLocation &&
-          (await fetch(iiifImageLocation.url, { signal }).then(resp =>
-            resp.json()
-          ));
-
-        setImageJson(imageJson);
-      } catch (e) {}
-    };
-    fetchImageJson().catch(abortErrorHandler);
-  }, []);
-
-  const digitalLocationInfo =
-    digitalLocation && getDigitalLocationInfo(digitalLocation);
-
-  const {
-    imageCount,
-    childManifestsCount,
-    audio,
-    video,
-    iiifCredit,
-    iiifPresentationDownloadOptions = [],
-    iiifDownloadEnabled,
-    manifestV3,
-  } = useIIIFManifestData(work);
-
-  // We display a content advisory warning at the work level, so it is sufficient
-  // to check if any individual piece of audio content requires an advisory notice
-  const videoAuthService = video && getMediaClickthroughService(video);
-  const audioAuthService =
-    manifestV3?.services && getMediaClickthroughServiceV3(manifestV3.services);
-  const authService = videoAuthService || audioAuthService;
-
-  const tokenService = videoAuthService
-    ? getTokenService(videoAuthService)
-    : audioAuthService
-    ? getTokenServiceV3(audioAuthService['@id'], manifestV3.services)
-    : undefined;
-
-  // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
-  const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
-
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-
+  // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
+  // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
+  // For a iiif-image DigitalLocation we create the download options
+  // from a combination of the DigitalLocation and the iiif-image json to which it points.
+  // The json provides the image width and height used in the link text.
+  // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
+  // gets this data client side.
+  const iiifImageLocationUrl = iiifImageLocation?.url;
   const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl({
         url: iiifImageLocationUrl,
-        width: imageJson && imageJson.width,
-        height: imageJson && imageJson.height,
+        width: transformedIIIFImage?.width,
+        height: transformedIIIFImage?.height,
       })
     : [];
 
   const downloadOptions = [
+    ...manifestDownloadOptions,
     ...iiifImageDownloadOptions,
-    ...iiifPresentationDownloadOptions,
   ];
+
+  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
+  // we use the former
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
+
+  // iiif-image locations have credit info.
+  // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
+  const credit = digitalLocation?.credit || iiifCredit;
+
+  // We display a content advisory warning at the work level, so it is sufficient
+  // to check if any individual piece of audio content requires an advisory notice
+  // TODO move following to transformer, so it's available on manifestData
+  const videoAuthService = video && getMediaClickthroughService(video);
+  const audioAuthService = services && getMediaClickthroughServiceV3(services);
+  const authService = videoAuthService || audioAuthService;
+  const tokenService = videoAuthService
+    ? getTokenService(videoAuthService)
+    : audioAuthService
+    ? getTokenServiceV3(audioAuthService['@id'], services)
+    : undefined;
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -208,15 +190,15 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     return ![...orderedNotes, locationOfWork].some(n => n === note);
   });
 
-  function determineDownloadVisibility(iiifDownloadEnabled) {
+  function determineDownloadVisibility(downloadEnabled: boolean | undefined) {
     if (digitalLocationInfo?.accessCondition === 'open-with-advisory') {
       return false;
     } else {
-      return iiifDownloadEnabled !== undefined ? iiifDownloadEnabled : true;
+      return downloadEnabled !== undefined ? downloadEnabled : true;
     }
   }
 
-  const showDownloadOptions = determineDownloadVisibility(iiifDownloadEnabled);
+  const showDownloadOptions = determineDownloadVisibility(downloadEnabled);
 
   const itemLinkState = getItemLinkState({
     accessCondition: digitalLocationInfo?.accessCondition,
@@ -345,11 +327,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               </Space>
             )}
 
-            {audio.sounds.length > 0 && (
+            {audio?.sounds && audio.sounds.length > 0 && (
               <AudioList
-                items={audio.sounds}
-                thumbnail={audio.thumbnail}
-                transcript={audio.transcript}
+                items={audio?.sounds || []}
+                thumbnail={audio?.thumbnail}
+                transcript={audio?.transcript}
                 workTitle={work.title}
               />
             )}
@@ -448,7 +430,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 </div>
                 {!(downloadOptions.length > 0) &&
                   sierraIdFromManifestUrl &&
-                  childManifestsCount === 0 && (
+                  collectionManifestsCount === 0 && (
                     <NextLink
                       {...downloadUrl({
                         workId: work.id,
@@ -458,7 +440,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       <a>Download options</a>
                     </NextLink>
                   )}
-                {(childManifestsCount > 0 || imageCount > 0) && (
+                {(collectionManifestsCount > 0 || canvasCount > 0) && (
                   <Space
                     v={{
                       size: 'm',
@@ -467,13 +449,15 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   >
                     <p className={`no-margin ${font('lr', 6)}`}>
                       Contains:{' '}
-                      {childManifestsCount > 0
-                        ? `${childManifestsCount} ${
-                            childManifestsCount === 1 ? 'volume' : 'volumes'
+                      {collectionManifestsCount > 0
+                        ? `${collectionManifestsCount} ${
+                            collectionManifestsCount === 1
+                              ? 'volume'
+                              : 'volumes'
                           }`
-                        : imageCount > 0
-                        ? `${imageCount} ${
-                            imageCount === 1 ? 'image' : 'images'
+                        : canvasCount > 0
+                        ? `${canvasCount} ${
+                            canvasCount === 1 ? 'image' : 'images'
                           }`
                         : ''}
                     </p>
@@ -602,10 +586,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           />
         )}
 
-        {/* 
+        {/*
           Note: although production event labels sometimes contain angle brackets, it's
           normally used to denote a period of time, not HTML tags.
-          
+
           e.g. London : County Council, 1900-<1983>
         */}
         {work.production.length > 0 && (
@@ -690,7 +674,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {/*
           Note: although angle brackets are sometimes used in the lettering field,
           it's usually to denote missing or unclear text, not HTML.
-          
+
           e.g. Patient <...>, sup<erior> mesenteric a<rtery>
           */}
         {work.lettering && (

@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 
-const FooterWellcomeLogo: FC = () => (
+const FooterWellcomeLogo: FunctionComponent = () => (
   <svg
     width="128"
     height="42"

@@ -1,5 +1,11 @@
 import { GetServerSideProps } from 'next';
-import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  useState,
+  useEffect,
+  ReactElement,
+} from 'react';
 import { Article, ArticleBasic } from '../types/articles';
 import { Series } from '../types/series';
 import { font } from '@weco/common/utils/classnames';
@@ -126,7 +132,7 @@ function getNextUp(
   }
 }
 
-const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
+const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {
@@ -170,7 +176,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       ...article.series.slice(0, 1).map(series => ({
         url: `/series/${series.id}`,
         text: series.title || '',
-        prefix: `Part of`,
+        prefix: 'Part of',
       })),
       {
         url: `/articles/${article.id}`,
@@ -233,7 +239,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
               ))}
             {article.readingTime ? (
               <ContentTypeInfoSection>
-                Average reading time{' '}
+                average reading time{' '}
                 <span className={font('intb', 6)}>{article.readingTime}</span>
               </ContentTypeInfoSection>
             ) : null}
@@ -264,7 +270,6 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       labels={{ labels: article.labels }}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
-      Background={undefined}
       FeaturedMedia={
         isImageGallery || isPodcast ? undefined : maybeFeaturedMedia
       }

@@ -6,18 +6,17 @@ import {
   useContext,
 } from 'react';
 import styled from 'styled-components';
-import { IIIFCanvas, IIIFManifest } from '../../model/iiif';
+import {
+  IIIFCanvas,
+  IIIFManifest,
+  CollectionManifest,
+} from '../../services/iiif/types/manifest/v2';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
 } from '../../utils/works';
-import {
-  getUiExtensions,
-  isUiEnabled,
-  getServiceId,
-  getDownloadOptionsFromManifest,
-} from '../../utils/iiif';
+import { getServiceId } from '../../utils/iiif/v2';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -40,6 +39,8 @@ import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
+import { TransformedManifest } from '../../types/manifest';
+import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 
 type IIIFViewerProps = {
   title: string;
@@ -48,18 +49,17 @@ type IIIFViewerProps = {
   thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
   lang: string;
   canvasOcr?: string;
-  canvases: IIIFCanvas[];
   workId: string;
   pageIndex: number;
   pageSize: number;
   canvasIndex: number;
-  iiifImageLocation?: DigitalLocation;
+  iiifImageLocation: DigitalLocation | undefined;
   work: Work;
-  manifest?: IIIFManifest;
+  transformedManifest: TransformedManifest;
   manifestIndex?: number;
   handleImageError?: () => void;
 };
-// TODO: Move this to somewhere better?
+
 const LoadingComponent = () => (
   <div
     style={{
@@ -72,6 +72,7 @@ const LoadingComponent = () => (
     <LL />
   </div>
 );
+
 const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
   ssr: false,
   loading: LoadingComponent,
@@ -209,11 +210,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   mainPaginatorProps,
   currentCanvas,
   lang,
-  canvases,
   canvasIndex,
   iiifImageLocation,
   work,
-  manifest,
+  transformedManifest,
   manifestIndex,
   pageSize,
   pageIndex,
@@ -243,7 +243,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [imageJson, setImageJson] = useState<any>();
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
@@ -259,20 +258,16 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const activeIndexRef = useRef(activeIndex);
   const previousManifestIndex = useRef(manifestIndex);
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
-  const hasImageService = mainImageService['@id'] && currentCanvas;
+  const transformedIIIFImage = useTransformedIIIFImage(work);
 
-  useEffect(() => {
-    const fetchImageJson = async () => {
-      try {
-        if (iiifImageLocation) {
-          const image = await fetch(iiifImageLocation.url);
-          const json = await image.json();
-          setImageJson(json);
-        }
-      } catch (e) {}
-    };
-    fetchImageJson();
-  }, []);
+  const hasImageService = mainImageService['@id'] && currentCanvas;
+  const {
+    canvases,
+    downloadEnabled,
+    downloadOptions: manifestDownloadOptions,
+    parentManifestUrl,
+    iiifCredit,
+  } = transformedManifest;
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -307,12 +302,13 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         // it was before and scroll to the right place.
         if (previousActiveIndex !== activeIndex) {
           setActiveIndex(previousActiveIndex);
-          scrollViewer(
-            canvases[previousActiveIndex],
-            previousActiveIndex,
-            mainViewerRef?.current,
-            mainArea.contentRect.width
-          );
+          canvases &&
+            scrollViewer(
+              canvases[previousActiveIndex],
+              previousActiveIndex,
+              mainViewerRef?.current,
+              mainArea.contentRect.width
+            );
         }
 
         previousActiveIndex = undefined;
@@ -334,8 +330,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     const matchingManifest =
       parentManifest &&
       parentManifest.manifests &&
-      parentManifest.manifests.find((childManifest: IIIFManifest) => {
-        return !manifest ? false : childManifest['@id'] === manifest['@id'];
+      parentManifest.manifests.find((childManifest: CollectionManifest) => {
+        return !transformedManifest
+          ? false
+          : childManifest['@id'] === transformedManifest.id;
       });
 
     matchingManifest && setCurrentManifestLabel(matchingManifest.label);
@@ -345,47 +343,54 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     work,
     'iiif-presentation'
   );
-  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+
+  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
+  // we use the former
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+
   const licenseInfo =
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
 
-  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const showDownloadOptions = manifest
-    ? isUiEnabled(getUiExtensions(manifest), 'mediaDownload')
-    : true;
+  // iiif-image locations have credit info.
+  // iiif-presentation locations don't have credit info, so we fall back to the data in the manifest
+  const iiifImageLocationCredit = digitalLocation?.credit || iiifCredit;
 
-  const imageDownloadOptions =
-    showDownloadOptions && iiifImageLocation
-      ? getDownloadOptionsFromImageUrl({
-          url: iiifImageLocation.url,
-          width: imageJson?.width,
-          height: imageJson?.height,
-        })
-      : [];
-  const imageDownloads =
-    mainImageService['@id'] &&
-    getDownloadOptionsFromImageUrl({
-      url: mainImageService['@id'],
-      width: currentCanvas && currentCanvas.width,
-      height: currentCanvas && currentCanvas.height,
-    });
-  const iiifPresentationDownloadOptions =
-    (showDownloadOptions &&
-      manifest &&
-      imageDownloads && [
-        ...imageDownloads,
-        ...getDownloadOptionsFromManifest(manifest),
-      ]) ||
-    [];
-
-  const downloadOptions = showDownloadOptions
-    ? [...imageDownloadOptions, ...iiifPresentationDownloadOptions]
+  // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
+  // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
+  // For a iiif-image DigitalLocation we create the download options
+  // from a combination of the DigitalLocation and the iiif-image json to which it points.
+  // The json provides the image width and height used in the link text.
+  // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
+  // gets this data client side.
+  const iiifImageDownloadOptions = iiifImageLocation
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocation.url,
+        width: transformedIIIFImage.width,
+        height: transformedIIIFImage.height,
+      })
     : [];
+
+  // We also want to offer download options for each canvas image
+  // in the iiif-presentation manifest when it is being viewed.
+  const canvasImageDownloads = mainImageService['@id']
+    ? getDownloadOptionsFromImageUrl({
+        url: mainImageService['@id'],
+        width: currentCanvas && currentCanvas.width,
+        height: currentCanvas && currentCanvas.height,
+      })
+    : [];
+
+  const downloadOptions = [
+    ...iiifImageDownloadOptions,
+    ...canvasImageDownloads,
+    ...manifestDownloadOptions,
+  ];
 
   useSkipInitialEffect(() => {
     const canvasParams =
-      canvases.length > 0 || currentCanvas
+      (canvases && canvases.length > 0) || currentCanvas
         ? { canvas: `${activeIndex + 1}` }
         : {};
     const manifest = mainPaginatorProps.link.href.query?.manifest;
@@ -421,12 +426,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     previousManifestIndex.current = manifestIndex;
   }, [manifestIndex]);
 
-  const parentManifestUrl = manifest && manifest.within;
-
   useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
-        parentManifestUrl && (await fetchJson(parentManifestUrl));
+        transformedManifest.parentManifestUrl &&
+        (await fetchJson(parentManifestUrl as string));
       parentManifest && setParentManifest(parentManifest);
     };
 
@@ -437,18 +441,16 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     <ItemViewerContext.Provider
       value={{
         work,
-        manifest,
+        transformedManifest,
         manifestIndex,
         lang,
-        canvases,
         canvasIndex,
         activeIndex,
         gridVisible,
         currentManifestLabel,
         licenseInfo,
         iiifImageLocationCredit,
-        downloadOptions,
-        iiifPresentationDownloadOptions,
+        downloadOptions: downloadEnabled ? downloadOptions : [],
         parentManifest,
         mainAreaWidth,
         mainAreaHeight,
@@ -475,7 +477,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setShowControls,
         errorHandler: handleImageError,
         setRotatedImages,
-        setImageJson,
         setParentManifest,
         setCurrentManifestLabel,
       }}
@@ -554,7 +555,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       mainPaginatorProps={mainPaginatorProps}
       thumbsPaginatorProps={thumbsPaginatorProps}
       workId={work.id}
-      canvases={canvases}
+      canvases={canvases || []}
       canvasIndex={canvasIndex}
       pageIndex={pageIndex}
       pageSize={pageSize}

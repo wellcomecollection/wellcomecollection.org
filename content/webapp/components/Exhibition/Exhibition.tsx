@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, FC } from 'react';
+import { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -203,7 +203,11 @@ type Props = {
   pages: PageType[];
 };
 
-const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
+const Exhibition: FunctionComponent<Props> = ({
+  exhibition,
+  jsonLd,
+  pages,
+}) => {
   type ExhibitionOf = (ExhibitionType | EventType)[];
 
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
@@ -253,7 +257,6 @@ const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
       breadcrumbs={breadcrumbs}
       labels={{ labels: exhibition.labels }}
       title={exhibition.title}
-      Background={undefined}
       ContentTypeInfo={
         <Fragment>
           {!exhibition.isPermanent && (

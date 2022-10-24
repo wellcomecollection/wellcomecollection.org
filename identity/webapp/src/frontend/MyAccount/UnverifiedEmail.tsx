@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { UseSendVerificationEmail } from '../hooks/useSendVerificationEmail';
 
-export const UnverifiedEmail: FC<UseSendVerificationEmail> = ({
+export const UnverifiedEmail: FunctionComponent<UseSendVerificationEmail> = ({
   sendVerificationEmail,
   state,
 }) => {
