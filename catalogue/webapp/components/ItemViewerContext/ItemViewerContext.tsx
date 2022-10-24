@@ -2,10 +2,10 @@ import { createContext } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import {
   IIIFManifest,
-  IIIFRendering,
   SearchResults,
 } from '../../services/iiif/types/manifest/v2';
 import {
+  DownloadOption,
   TransformedManifest,
   createDefaultTransformedManifest,
 } from '../../types/manifest';
@@ -26,7 +26,7 @@ type Props = {
   currentManifestLabel?: string;
   licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
-  downloadOptions: IIIFRendering[]; // This can be downloads from a manifest or created from a iiif-image location
+  downloadOptions: DownloadOption[]; // This can be downloads from a manifest or created from a iiif-image location
   parentManifest: IIIFManifest | undefined;
   lang: string;
   mainAreaWidth: number;
