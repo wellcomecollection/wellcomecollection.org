@@ -59,7 +59,7 @@ const Header: FunctionComponent<Props> = ({ title }) => {
               marginRight: '18px',
             }}
           >
-            <Link href="/pa11y">
+            <Link href="/pa11y/">
               <a
                 style={{
                   color: '#323232',
@@ -76,7 +76,7 @@ const Header: FunctionComponent<Props> = ({ title }) => {
               marginRight: '18px',
             }}
           >
-            <Link href="/toggles">
+            <Link href="/toggles/">
               <a
                 style={{
                   color: '#323232',
