@@ -1,6 +1,5 @@
 import {
   IIIFManifest,
-  IIIFRendering,
   IIIFMetadata,
   IIIFCanvas,
   IIIFStructure,
