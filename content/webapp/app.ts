@@ -123,11 +123,6 @@ const appPromise = nextApp
       pageVanityUrl(router, nextApp, url, pageId, template)
     );
 
-    router.redirect(
-      `/pages/${prismicPageIds.stories}`,
-      '/stories',
-      permanentRedirect
-    );
     route('/stories', '/stories', router, nextApp);
 
     router.redirect(

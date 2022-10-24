@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { FunctionComponent } from 'react';
+import Link from 'next/link';
 
 type Props = { title: string };
 
@@ -37,7 +37,7 @@ const Header: FunctionComponent<Props> = ({ title }) => {
             padding: 0,
             marginLeft: '18px',
             color: '#323232',
-            weight: 'normal',
+            fontWeight: 'normal',
             lineHeight: '2.5em',
             minWidth: '150px',
           }}
@@ -59,7 +59,7 @@ const Header: FunctionComponent<Props> = ({ title }) => {
               marginRight: '18px',
             }}
           >
-            <Link href="/pa11y">
+            <Link href="/pa11y/">
               <a
                 style={{
                   color: '#323232',
@@ -76,7 +76,7 @@ const Header: FunctionComponent<Props> = ({ title }) => {
               marginRight: '18px',
             }}
           >
-            <Link href="/toggles">
+            <Link href="/toggles/">
               <a
                 style={{
                   color: '#323232',

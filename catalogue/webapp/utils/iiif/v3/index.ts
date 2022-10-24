@@ -6,10 +6,17 @@ import { Audio } from '../../../services/iiif/types/manifest/v3';
 import {
   ContentResource,
   IIIFExternalWebResource,
+  InternationalString,
   Manifest,
   Service,
 } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
+
+function getEnFromInternationalString(
+  internationalString: InternationalString
+): string {
+  return internationalString?.['en']?.[0] || '';
+}
 
 export function getTokenService(
   authServiceId: string,
@@ -28,11 +35,14 @@ export function getTokenService(
 
 export function getAudio(manifest: Manifest): Audio {
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
-  const title = canvases.find(c => c?.label?.en)?.[0];
+  const firstEnCanvas = canvases.find(c => c?.label?.en);
+  const title = firstEnCanvas?.label
+    ? getEnFromInternationalString(firstEnCanvas.label)
+    : '';
   const audioTypes = ['Audio', 'Sound'];
   const sounds = canvases
     .map(c => {
-      const title = c?.label?.en?.[0];
+      const title = c?.label && getEnFromInternationalString(c.label);
       const annotationPage = c?.items?.find(i => i.type === 'AnnotationPage');
       const annotation = annotationPage?.items?.find(
         i => i.type === 'Annotation'
@@ -60,4 +70,10 @@ export function getAudio(manifest: Manifest): Audio {
   );
 
   return { title, sounds, thumbnail, transcript };
+}
+
+export function getTitle(label: InternationalString | string): string {
+  if (typeof label === 'string') return label;
+
+  return getEnFromInternationalString(label);
 }

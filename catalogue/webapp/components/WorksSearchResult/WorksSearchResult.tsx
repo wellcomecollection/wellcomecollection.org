@@ -88,19 +88,19 @@ const WorkSearchResultV2: FunctionComponent<Props> = ({
 
               {productionDates.length > 0 && (
                 <WorkInformationItem>
-                  Date: {productionDates[0]}
+                  Date:&nbsp;{productionDates[0]}
                 </WorkInformationItem>
               )}
 
               {archiveLabels?.reference && (
                 <WorkInformationItem>
-                  Reference: {archiveLabels && archiveLabels?.reference}
+                  Reference:&nbsp;{archiveLabels?.reference}
                 </WorkInformationItem>
               )}
             </WorkInformation>
             {archiveLabels?.partOf && (
               <WorkInformation>
-                Part of: {archiveLabels && archiveLabels?.partOf}
+                Part of:&nbsp;{archiveLabels?.partOf}
               </WorkInformation>
             )}
           </Details>

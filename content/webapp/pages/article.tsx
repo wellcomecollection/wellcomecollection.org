@@ -239,7 +239,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
               ))}
             {article.readingTime ? (
               <ContentTypeInfoSection>
-                Average reading time{' '}
+                average reading time{' '}
                 <span className={font('intb', 6)}>{article.readingTime}</span>
               </ContentTypeInfoSection>
             ) : null}
