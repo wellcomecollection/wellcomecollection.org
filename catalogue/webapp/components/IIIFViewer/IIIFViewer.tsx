@@ -6,11 +6,8 @@ import {
   useContext,
 } from 'react';
 import styled from 'styled-components';
-import {
-  IIIFCanvas,
-  IIIFManifest,
-  CollectionManifest,
-} from '../../services/iiif/types/manifest/v2';
+import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
+import { Manifest, Canvas } from '@iiif/presentation-3';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
@@ -222,9 +219,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
-  const [parentManifest, setParentManifest] = useState<
-    IIIFManifest | undefined
-  >();
+  const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
     string | undefined
   >();
@@ -329,15 +324,17 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     const matchingManifest =
       parentManifest &&
-      parentManifest.manifests &&
-      parentManifest.manifests.find((childManifest: CollectionManifest) => {
+      parentManifest.items &&
+      parentManifest.items.find((canvas: Canvas) => {
         return !transformedManifest
           ? false
-          : childManifest['@id'] === transformedManifest.id;
+          : canvas.id === transformedManifest.id;
       });
 
-    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
-  });
+    // FIXME: this en[1] feels like a bad idea
+    matchingManifest?.label?.en?.[1] &&
+      setCurrentManifestLabel(matchingManifest.label.en[1]);
+  }, [parentManifest]);
 
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -431,6 +428,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       const parentManifest =
         transformedManifest.parentManifestUrl &&
         (await fetchJson(parentManifestUrl as string));
+
       parentManifest && setParentManifest(parentManifest);
     };
 

@@ -18,8 +18,8 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
       role="navigation"
       aria-label={volumesNavigationLabel}
     >
-      {parentManifest?.manifests.map((manifest, i) => (
-        <li key={manifest['@id']}>
+      {parentManifest?.items.map((manifest, i) => (
+        <li key={manifest.id}>
           <NextLink
             {...itemLink({
               workId: work.id,
@@ -27,12 +27,14 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
               manifest: i + 1,
               canvas: 1,
             })}
+            passHref={true}
           >
             <Anchor
               isManifestIndex={i === manifestIndex}
               aria-current={i === manifestIndex ? 'page' : undefined}
             >
-              {manifest.label}
+              {/* FIXME: en[1] here (also) feels mega-flakey */}
+              {manifest?.label?.en?.[1] || 'Unknown'}
             </Anchor>
           </NextLink>
         </li>

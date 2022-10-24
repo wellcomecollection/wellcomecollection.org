@@ -243,7 +243,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
             <ViewerStructures mainViewerRef={mainViewerRef} />
           </AccordionItem>
         )}
-        {parentManifest && parentManifest.manifests && (
+        {parentManifest && parentManifest.items && (
           <AccordionItem title="Volumes">
             <MultipleManifestList />
           </AccordionItem>
