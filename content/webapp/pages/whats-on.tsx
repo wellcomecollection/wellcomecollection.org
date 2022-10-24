@@ -398,7 +398,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="whats-on"
-      image={firstExhibition && firstExhibition.image}
+      image={firstExhibition && firstExhibition.promo?.image}
     >
       <>
         <Header

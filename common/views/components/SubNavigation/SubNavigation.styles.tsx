@@ -46,7 +46,7 @@ export const Tab = styled.div.attrs({
   flex-shrink: 0;
   transition: padding ${props => props.theme.transitionProperties};
 
-  &:first-child span {
+  &:first-child {
     padding-left: 0;
   }
 
