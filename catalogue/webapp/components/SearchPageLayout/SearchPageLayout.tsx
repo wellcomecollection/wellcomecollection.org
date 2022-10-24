@@ -7,6 +7,7 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 
 const SearchLayout: FunctionComponent = ({ children }) => {
   const router = useRouter();
+
   const currentSearchCategory =
     router.pathname === '/search'
       ? 'overview'
@@ -29,6 +30,13 @@ const SearchLayout: FunctionComponent = ({ children }) => {
   const [pageLayoutMetadata, setPageLayoutMetadata] = useState(
     defaultPageLayoutMetadata
   );
+
+  const getURL = pathname => {
+    return convertUrlToString({
+      pathname,
+      query: router.query,
+    });
+  };
 
   useEffect(() => {
     const { query } = router.query;
@@ -92,50 +100,32 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           items={[
             {
               id: 'overview',
-              url: convertUrlToString({
-                pathname: '/search',
-                query: router.query,
-              }),
+              url: getURL('/search'),
               name: 'Overview (1032)',
             },
             {
               id: 'exhibitions',
-              url: convertUrlToString({
-                pathname: '/search/exhibitions',
-                query: router.query,
-              }),
+              url: getURL('/search/exhibitions'),
               name: 'Exhibitions (1032)',
             },
             {
               id: 'events',
-              url: convertUrlToString({
-                pathname: '/search/events',
-                query: router.query,
-              }),
+              url: getURL('/search/events'),
               name: 'Events (1032)',
             },
             {
               id: 'stories',
-              url: convertUrlToString({
-                pathname: '/search/stories',
-                query: router.query,
-              }),
+              url: getURL('/search/stories'),
               name: 'Stories (1032)',
             },
             {
               id: 'images',
-              url: convertUrlToString({
-                pathname: '/search/images',
-                query: router.query,
-              }),
+              url: getURL('/search/images'),
               name: 'Images (1032)',
             },
             {
               id: 'catalogue',
-              url: convertUrlToString({
-                pathname: '/search/catalogue',
-                query: router.query,
-              }),
+              url: getURL('/search/catalogue'),
               name: 'Catalogue (1032)',
             },
           ]}
