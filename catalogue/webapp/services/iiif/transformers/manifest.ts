@@ -16,7 +16,7 @@ import {
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
-import { getAudio, getId } from '../../../utils/iiif/v3';
+import { getAudio } from '../../../utils/iiif/v3';
 
 export function transformManifest(
   iiifManifests: IIIFManifests
@@ -57,7 +57,6 @@ export function transformManifest(
   const isCollectionManifest = manifestV2
     ? manifestV2['@type'] === 'sc:Collection'
     : false;
-  const parentManifestUrl = manifestV2 && manifestV2.within;
   const needsModal = checkModalRequired(authService, isAnyImageOpen);
   const searchService = manifestV2 && getSearchService(manifestV2);
   const manifests = manifestV2?.manifests || [];
@@ -66,9 +65,8 @@ export function transformManifest(
   // V3
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
-  const id = manifestV3?.id ? getId(manifestV3.id) : '';
-
-  console.log({ id });
+  const id = manifestV3?.id || '';
+  const parentManifestUrl = manifestV3 && manifestV3.partOf?.[0].id;
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
@@ -89,7 +87,6 @@ export function transformManifest(
     isCollectionManifest,
     manifests,
     canvases,
-    parentManifestUrl,
     needsModal,
     searchService,
     structures,
@@ -97,5 +94,6 @@ export function transformManifest(
     id,
     audio,
     services,
+    parentManifestUrl,
   };
 }
