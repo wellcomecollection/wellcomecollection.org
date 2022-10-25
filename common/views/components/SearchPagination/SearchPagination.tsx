@@ -1,0 +1,103 @@
+import { chevron } from '@weco/common/icons';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, createRef, useState, FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
+  height: 36px;
+  width: 36px;
+  max-width: 50px;
+  background: none;
+  color: ${({ darkBg }) => (darkBg ? '#ffffff' : '#121212')};
+  border: ${({ darkBg }) => (darkBg ? '#cccccc' : '#6b6b6b')} 1px solid;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0 10px;
+`;
+
+const ChevronWrapper = styled.a<{ prev?: boolean; darkBg?: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  border: 1px solid ${({ darkBg }) => (darkBg ? '#d9d9d9' : '#6b6b6b')};
+  border-radius: 50px;
+  transform: rotate(${({ prev }) => (prev ? '90' : '270')}deg);
+  margin: 0 8px;
+`;
+
+export const SearchPagination: FunctionComponent<{
+  totalPages: number;
+  darkBg?: boolean;
+}> = ({ totalPages, darkBg }) => {
+  const { pathname, query, push } = useRouter();
+  const [currentPage, setCurrentPage] = useState(Number(query.page) || 1);
+  const targetPageInput = createRef<HTMLInputElement>();
+
+  const handlePageSubmit = e => {
+    e.preventDefault();
+    push({
+      pathname,
+      query: { ...query, page: targetPageInput.current?.value },
+    });
+  };
+
+  useEffect(() => {
+    setCurrentPage(Number(query.page) || 1);
+  }, [query.page]);
+
+  const showPrev = currentPage > 1;
+  const showNext = currentPage < totalPages;
+
+  return (
+    <nav
+      aria-label="search pagination"
+      style={{ display: 'flex', alignItems: 'center' }}
+    >
+      <form onSubmit={handlePageSubmit}>
+        <>Showing page</>
+        <PageSelectorInput
+          name="targetPage"
+          value={currentPage}
+          ref={targetPageInput}
+          onChange={e => setCurrentPage(Number(e.target.value))}
+          darkBg={darkBg}
+        />
+        <>/ {totalPages}</>
+      </form>
+      {showPrev && (
+        <Link
+          passHref
+          href={{ pathname, query: { ...query, page: currentPage - 1 } }}
+        >
+          <ChevronWrapper darkBg={darkBg} prev>
+            <Icon
+              aria-label="previous page"
+              icon={chevron}
+              color={darkBg ? 'white' : 'black'}
+            />
+          </ChevronWrapper>
+        </Link>
+      )}
+      {showNext && (
+        <Link
+          passHref
+          href={{ pathname, query: { ...query, page: currentPage + 1 } }}
+        >
+          <ChevronWrapper darkBg={darkBg}>
+            <Icon
+              aria-label="next page"
+              icon={chevron}
+              color={darkBg ? 'white' : 'black'}
+            />
+          </ChevronWrapper>
+        </Link>
+      )}
+    </nav>
+  );
+};
+
+export default SearchPagination;
