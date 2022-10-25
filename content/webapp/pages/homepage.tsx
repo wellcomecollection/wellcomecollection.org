@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -130,7 +130,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Homepage: FC<Props> = ({
+const Homepage: FunctionComponent<Props> = ({
   nextSevenDaysEvents,
   exhibitions,
   articles,

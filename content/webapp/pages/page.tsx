@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
@@ -176,7 +176,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-export const Page: FC<Props> = ({
+export const Page: FunctionComponent<Props> = ({
   page,
   siblings,
   children,

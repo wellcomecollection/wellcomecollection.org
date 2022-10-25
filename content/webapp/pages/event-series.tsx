@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { EventSeries } from '../types/event-series';
 import { EventBasic } from '../types/events';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -104,7 +104,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const EventSeriesPage: FC<Props> = ({
+const EventSeriesPage: FunctionComponent<Props> = ({
   series,
   jsonLd,
   pastEvents,

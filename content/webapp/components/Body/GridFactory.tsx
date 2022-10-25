@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -43,7 +43,10 @@ export const twoUpGridSizesMap: GridMap = {
   default: [s12m6l6xl6],
 };
 
-const GridFactory: FC<Props> = ({ items, overrideGridSizes }) => {
+const GridFactory: FunctionComponent<Props> = ({
+  items,
+  overrideGridSizes,
+}) => {
   const gridSizesMap = overrideGridSizes || {
     1: [{ s: 12, m: 12, l: 12, xl: 12 }],
     2: [

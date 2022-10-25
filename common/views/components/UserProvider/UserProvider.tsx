@@ -1,4 +1,4 @@
-import { createContext, FC, useContext, useState } from 'react';
+import { createContext, FunctionComponent, useContext, useState } from 'react';
 import {
   auth0UserProfileToUserInfo,
   isFullAuth0Profile,
@@ -27,7 +27,7 @@ export function useUser(): Props {
   return contextState;
 }
 
-const UserProvider: FC = ({ children }) => {
+const UserProvider: FunctionComponent = ({ children }) => {
   const [user, setUser] = useState<UserInfo>();
   const [state, setState] = useState<State>('initial');
 

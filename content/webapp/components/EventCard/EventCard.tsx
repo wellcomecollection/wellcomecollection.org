@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { EventBasic } from '../../types/events';
 import CompactCard from '../CompactCard/CompactCard';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -14,12 +14,12 @@ type Props = {
   xOfY: { x: number; y: number };
 };
 
-const EventCard: FC<Props> = ({ event, xOfY }) => {
+const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
   const DateRangeComponent = event.isPast ? undefined : (
     <EventDateRange event={event} />
   );
 
-  const squareImage = getCrop(event.image, 'square');
+  const squareImage = getCrop(event.promo?.image, 'square');
   const ImageComponent = squareImage && (
     <PrismicImage
       image={{

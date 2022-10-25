@@ -351,7 +351,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     getCatalogueLicenseData(digitalLocation.license);
 
   // iiif-image locations have credit info.
-  // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
+  // iiif-presentation locations don't have credit info, so we fall back to the data in the manifest
   const iiifImageLocationCredit = digitalLocation?.credit || iiifCredit;
 
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
@@ -10,7 +10,9 @@ type Props = {
   exhibitionGuide: ExhibitionGuideBasic;
 };
 
-const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
+const ExhibitionGuidePromo: FunctionComponent<Props> = ({
+  exhibitionGuide,
+}) => {
   return (
     <CardOuter
       data-component="ExhibitionGuidePromo"

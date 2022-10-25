@@ -14,47 +14,48 @@ export type PasswordInputProps = UseControllerOptions & {
   updateInput?: (value: string) => void;
 };
 
-export const PasswordInput: React.FC<PasswordInputProps> = props => {
-  const { updateInput } = props;
-  const [isVisible, setIsVisible] = useState(false);
-  const { field, meta } = useController(props);
-  const toggleVisibility = () =>
-    setIsVisible(currentlyVisible => !currentlyVisible);
+export const PasswordInput: React.FunctionComponent<PasswordInputProps> =
+  props => {
+    const { updateInput } = props;
+    const [isVisible, setIsVisible] = useState(false);
+    const { field, meta } = useController(props);
+    const toggleVisibility = () =>
+      setIsVisible(currentlyVisible => !currentlyVisible);
 
-  useEffect(() => {
-    if (!updateInput) return;
+    useEffect(() => {
+      if (!updateInput) return;
 
-    updateInput(field.value);
-  }, [field.value, updateInput]);
+      updateInput(field.value);
+    }, [field.value, updateInput]);
 
-  return (
-    <>
-      <TextInputWrap
-        hasErrorBorder={meta.invalid}
-        value={field.value}
-        big={false}
-      >
-        <TextInputLabel
-          htmlFor={props.id}
-          isEnhanced={true}
-          hasValue={!!field.value}
-        >
-          {props.label}
-        </TextInputLabel>
-        <TextInputInput
-          big={false}
+    return (
+      <>
+        <TextInputWrap
           hasErrorBorder={meta.invalid}
-          id={props.id || props.name}
-          type={isVisible ? 'text' : 'password'}
-          {...field}
-        />
-        <ShowPasswordButton
-          onClick={toggleVisibility}
-          aria-label={isVisible ? 'Hide password' : 'Show password'}
+          value={field.value}
+          big={false}
         >
-          <Icon icon={isVisible ? a11YVisual : eye} color="neutral.500" />
-        </ShowPasswordButton>
-      </TextInputWrap>
-    </>
-  );
-};
+          <TextInputLabel
+            htmlFor={props.id}
+            isEnhanced={true}
+            hasValue={!!field.value}
+          >
+            {props.label}
+          </TextInputLabel>
+          <TextInputInput
+            big={false}
+            hasErrorBorder={meta.invalid}
+            id={props.id || props.name}
+            type={isVisible ? 'text' : 'password'}
+            {...field}
+          />
+          <ShowPasswordButton
+            onClick={toggleVisibility}
+            aria-label={isVisible ? 'Hide password' : 'Show password'}
+          >
+            <Icon icon={isVisible ? a11YVisual : eye} color="neutral.500" />
+          </ShowPasswordButton>
+        </TextInputWrap>
+      </>
+    );
+  };

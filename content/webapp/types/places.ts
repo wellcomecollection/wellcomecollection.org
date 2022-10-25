@@ -8,3 +8,7 @@ export type Place = GenericContentFields & {
   capacity?: number;
   information?: prismicT.RichTextField;
 };
+
+export type PlaceBasic = {
+  title: string;
+};

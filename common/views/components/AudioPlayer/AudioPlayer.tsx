@@ -2,7 +2,7 @@ import {
   useEffect,
   useRef,
   useState,
-  FC,
+  FunctionComponent,
   Ref,
   SyntheticEvent,
   useContext,
@@ -127,7 +127,7 @@ type PlayRateProps = {
   id: string;
 };
 
-const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
+const PlayRate: FunctionComponent<PlayRateProps> = ({ audioPlayer, id }) => {
   const { audioPlaybackRate, setAudioPlaybackRate } = useContext(AppContext);
   const speeds = [0.5, 1, 1.5, 2];
 
@@ -189,7 +189,7 @@ type VolumeProps = {
   id: string;
 };
 
-const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
+const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id }) => {
   const [volume, setVolume] = useState(audioPlayer.volume);
   const [isMuted, setIsMuted] = useState(audioPlayer.muted);
 
@@ -254,7 +254,7 @@ type ScrubberProps = {
   progressBarRef: Ref<HTMLInputElement>;
 };
 
-const Scrubber: FC<ScrubberProps> = ({
+const Scrubber: FunctionComponent<ScrubberProps> = ({
   startTime,
   duration,
   onChange,
@@ -290,7 +290,7 @@ export type AudioPlayerProps = {
   titleProps?: { role: string; 'aria-level': number };
 };
 
-export const AudioPlayer: FC<AudioPlayerProps> = ({
+export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   audioFile,
   title,
   idPrefix,

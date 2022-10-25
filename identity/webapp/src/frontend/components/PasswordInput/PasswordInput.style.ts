@@ -19,8 +19,9 @@ export const RulesListWrapper = styled(Space).attrs({
 `;
 
 export const RulesList = styled.ul.attrs({
-  className: 'plain-list no-margin',
+  className: 'no-margin',
 })`
+  list-style: none;
   padding: 0;
 `;
 

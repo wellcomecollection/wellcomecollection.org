@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { CTAs, Header } from './common';
@@ -9,7 +9,10 @@ type ErrorDialogProps = {
   errorMessage: string | undefined;
 };
 
-const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive, errorMessage }) => (
+const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({
+  setIsActive,
+  errorMessage,
+}) => (
   <>
     <Header>
       <span className="h2">Request failed</span>

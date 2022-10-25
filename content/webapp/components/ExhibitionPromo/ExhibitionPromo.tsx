@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
@@ -20,7 +20,10 @@ type Props = {
   position?: number;
 };
 
-const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
+const ExhibitionPromo: FunctionComponent<Props> = ({
+  exhibition,
+  position = 0,
+}) => {
   const { start, end, statusOverride, isPermanent, hideStatus } = exhibition;
   const url = linkResolver(exhibition);
   const image = exhibition.promo?.image;

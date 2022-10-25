@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import Caption from '@weco/common/views/components/Caption/Caption';
 import styled from 'styled-components';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
@@ -62,7 +62,7 @@ type CaptionedImageProps = CaptionedImageType & {
   preCaptionNode?: ReactNode;
 };
 
-const CaptionedImage: FC<CaptionedImageProps> = ({
+const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
   caption,
   preCaptionNode,
   image,

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -18,7 +18,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { location } from '@weco/common/icons';
-import { Place } from '../../types/places';
+import { PlaceBasic } from '../../types/places';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -31,7 +31,10 @@ type Props = {
   fromDate?: Date;
 };
 
-export function getLocationText(isOnline?: boolean, place?: Place[]): string {
+export function getLocationText(
+  isOnline?: boolean,
+  places?: PlaceBasic[]
+): string {
   // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/7818
   // * If an event is only in venue, in a single location, we display the specific location (e.g. 'Reading Room')
   // * If an event is only in venue, in multiple locations, we display 'In our building'
@@ -40,22 +43,22 @@ export function getLocationText(isOnline?: boolean, place?: Place[]): string {
   // * If an event has a single Prismic location, 'Throughout the building', we display 'In our building'
   //   This is how the editorial team used to do multi-location events before we added proper support
   //   for multiple locations.
-  if (!isOnline && isNotUndefined(place) && place.length === 1) {
-    return place[0].title === 'Throughout the building'
+  if (!isOnline && isNotUndefined(places) && places.length === 1) {
+    return places[0].title === 'Throughout the building'
       ? inOurBuilding
-      : place[0].title;
+      : places[0].title;
   }
 
-  if (!isOnline && isNotUndefined(place) && place.length > 1) {
+  if (!isOnline && isNotUndefined(places) && places.length > 1) {
     return inOurBuilding;
   }
 
   return `Online${
-    isNotUndefined(place) && place.length > 0 ? ` | ${inOurBuilding}` : ''
+    isNotUndefined(places) && places.length > 0 ? ` | ${inOurBuilding}` : ''
   }`;
 }
 
-const EventPromo: FC<Props> = ({
+const EventPromo: FunctionComponent<Props> = ({
   event,
   position = 0,
   dateString,
