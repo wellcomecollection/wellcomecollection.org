@@ -61,7 +61,8 @@ export function transformManifest(
   const services = manifestV3?.services || [];
   const id = manifestV3?.id || '';
   const parentManifestUrl = manifestV3 && manifestV3.partOf?.[0].id;
-  const collectionManifestsCount = manifestV3?.items?.length || 0;
+  const collectionManifestsCount =
+    manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
