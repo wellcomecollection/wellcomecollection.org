@@ -28,9 +28,6 @@ export function transformManifest(
   const id = manifestV2 ? manifestV2['@id'] : '';
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
   const canvasCount = canvases.length;
-  const collectionManifestsCount = manifestV2?.manifests
-    ? manifestV2.manifests.length
-    : 0;
   const iiifCredit = manifestV2 && getIIIFPresentationCredit(manifestV2);
   const downloadEnabled = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
@@ -66,13 +63,13 @@ export function transformManifest(
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
   const video = manifestV3 && getVideo(manifestV3);
+  const collectionManifestsCount = manifestV3?.items?.length || 0;
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
     // Taken from V2 manifest:
     id,
     canvasCount,
-    collectionManifestsCount,
     iiifCredit,
     downloadEnabled,
     downloadOptions,
@@ -94,5 +91,6 @@ export function transformManifest(
     audio,
     services,
     video,
+    collectionManifestsCount,
   };
 }
