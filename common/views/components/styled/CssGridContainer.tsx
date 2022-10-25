@@ -1,6 +1,5 @@
-import styled from 'styled-components';
-import { respondBetween, respondTo } from '../../themes/mixins';
-import { ColumnKey, themeValues } from '../../themes/config';
+import styled, { DefaultTheme } from 'styled-components';
+import { ColumnKey } from '@weco/common/views/themes/config';
 
 function makeGridCells(columns: number, key: ColumnKey): string {
   return [...Array(columns).keys()]
@@ -59,20 +58,20 @@ function makeGridTemplateColumns(
   return columnString;
 }
 
-function maxWidthGridFallback() {
+function maxWidthGridFallback(theme: DefaultTheme) {
   return `
     margin-left: auto;
     margin-right: auto;
-
-    ${Object.entries(themeValues.grid)
+    
+    ${Object.entries(theme.grid)
       .map(entry => {
         const value = entry[1];
         const respondValue =
           value.respond[0] === 'xlarge'
-            ? `max-width: ${themeValues.sizes.xlarge - value.padding * 2}px`
+            ? `max-width: ${theme.sizes.xlarge - value.padding * 2}px`
             : `max-width: calc(100% - ${value.padding * 2}px)`;
 
-        return respondTo(value.respond[0], respondValue);
+        return theme.media(value.respond[0])(respondValue);
       })
       .join(' ')}
 
@@ -94,24 +93,30 @@ const CssGridContainer = styled.div`
     display: grid;
     grid-auto-rows: minmax(min-content, max-content);
 
-    ${Object.entries(themeValues.grid)
-      .map(entry => {
-        const value = entry[1];
-        const { respond, padding } = value;
-        const columns = [
-          `[full-start] minmax(${padding}px, 1fr)`,
-          `[main-start] minmax(0, ${themeValues.sizes.xlarge - padding * 2}px)`,
-          `[main-end] minmax(${padding}px, 1fr)`,
-          `[full-end]`,
-        ].join(' ');
+    ${props => `
+      ${Object.entries(props.theme.grid)
+        .map(entry => {
+          const value = entry[1];
+          const { respond, padding } = value;
+          const columns = [
+            `[full-start] minmax(${padding}px, 1fr)`,
+            `[main-start] minmax(0, ${
+              props.theme.sizes.xlarge - padding * 2
+            }px)`,
+            `[main-end] minmax(${padding}px, 1fr)`,
+            `[full-end]`,
+          ].join(' ');
 
-        return respondTo(respond[0], `grid-template-columns: ${columns}`);
-      })
-      .join(' ')}
+          return props.theme.media(respond[0])(
+            `grid-template-columns: ${columns}`
+          );
+        })
+        .join(' ')}
+    `}
   }
 
   .css-grid__cell--main {
-    ${maxWidthGridFallback()};
+    ${props => maxWidthGridFallback(props.theme)};
     grid-column: main;
   }
 
@@ -120,7 +125,7 @@ const CssGridContainer = styled.div`
   }
 
   .css-grid {
-    ${maxWidthGridFallback()};
+    ${props => maxWidthGridFallback(props.theme)};
     display: flex;
     flex-wrap: wrap;
 
@@ -130,21 +135,20 @@ const CssGridContainer = styled.div`
       grid-auto-rows: minmax(0, auto);
       display: grid;
 
-      ${Object.entries(themeValues.grid)
-        .map(entry => {
-          const value = entry[1];
-          const {
-            respond,
-            gutter,
-            primaryStart,
-            primaryEnd,
-            secondaryStart,
-            secondaryEnd,
-            columns,
-          } = value;
-          return respondTo(
-            respond[0],
-            `
+      ${props =>
+        `${Object.entries(props.theme.grid)
+          .map(entry => {
+            const value = entry[1];
+            const {
+              respond,
+              gutter,
+              primaryStart,
+              primaryEnd,
+              secondaryStart,
+              secondaryEnd,
+              columns,
+            } = value;
+            return props.theme.media(respond[0])(`
               grid-column-gap: ${gutter}px;
               grid-row-gap: ${gutter}px;
               grid-template-columns: ${makeGridTemplateColumns(
@@ -154,10 +158,10 @@ const CssGridContainer = styled.div`
                 secondaryEnd,
                 columns
               )};
-            `
-          );
-        })
-        .join(' ')}
+            `);
+          })
+          .join(' ')}
+        `}
     }
   }
 
@@ -167,27 +171,24 @@ const CssGridContainer = styled.div`
     // fallback
     flex: 1;
     position: relative;
-    padding-left: ${themeValues.gutter.small}px;
-    padding-bottom: ${themeValues.gutter.small}px;
-    left: -${themeValues.gutter.small}px;
 
-    ${respondTo(
-      'medium',
-      `
-      padding-left: ${themeValues.gutter.medium}px;
-      padding-bottom: ${themeValues.gutter.medium}px;
-      left: -${themeValues.gutter.medium}px;
-    `
-    )}
+    ${props => `
+      padding-left: ${props.theme.gutter.small}px;
+      padding-bottom: ${props.theme.gutter.small}px;
+      left: -${props.theme.gutter.small}px;
 
-    ${respondTo(
-      'large',
-      `
-    padding-left: ${themeValues.gutter.large}px;
-    padding-bottom: ${themeValues.gutter.large}px;
-    left: -${themeValues.gutter.large}px;
-    `
-    )}
+      ${props.theme.media('medium')(`
+        padding-left: ${props.theme.gutter.medium}px;
+        padding-bottom: ${props.theme.gutter.medium}px;
+        left: -${props.theme.gutter.medium}px;
+      `)}
+
+      ${props.theme.media('large')(`
+        padding-left: ${props.theme.gutter.large}px;
+        padding-bottom: ${props.theme.gutter.large}px;
+        left: -${props.theme.gutter.large}px;
+      `)}
+    `}
 
     .css-grid__cell {
       margin-bottom: 0 !important;
@@ -202,13 +203,11 @@ const CssGridContainer = styled.div`
   .css-grid__cell--primary {
     grid-column: primary;
 
-    ${respondTo(
-      'large',
-      `
+    ${props =>
+      props.theme.media('large')(`
       flex-basis: ${(7 / 12) * 100}%;
       max-width: ${(7 / 12) * 100}%;
-    `
-    )}
+    `)}
 
     @supports (display: grid) {
       max-width: none;
@@ -218,31 +217,32 @@ const CssGridContainer = styled.div`
   .css-grid__cell--secondary {
     grid-column: secondary;
 
-    ${respondTo(
-      'large',
-      `
-      order: 1;
-      flex-basis: ${(5 / 12) * 100}%;
-      max-width: ${(5 / 12) * 100}%;
-    `
-    )}
+    ${props =>
+      props.theme.media('large')(`
+        order: 1;
+        flex-basis: ${(5 / 12) * 100}%;
+        max-width: ${(5 / 12) * 100}%;
+    `)}
 
     @supports (display: grid) {
       max-width: none;
     }
   }
 
-  ${Object.entries(themeValues.grid).map(([key, { columns, respond }]) => {
-    if (respond.length > 1) {
-      return respondBetween(
-        respond[0],
-        respond[1],
-        makeGridCells(columns, key as ColumnKey)
-      );
-    } else {
-      return respondTo(respond[0], makeGridCells(columns, key as ColumnKey));
-    }
-  })}
+  ${props =>
+    `${Object.entries(props.theme.grid).map(([key, { columns, respond }]) => {
+      if (respond.length > 1) {
+        return props.theme.mediaBetween(
+          respond[0],
+          respond[1]
+        )(makeGridCells(columns, key as ColumnKey));
+      } else {
+        return props.theme.media(respond[0])(
+          makeGridCells(columns, key as ColumnKey)
+        );
+      }
+    })}
+  `}
 `;
 
 export default CssGridContainer;

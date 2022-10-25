@@ -202,6 +202,23 @@ const yellowYellowBlack: ButtonColors = {
   text: 'black',
 };
 
+export type Size = keyof typeof sizes;
+const media =
+  (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
+  (styles: TemplateStringsArray | string): string =>
+    `@media (${minOrMaxWidth}: ${sizes[sizeLabel]}px) {${styles}}`;
+
+const mediaBetween =
+  (minBreakpoint: Breakpoint, maxBreakpoint: Breakpoint) =>
+  (styles: string): string => {
+    const minWidth = `min-width: ${sizes[minBreakpoint]}px`;
+    const maxWidth = `max-width: ${sizes[maxBreakpoint] - 1}px`;
+
+    return `@media (${minWidth}) and (${maxWidth}) {
+      ${styles}
+    }`;
+  };
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -268,6 +285,8 @@ export const themeValues = {
   colors,
   color: getColor,
   minCardHeight: 385,
+  media,
+  mediaBetween,
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,

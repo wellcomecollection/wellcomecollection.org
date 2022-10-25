@@ -1,11 +1,9 @@
-import { themeValues } from './config';
 import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
-import { respondTo, respondBetween, visuallyHidden } from './mixins';
 
 export const utilityClasses = css<GlobalStyleProps>`
   .transition-bg {
-    transition: background ${themeValues.transitionProperties};
+    transition: background ${props => props.theme.transitionProperties};
   }
 
   .is-hidden {
@@ -13,42 +11,39 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   .is-hidden-s {
-    ${respondBetween(
-      'small',
-      'medium',
-      `
-    display: none !important;
-  `
-    )}
+    ${props =>
+      props.theme.mediaBetween(
+        'small',
+        'medium'
+      )(`
+        display: none !important;
+    `)}
   }
 
   .is-hidden-m {
-    ${respondBetween(
-      'medium',
-      'large',
-      `
-    display: none !important;
-  `
-    )}
+    ${props =>
+      props.theme.mediaBetween(
+        'medium',
+        'large'
+      )(`
+        display: none !important;
+    `)}
   }
 
   .is-hidden-l {
-    ${respondBetween(
-      'large',
-      'xlarge',
-      `
-    display: none !important;
-  `
-    )}
+    ${props =>
+      props.theme.mediaBetween(
+        'large',
+        'xlarge'
+      )(`
+        display: none !important;
+    `)}
   }
 
   .is-hidden-xl {
-    ${respondTo(
-      'xlarge',
-      `
-    display: none !important;
-  `
-    )}
+    ${props => props.theme.media('xlarge')`
+      display: none !important;
+    `}
   }
 
   .touch-scroll {
@@ -155,32 +150,29 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   .no-margin-s.no-margin-s {
-    ${respondBetween(
-      'small',
-      'medium',
-      `
-    margin: 0;
-  `
-    )}
+    ${props =>
+      props.theme.mediaBetween(
+        'small',
+        'medium'
+      )(`
+        margin: 0;
+    `)}
   }
 
   .no-margin-m.no-margin-m {
-    ${respondBetween(
-      'medium',
-      'large',
-      `
-    margin: 0;
-  `
-    )}
+    ${props =>
+      props.theme.mediaBetween(
+        'medium',
+        'large'
+      )(`
+        margin: 0;
+    `)}
   }
 
   .no-margin-l.no-margin-l {
-    ${respondTo(
-      'large',
-      `
-    margin: 0;
-  `
-    )}
+    ${props => props.theme.media('large')`
+      margin: 0;
+    `}
   }
 
   .no-padding {
@@ -189,12 +181,12 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .promo-link {
     height: 100%;
-    color: ${themeValues.color('black')};
+    color: ${props => props.theme.color('black')};
 
     &:hover .promo-link__title,
     &:focus .promo-link__title {
       text-decoration: underline;
-      text-decoration-color: ${themeValues.color('black')};
+      text-decoration-color: ${props => props.theme.color('black')};
     }
   }
 
@@ -203,12 +195,12 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   .rounded-corners {
-    border-radius: ${themeValues.borderRadiusUnit}px;
+    border-radius: ${props => props.theme.borderRadiusUnit}px;
   }
 
   .rounded-diagonal {
-    border-top-left-radius: ${themeValues.borderRadiusUnit}px;
-    border-bottom-right-radius: ${themeValues.borderRadiusUnit}px;
+    border-top-left-radius: ${props => props.theme.borderRadiusUnit}px;
+    border-bottom-right-radius: ${props => props.theme.borderRadiusUnit}px;
   }
 
   .round {
@@ -234,7 +226,15 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   // This removes the element from the flow, as well as it's visibility
   .visually-hidden {
-    ${visuallyHidden};
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
   }
 
   .visually-hidden-focusable {
@@ -262,7 +262,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     &:focus {
       .card-link__title {
         text-decoration: underline;
-        text-decoration-color: ${themeValues.color('black')};
+        text-decoration-color: ${props => props.theme.color('black')};
       }
     }
   }
@@ -275,7 +275,7 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   noscript {
-    background: ${themeValues.color('white')};
-    color: ${themeValues.color('black')};
+    background: ${props => props.theme.color('white')};
+    color: ${props => props.theme.color('black')};
   }
 `;

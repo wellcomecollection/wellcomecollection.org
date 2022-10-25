@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
-import { respondTo } from '../../themes/mixins';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { useUser } from '../UserProvider/UserProvider';
@@ -11,12 +10,9 @@ import { trackEvent } from '../../../utils/ga';
 const StyledComponent = styled.div.attrs({
   className: font('intr', 5),
 })`
-  ${respondTo(
-    'headerMedium',
-    `
+  ${props => props.theme.media('headerMedium')`
     display: none;
-  `
-  )}
+  `}
   display: flex;
   margin-top: 1.4rem;
 
