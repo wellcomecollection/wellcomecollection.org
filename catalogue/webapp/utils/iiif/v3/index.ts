@@ -119,3 +119,11 @@ export function getVideo(manifest: Manifest): Video | undefined {
     ? { ...maybeVideo, thumbnail, annotations }
     : undefined;
 }
+
+export function getMediaClickthroughService(
+  services: Service[]
+): AuthService | undefined {
+  return (services as AuthService[]).find(
+    s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
+  );
+}

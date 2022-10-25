@@ -12,7 +12,7 @@ import {
   IIIFThumbnailService,
   EmptyIIIFMediaElement,
 } from '../../../../webapp/services/iiif/types/manifest/v2';
-import { Manifest, Service as ServiceV3 } from '@iiif/presentation-3';
+import { Manifest } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
 
@@ -89,14 +89,6 @@ export function getAuthService(
       return iiifManifest.service.authService;
     }
   }
-}
-
-export function getMediaClickthroughServiceV3(
-  services: ServiceV3[]
-): AuthService | undefined {
-  return (services as AuthService[]).find(
-    s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
-  );
 }
 
 export function getMediaClickthroughService(

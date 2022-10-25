@@ -16,11 +16,9 @@ import {
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
 import {
-  getMediaClickthroughService,
-  getMediaClickthroughServiceV3,
   getTokenService,
-} from '../../utils/iiif/v2';
-import { getTokenService as getTokenServiceV3 } from '../../utils/iiif/v3';
+  getMediaClickthroughService,
+} from '../../utils/iiif/v3';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -135,15 +133,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice
-  // TODO move following to transformer, so it's available on manifestData
-  const videoAuthService = video && getMediaClickthroughService(video);
-  const audioAuthService = services && getMediaClickthroughServiceV3(services);
-  const authService = videoAuthService || audioAuthService;
-  const tokenService = videoAuthService
-    ? getTokenService(videoAuthService)
-    : audioAuthService
-    ? getTokenServiceV3(audioAuthService['@id'], services)
-    : undefined;
+
+  const authService = services && getMediaClickthroughService(services);
+  const tokenService =
+    authService && getTokenService(authService['@id'], services);
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
