@@ -12,10 +12,11 @@ import {
 } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
 
-function getEnFromInternationalString(
-  internationalString: InternationalString
+export function getEnFromInternationalString(
+  internationalString: InternationalString,
+  index = 0
 ): string {
-  return internationalString?.['en']?.[0] || '';
+  return internationalString?.['en']?.[index] || '';
 }
 
 export function getTokenService(

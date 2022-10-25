@@ -7,13 +7,14 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
-import { Manifest, Canvas } from '@iiif/presentation-3';
+import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
 } from '../../utils/works';
 import { getServiceId } from '../../utils/iiif/v2';
+import { getEnFromInternationalString } from '../../utils/iiif/v3';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -325,15 +326,19 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     const matchingManifest =
       parentManifest &&
       parentManifest.items &&
-      parentManifest.items.find((canvas: Canvas) => {
+      parentManifest.items.find(canvas => {
         return !transformedManifest
           ? false
           : canvas.id === transformedManifest.id;
       });
 
-    // FIXME: this en[1] feels like a bad idea
-    matchingManifest?.label?.en?.[1] &&
-      setCurrentManifestLabel(matchingManifest.label.en[1]);
+    // The manifest label, as far as we can tell, exists exclusively at index 1
+    // of the manifest.label. This feels flakey, but as the information doesn't
+    // appear to exist elsewhere, it doesn't look like there's another option.
+    const manifestLabel =
+      matchingManifest?.label &&
+      getEnFromInternationalString(matchingManifest.label, 1);
+    manifestLabel && setCurrentManifestLabel(manifestLabel);
   }, [parentManifest]);
 
   const iiifPresentationLocation = getDigitalLocationOfType(
