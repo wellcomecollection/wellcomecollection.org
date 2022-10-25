@@ -5,9 +5,11 @@ import {
   CatalogueResultsList,
   ResultType,
 } from '@weco/common/model/catalogue';
+import { PrismicApiError } from '@weco/common/model/story';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { isString } from '@weco/common/utils/array';
+import axios from 'axios';
 
 export const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -32,6 +34,14 @@ export const notFound = (): CatalogueApiError => ({
 });
 
 export const catalogueApiError = (): CatalogueApiError => ({
+  errorType: 'http',
+  httpStatus: 500,
+  label: 'Internal Server Error',
+  description: '',
+  type: 'Error',
+});
+
+export const prismicApiError = (): PrismicApiError => ({
   errorType: 'http',
   httpStatus: 500,
   label: 'Internal Server Error',
@@ -68,23 +78,27 @@ export const catalogueFetch = (
   return fetch(url, { ...options, agent: agentKeepAlive });
 };
 
-export const prismicFetch = (
-  url: string,
-  options?: Record<string, string>
-): Promise<Response> => {
-  return fetch(url, { ...options, agent: agentKeepAlive });
+export const prismicFetch = (options): Promise<Response> => {
+  return axios(options);
 };
 
 export async function prismicQuery<Params, Result extends ResultType>(
   endpoint: string,
-  { params, toggles, pageSize }: QueryProps<Params>
+  { params }: QueryProps<Params>
 ): Promise<CatalogueResultsList<Result> | CatalogueApiError> {
   // const apiOptions = globalApiOptions(toggles);
   //
 
-  const url = 'https://wellcomecollection.cdn.prismic.io/api';
-  const graphQuery = `query searchAllArticlesByText($searchString: String!) {
-  allArticless(fulltext: $searchString sortBy: title_ASC) {
+  const extendedParams = {
+    ...params,
+  };
+
+  const searchParams = new URLSearchParams(
+    propsToQuery(extendedParams)
+  ).toString();
+
+  const graphQuery = `query searchAllArticlesByText {
+  allArticless(fulltext: ${searchParams} sortBy: title_ASC) {
     edges {
       node {
         title
@@ -96,19 +110,30 @@ export async function prismicQuery<Params, Result extends ResultType>(
     }
   }
 }`;
-  const extendedParams = {
-    searchString: JSON.stringify(params),
-    toggles,
-    pageSize,
+  const url = `https://wellcomecollection.prismic.io/graphql?query=${graphQuery}`;
+
+  const headers = {
+    Authorization:
+      'Bearer MC5ZMWFsbWhFQUFBMUNKWTZP.77-9CO-_vSzvv71QHe-_ve-_ve-_vX3vv73vv71GPCFlWSrvv73vv709IHHvv73vv73vv70SFHDvv73vv70',
+    // repository: 'wellcomecollection',
+    'Prismic-Ref': 'Y1fYOBEAAEolKvzq',
   };
 
+  const options = {
+    method: 'GET',
+    headers: headers,
+    data: {
+      query: { graphQuery },
+    },
+    url: url,
+  };
   try {
-    const res = await prismicFetch(url, {
-      body: JSON.stringify(graphQuery, extendedParams),
-    });
+    console.log('we are about to try a query');
+    const res = await prismicFetch(options);
     const json = await res.json();
+    console.log(json, 'do we get json in prismic query');
 
-    // TODO: We have this error to cover if URI is too long - not sure this should happen with a graphQL query though
+    // TODO: We have this error to cover if URI is too long
     if (json.type === 'Error' && json.httpStatus !== 414) {
       console.warn(
         `Received error from prismic API query ${url}: ` + JSON.stringify(json)
@@ -120,6 +145,7 @@ export async function prismicQuery<Params, Result extends ResultType>(
       _requestUrl: url,
     };
   } catch (error) {
+    console.log(error, 'what is the error');
     console.error(`Unable to fetch Prismic API URL ${url}`, error);
     return catalogueApiError();
   }
