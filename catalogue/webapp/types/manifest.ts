@@ -1,5 +1,4 @@
 import {
-  IIIFMediaElement,
   IIIFRendering,
   IIIFCanvas,
   IIIFStructure,
@@ -9,7 +8,7 @@ import {
   Service as Service2,
 } from '../../webapp/services/iiif/types/manifest/v2';
 import { Service } from '@iiif/presentation-3';
-import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
+import { Audio, Video } from '../../webapp/services/iiif/types/manifest/v3';
 
 // TODO now these are all in one place, it's easier to see we may not need them all
 // For example:
@@ -19,10 +18,8 @@ import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
 // These should be cleaned up as we move to v3
 export type TransformedManifest = {
   // Currently from iiifManifest V2:
-  title: string;
   canvasCount: number;
   collectionManifestsCount: number;
-  video?: IIIFMediaElement;
   iiifCredit?: string;
   downloadEnabled?: boolean;
   downloadOptions: IIIFRendering[];
@@ -40,9 +37,11 @@ export type TransformedManifest = {
   searchService: Service2 | undefined;
   structures: IIIFStructure[];
   // Currently from iiif manifest v3:
+  title: string;
   id: string;
   audio: Audio | undefined;
   services: Service[];
+  video?: Video;
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {

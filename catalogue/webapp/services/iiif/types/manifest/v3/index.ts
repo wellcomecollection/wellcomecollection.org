@@ -1,4 +1,8 @@
-import { ContentResource, IIIFExternalWebResource } from '@iiif/presentation-3';
+import {
+  ContentResource,
+  IIIFExternalWebResource,
+  ExternalWebResource,
+} from '@iiif/presentation-3';
 
 export type Audio = {
   title?: string;
@@ -8,4 +12,9 @@ export type Audio = {
   }[];
   thumbnail?: ContentResource;
   transcript?: ContentResource;
+};
+
+export type Video = IIIFExternalWebResource & {
+  thumbnail?: string;
+  annotations?: ExternalWebResource;
 };

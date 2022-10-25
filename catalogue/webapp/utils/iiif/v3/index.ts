@@ -2,9 +2,12 @@ import {
   AuthService,
   AuthServiceService,
 } from '../../../services/iiif/types/manifest/v2';
-import { Audio } from '../../../services/iiif/types/manifest/v3';
+import { Audio, Video } from '../../../services/iiif/types/manifest/v3';
 import {
+  AnnotationBody,
+  ChoiceBody,
   ContentResource,
+  ExternalWebResource,
   IIIFExternalWebResource,
   InternationalString,
   Manifest,
@@ -76,4 +79,43 @@ export function getTitle(label: InternationalString | string): string {
   if (typeof label === 'string') return label;
 
   return getEnFromInternationalString(label);
+}
+
+function getChoiceBody(
+  body?: AnnotationBody | AnnotationBody[]
+): ChoiceBody | undefined {
+  const isChoiceBody =
+    typeof body !== 'string' && !Array.isArray(body) && body?.type === 'Choice';
+
+  return isChoiceBody ? body : undefined;
+}
+
+function getExternalWebResourceBody(
+  body?: AnnotationBody | AnnotationBody[]
+): ExternalWebResource | undefined {
+  const isExternalWebResource =
+    typeof body !== 'string' &&
+    !Array.isArray(body) &&
+    (body?.type === 'Video' ||
+      body?.type === 'Sound' ||
+      body?.type === 'Image' ||
+      body?.type === 'Text');
+  return isExternalWebResource ? body : undefined;
+}
+
+export function getVideo(manifest: Manifest): Video | undefined {
+  const videoChoiceBody = getChoiceBody(
+    manifest.items?.[0]?.items?.[0]?.items?.[0]?.body
+  );
+  const maybeVideo = getExternalWebResourceBody(videoChoiceBody?.items?.[0]);
+  const thumbnailImageResourceBody = getExternalWebResourceBody(
+    manifest.placeholderCanvas?.items?.[0]?.items?.[0]?.body
+  );
+  const thumbnail = thumbnailImageResourceBody?.id;
+  const annotationPage = manifest.items?.[0]?.annotations?.[0].items?.[0]?.body;
+  const annotations = getExternalWebResourceBody(annotationPage);
+
+  return maybeVideo?.type === 'Video'
+    ? { ...maybeVideo, thumbnail, annotations }
+    : undefined;
 }
