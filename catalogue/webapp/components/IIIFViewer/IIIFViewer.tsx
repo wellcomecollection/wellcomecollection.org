@@ -339,7 +339,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       matchingManifest?.label &&
       getEnFromInternationalString(matchingManifest.label, 1);
     manifestLabel && setCurrentManifestLabel(manifestLabel);
-  }, [parentManifest]);
+  }, [transformedManifest]);
 
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
