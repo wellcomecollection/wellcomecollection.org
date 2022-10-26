@@ -5,7 +5,7 @@ import { getServerData } from '@weco/common/server-data';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
-import { getArticle } from '../../services/catalogue/prismic';
+import { getArticle } from '../../services/prismic';
 
 type Props = {
   storyResponse;

@@ -4,13 +4,18 @@ import {
   // globalApiOptions,
   // looksLikeCanonicalId,
   notFound,
-  // QueryProps,
-  // prismicQuery,
+  QueryProps,
+  prismicQuery,
+  prismicRefFetch,
   // rootUris,
-} from './index';
+} from '../catalogue';
 
 import { Toggles } from '@weco/toggles';
-import { Story, PrismicApiError } from '@weco/common/model/story';
+import {
+  Story,
+  PrismicApiError,
+  StoryResultsList,
+} from '@weco/common/model/story';
 
 type GetArticleProps = {
   query?: string;
@@ -31,19 +36,26 @@ GetArticleProps): Promise<PrismicResponse> {
   // const apiOptions = globalApiOptions(toggles);
 
   const headers = {
-    Authorization:
-      'Bearer MC5ZMWFsbWhFQUFBMUNKWTZP.77-9CO-_vSzvv71QHe-_ve-_ve-_vX3vv73vv71GPCFlWSrvv73vv709IHHvv73vv73vv70SFHDvv73vv70',
+    Authorization: `Bearer ${process.env.PRISMIC_TOKEN}`,
     // repository: 'wellcomecollection',
-    'Prismic-Ref': 'Y1fYOBEAAEolKvzq',
     'Content-Type': 'application/json',
     Accept: 'application/json',
   };
+
+  const prismicRef = await prismicRefFetch(
+    'https://wellcomecollection.prismic.io/api/v2',
+    headers
+  );
+  const { refs } = await prismicRef.json();
+  const { ref } = refs[0];
+  // console.log(ref, 'what do we get <<<<<<<');
+  headers['Prismic-ref'] = ref;
 
   const searchVariables = {
     searchString: query,
   };
 
-  const graphQuery = `query {
+  const graphQuery = `{
   allArticless(fulltext: "${query}" sortBy: title_ASC) {
     edges {
       node {
@@ -59,6 +71,7 @@ GetArticleProps): Promise<PrismicResponse> {
 
   const url = `https://wellcomecollection.prismic.io/graphql?query=${graphQuery}`;
 
+
   const options = {
     method: 'GET',
     headers: headers,
@@ -68,6 +81,7 @@ GetArticleProps): Promise<PrismicResponse> {
     },
     url: url,
   };
+
   const res = await prismicFetch(options);
 
   if (res.status === 404) {
@@ -84,8 +98,12 @@ GetArticleProps): Promise<PrismicResponse> {
   }
 }
 
-// export async function getArticles(
-//   props: QueryProps<PrismicApiProps>
-// ): Promise<PrismicResultsList<Story> | PrismicApiError> {
-//   return prismicQuery('articles', props);
-// }
+export type PrismicApiProps = {
+  page?: number;
+};
+
+export async function getArticles(
+  props: QueryProps<PrismicApiProps>
+): Promise<StoryResultsList<Story> | PrismicApiError> {
+  return prismicQuery('articles', props);
+}

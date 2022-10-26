@@ -5,7 +5,7 @@ import {
   CatalogueResultsList,
   ResultType,
 } from '@weco/common/model/catalogue';
-import { PrismicApiError } from '@weco/common/model/story';
+import { PrismicApiError, StoryResultsList } from "@weco/common/model/story";
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { isString } from '@weco/common/utils/array';
@@ -49,6 +49,11 @@ export const prismicApiError = (): PrismicApiError => ({
   type: 'Error',
 });
 
+export type AxiosResponse = {
+  data: ResultType;
+  status: number;
+};
+
 // By default, the next.js polyfill for node-fetch enables keep-alive by default.
 // https://nextjs.org/docs/api-reference/next.config.js/disabling-http-keep-alive
 //
@@ -78,14 +83,27 @@ export const catalogueFetch = (
   return fetch(url, { ...options, agent: agentKeepAlive });
 };
 
-export const prismicFetch = (options): Promise<Response> => {
+// To authenticate a request to the Prismic API graphql endpoint you need a Prismic-ref value that refreshes every 30 seconds.
+// The ref can be used in a 'stale' state for 5 minutes before it expires
+// https://community.prismic.io/t/for-how-long-is-it-safe-to-cache-a-prismic-api-ref/5962
+export const prismicRefFetch = (
+  url: string,
+  options?: Record<string, string>
+): Promise<Response> => {
+  return fetch(url, { ...options, agent: agentKeepAlive });
+};
+
+// Prismic API graphql endpoint expects query requests via GET method
+// This means we need to be able to pass a body in the request, something that is not possible with fetch
+// As a workaround I have used axios to make the request
+export const prismicFetch = (options): Promise<AxiosResponse> => {
   return axios(options);
 };
 
 export async function prismicQuery<Params, Result extends ResultType>(
   endpoint: string,
   { params }: QueryProps<Params>
-): Promise<CatalogueResultsList<Result> | CatalogueApiError> {
+): Promise<StoryResultsList<Result> | PrismicApiError> {
   // const apiOptions = globalApiOptions(toggles);
   //
 
@@ -111,34 +129,32 @@ export async function prismicQuery<Params, Result extends ResultType>(
   }
 }`;
   const url = `https://wellcomecollection.prismic.io/graphql?query=${graphQuery}`;
+  const fetchRefUrl = 'https://wellcomecollection.prismic.io/api/v2';
 
   const headers = {
-    Authorization:
-      'Bearer MC5ZMWFsbWhFQUFBMUNKWTZP.77-9CO-_vSzvv71QHe-_ve-_ve-_vX3vv73vv71GPCFlWSrvv73vv709IHHvv73vv73vv70SFHDvv73vv70',
-    // repository: 'wellcomecollection',
-    'Prismic-Ref': 'Y1fYOBEAAEolKvzq',
+    Authorization: `Bearer ${process.env.PRISMIC_TOKEN}`,
+    repository: 'wellcomecollection',
   };
 
+  const prismicRef = await prismicRefFetch(fetchRefUrl, headers);
+  const { ref } = await prismicRef.json();
+  const updatedHeaders = {
+    Authorization: `Bearer ${process.env.PRISMIC_TOKEN}`,
+    repository: 'wellcomecollection',
+    'Prismic-ref': ref,
+  };
   const options = {
     method: 'GET',
-    headers: headers,
+    headers: updatedHeaders,
     data: {
       query: { graphQuery },
     },
     url: url,
   };
   try {
-    console.log('we are about to try a query');
     const res = await prismicFetch(options);
-    const json = await res.json();
+    const json = await res.data;
     console.log(json, 'do we get json in prismic query');
-
-    // TODO: We have this error to cover if URI is too long
-    if (json.type === 'Error' && json.httpStatus !== 414) {
-      console.warn(
-        `Received error from prismic API query ${url}: ` + JSON.stringify(json)
-      );
-    }
 
     return {
       ...json,
