@@ -8,14 +8,18 @@ import {
   getCanvases,
   getFirstCollectionManifestLocation,
   getIIIFPresentationCredit,
-  getAuthService,
   getTokenService,
   getIsAnyImageOpen,
   getSearchService,
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
-import { getAudio, getTitle, getVideo } from '../../../utils/iiif/v3';
+import {
+  getAudio,
+  getTitle,
+  getVideo,
+  getAuthService,
+} from '../../../utils/iiif/v3';
 
 export function transformManifest(
   iiifManifests: IIIFManifests
@@ -41,8 +45,11 @@ export function transformManifest(
   const pdfRendering =
     downloadOptions &&
     downloadOptions.find(option => option.label === 'Download PDF');
-  const authService = getAuthService(manifestV2);
+
+  // V3 required for token service
+  const authService = manifestV3 && getAuthService(manifestV3);
   const tokenService = authService && getTokenService(authService);
+
   const isAnyImageOpen = manifestV2 ? getIsAnyImageOpen(manifestV2) : false;
   const isTotallyRestricted = checkIsTotallyRestricted(
     authService,
@@ -75,7 +82,6 @@ export function transformManifest(
     downloadOptions,
     firstCollectionManifestLocation,
     pdfRendering,
-    authService,
     tokenService,
     isAnyImageOpen,
     isTotallyRestricted,
@@ -92,5 +98,6 @@ export function transformManifest(
     services,
     video,
     collectionManifestsCount,
+    authService,
   };
 }

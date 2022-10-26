@@ -127,3 +127,28 @@ export function getMediaClickthroughService(
     s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
   );
 }
+
+export function getAuthService(manifest: Manifest): AuthService | undefined {
+  if (!manifest.services) return undefined;
+
+  const restrictedLoginId =
+    'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+  const authLoginServiceProfileIds = [
+    'http://iiif.io/api/auth/1/login',
+    'AuthCookieService1',
+  ];
+  const authServices = manifest.services.filter(s =>
+    authLoginServiceProfileIds.includes(s?.['@type'])
+  );
+  const restrictedService = authServices.find(
+    s => s?.['@id'] === restrictedLoginId
+  );
+  const nonRestrictedService = authServices.find(
+    s => s?.['@id'] !== restrictedLoginId
+  );
+  const isAvailableOnline = !authServices.length && !nonRestrictedService;
+
+  return isAvailableOnline
+    ? undefined
+    : ((nonRestrictedService || restrictedService) as AuthService);
+}
