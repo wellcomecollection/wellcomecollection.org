@@ -91,27 +91,6 @@ export function getAuthService(
   }
 }
 
-export function getMediaClickthroughService(
-  media: IIIFMediaElement
-): AuthService | undefined {
-  if (media?.service) {
-    if (Array.isArray(media.service)) {
-      return media.service.find(
-        service =>
-          service.profile === 'http://iiif.io/api/auth/0/clickthrough' ||
-          service.profile === 'http://iiif.io/api/auth/1/clickthrough'
-      );
-    } else {
-      if (
-        media.service.profile === 'http://iiif.io/api/auth/0/clickthrough' ||
-        media.service.profile === 'http://iiif.io/api/auth/1/clickthrough'
-      ) {
-        return media.service;
-      }
-    }
-  }
-}
-
 export function getTokenService(
   authService: AuthService
 ): AuthServiceService | undefined {
