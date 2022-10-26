@@ -102,23 +102,14 @@ export const prismicFetch = (
   return axios(options);
 };
 
-export async function prismicQuery<Params, Result extends ResultType>(
+export async function prismicQuery<Result extends ResultType>(
   endpoint: string,
-  { params }: QueryProps<Params>
+  { query, pageSize }: PrismicQueryProps
 ): Promise<StoryResultsList<Result> | PrismicApiError> {
   // const apiOptions = globalApiOptions(toggles);
-  // TODO: implement number of results in this query
 
-  const extendedParams = {
-    ...params,
-  };
-
-  const searchParams = new URLSearchParams(
-    propsToQuery(extendedParams)
-  ).toString();
-
-  const graphQuery = `query searchAllArticlesByText {
-  allArticless(fulltext: ${searchParams} sortBy: title_ASC) {
+  const graphQuery = `query {
+  allArticless(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
     edges {
       node {
         title
@@ -131,6 +122,7 @@ export async function prismicQuery<Params, Result extends ResultType>(
   }
 }`;
   const url = `https://wellcomecollection.prismic.io/graphql?query=${graphQuery}`;
+  // const url = `${rootUris[apiOptions.env]}/v2/${endpoint}?${searchParams}`;
   const fetchRefUrl = 'https://wellcomecollection.prismic.io/api/v2';
 
   const headers = {
@@ -139,7 +131,9 @@ export async function prismicQuery<Params, Result extends ResultType>(
   };
 
   const prismicRef = await prismicRefFetch(fetchRefUrl, headers);
-  const { ref } = await prismicRef.json();
+  const { refs } = await prismicRef.json();
+  const { ref } = refs[0];
+  headers['Prismic-ref'] = ref;
   const updatedHeaders = {
     Authorization: `Bearer ${process.env.PRISMIC_TOKEN}`,
     repository: 'wellcomecollection',
@@ -155,10 +149,10 @@ export async function prismicQuery<Params, Result extends ResultType>(
   };
   try {
     const res = await prismicFetch(options);
-    const json = await res.data;
+    const data = await res.data;
 
     return {
-      ...json,
+      ...data,
       _requestUrl: url,
     };
   } catch (error) {
@@ -172,12 +166,16 @@ export type QueryProps<Params> = {
   toggles: Toggles;
 };
 
+export type PrismicQueryProps = {
+  query: string;
+  pageSize?: number;
+};
+
 export async function catalogueQuery<Params, Result extends ResultType>(
   endpoint: string,
   { params, toggles, pageSize }: QueryProps<Params>
 ): Promise<CatalogueResultsList<Result> | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
-
   const extendedParams = {
     ...params,
     pageSize,

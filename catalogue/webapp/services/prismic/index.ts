@@ -2,7 +2,7 @@ import {
   prismicApiError,
   prismicFetch,
   notFound,
-  QueryProps,
+  PrismicQueryProps,
   prismicQuery,
   prismicRefFetch,
 } from '../catalogue';
@@ -83,12 +83,9 @@ export async function getArticle({
   }
 }
 
-export type PrismicApiProps = {
-  page?: number;
-};
-
 export async function getArticles(
-  props: QueryProps<PrismicApiProps>
+  props: PrismicQueryProps
 ): Promise<StoryResultsList<Story> | PrismicApiError> {
-  return prismicQuery('articles', props);
+  console.log(props, 'what are the props');
+  return prismicQuery('stories', props);
 }
