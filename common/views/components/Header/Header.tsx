@@ -1,8 +1,7 @@
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
-import { font } from '../../../utils/classnames';
-import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
-import { respondBetween, respondTo } from '../../themes/mixins';
+import { font } from '@weco/common/utils/classnames';
+import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 
@@ -11,12 +10,9 @@ const NavLoginWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  ${respondTo(
-    'headerMedium',
-    `
+  ${props => props.theme.media('headerMedium')`
     width: 100%;
-  `
-  )}
+  `}
 `;
 
 type WrapperProps = {
@@ -31,33 +27,29 @@ const Wrapper = styled.div.attrs({
   z-index: 6;
   background-color: ${props => props.theme.color('white')};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
+  height: ${props => props.theme.navHeight}px;
 
   ${props =>
     props.isBurgerOpen &&
-    `${respondBetween(
+    `${props.theme.mediaBetween(
       'small',
-      'headerMedium',
-      `
+      'headerMedium'
+    )(`
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 10;
-    `
-    )}
+    `)}
   `}
-  height: ${props => props.theme.navHeight}px;
 `;
 
 const Burger = styled.div`
   display: block;
 
-  ${respondTo(
-    'headerMedium',
-    `
+  ${props => props.theme.media('headerMedium')`
     display: none;
-  `
-  )}
+  `}
 `;
 
 const BurgerTrigger = styled.a<{ isActive: boolean }>`
@@ -113,9 +105,7 @@ const HeaderBrand = styled.div`
   margin-left: -20px;
 
   ${props => `
-    ${respondTo(
-      'headerMedium',
-      `
+    ${props.theme.media('headerMedium')(`
       margin-left: 0;
       flex: 0 0 auto;
       margin-right: 1.5rem;
@@ -123,8 +113,7 @@ const HeaderBrand = styled.div`
       border-right: 1px solid ${props.theme.color('warmNeutral.400')};
       width: auto;
       display: block;
-    `
-    )}
+    `)}
   `}
 
   a {
@@ -145,48 +134,36 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
   padding-right: ${props => props.theme.grid.s.padding}px;
 
   ${props => `
-    ${respondBetween(
+    ${props.theme.mediaBetween(
       'small',
-      'headerMedium',
-      `
+      'headerMedium'
+    )(`
       border-top: 1px solid ${props.theme.color('warmNeutral.400')};
       height: calc(100vh - 84px);
       overflow: auto;
-    `
-    )}
-  `}
+    `)}
 
-  ${props => `
-    ${respondTo(
-      'medium',
-      `
+    ${props.theme.media('medium')(`
       padding-left: ${props.theme.grid.m.padding + props.theme.grid.m.gutter}px;
       padding-right: ${props.theme.grid.m.padding}px;
-    `
-    )}
-  `}
+    `)}
 
-  ${respondTo(
-    'headerMedium',
-    `
-    position: static;
-    display: block;
-    margin-top: 0;
-    padding-left: 0;
-    padding-right: 0;
-  `
-  )}
+    ${props.theme.media('headerMedium')`
+      position: static;
+      display: block;
+      margin-top: 0;
+      padding-left: 0;
+      padding-right: 0;
+    `}
+  `}
 `;
 
 const HeaderList = styled.ul`
   margin-left: -0.3rem;
 
-  ${respondTo(
-    'headerMedium',
-    `
+  ${props => props.theme.media('headerMedium')`
     display: flex;
-  `
-  )}
+  `}
 `;
 
 const HeaderItem = styled.li`
@@ -196,28 +173,23 @@ const HeaderItem = styled.li`
   // number of nav items and number of characters in them.
   // This is a stop-gap ahead of nav design rework.
 
-  ${respondTo(
-    'headerMedium',
-    `
-    border-bottom: 0;
-    margin-right: calc(3vw - 20px);
-  `
-  )}
+  ${props => `
+    ${props.theme.media('headerMedium')`
+      border-bottom: 0;
+      margin-right: calc(3vw - 20px);
+    `}
 
-  ${respondBetween(
-    'headerMedium',
-    'large',
-    `
-    font-size: 1.5vw;
-  `
-  )}
+    ${props.theme.mediaBetween(
+      'headerMedium',
+      'large'
+    )(`
+      font-size: 1.5vw;
+    `)}
 
-  ${respondTo(
-    'xlarge',
-    `
-    margin-right: 1.4rem;
-  `
-  )}
+    ${props.theme.media('xlarge')`
+      margin-right: 1.4rem;
+    `}
+  `}
 `;
 
 const HeaderLink = styled.a<{ isActive: boolean }>`
@@ -228,13 +200,10 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   z-index: 1;
   transition: color 400ms ease;
 
-  ${respondTo(
-    'headerMedium',
-    `
+  ${props => props.theme.media('headerMedium')`
     padding-top: 1rem;
     padding-bottom: 1rem;
-  `
-  )}
+  `}
 
   &:after {
     content: '';
@@ -247,12 +216,9 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
     z-index: -1;
     transition: width 200ms ease;
 
-    ${respondTo(
-      'headerMedium',
-      `
+    ${props => props.theme.media('headerMedium')`
       bottom: 0.9rem;
-    `
-    )}
+    `}
   }
 
   &:hover,

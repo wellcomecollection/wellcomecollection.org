@@ -1,5 +1,4 @@
 import { themeValues } from '../config';
-import { respondTo, respondBetween } from '../mixins';
 
 export const container = `
 .container {
@@ -8,27 +7,22 @@ export const container = `
   max-width: ${themeValues.sizes.xlarge}px;
   padding: 0 ${themeValues.containerPadding.small}px;
 
-  ${respondTo(
-    'medium',
-    `
-  padding: 0 ${themeValues.containerPadding.medium}px;
-  `
-  )}
+  ${themeValues.media('medium')(`
+    padding: 0 ${themeValues.containerPadding.medium}px;
+  `)}
 
-  ${respondTo(
-    'large',
-    `
-  padding: 0 ${themeValues.containerPadding.large}px;
-  `
-  )}
+  ${themeValues.media('large')(`
+    padding: 0 ${themeValues.containerPadding.large}px;
+  `)}
+
 
 }
 
 .container--scroll {
-  ${respondBetween(
+  ${themeValues.mediaBetween(
     'small',
-    'medium',
-    `
+    'medium'
+  )(`
     max-width: none;
     width: auto;
     overflow: auto;
@@ -62,7 +56,6 @@ export const container = `
         }px) / 2) + ${themeValues.containerPadding.large}px);
       }
     }
-  `
-  )}
+  `)}
 }
 `;
