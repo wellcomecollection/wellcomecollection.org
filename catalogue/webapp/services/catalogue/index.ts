@@ -5,7 +5,7 @@ import {
   CatalogueResultsList,
   ResultType,
 } from '@weco/common/model/catalogue';
-import { PrismicApiError, StoryResultsList } from "@weco/common/model/story";
+import { PrismicApiError, StoryResultsList } from '@weco/common/model/story';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { isString } from '@weco/common/utils/array';
@@ -96,7 +96,9 @@ export const prismicRefFetch = (
 // Prismic API graphql endpoint expects query requests via GET method
 // This means we need to be able to pass a body in the request, something that is not possible with fetch
 // As a workaround I have used axios to make the request
-export const prismicFetch = (options): Promise<AxiosResponse> => {
+export const prismicFetch = (
+  options?: Record<string, string>
+): Promise<AxiosResponse> => {
   return axios(options);
 };
 
@@ -105,7 +107,7 @@ export async function prismicQuery<Params, Result extends ResultType>(
   { params }: QueryProps<Params>
 ): Promise<StoryResultsList<Result> | PrismicApiError> {
   // const apiOptions = globalApiOptions(toggles);
-  //
+  // TODO: implement number of results in this query
 
   const extendedParams = {
     ...params,
@@ -154,16 +156,13 @@ export async function prismicQuery<Params, Result extends ResultType>(
   try {
     const res = await prismicFetch(options);
     const json = await res.data;
-    console.log(json, 'do we get json in prismic query');
 
     return {
       ...json,
       _requestUrl: url,
     };
   } catch (error) {
-    console.log(error, 'what is the error');
-    console.error(`Unable to fetch Prismic API URL ${url}`, error);
-    return catalogueApiError();
+    return prismicApiError();
   }
 }
 

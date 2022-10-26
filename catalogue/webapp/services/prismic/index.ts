@@ -1,13 +1,10 @@
 import {
   prismicApiError,
   prismicFetch,
-  // globalApiOptions,
-  // looksLikeCanonicalId,
   notFound,
   QueryProps,
   prismicQuery,
   prismicRefFetch,
-  // rootUris,
 } from '../catalogue';
 
 import { Toggles } from '@weco/toggles';
@@ -27,17 +24,9 @@ type PrismicResponse = Story | PrismicApiError;
 // to return the article object from Prismic by id
 export async function getArticle({
   query,
-}: // toggles,
-GetArticleProps): Promise<PrismicResponse> {
-  // if (!looksLikeCanonicalId(id)) {
-  //   return notFound();
-  // }
-
-  // const apiOptions = globalApiOptions(toggles);
-
+}: GetArticleProps): Promise<PrismicResponse> {
   const headers = {
     Authorization: `Bearer ${process.env.PRISMIC_TOKEN}`,
-    // repository: 'wellcomecollection',
     'Content-Type': 'application/json',
     Accept: 'application/json',
   };
@@ -48,7 +37,6 @@ GetArticleProps): Promise<PrismicResponse> {
   );
   const { refs } = await prismicRef.json();
   const { ref } = refs[0];
-  // console.log(ref, 'what do we get <<<<<<<');
   headers['Prismic-ref'] = ref;
 
   const searchVariables = {
@@ -71,7 +59,6 @@ GetArticleProps): Promise<PrismicResponse> {
 
   const url = `https://wellcomecollection.prismic.io/graphql?query=${graphQuery}`;
 
-
   const options = {
     method: 'GET',
     headers: headers,
@@ -89,11 +76,9 @@ GetArticleProps): Promise<PrismicResponse> {
   }
 
   try {
-    console.log('we are trying the get article function');
     return await res.data;
     // return await res.json();
   } catch (e) {
-    console.log(e, 'what is the error in the get article function');
     return prismicApiError();
   }
 }
