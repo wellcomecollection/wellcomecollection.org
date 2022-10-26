@@ -48,26 +48,27 @@ export const SearchPagination: FunctionComponent<{
       aria-label="search pagination"
       style={{ display: 'flex', alignItems: 'center' }}
     >
-      <>Showing page</>
+      <span aria-hidden>Showing page</span>
+      <span id="searchInputLabel" className="visually-hidden">
+        {`Showing page ${currentPage} / ${totalPages}`}
+      </span>
       <PageSelectorInput
         name="page"
-        form='searchPageForm'
+        form="searchPageForm"
+        aria-labelledby="searchInputLabel"
         value={currentPage}
         onChange={e => setCurrentPage(Number(e.target.value))}
         darkBg={darkBg}
       />
-      <>/ {totalPages}</>
+      <span aria-hidden>/ {totalPages}</span>
       {showPrev && (
         <Link
           passHref
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
         >
           <ChevronWrapper darkBg={darkBg} prev>
-            <Icon
-              aria-label="previous page"
-              icon={chevron}
-              color={darkBg ? 'white' : 'black'}
-            />
+            <Icon icon={chevron} color={darkBg ? 'white' : 'black'} />
+            <span className="visually-hidden">previous page</span>
           </ChevronWrapper>
         </Link>
       )}
@@ -77,11 +78,8 @@ export const SearchPagination: FunctionComponent<{
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
         >
           <ChevronWrapper darkBg={darkBg}>
-            <Icon
-              aria-label="next page"
-              icon={chevron}
-              color={darkBg ? 'white' : 'black'}
-            />
+            <Icon icon={chevron} color={darkBg ? 'white' : 'black'} />
+            <span className="visually-hidden">next page</span>
           </ChevronWrapper>
         </Link>
       )}
