@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { font } from '../../../utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { useUser } from '../UserProvider/UserProvider';
-import { user as userIcon } from '../../../icons';
-import { trackEvent } from '../../../utils/ga';
+import { user as userIcon } from '@weco/common/icons';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const StyledComponent = styled.div.attrs({
   className: font('intr', 5),

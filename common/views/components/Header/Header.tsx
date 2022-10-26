@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
-import { font } from '../../../utils/classnames';
-import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
+import { font } from '@weco/common/utils/classnames';
+import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 
