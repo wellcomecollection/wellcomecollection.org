@@ -22,11 +22,6 @@ export function transformManifest(
   iiifManifests: IIIFManifests
 ): TransformedManifest {
   const { manifestV2, manifestV3 } = { ...iiifManifests };
-
-  // V2
-  // TODO Be aware when moving the id to v3 the id value changes, the id string will no longer contain /v2/
-  // This causes the matchingManifest not to be found in IIIFViewer
-  const id = manifestV2 ? manifestV2['@id'] : '';
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
   const canvasCount = canvases.length;
 
@@ -55,7 +50,6 @@ export function transformManifest(
   const isCollectionManifest = manifestV2
     ? manifestV2['@type'] === 'sc:Collection'
     : false;
-  const parentManifestUrl = manifestV2 && manifestV2.within;
   const needsModal = checkModalRequired(authService, isAnyImageOpen);
   const searchService = manifestV2 && getSearchService(manifestV2);
   const manifests = manifestV2?.manifests || [];
@@ -65,12 +59,14 @@ export function transformManifest(
   const title = manifestV3?.label ? getTitle(manifestV3.label) : '';
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
-  const collectionManifestsCount = manifestV3?.items?.length || 0;
+  const id = manifestV3?.id || '';
+  const parentManifestUrl = manifestV3 && manifestV3.partOf?.[0].id;
+  const collectionManifestsCount =
+    manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
     // Taken from V2 manifest:
-    id,
     canvasCount,
     video,
     iiifCredit,
@@ -85,14 +81,15 @@ export function transformManifest(
     isCollectionManifest,
     manifests,
     canvases,
-    parentManifestUrl,
     needsModal,
     searchService,
     structures,
     // Taken from V3 manifest:
-    title,
+    id,
     audio,
     services,
+    parentManifestUrl,
+    title,
     collectionManifestsCount,
   };
 }

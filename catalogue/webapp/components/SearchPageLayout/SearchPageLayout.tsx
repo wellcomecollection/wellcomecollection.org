@@ -81,11 +81,11 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           url: { pathname: '/search/images', query: query || {} },
         });
         break;
-      case 'collections':
+      case 'catalogue':
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: 'copy pending',
-          title: `${query ? `${query} | ` : ''}Collections Search`,
+          title: `${query ? `${query} | ` : ''}Catalogue Search`,
           url: { pathname: '/search/collections', query: query || {} },
         });
         break;

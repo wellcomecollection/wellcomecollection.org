@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { Page, test } from '@playwright/test';
 import { imagesUrl } from './helpers/urls';
 import { gotoWithoutCache, isMobile } from './contexts';
 import {
@@ -31,17 +31,24 @@ import { regexImageGalleryUrl } from './helpers/regex';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 import { searchResultsContainer } from './selectors/search';
 
+async function gotoImagesSearch(
+  { query }: { query: string },
+  page: Page
+): Promise<void> {
+  await gotoWithoutCache(imagesUrl, page);
+  await fillActionSearchInput(query, page);
+  await Promise.all([
+    safeWaitForNavigation(page),
+    pressActionEnterSearchInput(page),
+  ]);
+}
+
 test.describe('Image search', () => {
   test('Search by term, filter by colour, check results, view image details, view expanded image', async ({
     page,
   }) => {
-    await gotoWithoutCache(imagesUrl, page);
-    const expectedValue = 'art of science';
-    await fillActionSearchInput(expectedValue, page);
-    await Promise.all([
-      safeWaitForNavigation(page),
-      pressActionEnterSearchInput(page),
-    ]);
+    const query = 'art of science';
+    await gotoImagesSearch({ query }, page);
 
     if (isMobile(page)) {
       await clickActionModalFilterButton(page);
@@ -68,5 +75,31 @@ test.describe('Image search', () => {
       clickActionClickViewExpandedImage(page),
     ]);
     expectUrlToMatch(regexImageGalleryUrl, page);
+  });
+
+  test.describe('the expanded image modal', () => {
+    test('images without contributors still show a title', async ({ page }) => {
+      await gotoImagesSearch({ query: 'm2u74c63' }, page);
+
+      await clickActionClickSearchResultItem(1, page);
+      await expectItemIsVisible(
+        'h2 >> text="Fish. Watercolour drawing."',
+        page
+      );
+    });
+
+    test('images with contributors show both title and contributor', async ({
+      page,
+    }) => {
+      await gotoImagesSearch({ query: 'fcmwqd5u' }, page);
+
+      await clickActionClickSearchResultItem(1, page);
+      await expectItemIsVisible('h2 >> text="Dr. Darwin."', page);
+
+      await expectItemIsVisible(
+        'h3 >> text="Fortey, W. S. (William Samuel)"',
+        page
+      );
+    });
   });
 });
