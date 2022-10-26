@@ -2,7 +2,7 @@ import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, createRef, useState, FunctionComponent } from 'react';
+import { useEffect, useState, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
@@ -33,17 +33,8 @@ export const SearchPagination: FunctionComponent<{
   totalPages: number;
   darkBg?: boolean;
 }> = ({ totalPages, darkBg }) => {
-  const { pathname, query, push } = useRouter();
+  const { pathname, query } = useRouter();
   const [currentPage, setCurrentPage] = useState(Number(query.page) || 1);
-  const targetPageInput = createRef<HTMLInputElement>();
-
-  const handlePageSubmit = e => {
-    e.preventDefault();
-    push({
-      pathname,
-      query: { ...query, page: targetPageInput.current?.value },
-    });
-  };
 
   useEffect(() => {
     setCurrentPage(Number(query.page) || 1);
@@ -57,17 +48,15 @@ export const SearchPagination: FunctionComponent<{
       aria-label="search pagination"
       style={{ display: 'flex', alignItems: 'center' }}
     >
-      <form onSubmit={handlePageSubmit}>
-        <>Showing page</>
-        <PageSelectorInput
-          name="targetPage"
-          value={currentPage}
-          ref={targetPageInput}
-          onChange={e => setCurrentPage(Number(e.target.value))}
-          darkBg={darkBg}
-        />
-        <>/ {totalPages}</>
-      </form>
+      <>Showing page</>
+      <PageSelectorInput
+        name="page"
+        form='searchPageForm'
+        value={currentPage}
+        onChange={e => setCurrentPage(Number(e.target.value))}
+        darkBg={darkBg}
+      />
+      <>/ {totalPages}</>
       {showPrev && (
         <Link
           passHref

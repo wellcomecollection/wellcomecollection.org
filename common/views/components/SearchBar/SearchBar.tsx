@@ -42,6 +42,7 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
   return (
     <form
       role="search"
+      id='searchPageForm'
       ref={searchForm}
       onSubmit={event => {
         event.preventDefault();
