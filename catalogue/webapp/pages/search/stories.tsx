@@ -14,6 +14,7 @@ type Props = {
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
+  storyResponse,
 }) => {
   return (
     <>
@@ -44,6 +45,22 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             {JSON.stringify(storyResponseList, null, 1)}
           </details>
         </code>
+        <code
+          style={{
+            display: 'block',
+            padding: '24px',
+            backgroundColor: '#EFE1AA',
+            color: '#000',
+            border: '4px solid #000',
+            borderRadius: '6px',
+          }}
+        >
+          <details>
+            <summary>A STORY</summary>
+            {/* eslint-disable-next-line no-restricted-syntax */}
+            {JSON.stringify(storyResponse, null, 1)}
+          </details>
+        </code>
       </pre>
     </>
   );
@@ -56,24 +73,15 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   const serverData = await getServerData(context);
   const { query } = context;
-  // console.log(query, 'this is the whole query');
-  // console.log(typeof query, 'type query');
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };
   }
 
-  const storyResponse = await getArticle({
-    query,
-    toggles: serverData.toggles,
-  });
+  const storyResponseList = await getArticles({ ...query, pageSize: 5 });
 
-  const storyResponseList = await getArticles({ ...query, pageSize: 5})
+  const storyResponse = await getArticle({ id: 'YxWwaBEAACEAi5jI' });
 
-  console.log(
-    storyResponseList,
-    'are we doing anything here with storyResponseList?'
-  );
 
   return {
     props: removeUndefinedProps({

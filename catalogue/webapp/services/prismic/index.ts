@@ -15,15 +15,14 @@ import {
 } from '@weco/common/model/story';
 
 type GetArticleProps = {
-  query?: string;
-  toggles: Toggles;
+  id?: string;
 };
 
 type PrismicResponse = Story | PrismicApiError;
 
-// to return the article object from Prismic by id
+// TODO: clear up terminology - is this an article or a story?
 export async function getArticle({
-  query,
+  id,
 }: GetArticleProps): Promise<PrismicResponse> {
   const headers = {
     Authorization: `Bearer ${process.env.PRISMIC_TOKEN}`,
@@ -39,18 +38,33 @@ export async function getArticle({
   const { ref } = refs[0];
   headers['Prismic-ref'] = ref;
 
-  const searchVariables = {
-    searchString: query,
-  };
-
-  const graphQuery = `{
-  allArticless(fulltext: "${query}" sortBy: title_ASC) {
+  const graphQuery = `query {
+  allArticless(id: "${id}") {
     edges {
       node {
         title
-        _meta {
-          lastPublicationDate
-          id
+        contributors {
+          contributor {
+            ...on People {
+              name
+            }
+          }
+        }
+        body {
+          ...on ArticlesBodyStandfirst {
+            primary {
+              text
+            }
+          }
+        }
+        promo {
+          ...on ArticlesPromoEditorialimage {
+            primary {
+              image
+              link
+              caption
+            }
+          }
         }
       }
     }
@@ -64,7 +78,6 @@ export async function getArticle({
     headers: headers,
     data: {
       query: { graphQuery },
-      variables: searchVariables,
     },
     url: url,
   };
@@ -86,6 +99,5 @@ export async function getArticle({
 export async function getArticles(
   props: PrismicQueryProps
 ): Promise<StoryResultsList<Story> | PrismicApiError> {
-  console.log(props, 'what are the props');
   return prismicQuery('stories', props);
 }
