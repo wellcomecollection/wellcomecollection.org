@@ -93,8 +93,8 @@ const CssGridContainer = styled.div`
     display: grid;
     grid-auto-rows: minmax(min-content, max-content);
 
-    ${props => `
-      ${Object.entries(props.theme.grid)
+    ${props =>
+      Object.entries(props.theme.grid)
         .map(entry => {
           const value = entry[1];
           const { respond, padding } = value;
@@ -112,7 +112,6 @@ const CssGridContainer = styled.div`
           );
         })
         .join(' ')}
-    `}
   }
 
   .css-grid__cell--main {
@@ -136,7 +135,7 @@ const CssGridContainer = styled.div`
       display: grid;
 
       ${props =>
-        `${Object.entries(props.theme.grid)
+        Object.entries(props.theme.grid)
           .map(entry => {
             const value = entry[1];
             const {
@@ -161,7 +160,6 @@ const CssGridContainer = styled.div`
             `);
           })
           .join(' ')}
-        `}
     }
   }
 
@@ -230,7 +228,7 @@ const CssGridContainer = styled.div`
   }
 
   ${props =>
-    `${Object.entries(props.theme.grid).map(([key, { columns, respond }]) => {
+    Object.entries(props.theme.grid).map(([key, { columns, respond }]) => {
       if (respond.length > 1) {
         return props.theme.mediaBetween(
           respond[0],
@@ -242,7 +240,6 @@ const CssGridContainer = styled.div`
         );
       }
     })}
-  `}
 `;
 
 export default CssGridContainer;
