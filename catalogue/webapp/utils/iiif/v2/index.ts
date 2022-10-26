@@ -48,60 +48,6 @@ export function getIsAnyImageOpen(manifest: IIIFManifest): boolean {
   return canvases.some(canvas => !isImageRestricted(canvas));
 }
 
-export function getAuthService(
-  iiifManifest?: IIIFManifest
-): AuthService | undefined {
-  if (iiifManifest && iiifManifest.service) {
-    if (Array.isArray(iiifManifest.service)) {
-      const authServices = iiifManifest.service
-        .filter(service => !!service.authService)
-        .map(service => service?.authService);
-      const restrictedService = authServices.find(
-        service =>
-          service?.['@id'] ===
-          'https://iiif.wellcomecollection.org/auth/restrictedlogin'
-      );
-      const nonRestrictedService = authServices.find(
-        service =>
-          service?.['@id'] !==
-          'https://iiif.wellcomecollection.org/auth/restrictedlogin'
-      );
-
-      // We're only interested in the services about access
-      const servicesOfInterest = iiifManifest.service.filter(
-        s => s.accessHint !== undefined
-      );
-
-      const isAvailableOnline =
-        servicesOfInterest.some(service => !service.authService) &&
-        !nonRestrictedService;
-      // If any of the manifest accessHint services don't include an `authService` then we can show the viewer without a modal.
-      // e.g. if the manifest is a mixture of open and restricted images, then
-      // DLCS will hide the images that are restricted -- and we can let the
-      // user click straight through to the images that are open.
-      //
-      // If there is a mixture of restricted images and non restricted images, we show the auth service of the non restricted ones, 'e.g. open with advisory', as these can still be viewd.
-      // Individual images that are restricted won't be displayed anyway.
-      return isAvailableOnline
-        ? undefined
-        : nonRestrictedService || restrictedService;
-    } else {
-      return iiifManifest.service.authService;
-    }
-  }
-}
-
-export function getTokenService(
-  authService: AuthService
-): AuthServiceService | undefined {
-  const authServiceServices = authService?.service || [];
-  return authServiceServices.find(
-    service =>
-      service.profile === 'http://iiif.io/api/auth/0/token' ||
-      service.profile === 'http://iiif.io/api/auth/1/token'
-  );
-}
-
 const restrictedAuthServiceUrl =
   'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 

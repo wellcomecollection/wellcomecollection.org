@@ -8,7 +8,6 @@ import {
   getCanvases,
   getFirstCollectionManifestLocation,
   getIIIFPresentationCredit,
-  getTokenService,
   getIsAnyImageOpen,
   getSearchService,
   checkModalRequired,
@@ -19,6 +18,7 @@ import {
   getTitle,
   getVideo,
   getAuthService,
+  getTokenService,
 } from '../../../utils/iiif/v3';
 
 export function transformManifest(
@@ -48,7 +48,10 @@ export function transformManifest(
 
   // V3 required for token service
   const authService = manifestV3 && getAuthService(manifestV3);
-  const tokenService = authService && getTokenService(authService);
+  const tokenService =
+    manifestV3 && authService?.['@id']
+      ? getTokenService(authService?.['@id'], manifestV3.services)
+      : undefined;
 
   const isAnyImageOpen = manifestV2 ? getIsAnyImageOpen(manifestV2) : false;
   const isTotallyRestricted = checkIsTotallyRestricted(
@@ -82,7 +85,6 @@ export function transformManifest(
     downloadOptions,
     firstCollectionManifestLocation,
     pdfRendering,
-    tokenService,
     isAnyImageOpen,
     isTotallyRestricted,
     isCollectionManifest,
@@ -95,6 +97,7 @@ export function transformManifest(
     // Taken from V3 manifest:
     title,
     audio,
+    tokenService,
     services,
     video,
     collectionManifestsCount,
