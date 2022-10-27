@@ -1,5 +1,21 @@
+import { Contributor, Image } from '@weco/common/model/catalogue';
+
 export type Story = {
-  id?: string;
+  id: string;
+  title: string;
+  description: string;
+  body: string;
+  contributors: Contributor[];
+  image: Image;
+  type: 'Story';
+};
+
+export type PrismicResponseStory = {
+  data: {
+    title: string;
+    description: string;
+    Story: Story;
+  };
 };
 
 export type PrismicApiError = {
@@ -10,7 +26,7 @@ export type PrismicApiError = {
   type: 'Error';
 };
 
-export type ResultType = Story;
+export type ResultType = Story | PrismicResponseStory;
 
 export type StoryResultsList<Result extends ResultType> = {
   type: 'ResultList';

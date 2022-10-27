@@ -42,6 +42,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           <details>
             <summary>THE STORIES</summary>
             {/* eslint-disable-next-line no-restricted-syntax */}
+            {console.log('storyResponse', storyResponseList)}
             {JSON.stringify(storyResponseList, null, 1)}
           </details>
         </code>
@@ -73,12 +74,16 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   const serverData = await getServerData(context);
   const { query } = context;
+  const finalQuery = query.toString();
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };
   }
 
-  const storyResponseList = await getArticles({ ...query, pageSize: 5 });
+  const storyResponseList = await getArticles({
+    query: finalQuery,
+    pageSize: 5,
+  });
 
   const storyResponse = await getArticle({ id: 'YxWwaBEAACEAi5jI' });
 
