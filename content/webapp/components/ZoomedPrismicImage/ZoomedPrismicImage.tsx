@@ -128,7 +128,7 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
     <>
       <ZoomButton onClick={openDialog}>
         <span className="visually-hidden">Zoom image</span>
-        <Icon icon={expand} color="white" />
+        <Icon icon={expand} iconColor="white" />
       </ZoomButton>
       <StyledDialog ref={zoomRef} isLoaded={isLoaded}>
         {!isLoaded && <LL />}
@@ -136,7 +136,7 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
           <>
             <ZoomButton onClick={closeDialog}>
               <span className="visually-hidden">Close zoomed image</span>
-              <Icon icon={cross} color="white" />
+              <Icon icon={cross} iconColor="white" />
             </ZoomButton>
             <Image
               width={image.width}

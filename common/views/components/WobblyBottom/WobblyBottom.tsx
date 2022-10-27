@@ -7,15 +7,18 @@ const Wrapper = styled.div`
 `;
 
 type Props = {
-  color: 'warmNeutral.300' | 'white';
+  backgroundColor: 'warmNeutral.300' | 'white';
   children: ReactNode;
 };
 
-const WobblyBottom: FunctionComponent<Props> = ({ color, children }: Props) => (
+const WobblyBottom: FunctionComponent<Props> = ({
+  backgroundColor,
+  children,
+}: Props) => (
   <Wrapper>
     <Fragment>
       {children}
-      <WobblyEdge background={color} />
+      <WobblyEdge backgroundColor={backgroundColor} />
     </Fragment>
   </Wrapper>
 );

@@ -24,7 +24,7 @@ export const compactCard = CompactCardTemplate.bind({});
 compactCard.args = {
   url: 'https://wellcomecollection.org',
   title: 'Wellcome Collection',
-  description: singleLineOfText(10, 25),
+  description: singleLineOfText(),
   Image: <PrismicImage image={imageProps} quality="low" />,
   DateInfo: null,
   Tags: null,
@@ -52,7 +52,7 @@ const FeaturedCardTemplate = args => {
       labels={[{ text: 'Essay' }]}
       link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
       background={args.background}
-      color={args.color}
+      textColor={args.color}
       isReversed={args.isReversed}
     >
       <h2 className="font-wb font-size-2">

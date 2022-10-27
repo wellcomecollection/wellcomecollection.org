@@ -218,7 +218,7 @@ const PageHeader: FunctionComponent<Props> = ({
             <HeroPictureBackground bgColor={heroImageBgColor} />
 
             <HeroPictureContainer>
-              <WobblyBottom color={heroImageBgColor}>
+              <WobblyBottom backgroundColor={heroImageBgColor}>
                 {HeroPicture}
               </WobblyBottom>
             </HeroPictureContainer>
@@ -226,7 +226,7 @@ const PageHeader: FunctionComponent<Props> = ({
         )}
       </div>
       {!hasMedia && !isContentTypeInfoBeforeMedia && !sectionLevelPage && (
-        <WobblyEdge background="white" />
+        <WobblyEdge backgroundColor="white" />
       )}
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
         <Layout gridSizes={sectionLevelPageGridLayout}>

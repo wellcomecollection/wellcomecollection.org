@@ -428,7 +428,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                           <FeaturedCardExhibition
                             exhibition={firstExhibition}
                             background="warmNeutral.300"
-                            color="black"
+                            textColor="black"
                           />
                         </Layout12>
                       ) : (

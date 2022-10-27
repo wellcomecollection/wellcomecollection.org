@@ -17,11 +17,11 @@ type ResetActiveFilters = {
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
 };
 
-const ColorSwatch = styled.span`
+const ColorSwatch = styled.span<{ hexColor: string }>`
   display: inline-block;
   width: 12px;
   height: 12px;
-  background-color: ${({ color }) => color};
+  background-color: ${props => props.hexColor};
   margin-left: 6px;
   padding-top: 2px;
 `;
@@ -61,7 +61,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
       }}
     >
       <IconWrapper as="span">
-        <Icon icon={cross} matchText={true} color="neutral.500" />
+        <Icon icon={cross} matchText={true} iconColor="neutral.500" />
       </IconWrapper>
       <span className="visually-hidden">remove </span>
       {text || children}
@@ -209,7 +209,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     <a>
                       <CancelFilter>
                         {f.label}
-                        <ColorSwatch color={`#${f.color}`}>
+                        <ColorSwatch hexColor={`#${f.color}`}>
                           <span className="visually-hidden">
                             {getColorDisplayName(f.color)}
                           </span>

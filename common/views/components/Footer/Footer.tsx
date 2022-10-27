@@ -1,4 +1,4 @@
-import { useRef, useEffect, FunctionComponent } from 'react';
+import { useRef, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 // Components
@@ -183,7 +183,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           </InternalNavigationContainer>
 
           <FullWidthDivider>
-            <Divider color="neutral.700" />
+            <Divider borderColor="neutral.700" />
           </FullWidthDivider>
 
           <PoliciesContainer>

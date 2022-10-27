@@ -215,7 +215,7 @@ const Body: FunctionComponent<Props> = ({
                   <FeaturedCard
                     {...firstItemProps}
                     background={sectionTheme.featuredCardBackground}
-                    color={sectionTheme.featuredCardText}
+                    textColor={sectionTheme.featuredCardText}
                     isReversed={false}
                   >
                     <h2 className="font-wb font-size-2">{firstItem.title}</h2>
@@ -240,7 +240,7 @@ const Body: FunctionComponent<Props> = ({
                 <Fragment key={index}>
                   {!isFirst && (
                     <WobblyEdge
-                      background={sectionTheme.rowBackground}
+                      backgroundColor={sectionTheme.rowBackground}
                       isStatic
                     />
                   )}
@@ -276,7 +276,7 @@ const Body: FunctionComponent<Props> = ({
                       />
                     )}
                   </Wrapper>
-                  {!isLast && <WobblyEdge background="white" isStatic />}
+                  {!isLast && <WobblyEdge backgroundColor="white" isStatic />}
                 </Fragment>
               );
             })}

@@ -167,7 +167,7 @@ const EventPromo: FunctionComponent<Props> = ({
                 h={{ size: 'xs', properties: ['margin-right'] }}
                 className="flex flex--v-center"
               >
-                <Dot color="validation.red" />
+                <Dot dotColor="validation.red" />
               </Space>
               Fully booked
             </Space>
@@ -192,7 +192,7 @@ const EventPromo: FunctionComponent<Props> = ({
                 h={{ size: 'xs', properties: ['margin-right'] }}
                 className="flex flex--v-center"
               >
-                <Dot color="neutral.500" />
+                <Dot dotColor="neutral.500" />
               </Space>
               Past
             </div>
@@ -213,7 +213,7 @@ const EventPromo: FunctionComponent<Props> = ({
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 'm', properties: ['padding-bottom'] }}
         >
-          <Divider color="white" />
+          <Divider borderColor="white" />
           <Space v={{ size: 's', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}
