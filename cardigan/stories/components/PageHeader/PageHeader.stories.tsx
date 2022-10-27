@@ -35,6 +35,7 @@ const ContentTypeInfo = (
     <div className="flex flex--h-baseline">
       <Space
         h={{ size: 's', properties: ['margin-right'] }}
+        v={{ size: 's', properties: ['margin-top'] }}
         className={font('intr', 6)}
       >
         <p className="no-margin">
