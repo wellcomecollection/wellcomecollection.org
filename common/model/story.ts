@@ -23,7 +23,9 @@ export type Promo = {
 };
 
 export type PrismicResponseNode = {
-  id: string;
+  _meta: {
+    id: string;
+  };
   title: string;
   description: string;
   body: Record<string, any>[];

@@ -136,9 +136,10 @@ export async function transformStories(allArticless: PrismicResponseStory) {
   const { edges } = allArticless;
   const stories = edges.map(edge => {
     const { node } = edge;
-    const { title, contributors, body, promo, id } = node;
+    const { title, contributors, body, promo, _meta } = node;
     const { primary: standfirst } = body[0];
     const { primary: image } = promo[0];
+    const { id } = _meta;
     return {
       id,
       title,
