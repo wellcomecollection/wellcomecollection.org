@@ -113,6 +113,11 @@ ImagesSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+
+    if (!serverData.toggles.searchPage) {
+      return { notFound: true };
+    }
+
     const params = fromQuery(context.query);
     const aggregations = [
       'locations.license',
