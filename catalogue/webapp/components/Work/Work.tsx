@@ -1,5 +1,5 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
-import { useContext, useEffect, FunctionComponent, ReactElement } from 'react';
+import { useContext, FunctionComponent, ReactElement } from 'react';
 import { grid } from '@weco/common/utils/classnames';
 import { getDigitalLocationOfType } from '../../utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
@@ -26,8 +26,10 @@ const ArchiveDetailsContainer = styled.div`
 `;
 
 const WorkDetailsWrapper = styled(Space).attrs({
-  size: 'xl',
-  properties: ['padding-top'],
+  v: {
+    size: 'xl',
+    properties: ['padding-top'],
+  },
 })`
   flex: 1;
 `;
