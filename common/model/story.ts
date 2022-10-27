@@ -1,13 +1,13 @@
 import { Contributor, Image } from '@weco/common/model/catalogue';
+import { Standfirst } from '@weco/content/services/prismic/types/body';
 
 export type Story = {
   id: string;
   title: string;
-  description: string;
-  body: string;
   contributors: Contributor[];
+  standfirst: Standfirst[];
   image: Image;
-  type: 'Story';
+  type: string;
 };
 
 export type Promo = {
@@ -22,23 +22,28 @@ export type Promo = {
   };
 };
 
-export type ArticleNode = {
+export type PrismicResponseNode = {
   id: string;
   title: string;
   description: string;
-  body: Record<any, any>;
+  body: Record<string, any>[];
   contributors: Contributor[];
   image: Image;
   promo: Promo;
   type: 'Story';
 };
 
-export type ArticleNodeArray = {
-  node: ArticleNode;
+export type PrismicResponseNodeArray = {
+  node: PrismicResponseNode;
+};
+
+export type PrismicResponseEdgeArray = {
+  edges: PrismicResponseNodeArray[];
 };
 
 export type PrismicResponseStory = {
-  edges: ArticleNodeArray[];
+  data: PrismicResponseEdgeArray[];
+  edges: PrismicResponseNodeArray[];
 };
 
 export type PrismicApiError = {
@@ -49,14 +54,8 @@ export type PrismicApiError = {
   type: 'Error';
 };
 
-export type ResultType = Story | PrismicResponseStory;
-
-export type StoryResultsList<Result extends ResultType> = {
+export type StoryResultsList<Result> = {
   type: 'ResultList';
   totalResults: number;
-  totalPages: number;
   results: Result[];
-  pageSize: number;
-  prevPage: string | null;
-  nextPage: string | null;
 };

@@ -5,8 +5,7 @@ import {
   PrismicResponseStory,
 } from '@weco/common/model/story';
 import fetch, { Response } from 'node-fetch';
-import axios from 'axios';
-import { CatalogueResultsList, ResultType } from '@weco/common/model/catalogue';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { HttpsAgent as Agent } from 'agentkeepalive';
 
 export type PrismicQueryProps = {
@@ -27,8 +26,7 @@ const agentKeepAlive = new Agent({
   freeSocketTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
 });
 
-// TODO: clear up terminology - is this an article or a story?
-// TODO: add any tests
+// TODO: add any tests for transforms
 // To authenticate a request to the Prismic API graphql endpoint you need a Prismic-ref value that refreshes every 30 seconds.
 // The ref can be used in a 'stale' state for 5 minutes before it expires
 // https://community.prismic.io/t/for-how-long-is-it-safe-to-cache-a-prismic-api-ref/5962
@@ -39,36 +37,25 @@ export const prismicRefFetch = (
   return fetch(url, { ...options, agent: agentKeepAlive });
 };
 
-export type PrismicFetchOptions = {
-  url: string;
-  query?: string;
-  headers: Record<string, string>;
-  prismicRef?: string;
-};
-
-export type AxiosResponse = {
-  data: ResultType;
-  status: number;
-};
-
 // Prismic API graphql endpoint expects query requests via GET method
 // This means we need to be able to pass a body in the request, something that is not possible with fetch
 // As a workaround I have used axios to make the request
 export const prismicFetch = (
-  options?: PrismicFetchOptions
+  options?: AxiosRequestConfig
 ): Promise<AxiosResponse> => {
-  return axios(options);
+  return axios({ ...options });
 };
 
-export async function prismicQuery<Result extends ResultType>(
+export async function prismicQuery(
   endpoint: string,
   { query, pageSize }: PrismicQueryProps
-): Promise<CatalogueResultsList<Result> | PrismicApiError> {
+): Promise<StoryResultsList<Story> | PrismicApiError> {
   const graphQuery = `query {
   allArticless(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
   edges {
       node {
         title
+        _meta { id }
         contributors {
           contributor {
             ...on People {
@@ -113,14 +100,15 @@ export async function prismicQuery<Result extends ResultType>(
     repository: 'wellcomecollection',
     'Prismic-ref': ref,
   };
-  const options = {
+  const options: AxiosRequestConfig = {
     method: 'GET',
+    url: url,
     headers: updatedHeaders,
     data: {
       query: { graphQuery },
     },
-    url: url,
   };
+
   try {
     const res = await prismicFetch(options);
     const json = await res.data;
@@ -129,8 +117,9 @@ export async function prismicQuery<Result extends ResultType>(
     const stories = await transformStories(allArticless);
 
     return {
-      ...stories,
-      _requestUrl: url,
+      type: 'ResultList',
+      results: stories,
+      totalResults: stories.length,
     };
   } catch (error) {
     return prismicApiError();
@@ -144,17 +133,19 @@ export async function getStories(
 }
 
 export async function transformStories(allArticless: PrismicResponseStory) {
-  const { edges }: PrismicResponseStory = allArticless;
+  const { edges } = allArticless;
   const stories = edges.map(edge => {
     const { node } = edge;
-    const { title, contributors, body, promo } = node;
+    const { title, contributors, body, promo, id } = node;
     const { primary: standfirst } = body[0];
     const { primary: image } = promo[0];
     return {
+      id,
       title,
       contributors,
       standfirst,
       image,
+      type: 'Story',
     };
   });
   return stories;

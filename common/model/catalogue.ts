@@ -1,5 +1,3 @@
-import { PrismicResponseStory, Story } from "@weco/common/model/story";
-
 export type Work = {
   type: 'Work' | 'Collection' | 'Section' | 'Series';
   id: string;
@@ -332,7 +330,7 @@ export type ImageAggregations = {
 
 type ConceptAggregations = null;
 
-export type ResultType = Work | Image | Concept | Story;
+export type ResultType = Work | Image | Concept;
 
 export type CatalogueResultsList<Result extends ResultType> = {
   type: 'ResultList';

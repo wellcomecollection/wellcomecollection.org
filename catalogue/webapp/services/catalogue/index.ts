@@ -39,7 +39,6 @@ export const catalogueApiError = (): CatalogueApiError => ({
   type: 'Error',
 });
 
-
 // By default, the next.js polyfill for node-fetch enables keep-alive by default.
 // https://nextjs.org/docs/api-reference/next.config.js/disabling-http-keep-alive
 //
@@ -74,7 +73,6 @@ export type QueryProps<Params> = {
   pageSize?: number;
   toggles: Toggles;
 };
-
 
 export async function catalogueQuery<Params, Result extends ResultType>(
   endpoint: string,
