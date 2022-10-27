@@ -207,19 +207,23 @@ const ExpandedImage: FunctionComponent<Props> = ({
         </ImageWrapper>
       )}
       <InfoWrapper>
-        {displayContributor && (
+        {(displayTitle || displayContributor) && (
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <h2
-              className={`${font('intb', 3)} no-margin`}
-              dangerouslySetInnerHTML={{ __html: displayTitle }}
-            />
-            <Space
-              as="h3"
-              v={{ size: 's', properties: ['margin-top'] }}
-              className={font('intb', 5)}
-            >
-              {displayContributor}
-            </Space>
+            {displayTitle && (
+              <h2
+                className={`${font('intb', 3)} no-margin`}
+                dangerouslySetInnerHTML={{ __html: displayTitle }}
+              />
+            )}
+            {displayContributor && (
+              <Space
+                as="h3"
+                v={{ size: 's', properties: ['margin-top'] }}
+                className={font('intb', 5)}
+              >
+                {displayContributor}
+              </Space>
+            )}
           </Space>
         )}
         {license && (

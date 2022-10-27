@@ -193,6 +193,32 @@ const marbleWhiteCharcoal: ButtonColors = {
   text: 'neutral.700', // legacy charcoal color
 };
 
+// New button style introduction
+// If we chose to move forward with new buttons
+// Remove border prop
+const yellowYellowBlack: ButtonColors = {
+  border: 'yellow',
+  background: 'yellow',
+  text: 'black',
+};
+
+export type Size = keyof typeof sizes;
+const media =
+  (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
+  (styles: TemplateStringsArray | string): string =>
+    `@media (${minOrMaxWidth}: ${sizes[sizeLabel]}px) {${styles}}`;
+
+const mediaBetween =
+  (minBreakpoint: Breakpoint, maxBreakpoint: Breakpoint) =>
+  (styles: string): string => {
+    const minWidth = `min-width: ${sizes[minBreakpoint]}px`;
+    const maxWidth = `max-width: ${sizes[maxBreakpoint] - 1}px`;
+
+    return `@media (${minWidth}) and (${maxWidth}) {
+      ${styles}
+    }`;
+  };
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -259,6 +285,8 @@ export const themeValues = {
   colors,
   color: getColor,
   minCardHeight: 385,
+  media,
+  mediaBetween,
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,
@@ -268,6 +296,7 @@ export const themeValues = {
     pumiceTransparentCharcoal,
     charcoalTransparentCharcoal,
     marbleWhiteCharcoal,
+    yellowYellowBlack,
   },
 };
 

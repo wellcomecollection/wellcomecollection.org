@@ -15,7 +15,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
 }) => {
   return (
-    <>
+    <div className="container">
       <h1 className="visually-hidden">Stories Search Page</h1>
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
         <div>Stories content</div>
@@ -44,7 +44,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           </details>
         </code>
       </pre>
-    </>
+    </div>
   );
 };
 

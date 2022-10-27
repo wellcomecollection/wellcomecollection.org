@@ -1,5 +1,4 @@
 import { themeValues } from '../config';
-import { respondTo } from '../mixins';
 
 export const gridBase = `
 .grid {
@@ -7,37 +6,24 @@ export const gridBase = `
   flex-wrap: wrap;
   margin-left: -${themeValues.gutter.small}px;
 
-  ${respondTo(
-    'medium',
-    `
-  margin-left: -${themeValues.gutter.medium}px;
-  `
-  )}
+  ${themeValues.media('medium')(`
+    margin-left: -${themeValues.gutter.medium}px;
+  `)}
 
-  ${respondTo(
-    'large',
-    `
-  margin-left: -${themeValues.gutter.large}px;
-  `
-  )}
+  ${themeValues.media('large')(`
+    margin-left: -${themeValues.gutter.large}px;
+  `)}
 }
 
 .grid__cell {
   flex: 1;
   padding-left: ${themeValues.gutter.small}px;
 
-  ${respondTo(
-    'medium',
-    `
+  ${themeValues.media('medium')(`
     padding-left: ${themeValues.gutter.medium}px;
-  `
-  )}
+  `)}
 
-  ${respondTo(
-    'large',
-    `
-  padding-left: ${themeValues.gutter.large}px;
-  `
-  )}
-
+  ${themeValues.media('large')(`
+    padding-left: ${themeValues.gutter.large}px;
+  `)}
 }`;

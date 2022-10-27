@@ -49,9 +49,6 @@ export const homepageHeading =
 export const newsletterDescription =
   'Sign up for news and information from Wellcome Collection';
 
-export const booksPromoOnStoriesPage =
-  'Get stuck into one of our books, and explore the complexities of the human condition.';
-
 export const a11y = {
   stepFreeAccess: 'Step-free access is available to all floors of the building',
   largePrintGuides:

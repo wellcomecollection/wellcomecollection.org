@@ -10,6 +10,10 @@ import { formatDayDate } from './format-date';
 //      new Date('2022-09-19T00:00:00Z')
 //    );
 //
+// If you're doing local debugging, you can also override the return value
+// to make the site think it's a different date, e.g. to test opening times.
+// (Note: this may not affect all parts of the site.)
+//
 export function today(): Date {
   return new Date();
 }
