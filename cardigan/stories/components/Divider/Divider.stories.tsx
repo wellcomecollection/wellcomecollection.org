@@ -30,7 +30,7 @@ basic.args = {
 
 export const stub = Template.bind({});
 stub.args = {
-  color: 'black',
+  borderColor: 'black',
   isStub: true,
   backgroundColor: 'white',
 };

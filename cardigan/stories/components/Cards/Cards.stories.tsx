@@ -52,7 +52,7 @@ const FeaturedCardTemplate = args => {
       labels={[{ text: 'Essay' }]}
       link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
       background={args.background}
-      textColor={args.color}
+      textColor={args.textColor}
       isReversed={args.isReversed}
     >
       <h2 className="font-wb font-size-2">
@@ -69,7 +69,7 @@ const FeaturedCardTemplate = args => {
 export const featuredCard = FeaturedCardTemplate.bind({});
 featuredCard.args = {
   background: 'neutral.700',
-  color: 'white',
+  textColor: 'white',
   isReversed: false,
 };
 featuredCard.storyName = 'FeaturedCard';
