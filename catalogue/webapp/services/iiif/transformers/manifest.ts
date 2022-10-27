@@ -8,10 +8,7 @@ import {
   getCanvases,
   getFirstCollectionManifestLocation,
   getIIIFPresentationCredit,
-  getIsAnyImageOpen,
   getSearchService,
-  checkModalRequired,
-  checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
 import {
   getAudio,
@@ -19,6 +16,9 @@ import {
   getVideo,
   getAuthService,
   getTokenService,
+  getIsAnyImageOpen,
+  checkIsTotallyRestricted,
+  checkModalRequired,
 } from '../../../utils/iiif/v3';
 
 export function transformManifest(
@@ -46,24 +46,10 @@ export function transformManifest(
     downloadOptions &&
     downloadOptions.find(option => option.label === 'Download PDF');
 
-  // V3 required for token service
-  const authService = manifestV3 && getAuthService(manifestV3);
-  const tokenService =
-    manifestV3 && authService?.['@id']
-      ? getTokenService(authService?.['@id'], manifestV3.services)
-      : undefined;
-
-  const isAnyImageOpen = manifestV2 ? getIsAnyImageOpen(manifestV2) : false;
-  const isTotallyRestricted = checkIsTotallyRestricted(
-    authService,
-    isAnyImageOpen
-  );
-
   const isCollectionManifest = manifestV2
     ? manifestV2['@type'] === 'sc:Collection'
     : false;
   const parentManifestUrl = manifestV2 && manifestV2.within;
-  const needsModal = checkModalRequired(authService, isAnyImageOpen);
   const searchService = manifestV2 && getSearchService(manifestV2);
   const manifests = manifestV2?.manifests || [];
   const structures = manifestV2?.structures || [];
@@ -75,6 +61,18 @@ export function transformManifest(
   const video = manifestV3 && getVideo(manifestV3);
   const collectionManifestsCount = manifestV3?.items?.length || 0;
 
+  const authService = manifestV3 && getAuthService(manifestV3);
+  const tokenService =
+    manifestV3 && authService?.['@id']
+      ? getTokenService(authService?.['@id'], manifestV3.services)
+      : undefined;
+  const isAnyImageOpen = manifestV3 ? getIsAnyImageOpen(manifestV3) : false;
+  const isTotallyRestricted = checkIsTotallyRestricted(
+    authService,
+    isAnyImageOpen
+  );
+  const needsModal = checkModalRequired(authService, isAnyImageOpen);
+
   // TODO As we move over, further transform the props to exactly what we need
   return {
     // Taken from V2 manifest:
@@ -85,13 +83,10 @@ export function transformManifest(
     downloadOptions,
     firstCollectionManifestLocation,
     pdfRendering,
-    isAnyImageOpen,
-    isTotallyRestricted,
     isCollectionManifest,
     manifests,
     canvases,
     parentManifestUrl,
-    needsModal,
     searchService,
     structures,
     // Taken from V3 manifest:
@@ -102,5 +97,8 @@ export function transformManifest(
     video,
     collectionManifestsCount,
     authService,
+    isAnyImageOpen,
+    isTotallyRestricted,
+    needsModal,
   };
 }

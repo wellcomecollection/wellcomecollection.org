@@ -36,18 +36,6 @@ export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   }
 }
 
-// We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
-// The top-level holds information about whether the item contains _any_ images with an authService.
-// Individual images hold information about their own authService (if it has one).
-// So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
-// This allows us to determine whether or not to show the viewer at all.
-export function getIsAnyImageOpen(manifest: IIIFManifest): boolean {
-  const { sequences } = manifest;
-  const canvases = sequences?.map(sequence => sequence.canvases).flat() || [];
-
-  return canvases.some(canvas => !isImageRestricted(canvas));
-}
-
 const restrictedAuthServiceUrl =
   'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
@@ -72,27 +60,6 @@ export function isImageRestricted(canvas: IIIFCanvas): boolean {
     imageAuthService?.['@id'] === restrictedAuthServiceUrl ||
       imageAuthService === restrictedAuthServiceUrl
   );
-}
-
-export function checkModalRequired(
-  authService: AuthService | undefined,
-  isAnyImageOpen: boolean
-): boolean {
-  switch (authService?.['@id']) {
-    case undefined:
-      return false;
-    case restrictedAuthServiceUrl:
-      return !isAnyImageOpen;
-    default:
-      return true;
-  }
-}
-
-export function checkIsTotallyRestricted(
-  authService: AuthService | undefined,
-  isAnyImageOpen: boolean
-): boolean {
-  return authService?.['@id'] === restrictedAuthServiceUrl && !isAnyImageOpen;
 }
 
 export function getUiExtensions(
