@@ -29,10 +29,10 @@ const SearchButtonWrapper = styled.div`
 `;
 
 const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
-  const [inputQuery, setInputQuery] = useState('');
+  const { pathname, push, query } = useRouter();
+  const [inputQuery, setInputQuery] = useState((query.query as string) || '');
   const searchInput = useRef<HTMLInputElement>(null);
   const searchForm = useRef<HTMLFormElement>(null);
-  const { pathname, push } = useRouter();
 
   const updateUrl = (form: HTMLFormElement) => {
     const urlQuery = formDataAsUrlQuery(form);
@@ -42,6 +42,7 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
   return (
     <form
       role="search"
+      id='searchPageForm'
       ref={searchForm}
       onSubmit={event => {
         event.preventDefault();
