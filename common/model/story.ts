@@ -1,5 +1,5 @@
 import { Contributor, Image } from '@weco/common/model/catalogue';
-import { Standfirst } from '@weco/content/services/prismic/types/body';
+import { RichTextField, Slice } from '@prismicio/types';
 
 export type Story = {
   id: string;
@@ -9,6 +9,13 @@ export type Story = {
   image: Image;
   type: string;
 };
+
+export type Standfirst = Slice<
+  'standfirst',
+  {
+    text: RichTextField;
+  }
+>;
 
 export type Promo = {
   primary: {
