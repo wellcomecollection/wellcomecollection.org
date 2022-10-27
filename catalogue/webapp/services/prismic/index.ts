@@ -9,7 +9,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { HttpsAgent as Agent } from 'agentkeepalive';
 
 export type PrismicQueryProps = {
-  query: string;
+  query?: string | string[]
   pageSize?: number;
 };
 
