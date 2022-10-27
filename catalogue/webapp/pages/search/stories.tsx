@@ -5,16 +5,14 @@ import { getServerData } from '@weco/common/server-data';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
-import { getArticle, getArticles } from '../../services/prismic';
+import { getStories } from '../../services/prismic';
 
 type Props = {
-  storyResponse;
   storyResponseList;
 };
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
-  storyResponse,
 }) => {
   return (
     <>
@@ -42,24 +40,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           <details>
             <summary>THE STORIES</summary>
             {/* eslint-disable-next-line no-restricted-syntax */}
-            {console.log('storyResponse', storyResponseList)}
             {JSON.stringify(storyResponseList, null, 1)}
-          </details>
-        </code>
-        <code
-          style={{
-            display: 'block',
-            padding: '24px',
-            backgroundColor: '#EFE1AA',
-            color: '#000',
-            border: '4px solid #000',
-            borderRadius: '6px',
-          }}
-        >
-          <details>
-            <summary>A STORY</summary>
-            {/* eslint-disable-next-line no-restricted-syntax */}
-            {JSON.stringify(storyResponse, null, 1)}
           </details>
         </code>
       </pre>
@@ -80,18 +61,14 @@ export const getServerSideProps: GetServerSideProps<
     return { notFound: true };
   }
 
-  const storyResponseList = await getArticles({
+  const storyResponseList = await getStories({
     query: finalQuery,
     pageSize: 5,
   });
 
-  const storyResponse = await getArticle({ id: 'YxWwaBEAACEAi5jI' });
-
-
   return {
     props: removeUndefinedProps({
       serverData,
-      storyResponse,
       storyResponseList,
     }),
   };

@@ -10,12 +10,35 @@ export type Story = {
   type: 'Story';
 };
 
-export type PrismicResponseStory = {
-  data: {
+export type Promo = {
+  primary: {
     title: string;
+    image: Image;
     description: string;
-    Story: Story;
+    link: {
+      id: string;
+      type: string;
+    };
   };
+};
+
+export type ArticleNode = {
+  id: string;
+  title: string;
+  description: string;
+  body: Record<any, any>;
+  contributors: Contributor[];
+  image: Image;
+  promo: Promo;
+  type: 'Story';
+};
+
+export type ArticleNodeArray = {
+  node: ArticleNode;
+};
+
+export type PrismicResponseStory = {
+  edges: ArticleNodeArray[];
 };
 
 export type PrismicApiError = {

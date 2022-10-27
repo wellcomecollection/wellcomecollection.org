@@ -1,4 +1,3 @@
-import { notFound } from '../catalogue';
 import {
   Story,
   PrismicApiError,
@@ -9,10 +8,6 @@ import fetch, { Response } from 'node-fetch';
 import axios from 'axios';
 import { CatalogueResultsList, ResultType } from '@weco/common/model/catalogue';
 import { HttpsAgent as Agent } from 'agentkeepalive';
-
-type GetArticleProps = {
-  id?: string;
-};
 
 export type PrismicQueryProps = {
   query: string;
@@ -26,8 +21,6 @@ export const prismicApiError = (): PrismicApiError => ({
   description: '',
   type: 'Error',
 });
-
-type PrismicResponse = PrismicResponseStory | PrismicApiError;
 
 const agentKeepAlive = new Agent({
   keepAlive: true,
@@ -133,10 +126,10 @@ export async function prismicQuery<Result extends ResultType>(
     const json = await res.data;
     const { data } = json;
     const { allArticless } = data;
-    const articles = await transformArticles(allArticless);
+    const stories = await transformStories(allArticless);
 
     return {
-      ...articles,
+      ...stories,
       _requestUrl: url,
     };
   } catch (error) {
@@ -144,93 +137,15 @@ export async function prismicQuery<Result extends ResultType>(
   }
 }
 
-export async function getArticle({
-  id,
-}: GetArticleProps): Promise<PrismicResponse> {
-  const headers = {
-    Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-  };
-
-  const prismicRef = await prismicRefFetch(
-    'https://wellcomecollection.prismic.io/api/v2',
-    headers
-  );
-  const { refs } = await prismicRef.json();
-  const { ref } = refs[0];
-  headers['Prismic-ref'] = ref;
-
-  const graphQuery = `query {
-  allArticless(id: "${id}") {
-    edges {
-      node {
-        title
-        contributors {
-          contributor {
-            ...on People {
-              name
-            }
-          }
-        }
-        body {
-          ...on ArticlesBodyStandfirst {
-            primary {
-              text
-            }
-          }
-        }
-        promo {
-          ...on ArticlesPromoEditorialimage {
-            primary {
-              image
-              link
-              caption
-            }
-          }
-        }
-      }
-    }
-  }
-}`;
-
-  const url = `https://wellcomecollection.prismic.io/graphql?query=${graphQuery}`;
-
-  const options = {
-    method: 'GET',
-    headers: headers,
-    data: {
-      query: { graphQuery },
-    },
-    url: url,
-  };
-
-  const res = await prismicFetch(options);
-
-  if (res.status === 404) {
-    return notFound();
-  }
-
-  try {
-    const json = await res.data;
-    const { data } = json;
-    const { allArticless } = data;
-    const articles = transformArticles(allArticless);
-    return articles;
-  } catch (e) {
-    return prismicApiError();
-  }
-}
-
-export async function getArticles(
+export async function getStories(
   props: PrismicQueryProps
 ): Promise<StoryResultsList<Story> | PrismicApiError> {
   return prismicQuery('stories', props);
 }
 
-export async function transformArticles(allArticless: PrismicResponseStory) {
-  const { edges } = allArticless;
-  const articles = edges.map(edge => {
+export async function transformStories(allArticless: PrismicResponseStory) {
+  const { edges }: PrismicResponseStory = allArticless;
+  const stories = edges.map(edge => {
     const { node } = edge;
     const { title, contributors, body, promo } = node;
     const { primary: standfirst } = body[0];
@@ -242,5 +157,5 @@ export async function transformArticles(allArticless: PrismicResponseStory) {
       image,
     };
   });
-  return articles;
+  return stories;
 }

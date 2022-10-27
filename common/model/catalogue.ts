@@ -332,7 +332,7 @@ export type ImageAggregations = {
 
 type ConceptAggregations = null;
 
-export type ResultType = Work | Image | Concept | Story | PrismicResponseStory;
+export type ResultType = Work | Image | Concept | Story;
 
 export type CatalogueResultsList<Result extends ResultType> = {
   type: 'ResultList';
