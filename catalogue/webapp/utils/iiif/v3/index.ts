@@ -155,11 +155,17 @@ export function getAuthService(manifest: Manifest): AuthService | undefined {
     : ((nonRestrictedService || restrictedService) as AuthService);
 }
 
+type ShameService = {
+  service: AuthService;
+};
+
 export function getImageAuthService(canvas: Canvas): AuthService | undefined {
   const externalWebResourceBody = getExternalWebResourceBody(
     canvas.items?.[0]?.items?.[0]?.body
   );
-  const service = externalWebResourceBody?.service?.[0]?.service; // FIXME: argh
+  const service = (
+    externalWebResourceBody?.service?.[0] as unknown as ShameService
+  )?.service; // FIXME: argh
 
   return service?.['@id'] === restrictedAuthServiceUrl ? service : undefined;
 }
