@@ -26,7 +26,7 @@ const agentKeepAlive = new Agent({
   freeSocketTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
 });
 
-// TODO: add any tests for transforms
+// TODO: move Prismic fetch function out to common and use it here and in server-data/prismic
 // To authenticate a request to the Prismic API graphql endpoint you need a Prismic-ref value that refreshes every 30 seconds.
 // The ref can be used in a 'stale' state for 5 minutes before it expires
 // https://community.prismic.io/t/for-how-long-is-it-safe-to-cache-a-prismic-api-ref/5962
