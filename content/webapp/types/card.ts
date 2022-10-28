@@ -15,6 +15,7 @@ import { ExhibitionGuide, ExhibitionGuideBasic } from './exhibition-guides';
 
 export type Card = {
   type: 'card';
+  id?: string;
   format?: Format;
   title?: string;
   description?: string;

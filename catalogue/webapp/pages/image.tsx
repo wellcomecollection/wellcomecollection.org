@@ -19,11 +19,16 @@ import { createDefaultTransformedManifest } from '../types/manifest';
 
 type Props = {
   image: Image;
+  catalogueApiUrl: string;
   sourceWork: Work;
   pageview: Pageview;
 };
 
-const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
+const ImagePage: FunctionComponent<Props> = ({
+  image,
+  sourceWork,
+  catalogueApiUrl,
+}) => {
   const title = sourceWork.title || '';
   const iiifImageLocation = image.locations[0];
 
@@ -55,6 +60,12 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
   const lang =
     (sourceWork.languages.length === 1 && sourceWork?.languages[0]?.id) || '';
 
+  const apiLink = {
+    id: 'json',
+    label: 'JSON',
+    link: catalogueApiUrl,
+  };
+
   return (
     <CataloguePageLayout
       title={title}
@@ -66,6 +77,7 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
       openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
+      apiToolbarLinks={[apiLink]}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
@@ -106,7 +118,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    const image = await getImage({
+    const { url: catalogueApiUrl, image } = await getImage({
       id,
       toggles: serverData.toggles,
     });
@@ -149,6 +161,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return {
       props: removeUndefinedProps({
         image,
+        catalogueApiUrl: catalogueApiUrl!,
         sourceWork: work,
         pageview: {
           name: 'image',

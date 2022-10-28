@@ -13,10 +13,11 @@ import {
 import { isNotUndefined } from '@weco/common/utils/array';
 import { DownloadOption } from '../../../types/manifest';
 
-function getEnFromInternationalString(
-  internationalString: InternationalString
+export function getEnFromInternationalString(
+  internationalString: InternationalString,
+  index = 0
 ): string {
-  return internationalString?.['en']?.[0] || '';
+  return internationalString?.['en']?.[index] || '';
 }
 
 export function transformLabel(

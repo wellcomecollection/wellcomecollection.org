@@ -1,70 +1,17 @@
-import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-import styled from 'styled-components';
+import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
-
-const NavBar = styled.nav`
-  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  [aria-current='page'] {
-    &:after {
-      width: 100%;
-    }
-  }
-`;
-const NavList = styled.ul`
-  display: flex;
-  list-style: none;
-  list-style-position: inside;
-  padding-inline-start: 0;
-  margin-block-start: 0;
-  margin-block-end: 0;
-`;
-const NavItem = styled.li`
-  font-size: 1rem;
-  font-size: 16px;
-`;
-const NavLink = styled.a`
-  padding: 1.4rem 0.3rem;
-  display: inline-block;
-  text-decoration: none;
-  position: relative;
-  z-index: 1;
-  white-space: nowrap;
-
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0.1rem;
-    height: 0.2rem;
-    left: 0;
-    width: 0;
-    background: ${props => props.theme.color('yellow')};
-    z-index: -1;
-    transition: width ${props => props.theme.transitionProperties};
-  }
-
-  &:hover,
-  &:focus {
-    &:after {
-      width: 100%;
-
-      // Prevent iOS double-tap link issue
-      // https://css-tricks.com/annoying-mobile-double-tap-link-issue/
-      @media (pointer: coarse) {
-        width: 0;
-      }
-    }
-  }
-`;
+import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
+import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 
 const SearchLayout: FunctionComponent = ({ children }) => {
   const router = useRouter();
+
   const currentSearchCategory =
     router.pathname === '/search'
       ? 'overview'
@@ -87,8 +34,18 @@ const SearchLayout: FunctionComponent = ({ children }) => {
   const [pageLayoutMetadata, setPageLayoutMetadata] = useState(
     defaultPageLayoutMetadata
   );
+
+  const getURL = pathname => {
+    const query = { query: router.query.query };
+    return convertUrlToString({
+      pathname,
+      query,
+    });
+  };
+
   useEffect(() => {
     const { query } = router.query;
+
     switch (currentSearchCategory) {
       case 'overview':
         setPageLayoutMetadata(defaultPageLayoutMetadata);
@@ -98,7 +55,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           ...basePageMetadata,
           description: 'copy pending',
           title: `${query ? `${query} | ` : ''}Exhibition Search`,
-          url: { pathname: '/search/exhibitions', query: router.query },
+          url: { pathname: '/search/exhibitions', query: query || {} },
         });
         break;
       case 'events':
@@ -106,7 +63,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           ...basePageMetadata,
           description: 'copy pending',
           title: `${query ? `${query} | ` : ''}Events Search`,
-          url: { pathname: '/search/events', query: router.query },
+          url: { pathname: '/search/events', query: query || {} },
         });
         break;
       case 'stories':
@@ -114,7 +71,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           ...basePageMetadata,
           description: 'copy pending',
           title: `${query ? `${query} | ` : ''}Stories Search`,
-          url: { pathname: '/search/stories', query: router.query },
+          url: { pathname: '/search/stories', query: query || {} },
         });
         break;
       case 'images':
@@ -122,15 +79,15 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           ...basePageMetadata,
           description: pageDescriptions.images,
           title: `${query ? `${query} | ` : ''}Image Search`,
-          url: { pathname: '/search/images', query: router.query },
+          url: { pathname: '/search/images', query: query || {} },
         });
         break;
-      case 'collections':
+      case 'catalogue':
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: 'copy pending',
-          title: `${query ? `${query} | ` : ''}Collections Search`,
-          url: { pathname: '/search/collections', query: router.query },
+          title: `${query ? `${query} | ` : ''}Catalogue Search`,
+          url: { pathname: '/search/collections', query: query || {} },
         });
         break;
 
@@ -145,80 +102,46 @@ const SearchLayout: FunctionComponent = ({ children }) => {
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <SearchBar type={currentSearchCategory} />
         </Space>
-      </div>
-      <NavBar aria-label="Search Categories">
-        <div className="container">
-          <NavList>
-            <NavItem>
-              <Link scroll={false} passHref href="/search">
-                <NavLink
-                  aria-current={
-                    currentSearchCategory === 'overview' ? 'page' : 'false'
-                  }
-                >
-                  Overview
-                </NavLink>
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link scroll={false} passHref href="/search/exhibitions">
-                <NavLink
-                  aria-current={
-                    currentSearchCategory === 'exhibitions' ? 'page' : 'false'
-                  }
-                >
-                  Exhibitions
-                </NavLink>
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link scroll={false} passHref href="/search/events">
-                <NavLink
-                  aria-current={
-                    currentSearchCategory === 'events' ? 'page' : 'false'
-                  }
-                >
-                  Events
-                </NavLink>
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link scroll={false} passHref href="/search/stories">
-                <NavLink
-                  aria-current={
-                    currentSearchCategory === 'stories' ? 'page' : 'false'
-                  }
-                >
-                  Stories
-                </NavLink>
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link scroll={false} passHref href="/search/images">
-                <NavLink
-                  aria-current={
-                    currentSearchCategory === 'images' ? 'page' : 'false'
-                  }
-                >
-                  Images
-                </NavLink>
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link scroll={false} passHref href="/search/collections">
-                <NavLink
-                  aria-current={
-                    currentSearchCategory === 'collections' ? 'page' : 'false'
-                  }
-                >
-                  Collections
-                </NavLink>
-              </Link>
-            </NavItem>
-          </NavList>
-        </div>
-      </NavBar>
 
+        <SubNavigation
+          label="Search Categories"
+          items={[
+            {
+              id: 'overview',
+              url: getURL('/search'),
+              name: 'Overview (1032)',
+            },
+            {
+              id: 'exhibitions',
+              url: getURL('/search/exhibitions'),
+              name: 'Exhibitions (1032)',
+            },
+            {
+              id: 'events',
+              url: getURL('/search/events'),
+              name: 'Events (1032)',
+            },
+            {
+              id: 'stories',
+              url: getURL('/search/stories'),
+              name: 'Stories (1032)',
+            },
+            {
+              id: 'images',
+              url: getURL('/search/images'),
+              name: 'Images (1032)',
+            },
+            {
+              id: 'catalogue',
+              url: getURL('/search/catalogue'),
+              name: 'Catalogue (1032)',
+            },
+          ]}
+          currentSection={currentSearchCategory}
+          hasDivider
+          variant="yellow"
+        />
+      </div>
       {children}
     </CataloguePageLayout>
   );

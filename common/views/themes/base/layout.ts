@@ -1,4 +1,4 @@
-import { respondBetween } from '../mixins';
+import { themeValues } from '../config';
 
 export const layout = `
 * {
@@ -18,15 +18,13 @@ body:has(dialog[open]),
 
 
 .is-scroll-locked--to-medium {
-  ${respondBetween(
+  ${themeValues.mediaBetween(
     'small',
-    'medium',
-    `
-  margin: 0;
-    height: 100vh;
-    overflow: hidden;
-
-  `
-  )}
+    'medium'
+  )(`
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+  `)}
 }
 `;
