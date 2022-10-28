@@ -6,6 +6,7 @@ import { getImage } from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
 import IIIFImage from '../IIIFImage/IIIFImage';
+import LL from '@weco/common/views/components/styled/LL';
 
 type Props = {
   originalId: string;
@@ -15,16 +16,25 @@ type Props = {
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
+  min-height: 120px;
+
+  ${props => props.theme.media('medium')`
+    flex-wrap: nowrap;
+  `}
 
   img {
     margin-right: 10px;
     margin-bottom: 10px;
     height: auto;
+    width: calc(100% - 10px);
     max-height: 120px;
     max-width: 190px;
-    width: auto;
   }
+`;
+
+const LoaderWrapper = styled.div`
+  height: 120px;
 `;
 
 const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
@@ -32,10 +42,12 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
   onClickImage,
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const toggles = useToggles();
 
   useEffect(() => {
     const fetchVisuallySimilarImages = async () => {
+      setIsLoading(true);
       const { image: fullImage } = await getImage({
         id: originalId,
         toggles,
@@ -44,12 +56,22 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       if (fullImage.type === 'Image') {
         setSimilarImages(fullImage.visuallySimilar || []);
       }
+      setIsLoading(false);
     };
     fetchVisuallySimilarImages();
   }, [originalId]);
 
+  if (isLoading && !similarImages.length)
+    return (
+      <Space v={{ size: 'xl', properties: ['margin-bottom', 'margin-top'] }}>
+        <LoaderWrapper>
+          <LL small positionRelative />
+        </LoaderWrapper>
+      </Space>
+    );
+
   return similarImages.length === 0 ? null : (
-    <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+    <>
       <h3 className={font('wb', 5)}>Visually similar images</h3>
       <Wrapper>
         {similarImages.map(related => (
@@ -72,7 +94,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
         learning to detect visual similarity across all images in our
         collection.
       </p>
-    </Space>
+    </>
   );
 };
 export default VisuallySimilarImagesFromApi;

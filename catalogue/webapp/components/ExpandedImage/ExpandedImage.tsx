@@ -1,27 +1,29 @@
-import { getServiceId } from '../../utils/iiif/v2';
+import { useEffect, useState, FunctionComponent } from 'react';
+import styled from 'styled-components';
 import NextLink from 'next/link';
+
+import { getServiceId } from '@weco/catalogue/utils/iiif/v2';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
-} from '../../utils/works';
+} from '@weco/catalogue/utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import License from '../License/License';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
-import { getWorkClientSide } from '../../services/catalogue/works';
-import { useEffect, useState, FunctionComponent } from 'react';
-import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
-import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
-import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import { getWorkClientSide } from '@weco/catalogue/services/catalogue/works';
 import { expandedViewImageButton } from '@weco/common/text/aria-labels';
+import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
+import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
+
+import { eye } from '@weco/common/icons';
+import Space from '@weco/common/views/components/styled/Space';
+import License from '@weco/catalogue/components/License/License';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import VisuallySimilarImagesFromApi from '@weco/catalogue/components/VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
+import IIIFImage from '@weco/catalogue/components/IIIFImage/IIIFImage';
+import LL from '@weco/common/views/components/styled/LL';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
-import { eye } from '@weco/common/icons';
-import IIIFImage from '../IIIFImage/IIIFImage';
-import { fetchIIIFPresentationManifest } from '../../services/iiif/fetch/manifest';
-import { transformManifest } from '../../services/iiif/transformers/manifest';
 
 type Props = {
   image: ImageType | undefined;
@@ -34,12 +36,18 @@ type CanvasLink = {
   sierraId: string;
 };
 
+const ImageInformation = styled.div`
+  ${props => props.theme.media('medium')`
+    display: flex;
+  `}
+`;
+
 const ImageWrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
+  padding-right: 20px;
   ${props => props.theme.media('medium')`
-    flex-basis: 40%;
-    order: 2;
+    flex: 0 1 auto;
     height: auto;
   `}
 `;
@@ -53,23 +61,31 @@ const ImageLink = styled.a`
 
   img {
     max-width: 100%;
+    max-height: 50vh;
+    height: auto;
+    width: auto;
   }
 `;
 
 const InfoWrapper = styled.div`
   ${props => props.theme.media('medium')`
-    flex-basis: 60%;
-    padding-right: 20px;
-    order: 1;
+    flex: 1 0 60%;
     height: 100%;
   `}
 `;
 
-const ExpandedImageContainer = styled.div`
-  ${props => props.theme.media('medium')`
-    overflow: auto;
-    display: flex;
-  `}
+const ImageMetadata = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  className: font('intr', 5),
+})`
+  color: ${props => props.theme.color('neutral.600')};
+`;
+
+const Metadata = styled.span`
+  &:not(:first-child)::before {
+    content: ' | ';
+    margin: 0 4px;
+  }
 `;
 
 const trackingSource = 'images_search_result';
@@ -83,13 +99,19 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const [canvasDeeplink, setCanvasDeeplink] = useState<
     CanvasLink | undefined
   >();
+  const [currentImageId, setCurrentImageId] = useState<string | undefined>();
 
   const workId = image?.source.id;
   const displayTitle = detailedWork?.title ?? '';
   const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
 
   useEffect(() => {
-    if (workId) {
+    if (workId && workId !== currentImageId) {
+      // Reset information if new image ID
+      setDetailedWork(undefined);
+      setCurrentImageId(workId);
+
+      // Fetch new information
       const fetchDetailedWork = async () => {
         const res = await getWorkClientSide(workId);
         if (res.type === 'Work') {
@@ -186,89 +208,82 @@ const ExpandedImage: FunctionComponent<Props> = ({
           trackingSource
         );
 
-  return (
-    <ExpandedImageContainer>
-      {iiifImageLocation && expandedImageLink && (
-        <ImageWrapper>
-          <NextLink {...expandedImageLink} passHref>
-            <ImageLink>
-              <IIIFImage
-                layout="raw"
-                image={{
-                  contentUrl: iiifImageLocation.url,
-                  width: 400,
-                  height: 400,
-                  alt: '',
-                }}
-                width={400}
-              />
-            </ImageLink>
-          </NextLink>
-        </ImageWrapper>
-      )}
-      <InfoWrapper>
-        {(displayTitle || displayContributor) && (
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            {displayTitle && (
-              <h2
-                className={`${font('intb', 3)} no-margin`}
-                dangerouslySetInnerHTML={{ __html: displayTitle }}
-              />
-            )}
-            {displayContributor && (
-              <Space
-                as="h3"
-                v={{ size: 's', properties: ['margin-top'] }}
-                className={font('intb', 5)}
-              >
-                {displayContributor}
-              </Space>
-            )}
-          </Space>
-        )}
-        {license && (
-          <Space
-            className={font('intr', 5)}
-            v={{ size: 'l', properties: ['margin-bottom'] }}
-          >
-            <License license={license} />
-          </Space>
-        )}
+  if (!detailedWork) {
+    return (
+      <div style={{ height: '50vh' }}>
+        <LL />
+      </div>
+    );
+  }
 
-        <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-          {expandedImageLink && (
-            <Space
-              h={{ size: 'm', properties: ['margin-right'] }}
-              className="inline-block"
-            >
-              <ButtonSolidLink
-                text="View image"
-                icon={eye}
-                link={expandedImageLink}
-                ariaLabel={expandedViewImageButton}
-              />
+  return (
+    <>
+      <ImageInformation>
+        {iiifImageLocation && expandedImageLink && (
+          <ImageWrapper>
+            <NextLink {...expandedImageLink} passHref>
+              <ImageLink>
+                <IIIFImage
+                  layout="raw"
+                  image={{
+                    contentUrl: iiifImageLocation.url,
+                    width: 400,
+                    height: 400,
+                    alt: '',
+                  }}
+                  width={400}
+                />
+              </ImageLink>
+            </NextLink>
+          </ImageWrapper>
+        )}
+        <InfoWrapper>
+          {(displayTitle || displayContributor) && (
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              {displayTitle && (
+                <h2
+                  className={`${font('intb', 3)} no-margin`}
+                  dangerouslySetInnerHTML={{ __html: displayTitle }}
+                />
+              )}
+              <ImageMetadata>
+                {displayContributor && (
+                  <Metadata>{displayContributor}</Metadata>
+                )}
+                {license && (
+                  <Metadata>
+                    License:&nbsp;
+                    <License license={license} />
+                  </Metadata>
+                )}
+              </ImageMetadata>
             </Space>
           )}
-          {workId && (
-            <WorkLink
-              id={workId}
-              source={trackingSource}
-              resultPosition={resultPosition}
-            >
-              <a className={`inline-block ${font('intr', 5)}`}>
-                More about this work
-              </a>
-            </WorkLink>
+
+          {expandedImageLink && (
+            <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+              <Space
+                h={{ size: 'm', properties: ['margin-right'] }}
+                className="inline-block"
+              >
+                <ButtonSolidLink
+                  text="View image"
+                  icon={eye}
+                  link={expandedImageLink}
+                  ariaLabel={expandedViewImageButton}
+                />
+              </Space>
+            </Space>
           )}
-        </Space>
-        {image?.id && (
-          <VisuallySimilarImagesFromApi
-            originalId={image?.id}
-            onClickImage={setExpandedImage}
-          />
-        )}
-      </InfoWrapper>
-    </ExpandedImageContainer>
+        </InfoWrapper>
+      </ImageInformation>
+      {image?.id && (
+        <VisuallySimilarImagesFromApi
+          originalId={image?.id}
+          onClickImage={setExpandedImage}
+        />
+      )}
+    </>
   );
 };
 
