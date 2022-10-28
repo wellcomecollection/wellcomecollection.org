@@ -183,7 +183,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           </InternalNavigationContainer>
 
           <FullWidthDivider>
-            <Divider borderColor="neutral.700" />
+            <Divider lineColor="neutral.700" />
           </FullWidthDivider>
 
           <PoliciesContainer>
