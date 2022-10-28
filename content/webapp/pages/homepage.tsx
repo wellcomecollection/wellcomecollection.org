@@ -45,6 +45,7 @@ import { transformExhibitionsQuery } from '../services/prismic/transformers/exhi
 import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { BodySlice, isContentList, isStandfirst } from 'types/body';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -59,7 +60,8 @@ type Props = {
   articles: ArticleBasic[];
   jsonLd: JsonLdObj[];
   standfirst?: BodySlice & { type: 'standfirst' };
-  contentLists: (BodySlice & { type: 'contentList' })[];
+  headerList: (BodySlice & { type: 'contentList' }) | null;
+  contentList: BodySlice & { type: 'contentList' };
 };
 
 const pageImage: ImageType = {
@@ -113,16 +115,30 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const standfirst = page.body.find(isStandfirst);
     const contentLists = page.body.filter(isContentList);
 
+    const headerList = contentLists.length === 2 ? contentLists[0] : null;
+
+    const headerListIds: Set<string> = headerList
+      ? new Set(headerList.value.items.map(v => v.id).filter(isNotUndefined))
+      : new Set();
+
+    const contentList =
+      contentLists.length === 2 ? contentLists[1] : contentLists[0];
+
     if (events && exhibitions && articles && page) {
       return {
         props: removeUndefinedProps({
           articles: basicArticles,
-          exhibitions,
-          nextSevenDaysEvents,
           serverData,
           jsonLd,
           standfirst,
-          contentLists,
+          headerList,
+          contentList,
+          // If an exhibition or event appears in the header, we don't want
+          // to display it a second time in the list of what's on.
+          exhibitions: exhibitions.filter(ex => !headerListIds.has(ex.id)),
+          nextSevenDaysEvents: nextSevenDaysEvents.filter(
+            ev => !headerListIds.has(ev.id)
+          ),
         }),
       };
     } else {
@@ -136,12 +152,9 @@ const Homepage: FunctionComponent<Props> = ({
   articles,
   jsonLd,
   standfirst,
-  contentLists,
+  headerList,
+  contentList,
 }) => {
-  const headerList = contentLists.length === 2 ? contentLists[0] : null;
-  const contentList =
-    contentLists.length === 2 ? contentLists[1] : contentLists[0];
-
   return (
     <PageLayout
       title=""

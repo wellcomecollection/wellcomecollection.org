@@ -36,9 +36,10 @@ const SearchLayout: FunctionComponent = ({ children }) => {
   );
 
   const getURL = pathname => {
+    const query = { query: router.query.query };
     return convertUrlToString({
       pathname,
-      query: router.query,
+      query,
     });
   };
 

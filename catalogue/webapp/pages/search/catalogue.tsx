@@ -18,12 +18,20 @@ import { useContext, useEffect } from 'react';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
+import styled from 'styled-components';
+import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 
 type Props = {
   works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
   pageview: Pageview;
 };
+
+const SortPaginationWrapper = styled.div<{ showSort?: boolean }>`
+  display: flex;
+  justify-content: ${({ showSort }) =>
+    showSort ? 'space-between' : 'flex-end'};
+`;
 
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   works,
@@ -40,6 +48,8 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     const link = toLink({ ...worksRouteProps }, 'works_search_context');
     setLink(link);
   }, [worksRouteProps]);
+
+  const showSort = true;
 
   return (
     <>
@@ -58,7 +68,10 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
               properties: ['padding-top', 'padding-bottom'],
             }}
           >
-            <h2 style={{ marginBottom: 0 }}>Sort & Pagination</h2>
+            <SortPaginationWrapper showSort={showSort}>
+              {showSort && <div>Sort Component</div>}
+              <SearchPagination totalPages={works?.totalPages} />
+            </SortPaginationWrapper>
           </Space>
           <Space v={{ size: 'l', properties: ['padding-top'] }}>
             <WorksSearchResults works={works} />
@@ -81,6 +94,11 @@ CatalogueSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+
+    if (!serverData.toggles.searchPage) {
+      return { notFound: true };
+    }
+
     const props = fromQuery(context.query);
 
     const aggregations = [
