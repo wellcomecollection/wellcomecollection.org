@@ -6,7 +6,7 @@ export type Story = {
   title: string;
   contributors: Contributor[];
   standfirst: Standfirst[];
-  image: Image;
+  image: Image[];
   type: string;
 };
 
