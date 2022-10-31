@@ -1,6 +1,10 @@
 import { Manifest } from '@iiif/presentation-3';
 import { getCanvases, groupStructures } from '../../utils/iiif/v2';
-import { getAudio, getIIIFMetadata } from '../../utils/iiif/v3';
+import {
+  getAudio,
+  getIIIFMetadata,
+  getIIIFPresentationCredit,
+} from '../../utils/iiif/v3';
 import manifest from '@weco/common/__mocks__/iiif-manifest';
 import {
   manifestWithAudioTitles,
@@ -142,5 +146,14 @@ describe('getIIIFMetadata', () => {
       'Physical description'
     );
     expect(physicalDescriptionMetadataItem).toEqual(metadataItem);
+  });
+});
+
+describe('getIIIFPresentationCredit', () => {
+  it('returns the relevant attribution and usage information', () => {
+    const credit = getIIIFPresentationCredit(
+      manifestWithTranscript as Manifest
+    );
+    expect(credit).toEqual('Wellcome Collection');
   });
 });
