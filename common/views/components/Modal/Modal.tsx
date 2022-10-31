@@ -21,6 +21,7 @@ type CloseButtonProps = {
 
 type BaseModalProps = {
   width?: string | null;
+  maxWidth?: string;
 };
 
 type Props = {
@@ -28,6 +29,7 @@ type Props = {
   isActive: boolean;
   setIsActive: (value: boolean) => void;
   width?: string | null;
+  maxWidth?: string;
   id: string;
   openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
@@ -131,8 +133,10 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
     bottom: auto;
     height: auto;
     max-height: 90vh;
-    max-width: ${props.width || `${props.theme.sizes.large}px`};
-    width: ${props.width || 'auto'};
+    max-width: ${
+      props.maxWidth || props.width || `${props.theme.sizes.large}px`
+    };
+    width: ${(props.maxWidth && '80%') || props.width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;
 
     &,
@@ -188,6 +192,7 @@ const Modal: FunctionComponent<Props> = ({
   isActive,
   setIsActive,
   width = null,
+  maxWidth,
   id,
   openButtonRef,
   removeCloseButton = false,
@@ -248,7 +253,12 @@ const Modal: FunctionComponent<Props> = ({
           />
         )}
         <CSSTransition in={isActive} classNames="fade" timeout={350}>
-          <ModalWindow width={width} id={id} hidden={!isActive}>
+          <ModalWindow
+            width={width}
+            maxWidth={maxWidth}
+            id={id}
+            hidden={!isActive}
+          >
             {!removeCloseButton && (
               <CloseButton
                 data-testid="close-modal-button"

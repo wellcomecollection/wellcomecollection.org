@@ -1,11 +1,12 @@
-import { font } from '@weco/common/utils/classnames';
-import { Image as ImageType } from '@weco/common/model/catalogue';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getImage } from '../../services/catalogue/images';
+
+import { font } from '@weco/common/utils/classnames';
+import { Image as ImageType } from '@weco/common/model/catalogue';
+import { getImage } from '@weco/catalogue/services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
-import IIIFImage from '../IIIFImage/IIIFImage';
+import IIIFImage from '@weco/catalogue/components/IIIFImage/IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
 
 type Props = {
@@ -73,6 +74,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
   return similarImages.length === 0 ? null : (
     <>
       <h3 className={font('wb', 5)}>Visually similar images</h3>
+
       <Wrapper>
         {similarImages.map(related => (
           <a key={related.id} onClick={() => onClickImage(related)} href="#">
@@ -90,9 +92,13 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
         ))}
       </Wrapper>
       <p className={`${font('intr', 6)} no-margin`}>
-        These images have similar shapes and structural features. We use machine
-        learning to detect visual similarity across all images in our
-        collection.
+        We use machine learning to find images in our collection with similar
+        shapes and features.
+        <br />
+        <a href="mailto:digital@wellcomecollection.org?subject=Visually+similar+images+feedback">
+          Let us know
+        </a>{' '}
+        if something doesn&rsquo;t look right.
       </p>
     </>
   );

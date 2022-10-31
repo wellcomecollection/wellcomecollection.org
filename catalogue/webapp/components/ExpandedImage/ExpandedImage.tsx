@@ -17,7 +17,6 @@ import { transformManifest } from '@weco/catalogue/services/iiif/transformers/ma
 
 import { eye } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
-import License from '@weco/catalogue/components/License/License';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import VisuallySimilarImagesFromApi from '@weco/catalogue/components/VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import IIIFImage from '@weco/catalogue/components/IIIFImage/IIIFImage';
@@ -83,7 +82,7 @@ const ImageLink = styled.a`
     width: auto;
 
     ${props => props.theme.media('medium')`
-      max-height: 50vh;
+      max-height: 350px;
     `}
   }
 `;
@@ -267,8 +266,13 @@ const ExpandedImage: FunctionComponent<Props> = ({
               )}
               {license && (
                 <MetadataWrapper>
-                  License:&nbsp;
-                  <License license={license} />
+                  Licence:&nbsp;
+                  {license.url && (
+                    <a rel="license" href={license.url}>
+                      {license.label}
+                    </a>
+                  )}
+                  {!license.url && license.label}
                 </MetadataWrapper>
               )}
             </Space>
