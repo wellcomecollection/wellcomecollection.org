@@ -30,32 +30,34 @@ export type Promo = {
   };
 };
 
-export type PrismicResponseNode = {
-  _meta: {
-    id: string;
-    lastPublicationDate: string;
-  };
-  title: string;
-  description: string;
-  body: Record<string, any>[];
-  contributors: Contributor[];
-  image: Image;
-  promo: Promo;
-  type: 'Story';
-};
-
-export type PrismicResponseNodeArray = {
-  node: PrismicResponseNode;
-};
-
 export type PrismicResponseEdgeArray = {
-  edges: PrismicResponseNodeArray[];
+  edges: [PrismicNode[]];
 };
 
 export type PrismicResponseStory = {
+  data: {
+    allArticless: PrismicResponseEdgeArray;
+  };
+};
+
+export type PrismicAllArticles = {
   allArticless: PrismicResponseEdgeArray[];
-  data: PrismicResponseEdgeArray[];
-  edges: PrismicResponseNodeArray[];
+};
+
+export type PrismicNode = {
+  title: string;
+  contributors: Contributor[];
+  standfirst: Standfirst[];
+  image: Image[];
+  type: string;
+};
+
+export type PrismicApiError = {
+  errorType: string;
+  httpStatus: number;
+  label: string;
+  description: string;
+  type: 'Error';
 };
 
 export type StoryResultsList<Result> = {

@@ -2,17 +2,29 @@ import {
   Story,
   StoryResultsList,
   PrismicResponseStory,
+  PrismicApiError,
+  PrismicAllArticles,
 } from '@weco/common/model/story';
 import fetch from 'node-fetch';
 import * as prismic from '@prismicio/client';
 import { GraphQLClient, gql } from 'graphql-request';
+
+export const prismicApiError = (): PrismicApiError => ({
+  errorType: 'http',
+  httpStatus: 500,
+  label: 'Internal Server Error',
+  description: '',
+  type: 'Error',
+});
 
 export type PrismicQueryProps = {
   query?: string | string[];
   pageSize?: number;
 };
 
-export async function prismicGraphQLClient(query: string) {
+export async function prismicGraphQLClient(
+  query: string
+): Promise<PrismicResponseStory> {
   const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
   const client = prismic.createClient(endpoint, { fetch });
   const graphqlClient = new GraphQLClient(
@@ -23,15 +35,14 @@ export async function prismicGraphQLClient(query: string) {
     }
   );
 
-  const res = await graphqlClient.request(query);
-  const json = await res;
-  return json;
+  return graphqlClient.request(query);
 }
 
 export async function getStories({
   query,
   pageSize,
-}: PrismicQueryProps): Promise<StoryResultsList<Story>> {
+}: PrismicQueryProps): Promise<StoryResultsList<Story> | PrismicApiError> {
+  console.log('we are in get stories');
   const graphQuery = gql`query {
   allArticless(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
   edges {
@@ -65,20 +76,26 @@ export async function getStories({
     }
   }
 }`;
+  try {
+    const res = await prismicGraphQLClient(graphQuery);
+    const { allArticless }: PrismicAllArticles = await res;
+    console.dir(allArticless, { depth: null });
+    const stories = await transformStories(allArticless);
 
-  const res = await prismicGraphQLClient(graphQuery);
-  const json = await res;
-  const { allArticless } = json;
-  const stories = await transformStories(allArticless);
-
-  return {
-    type: 'ResultList',
-    results: stories,
-    totalResults: stories.length,
-  };
+    return {
+      type: 'ResultList',
+      results: stories,
+      totalResults: stories.length,
+    };
+  } catch (error) {
+    console.log(error);
+    return prismicApiError();
+  }
 }
 
-export async function transformStories(allArticless: PrismicResponseStory) {
+export async function transformStories(
+  allArticless: PrismicResponseStory
+): Promise<Story[]> {
   const { edges } = allArticless;
   const stories = edges.map(edge => {
     const { node } = edge;
