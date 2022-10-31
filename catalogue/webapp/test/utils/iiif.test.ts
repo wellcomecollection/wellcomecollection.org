@@ -1,11 +1,17 @@
-import { Manifest } from '@iiif/presentation-3';
+import { Manifest, Service } from '@iiif/presentation-3';
 import { getCanvases, groupStructures } from '../../utils/iiif/v2';
-import { getAudio, getVideo } from '../../utils/iiif/v3';
+import {
+  getAudio,
+  getMediaClickthroughService,
+  getVideo,
+} from '../../utils/iiif/v3';
 import manifest from '@weco/common/__mocks__/iiif-manifest';
 import {
   manifestWithAudioTitles,
   manifestWithTranscript,
   manifestWithVideo,
+  authService,
+  services,
 } from '@weco/common/__mocks__/iiif-manifest-v3';
 
 const canvases = getCanvases(manifest);
@@ -116,23 +122,39 @@ describe('Group repetitive iiif structures', () => {
   });
 });
 
-describe.only('getVideo', () => {
+describe('getVideo', () => {
   it('returns a Video type from a manifest', () => {
     const video = {
       width: 720,
-      height: 720,
-      duration: 328,
-      id: 'https://iiif.wellcomecollection.org/av/b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.mp4',
+      height: 576,
+      duration: 5623.704,
+      id: 'https://iiif.wellcomecollection.org/av/b29214397_0001.mpg/full/full/max/max/0/default.mp4',
       type: 'Video',
       label: {
         en: ['MP4'],
       },
       format: 'video/mp4',
-      thumbnail: 'https://iiif.wellcomecollection.org/thumb/b16763506',
+      service: [
+        {
+          '@id': 'https://iiif.wellcomecollection.org/auth/clickthrough',
+          '@type': 'AuthCookieService1',
+        },
+      ],
+      thumbnail: 'https://iiif.wellcomecollection.org/thumb/b29214397',
     };
     const videoFromManifest = getVideo(manifestWithVideo as Manifest);
 
     expect(video).toEqual(videoFromManifest);
+  });
+});
+
+describe('getMediaClickthroughService', () => {
+  it('returns an AuthService type from an array of Services', () => {
+    const authServiceFromManifest = getMediaClickthroughService(
+      services as Service[]
+    );
+
+    expect(authServiceFromManifest).toEqual(authService);
   });
 });
 

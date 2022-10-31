@@ -55,6 +55,7 @@ export function transformManifest(
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
   const video = manifestV3 && getVideo(manifestV3);
+  console.log({ manifestV3, video });
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
   const pdf = getPdf(manifestV3);
   const id = manifestV3?.id || '';

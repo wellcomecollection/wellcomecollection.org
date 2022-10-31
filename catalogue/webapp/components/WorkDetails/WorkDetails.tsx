@@ -82,6 +82,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const itemUrl = itemLink({ workId: work.id }, 'work');
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const transformedIIIFManifest = useTransformedManifest(work);
+  console.log({ work });
   const {
     video,
     iiifCredit,
@@ -135,6 +136,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   // to check if any individual piece of audio content requires an advisory notice
 
   const authService = services && getMediaClickthroughService(services);
+  console.log({ authService });
   const tokenService =
     authService && getTokenService(authService['@id'], services);
 
