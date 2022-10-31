@@ -33,7 +33,7 @@ const Dot: FunctionComponent<DotProps> = ({ isValid }) => {
   return (
     <Space h={{ size: 's', properties: ['margin-right'] }}>
       <RuleDot isValid={isValid}>
-        {isValid && <Icon icon={check} matchText color="white" />}
+        {isValid && <Icon icon={check} matchText iconColor="white" />}
       </RuleDot>
     </Space>
   );

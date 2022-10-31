@@ -108,7 +108,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           <SearchNoResults
             query={query}
             hasFilters={!!colorFilter}
-            color="white"
+            textColor="white"
           />
         )}
       </Wrapper>

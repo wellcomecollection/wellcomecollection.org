@@ -35,8 +35,8 @@ const Header = styled(Space).attrs({
     size: 'xl',
     properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
   },
-})<{ color: PaletteColor }>`
-  background: ${props => props.theme.color(props.color)};
+})<{ backgroundColor: PaletteColor }>`
+  background: ${props => props.theme.color(props.backgroundColor)};
 `;
 
 type Props = {
@@ -170,7 +170,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
       hideFooter={true}
       skipToContentLinks={skipToContentLinks}
     >
-      <Header color={typeColor}>
+      <Header backgroundColor={typeColor}>
         <Layout8 shift={false}>
           <>
             <h1 className="h0">

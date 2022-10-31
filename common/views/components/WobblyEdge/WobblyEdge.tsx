@@ -17,7 +17,7 @@ const Edge = styled.div.attrs({
   // https://www.chromatic.com/docs/ignoring-elements#ignore-dom-elements
   'data-chromatic': 'ignore',
 })<{
-  background: PaletteColor;
+  backgroundColor: PaletteColor;
   isRotated: boolean;
   isEnhanced: boolean;
 }>`
@@ -46,7 +46,7 @@ const Edge = styled.div.attrs({
     }
   `}
 
-  background: ${props => props.theme.color(props.background)};
+  background: ${props => props.theme.color(props.backgroundColor)};
 
   ${props =>
     props.isRotated &&
@@ -67,7 +67,7 @@ function randomIntFromInterval(min: number, max: number): number {
 }
 
 type Props = {
-  background: PaletteColor;
+  backgroundColor: PaletteColor;
   isRotated?: boolean;
   intensity?: number;
   points?: number;
@@ -76,7 +76,7 @@ type Props = {
 };
 
 const WobblyEdge: FunctionComponent<Props> = ({
-  background,
+  backgroundColor,
   isRotated,
   intensity = 50,
   points = 5,
@@ -150,7 +150,7 @@ const WobblyEdge: FunctionComponent<Props> = ({
 
   return (
     <Edge
-      background={background}
+      backgroundColor={backgroundColor}
       isRotated={isRotated || false}
       style={styleObject}
       isEnhanced={isEnhanced}

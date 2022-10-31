@@ -27,7 +27,7 @@ type Props = {
   partNumber?: number;
   partDescription?: 'Part' | 'Episode';
   Image?: ReactElement<typeof ImageType | typeof ImagePlaceholder>;
-  color?: ColorSelection;
+  partNumberColor?: ColorSelection;
   DateInfo?:
     | ReactElement<typeof DateRange>
     | ReactElement<typeof EventDateRange>;
@@ -50,7 +50,7 @@ const CompactCard: FunctionComponent<Props> = ({
   extraClasses,
   partNumber,
   partDescription = 'Part',
-  color,
+  partNumberColor,
   Image,
   DateInfo,
   StatusIndicator,
@@ -68,7 +68,7 @@ const CompactCard: FunctionComponent<Props> = ({
       Image={Image}
       partNumber={partNumber}
       partDescription={partDescription}
-      color={color}
+      partNumberColor={partNumberColor}
       StatusIndicator={StatusIndicator}
       description={description}
       urlOverride={urlOverride}

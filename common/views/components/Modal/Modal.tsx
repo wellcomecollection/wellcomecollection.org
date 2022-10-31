@@ -259,7 +259,7 @@ const Modal: FunctionComponent<Props> = ({
                 hideFocus={!isKeyboard}
               >
                 <span className="visually-hidden">Close modal window</span>
-                <Icon icon={cross} color="currentColor" />
+                <Icon icon={cross} />
               </CloseButton>
             )}
             {children}

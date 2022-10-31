@@ -122,7 +122,7 @@ const AccountStatus: FunctionComponent<ComponentProps<typeof StatusAlert>> = ({
 }) => {
   return (
     <StatusAlert type={type}>
-      <Icon icon={info2} color="currentColor" />
+      <Icon icon={info2} />
       <Space
         h={{
           size: 's',
@@ -239,7 +239,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </Space>
         </Layout12>
         <div className="is-hidden-s">
-          <WobblyEdge background="warmNeutral.300" />
+          <WobblyEdge backgroundColor="warmNeutral.300" />
         </div>
       </Header>
       <Layout10>

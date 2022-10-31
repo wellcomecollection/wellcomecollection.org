@@ -69,7 +69,7 @@ const Swatches = styled.div`
 `;
 
 type SwatchProps = {
-  color: string;
+  hexColor: string;
   ariaPressed: boolean;
 };
 
@@ -94,7 +94,7 @@ const Swatch = styled.button.attrs((props: SwatchProps) => ({
     height: 32px;
     width: 32px;
     border-radius: 50%;
-    background-color: ${({ color }) => `#${color}`};
+    background-color: ${({ hexColor }) => `#${hexColor}`};
     border: ${({ ariaPressed }) => (ariaPressed ? '3px solid #555' : 'none')};
   }
 `;
@@ -165,7 +165,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
         {palette.map(swatch => (
           <Swatch
             key={swatch.hexValue}
-            color={swatch.hexValue}
+            hexColor={swatch.hexValue}
             ariaPressed={colorState === swatch.hexValue}
             onClick={() => setColorState(swatch.hexValue)}
           >
