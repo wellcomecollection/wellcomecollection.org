@@ -1,13 +1,9 @@
 import {
   AuthService,
   AuthServiceService,
-<<<<<<< HEAD
 } from '../../../services/iiif/types/manifest/v2';
 import { Audio, Video } from '../../../services/iiif/types/manifest/v3';
-=======
-} from '../../../services/iiif/types/manifest/v2'; // TODO v3
-import { Audio } from '../../../services/iiif/types/manifest/v3';
->>>>>>> main
+
 import {
   AnnotationBody,
   ChoiceBody,

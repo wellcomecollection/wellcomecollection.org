@@ -804,3 +804,321 @@ export const manifestWithAudioTitles = {
     },
   ],
 };
+
+export const manifestWithVideo = {
+  '@context': 'http://iiif.io/api/presentation/3/context.json',
+  id: 'https://iiif.wellcomecollection.org/presentation/b16763506',
+  type: 'Manifest',
+  label: {
+    en: ["Hygiene. Kate's party."],
+  },
+  summary: {
+    en: [
+      "<p>An animated cartoon aimed at children. A 'hy-genie' visits Kate's birthday party and explains to the children what germs are and how they are spread. </p>",
+    ],
+  },
+  homepage: [
+    {
+      id: 'https://wellcomecollection.org/works/be6gwe5a',
+      type: 'Text',
+      label: {
+        en: ["Hygiene. Kate's party."],
+      },
+      format: 'text/html',
+      language: ['en'],
+    },
+  ],
+  metadata: [
+    {
+      label: {
+        en: ['Description'],
+      },
+      value: {
+        en: [
+          "<p>An animated cartoon aimed at children. A 'hy-genie' visits Kate's birthday party and explains to the children what germs are and how they are spread. </p>",
+        ],
+      },
+    },
+    {
+      label: {
+        en: ['Publication/creation'],
+      },
+      value: {
+        none: ['UK : Central Office of Information, 1990.'],
+      },
+    },
+    {
+      label: {
+        en: ['Physical description'],
+      },
+      value: {
+        en: ['1 encoded moving image (5.28 min.) : sound, color'],
+      },
+    },
+    {
+      label: {
+        en: ['Copyright note'],
+      },
+      value: {
+        en: ['Crown copyright, managed by BFI.'],
+      },
+    },
+    {
+      label: {
+        en: ['Notes'],
+      },
+      value: {
+        en: [
+          'This video was made from material preserved by the BFI National Archive.',
+        ],
+      },
+    },
+    {
+      label: {
+        en: ['Creator/production credits'],
+      },
+      value: {
+        en: [
+          'Produced for the Department of Health and the Ministry of Agriculture, Fisheries and Food by the Central Office of Information.',
+        ],
+      },
+    },
+    {
+      label: {
+        en: ['Type/technique'],
+      },
+      value: {
+        en: ['Encoded moving images'],
+      },
+    },
+    {
+      label: {
+        en: ['Subjects'],
+      },
+      value: {
+        en: [
+          'Hygiene',
+          'Bacteria',
+          'Public Health',
+          'Food Contamination',
+          'Great Britain',
+        ],
+      },
+    },
+    {
+      label: {
+        en: ['Attribution and usage'],
+      },
+      value: {
+        en: [
+          'Wellcome Collection',
+          '<span>You have permission to make copies of this work under a <a target="_top" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons, Attribution, Non-commercial license</a>.<br/><br/>Non-commercial use includes private study, academic research, teaching, and other activities that are not primarily intended for, or directed towards, commercial advantage or private monetary compensation. See the <a target="_top" href="http://creativecommons.org/licenses/by-nc/4.0/legalcode">Legal Code</a> for further information.<br/><br/>Image source should be attributed as specified in the full catalogue record. If no source is given the image should be attributed to Wellcome Collection.</span>',
+        ],
+      },
+    },
+  ],
+  rights: 'http://creativecommons.org/licenses/by-nc/4.0/',
+  provider: [
+    {
+      id: 'https://wellcomecollection.org',
+      type: 'Agent',
+      label: {
+        en: [
+          'Wellcome Collection',
+          '183 Euston Road',
+          'London NW1 2BE UK',
+          'T +44 (0)20 7611 8722',
+          'E library@wellcomecollection.org',
+          'https://wellcomecollection.org',
+        ],
+      },
+      homepage: [
+        {
+          id: 'https://wellcomecollection.org/works',
+          type: 'Text',
+          label: {
+            en: ['Explore our collections'],
+          },
+          format: 'text/html',
+        },
+      ],
+      logo: [
+        {
+          id: 'https://iiif.wellcomecollection.org/logos/wellcome-collection-black.png',
+          type: 'Image',
+          format: 'image/png',
+        },
+      ],
+    },
+  ],
+  seeAlso: [
+    {
+      id: 'https://api.wellcomecollection.org/catalogue/v2/works/be6gwe5a',
+      type: 'Dataset',
+      profile: 'https://api.wellcomecollection.org/catalogue/v2/context.json',
+      label: {
+        en: ['Wellcome Collection Catalogue API'],
+      },
+      format: 'application/json',
+    },
+  ],
+  services: [
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/b16763506_0001#tracking',
+      type: 'Text',
+      profile: 'http://universalviewer.io/tracking-extensions-profile',
+      label: {
+        en: [
+          'Format: Video, Institution: n/a, Identifier: b16763506, Digicode: digfilm, Collection code: n/a',
+        ],
+      },
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/b16763506_0001#timestamp',
+      type: 'Text',
+      profile:
+        'https://github.com/wellcomecollection/iiif-builder/build-timestamp',
+      label: {
+        none: ['2021-04-29T05:56:36.6842381Z'],
+      },
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/b16763506_0001#accesscontrolhints',
+      type: 'Text',
+      profile: 'http://wellcomelibrary.org/ld/iiif-ext/access-control-hints',
+      label: {
+        en: ['open'],
+      },
+    },
+  ],
+  placeholderCanvas: {
+    id: 'https://iiif.wellcomecollection.org/presentation/b16763506/canvases/poster-b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg',
+    type: 'Canvas',
+    label: {
+      en: ['Poster Image Canvas'],
+    },
+    width: 600,
+    height: 400,
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b16763506/canvases/poster-b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg/painting',
+        type: 'AnnotationPage',
+        items: [
+          {
+            id: 'https://iiif.wellcomecollection.org/presentation/b16763506/canvases/poster-b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg/painting/anno',
+            type: 'Annotation',
+            motivation: 'painting',
+            body: {
+              id: 'https://iiif.wellcomecollection.org/thumb/b16763506',
+              type: 'Image',
+              label: {
+                en: ['Poster Image'],
+              },
+              format: 'image/jpeg',
+            },
+            target:
+              'https://iiif.wellcomecollection.org/presentation/b16763506/canvases/poster-b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg/painting',
+          },
+        ],
+      },
+    ],
+  },
+  items: [
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/b16763506/canvases/b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg',
+      type: 'Canvas',
+      label: {
+        none: ['-'],
+      },
+      width: 999,
+      height: 999,
+      duration: 328,
+      items: [
+        {
+          id: 'https://iiif.wellcomecollection.org/presentation/b16763506/canvases/b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg/painting',
+          type: 'AnnotationPage',
+          items: [
+            {
+              id: 'https://iiif.wellcomecollection.org/presentation/b16763506/canvases/b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg/painting/anno',
+              type: 'Annotation',
+              motivation: 'painting',
+              body: {
+                type: 'Choice',
+                items: [
+                  {
+                    width: 720,
+                    height: 720,
+                    duration: 328,
+                    id: 'https://iiif.wellcomecollection.org/av/b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.mp4',
+                    type: 'Video',
+                    label: {
+                      en: ['MP4'],
+                    },
+                    format: 'video/mp4',
+                  },
+                  {
+                    width: 720,
+                    height: 720,
+                    duration: 328,
+                    id: 'https://iiif.wellcomecollection.org/av/b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.webm',
+                    type: 'Video',
+                    label: {
+                      en: ['WebM'],
+                    },
+                    format: 'video/webm',
+                  },
+                ],
+              },
+              target:
+                'https://iiif.wellcomecollection.org/presentation/b16763506/canvases/b16763506_0055-0000-4219-0000-0-0000-0000-0.mpg',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  partOf: [
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/collections/subjects/bfz4xhd2',
+      type: 'Collection',
+      label: {
+        en: ['Subject: Hygiene'],
+      },
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/collections/subjects/pz9t8xuu',
+      type: 'Collection',
+      label: {
+        en: ['Subject: Bacteria'],
+      },
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/collections/subjects/tva37rme',
+      type: 'Collection',
+      label: {
+        en: ['Subject: Public Health'],
+      },
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/collections/subjects/mysc265e',
+      type: 'Collection',
+      label: {
+        en: ['Subject: Food Contamination'],
+      },
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/collections/subjects/n4fvtc49',
+      type: 'Collection',
+      label: {
+        en: ['Subject: Great Britain'],
+      },
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/collections/genres/Encoded_moving_images',
+      type: 'Collection',
+      label: {
+        en: ['Genre: Encoded moving images'],
+      },
+    },
+  ],
+};

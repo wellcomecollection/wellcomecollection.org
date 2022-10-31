@@ -1,6 +1,4 @@
 import {
-  IIIFRendering,
-  IIIFMediaElement,
   IIIFCanvas,
   IIIFStructure,
   AuthService,
