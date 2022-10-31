@@ -27,10 +27,10 @@ type Props = {
   pageview: Pageview;
 };
 
-const SortPaginationWrapper = styled.div<{ showSort?: boolean }>`
+const ResultsPaginationWrapper = styled.div`
   display: flex;
-  justify-content: ${({ showSort }) =>
-    showSort ? 'space-between' : 'flex-end'};
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
@@ -51,12 +51,15 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
   const showSort = true;
 
+  if (works.totalResults === 0) return <p>nothing</p>;
+
   return (
     <>
       <h1 className="visually-hidden">Works Search Page</h1>
       <div className="container">
         <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
           <h2 style={{ marginBottom: 0 }}>Filters</h2>
+          {showSort && <div>Sort Component?</div>}
         </Space>
       </div>
 
@@ -68,10 +71,12 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
               properties: ['padding-top', 'padding-bottom'],
             }}
           >
-            <SortPaginationWrapper showSort={showSort}>
-              {showSort && <div>Sort Component</div>}
+            <ResultsPaginationWrapper>
+              {works.totalResults > 0 && (
+                <div>{works.totalResults} results</div>
+              )}
               <SearchPagination totalPages={works?.totalPages} />
-            </SortPaginationWrapper>
+            </ResultsPaginationWrapper>
           </Space>
           <Space v={{ size: 'l', properties: ['padding-top'] }}>
             <WorksSearchResults works={works} />
@@ -111,7 +116,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     ];
 
     const _queryType = getCookie('_queryType') as string | undefined;
-
+    console.log(props);
     const worksApiProps = {
       ...props,
       _queryType,
