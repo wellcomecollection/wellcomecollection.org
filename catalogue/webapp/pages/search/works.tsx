@@ -116,7 +116,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     ];
 
     const _queryType = getCookie('_queryType') as string | undefined;
-    console.log(props);
+
     const worksApiProps = {
       ...props,
       _queryType,
