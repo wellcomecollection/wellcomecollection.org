@@ -34,7 +34,8 @@ const ContentTypeInfo = (
     />
     <div className="flex flex--h-baseline">
       <Space
-        h={{ size: 's', properties: ['margin-right', 'margin-top'] }}
+        h={{ size: 's', properties: ['margin-right'] }}
+        v={{ size: 's', properties: ['margin-top'] }}
         className={font('intr', 6)}
       >
         <p className="no-margin">
@@ -142,7 +143,7 @@ const EventContentTypeInfo = () => (
           h={{ size: 'xs', properties: ['margin-right'] }}
           className="flex flex--v-center"
         >
-          <Dot color="neutral.500" />
+          <Dot dotColor="neutral.500" />
         </Space>
         {'Past'}
       </div>
@@ -158,7 +159,7 @@ const ExhibitionContentTypeInfo = () => (
         h={{ size: 'xs', properties: ['margin-right'] }}
         className="flex flex--v-center"
       >
-        <Dot color="neutral.500" />
+        <Dot dotColor="neutral.500" />
       </Space>
       {'Closed'}
     </div>

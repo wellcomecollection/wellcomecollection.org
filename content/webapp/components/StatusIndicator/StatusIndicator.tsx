@@ -57,7 +57,7 @@ const StatusIndicator: FunctionComponent<Props> = ({
         h={{ size: 'xs', properties: ['margin-right'] }}
         className="flex flex--v-center"
       >
-        <Dot color={color} />
+        <Dot dotColor={color} />
       </Space>
       <span>{text}</span>
     </span>

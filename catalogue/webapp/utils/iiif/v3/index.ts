@@ -1,24 +1,39 @@
 import {
   AuthService,
   AuthServiceService,
+<<<<<<< HEAD
 } from '../../../services/iiif/types/manifest/v2';
 import { Audio, Video } from '../../../services/iiif/types/manifest/v3';
+=======
+} from '../../../services/iiif/types/manifest/v2'; // TODO v3
+import { Audio } from '../../../services/iiif/types/manifest/v3';
+>>>>>>> main
 import {
   AnnotationBody,
   ChoiceBody,
   ContentResource,
   ExternalWebResource,
   IIIFExternalWebResource,
-  InternationalString,
   Manifest,
   Service,
+  InternationalString,
 } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { DownloadOption } from '../../../types/manifest';
 
-function getEnFromInternationalString(
-  internationalString: InternationalString
+export function getEnFromInternationalString(
+  internationalString: InternationalString,
+  index = 0
 ): string {
-  return internationalString?.['en']?.[0] || '';
+  return internationalString?.['en']?.[index] || '';
+}
+
+export function transformLabel(
+  label: InternationalString | string | undefined
+): string | undefined {
+  if (typeof label === 'string' || label === undefined) return label;
+
+  return getEnFromInternationalString(label);
 }
 
 export function getTokenService(
@@ -75,6 +90,64 @@ export function getAudio(manifest: Manifest): Audio {
   return { title, sounds, thumbnail, transcript };
 }
 
+type Rendering = {
+  id?: string;
+  format?: string;
+  label?: string | InternationalString;
+};
+
+export function getDownloadOptionsFromManifest(
+  iiifManifest: Manifest | undefined
+): DownloadOption[] {
+  // The ContentResource type on the Manifest, which applies to the iiifManifest.rendering seems incorrect
+  // Temporarily adding this until it is fixed.
+  const rendering = (iiifManifest?.rendering as Rendering[]) || [];
+  return rendering
+    .filter(({ id, format }) => {
+      // I'm removing application/zip (for now?) as we haven't had these before
+      // and the example I've seen is 404ing:
+      // (Work) https://wellcomecollection.org/works/mg56yqa4 ->
+      // (Catalogue response) https://api.wellcomecollection.org/catalogue/v2/works/mg56yqa4?include=items ->
+      // (V3 Manifest) https://iiif.wellcomecollection.org/presentation/v3/b10326947
+      // (rendering - application/zip) https://api.wellcomecollection.org/text/v1/b10326947.zip (returns 404)
+      // For details of why we remove text/plain see https://github.com/wellcomecollection/wellcomecollection.org/issues/7592
+      return id && format !== 'application/zip' && format !== 'text/plain';
+    })
+    .map(({ id, format, label }) => {
+      return {
+        id,
+        label: transformLabel(label) || 'Download file',
+        format,
+      } as DownloadOption;
+    });
+}
+
+export function getPdf(
+  iiifManifest: Manifest | undefined
+): DownloadOption | undefined {
+  const allAnnotations = iiifManifest?.items
+    ?.map(item => item.annotations)
+    ?.flat();
+  const allItems = allAnnotations?.map(annotation => annotation?.items).flat();
+  // The Annotation[] type on the Manifest, which applies to pdfItem seems incorrect
+  // Temporarily using Rendering this until it is fixed.
+  const pdfItem = allItems?.find(item => {
+    const body = (
+      Array.isArray(item?.body) ? item?.body[0] : item?.body
+    ) as Rendering;
+    return body?.format === 'application/pdf';
+  });
+  const pdfItemBody = pdfItem?.body || {};
+  const { id, label, format } = pdfItemBody as Rendering;
+  if (id) {
+    return {
+      id,
+      label: transformLabel(label) || 'Download file',
+      format: format || '',
+    };
+  }
+}
+
 export function getTitle(label: InternationalString | string): string {
   if (typeof label === 'string') return label;
 
@@ -126,4 +199,13 @@ export function getMediaClickthroughService(
   return (services as AuthService[]).find(
     s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
   );
+}
+
+export function getSearchService(
+  manifest: Manifest | undefined
+): Service | undefined {
+  const searchService = manifest?.service?.find(
+    service => service['@type'] === 'SearchService1'
+  );
+  return searchService || undefined;
 }

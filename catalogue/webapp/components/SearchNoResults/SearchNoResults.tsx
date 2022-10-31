@@ -7,7 +7,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 type Props = {
   query: string;
   hasFilters: boolean;
-  color?: PaletteColor;
+  textColor?: PaletteColor;
 };
 
 const QuerySpan = styled.span.attrs({
@@ -15,22 +15,23 @@ const QuerySpan = styled.span.attrs({
 })``;
 
 const Copy = styled.p.attrs({ className: font('intr', 2) })<{
-  color?: PaletteColor;
+  textColor?: PaletteColor;
 }>`
-  ${props => props.color && `color: ${props.theme.color(props.color)};`};
+  ${props =>
+    props.textColor && `color: ${props.theme.color(props.textColor)};`};
 `;
 
 const SearchNoResults: FunctionComponent<Props> = ({
   query,
   hasFilters,
-  color,
+  textColor,
 }: Props) => {
   return (
     <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-            <Copy color={color}>
+            <Copy textColor={textColor}>
               We couldn&rsquo;t find anything that matched{' '}
               <QuerySpan>{query}</QuerySpan>
               {hasFilters && (

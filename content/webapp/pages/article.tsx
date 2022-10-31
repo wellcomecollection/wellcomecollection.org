@@ -200,7 +200,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const TitleTopper = serial && positionInSerial && (
     <PartNumberIndicator
       number={positionInSerial}
-      color={serial.color}
+      backgroundColor={serial.color}
       description={isPodcast ? 'Episode' : 'Part'}
     />
   );

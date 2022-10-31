@@ -62,13 +62,18 @@ export async function getImages(
   return catalogueQuery('images', { ...props, params: extendedParams });
 }
 
+type ImageResponse = {
+  url?: string;
+  image: Image | CatalogueApiError;
+};
+
 export async function getImage({
   id,
   toggles,
   include = [],
-}: GetImageProps): Promise<Image | CatalogueApiError> {
+}: GetImageProps): Promise<ImageResponse> {
   if (!looksLikeCanonicalId(id)) {
-    return notFound();
+    return { image: notFound() };
   }
 
   const apiOptions = globalApiOptions(toggles);
@@ -86,12 +91,13 @@ export async function getImage({
   const res = await catalogueFetch(url);
 
   if (res.status === 404) {
-    return notFound();
+    return { image: notFound() };
   }
 
   try {
-    return await res.json();
+    const image = await res.json();
+    return { url, image };
   } catch (e) {
-    return catalogueApiError();
+    return { url, image: catalogueApiError() };
   }
 }

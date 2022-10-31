@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
+import { getEnFromInternationalString } from '../../utils/iiif/v3';
 
 const Anchor = styled.a<{ isManifestIndex: boolean }>`
   ${props => props.isManifestIndex && `color: ${props.theme.color('yellow')};`};
@@ -18,8 +19,8 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
       role="navigation"
       aria-label={volumesNavigationLabel}
     >
-      {parentManifest?.manifests.map((manifest, i) => (
-        <li key={manifest['@id']}>
+      {parentManifest?.items.map((manifest, i) => (
+        <li key={manifest.id}>
           <NextLink
             {...itemLink({
               workId: work.id,
@@ -27,12 +28,15 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
               manifest: i + 1,
               canvas: 1,
             })}
+            passHref={true}
           >
             <Anchor
               isManifestIndex={i === manifestIndex}
               aria-current={i === manifestIndex ? 'page' : undefined}
             >
-              {manifest.label}
+              {(manifest?.label &&
+                getEnFromInternationalString(manifest.label, 1)) ||
+                'Unknown'}
             </Anchor>
           </NextLink>
         </li>

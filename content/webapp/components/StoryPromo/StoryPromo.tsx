@@ -109,7 +109,7 @@ const StoryPromo: FunctionComponent<Props> = ({
           {positionInSeriesSchedule && (
             <PartNumberIndicator
               number={positionInSeriesSchedule}
-              color={seriesColor}
+              backgroundColor={seriesColor}
             />
           )}
           <Space

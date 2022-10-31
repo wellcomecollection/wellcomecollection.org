@@ -29,7 +29,7 @@ type Props = {
   extraClasses?: string;
   partNumber?: number;
   partDescription: 'Part' | 'Episode';
-  color?: ColorSelection;
+  partNumberColor?: ColorSelection;
   Image?: ReactElement<typeof ImageType | typeof ImagePlaceholder>;
   DateInfo?:
     | ReactElement<typeof DateRange>
@@ -89,7 +89,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   extraClasses,
   partNumber,
   partDescription,
-  color,
+  partNumberColor,
   Image,
   DateInfo,
   StatusIndicator,
@@ -144,7 +144,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           <PartNumberIndicator
             number={partNumber}
             description={partDescription}
-            color={color}
+            backgroundColor={partNumberColor}
           />
         )}
         <TitleWrapper>{title}</TitleWrapper>

@@ -331,12 +331,12 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
           >
             {(isStandalone || isFrames) && (
               <div className="absolute standalone-wobbly-edge">
-                <WobblyEdge isRotated={true} background="white" />
+                <WobblyEdge isRotated={true} backgroundColor="white" />
               </div>
             )}
             {!isActive && (
               <div className="wobbly-edge-wrapper absolute">
-                <WobblyEdge background={pageBackground} />
+                <WobblyEdge backgroundColor={pageBackground} />
               </div>
             )}
 

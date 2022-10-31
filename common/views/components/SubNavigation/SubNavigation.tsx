@@ -59,7 +59,7 @@ const SubNavigation: FunctionComponent<Props> = ({
         })}
       </TabsContainer>
 
-      {hasDivider && <Divider color="neutral.300" />}
+      {hasDivider && <Divider lineColor="neutral.300" />}
     </Wrapper>
   );
 };

@@ -49,7 +49,7 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
           url={`/${pathname}/audio-without-descriptions`}
           title="Listen, without audio descriptions"
           text="Find out more about the exhibition with short audio tracks."
-          color="accent.lightSalmon"
+          backgroundColor="accent.lightSalmon"
           onClick={() => {
             cookieHandler(
               cookies.exhibitionGuideType,
@@ -64,7 +64,7 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
           title="Listen, with audio descriptions"
           text="Find out more about the exhibition with short audio tracks,
             including descriptions of the objects."
-          color="accent.lightPurple"
+          backgroundColor="accent.lightPurple"
           icon={audioDescribed}
           onClick={() => {
             cookieHandler(
@@ -80,7 +80,7 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
           title="Read captions and transcripts"
           text="All the wall and label texts from the gallery, and images of the
                   objects, great for those without headphones."
-          color="accent.lightGreen"
+          backgroundColor="accent.lightGreen"
           icon={speechToText}
           onClick={() => {
             cookieHandler(
@@ -95,7 +95,7 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
           url={`/${pathname}/bsl`}
           title="Watch BSL videos"
           text="Commentary about the exhibition in British Sign Language videos."
-          color="accent.lightBlue"
+          backgroundColor="accent.lightBlue"
           icon={britishSignLanguage}
           onClick={() => {
             cookieHandler(cookies.exhibitionGuideType, 'bsl');

@@ -8,6 +8,7 @@ import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpoint
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 
 // Utils & Helpers
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -37,6 +38,11 @@ const Wrapper = styled(Space).attrs({
   v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   background-color: ${props => props.theme.color('black')};
+`;
+
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
@@ -91,7 +97,9 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               }}
               style={{ color: 'white' }}
             >
-              <h2 style={{ marginBottom: 0 }}>Sort & Pagination</h2>
+              <PaginationWrapper>
+                <SearchPagination totalPages={images?.totalPages} darkBg />
+              </PaginationWrapper>
             </Space>
             <ImageEndpointSearchResults images={images} />
           </div>
@@ -100,7 +108,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           <SearchNoResults
             query={query}
             hasFilters={!!colorFilter}
-            color="white"
+            textColor="white"
           />
         )}
       </Wrapper>
@@ -113,6 +121,11 @@ ImagesSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+
+    if (!serverData.toggles.searchPage) {
+      return { notFound: true };
+    }
+
     const params = fromQuery(context.query);
     const aggregations = [
       'locations.license',

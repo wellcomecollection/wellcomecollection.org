@@ -118,7 +118,7 @@ function EventStatus({ text, color }: EventStatusProps) {
           h={{ size: 'xs', properties: ['margin-right'] }}
           className="flex flex--v-center"
         >
-          <Dot color={color} />
+          <Dot dotColor={color} />
         </Space>
         {text}
       </div>
