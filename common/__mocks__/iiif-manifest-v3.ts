@@ -1,3 +1,12 @@
+export const physicalDescriptionMetadataItem = {
+  label: {
+    en: ['Physical description'],
+  },
+  value: {
+    en: ['6 encoded audio files 2.4 MB (2542803 bytes) 6 WAV files'],
+  },
+};
+
 export const manifestWithTranscript = {
   '@context': 'http://iiif.io/api/presentation/3/context.json',
   id: 'https://iiif.wellcomecollection.org/presentation/b2248887x',
@@ -77,7 +86,7 @@ export const manifestWithTranscript = {
         ],
       },
     },
-  ],
+  ].concat(physicalDescriptionMetadataItem),
   rights: 'http://creativecommons.org/licenses/by-nc/4.0/',
   provider: [
     {

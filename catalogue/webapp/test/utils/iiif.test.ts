@@ -1,10 +1,11 @@
 import { Manifest } from '@iiif/presentation-3';
 import { getCanvases, groupStructures } from '../../utils/iiif/v2';
-import { getAudio } from '../../utils/iiif/v3';
+import { getAudio, getIIIFMetadata } from '../../utils/iiif/v3';
 import manifest from '@weco/common/__mocks__/iiif-manifest';
 import {
   manifestWithAudioTitles,
   manifestWithTranscript,
+  physicalDescriptionMetadataItem,
 } from '@weco/common/__mocks__/iiif-manifest-v3';
 
 const canvases = getCanvases(manifest);
@@ -131,5 +132,15 @@ describe('IIIF V3', () => {
     expect(transcript?.id).toBe(
       'https://iiif.wellcomecollection.org/file/b2248887x_0001.pdf'
     );
+  });
+});
+
+describe('getIIIFMetadata', () => {
+  it('returns the correct MetadataItem from a manifest', () => {
+    const metadataItem = getIIIFMetadata(
+      manifestWithTranscript as Manifest,
+      'Physical description'
+    );
+    expect(physicalDescriptionMetadataItem).toEqual(metadataItem);
   });
 });
