@@ -66,20 +66,16 @@ export async function getStories({
   }
 }`;
 
-  try {
-    const res = await prismicGraphQLClient(graphQuery);
-    const json = await res;
-    const { allArticless } = json;
-    const stories = await transformStories(allArticless);
+  const res = await prismicGraphQLClient(graphQuery);
+  const json = await res;
+  const { allArticless } = json;
+  const stories = await transformStories(allArticless);
 
-    return {
-      type: 'ResultList',
-      results: stories,
-      totalResults: stories.length,
-    };
-  } catch (error) {
-    console.error(error);
-  }
+  return {
+    type: 'ResultList',
+    results: stories,
+    totalResults: stories.length,
+  };
 }
 
 export async function transformStories(allArticless: PrismicResponseStory) {
