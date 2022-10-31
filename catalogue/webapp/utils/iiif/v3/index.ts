@@ -145,3 +145,12 @@ export function getTitle(label: InternationalString | string): string {
 
   return getEnFromInternationalString(label);
 }
+
+export function getSearchService(
+  manifest: Manifest | undefined
+): Service | undefined {
+  const searchService = manifest?.service?.find(
+    service => service['@type'] === 'SearchService1'
+  );
+  return searchService || undefined;
+}
