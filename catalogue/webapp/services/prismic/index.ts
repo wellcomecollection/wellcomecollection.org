@@ -6,10 +6,11 @@ import {
 } from '@weco/common/model/story';
 import fetch, { Response } from 'node-fetch';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { HttpsAgent as Agent } from 'agentkeepalive';
+import * as prismic from '@prismicio/client';
+import { GraphQLClient, gql } from 'graphql-request';
 
 export type PrismicQueryProps = {
-  query?: string | string[]
+  query?: string | string[];
   pageSize?: number;
 };
 
@@ -21,10 +22,22 @@ export const prismicApiError = (): PrismicApiError => ({
   type: 'Error',
 });
 
-const agentKeepAlive = new Agent({
-  keepAlive: true,
-  freeSocketTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
-});
+export async function prismicGraphQLClient(query: string) {
+  const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
+  const client = prismic.createClient(endpoint, { fetch });
+  const graphqlClient = new GraphQLClient(
+    prismic.getGraphQLEndpoint('wellcomecollection'),
+    {
+      method: 'get',
+      fetch: client.graphQLFetch,
+    }
+  );
+
+  const res = await graphqlClient.request(query);
+  const json = await res;
+  console.log(typeof json, 'anything back');
+  return json;
+}
 
 // TODO: move Prismic fetch function out to common and use it here and in server-data/prismic
 // To authenticate a request to the Prismic API graphql endpoint you need a Prismic-ref value that refreshes every 30 seconds.
@@ -34,7 +47,7 @@ export const prismicRefFetch = (
   url: string,
   options?: Record<string, string>
 ): Promise<Response> => {
-  return fetch(url, { ...options, agent: agentKeepAlive });
+  return fetch(url, { ...options });
 };
 
 // Prismic API graphql endpoint expects query requests via GET method
@@ -46,16 +59,16 @@ export const prismicFetch = (
   return axios({ ...options });
 };
 
-export async function prismicQuery(
-  endpoint: string,
-  { query, pageSize }: PrismicQueryProps
-): Promise<StoryResultsList<Story> | PrismicApiError> {
-  const graphQuery = `query {
+export async function getStories({
+  query,
+  pageSize,
+}: PrismicQueryProps): Promise<StoryResultsList<Story> | PrismicApiError> {
+  const graphQuery = gql`query {
   allArticless(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
   edges {
       node {
         title
-        _meta { id }
+        _meta { id, lastPublicationDate }
         contributors {
           contributor {
             ...on People {
@@ -83,37 +96,12 @@ export async function prismicQuery(
     }
   }
 }`;
-  const url = `https://wellcomecollection.prismic.io/graphql?query=${graphQuery}`;
-  const fetchRefUrl = 'https://wellcomecollection.prismic.io/api/v2';
-
-  const headers = {
-    Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
-    repository: 'wellcomecollection',
-  };
-
-  const prismicRef = await prismicRefFetch(fetchRefUrl, headers);
-  const { refs } = await prismicRef.json();
-  const { ref } = refs[0];
-  headers['Prismic-ref'] = ref;
-  const updatedHeaders = {
-    Authorization: `Bearer ${process.env.PRISMIC_TOKEN}`,
-    repository: 'wellcomecollection',
-    'Prismic-ref': ref,
-  };
-  const options: AxiosRequestConfig = {
-    method: 'GET',
-    url: url,
-    headers: updatedHeaders,
-    data: {
-      query: { graphQuery },
-    },
-  };
 
   try {
-    const res = await prismicFetch(options);
-    const json = await res.data;
-    const { data } = json;
-    const { allArticless } = data;
+    const res = await prismicGraphQLClient(graphQuery);
+    const json = await res;
+    const { allArticless } = json;
+    console.log(allArticless, 'all articles');
     const stories = await transformStories(allArticless);
 
     return {
@@ -126,12 +114,6 @@ export async function prismicQuery(
   }
 }
 
-export async function getStories(
-  props: PrismicQueryProps
-): Promise<StoryResultsList<Story> | PrismicApiError> {
-  return prismicQuery('stories', props);
-}
-
 export async function transformStories(allArticless: PrismicResponseStory) {
   const { edges } = allArticless;
   const stories = edges.map(edge => {
@@ -139,9 +121,10 @@ export async function transformStories(allArticless: PrismicResponseStory) {
     const { title, contributors, body, promo, _meta } = node;
     const { primary: standfirst } = body[0];
     const { primary: image } = promo[0];
-    const { id } = _meta;
+    const { id, lastPublicationDate } = _meta;
     return {
       id,
+      lastPublicationDate,
       title,
       contributors,
       standfirst,

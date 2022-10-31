@@ -4,6 +4,7 @@ import { RichTextField, Slice } from '@prismicio/types';
 export type Story = {
   id: string;
   title: string;
+  lastPublicationDate: string;
   contributors: Contributor[];
   standfirst: Standfirst[];
   image: Image[];
@@ -32,6 +33,7 @@ export type Promo = {
 export type PrismicResponseNode = {
   _meta: {
     id: string;
+    lastPublicationDate: string;
   };
   title: string;
   description: string;
@@ -51,16 +53,9 @@ export type PrismicResponseEdgeArray = {
 };
 
 export type PrismicResponseStory = {
+  allArticless: PrismicResponseEdgeArray[];
   data: PrismicResponseEdgeArray[];
   edges: PrismicResponseNodeArray[];
-};
-
-export type PrismicApiError = {
-  errorType: string;
-  httpStatus: number;
-  label: string;
-  description: string;
-  type: 'Error';
 };
 
 export type StoryResultsList<Result> = {

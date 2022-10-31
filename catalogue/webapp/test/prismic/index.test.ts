@@ -7,6 +7,7 @@ it('transforms Prismic GraphQL response into result list', async () => {
         node: {
           _meta: {
             id: 'X123456',
+            lastPublicationDate: '2022-09-08T09:29:27+0000',
           },
           title: [
             {
@@ -53,6 +54,7 @@ it('transforms Prismic GraphQL response into result list', async () => {
         },
       ],
       contributors: [{ contributor: { name: 'Dr. Seuss' } }],
+      lastPublicationDate: '2022-09-08T09:29:27+0000',
       standfirst: {
         text: 'A cat in a hat',
       },
