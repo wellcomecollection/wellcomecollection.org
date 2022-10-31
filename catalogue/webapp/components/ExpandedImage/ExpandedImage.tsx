@@ -24,6 +24,7 @@ import IIIFImage from '@weco/catalogue/components/IIIFImage/IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
+import { getProductionDates } from '../../utils/works';
 
 type Props = {
   image: ImageType | undefined;
@@ -36,45 +37,13 @@ type CanvasLink = {
   sierraId: string;
 };
 
-const ImageInformation = styled.div`
+const ImageInfoWrapper = styled.div`
   ${props => props.theme.media('medium')`
     display: flex;
   `}
 `;
 
-const ImageWrapper = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom'] },
-})`
-  padding-right: 20px;
-  ${props => props.theme.media('medium')`
-    flex: 0 1 auto;
-    height: auto;
-  `}
-`;
-
-const ImageLink = styled.a`
-  position: relative;
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: auto;
-
-  img {
-    max-width: 100%;
-    max-height: 50vh;
-    height: auto;
-    width: auto;
-  }
-`;
-
-const InfoWrapper = styled.div`
-  ${props => props.theme.media('medium')`
-    flex: 1 0 60%;
-    height: 100%;
-  `}
-`;
-
-const ImageMetadata = styled(Space).attrs({
+const MetadataWrapper = styled(Space).attrs({
   v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
   className: font('intr', 5),
 })`
@@ -86,6 +55,44 @@ const Metadata = styled.span`
     content: ' | ';
     margin: 0 4px;
   }
+`;
+
+const ImageWrapper = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom'] },
+})`
+  ${props => props.theme.media('medium')`
+    padding-right: 40px;
+    flex: 0 1 auto;
+    height: auto;
+  `}
+`;
+
+const ImageLink = styled.a`
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+
+  ${props => props.theme.media('medium')`
+    margin: auto;
+  `}
+
+  img {
+    max-width: 100%;
+    height: auto;
+    width: auto;
+
+    ${props => props.theme.media('medium')`
+      max-height: 50vh;
+    `}
+  }
+`;
+
+const InfoWrapper = styled.div`
+  ${props => props.theme.media('medium')`
+    flex: 1 0 60%;
+    height: 100%;
+  `}
 `;
 
 const trackingSource = 'images_search_result';
@@ -102,8 +109,6 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const [currentImageId, setCurrentImageId] = useState<string | undefined>();
 
   const workId = image?.source.id;
-  const displayTitle = detailedWork?.title ?? '';
-  const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
 
   useEffect(() => {
     if (workId && workId !== currentImageId) {
@@ -216,9 +221,13 @@ const ExpandedImage: FunctionComponent<Props> = ({
     );
   }
 
+  const productionDates = getProductionDates(detailedWork);
+  const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
+  const displayTitle = detailedWork?.title ?? '';
+
   return (
     <>
-      <ImageInformation>
+      <ImageInfoWrapper>
         {iiifImageLocation && expandedImageLink && (
           <ImageWrapper>
             <NextLink {...expandedImageLink} passHref>
@@ -238,7 +247,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           </ImageWrapper>
         )}
         <InfoWrapper>
-          {(displayTitle || displayContributor) && (
+          {(displayTitle || displayContributor || license) && (
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               {displayTitle && (
                 <h2
@@ -246,17 +255,22 @@ const ExpandedImage: FunctionComponent<Props> = ({
                   dangerouslySetInnerHTML={{ __html: displayTitle }}
                 />
               )}
-              <ImageMetadata>
-                {displayContributor && (
-                  <Metadata>{displayContributor}</Metadata>
-                )}
-                {license && (
-                  <Metadata>
-                    License:&nbsp;
-                    <License license={license} />
-                  </Metadata>
-                )}
-              </ImageMetadata>
+              {(displayContributor || productionDates.length > 0) && (
+                <MetadataWrapper>
+                  {displayContributor && (
+                    <Metadata>{displayContributor}</Metadata>
+                  )}
+                  {productionDates.length > 0 && (
+                    <Metadata>Date:&nbsp;{productionDates[0]}</Metadata>
+                  )}
+                </MetadataWrapper>
+              )}
+              {license && (
+                <MetadataWrapper>
+                  License:&nbsp;
+                  <License license={license} />
+                </MetadataWrapper>
+              )}
             </Space>
           )}
 
@@ -276,7 +290,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
             </Space>
           )}
         </InfoWrapper>
-      </ImageInformation>
+      </ImageInfoWrapper>
       {image?.id && (
         <VisuallySimilarImagesFromApi
           originalId={image?.id}
