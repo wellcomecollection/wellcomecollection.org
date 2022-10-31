@@ -109,32 +109,32 @@ const SearchLayout: FunctionComponent = ({ children }) => {
             {
               id: 'overview',
               url: getURL('/search'),
-              name: 'Overview (1032)',
+              name: 'Overview',
             },
             {
               id: 'exhibitions',
               url: getURL('/search/exhibitions'),
-              name: 'Exhibitions (1032)',
+              name: 'Exhibitions',
             },
             {
               id: 'events',
               url: getURL('/search/events'),
-              name: 'Events (1032)',
+              name: 'Events',
             },
             {
               id: 'stories',
               url: getURL('/search/stories'),
-              name: 'Stories (1032)',
+              name: 'Stories',
             },
             {
               id: 'images',
               url: getURL('/search/images'),
-              name: 'Images (1032)',
+              name: 'Images',
             },
             {
-              id: 'catalogue',
-              url: getURL('/search/catalogue'),
-              name: 'Catalogue (1032)',
+              id: 'works',
+              url: getURL('/search/works'),
+              name: 'Catalogue',
             },
           ]}
           currentSection={currentSearchCategory}
