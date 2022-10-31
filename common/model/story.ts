@@ -20,10 +20,6 @@ export type Promo = {
   };
 };
 
-export type PrismicResponseEdgeArray = {
-  edges: PrismicNode[];
-};
-
 export type PrismicResponseStory = {
   edges: PrismicNode[];
 };

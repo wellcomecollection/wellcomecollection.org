@@ -39,7 +39,6 @@ export async function getStories({
   query,
   pageSize,
 }: PrismicQueryProps): Promise<StoryResultsList<Story> | PrismicApiError> {
-  console.log('we are in get stories');
   const graphQuery = gql`query {
   allArticless(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
   edges {
