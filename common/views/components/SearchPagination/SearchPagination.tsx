@@ -67,7 +67,7 @@ export const SearchPagination: FunctionComponent<{
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
         >
           <ChevronWrapper darkBg={darkBg} prev>
-            <Icon icon={chevron} color={darkBg ? 'white' : 'black'} />
+            <Icon icon={chevron} iconColor={darkBg ? 'white' : 'black'} />
             <span className="visually-hidden">previous page</span>
           </ChevronWrapper>
         </Link>
@@ -78,7 +78,7 @@ export const SearchPagination: FunctionComponent<{
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
         >
           <ChevronWrapper darkBg={darkBg}>
-            <Icon icon={chevron} color={darkBg ? 'white' : 'black'} />
+            <Icon icon={chevron} iconColor={darkBg ? 'white' : 'black'} />
             <span className="visually-hidden">next page</span>
           </ChevronWrapper>
         </Link>

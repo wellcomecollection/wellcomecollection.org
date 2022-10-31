@@ -17,12 +17,12 @@ const TypeItem = styled.li`
       `}
 `;
 
-const TypeLink = styled.a<{ color: PaletteColor }>`
+const TypeLink = styled.a<{ backgroundColor: PaletteColor }>`
   display: block;
   height: 100%;
   width: 100%;
   text-decoration: none;
-  background: ${props => props.theme.color(props.color)};
+  background: ${props => props.theme.color(props.backgroundColor)};
 
   &:hover,
   &:focus {
@@ -34,7 +34,7 @@ type Props = {
   url: string;
   title: string;
   text: string;
-  color:
+  backgroundColor:
     | 'accent.lightSalmon'
     | 'accent.lightGreen'
     | 'accent.lightPurple'
@@ -47,12 +47,12 @@ const TypeOption: FunctionComponent<Props> = ({
   url,
   title,
   text,
-  color,
+  backgroundColor,
   icon,
   onClick,
 }) => (
   <TypeItem>
-    <TypeLink href={url} color={color} onClick={onClick}>
+    <TypeLink href={url} backgroundColor={backgroundColor} onClick={onClick}>
       <Space
         v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}

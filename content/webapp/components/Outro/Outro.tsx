@@ -64,7 +64,7 @@ const Outro: FunctionComponent<Props> = ({
 
   return (
     <div>
-      <Divider color="black" isStub />
+      <Divider lineColor="black" isStub />
       <Space
         v={{
           size: 'm',

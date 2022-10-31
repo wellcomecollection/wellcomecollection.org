@@ -99,7 +99,7 @@ const AccordionItem = ({
             <h2 className={`${font('intb', 5)} no-margin`}>{title}</h2>
             <Icon
               icon={chevron}
-              color="white"
+              iconColor="white"
               rotate={isActive ? undefined : 270}
             />
           </span>
@@ -203,7 +203,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
                 h={{ size: 's', properties: ['margin-left'] }}
                 className="flex flex--v-center"
               >
-                <Icon icon={arrow} matchText={true} color="white" />
+                <Icon icon={arrow} matchText={true} iconColor="white" />
               </Space>
             </a>
           </WorkLink>

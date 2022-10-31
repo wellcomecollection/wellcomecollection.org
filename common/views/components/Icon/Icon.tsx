@@ -5,7 +5,7 @@ import { IconSvg } from '@weco/common/icons';
 
 type WrapperProps = {
   rotate?: number;
-  color?: PaletteColor;
+  iconColor?: PaletteColor;
   matchText?: boolean;
 };
 
@@ -17,6 +17,9 @@ const Wrapper = styled.div.attrs({
   width: ${props => props.theme.iconDimension}px;
   position: relative;
   user-select: none;
+
+  ${props => props.iconColor && `color: ${props.theme.color(props.iconColor)};`}
+  ${props => props.rotate && `transform: rotate(${props.rotate}deg);`}
 
   ${props =>
     props.matchText &&
@@ -33,26 +36,15 @@ const Wrapper = styled.div.attrs({
     width: 100%;
   }
 
-  ${props =>
-    props.color &&
-    `
   .icon__shape {
-    fill: ${props.theme.color(props.color)};
     transition: all ${props => props.theme.transitionProperties};
   }
-`}
-
-  ${props =>
-    props.rotate &&
-    `
-  transform: rotate(${props.rotate}deg);
-`}
 `;
 
 type Props = {
   icon: IconSvg;
   rotate?: number;
-  color?: PaletteColor;
+  iconColor?: PaletteColor;
   matchText?: boolean;
   title?: string;
   attrs?: { [key: string]: [string] };
@@ -61,14 +53,14 @@ type Props = {
 const Icon: FunctionComponent<Props> = ({
   icon,
   rotate,
-  color,
+  iconColor,
   matchText,
   title,
   attrs = {},
 }: Props) => (
   <Wrapper
     rotate={rotate}
-    color={color}
+    iconColor={iconColor}
     matchText={matchText}
     aria-hidden={title ? true : undefined}
   >

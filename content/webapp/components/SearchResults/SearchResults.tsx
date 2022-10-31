@@ -54,8 +54,6 @@ const SearchResults: FunctionComponent<Props> = ({
               <CompactCard
                 url={`/pages/${item.id}`}
                 title={item.title || ''}
-                partNumber={undefined}
-                color={undefined}
                 primaryLabels={[]}
                 secondaryLabels={[]}
                 description={item.promo?.caption || item.metadataDescription}
@@ -89,8 +87,6 @@ const SearchResults: FunctionComponent<Props> = ({
               <CompactCard
                 url={`/event-series/${item.id}`}
                 title={item.title || ''}
-                partNumber={undefined}
-                color={undefined}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
                 description={item.promo && item.promo.caption}
@@ -126,8 +122,6 @@ const SearchResults: FunctionComponent<Props> = ({
                 title={item.title || ''}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
-                partNumber={undefined}
-                color={undefined}
                 description={item.promo && item.promo.caption}
                 urlOverride={item.promo && item.promo.link}
                 Image={
@@ -166,8 +160,6 @@ const SearchResults: FunctionComponent<Props> = ({
               <CompactCard
                 url={`/series/${item.id}`}
                 title={item.title || ''}
-                partNumber={undefined}
-                color={undefined}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
                 description={item.promo && item.promo.caption}
@@ -201,7 +193,7 @@ const SearchResults: FunctionComponent<Props> = ({
               <CompactCard
                 title={item.title || ''}
                 partNumber={item.partNumber}
-                color={item.color}
+                partNumberColor={item.color}
                 primaryLabels={
                   /* We don't show a label on items that haven't been published yet, because
                    * we don't know whether they're a story, comic, etc.
@@ -210,7 +202,7 @@ const SearchResults: FunctionComponent<Props> = ({
                 }
                 secondaryLabels={[]}
                 description={`Available ${formatDate(item.publishDate)}`}
-                Image={<ImagePlaceholder color={item.color} />}
+                Image={<ImagePlaceholder backgroundColor={item.color} />}
                 xOfY={{ x: index + 1, y: items.length }}
               />
             )}
@@ -224,8 +216,6 @@ const SearchResults: FunctionComponent<Props> = ({
               <CompactCard
                 url={`/exhibitions/${item.id}`}
                 title={item.title}
-                partNumber={undefined}
-                color={undefined}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
                 description={item.promo?.caption}
