@@ -3,7 +3,6 @@ import {
   StoryResultsList,
   PrismicResponseStory,
   PrismicApiError,
-  PrismicAllArticles,
 } from '@weco/common/model/story';
 import fetch from 'node-fetch';
 import * as prismic from '@prismicio/client';
@@ -22,9 +21,7 @@ export type PrismicQueryProps = {
   pageSize?: number;
 };
 
-export async function prismicGraphQLClient(
-  query: string
-): Promise<PrismicResponseStory> {
+export async function prismicGraphQLClient(query: string) {
   const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
   const client = prismic.createClient(endpoint, { fetch });
   const graphqlClient = new GraphQLClient(
@@ -78,10 +75,8 @@ export async function getStories({
 }`;
   try {
     const res = await prismicGraphQLClient(graphQuery);
-    const { allArticless }: PrismicAllArticles = await res;
-    console.dir(allArticless, { depth: null });
+    const { allArticless } = await res;
     const stories = await transformStories(allArticless);
-
     return {
       type: 'ResultList',
       results: stories,

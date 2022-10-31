@@ -1,16 +1,6 @@
 import { Contributor, Image } from '@weco/common/model/catalogue';
 import { RichTextField, Slice } from '@prismicio/types';
 
-export type Story = {
-  id: string;
-  title: string;
-  lastPublicationDate: string;
-  contributors: Contributor[];
-  standfirst: Standfirst[];
-  image: Image[];
-  type: string;
-};
-
 export type Standfirst = Slice<
   'standfirst',
   {
@@ -31,24 +21,43 @@ export type Promo = {
 };
 
 export type PrismicResponseEdgeArray = {
-  edges: [PrismicNode[]];
+  edges: PrismicNode[];
 };
 
 export type PrismicResponseStory = {
-  data: {
-    allArticless: PrismicResponseEdgeArray;
-  };
+  edges: PrismicNode[];
 };
 
-export type PrismicAllArticles = {
-  allArticless: PrismicResponseEdgeArray[];
-};
+export interface PrismicAllArticles extends PrismicResponseStory {
+  allArticless: PrismicResponseStory[];
+}
 
 export type PrismicNode = {
-  title: string;
+  node: {
+    title: string;
+    contributors: Contributor[];
+    image: Image[];
+    type: string;
+    _meta: {
+      id: string;
+      lastPublicationDate: string;
+    };
+    body: Standfirst[];
+    promo: Promo[];
+  };
+};
+export type Story = {
+  image: {
+    title: string;
+    image: Image;
+    description: string;
+    link: { id: string; type: string };
+  };
+  standfirst: { text: RichTextField };
+  id: string;
   contributors: Contributor[];
-  standfirst: Standfirst[];
-  image: Image[];
+  lastPublicationDate: string;
+  title: string;
   type: string;
 };
 
