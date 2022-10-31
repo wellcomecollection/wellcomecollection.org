@@ -316,20 +316,6 @@ export function getIIIFPresentationCredit(
   return attribution?.value.split('<br/>')[0];
 }
 
-export function getSearchService(manifest: IIIFManifest): Service | undefined {
-  if (Array.isArray(manifest.service)) {
-    return manifest.service.find(
-      service =>
-        service['@context'] === 'http://iiif.io/api/search/0/context.json'
-    );
-  } else if (
-    manifest.service?.['@context'] ===
-    'http://iiif.io/api/search/0/context.json'
-  ) {
-    return manifest.service;
-  }
-}
-
 // This is necessary while we are in the process of switching the source of the iiif presentation manifests
 // There is a slight (temporary) difference between the manifest served from wellcomelibrary.org
 // and the one served from iiif.wellcomecollection.org

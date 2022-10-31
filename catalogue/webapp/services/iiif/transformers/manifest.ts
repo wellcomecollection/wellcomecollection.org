@@ -11,7 +11,6 @@ import {
   getAuthService,
   getTokenService,
   getIsAnyImageOpen,
-  getSearchService,
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
@@ -21,6 +20,7 @@ import {
   getDownloadOptionsFromManifest,
   getPdf,
   getTitle,
+  getSearchService,
 } from '../../../utils/iiif/v3';
 
 export function transformManifest(
@@ -49,7 +49,6 @@ export function transformManifest(
     ? manifestV2['@type'] === 'sc:Collection'
     : false;
   const needsModal = checkModalRequired(authService, isAnyImageOpen);
-  const searchService = manifestV2 && getSearchService(manifestV2);
   const manifests = manifestV2?.manifests || [];
   const structures = manifestV2?.structures || [];
 
@@ -63,6 +62,7 @@ export function transformManifest(
   const parentManifestUrl = manifestV3 && manifestV3.partOf?.[0].id;
   const collectionManifestsCount =
     manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
+  const searchService = getSearchService(manifestV3);
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
@@ -79,7 +79,6 @@ export function transformManifest(
     manifests,
     canvases,
     needsModal,
-    searchService,
     structures,
     // Taken from V3 manifest:
     id,
@@ -93,5 +92,6 @@ export function transformManifest(
     parentManifestUrl,
     title,
     collectionManifestsCount,
+    searchService,
   };
 }
