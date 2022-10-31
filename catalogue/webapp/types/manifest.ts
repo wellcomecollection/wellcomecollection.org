@@ -5,7 +5,6 @@ import {
   AuthService,
   AuthServiceService,
   CollectionManifest,
-  Service as Service2,
 } from '../../webapp/services/iiif/types/manifest/v2';
 import { Service } from '@iiif/presentation-3';
 import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
@@ -43,13 +42,13 @@ export type TransformedManifest = {
   canvases: IIIFCanvas[];
   parentManifestUrl: string | undefined;
   needsModal: boolean;
-  searchService: Service2 | undefined;
   structures: IIIFStructure[];
   // Currently from iiif manifest v3:
   audio: Audio | undefined;
   services: Service[];
   downloadOptions: DownloadOption[];
   pdf: DownloadOption | undefined;
+  searchService: Service | undefined;
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {
