@@ -13,7 +13,7 @@ import { container } from './base/container';
 import { row } from './base/row';
 import { inlineFonts } from './base/inline-fonts';
 import { fonts } from './base/fonts';
-import { themeValues, spacingUnits } from './config';
+import { themeValues, spacingUnits, Size } from './config';
 import { grid } from './grid';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
@@ -57,15 +57,8 @@ function makeSpacePropertyValues(
     .join('');
 }
 
-export type Size = keyof typeof themeValues.sizes;
-const media =
-  (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
-  (styles: TemplateStringsArray | string): string =>
-    `@media (${minOrMaxWidth}: ${themeValues.sizes[sizeLabel]}px) {${styles}}`;
-
 const theme = {
   ...themeValues,
-  media,
   makeSpacePropertyValues,
 };
 

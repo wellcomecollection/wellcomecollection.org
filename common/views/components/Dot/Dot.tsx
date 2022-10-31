@@ -4,9 +4,9 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 const DotEl = styled.span.attrs({
   'aria-hidden': true,
-})<{ color: PaletteColor }>`
+})<{ dotColor: PaletteColor }>`
   font-size: 0.7em;
-  color: ${props => props.theme.color(props.color)};
+  color: ${props => props.theme.color(props.dotColor)};
 
   &:before {
     content: '⬤';
@@ -14,8 +14,10 @@ const DotEl = styled.span.attrs({
 `;
 
 type Props = {
-  color: PaletteColor;
+  dotColor: PaletteColor;
 };
 
-const Dot: FunctionComponent<Props> = ({ color }) => <DotEl color={color} />;
+const Dot: FunctionComponent<Props> = ({ dotColor }) => (
+  <DotEl dotColor={dotColor} />
+);
 export default Dot;

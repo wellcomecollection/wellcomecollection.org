@@ -115,7 +115,10 @@ const WorkHeader: FunctionComponent<Props> = ({
           {collectionManifestsCount > 0 && (
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
               <p className={`${font('intb', 5)} no-margin`}>
-                <Number color="yellow" number={collectionManifestsCount} />
+                <Number
+                  backgroundColor="yellow"
+                  number={collectionManifestsCount}
+                />
                 {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
                 online
               </p>

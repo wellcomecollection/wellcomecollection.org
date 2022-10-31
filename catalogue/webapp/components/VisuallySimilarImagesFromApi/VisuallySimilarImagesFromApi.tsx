@@ -36,7 +36,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const fetchVisuallySimilarImages = async () => {
-      const fullImage = await getImage({
+      const { image: fullImage } = await getImage({
         id: originalId,
         toggles,
         include: ['visuallySimilar'],

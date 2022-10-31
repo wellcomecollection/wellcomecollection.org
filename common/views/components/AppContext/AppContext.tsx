@@ -1,4 +1,4 @@
-import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
+import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import {
   createContext,
   useState,
@@ -7,7 +7,8 @@ import {
   FunctionComponent,
   ReactNode,
 } from 'react';
-import theme, { Size } from '../../../views/themes/default';
+import theme from '@weco/common/views/themes/default';
+import { Size } from '@weco/common/views/themes/config';
 
 type AppContextProps = {
   isEnhanced: boolean;

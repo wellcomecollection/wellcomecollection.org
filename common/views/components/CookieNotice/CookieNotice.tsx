@@ -64,7 +64,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <div className="flex flex--h-space-between">
             <div className="flex flex--v-center">
-              <Icon icon={cookiesIcon} color="white" />
+              <Icon icon={cookiesIcon} iconColor="white" />
               <Space
                 as="span"
                 h={{
@@ -79,7 +79,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
               </a>
             </div>
             <CloseCookieNotice onClick={hideCookieNotice}>
-              <Icon icon={clear} color="white" />
+              <Icon icon={clear} iconColor="white" />
               <span className="visually-hidden">Close cookie notification</span>
             </CloseCookieNotice>
           </div>

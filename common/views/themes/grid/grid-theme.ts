@@ -1,4 +1,4 @@
-import { respondTo } from '../mixins';
+import { themeValues } from '../config';
 
 export const gridTheme = `
 .grid__cell {
@@ -7,20 +7,14 @@ export const gridTheme = `
   }
 
   .grid--theme-4 & {
-    ${respondTo(
-      'medium',
-      `
-    flex-basis: 50%;
-    max-width: 50%;
-    `
-    )}
+    ${themeValues.media('medium')`
+      flex-basis: 50%;
+      max-width: 50%;
+    `}
 
-    ${respondTo(
-      'xlarge',
-      `
-    flex-basis: 25%;
-    max-width: 25%;
-    `
-    )}
+    ${themeValues.media('xlarge')`
+      flex-basis: 25%;
+      max-width: 25%;
+    `}
   }
 }`;

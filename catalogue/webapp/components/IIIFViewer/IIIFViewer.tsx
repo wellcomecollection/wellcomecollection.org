@@ -6,17 +6,15 @@ import {
   useContext,
 } from 'react';
 import styled from 'styled-components';
-import {
-  IIIFCanvas,
-  IIIFManifest,
-  CollectionManifest,
-} from '../../services/iiif/types/manifest/v2';
+import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
+import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
 } from '../../utils/works';
 import { getServiceId } from '../../utils/iiif/v2';
+import { getEnFromInternationalString } from '../../utils/iiif/v3';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -222,9 +220,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
-  const [parentManifest, setParentManifest] = useState<
-    IIIFManifest | undefined
-  >();
+  const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
     string | undefined
   >();
@@ -329,15 +325,21 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     const matchingManifest =
       parentManifest &&
-      parentManifest.manifests &&
-      parentManifest.manifests.find((childManifest: CollectionManifest) => {
+      parentManifest.items &&
+      parentManifest.items.find(canvas => {
         return !transformedManifest
           ? false
-          : childManifest['@id'] === transformedManifest.id;
+          : canvas.id === transformedManifest.id;
       });
 
-    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
-  });
+    // The manifest label, as far as we can tell, exists exclusively at index 1
+    // of the manifest.label. This feels flakey, but as the information doesn't
+    // appear to exist elsewhere, it doesn't look like there's another option.
+    const manifestLabel =
+      matchingManifest?.label &&
+      getEnFromInternationalString(matchingManifest.label, 1);
+    manifestLabel && setCurrentManifestLabel(manifestLabel);
+  }, [transformedManifest, parentManifest]);
 
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -431,6 +433,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       const parentManifest =
         transformedManifest.parentManifestUrl &&
         (await fetchJson(parentManifestUrl as string));
+
       parentManifest && setParentManifest(parentManifest);
     };
 

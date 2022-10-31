@@ -5,18 +5,18 @@ import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
   number: number;
-  color?: ColorSelection;
+  backgroundColor?: ColorSelection;
   description?: 'Part' | 'Episode';
 };
 
 const PartNumberIndicator: FunctionComponent<Props> = ({
   number,
-  color,
+  backgroundColor,
   description = 'Part',
 }: Props): ReactElement<Props> => (
   <div className={font('wb', 5)}>
     {description}
-    <Number color={color} number={number} />
+    <Number backgroundColor={backgroundColor} number={number} />
   </div>
 );
 

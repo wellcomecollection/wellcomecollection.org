@@ -1,11 +1,9 @@
 import { createContext } from 'react';
 import { Work } from '@weco/common/model/catalogue';
+import { SearchResults } from '../../services/iiif/types/manifest/v2';
+import { Manifest } from '@iiif/presentation-3';
 import {
-  IIIFManifest,
-  IIIFRendering,
-  SearchResults,
-} from '../../services/iiif/types/manifest/v2';
-import {
+  DownloadOption,
   TransformedManifest,
   createDefaultTransformedManifest,
 } from '../../types/manifest';
@@ -26,8 +24,8 @@ type Props = {
   currentManifestLabel?: string;
   licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
-  downloadOptions: IIIFRendering[]; // This can be downloads from a manifest or created from a iiif-image location
-  parentManifest: IIIFManifest | undefined;
+  downloadOptions: DownloadOption[]; // This can be downloads from a manifest or created from a iiif-image location
+  parentManifest: Manifest | undefined;
   lang: string;
   mainAreaWidth: number;
   mainAreaHeight: number;
@@ -47,7 +45,7 @@ type Props = {
   showControls: boolean;
   isLoading: boolean;
   setIsLoading: (v: boolean) => void;
-  setParentManifest: (v: IIIFManifest) => void;
+  setParentManifest: (v: Manifest) => void;
   rotatedImages: { canvasIndex: number; rotation: number }[];
   setShowControls: (v: boolean) => void;
   errorHandler?: () => void;

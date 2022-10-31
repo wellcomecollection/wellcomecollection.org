@@ -152,7 +152,7 @@ const StoriesPage: FunctionComponent<Props> = ({
               <FeaturedCardArticle
                 article={firstArticle}
                 background="neutral.700"
-                color="white"
+                textColor="white"
               />
             </Layout12>
           </Space>
