@@ -1,8 +1,7 @@
 import { IIIFManifests } from '../fetch/manifest';
-import { TransformedManifest } from '../../../types/manifest';
+import { TransformedManifest, DownloadOption } from '../../../types/manifest';
 // TODO move each of these util functions from v2 to v3
 import {
-  getDownloadOptionsFromManifest,
   getUiExtensions,
   getVideo,
   isUiEnabled,
@@ -16,7 +15,13 @@ import {
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
-import { getAudio, getTitle } from '../../../utils/iiif/v3';
+
+import {
+  getAudio,
+  getDownloadOptionsFromManifest,
+  getPdf,
+  getTitle,
+} from '../../../utils/iiif/v3';
 
 export function transformManifest(
   iiifManifests: IIIFManifests
@@ -30,15 +35,8 @@ export function transformManifest(
   const downloadEnabled = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
     : true;
-  const downloadOptions = manifestV2
-    ? getDownloadOptionsFromManifest(manifestV2)
-    : [];
   const firstCollectionManifestLocation =
     manifestV2 && getFirstCollectionManifestLocation(manifestV2);
-
-  const pdfRendering =
-    downloadOptions &&
-    downloadOptions.find(option => option.label === 'Download PDF');
   const authService = getAuthService(manifestV2);
   const tokenService = authService && getTokenService(authService);
   const isAnyImageOpen = manifestV2 ? getIsAnyImageOpen(manifestV2) : false;
@@ -59,6 +57,8 @@ export function transformManifest(
   const title = manifestV3?.label ? getTitle(manifestV3.label) : '';
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
+  const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
+  const pdf = getPdf(manifestV3);
   const id = manifestV3?.id || '';
   const parentManifestUrl = manifestV3 && manifestV3.partOf?.[0].id;
   const collectionManifestsCount =
@@ -71,9 +71,6 @@ export function transformManifest(
     video,
     iiifCredit,
     downloadEnabled,
-    downloadOptions,
-    firstCollectionManifestLocation,
-    pdfRendering,
     authService,
     tokenService,
     isAnyImageOpen,
@@ -88,6 +85,11 @@ export function transformManifest(
     id,
     audio,
     services,
+    downloadOptions: [...downloadOptions, pdf].filter(
+      Boolean
+    ) as DownloadOption[], // We add the PDF for items that are PDFs, otherwise they'd have no download option
+    firstCollectionManifestLocation,
+    pdf: pdf,
     parentManifestUrl,
     title,
     collectionManifestsCount,

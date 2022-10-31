@@ -1,5 +1,5 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { IIIFRendering } from '../../services/iiif/types/manifest/v2';
+import { DownloadOption } from '../../types/manifest';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { ReactElement, useContext, useRef } from 'react';
 import styled from 'styled-components';
@@ -77,7 +77,7 @@ export function getCredit(
 type Props = {
   ariaControlsId: string;
   workId: string;
-  downloadOptions: IIIFRendering[];
+  downloadOptions: DownloadOption[];
   title?: string;
   license?: LicenseData;
   iiifImageLocationCredit?: string;
@@ -97,9 +97,6 @@ const Download: NextPage<Props> = ({
 }: Props) => {
   const downloadsContainer = useRef(null);
   const { isEnhanced } = useContext(AppContext);
-  const downloadOptionsWithoutText = downloadOptions.filter(
-    option => option.format !== 'text/plain'
-  );
 
   return (
     <div
@@ -110,7 +107,7 @@ const Download: NextPage<Props> = ({
       })}
       ref={downloadsContainer}
     >
-      {downloadOptionsWithoutText.length > 0 && (
+      {downloadOptions.length > 0 && (
         <>
           <DropdownButton
             label="Downloads"
@@ -121,20 +118,20 @@ const Download: NextPage<Props> = ({
             <DownloadOptions className={font('intb', 5)}>
               <SpacingComponent>
                 <ul className="plain-list no-margin no-padding">
-                  {downloadOptionsWithoutText.map(option => {
-                    const action = option['@id'].match(/\/full\/full\//)
+                  {downloadOptions.map(option => {
+                    const action = option.id?.match(/\/full\/full\//)
                       ? 'download large work image'
-                      : option['@id'].match(/\/full\/760/)
+                      : option.id?.match(/\/full\/760/)
                       ? 'download small work image'
                       : option.label;
                     const format = getFormatString(option.format);
 
                     return (
-                      <li key={option['@id']}>
+                      <li key={option.id}>
                         <DownloadLink
-                          href={option['@id']}
+                          href={option.id}
                           linkText={
-                            option.label === 'Download as PDF'
+                            option.format === 'application/pdf'
                               ? 'Whole item'
                               : option.label
                           }
