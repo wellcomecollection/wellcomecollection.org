@@ -14,7 +14,7 @@ import {
   getDownloadOptionsFromImageUrl,
 } from '../../utils/works';
 import { getServiceId } from '../../utils/iiif/v2';
-import { getEnFromInternationalString } from '../../utils/iiif/v3';
+import { getMultiVolumeLabel } from '../../utils/iiif/v3';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -332,12 +332,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           : canvas.id === transformedManifest.id;
       });
 
-    // The manifest label, as far as we can tell, exists exclusively at index 1
-    // of the manifest.label. This feels flakey, but as the information doesn't
-    // appear to exist elsewhere, it doesn't look like there's another option.
     const manifestLabel =
       matchingManifest?.label &&
-      getEnFromInternationalString(matchingManifest.label, 1);
+      getMultiVolumeLabel(matchingManifest.label, work?.title || '');
     manifestLabel && setCurrentManifestLabel(manifestLabel);
   }, [transformedManifest, parentManifest]);
 

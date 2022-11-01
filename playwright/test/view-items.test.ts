@@ -1,6 +1,7 @@
 import { test as base, expect } from '@playwright/test';
 import {
   multiVolumeItem,
+  multiVolumeItem2,
   itemWithSearchAndStructures,
   itemWithReferenceNumber,
   itemWithAltText,
@@ -253,6 +254,23 @@ test.describe('Scenario 6: Item has multiple volumes', () => {
 
       await page.waitForSelector(
         `css=[data-test-id=current-manifest] >> text="${nextManifestLinkLabel}"`
+      );
+    }
+  });
+
+  test('the multi-volume label should be appropriate', async ({
+    page,
+    context,
+  }) => {
+    if (!isMobile(page)) {
+      await multiVolumeItem(context, page);
+      await page.waitForSelector(
+        `css=[data-test-id=current-manifest] >> text="Copy 1"`
+      );
+
+      await multiVolumeItem2(context, page);
+      await page.waitForSelector(
+        `css=[data-test-id=current-manifest] >> text="Volume 1"`
       );
     }
   });
