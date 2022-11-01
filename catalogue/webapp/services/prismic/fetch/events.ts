@@ -12,9 +12,7 @@ export type PrismicQueryProps = {
 export async function getEvents({
   query,
   pageSize,
-}: PrismicQueryProps): Promise<
-  PrismicResultsList<Event> | PrismicApiError
-> {
+}: PrismicQueryProps): Promise<PrismicResultsList<Event> | PrismicApiError> {
   const graphQuery = gql`query {
     allEventss(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
       edges {

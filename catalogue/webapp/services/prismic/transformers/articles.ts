@@ -1,4 +1,5 @@
-import { PrismicResponse, Story } from '../types/story';
+import { Story } from '../types/story';
+import { PrismicResponse } from '../types';
 
 export async function transformStories(
   allArticless: PrismicResponse
