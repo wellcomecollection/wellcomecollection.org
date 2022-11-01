@@ -1,6 +1,6 @@
-import { transformStories } from '../../services/prismic/transformers/articles';
+import { transformPrismicResponse } from '../../services/prismic/transformers';
 
-describe('transformStories', () => {
+describe('transformPrismicResponse', () => {
   it('transforms Prismic GraphQL response into result list', async () => {
     const samplePrismicResponse = {
       edges: [
@@ -43,7 +43,7 @@ describe('transformStories', () => {
       ],
     };
 
-    const transformResponse = await transformStories(samplePrismicResponse);
+    const transformResponse = await transformPrismicResponse(samplePrismicResponse);
 
     expect(transformResponse).toStrictEqual([
       {

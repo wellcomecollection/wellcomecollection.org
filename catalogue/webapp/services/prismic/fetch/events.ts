@@ -1,7 +1,7 @@
 import { PrismicResultsList, PrismicApiError } from '../types';
 import { Event } from '../types/event';
 import { prismicGraphQLClient, prismicApiError } from '.';
-import { transformStories } from '../transformers/articles';
+import { transformPrismicResponse } from '../transformers';
 
 export type PrismicQueryProps = {
   query: string;
@@ -16,7 +16,7 @@ export async function getEvents({
   try {
     const res = await prismicGraphQLClient('events', query, pageSize);
     const { allEventss } = await res;
-    const exhibitions = await transformStories(allEventss);
+    const exhibitions = await transformPrismicResponse(allEventss);
     return {
       type: 'ResultList',
       results: exhibitions,

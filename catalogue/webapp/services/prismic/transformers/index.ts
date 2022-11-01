@@ -1,7 +1,7 @@
 import { Story } from '../types/story';
 import { PrismicResponse } from '../types';
 
-export async function transformStories(
+export async function transformPrismicResponse(
   allArticless: PrismicResponse
 ): Promise<Story[]> {
   const { edges } = allArticless;
