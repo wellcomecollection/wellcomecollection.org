@@ -4,9 +4,8 @@ import {
   IIIFStructure,
   AuthService,
   AuthServiceService,
-  CollectionManifest,
 } from '../../webapp/services/iiif/types/manifest/v2';
-import { Service } from '@iiif/presentation-3';
+import { Service, Canvas } from '@iiif/presentation-3';
 import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
 
 // TODO now these are all in one place, it's easier to see we may not need them all
@@ -38,7 +37,6 @@ export type TransformedManifest = {
   isAnyImageOpen: boolean;
   isTotallyRestricted: boolean;
   isCollectionManifest: boolean;
-  manifests: CollectionManifest[];
   canvases: IIIFCanvas[];
   parentManifestUrl: string | undefined;
   needsModal: boolean;
@@ -49,6 +47,7 @@ export type TransformedManifest = {
   downloadOptions: DownloadOption[];
   pdf: DownloadOption | undefined;
   searchService: Service | undefined;
+  manifests: Canvas[];
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {

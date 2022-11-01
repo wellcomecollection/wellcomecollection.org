@@ -407,16 +407,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // from: https://wellcomecollection.org/works/f6qp7m32/items
     async function getDisplayManifest(
       transformedManifest: TransformedManifest,
-      manifestIndex
+      manifestIndex: number
     ): Promise<TransformedManifest> {
       if (isCollectionManifest) {
         const selectedCollectionManifestLocation =
-          manifests?.[manifestIndex]['@id'];
-        const selectedCollectionManifest =
-          selectedCollectionManifestLocation &&
-          (await fetchIIIFPresentationManifest(
-            selectedCollectionManifestLocation
-          ));
+          manifests?.[manifestIndex].id;
+        const selectedCollectionManifest = selectedCollectionManifestLocation
+          ? await fetchIIIFPresentationManifest(
+              selectedCollectionManifestLocation
+            )
+          : undefined;
         const firstChildTransformedManifest =
           selectedCollectionManifest &&
           transformManifest(selectedCollectionManifest);

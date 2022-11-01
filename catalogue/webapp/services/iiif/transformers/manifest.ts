@@ -46,7 +46,6 @@ export function transformManifest(
   );
 
   const needsModal = checkModalRequired(authService, isAnyImageOpen);
-  const manifests = manifestV2?.manifests || [];
   const structures = manifestV2?.structures || [];
 
   // V3
@@ -57,8 +56,8 @@ export function transformManifest(
   const pdf = getPdf(manifestV3);
   const id = manifestV3?.id || '';
   const parentManifestUrl = manifestV3 && manifestV3.partOf?.[0].id;
-  const collectionManifestsCount =
-    manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
+  const manifests = manifestV3?.items?.filter(c => c.type === 'Manifest') || [];
+  const collectionManifestsCount = manifests?.length || 0;
   const searchService = getSearchService(manifestV3);
   const isCollectionManifest = manifestV3
     ? manifestV3.type === 'Collection'
@@ -75,7 +74,6 @@ export function transformManifest(
     tokenService,
     isAnyImageOpen,
     isTotallyRestricted,
-    manifests,
     canvases,
     needsModal,
     structures,
@@ -93,5 +91,6 @@ export function transformManifest(
     collectionManifestsCount,
     searchService,
     isCollectionManifest,
+    manifests,
   };
 }
