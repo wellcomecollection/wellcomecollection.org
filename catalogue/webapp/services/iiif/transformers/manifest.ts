@@ -45,9 +45,6 @@ export function transformManifest(
     isAnyImageOpen
   );
 
-  const isCollectionManifest = manifestV2
-    ? manifestV2['@type'] === 'sc:Collection'
-    : false;
   const needsModal = checkModalRequired(authService, isAnyImageOpen);
   const manifests = manifestV2?.manifests || [];
   const structures = manifestV2?.structures || [];
@@ -63,6 +60,9 @@ export function transformManifest(
   const collectionManifestsCount =
     manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
   const searchService = getSearchService(manifestV3);
+  const isCollectionManifest = manifestV3
+    ? manifestV3.type === 'Collection'
+    : false;
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
@@ -75,7 +75,6 @@ export function transformManifest(
     tokenService,
     isAnyImageOpen,
     isTotallyRestricted,
-    isCollectionManifest,
     manifests,
     canvases,
     needsModal,
@@ -93,5 +92,6 @@ export function transformManifest(
     title,
     collectionManifestsCount,
     searchService,
+    isCollectionManifest,
   };
 }
