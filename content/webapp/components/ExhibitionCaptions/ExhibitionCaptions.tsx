@@ -248,7 +248,7 @@ const Stop: FunctionComponent<{
         >
           <div className="flex flex--wrap container">
             <Tombstone>
-              {!hasContext && (
+              {!hasContext && title && (
                 <TombstoneTitle
                   level={tombstoneHeadingLevel}
                   id={dasherizeShorten(`${title}`)}
