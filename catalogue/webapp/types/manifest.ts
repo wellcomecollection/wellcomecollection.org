@@ -1,20 +1,29 @@
 import {
   IIIFMediaElement,
-  IIIFCanvas,
   IIIFStructure,
-  AuthService,
+  AuthService as AuthService2,
   AuthServiceService,
   CollectionManifest,
   Service as Service2,
 } from '../../webapp/services/iiif/types/manifest/v2';
-import { Service } from '@iiif/presentation-3';
+import { Service, AuthExternalService } from '@iiif/presentation-3';
 import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
 
+type ThumbnailImage = { url: string | undefined; width: number };
+
+export type TransformedCanvas = {
+  id: string;
+  width: number | undefined;
+  height: number | undefined;
+  imageServiceId: string | undefined;
+  hasRestrictedImage: boolean;
+  label: string | undefined;
+  textServiceId: string | undefined;
+  thumbnailImage: ThumbnailImage | undefined;
+};
 // TODO now these are all in one place, it's easier to see we may not need them all
 // For example:
-// Do we need searchService and services?
 // Do we need collectionManifestsCount and isCollectionManifest?
-// Do we need canvases and canvasCount?
 // These should be cleaned up as we move to v3
 
 export type DownloadOption = {
@@ -34,13 +43,12 @@ export type TransformedManifest = {
   iiifCredit?: string;
   downloadEnabled?: boolean;
   firstCollectionManifestLocation?: string;
-  authService: AuthService | undefined;
+  authService: AuthService2 | undefined;
   tokenService: AuthServiceService | undefined;
   isAnyImageOpen: boolean;
   isTotallyRestricted: boolean;
   isCollectionManifest: boolean;
   manifests: CollectionManifest[];
-  canvases: IIIFCanvas[];
   parentManifestUrl: string | undefined;
   needsModal: boolean;
   searchService: Service2 | undefined;
@@ -50,6 +58,8 @@ export type TransformedManifest = {
   services: Service[];
   downloadOptions: DownloadOption[];
   pdf: DownloadOption | undefined;
+  canvases: TransformedCanvas[];
+  restrictedService: AuthExternalService | undefined;
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {
@@ -76,5 +86,6 @@ export function createDefaultTransformedManifest(): TransformedManifest {
       sounds: [],
     },
     services: [],
+    restrictedService: undefined,
   };
 }
