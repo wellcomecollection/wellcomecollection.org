@@ -42,7 +42,23 @@ export type PrismicNode = {
     promo: Promo[];
   };
 };
+
 export type Story = {
+  image: {
+    title: string;
+    image: Image;
+    description: string;
+    link: { id: string; type: string };
+  };
+  standfirst: { text: RichTextField };
+  id: string;
+  contributors: Contributor[];
+  lastPublicationDate: string;
+  title: string;
+  type: string;
+};
+
+export type Exhibition = {
   image: {
     title: string;
     image: Image;
@@ -65,7 +81,7 @@ export type PrismicApiError = {
   type: 'Error';
 };
 
-export type StoryResultsList<Result> = {
+export type PrismicResultsList<Result> = {
   type: 'ResultList';
   totalResults: number;
   results: Result[];

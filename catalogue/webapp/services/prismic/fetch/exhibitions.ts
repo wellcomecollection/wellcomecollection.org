@@ -1,5 +1,5 @@
 import {
-  Story,
+  Exhibition,
   PrismicResultsList,
   PrismicApiError,
 } from '@weco/common/model/story';
@@ -20,12 +20,14 @@ export type PrismicQueryProps = {
   pageSize?: number;
 };
 
-export async function getStories({
+export async function getExhibitions({
   query,
   pageSize,
-}: PrismicQueryProps): Promise<PrismicResultsList<Story> | PrismicApiError> {
+}: PrismicQueryProps): Promise<
+  PrismicResultsList<Exhibition> | PrismicApiError
+> {
   const graphQuery = gql`query {
-    allArticless(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
+    allExhibitionss(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
       edges {
         node {
           title
@@ -38,14 +40,14 @@ export async function getStories({
             }
           }
           body {
-            ...on ArticlesBodyStandfirst {
+            ...on ExhibitionsBodyStandfirst {
               primary {
                 text
               }
             }
           }
           promo {
-            ...on ArticlesPromoEditorialimage {
+            ...on ExhibitionsPromoEditorialimage {
               primary {
                 image
                 link
@@ -59,12 +61,12 @@ export async function getStories({
   }`;
   try {
     const res = await prismicGraphQLClient(graphQuery);
-    const { allArticless } = await res;
-    const stories = await transformStories(allArticless);
+    const { allExhibitionss } = await res;
+    const exhibitions = await transformStories(allExhibitionss);
     return {
       type: 'ResultList',
-      results: stories,
-      totalResults: stories.length,
+      results: exhibitions,
+      totalResults: exhibitions.length,
     };
   } catch (error) {
     console.log(error);
