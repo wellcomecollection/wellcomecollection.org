@@ -108,7 +108,9 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                 <SearchPagination totalPages={images?.totalPages} darkBg />
               </ResultsPaginationWrapper>
             </Space>
-            <ImageEndpointSearchResults images={images} />
+            <main>
+              <ImageEndpointSearchResults images={images} />
+            </main>
           </div>
         )}
         {images?.results.length === 0 && (

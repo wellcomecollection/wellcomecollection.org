@@ -14,12 +14,13 @@ import {
 } from '@weco/common/views/components/WorksLink/WorksLink';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import styled from 'styled-components';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import { useRouter } from 'next/router';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -42,44 +43,122 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     'production.dates.from': productionDatesFrom,
     'production.dates.to': productionDatesTo,
   } = worksRouteProps;
-
+  const router = useRouter();
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
     const link = toLink({ ...worksRouteProps }, 'works_search_context');
     setLink(link);
   }, [worksRouteProps]);
 
-  const showSort = true;
+  const [isComponentMounted, setIsComponentMounted] = useState(false);
+  useEffect(() => setIsComponentMounted(true), []);
+
+  const [sortOrder, setSortOrder] = useState(router.query.sortOrder || '');
+
+  useEffect(() => {
+    if (router.query.sortOrder !== sortOrder) {
+      // get the form element and run the submit function
+      const form = document.getElementById('searchPageForm');
+      form?.dispatchEvent(
+        new window.Event('submit', { cancelable: true, bubbles: true })
+      );
+    }
+  }, [sortOrder]);
+
+  const options = [
+    {
+      value: '',
+      text: 'Relevance',
+    },
+    {
+      value: 'asc',
+      text: 'Oldest to newest',
+    },
+    {
+      value: 'desc',
+      text: 'Newest to oldest',
+    },
+  ];
 
   if (works.totalResults === 0) return <p>nothing</p>;
 
   return (
     <>
       <h1 className="visually-hidden">Works Search Page</h1>
-      <div className="container">
-        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
-          <h2 style={{ marginBottom: 0 }}>Filters</h2>
-          {showSort && <div>Sort Component?</div>}
-        </Space>
-      </div>
 
       {works.results.length > 0 && (
-        <div className="container" role="main">
+        <div className="container">
           <Space
             v={{
               size: 'l',
               properties: ['padding-top', 'padding-bottom'],
             }}
           >
-            <ResultsPaginationWrapper>
-              {works.totalResults > 0 && (
-                <div>{works.totalResults} results</div>
-              )}
+            <ResultsPaginationWrapper aria-label="Sort Search Results">
+              <div>
+                <noscript>
+                  <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+                    <span className="visually-hidden">Sort by:</span>
+                    <select name="sort" form="searchPageForm">
+                      {[
+                        {
+                          value: '',
+                          text: 'Relevance',
+                        },
+                        {
+                          value: 'production.dates',
+                          text: 'Production dates',
+                        },
+                      ].map(o => (
+                        <option key={o.value} value={o.value}>
+                          {o.text}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="visually-hidden">Sort order:</span>
+                    <select name="sortOrder" form="searchPageForm">
+                      {[
+                        {
+                          value: 'asc',
+                          text: 'Ascending',
+                        },
+                        {
+                          value: 'desc',
+                          text: 'Descending',
+                        },
+                      ].map(o => (
+                        <option key={o.value} value={o.value}>
+                          {o.text}
+                        </option>
+                      ))}
+                    </select>
+                  </Space>
+                </noscript>
+                {isComponentMounted && (
+                  <>
+                    <span className="visually-hidden">sort results by:</span>
+                    <select
+                      value={sortOrder || ''}
+                      form="searchPageForm"
+                      name="sortOrder"
+                      onChange={e => setSortOrder(e.target.value)}
+                    >
+                      {options.map(o => (
+                        <option key={o.value} value={o.value}>
+                          {o.text}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                )}
+              </div>
               <SearchPagination totalPages={works?.totalPages} />
             </ResultsPaginationWrapper>
           </Space>
           <Space v={{ size: 'l', properties: ['padding-top'] }}>
-            <WorksSearchResults works={works} />
+            <main>
+              <WorksSearchResults works={works} />
+            </main>
           </Space>
         </div>
       )}
