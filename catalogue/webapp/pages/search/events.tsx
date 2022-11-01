@@ -5,7 +5,10 @@ import { getServerData } from '@weco/common/server-data';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
-import { getEvents } from '../../services/prismic/fetch/events';
+import {
+  getEvents,
+  PrismicQueryProps,
+} from '../../services/prismic/fetch/events';
 
 type Props = {
   eventResponseList;
@@ -63,7 +66,7 @@ export const getServerSideProps: GetServerSideProps<
   const eventResponseList = await getEvents({
     query,
     pageSize: 5,
-  });
+  } as PrismicQueryProps);
 
   return {
     props: removeUndefinedProps({
