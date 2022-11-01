@@ -1,16 +1,15 @@
 import {
   IIIFManifest,
   IIIFMetadata,
-  IIIFCanvas,
   IIIFStructure,
   IIIFMediaElement,
   Service,
   AuthService,
   AuthServiceService,
   IIIFAnnotationResource,
-  IIIFThumbnailService,
   EmptyIIIFMediaElement,
 } from '../../../../webapp/services/iiif/types/manifest/v2';
+import { TransformedCanvas } from '../../../types/manifest';
 import { Manifest, Service as ServiceV3 } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
@@ -20,32 +19,6 @@ const isFilledMediaElement = (
 ): element is IIIFMediaElement => {
   return '@id' in element;
 };
-
-export function getServiceId(canvas?: IIIFCanvas): string | undefined {
-  const serviceSrc = canvas?.images[0]?.resource?.service;
-  if (serviceSrc) {
-    if (Array.isArray(serviceSrc)) {
-      const service = serviceSrc.find(
-        item => item['@context'] === 'http://iiif.io/api/image/2/context.json'
-      );
-      return service && service['@id'];
-    } else {
-      return serviceSrc['@id'];
-    }
-  }
-}
-
-// We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
-// The top-level holds information about whether the item contains _any_ images with an authService.
-// Individual images hold information about their own authService (if it has one).
-// So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
-// This allows us to determine whether or not to show the viewer at all.
-export function getIsAnyImageOpen(manifest: IIIFManifest): boolean {
-  const { sequences } = manifest;
-  const canvases = sequences?.map(sequence => sequence.canvases).flat() || [];
-
-  return canvases.some(canvas => !isImageRestricted(canvas));
-}
 
 export function getAuthService(
   iiifManifest?: IIIFManifest
@@ -133,29 +106,6 @@ export function getTokenService(
 const restrictedAuthServiceUrl =
   'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
-export function getImageAuthService(
-  canvas: IIIFCanvas
-): AuthService | string | null {
-  const serviceArray = canvas?.images?.[0]?.resource?.service?.[0]?.service;
-  const authService =
-    serviceArray &&
-    serviceArray.find(
-      service =>
-        service['@context'] === 'http://iiif.io/api/auth/0/context.json' ||
-        service === restrictedAuthServiceUrl
-    );
-  return authService || null;
-}
-
-export function isImageRestricted(canvas: IIIFCanvas): boolean {
-  const imageAuthService = getImageAuthService(canvas);
-
-  return Boolean(
-    imageAuthService?.['@id'] === restrictedAuthServiceUrl ||
-      imageAuthService === restrictedAuthServiceUrl
-  );
-}
-
 export function checkModalRequired(
   authService: AuthService | undefined,
   isAnyImageOpen: boolean
@@ -216,17 +166,6 @@ export function getIIIFMetadata(
   return iiifManifest.metadata.find(data => data.label === label);
 }
 
-export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
-  const sequence =
-    iiifManifest.sequences &&
-    iiifManifest.sequences.find(
-      sequence =>
-        sequence['@type'] === 'sc:Sequence' &&
-        sequence.compatibilityHint !== 'displayIfContentUnsupported'
-    );
-  return sequence ? sequence.canvases : [];
-}
-
 export function getStructures(iiifManifest: IIIFManifest): IIIFStructure[] {
   return iiifManifest?.structures || [];
 }
@@ -236,7 +175,7 @@ export function getStructures(iiifManifest: IIIFManifest): IIIFStructure[] {
 // This means we will often display repetitive links to the essentially the same thing.
 // Until we can improve the data at source, this function groups structures that have the same label attached to consecutive pages into a single structure.
 export function groupStructures(
-  canvases: IIIFCanvas[],
+  canvases: TransformedCanvas[],
   structures: IIIFStructure[]
 ): IIIFStructure[] {
   const clonedStructures = cloneDeep(structures);
@@ -327,21 +266,6 @@ export function getSearchService(manifest: IIIFManifest): Service | undefined {
     'http://iiif.io/api/search/0/context.json'
   ) {
     return manifest.service;
-  }
-}
-
-// This is necessary while we are in the process of switching the source of the iiif presentation manifests
-// There is a slight (temporary) difference between the manifest served from wellcomelibrary.org
-// and the one served from iiif.wellcomecollection.org
-// In the former canvas.thumbnail.service is an object and in the latter it is an array.
-export function getThumbnailService(
-  canvas: IIIFCanvas
-): IIIFThumbnailService | undefined {
-  const service = canvas?.thumbnail?.service;
-  if (Array.isArray(service)) {
-    return service[0];
-  } else {
-    return service;
   }
 }
 
