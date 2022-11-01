@@ -1,4 +1,4 @@
-import { transformStories } from '../../services/prismic';
+import { transformStories } from '../../services/prismic/transformers/articles';
 
 describe('transformStories', () => {
   it('transforms Prismic GraphQL response into result list', async () => {
