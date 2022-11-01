@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import { IIIFCanvas } from '../services/iiif/types/manifest/v2';
 import { Audio } from '../services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '../utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
-import { getServiceId } from '../utils/iiif/v2';
-import { getWork, getCanvasOcr } from '../services/catalogue/works';
+import { getWork } from '../services/catalogue/works';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
@@ -34,7 +32,10 @@ import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { looksLikeCanonicalId } from 'services/catalogue';
 import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
 import { transformManifest } from '../services/iiif/transformers/manifest';
+import { fetchCanvasOcr } from '../services/iiif/fetch/canvasOcr';
+import { transformCanvasOcr } from '../services/iiif/transformers/canvasOcr';
 import {
+  TransformedCanvas,
   TransformedManifest,
   createDefaultTransformedManifest,
 } from '../types/manifest';
@@ -74,7 +75,7 @@ type Props = {
   pageIndex: number;
   canvasIndex: number;
   canvasOcr?: string;
-  currentCanvas?: IIIFCanvas;
+  currentCanvas?: TransformedCanvas;
   video?: Video; // TODO - remove as this is on manifestData
   audio?: Audio; // TODO - remove as this is on manifestData
   iiifImageLocation?: DigitalLocation;
@@ -113,9 +114,9 @@ const ItemPage: NextPage<Props> = ({
 
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
-  const serviceId = getServiceId(currentCanvas);
-  const mainImageService = serviceId && {
-    '@id': serviceId,
+  const { imageServiceId = '' } = { ...currentCanvas };
+  const mainImageService = imageServiceId && {
+    '@id': imageServiceId,
   };
   const sharedPaginatorProps = {
     totalResults: canvases?.length || 1,
@@ -310,7 +311,6 @@ const ItemPage: NextPage<Props> = ({
           </WorkLink>
         </div>
       </Modal>
-
       {showViewer &&
         ((mainImageService && currentCanvas) || iiifImageLocation) && (
           <IIIFViewer
@@ -433,9 +433,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       );
       const { canvases } = displayManifest;
       const currentCanvas = canvases[canvasIndex];
-      const canvasOcr = currentCanvas
-        ? await getCanvasOcr(currentCanvas)
-        : undefined;
+      const canvasOcrText = await fetchCanvasOcr(currentCanvas);
+      const canvasOcr = transformCanvasOcr(canvasOcrText);
 
       return {
         props: removeUndefinedProps({
