@@ -58,7 +58,6 @@ const Metadata = styled.span`
 
 const ImageWrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-bottom'] },
-  h: { size: 'l', properties: ['margin-right'] },
 })`
   display: flex;
   align-items: center;
@@ -70,6 +69,7 @@ const ImageWrapper = styled(Space).attrs({
     flex: 0 1 auto;
     height: auto;
     max-height: 350px;
+    margin-right: 30px;
   `};
 `;
 
