@@ -1,6 +1,5 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
-import { getServiceId } from '../../utils/iiif/v2';
 import IIIFViewerImage from './IIIFViewerImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
@@ -13,7 +12,7 @@ import Paginator, {
 } from './RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
-import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
+import { TransformedCanvas } from '../../types/manifest';
 import { FunctionComponent } from 'react';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { arrow } from '@weco/common/icons';
@@ -147,7 +146,7 @@ export const PaginatorButtons = (
 type NoScriptViewerProps = {
   mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
   thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
-  currentCanvas?: IIIFCanvas;
+  currentCanvas?: TransformedCanvas;
   lang: string;
   canvasOcr?: string;
   workId: string;
@@ -156,7 +155,7 @@ type NoScriptViewerProps = {
   imageUrl?: string;
   thumbnailsRequired: boolean;
   iiifImageLocation?: { url: string };
-  canvases: IIIFCanvas[];
+  canvases: TransformedCanvas[];
   canvasIndex: number;
 };
 
@@ -175,7 +174,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   pageIndex,
   pageSize,
 }: NoScriptViewerProps) => {
-  const mainImageService = { '@id': getServiceId(currentCanvas) };
+  const mainImageService = { '@id': currentCanvas?.imageServiceId };
 
   const navigationCanvases = [...Array(pageSize)]
     .map((_, i) => pageSize * pageIndex + i)

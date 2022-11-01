@@ -15,13 +15,11 @@ import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
-import {
-  IIIFCanvas,
-  SearchResults,
-} from '../../services/iiif/types/manifest/v2';
+import { SearchResults } from '../../services/iiif/types/manifest/v2';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { scrollViewer } from './MainViewer';
+import { TransformedCanvas } from '../../types/manifest';
 
 const Defs = styled.svg`
   position: absolute;
@@ -50,7 +48,7 @@ type CellProps = {
     mainViewerRef: RefObject<FixedSizeList>;
     activeIndex: number;
     setActiveIndex: (i: number) => void;
-    canvases: IIIFCanvas[];
+    canvases: TransformedCanvas[];
     searchResults: SearchResults;
     mainAreaWidth: number;
   };
@@ -75,7 +73,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     searchResults.resources.find(
       resource =>
         currentCanvas &&
-        new URL(currentCanvas['@id']).pathname === new URL(resource.on).pathname
+        new URL(currentCanvas.id).pathname === new URL(resource.on).pathname
     )
   );
 

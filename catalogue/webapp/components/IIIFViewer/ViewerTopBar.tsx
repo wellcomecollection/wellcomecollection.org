@@ -290,14 +290,14 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
           )}
         </LeftZone>
         <MiddleZone className="viewer-desktop">
-          {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
+          {canvases?.length > 1 && !showZoomed && !isResizing && (
             <>
               <span data-test-id="active-index">{`${
-                activeIndex + 1 || ''
+                activeIndex + 1 || 0
               }`}</span>
-              {`/${(canvases && canvases.length) || ''}`}{' '}
-              {!(canvases[activeIndex].label.trim() === '-') &&
-                `(page ${canvases[activeIndex].label.trim()})`}
+              {`/${canvases?.length || ''}`}{' '}
+              {!(canvases[activeIndex]?.label?.trim() === '-') &&
+                `(page ${canvases[activeIndex]?.label?.trim()})`}
             </>
           )}
         </MiddleZone>

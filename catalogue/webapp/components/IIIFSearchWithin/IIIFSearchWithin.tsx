@@ -178,7 +178,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
               const matchingPathname = matchingResources?.[0]?.on || '';
               return (
                 new URL(matchingPathname).pathname ===
-                new URL(canvas['@id']).pathname
+                new URL(canvas.id).pathname
               );
             });
             const matchingCanvas = index && canvases[index];
@@ -204,7 +204,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                         canvases && canvases.length
                       }`
                     } ${
-                      matchingCanvas && matchingCanvas.label.trim() !== '-'
+                      matchingCanvas?.label?.trim() !== '-'
                         ? ` (page ${matchingCanvas.label})`
                         : ''
                     }`}
