@@ -37,7 +37,7 @@ type CanvasLink = {
 };
 
 const ImageInfoWrapper = styled.div`
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('large')`
     display: flex;
   `}
 `;
@@ -57,38 +57,50 @@ const Metadata = styled.span`
 `;
 
 const ImageWrapper = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom'] },
+  v: { size: 'l', properties: ['margin-bottom'] },
+  h: { size: 'l', properties: ['margin-right'] },
 })`
-  ${props => props.theme.media('medium')`
-    padding-right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${props => props.theme.color('black')};
+  height: 50vh;
+
+  ${props => props.theme.media('large')`
     flex: 0 1 auto;
     height: auto;
-  `}
+    max-height: 350px;
+  `};
 `;
 
 const ImageLink = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  display: block;
-  width: 100%;
-  max-width: 400px;
-
-  ${props => props.theme.media('medium')`
-    margin: auto;
-  `}
+  padding: 10px;
+  height: 100%;
 
   img {
-    max-width: 100%;
-    height: auto;
-    width: auto;
-
-    ${props => props.theme.media('medium')`
-      max-height: 350px;
-    `}
+    max-width: calc(100% - 20px);
+    max-height: 100%;
   }
+
+  ${props => props.theme.media('large')`
+    padding: 0;
+    max-width: 400px;
+    height: calc(100% - 20px);
+    width: 100%;
+    margin: auto;
+
+    img {
+      width: auto;
+    }
+  `}
 `;
 
 const InfoWrapper = styled.div`
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('large')`
     flex: 1 0 60%;
     height: 100%;
   `}

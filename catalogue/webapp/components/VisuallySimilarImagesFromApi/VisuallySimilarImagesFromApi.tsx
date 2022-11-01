@@ -14,23 +14,35 @@ type Props = {
   onClickImage: (image: ImageType) => void;
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
+})`
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
+  flex-wrap: wrap;
   min-height: 120px;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('large')`
     flex-wrap: nowrap;
   `}
 
+  a {
+    flex: 1 0 auto;
+
+    ${props => props.theme.media('medium')`
+      flex: 0 1 auto;
+    `}
+  }
+
   img {
     margin-right: 10px;
-    margin-bottom: 10px;
-    height: auto;
-    width: calc(100% - 10px);
+    width: auto;
     max-height: 120px;
-    max-width: 190px;
+
+    ${props => props.theme.media('large')`
+      max-width: 150px;
+      width: calc(100% - 10px);
+    `};
   }
 `;
 
@@ -95,7 +107,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
         We use machine learning to find images in our collection with similar
         shapes and features.
         <br />
-        <a href="mailto:digital@wellcomecollection.org?subject=Visually+similar+images+feedback">
+        <a href="mailto:digital@wellcomecollection.org?subject=Visually similar images feedback">
           Let us know
         </a>{' '}
         if something doesn&rsquo;t look right.
