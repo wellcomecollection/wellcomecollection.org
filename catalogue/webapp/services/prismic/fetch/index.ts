@@ -1,17 +1,75 @@
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
-import { GraphQLClient } from 'graphql-request';
-import { PrismicApiError } from "../types";
+import { gql, GraphQLClient } from 'graphql-request';
+import { PrismicApiError } from '../types';
+import { capitalize } from '@weco/common/utils/grammar';
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
   client: prismic.Client;
 };
 
+export const typesToPrismicGraphQLSchemaTypes = {
+  // types to graphql query schema types,
+  events: 'allEventss',
+  exhibitions: 'allExhibitionss',
+  articles: 'allArticless',
+  series: 'allSeriess',
+  webcomics: 'allWebcomicss',
+};
+
+export const prismicGraphQLQuery = (
+  type: string,
+  query?: string | string[],
+  pageSize?: number
+) => {
+  return gql`
+    query {
+      ${
+        typesToPrismicGraphQLSchemaTypes[type]
+      }(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
+        edges {
+          node {
+            title
+            _meta { id, lastPublicationDate }
+            contributors {
+              contributor {
+                ...on People {
+                  name
+                }
+              }
+            }
+            body {
+              ...on ${capitalize(type)}BodyStandfirst {
+                primary {
+                  text
+                }
+              }
+            }
+            promo {
+              ...on ${capitalize(type)}PromoEditorialimage {
+                primary {
+                  image
+                  link
+                  caption
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+};
+
 const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
 const client = prismic.createClient(endpoint, { fetch });
 
-export async function prismicGraphQLClient(query: string) {
+export async function prismicGraphQLClient(
+  type: string,
+  query: string,
+  pageSize: number
+) {
   const graphqlClient = new GraphQLClient(
     prismic.getGraphQLEndpoint('wellcomecollection'),
     {
@@ -19,8 +77,8 @@ export async function prismicGraphQLClient(query: string) {
       fetch: client.graphQLFetch,
     }
   );
-
-  return graphqlClient.request(query);
+  const graphQLQuery = prismicGraphQLQuery(type, query, pageSize);
+  return graphqlClient.request(graphQLQuery);
 }
 
 export const prismicApiError = (): PrismicApiError => ({
