@@ -181,7 +181,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                 new URL(canvas.id).pathname
               );
             });
-            const matchingCanvas = index && canvases[index];
+            const matchingCanvas = (index && canvases[index]) || undefined;
             return (
               <ListItem key={i}>
                 <SearchResult
@@ -205,7 +205,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                       }`
                     } ${
                       matchingCanvas?.label?.trim() !== '-'
-                        ? ` (page ${matchingCanvas.label})`
+                        ? ` (page ${matchingCanvas?.label})`
                         : ''
                     }`}
                   </HitData>

@@ -1,7 +1,7 @@
 import { missingAltTextMessage } from '../../catalogue/works';
 import { TextJson } from '../fetch/canvasOcr';
 
-export function transformCanvasOcr(textJson: TextJson): string {
+export function transformCanvasOcr(textJson: TextJson | undefined): string | undefined {
   return textJson?.items
       ?.filter(item => {
         return item.body.type === 'TextualBody';
