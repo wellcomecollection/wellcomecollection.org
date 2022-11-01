@@ -1,6 +1,5 @@
 import {
   IIIFManifest,
-  IIIFRendering,
   IIIFMetadata,
   IIIFCanvas,
   IIIFStructure,
@@ -217,41 +216,6 @@ export function getIIIFMetadata(
   return iiifManifest.metadata.find(data => data.label === label);
 }
 
-export function getDownloadOptionsFromManifest(
-  iiifManifest: IIIFManifest
-): IIIFRendering[] {
-  const sequence = iiifManifest.sequences?.find(
-    sequence => sequence['@type'] === 'sc:Sequence'
-  );
-  const sequenceRendering = sequence?.rendering ?? [];
-  const sequenceRenderingArray: IIIFRendering[] = Array.isArray(
-    sequenceRendering
-  )
-    ? sequenceRendering
-    : [sequenceRendering];
-
-  const pdfRenderingArray: IIIFRendering[] = iiifManifest.mediaSequences
-    ? iiifManifest.mediaSequences.reduce((acc: IIIFRendering[], sequence) => {
-        return acc.concat(
-          sequence.elements
-            .filter(isFilledMediaElement)
-            .map(element => {
-              return {
-                '@id': element['@id'],
-                format: element.format,
-                label: `Download ${
-                  element.format === 'application/pdf' ? 'PDF' : 'file'
-                }`,
-                width: element.width,
-              };
-            })
-            .filter(Boolean)
-        );
-      }, [])
-    : [];
-  return [...sequenceRenderingArray, ...pdfRenderingArray].filter(Boolean);
-}
-
 export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
   const sequence =
     iiifManifest.sequences &&
@@ -350,20 +314,6 @@ export function getIIIFPresentationCredit(
 ): string | undefined {
   const attribution = getIIIFMetadata(manifest, 'Attribution');
   return attribution?.value.split('<br/>')[0];
-}
-
-export function getSearchService(manifest: IIIFManifest): Service | undefined {
-  if (Array.isArray(manifest.service)) {
-    return manifest.service.find(
-      service =>
-        service['@context'] === 'http://iiif.io/api/search/0/context.json'
-    );
-  } else if (
-    manifest.service?.['@context'] ===
-    'http://iiif.io/api/search/0/context.json'
-  ) {
-    return manifest.service;
-  }
 }
 
 // This is necessary while we are in the process of switching the source of the iiif presentation manifests

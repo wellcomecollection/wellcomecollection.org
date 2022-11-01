@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { isString } from '@weco/common/utils/array';
+import { isJson, isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchExhibitionRelatedContent } from '../../../services/prismic/fetch/exhibitions';
 import { transformExhibitionRelatedContent } from '../../../services/prismic/transformers/exhibitions';
@@ -14,11 +14,12 @@ export default async (
 ): Promise<void> => {
   const { params } = req.query;
 
-  if (!isString(params)) {
-    return res.status(400).json({ description: 'Missing params' });
+  // Reject anybody trying to send nonsense to the API
+  if (!isString(params) || !isJson(params)) {
+    return res.status(404).json({ notFound: true });
   }
 
-  const parsedParams: string[] = JSON.parse(params);
+  const parsedParams = JSON.parse(params);
   const client = createClient({ req });
 
   if (parsedParams.length === 0) {
