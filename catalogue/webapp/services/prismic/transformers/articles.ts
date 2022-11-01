@@ -1,7 +1,7 @@
-import { PrismicResponseStory, Story } from '@weco/common/model/story';
+import { PrismicResponse, Story } from '../types/story';
 
 export async function transformStories(
-  allArticless: PrismicResponseStory
+  allArticless: PrismicResponse
 ): Promise<Story[]> {
   const { edges } = allArticless;
   const stories = edges.map(edge => {

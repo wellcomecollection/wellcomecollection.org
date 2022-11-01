@@ -1,8 +1,5 @@
-import {
-  Story,
-  PrismicResultsList,
-  PrismicApiError,
-} from '@weco/common/model/story';
+import { Story } from '../types/story';
+import { PrismicResultsList, PrismicApiError } from '../types/index';
 import { prismicGraphQLClient } from '.';
 import { transformStories } from '../transformers/articles';
 import { gql } from 'graphql-request';
