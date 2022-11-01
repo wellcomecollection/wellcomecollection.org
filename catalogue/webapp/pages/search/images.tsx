@@ -40,9 +40,10 @@ const Wrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('black')};
 `;
 
-const PaginationWrapper = styled.div`
+const ResultsPaginationWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
@@ -56,6 +57,8 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
     const link = toLink({ ...imagesRouteProps }, 'images_search_context');
     setLink(link);
   }, [imagesRouteProps]);
+
+  const showSort = true;
 
   return (
     <>
@@ -84,6 +87,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       <div className="container">
         <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
           <h2 style={{ marginBottom: 0 }}>Filters</h2>
+          {showSort && <div>Sort Component?</div>}
         </Space>
       </div>
 
@@ -97,9 +101,12 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               }}
               style={{ color: 'white' }}
             >
-              <PaginationWrapper>
+              <ResultsPaginationWrapper>
+                {images.totalResults > 0 && (
+                  <div>{images.totalResults} results</div>
+                )}
                 <SearchPagination totalPages={images?.totalPages} darkBg />
-              </PaginationWrapper>
+              </ResultsPaginationWrapper>
             </Space>
             <ImageEndpointSearchResults images={images} />
           </div>
@@ -108,7 +115,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           <SearchNoResults
             query={query}
             hasFilters={!!colorFilter}
-            color="white"
+            textColor="white"
           />
         )}
       </Wrapper>

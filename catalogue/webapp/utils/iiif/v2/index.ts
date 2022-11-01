@@ -255,20 +255,6 @@ export function getIIIFPresentationCredit(
   return attribution?.value.split('<br/>')[0];
 }
 
-export function getSearchService(manifest: IIIFManifest): Service | undefined {
-  if (Array.isArray(manifest.service)) {
-    return manifest.service.find(
-      service =>
-        service['@context'] === 'http://iiif.io/api/search/0/context.json'
-    );
-  } else if (
-    manifest.service?.['@context'] ===
-    'http://iiif.io/api/search/0/context.json'
-  ) {
-    return manifest.service;
-  }
-}
-
 export async function getIIIFManifest(
   url: string
 ): Promise<IIIFManifest | Manifest> {

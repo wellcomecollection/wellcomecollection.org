@@ -36,7 +36,7 @@ type PartialFeaturedCard = {
 
 type Props = PartialFeaturedCard & {
   background: PaletteColor;
-  color: PaletteColor;
+  textColor: PaletteColor;
   isReversed?: boolean;
 };
 
@@ -92,7 +92,7 @@ export function convertItemToFeaturedCardProps(
 type FeaturedCardArticleProps = {
   article: ArticleBasic;
   background: PaletteColor;
-  color: PaletteColor;
+  textColor: PaletteColor;
 };
 
 type FeaturedCardArticleBodyProps = {
@@ -107,7 +107,10 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
     return (
       <>
         {positionInSeries && (
-          <PartNumberIndicator number={positionInSeries} color={seriesColor} />
+          <PartNumberIndicator
+            number={positionInSeries}
+            backgroundColor={seriesColor}
+          />
         )}
         <h2 className={font('wb', 2)}>{article.title}</h2>
         {article.promo?.caption && (
@@ -129,7 +132,7 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
 type FeaturedCardExhibitionProps = {
   exhibition: ExhibitionBasic;
   background: PaletteColor;
-  color: PaletteColor;
+  textColor: PaletteColor;
 };
 
 type FeaturedCardExhibitionBodyProps = {
@@ -212,9 +215,9 @@ const FeaturedCardRight = styled.div<HasIsReversed>`
 const FeaturedCardCopy = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})<{ color: PaletteColor; background: PaletteColor }>`
+})<{ textColor: PaletteColor; background: PaletteColor }>`
   flex: 1;
-  color: ${props => props.theme.color(props.color)};
+  color: ${props => props.theme.color(props.textColor)};
   background-color: ${props => props.theme.color(props.background)};
 
   ${props =>
@@ -241,7 +244,7 @@ const FeaturedCard: FunctionComponent<Props> = ({
   labels,
   children,
   link,
-  color,
+  textColor,
   background,
   isReversed = false,
 }) => {
@@ -279,7 +282,7 @@ const FeaturedCard: FunctionComponent<Props> = ({
             ) : (
               <div style={{ marginBottom: '26px' }} />
             )}
-            <FeaturedCardCopy background={background} color={color}>
+            <FeaturedCardCopy background={background} textColor={textColor}>
               {children}
             </FeaturedCardCopy>
           </FeaturedCardRight>
@@ -292,22 +295,22 @@ const FeaturedCard: FunctionComponent<Props> = ({
 };
 
 export const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> =
-  ({ article, background, color }) => {
+  ({ article, background, textColor }) => {
     const props = convertItemToFeaturedCardProps(article);
 
     return (
-      <FeaturedCard {...props} background={background} color={color}>
+      <FeaturedCard {...props} background={background} textColor={textColor}>
         <FeaturedCardArticleBody article={article} />
       </FeaturedCard>
     );
   };
 
 export const FeaturedCardExhibition: FunctionComponent<FeaturedCardExhibitionProps> =
-  ({ exhibition, background, color }) => {
+  ({ exhibition, background, textColor }) => {
     const props = convertItemToFeaturedCardProps(exhibition);
 
     return (
-      <FeaturedCard {...props} background={background} color={color}>
+      <FeaturedCard {...props} background={background} textColor={textColor}>
         <FeaturedCardExhibitionBody exhibition={exhibition} />
       </FeaturedCard>
     );

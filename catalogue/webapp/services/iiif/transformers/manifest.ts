@@ -9,7 +9,6 @@ import {
   getIIIFPresentationCredit,
   getAuthService,
   getTokenService,
-  getSearchService,
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v2';
@@ -22,6 +21,7 @@ import {
   getTransformedCanvases,
   checkIsAnyImageOpen,
   getRestricedLoginService,
+  getSearchService,
 } from '../../../utils/iiif/v3';
 
 export function transformManifest(
@@ -41,7 +41,6 @@ export function transformManifest(
   const isCollectionManifest = manifestV2
     ? manifestV2['@type'] === 'sc:Collection'
     : false;
-  const searchService = manifestV2 && getSearchService(manifestV2);
   const manifests = manifestV2?.manifests || [];
   const structures = manifestV2?.structures || [];
 
@@ -66,6 +65,7 @@ export function transformManifest(
     isAnyImageOpen
   );
   const needsModal = checkModalRequired(authService, isAnyImageOpen);
+  const searchService = getSearchService(manifestV3);
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
@@ -79,7 +79,6 @@ export function transformManifest(
     isCollectionManifest,
     manifests,
     needsModal,
-    searchService,
     structures,
     // Taken from V3 manifest:
     id,
@@ -97,5 +96,6 @@ export function transformManifest(
     canvases: transformedCanvases,
     canvasCount,
     restrictedService,
+    searchService,
   };
 }

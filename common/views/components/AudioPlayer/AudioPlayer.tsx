@@ -223,7 +223,7 @@ const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id }) => {
         aria-label={isMuted ? 'Unmute player' : 'Mute player'}
       >
         <Icon
-          color="neutral.600"
+          iconColor="neutral.600"
           icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
         />
       </MuteUnmuteButton>
@@ -421,7 +421,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
             aria-label={isPlaying ? 'Pause' : 'Play'}
             role="button"
           >
-            <Icon color="accent.green" icon={isPlaying ? pause : play} />
+            <Icon iconColor="accent.green" icon={isPlaying ? pause : play} />
           </PlayPauseInner>
         </PlayPauseButton>
 

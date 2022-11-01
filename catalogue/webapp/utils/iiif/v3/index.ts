@@ -315,3 +315,12 @@ export function checkIsAnyImageOpen(
     transformedCanvases?.some(canvas => !canvas.hasRestrictedImage)
   );
 }
+
+export function getSearchService(
+  manifest: Manifest | undefined
+): Service | undefined {
+  const searchService = manifest?.service?.find(
+    service => service['@type'] === 'SearchService1'
+  );
+  return searchService || undefined;
+}

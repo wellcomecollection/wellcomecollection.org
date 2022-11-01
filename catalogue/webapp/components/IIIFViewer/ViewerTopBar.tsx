@@ -231,7 +231,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
               >
                 <Icon
                   icon={chevrons}
-                  color="white"
+                  iconColor="white"
                   rotate={isDesktopSidebarActive ? undefined : 180}
                 />
                 <span className="visually-hidden">

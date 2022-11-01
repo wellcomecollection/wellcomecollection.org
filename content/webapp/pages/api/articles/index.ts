@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isNotUndefined, isString } from '@weco/common/utils/array';
+import { isJson, isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchArticles } from '../../../services/prismic/fetch/articles';
 import { transformQuery } from '../../../services/prismic/transformers/paginated-results';
@@ -16,19 +16,21 @@ export default async (
   res: NextApiResponse<string | NotFound>
 ): Promise<void> => {
   const { params } = req.query;
-  const parsedParams = isString(params) ? JSON.parse(params) : undefined;
 
-  if (isNotUndefined(parsedParams)) {
-    const client = createClient({ req });
-    const query = await fetchArticles(client, parsedParams);
-
-    if (query) {
-      const articles = transformQuery(query, article =>
-        transformArticleToArticleBasic(transformArticle(article))
-      );
-      return res.status(200).json(superjson.stringify(articles));
-    }
+  // Reject anybody trying to send nonsense to the API
+  if (!isString(params) || !isJson(params)) {
+    return res.status(404).json({ notFound: true });
   }
 
-  return res.status(404).json({ notFound: true });
+  const parsedParams = JSON.parse(params);
+
+  const client = createClient({ req });
+  const query = await fetchArticles(client, parsedParams);
+
+  if (query) {
+    const articles = transformQuery(query, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
+    return res.status(200).json(superjson.stringify(articles));
+  }
 };

@@ -91,7 +91,7 @@ const ExplanatoryText: FunctionComponent<Props> = ({
                 icon={plus}
                 rotate={showContent ? 45 : undefined}
                 matchText={true}
-                color="white"
+                iconColor="white"
               />
             </IconContainer>
           </Space>
