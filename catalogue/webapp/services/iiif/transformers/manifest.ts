@@ -5,12 +5,10 @@ import {
   getUiExtensions,
   getVideo,
   isUiEnabled,
-  getCanvases,
   getFirstCollectionManifestLocation,
   getIIIFPresentationCredit,
   getAuthService,
   getTokenService,
-  getIsAnyImageOpen,
   getSearchService,
   checkModalRequired,
   checkIsTotallyRestricted,
@@ -21,14 +19,15 @@ import {
   getDownloadOptionsFromManifest,
   getPdf,
   getTitle,
+  getTransformedCanvases,
+  checkIsAnyImageOpen,
+  getRestricedLoginService,
 } from '../../../utils/iiif/v3';
 
 export function transformManifest(
   iiifManifests: IIIFManifests
 ): TransformedManifest {
   const { manifestV2, manifestV3 } = { ...iiifManifests };
-  const canvases = manifestV2 ? getCanvases(manifestV2) : [];
-  const canvasCount = canvases.length;
 
   const video = manifestV2 && getVideo(manifestV2);
   const iiifCredit = manifestV2 && getIIIFPresentationCredit(manifestV2);
@@ -39,16 +38,9 @@ export function transformManifest(
     manifestV2 && getFirstCollectionManifestLocation(manifestV2);
   const authService = getAuthService(manifestV2);
   const tokenService = authService && getTokenService(authService);
-  const isAnyImageOpen = manifestV2 ? getIsAnyImageOpen(manifestV2) : false;
-  const isTotallyRestricted = checkIsTotallyRestricted(
-    authService,
-    isAnyImageOpen
-  );
-
   const isCollectionManifest = manifestV2
     ? manifestV2['@type'] === 'sc:Collection'
     : false;
-  const needsModal = checkModalRequired(authService, isAnyImageOpen);
   const searchService = manifestV2 && getSearchService(manifestV2);
   const manifests = manifestV2?.manifests || [];
   const structures = manifestV2?.structures || [];
@@ -63,21 +55,29 @@ export function transformManifest(
   const parentManifestUrl = manifestV3 && manifestV3.partOf?.[0].id;
   const collectionManifestsCount =
     manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
+  const transformedCanvases = getTransformedCanvases(manifestV3);
+  const canvasCount = transformedCanvases.length;
+  const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
+  const restrictedService = getRestricedLoginService(manifestV3);
+
+  // TODO next
+  const isTotallyRestricted = checkIsTotallyRestricted(
+    authService,
+    isAnyImageOpen
+  );
+  const needsModal = checkModalRequired(authService, isAnyImageOpen);
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
     // Taken from V2 manifest:
-    canvasCount,
     video,
     iiifCredit,
     downloadEnabled,
     authService,
     tokenService,
-    isAnyImageOpen,
     isTotallyRestricted,
     isCollectionManifest,
     manifests,
-    canvases,
     needsModal,
     searchService,
     structures,
@@ -93,5 +93,9 @@ export function transformManifest(
     parentManifestUrl,
     title,
     collectionManifestsCount,
+    isAnyImageOpen,
+    canvases: transformedCanvases,
+    canvasCount,
+    restrictedService,
   };
 }
