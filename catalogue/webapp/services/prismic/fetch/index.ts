@@ -1,6 +1,7 @@
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GraphQLClient } from 'graphql-request';
+import { PrismicApiError } from "../types";
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
@@ -21,3 +22,11 @@ export async function prismicGraphQLClient(query: string) {
 
   return graphqlClient.request(query);
 }
+
+export const prismicApiError = (): PrismicApiError => ({
+  errorType: 'http',
+  httpStatus: 500,
+  label: 'Internal Server Error',
+  description: '',
+  type: 'Error',
+});

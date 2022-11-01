@@ -1,5 +1,5 @@
-import { PrismicResultsList, PrismicApiError } from '../types/index';
-import { Exhibition } from '../types/exhibition';
+import { PrismicResultsList, PrismicApiError } from '../types';
+import { Event } from '../types/event';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformStories } from '../transformers/articles';
 import { gql } from 'graphql-request';
@@ -9,14 +9,14 @@ export type PrismicQueryProps = {
   pageSize?: number;
 };
 
-export async function getExhibitions({
+export async function getEvents({
   query,
   pageSize,
 }: PrismicQueryProps): Promise<
-  PrismicResultsList<Exhibition> | PrismicApiError
+  PrismicResultsList<Event> | PrismicApiError
 > {
   const graphQuery = gql`query {
-    allExhibitionss(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
+    allEventss(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
       edges {
         node {
           title
@@ -29,14 +29,14 @@ export async function getExhibitions({
             }
           }
           body {
-            ...on ExhibitionsBodyStandfirst {
+            ...on EventsBodyStandfirst {
               primary {
                 text
               }
             }
           }
           promo {
-            ...on ExhibitionsPromoEditorialimage {
+            ...on EventsPromoEditorialimage {
               primary {
                 image
                 link
@@ -50,8 +50,8 @@ export async function getExhibitions({
   }`;
   try {
     const res = await prismicGraphQLClient(graphQuery);
-    const { allExhibitionss } = await res;
-    const exhibitions = await transformStories(allExhibitionss);
+    const { allEventss } = await res;
+    const exhibitions = await transformStories(allEventss);
     return {
       type: 'ResultList',
       results: exhibitions,

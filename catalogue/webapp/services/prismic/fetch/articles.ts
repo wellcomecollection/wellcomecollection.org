@@ -1,16 +1,8 @@
 import { Story } from '../types/story';
 import { PrismicResultsList, PrismicApiError } from '../types/index';
-import { prismicGraphQLClient } from '.';
+import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformStories } from '../transformers/articles';
 import { gql } from 'graphql-request';
-
-export const prismicApiError = (): PrismicApiError => ({
-  errorType: 'http',
-  httpStatus: 500,
-  label: 'Internal Server Error',
-  description: '',
-  type: 'Error',
-});
 
 export type PrismicQueryProps = {
   query?: string | string[];
