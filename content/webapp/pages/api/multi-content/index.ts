@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isJson, isString } from '@weco/common/utils/array';
+import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import {
   parseQuery,
@@ -18,7 +18,7 @@ export default async (
   const { params } = req.query;
 
   // Reject anybody trying to send nonsense to the API
-  if (!isString(params) || !isJson(params)) {
+  if (!isString(params)) {
     return res.status(404).json({ notFound: true });
   }
 
