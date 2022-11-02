@@ -11,7 +11,7 @@ import {
   IIIFThumbnailService,
   EmptyIIIFMediaElement,
 } from '../../../../webapp/services/iiif/types/manifest/v2';
-import { Manifest, Service as ServiceV3 } from '@iiif/presentation-3';
+import { Manifest, Service as ServiceV3, Range } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
 
@@ -237,15 +237,15 @@ export function getStructures(iiifManifest: IIIFManifest): IIIFStructure[] {
 // Until we can improve the data at source, this function groups structures that have the same label attached to consecutive pages into a single structure.
 export function groupStructures(
   canvases: IIIFCanvas[],
-  structures: IIIFStructure[]
-): IIIFStructure[] {
+  structures: Range[]
+): Range[] {
   const clonedStructures = cloneDeep(structures);
   return clonedStructures.reduce(
     (acc, structure) => {
-      if (!structure.canvases) return acc;
+      if (!structure.items) return acc;
 
-      const [lastCanvasInRange] = structure.canvases.slice(-1);
-      const [firstCanvasInRange] = structure.canvases;
+      const [lastCanvasInRange] = structure.items.slice(-1);
+      const [firstCanvasInRange] = structure.items;
       const firstCanvasIndex = canvases.findIndex(
         canvas => canvas['@id'] === firstCanvasInRange
       );
@@ -256,7 +256,7 @@ export function groupStructures(
         acc.groupedArray[acc.groupedArray.length - 1].canvases.push(
           lastCanvasInRange
         );
-      } else if (structure.canvases.length > 0) {
+      } else if (structure.items.length > 0) {
         acc.groupedArray.push(structure);
       }
       acc.previousLabel = structure.label;

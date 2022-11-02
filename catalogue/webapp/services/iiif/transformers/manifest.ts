@@ -50,7 +50,6 @@ export function transformManifest(
     : false;
   const needsModal = checkModalRequired(authService, isAnyImageOpen);
   const manifests = manifestV2?.manifests || [];
-  const structures = manifestV2?.structures || [];
 
   // V3
   const title = manifestV3?.label ? getTitle(manifestV3.label) : '';
@@ -63,6 +62,7 @@ export function transformManifest(
   const collectionManifestsCount =
     manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
   const searchService = getSearchService(manifestV3);
+  const structures = manifestV3?.structures || [];
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
@@ -79,7 +79,6 @@ export function transformManifest(
     manifests,
     canvases,
     needsModal,
-    structures,
     // Taken from V3 manifest:
     id,
     audio,
@@ -93,5 +92,6 @@ export function transformManifest(
     title,
     collectionManifestsCount,
     searchService,
+    structures,
   };
 }

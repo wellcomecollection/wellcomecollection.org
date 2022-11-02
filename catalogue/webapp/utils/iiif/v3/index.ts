@@ -30,11 +30,17 @@ export function getMultiVolumeLabel(
   return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
 }
 
+// TODO: rename this to something like getDisplayLabel since the key of interest
+// can be either 'en' or 'none'
 export function getEnFromInternationalString(
   internationalString: InternationalString,
   index = 0
 ): string {
-  return internationalString?.['en']?.[index] || '';
+  return (
+    internationalString?.['en']?.[index] ||
+    internationalString?.['none']?.[index] ||
+    ''
+  );
 }
 
 export function transformLabel(
