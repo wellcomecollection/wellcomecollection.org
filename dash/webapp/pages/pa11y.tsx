@@ -65,6 +65,44 @@ const Description = styled.p`
   font-weight: bold;
 `;
 
+type IssueGroup = {
+  type: string;
+  message: string;
+  selector: string;
+};
+
+type IssueType = IssueGroup & {
+  context: string;
+};
+
+function groupIssues(
+  issues: IssueType[]
+): { group: IssueGroup; issues: IssueType[] }[] {
+  const result: { group: IssueGroup; issues: IssueType[] }[] = [];
+
+  for (const i of issues) {
+    const matchingGroup = result
+      .filter(
+        r =>
+          r.group.type === i.type &&
+          r.group.message === i.message &&
+          r.group.selector === i.selector
+      )
+      .find(_ => _);
+
+    if (typeof matchingGroup !== 'undefined') {
+      matchingGroup.issues.push(i);
+    } else {
+      result.push({
+        group: { type: i.type, message: i.message, selector: i.selector },
+        issues: [i],
+      });
+    }
+  }
+
+  return result;
+}
+
 const Index: FunctionComponent = () => {
   const [resultsList, setResultsList] = useState([]);
 
@@ -162,15 +200,26 @@ const Index: FunctionComponent = () => {
                         </>
                       )}
 
-                      {issues.map(issue => {
+                      {groupIssues(issues).map(({ group, issues }) => {
                         return (
-                          <Issue type={issue.type} key={issue.selector}>
+                          <Issue
+                            type={group.type}
+                            key={`${group.type}-${group.message}`}
+                          >
                             <Description>
-                              {issue.type}: {issue.message}
+                              {group.type}: {group.message}
+                              {issues.length > 1 ? (
+                                <> (&times; {issues.length})</>
+                              ) : (
+                                ''
+                              )}
                             </Description>
 
-                            <div>Context</div>
-                            <Pre>{issue.context}</Pre>
+                            <div>Context{issues.length > 1 ? 's' : ''}</div>
+
+                            {issues.map(issue => (
+                              <Pre key={issue.context}>{issue.context}</Pre>
+                            ))}
 
                             <div
                               style={{
@@ -179,7 +228,7 @@ const Index: FunctionComponent = () => {
                             >
                               Selector
                             </div>
-                            <Pre>{issue.selector}</Pre>
+                            <Pre>{group.selector}</Pre>
                           </Issue>
                         );
                       })}
