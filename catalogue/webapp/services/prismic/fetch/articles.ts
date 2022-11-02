@@ -1,5 +1,9 @@
 import { Story } from '../types/story';
-import { PrismicResultsList, PrismicApiError } from '../types/index';
+import {
+  PrismicResultsList,
+  PrismicApiError,
+  contentType,
+} from '../types/index';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
 
@@ -16,7 +20,11 @@ export async function getStories({
   try {
     const res = await prismicGraphQLClient('articles', query, pageSize);
     const { allArticless } = await res;
-    const stories = await transformPrismicResponse(allArticless);
+    const { edges } = allArticless;
+    const stories = await transformPrismicResponse(
+      contentType['articles'],
+      edges
+    );
     return {
       type: 'ResultList',
       results: stories,

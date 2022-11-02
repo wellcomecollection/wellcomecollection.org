@@ -1,5 +1,6 @@
 import { Contributor, Image } from '@weco/common/model/catalogue';
 import { RichTextField } from '@prismicio/types';
+import { ContentType } from './index';
 
 export type Event = {
   image: {
@@ -13,5 +14,5 @@ export type Event = {
   contributors: Contributor[];
   lastPublicationDate: string;
   title: string;
-  type: string;
+  type: ContentType[];
 };

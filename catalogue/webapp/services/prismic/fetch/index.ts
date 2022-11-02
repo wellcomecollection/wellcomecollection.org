@@ -4,11 +4,6 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { PrismicApiError } from '../types';
 import { capitalize } from '@weco/common/utils/grammar';
 
-export type GetServerSidePropsPrismicClient = {
-  type: 'GetServerSidePropsPrismicClient';
-  client: prismic.Client;
-};
-
 export const typesToPrismicGraphQLSchemaTypes = {
   // types to graphql query schema types,
   events: 'allEventss',

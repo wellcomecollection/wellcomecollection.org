@@ -1,11 +1,10 @@
-import { Story } from '../types/story';
-import { PrismicResponse } from '../types';
+import { PrismicResponse, TransformedResponse, ContentType } from '../types';
 
 export async function transformPrismicResponse(
-  allArticless: PrismicResponse
-): Promise<Story[]> {
-  const { edges } = allArticless;
-  const stories = edges.map(edge => {
+  type: ContentType[],
+  edges: PrismicResponse[]
+): Promise<TransformedResponse[]> {
+  const results = edges.map(edge => {
     const { node } = edge;
     const { title, contributors, body, promo, _meta } = node;
     const { primary: standfirst } = body[0];
@@ -18,8 +17,8 @@ export async function transformPrismicResponse(
       contributors,
       standfirst,
       image,
-      type: 'Story',
+      type: type,
     };
   });
-  return stories;
+  return results;
 }

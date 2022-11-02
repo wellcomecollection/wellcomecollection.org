@@ -1,4 +1,8 @@
-import { PrismicResultsList, PrismicApiError } from '../types/index';
+import {
+  PrismicResultsList,
+  PrismicApiError,
+  contentType,
+} from '../types/index';
 import { Exhibition } from '../types/exhibition';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
@@ -18,7 +22,11 @@ export async function getExhibitions({
   try {
     const res = await prismicGraphQLClient('exhibitions', query, pageSize);
     const { allExhibitionss } = await res;
-    const exhibitions = await transformPrismicResponse(allExhibitionss);
+    const { edges } = allExhibitionss;
+    const exhibitions = await transformPrismicResponse(
+      contentType['exhibitions'],
+      edges
+    );
     return {
       type: 'ResultList',
       results: exhibitions,

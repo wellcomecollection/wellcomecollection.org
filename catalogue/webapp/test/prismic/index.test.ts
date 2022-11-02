@@ -37,13 +37,16 @@ describe('transformPrismicResponse', () => {
                 },
               },
             ],
-            type: 'Story',
+            type: 'articles',
           },
         },
       ],
     };
 
-    const transformResponse = await transformPrismicResponse(samplePrismicResponse);
+    const transformResponse = await transformPrismicResponse(
+      'articles',
+      samplePrismicResponse.edges
+    );
 
     expect(transformResponse).toStrictEqual([
       {
@@ -68,7 +71,7 @@ describe('transformPrismicResponse', () => {
             url: 'https://images.prismic.io/wellcomecollection/8b6b4b4e-4f1c-4f9e-8c1a-1b0c2b0e8b1a_The+cat+in+the+hat.jpg?auto=compress,format&rect=0,0,2000,2000&w=2000&h=2000',
           },
         },
-        type: 'Story',
+        type: 'articles',
       },
     ]);
   });
