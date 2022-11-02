@@ -22,6 +22,11 @@ const urls = [
   'https://wellcomecollection.org/events/Wqkd1yUAAB8sW4By',
   'https://wellcomecollection.org/event-series/WlYT_SQAACcAWccj',
   'https://wellcomecollection.org/concepts/n4fvtc49',
+
+  // Exhibition guides.  We should test one example of each guide format.
+  'https://wellcomecollection.org/guides/exhibitions/YzwsAREAAHylrxau/audio-without-descriptions',
+  'https://wellcomecollection.org/guides/exhibitions/YzwsAREAAHylrxau/captions-and-transcripts',
+  'https://wellcomecollection.org/guides/exhibitions/YzwsAREAAHylrxau/bsl',
 ];
 
 const promises = urls.map(url =>
