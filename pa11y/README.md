@@ -19,6 +19,10 @@ Alternatively, we re-run pa11y on every deployment to prod.
 
 The results are shown in a dashboard at <https://dash.wellcomecollection.org/pa11y>
 
-## Testing new pages
+## How we choose what pages to test
 
-To test a new page with pa11y, add to the list of URLs in `write-report.js`.
+We have to specify a list of URLs for pa11y to check – it doesn't crawl the site looking for content.
+
+We want it to test a representative sample – any time you create a new page type, add an example to pa11y.
+
+To add a new URL, add to the list in `write-report.js`.
