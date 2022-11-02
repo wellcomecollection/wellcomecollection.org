@@ -1,0 +1,42 @@
+{
+	http_port 3000
+}
+
+localhost:3000 {
+	@catalogueRoutes {
+		path /works*
+		path /oembed*
+		path /images*
+		path /search*
+		path /api/works*
+		path /_next/data/*/item.json
+		path /_next/data/*/images.json
+		path /_next/data/*/embed.json
+		path /_next/data/*/download.json
+		path /_next/data/*/image.json
+		path /_next/data/*/work.json
+		path /_next/data/*/progress.json
+		path /_next/data/*/works.json
+		path /_next/static/**/work.js*
+		path /_next/static/chunks/pages/work*
+		path /_next/static/chunks/pages/search*
+	}
+
+  	@identityRoutes {
+    	path /account*
+    	path /_next/data/*/account/*.json
+  	}
+
+	handle @catalogueRoutes {
+		reverse_proxy 127.0.0.1:3001
+	}
+
+	handle @identityRoutes {
+	  reverse_proxy 127.0.0.1:3002
+	}
+
+  # Everything else is handled by the content app
+	handle {
+		reverse_proxy 127.0.0.1:3003
+	}
+}
