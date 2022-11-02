@@ -12,7 +12,7 @@ export type Event = {
   standfirst: { text: RichTextField };
   id: string;
   contributors: Contributor[];
-  lastPublicationDate: string;
+  lastPublicationDate: Date;
   title: string;
   type: ContentType[];
 };
