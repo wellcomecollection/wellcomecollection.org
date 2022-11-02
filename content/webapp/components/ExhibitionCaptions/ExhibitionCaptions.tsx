@@ -302,7 +302,11 @@ const Stop: FunctionComponent<{
                   </div>
                   {hasShowFullTranscriptionButton && (
                     <ButtonSolid
-                      colors={themeValues.buttonColors.greenTransparentGreen}
+                      colors={
+                        hasContext
+                          ? themeValues.buttonColors.charcoalTransparentCharcoal
+                          : themeValues.buttonColors.greenTransparentGreen
+                      }
                       ariaControls={`transcription-text-${index}`}
                       ariaExpanded={isFullTranscription}
                       clickHandler={() => {
