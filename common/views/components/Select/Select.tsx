@@ -13,6 +13,8 @@ type Props = {
   hideLabel?: boolean;
   options: SelectOption[];
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  isPill?: boolean;
+  form?: string;
 };
 
 const Select: FunctionComponent<Props> = ({
@@ -22,10 +24,12 @@ const Select: FunctionComponent<Props> = ({
   options,
   value,
   onChange,
+  isPill,
+  form,
 }) => {
   return (
-    <SelectContainer label={label} hideLabel={hideLabel}>
-      <select name={name} onChange={onChange} value={value}>
+    <SelectContainer label={label} hideLabel={hideLabel} isPill={isPill}>
+      <select name={name} onChange={onChange} value={value} form={form}>
         {options.map(option => {
           return (
             <option key={option.text} value={option.value}>

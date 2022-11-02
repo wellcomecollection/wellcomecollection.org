@@ -10,6 +10,7 @@ import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 type StyledSelectProps = {
   isKeyboard: boolean;
   isFontsLoaded: boolean;
+  isPill?: boolean;
 };
 
 const StyledSelect = styled.div.attrs({
@@ -32,7 +33,8 @@ const StyledSelect = styled.div.attrs({
     appearance: none;
     padding: 6px 36px 6px 12px;
     border: 2px solid ${props => props.theme.color('warmNeutral.400')};
-    border-radius: ${props => props.theme.borderRadiusUnit}px;
+    border-radius: ${props =>
+      props.isPill ? 20 : props.theme.borderRadiusUnit}px;
     background-color: ${props => props.theme.color('white')};
     width: 100%;
 
@@ -60,18 +62,24 @@ type Props = {
   label: string;
   hideLabel?: boolean;
   children: ReactElement<'select'>;
+  isPill?: boolean;
 };
 
 const SelectContainer: FunctionComponent<Props> = ({
   label,
   hideLabel,
   children,
+  isPill,
 }) => {
   const { isKeyboard } = useContext(AppContext);
   const isFontsLoaded = useIsFontsLoaded();
 
   return (
-    <StyledSelect isKeyboard={isKeyboard} isFontsLoaded={isFontsLoaded}>
+    <StyledSelect
+      isKeyboard={isKeyboard}
+      isFontsLoaded={isFontsLoaded}
+      isPill={isPill}
+    >
       <label className="flex flex--v-center">
         <Space
           as="span"

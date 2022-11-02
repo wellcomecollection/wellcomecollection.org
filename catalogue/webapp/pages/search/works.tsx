@@ -21,6 +21,7 @@ import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/Wo
 import styled from 'styled-components';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 import { useRouter } from 'next/router';
+import Select from '@weco/common/views/components/Select/Select';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -57,28 +58,12 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
   useEffect(() => {
     if (router.query.sortOrder !== sortOrder) {
-      // get the form element and run the submit function
       const form = document.getElementById('searchPageForm');
       form?.dispatchEvent(
         new window.Event('submit', { cancelable: true, bubbles: true })
       );
     }
   }, [sortOrder]);
-
-  const options = [
-    {
-      value: '',
-      text: 'Relevance',
-    },
-    {
-      value: 'asc',
-      text: 'Oldest to newest',
-    },
-    {
-      value: 'desc',
-      text: 'Newest to oldest',
-    },
-  ];
 
   if (works.totalResults === 0) return <p>nothing</p>;
 
@@ -136,19 +121,29 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 </noscript>
                 {isComponentMounted && (
                   <>
-                    <span className="visually-hidden">sort results by:</span>
-                    <select
-                      value={sortOrder || ''}
+                    <Select
+                      value={(sortOrder as string) || ''}
                       form="searchPageForm"
                       name="sortOrder"
-                      onChange={e => setSortOrder(e.target.value)}
-                    >
-                      {options.map(o => (
-                        <option key={o.value} value={o.value}>
-                          {o.text}
-                        </option>
-                      ))}
-                    </select>
+                      label="sort results by:"
+                      onChange={e => setSortOrder(e.currentTarget.value)}
+                      options={[
+                        {
+                          value: '',
+                          text: 'Relevance',
+                        },
+                        {
+                          value: 'asc',
+                          text: 'Oldest to newest',
+                        },
+                        {
+                          value: 'desc',
+                          text: 'Newest to oldest',
+                        },
+                      ]}
+                      isPill
+                      hideLabel
+                    />
                   </>
                 )}
               </div>
