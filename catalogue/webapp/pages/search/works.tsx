@@ -83,8 +83,14 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
               <div>
                 <noscript>
                   <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                    <span className="visually-hidden">Sort by:</span>
-                    <select name="sort" form="searchPageForm">
+                    <span id="sort-label" className="visually-hidden">
+                      Sort by:
+                    </span>
+                    <select
+                      aria-labelledby="sort-label"
+                      name="sort"
+                      form="searchPageForm"
+                    >
                       {[
                         {
                           value: '',
@@ -100,8 +106,14 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                         </option>
                       ))}
                     </select>
-                    <span className="visually-hidden">Sort order:</span>
-                    <select name="sortOrder" form="searchPageForm">
+                    <span id="sort-order-label" className="visually-hidden">
+                      Sort order:
+                    </span>
+                    <select
+                      aria-labelledby="sort-order-label"
+                      name="sortOrder"
+                      form="searchPageForm"
+                    >
                       {[
                         {
                           value: 'asc',
