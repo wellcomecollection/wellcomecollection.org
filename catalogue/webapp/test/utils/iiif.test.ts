@@ -1,6 +1,6 @@
 import { Manifest } from '@iiif/presentation-3';
 import { getCanvases, groupStructures } from '../../utils/iiif/v2';
-import { getAudio } from '../../utils/iiif/v3';
+import { getAudio, getMultiVolumeLabel } from '../../utils/iiif/v3';
 import manifest from '@weco/common/__mocks__/iiif-manifest';
 import {
   manifestWithAudioTitles,
@@ -112,6 +112,22 @@ describe('Group repetitive iiif structures', () => {
   it('groups iiifStructures with consecutive canvases and the same label', () => {
     const groupedStructures = groupStructures(canvases, structures);
     expect(groupedStructures).toEqual(correctResult);
+  });
+});
+
+describe('getMultiVolumeLabel', () => {
+  it('returns the appropriate label from an array', () => {
+    const label1 = getMultiVolumeLabel(
+      { en: ['Practica seu Lilium medicinae', 'Copy 1'] },
+      'Practica seu Lilium medicinae'
+    );
+    const label2 = getMultiVolumeLabel(
+      { en: ['Volume 1', 'The diary of Samuel Pepys'] },
+      'The diary of Samuel Pepys'
+    );
+
+    expect(label1).toEqual('Copy 1');
+    expect(label2).toEqual('Volume 1');
   });
 });
 
