@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/node:12-slim
+FROM public.ecr.aws/docker/library/node:16-slim
 
 VOLUME /dist
 
