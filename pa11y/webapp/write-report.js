@@ -26,7 +26,7 @@ console.info('Pa11y: Starting report');
 
 fs.readFile('../../.buildkite/urls/expected_200_urls.txt', (err, fileData) => {
   if (err) {
-    console.error('Cannot read list of expected URLs');
+    console.error(`Cannot read list of expected URLs: ${err}`);
     process.exit(1);
   } else {
     const urls = fileData
