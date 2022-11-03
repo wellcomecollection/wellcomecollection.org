@@ -1,4 +1,9 @@
-import { isFuture, isSameDay } from '@weco/common/utils/dates';
+import {
+  isFuture,
+  isSameDay,
+  maxDate,
+  minDate,
+} from '@weco/common/utils/dates';
 import { HasTimes } from 'types/events';
 
 function isUpcoming<T extends HasTimes>(event: T): boolean {
@@ -31,12 +36,10 @@ function isUpcoming<T extends HasTimes>(event: T): boolean {
   //      in multiple times the site shows "event @ 22 Apr 15:00" in certain places.
   //      We could make this work properly, but it's more work than I want to do right now.
   //
-  const earliestStartTime = event.times
-    .map(t => t.range.startDateTime)
-    .reduce((a, b) => (a < b ? a : b));
-  const latestEndTime = event.times
-    .map(t => t.range.endDateTime)
-    .reduce((a, b) => (a > b ? a : b));
+  const earliestStartTime = minDate(
+    event.times.map(t => t.range.startDateTime)
+  );
+  const latestEndTime = maxDate(event.times.map(t => t.range.endDateTime));
 
   const isMultiDayEvent = !isSameDay(earliestStartTime, latestEndTime);
   const isUnfinished = latestEndTime > new Date();
