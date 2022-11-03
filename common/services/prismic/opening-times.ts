@@ -37,16 +37,12 @@ import {
 export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
   return venues
     .flatMap(venue => {
-      if (venue.openingHours.exceptional) {
-        return venue.openingHours.exceptional.map(exceptionalDate => {
-          return {
-            overrideDate: exceptionalDate.overrideDate,
-            overrideType: exceptionalDate.overrideType,
-          };
-        });
-      } else {
-        return [];
-      }
+      return venue.openingHours.exceptional.map(exceptionalDate => {
+        return {
+          overrideDate: exceptionalDate.overrideDate,
+          overrideType: exceptionalDate.overrideType,
+        };
+      });
     })
     .filter(override => Boolean(override && override.overrideDate))
     .sort((a, b) => Number(a && a.overrideDate) - Number(b && b.overrideDate))
