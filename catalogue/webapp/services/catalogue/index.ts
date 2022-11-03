@@ -79,7 +79,6 @@ export async function catalogueQuery<Params, Result extends ResultType>(
   { params, toggles, pageSize }: QueryProps<Params>
 ): Promise<CatalogueResultsList<Result> | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
-
   const extendedParams = {
     ...params,
     pageSize,

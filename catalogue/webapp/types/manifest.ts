@@ -1,11 +1,10 @@
 import {
   IIIFMediaElement,
-  IIIFStructure,
   AuthService as AuthService2,
   AuthServiceService,
   CollectionManifest,
 } from '../../webapp/services/iiif/types/manifest/v2';
-import { Service, AuthExternalService } from '@iiif/presentation-3';
+import { Service, AuthExternalService, Range } from '@iiif/presentation-3';
 import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
 
 type ThumbnailImage = { url: string | undefined; width: number };
@@ -50,7 +49,6 @@ export type TransformedManifest = {
   manifests: CollectionManifest[];
   parentManifestUrl: string | undefined;
   needsModal: boolean;
-  structures: IIIFStructure[];
   // Currently from iiif manifest v3:
   audio: Audio | undefined;
   services: Service[];
@@ -59,6 +57,7 @@ export type TransformedManifest = {
   canvases: TransformedCanvas[];
   restrictedService: AuthExternalService | undefined;
   searchService: Service | undefined;
+  structures: Range[];
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {

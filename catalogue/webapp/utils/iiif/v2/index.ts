@@ -10,9 +10,10 @@ import {
   EmptyIIIFMediaElement,
 } from '../../../../webapp/services/iiif/types/manifest/v2';
 import { TransformedCanvas } from '../../../types/manifest';
-import { Manifest, Service as ServiceV3 } from '@iiif/presentation-3';
+import { Manifest, Service as ServiceV3, Range } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
+import { getEnFromInternationalString } from '../v3';
 
 const isFilledMediaElement = (
   element: IIIFMediaElement | EmptyIIIFMediaElement
@@ -175,38 +176,40 @@ export function getStructures(iiifManifest: IIIFManifest): IIIFStructure[] {
 // This means we will often display repetitive links to the essentially the same thing.
 // Until we can improve the data at source, this function groups structures that have the same label attached to consecutive pages into a single structure.
 export function groupStructures(
-  canvases: TransformedCanvas[],
-  structures: IIIFStructure[]
-): IIIFStructure[] {
+  items: TransformedCanvas[],
+  structures: Range[]
+): Range[] {
   const clonedStructures = cloneDeep(structures);
   return clonedStructures.reduce(
     (acc, structure) => {
-      if (!structure.canvases) return acc;
+      if (!structure.items) return acc;
 
-      const [lastCanvasInRange] = structure.canvases.slice(-1);
-      const [firstCanvasInRange] = structure.canvases;
-      const firstCanvasIndex = canvases.findIndex(
-        canvas => canvas['@id'] === firstCanvasInRange
+      const [lastCanvasInRange] = structure.items.slice(-1);
+      const [firstCanvasInRange] = structure.items;
+      const firstCanvasIndex = items.findIndex(
+        canvas => canvas.id === firstCanvasInRange.id
       );
+
       if (
-        acc.previousLabel === structure.label &&
+        getEnFromInternationalString(acc.previousLabel) ===
+          getEnFromInternationalString(structure.label) &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
-        acc.groupedArray[acc.groupedArray.length - 1].canvases.push(
+        acc.groupedArray[acc.groupedArray.length - 1].items.push(
           lastCanvasInRange
         );
-      } else if (structure.canvases.length > 0) {
+      } else if (structure.items.length > 0) {
         acc.groupedArray.push(structure);
       }
       acc.previousLabel = structure.label;
-      acc.previousLastCanvasIndex = canvases.findIndex(
-        canvas => canvas['@id'] === lastCanvasInRange
+      acc.previousLastCanvasIndex = items.findIndex(
+        canvas => canvas.id === lastCanvasInRange.id
       );
       return acc;
     },
     {
       previousLastCanvasIndex: null,
-      previousLabel: null,
+      previousLabel: { none: '' },
       groupedArray: [],
     }
   ).groupedArray;
