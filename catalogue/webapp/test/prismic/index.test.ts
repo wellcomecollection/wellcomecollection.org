@@ -47,9 +47,11 @@ describe('transformPrismicResponse', () => {
       ],
     };
 
+    const { edges } = samplePrismicResponse;
+
     const transformResponse = await transformPrismicResponse(
       ['articles'],
-      samplePrismicResponse.edges
+      edges
     );
 
     expect(transformResponse).toStrictEqual([

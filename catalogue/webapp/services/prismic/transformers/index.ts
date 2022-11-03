@@ -7,7 +7,6 @@ export async function transformPrismicResponse(
   const results = edges.map(edge => {
     const { node } = edge;
     const { title, contributors, body, promo, _meta } = node;
-    console.log(body, 'what is the body');
     const { primary: standfirst } = body[0];
     const { primary: image } = promo[0];
     const { id, firstPublicationDate } = _meta;

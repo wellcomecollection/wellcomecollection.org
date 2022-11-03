@@ -94,9 +94,5 @@ export type PrismicResponse = {
   node: PrismicNodeList;
 };
 
-export type PrismicResponseEdge = {
-  edges: PrismicNode[];
-  node?: PrismicNodeList[];
-};
 export type TransformedResponse = Story | Event | Exhibition;
 
