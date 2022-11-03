@@ -36,14 +36,8 @@ import {
  */
 export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
   return venues
-    .flatMap(venue => {
-      return venue.openingHours.exceptional.map(exceptionalDate => {
-        return {
-          overrideDate: exceptionalDate.overrideDate,
-          overrideType: exceptionalDate.overrideType,
-        };
-      });
-    })
+    .flatMap(venue => venue.openingHours.exceptional)
+    .map(({ overrideDate, overrideType }) => ({ overrideDate, overrideType }))
     .sort((a, b) => Number(a && a.overrideDate) - Number(b && b.overrideDate))
     .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
       const isAlreadyInResult = result.some(t =>
