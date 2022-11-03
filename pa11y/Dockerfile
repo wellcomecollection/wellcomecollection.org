@@ -9,9 +9,9 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
   libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
   libnss3
 
-WORKDIR /usr/src/app/webapp
+WORKDIR /usr/src/app/repo/pa11y/webapp
 
-ADD ./webapp /usr/src/app/webapp
+ADD . /usr/src/app/repo
 
 RUN yarn && \
     yarn write-report --no-sandbox && \

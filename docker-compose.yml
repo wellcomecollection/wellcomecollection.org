@@ -34,7 +34,8 @@ services:
       - AWS_PROFILE
   pa11y:
     build:
-      context: ./pa11y
+      context: .
+      dockerfile: pa11y/webapp/Dockerfile
   updown:
     build:
       context: ./updown
