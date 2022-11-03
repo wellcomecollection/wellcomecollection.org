@@ -44,7 +44,6 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
         };
       });
     })
-    .filter(override => Boolean(override && override.overrideDate))
     .sort((a, b) => Number(a && a.overrideDate) - Number(b && b.overrideDate))
     .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
       const isAlreadyInResult = result.some(t =>
