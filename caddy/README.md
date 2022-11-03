@@ -13,9 +13,9 @@ install [Caddy](https://caddyserver.com/docs/install)
 from the workspace root `wellcomecollection.org/`, ensure that you have the three apps running with the following ports
 
 ```bash
-PORT=3001 yarn workspace @weco/catalogue run dev
-PORT=3002 yarn workspace @weco/identity run start:dev
-PORT=3003 yarn workspace @weco/content run dev
+PORT=3001 yarn workspace @weco/catalogue run start
+PORT=3002 yarn workspace @weco/identity run start
+PORT=3003 yarn workspace @weco/content run start
 ```
 
 then in another terminal navigate to the caddy folder
