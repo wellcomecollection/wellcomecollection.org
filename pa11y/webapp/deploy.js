@@ -41,4 +41,5 @@ try {
   });
 } catch (e) {
   console.log('Error:', e.stack);
+  process.exit(1);
 }
