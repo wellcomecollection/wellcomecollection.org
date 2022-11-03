@@ -108,7 +108,6 @@ export function groupOverrideDates(dates: OverrideDate[]): ExceptionalPeriod[] {
         };
       } else if (
         previousDate &&
-        date.overrideDate &&
         date.overrideDate < addDays(previousDate, 6) &&
         date.overrideType === acc[groupedIndex].type
       ) {
@@ -172,13 +171,7 @@ export function groupExceptionalVenueDays(
 ): ExceptionalOpeningHoursDay[][] {
   return exceptionalDays.length > 0
     ? exceptionalDays
-        .sort(
-          (a, b) =>
-            (a.overrideDate &&
-              b.overrideDate &&
-              countDaysBetween(a.overrideDate, b.overrideDate)) ??
-            0
-        )
+        .sort((a, b) => countDaysBetween(a.overrideDate, b.overrideDate))
         .reduce(
           (acc, date) => {
             const group = acc[acc.length - 1];
@@ -251,12 +244,10 @@ export function createExceptionalOpeningHoursDays(
     const days = sortedDates
       .map(date => {
         const matchingVenueGroup = groupedExceptionalDays.find(group =>
-          group.find(
-            day => day.overrideDate && isSameDay(day.overrideDate, date)
-          )
+          group.find(day => isSameDay(day.overrideDate, date))
         );
-        const matchingDay = matchingVenueGroup?.find(
-          day => day.overrideDate && isSameDay(day.overrideDate, date)
+        const matchingDay = matchingVenueGroup?.find(day =>
+          isSameDay(day.overrideDate, date)
         );
         const backfillDay = exceptionalFromRegular(venue, date, type);
         if (type === 'other') {
@@ -320,13 +311,11 @@ export function getTodaysVenueHours(
 ): ExceptionalOpeningHoursDay | OpeningHoursDay | undefined {
   const todaysDate = today();
   const todayString = formatDayName(todaysDate);
-  const exceptionalOpeningHours =
-    venue.openingHours.exceptional &&
-    venue.openingHours.exceptional?.find(i =>
-      isSameDay(todaysDate, i.overrideDate, 'London')
-    );
-  const regularOpeningHours =
-    venue.openingHours.regular &&
-    venue.openingHours.regular.find(i => i.dayOfWeek === todayString);
+  const exceptionalOpeningHours = venue.openingHours.exceptional.find(i =>
+    isSameDay(todaysDate, i.overrideDate, 'London')
+  );
+  const regularOpeningHours = venue.openingHours.regular.find(
+    i => i.dayOfWeek === todayString
+  );
   return exceptionalOpeningHours || regularOpeningHours;
 }
