@@ -9,15 +9,18 @@ export async function transformPrismicResponse(
     const { title, contributors, body, promo, _meta } = node;
     const { primary: standfirst } = body[0];
     const { primary: image } = promo[0];
-    const { id, lastPublicationDate } = _meta;
+    const { id, firstPublicationDate } = _meta;
     return {
       id,
-      lastPublicationDate,
-      title,
+      title: title[0]?.text,
+      image: {
+        url: image.image?.url,
+      },
+      url: `https://wellcomecollection.org/articles/${id}`,
+      firstPublicationDate,
       contributors,
-      standfirst,
-      image,
       type: type,
+      summary: standfirst?.text[0]?.text,
     };
   });
   return results;

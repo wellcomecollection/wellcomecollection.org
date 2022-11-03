@@ -4,15 +4,24 @@ import { ContentType } from './index';
 
 export type Exhibition = {
   image: {
-    title: string;
-    image: Image;
-    description: string;
-    link: { id: string; type: string };
+    url: string;
   };
-  standfirst: { text: RichTextField };
+  summary: Standfirst[];
   id: string;
   contributors: Contributor[];
-  lastPublicationDate: Date;
-  title: string;
+  firstPublicationDate: Date;
+  title: Title;
   type: ContentType[];
+};
+
+export type Title = {
+  text: {
+    text: RichTextField;
+  };
+};
+
+export type Standfirst = {
+  text: {
+    text: string;
+  };
 };

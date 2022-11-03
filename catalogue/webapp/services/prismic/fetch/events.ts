@@ -1,4 +1,4 @@
-import { PrismicResultsList, PrismicApiError, contentType } from "../types";
+import { PrismicResultsList, PrismicApiError, ContentType } from '../types';
 import { Event } from '../types/event';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
@@ -18,7 +18,7 @@ export async function getEvents({
     const { allEventss } = await res;
     const { edges } = allEventss;
     const exhibitions = await transformPrismicResponse(
-      contentType['events'],
+      ['events'],
       edges
     );
     return {

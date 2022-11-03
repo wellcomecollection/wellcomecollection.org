@@ -1,8 +1,4 @@
-import {
-  PrismicResultsList,
-  PrismicApiError,
-  contentType,
-} from '../types/index';
+import { PrismicResultsList, PrismicApiError } from '../types/index';
 import { Exhibition } from '../types/exhibition';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
@@ -24,7 +20,7 @@ export async function getExhibitions({
     const { allExhibitionss } = await res;
     const { edges } = allExhibitionss;
     const exhibitions = await transformPrismicResponse(
-      contentType['exhibitions'],
+      ['exhibitions'],
       edges
     );
     return {

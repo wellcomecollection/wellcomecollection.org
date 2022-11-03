@@ -26,7 +26,7 @@ export const prismicGraphQLQuery = (
         edges {
           node {
             title
-            _meta { id, lastPublicationDate }
+            _meta { id, firstPublicationDate }
             contributors {
               contributor {
                 ...on People {

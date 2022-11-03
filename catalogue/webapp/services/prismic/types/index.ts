@@ -77,7 +77,7 @@ export type PrismicNodeList = {
   type: string;
   _meta: {
     id: string;
-    lastPublicationDate: string;
+    firstPublicationDate: Date;
   };
   body: Standfirst[];
   promo: Promo[];
@@ -94,5 +94,3 @@ export type PrismicResponseEdge = {
 };
 export type TransformedResponse = Story | Event | Exhibition;
 
-export class contentType {
-}
