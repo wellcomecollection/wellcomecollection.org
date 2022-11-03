@@ -162,13 +162,6 @@ export function completeDateRangeForExceptionalPeriods(
   });
 }
 
-/** Returns all the exceptional opening hours for a venue. */
-export function getExceptionalVenueDays(
-  venue: Venue
-): ExceptionalOpeningHoursDay[] {
-  return (venue.openingHours && venue.openingHours.exceptional) || [];
-}
-
 /** Groups a list of exceptional opening days.
  *
  * Each group will have at most 14 days between the first day and the last day.
@@ -250,7 +243,7 @@ export function createExceptionalOpeningHoursDays(
   allVenueExceptionalPeriods?: ExceptionalPeriod[]
 ): ExceptionalOpeningHoursGroup[] {
   const groupedExceptionalDays = groupExceptionalVenueDays(
-    getExceptionalVenueDays(venue)
+    venue.openingHours.exceptional
   );
   return (allVenueExceptionalPeriods ?? []).map(period => {
     const sortedDates = period.dates.sort((a, b) => countDaysBetween(a, b));
