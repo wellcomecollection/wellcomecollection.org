@@ -10,9 +10,10 @@ import {
   PrismicQueryProps,
 } from '../../services/prismic/fetch/events';
 import { Event } from '../../services/prismic/types/event';
+import { PrismicResultsList } from '../../services/prismic/types';
 
 type Props = {
-  eventResponseList: Event;
+  eventResponseList: PrismicResultsList<Event>;
 };
 
 export const SearchPage: NextPageWithLayout<Props> = ({

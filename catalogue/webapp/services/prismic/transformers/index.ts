@@ -10,6 +10,7 @@ export async function transformPrismicResponse(
     const { primary: standfirst } = body[0];
     const { primary: image } = promo[0];
     const { id, firstPublicationDate } = _meta;
+    const summary = standfirst.text[0].text;
     return {
       id,
       title: title[0]?.text,
@@ -20,7 +21,7 @@ export async function transformPrismicResponse(
       firstPublicationDate,
       contributors,
       type: type,
-      summary: standfirst?.text[0]?.text,
+      summary: summary,
     };
   });
   return results;

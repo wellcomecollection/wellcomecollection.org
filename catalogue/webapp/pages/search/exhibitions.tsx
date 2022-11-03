@@ -7,9 +7,10 @@ import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { getExhibitions, PrismicQueryProps } from '../../services/prismic/fetch/exhibitions';
 import { Exhibition } from '../../services/prismic/types/exhibition';
+import { PrismicResultsList } from '../../services/prismic/types';
 
 type Props = {
-  exhibitionResponseList: Exhibition;
+  exhibitionResponseList: PrismicResultsList<Exhibition>;
 };
 
 export const SearchPage: NextPageWithLayout<Props> = ({

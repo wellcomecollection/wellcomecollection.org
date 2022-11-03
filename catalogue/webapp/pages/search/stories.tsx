@@ -10,9 +10,10 @@ import {
   PrismicQueryProps,
 } from '../../services/prismic/fetch/articles';
 import { Story } from '../../services/prismic/types/story';
+import { PrismicResultsList } from '../../services/prismic/types';
 
 type Props = {
-  storyResponseList: Story;
+  storyResponseList: PrismicResultsList<Story>;
 };
 
 export const SearchPage: NextPageWithLayout<Props> = ({
