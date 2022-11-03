@@ -7,6 +7,7 @@ import { themeValues } from '@weco/common/views/themes/config';
 
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { useRouter } from 'next/router';
+import ClearSearch from '../ClearSearch/ClearSearch';
 
 const Container = styled.div`
   display: flex;
@@ -42,7 +43,7 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
   return (
     <form
       role="search"
-      id='searchPageForm'
+      id="searchPageForm"
       ref={searchForm}
       onSubmit={event => {
         event.preventDefault();
@@ -64,6 +65,17 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
             placeholder="search..."
             ariaLabel={`Search ${type}`}
           />
+          {inputQuery && (
+            <ClearSearch
+              inputRef={searchInput}
+              setValue={setInputQuery}
+              gaEvent={{
+                category: 'SearchForm',
+                action: 'clear search',
+              }}
+              right={16}
+            />
+          )}
         </SearchInputWrapper>
         <SearchButtonWrapper>
           <ButtonSolidV2
