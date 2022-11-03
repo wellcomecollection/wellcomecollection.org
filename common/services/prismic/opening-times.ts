@@ -50,7 +50,7 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
     })
     .filter(override => Boolean(override && override.overrideDate))
     .sort((a, b) => Number(a && a.overrideDate) - Number(b && b.overrideDate))
-    .filter((item, i, array) => {
+    .filter((item: OverrideDate, i, array) => {
       const firstDate = item && item.overrideDate;
       const lastItem = array && array[i - 1];
       const prevDate = lastItem && lastItem.overrideDate;
