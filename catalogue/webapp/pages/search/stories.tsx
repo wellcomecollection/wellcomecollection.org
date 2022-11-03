@@ -9,16 +9,17 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { getStories } from '@weco/catalogue/services/prismic';
 import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
+import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
+import { Story } from '@weco/catalogue/services/prismic/types/story';
 
 type Props = {
-  query: string;
-  storyResponseList;
+  storyResponseList: Story;
   totalPages: number;
+  query: string;
 };
 
 const Wrapper = styled.div`
@@ -117,9 +118,9 @@ const StoryInformationItem = styled.span`
 `;
 
 export const SearchPage: NextPageWithLayout<Props> = ({
-  query,
   storyResponseList,
   totalPages,
+  query,
 }) => {
   return (
     <Wrapper>
@@ -129,7 +130,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           <div>Sort Component?</div>
         </Space>
       </div>
-
       {storyResponseList.totalResults > 0 && (
         <div className="container" role="main">
           <Space
@@ -148,13 +148,12 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           </Space>
           <Space v={{ size: 'l', properties: ['padding-top'] }}>
             {storyResponseList.results.map(story => {
-              console.log({ story });
               return (
                 <Container key={story.id}>
+                  {/* TODO add link */}
                   <StoryWrapper href={story.url || '#'}>
-                    {/* TODO add link */}
                     <ImageWrapper>
-                      <img src={story.image.image.url} alt="" />
+                      <img src={story.image.url} alt="" />
 
                       {story.type && (
                         <MobileLabel>
@@ -170,13 +169,13 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       )}
                       <h3 className={font('wb', 4)}>{story.title[0].text}</h3>
                       {/* TODO update when we get new contributors array and new publication date */}
-                      {(story.lastPublicationDate ||
+                      {(story.firstPublicationDate ||
                         !!story.contributors.length) && (
                         <StoryInformation>
-                          {story.lastPublicationDate && (
+                          {story.firstPublicationDate && (
                             <StoryInformationItem>
                               <HTMLDate
-                                date={new Date(story.lastPublicationDate)}
+                                date={new Date(story.firstPublicationDate)}
                               />
                             </StoryInformationItem>
                           )}
@@ -193,11 +192,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                           )}
                         </StoryInformation>
                       )}
-                      {/* TODO replace with promo */}
-                      {story.standfirst?.text[0].text && (
-                        <p className={font('intr', 5)}>
-                          {story.standfirst?.text[0].text}
-                        </p>
+                      {/* TODO replace with promo? */}
+                      {story.summary && (
+                        <p className={font('intr', 5)}>{story.summary}</p>
                       )}
                     </Details>
                   </StoryWrapper>
@@ -207,7 +204,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           </Space>
         </div>
       )}
-
       {storyResponseList.totalResults === 0 && (
         <SearchNoResults query={query} hasFilters={false} />
       )}
@@ -239,7 +235,7 @@ export const getServerSideProps: GetServerSideProps<
   const pageSize = 6;
 
   storyResponseList = await getStories({
-    query,
+    query: query,
     pageSize,
   });
 
