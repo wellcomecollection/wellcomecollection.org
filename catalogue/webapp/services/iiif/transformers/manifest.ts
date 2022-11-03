@@ -58,7 +58,7 @@ export function transformManifest(
   const canvasCount = transformedCanvases.length;
   const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
   const restrictedService = getRestricedLoginService(manifestV3);
-
+  console.log({ manifestV3 });
   // TODO next
   const isTotallyRestricted = checkIsTotallyRestricted(
     authService,

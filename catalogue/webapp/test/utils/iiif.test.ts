@@ -1,13 +1,14 @@
 import { Manifest } from '@iiif/presentation-3';
-import { getCanvases, groupStructures } from '../../utils/iiif/v2';
-import { getAudio } from '../../utils/iiif/v3';
-import manifest from '@weco/common/__mocks__/iiif-manifest';
+import { groupStructures } from '../../utils/iiif/v2';
+import { getAudio, getTransformedCanvases } from '../../utils/iiif/v3';
 import {
+  manifest,
   manifestWithAudioTitles,
   manifestWithTranscript,
 } from '@weco/common/__mocks__/iiif-manifest-v3';
 
-const canvases = getCanvases(manifest);
+const canvases = getTransformedCanvases(manifest as Manifest);
+console.log({ canvases });
 const structures = [
   {
     '@id':
