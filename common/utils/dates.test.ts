@@ -10,6 +10,8 @@ import {
   isSameDay,
   isSameDayOrBefore,
   isSameMonth,
+  minDate,
+  maxDate,
   startOfWeek,
 } from './dates';
 
@@ -319,6 +321,35 @@ describe('countDaysBetween', () => {
     ({ x, y, daysBetween }) => {
       const result = countDaysBetween(x, y);
       expect(result).toBe(daysBetween);
+    }
+  );
+});
+
+describe('minDate and maxDate', () => {
+  const date1 = new Date('2001-01-01T01:01:01Z');
+  const date2 = new Date('2002-02-02T02:02:02Z');
+  const date3 = new Date('2003-03-03T03:03:03Z');
+
+  // We test in a bunch of combinations, in particular putting the
+  // min/max date in varying positions so we know the functions don't
+  // rely on the input order.
+  const combinations = [
+    { dates: [date1, date2, date3] },
+    { dates: [date2, date3, date1] },
+    { dates: [date3, date1, date2] },
+  ];
+
+  test.each(combinations)(
+    `the min date from ${combinations} is ${date1}`,
+    ({ dates }) => {
+      expect(minDate(dates)).toBe(date1);
+    }
+  );
+
+  test.each(combinations)(
+    `the max date from ${combinations} is ${date1}`,
+    ({ dates }) => {
+      expect(maxDate(dates)).toBe(date3);
     }
   );
 });

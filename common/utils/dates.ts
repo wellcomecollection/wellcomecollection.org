@@ -174,3 +174,15 @@ export function countDaysBetween(a: Date, b: Date): number {
   const millisecondsInDay = 1000 * 60 * 60 * 24;
   return Math.floor((a.valueOf() - b.valueOf()) / millisecondsInDay);
 }
+
+/** Returns the earliest date from a list. */
+export function minDate(dates: Date[]): Date {
+  console.assert(dates.length > 0);
+  return dates.reduce((a, b) => (a < b ? a : b));
+}
+
+/** Returns the latest date from a list. */
+export function maxDate(dates: Date[]): Date {
+  console.assert(dates.length > 0);
+  return dates.reduce((a, b) => (a > b ? a : b));
+}
