@@ -50,16 +50,17 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
     })
     .filter(override => Boolean(override && override.overrideDate))
     .sort((a, b) => Number(a && a.overrideDate) - Number(b && b.overrideDate))
-    .filter((item: OverrideDate, index, array) => {
-      const firstDate = item.overrideDate;
-      const lastItem = array && array[index - 1];
-      const prevDate = lastItem.overrideDate;
-      if (!index) {
-        return true;
-      } else if (firstDate && prevDate) {
-        return !isSameDay(firstDate, prevDate);
+    .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
+      const isAlreadyInResult = result.some(t =>
+        isSameDay(t.overrideDate, thisOverride.overrideDate)
+      );
+
+      if (!isAlreadyInResult) {
+        result.push(thisOverride);
       }
-    });
+
+      return result;
+    }, []);
 }
 
 /** Groups the list of OverrideDates based on:
