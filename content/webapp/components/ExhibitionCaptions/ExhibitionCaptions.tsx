@@ -160,13 +160,14 @@ function calculateTombstoneHeadingLevel(titlesUsed) {
 }
 
 const Stop: FunctionComponent<{
+  index: number;
   stop: Stop;
   isFirstStop: boolean;
   titlesUsed: {
     standalone: boolean;
     context: boolean;
   };
-}> = ({ stop, isFirstStop, titlesUsed }) => {
+}> = ({ index, stop, isFirstStop, titlesUsed }) => {
   const {
     standaloneTitle,
     title,
@@ -248,7 +249,7 @@ const Stop: FunctionComponent<{
         >
           <div className="flex flex--wrap container">
             <Tombstone>
-              {!hasContext && (
+              {!hasContext && title && (
                 <TombstoneTitle
                   level={tombstoneHeadingLevel}
                   id={dasherizeShorten(`${title}`)}
@@ -294,15 +295,19 @@ const Stop: FunctionComponent<{
                   <TranscriptTitle level={audioTranscriptHeadingLevel}>
                     {stop.number ? `Stop ${stop.number}: ` : ''}Audio transcript
                   </TranscriptTitle>
-                  <div id="transcription-text">
+                  <div id={`transcription-text-${index}`}>
                     <PrismicHtmlBlock
                       html={transcriptionText as prismicT.RichTextField}
                     />
                   </div>
                   {hasShowFullTranscriptionButton && (
                     <ButtonSolid
-                      colors={themeValues.buttonColors.greenTransparentGreen}
-                      ariaControls="transcription-text"
+                      colors={
+                        hasContext
+                          ? themeValues.buttonColors.charcoalTransparentCharcoal
+                          : themeValues.buttonColors.greenTransparentGreen
+                      }
+                      ariaControls={`transcription-text-${index}`}
                       ariaExpanded={isFullTranscription}
                       clickHandler={() => {
                         setIsFullTranscription(!isFullTranscription);
@@ -344,6 +349,7 @@ const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
         return (
           <Stop
             key={index}
+            index={index}
             stop={stop}
             isFirstStop={index === 0}
             titlesUsed={titlesUsed}

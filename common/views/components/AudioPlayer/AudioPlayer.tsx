@@ -218,10 +218,10 @@ const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id }) => {
   };
   return (
     <VolumeWrapper>
-      <MuteUnmuteButton
-        onClick={onVolumeButtonClick}
-        aria-label={isMuted ? 'Unmute player' : 'Mute player'}
-      >
+      <MuteUnmuteButton onClick={onVolumeButtonClick}>
+        <span className="visually-hidden">
+          {isMuted ? 'Unmute player' : 'Mute player'}
+        </span>
         <Icon
           iconColor="neutral.600"
           icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
@@ -401,26 +401,10 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
 
       <AudioPlayerGrid>
         <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
-          <PlayPauseInner
-            // We declare the ARIA data on this wrapper rather than relying on the icon label
-            // to avoid a weird behaviour in the iOS screen reader.
-            //
-            // In particular, some combination of the icon-swapping means that selecting
-            // the button is read as:
-            //
-            //    Button, play
-            //    (user taps button)
-            //    Play, pause
-            //
-            // With these attributes, it's now read as:
-            //
-            //    Play, button
-            //    (user taps button)
-            //    Pause
-            //
-            aria-label={isPlaying ? 'Pause' : 'Play'}
-            role="button"
-          >
+          <PlayPauseInner>
+            <span className="visually-hidden">
+              {isPlaying ? 'Pause' : 'Play'}
+            </span>
             <Icon iconColor="accent.green" icon={isPlaying ? pause : play} />
           </PlayPauseInner>
         </PlayPauseButton>

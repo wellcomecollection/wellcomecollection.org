@@ -243,11 +243,13 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
             <ViewerStructures mainViewerRef={mainViewerRef} />
           </AccordionItem>
         )}
-        {parentManifest && parentManifest.items && (
-          <AccordionItem title="Volumes">
-            <MultipleManifestList />
-          </AccordionItem>
-        )}
+        {parentManifest &&
+          parentManifest.behavior?.[0] === 'multi-part' &&
+          parentManifest.items && (
+            <AccordionItem title="Volumes">
+              <MultipleManifestList />
+            </AccordionItem>
+          )}
       </Inner>
       {searchService && (
         <Inner>
