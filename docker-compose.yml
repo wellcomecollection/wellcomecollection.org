@@ -35,7 +35,7 @@ services:
   pa11y:
     build:
       context: .
-      dockerfile: pa11y/webapp/Dockerfile
+      dockerfile: pa11y/Dockerfile
   updown:
     build:
       context: ./updown
