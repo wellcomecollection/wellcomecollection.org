@@ -5,10 +5,14 @@ import { getServerData } from '@weco/common/server-data';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
-import { getStories } from '../../services/prismic';
+import {
+  getStories,
+  PrismicQueryProps,
+} from '../../services/prismic/fetch/articles';
+import { Story } from '../../services/prismic/types/story';
 
 type Props = {
-  storyResponseList;
+  storyResponseList: Story;
 };
 
 export const SearchPage: NextPageWithLayout<Props> = ({
@@ -63,7 +67,7 @@ export const getServerSideProps: GetServerSideProps<
   const storyResponseList = await getStories({
     query,
     pageSize: 5,
-  });
+  } as PrismicQueryProps);
 
   return {
     props: removeUndefinedProps({
