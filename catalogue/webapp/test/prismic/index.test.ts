@@ -8,7 +8,7 @@ describe('transformPrismicResponse', () => {
           node: {
             _meta: {
               id: 'X123456',
-              lastPublicationDate: '2022-09-08T09:29:27+0000',
+              firstPublicationDate: '2022-09-08T09:29:27+0000',
             },
             title: [
               {
@@ -19,7 +19,11 @@ describe('transformPrismicResponse', () => {
             body: [
               {
                 primary: {
-                  text: 'A cat in a hat',
+                  text: [
+                    {
+                      text: 'A cat in a hat, a great story of an ace cat',
+                    },
+                  ],
                 },
               },
             ],
@@ -44,34 +48,30 @@ describe('transformPrismicResponse', () => {
     };
 
     const transformResponse = await transformPrismicResponse(
-      'articles',
+      ['articles'],
       samplePrismicResponse.edges
     );
 
     expect(transformResponse).toStrictEqual([
       {
+        title: 'A cat in a hat',
+        summary: 'A cat in a hat, a great story of an ace cat',
         id: 'X123456',
-        title: [
+        url: 'https://wellcomecollection.org/articles/X123456',
+        firstPublicationDate: '2022-09-08T09:29:27+0000',
+        contributors: [
           {
-            type: 'heading1',
-            text: 'A cat in a hat',
+            contributor: {
+              name: 'Dr. Seuss',
+            },
           },
         ],
-        contributors: [{ contributor: { name: 'Dr. Seuss' } }],
-        lastPublicationDate: '2022-09-08T09:29:27+0000',
-        standfirst: {
-          text: 'A cat in a hat',
-        },
         image: {
-          image: {
-            dimensions: { width: 4000, height: 2644 },
-            alt: 'Photograph of a a cat in a hat.',
-            copyright:
-              'A cat | Wellcome Collection | https://wellcomecollection.org/works/g8rvn3y7 | CC-BY | | ',
-            url: 'https://images.prismic.io/wellcomecollection/8b6b4b4e-4f1c-4f9e-8c1a-1b0c2b0e8b1a_The+cat+in+the+hat.jpg?auto=compress,format&rect=0,0,2000,2000&w=2000&h=2000',
-          },
+          url: 'https://images.prismic.io/wellcomecollection/8b6b4b4e-4f1c-4f9e-8c1a-1b0c2b0e8b1a_The+cat+in+the+hat.jpg?auto=compress,format&rect=0,0,2000,2000&w=2000&h=2000',
         },
-        type: 'articles',
+        type: [
+          'articles'
+        ],
       },
     ]);
   });

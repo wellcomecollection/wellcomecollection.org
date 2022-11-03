@@ -1,5 +1,4 @@
-import { Contributor, Image } from '@weco/common/model/catalogue';
-import { RichTextField, Slice } from '@prismicio/types';
+import { Contributor } from '@weco/common/model/catalogue';
 import { Story } from './story';
 import { Event } from './event';
 import { Exhibition } from './exhibition';
@@ -33,12 +32,17 @@ const querySchemaTypes = [
 
 export type QuerySchemaType = typeof querySchemaTypes[number];
 
-export type Standfirst = Slice<
-  'standfirst',
-  {
-    text: RichTextField;
-  }
->;
+export type Standfirst = {
+  primary: {
+    text: {
+      text: string;
+    };
+  };
+};
+
+export type Image = {
+  url: string;
+};
 
 export type Promo = {
   primary: {
@@ -71,9 +75,11 @@ export type PrismicNode = {
 };
 
 export type PrismicNodeList = {
-  title: string;
+  title: {
+    text: string;
+  };
   contributors: Contributor[];
-  image: Image[];
+  image: Image;
   type: string;
   _meta: {
     id: string;
