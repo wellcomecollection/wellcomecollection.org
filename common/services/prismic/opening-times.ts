@@ -276,12 +276,7 @@ export function createExceptionalOpeningHoursDays(
           day => day.overrideDate && isSameDay(day.overrideDate, date)
         );
         const backfillDay = exceptionalFromRegular(venue, date, type);
-        if (type === 'other') {
-          // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
-          return matchingDay;
-        } else {
-          return matchingDay || backfillDay;
-        }
+        return matchingDay || backfillDay;
       })
       .filter(isNotUndefined);
     return days;
