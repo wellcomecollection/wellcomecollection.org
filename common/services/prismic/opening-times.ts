@@ -11,7 +11,6 @@ import { isNotUndefined } from '../../utils/array';
 import {
   addDays,
   countDaysBetween,
-  dayBefore,
   getDatesBetween,
   isSameDay,
   isSameDayOrBefore,
@@ -273,7 +272,7 @@ export function groupConsecutiveExceptionalDays(
 
       if (
         lastDayOfGroup &&
-        isSameDay(dayBefore(date.overrideDate), lastDayOfGroup)
+        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup)
       ) {
         group.push(date);
       } else {

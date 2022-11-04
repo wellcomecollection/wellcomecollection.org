@@ -197,16 +197,6 @@ describe('isSameMonth', () => {
   });
 });
 
-describe('dayBefore', () => {
-  test.each([
-    { day: new Date('2022-09-02'), prevDay: new Date('2022-09-01') },
-    { day: new Date('2022-09-01'), prevDay: new Date('2022-08-31') },
-    { day: new Date('2022-01-01'), prevDay: new Date('2021-12-31') },
-  ])('the day before $day is $prevDay', ({ day, prevDay }) => {
-    expect(dayBefore(day)).toStrictEqual(prevDay);
-  });
-});
-
 //
 //    September 2022
 // Su Mo Tu We Th Fr Sa
