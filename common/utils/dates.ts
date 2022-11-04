@@ -19,13 +19,11 @@ export function today(): Date {
 }
 
 export function isPast(date: Date): boolean {
-  const now = new Date();
-  return date < now;
+  return date < today();
 }
 
 export function isFuture(date: Date): boolean {
-  const now = new Date();
-  return date > now;
+  return date > today();
 }
 
 export function isSameMonth(date1: Date, date2: Date): boolean {
