@@ -1,5 +1,5 @@
 import { isNotUndefined } from '@weco/common/utils/array';
-import { getDatesBetween, isFuture, maxDate, minDate } from '@weco/common/utils/dates';
+import { getDatesBetween, maxDate, minDate } from '@weco/common/utils/dates';
 import { HasTimeRanges } from '../../types/events';
 
 export type YearMonth = {
@@ -76,11 +76,11 @@ function isInMonth(d: Date, yearMonth: YearMonth): boolean {
 }
 
 function getEarliestStartTime({ times }: HasTimeRanges): Date {
-  return minDate(times.map(t => t.range.startDateTime).filter(isFuture));
+  return minDate(times.map(t => t.range.startDateTime));
 }
 
 function getLatestStartTime({ times }: HasTimeRanges): Date {
-  return maxDate(times.map(t => t.range.startDateTime).filter(isFuture));
+  return maxDate(times.map(t => t.range.startDateTime));
 }
 
 type GroupedEvent<T> = {
