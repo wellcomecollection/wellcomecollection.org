@@ -101,7 +101,6 @@ const SearchLayout: FunctionComponent = ({ children }) => {
 
   const updateUrl = (form: HTMLFormElement) => {
     const urlQuery = formDataAsUrlQuery(form);
-    console.log(urlQuery);
     router.push({ pathname: router.pathname, query: urlQuery });
   };
 

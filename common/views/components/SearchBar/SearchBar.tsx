@@ -36,7 +36,7 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
     <Container>
       <SearchInputWrapper>
         <TextInputV2
-          id="dummy-searchbar"
+          id="search-searchbar"
           label={`Search ${type}`}
           name="query"
           type="search"

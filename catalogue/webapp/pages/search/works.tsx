@@ -132,31 +132,29 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   </Space>
                 </noscript>
                 {isComponentMounted && (
-                  <>
-                    <Select
-                      value={(sortOrder as string) || ''}
-                      form="searchPageForm"
-                      name="sortOrder"
-                      label="sort results by:"
-                      onChange={e => setSortOrder(e.currentTarget.value)}
-                      options={[
-                        {
-                          value: '',
-                          text: 'Relevance',
-                        },
-                        {
-                          value: 'asc',
-                          text: 'Oldest to newest',
-                        },
-                        {
-                          value: 'desc',
-                          text: 'Newest to oldest',
-                        },
-                      ]}
-                      isPill
-                      hideLabel
-                    />
-                  </>
+                  <Select
+                    value={(sortOrder as string) || ''}
+                    form="searchPageForm"
+                    name="sortOrder"
+                    label="sort results by:"
+                    onChange={e => setSortOrder(e.currentTarget.value)}
+                    options={[
+                      {
+                        value: '',
+                        text: 'Relevance',
+                      },
+                      {
+                        value: 'asc',
+                        text: 'Oldest to newest',
+                      },
+                      {
+                        value: 'desc',
+                        text: 'Newest to oldest',
+                      },
+                    ]}
+                    isPill
+                    hideLabel
+                  />
                 )}
               </div>
               <SearchPagination totalPages={works?.totalPages} />
