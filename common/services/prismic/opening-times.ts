@@ -302,8 +302,7 @@ export function getUpcomingExceptionalOpeningHours(
 }
 
 export function getVenueById(venues: Venue[], id: string): Venue | undefined {
-  const venue = venues.find(venue => venue.id === id);
-  return venue;
+  return venues.find(venue => venue.id === id);
 }
 
 export function getTodaysVenueHours(
