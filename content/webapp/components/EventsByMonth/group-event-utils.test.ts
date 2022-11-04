@@ -173,62 +173,80 @@ describe('groupEventsByMonth', () => {
     ]);
   });
 
+  // These events are based on the state of the "What's on" page in
+  // early November 2022.
+
+  const evPhobiasAndManias = {
+    times: [
+      {
+        range: {
+          startDateTime: new Date('2022-11-10T19:00:00.000Z'),
+          endDateTime: new Date('2022-11-10T20:00:00.000Z'),
+        },
+      },
+    ],
+    title: 'Phobias and Manias with Kate Summerscale and Stephen Grosz',
+  };
+
+  const evWhatYouSee = {
+    times: [
+      {
+        range: {
+          startDateTime: new Date('2022-11-17T18:30:00.000Z'),
+          endDateTime: new Date('2022-11-19T15:00:00.000Z'),
+        },
+      },
+    ],
+    title: 'What You See / Don’t See When…',
+  };
+
+  const evHivAndAids = {
+    times: [
+      {
+        range: {
+          startDateTime: new Date('2022-10-18T09:30:00.000Z'),
+          endDateTime: new Date('2022-10-18T14:30:00.000Z'),
+        },
+      },
+      {
+        range: {
+          startDateTime: new Date('2022-11-08T10:30:00.000Z'),
+          endDateTime: new Date('2022-11-08T15:30:00.000Z'),
+        },
+      },
+      {
+        range: {
+          startDateTime: new Date('2022-11-30T10:30:00.000Z'),
+          endDateTime: new Date('2022-11-30T15:30:00.000Z'),
+        },
+      },
+    ],
+    title: 'HIV and AIDS',
+  };
+
+  const evLightsUp = {
+    times: [
+      {
+        range: {
+          startDateTime: new Date('2022-11-03T16:00:00.000Z'),
+          endDateTime: new Date('2023-02-09T20:00:00.000Z'),
+        },
+      },
+    ],
+    title: 'Lights Up',
+  };
+
   it('skips months that have already passed', () => {
     const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
     spyOnFuture.mockImplementation(
       (d: Date) => d > new Date('2022-11-02T00:00:00Z')
     );
 
-    // This is based on the state of the "What's on" page on 2 November 2022
-
-    const evPhobiasAndManias = {
-      times: [
-        {
-          range: {
-            startDateTime: new Date('2022-11-10T19:00:00.000Z'),
-            endDateTime: new Date('2022-11-10T20:00:00.000Z'),
-          },
-        },
-      ],
-      title: 'Phobias and Manias with Kate Summerscale and Stephen Grosz',
-    };
-
-    const evWhatYouSee = {
-      times: [
-        {
-          range: {
-            startDateTime: new Date('2022-11-17T18:30:00.000Z'),
-            endDateTime: new Date('2022-11-19T15:00:00.000Z'),
-          },
-        },
-      ],
-      title: 'What You See / Don’t See When…',
-    };
-
-    const evHivAndAids = {
-      times: [
-        {
-          range: {
-            startDateTime: new Date('2022-10-18T09:30:00.000Z'),
-            endDateTime: new Date('2022-10-18T14:30:00.000Z'),
-          },
-        },
-        {
-          range: {
-            startDateTime: new Date('2022-11-08T10:30:00.000Z'),
-            endDateTime: new Date('2022-11-08T15:30:00.000Z'),
-          },
-        },
-        {
-          range: {
-            startDateTime: new Date('2022-11-30T10:30:00.000Z'),
-            endDateTime: new Date('2022-11-30T15:30:00.000Z'),
-          },
-        },
-      ],
-      title: 'HIV and AIDS',
-    };
-
+    // Note that the HIV and AIDS event has multiple dates: one in October,
+    // two in November.
+    //
+    // When we get to November, we want to make sure we aren't still showing
+    // a group of October events on the "What's on" page.
     const events = [evPhobiasAndManias, evWhatYouSee, evHivAndAids];
 
     const groupedEvents = groupEventsByMonth(events);
@@ -237,6 +255,27 @@ describe('groupEventsByMonth', () => {
       {
         month: { month: 'November', year: 2022 },
         events: [evHivAndAids, evPhobiasAndManias, evWhatYouSee],
+      },
+    ]);
+  });
+
+  it('includes multi-day events which have started but not finished', () => {
+    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
+    spyOnFuture.mockImplementation(
+      (d: Date) => d > new Date('2022-11-05T00:00:00Z')
+    );
+
+    // Notice that on 5 November, the "Light's Up" event has already started,
+    // but it runs into February so we should make sure to include it
+    // in the list of November events.
+    const events = [evPhobiasAndManias, evWhatYouSee, evLightsUp];
+
+    const groupedEvents = groupEventsByMonth(events);
+
+    expect(groupedEvents).toStrictEqual([
+      {
+        month: { month: 'November', year: 2022 },
+        events: [evLightsUp, evPhobiasAndManias, evWhatYouSee],
       },
     ]);
   });
