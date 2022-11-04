@@ -1,5 +1,5 @@
 import { isNotUndefined } from '@weco/common/utils/array';
-import { getDatesBetween, isFuture } from '@weco/common/utils/dates';
+import { getDatesBetween, isFuture, maxDate, minDate } from '@weco/common/utils/dates';
 import { HasTimeRanges } from '../../types/events';
 
 export type YearMonth = {
@@ -73,14 +73,6 @@ function isInMonth(d: Date, yearMonth: YearMonth): boolean {
     d.getUTCFullYear() === yearMonth.year &&
     utcMonthNames[d.getUTCMonth()] === yearMonth.month
   );
-}
-
-function minDate(dates: Date[]): Date {
-  return dates.reduce((a, b) => (a < b ? a : b));
-}
-
-function maxDate(dates: Date[]): Date {
-  return dates.reduce((a, b) => (a > b ? a : b));
 }
 
 function getEarliestStartTime({ times }: HasTimeRanges): Date {

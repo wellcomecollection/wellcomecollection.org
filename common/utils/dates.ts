@@ -88,11 +88,6 @@ export function isDayPast(date: Date): boolean {
   }
 }
 
-// Returns the day before the current date
-export function dayBefore(date: Date): Date {
-  return addDays(date, -1);
-}
-
 // TODO: Does setting these to UTC 00:00:00 cause issues in London?
 export function startOfDay(d: Date): Date {
   const res = new Date(d);
@@ -171,4 +166,16 @@ export function getDatesBetween({
 export function countDaysBetween(a: Date, b: Date): number {
   const millisecondsInDay = 1000 * 60 * 60 * 24;
   return Math.floor((a.valueOf() - b.valueOf()) / millisecondsInDay);
+}
+
+/** Returns the earliest date from a list. */
+export function minDate(dates: Date[]): Date {
+  console.assert(dates.length > 0);
+  return dates.reduce((a, b) => (a < b ? a : b));
+}
+
+/** Returns the latest date from a list. */
+export function maxDate(dates: Date[]): Date {
+  console.assert(dates.length > 0);
+  return dates.reduce((a, b) => (a > b ? a : b));
 }

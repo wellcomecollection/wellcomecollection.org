@@ -2,7 +2,6 @@ import {
   getOverrideDatesForAllVenues,
   groupOverrideDates,
   completeDateRangeForExceptionalPeriods,
-  getExceptionalVenueDays,
   groupExceptionalVenueDays,
   exceptionalFromRegular,
   createExceptionalOpeningHoursDays,
@@ -240,63 +239,6 @@ describe('opening-times', () => {
       expect(result[0].dates.length).toEqual(10);
       expect(result[0].dates[2]).toEqual(new Date('2020-12-27'));
       expect(result[0].dates[5]).toEqual(new Date('2020-12-30'));
-    });
-  });
-
-  describe('getExceptionalVenueDays', () => {
-    it('returns all exceptional override dates for a venue', () => {
-      const result = getExceptionalVenueDays(galleriesVenue);
-      expect(result).toEqual([
-        {
-          overrideDate: new Date('2022-01-01'),
-          overrideType: 'Christmas and New Year',
-          opens: '12:00',
-          closes: '14:00',
-          isClosed: false,
-        },
-        {
-          overrideDate: new Date('2021-12-31'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2021-12-20'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-02-04'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-02-05'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2021-01-05'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-12-31'),
-          overrideType: 'Christmas and New Year',
-          opens: '10:00',
-          closes: '14:00',
-          isClosed: false,
-        },
-      ]);
     });
   });
 
