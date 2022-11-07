@@ -1,10 +1,7 @@
 import { getTodaysVenueHours } from '../../../services/prismic/opening-times';
 import Space from '../styled/Space';
 import { Venue } from '../../../model/opening-hours';
-import {
-  collectionVenueId,
-  getNameFromCollectionVenue,
-} from '@weco/common/data/hardcoded-ids';
+import { getNameFromCollectionVenue } from '@weco/common/data/hardcoded-ids';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
