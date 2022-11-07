@@ -154,21 +154,23 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             {storyResponseList.results.map(story => {
               return (
                 <Container key={story.id}>
-                  {/* TODO add link */}
-                  <StoryWrapper href={story.url || '#'}>
+                  {/* TODO add link once we have it */}
+                  <StoryWrapper href="#">
                     <ImageWrapper>
                       <img src={story.image.url} alt="" />
 
                       {story.type && (
                         <MobileLabel>
-                          <LabelsList labels={[{ text: story.type }]} />
+                          {/* TODO add labels once we have them */}
+                          <LabelsList labels={[{ text: 'Article' }]} />
                         </MobileLabel>
                       )}
                     </ImageWrapper>
                     <Details>
                       {story.type && (
                         <DesktopLabel>
-                          <LabelsList labels={[{ text: story.type }]} />
+                          {/* TODO add labels once we have them */}
+                          <LabelsList labels={[{ text: 'Article' }]} />
                         </DesktopLabel>
                       )}
                       <h3 className={font('wb', 4)}>{story.title[0].text}</h3>
@@ -185,13 +187,15 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                           )}
                           {!!story.contributors.length && (
                             <StoryInformationItem>
-                              {story.contributors.map(contributor => {
+                              {/* TODO update when we type contributors to match Prismic structure */}
+                              {/* {story.contributors.map(contributor => {
                                 return (
                                   <span key={contributor.contributor.name}>
                                     {contributor.contributor.name}
                                   </span>
                                 );
-                              })}
+                              })} */}
+                              <span>Jane Smith, John Smith</span>
                             </StoryInformationItem>
                           )}
                         </StoryInformation>
@@ -241,7 +245,7 @@ export const getServerSideProps: GetServerSideProps<
 
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
-      query: query,
+      query: query as string,
       pageSize,
     });
 
