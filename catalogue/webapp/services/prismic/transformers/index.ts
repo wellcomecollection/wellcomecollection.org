@@ -17,7 +17,7 @@ export async function transformPrismicResponse(
       image: {
         url: image.image?.url,
       },
-      url: `https://wellcomecollection.org/exhibitions/${id}`,
+      url: `https://wellcomecollection.org/${type}/${id}`,
       firstPublicationDate,
       contributors,
       type: type,
