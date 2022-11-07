@@ -6,7 +6,7 @@ export type Exhibition = {
   image: {
     url: string;
   };
-  summary: Standfirst[];
+  summary: Standfirst;
   id: string;
   contributors: Contributor[];
   firstPublicationDate: Date;
@@ -21,7 +21,7 @@ export type Title = {
 };
 
 export type Standfirst = {
-  text: {
+  caption: {
     text: string;
   };
 };

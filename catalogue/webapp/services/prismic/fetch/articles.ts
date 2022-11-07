@@ -1,6 +1,6 @@
 import { Story } from '../types/story';
 import { PrismicResultsList, PrismicApiError } from '../types/index';
-import { prismicGraphQLClient, prismicApiError, searchScore } from ".";
+import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
 
 export type PrismicQueryProps = {

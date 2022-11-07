@@ -6,18 +6,18 @@ export async function transformPrismicResponse(
 ): Promise<TransformedResponse[]> {
   const results = edges.map(edge => {
     const { node } = edge;
-    const { title, contributors, body, promo, _meta } = node;
-    const { primary: standfirst } = body[0];
+    const { title, contributors, promo, _meta } = node;
     const { primary: image } = promo[0];
     const { id, firstPublicationDate } = _meta;
-    const summary = standfirst.text[0].text;
+    const summary = image.caption[0].text;
+
     return {
       id,
       title: title[0]?.text,
       image: {
         url: image.image?.url,
       },
-      url: `https://wellcomecollection.org/articles/${id}`,
+      url: `https://wellcomecollection.org/exhibitions/${id}`,
       firstPublicationDate,
       contributors,
       type: type,

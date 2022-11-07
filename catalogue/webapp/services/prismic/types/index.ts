@@ -33,11 +33,9 @@ const querySchemaTypes = [
 export type QuerySchemaType = typeof querySchemaTypes[number];
 
 export type Standfirst = {
-  primary: {
-    text: {
-      text: string;
-    };
-  };
+  caption: {
+    text: string;
+  }
 };
 
 export type Image = {
@@ -46,6 +44,7 @@ export type Image = {
 
 export type Promo = {
   primary: {
+    caption: Standfirst;
     title: string;
     image: Image;
     description: string;
@@ -95,4 +94,3 @@ export type PrismicResponse = {
 };
 
 export type TransformedResponse = Story | Event | Exhibition;
-
