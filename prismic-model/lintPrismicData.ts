@@ -8,6 +8,7 @@
  */
 
 import chalk from 'chalk';
+import exp from 'constants';
 import { error } from './console';
 import {
   downloadPrismicSnapshot,
@@ -52,6 +53,31 @@ function detectBrokenInterpretationTypeLinks(doc: any): string[] {
   return [];
 }
 
+// Contributor links that don't begin with http or https will be treated as
+// relative URLs on the front-end, e.g. www.example.com becomes wc.org/articles/www.example.com.
+//
+// This obviously isn't what we want; this will find any cases where the link
+// doesn't have an http[s] prefix.
+function detectNonHttpContributorLinks(doc: any): string[] {
+  if (doc.type === 'people' || doc.type === 'organisations') {
+    for (const sameAs of doc.data.sameAs) {
+      const { link } = sameAs;
+
+      if (
+        link === null ||
+        link.indexOf('http://') === 0 ||
+        link.indexOf('https://') === 0
+      ) {
+        continue;
+      }
+
+      return ['- non-HTTP link in contributor link'];
+    }
+  }
+
+  return [];
+}
+
 async function run() {
   const snapshotDir = await downloadPrismicSnapshot();
 
@@ -61,6 +87,7 @@ async function run() {
     const errors = [
       ...detectEur01Safelinks(doc),
       ...detectBrokenInterpretationTypeLinks(doc),
+      ...detectNonHttpContributorLinks(doc),
     ];
 
     totalErrors += errors.length;
