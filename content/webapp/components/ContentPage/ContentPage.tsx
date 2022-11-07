@@ -149,7 +149,7 @@ const ContentPage = ({
         <Wrapper isCreamy={isCreamy}>
           {shouldRenderBody() && (
             <SpacingSection>
-              <div className="basic-page">
+              <div>
                 <Fragment>{Body}</Fragment>
                 {id === prismicPageIds.whatWeDo && <ShameWhatWeDoHack />}
               </div>
