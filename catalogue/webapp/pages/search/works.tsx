@@ -83,52 +83,56 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
               <div>
                 <noscript>
                   <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                    <span id="sort-label" className="visually-hidden">
-                      Sort by:
-                    </span>
-                    <select
-                      aria-labelledby="sort-label"
-                      name="sort"
-                      form="searchPageForm"
-                    >
-                      {[
-                        {
-                          value: '',
-                          text: 'Relevance',
-                        },
-                        {
-                          value: 'production.dates',
-                          text: 'Production dates',
-                        },
-                      ].map(o => (
-                        <option key={o.value} value={o.value}>
-                          {o.text}
-                        </option>
-                      ))}
-                    </select>
-                    <span id="sort-order-label" className="visually-hidden">
-                      Sort order:
-                    </span>
-                    <select
-                      aria-labelledby="sort-order-label"
-                      name="sortOrder"
-                      form="searchPageForm"
-                    >
-                      {[
-                        {
-                          value: 'asc',
-                          text: 'Ascending',
-                        },
-                        {
-                          value: 'desc',
-                          text: 'Descending',
-                        },
-                      ].map(o => (
-                        <option key={o.value} value={o.value}>
-                          {o.text}
-                        </option>
-                      ))}
-                    </select>
+                    <fieldset className="">
+                      <legend>Search result sorting</legend>
+                      <span id="sort-label" className="">
+                        Sort by:
+                      </span>
+                      <select
+                        aria-labelledby="sort-label"
+                        name="sort"
+                        form="searchPageForm"
+                      >
+                        {[
+                          {
+                            value: '',
+                            text: 'Relevance',
+                          },
+                          {
+                            value: 'production.dates',
+                            text: 'Production dates',
+                          },
+                        ].map(o => (
+                          <option key={o.value} value={o.value}>
+                            {o.text}
+                          </option>
+                        ))}
+                      </select>
+                      <br />
+                      <span id="sort-order-label" className="">
+                        Sort order:
+                      </span>
+                      <select
+                        aria-labelledby="sort-order-label"
+                        name="sortOrder"
+                        form="searchPageForm"
+                      >
+                        {[
+                          {
+                            value: 'asc',
+                            text: 'Ascending',
+                          },
+                          {
+                            value: 'desc',
+                            text: 'Descending',
+                          },
+                        ].map(o => (
+                          <option key={o.value} value={o.value}>
+                            {o.text}
+                          </option>
+                        ))}
+                      </select>
+                    </fieldset>
                   </Space>
                 </noscript>
                 {isComponentMounted && (
