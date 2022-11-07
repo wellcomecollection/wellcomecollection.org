@@ -15,9 +15,13 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
+import {
+  PrismicApiError,
+  PrismicResultsList,
+} from '@weco/catalogue/services/prismic/types';
 
 type Props = {
-  storyResponseList: Story;
+  storyResponseList: PrismicResultsList<Story>;
   totalPages: number;
   query: string;
 };
@@ -218,35 +222,45 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   const serverData = await getServerData(context);
   const { query } = context.query;
-  let storyResponseList = {};
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };
   }
 
+  // TODO cleanup all below when we determine what should be optional in Mel's branch (feat/prismic-transform-updates)
   if (!query)
     return {
       props: removeUndefinedProps({
         serverData,
+        storyResponseList: { totalResults: 0 },
         query,
       }),
     };
 
   const pageSize = 6;
 
-  storyResponseList = await getStories({
-    query: query,
-    pageSize,
-  });
+  const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
+    await getStories({
+      query: query,
+      pageSize,
+    });
 
-  const totalPages = Math.ceil(storyResponseList.results.length / pageSize);
+  if (storyResponseList?.type === 'ResultList') {
+    return {
+      props: removeUndefinedProps({
+        serverData,
+        storyResponseList,
+        query,
+        totalPages: Math.ceil(storyResponseList.results.length / pageSize),
+      }),
+    };
+  }
 
   return {
     props: removeUndefinedProps({
       serverData,
-      storyResponseList,
+      storyResponseList: { totalResults: 0 },
       query,
-      totalPages,
     }),
   };
 };
