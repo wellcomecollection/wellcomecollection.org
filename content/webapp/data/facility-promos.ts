@@ -50,20 +50,6 @@ export const libraryPromo: FacilityPromo = {
   },
 };
 
-export const restaurantPromo: FacilityPromo = {
-  id: 'restaurantPromo',
-  title: 'Restaurant',
-  url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Snk',
-  description: 'Enjoy delicious lunches, drinks and afternoon tea on level 2.',
-  image: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection%2Fc2475694-73e3-4309-ba6d-100a25fe6864_restaurant.png?auto=compress,format',
-    width: 408,
-    height: 229,
-    alt: '',
-  },
-};
-
 export const shopPromo: FacilityPromo = {
   id: 'shopPromo',
   title: 'Shop',
