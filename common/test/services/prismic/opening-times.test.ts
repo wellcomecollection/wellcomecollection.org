@@ -29,7 +29,6 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
 });
 
 const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx')!;
-const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
 
 describe('opening-times', () => {
   describe('getOverrideDatesForAllVenues: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
@@ -88,6 +87,7 @@ describe('opening-times', () => {
         },
       ]);
     });
+
     it('does not include a date more than once', () => {
       const result = getOverrideDatesForAllVenues(venues);
       const uniqueDates = new Set(
