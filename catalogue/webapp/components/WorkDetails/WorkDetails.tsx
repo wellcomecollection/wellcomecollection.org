@@ -1,4 +1,4 @@
-import NextLink from 'next/link';
+import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { downloadUrl } from '../../services/catalogue/urls';
@@ -52,6 +52,8 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
+import { Audio } from 'services/iiif/types/manifest/v3';
+import { IIIFMediaElement } from 'services/iiif/types/manifest/v2';
 
 type Props = {
   work: Work;
@@ -61,12 +63,19 @@ type Props = {
 // 'permission-required', so we pass them off to the UV on the library site
 // If we have audio or video, then we show it in situ and don't link to the Item page
 type ItemLinkState = 'useItemLink' | 'useLibraryLink' | 'useNoLink';
+
 function getItemLinkState({
   accessCondition,
   sierraIdFromManifestUrl,
   itemUrl,
   audio,
   video,
+}: {
+  accessCondition: string | undefined;
+  sierraIdFromManifestUrl: string | undefined;
+  itemUrl: LinkProps;
+  audio: Audio | undefined;
+  video: IIIFMediaElement | undefined;
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
     return 'useLibraryLink';
@@ -74,7 +83,7 @@ function getItemLinkState({
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return 'useNoLink';
   }
-  if (itemUrl && !(audio.sounds.length > 0) && !video) {
+  if (itemUrl && !((audio?.sounds || []).length > 0) && !video) {
     return 'useItemLink';
   }
 }
