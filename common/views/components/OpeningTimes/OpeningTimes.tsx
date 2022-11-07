@@ -44,9 +44,7 @@ const OpeningTimes: FunctionComponent<Props> = ({ venues }) => (
             key={venue.id}
           >
             <VenueName>
-              {venue.id === collectionVenueId.restaurant.id
-                ? 'Kitchen '
-                : `${getNameFromCollectionVenue(venue.id)} `}
+              getNameFromCollectionVenue(venue.id)
             </VenueName>
             {todaysHours.isClosed ? (
               'closed'
