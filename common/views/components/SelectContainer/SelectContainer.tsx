@@ -17,7 +17,7 @@ const StyledSelect = styled.div.attrs({
   className: font('intr', 5),
 })<StyledSelectProps>`
   position: relative;
-
+  ${({ isPill }) => isPill && 'display: inline-block;'}
   .icon {
     position: absolute;
     pointer-events: none;
