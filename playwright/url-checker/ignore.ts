@@ -43,10 +43,10 @@ export const ignoreErrorLog = (errorText: string): boolean => {
   // We can't do anything about GTM errors and we're not providing free uptime checking
   // for Google, so let these through rather than failing our e2e tests.
   if (
-    errorText.startsWith(
+    errorText.includes(
       'Request for an image resource at https://www.googletagmanager.com/'
     ) &&
-    errorText.endsWith('returned an unexpected mime type text/html')
+    errorText.includes('returned an unexpected mime type text/html')
   ) {
     return true;
   }
