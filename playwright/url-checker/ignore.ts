@@ -31,6 +31,12 @@ export const ignoreErrorLog = (errorText: string): boolean => {
     return true;
   }
 
+  return false;
+};
+
+export const ignoreMimeTypeMismatch = (request: Request): boolean => {
+  const resourceType = request.resourceType();
+
   // This covers a class of errors like:
   //
   //      Request for an image resource at https://www.googletagmanager.com/a?[long query string] returned an unexpected mime type text/html
@@ -42,14 +48,9 @@ export const ignoreErrorLog = (errorText: string): boolean => {
   //
   // We can't do anything about GTM errors and we're not providing free uptime checking
   // for Google, so let these through rather than failing our e2e tests.
-  if (
-    errorText.includes(
-      'Request for an image resource at https://www.googletagmanager.com/'
-    ) &&
-    errorText.includes('returned an unexpected mime type text/html')
-  ) {
-    return true;
+  if (resourceType === 'xhr' || resourceType === 'fetch') {
+    const url = request.url();
+    return url.startsWith('https://www.googletagmanager.com/');
   }
-
   return false;
 };
