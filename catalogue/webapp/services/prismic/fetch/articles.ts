@@ -16,6 +16,8 @@ export async function getStories({
   try {
     const res = await prismicGraphQLClient('articles', query, pageSize);
     const { allArticless } = await res;
+    const { allSeriess } = await res;
+    console.log(allSeriess, 'this is all series');
     const { edges } = allArticless;
     const stories = await transformPrismicResponse(['articles'], edges);
     return {

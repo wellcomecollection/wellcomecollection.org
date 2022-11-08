@@ -1,5 +1,5 @@
 import { Contributor } from '@weco/common/model/catalogue';
-import { ContentType, Image } from './index';
+import { ContentType } from './index';
 import { RichTextField } from '@prismicio/types';
 
 export type Story = {

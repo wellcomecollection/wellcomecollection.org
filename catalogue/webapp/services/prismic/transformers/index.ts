@@ -4,6 +4,8 @@ export async function transformPrismicResponse(
   type: ContentType[],
   edges: PrismicResponse[]
 ): Promise<TransformedResponse[]> {
+  console.log(edges, 'this is an edge fully');
+  console.dir(edges, { depth: null });
   const results = edges.map(edge => {
     const { node } = edge;
     const { title, contributors, promo, _meta } = node;

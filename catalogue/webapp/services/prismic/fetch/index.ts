@@ -27,6 +27,9 @@ export const prismicGraphQLQuery = (
           node {
             title
             _meta { id, firstPublicationDate }
+            format {
+              __typename
+            }
             contributors {
               contributor {
                 ...on People {
