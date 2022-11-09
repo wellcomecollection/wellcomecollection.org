@@ -17,14 +17,15 @@ export async function getEvents({
     const res = await prismicGraphQLClient('events', query, pageSize);
     const { allEventss } = await res;
     const { edges } = allEventss;
-    const exhibitions = await transformPrismicResponse(
-      ['events'],
-      edges
-    );
+    const events = await transformPrismicResponse(['events'], edges);
     return {
       type: 'ResultList',
-      results: exhibitions,
-      totalResults: exhibitions.length,
+      totalResults: allEventss.totalCount,
+      totalPages: Math.ceil(allEventss.totalCount / pageSize),
+      results: events,
+      pageSize: pageSize,
+      prevPage: null,
+      nextPage: null,
     };
   } catch (error) {
     console.log(error);
