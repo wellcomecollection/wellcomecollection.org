@@ -1,16 +1,15 @@
 import { PrismicResponse, TransformedResponse, ContentType } from '../types';
+import { articleIdToLabel } from '../fetch';
 
 export async function transformPrismicResponse(
   type: ContentType[],
   edges: PrismicResponse[]
 ): Promise<TransformedResponse[]> {
-  console.log(edges, 'this is an edge fully');
-  console.dir(edges, { depth: null });
   const results = edges.map(edge => {
     const { node } = edge;
-    const { title, contributors, promo, _meta } = node;
-    const { primary: image } = promo[0];
+    const { title, contributors, promo, _meta, format } = node;
     const { id, firstPublicationDate } = _meta;
+    const { primary: image } = promo[0];
     const summary = image.caption[0].text;
 
     return {
@@ -24,6 +23,7 @@ export async function transformPrismicResponse(
       contributors,
       type: type,
       summary: summary,
+      label: format ? articleIdToLabel(format._meta.id) : null,
     };
   });
   return results;

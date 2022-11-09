@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import { gql, GraphQLClient } from 'graphql-request';
 import { PrismicApiError } from '../types';
 import { capitalize } from '@weco/common/utils/grammar';
+import { ArticleFormatIds } from '@weco/common/data/content-format-ids'
 
 export const typesToPrismicGraphQLSchemaTypes = {
   // types to graphql query schema types,
@@ -11,6 +12,12 @@ export const typesToPrismicGraphQLSchemaTypes = {
   articles: 'allArticless',
   series: 'allSeriess',
   webcomics: 'allWebcomicss',
+};
+
+export const articleIdToLabel = (id: string) => {
+  return Object.keys(ArticleFormatIds).find(
+    key => ArticleFormatIds[key] === id
+  );
 };
 
 export const prismicGraphQLQuery = (
@@ -29,6 +36,13 @@ export const prismicGraphQLQuery = (
             _meta { id, firstPublicationDate }
             format {
               __typename
+            }
+            format {
+              ...on ArticleFormats {
+                _meta {
+                  id
+                }
+              }
             }
             contributors {
               contributor {

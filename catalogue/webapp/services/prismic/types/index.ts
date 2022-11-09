@@ -35,7 +35,7 @@ export type QuerySchemaType = typeof querySchemaTypes[number];
 export type Standfirst = {
   caption: {
     text: string;
-  }
+  };
 };
 
 export type Image = {
@@ -86,7 +86,17 @@ export type PrismicNodeList = {
   };
   body: Standfirst[];
   promo: Promo[];
+  format?: Format;
 };
+
+export type Format = {
+  __typename: string;
+  _meta: ContentId;
+};
+
+export type ContentId = {
+  id: string;
+}
 
 export type PrismicResponse = {
   edges: PrismicNode[];
