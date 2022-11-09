@@ -7,7 +7,7 @@ import { FunctionComponent } from 'react';
 const Anchor = styled.a.attrs(() => ({
   className: font('intb', 5),
 }))`
-  color: ${props => props.theme.color('neutral.600')};
+  color: ${props => props.theme.color('black')};
 `;
 
 const Root = styled(Space).attrs({
