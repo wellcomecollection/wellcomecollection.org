@@ -5,6 +5,7 @@ export type Event = {
   image: {
     url: string;
   };
+  url: string;
   summary: Standfirst;
   id: string;
   contributors: string[];

@@ -23,12 +23,6 @@ describe('OpeningTimes', () => {
     };
   });
 
-  it('Should display opening times name restaurant as Kitchen', () => {
-    const component = shallowWithTheme(<OpeningTimes venues={venues} />);
-
-    expect(component.html().match('Kitchen '));
-  });
-
   it('Should not display any opening times if openingHours.regular and openingHours.exceptional are empty', () => {
     const mockOpeningTimes = [
       {

@@ -21,7 +21,7 @@ import {
   LinkField,
   KeyTextField,
 } from '@prismicio/types';
-import { isPast } from '@weco/common/utils/dates';
+import { isPast, maxDate } from '@weco/common/utils/dates';
 import {
   asText,
   asTitle,
@@ -68,9 +68,7 @@ function transformEventBookingType(
 
 export function getLastEndTime(times: EventTime[]): Date | undefined {
   return times.length > 0
-    ? times
-        .map(({ range: { endDateTime } }) => endDateTime)
-        .reduce((a, b) => (a.valueOf() > b.valueOf() ? a : b))
+    ? maxDate(times.map(({ range: { endDateTime } }) => endDateTime))
     : undefined;
 }
 

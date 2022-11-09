@@ -7,6 +7,7 @@ import {
   isFuture,
   isPast,
   isSameDayOrBefore,
+  minDate,
   startOfDay,
 } from '@weco/common/utils/dates';
 import { Event, EventBasic, HasTimes } from '../../types/events';
@@ -20,11 +21,7 @@ function getNextDateInFuture(event: HasTimes): Date | undefined {
   if (futureTimes.length === 0) {
     return undefined;
   } else {
-    return futureTimes.reduce((closestStartingDate, time) =>
-      time.range.startDateTime <= closestStartingDate.range.startDateTime
-        ? time
-        : closestStartingDate
-    ).range.startDateTime;
+    return minDate(futureTimes.map(time => time.range.startDateTime));
   }
 }
 

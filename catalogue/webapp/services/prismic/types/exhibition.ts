@@ -6,6 +6,7 @@ export type Exhibition = {
   image: {
     url: string;
   };
+  url: string;
   summary: Standfirst;
   id: string;
   contributors: string[];

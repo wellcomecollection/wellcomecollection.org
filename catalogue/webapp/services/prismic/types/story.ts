@@ -5,6 +5,7 @@ export type Story = {
   image: {
     url: string;
   };
+  url: string;
   summary: Standfirst;
   id: string;
   contributors: string[];
