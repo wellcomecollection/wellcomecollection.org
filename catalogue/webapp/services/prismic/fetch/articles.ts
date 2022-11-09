@@ -24,13 +24,11 @@ export async function getStories({
   try {
     const res = await prismicGraphQLClient('articles', query, pageSize);
     const { allArticless } = await res;
-    console.log(allArticless, 'do we get all articles');
-    console.log(allArticless.totalCount, 'do we get some results');
     const { edges } = allArticless;
     const stories = await transformPrismicResponse(['articles'], edges);
     return {
       type: 'ResultList',
-      totalResults: stories.length,
+      totalResults: allArticless.totalCount,
       totalPages: Math.ceil(allArticless.totalCount / pageSize),
       results: stories,
       pageSize: pageSize,
