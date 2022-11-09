@@ -3,6 +3,9 @@ const mkdirp = require('mkdirp-promise');
 const pa11y = require('pa11y');
 const { promisify } = require('util');
 const writeFile = promisify(fs.writeFile);
+const events = require('events');
+
+events.EventEmitter.defaultMaxListeners = 25;
 
 console.info('Pa11y: Starting report');
 
