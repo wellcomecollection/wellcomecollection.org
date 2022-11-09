@@ -1,30 +1,55 @@
-import { font } from '@weco/common/utils/classnames';
-import { Image as ImageType } from '@weco/common/model/catalogue';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getImage } from '../../services/catalogue/images';
+
+import { font } from '@weco/common/utils/classnames';
+import { Image as ImageType } from '@weco/common/model/catalogue';
+import { getImage } from '@weco/catalogue/services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
-import IIIFImage from '../IIIFImage/IIIFImage';
+import IIIFImage from '@weco/catalogue/components/IIIFImage/IIIFImage';
+import LL from '@weco/common/views/components/styled/LL';
 
 type Props = {
   originalId: string;
   onClickImage: (image: ImageType) => void;
 };
 
-const Wrapper = styled.div`
+type State = 'initial' | 'loading' | 'success' | 'failed';
+
+const Wrapper = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
+})`
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  align-items: flex-end;
+  min-height: 120px;
+
+  ${props => props.theme.media('large')`
+    flex-wrap: nowrap;
+  `}
+
+  a {
+    flex: 1 0 auto;
+
+    ${props => props.theme.media('medium')`
+      flex: 0 1 auto;
+    `}
+  }
 
   img {
     margin-right: 10px;
-    margin-bottom: 10px;
-    height: auto;
-    max-height: 120px;
-    max-width: 190px;
     width: auto;
+    max-height: 120px;
+
+    ${props => props.theme.media('large')`
+      max-width: 150px;
+      width: calc(100% - 10px);
+    `};
   }
+`;
+
+const LoaderWrapper = styled.div`
+  height: 120px;
 `;
 
 const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
@@ -32,9 +57,11 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
   onClickImage,
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
+  const [requestState, setRequestState] = useState<State>('initial');
   const toggles = useToggles();
 
   useEffect(() => {
+    setRequestState('loading');
     const fetchVisuallySimilarImages = async () => {
       const { image: fullImage } = await getImage({
         id: originalId,
@@ -43,14 +70,27 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       });
       if (fullImage.type === 'Image') {
         setSimilarImages(fullImage.visuallySimilar || []);
+        setRequestState('success');
+      } else {
+        setRequestState('failed');
       }
     };
     fetchVisuallySimilarImages();
   }, [originalId]);
 
+  if (requestState === 'loading' && !similarImages.length)
+    return (
+      <Space v={{ size: 'xl', properties: ['margin-bottom', 'margin-top'] }}>
+        <LoaderWrapper>
+          <LL small position="relative" />
+        </LoaderWrapper>
+      </Space>
+    );
+
   return similarImages.length === 0 ? null : (
-    <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+    <>
       <h3 className={font('wb', 5)}>Visually similar images</h3>
+
       <Wrapper>
         {similarImages.map(related => (
           <a key={related.id} onClick={() => onClickImage(related)} href="#">
@@ -68,11 +108,15 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
         ))}
       </Wrapper>
       <p className={`${font('intr', 6)} no-margin`}>
-        These images have similar shapes and structural features. We use machine
-        learning to detect visual similarity across all images in our
-        collection.
+        We use machine learning to find images in our collection with similar
+        shapes and features.
+        <br />
+        <a href="mailto:digital@wellcomecollection.org?subject=Visually similar images feedback">
+          Let us know
+        </a>{' '}
+        if something doesn&rsquo;t look right.
       </p>
-    </Space>
+    </>
   );
 };
 export default VisuallySimilarImagesFromApi;
