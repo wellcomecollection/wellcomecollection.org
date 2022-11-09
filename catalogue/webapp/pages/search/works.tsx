@@ -22,6 +22,7 @@ import styled from 'styled-components';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 import { useRouter } from 'next/router';
 import Select from '@weco/common/views/components/Select/Select';
+import { propsToQuery } from '@weco/common/utils/routes';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -57,12 +58,8 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   const [sortOrder, setSortOrder] = useState(router.query.sortOrder || '');
 
   useEffect(() => {
-    if (router.query.sortOrder !== sortOrder) {
-      const form = document.getElementById('searchPageForm');
-      form?.dispatchEvent(
-        new window.Event('submit', { cancelable: true, bubbles: true })
-      );
-    }
+    const newQuery = propsToQuery({ ...router.query, sortOrder });
+    router.push({ pathname: router.pathname, query: newQuery });
   }, [sortOrder]);
 
   if (works.totalResults === 0) return <p>nothing</p>;
