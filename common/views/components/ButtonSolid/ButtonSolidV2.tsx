@@ -111,6 +111,7 @@ export type ButtonSolidBaseProps = {
   isIconAfter?: boolean;
   size?: ButtonSize;
   hoverUnderline?: boolean;
+  form?: string;
 };
 
 type ButtonSolidProps = ButtonSolidBaseProps & {
@@ -192,6 +193,7 @@ const Button: FC<ButtonSolidProps> = (
     colors,
     isIconAfter,
     hoverUnderline,
+    form,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -212,6 +214,7 @@ const Button: FC<ButtonSolidProps> = (
       colors={colors}
       hoverUnderline={hoverUnderline}
       ref={ref}
+      form={form}
     >
       <BaseButtonInner isInline={size === 'small'}>
         {isIconAfter && (
