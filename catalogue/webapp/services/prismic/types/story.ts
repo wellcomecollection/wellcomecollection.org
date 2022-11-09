@@ -2,16 +2,16 @@ import { ContentType } from './index';
 import { RichTextField } from '@prismicio/types';
 
 export type Story = {
+  id: string;
+  title: Title;
   image: {
     url: string;
   };
   url: string;
-  summary: Standfirst;
-  id: string;
-  contributors: string[];
   firstPublicationDate: Date;
-  title: Title;
+  contributors: string[];
   type: ContentType[];
+  summary: Standfirst;
   label?: string | null;
 };
 

@@ -30,6 +30,13 @@ export const prismicGraphQLQuery = (
       ${
         typesToPrismicGraphQLSchemaTypes[type]
       }(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+        hasPreviousPage
+      }
         edges {
           node {
             title

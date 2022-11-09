@@ -147,7 +147,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               {storyResponseList.totalResults > 0 && (
                 <div>{storyResponseList.totalResults} results</div>
               )}
-              <SearchPagination totalPages={totalPages} />
+              <SearchPagination totalPages={storyResponseList?.totalPages} />
             </ResultsPaginationWrapper>
           </Space>
           <Space v={{ size: 'l', properties: ['padding-top'] }}>

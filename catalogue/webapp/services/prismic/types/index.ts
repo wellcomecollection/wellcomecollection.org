@@ -65,7 +65,11 @@ export type PrismicApiError = {
 export type PrismicResultsList<Result> = {
   type: 'ResultList';
   totalResults: number;
+  totalPages: number;
   results: Result[];
+  pageSize: number;
+  prevPage: string | null;
+  nextPage: string | null;
 };
 
 export type PrismicNode = {

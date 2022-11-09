@@ -9,6 +9,14 @@ export type PrismicQueryProps = {
   type?: string;
 };
 
+// type: 'ResultList';
+// totalResults: number;
+// totalPages: number;
+// results: Result[];
+// pageSize: number;
+// prevPage: string | null;
+// nextPage: string | null;
+
 export async function getStories({
   query,
   pageSize,
@@ -16,12 +24,18 @@ export async function getStories({
   try {
     const res = await prismicGraphQLClient('articles', query, pageSize);
     const { allArticless } = await res;
+    console.log(allArticless, 'do we get all articles');
+    console.log(allArticless.totalCount, 'do we get some results');
     const { edges } = allArticless;
     const stories = await transformPrismicResponse(['articles'], edges);
     return {
       type: 'ResultList',
-      results: stories,
       totalResults: stories.length,
+      totalPages: Math.ceil(allArticless.totalCount / pageSize),
+      results: stories,
+      pageSize: pageSize,
+      prevPage: null,
+      nextPage: null,
     };
   } catch (error) {
     console.log(error);
