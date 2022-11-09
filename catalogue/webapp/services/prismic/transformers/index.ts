@@ -11,6 +11,7 @@ export async function transformPrismicResponse(
   edges: PrismicResponse[]
 ): Promise<TransformedResponse[]> {
   const results = edges.map(edge => {
+    console.dir(edge, { depth: null });
     const { node } = edge;
     const { title, contributors, promo, _meta, format } = node;
     const { id, firstPublicationDate } = _meta;

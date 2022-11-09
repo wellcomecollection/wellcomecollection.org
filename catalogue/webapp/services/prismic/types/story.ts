@@ -25,14 +25,3 @@ export type Standfirst = {
     text: string;
   };
 };
-
-// {
-//   summary: any;
-//   image: { url: any };
-//   id: string;
-//   contributors: Contributor[];
-//   title: any;
-//   lastPublicationDate: string;
-//   type: any;
-//   url: string
-// }

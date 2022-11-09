@@ -8,10 +8,11 @@ export type Exhibition = {
   };
   summary: Standfirst;
   id: string;
-  contributors: Contributor[];
+  contributors: string[];
   firstPublicationDate: Date;
   title: Title;
   type: ContentType[];
+  label?: string | null;
 };
 
 export type Title = {
