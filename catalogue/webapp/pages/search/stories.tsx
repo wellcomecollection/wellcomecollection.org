@@ -173,7 +173,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                           <LabelsList labels={[{ text: 'Article' }]} />
                         </DesktopLabel>
                       )}
-                      <h3 className={font('wb', 4)}>{story.title[0].text}</h3>
+                      <h3 className={font('wb', 4)}>{story.title}</h3>
                       {/* TODO update when we get new contributors array and new publication date */}
                       {(story.firstPublicationDate ||
                         !!story.contributors.length) && (
