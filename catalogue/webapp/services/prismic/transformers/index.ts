@@ -11,6 +11,7 @@ export async function transformPrismicResponse(
     const { id, firstPublicationDate } = _meta;
     const { primary: image } = promo[0];
     const summary = image.caption[0].text;
+    const isArticle = type.includes('articles');
 
     return {
       id,
@@ -23,7 +24,7 @@ export async function transformPrismicResponse(
       contributors,
       type: type,
       summary: summary,
-      label: format ? articleIdToLabel(format._meta.id) : null,
+      label: isArticle && format ? articleIdToLabel(format._meta.id) : null,
     };
   });
   return results;
