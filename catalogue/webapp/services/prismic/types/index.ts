@@ -1,4 +1,3 @@
-import { Contributor } from '@weco/common/model/catalogue';
 import { Story } from './story';
 import { Event } from './event';
 import { Exhibition } from './exhibition';
@@ -96,7 +95,15 @@ export type Format = {
 
 export type ContentId = {
   id: string;
-}
+};
+
+export type Contributor = {
+  contributor: ContributorNode;
+};
+
+export type ContributorNode = {
+  name: string;
+};
 
 export type PrismicResponse = {
   edges: PrismicNode[];
