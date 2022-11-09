@@ -14,6 +14,8 @@ type Props = {
   onClickImage: (image: ImageType) => void;
 };
 
+type State = 'initial' | 'loading' | 'success' | 'failed';
+
 const Wrapper = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
 })`
@@ -55,12 +57,12 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
   onClickImage,
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [requestState, setRequestState] = useState<State>('initial');
   const toggles = useToggles();
 
   useEffect(() => {
+    setRequestState('loading');
     const fetchVisuallySimilarImages = async () => {
-      setIsLoading(true);
       const { image: fullImage } = await getImage({
         id: originalId,
         toggles,
@@ -68,17 +70,19 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       });
       if (fullImage.type === 'Image') {
         setSimilarImages(fullImage.visuallySimilar || []);
+        setRequestState('success');
+      } else {
+        setRequestState('failed');
       }
-      setIsLoading(false);
     };
     fetchVisuallySimilarImages();
   }, [originalId]);
 
-  if (isLoading && !similarImages.length)
+  if (requestState === 'loading' && !similarImages.length)
     return (
       <Space v={{ size: 'xl', properties: ['margin-bottom', 'margin-top'] }}>
         <LoaderWrapper>
-          <LL small positionRelative />
+          <LL small position="relative" />
         </LoaderWrapper>
       </Space>
     );

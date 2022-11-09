@@ -136,7 +136,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
       };
       fetchDetailedWork();
     }
-  }, [workId]);
+  }, [workId, currentImageId]);
 
   useEffect(() => {
     // This downloads the IIIF manifest and tries to find the image in the canvases.

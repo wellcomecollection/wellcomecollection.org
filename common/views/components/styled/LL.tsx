@@ -3,27 +3,28 @@ import styled from 'styled-components';
 type LLProps = {
   small?: boolean;
   lighten?: boolean;
-  positionRelative?: boolean;
+  position?: 'relative' | 'absolute';
 };
 
 // We could use `zoom` for props.small, but it isn't supported in Firefox
 // see: https://bugzilla.mozilla.org/show_bug.cgi?id=390936
 const LL = styled.div<LLProps>`
-  position: relative;
   opacity: 0.2;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  ${props =>
-    !props.positionRelative &&
-    `
-    position:absolute;
-    top:50%;
-    transform: translateX(-50%) translateY(-50%);
-  `}
   width: ${props => (props.small ? '25px' : '50px')};
   height: ${props => (props.small ? '40px' : '80px')};
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
   animation: animate-ll;
+
+  ${props =>
+    props.position === 'relative' &&
+    ` position: relative;
+      top: 0;
+      transform: translateX(-50%);`}
 
   &:before,
   &:after {
