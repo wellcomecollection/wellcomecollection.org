@@ -107,7 +107,6 @@ export type Event = GenericContentFields & {
   cost?: string;
   bookingType?: string;
   thirdPartyBooking?: ThirdPartyBooking;
-  scheduleLength: number;
   schedule?: EventSchedule;
   eventbriteId?: string;
   isCompletelySoldOut?: boolean;

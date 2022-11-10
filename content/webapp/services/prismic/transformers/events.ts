@@ -162,11 +162,6 @@ export function transformEvent(
   scheduleQuery?: Query<EventPrismicDocument>
 ): Event {
   const data = document.data;
-  const scheduleLength = isFilledLinkToDocumentWithData(
-    data.schedule.map(s => s.event)[0]
-  )
-    ? data.schedule.length
-    : 0;
   const genericFields = transformGenericFields(document);
   const eventSchedule =
     scheduleQuery && scheduleQuery.results
@@ -315,7 +310,6 @@ export function transformEvent(
     series,
     seasons,
     contributors,
-    scheduleLength,
     schedule,
     eventbriteId,
     isCompletelySoldOut:
@@ -376,6 +370,7 @@ export function transformEvent(
 export function transformEventBasic(
   document: EventPrismicDocument
 ): EventBasic {
+  const { data } = document;
   const event = transformEvent(document);
 
   const {
@@ -389,11 +384,16 @@ export function transformEventBasic(
     isOnline,
     locations,
     availableOnline,
-    scheduleLength,
     series,
     secondaryLabels,
     cost,
   } = event;
+
+  const scheduleLength = isFilledLinkToDocumentWithData(
+    data.schedule.map(s => s.event)[0]
+  )
+    ? data.schedule.length
+    : 0;
 
   return {
     type,
