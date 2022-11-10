@@ -19,7 +19,7 @@ import {
   bookFields,
   pagesFormatsFields,
   guidesFields,
-} from '@weco/common/services/prismic/fetch-links';
+} from '../fetch-links';
 import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
 

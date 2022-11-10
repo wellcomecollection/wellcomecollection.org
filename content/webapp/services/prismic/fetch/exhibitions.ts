@@ -26,7 +26,7 @@ import {
   exhibitionResourcesFields,
   eventsFields,
   seasonsFields,
-} from '@weco/common/services/prismic/fetch-links';
+} from '../fetch-links';
 import { Period } from '../../../types/periods';
 import { getPeriodPredicates } from '../types/predicates';
 import {
@@ -178,6 +178,6 @@ export const fetchExhibitionRelatedContentClientSide = async (
 
   if (response.ok) {
     const json = await response.text();
-    return superjson.parse< ExhibitionRelatedContent>(json);
+    return superjson.parse<ExhibitionRelatedContent>(json);
   }
 };

@@ -20,7 +20,7 @@ import {
   contributorsFields,
   teamsFields,
   articlesFields,
-} from '@weco/common/services/prismic/fetch-links';
+} from '../fetch-links';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '../../../types/multi-content';
 import superjson from 'superjson';
