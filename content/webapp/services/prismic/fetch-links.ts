@@ -1,9 +1,3 @@
-export const placesFields = [
-  'places.title',
-  'places.level',
-  'places.capacity',
-  'places.locationInformation',
-];
 export const pagesFields = ['pages.title', 'pages.promo'];
 export const collectionVenuesFields = [
   'collection-venue.title',

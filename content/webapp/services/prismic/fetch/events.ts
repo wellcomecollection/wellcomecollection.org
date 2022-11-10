@@ -18,7 +18,7 @@ import {
   exhibitionsFetchLinks,
   seasonsFetchLinks,
 } from '../types';
-import { placesFetchLink } from '../types/places';
+import { placesFetchLinks } from '../types/places';
 import { backgroundTexturesFetchLink } from '../types/background-textures';
 
 const fetchLinks = [
@@ -30,7 +30,7 @@ const fetchLinks = [
   ...interpretationTypeFetchLinks,
   ...audienceFetchLinks,
   ...eventPolicyFetchLink,
-  ...placesFetchLink,
+  ...placesFetchLinks,
   ...teamFetchLinks,
   ...backgroundTexturesFetchLink,
   ...seasonsFetchLinks,

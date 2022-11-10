@@ -12,7 +12,6 @@ import {
   eventAccessOptionsFields,
   teamsFields,
   eventFormatsFields,
-  placesFields,
   interpretationTypesFields,
   audiencesFields,
   eventSeriesFields,
@@ -32,11 +31,12 @@ import {
 } from '../../../types/exhibitions';
 import superjson from 'superjson';
 import { contributorFetchLinks } from '../types';
+import { placesFetchLinks } from '../types/places';
 
 const fetchLinks = [
   ...exhibitionFields,
   ...contributorFetchLinks,
-  ...placesFields,
+  ...placesFetchLinks,
   ...exhibitionResourcesFields,
   ...eventSeriesFields,
   ...articlesFields,
@@ -135,7 +135,7 @@ export const fetchExhibitionRelatedContent = async (
     ...eventAccessOptionsFields,
     ...teamsFields,
     ...eventFormatsFields,
-    ...placesFields,
+    ...placesFetchLinks,
     ...interpretationTypesFields,
     ...audiencesFields,
     ...contributorFetchLinks,
