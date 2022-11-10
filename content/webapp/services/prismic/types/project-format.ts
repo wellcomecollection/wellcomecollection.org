@@ -10,5 +10,4 @@ export type ProjectFormat = PrismicDocument<
 
 export const projectFormatsFetchLinks: FetchLinks<ProjectFormat> = [
   'project-formats.title',
-  'project-formats.description',
 ];
