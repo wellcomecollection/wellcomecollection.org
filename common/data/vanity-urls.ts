@@ -83,21 +83,4 @@ export const vanityUrls: VanityUrl[] = [
     url: '/youth',
     prismicId: prismicPageIds.youth,
   },
-  // This was added for the the printed gallery guide that will accompany
-  // the Grace Ndiritu exhibition.
-  // See https://wellcome.slack.com/archives/C8X9YKM5X/p1664363102626599
-  {
-    url: '/colonial-roots',
-    prismicId: 'YLnsihAAACEAfsuu',
-  },
-  // This was added to improve the accessibility of this exhibition URL,
-  // in particular for use in Instagram pictures -- we wanted something that
-  // could be embedded in an image and would be easier to type than a string
-  // of letters.
-  // See https://wellcome.slack.com/archives/C3TQSF63C/p1668010459644169
-  {
-    url: '/in-plain-sight',
-    prismicId: 'Yv95yBAAAILuCNv6',
-    template: '/exhibition',
-  },
 ];
