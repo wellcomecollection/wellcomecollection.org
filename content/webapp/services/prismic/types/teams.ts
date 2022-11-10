@@ -1,5 +1,5 @@
 import { KeyTextField, RichTextField, PrismicDocument } from '@prismicio/types';
-import { CommonPrismicFields } from '.';
+import { CommonPrismicFields, FetchLinks } from '.';
 
 export type TeamPrismicDocument = PrismicDocument<
   {
@@ -11,3 +11,11 @@ export type TeamPrismicDocument = PrismicDocument<
   } & CommonPrismicFields,
   'teams'
 >;
+
+export const teamsFetchLinks: FetchLinks<TeamPrismicDocument> = [
+  'teams.title',
+  'teams.subtitle',
+  'teams.email',
+  'teams.phone',
+  'teams.url',
+];

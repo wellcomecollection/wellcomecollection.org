@@ -1,8 +1,8 @@
 import { clientSideFetcher, fetcher, GetServerSidePropsPrismicClient } from '.';
 import {
   audienceFetchLinks,
-  eventFormatFetchLink,
-  eventPolicyFetchLink,
+  eventFormatFetchLinks,
+  eventPolicyFetchLinks,
   EventPrismicDocument,
   interpretationTypeFetchLinks,
   teamFetchLinks,
@@ -14,23 +14,23 @@ import { Event } from '../../../types/events';
 import {
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
-  eventSeriesFetchLink,
+  eventSeriesFetchLinks,
   exhibitionsFetchLinks,
   seasonsFetchLinks,
 } from '../types';
-import { placesFetchLink } from '../types/places';
+import { placesFetchLinks } from '../types/places';
 import { backgroundTexturesFetchLink } from '../types/background-textures';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
   ...contributorFetchLinks,
-  ...eventSeriesFetchLink,
+  ...eventSeriesFetchLinks,
   ...exhibitionsFetchLinks,
-  ...eventFormatFetchLink,
+  ...eventFormatFetchLinks,
   ...interpretationTypeFetchLinks,
   ...audienceFetchLinks,
-  ...eventPolicyFetchLink,
-  ...placesFetchLink,
+  ...eventPolicyFetchLinks,
+  ...placesFetchLinks,
   ...teamFetchLinks,
   ...backgroundTexturesFetchLink,
   ...seasonsFetchLinks,

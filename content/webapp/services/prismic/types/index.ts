@@ -114,8 +114,9 @@ export type WithEventSeries = {
     >;
   }>;
 };
-export const eventSeriesFetchLink: FetchLinks<EventSeriesPrismicDocument> = [
+export const eventSeriesFetchLinks: FetchLinks<EventSeriesPrismicDocument> = [
   'event-series.title',
+  'event-series.backgroundTexture',
   'event-series.promo',
 ];
 
@@ -130,6 +131,8 @@ export type WithSeasons = {
 };
 export const seasonsFetchLinks: FetchLinks<SeasonPrismicDocument> = [
   'seasons.title',
+  'seasons.start',
+  'seasons.end',
   'seasons.promo',
 ];
 
@@ -172,6 +175,7 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
   'exhibitions.title',
   'exhibitions.promo',
   'exhibitions.shortTitle',
+  'exhibitions.format',
 ];
 
 type Contributor =
@@ -196,23 +200,30 @@ export type WithContributors = {
   }>;
 };
 
-type ContributorFetchLink = (
-  | FetchLinks<EditorialContributorRole>[number]
-  | FetchLinks<Person>[number]
-  | FetchLinks<Organisation>[number]
-)[];
-export const contributorFetchLinks: ContributorFetchLink = [
+const contributionRoleFetchLinks: FetchLinks<EditorialContributorRole> = [
   'editorial-contributor-roles.title',
   'editorial-contributor-roles.describedBy',
+];
+
+const personFetchLinks: FetchLinks<Person> = [
   'people.name',
   'people.description',
   'people.pronouns',
   'people.image',
   'people.sameAs',
+];
+
+const organisationFetchLinks: FetchLinks<Organisation> = [
   'organisations.name',
   'organisations.description',
   'organisations.image',
   'organisations.sameAs',
+];
+
+export const contributorFetchLinks = [
+  ...contributionRoleFetchLinks,
+  ...personFetchLinks,
+  ...organisationFetchLinks,
 ];
 
 // Guards

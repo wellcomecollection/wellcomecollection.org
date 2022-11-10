@@ -19,7 +19,7 @@ export type PlacePrismicDocument = PrismicDocument<
   'places'
 >;
 
-export const placesFetchLink: FetchLinks<PlacePrismicDocument> = [
+export const placesFetchLinks: FetchLinks<PlacePrismicDocument> = [
   'places.title',
   'places.geolocation',
   'places.level',

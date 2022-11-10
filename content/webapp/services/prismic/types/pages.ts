@@ -7,6 +7,7 @@ import {
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
+  FetchLinks,
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
@@ -21,6 +22,11 @@ type PageFormat = PrismicDocument<
   },
   'page-formats'
 >;
+
+export const pageFormatsFetchLinks: FetchLinks<PageFormat> = [
+  'page-formats.title',
+  'page-formats.description',
+];
 
 export type WithPageFormat = {
   format: RelationField<
@@ -43,3 +49,8 @@ export type PagePrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
+
+export const pagesFetchLinks: FetchLinks<PagePrismicDocument> = [
+  'pages.title',
+  'pages.promo',
+];

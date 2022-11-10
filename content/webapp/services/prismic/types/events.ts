@@ -31,7 +31,7 @@ export type EventFormat = PrismicDocument<
   },
   'event-formats'
 >;
-export const eventFormatFetchLink: FetchLinks<EventFormat> = [
+export const eventFormatFetchLinks: FetchLinks<EventFormat> = [
   'event-formats.title',
   'event-formats.description',
 ];
@@ -71,7 +71,7 @@ export type EventPolicy = PrismicDocument<
   },
   'event-policies'
 >;
-export const eventPolicyFetchLink: FetchLinks<EventPolicy> = [
+export const eventPolicyFetchLinks: FetchLinks<EventPolicy> = [
   'event-policies.title',
   'event-policies.description',
 ];
@@ -205,6 +205,7 @@ export type EventPrismicDocument = PrismicDocument<
 >;
 
 export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
+  'events.title',
   'events.audiences',
   'events.schedule',
   'events.interpretations',

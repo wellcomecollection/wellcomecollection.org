@@ -1,46 +1,50 @@
 import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
-import { PagePrismicDocument } from '../types/pages';
 import {
-  articleSeriesFields,
-  pagesFields,
-  collectionVenuesFields,
-  eventSeriesFields,
-  exhibitionFields,
-  teamsFields,
-  eventsFields,
-  cardsFields,
-  eventFormatsFields,
-  articleFormatsFields,
-  labelsFields,
-  seasonsFields,
-  contributorsFields,
-  peopleFields,
-  bookFields,
-  pagesFormatsFields,
-  guidesFields,
-} from '../fetch-links';
+  pageFormatsFetchLinks,
+  PagePrismicDocument,
+  pagesFetchLinks,
+} from '../types/pages';
+import { labelsFields } from '../fetch-links';
 import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
+import {
+  articleFormatsFetchLinks,
+  contributorFetchLinks,
+  eventSeriesFetchLinks,
+  exhibitionFormatsFetchLinks,
+  exhibitionsFetchLinks,
+  projectFormatsFetchLinks,
+  seasonsFetchLinks,
+} from '../types';
+import { teamsFetchLinks } from '../types/teams';
+import { eventFormatFetchLinks, eventsFetchLinks } from '../types/events';
+import { collectionVenuesFetchLinks } from '../types/collection-venues';
+import { bookFetchLinks } from '../types/books';
+import { seriesFetchLinks } from '../types/series';
+import { cardFetchLinks } from '../types/card';
+import { guideFetchLinks, guideFormatsFetchLinks } from '../types/guides';
 
 export const fetchLinks = [
-  ...pagesFields,
-  ...articleSeriesFields,
-  ...eventSeriesFields,
-  ...collectionVenuesFields,
-  ...exhibitionFields,
-  ...teamsFields,
-  ...eventsFields,
-  ...cardsFields,
-  ...eventFormatsFields,
-  ...articleFormatsFields,
+  ...pagesFetchLinks,
+  ...seriesFetchLinks,
+  ...eventSeriesFetchLinks,
+  ...collectionVenuesFetchLinks,
+  ...exhibitionFormatsFetchLinks,
+  ...exhibitionsFetchLinks,
+  ...teamsFetchLinks,
+  ...eventsFetchLinks,
+  ...cardFetchLinks,
+  ...eventFormatFetchLinks,
+  ...articleFormatsFetchLinks,
   ...labelsFields,
-  ...seasonsFields,
-  ...contributorsFields,
-  ...peopleFields,
-  ...bookFields,
-  ...pagesFormatsFields,
-  ...guidesFields,
+  ...seasonsFetchLinks,
+  ...contributorFetchLinks,
+  ...bookFetchLinks,
+  ...pageFormatsFetchLinks,
+  ...guideFormatsFetchLinks,
+  ...projectFormatsFetchLinks,
+  ...guideFetchLinks,
 ];
 
 /** Although these are three different document types in Prismic, they all get

@@ -8,7 +8,6 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../utils/page-header';
 import { Series } from '../types/series';
 import { ArticleBasic } from '../types/articles';
-import { seasonsFields } from '../services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -32,6 +31,7 @@ import {
 import { transformQuery } from 'services/prismic/transformers/paginated-results';
 import Space from '@weco/common/views/components/styled/Space';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import { seasonsFetchLinks } from 'services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       predicates: [prismic.predicate.at(seriesField, id)],
       page,
       pageSize: 20,
-      fetchLinks: seasonsFields,
+      fetchLinks: seasonsFetchLinks,
     });
 
     // This can occasionally occur if somebody in the Editorial team is

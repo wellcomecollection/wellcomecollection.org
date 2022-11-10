@@ -1,119 +1,28 @@
-export const peopleFields = [
-  'people.name',
-  'people.image',
-  'people.description',
-  'people.pronouns',
-  'people.sameAs',
-];
-export const contributorsFields = ['editorial-contributor-roles.title'];
-export const organisationsFields = [
-  'organisations.name',
-  'organisations.image',
-  'organisations.url',
-  'organisations.description',
-  'organisations.sameAs',
-];
-export const placesFields = [
-  'places.title',
-  'places.level',
-  'places.capacity',
-  'places.locationInformation',
-];
-export const pagesFields = ['pages.title', 'pages.promo'];
-export const collectionVenuesFields = [
-  'collection-venue.title',
-  'collection-venue.image',
-  'collection-venue.link',
-  'collection-venue.linkText',
-  'collection-venue.order',
-  'collection-venue.monday',
-  'collection-venue.tuesday',
-  'collection-venue.wednesday',
-  'collection-venue.thursday',
-  'collection-venue.friday',
-  'collection-venue.saturday',
-  'collection-venue.sunday',
-  'collection-venue.modifiedDayOpeningTimes',
-];
+// Note: I'm not sure what these fetch links do, because it's unclear
+// what part of our Prismic types they refer to -- e.g. there's no field
+// called 'exhibition-resources', only 'resources'.
+//
+// To work out what they do, it would be useful to:
+//
+//    1. Find the Prismic fetchers where we use these fetch fields
+//    2. Find the ID of every document that might be affected
+//    3. Fetch each of those documents, with and without these fetch fields
+//    4. Compare the responses for any difference
+//
+// If all the responses are the same, these aren't do anything and we can remove
+// them.  If the responses are different, that gives us a clue as to what these
+// are doing, and we can match them up to the associated Prismic types.
+//
+// (But I don't have time to do that right now.)
 
-export const eventSeriesFields = [
-  'event-series.title',
-  'event-series.description',
-  'event-series.backgroundTexture',
-  'event-series.promo',
-];
-export const exhibitionFields = [
-  'exhibition-formats.title',
-  'exhibitions.title',
-  'exhibitions.format',
-];
-export const bookFields = ['books.title'];
-export const eventFormatsFields = [
-  'event-formats.title',
-  'event-formats.description',
-];
 export const eventAccessOptionsFields = [
   'event-access-options.title',
   'event-access-options.description',
   'event-access-options.description',
-];
-export const interpretationTypesFields = [
-  'interpretation-types.title',
-  'interpretation-types.abbreviation',
-  'interpretation-types.description',
-  'interpretation-types.primaryDescription',
-];
-export const teamsFields = [
-  'teams.title',
-  'teams.subtitle',
-  'teams.email',
-  'teams.phone',
-  'teams.url',
-];
-export const audiencesFields = ['audiences.title'];
-export const eventPoliciesFields = [
-  'event-policies.title',
-  'event-policies.description',
 ];
 export const exhibitionResourcesFields = [
   'exhibition-resources.title',
   'exhibition-resources.description',
   'exhibition-resources.icon',
 ];
-export const articleSeriesFields = ['series.title'];
-export const articleFormatsFields = [
-  'article-formats.title',
-  'article-formats.description',
-];
-export const articlesFields = ['articles.title'];
-export const eventsFields = [
-  'events.title',
-  'events.schedule',
-  'events.interpretations',
-  'events.audiences',
-  'events.series',
-  'events.times',
-];
-export const seasonsFields = [
-  'seasons.title',
-  'seasons.start',
-  'seasons.end',
-  'seasons.promo',
-];
-export const cardsFields = [
-  'card.title',
-  'card.format',
-  'card.description',
-  'card.image',
-  'card.link',
-];
-export const pagesFormatsFields = [
-  'page-formats.title',
-  'page-formats.description',
-  'guide-formats.title',
-  'guide-formats.description',
-  'project-formats.title',
-  'project-formats.description',
-];
 export const labelsFields = ['labels.title', 'labels.description'];
-export const guidesFields = ['guides.title', 'guides.promo'];

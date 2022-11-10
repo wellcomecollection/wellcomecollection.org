@@ -13,6 +13,7 @@ import {
   WithExhibitionParents,
   WithSeasons,
   WithContributors,
+  FetchLinks,
 } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 
@@ -43,3 +44,7 @@ export type ArticlePrismicDocument = PrismicDocument<
     CommonPrismicFields,
   'articles' | 'webcomics'
 >;
+
+export const articlesFetchLinks: FetchLinks<ArticlePrismicDocument> = [
+  'articles.title',
+];

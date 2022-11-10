@@ -6,24 +6,25 @@ import {
   StructuredSearchQuery,
 } from '../types/multi-content';
 import * as prismic from '@prismicio/client';
-import {
-  pagesFields,
-  interpretationTypesFields,
-  placesFields,
-  eventFormatsFields,
-  eventPoliciesFields,
-  audiencesFields,
-  articleSeriesFields,
-  exhibitionFields,
-  peopleFields,
-  organisationsFields,
-  contributorsFields,
-  teamsFields,
-  articlesFields,
-} from '../fetch-links';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '../../../types/multi-content';
 import superjson from 'superjson';
+import {
+  contributorFetchLinks,
+  exhibitionFormatsFetchLinks,
+  exhibitionsFetchLinks,
+} from '../types';
+import { placesFetchLinks } from '../types/places';
+import { teamsFetchLinks } from '../types/teams';
+import {
+  audienceFetchLinks,
+  eventFormatFetchLinks,
+  eventPolicyFetchLinks,
+  interpretationTypeFetchLinks,
+} from '../types/events';
+import { pagesFetchLinks } from '../types/pages';
+import { seriesFetchLinks } from '../types/series';
+import { articlesFetchLinks } from '../types/articles';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -65,19 +66,18 @@ export const fetchMultiContent = async (
 
   return client.get<MultiContentPrismicDocument>({
     fetchLinks: [
-      ...pagesFields,
-      ...interpretationTypesFields,
-      ...placesFields,
-      ...eventFormatsFields,
-      ...eventPoliciesFields,
-      ...audiencesFields,
-      ...articleSeriesFields,
-      ...exhibitionFields,
-      ...peopleFields,
-      ...organisationsFields,
-      ...contributorsFields,
-      ...teamsFields,
-      ...articlesFields,
+      ...pagesFetchLinks,
+      ...interpretationTypeFetchLinks,
+      ...placesFetchLinks,
+      ...eventFormatFetchLinks,
+      ...eventPolicyFetchLinks,
+      ...audienceFetchLinks,
+      ...seriesFetchLinks,
+      ...exhibitionFormatsFetchLinks,
+      ...exhibitionsFetchLinks,
+      ...contributorFetchLinks,
+      ...teamsFetchLinks,
+      ...articlesFetchLinks,
     ],
     predicates,
     pageSize: pageSize || 100,
