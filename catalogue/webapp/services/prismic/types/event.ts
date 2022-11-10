@@ -12,7 +12,7 @@ export type Event = {
   contributors: string[];
   type: ContentType[];
   summary: Standfirst;
-  label?: string | null;
+  label: { text: string };
 };
 
 export type Title = {

@@ -142,7 +142,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               properties: ['padding-top', 'padding-bottom'],
             }}
           >
-            {/* TODO make pagination work... */}
+            {/* TODO make pagination - cursor based pagination with graphql query */}
             <ResultsPaginationWrapper>
               {storyResponseList.totalResults > 0 && (
                 <div>{storyResponseList.totalResults} results</div>
@@ -166,11 +166,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       )}
                     </ImageWrapper>
                     <Details>
-                      {console.log(
-                        story.label,
-                        typeof story.label,
-                        'what is label at this point'
-                      )}
                       {story.label && (
                         <DesktopLabel>
                           {/* TODO add labels once we have them */}

@@ -15,9 +15,10 @@ export const typesToPrismicGraphQLSchemaTypes = {
 };
 
 export const articleIdToLabel = (id: string) => {
-  return Object.keys(ArticleFormatIds).find(
+  const label = Object.keys(ArticleFormatIds).find(
     key => ArticleFormatIds[key] === id
   );
+  return label as string;
 };
 
 export const prismicGraphQLQuery = (
@@ -29,7 +30,7 @@ export const prismicGraphQLQuery = (
     query {
       ${
         typesToPrismicGraphQLSchemaTypes[type]
-      }(fulltext: "${query}" sortBy: title_ASC first: ${pageSize}) {
+      }(fulltext: "${query}" sortBy: title_ASC first: ${pageSize} ) {
       totalCount
       pageInfo {
         hasNextPage
@@ -38,6 +39,7 @@ export const prismicGraphQLQuery = (
         hasPreviousPage
       }
         edges {
+          cursor
           node {
             title
             _meta { id, firstPublicationDate }

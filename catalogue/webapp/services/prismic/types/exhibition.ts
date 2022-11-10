@@ -1,4 +1,3 @@
-import { Contributor, Image } from '@weco/common/model/catalogue';
 import { RichTextField } from '@prismicio/types';
 import { ContentType } from './index';
 
@@ -13,7 +12,7 @@ export type Exhibition = {
   contributors: string[];
   type: ContentType[];
   summary: Standfirst;
-  label?: string | null;
+  label: { text: string };
 };
 
 export type Title = {

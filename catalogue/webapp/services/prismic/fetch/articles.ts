@@ -9,14 +9,6 @@ export type PrismicQueryProps = {
   type?: string;
 };
 
-// type: 'ResultList';
-// totalResults: number;
-// totalPages: number;
-// results: Result[];
-// pageSize: number;
-// prevPage: string | null;
-// nextPage: string | null;
-
 export async function getStories({
   query,
   pageSize,

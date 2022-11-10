@@ -19,10 +19,7 @@ export async function getExhibitions({
     const res = await prismicGraphQLClient('exhibitions', query, pageSize);
     const { allExhibitionss } = await res;
     const { edges } = allExhibitionss;
-    const exhibitions = await transformPrismicResponse(
-      ['exhibitions'],
-      edges
-    );
+    const exhibitions = await transformPrismicResponse(['exhibitions'], edges);
     return {
       type: 'ResultList',
       totalResults: allExhibitionss.totalCount,

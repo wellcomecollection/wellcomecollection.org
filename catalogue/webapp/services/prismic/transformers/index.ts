@@ -22,7 +22,6 @@ export async function transformPrismicResponse(
       const { name } = contributorNode;
       return name;
     });
-
     return {
       id,
       title: title[0]?.text,
@@ -34,7 +33,10 @@ export async function transformPrismicResponse(
       contributors: contributors ? allContributors : [],
       type: type,
       summary: summary,
-      label: isArticle && format ? articleIdToLabel(format._meta.id) : null,
+      label:
+        isArticle && format
+          ? { text: articleIdToLabel(format._meta.id) }
+          : { text: 'Article' },
     };
   });
   return results;
