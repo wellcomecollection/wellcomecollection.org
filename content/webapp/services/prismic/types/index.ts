@@ -196,13 +196,12 @@ export type WithContributors = {
   }>;
 };
 
-export const contributionRoleFetchLinks: FetchLinks<EditorialContributorRole> =
-  [
-    'editorial-contributor-roles.title',
-    'editorial-contributor-roles.describedBy',
-  ];
+const contributionRoleFetchLinks: FetchLinks<EditorialContributorRole> = [
+  'editorial-contributor-roles.title',
+  'editorial-contributor-roles.describedBy',
+];
 
-export const personFetchLinks: FetchLinks<Person> = [
+const personFetchLinks: FetchLinks<Person> = [
   'people.name',
   'people.description',
   'people.pronouns',
@@ -210,18 +209,17 @@ export const personFetchLinks: FetchLinks<Person> = [
   'people.sameAs',
 ];
 
-type ContributorFetchLink = (
-  | FetchLinks<EditorialContributorRole>[number]
-  | FetchLinks<Person>[number]
-  | FetchLinks<Organisation>[number]
-)[];
-export const contributorFetchLinks: ContributorFetchLink = [
-  ...contributionRoleFetchLinks,
-  ...personFetchLinks,
+const organisationFetchLinks: FetchLinks<Organisation> = [
   'organisations.name',
   'organisations.description',
   'organisations.image',
   'organisations.sameAs',
+];
+
+export const contributorFetchLinks = [
+  ...contributionRoleFetchLinks,
+  ...personFetchLinks,
+  ...organisationFetchLinks,
 ];
 
 // Guards

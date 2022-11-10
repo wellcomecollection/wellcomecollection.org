@@ -20,7 +20,7 @@ import {
 } from '../fetch-links';
 import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
-import { contributionRoleFetchLinks, personFetchLinks } from '../types';
+import { contributorFetchLinks } from '../types';
 
 export const fetchLinks = [
   ...pagesFields,
@@ -35,8 +35,7 @@ export const fetchLinks = [
   ...articleFormatsFields,
   ...labelsFields,
   ...seasonsFields,
-  ...contributionRoleFetchLinks,
-  ...personFetchLinks,
+  ...contributorFetchLinks,
   ...bookFields,
   ...pagesFormatsFields,
   ...guidesFields,

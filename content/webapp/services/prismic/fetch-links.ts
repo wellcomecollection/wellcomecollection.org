@@ -1,10 +1,3 @@
-export const organisationsFields = [
-  'organisations.name',
-  'organisations.image',
-  'organisations.url',
-  'organisations.description',
-  'organisations.sameAs',
-];
 export const placesFields = [
   'places.title',
   'places.level',
