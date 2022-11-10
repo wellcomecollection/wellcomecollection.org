@@ -1,4 +1,3 @@
-export const pagesFields = ['pages.title', 'pages.promo'];
 export const collectionVenuesFields = [
   'collection-venue.title',
   'collection-venue.image',
