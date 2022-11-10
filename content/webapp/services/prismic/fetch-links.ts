@@ -1,4 +1,3 @@
-export const bookFields = ['books.title'];
 export const eventAccessOptionsFields = [
   'event-access-options.title',
   'event-access-options.description',
