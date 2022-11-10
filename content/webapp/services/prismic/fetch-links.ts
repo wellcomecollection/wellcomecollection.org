@@ -4,10 +4,6 @@ export const eventAccessOptionsFields = [
   'event-access-options.description',
 ];
 export const audiencesFields = ['audiences.title'];
-export const eventPoliciesFields = [
-  'event-policies.title',
-  'event-policies.description',
-];
 export const exhibitionResourcesFields = [
   'exhibition-resources.title',
   'exhibition-resources.description',

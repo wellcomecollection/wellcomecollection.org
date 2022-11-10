@@ -10,7 +10,6 @@ import { PagePrismicDocument } from '../types/pages';
 import {
   eventAccessOptionsFields,
   audiencesFields,
-  eventPoliciesFields,
   articleSeriesFields,
   articlesFields,
   exhibitionResourcesFields,
@@ -35,6 +34,7 @@ import { placesFetchLinks } from '../types/places';
 import { teamsFetchLinks } from '../types/teams';
 import {
   eventFormatFetchLinks,
+  eventPolicyFetchLinks,
   interpretationTypeFetchLinks,
 } from '../types/events';
 
@@ -146,7 +146,7 @@ export const fetchExhibitionRelatedContent = async (
     ...audiencesFields,
     ...contributorFetchLinks,
     ...eventSeriesFetchLinks,
-    ...eventPoliciesFields,
+    ...eventPolicyFetchLinks,
     ...articleSeriesFields,
     ...articleFormatsFetchLinks,
     ...exhibitionFormatsFetchLinks,

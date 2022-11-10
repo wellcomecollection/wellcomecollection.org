@@ -2,7 +2,7 @@ import { clientSideFetcher, fetcher, GetServerSidePropsPrismicClient } from '.';
 import {
   audienceFetchLinks,
   eventFormatFetchLinks,
-  eventPolicyFetchLink,
+  eventPolicyFetchLinks,
   EventPrismicDocument,
   interpretationTypeFetchLinks,
   teamFetchLinks,
@@ -29,7 +29,7 @@ const fetchLinks = [
   ...eventFormatFetchLinks,
   ...interpretationTypeFetchLinks,
   ...audienceFetchLinks,
-  ...eventPolicyFetchLink,
+  ...eventPolicyFetchLinks,
   ...placesFetchLinks,
   ...teamFetchLinks,
   ...backgroundTexturesFetchLink,

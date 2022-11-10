@@ -7,7 +7,6 @@ import {
 } from '../types/multi-content';
 import * as prismic from '@prismicio/client';
 import {
-  eventPoliciesFields,
   audiencesFields,
   articleSeriesFields,
   articlesFields,
@@ -24,6 +23,7 @@ import { placesFetchLinks } from '../types/places';
 import { teamsFetchLinks } from '../types/teams';
 import {
   eventFormatFetchLinks,
+  eventPolicyFetchLinks,
   interpretationTypeFetchLinks,
 } from '../types/events';
 import { pagesFetchLinks } from '../types/pages';
@@ -72,7 +72,7 @@ export const fetchMultiContent = async (
       ...interpretationTypeFetchLinks,
       ...placesFetchLinks,
       ...eventFormatFetchLinks,
-      ...eventPoliciesFields,
+      ...eventPolicyFetchLinks,
       ...audiencesFields,
       ...articleSeriesFields,
       ...exhibitionFormatsFetchLinks,
