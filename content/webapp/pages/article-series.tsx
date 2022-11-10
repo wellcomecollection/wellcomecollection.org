@@ -120,7 +120,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           partOf: series.seasons.map(season => season.id),
         },
         pageview: {
-          name: 'stories',
+          name: 'story',
           properties: { type: series.type },
         },
       }),

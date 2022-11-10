@@ -98,7 +98,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
             partOf: book.seasons.map(season => season.id),
           },
           pageview: {
-            name: 'stories',
+            name: 'story',
             properties: { type: bookDocument.type },
           },
         }),

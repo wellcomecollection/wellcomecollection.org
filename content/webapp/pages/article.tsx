@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
               .concat(article.series.map(series => series.id)),
           },
           pageview: {
-            name: 'stories',
+            name: 'story',
             properties: { type: articleDocument.type },
           },
         }),
