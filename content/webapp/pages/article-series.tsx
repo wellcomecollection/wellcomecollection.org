@@ -31,7 +31,6 @@ import {
 import { transformQuery } from 'services/prismic/transformers/paginated-results';
 import Space from '@weco/common/views/components/styled/Space';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import styled from 'styled-components';
 import { seasonsFetchLinks } from 'services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 
