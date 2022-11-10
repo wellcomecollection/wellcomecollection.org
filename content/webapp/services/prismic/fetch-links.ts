@@ -3,12 +3,6 @@ export const eventAccessOptionsFields = [
   'event-access-options.description',
   'event-access-options.description',
 ];
-export const interpretationTypesFields = [
-  'interpretation-types.title',
-  'interpretation-types.abbreviation',
-  'interpretation-types.description',
-  'interpretation-types.primaryDescription',
-];
 export const audiencesFields = ['audiences.title'];
 export const eventPoliciesFields = [
   'event-policies.title',
