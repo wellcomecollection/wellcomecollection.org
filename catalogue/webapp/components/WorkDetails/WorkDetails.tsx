@@ -136,7 +136,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   // to check if any individual piece of audio content requires an advisory notice
 
   const authService = services && getMediaClickthroughService(services);
-  console.log({ authService });
   const tokenService =
     authService && getTokenService(authService['@id'], services);
 
