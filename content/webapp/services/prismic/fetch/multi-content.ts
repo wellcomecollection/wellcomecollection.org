@@ -9,7 +9,6 @@ import * as prismic from '@prismicio/client';
 import {
   pagesFields,
   interpretationTypesFields,
-  eventFormatsFields,
   eventPoliciesFields,
   audiencesFields,
   articleSeriesFields,
@@ -22,6 +21,7 @@ import superjson from 'superjson';
 import { contributorFetchLinks } from '../types';
 import { placesFetchLinks } from '../types/places';
 import { teamsFetchLinks } from '../types/teams';
+import { eventFormatFetchLinks } from '../types/events';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -66,7 +66,7 @@ export const fetchMultiContent = async (
       ...pagesFields,
       ...interpretationTypesFields,
       ...placesFetchLinks,
-      ...eventFormatsFields,
+      ...eventFormatFetchLinks,
       ...eventPoliciesFields,
       ...audiencesFields,
       ...articleSeriesFields,

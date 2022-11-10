@@ -27,10 +27,6 @@ export const exhibitionFields = [
   'exhibitions.format',
 ];
 export const bookFields = ['books.title'];
-export const eventFormatsFields = [
-  'event-formats.title',
-  'event-formats.description',
-];
 export const eventAccessOptionsFields = [
   'event-access-options.title',
   'event-access-options.description',

@@ -9,7 +9,6 @@ import {
   exhibitionFields,
   eventsFields,
   cardsFields,
-  eventFormatsFields,
   labelsFields,
   seasonsFields,
   bookFields,
@@ -20,6 +19,7 @@ import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
 import { articleFormatsFetchLinks, contributorFetchLinks } from '../types';
 import { teamsFetchLinks } from '../types/teams';
+import { eventFormatFetchLinks } from '../types/events';
 
 export const fetchLinks = [
   ...pagesFields,
@@ -30,7 +30,7 @@ export const fetchLinks = [
   ...teamsFetchLinks,
   ...eventsFields,
   ...cardsFields,
-  ...eventFormatsFields,
+  ...eventFormatFetchLinks,
   ...articleFormatsFetchLinks,
   ...labelsFields,
   ...seasonsFields,

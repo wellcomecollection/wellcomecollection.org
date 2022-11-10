@@ -31,7 +31,7 @@ export type EventFormat = PrismicDocument<
   },
   'event-formats'
 >;
-export const eventFormatFetchLink: FetchLinks<EventFormat> = [
+export const eventFormatFetchLinks: FetchLinks<EventFormat> = [
   'event-formats.title',
   'event-formats.description',
 ];
