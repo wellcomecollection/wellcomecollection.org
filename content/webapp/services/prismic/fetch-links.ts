@@ -8,7 +8,6 @@ export const exhibitionResourcesFields = [
   'exhibition-resources.description',
   'exhibition-resources.icon',
 ];
-export const articleSeriesFields = ['series.title'];
 export const articlesFields = ['articles.title'];
 export const cardsFields = [
   'card.title',

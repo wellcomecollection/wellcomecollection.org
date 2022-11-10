@@ -2,7 +2,6 @@ import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { PagePrismicDocument, pagesFetchLinks } from '../types/pages';
 import {
-  articleSeriesFields,
   cardsFields,
   labelsFields,
   pagesFormatsFields,
@@ -22,10 +21,11 @@ import { teamsFetchLinks } from '../types/teams';
 import { eventFormatFetchLinks, eventsFetchLinks } from '../types/events';
 import { collectionVenuesFetchLinks } from '../types/collection-venues';
 import { bookFetchLinks } from '../types/books';
+import { seriesFetchLinks } from '../types/series';
 
 export const fetchLinks = [
   ...pagesFetchLinks,
-  ...articleSeriesFields,
+  ...seriesFetchLinks,
   ...eventSeriesFetchLinks,
   ...collectionVenuesFetchLinks,
   ...exhibitionFormatsFetchLinks,

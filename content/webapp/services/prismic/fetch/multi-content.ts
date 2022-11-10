@@ -6,7 +6,7 @@ import {
   StructuredSearchQuery,
 } from '../types/multi-content';
 import * as prismic from '@prismicio/client';
-import { articleSeriesFields, articlesFields } from '../fetch-links';
+import { articlesFields } from '../fetch-links';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '../../../types/multi-content';
 import superjson from 'superjson';
@@ -24,6 +24,7 @@ import {
   interpretationTypeFetchLinks,
 } from '../types/events';
 import { pagesFetchLinks } from '../types/pages';
+import { seriesFetchLinks } from '../types/series';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -71,7 +72,7 @@ export const fetchMultiContent = async (
       ...eventFormatFetchLinks,
       ...eventPolicyFetchLinks,
       ...audienceFetchLinks,
-      ...articleSeriesFields,
+      ...seriesFetchLinks,
       ...exhibitionFormatsFetchLinks,
       ...exhibitionsFetchLinks,
       ...contributorFetchLinks,
