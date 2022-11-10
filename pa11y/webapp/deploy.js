@@ -16,8 +16,10 @@ try {
   };
 
   s3.putObject(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    else {
+    if (err) {
+      console.log(err, err.stack);
+      process.exit(1);
+    } else {
       console.log('Finished uploading report.json');
 
       cloudfront.createInvalidation(
@@ -37,4 +39,5 @@ try {
   });
 } catch (e) {
   console.log('Error:', e.stack);
+  process.exit(1);
 }

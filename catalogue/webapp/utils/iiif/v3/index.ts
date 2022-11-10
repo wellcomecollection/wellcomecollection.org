@@ -17,6 +17,23 @@ import {
 import { isNotUndefined } from '@weco/common/utils/array';
 import { DownloadOption } from '../../../types/manifest';
 
+// The label we want to use to distinguish between parts of a multi-volume work
+// (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
+// second position of an array, with the item title appearing in the other
+// position. This is an interim check to give us the label we want, but ideally
+// it would be consistent in the manifest. It will eventually be the second
+// thing in the array, consistently, at which point this function will be
+// redundant.
+export function getMultiVolumeLabel(
+  internationalString: InternationalString,
+  itemTitle: string
+): string {
+  const stringAtIndex1 = getEnFromInternationalString(internationalString, 1);
+  const stringAtIndex0 = getEnFromInternationalString(internationalString, 0);
+
+  return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
+}
+
 export function getEnFromInternationalString(
   internationalString: InternationalString,
   index = 0

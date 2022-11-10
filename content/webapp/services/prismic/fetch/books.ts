@@ -1,8 +1,9 @@
 import { Query } from '@prismicio/types';
 import { fetcher, GetServerSidePropsPrismicClient, GetByTypeParams } from '.';
-import { BookPrismicDocument, booksFetchLinks } from '../types/books';
+import { commonPrismicFieldsFetchLinks, contributorFetchLinks } from '../types';
+import { BookPrismicDocument } from '../types/books';
 
-const fetchLinks = booksFetchLinks;
+const fetchLinks = [...commonPrismicFieldsFetchLinks, ...contributorFetchLinks];
 
 const booksFetcher = fetcher<BookPrismicDocument>('books', fetchLinks);
 

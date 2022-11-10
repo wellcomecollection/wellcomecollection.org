@@ -36,8 +36,7 @@ const graphQuery = `{
 
 export const fetchStoriesLanding = ({
   client,
-}: GetServerSidePropsPrismicClient): Promise<StoriesLandingPrismicDocument> => {
-  return client.getSingle<StoriesLandingPrismicDocument>('stories-landing', {
+}: GetServerSidePropsPrismicClient): Promise<StoriesLandingPrismicDocument> =>
+  client.getSingle<StoriesLandingPrismicDocument>('stories-landing', {
     graphQuery,
   });
-};

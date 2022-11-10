@@ -11,6 +11,9 @@ module "identity-service-18012021" {
   container_image = var.container_image
   container_port  = 3000
 
+  cpu    = 512
+  memory = 1024
+
   security_group_ids = [
     var.interservice_security_group_id,
     var.service_egress_security_group_id

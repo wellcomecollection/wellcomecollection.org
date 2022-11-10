@@ -21,7 +21,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
       </Header>
       <p>
         It will be available to pick up from the library (Rare Materials Room,
-        level 3) for one week from your selected pickup date.
+        level&nbsp;3) for one week from your selected pickup date.
       </p>
       <CTAs>
         <ButtonSolidLink text="View your library account" link="/account" />

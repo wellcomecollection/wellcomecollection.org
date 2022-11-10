@@ -37,7 +37,7 @@ import {
   ExhibitionAbout,
 } from '../../types/exhibitions';
 
-import { Event as EventType } from '../../types/events';
+import { EventBasic } from '../../types/events';
 import * as prismicT from '@prismicio/types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
@@ -208,7 +208,7 @@ const Exhibition: FunctionComponent<Props> = ({
   jsonLd,
   pages,
 }) => {
-  type ExhibitionOf = (ExhibitionType | EventType)[];
+  type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(

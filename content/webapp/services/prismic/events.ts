@@ -7,9 +7,10 @@ import {
   isFuture,
   isPast,
   isSameDayOrBefore,
+  minDate,
   startOfDay,
 } from '@weco/common/utils/dates';
-import { Event, EventBasic, HasTimes } from '../../types/events';
+import { Event, HasTimes } from '../../types/events';
 import { isNotUndefined } from '@weco/common/utils/array';
 
 function getNextDateInFuture(event: HasTimes): Date | undefined {
@@ -20,19 +21,15 @@ function getNextDateInFuture(event: HasTimes): Date | undefined {
   if (futureTimes.length === 0) {
     return undefined;
   } else {
-    return futureTimes.reduce((closestStartingDate, time) =>
-      time.range.startDateTime <= closestStartingDate.range.startDateTime
-        ? time
-        : closestStartingDate
-    ).range.startDateTime;
+    return minDate(futureTimes.map(time => time.range.startDateTime));
   }
 }
 
-function filterEventsByTimeRange(
-  events: EventBasic[],
+function filterEventsByTimeRange<T extends HasTimes>(
+  events: T[],
   start: Date,
   end: Date
-): EventBasic[] {
+): T[] {
   return events.filter(event => {
     return event.times.find(time => {
       const eventStart = time.range.startDateTime;
@@ -47,21 +44,21 @@ function filterEventsByTimeRange(
   });
 }
 
-export function filterEventsForNext7Days(events: EventBasic[]): EventBasic[] {
+export function filterEventsForNext7Days<T extends HasTimes>(events: T[]): T[] {
   const startOfToday = startOfDay(new Date());
   const endOfNext7Days = endOfDay(addDays(new Date(), 7));
 
   return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
 }
 
-export function filterEventsForToday(events: EventBasic[]): EventBasic[] {
+export function filterEventsForToday<T extends HasTimes>(events: T[]): T[] {
   const startOfToday = startOfDay(new Date());
   const endOfToday = endOfDay(new Date());
 
   return filterEventsByTimeRange(events, startOfToday, endOfToday);
 }
 
-export function filterEventsForWeekend(events: EventBasic[]): EventBasic[] {
+export function filterEventsForWeekend<T extends HasTimes>(events: T[]): T[] {
   const { start, end } = getNextWeekendDateRange(new Date());
   return filterEventsByTimeRange(events, start, end);
 }
@@ -186,7 +183,7 @@ function getRanges({ start, end }: RangeProps, acc: Range[] = []): Range[] {
   }
 }
 
-export function isEventPast({ times }: Event): boolean {
+export function isEventPast({ times }: HasTimes): boolean {
   const hasFutureEvents = times.some(
     ({ range }) => !isDayPast(range.endDateTime)
   );
