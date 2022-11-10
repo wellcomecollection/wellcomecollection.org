@@ -147,7 +147,6 @@ export const fetchExhibitionRelatedContent = async (
     ...contributorsFields,
     ...eventSeriesFields,
     ...eventPoliciesFields,
-    ...contributorsFields,
     ...articleSeriesFields,
     ...articleFormatsFields,
     ...exhibitionFields,
