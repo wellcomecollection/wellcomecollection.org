@@ -12,6 +12,7 @@ import {
   Team as PrismicTeam,
   EventPrismicDocument,
   EventPolicy as EventPolicyPrismicDocument,
+  EventTimePrismicDocument,
 } from '../types/events';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
@@ -122,6 +123,40 @@ function transformThirdPartyBooking(
     : undefined;
 }
 
+function transformEventTimes(
+  times: GroupField<EventTimePrismicDocument>
+): EventTime[] {
+  return times
+    .map(
+      ({ startDateTime, endDateTime, isFullyBooked, onlineIsFullyBooked }) => {
+        const range = {
+          startDateTime: transformTimestamp(startDateTime),
+          endDateTime: transformTimestamp(endDateTime),
+        };
+
+        if (
+          range.startDateTime &&
+          range.endDateTime &&
+          range.startDateTime > range.endDateTime
+        ) {
+          console.warn(
+            `Start time for event ${document.id} is after the end time; this is probably a bug in Prismic`
+          );
+        }
+
+        return isNotUndefined(range.startDateTime) &&
+          isNotUndefined(range.endDateTime)
+          ? {
+              range: range as DateTimeRange,
+              isFullyBooked,
+              onlineIsFullyBooked,
+            }
+          : undefined;
+      }
+    )
+    .filter(isNotUndefined);
+}
+
 export function transformEvent(
   document: EventPrismicDocument,
   scheduleQuery?: Query<EventPrismicDocument>
@@ -194,35 +229,7 @@ export function transformEvent(
     season => transformSeason(season as SeasonPrismicDocument)
   );
 
-  const times: EventTime[] = (data.times || [])
-    .map(
-      ({ startDateTime, endDateTime, isFullyBooked, onlineIsFullyBooked }) => {
-        const range = {
-          startDateTime: transformTimestamp(startDateTime),
-          endDateTime: transformTimestamp(endDateTime),
-        };
-
-        if (
-          range.startDateTime &&
-          range.endDateTime &&
-          range.startDateTime > range.endDateTime
-        ) {
-          console.warn(
-            `Start time for event ${document.id} is after the end time; this is probably a bug in Prismic`
-          );
-        }
-
-        return isNotUndefined(range.startDateTime) &&
-          isNotUndefined(range.endDateTime)
-          ? {
-              range: range as DateTimeRange,
-              isFullyBooked,
-              onlineIsFullyBooked,
-            }
-          : undefined;
-      }
-    )
-    .filter(isNotUndefined);
+  const times: EventTime[] = transformEventTimes(data.times || []);
 
   const lastEndTime = getLastEndTime(times);
   const isRelaxedPerformance = data.isRelaxedPerformance === 'yes';
