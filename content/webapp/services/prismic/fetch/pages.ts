@@ -10,7 +10,6 @@ import {
   eventsFields,
   cardsFields,
   eventFormatsFields,
-  articleFormatsFields,
   labelsFields,
   seasonsFields,
   bookFields,
@@ -19,7 +18,7 @@ import {
 } from '../fetch-links';
 import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
-import { contributorFetchLinks } from '../types';
+import { articleFormatsFetchLinks, contributorFetchLinks } from '../types';
 import { teamsFetchLinks } from '../types/teams';
 
 export const fetchLinks = [
@@ -32,7 +31,7 @@ export const fetchLinks = [
   ...eventsFields,
   ...cardsFields,
   ...eventFormatsFields,
-  ...articleFormatsFields,
+  ...articleFormatsFetchLinks,
   ...labelsFields,
   ...seasonsFields,
   ...contributorFetchLinks,

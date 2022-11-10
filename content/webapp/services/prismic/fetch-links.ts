@@ -53,10 +53,6 @@ export const exhibitionResourcesFields = [
   'exhibition-resources.icon',
 ];
 export const articleSeriesFields = ['series.title'];
-export const articleFormatsFields = [
-  'article-formats.title',
-  'article-formats.description',
-];
 export const articlesFields = ['articles.title'];
 export const eventsFields = [
   'events.title',
