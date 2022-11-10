@@ -60,6 +60,7 @@ import * as prismicT from '@prismicio/types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { a11y } from '@weco/common/data/microcopy';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
