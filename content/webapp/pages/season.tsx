@@ -33,7 +33,7 @@ import {
 } from '../services/prismic/transformers/books';
 import {
   transformEvent,
-  transformEventToEventBasic,
+  transformEventBasic,
 } from '../services/prismic/transformers/events';
 import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { transformPage } from '../services/prismic/transformers/pages';
@@ -201,9 +201,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const books = transformQuery(booksQuery, book =>
       transformBookToBookBasic(transformBook(book))
     );
-    const events = transformQuery(eventsQuery, event =>
-      transformEventToEventBasic(transformEvent(event))
-    );
+    const events = transformQuery(eventsQuery, transformEventBasic);
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     const pages = transformQuery(pagesQuery, transformPage);

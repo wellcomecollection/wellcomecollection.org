@@ -63,7 +63,6 @@ const baseEvent: Event = {
     image: image,
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
-  scheduleLength: 0,
   seasons: [],
   isOnline: false,
   availableOnline: false,

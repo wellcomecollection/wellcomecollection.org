@@ -19,8 +19,8 @@ type Props = {
  *
  *    [
  *      { start: 1 Sept @ 9am, end: 1 Sept @ 10am },
- *      { start: 1 Oct  @ 9am,  end: 1 Oct  @ 10am }
- *      { start: 1 Nov  @ 9am,  end: 1 Nov  @ 10am }
+ *      { start: 1 Oct  @ 9am, end: 1 Oct  @ 10am }
+ *      { start: 1 Nov  @ 9am, end: 1 Nov  @ 10am }
  *    ]
  *
  * On the event page, we can display the full list of dates, but in certain contexts
