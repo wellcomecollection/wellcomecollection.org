@@ -6,11 +6,7 @@ import {
   StructuredSearchQuery,
 } from '../types/multi-content';
 import * as prismic from '@prismicio/client';
-import {
-  audiencesFields,
-  articleSeriesFields,
-  articlesFields,
-} from '../fetch-links';
+import { articleSeriesFields, articlesFields } from '../fetch-links';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '../../../types/multi-content';
 import superjson from 'superjson';
@@ -22,6 +18,7 @@ import {
 import { placesFetchLinks } from '../types/places';
 import { teamsFetchLinks } from '../types/teams';
 import {
+  audienceFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
   interpretationTypeFetchLinks,
@@ -73,7 +70,7 @@ export const fetchMultiContent = async (
       ...placesFetchLinks,
       ...eventFormatFetchLinks,
       ...eventPolicyFetchLinks,
-      ...audiencesFields,
+      ...audienceFetchLinks,
       ...articleSeriesFields,
       ...exhibitionFormatsFetchLinks,
       ...exhibitionsFetchLinks,

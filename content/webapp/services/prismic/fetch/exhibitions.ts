@@ -9,7 +9,6 @@ import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
 import {
   eventAccessOptionsFields,
-  audiencesFields,
   articleSeriesFields,
   articlesFields,
   exhibitionResourcesFields,
@@ -33,6 +32,7 @@ import {
 import { placesFetchLinks } from '../types/places';
 import { teamsFetchLinks } from '../types/teams';
 import {
+  audienceFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
   interpretationTypeFetchLinks,
@@ -143,7 +143,7 @@ export const fetchExhibitionRelatedContent = async (
     ...eventFormatFetchLinks,
     ...placesFetchLinks,
     ...interpretationTypeFetchLinks,
-    ...audiencesFields,
+    ...audienceFetchLinks,
     ...contributorFetchLinks,
     ...eventSeriesFetchLinks,
     ...eventPolicyFetchLinks,
