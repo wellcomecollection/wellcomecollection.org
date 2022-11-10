@@ -20,6 +20,7 @@ const data: EventBasic = {
   locations: [],
   cost: undefined,
   isPast: false,
+  labels: [],
   primaryLabels: [],
   secondaryLabels: [],
   promo: {

@@ -54,7 +54,7 @@ import { transformGuide } from './guides';
 import { transformEventSeries } from './event-series';
 import { transformExhibition } from './exhibitions';
 import { transformArticle } from './articles';
-import { transformEvent } from './events';
+import { transformEventBasic } from './events';
 import { transformSeason } from './seasons';
 import { transformCard } from './card';
 
@@ -464,7 +464,7 @@ function transformContentListSlice(slice: ContentListSlice): BodySlice {
             case 'articles':
               return transformArticle(content);
             case 'events':
-              return transformEvent(content);
+              return transformEventBasic(content);
             case 'seasons':
               return transformSeason(content);
             case 'card':

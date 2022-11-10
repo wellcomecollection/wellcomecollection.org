@@ -80,6 +80,7 @@ export type EventBasic = HasTimes & {
   title: string;
   promo?: ImagePromo | undefined;
   isPast: boolean;
+  labels: Label[];
   primaryLabels: Label[];
   secondaryLabels: Label[];
   isOnline: boolean;

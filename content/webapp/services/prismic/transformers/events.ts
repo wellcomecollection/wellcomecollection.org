@@ -380,13 +380,14 @@ export function transformEventBasic(
     id,
     times,
     isPast,
+    labels,
     primaryLabels,
+    secondaryLabels,
     title,
     isOnline,
     locations,
     availableOnline,
     series,
-    secondaryLabels,
     cost,
   } = event;
 
@@ -409,14 +410,15 @@ export function transformEventBasic(
     id,
     times,
     isPast,
+    labels,
     primaryLabels,
+    secondaryLabels,
     title,
     isOnline,
     locations: locations.map(({ title }) => ({ title })),
     availableOnline,
     scheduleLength,
     series,
-    secondaryLabels,
     cost,
   };
 }
