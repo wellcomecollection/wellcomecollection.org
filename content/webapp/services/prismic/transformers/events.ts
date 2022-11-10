@@ -293,9 +293,6 @@ export function transformEvent(
   const hasOnlineBooking =
     onlineEventbriteId || onlineThirdPartyBooking || onlineBookingEnquiryTeam;
 
-  // We want to display the scheduleLength on EventPromos,
-  // but don't want to make an extra API request to populate the schedule for every event in a list.
-  // We therefore return the scheduleLength property.
   return {
     type: 'events',
     ...genericFields,
@@ -489,12 +486,6 @@ export function transformEventBasic(
     cost,
   } = event;
 
-  const scheduleLength = isFilledLinkToDocumentWithData(
-    data.schedule.map(s => s.event)[0]
-  )
-    ? data.schedule.length
-    : 0;
-
   return {
     type,
     promo: promo && {
@@ -515,7 +506,6 @@ export function transformEventBasic(
     isOnline,
     locations: locations.map(({ title }) => ({ title })),
     availableOnline,
-    scheduleLength,
     series,
     cost,
   };
