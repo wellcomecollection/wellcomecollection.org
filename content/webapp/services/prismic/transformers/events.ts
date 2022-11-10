@@ -368,9 +368,17 @@ export function transformEvent(
   };
 }
 
-export function transformEventToEventBasic(event: Event): EventBasic {
-  // returns what is required to render EventPromos and event JSON-LD
-  return (({
+/** Create a basic version of events suitable for JSON-LD and promos.
+ *
+ * Note: unlike our other types, this transforms the Prismic document directly,
+ * because EventBasic isn't a strict subset of Event.
+ */
+export function transformEventBasic(
+  document: EventPrismicDocument
+): EventBasic {
+  const event = transformEvent(document);
+
+  const {
     type,
     promo,
     id,
@@ -385,7 +393,9 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     series,
     secondaryLabels,
     cost,
-  }) => ({
+  } = event;
+
+  return {
     type,
     promo: promo && {
       ...promo,
@@ -407,7 +417,7 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     series,
     secondaryLabels,
     cost,
-  }))(event);
+  };
 }
 
 export const getScheduleIds = (

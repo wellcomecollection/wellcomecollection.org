@@ -37,7 +37,7 @@ import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import {
   transformEvent,
-  transformEventToEventBasic,
+  transformEventBasic,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
@@ -103,9 +103,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
 
-    const events = transformQuery(eventsQuery, event =>
-      transformEventToEventBasic(transformEvent(event))
-    ).results;
+    const events = transformQuery(eventsQuery, transformEventBasic).results;
     const nextSevenDaysEvents = orderEventsByNextAvailableDate(
       filterEventsForNext7Days(events)
     );
