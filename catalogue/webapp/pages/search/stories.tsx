@@ -19,11 +19,13 @@ import {
   PrismicApiError,
   PrismicResultsList,
 } from '@weco/catalogue/services/prismic/types';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
   storyResponseList: PrismicResultsList<Story>;
   totalPages: number;
   query: string;
+  pageview: Pageview;
 };
 
 const Wrapper = styled.div`
@@ -238,6 +240,10 @@ export const getServerSideProps: GetServerSideProps<
         serverData,
         storyResponseList: { totalResults: 0 },
         query,
+        pageview: {
+          name: 'stories',
+          properties: {},
+        },
       }),
     };
 
@@ -256,6 +262,10 @@ export const getServerSideProps: GetServerSideProps<
         storyResponseList,
         query,
         totalPages: Math.ceil(storyResponseList.results.length / pageSize),
+        pageview: {
+          name: 'stories',
+          properties: { totalResults: storyResponseList.totalResults },
+        },
       }),
     };
   }
@@ -265,6 +275,10 @@ export const getServerSideProps: GetServerSideProps<
       serverData,
       storyResponseList: { totalResults: 0 },
       query,
+      pageview: {
+        name: 'stories',
+        properties: {},
+      },
     }),
   };
 };

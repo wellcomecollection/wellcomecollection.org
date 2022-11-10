@@ -12,6 +12,7 @@ import {
   Team as PrismicTeam,
   EventPrismicDocument,
   EventPolicy as EventPolicyPrismicDocument,
+  EventTimePrismicDocument,
 } from '../types/events';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
@@ -122,16 +123,46 @@ function transformThirdPartyBooking(
     : undefined;
 }
 
+function transformEventTimes(
+  id: string,
+  times: GroupField<EventTimePrismicDocument>
+): EventTime[] {
+  return times
+    .map(
+      ({ startDateTime, endDateTime, isFullyBooked, onlineIsFullyBooked }) => {
+        const range = {
+          startDateTime: transformTimestamp(startDateTime),
+          endDateTime: transformTimestamp(endDateTime),
+        };
+
+        if (
+          range.startDateTime &&
+          range.endDateTime &&
+          range.startDateTime > range.endDateTime
+        ) {
+          console.warn(
+            `Start time for event ${id} is after the end time; this is probably a bug in Prismic`
+          );
+        }
+
+        return isNotUndefined(range.startDateTime) &&
+          isNotUndefined(range.endDateTime)
+          ? {
+              range: range as DateTimeRange,
+              isFullyBooked,
+              onlineIsFullyBooked,
+            }
+          : undefined;
+      }
+    )
+    .filter(isNotUndefined);
+}
+
 export function transformEvent(
   document: EventPrismicDocument,
   scheduleQuery?: Query<EventPrismicDocument>
 ): Event {
   const data = document.data;
-  const scheduleLength = isFilledLinkToDocumentWithData(
-    data.schedule.map(s => s.event)[0]
-  )
-    ? data.schedule.length
-    : 0;
   const genericFields = transformGenericFields(document);
   const eventSchedule =
     scheduleQuery && scheduleQuery.results
@@ -194,35 +225,7 @@ export function transformEvent(
     season => transformSeason(season as SeasonPrismicDocument)
   );
 
-  const times: EventTime[] = (data.times || [])
-    .map(
-      ({ startDateTime, endDateTime, isFullyBooked, onlineIsFullyBooked }) => {
-        const range = {
-          startDateTime: transformTimestamp(startDateTime),
-          endDateTime: transformTimestamp(endDateTime),
-        };
-
-        if (
-          range.startDateTime &&
-          range.endDateTime &&
-          range.startDateTime > range.endDateTime
-        ) {
-          console.warn(
-            `Start time for event ${document.id} is after the end time; this is probably a bug in Prismic`
-          );
-        }
-
-        return isNotUndefined(range.startDateTime) &&
-          isNotUndefined(range.endDateTime)
-          ? {
-              range: range as DateTimeRange,
-              isFullyBooked,
-              onlineIsFullyBooked,
-            }
-          : undefined;
-      }
-    )
-    .filter(isNotUndefined);
+  const times: EventTime[] = transformEventTimes(document.id, data.times || []);
 
   const lastEndTime = getLastEndTime(times);
   const isRelaxedPerformance = data.isRelaxedPerformance === 'yes';
@@ -308,7 +311,6 @@ export function transformEvent(
     series,
     seasons,
     contributors,
-    scheduleLength,
     schedule,
     eventbriteId,
     isCompletelySoldOut:
@@ -361,24 +363,41 @@ export function transformEvent(
   };
 }
 
-export function transformEventToEventBasic(event: Event): EventBasic {
-  // returns what is required to render EventPromos and event JSON-LD
-  return (({
+/** Create a basic version of events suitable for JSON-LD and promos.
+ *
+ * Note: unlike our other types, this transforms the Prismic document directly,
+ * because EventBasic isn't a strict subset of Event.
+ */
+export function transformEventBasic(
+  document: EventPrismicDocument
+): EventBasic {
+  const { data } = document;
+  const event = transformEvent(document);
+
+  const {
     type,
     promo,
     id,
     times,
     isPast,
+    labels,
     primaryLabels,
+    secondaryLabels,
     title,
     isOnline,
     locations,
     availableOnline,
-    scheduleLength,
     series,
-    secondaryLabels,
     cost,
-  }) => ({
+  } = event;
+
+  const scheduleLength = isFilledLinkToDocumentWithData(
+    data.schedule.map(s => s.event)[0]
+  )
+    ? data.schedule.length
+    : 0;
+
+  return {
     type,
     promo: promo && {
       ...promo,
@@ -391,16 +410,17 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     id,
     times,
     isPast,
+    labels,
     primaryLabels,
+    secondaryLabels,
     title,
     isOnline,
     locations: locations.map(({ title }) => ({ title })),
     availableOnline,
     scheduleLength,
     series,
-    secondaryLabels,
     cost,
-  }))(event);
+  };
 }
 
 export const getScheduleIds = (

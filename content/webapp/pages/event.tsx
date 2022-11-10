@@ -60,6 +60,7 @@ import * as prismicT from '@prismicio/types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { a11y } from '@weco/common/data/microcopy';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -102,6 +103,7 @@ type Props = {
   event: Event;
   jsonLd: JsonLdObj[];
   gaDimensions: GaDimensions;
+  pageview: Pageview;
 };
 
 // TODO: Probably use the StatusIndicator?
@@ -533,6 +535,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
         partOf: event.seasons
           .map(season => season.id)
           .concat(event.series.map(series => series.id)),
+      },
+      pageview: {
+        name: 'event',
+        properties: {},
       },
     }),
   };

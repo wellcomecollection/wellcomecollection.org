@@ -80,6 +80,7 @@ export type EventBasic = HasTimes & {
   title: string;
   promo?: ImagePromo | undefined;
   isPast: boolean;
+  labels: Label[];
   primaryLabels: Label[];
   secondaryLabels: Label[];
   isOnline: boolean;
@@ -107,7 +108,6 @@ export type Event = GenericContentFields & {
   cost?: string;
   bookingType?: string;
   thirdPartyBooking?: ThirdPartyBooking;
-  scheduleLength: number;
   schedule?: EventSchedule;
   eventbriteId?: string;
   isCompletelySoldOut?: boolean;

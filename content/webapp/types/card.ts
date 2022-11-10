@@ -1,6 +1,6 @@
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { Format } from './format';
-import { Event } from './events';
+import { EventBasic } from './events';
 import { Article } from './articles';
 import { Season } from './seasons';
 import { Page, ParentPage } from './pages';
@@ -27,7 +27,7 @@ export type Card = {
 export function convertItemToCardProps(
   item:
     | Article
-    | Event
+    | EventBasic
     | Season
     | Page
     | Series
@@ -70,7 +70,7 @@ export function convertItemToCardProps(
             tasl: item.promo.image.tasl,
             simpleCrops: {
               '16:9': {
-                contentUrl: getCrop(item.image, '16:9')?.contentUrl || '',
+                contentUrl: getCrop(item.promo.image, '16:9')?.contentUrl || '',
                 width: 1600,
                 height: 900,
               },

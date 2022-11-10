@@ -102,7 +102,7 @@ export type WithEventFormat = {
   >;
 };
 
-export type EventTime = {
+export type EventTimePrismicDocument = {
   startDateTime: TimestampField;
   endDateTime: TimestampField;
   isFullyBooked: BooleanField;
@@ -120,7 +120,7 @@ export type EventPrismicDocument = PrismicDocument<
     }>;
     isOnline: BooleanField;
     availableOnline: BooleanField;
-    times: GroupField<EventTime>;
+    times: GroupField<EventTimePrismicDocument>;
     isRelaxedPerformance: SelectField<'yes'>;
     interpretations: GroupField<{
       interpretationType: RelationField<

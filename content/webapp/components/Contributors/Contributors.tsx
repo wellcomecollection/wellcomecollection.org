@@ -71,11 +71,11 @@ const Contributors: FunctionComponent<Props> = ({
 
   return (
     <Fragment>
-      {isNotUndefined(titleOverride) ? (
-        <h2 className="h2">{titleOverride}</h2>
-      ) : (
-        <h2 className="h2">{`${getContributorsTitle(roles, titlePrefix)}`}</h2>
-      )}
+      <h2 className="h2">
+        {isNotUndefined(titleOverride)
+          ? titleOverride
+          : `${getContributorsTitle(roles, titlePrefix)}`}
+      </h2>
 
       {contributors.map(({ contributor, role, description }) => (
         <Space
