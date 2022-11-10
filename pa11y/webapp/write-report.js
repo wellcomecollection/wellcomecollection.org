@@ -47,14 +47,17 @@ const urls = [
 
 const promises = urls.map(url =>
   pa11y(url, {
+    timeout: 120000,
     chromeLaunchConfig: {
       args: ['--no-sandbox'],
     },
   })
 );
 
-Promise.all(promises).then(async results => {
-  await mkdirp('./.dist');
-  await writeFile('./.dist/report.json', JSON.stringify({ results }));
-  console.info('Reporting done!');
-});
+Promise.all(promises)
+  .then(async results => {
+    await mkdirp('./.dist');
+    await writeFile('./.dist/report.json', JSON.stringify({ results }));
+    console.info('Reporting done!');
+  })
+  .catch(e => console.info(e));
