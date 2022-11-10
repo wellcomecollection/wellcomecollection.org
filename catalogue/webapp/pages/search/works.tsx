@@ -58,7 +58,14 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   const [sortOrder, setSortOrder] = useState(router.query.sortOrder || '');
 
   useEffect(() => {
-    const newQuery = propsToQuery({ ...router.query, sortOrder });
+    const sort =
+      sortOrder === 'asc' || sortOrder === 'desc'
+        ? 'production.dates'
+        : undefined;
+    const queryParams = { ...router.query, sortOrder, sort };
+
+    const newQuery = propsToQuery(queryParams);
+
     router.push({ pathname: router.pathname, query: newQuery });
   }, [sortOrder]);
 
