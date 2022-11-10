@@ -15,13 +15,13 @@ import {
   labelsFields,
   seasonsFields,
   contributorsFields,
-  peopleFields,
   bookFields,
   pagesFormatsFields,
   guidesFields,
 } from '../fetch-links';
 import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
+import { personFetchLinks } from '../types';
 
 export const fetchLinks = [
   ...pagesFields,
@@ -37,7 +37,7 @@ export const fetchLinks = [
   ...labelsFields,
   ...seasonsFields,
   ...contributorsFields,
-  ...peopleFields,
+  ...personFetchLinks,
   ...bookFields,
   ...pagesFormatsFields,
   ...guidesFields,

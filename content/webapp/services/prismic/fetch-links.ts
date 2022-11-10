@@ -1,10 +1,3 @@
-export const peopleFields = [
-  'people.name',
-  'people.image',
-  'people.description',
-  'people.pronouns',
-  'people.sameAs',
-];
 export const contributorsFields = ['editorial-contributor-roles.title'];
 export const organisationsFields = [
   'organisations.name',

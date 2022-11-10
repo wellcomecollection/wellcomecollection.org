@@ -15,7 +15,6 @@ import {
   audiencesFields,
   articleSeriesFields,
   exhibitionFields,
-  peopleFields,
   organisationsFields,
   contributorsFields,
   teamsFields,
@@ -24,6 +23,7 @@ import {
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '../../../types/multi-content';
 import superjson from 'superjson';
+import { personFetchLinks } from '../types';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -73,7 +73,7 @@ export const fetchMultiContent = async (
       ...audiencesFields,
       ...articleSeriesFields,
       ...exhibitionFields,
-      ...peopleFields,
+      ...personFetchLinks,
       ...organisationsFields,
       ...contributorsFields,
       ...teamsFields,
