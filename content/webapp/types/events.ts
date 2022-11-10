@@ -8,6 +8,7 @@ import { Label } from '@weco/common/model/labels';
 import { ImagePromo } from './image-promo';
 import * as prismicT from '@prismicio/types';
 import { EventSeriesBasic } from './event-series';
+import { ImageType } from '@weco/common/model/image';
 
 export type DateTimeRange = {
   startDateTime: Date;
@@ -79,6 +80,7 @@ export type EventBasic = HasTimes & {
   id: string;
   title: string;
   promo?: ImagePromo | undefined;
+  image?: ImageType;
   isPast: boolean;
   labels: Label[];
   primaryLabels: Label[];
