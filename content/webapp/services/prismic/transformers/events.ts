@@ -124,6 +124,7 @@ function transformThirdPartyBooking(
 }
 
 function transformEventTimes(
+  id: string,
   times: GroupField<EventTimePrismicDocument>
 ): EventTime[] {
   return times
@@ -140,7 +141,7 @@ function transformEventTimes(
           range.startDateTime > range.endDateTime
         ) {
           console.warn(
-            `Start time for event ${document.id} is after the end time; this is probably a bug in Prismic`
+            `Start time for event ${id} is after the end time; this is probably a bug in Prismic`
           );
         }
 
@@ -224,7 +225,7 @@ export function transformEvent(
     season => transformSeason(season as SeasonPrismicDocument)
   );
 
-  const times: EventTime[] = transformEventTimes(data.times || []);
+  const times: EventTime[] = transformEventTimes(document.id, data.times || []);
 
   const lastEndTime = getLastEndTime(times);
   const isRelaxedPerformance = data.isRelaxedPerformance === 'yes';

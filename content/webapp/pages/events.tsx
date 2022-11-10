@@ -16,7 +16,10 @@ import { eventLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { getPage } from '../utils/query-params';
-import { transformEventBasic } from '../services/prismic/transformers/events';
+import {
+  transformEvent,
+  transformEventBasic,
+} from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { EventBasic } from '../types/events';
@@ -55,7 +58,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       availableOnline: availableOnline === 'true',
     });
 
-    const events = transformQuery(eventsQueryPromise, transformEventBasic);
+    const events = transformQuery(eventsQueryPromise, transformEvent);
+    const basicEvents = transformQuery(eventsQueryPromise, transformEventBasic);
 
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
@@ -64,7 +68,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           events: {
             ...events,
-            results: events.results,
+            results: basicEvents.results,
           },
           title,
           period: period as Period,
