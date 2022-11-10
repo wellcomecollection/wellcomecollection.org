@@ -64,20 +64,21 @@ export const fetchMultiContent = async (
   ].filter(isNotUndefined);
 
   return client.get<MultiContentPrismicDocument>({
-    fetchLinks: pagesFields.concat(
-      interpretationTypesFields,
-      placesFields,
-      eventFormatsFields,
-      eventPoliciesFields,
-      audiencesFields,
-      articleSeriesFields,
-      exhibitionFields,
-      peopleFields,
-      organisationsFields,
-      contributorsFields,
-      teamsFields,
-      articlesFields
-    ),
+    fetchLinks: [
+      ...pagesFields,
+      ...interpretationTypesFields,
+      ...placesFields,
+      ...eventFormatsFields,
+      ...eventPoliciesFields,
+      ...audiencesFields,
+      ...articleSeriesFields,
+      ...exhibitionFields,
+      ...peopleFields,
+      ...organisationsFields,
+      ...contributorsFields,
+      ...teamsFields,
+      ...articlesFields,
+    ],
     predicates,
     pageSize: pageSize || 100,
     orderings: orderings || [],

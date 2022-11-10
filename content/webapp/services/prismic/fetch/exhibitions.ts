@@ -35,17 +35,18 @@ import {
 } from '../../../types/exhibitions';
 import superjson from 'superjson';
 
-const fetchLinks = peopleFields.concat(
-  exhibitionFields,
-  organisationsFields,
-  contributorsFields,
-  placesFields,
-  exhibitionResourcesFields,
-  eventSeriesFields,
-  articlesFields,
-  eventsFields,
-  seasonsFields
-);
+const fetchLinks = [
+  ...peopleFields,
+  ...exhibitionFields,
+  ...organisationsFields,
+  ...contributorsFields,
+  ...placesFields,
+  ...exhibitionResourcesFields,
+  ...eventSeriesFields,
+  ...articlesFields,
+  ...eventsFields,
+  ...seasonsFields,
+];
 
 const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(
   'exhibitions',

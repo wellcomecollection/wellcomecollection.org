@@ -23,24 +23,25 @@ import {
 import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
 
-export const fetchLinks = pagesFields.concat(
-  articleSeriesFields,
-  eventSeriesFields,
-  collectionVenuesFields,
-  exhibitionFields,
-  teamsFields,
-  eventsFields,
-  cardsFields,
-  eventFormatsFields,
-  articleFormatsFields,
-  labelsFields,
-  seasonsFields,
-  contributorsFields,
-  peopleFields,
-  bookFields,
-  pagesFormatsFields,
-  guidesFields
-);
+export const fetchLinks = [
+  ...pagesFields,
+  ...articleSeriesFields,
+  ...eventSeriesFields,
+  ...collectionVenuesFields,
+  ...exhibitionFields,
+  ...teamsFields,
+  ...eventsFields,
+  ...cardsFields,
+  ...eventFormatsFields,
+  ...articleFormatsFields,
+  ...labelsFields,
+  ...seasonsFields,
+  ...contributorsFields,
+  ...peopleFields,
+  ...bookFields,
+  ...pagesFormatsFields,
+  ...guidesFields,
+];
 
 /** Although these are three different document types in Prismic, they all get
  * rendered (and fetched) by the same component.
