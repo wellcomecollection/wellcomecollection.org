@@ -1,19 +1,3 @@
-export const collectionVenuesFields = [
-  'collection-venue.title',
-  'collection-venue.image',
-  'collection-venue.link',
-  'collection-venue.linkText',
-  'collection-venue.order',
-  'collection-venue.monday',
-  'collection-venue.tuesday',
-  'collection-venue.wednesday',
-  'collection-venue.thursday',
-  'collection-venue.friday',
-  'collection-venue.saturday',
-  'collection-venue.sunday',
-  'collection-venue.modifiedDayOpeningTimes',
-];
-
 export const eventSeriesFields = [
   'event-series.title',
   'event-series.description',
