@@ -102,6 +102,7 @@ type Props = {
   event: Event;
   jsonLd: JsonLdObj[];
   gaDimensions: GaDimensions;
+  pageview: Pageview;
 };
 
 // TODO: Probably use the StatusIndicator?
@@ -533,6 +534,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
         partOf: event.seasons
           .map(season => season.id)
           .concat(event.series.map(series => series.id)),
+      },
+      pageview: {
+        name: 'exhibition',
+        properties: {},
       },
     }),
   };

@@ -5,8 +5,13 @@ import { getServerData } from '@weco/common/server-data';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
+import { Pageview } from '@weco/common/services/conversion/track';
 
-export const SearchPage: NextPageWithLayout = () => {
+type Props = {
+  pageview: Pageview;
+};
+
+export const SearchPage: NextPageWithLayout<Props> = () => {
   return (
     <div className="container">
       <h1 className="visually-hidden">Overview Search Page</h1>
@@ -19,20 +24,24 @@ export const SearchPage: NextPageWithLayout = () => {
 
 SearchPage.getLayout = getSearchLayout;
 
-export const getServerSideProps: GetServerSideProps<
-  Record<string, unknown> | AppErrorProps
-> = async context => {
-  const serverData = await getServerData(context);
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const serverData = await getServerData(context);
 
-  if (!serverData.toggles.searchPage) {
-    return { notFound: true };
-  }
+    if (!serverData.toggles.searchPage) {
+      return { notFound: true };
+    }
 
-  return {
-    props: removeUndefinedProps({
-      serverData,
-    }),
+    return {
+      props: removeUndefinedProps({
+        serverData,
+        // TODO Harrison to explore what properties we'd want here
+        pageview: {
+          name: 'search',
+          properties: {},
+        },
+      }),
+    };
   };
-};
 
 export default SearchPage;

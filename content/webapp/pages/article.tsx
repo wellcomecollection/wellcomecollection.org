@@ -36,11 +36,13 @@ import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import styled from 'styled-components';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
   article: Article;
   jsonLd: JsonLdObj;
   gaDimensions: GaDimensions;
+  pageview: Pageview;
 };
 
 function articleHasOutro(article: Article) {
@@ -72,6 +74,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
             partOf: article.seasons
               .map(season => season.id)
               .concat(article.series.map(series => series.id)),
+          },
+          pageview: {
+            name: 'stories',
+            properties: { type: articleDocument.type },
           },
         }),
       };

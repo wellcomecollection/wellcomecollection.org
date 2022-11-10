@@ -20,6 +20,7 @@ import { transformBook } from '../services/prismic/transformers/books';
 import { Book } from '../types/books';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
@@ -73,6 +74,7 @@ const BookMetadata: FC<{ book: Book }> = ({ book }) => (
 type Props = {
   book: Book;
   gaDimensions: GaDimensions;
+  pageview: Pageview;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -94,6 +96,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
           gaDimensions: {
             partOf: book.seasons.map(season => season.id),
+          },
+          pageview: {
+            name: 'stories',
+            properties: { type: bookDocument.type },
           },
         }),
       };
