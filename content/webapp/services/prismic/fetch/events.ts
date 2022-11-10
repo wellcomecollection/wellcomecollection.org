@@ -14,7 +14,7 @@ import { Event } from '../../../types/events';
 import {
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
-  eventSeriesFetchLink,
+  eventSeriesFetchLinks,
   exhibitionsFetchLinks,
   seasonsFetchLinks,
 } from '../types';
@@ -24,7 +24,7 @@ import { backgroundTexturesFetchLink } from '../types/background-textures';
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
   ...contributorFetchLinks,
-  ...eventSeriesFetchLink,
+  ...eventSeriesFetchLinks,
   ...exhibitionsFetchLinks,
   ...eventFormatFetchLinks,
   ...interpretationTypeFetchLinks,

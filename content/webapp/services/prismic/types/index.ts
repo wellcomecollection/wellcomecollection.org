@@ -114,8 +114,9 @@ export type WithEventSeries = {
     >;
   }>;
 };
-export const eventSeriesFetchLink: FetchLinks<EventSeriesPrismicDocument> = [
+export const eventSeriesFetchLinks: FetchLinks<EventSeriesPrismicDocument> = [
   'event-series.title',
+  'event-series.backgroundTexture',
   'event-series.promo',
 ];
 
