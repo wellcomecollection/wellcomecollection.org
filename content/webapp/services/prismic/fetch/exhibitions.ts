@@ -14,7 +14,6 @@ import {
   articlesFields,
   exhibitionResourcesFields,
   eventsFields,
-  seasonsFields,
 } from '../fetch-links';
 import { Period } from '../../../types/periods';
 import { getPeriodPredicates } from '../types/predicates';
@@ -29,6 +28,7 @@ import {
   eventSeriesFetchLinks,
   exhibitionFormatsFetchLinks,
   exhibitionsFetchLinks,
+  seasonsFetchLinks,
 } from '../types';
 import { placesFetchLinks } from '../types/places';
 import { teamsFetchLinks } from '../types/teams';
@@ -47,7 +47,7 @@ const fetchLinks = [
   ...eventSeriesFetchLinks,
   ...articlesFields,
   ...eventsFields,
-  ...seasonsFields,
+  ...seasonsFetchLinks,
 ];
 
 const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(

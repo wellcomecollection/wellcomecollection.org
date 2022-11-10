@@ -19,12 +19,6 @@ export const eventsFields = [
   'events.series',
   'events.times',
 ];
-export const seasonsFields = [
-  'seasons.title',
-  'seasons.start',
-  'seasons.end',
-  'seasons.promo',
-];
 export const cardsFields = [
   'card.title',
   'card.format',

@@ -131,6 +131,8 @@ export type WithSeasons = {
 };
 export const seasonsFetchLinks: FetchLinks<SeasonPrismicDocument> = [
   'seasons.title',
+  'seasons.start',
+  'seasons.end',
   'seasons.promo',
 ];
 
