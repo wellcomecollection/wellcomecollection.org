@@ -537,7 +537,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
           .concat(event.series.map(series => series.id)),
       },
       pageview: {
-        name: 'exhibition',
+        name: 'event',
         properties: {},
       },
     }),

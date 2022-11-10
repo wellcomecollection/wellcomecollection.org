@@ -77,7 +77,7 @@ export const getServerSideProps: GetServerSideProps<
       serverData,
       eventResponseList,
       pageview: {
-        name: 'exhibitions',
+        name: 'events',
         properties:
           eventResponseList?.type === 'ResultList'
             ? { totalResults: eventResponseList.totalResults }
