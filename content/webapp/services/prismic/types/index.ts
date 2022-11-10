@@ -196,6 +196,12 @@ export type WithContributors = {
   }>;
 };
 
+export const contributionRoleFetchLinks: FetchLinks<EditorialContributorRole> =
+  [
+    'editorial-contributor-roles.title',
+    'editorial-contributor-roles.describedBy',
+  ];
+
 export const personFetchLinks: FetchLinks<Person> = [
   'people.name',
   'people.description',
@@ -210,8 +216,7 @@ type ContributorFetchLink = (
   | FetchLinks<Organisation>[number]
 )[];
 export const contributorFetchLinks: ContributorFetchLink = [
-  'editorial-contributor-roles.title',
-  'editorial-contributor-roles.describedBy',
+  ...contributionRoleFetchLinks,
   ...personFetchLinks,
   'organisations.name',
   'organisations.description',

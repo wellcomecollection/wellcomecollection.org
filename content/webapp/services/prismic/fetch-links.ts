@@ -1,4 +1,3 @@
-export const contributorsFields = ['editorial-contributor-roles.title'];
 export const organisationsFields = [
   'organisations.name',
   'organisations.image',
