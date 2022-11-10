@@ -203,3 +203,12 @@ export type EventPrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
+
+export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
+  'events.audiences',
+  'events.schedule',
+  'events.interpretations',
+  'events.series',
+  'events.times',
+  'events.locations',
+];

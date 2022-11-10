@@ -8,18 +8,13 @@ import {
 } from '@prismicio/types';
 import { SeriesPrismicDocument } from './series';
 import {
-  articleFormatsFetchLinks,
-  contributorFetchLinks,
   CommonPrismicFields,
-  commonPrismicFieldsFetchLinks,
-  FetchLinks,
   WithArticleFormat,
   WithExhibitionParents,
   WithSeasons,
   WithContributors,
 } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
-import { EventPrismicDocument } from './events';
 
 type WithSeries = {
   series: GroupField<{
@@ -30,21 +25,6 @@ type WithSeries = {
     >;
   }>;
 };
-const seriesFetchLinks: FetchLinks<SeriesPrismicDocument> = [
-  'series.title',
-  'series.promo',
-  'series.schedule',
-  'series.color',
-];
-
-const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
-  'events.audiences',
-  'events.schedule',
-  'events.interpretations',
-  'events.series',
-  'events.times',
-  'events.locations',
-];
 
 export type ArticlePrismicDocument = PrismicDocument<
   {
@@ -63,11 +43,3 @@ export type ArticlePrismicDocument = PrismicDocument<
     CommonPrismicFields,
   'articles' | 'webcomics'
 >;
-
-export const articlesFetchLinks = [
-  ...commonPrismicFieldsFetchLinks,
-  ...articleFormatsFetchLinks,
-  ...contributorFetchLinks,
-  ...seriesFetchLinks,
-  ...eventsFetchLinks,
-];
