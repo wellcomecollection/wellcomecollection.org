@@ -30,7 +30,7 @@ data "aws_s3_bucket_object" "edge_lambda_origin" {
 resource "aws_lambda_function" "edge_lambda_request" {
   function_name     = "cf_edge_lambda_request"
   role              = aws_iam_role.edge_lambda_role.arn
-  runtime           = "nodejs12.x"
+  runtime           = "nodejs16.x"
   handler           = "origin.request"
   s3_bucket         = "weco-lambdas"
   s3_key            = "edge_lambda_origin.zip"
