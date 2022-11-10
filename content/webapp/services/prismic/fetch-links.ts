@@ -42,13 +42,6 @@ export const interpretationTypesFields = [
   'interpretation-types.description',
   'interpretation-types.primaryDescription',
 ];
-export const teamsFields = [
-  'teams.title',
-  'teams.subtitle',
-  'teams.email',
-  'teams.phone',
-  'teams.url',
-];
 export const audiencesFields = ['audiences.title'];
 export const eventPoliciesFields = [
   'event-policies.title',

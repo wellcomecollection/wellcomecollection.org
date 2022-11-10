@@ -10,7 +10,6 @@ import { PagePrismicDocument } from '../types/pages';
 import {
   exhibitionFields,
   eventAccessOptionsFields,
-  teamsFields,
   eventFormatsFields,
   interpretationTypesFields,
   audiencesFields,
@@ -32,6 +31,7 @@ import {
 import superjson from 'superjson';
 import { contributorFetchLinks } from '../types';
 import { placesFetchLinks } from '../types/places';
+import { teamsFetchLinks } from '../types/teams';
 
 const fetchLinks = [
   ...exhibitionFields,
@@ -133,7 +133,7 @@ export const fetchExhibitionRelatedContent = async (
 ): Promise<Query<ExhibitionRelatedContentPrismicDocument>> => {
   const fetchLinks = [
     ...eventAccessOptionsFields,
-    ...teamsFields,
+    ...teamsFetchLinks,
     ...eventFormatsFields,
     ...placesFetchLinks,
     ...interpretationTypesFields,
