@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -31,12 +32,13 @@ import {
 import { transformQuery } from 'services/prismic/transformers/paginated-results';
 import Space from '@weco/common/views/components/styled/Space';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import styled from 'styled-components';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
   series: Series;
   articles: PaginatedResults<ArticleBasic>;
   gaDimensions: GaDimensions;
+  pageview: Pageview;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -116,6 +118,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         serverData,
         gaDimensions: {
           partOf: series.seasons.map(season => season.id),
+        },
+        pageview: {
+          name: 'story',
+          properties: { type: series.type },
         },
       }),
     };

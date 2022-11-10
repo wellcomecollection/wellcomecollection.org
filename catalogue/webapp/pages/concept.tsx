@@ -37,6 +37,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar/ApiToolbar';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -45,6 +46,7 @@ type Props = {
   imagesAbout: CatalogueResultsList<ImageType> | undefined;
   imagesBy: CatalogueResultsList<ImageType> | undefined;
   apiToolbarLinks: ApiToolbarLink[];
+  pageview: Pageview;
 };
 
 const leadingColor = 'yellow';
@@ -451,6 +453,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         imagesBy,
         apiToolbarLinks,
         serverData,
+        pageview: {
+          name: 'concept',
+          properties: {},
+        },
       }),
     };
   };
