@@ -10,14 +10,6 @@ export const exhibitionResourcesFields = [
 ];
 export const articleSeriesFields = ['series.title'];
 export const articlesFields = ['articles.title'];
-export const eventsFields = [
-  'events.title',
-  'events.schedule',
-  'events.interpretations',
-  'events.audiences',
-  'events.series',
-  'events.times',
-];
 export const cardsFields = [
   'card.title',
   'card.format',

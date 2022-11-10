@@ -12,7 +12,6 @@ import {
   articleSeriesFields,
   articlesFields,
   exhibitionResourcesFields,
-  eventsFields,
 } from '../fetch-links';
 import { Period } from '../../../types/periods';
 import { getPeriodPredicates } from '../types/predicates';
@@ -35,6 +34,7 @@ import {
   audienceFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
+  eventsFetchLinks,
   interpretationTypeFetchLinks,
 } from '../types/events';
 
@@ -46,7 +46,7 @@ const fetchLinks = [
   ...exhibitionResourcesFields,
   ...eventSeriesFetchLinks,
   ...articlesFields,
-  ...eventsFields,
+  ...eventsFetchLinks,
   ...seasonsFetchLinks,
 ];
 

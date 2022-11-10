@@ -205,6 +205,7 @@ export type EventPrismicDocument = PrismicDocument<
 >;
 
 export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
+  'events.title',
   'events.audiences',
   'events.schedule',
   'events.interpretations',
