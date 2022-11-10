@@ -70,7 +70,7 @@ export function convertItemToCardProps(
             tasl: item.promo.image.tasl,
             simpleCrops: {
               '16:9': {
-                contentUrl: getCrop(item.promo.image, '16:9')?.contentUrl || '',
+                contentUrl: getCrop(item.image, '16:9')?.contentUrl || '',
                 width: 1600,
                 height: 900,
               },

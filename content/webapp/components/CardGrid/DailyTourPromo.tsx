@@ -27,6 +27,7 @@ const data: EventBasic = {
     image,
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
+  image,
   isOnline: false,
   availableOnline: false,
   type: 'events',

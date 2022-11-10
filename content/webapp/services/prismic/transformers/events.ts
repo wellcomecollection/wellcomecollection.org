@@ -472,6 +472,7 @@ export function transformEventBasic(
   const {
     type,
     promo,
+    image,
     id,
     times,
     isPast,
@@ -496,6 +497,7 @@ export function transformEventBasic(
         tasl: undefined,
       },
     },
+    image,
     id,
     times: transformEventBasicTimes(times, document),
     isPast,
