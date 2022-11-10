@@ -161,7 +161,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       {story.type && (
                         <MobileLabel>
                           {/* TODO add labels once we have them */}
-                          <LabelsList labels={[{ text: 'Article' }]} />
+                          <LabelsList labels={[story.label]} />
                         </MobileLabel>
                       )}
                     </ImageWrapper>
@@ -169,11 +169,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       {story.label && (
                         <DesktopLabel>
                           {/* TODO add labels once we have them */}
-                          <LabelsList labels={[{ text: 'Article' }]} />
+                          <LabelsList labels={[story.label]} />
                         </DesktopLabel>
                       )}
                       <h3 className={font('wb', 4)}>{story.title}</h3>
-                      {/* TODO update when we get new contributors array and new publication date */}
                       {(story.firstPublicationDate ||
                         !!story.contributors.length) && (
                         <StoryInformation>
