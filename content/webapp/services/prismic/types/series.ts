@@ -8,9 +8,7 @@ import {
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
-  commonPrismicFieldsFetchLinks,
-  contributorFetchLinks,
-  seasonsFetchLinks,
+  FetchLinks,
   WithContributors,
   WithSeasons,
 } from '.';
@@ -32,8 +30,9 @@ export type SeriesPrismicDocument = PrismicDocument<
   typeof typeEnum
 >;
 
-export const seriesFetchLinks = [
-  ...commonPrismicFieldsFetchLinks,
-  ...contributorFetchLinks,
-  ...seasonsFetchLinks,
+export const seriesFetchLinks: FetchLinks<SeriesPrismicDocument> = [
+  'series.title',
+  'series.promo',
+  'series.schedule',
+  'series.color',
 ];

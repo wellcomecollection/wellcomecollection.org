@@ -11,8 +11,6 @@ import {
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
-  contributorFetchLinks,
-  commonPrismicFieldsFetchLinks,
 } from '.';
 
 export type BookPrismicDocument = PrismicDocument<
@@ -34,8 +32,3 @@ export type BookPrismicDocument = PrismicDocument<
     CommonPrismicFields,
   'books'
 >;
-
-export const booksFetchLinks = [
-  ...commonPrismicFieldsFetchLinks,
-  ...contributorFetchLinks,
-];

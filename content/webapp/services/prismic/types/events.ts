@@ -10,19 +10,11 @@ import {
   KeyTextField,
   LinkField,
 } from '@prismicio/types';
-import {
-  BackgroundTexturesDocument,
-  backgroundTexturesFetchLink,
-} from './background-textures';
-import { PlacePrismicDocument, placesFetchLink } from './places';
+import { BackgroundTexturesDocument } from './background-textures';
+import { PlacePrismicDocument } from './places';
 import {
   CommonPrismicFields,
-  commonPrismicFieldsFetchLinks,
-  contributorFetchLinks,
-  eventSeriesFetchLink,
-  exhibitionsFetchLinks,
   FetchLinks,
-  seasonsFetchLinks,
   WithContributors,
   WithEventSeries,
   WithExhibitionParents,
@@ -39,8 +31,7 @@ export type EventFormat = PrismicDocument<
   },
   'event-formats'
 >;
-
-const eventFormatFetchLink: FetchLinks<EventFormat> = [
+export const eventFormatFetchLink: FetchLinks<EventFormat> = [
   'event-formats.title',
   'event-formats.description',
 ];
@@ -54,7 +45,7 @@ type InterpretationType = PrismicDocument<
   },
   'interpretation-types'
 >;
-const interpretationTypeFetchLinks: FetchLinks<InterpretationType> = [
+export const interpretationTypeFetchLinks: FetchLinks<InterpretationType> = [
   'interpretation-types.title',
   'interpretation-types.abbreviation',
   'interpretation-types.description',
@@ -68,7 +59,7 @@ type Audience = PrismicDocument<
   },
   'audiences'
 >;
-const audienceFetchLinks: FetchLinks<Audience> = [
+export const audienceFetchLinks: FetchLinks<Audience> = [
   'audiences.title',
   'audiences.description',
 ];
@@ -80,7 +71,7 @@ export type EventPolicy = PrismicDocument<
   },
   'event-policies'
 >;
-const eventPolicyFetchLink: FetchLinks<EventPolicy> = [
+export const eventPolicyFetchLink: FetchLinks<EventPolicy> = [
   'event-policies.title',
   'event-policies.description',
 ];
@@ -95,7 +86,7 @@ export type Team = PrismicDocument<
   },
   'teams'
 >;
-const teamFetchLinks: FetchLinks<Team> = [
+export const teamFetchLinks: FetchLinks<Team> = [
   'teams.title',
   'teams.subtitle',
   'teams.email',
@@ -212,17 +203,12 @@ export type EventPrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
-export const eventsFetchLinks = [
-  ...commonPrismicFieldsFetchLinks,
-  ...contributorFetchLinks,
-  ...eventSeriesFetchLink,
-  ...exhibitionsFetchLinks,
-  ...eventFormatFetchLink,
-  ...interpretationTypeFetchLinks,
-  ...audienceFetchLinks,
-  ...eventPolicyFetchLink,
-  ...placesFetchLink,
-  ...teamFetchLinks,
-  ...backgroundTexturesFetchLink,
-  ...seasonsFetchLinks,
+
+export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
+  'events.audiences',
+  'events.schedule',
+  'events.interpretations',
+  'events.series',
+  'events.times',
+  'events.locations',
 ];

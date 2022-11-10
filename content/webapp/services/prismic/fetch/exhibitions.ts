@@ -26,7 +26,7 @@ import {
   exhibitionResourcesFields,
   eventsFields,
   seasonsFields,
-} from '@weco/common/services/prismic/fetch-links';
+} from '../fetch-links';
 import { Period } from '../../../types/periods';
 import { getPeriodPredicates } from '../types/predicates';
 import {
@@ -35,17 +35,18 @@ import {
 } from '../../../types/exhibitions';
 import superjson from 'superjson';
 
-const fetchLinks = peopleFields.concat(
-  exhibitionFields,
-  organisationsFields,
-  contributorsFields,
-  placesFields,
-  exhibitionResourcesFields,
-  eventSeriesFields,
-  articlesFields,
-  eventsFields,
-  seasonsFields
-);
+const fetchLinks = [
+  ...peopleFields,
+  ...exhibitionFields,
+  ...organisationsFields,
+  ...contributorsFields,
+  ...placesFields,
+  ...exhibitionResourcesFields,
+  ...eventSeriesFields,
+  ...articlesFields,
+  ...eventsFields,
+  ...seasonsFields,
+];
 
 const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(
   'exhibitions',
@@ -146,7 +147,6 @@ export const fetchExhibitionRelatedContent = async (
     ...contributorsFields,
     ...eventSeriesFields,
     ...eventPoliciesFields,
-    ...contributorsFields,
     ...articleSeriesFields,
     ...articleFormatsFields,
     ...exhibitionFields,
@@ -178,6 +178,6 @@ export const fetchExhibitionRelatedContentClientSide = async (
 
   if (response.ok) {
     const json = await response.text();
-    return superjson.parse< ExhibitionRelatedContent>(json);
+    return superjson.parse<ExhibitionRelatedContent>(json);
   }
 };

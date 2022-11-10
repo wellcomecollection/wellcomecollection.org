@@ -5,12 +5,26 @@ import {
   fetcher,
   clientSideFetcher,
 } from '.';
-import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
+import { ArticlePrismicDocument } from '../types/articles';
 import { ContentType } from '@weco/common/services/prismic/content-types';
 import { ArticleBasic } from '../../../types/articles';
+import {
+  articleFormatsFetchLinks,
+  commonPrismicFieldsFetchLinks,
+  contributorFetchLinks,
+} from '../types';
+import { seriesFetchLinks } from '../types/series';
+import { eventsFetchLinks } from '../types/events';
 
 const contentTypes: ContentType[] = ['articles', 'webcomics'];
-const fetchLinks = articlesFetchLinks;
+
+const fetchLinks = [
+  ...commonPrismicFieldsFetchLinks,
+  ...articleFormatsFetchLinks,
+  ...contributorFetchLinks,
+  ...seriesFetchLinks,
+  ...eventsFetchLinks,
+];
 
 const articlesFetcher = fetcher<ArticlePrismicDocument>(
   contentTypes,
