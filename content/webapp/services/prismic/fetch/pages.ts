@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { PagePrismicDocument, pagesFetchLinks } from '../types/pages';
-import { labelsFields, pagesFormatsFields, guidesFields } from '../fetch-links';
+import { labelsFields, pagesFormatsFields } from '../fetch-links';
 import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
 import {
@@ -18,6 +18,7 @@ import { collectionVenuesFetchLinks } from '../types/collection-venues';
 import { bookFetchLinks } from '../types/books';
 import { seriesFetchLinks } from '../types/series';
 import { cardFetchLinks } from '../types/card';
+import { guideFetchLinks } from '../types/guides';
 
 export const fetchLinks = [
   ...pagesFetchLinks,
@@ -36,7 +37,7 @@ export const fetchLinks = [
   ...contributorFetchLinks,
   ...bookFetchLinks,
   ...pagesFormatsFields,
-  ...guidesFields,
+  ...guideFetchLinks,
 ];
 
 /** Although these are three different document types in Prismic, they all get

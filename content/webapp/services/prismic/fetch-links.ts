@@ -17,4 +17,3 @@ export const pagesFormatsFields = [
   'project-formats.description',
 ];
 export const labelsFields = ['labels.title', 'labels.description'];
-export const guidesFields = ['guides.title', 'guides.promo'];

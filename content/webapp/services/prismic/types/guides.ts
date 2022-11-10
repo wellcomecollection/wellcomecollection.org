@@ -7,6 +7,7 @@ import {
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
+  FetchLinks,
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
@@ -43,3 +44,8 @@ export type GuidePrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
+
+export const guideFetchLinks: FetchLinks<GuidePrismicDocument> = [
+  'guides.title',
+  'guides.promo',
+];
