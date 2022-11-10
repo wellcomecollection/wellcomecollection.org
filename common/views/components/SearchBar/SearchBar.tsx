@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import TextInputV2 from '@weco/common/views/components/TextInput/TextInputV2';
@@ -31,6 +31,7 @@ const SearchButtonWrapper = styled.div`
 const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
   const { query } = useRouter();
   const [inputQuery, setInputQuery] = useState((query.query as string) || '');
+  const searchInput = useRef<HTMLInputElement>(null);
 
   return (
     <Container>
@@ -38,15 +39,28 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
         <TextInputV2
           id="search-searchbar"
           label={`Search ${type}`}
+          ariaLabel={`Search ${type}`}
           name="query"
           type="search"
           value={inputQuery}
           setValue={setInputQuery}
+          ref={searchInput}
           form="searchPageForm"
           big={true}
-          placeholder="search..."
-          ariaLabel={`Search ${type}`}
+          placeholder="Search Wellcome"
         />
+        {inputQuery && (
+          <ClearSearch
+            inputRef={searchInput}
+            setValue={setInputQuery}
+            gaEvent={{
+              category: 'SearchForm',
+              action: 'clear search',
+              label: 'search',
+            }}
+            right={16}
+          />
+        )}
       </SearchInputWrapper>
       <SearchButtonWrapper>
         <ButtonSolidV2

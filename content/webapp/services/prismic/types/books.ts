@@ -8,11 +8,10 @@ import {
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
+  FetchLinks,
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
-  contributorFetchLinks,
-  commonPrismicFieldsFetchLinks,
 } from '.';
 
 export type BookPrismicDocument = PrismicDocument<
@@ -35,7 +34,4 @@ export type BookPrismicDocument = PrismicDocument<
   'books'
 >;
 
-export const booksFetchLinks = [
-  ...commonPrismicFieldsFetchLinks,
-  ...contributorFetchLinks,
-];
+export const bookFetchLinks: FetchLinks<BookPrismicDocument> = ['books.title'];

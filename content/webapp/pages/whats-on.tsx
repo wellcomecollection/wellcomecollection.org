@@ -66,7 +66,7 @@ import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
   transformEvent,
-  transformEventToEventBasic,
+  transformEventBasic,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
@@ -331,7 +331,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
     const availableOnlineEvents = transformQuery(
       availableOnlineEventsQuery,
-      event => transformEventToEventBasic(transformEvent(event))
+      transformEventBasic
+    ).results;
+
+    const basicEvents = transformQuery(
+      eventsQuery,
+      transformEventBasic
     ).results;
 
     if (period && events && exhibitions) {
@@ -344,7 +349,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           period,
           exhibitions,
-          events: events.map(transformEventToEventBasic),
+          events: basicEvents,
           availableOnlineEvents,
           dateRange,
           jsonLd,

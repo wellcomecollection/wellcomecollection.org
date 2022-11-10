@@ -7,7 +7,7 @@ import {
 import { transformArticle } from './articles';
 import { transformBook } from './books';
 import { transformEventSeries } from './event-series';
-import { transformEvent } from './events';
+import { transformEventBasic } from './events';
 import { transformExhibition } from './exhibitions';
 import { transformPage } from './pages';
 import { MultiContent } from '../../../types/multi-content';
@@ -67,7 +67,7 @@ export const transformMultiContent = (
     case 'books':
       return transformBook(document);
     case 'events':
-      return transformEvent(document);
+      return transformEventBasic(document);
     case 'articles':
     case 'webcomics':
       return transformArticle(document);

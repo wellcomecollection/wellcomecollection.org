@@ -32,7 +32,7 @@ function pageVanityUrl(
   app,
   url: string,
   pageId: string,
-  template = '/page'
+  template: string
 ) {
   // Redirect specific page IDs to their vanity URL.  In some cases, this also
   // means redirecting them to a different template (e.g. the homepage needs
@@ -43,7 +43,16 @@ function pageVanityUrl(
   // definition of vanity URLs.
   //
   // See https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/redirects.ts
-  router.redirect(`/pages/${pageId}`, url, permanentRedirect);
+  const regularPage =
+    template === '/page'
+      ? `/pages/${pageId}`
+      : template === '/exhibition'
+      ? `/exhibitions/${pageId}`
+      : null;
+
+  if (regularPage !== null) {
+    router.redirect(regularPage, url, permanentRedirect);
+  }
 
   route(url, template, router, app, { id: pageId });
 }
@@ -88,6 +97,12 @@ const appPromise = nextApp
     route('/whats-on', '/whats-on', router, nextApp);
     route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, nextApp);
 
+    // We define the vanity URLs as soon as possible, so they can intercept
+    // any routes defined further down, e.g. /pages/:id
+    vanityUrls.forEach(({ url, prismicId, template = '/page' }) =>
+      pageVanityUrl(router, nextApp, url, prismicId, template)
+    );
+
     route('/exhibitions', '/exhibitions', router, nextApp);
     route(
       `/exhibitions/:period(${periodPaths})`,
@@ -119,10 +134,6 @@ const appPromise = nextApp
     route('/guides/exhibitions', '/guides/exhibitions', router, nextApp);
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
-    vanityUrls.forEach(({ url, pageId, template = '/page' }) =>
-      pageVanityUrl(router, nextApp, url, pageId, template)
-    );
-
     route('/stories', '/stories', router, nextApp);
 
     router.redirect(
@@ -139,9 +150,6 @@ const appPromise = nextApp
     );
     route('/visit-us', '/visit-us', router, nextApp);
 
-    // We define this _after_ the vanity URLs and redirects for specific page IDs;
-    // this means this route will only serve pages that we want to be accessible by
-    // ID and not a vanity URL.
     route(`/pages/:id(${prismicId})`, '/page', router, nextApp);
 
     router.post('/newsletter-signup', handleNewsletterSignup);

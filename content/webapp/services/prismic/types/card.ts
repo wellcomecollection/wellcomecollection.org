@@ -11,6 +11,7 @@ import {
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
+  FetchLinks,
 } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { EventFormat } from './events';
@@ -47,3 +48,11 @@ export type CardPrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
+
+export const cardFetchLinks: FetchLinks<CardPrismicDocument> = [
+  'card.title',
+  'card.format',
+  'card.description',
+  'card.image',
+  'card.link',
+];
