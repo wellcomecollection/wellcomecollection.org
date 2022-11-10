@@ -1,11 +1,40 @@
 import { clientSideFetcher, fetcher, GetServerSidePropsPrismicClient } from '.';
-import { EventPrismicDocument, eventsFetchLinks } from '../types/events';
+import {
+  audienceFetchLinks,
+  eventFormatFetchLink,
+  eventPolicyFetchLink,
+  EventPrismicDocument,
+  interpretationTypeFetchLinks,
+  teamFetchLinks,
+} from '../types/events';
 import { Query } from '@prismicio/types';
 import { getPeriodPredicates } from '../types/predicates';
 import * as prismic from '@prismicio/client';
 import { Event } from '../../../types/events';
+import {
+  commonPrismicFieldsFetchLinks,
+  contributorFetchLinks,
+  eventSeriesFetchLink,
+  exhibitionsFetchLinks,
+  seasonsFetchLinks,
+} from '../types';
+import { placesFetchLink } from '../types/places';
+import { backgroundTexturesFetchLink } from '../types/background-textures';
 
-const fetchLinks = eventsFetchLinks;
+const fetchLinks = [
+  ...commonPrismicFieldsFetchLinks,
+  ...contributorFetchLinks,
+  ...eventSeriesFetchLink,
+  ...exhibitionsFetchLinks,
+  ...eventFormatFetchLink,
+  ...interpretationTypeFetchLinks,
+  ...audienceFetchLinks,
+  ...eventPolicyFetchLink,
+  ...placesFetchLink,
+  ...teamFetchLinks,
+  ...backgroundTexturesFetchLink,
+  ...seasonsFetchLinks,
+];
 
 const eventsFetcher = fetcher<EventPrismicDocument>('events', fetchLinks);
 
