@@ -8,13 +8,6 @@ export const exhibitionResourcesFields = [
   'exhibition-resources.description',
   'exhibition-resources.icon',
 ];
-export const cardsFields = [
-  'card.title',
-  'card.format',
-  'card.description',
-  'card.image',
-  'card.link',
-];
 export const pagesFormatsFields = [
   'page-formats.title',
   'page-formats.description',
