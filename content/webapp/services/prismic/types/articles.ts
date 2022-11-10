@@ -21,7 +21,7 @@ import {
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { EventPrismicDocument } from './events';
 
-export type WithSeries = {
+type WithSeries = {
   series: GroupField<{
     series: RelationField<
       'series',
@@ -30,14 +30,14 @@ export type WithSeries = {
     >;
   }>;
 };
-export const seriesFetchLinks: FetchLinks<SeriesPrismicDocument> = [
+const seriesFetchLinks: FetchLinks<SeriesPrismicDocument> = [
   'series.title',
   'series.promo',
   'series.schedule',
   'series.color',
 ];
 
-export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
+const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
   'events.audiences',
   'events.schedule',
   'events.interpretations',
