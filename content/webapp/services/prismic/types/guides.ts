@@ -24,6 +24,11 @@ export type GuideFormatPrismicDocument = PrismicDocument<
   'guide-formats'
 >;
 
+export const guideFormatsFetchLinks: FetchLinks<GuideFormatPrismicDocument> = [
+  'guide-formats.title',
+  'guide-formats.description',
+];
+
 export type WithGuideFormat = {
   format: RelationField<
     'guide-formats',

@@ -1,7 +1,11 @@
 import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
-import { PagePrismicDocument, pagesFetchLinks } from '../types/pages';
-import { labelsFields, pagesFormatsFields } from '../fetch-links';
+import {
+  pageFormatsFetchLinks,
+  PagePrismicDocument,
+  pagesFetchLinks,
+} from '../types/pages';
+import { labelsFields } from '../fetch-links';
 import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
 import {
@@ -10,6 +14,7 @@ import {
   eventSeriesFetchLinks,
   exhibitionFormatsFetchLinks,
   exhibitionsFetchLinks,
+  projectFormatsFetchLinks,
   seasonsFetchLinks,
 } from '../types';
 import { teamsFetchLinks } from '../types/teams';
@@ -18,7 +23,7 @@ import { collectionVenuesFetchLinks } from '../types/collection-venues';
 import { bookFetchLinks } from '../types/books';
 import { seriesFetchLinks } from '../types/series';
 import { cardFetchLinks } from '../types/card';
-import { guideFetchLinks } from '../types/guides';
+import { guideFetchLinks, guideFormatsFetchLinks } from '../types/guides';
 
 export const fetchLinks = [
   ...pagesFetchLinks,
@@ -36,7 +41,9 @@ export const fetchLinks = [
   ...seasonsFetchLinks,
   ...contributorFetchLinks,
   ...bookFetchLinks,
-  ...pagesFormatsFields,
+  ...pageFormatsFetchLinks,
+  ...guideFormatsFetchLinks,
+  ...projectFormatsFetchLinks,
   ...guideFetchLinks,
 ];
 

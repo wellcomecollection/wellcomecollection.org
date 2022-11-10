@@ -23,6 +23,11 @@ type PageFormat = PrismicDocument<
   'page-formats'
 >;
 
+export const pageFormatsFetchLinks: FetchLinks<PageFormat> = [
+  'page-formats.title',
+  'page-formats.description',
+];
+
 export type WithPageFormat = {
   format: RelationField<
     'page-formats',
