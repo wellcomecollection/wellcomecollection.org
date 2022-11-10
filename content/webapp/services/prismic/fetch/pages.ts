@@ -3,7 +3,6 @@ import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { PagePrismicDocument, pagesFetchLinks } from '../types/pages';
 import {
   articleSeriesFields,
-  exhibitionFields,
   eventsFields,
   cardsFields,
   labelsFields,
@@ -18,6 +17,8 @@ import {
   articleFormatsFetchLinks,
   contributorFetchLinks,
   eventSeriesFetchLinks,
+  exhibitionFormatsFetchLinks,
+  exhibitionsFetchLinks,
 } from '../types';
 import { teamsFetchLinks } from '../types/teams';
 import { eventFormatFetchLinks } from '../types/events';
@@ -28,7 +29,8 @@ export const fetchLinks = [
   ...articleSeriesFields,
   ...eventSeriesFetchLinks,
   ...collectionVenuesFetchLinks,
-  ...exhibitionFields,
+  ...exhibitionFormatsFetchLinks,
+  ...exhibitionsFetchLinks,
   ...teamsFetchLinks,
   ...eventsFields,
   ...cardsFields,

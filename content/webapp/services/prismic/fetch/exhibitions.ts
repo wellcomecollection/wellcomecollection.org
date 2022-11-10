@@ -8,7 +8,6 @@ import { fetchPages } from './pages';
 import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
 import {
-  exhibitionFields,
   eventAccessOptionsFields,
   interpretationTypesFields,
   audiencesFields,
@@ -30,13 +29,16 @@ import {
   articleFormatsFetchLinks,
   contributorFetchLinks,
   eventSeriesFetchLinks,
+  exhibitionFormatsFetchLinks,
+  exhibitionsFetchLinks,
 } from '../types';
 import { placesFetchLinks } from '../types/places';
 import { teamsFetchLinks } from '../types/teams';
 import { eventFormatFetchLinks } from '../types/events';
 
 const fetchLinks = [
-  ...exhibitionFields,
+  ...exhibitionFormatsFetchLinks,
+  ...exhibitionsFetchLinks,
   ...contributorFetchLinks,
   ...placesFetchLinks,
   ...exhibitionResourcesFields,
@@ -145,7 +147,8 @@ export const fetchExhibitionRelatedContent = async (
     ...eventPoliciesFields,
     ...articleSeriesFields,
     ...articleFormatsFetchLinks,
-    ...exhibitionFields,
+    ...exhibitionFormatsFetchLinks,
+    ...exhibitionsFetchLinks,
     ...articlesFields,
   ];
 

@@ -173,6 +173,7 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
   'exhibitions.title',
   'exhibitions.promo',
   'exhibitions.shortTitle',
+  'exhibitions.format',
 ];
 
 type Contributor =

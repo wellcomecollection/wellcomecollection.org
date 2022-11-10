@@ -11,13 +11,16 @@ import {
   eventPoliciesFields,
   audiencesFields,
   articleSeriesFields,
-  exhibitionFields,
   articlesFields,
 } from '../fetch-links';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '../../../types/multi-content';
 import superjson from 'superjson';
-import { contributorFetchLinks } from '../types';
+import {
+  contributorFetchLinks,
+  exhibitionFormatsFetchLinks,
+  exhibitionsFetchLinks,
+} from '../types';
 import { placesFetchLinks } from '../types/places';
 import { teamsFetchLinks } from '../types/teams';
 import { eventFormatFetchLinks } from '../types/events';
@@ -70,7 +73,8 @@ export const fetchMultiContent = async (
       ...eventPoliciesFields,
       ...audiencesFields,
       ...articleSeriesFields,
-      ...exhibitionFields,
+      ...exhibitionFormatsFetchLinks,
+      ...exhibitionsFetchLinks,
       ...contributorFetchLinks,
       ...teamsFetchLinks,
       ...articlesFields,

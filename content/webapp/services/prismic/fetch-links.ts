@@ -1,8 +1,3 @@
-export const exhibitionFields = [
-  'exhibition-formats.title',
-  'exhibitions.title',
-  'exhibitions.format',
-];
 export const bookFields = ['books.title'];
 export const eventAccessOptionsFields = [
   'event-access-options.title',
