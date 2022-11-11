@@ -9,17 +9,10 @@ import {
   AuthServiceService,
   IIIFAnnotationResource,
   IIIFThumbnailService,
-  EmptyIIIFMediaElement,
 } from '../../../../webapp/services/iiif/types/manifest/v2';
 import { Manifest } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
-
-const isFilledMediaElement = (
-  element: IIIFMediaElement | EmptyIIIFMediaElement
-): element is IIIFMediaElement => {
-  return '@id' in element;
-};
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   const serviceSrc = canvas?.images[0]?.resource?.service;
@@ -263,25 +256,6 @@ export function groupStructures(
       groupedArray: [],
     }
   ).groupedArray;
-}
-
-export function getVideo(
-  iiifManifest: IIIFManifest
-): IIIFMediaElement | undefined {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(
-        element => element['@type'] === 'dctypes:MovingImage'
-      )
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements
-      .filter(isFilledMediaElement)
-      .find(element => element['@type'] === 'dctypes:MovingImage')
-  );
 }
 
 export function getAnnotationFromMediaElement(
