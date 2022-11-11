@@ -65,7 +65,8 @@ export function getTokenService(
   );
 }
 
-export function getAudio(manifest: Manifest): Audio {
+export function getAudio(manifest: Manifest | undefined): Audio | undefined {
+  if (!manifest) return;
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
   const firstEnCanvas = canvases.find(c => c?.label?.en);
   const title = firstEnCanvas?.label
@@ -162,7 +163,10 @@ export function getPdf(
   }
 }
 
-export function getTitle(label: InternationalString | string): string {
+export function getTitle(
+  label: InternationalString | string | undefined
+): string {
+  if (!label) return '';
   if (typeof label === 'string') return label;
 
   return getEnFromInternationalString(label);
@@ -178,8 +182,9 @@ export function getIIIFMetadata(
 }
 
 export function getIIIFPresentationCredit(
-  manifest: Manifest
+  manifest: Manifest | undefined
 ): string | undefined {
+  if (!manifest) return;
   const attribution = getIIIFMetadata(manifest, 'Attribution and usage');
   const maybeValueWithBrTags =
     attribution?.value && getEnFromInternationalString(attribution.value);

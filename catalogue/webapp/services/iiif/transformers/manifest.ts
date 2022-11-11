@@ -50,15 +50,15 @@ export function transformManifest(
   const structures = manifestV2?.structures || [];
 
   // V3
-  const title = manifestV3?.label ? getTitle(manifestV3.label) : '';
-  const audio = manifestV3 && getAudio(manifestV3);
+  const title = getTitle(manifestV3?.label);
+  const audio = getAudio(manifestV3);
   const services = manifestV3?.services || [];
-  const iiifCredit = manifestV3 && getIIIFPresentationCredit(manifestV3);
+  const iiifCredit = getIIIFPresentationCredit(manifestV3);
   const video = getVideo(manifestV3);
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
   const pdf = getPdf(manifestV3);
   const id = manifestV3?.id || '';
-  const parentManifestUrl = manifestV3 && manifestV3.partOf?.[0].id;
+  const parentManifestUrl = manifestV3?.partOf?.[0].id;
   const collectionManifestsCount =
     manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
   const searchService = getSearchService(manifestV3);
