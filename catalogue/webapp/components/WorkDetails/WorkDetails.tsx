@@ -91,7 +91,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const itemUrl = itemLink({ workId: work.id }, 'work');
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const transformedIIIFManifest = useTransformedManifest(work);
-  console.log({ work });
   const {
     video,
     iiifCredit,
@@ -341,7 +340,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             {/*
               TODO: This is going to bounce us straight back to wc.org/works
               What should we be doing in this branch?
-              
+
               Note: as of November 2022, I can't find any items that would actually
               trigger this branch – i.e., items with a permission-required access
               status and a IIIF manifest link.
