@@ -16,7 +16,7 @@ export type Event = {
 };
 
 export type Label = {
-  text: string | '';
+  text: string;
 };
 
 export type Title = {

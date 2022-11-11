@@ -89,7 +89,7 @@ export type PrismicNodeList = {
   };
   body: Standfirst[];
   promo: Promo[];
-  format?: Format;
+  format: Format;
 };
 
 export type Format = {

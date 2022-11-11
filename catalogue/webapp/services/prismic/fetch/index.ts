@@ -14,13 +14,14 @@ export const typesToPrismicGraphQLSchemaTypes = {
   webcomics: 'allWebcomicss',
 };
 
-export const articleIdToLabel = (id: string) => {
+export const articleIdToLabel = (id: string): string => {
   const label = Object.keys(ArticleFormatIds).find(
     key => ArticleFormatIds[key] === id
   );
+  const formattedLabel = label ? capitalize(label) : 'Article';
   // TODO: Essay seems to indicate articles that are part of a series
   // More work to do here to make this label Serial with 'Part of' in the title
-  return label === 'Essay' ? 'Article' : label;
+  return formattedLabel === 'Essay' ? 'Article' : formattedLabel;
 };
 
 export const prismicGraphQLQuery = (

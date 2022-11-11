@@ -16,7 +16,7 @@ export type Story = {
 };
 
 export type Label = {
-  text: string | '';
+  text: string;
 };
 
 export type Title = {
