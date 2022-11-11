@@ -3,7 +3,6 @@ import { TransformedManifest, DownloadOption } from '../../../types/manifest';
 // TODO move each of these util functions from v2 to v3
 import {
   getUiExtensions,
-  getVideo,
   isUiEnabled,
   getCanvases,
   getFirstCollectionManifestLocation,
@@ -21,6 +20,7 @@ import {
   getPdf,
   getTitle,
   getSearchService,
+  getVideo,
 } from '../../../utils/iiif/v3';
 
 export function transformManifest(
@@ -29,8 +29,6 @@ export function transformManifest(
   const { manifestV2, manifestV3 } = { ...iiifManifests };
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
   const canvasCount = canvases.length;
-
-  const video = manifestV2 && getVideo(manifestV2);
   const iiifCredit = manifestV2 && getIIIFPresentationCredit(manifestV2);
   const downloadEnabled = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
@@ -56,6 +54,7 @@ export function transformManifest(
   const title = manifestV3?.label ? getTitle(manifestV3.label) : '';
   const audio = manifestV3 && getAudio(manifestV3);
   const services = manifestV3?.services || [];
+  const video = getVideo(manifestV3);
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
   const pdf = getPdf(manifestV3);
   const id = manifestV3?.id || '';
@@ -68,7 +67,6 @@ export function transformManifest(
   return {
     // Taken from V2 manifest:
     canvasCount,
-    video,
     iiifCredit,
     downloadEnabled,
     authService,
@@ -84,11 +82,12 @@ export function transformManifest(
     id,
     audio,
     services,
+    video,
     downloadOptions: [...downloadOptions, pdf].filter(
       Boolean
     ) as DownloadOption[], // We add the PDF for items that are PDFs, otherwise they'd have no download option
     firstCollectionManifestLocation,
-    pdf: pdf,
+    pdf,
     parentManifestUrl,
     title,
     collectionManifestsCount,
