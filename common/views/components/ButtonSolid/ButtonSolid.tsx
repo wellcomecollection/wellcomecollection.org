@@ -79,18 +79,16 @@ export const BaseButtonInner = styled(
 `;
 
 type ButtonIconWrapperAttrsProps = {
+  isTextHidden?: boolean;
   iconAfter?: boolean;
 };
-export const ButtonIconWrapper = styled(
-  Space
-).attrs<ButtonIconWrapperAttrsProps>(props => ({
+export const ButtonIconWrapper = styled(Space).attrs({
   as: 'span',
-  h: {
-    size: 'xs',
-    properties: [`${props.iconAfter ? 'margin-left' : 'margin-right'}`],
-  },
-}))<ButtonIconWrapperAttrsProps>`
+})<ButtonIconWrapperAttrsProps>`
   display: inline-flex;
+  ${props =>
+    !props.isTextHidden &&
+    (props.iconAfter ? 'margin-left: 4px;' : 'margin-right: 4px;')}
 
   // Prevent icon within .spaced-text parent having top margin
   margin-top: 0;
@@ -253,7 +251,10 @@ const Button: FunctionComponent<ButtonSolidProps> = (
           </span>
         )}
         {icon && (
-          <ButtonIconWrapper iconAfter={isIconAfter}>
+          <ButtonIconWrapper
+            iconAfter={isIconAfter}
+            isTextHidden={isTextHidden}
+          >
             <Icon icon={icon} />
           </ButtonIconWrapper>
         )}
