@@ -1,7 +1,6 @@
-import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-const SpacingComponentEl = styled.div.attrs({
+const SpacingComponent = styled.div.attrs({
   className: 'spacing-component',
 })`
   &:empty,
@@ -19,9 +18,5 @@ const SpacingComponentEl = styled.div.attrs({
       `)}
   }
 `;
-
-const SpacingComponent: FunctionComponent = ({ children }) => {
-  return <SpacingComponentEl>{children}</SpacingComponentEl>;
-};
 
 export default SpacingComponent;

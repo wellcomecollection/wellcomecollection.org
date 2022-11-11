@@ -2,7 +2,6 @@ import {
   getOverrideDatesForAllVenues,
   groupOverrideDates,
   completeDateRangeForExceptionalPeriods,
-  getExceptionalVenueDays,
   groupExceptionalVenueDays,
   exceptionalFromRegular,
   createExceptionalOpeningHoursDays,
@@ -30,7 +29,6 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
 });
 
 const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx')!;
-const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
 
 describe('opening-times', () => {
   describe('getOverrideDatesForAllVenues: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
@@ -43,52 +41,59 @@ describe('opening-times', () => {
     it('returns all dates that have exceptional opening hours for any venue', () => {
       const result = getOverrideDatesForAllVenues(venues);
       expect(result).toEqual([
+        // Library
         {
           overrideDate: new Date('2021-01-05'),
           overrideType: 'Bank holiday',
         },
+        // Galleries and reading room
         {
           overrideDate: new Date('2021-12-20'),
           overrideType: 'Christmas and New Year',
         },
+        // Galleries and reading room
         {
           overrideDate: new Date('2021-12-31'),
           overrideType: 'Christmas and New Year',
         },
+        // Galleries and reading room
         {
           overrideDate: new Date('2022-01-01'),
           overrideType: 'Christmas and New Year',
         },
+        // Galleries and reading room
         {
           overrideDate: new Date('2022-02-04'),
           overrideType: 'Bank holiday',
         },
+        // Galleries and reading room
         {
           overrideDate: new Date('2022-02-05'),
           overrideType: 'Bank holiday',
         },
-        {
-          overrideDate: new Date('2022-04-10'),
-          overrideType: 'other',
-        },
+        // Library
         {
           overrideDate: new Date('2022-12-28'),
           overrideType: 'Christmas and New Year',
         },
+        // Library
         {
           overrideDate: new Date('2022-12-30'),
           overrideType: 'Christmas and New Year',
         },
+        // Galleries and reading room, library
         {
           overrideDate: new Date('2022-12-31'),
           overrideType: 'Christmas and New Year',
         },
+        // Library
         {
           overrideDate: new Date('2023-01-01'),
           overrideType: 'Christmas and New Year',
         },
       ]);
     });
+
     it('does not include a date more than once', () => {
       const result = getOverrideDatesForAllVenues(venues);
       const uniqueDates = new Set(
@@ -240,63 +245,6 @@ describe('opening-times', () => {
       expect(result[0].dates.length).toEqual(10);
       expect(result[0].dates[2]).toEqual(new Date('2020-12-27'));
       expect(result[0].dates[5]).toEqual(new Date('2020-12-30'));
-    });
-  });
-
-  describe('getExceptionalVenueDays', () => {
-    it('returns all exceptional override dates for a venue', () => {
-      const result = getExceptionalVenueDays(galleriesVenue);
-      expect(result).toEqual([
-        {
-          overrideDate: new Date('2022-01-01'),
-          overrideType: 'Christmas and New Year',
-          opens: '12:00',
-          closes: '14:00',
-          isClosed: false,
-        },
-        {
-          overrideDate: new Date('2021-12-31'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2021-12-20'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-02-04'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-02-05'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2021-01-05'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-12-31'),
-          overrideType: 'Christmas and New Year',
-          opens: '10:00',
-          closes: '14:00',
-          isClosed: false,
-        },
-      ]);
     });
   });
 
@@ -505,33 +453,6 @@ describe('opening-times', () => {
             isClosed: false,
           },
         ],
-      ]);
-    });
-
-    // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
-    it("it doesn't return the regular hours if the override type is 'other'", () => {
-      const result = createExceptionalOpeningHoursDays(libraryVenue, [
-        {
-          type: 'Bank holiday',
-          dates: [new Date('2021-10-05')],
-        },
-        {
-          type: 'other',
-          dates: [new Date('2021-10-08')],
-        },
-      ]);
-
-      expect(result).toEqual([
-        [
-          {
-            overrideDate: new Date('2021-10-05'),
-            overrideType: 'Bank holiday',
-            opens: '10:00',
-            closes: '18:00',
-            isClosed: false,
-          },
-        ],
-        [],
       ]);
     });
   });

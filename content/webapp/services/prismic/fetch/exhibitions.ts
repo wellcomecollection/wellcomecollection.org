@@ -8,25 +8,9 @@ import { fetchPages } from './pages';
 import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
 import {
-  exhibitionFields,
   eventAccessOptionsFields,
-  teamsFields,
-  eventFormatsFields,
-  placesFields,
-  interpretationTypesFields,
-  audiencesFields,
-  eventSeriesFields,
-  organisationsFields,
-  peopleFields,
-  contributorsFields,
-  eventPoliciesFields,
-  articleSeriesFields,
-  articleFormatsFields,
-  articlesFields,
   exhibitionResourcesFields,
-  eventsFields,
-  seasonsFields,
-} from '@weco/common/services/prismic/fetch-links';
+} from '../fetch-links';
 import { Period } from '../../../types/periods';
 import { getPeriodPredicates } from '../types/predicates';
 import {
@@ -34,18 +18,37 @@ import {
   ExhibitionRelatedContent,
 } from '../../../types/exhibitions';
 import superjson from 'superjson';
+import {
+  articleFormatsFetchLinks,
+  contributorFetchLinks,
+  eventSeriesFetchLinks,
+  exhibitionFormatsFetchLinks,
+  exhibitionsFetchLinks,
+  seasonsFetchLinks,
+} from '../types';
+import { placesFetchLinks } from '../types/places';
+import { teamsFetchLinks } from '../types/teams';
+import {
+  audienceFetchLinks,
+  eventFormatFetchLinks,
+  eventPolicyFetchLinks,
+  eventsFetchLinks,
+  interpretationTypeFetchLinks,
+} from '../types/events';
+import { seriesFetchLinks } from '../types/series';
+import { articlesFetchLinks } from '../types/articles';
 
-const fetchLinks = peopleFields.concat(
-  exhibitionFields,
-  organisationsFields,
-  contributorsFields,
-  placesFields,
-  exhibitionResourcesFields,
-  eventSeriesFields,
-  articlesFields,
-  eventsFields,
-  seasonsFields
-);
+const fetchLinks = [
+  ...exhibitionFormatsFetchLinks,
+  ...exhibitionsFetchLinks,
+  ...contributorFetchLinks,
+  ...placesFetchLinks,
+  ...exhibitionResourcesFields,
+  ...eventSeriesFetchLinks,
+  ...articlesFetchLinks,
+  ...eventsFetchLinks,
+  ...seasonsFetchLinks,
+];
 
 const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(
   'exhibitions',
@@ -136,21 +139,19 @@ export const fetchExhibitionRelatedContent = async (
 ): Promise<Query<ExhibitionRelatedContentPrismicDocument>> => {
   const fetchLinks = [
     ...eventAccessOptionsFields,
-    ...teamsFields,
-    ...eventFormatsFields,
-    ...placesFields,
-    ...interpretationTypesFields,
-    ...audiencesFields,
-    ...organisationsFields,
-    ...peopleFields,
-    ...contributorsFields,
-    ...eventSeriesFields,
-    ...eventPoliciesFields,
-    ...contributorsFields,
-    ...articleSeriesFields,
-    ...articleFormatsFields,
-    ...exhibitionFields,
-    ...articlesFields,
+    ...teamsFetchLinks,
+    ...eventFormatFetchLinks,
+    ...placesFetchLinks,
+    ...interpretationTypeFetchLinks,
+    ...audienceFetchLinks,
+    ...contributorFetchLinks,
+    ...eventSeriesFetchLinks,
+    ...eventPolicyFetchLinks,
+    ...seriesFetchLinks,
+    ...articleFormatsFetchLinks,
+    ...exhibitionFormatsFetchLinks,
+    ...exhibitionsFetchLinks,
+    ...articlesFetchLinks,
   ];
 
   return client.getByIDs<ExhibitionRelatedContentPrismicDocument>(ids, {
@@ -178,6 +179,6 @@ export const fetchExhibitionRelatedContentClientSide = async (
 
   if (response.ok) {
     const json = await response.text();
-    return superjson.parse< ExhibitionRelatedContent>(json);
+    return superjson.parse<ExhibitionRelatedContent>(json);
   }
 };

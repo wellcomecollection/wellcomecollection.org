@@ -40,9 +40,10 @@ const Wrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('black')};
 `;
 
-const PaginationWrapper = styled.div`
+const ResultsPaginationWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
@@ -97,11 +98,16 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               }}
               style={{ color: 'white' }}
             >
-              <PaginationWrapper>
+              <ResultsPaginationWrapper>
+                {images.totalResults > 0 && (
+                  <div>{images.totalResults} results</div>
+                )}
                 <SearchPagination totalPages={images?.totalPages} darkBg />
-              </PaginationWrapper>
+              </ResultsPaginationWrapper>
             </Space>
-            <ImageEndpointSearchResults images={images} />
+            <main>
+              <ImageEndpointSearchResults images={images} />
+            </main>
           </div>
         )}
         {images?.results.length === 0 && (

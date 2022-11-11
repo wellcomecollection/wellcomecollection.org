@@ -1,10 +1,8 @@
 import { fetcher } from '.';
-import {
-  eventSeriesFetchLinks,
-  EventSeriesPrismicDocument,
-} from '../types/event-series';
+import { commonPrismicFieldsFetchLinks, contributorFetchLinks } from '../types';
+import { EventSeriesPrismicDocument } from '../types/event-series';
 
-const fetchLinks = eventSeriesFetchLinks;
+const fetchLinks = [...commonPrismicFieldsFetchLinks, ...contributorFetchLinks];
 
 const eventSeriesFetcher = fetcher<EventSeriesPrismicDocument>(
   'event-series',

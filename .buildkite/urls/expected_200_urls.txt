@@ -1,3 +1,8 @@
+# Note: if you add a URL to this list, make sure to also add it to the list
+# of URLs checked by pa11y.
+#
+# See pa11y/webapp/write-report.js
+
 # Some pages we can't let break!
 /
 /articles
@@ -9,6 +14,8 @@
 # Catalogue URLs
 /works
 /images
+/concepts/n4fvtc49
+
 # A book
 /works/efprdfhc
 # A digitised picture
@@ -39,7 +46,7 @@
 # This is an article with an event link in the "Try these next" section
 /articles/W_LXOxcAACwAxC5_
 
-# This is an example of every content type in Prismic (as of January 2022)
+# This is an example of every content type in Prismic (as of November 2022)
 /articles/YbNRQBEAACMAZfvG
 /books/YRpf9xEAADVQ33g6
 /event-series/XLWcIBEAAGC6wYZr
@@ -50,6 +57,11 @@
 /projects/YEIYwhAAACIANd6T
 /seasons/YEY3ZBAAACEASBjA
 /series/X8YMWBIAACUAhwAx
+
+# We should test one example of each exhibition guide format
+/guides/exhibitions/YzwsAREAAHylrxau/audio-without-descriptions
+/guides/exhibitions/YzwsAREAAHylrxau/captions-and-transcripts
+/guides/exhibitions/YzwsAREAAHylrxau/bsl
 
 # This is an article which is the 'webcomics' type underneath
 /articles/YbNRQBEAACMAZfvG

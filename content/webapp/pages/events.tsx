@@ -18,7 +18,7 @@ import { fetchEvents } from '../services/prismic/fetch/events';
 import { getPage } from '../utils/query-params';
 import {
   transformEvent,
-  transformEventToEventBasic,
+  transformEventBasic,
 } from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -59,6 +59,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
 
     const events = transformQuery(eventsQueryPromise, transformEvent);
+    const basicEvents = transformQuery(eventsQueryPromise, transformEventBasic);
 
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
@@ -67,7 +68,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           events: {
             ...events,
-            results: events.results.map(transformEventToEventBasic),
+            results: basicEvents.results,
           },
           title,
           period: period as Period,

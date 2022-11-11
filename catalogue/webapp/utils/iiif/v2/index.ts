@@ -9,17 +9,10 @@ import {
   AuthServiceService,
   IIIFAnnotationResource,
   IIIFThumbnailService,
-  EmptyIIIFMediaElement,
 } from '../../../../webapp/services/iiif/types/manifest/v2';
-import { Manifest, Service as ServiceV3 } from '@iiif/presentation-3';
+import { Manifest } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
-
-const isFilledMediaElement = (
-  element: IIIFMediaElement | EmptyIIIFMediaElement
-): element is IIIFMediaElement => {
-  return '@id' in element;
-};
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   const serviceSrc = canvas?.images[0]?.resource?.service;
@@ -88,14 +81,6 @@ export function getAuthService(
       return iiifManifest.service.authService;
     }
   }
-}
-
-export function getMediaClickthroughServiceV3(
-  services: ServiceV3[]
-): AuthService | undefined {
-  return (services as AuthService[]).find(
-    s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
-  );
 }
 
 export function getMediaClickthroughService(
@@ -273,25 +258,6 @@ export function groupStructures(
   ).groupedArray;
 }
 
-export function getVideo(
-  iiifManifest: IIIFManifest
-): IIIFMediaElement | undefined {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(
-        element => element['@type'] === 'dctypes:MovingImage'
-      )
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements
-      .filter(isFilledMediaElement)
-      .find(element => element['@type'] === 'dctypes:MovingImage')
-  );
-}
-
 export function getAnnotationFromMediaElement(
   mediaElement: IIIFMediaElement
 ): IIIFAnnotationResource | undefined {
@@ -314,20 +280,6 @@ export function getIIIFPresentationCredit(
 ): string | undefined {
   const attribution = getIIIFMetadata(manifest, 'Attribution');
   return attribution?.value.split('<br/>')[0];
-}
-
-export function getSearchService(manifest: IIIFManifest): Service | undefined {
-  if (Array.isArray(manifest.service)) {
-    return manifest.service.find(
-      service =>
-        service['@context'] === 'http://iiif.io/api/search/0/context.json'
-    );
-  } else if (
-    manifest.service?.['@context'] ===
-    'http://iiif.io/api/search/0/context.json'
-  ) {
-    return manifest.service;
-  }
 }
 
 // This is necessary while we are in the process of switching the source of the iiif presentation manifests

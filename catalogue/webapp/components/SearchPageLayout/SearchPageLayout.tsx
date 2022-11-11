@@ -6,8 +6,10 @@ import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const SearchLayout: FunctionComponent = ({ children }) => {
   const router = useRouter();
@@ -22,6 +24,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
     siteSection: 'collections',
     jsonLd: { '@type': 'WebPage' },
     hideNewsletterPromo: true,
+    excludeRoleMain: true,
   } as const;
 
   const defaultPageLayoutMetadata = {
@@ -82,7 +85,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           url: { pathname: '/search/images', query: query || {} },
         });
         break;
-      case 'catalogue':
+      case 'works':
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: 'copy pending',
@@ -96,9 +99,30 @@ const SearchLayout: FunctionComponent = ({ children }) => {
     }
   }, [currentSearchCategory]);
 
+  const updateUrl = (form: HTMLFormElement) => {
+    const urlQuery = formDataAsUrlQuery(form);
+    router.push({ pathname: router.pathname, query: urlQuery });
+  };
+
   return (
     <CataloguePageLayout {...pageLayoutMetadata}>
       <div className="container">
+        <form
+          role="search"
+          id="searchPageForm"
+          onSubmit={event => {
+            event.preventDefault();
+
+            trackEvent({
+              category: 'SearchForm',
+              action: 'submit search',
+              label: router.query.query as string,
+            });
+
+            updateUrl(event.currentTarget);
+            return false;
+          }}
+        />
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <SearchBar type={currentSearchCategory} />
         </Space>
@@ -109,32 +133,32 @@ const SearchLayout: FunctionComponent = ({ children }) => {
             {
               id: 'overview',
               url: getURL('/search'),
-              name: 'Overview (1032)',
+              name: 'Overview',
             },
             {
               id: 'exhibitions',
               url: getURL('/search/exhibitions'),
-              name: 'Exhibitions (1032)',
+              name: 'Exhibitions',
             },
             {
               id: 'events',
               url: getURL('/search/events'),
-              name: 'Events (1032)',
+              name: 'Events',
             },
             {
               id: 'stories',
               url: getURL('/search/stories'),
-              name: 'Stories (1032)',
+              name: 'Stories',
             },
             {
               id: 'images',
               url: getURL('/search/images'),
-              name: 'Images (1032)',
+              name: 'Images',
             },
             {
-              id: 'catalogue',
-              url: getURL('/search/catalogue'),
-              name: 'Catalogue (1032)',
+              id: 'works',
+              url: getURL('/search/works'),
+              name: 'Catalogue',
             },
           ]}
           currentSection={currentSearchCategory}

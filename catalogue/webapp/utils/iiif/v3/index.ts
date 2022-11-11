@@ -1,10 +1,14 @@
 import {
   AuthService,
   AuthServiceService,
-} from '../../../services/iiif/types/manifest/v2'; // TODO v3
-import { Audio } from '../../../services/iiif/types/manifest/v3';
+} from '../../../services/iiif/types/manifest/v2';
+import { Audio, Video } from '../../../services/iiif/types/manifest/v3';
+
 import {
+  AnnotationBody,
+  ChoiceBody,
   ContentResource,
+  ExternalWebResource,
   IIIFExternalWebResource,
   Manifest,
   MetadataItem,
@@ -13,6 +17,23 @@ import {
 } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { DownloadOption } from '../../../types/manifest';
+
+// The label we want to use to distinguish between parts of a multi-volume work
+// (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
+// second position of an array, with the item title appearing in the other
+// position. This is an interim check to give us the label we want, but ideally
+// it would be consistent in the manifest. It will eventually be the second
+// thing in the array, consistently, at which point this function will be
+// redundant.
+export function getMultiVolumeLabel(
+  internationalString: InternationalString,
+  itemTitle: string
+): string {
+  const stringAtIndex1 = getEnFromInternationalString(internationalString, 1);
+  const stringAtIndex0 = getEnFromInternationalString(internationalString, 0);
+
+  return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
+}
 
 export function getEnFromInternationalString(
   internationalString: InternationalString,
@@ -164,4 +185,61 @@ export function getIIIFPresentationCredit(
     attribution?.value && getEnFromInternationalString(attribution.value);
 
   return maybeValueWithBrTags?.split('<br />')[0];
+}
+
+function getChoiceBody(
+  body?: AnnotationBody | AnnotationBody[]
+): ChoiceBody | undefined {
+  const isChoiceBody =
+    typeof body !== 'string' && !Array.isArray(body) && body?.type === 'Choice';
+
+  return isChoiceBody ? body : undefined;
+}
+
+function getExternalWebResourceBody(
+  body?: AnnotationBody | AnnotationBody[]
+): ExternalWebResource | undefined {
+  const isExternalWebResource =
+    typeof body !== 'string' &&
+    !Array.isArray(body) &&
+    (body?.type === 'Video' ||
+      body?.type === 'Sound' ||
+      body?.type === 'Image' ||
+      body?.type === 'Text');
+  return isExternalWebResource ? body : undefined;
+}
+
+export function getVideo(manifest: Manifest | undefined): Video | undefined {
+  if (!manifest) return;
+  const videoChoiceBody = getChoiceBody(
+    manifest.items?.[0]?.items?.[0]?.items?.[0]?.body
+  );
+  const maybeVideo = getExternalWebResourceBody(videoChoiceBody?.items?.[0]);
+  const thumbnailImageResourceBody = getExternalWebResourceBody(
+    manifest.placeholderCanvas?.items?.[0]?.items?.[0]?.body
+  );
+  const thumbnail = thumbnailImageResourceBody?.id;
+  const annotationPage = manifest.items?.[0]?.annotations?.[0].items?.[0]?.body;
+  const annotations = getExternalWebResourceBody(annotationPage);
+
+  return maybeVideo?.type === 'Video'
+    ? { ...maybeVideo, thumbnail, annotations }
+    : undefined;
+}
+
+export function getMediaClickthroughService(
+  services: Service[]
+): AuthService | undefined {
+  return (services as AuthService[]).find(
+    s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
+  );
+}
+
+export function getSearchService(
+  manifest: Manifest | undefined
+): Service | undefined {
+  const searchService = manifest?.service?.find(
+    service => service['@type'] === 'SearchService1'
+  );
+  return searchService || undefined;
 }

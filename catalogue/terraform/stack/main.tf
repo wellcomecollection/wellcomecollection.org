@@ -34,6 +34,7 @@ module "catalogue-service-17092020" {
     APM_SECRET          = "elasticsearch/logging/apm_secret"
     items_api_key_prod  = "catalogue_api/items/prod/api_key"
     items_api_key_stage = "catalogue_api/items/stage/api_key"
+    PRISMIC_BEARER_TOKEN = "prismic-model/graphql/prismic_bearer_token"
   }
 
   vpc_id  = local.vpc_id
