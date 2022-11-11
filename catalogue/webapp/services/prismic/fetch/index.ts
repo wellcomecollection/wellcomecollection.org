@@ -2,8 +2,8 @@ import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { gql, GraphQLClient } from 'graphql-request';
 import { PrismicApiError } from '../types';
-import { capitalize } from '@weco/common/utils/grammar';
-import { ArticleFormatIds } from '@weco/common/data/content-format-ids'
+import { unCamelCase, capitalize } from '@weco/common/utils/grammar';
+import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 
 export const typesToPrismicGraphQLSchemaTypes = {
   // types to graphql query schema types,
@@ -18,7 +18,7 @@ export const articleIdToLabel = (id: string): string => {
   const label = Object.keys(ArticleFormatIds).find(
     key => ArticleFormatIds[key] === id
   );
-  const formattedLabel = label ? capitalize(label) : 'Article';
+  const formattedLabel = label ? unCamelCase(label) : 'Article';
   // TODO: Essay seems to indicate articles that are part of a series
   // More work to do here to make this label Serial with 'Part of' in the title
   return formattedLabel === 'Essay' ? 'Article' : formattedLabel;
