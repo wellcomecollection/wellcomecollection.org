@@ -139,7 +139,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   totalPages,
   query,
 }) => {
-  console.log(storyResponseList.totalResults);
   return (
     <Wrapper>
       <h1 className="visually-hidden">Stories Search Page</h1>
