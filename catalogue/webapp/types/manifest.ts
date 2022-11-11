@@ -1,12 +1,11 @@
 import {
-  IIIFMediaElement,
   IIIFCanvas,
   IIIFStructure,
   AuthService,
   AuthServiceService,
 } from '../../webapp/services/iiif/types/manifest/v2';
 import { Service, Canvas } from '@iiif/presentation-3';
-import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
+import { Audio, Video } from '../../webapp/services/iiif/types/manifest/v3';
 
 // TODO now these are all in one place, it's easier to see we may not need them all
 // For example:
@@ -24,11 +23,8 @@ export type DownloadOption = {
 
 export type TransformedManifest = {
   // Currently from iiifManifest V2:
-  id: string;
-  title: string;
   canvasCount: number;
   collectionManifestsCount: number;
-  video?: IIIFMediaElement;
   iiifCredit?: string;
   downloadEnabled?: boolean;
   firstCollectionManifestLocation?: string;
@@ -42,7 +38,10 @@ export type TransformedManifest = {
   needsModal: boolean;
   structures: IIIFStructure[];
   // Currently from iiif manifest v3:
+  title: string;
+  id: string;
   audio: Audio | undefined;
+  video?: Video;
   services: Service[];
   downloadOptions: DownloadOption[];
   pdf: DownloadOption | undefined;

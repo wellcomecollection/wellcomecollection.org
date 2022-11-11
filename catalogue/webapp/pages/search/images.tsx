@@ -58,8 +58,6 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
     setLink(link);
   }, [imagesRouteProps]);
 
-  const showSort = true;
-
   return (
     <>
       <Head>
@@ -87,7 +85,6 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       <div className="container">
         <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
           <h2 style={{ marginBottom: 0 }}>Filters</h2>
-          {showSort && <div>Sort Component?</div>}
         </Space>
       </div>
 
@@ -108,7 +105,9 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                 <SearchPagination totalPages={images?.totalPages} darkBg />
               </ResultsPaginationWrapper>
             </Space>
-            <ImageEndpointSearchResults images={images} />
+            <main>
+              <ImageEndpointSearchResults images={images} />
+            </main>
           </div>
         )}
         {images?.results.length === 0 && (

@@ -14,12 +14,15 @@ import {
 } from '@weco/common/views/components/WorksLink/WorksLink';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import styled from 'styled-components';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import { useRouter } from 'next/router';
+import Select from '@weco/common/views/components/Select/Select';
+import { propsToQuery } from '@weco/common/utils/routes';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -42,36 +45,128 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     'production.dates.from': productionDatesFrom,
     'production.dates.to': productionDatesTo,
   } = worksRouteProps;
-
+  const router = useRouter();
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
     const link = toLink({ ...worksRouteProps }, 'works_search_context');
     setLink(link);
   }, [worksRouteProps]);
 
-  const showSort = true;
+  const [isComponentMounted, setIsComponentMounted] = useState(false);
+  useEffect(() => setIsComponentMounted(true), []);
+
+  const [sortOrder, setSortOrder] = useState(router.query.sortOrder || '');
+
+  useEffect(() => {
+    const sort =
+      sortOrder === 'asc' || sortOrder === 'desc'
+        ? 'production.dates'
+        : undefined;
+    const queryParams = { ...router.query, sortOrder, sort };
+
+    const newQuery = propsToQuery(queryParams);
+
+    router.push({ pathname: router.pathname, query: newQuery });
+  }, [sortOrder]);
 
   if (works.totalResults === 0) return <p>nothing</p>;
 
   return (
     <>
       <h1 className="visually-hidden">Works Search Page</h1>
-      <div className="container">
-        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
-          <h2 style={{ marginBottom: 0 }}>Filters</h2>
-          {showSort && <div>Sort Component?</div>}
-        </Space>
-      </div>
 
       {works.results.length > 0 && (
-        <div className="container" role="main">
+        <div className="container">
+          <div>
+            <Space
+              v={{ size: 'm', properties: ['margin-bottom', 'margin-top'] }}
+            >
+              <noscript>
+                <fieldset className="">
+                  <legend>Search result sorting</legend>
+                  <span id="sort-label" className="">
+                    Sort by:
+                  </span>
+                  <select
+                    aria-labelledby="sort-label"
+                    name="sort"
+                    form="searchPageForm"
+                  >
+                    {[
+                      {
+                        value: '',
+                        text: 'Relevance',
+                      },
+                      {
+                        value: 'production.dates',
+                        text: 'Production dates',
+                      },
+                    ].map(o => (
+                      <option key={o.value} value={o.value}>
+                        {o.text}
+                      </option>
+                    ))}
+                  </select>
+                  <br />
+                  <span id="sort-order-label" className="">
+                    Sort order:
+                  </span>
+                  <select
+                    aria-labelledby="sort-order-label"
+                    name="sortOrder"
+                    form="searchPageForm"
+                  >
+                    {[
+                      {
+                        value: 'asc',
+                        text: 'Ascending',
+                      },
+                      {
+                        value: 'desc',
+                        text: 'Descending',
+                      },
+                    ].map(o => (
+                      <option key={o.value} value={o.value}>
+                        {o.text}
+                      </option>
+                    ))}
+                  </select>
+                </fieldset>
+              </noscript>
+              {isComponentMounted && (
+                <Select
+                  value={(sortOrder as string) || ''}
+                  form="searchPageForm"
+                  name="sortOrder"
+                  label="sort results by:"
+                  onChange={e => setSortOrder(e.currentTarget.value)}
+                  options={[
+                    {
+                      value: '',
+                      text: 'Relevance',
+                    },
+                    {
+                      value: 'asc',
+                      text: 'Oldest to newest',
+                    },
+                    {
+                      value: 'desc',
+                      text: 'Newest to oldest',
+                    },
+                  ]}
+                  isPill
+                  hideLabel
+                />
+              )}
+            </Space>
+          </div>
           <Space
             v={{
               size: 'l',
               properties: ['padding-top', 'padding-bottom'],
             }}
           >
-            <ResultsPaginationWrapper>
+            <ResultsPaginationWrapper aria-label="Sort Search Results">
               {works.totalResults > 0 && (
                 <div>{works.totalResults} results</div>
               )}
@@ -79,7 +174,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             </ResultsPaginationWrapper>
           </Space>
           <Space v={{ size: 'l', properties: ['padding-top'] }}>
-            <WorksSearchResults works={works} />
+            <main>
+              <WorksSearchResults works={works} />
+            </main>
           </Space>
         </div>
       )}

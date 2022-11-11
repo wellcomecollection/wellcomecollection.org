@@ -21,7 +21,13 @@ module "catalogue-service-17092020" {
   # and the app would crash.
   #
   # We're increasing it to 2 GB to see if that improves reliability.
-  cpu    = 512
+  #
+  # Note 2: in November 2022, we were running with 0.5 vCPUs and 2gb of memory;
+  # we saw latency spikes and CPUUtilization maxima often in the 80-100% region.
+  # These would occasionally result in 502s and so on.
+  #
+  # We're increasing vCPU to 1 in prod to see if this is addressed
+  cpu    = var.env_suffix == "prod" ? 1024 : 512
   memory = 2048
 
   env_vars = {
@@ -30,10 +36,10 @@ module "catalogue-service-17092020" {
   }
 
   secret_env_vars = {
-    APM_SERVER_URL      = "elasticsearch/logging/apm_server_url"
-    APM_SECRET          = "elasticsearch/logging/apm_secret"
-    items_api_key_prod  = "catalogue_api/items/prod/api_key"
-    items_api_key_stage = "catalogue_api/items/stage/api_key"
+    APM_SERVER_URL       = "elasticsearch/logging/apm_server_url"
+    APM_SECRET           = "elasticsearch/logging/apm_secret"
+    items_api_key_prod   = "catalogue_api/items/prod/api_key"
+    items_api_key_stage  = "catalogue_api/items/stage/api_key"
     PRISMIC_BEARER_TOKEN = "prismic-model/graphql/prismic_bearer_token"
   }
 

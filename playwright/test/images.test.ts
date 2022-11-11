@@ -97,7 +97,7 @@ test.describe('Image search', () => {
       await expectItemIsVisible('h2 >> text="Dr. Darwin."', page);
 
       await expectItemIsVisible(
-        'h3 >> text="Fortey, W. S. (William Samuel)"',
+        'span >> text="Fortey, W. S. (William Samuel)"',
         page
       );
     });

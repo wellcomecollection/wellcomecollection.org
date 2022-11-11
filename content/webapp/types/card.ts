@@ -1,6 +1,6 @@
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { Format } from './format';
-import { Event } from './events';
+import { EventBasic } from './events';
 import { Article } from './articles';
 import { Season } from './seasons';
 import { Page, ParentPage } from './pages';
@@ -27,7 +27,7 @@ export type Card = {
 export function convertItemToCardProps(
   item:
     | Article
-    | Event
+    | EventBasic
     | Season
     | Page
     | Series

@@ -147,6 +147,7 @@ type Props = {
   big?: boolean;
   ariaLabel?: string;
   ariaDescribedBy?: string;
+  form?: string;
 };
 
 // TODO figure out if we want this style moving forward
@@ -172,6 +173,7 @@ const Input: FC<Props> = (
     big,
     ariaLabel,
     ariaDescribedBy,
+    form,
   }: Props,
   ref: RefObject<HTMLInputElement>
 ) => {
@@ -232,6 +234,7 @@ const Input: FC<Props> = (
           aria-invalid={!!(!isValid && showValidity)}
           aria-errormessage={errorMessage && `${id}-errormessage`}
           big={!!big}
+          form={form}
         />
         {isValid && showValidity && (
           <TextInputCheckmark>

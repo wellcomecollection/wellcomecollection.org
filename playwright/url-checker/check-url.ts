@@ -1,5 +1,9 @@
 import { Browser } from 'playwright';
-import { ignoreErrorLog, ignoreRequestError } from './ignore';
+import {
+  ignoreErrorLog,
+  ignoreMimeTypeMismatch,
+  ignoreRequestError,
+} from './ignore';
 
 type FailureType =
   | 'could-not-load-url'
@@ -100,7 +104,8 @@ export const urlChecker =
         const responseMimeType = await response.headerValue('Content-Type');
         if (
           responseMimeType !== null &&
-          !responseMimeType?.startsWith('image')
+          !responseMimeType?.startsWith('image') &&
+          !ignoreMimeTypeMismatch(request)
         ) {
           failures.push({
             failureType: 'mime-type-mismatch',

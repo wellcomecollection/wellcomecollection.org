@@ -31,13 +31,23 @@ export type InferCustomType<T> = T extends PrismicDocument<
   ? CustomType
   : never;
 
-/**
- * This converts
- * PrismicDocument<{ field1: string, field2: Image }, 'customType'> => ("customType.field1" | "customType.field2")[]
+/** This gives us type checking on fetch links.  e.g. if you have a type
  *
- * If we wanted to ensure all the fields, you could use `UnionToTuple<FetchLinks<T>>` and remove the array type.
+ *      type ShapePrismicDocument = { sides: NumberField, colour: KeyTextField };
  *
- * Given that we use this mainly for fetching links, which is an incomplete list, this is better.
+ * and you wanted to create fetchLinks, you could write:
+ *
+ *      const shapeFetchLinks: FetchLinks<ShapePrismicDocument> = ['shape.sides', 'shape.colour'];
+ *
+ * and it will check these are valid fetch links.  If you put in an invalid fetch
+ * link (for example, 'shape.name'), this would be flagged by the type checker.
+ *
+ * This works by converting ShapePrismicDocument into ('shape.sides' | 'shape.colour')[].
+ *
+ * If we wanted to get all the fields, you could use `UnionToTuple<FetchLinks<T>>` and remove the array type.
+ * Given that we mostly use this for fetching links, where we don't need the complete linked
+ * document, this is better.
+ *
  */
 export type FetchLinks<T extends PrismicDocument> = {
   [D in keyof InferDataInterface<T>]: D extends string
@@ -104,8 +114,9 @@ export type WithEventSeries = {
     >;
   }>;
 };
-export const eventSeriesFetchLink: FetchLinks<EventSeriesPrismicDocument> = [
+export const eventSeriesFetchLinks: FetchLinks<EventSeriesPrismicDocument> = [
   'event-series.title',
+  'event-series.backgroundTexture',
   'event-series.promo',
 ];
 
@@ -120,6 +131,8 @@ export type WithSeasons = {
 };
 export const seasonsFetchLinks: FetchLinks<SeasonPrismicDocument> = [
   'seasons.title',
+  'seasons.start',
+  'seasons.end',
   'seasons.promo',
 ];
 
@@ -162,6 +175,7 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
   'exhibitions.title',
   'exhibitions.promo',
   'exhibitions.shortTitle',
+  'exhibitions.format',
 ];
 
 type Contributor =
@@ -186,23 +200,30 @@ export type WithContributors = {
   }>;
 };
 
-type ContributorFetchLink = (
-  | FetchLinks<EditorialContributorRole>[number]
-  | FetchLinks<Person>[number]
-  | FetchLinks<Organisation>[number]
-)[];
-export const contributorFetchLinks: ContributorFetchLink = [
+const contributionRoleFetchLinks: FetchLinks<EditorialContributorRole> = [
   'editorial-contributor-roles.title',
   'editorial-contributor-roles.describedBy',
+];
+
+const personFetchLinks: FetchLinks<Person> = [
   'people.name',
   'people.description',
   'people.pronouns',
   'people.image',
   'people.sameAs',
+];
+
+const organisationFetchLinks: FetchLinks<Organisation> = [
   'organisations.name',
   'organisations.description',
   'organisations.image',
   'organisations.sameAs',
+];
+
+export const contributorFetchLinks = [
+  ...contributionRoleFetchLinks,
+  ...personFetchLinks,
+  ...organisationFetchLinks,
 ];
 
 // Guards

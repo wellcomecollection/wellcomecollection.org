@@ -5,18 +5,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
-  height: 36px;
-  width: 36px;
-  max-width: 50px;
-  background: none;
-  color: ${({ darkBg }) => (darkBg ? '#ffffff' : '#121212')};
-  border: ${({ darkBg }) => (darkBg ? '#cccccc' : '#6b6b6b')} 1px solid;
-  border-radius: 5px;
-  text-align: center;
-  margin: 0 10px;
-`;
-
 const ChevronWrapper = styled.a<{ prev?: boolean; darkBg?: boolean }>`
   display: inline-flex;
   align-items: center;
@@ -48,19 +36,9 @@ export const SearchPagination: FunctionComponent<{
       aria-label="search pagination"
       style={{ display: 'flex', alignItems: 'center' }}
     >
-      <span aria-hidden>Showing page</span>
-      <span id="searchInputLabel" className="visually-hidden">
-        {`Showing page ${currentPage} / ${totalPages}`}
+      <span id="searchInputLabel">
+        {`Page ${currentPage} of ${totalPages}`}
       </span>
-      <PageSelectorInput
-        name="page"
-        form="searchPageForm"
-        aria-labelledby="searchInputLabel"
-        value={currentPage}
-        onChange={e => setCurrentPage(Number(e.target.value))}
-        darkBg={darkBg}
-      />
-      <span aria-hidden>/ {totalPages}</span>
       {showPrev && (
         <Link
           passHref

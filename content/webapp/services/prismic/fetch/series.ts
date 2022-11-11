@@ -1,7 +1,16 @@
 import { fetcher } from '.';
-import { seriesFetchLinks, SeriesPrismicDocument } from '../types/series';
+import {
+  commonPrismicFieldsFetchLinks,
+  contributorFetchLinks,
+  seasonsFetchLinks,
+} from '../types';
+import { SeriesPrismicDocument } from '../types/series';
 
-const fetchLinks = seriesFetchLinks;
+const fetchLinks = [
+  ...commonPrismicFieldsFetchLinks,
+  ...contributorFetchLinks,
+  ...seasonsFetchLinks,
+];
 
 const seriesFetcher = fetcher<SeriesPrismicDocument>('series', fetchLinks);
 

@@ -12,10 +12,6 @@ export const collectionVenueId = {
     id: 'WsuS_R8AACS1Nwlx',
     name: 'Library',
   },
-  restaurant: {
-    id: 'WsuYER8AAOG_NyBA',
-    name: 'Restaurant',
-  },
   shop: {
     id: 'WsuaIB8AAH-yNylo',
     name: 'Shop',

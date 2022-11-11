@@ -1,10 +1,7 @@
 import { getTodaysVenueHours } from '../../../services/prismic/opening-times';
 import Space from '../styled/Space';
 import { Venue } from '../../../model/opening-hours';
-import {
-  collectionVenueId,
-  getNameFromCollectionVenue,
-} from '@weco/common/data/hardcoded-ids';
+import { getNameFromCollectionVenue } from '@weco/common/data/hardcoded-ids';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -43,11 +40,7 @@ const OpeningTimes: FunctionComponent<Props> = ({ venues }) => (
             as="li"
             key={venue.id}
           >
-            <VenueName>
-              {venue.id === collectionVenueId.restaurant.id
-                ? 'Kitchen '
-                : `${getNameFromCollectionVenue(venue.id)} `}
-            </VenueName>
+            <VenueName>{getNameFromCollectionVenue(venue.id)}</VenueName>
             {todaysHours.isClosed ? (
               'closed'
             ) : (
