@@ -139,100 +139,110 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   totalPages,
   query,
 }) => {
+  console.log(storyResponseList.totalResults);
   return (
     <Wrapper>
       <h1 className="visually-hidden">Stories Search Page</h1>
-      <div className="container">
-        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
-          <div>Sort Component?</div>
-        </Space>
-      </div>
+
+      {storyResponseList.totalResults === 0 && (
+        <SearchNoResults query={query} hasFilters={false} />
+      )}
+
       {storyResponseList.totalResults > 0 && (
-        <div className="container" role="main">
-          {/* TODO make pagination work... */}
-          <PaginationWrapper>
-            {storyResponseList.totalResults > 0 && (
-              <span>{`${storyResponseList.totalResults} results`}</span>
-            )}
-            <SearchPagination totalPages={totalPages} />
-          </PaginationWrapper>
+        <>
+          <div className="container">
+            <Space
+              v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            >
+              <div>Sort Component?</div>
+            </Space>
+          </div>
 
-          <main>
-            {storyResponseList.results.map(story => {
-              return (
-                <Container key={story.id}>
-                  {/* TODO add link once we have it */}
-                  <StoryWrapper href="#">
-                    <ImageWrapper>
-                      <img src={story.image.url} alt="" />
+          <div className="container" role="main">
+            {/* TODO make pagination work... */}
+            <PaginationWrapper>
+              {storyResponseList.totalResults > 0 && (
+                <span>{`${storyResponseList.totalResults} result${
+                  storyResponseList.totalResults > 1 ? 's' : ''
+                }`}</span>
+              )}
+              <SearchPagination totalPages={totalPages} />
+            </PaginationWrapper>
 
-                      {story.type && (
-                        <MobileLabel>
-                          {/* TODO add labels once we have them */}
-                          <LabelsList labels={[{ text: 'Article' }]} />
-                        </MobileLabel>
-                      )}
-                    </ImageWrapper>
-                    <Details>
-                      {story.type && (
-                        <DesktopLabel>
-                          {/* TODO add labels once we have them */}
-                          <LabelsList labels={[{ text: 'Article' }]} />
-                        </DesktopLabel>
-                      )}
-                      <h3 className={font('wb', 4)}>{story.title}</h3>
-                      {/* TODO update when we get new contributors array and new publication date */}
-                      {(story.firstPublicationDate ||
-                        !!story.contributors.length) && (
-                        <StoryInformation>
-                          {story.firstPublicationDate && (
-                            <StoryInformationItem>
-                              <HTMLDate
-                                date={new Date(story.firstPublicationDate)}
-                              />
-                            </StoryInformationItem>
-                          )}
-                          {!!story.contributors.length && (
-                            <StoryInformationItem>
-                              {/* TODO update when we type contributors to match Prismic structure */}
-                              {/* {story.contributors.map(contributor => {
+            <main>
+              {storyResponseList.results.map(story => {
+                return (
+                  <Container key={story.id}>
+                    {/* TODO add link once we have it */}
+                    <StoryWrapper href="#">
+                      <ImageWrapper>
+                        <img src={story.image.url} alt="" />
+
+                        {story.type && (
+                          <MobileLabel>
+                            {/* TODO add labels once we have them */}
+                            <LabelsList labels={[{ text: 'Article' }]} />
+                          </MobileLabel>
+                        )}
+                      </ImageWrapper>
+                      <Details>
+                        {story.type && (
+                          <DesktopLabel>
+                            {/* TODO add labels once we have them */}
+                            <LabelsList labels={[{ text: 'Article' }]} />
+                          </DesktopLabel>
+                        )}
+                        <h3 className={font('wb', 4)}>{story.title}</h3>
+                        {/* TODO update when we get new contributors array and new publication date */}
+                        {(story.firstPublicationDate ||
+                          !!story.contributors.length) && (
+                          <StoryInformation>
+                            {story.firstPublicationDate && (
+                              <StoryInformationItem>
+                                <HTMLDate
+                                  date={new Date(story.firstPublicationDate)}
+                                />
+                              </StoryInformationItem>
+                            )}
+                            {!!story.contributors.length && (
+                              <StoryInformationItem>
+                                {/* TODO update when we type contributors to match Prismic structure */}
+                                {/* {story.contributors.map(contributor => {
                                 return (
                                   <span key={contributor.contributor.name}>
                                     {contributor.contributor.name}
                                   </span>
                                 );
                               })} */}
-                              <span>Jane Smith, John Smith</span>
-                            </StoryInformationItem>
-                          )}
-                        </StoryInformation>
-                      )}
-                      {/* TODO replace with promo? */}
-                      {story.summary && (
-                        <p className={font('intr', 5)}>{story.summary}</p>
-                      )}
-                    </Details>
-                  </StoryWrapper>
-                </Container>
-              );
-            })}
-          </main>
+                                <span>Jane Smith, John Smith</span>
+                              </StoryInformationItem>
+                            )}
+                          </StoryInformation>
+                        )}
+                        {/* TODO replace with promo? */}
+                        {story.summary && (
+                          <p className={font('intr', 5)}>{story.summary}</p>
+                        )}
+                      </Details>
+                    </StoryWrapper>
+                  </Container>
+                );
+              })}
+            </main>
 
-          <Space
-            v={{
-              size: 'l',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
-          >
-            {/* TODO make pagination work... */}
-            <BottomPaginationWrapper>
-              <SearchPagination totalPages={totalPages} />
-            </BottomPaginationWrapper>
-          </Space>
-        </div>
-      )}
-      {storyResponseList.totalResults === 0 && (
-        <SearchNoResults query={query} hasFilters={false} />
+            <Space
+              v={{
+                size: 'l',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
+            >
+              {/* TODO make pagination work... */}
+              <BottomPaginationWrapper>
+                <SearchPagination totalPages={totalPages} />
+              </BottomPaginationWrapper>
+            </Space>
+          </div>
+        </>
       )}
     </Wrapper>
   );

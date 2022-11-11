@@ -93,17 +93,24 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     router.push({ pathname: router.pathname, query: newQuery });
   }, [sortOrder]);
 
-  if (works.totalResults === 0) return <p>nothing</p>;
-
   return (
     <>
       <h1 className="visually-hidden">Works Search Page</h1>
 
-      {works.results.length > 0 && (
+      {works.totalResults === 0 && query && (
+        <SearchNoResults
+          query={query}
+          hasFilters={Boolean(productionDatesFrom || productionDatesTo)}
+        />
+      )}
+
+      {works.totalResults > 0 && (
         <div className="container">
           <PaginationWrapper aria-label="Sort Search Results">
             {works.totalResults > 0 && (
-              <span>{`${works.totalResults} results`}</span>
+              <span>{`${works.totalResults} result${
+                works.totalResults > 1 ? 's' : ''
+              }`}</span>
             )}
 
             <SortPaginationWrapper>
@@ -201,13 +208,6 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             <SearchPagination totalPages={works?.totalPages} />
           </BottomPaginationWrapper>
         </div>
-      )}
-
-      {works.results.length === 0 && (
-        <SearchNoResults
-          query={query}
-          hasFilters={Boolean(productionDatesFrom || productionDatesTo)}
-        />
       )}
     </>
   );

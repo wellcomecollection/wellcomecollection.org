@@ -91,18 +91,25 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       {/* TODO review if this needs updating */}
 
       <h1 className="visually-hidden">Images Search Page</h1>
-      <div className="container">
-        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
-          <h2 style={{ marginBottom: 0 }}>Filters</h2>
-        </Space>
-      </div>
+
+      {images?.results && images.totalResults > 0 && (
+        <div className="container">
+          <Space
+            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <h2 style={{ marginBottom: 0 }}>Filters</h2>
+          </Space>
+        </div>
+      )}
 
       <Wrapper>
-        {images?.results && images.results.length > 0 && (
+        {images?.results && images.totalResults > 0 && (
           <div className="container">
             <PaginationWrapper>
               {images.totalResults > 0 && (
-                <span>{`${images.totalResults} results`}</span>
+                <span>{`${images.totalResults} result${
+                  images.totalResults > 1 ? 's' : ''
+                }`}</span>
               )}
               <SearchPagination totalPages={images?.totalPages} darkBg />
             </PaginationWrapper>
@@ -116,7 +123,8 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
             </BottomPaginationWrapper>
           </div>
         )}
-        {images?.results.length === 0 && (
+
+        {images?.totalResults === 0 && (
           <SearchNoResults
             query={query}
             hasFilters={!!colorFilter}
