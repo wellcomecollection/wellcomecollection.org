@@ -1,5 +1,9 @@
+import { useContext, useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
+import styled from 'styled-components';
+
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
@@ -14,15 +18,13 @@ import {
 } from '@weco/common/views/components/WorksLink/WorksLink';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
-import { useContext, useEffect, useState } from 'react';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
-import styled from 'styled-components';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
-import { useRouter } from 'next/router';
 import Select from '@weco/common/views/components/Select/Select';
 import { propsToQuery } from '@weco/common/utils/routes';
+import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -34,6 +36,7 @@ type Props = {
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/8863
 const PaginationWrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  className: font('intb', 5),
 })`
   display: flex;
   justify-content: space-between;
@@ -99,7 +102,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
       {works.results.length > 0 && (
         <div className="container">
           <PaginationWrapper aria-label="Sort Search Results">
-            {works.totalResults > 0 && <div>{works.totalResults} results</div>}
+            {works.totalResults > 0 && (
+              <span>{`${works.totalResults} results`}</span>
+            )}
 
             <SortPaginationWrapper>
               <div>

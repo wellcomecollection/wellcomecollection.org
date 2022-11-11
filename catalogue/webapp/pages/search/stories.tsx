@@ -34,6 +34,7 @@ const Wrapper = styled.div`
 
 const PaginationWrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  className: font('intb', 5),
 })`
   display: flex;
   justify-content: space-between;
@@ -151,7 +152,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           {/* TODO make pagination work... */}
           <PaginationWrapper>
             {storyResponseList.totalResults > 0 && (
-              <div>{storyResponseList.totalResults} results</div>
+              <span>{`${storyResponseList.totalResults} results`}</span>
             )}
             <SearchPagination totalPages={totalPages} />
           </PaginationWrapper>

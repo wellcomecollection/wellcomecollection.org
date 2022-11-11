@@ -27,6 +27,7 @@ import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 // Types
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
+import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -43,6 +44,7 @@ const Wrapper = styled(Space).attrs({
 
 const PaginationWrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  className: font('intb', 5),
 })`
   display: flex;
   justify-content: space-between;
@@ -100,7 +102,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           <div className="container">
             <PaginationWrapper>
               {images.totalResults > 0 && (
-                <div>{images.totalResults} results</div>
+                <span>{`${images.totalResults} results`}</span>
               )}
               <SearchPagination totalPages={images?.totalPages} darkBg />
             </PaginationWrapper>
