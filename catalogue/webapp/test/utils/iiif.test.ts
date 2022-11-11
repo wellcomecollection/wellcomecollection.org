@@ -2,6 +2,8 @@ import { Manifest, Service } from '@iiif/presentation-3';
 import { getCanvases, groupStructures } from '../../utils/iiif/v2';
 import {
   getAudio,
+  getIIIFMetadata,
+  getIIIFPresentationCredit,
   getMediaClickthroughService,
   getVideo,
   getMultiVolumeLabel,
@@ -10,6 +12,7 @@ import manifest from '@weco/common/__mocks__/iiif-manifest';
 import {
   manifestWithAudioTitles,
   manifestWithTranscript,
+  physicalDescriptionMetadataItem,
   manifestWithVideo,
   authService,
   services,
@@ -177,19 +180,38 @@ describe('getMultiVolumeLabel', () => {
 
 describe('IIIF V3', () => {
   it('parses audio files and titles from a manifest', () => {
-    const { sounds } = getAudio(manifestWithAudioTitles as Manifest);
-    expect(sounds.length).toBe(4);
-    expect(sounds[0].sound.id).toBe(
+    const { sounds } = getAudio(manifestWithAudioTitles as Manifest) || {};
+    expect(sounds?.length).toBe(4);
+    expect(sounds?.[0].sound.id).toBe(
       'https://iiif.wellcomecollection.org/av/b3250200x_0001.wav/full/max/default.mp3'
     );
-    expect(sounds[0].title).toBe('Tape 1, Side 1');
-    expect(sounds[3].title).toBe('Tape 2, Side 2');
+    expect(sounds?.[0].title).toBe('Tape 1, Side 1');
+    expect(sounds?.[3].title).toBe('Tape 2, Side 2');
   });
 
   it('parses an associated audio transcript from a manifest', () => {
-    const { transcript } = getAudio(manifestWithTranscript as Manifest);
+    const { transcript } = getAudio(manifestWithTranscript as Manifest) || {};
     expect(transcript?.id).toBe(
       'https://iiif.wellcomecollection.org/file/b2248887x_0001.pdf'
     );
+  });
+});
+
+describe('getIIIFMetadata', () => {
+  it('returns the correct MetadataItem from a manifest', () => {
+    const metadataItem = getIIIFMetadata(
+      manifestWithTranscript as Manifest,
+      'Physical description'
+    );
+    expect(physicalDescriptionMetadataItem).toEqual(metadataItem);
+  });
+});
+
+describe('getIIIFPresentationCredit', () => {
+  it('returns the relevant attribution and usage information', () => {
+    const credit = getIIIFPresentationCredit(
+      manifestWithTranscript as Manifest
+    );
+    expect(credit).toEqual('Wellcome Collection');
   });
 });

@@ -6,7 +6,6 @@ import {
   isUiEnabled,
   getCanvases,
   getFirstCollectionManifestLocation,
-  getIIIFPresentationCredit,
   getAuthService,
   getTokenService,
   getIsAnyImageOpen,
@@ -19,6 +18,7 @@ import {
   getDownloadOptionsFromManifest,
   getPdf,
   getTitle,
+  getIIIFPresentationCredit,
   getSearchService,
   getVideo,
 } from '../../../utils/iiif/v3';
@@ -29,7 +29,6 @@ export function transformManifest(
   const { manifestV2, manifestV3 } = { ...iiifManifests };
   const canvases = manifestV2 ? getCanvases(manifestV2) : [];
   const canvasCount = canvases.length;
-  const iiifCredit = manifestV2 && getIIIFPresentationCredit(manifestV2);
   const downloadEnabled = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
     : true;
@@ -51,14 +50,15 @@ export function transformManifest(
   const structures = manifestV2?.structures || [];
 
   // V3
-  const title = manifestV3?.label ? getTitle(manifestV3.label) : '';
-  const audio = manifestV3 && getAudio(manifestV3);
+  const title = getTitle(manifestV3?.label);
+  const audio = getAudio(manifestV3);
   const services = manifestV3?.services || [];
+  const iiifCredit = getIIIFPresentationCredit(manifestV3);
   const video = getVideo(manifestV3);
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
   const pdf = getPdf(manifestV3);
   const id = manifestV3?.id || '';
-  const parentManifestUrl = manifestV3 && manifestV3.partOf?.[0].id;
+  const parentManifestUrl = manifestV3?.partOf?.[0].id;
   const collectionManifestsCount =
     manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
   const searchService = getSearchService(manifestV3);
@@ -67,7 +67,6 @@ export function transformManifest(
   return {
     // Taken from V2 manifest:
     canvasCount,
-    iiifCredit,
     downloadEnabled,
     authService,
     tokenService,
@@ -82,6 +81,7 @@ export function transformManifest(
     id,
     audio,
     services,
+    iiifCredit,
     video,
     downloadOptions: [...downloadOptions, pdf].filter(
       Boolean

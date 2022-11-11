@@ -1,3 +1,12 @@
+export const physicalDescriptionMetadataItem = {
+  label: {
+    en: ['Physical description'],
+  },
+  value: {
+    en: ['6 encoded audio files 2.4 MB (2542803 bytes) 6 WAV files'],
+  },
+};
+
 export const authService = {
   '@id': 'https://iiif.wellcomecollection.org/auth/clickthrough',
   '@type': 'AuthCookieService1',
@@ -134,7 +143,7 @@ export const manifestWithTranscript = {
         ],
       },
     },
-  ],
+  ].concat(physicalDescriptionMetadataItem),
   rights: 'http://creativecommons.org/licenses/by-nc/4.0/',
   provider: [
     {
