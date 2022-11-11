@@ -16,7 +16,7 @@ export type Exhibition = {
 };
 
 export type Label = {
-  text: string | '';
+  text: string;
 };
 
 export type Title = {
