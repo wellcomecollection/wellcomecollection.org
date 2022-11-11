@@ -50,8 +50,7 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
-import { Audio } from 'services/iiif/types/manifest/v3';
-import { IIIFMediaElement } from 'services/iiif/types/manifest/v2';
+import { Audio, Video } from 'services/iiif/types/manifest/v3';
 
 type Props = {
   work: Work;
@@ -73,7 +72,7 @@ function getItemLinkState({
   sierraIdFromManifestUrl: string | undefined;
   itemUrl: LinkProps;
   audio: Audio | undefined;
-  video: IIIFMediaElement | undefined;
+  video: Video | undefined;
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
     return 'useLibraryLink';
