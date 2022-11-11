@@ -32,15 +32,25 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme.color('neutral.200')};
 `;
 
-const ResultsPaginationWrapper = styled.div`
+const PaginationWrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
+const BottomPaginationWrapper = styled(PaginationWrapper)`
+  justify-content: flex-end;
+`;
+
 const Container = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-bottom'] },
-})``;
+})`
+  &:last-child {
+    padding-bottom: 0;
+  }
+`;
 
 const StoryWrapper = styled.a`
   display: flex;
@@ -138,21 +148,15 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       </div>
       {storyResponseList.totalResults > 0 && (
         <div className="container" role="main">
-          <Space
-            v={{
-              size: 'l',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
-          >
-            {/* TODO make pagination work... */}
-            <ResultsPaginationWrapper>
-              {storyResponseList.totalResults > 0 && (
-                <div>{storyResponseList.totalResults} results</div>
-              )}
-              <SearchPagination totalPages={totalPages} />
-            </ResultsPaginationWrapper>
-          </Space>
-          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+          {/* TODO make pagination work... */}
+          <PaginationWrapper>
+            {storyResponseList.totalResults > 0 && (
+              <div>{storyResponseList.totalResults} results</div>
+            )}
+            <SearchPagination totalPages={totalPages} />
+          </PaginationWrapper>
+
+          <main>
             {storyResponseList.results.map(story => {
               return (
                 <Container key={story.id}>
@@ -211,6 +215,18 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 </Container>
               );
             })}
+          </main>
+
+          <Space
+            v={{
+              size: 'l',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
+          >
+            {/* TODO make pagination work... */}
+            <BottomPaginationWrapper>
+              <SearchPagination totalPages={totalPages} />
+            </BottomPaginationWrapper>
           </Space>
         </div>
       )}

@@ -30,10 +30,31 @@ type Props = {
   pageview: Pageview;
 };
 
-const ResultsPaginationWrapper = styled.div`
+// TODO work on layout further in
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/8863
+const PaginationWrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+`;
+
+const SortPaginationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
+const SortWrapper = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },
+})`
+  margin-right: 2rem;
+`;
+
+const BottomPaginationWrapper = styled(PaginationWrapper)`
+  justify-content: flex-end;
 `;
 
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
@@ -77,107 +98,103 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
       {works.results.length > 0 && (
         <div className="container">
-          <div>
-            <Space
-              v={{ size: 'm', properties: ['margin-bottom', 'margin-top'] }}
-            >
-              <noscript>
-                <fieldset className="">
-                  <legend>Search result sorting</legend>
-                  <span id="sort-label" className="">
-                    Sort by:
-                  </span>
-                  <select
-                    aria-labelledby="sort-label"
-                    name="sort"
-                    form="searchPageForm"
-                  >
-                    {[
-                      {
-                        value: '',
-                        text: 'Relevance',
-                      },
-                      {
-                        value: 'production.dates',
-                        text: 'Production dates',
-                      },
-                    ].map(o => (
-                      <option key={o.value} value={o.value}>
-                        {o.text}
-                      </option>
-                    ))}
-                  </select>
-                  <br />
-                  <span id="sort-order-label" className="">
-                    Sort order:
-                  </span>
-                  <select
-                    aria-labelledby="sort-order-label"
-                    name="sortOrder"
-                    form="searchPageForm"
-                  >
-                    {[
-                      {
-                        value: 'asc',
-                        text: 'Ascending',
-                      },
-                      {
-                        value: 'desc',
-                        text: 'Descending',
-                      },
-                    ].map(o => (
-                      <option key={o.value} value={o.value}>
-                        {o.text}
-                      </option>
-                    ))}
-                  </select>
-                </fieldset>
-              </noscript>
-              {isComponentMounted && (
-                <Select
-                  value={(sortOrder as string) || ''}
-                  form="searchPageForm"
-                  name="sortOrder"
-                  label="sort results by:"
-                  onChange={e => setSortOrder(e.currentTarget.value)}
-                  options={[
-                    {
-                      value: '',
-                      text: 'Relevance',
-                    },
-                    {
-                      value: 'asc',
-                      text: 'Oldest to newest',
-                    },
-                    {
-                      value: 'desc',
-                      text: 'Newest to oldest',
-                    },
-                  ]}
-                  isPill
-                  hideLabel
-                />
-              )}
-            </Space>
-          </div>
-          <Space
-            v={{
-              size: 'l',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
-          >
-            <ResultsPaginationWrapper aria-label="Sort Search Results">
-              {works.totalResults > 0 && (
-                <div>{works.totalResults} results</div>
-              )}
+          <PaginationWrapper aria-label="Sort Search Results">
+            {works.totalResults > 0 && <div>{works.totalResults} results</div>}
+
+            <SortPaginationWrapper>
+              <div>
+                <SortWrapper>
+                  <noscript>
+                    <fieldset className="">
+                      <legend>Search result sorting</legend>
+                      <span id="sort-label" className="">
+                        Sort by:
+                      </span>
+                      <select
+                        aria-labelledby="sort-label"
+                        name="sort"
+                        form="searchPageForm"
+                      >
+                        {[
+                          {
+                            value: '',
+                            text: 'Relevance',
+                          },
+                          {
+                            value: 'production.dates',
+                            text: 'Production dates',
+                          },
+                        ].map(o => (
+                          <option key={o.value} value={o.value}>
+                            {o.text}
+                          </option>
+                        ))}
+                      </select>
+                      <br />
+                      <span id="sort-order-label" className="">
+                        Sort order:
+                      </span>
+                      <select
+                        aria-labelledby="sort-order-label"
+                        name="sortOrder"
+                        form="searchPageForm"
+                      >
+                        {[
+                          {
+                            value: 'asc',
+                            text: 'Ascending',
+                          },
+                          {
+                            value: 'desc',
+                            text: 'Descending',
+                          },
+                        ].map(o => (
+                          <option key={o.value} value={o.value}>
+                            {o.text}
+                          </option>
+                        ))}
+                      </select>
+                    </fieldset>
+                  </noscript>
+                  {isComponentMounted && (
+                    <Select
+                      value={(sortOrder as string) || ''}
+                      form="searchPageForm"
+                      name="sortOrder"
+                      label="sort results by:"
+                      onChange={e => setSortOrder(e.currentTarget.value)}
+                      options={[
+                        {
+                          value: '',
+                          text: 'Relevance',
+                        },
+                        {
+                          value: 'asc',
+                          text: 'Oldest to newest',
+                        },
+                        {
+                          value: 'desc',
+                          text: 'Newest to oldest',
+                        },
+                      ]}
+                      isPill
+                      hideLabel
+                    />
+                  )}
+                </SortWrapper>
+              </div>
+
               <SearchPagination totalPages={works?.totalPages} />
-            </ResultsPaginationWrapper>
-          </Space>
-          <Space v={{ size: 'l', properties: ['padding-top'] }}>
-            <main>
-              <WorksSearchResults works={works} />
-            </main>
-          </Space>
+            </SortPaginationWrapper>
+          </PaginationWrapper>
+
+          <main>
+            <WorksSearchResults works={works} />
+          </main>
+
+          <BottomPaginationWrapper aria-label="Bottom pagination">
+            <SearchPagination totalPages={works?.totalPages} />
+          </BottomPaginationWrapper>
         </div>
       )}
 

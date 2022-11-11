@@ -38,12 +38,19 @@ const Wrapper = styled(Space).attrs({
   v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
 `;
 
-const ResultsPaginationWrapper = styled.div`
+const PaginationWrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const BottomPaginationWrapper = styled(PaginationWrapper)`
+  justify-content: flex-end;
 `;
 
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
@@ -91,23 +98,20 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       <Wrapper>
         {images?.results && images.results.length > 0 && (
           <div className="container">
-            <Space
-              v={{
-                size: 'l',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
-              style={{ color: 'white' }}
-            >
-              <ResultsPaginationWrapper>
-                {images.totalResults > 0 && (
-                  <div>{images.totalResults} results</div>
-                )}
-                <SearchPagination totalPages={images?.totalPages} darkBg />
-              </ResultsPaginationWrapper>
-            </Space>
+            <PaginationWrapper>
+              {images.totalResults > 0 && (
+                <div>{images.totalResults} results</div>
+              )}
+              <SearchPagination totalPages={images?.totalPages} darkBg />
+            </PaginationWrapper>
+
             <main>
               <ImageEndpointSearchResults images={images} />
             </main>
+
+            <BottomPaginationWrapper>
+              <SearchPagination totalPages={images?.totalPages} darkBg />
+            </BottomPaginationWrapper>
           </div>
         )}
         {images?.results.length === 0 && (
