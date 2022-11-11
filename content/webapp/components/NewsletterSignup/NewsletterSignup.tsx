@@ -144,7 +144,6 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             <TextInput
               id="email"
               label="Your email address"
-              placeholder="Your email address"
               name="Email"
               type="email"
               required={true}

@@ -12,6 +12,7 @@ import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import { hexToRgb } from '@weco/common/utils/convert-colors';
 
 type BaseButtonProps = {
   href?: string;
@@ -29,7 +30,6 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   align-items: center;
   display: inline-flex;
   line-height: 1;
-  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   text-decoration: none;
   text-align: center;
   transition: background ${props => props.theme.transitionProperties},
@@ -117,6 +117,8 @@ export type ButtonSolidBaseProps = {
   isIconAfter?: boolean;
   size?: ButtonSize;
   hoverUnderline?: boolean;
+  form?: string;
+  isNewStyle?: boolean;
 };
 
 type ButtonSolidProps = ButtonSolidBaseProps & {
@@ -130,6 +132,7 @@ type SolidButtonProps = {
   colors?: ButtonColors;
   size?: ButtonSize;
   hoverUnderline?: boolean;
+  isNewStyle?: boolean;
 };
 
 // Default to medium button
@@ -140,10 +143,14 @@ const getPadding = (size: ButtonSize = 'medium') => {
     case 'medium':
       return '13px 20px';
     case 'large':
-      return '14px';
+      return '23px 24px';
   }
 };
 
+// TODO phase out the "old style" in favour of the new one:
+// Where the hover lightens (or darkens?) the background as Gareth O had wanted
+// And has no border color.
+// Pass in `isNewStyle` in the meantime to get the newest look.
 export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   props => ({
     'aria-label': props.ariaLabel,
@@ -152,27 +159,45 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
     }),
   })
 )<SolidButtonProps>`
-  background: ${props =>
-    props.theme.color(
-      props?.colors?.background || props.theme.buttonColors.default.background
-    )};
-  color: ${props =>
-    props.theme.color(
-      props?.colors?.text || props.theme.buttonColors.default.text
-    )};
-  border: 2px solid
-    ${props =>
-      props.theme.color(
-        props?.colors?.border || props.theme.buttonColors.default.border
-      )};
-
   padding: ${({ size }) => getPadding(size)};
 
-  // TODO use a function to lighten the colours on hover
-  // In the meantime, use underline
-  &:not([disabled]):hover {
-    text-decoration: underline;
-  }
+  ${props => `
+    background: 
+      ${props.theme.color(
+        props?.colors?.background || props.theme.buttonColors.default.background
+      )};
+    color: ${props.theme.color(
+      props?.colors?.text || props.theme.buttonColors.default.text
+    )};
+  `}
+
+  ${props => {
+    if (props.isNewStyle) {
+      const { r, g, b } = hexToRgb(
+        props.theme.color(
+          props.colors?.background ||
+            props.theme.buttonColors.default.background
+        )
+      );
+      return `
+      border: 0;
+
+      &:not([disabled]):hover {
+        background-color: rgba(${r}, ${g}, ${b}, 0.8);
+      }`;
+    } else {
+      return `
+        border: 2px solid
+        ${props.theme.color(
+          props?.colors?.border || props.theme.buttonColors.default.border
+        )};
+
+        &:not([disabled]):hover {
+          text-decoration: underline;
+        }
+      `;
+    }
+  }}
 `;
 
 // TODO move styles here - styled component
@@ -192,6 +217,8 @@ const Button: FunctionComponent<ButtonSolidProps> = (
     colors,
     isIconAfter,
     hoverUnderline,
+    form,
+    isNewStyle,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -212,6 +239,8 @@ const Button: FunctionComponent<ButtonSolidProps> = (
       colors={colors}
       hoverUnderline={hoverUnderline}
       ref={ref}
+      form={form}
+      isNewStyle={isNewStyle}
     >
       <BaseButtonInner isInline={size === 'small'}>
         {isIconAfter && (

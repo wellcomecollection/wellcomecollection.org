@@ -39,18 +39,18 @@ const SearchInputWrapper = styled.div`
 
 const SearchButtonWrapper = styled.div`
   position: absolute;
-  top: ${props => props.theme.spacingUnits['3'] + 6}px;
+  top: ${props => props.theme.spacingUnits['3'] + 7}px;
   right: ${props => props.theme.spacingUnits['5'] + 6}px;
 
   ${props =>
     props.theme.media('medium')(`
-      top: ${props.theme.spacingUnits['4'] + 6}px;
+      top: ${props.theme.spacingUnits['4'] + 7}px;
       right: ${props.theme.spacingUnits['6'] + 6}px;
     `)}
 
   ${props =>
     props.theme.media('large')(`
-      top: ${props.theme.spacingUnits['5'] + 6}px;
+      top: ${props.theme.spacingUnits['5'] + 7}px;
       right: ${props.theme.spacingUnits['8'] + 6}px;
     `)}
 `;
@@ -195,7 +195,6 @@ const SearchForm = forwardRef(
               setValue={setInputQuery}
               ref={searchInput}
               big={true}
-              placeholder=""
               ariaLabel={
                 isImageSearch ? searchFormInputImage : searchFormInputCatalogue
               }
@@ -291,7 +290,7 @@ const SearchForm = forwardRef(
           )}
         </noscript>
         <SearchButtonWrapper>
-          <ButtonSolid text="Search" size="large" />
+          <ButtonSolid text="Search" size="medium" />
         </SearchButtonWrapper>
       </form>
     );
