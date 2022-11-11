@@ -22,6 +22,7 @@ export async function transformPrismicResponse(
       const { name } = contributorNode;
       return name;
     });
+
     return {
       id,
       title: title[0]?.text,

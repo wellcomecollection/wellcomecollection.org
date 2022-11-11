@@ -125,7 +125,6 @@ const StoryInformationItem = styled.span`
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
-  totalPages,
   query,
 }) => {
   return (
@@ -162,7 +161,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
                       {story.type && (
                         <MobileLabel>
-                          {/* TODO add labels once we have them */}
                           <LabelsList labels={[story.label]} />
                         </MobileLabel>
                       )}
@@ -170,7 +168,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                     <Details>
                       {story.label && (
                         <DesktopLabel>
-                          {/* TODO add labels once we have them */}
                           <LabelsList labels={[story.label]} />
                         </DesktopLabel>
                       )}

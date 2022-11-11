@@ -12,7 +12,11 @@ export type Exhibition = {
   contributors: string[];
   type: ContentType[];
   summary: Standfirst;
-  label: { text: string };
+  label: Label;
+};
+
+export type Label = {
+  text: string | '';
 };
 
 export type Title = {
