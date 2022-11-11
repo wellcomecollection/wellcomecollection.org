@@ -189,7 +189,8 @@ function getExternalWebResourceBody(
   return isExternalWebResource ? body : undefined;
 }
 
-export function getVideo(manifest: Manifest): Video | undefined {
+export function getVideo(manifest: Manifest | undefined): Video | undefined {
+  if (!manifest) return;
   const videoChoiceBody = getChoiceBody(
     manifest.items?.[0]?.items?.[0]?.items?.[0]?.body
   );
