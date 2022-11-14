@@ -8,9 +8,9 @@ import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/Sea
 import {
   getEvents,
   PrismicQueryProps,
-} from '@weco/catalogue/services/prismic/fetch/events';
-import { Event } from '@weco/catalogue/services/prismic/types/event';
-import { PrismicResultsList } from '@weco/catalogue/services/prismic/types';
+} from '../../services/prismic/fetch/events';
+import { Event } from '../../services/prismic/types/event';
+import { PrismicResultsList } from '../../services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {

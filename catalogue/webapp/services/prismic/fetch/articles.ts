@@ -20,8 +20,12 @@ export async function getStories({
     const stories = await transformPrismicResponse(['articles'], edges);
     return {
       type: 'ResultList',
+      totalResults: allArticless.totalCount,
+      totalPages: Math.ceil(allArticless.totalCount / pageSize),
       results: stories,
-      totalResults: stories.length,
+      pageSize: pageSize,
+      prevPage: null,
+      nextPage: null,
     };
   } catch (error) {
     console.log(error);

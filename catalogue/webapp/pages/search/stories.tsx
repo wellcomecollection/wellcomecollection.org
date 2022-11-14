@@ -125,7 +125,6 @@ const StoryInformationItem = styled.span`
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
-  totalPages,
   query,
 }) => {
   return (
@@ -144,39 +143,35 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               properties: ['padding-top', 'padding-bottom'],
             }}
           >
-            {/* TODO make pagination work... */}
+            {/* TODO make pagination - cursor based pagination with graphql query */}
             <ResultsPaginationWrapper>
               {storyResponseList.totalResults > 0 && (
                 <div>{storyResponseList.totalResults} results</div>
               )}
-              <SearchPagination totalPages={totalPages} />
+              <SearchPagination totalPages={storyResponseList?.totalPages} />
             </ResultsPaginationWrapper>
           </Space>
           <Space v={{ size: 'l', properties: ['padding-top'] }}>
             {storyResponseList.results.map(story => {
               return (
                 <Container key={story.id}>
-                  {/* TODO add link once we have it */}
-                  <StoryWrapper href="#">
+                  <StoryWrapper href={story.url}>
                     <ImageWrapper>
                       <img src={story.image.url} alt="" />
 
                       {story.type && (
                         <MobileLabel>
-                          {/* TODO add labels once we have them */}
-                          <LabelsList labels={[{ text: 'Article' }]} />
+                          <LabelsList labels={[story.label]} />
                         </MobileLabel>
                       )}
                     </ImageWrapper>
                     <Details>
-                      {story.type && (
+                      {story.label && (
                         <DesktopLabel>
-                          {/* TODO add labels once we have them */}
-                          <LabelsList labels={[{ text: 'Article' }]} />
+                          <LabelsList labels={[story.label]} />
                         </DesktopLabel>
                       )}
                       <h3 className={font('wb', 4)}>{story.title}</h3>
-                      {/* TODO update when we get new contributors array and new publication date */}
                       {(story.firstPublicationDate ||
                         !!story.contributors.length) && (
                         <StoryInformation>
@@ -189,20 +184,15 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                           )}
                           {!!story.contributors.length && (
                             <StoryInformationItem>
-                              {/* TODO update when we type contributors to match Prismic structure */}
-                              {/* {story.contributors.map(contributor => {
+                              {story.contributors.map(contributor => {
                                 return (
-                                  <span key={contributor.contributor.name}>
-                                    {contributor.contributor.name}
-                                  </span>
+                                  <span key={contributor}>{contributor}</span>
                                 );
-                              })} */}
-                              <span>Jane Smith, John Smith</span>
+                              })}
                             </StoryInformationItem>
                           )}
                         </StoryInformation>
                       )}
-                      {/* TODO replace with promo? */}
                       {story.summary && (
                         <p className={font('intr', 5)}>{story.summary}</p>
                       )}
