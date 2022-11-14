@@ -79,6 +79,7 @@ type CheckboxRadioProps = {
   onChange: (event: SyntheticEvent<HTMLInputElement>) => void;
   value?: string;
   ariaLabel?: string;
+  form?: string;
 };
 
 const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({

@@ -9,7 +9,7 @@ import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect'
 
 type Props = {
   query: string;
-  searchForm: { current: HTMLFormElement | null };
+  searchForm?: string;
   changeHandler: () => void;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;

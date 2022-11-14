@@ -218,7 +218,6 @@ const SearchForm = forwardRef(
           <SearchFilters
             query={query}
             linkResolver={linkResolver}
-            searchForm={searchForm}
             changeHandler={submit}
             filters={filters}
           />
