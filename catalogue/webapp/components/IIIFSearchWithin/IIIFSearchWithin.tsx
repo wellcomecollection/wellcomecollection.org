@@ -164,7 +164,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         )}
         <ul className="no-padding">
           {searchResults.hits.map((hit, i) => {
-            // We need the matching resource for each hit annotation in order to get the matching characters for each individual hit and also the canvas it appears on
+            // We need the matching resource for each hit to get the canvas it appears on
             const matchingResources = hit.annotations
               .map(annotation => {
                 return searchResults.resources.find(
@@ -196,11 +196,9 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                   }}
                 >
                   <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
-                    {`${hit.annotations.length} ${
-                      hit.annotations.length === 1 ? 'instance' : 'instances'
-                    } ${
+                    {`${
                       index &&
-                      `found on image ${index + 1} / ${
+                      `Found on image ${index + 1} / ${
                         canvases && canvases.length
                       }`
                     } ${
@@ -210,24 +208,14 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                     }`}
                   </HitData>
                   <span role="presentation">…{hit.before}</span>
-                  {/* Use the resource.chars to display the matches individually, rather than hit.match which groups them as a single string */}
-                  {matchingResources.map((resource, i) => {
-                    return (
-                      resource && (
-                        <span key={i}>
-                          <span
-                            style={{
-                              background: '#944aa0',
-                              color: 'white',
-                            }}
-                          >
-                            {resource.resource.chars}
-                          </span>
-                          {matchingResources[i + 1] ? ' … ' : ''}
-                        </span>
-                      )
-                    );
-                  })}
+                  <span
+                    style={{
+                      background: '#944aa0',
+                      color: 'white',
+                    }}
+                  >
+                    {hit.match}
+                  </span>
                   <span role="presentation">{hit.after}...</span>
                 </SearchResult>
               </ListItem>
