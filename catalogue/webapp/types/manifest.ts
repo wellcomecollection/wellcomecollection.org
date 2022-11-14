@@ -34,7 +34,6 @@ export type TransformedManifest = {
   isAnyImageOpen: boolean;
   isTotallyRestricted: boolean;
   isCollectionManifest: boolean;
-  manifests: CollectionManifest[];
   canvases: IIIFCanvas[];
   parentManifestUrl: string | undefined;
   needsModal: boolean;
@@ -48,6 +47,7 @@ export type TransformedManifest = {
   downloadOptions: DownloadOption[];
   pdf: DownloadOption | undefined;
   searchService: Service | undefined;
+  manifests: CollectionManifest[];
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {
