@@ -17,10 +17,14 @@ export async function transformPrismicResponse(
     const { primary: image } = promo[0];
     const summary = image.caption[0].text;
     const isArticle = type.includes('articles');
+    // in some cases we don't have contributors
     const allContributors = contributors?.map(contributor => {
       const { contributor: contributorNode }: Contributor = contributor;
-      const { name } = contributorNode;
-      return name;
+      console.log(contributor, 'what is contributor here');
+      const hasContributor = contributor.contributor
+        ? contributorNode?.name
+        : '';
+      return hasContributor;
     });
 
     return {
@@ -31,7 +35,7 @@ export async function transformPrismicResponse(
       },
       url: `https://wellcomecollection.org/${type}/${id}`,
       firstPublicationDate,
-      contributors: contributors ? allContributors : [],
+      contributors: allContributors,
       type: type,
       summary: summary,
       label:

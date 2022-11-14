@@ -102,11 +102,11 @@ export type ContentId = {
 };
 
 export type Contributor = {
-  contributor: ContributorNode;
+  contributor?: ContributorNode;
 };
 
 export type ContributorNode = {
-  name: string;
+  name?: string;
 };
 
 export type PrismicResponse = {

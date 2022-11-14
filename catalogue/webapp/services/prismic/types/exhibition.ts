@@ -9,7 +9,7 @@ export type Exhibition = {
   };
   url: string;
   firstPublicationDate: Date;
-  contributors: string[];
+  contributors: (string | undefined)[];
   type: ContentType[];
   summary: Standfirst;
   label: Label;
