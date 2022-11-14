@@ -88,7 +88,6 @@ export type EventBasic = HasTimes & {
   isOnline: boolean;
   locations: PlaceBasic[];
   availableOnline: boolean;
-  scheduleLength: number;
   series: EventSeriesBasic[];
   cost?: string;
 };

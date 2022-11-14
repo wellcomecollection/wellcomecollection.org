@@ -22,7 +22,14 @@ import {
   LinkField,
   KeyTextField,
 } from '@prismicio/types';
-import { isPast, maxDate } from '@weco/common/utils/dates';
+import {
+  countDaysBetween,
+  getDatesBetween,
+  isPast,
+  isSameDay,
+  maxDate,
+  minDate,
+} from '@weco/common/utils/dates';
 import {
   asText,
   asTitle,
@@ -286,9 +293,6 @@ export function transformEvent(
   const hasOnlineBooking =
     onlineEventbriteId || onlineThirdPartyBooking || onlineBookingEnquiryTeam;
 
-  // We want to display the scheduleLength on EventPromos,
-  // but don't want to make an extra API request to populate the schedule for every event in a list.
-  // We therefore return the scheduleLength property.
   return {
     type: 'events',
     ...genericFields,
@@ -363,6 +367,97 @@ export function transformEvent(
   };
 }
 
+/** Get the event times for an EventBasic.
+ *
+ * This may be different to the times for the Event, because we use this field
+ * to manage how cards appear.
+ */
+export function transformEventBasicTimes(
+  summaryTimes: EventTime[],
+  document: EventPrismicDocument
+): EventTime[] {
+  // When the content team want to represent an event that repeats on multiple days
+  // (e.g. the Lights Up events that accompanied In Plain Sight), they create
+  // one parent event with all the event information, then individual events which
+  // are linked to it in the schedule field.  The `times` field on the parent event
+  // is a summary of the series.
+  //
+  // These individual events contain ticket booking information, details of times,
+  // and so on.
+  //
+  //                               +---> Event @ 1 January
+  //      parent event             |
+  //      times = 1 Jan – 3 Mar ---+---> Event @ 2 February
+  //                               |
+  //                               +---> Event @ 3 March
+  //
+  // In this case, we want the event cards on the What's On page to show the dates
+  // of the individual events.
+  //
+  // But they also use this approach for festival-like events, where there are multiple
+  // events happening over the same weekend (e.g. A Moon with a View).
+  //
+  //                               +---> Saturday event @ 12 – 2
+  //      parent event             |
+  //      times = Sat – Sun     ---+---> Saturday event @ 2 – 4
+  //                               |
+  //                               +---> Sunday event @ 3 – 5
+  //
+  // In this case, we want the event cards on the What's On page to show the summary.
+  //
+  // So we use the following rules:
+  //
+  //    1.  If an event has no schedule, the card uses the 'times' on the event
+  //    2.  If an event has a schedule, but the schedule items are all on a continuous block
+  //        of days (e.g. Fri/Sat/Sun), the card uses the summary 'times' on the event
+  //    3.  If an event has a schedule and the schedule items are scattered around,
+  //        the cards use the individual item times.
+  //
+  // These rules are likely incomplete, but they're directionally correct and fix a
+  // timely issue with the "Lights Up" event that spans multiple months.
+  //
+  const scheduleTimes = document.data.schedule.flatMap(s =>
+    isFilledLinkToDocumentWithData(s.event)
+      ? transformEventTimes(s.event.id, s.event.data.times || [])
+      : []
+  );
+
+  // Case 1: if the event has no schedule, use the 'times' on the event
+  if (scheduleTimes.length === 0) {
+    return summaryTimes;
+  }
+
+  // Now work out the span of the scheduled items.
+  //
+  // e.g. if the schedule is
+  //
+  //      item1 = { start: Sat @ 2pm, end: Sat @ 4pm }
+  //      item2 = { start: Sat @ 4pm, end: Sat @ 6pm }
+  //      item3 = { start: Sun @ 3pm, end: Sun @ 5pm }
+  //
+  // then `scheduleStart` is Sat @ 2pm and `scheduleEnd` is Sun @ 5pm.
+  const scheduleStart = minDate(scheduleTimes.map(s => s.range.startDateTime));
+  const scheduleEnd = maxDate(scheduleTimes.map(s => s.range.endDateTime));
+
+  // Then we work out how many days there are between the beginning and
+  // end of the schedule, and we check if something happens every day.
+  //
+  // This tells us if the scheduled items are a continuous block.
+  const daysInScheduleRange = getDatesBetween({
+    start: scheduleStart,
+    end: scheduleEnd,
+  });
+
+  const everyDayHasSomething = daysInScheduleRange.every(d =>
+    scheduleTimes.some(
+      s =>
+        isSameDay(d, s.range.startDateTime) || isSameDay(d, s.range.endDateTime)
+    )
+  );
+
+  return everyDayHasSomething ? summaryTimes : scheduleTimes;
+}
+
 /** Create a basic version of events suitable for JSON-LD and promos.
  *
  * Note: unlike our other types, this transforms the Prismic document directly,
@@ -392,12 +487,6 @@ export function transformEventBasic(
     cost,
   } = event;
 
-  const scheduleLength = isFilledLinkToDocumentWithData(
-    data.schedule.map(s => s.event)[0]
-  )
-    ? data.schedule.length
-    : 0;
-
   return {
     type,
     promo: promo && {
@@ -410,7 +499,7 @@ export function transformEventBasic(
     },
     image,
     id,
-    times,
+    times: transformEventBasicTimes(times, document),
     isPast,
     labels,
     primaryLabels,
@@ -419,7 +508,6 @@ export function transformEventBasic(
     isOnline,
     locations: locations.map(({ title }) => ({ title })),
     availableOnline,
-    scheduleLength,
     series,
     cost,
   };
