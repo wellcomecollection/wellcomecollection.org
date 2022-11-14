@@ -59,9 +59,7 @@ export function transformManifest(
   const collectionManifestsCount =
     manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
   const searchService = getSearchService(manifestV3);
-  const isCollectionManifest = manifestV3
-    ? manifestV3.type === 'Collection'
-    : false;
+  const isCollectionManifest = Boolean(manifestV3?.type === 'Collection');
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
