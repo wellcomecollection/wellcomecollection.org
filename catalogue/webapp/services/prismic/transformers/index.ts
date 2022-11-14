@@ -20,7 +20,6 @@ export async function transformPrismicResponse(
     // in some cases we don't have contributors
     const allContributors = contributors?.map(contributor => {
       const { contributor: contributorNode }: Contributor = contributor;
-      console.log(contributor, 'what is contributor here');
       const hasContributor = contributor.contributor
         ? contributorNode?.name
         : '';
