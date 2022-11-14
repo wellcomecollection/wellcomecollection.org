@@ -41,7 +41,7 @@ export function transformManifest(
     authService,
     isAnyImageOpen
   );
-
+  const manifests = manifestV2?.manifests || [];
   const needsModal = checkModalRequired(authService, isAnyImageOpen);
   const structures = manifestV2?.structures || [];
 
@@ -54,7 +54,6 @@ export function transformManifest(
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
   const pdf = getPdf(manifestV3);
   const id = manifestV3?.id || '';
-  const manifests = manifestV3?.items?.filter(c => c.type === 'Manifest') || [];
   const parentManifestUrl = manifestV3?.partOf?.[0].id;
   const collectionManifestsCount =
     manifestV3?.items?.filter(c => c.type === 'Manifest')?.length || 0;
@@ -73,6 +72,7 @@ export function transformManifest(
     canvases,
     needsModal,
     structures,
+    manifests,
     // Taken from V3 manifest:
     id,
     audio,
@@ -89,6 +89,5 @@ export function transformManifest(
     collectionManifestsCount,
     searchService,
     isCollectionManifest,
-    manifests,
   };
 }
