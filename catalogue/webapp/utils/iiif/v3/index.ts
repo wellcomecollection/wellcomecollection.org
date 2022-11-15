@@ -1,9 +1,8 @@
 import {
   AuthService,
   AuthServiceService,
-} from '../../../services/iiif/types/manifest/v2';
+} from '../../../services/iiif/types/manifest/v2'; // TODO update these types
 import { Audio, Video } from '../../../services/iiif/types/manifest/v3';
-
 import {
   AnnotationBody,
   ChoiceBody,
@@ -14,9 +13,12 @@ import {
   MetadataItem,
   Service,
   InternationalString,
+  Canvas,
+  AuthExternalService,
 } from '@iiif/presentation-3';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { DownloadOption } from '../../../types/manifest';
+import { DownloadOption, TransformedCanvas } from '../../../types/manifest';
 
 // The label we want to use to distinguish between parts of a multi-volume work
 // (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
@@ -35,11 +37,17 @@ export function getMultiVolumeLabel(
   return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
 }
 
+// TODO: rename this to something like getDisplayLabel since the key of interest
+// can be either 'en' or 'none'
 export function getEnFromInternationalString(
   internationalString: InternationalString,
   index = 0
 ): string {
-  return internationalString?.['en']?.[index] || '';
+  return (
+    internationalString?.['en']?.[index] ||
+    internationalString?.['none']?.[index] ||
+    ''
+  );
 }
 
 export function transformLabel(
@@ -170,6 +178,173 @@ export function getTitle(
   if (typeof label === 'string') return label;
 
   return getEnFromInternationalString(label);
+}
+
+export function getTransformedCanvases(
+  iiifManifest: Manifest | undefined
+): TransformedCanvas[] {
+  if (iiifManifest) {
+    const canvases = iiifManifest.items?.filter(
+      canvas => canvas.type === 'Canvas'
+    );
+    return transformCanvases(canvases) || [];
+  } else {
+    return [];
+  }
+}
+
+const restrictedAuthServiceUrl =
+  'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+
+function isImageRestricted(canvas: Canvas): boolean {
+  const imageService = getImageService(canvas);
+  if (imageService?.service?.['@id'] === restrictedAuthServiceUrl) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function getRestricedLoginService(
+  manifest: Manifest | undefined
+): AuthExternalService | undefined {
+  if (!manifest) return;
+  return manifest?.services?.find(service => {
+    const typedService = service as AuthExternalService;
+    return typedService['@id'] === restrictedAuthServiceUrl;
+  }) as AuthExternalService;
+}
+
+function getLabelString(
+  label: InternationalString | null | undefined
+): string | undefined {
+  if (!label) {
+    return label || undefined;
+  } else {
+    return Object.values(label).flat().join(' ');
+  }
+}
+
+function getCanvasLabel(canvas: Canvas): string | undefined {
+  const label = canvas.label;
+  return getLabelString(label);
+}
+
+function getCanvasTextServiceId(canvas: Canvas): string | undefined {
+  const textAnnotation = canvas?.annotations?.find(annotation => {
+    const annotationLabel = getLabelString(annotation.label);
+    return (
+      annotation.type === 'AnnotationPage' &&
+      annotationLabel?.startsWith('Text of page')
+    );
+  });
+  return textAnnotation?.id;
+}
+
+// Temporary type until iiif3 types are correct
+type Thumbnail = {
+  service: {
+    '@id': string;
+    '@type': string;
+    profile: string;
+    width: number;
+    height: number;
+    sizes: { width: number; height: number }[];
+  }[];
+};
+
+function getThumbnailImage(canvas: Canvas):
+  | {
+      width: number;
+      url: string | undefined;
+    }
+  | undefined {
+  if (!canvas.thumbnail) return;
+  const thumbnail = canvas.thumbnail[0] as Thumbnail; // ContentResource which this should be, doesn't have a service property
+  const thumbnailService = Array.isArray(thumbnail.service)
+    ? thumbnail.service[0]
+    : thumbnail.service;
+  const urlTemplate =
+    thumbnailService && iiifImageTemplate(thumbnailService['@id']);
+  const preferredMinThumbnailHeight = 400;
+  const preferredThumbnail = thumbnailService?.sizes
+    ?.sort((a, b) => a.height - b.height)
+    .find(dimensions => dimensions.height >= preferredMinThumbnailHeight);
+  return {
+    width: preferredThumbnail?.width || 30,
+    url:
+      urlTemplate &&
+      urlTemplate({
+        size: `${preferredThumbnail ? `${preferredThumbnail.width},` : 'max'}`,
+      }),
+  };
+}
+
+function transformCanvas(canvas: Canvas): TransformedCanvas {
+  const imageService = getImageService(canvas);
+  const imageServiceId = getImageServiceId(imageService);
+  const hasRestrictedImage = isImageRestricted(canvas);
+  const label = getCanvasLabel(canvas);
+  const textServiceId = getCanvasTextServiceId(canvas);
+  const thumbnailImage = getThumbnailImage(canvas);
+  const { id, width, height } = canvas;
+  return {
+    id,
+    width,
+    height,
+    imageServiceId,
+    hasRestrictedImage,
+    label,
+    textServiceId,
+    thumbnailImage,
+  };
+}
+
+export function transformCanvases(canvases: Canvas[]): TransformedCanvas[] {
+  return canvases.map(canvas => transformCanvas(canvas));
+}
+
+type BodyService = {
+  '@type': string;
+  service: Service;
+};
+
+// Temporary types, as the provided AnnotationBody doesn't seem to be correct
+type Body = {
+  service: BodyService;
+};
+
+function getImageService(canvas: Canvas): BodyService | undefined {
+  const items = canvas?.items;
+  const AnnotationPages = items?.[0].items;
+  const AnnotationBodies = AnnotationPages?.map(
+    annotationPage => annotationPage.body as Body
+  ).flat();
+  const BodiesServices = AnnotationBodies?.map(body => body?.service).flat();
+  const imageService = BodiesServices?.find(
+    service => service['@type'] === 'ImageService2'
+  );
+  return imageService;
+}
+
+function getImageServiceId(
+  imageService: BodyService | undefined
+): string | undefined {
+  return imageService?.['@id'];
+}
+
+// We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
+// The top-level only holds information about whether the item contains _any_ images with an authService.
+// Individual images hold information about their own authService (if it has one).
+// So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
+// This allows us to determine whether or not to show the viewer at all.
+// N.B. the individual items within the viewer won't display if they are restricted.
+export function checkIsAnyImageOpen(
+  transformedCanvases: TransformedCanvas[] | undefined
+): boolean {
+  return Boolean(
+    transformedCanvases?.some(canvas => !canvas.hasRestrictedImage)
+  );
 }
 
 export function getIIIFMetadata(

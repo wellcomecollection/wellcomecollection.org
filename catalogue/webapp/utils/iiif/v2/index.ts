@@ -1,18 +1,19 @@
 import {
   IIIFManifest,
   IIIFMetadata,
-  IIIFCanvas,
   IIIFStructure,
   IIIFMediaElement,
+  IIIFCanvas,
   Service,
   AuthService,
   AuthServiceService,
   IIIFAnnotationResource,
-  IIIFThumbnailService,
 } from '../../../../webapp/services/iiif/types/manifest/v2';
-import { Manifest } from '@iiif/presentation-3';
+import { TransformedCanvas } from '../../../types/manifest';
+import { Manifest, Range } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
+import { getEnFromInternationalString } from '../v3';
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   const serviceSrc = canvas?.images[0]?.resource?.service;
@@ -26,18 +27,6 @@ export function getServiceId(canvas?: IIIFCanvas): string | undefined {
       return serviceSrc['@id'];
     }
   }
-}
-
-// We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
-// The top-level holds information about whether the item contains _any_ images with an authService.
-// Individual images hold information about their own authService (if it has one).
-// So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
-// This allows us to determine whether or not to show the viewer at all.
-export function getIsAnyImageOpen(manifest: IIIFManifest): boolean {
-  const { sequences } = manifest;
-  const canvases = sequences?.map(sequence => sequence.canvases).flat() || [];
-
-  return canvases.some(canvas => !isImageRestricted(canvas));
 }
 
 export function getAuthService(
@@ -118,29 +107,6 @@ export function getTokenService(
 const restrictedAuthServiceUrl =
   'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
-export function getImageAuthService(
-  canvas: IIIFCanvas
-): AuthService | string | null {
-  const serviceArray = canvas?.images?.[0]?.resource?.service?.[0]?.service;
-  const authService =
-    serviceArray &&
-    serviceArray.find(
-      service =>
-        service['@context'] === 'http://iiif.io/api/auth/0/context.json' ||
-        service === restrictedAuthServiceUrl
-    );
-  return authService || null;
-}
-
-export function isImageRestricted(canvas: IIIFCanvas): boolean {
-  const imageAuthService = getImageAuthService(canvas);
-
-  return Boolean(
-    imageAuthService?.['@id'] === restrictedAuthServiceUrl ||
-      imageAuthService === restrictedAuthServiceUrl
-  );
-}
-
 export function checkModalRequired(
   authService: AuthService | undefined,
   isAnyImageOpen: boolean
@@ -201,17 +167,6 @@ export function getIIIFMetadata(
   return iiifManifest.metadata.find(data => data.label === label);
 }
 
-export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
-  const sequence =
-    iiifManifest.sequences &&
-    iiifManifest.sequences.find(
-      sequence =>
-        sequence['@type'] === 'sc:Sequence' &&
-        sequence.compatibilityHint !== 'displayIfContentUnsupported'
-    );
-  return sequence ? sequence.canvases : [];
-}
-
 export function getStructures(iiifManifest: IIIFManifest): IIIFStructure[] {
   return iiifManifest?.structures || [];
 }
@@ -221,38 +176,40 @@ export function getStructures(iiifManifest: IIIFManifest): IIIFStructure[] {
 // This means we will often display repetitive links to the essentially the same thing.
 // Until we can improve the data at source, this function groups structures that have the same label attached to consecutive pages into a single structure.
 export function groupStructures(
-  canvases: IIIFCanvas[],
-  structures: IIIFStructure[]
-): IIIFStructure[] {
+  items: TransformedCanvas[],
+  structures: Range[]
+): Range[] {
   const clonedStructures = cloneDeep(structures);
   return clonedStructures.reduce(
     (acc, structure) => {
-      if (!structure.canvases) return acc;
+      if (!structure.items) return acc;
 
-      const [lastCanvasInRange] = structure.canvases.slice(-1);
-      const [firstCanvasInRange] = structure.canvases;
-      const firstCanvasIndex = canvases.findIndex(
-        canvas => canvas['@id'] === firstCanvasInRange
+      const [lastCanvasInRange] = structure.items.slice(-1);
+      const [firstCanvasInRange] = structure.items;
+      const firstCanvasIndex = items.findIndex(
+        canvas => canvas.id === firstCanvasInRange.id
       );
+
       if (
-        acc.previousLabel === structure.label &&
+        getEnFromInternationalString(acc.previousLabel) ===
+          getEnFromInternationalString(structure.label) &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
-        acc.groupedArray[acc.groupedArray.length - 1].canvases.push(
+        acc.groupedArray[acc.groupedArray.length - 1].items.push(
           lastCanvasInRange
         );
-      } else if (structure.canvases.length > 0) {
+      } else if (structure.items.length > 0) {
         acc.groupedArray.push(structure);
       }
       acc.previousLabel = structure.label;
-      acc.previousLastCanvasIndex = canvases.findIndex(
-        canvas => canvas['@id'] === lastCanvasInRange
+      acc.previousLastCanvasIndex = items.findIndex(
+        canvas => canvas.id === lastCanvasInRange.id
       );
       return acc;
     },
     {
       previousLastCanvasIndex: null,
-      previousLabel: null,
+      previousLabel: { none: '' },
       groupedArray: [],
     }
   ).groupedArray;
@@ -280,21 +237,6 @@ export function getIIIFPresentationCredit(
 ): string | undefined {
   const attribution = getIIIFMetadata(manifest, 'Attribution');
   return attribution?.value.split('<br/>')[0];
-}
-
-// This is necessary while we are in the process of switching the source of the iiif presentation manifests
-// There is a slight (temporary) difference between the manifest served from wellcomelibrary.org
-// and the one served from iiif.wellcomecollection.org
-// In the former canvas.thumbnail.service is an object and in the latter it is an array.
-export function getThumbnailService(
-  canvas: IIIFCanvas
-): IIIFThumbnailService | undefined {
-  const service = canvas?.thumbnail?.service;
-  if (Array.isArray(service)) {
-    return service[0];
-  } else {
-    return service;
-  }
 }
 
 export async function getIIIFManifest(

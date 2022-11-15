@@ -5,6 +5,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
+import { getEnFromInternationalString } from '../../utils/iiif/v3';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -20,7 +21,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   } = useContext(ItemViewerContext);
   const { structures, canvases } = transformedManifest;
   const groupedStructures = groupStructures(canvases, structures);
-
+  console.log({ activeIndex });
   const List = styled.ul`
     list-style: none;
     margin: 0 !important;
@@ -60,10 +61,15 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   return groupedStructures.length > 0 ? (
     <List>
       {groupedStructures.map((structure, i) => {
-        const firstCanvasInRange = structure?.canvases?.[0];
+        const maybeFirstCanvasInRange = structure?.items?.[0];
+        const firstCanvasInRange =
+          typeof maybeFirstCanvasInRange !== 'string'
+            ? maybeFirstCanvasInRange
+            : undefined;
         const canvasIndex = canvases.findIndex(
-          canvas => canvas['@id'] === firstCanvasInRange
+          canvas => canvas.id === firstCanvasInRange?.id
         );
+
         return (
           <Item key={i} isActive={activeIndex === canvasIndex}>
             <button
@@ -77,7 +83,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
                 setIsMobileSidebarActive(false);
               }}
             >
-              {structure.label}
+              {getEnFromInternationalString(structure.label)}
             </button>
           </Item>
         );

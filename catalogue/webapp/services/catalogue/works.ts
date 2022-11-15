@@ -5,7 +5,6 @@ import {
   ItemsList,
   Work,
 } from '@weco/common/model/catalogue';
-import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
 import {
   catalogueApiError,
@@ -173,36 +172,6 @@ export async function getWork({
     return await res.json();
   } catch (e) {
     return catalogueApiError();
-  }
-}
-
-export async function getCanvasOcr(
-  canvas: IIIFCanvas
-): Promise<string | undefined> {
-  const textContent =
-    canvas.otherContent &&
-    canvas.otherContent.find(
-      content =>
-        content['@type'] === 'sc:AnnotationList' &&
-        content.label.startsWith('Text of page')
-    );
-
-  const textService = textContent && textContent['@id'];
-
-  if (textService) {
-    try {
-      const textJson = await fetch(encodeURI(textService));
-      const text = await textJson.json();
-      const textString = text.resources
-        .filter(resource => {
-          return resource.resource['@type'] === 'cnt:ContentAsText';
-        })
-        .map(resource => resource.resource.chars)
-        .join(' ');
-      return textString.length > 0 ? textString : missingAltTextMessage;
-    } catch (e) {
-      return missingAltTextMessage;
-    }
   }
 }
 

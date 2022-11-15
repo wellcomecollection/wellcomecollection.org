@@ -1,8 +1,6 @@
 import { useEffect, useState, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import NextLink from 'next/link';
-
-import { getServiceId } from '@weco/catalogue/utils/iiif/v2';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -166,9 +164,12 @@ const ExpandedImage: FunctionComponent<Props> = ({
           imageUrl
         );
       }
+
       const canvasIndex = canvases.findIndex(canvas => {
-        const serviceId = getServiceId(canvas);
-        return serviceId && serviceId.indexOf(imageLocationBase) !== -1;
+        const { imageServiceId } = canvas;
+        return (
+          imageServiceId && imageServiceId.indexOf(imageLocationBase) !== -1
+        );
       });
       if (canvasIndex !== -1) {
         setCanvasDeeplink({

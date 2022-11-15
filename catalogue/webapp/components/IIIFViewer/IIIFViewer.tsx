@@ -6,14 +6,12 @@ import {
   useContext,
 } from 'react';
 import styled from 'styled-components';
-import { IIIFCanvas } from '../../services/iiif/types/manifest/v2';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
 } from '../../utils/works';
-import { getServiceId } from '../../utils/iiif/v2';
 import { getMultiVolumeLabel } from '../../utils/iiif/v3';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
@@ -37,12 +35,12 @@ import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
-import { TransformedManifest } from '../../types/manifest';
+import { TransformedCanvas, TransformedManifest } from '../../types/manifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 
 type IIIFViewerProps = {
   title: string;
-  currentCanvas?: IIIFCanvas;
+  currentCanvas?: TransformedCanvas;
   mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
   thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
   lang: string;
@@ -243,7 +241,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
   const [isResizing, setIsResizing] = useState(false);
-  const mainImageService = { '@id': getServiceId(currentCanvas) };
+  const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
