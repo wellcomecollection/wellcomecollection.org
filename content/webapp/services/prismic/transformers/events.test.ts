@@ -1,5 +1,9 @@
 import { groupEventsByDay } from '../../../services/prismic/events';
-import { getLastEndTime, getEventbriteId } from './events';
+import {
+  getLastEndTime,
+  getEventbriteId,
+  transformEventBasicTimes,
+} from './events';
 import { data as uiEventData } from '../../../components/CardGrid/DailyTourPromo';
 import { EventTime } from '../../../types/events';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
@@ -112,5 +116,214 @@ describe('Events', () => {
     expect(getEventbriteId(embedUrl1)).toBe('test-event-1-tickets-5398972389');
     expect(getEventbriteId(embedUrl2)).toBe('5398972389');
     expect(getEventbriteId(embedUrl3)).toBeUndefined();
+  });
+});
+
+describe('transformEventBasicTimes', () => {
+  it('returns the event summary times for an event with no schedule', () => {
+    // This is based on https://wellcomecollection.org/events/Y1EkyhEAAA1CDSYH
+    //
+    // This is an event that occurred once, on a single evening.
+    const summaryTimes: EventTime[] = [
+      {
+        range: {
+          startDateTime: new Date('2022-11-25T19:00:00.000Z'),
+          endDateTime: new Date('2022-11-25T20:30:00.000Z'),
+        },
+        isFullyBooked: false,
+        onlineIsFullyBooked: false,
+      },
+    ];
+    const document: any = {
+      data: {
+        schedule: [{ event: { link_type: 'Document' }, isNotLinked: null }],
+      },
+    };
+
+    expect(transformEventBasicTimes(summaryTimes, document)).toBe(summaryTimes);
+  });
+
+  it('returns the event summary times for a multi-day festival', () => {
+    // This is based on https://wellcomecollection.org/events/XU1-9BMAACMAjCIb
+    //
+    // This is an event that ran over four days, with an individually scheduled item
+    // on each day.
+    const summaryTimes: EventTime[] = [
+      {
+        range: {
+          startDateTime: new Date('2019-10-16T23:00:00.000Z'),
+          endDateTime: new Date('2019-10-19T23:00:00.000Z'),
+        },
+        isFullyBooked: false,
+        onlineIsFullyBooked: false,
+      },
+    ];
+    const document: any = {
+      data: {
+        schedule: [
+          {
+            event: {
+              id: 'oct-17',
+              data: {
+                times: [
+                  {
+                    startDateTime: '2019-10-17T18:00:00+0000',
+                    endDateTime: '2019-10-17T19:30:00+0000',
+                  },
+                ],
+              },
+              link_type: 'Document',
+              isBroken: false,
+            },
+          },
+          {
+            event: {
+              id: 'oct-18',
+              data: {
+                times: [
+                  {
+                    startDateTime: '2019-10-18T14:00:00+0000',
+                    endDateTime: '2019-10-18T15:00:00+0000',
+                  },
+                ],
+              },
+              link_type: 'Document',
+              isBroken: false,
+            },
+          },
+          {
+            event: {
+              id: 'oct-20',
+              data: {
+                times: [
+                  {
+                    startDateTime: '2019-10-20T14:00:00+0000',
+                    endDateTime: '2019-10-20T15:00:00+0000',
+                  },
+                ],
+              },
+              link_type: 'Document',
+              isBroken: false,
+            },
+          },
+          {
+            event: {
+              id: 'oct-19',
+              data: {
+                times: [
+                  {
+                    startDateTime: '2019-10-19T13:00:00+0000',
+                    endDateTime: '2019-10-19T15:00:00+0000',
+                  },
+                ],
+              },
+              link_type: 'Document',
+              isBroken: false,
+            },
+          },
+        ],
+      },
+    };
+
+    expect(transformEventBasicTimes(summaryTimes, document)).toBe(summaryTimes);
+  });
+
+  it('uses the scheduled item times for a repeating event', () => {
+    // This is based on https://wellcomecollection.org/events/YzGDAxEAAM-gfxhj
+    //
+    // This is an event that was repeated on seven different days over four months.
+    const summaryTimes: EventTime[] = [
+      {
+        range: {
+          startDateTime: new Date('2022-11-03T16:00:00.000Z'),
+          endDateTime: new Date('2023-02-09T20:00:00.000Z'),
+        },
+        isFullyBooked: false,
+        onlineIsFullyBooked: false,
+      },
+    ];
+
+    const scheduleItemNov3 = {
+      startDateTime: '2022-11-03T16:00:00+0000',
+      endDateTime: '2022-11-03T20:00:00+0000',
+      isFullyBooked: null,
+      onlineIsFullyBooked: null,
+    };
+    const scheduleItemNov15 = {
+      startDateTime: '2022-11-15T10:00:00+0000',
+      endDateTime: '2022-11-15T14:00:00+0000',
+      isFullyBooked: null,
+      onlineIsFullyBooked: null,
+    };
+    const scheduleItemDec3 = {
+      startDateTime: '2022-12-03T14:00:00+0000',
+      endDateTime: '2022-12-03T18:00:00+0000',
+      isFullyBooked: null,
+      onlineIsFullyBooked: null,
+    };
+
+    const document: any = {
+      data: {
+        schedule: [
+          {
+            event: {
+              id: 'nov-3',
+              data: {
+                times: [scheduleItemNov3],
+              },
+              link_type: 'Document',
+              isBroken: false,
+            },
+          },
+          {
+            event: {
+              id: 'nov-15',
+              data: {
+                times: [scheduleItemNov15],
+              },
+              link_type: 'Document',
+              isBroken: false,
+            },
+          },
+          {
+            event: {
+              id: 'dec-3',
+              data: {
+                times: [scheduleItemDec3],
+              },
+              link_type: 'Document',
+              isBroken: false,
+            },
+          },
+        ],
+      },
+    };
+
+    expect(transformEventBasicTimes(summaryTimes, document)).toStrictEqual([
+      {
+        range: {
+          startDateTime: new Date('2022-11-03T16:00:00+0000'),
+          endDateTime: new Date('2022-11-03T20:00:00+0000'),
+        },
+        isFullyBooked: null,
+        onlineIsFullyBooked: null,
+      },
+      {
+        range: {
+          startDateTime: new Date('2022-11-15T10:00:00+0000'),
+          endDateTime: new Date('2022-11-15T14:00:00+0000'),
+        },
+        isFullyBooked: null,
+        onlineIsFullyBooked: null,
+      },
+      {
+        range: {
+          startDateTime: new Date('2022-12-03T14:00:00+0000'),
+          endDateTime: new Date('2022-12-03T18:00:00+0000'),
+        },
+        isFullyBooked: null,
+        onlineIsFullyBooked: null,
+      },
+    ]);
   });
 });

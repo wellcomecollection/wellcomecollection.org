@@ -3,23 +3,31 @@ import {
   IIIFMetadata,
   IIIFStructure,
   IIIFMediaElement,
+  IIIFCanvas,
   Service,
   AuthService,
   AuthServiceService,
   IIIFAnnotationResource,
-  EmptyIIIFMediaElement,
 } from '../../../../webapp/services/iiif/types/manifest/v2';
 import { TransformedCanvas } from '../../../types/manifest';
-import { Manifest, Service as ServiceV3, Range } from '@iiif/presentation-3';
+import { Manifest, Range } from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
 import { getEnFromInternationalString } from '../v3';
 
-const isFilledMediaElement = (
-  element: IIIFMediaElement | EmptyIIIFMediaElement
-): element is IIIFMediaElement => {
-  return '@id' in element;
-};
+export function getServiceId(canvas?: IIIFCanvas): string | undefined {
+  const serviceSrc = canvas?.images[0]?.resource?.service;
+  if (serviceSrc) {
+    if (Array.isArray(serviceSrc)) {
+      const service = serviceSrc.find(
+        item => item['@context'] === 'http://iiif.io/api/image/2/context.json'
+      );
+      return service && service['@id'];
+    } else {
+      return serviceSrc['@id'];
+    }
+  }
+}
 
 export function getAuthService(
   iiifManifest?: IIIFManifest
@@ -62,14 +70,6 @@ export function getAuthService(
       return iiifManifest.service.authService;
     }
   }
-}
-
-export function getMediaClickthroughServiceV3(
-  services: ServiceV3[]
-): AuthService | undefined {
-  return (services as AuthService[]).find(
-    s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
-  );
 }
 
 export function getMediaClickthroughService(
@@ -213,25 +213,6 @@ export function groupStructures(
       groupedArray: [],
     }
   ).groupedArray;
-}
-
-export function getVideo(
-  iiifManifest: IIIFManifest
-): IIIFMediaElement | undefined {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(
-        element => element['@type'] === 'dctypes:MovingImage'
-      )
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements
-      .filter(isFilledMediaElement)
-      .find(element => element['@type'] === 'dctypes:MovingImage')
-  );
 }
 
 export function getAnnotationFromMediaElement(

@@ -1,4 +1,3 @@
-import { Contributor } from '@weco/common/model/catalogue';
 import { Story } from './story';
 import { Event } from './event';
 import { Exhibition } from './exhibition';
@@ -33,10 +32,8 @@ const querySchemaTypes = [
 export type QuerySchemaType = typeof querySchemaTypes[number];
 
 export type Standfirst = {
-  primary: {
-    text: {
-      text: string;
-    };
+  caption: {
+    text: string;
   };
 };
 
@@ -46,6 +43,7 @@ export type Image = {
 
 export type Promo = {
   primary: {
+    caption: Standfirst;
     title: string;
     image: Image;
     description: string;
@@ -67,7 +65,11 @@ export type PrismicApiError = {
 export type PrismicResultsList<Result> = {
   type: 'ResultList';
   totalResults: number;
+  totalPages: number;
   results: Result[];
+  pageSize: number;
+  prevPage: string | null;
+  nextPage: string | null;
 };
 
 export type PrismicNode = {
@@ -87,6 +89,24 @@ export type PrismicNodeList = {
   };
   body: Standfirst[];
   promo: Promo[];
+  format: Format;
+};
+
+export type Format = {
+  __typename: string;
+  _meta: ContentId;
+};
+
+export type ContentId = {
+  id: string;
+};
+
+export type Contributor = {
+  contributor?: ContributorNode;
+};
+
+export type ContributorNode = {
+  name?: string;
 };
 
 export type PrismicResponse = {
@@ -95,4 +115,3 @@ export type PrismicResponse = {
 };
 
 export type TransformedResponse = Story | Event | Exhibition;
-

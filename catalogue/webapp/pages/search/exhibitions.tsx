@@ -4,12 +4,18 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
-import { getExhibitions, PrismicQueryProps } from '../../services/prismic/fetch/exhibitions';
-import { Exhibition } from '../../services/prismic/types/exhibition';
+import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
+import {
+  getExhibitions,
+  PrismicQueryProps,
+} from '@weco/catalogue/services/prismic/fetch/exhibitions';
+import { Exhibition } from '@weco/catalogue/services/prismic/types/exhibition';
+import { PrismicResultsList } from '@weco/catalogue/services/prismic/types';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
-  exhibitionResponseList: Exhibition;
+  exhibitionResponseList: PrismicResultsList<Exhibition>;
+  pageview: Pageview;
 };
 
 export const SearchPage: NextPageWithLayout<Props> = ({
@@ -70,6 +76,13 @@ export const getServerSideProps: GetServerSideProps<
     props: removeUndefinedProps({
       exhibitionResponseList,
       serverData,
+      pageview: {
+        name: 'exhibitions',
+        properties:
+          exhibitionResponseList?.type === 'ResultList'
+            ? { totalResults: exhibitionResponseList.totalResults }
+            : {},
+      },
     }),
   };
 };

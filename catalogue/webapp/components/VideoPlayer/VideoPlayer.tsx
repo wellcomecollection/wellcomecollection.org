@@ -2,11 +2,11 @@ import Router from 'next/router';
 import { trackEvent } from '@weco/common/utils/ga';
 import { FunctionComponent, useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
-import { IIIFMediaElement } from '../../services/iiif/types/manifest/v2';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
+import { Video } from '../../services/iiif/types/manifest/v3';
 
 type Props = {
-  video: IIIFMediaElement;
+  video: Video;
   showDownloadOptions: boolean;
 };
 
@@ -64,7 +64,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
           trackEvent({
             category: 'Video',
             action: 'play video',
-            label: video['@id'],
+            label: video.id,
           });
         }}
         onPause={() => {
@@ -80,7 +80,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
           display: 'inline-block',
         }}
       >
-        <source src={video['@id']} type={video.format} />
+        <source src={video.id} type={video.format} />
         {`Sorry, your browser doesn't support embedded video.`}
       </video>
       <MediaAnnotations media={video} />

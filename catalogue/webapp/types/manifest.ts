@@ -1,11 +1,10 @@
+import { Service, AuthExternalService, Range } from '@iiif/presentation-3';
 import {
-  IIIFMediaElement,
-  AuthService as AuthService2,
+  AuthService,
   AuthServiceService,
   CollectionManifest,
 } from '../../webapp/services/iiif/types/manifest/v2';
-import { Service, AuthExternalService, Range } from '@iiif/presentation-3';
-import { Audio } from '../../webapp/services/iiif/types/manifest/v3';
+import { Audio, Video } from '../../webapp/services/iiif/types/manifest/v3';
 
 type ThumbnailImage = { url: string | undefined; width: number };
 
@@ -33,15 +32,12 @@ export type DownloadOption = {
 
 export type TransformedManifest = {
   // Currently from iiifManifest V2:
-  id: string;
-  title: string;
   canvasCount: number;
   collectionManifestsCount: number;
-  video?: IIIFMediaElement;
   iiifCredit?: string;
   downloadEnabled?: boolean;
   firstCollectionManifestLocation?: string;
-  authService: AuthService2 | undefined;
+  authService: AuthService | undefined;
   tokenService: AuthServiceService | undefined;
   isAnyImageOpen: boolean;
   isTotallyRestricted: boolean;
@@ -50,7 +46,10 @@ export type TransformedManifest = {
   parentManifestUrl: string | undefined;
   needsModal: boolean;
   // Currently from iiif manifest v3:
+  title: string;
+  id: string;
   audio: Audio | undefined;
+  video?: Video;
   services: Service[];
   downloadOptions: DownloadOption[];
   pdf: DownloadOption | undefined;

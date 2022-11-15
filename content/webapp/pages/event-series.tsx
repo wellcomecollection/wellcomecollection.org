@@ -24,7 +24,7 @@ import { transformEventSeries } from '../services/prismic/transformers/event-ser
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
   transformEvent,
-  transformEventToEventBasic,
+  transformEventBasic,
 } from '../services/prismic/transformers/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { getUpcomingEvents } from '../utils/event-series';
@@ -79,9 +79,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (isNotUndefined(seriesDocument)) {
       const series = transformEventSeries(seriesDocument);
-      const fullEvents = transformQuery(eventsQuery, transformEvent).results;
 
-      const events = fullEvents.map(transformEventToEventBasic);
+      const fullEvents = transformQuery(eventsQuery, transformEvent).results;
+      const events = transformQuery(eventsQuery, transformEventBasic).results;
 
       const upcomingEvents = getUpcomingEvents(events);
       const upcomingEventsIds = new Set(upcomingEvents.map(event => event.id));

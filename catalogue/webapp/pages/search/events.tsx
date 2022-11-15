@@ -4,15 +4,18 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
+import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import {
   getEvents,
   PrismicQueryProps,
 } from '../../services/prismic/fetch/events';
 import { Event } from '../../services/prismic/types/event';
+import { PrismicResultsList } from '../../services/prismic/types';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
-  eventResponseList: Event;
+  eventResponseList: PrismicResultsList<Event>;
+  pageview: Pageview;
 };
 
 export const SearchPage: NextPageWithLayout<Props> = ({
@@ -73,6 +76,13 @@ export const getServerSideProps: GetServerSideProps<
     props: removeUndefinedProps({
       serverData,
       eventResponseList,
+      pageview: {
+        name: 'events',
+        properties:
+          eventResponseList?.type === 'ResultList'
+            ? { totalResults: eventResponseList.totalResults }
+            : {},
+      },
     }),
   };
 };

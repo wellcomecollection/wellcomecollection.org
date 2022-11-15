@@ -7,6 +7,7 @@ import {
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
+  FetchLinks,
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
@@ -22,6 +23,11 @@ export type GuideFormatPrismicDocument = PrismicDocument<
   },
   'guide-formats'
 >;
+
+export const guideFormatsFetchLinks: FetchLinks<GuideFormatPrismicDocument> = [
+  'guide-formats.title',
+  'guide-formats.description',
+];
 
 export type WithGuideFormat = {
   format: RelationField<
@@ -43,3 +49,8 @@ export type GuidePrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
+
+export const guideFetchLinks: FetchLinks<GuidePrismicDocument> = [
+  'guides.title',
+  'guides.promo',
+];

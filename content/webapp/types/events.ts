@@ -8,6 +8,7 @@ import { Label } from '@weco/common/model/labels';
 import { ImagePromo } from './image-promo';
 import * as prismicT from '@prismicio/types';
 import { EventSeriesBasic } from './event-series';
+import { ImageType } from '@weco/common/model/image';
 
 export type DateTimeRange = {
   startDateTime: Date;
@@ -79,13 +80,14 @@ export type EventBasic = HasTimes & {
   id: string;
   title: string;
   promo?: ImagePromo | undefined;
+  image?: ImageType;
   isPast: boolean;
+  labels: Label[];
   primaryLabels: Label[];
   secondaryLabels: Label[];
   isOnline: boolean;
   locations: PlaceBasic[];
   availableOnline: boolean;
-  scheduleLength: number;
   series: EventSeriesBasic[];
   cost?: string;
 };
@@ -107,7 +109,6 @@ export type Event = GenericContentFields & {
   cost?: string;
   bookingType?: string;
   thirdPartyBooking?: ThirdPartyBooking;
-  scheduleLength: number;
   schedule?: EventSchedule;
   eventbriteId?: string;
   isCompletelySoldOut?: boolean;

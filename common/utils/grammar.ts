@@ -31,3 +31,7 @@ export function dasherizeShorten(words: string): string {
     .toLowerCase()
     .replace(/\W/g, '-');
 }
+
+export function unCamelCase(words: string): string {
+  return words.split(/(?=[A-Z])/).join(' ');
+}

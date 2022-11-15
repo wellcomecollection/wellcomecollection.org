@@ -2,7 +2,7 @@ import { Article } from './articles';
 import { Series } from './series';
 import { Book } from './books';
 import { Contributor, ContributorBasic } from './contributors';
-import { Event } from './events';
+import { Event, EventBasic } from './events';
 import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
@@ -61,6 +61,6 @@ export type Exhibit = {
 export type ExhibitionAbout = Book | Article | Series;
 
 export type ExhibitionRelatedContent = {
-  exhibitionOfs: (Exhibition | Event)[];
+  exhibitionOfs: (Exhibition | EventBasic)[];
   exhibitionAbouts: ExhibitionAbout[];
 };

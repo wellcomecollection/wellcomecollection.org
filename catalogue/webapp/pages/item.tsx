@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import { Audio } from '../services/iiif/types/manifest/v3';
+import { Audio, Video } from '../services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '../utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { getWork } from '../services/catalogue/works';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
+import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
@@ -61,11 +62,6 @@ function reloadAuthIframe(document, id: string) {
   // eslint-disable-next-line no-self-assign
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
 }
-
-type Video = {
-  '@id': string;
-  format: string;
-};
 
 type Props = {
   transformedManifest: TransformedManifest;
@@ -211,20 +207,11 @@ const ItemPage: NextPage<Props> = ({
       )}
       {video && (
         <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <video
-              controls
-              style={{
-                maxWidth: '100%',
-                maxHeight: '70vh',
-                display: 'block',
-                margin: '98px auto auto',
-              }}
-              controlsList={!downloadEnabled ? 'nodownload' : undefined}
-            >
-              <source src={video['@id']} type={video.format} />
-              {`Sorry, your browser doesn't support embedded video.`}
-            </video>
+          <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+            <VideoPlayer
+              video={video}
+              showDownloadOptions={downloadEnabled || true}
+            />
           </Space>
         </Layout12>
       )}

@@ -1,5 +1,7 @@
 /** This defines the vanity URLs for pages on wellcomecollection.org.
  *
+ * == What it looks like for users ==
+ *
  * This will have two effects for users:
  *
  *    1. If they visit the vanity URL, they'll be shown the content for that page.
@@ -13,67 +15,72 @@
  *
  * Note: there is currently no mechanism for _removing_ vanity URLs that won't break
  * incoming links; please be v careful about removing items from this list.
+ *
+ * == When we use vanity URLs ==
+ *
+ * We can set up a vanity/marketing redirect in these cases:
+ *
+ *    - It’s a key landing page
+ *    - It’s meant to be read aloud
+ *    - User needs to remember to write it down
+ *    - Print to digital transmission
+ *
+ * See https://www.notion.so/wellcometrust/URLs-on-wellcomecollection-org-26f1c2fc1cce43ca98c9b616de13c2d7
+ *
  */
 
 import { prismicPageIds } from './hardcoded-ids';
 
 type VanityUrl = {
   url: string;
-  pageId: string;
+  prismicId: string;
   template?: string;
 };
 
 export const vanityUrls: VanityUrl[] = [
   {
     url: '/about-us',
-    pageId: prismicPageIds.aboutUs,
+    prismicId: prismicPageIds.aboutUs,
   },
   {
     url: '/access',
-    pageId: prismicPageIds.access,
+    prismicId: prismicPageIds.access,
   },
   {
     url: '/covid-welcome-back',
-    pageId: prismicPageIds.covidWelcomeBack,
+    prismicId: prismicPageIds.covidWelcomeBack,
     template: '/covid-welcome-back',
   },
   {
     url: '/get-involved',
-    pageId: prismicPageIds.getInvolved,
+    prismicId: prismicPageIds.getInvolved,
   },
   {
     url: '/opening-times',
-    pageId: prismicPageIds.openingTimes,
+    prismicId: prismicPageIds.openingTimes,
   },
   {
     url: '/press',
-    pageId: prismicPageIds.press,
+    prismicId: prismicPageIds.press,
   },
   {
     url: '/schools',
-    pageId: prismicPageIds.schools,
+    prismicId: prismicPageIds.schools,
   },
   {
     url: '/user-panel',
-    pageId: prismicPageIds.userPanel,
+    prismicId: prismicPageIds.userPanel,
   },
   {
     url: '/venue-hire',
-    pageId: prismicPageIds.venueHire,
+    prismicId: prismicPageIds.venueHire,
   },
   {
     url: '/what-we-do',
-    pageId: prismicPageIds.whatWeDo,
+    prismicId: prismicPageIds.whatWeDo,
   },
   {
     url: '/youth',
-    pageId: prismicPageIds.youth,
-  },
-  // This was added for the the printed gallery guide that will accompany
-  // the Grace Ndiritu exhibition.
-  // See https://wellcome.slack.com/archives/C8X9YKM5X/p1664363102626599
-  {
-    url: '/colonial-roots',
-    pageId: 'YLnsihAAACEAfsuu',
+    prismicId: prismicPageIds.youth,
   },
 ];

@@ -136,25 +136,27 @@ const EventPromo: FunctionComponent<Props> = ({
           )}
 
           {!isPast && (
-            <p className={`${font('intr', 5)} no-padding no-margin`}>
-              <EventDateRange
-                event={event}
-                splitTime={true}
-                fromDate={fromDate}
-              />
-            </p>
-          )}
+            <>
+              <p className={`${font('intr', 5)} no-padding no-margin`}>
+                <EventDateRange
+                  event={event}
+                  splitTime={true}
+                  fromDate={fromDate}
+                />
+              </p>
 
-          {!isPast && dateString && (
-            <p className={`${font('intr', 5)} no-padding no-margin`}>
-              {dateString}
-            </p>
-          )}
+              {dateString && (
+                <p className={`${font('intr', 5)} no-padding no-margin`}>
+                  {dateString}
+                </p>
+              )}
 
-          {!isPast && timeString && (
-            <p className={`${font('intr', 5)} no-padding no-margin`}>
-              {timeString}
-            </p>
+              {timeString && (
+                <p className={`${font('intr', 5)} no-padding no-margin`}>
+                  {timeString}
+                </p>
+              )}
+            </>
           )}
 
           {upcomingDatesFullyBooked(event) && (
@@ -171,14 +173,6 @@ const EventPromo: FunctionComponent<Props> = ({
               </Space>
               Fully booked
             </Space>
-          )}
-
-          {!isPast && event.scheduleLength > 0 && (
-            <p className={`${font('intb', 5)} no-padding no-margin`}>
-              {`${event.scheduleLength} ${
-                event.scheduleLength > 1 ? 'events' : 'event'
-              }`}
-            </p>
           )}
 
           {!isPast && event.times.length > 1 && (

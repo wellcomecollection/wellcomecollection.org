@@ -8,20 +8,16 @@ import {
 } from '@prismicio/types';
 import { SeriesPrismicDocument } from './series';
 import {
-  articleFormatsFetchLinks,
-  contributorFetchLinks,
   CommonPrismicFields,
-  commonPrismicFieldsFetchLinks,
-  FetchLinks,
   WithArticleFormat,
   WithExhibitionParents,
   WithSeasons,
   WithContributors,
+  FetchLinks,
 } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
-import { EventPrismicDocument } from './events';
 
-export type WithSeries = {
+type WithSeries = {
   series: GroupField<{
     series: RelationField<
       'series',
@@ -30,21 +26,6 @@ export type WithSeries = {
     >;
   }>;
 };
-export const seriesFetchLinks: FetchLinks<SeriesPrismicDocument> = [
-  'series.title',
-  'series.promo',
-  'series.schedule',
-  'series.color',
-];
-
-export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
-  'events.audiences',
-  'events.schedule',
-  'events.interpretations',
-  'events.series',
-  'events.times',
-  'events.locations',
-];
 
 export type ArticlePrismicDocument = PrismicDocument<
   {
@@ -64,10 +45,6 @@ export type ArticlePrismicDocument = PrismicDocument<
   'articles' | 'webcomics'
 >;
 
-export const articlesFetchLinks = [
-  ...commonPrismicFieldsFetchLinks,
-  ...articleFormatsFetchLinks,
-  ...contributorFetchLinks,
-  ...seriesFetchLinks,
-  ...eventsFetchLinks,
+export const articlesFetchLinks: FetchLinks<ArticlePrismicDocument> = [
+  'articles.title',
 ];

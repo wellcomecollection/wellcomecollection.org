@@ -3,6 +3,9 @@ const mkdirp = require('mkdirp-promise');
 const pa11y = require('pa11y');
 const { promisify } = require('util');
 const writeFile = promisify(fs.writeFile);
+const events = require('events');
+
+events.EventEmitter.defaultMaxListeners = 25;
 
 console.info('Pa11y: Starting report');
 
@@ -30,6 +33,7 @@ const urls = [
   '/events/Wqkd1yUAAB8sW4By',
   '/event-series/WlYT_SQAACcAWccj',
   '/concepts/n4fvtc49',
+  '/guides/YL9OAxIAAB8AHsyv',
 
   // This is a comic using the new (as of November 2022) approach to
   // comic frames and navigation between issues.
@@ -43,14 +47,17 @@ const urls = [
 
 const promises = urls.map(url =>
   pa11y(url, {
+    timeout: 120000,
     chromeLaunchConfig: {
       args: ['--no-sandbox'],
     },
   })
 );
 
-Promise.all(promises).then(async results => {
-  await mkdirp('./.dist');
-  await writeFile('./.dist/report.json', JSON.stringify({ results }));
-  console.info('Reporting done!');
-});
+Promise.all(promises)
+  .then(async results => {
+    await mkdirp('./.dist');
+    await writeFile('./.dist/report.json', JSON.stringify({ results }));
+    console.info('Reporting done!');
+  })
+  .catch(e => console.info(e));

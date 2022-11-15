@@ -1,4 +1,4 @@
-import NextLink from 'next/link';
+import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { downloadUrl } from '../../services/catalogue/urls';
@@ -16,11 +16,9 @@ import {
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
 import {
-  getMediaClickthroughService,
-  getMediaClickthroughServiceV3,
   getTokenService,
-} from '../../utils/iiif/v2';
-import { getTokenService as getTokenServiceV3 } from '../../utils/iiif/v3';
+  getMediaClickthroughService,
+} from '../../utils/iiif/v3';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -52,6 +50,7 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
+import { Audio, Video } from 'services/iiif/types/manifest/v3';
 
 type Props = {
   work: Work;
@@ -61,12 +60,19 @@ type Props = {
 // 'permission-required', so we pass them off to the UV on the library site
 // If we have audio or video, then we show it in situ and don't link to the Item page
 type ItemLinkState = 'useItemLink' | 'useLibraryLink' | 'useNoLink';
+
 function getItemLinkState({
   accessCondition,
   sierraIdFromManifestUrl,
   itemUrl,
   audio,
   video,
+}: {
+  accessCondition: string | undefined;
+  sierraIdFromManifestUrl: string | undefined;
+  itemUrl: LinkProps;
+  audio: Audio | undefined;
+  video: Video | undefined;
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
     return 'useLibraryLink';
@@ -74,7 +80,7 @@ function getItemLinkState({
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return 'useNoLink';
   }
-  if (itemUrl && !(audio.sounds.length > 0) && !video) {
+  if (itemUrl && !((audio?.sounds || []).length > 0) && !video) {
     return 'useItemLink';
   }
 }
@@ -135,15 +141,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice
-  // TODO move following to transformer, so it's available on manifestData
-  const videoAuthService = video && getMediaClickthroughService(video);
-  const audioAuthService = services && getMediaClickthroughServiceV3(services);
-  const authService = videoAuthService || audioAuthService;
-  const tokenService = videoAuthService
-    ? getTokenService(videoAuthService)
-    : audioAuthService
-    ? getTokenServiceV3(audioAuthService['@id'], services)
-    : undefined;
+
+  const authService = services && getMediaClickthroughService(services);
+  const tokenService =
+    authService && getTokenService(authService['@id'], services);
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -335,6 +336,14 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 workTitle={work.title}
               />
             )}
+            {/*
+              TODO: This is going to bounce us straight back to wc.org/works
+              What should we be doing in this branch?
+
+              Note: as of November 2022, I can't find any items that would actually
+              trigger this branch – i.e., items with a permission-required access
+              status and a IIIF manifest link.
+            */}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"

@@ -16,12 +16,14 @@ import { transformExhibition } from '../services/prismic/transformers/exhibition
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { exhibitionLd } from 'services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
   exhibition: ExhibitionType;
   jsonLd: JsonLdObj;
   pages: PageType[];
   gaDimensions: GaDimensions;
+  pageview: Pageview;
 };
 
 const ExhibitionPage: FunctionComponent<Props> = ({
@@ -60,6 +62,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
           gaDimensions: {
             partOf: exhibitionDoc.seasons.map(season => season.id),
+          },
+          pageview: {
+            name: 'exhibition',
+            properties: {},
           },
         }),
       };

@@ -1,4 +1,4 @@
-import { Event } from '../../types/events';
+import { EventBasic } from '../../types/events';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import EventPromo from '../EventPromo/EventPromo';
 import { FunctionComponent } from 'react';
@@ -12,50 +12,25 @@ const image = {
   crops: {},
 };
 
-export const data: Event = {
+const data: EventBasic = {
   id: 'tours',
   title: 'Daily Guided Tours and Discussions',
   times: [],
   series: [],
   locations: [],
-  bookingEnquiryTeam: undefined,
-  interpretations: [],
-  audiences: [],
-  policies: [],
-  bookingInformation: undefined,
   cost: undefined,
-  bookingType: undefined,
-  thirdPartyBooking: undefined,
-  isCompletelySoldOut: false,
   isPast: false,
-  isRelaxedPerformance: false,
-  format: {
-    id: 'WmYRpCQAACUAn-Ap',
-    title: 'Gallery tour',
-    description: undefined,
-  },
-  body: [],
-  image,
-  hasEarlyRegistration: false,
-  labels: [
-    {
-      text: 'Gallery tour',
-    },
-  ],
+  labels: [],
   primaryLabels: [],
   secondaryLabels: [],
   promo: {
     image,
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
-  scheduleLength: 0,
-  seasons: [],
+  image,
   isOnline: false,
   availableOnline: false,
-  contributors: [],
   type: 'events',
-  onlinePolicies: [],
-  onlineHasEarlyRegistration: false,
 };
 
 const DailyTourPromo: FunctionComponent = () => (

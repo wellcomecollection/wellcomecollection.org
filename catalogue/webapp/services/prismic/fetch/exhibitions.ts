@@ -19,14 +19,15 @@ export async function getExhibitions({
     const res = await prismicGraphQLClient('exhibitions', query, pageSize);
     const { allExhibitionss } = await res;
     const { edges } = allExhibitionss;
-    const exhibitions = await transformPrismicResponse(
-      ['exhibitions'],
-      edges
-    );
+    const exhibitions = await transformPrismicResponse(['exhibitions'], edges);
     return {
       type: 'ResultList',
+      totalResults: allExhibitionss.totalCount,
+      totalPages: Math.ceil(allExhibitionss.totalCount / pageSize),
       results: exhibitions,
-      totalResults: exhibitions.length,
+      pageSize: pageSize,
+      prevPage: null,
+      nextPage: null,
     };
   } catch (error) {
     console.log(error);

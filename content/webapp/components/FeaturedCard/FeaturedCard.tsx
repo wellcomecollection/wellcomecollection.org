@@ -21,7 +21,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Page } from '../../types/pages';
 import { EventSeries } from '../../types/event-series';
 import { Book } from '../../types/books';
-import { Event } from '../../types/events';
+import { EventBasic } from '../../types/events';
 import { Guide } from '../../types/guides';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { PaletteColor } from '@weco/common/views/themes/config';
@@ -67,7 +67,7 @@ export function convertItemToFeaturedCardProps(
     | Page
     | EventSeries
     | Book
-    | Event
+    | EventBasic
     | Guide
 ): PartialFeaturedCard {
   return {
