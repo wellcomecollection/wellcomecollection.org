@@ -27,7 +27,7 @@ export const TabsContainer = styled.div`
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow-x: scroll;
+  overflow-x: auto;
   padding-left: ${props => props.theme.containerPadding.small}px;
 
   ${props => `
