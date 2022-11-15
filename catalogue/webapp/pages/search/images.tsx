@@ -83,12 +83,12 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
     };
 
     const as = {
-      pathname: '/search/works',
+      pathname: '/search/images',
       query: queryWithoutSource as ParsedUrlQuery,
     };
 
     const href = {
-      pathname: '/search/works',
+      pathname: '/search/images',
       query: queryWithSource,
     };
 

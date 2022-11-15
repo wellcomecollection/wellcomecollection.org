@@ -139,6 +139,7 @@ const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
         name={f.id}
         color={f.color}
         onChangeColor={changeHandler}
+        form={form}
       />
     </DropdownButton>
   );

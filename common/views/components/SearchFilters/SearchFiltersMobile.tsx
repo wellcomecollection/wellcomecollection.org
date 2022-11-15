@@ -208,6 +208,7 @@ const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
       color={f.color}
       name={f.id}
       onChangeColor={changeHandler}
+      form={form}
     />
   );
 };
