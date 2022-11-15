@@ -6,14 +6,14 @@ export type TextJson = {
     body: {
       type: string;
       value: string;
-    }
+    };
   }[];
-}
+};
 
 export async function fetchCanvasOcr(
-  canvas: TransformedCanvas
+  canvas: TransformedCanvas | undefined
 ): Promise<TextJson | undefined> {
-  if (canvas.textServiceId) {
+  if (canvas?.textServiceId) {
     try {
       const textJson = await fetchJson(
         encodeURI(canvas.textServiceId as string)
