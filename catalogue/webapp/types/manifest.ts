@@ -1,8 +1,12 @@
-import { Service, AuthExternalService, Range } from '@iiif/presentation-3';
+import {
+  Service,
+  AuthExternalService,
+  Range,
+  Canvas,
+} from '@iiif/presentation-3';
 import {
   AuthService,
   AuthServiceService,
-  CollectionManifest,
 } from '../../webapp/services/iiif/types/manifest/v2';
 import { Audio, Video } from '../../webapp/services/iiif/types/manifest/v3';
 
@@ -56,7 +60,7 @@ export type TransformedManifest = {
   restrictedService: AuthExternalService | undefined;
   searchService: Service | undefined;
   structures: Range[];
-  manifests: CollectionManifest[];
+  manifests: Canvas[];
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {
