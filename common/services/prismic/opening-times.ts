@@ -290,7 +290,7 @@ export function getUpcomingExceptionalOpeningHours(
     period.some(
       d =>
         isSameDayOrBefore(today(), d.overrideDate) &&
-        isSameDayOrBefore(d.overrideDate, addDays(today(), 28))
+        isSameDayOrBefore(d.overrideDate, addDays(today(), 42))
     )
   );
 }

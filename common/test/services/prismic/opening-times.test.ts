@@ -507,17 +507,17 @@ describe('opening-times', () => {
       ],
     ];
 
-    it('returns an empty array if no exceptional periods have days that occur in the next 28 days', () => {
+    it('returns an empty array if no exceptional periods have days that occur in the next 42 days', () => {
       const spyOnLondon = jest.spyOn(dateUtils, 'today');
       // set specific date, so we have something consistent to test against
       spyOnLondon.mockImplementation(() => {
-        return new Date('2021-11-30');
+        return new Date('2021-10-30');
       });
       const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual([]);
     });
 
-    it('returns exceptional periods that have days that occur in the next 28 days', () => {
+    it('returns exceptional periods that have days that occur in the next 42 days', () => {
       const spyOnLondon = jest.spyOn(dateUtils, 'today');
       // set specific date, so we have something consistent to test against
       spyOnLondon.mockImplementation(() => {
