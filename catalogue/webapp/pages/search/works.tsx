@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
@@ -26,8 +27,6 @@ import Select from '@weco/common/views/components/Select/Select';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { font } from '@weco/common/utils/classnames';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
-import { LinkProps } from '@weco/common/model/link-props';
-
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 
 type Props = {
@@ -101,6 +100,25 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
   const filters = worksFilters({ works, props: worksRouteProps });
 
+  const linkResolver = params => {
+    const queryWithSource = propsToQuery(params);
+    const { source = undefined, ...queryWithoutSource } = {
+      ...queryWithSource,
+    };
+
+    const as = {
+      pathname: '/search/works',
+      query: queryWithoutSource as ParsedUrlQuery,
+    };
+
+    const href = {
+      pathname: '/search/works',
+      query: queryWithSource,
+    };
+
+    return { href, as };
+  };
+
   return (
     <>
       <h1 className="visually-hidden">Works Search Page</h1>
@@ -110,9 +128,18 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
           <div>
             <SearchFilters
               query={query}
-              linkResolver={e => console.log(e) as unknown as LinkProps}
+              linkResolver={linkResolver}
               searchForm="searchPageForm"
-              changeHandler={e => console.log(e, 'done')}
+              changeHandler={() => {
+                const form = document.getElementById('searchPageForm');
+                form &&
+                  form.dispatchEvent(
+                    new window.Event('submit', {
+                      cancelable: true,
+                      bubbles: true,
+                    })
+                  );
+              }}
               filters={filters}
             />
             <Space
