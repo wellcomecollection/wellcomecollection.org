@@ -218,7 +218,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   changeHandler,
   filters,
   activeFiltersCount,
-  searchForm,
+  searchFormId,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
@@ -316,7 +316,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       <CheckboxFilter
                         f={f}
                         changeHandler={changeHandler}
-                        form={searchForm}
+                        form={searchFormId}
                       />
                     )}
 
@@ -324,7 +324,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       <DateRangeFilter
                         f={f}
                         changeHandler={changeHandler}
-                        form={searchForm}
+                        form={searchFormId}
                       />
                     )}
 
@@ -332,7 +332,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       <ColorFilter
                         f={f}
                         changeHandler={changeHandler}
-                        form={searchForm}
+                        form={searchFormId}
                       />
                     )}
                   </FilterSection>

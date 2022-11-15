@@ -153,7 +153,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   filters,
   linkResolver,
   activeFiltersCount,
-  searchForm,
+  searchFormId,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
@@ -200,7 +200,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     <CheckboxFilter
                       f={f}
                       changeHandler={changeHandler}
-                      form={searchForm}
+                      form={searchFormId}
                     />
                   )}
 
@@ -208,7 +208,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     <DateRangeFilter
                       f={f}
                       changeHandler={changeHandler}
-                      form={searchForm}
+                      form={searchFormId}
                     />
                   )}
 
@@ -216,7 +216,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     <ColorFilter
                       f={f}
                       changeHandler={changeHandler}
-                      form={searchForm}
+                      form={searchFormId}
                     />
                   )}
                 </Space>
@@ -248,7 +248,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   changeHandler={changeHandler}
                   filters={modalFilters}
-                  form={searchForm}
+                  form={searchFormId}
                 />
               </Space>
             )}
