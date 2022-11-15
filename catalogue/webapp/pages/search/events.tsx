@@ -113,30 +113,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           ))}
         </EventCardsWrapper>
       )}
-      <pre
-        style={{
-          maxWidth: '600px',
-          margin: '0 auto 24px',
-          fontSize: '14px',
-        }}
-      >
-        <code
-          style={{
-            display: 'block',
-            padding: '24px',
-            backgroundColor: '#EFE1AA',
-            color: '#000',
-            border: '4px solid #000',
-            borderRadius: '6px',
-          }}
-        >
-          <details>
-            <summary>THE EVENTS</summary>
-            {/* eslint-disable-next-line no-restricted-syntax */}
-            {JSON.stringify(eventResponseList, null, 1)}
-          </details>
-        </code>
-      </pre>
     </div>
   );
 };
