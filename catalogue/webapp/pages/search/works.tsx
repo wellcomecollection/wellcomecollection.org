@@ -129,7 +129,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             <SearchFilters
               query={query}
               linkResolver={linkResolver}
-              searchForm="searchPageForm"
+              searchFormId="searchPageForm"
               changeHandler={() => {
                 const form = document.getElementById('searchPageForm');
                 form &&
