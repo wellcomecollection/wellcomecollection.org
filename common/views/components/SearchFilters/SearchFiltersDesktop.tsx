@@ -248,6 +248,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   changeHandler={changeHandler}
                   filters={modalFilters}
+                  form={searchForm}
                 />
               </Space>
             )}

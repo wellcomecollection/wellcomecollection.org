@@ -22,11 +22,13 @@ type ModalMoreFiltersProps = {
   query: string;
   changeHandler: () => void;
   filters: Filter[];
+  form?: string;
 };
 
 type MoreFiltersProps = {
   filters: Filter[];
   changeHandler: () => void;
+  form?: string;
 };
 
 const ModalInner = styled(Space).attrs({
@@ -96,8 +98,9 @@ const FiltersHeader = styled(Space).attrs({
 type CheckboxFilterProps = {
   f: CheckboxFilterType;
   changeHandler: () => void;
+  form?: string;
 };
-const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
+const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <List>
       {f.options.map(({ id, label, value, count, selected }) => {
@@ -117,6 +120,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
               checked={selected}
               onChange={changeHandler}
               ariaLabel={searchFilterCheckBox(label)}
+              form={form}
             />
           </Space>
         );
@@ -128,6 +132,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
 const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   changeHandler,
   filters,
+  form,
 }: MoreFiltersProps) => {
   return (
     <>
@@ -136,7 +141,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
         .map(f => (
           <div key={f.id} style={{ display: 'none' }}>
             {f.type === 'checkbox' && (
-              <CheckboxFilter f={f} changeHandler={changeHandler} />
+              <CheckboxFilter f={f} changeHandler={changeHandler} form={form} />
             )}
           </div>
         ))}
@@ -148,7 +153,11 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <div className="no-margin no-padding plain-list">
                 {f.type === 'checkbox' && (
-                  <CheckboxFilter f={f} changeHandler={changeHandler} />
+                  <CheckboxFilter
+                    f={f}
+                    changeHandler={changeHandler}
+                    form={form}
+                  />
                 )}
               </div>
             </Space>
@@ -166,6 +175,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   openMoreFiltersButtonRef,
   changeHandler,
   filters,
+  form,
 }: ModalMoreFiltersProps) => {
   const { isEnhanced } = useContext(AppContext);
 
@@ -173,7 +183,11 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
     <>
       <noscript>
         <>
-          <MoreFilters changeHandler={changeHandler} filters={filters} />
+          <MoreFilters
+            changeHandler={changeHandler}
+            filters={filters}
+            form={form}
+          />
         </>
       </noscript>
       <Modal
@@ -189,7 +203,11 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
 
         <ModalInner>
           {isEnhanced && (
-            <MoreFilters changeHandler={changeHandler} filters={filters} />
+            <MoreFilters
+              changeHandler={changeHandler}
+              filters={filters}
+              form={form}
+            />
           )}
         </ModalInner>
         <FiltersFooter>
