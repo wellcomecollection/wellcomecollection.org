@@ -31,17 +31,18 @@ const SearchNoResults: FunctionComponent<Props> = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-            <Copy textColor={textColor}>
-              We couldn&rsquo;t find anything that matched{' '}
-              <QuerySpan>{query}</QuerySpan>
-              {hasFilters && (
-                <>
-                  {' '}
-                  <span>with the filters you have selected</span>
-                </>
-              )}
-              . Please try again.
-            </Copy>
+            {query && (
+              <Copy textColor={textColor}>
+                We couldn&rsquo;t find anything that matched{' '}
+                <QuerySpan>{query}</QuerySpan>
+                {hasFilters && (
+                  <>
+                    <span> with the filters you have selected</span>. Please try
+                    again.
+                  </>
+                )}
+              </Copy>
+            )}
           </div>
         </div>
       </div>

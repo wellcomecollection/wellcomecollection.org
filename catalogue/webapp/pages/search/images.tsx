@@ -27,6 +27,7 @@ import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 // Types
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
+import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -38,12 +39,20 @@ const Wrapper = styled(Space).attrs({
   v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
 `;
 
-const ResultsPaginationWrapper = styled.div`
+const PaginationWrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  className: font('intb', 5),
+})`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const BottomPaginationWrapper = styled(PaginationWrapper)`
+  justify-content: flex-end;
 `;
 
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
@@ -82,35 +91,40 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       {/* TODO review if this needs updating */}
 
       <h1 className="visually-hidden">Images Search Page</h1>
-      <div className="container">
-        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
-          <h2 style={{ marginBottom: 0 }}>Filters</h2>
-        </Space>
-      </div>
+
+      {images?.results && images.totalResults > 0 && (
+        <div className="container">
+          <Space
+            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <h2 style={{ marginBottom: 0 }}>Filters</h2>
+          </Space>
+        </div>
+      )}
 
       <Wrapper>
-        {images?.results && images.results.length > 0 && (
+        {images?.results && images.totalResults > 0 && (
           <div className="container">
-            <Space
-              v={{
-                size: 'l',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
-              style={{ color: 'white' }}
-            >
-              <ResultsPaginationWrapper>
-                {images.totalResults > 0 && (
-                  <div>{images.totalResults} results</div>
-                )}
-                <SearchPagination totalPages={images?.totalPages} darkBg />
-              </ResultsPaginationWrapper>
-            </Space>
+            <PaginationWrapper>
+              {images.totalResults > 0 && (
+                <span>{`${images.totalResults} result${
+                  images.totalResults > 1 ? 's' : ''
+                }`}</span>
+              )}
+              <SearchPagination totalPages={images?.totalPages} darkBg />
+            </PaginationWrapper>
+
             <main>
               <ImageEndpointSearchResults images={images} />
             </main>
+
+            <BottomPaginationWrapper>
+              <SearchPagination totalPages={images?.totalPages} darkBg />
+            </BottomPaginationWrapper>
           </div>
         )}
-        {images?.results.length === 0 && (
+
+        {images?.totalResults === 0 && (
           <SearchNoResults
             query={query}
             hasFilters={!!colorFilter}

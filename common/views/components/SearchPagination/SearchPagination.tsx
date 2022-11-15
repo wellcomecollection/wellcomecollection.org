@@ -1,20 +1,42 @@
-import { chevron } from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import { useEffect, useState, FunctionComponent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState, FunctionComponent } from 'react';
 import styled from 'styled-components';
+
+import { chevron } from '@weco/common/icons';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { font } from '@weco/common/utils/classnames';
+
+const Container = styled.nav.attrs({ className: font('intr', 5) })`
+  display: flex;
+  align-items: center;
+`;
 
 const ChevronWrapper = styled.a<{ prev?: boolean; darkBg?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 36px;
-  width: 36px;
-  border: 1px solid ${({ darkBg }) => (darkBg ? '#d9d9d9' : '#6b6b6b')};
-  border-radius: 50px;
-  transform: rotate(${({ prev }) => (prev ? '90' : '270')}deg);
-  margin: 0 8px;
+  height: 34px;
+  width: 34px;
+  border-radius: 100%;
+  margin: 0 0 0 1rem;
+
+  ${props => `
+    color:  ${props.theme.color(props.darkBg ? 'white' : 'black')};
+    border: 1px solid ${props.theme.color(
+      props.darkBg ? 'neutral.400' : 'neutral.600'
+    )};
+    transform: rotate(${props.prev ? '90' : '270'}deg);
+    ${props.prev && `margin: 0 1rem 0 0;`};
+    transition: all ${props => props.theme.transitionProperties};
+
+
+    &:hover, &:focus {
+      background-color: ${props.theme.color(
+        props.darkBg ? 'neutral.600' : 'neutral.300'
+      )};
+    }
+  `}
 `;
 
 export const SearchPagination: FunctionComponent<{
@@ -32,36 +54,39 @@ export const SearchPagination: FunctionComponent<{
   const showNext = currentPage < totalPages;
 
   return (
-    <nav
-      aria-label="search pagination"
-      style={{ display: 'flex', alignItems: 'center' }}
-    >
-      <span id="searchInputLabel">
-        {`Page ${currentPage} of ${totalPages}`}
-      </span>
+    <Container aria-label="Search pagination">
       {showPrev && (
         <Link
           passHref
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
         >
           <ChevronWrapper darkBg={darkBg} prev>
-            <Icon icon={chevron} iconColor={darkBg ? 'white' : 'black'} />
-            <span className="visually-hidden">previous page</span>
+            <Icon icon={chevron} />
+            <span className="visually-hidden">
+              {`Previous (page ${currentPage - 1})`}
+            </span>
           </ChevronWrapper>
         </Link>
       )}
+
+      <span id="searchInputLabel">
+        {`Page ${currentPage} of ${totalPages}`}
+      </span>
+
       {showNext && (
         <Link
           passHref
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
         >
           <ChevronWrapper darkBg={darkBg}>
-            <Icon icon={chevron} iconColor={darkBg ? 'white' : 'black'} />
-            <span className="visually-hidden">next page</span>
+            <Icon icon={chevron} />
+            <span className="visually-hidden">
+              {`Next (page ${currentPage + 1})`}
+            </span>
           </ChevronWrapper>
         </Link>
       )}
-    </nav>
+    </Container>
   );
 };
 

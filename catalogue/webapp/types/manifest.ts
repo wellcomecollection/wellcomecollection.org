@@ -42,7 +42,6 @@ export type TransformedManifest = {
   isAnyImageOpen: boolean;
   isTotallyRestricted: boolean;
   isCollectionManifest: boolean;
-  manifests: CollectionManifest[];
   parentManifestUrl: string | undefined;
   needsModal: boolean;
   // Currently from iiif manifest v3:
@@ -57,6 +56,7 @@ export type TransformedManifest = {
   restrictedService: AuthExternalService | undefined;
   searchService: Service | undefined;
   structures: Range[];
+  manifests: CollectionManifest[];
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {

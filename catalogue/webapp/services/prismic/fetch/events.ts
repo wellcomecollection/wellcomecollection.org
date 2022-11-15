@@ -1,4 +1,4 @@
-import { PrismicResultsList, PrismicApiError, ContentType } from '../types';
+import { PrismicResultsList, PrismicApiError } from '../types';
 import { Event } from '../types/event';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
