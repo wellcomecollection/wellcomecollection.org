@@ -9,6 +9,8 @@ const ExampleTextInput = () => {
   const [value, setValue] = useState('');
   return (
     <TextInput
+      id="test-input"
+      label="test input"
       type="email"
       value={value}
       setValue={setValue}

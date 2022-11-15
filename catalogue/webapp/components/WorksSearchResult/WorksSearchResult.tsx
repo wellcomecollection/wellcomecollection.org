@@ -39,7 +39,7 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkSearchResultV2: FunctionComponent<Props> = ({
+const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
 }: Props) => {
@@ -109,4 +109,4 @@ const WorkSearchResultV2: FunctionComponent<Props> = ({
     </WorkLink>
   );
 };
-export default WorkSearchResultV2;
+export default WorkSearchResult;
