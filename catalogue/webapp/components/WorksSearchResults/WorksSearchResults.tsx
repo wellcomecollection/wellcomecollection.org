@@ -27,6 +27,10 @@ const SearchResultListItem = styled.li`
       padding-top: 0;
     }
   }
+
+  &:last-child a {
+    padding-bottom: 0;
+  }
 `;
 
 const WorkSearchResults: FunctionComponent<Props> = ({ works }: Props) => {

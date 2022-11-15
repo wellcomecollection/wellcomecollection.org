@@ -23,7 +23,6 @@ import {
   KeyTextField,
 } from '@prismicio/types';
 import {
-  countDaysBetween,
   getDatesBetween,
   isPast,
   isSameDay,

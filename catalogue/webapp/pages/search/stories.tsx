@@ -32,15 +32,26 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme.color('neutral.200')};
 `;
 
-const ResultsPaginationWrapper = styled.div`
+const PaginationWrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  className: font('intb', 5),
+})`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
+const BottomPaginationWrapper = styled(PaginationWrapper)`
+  justify-content: flex-end;
+`;
+
 const Container = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-bottom'] },
-})``;
+})`
+  &:last-child {
+    padding-bottom: 0;
+  }
+`;
 
 const StoryWrapper = styled.a`
   display: flex;
@@ -130,28 +141,24 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   return (
     <Wrapper>
       <h1 className="visually-hidden">Stories Search Page</h1>
-      <div className="container">
-        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
-          <div>Sort Component?</div>
-        </Space>
-      </div>
+
+      {storyResponseList.totalResults === 0 && (
+        <SearchNoResults query={query} hasFilters={false} />
+      )}
+
       {storyResponseList.totalResults > 0 && (
         <div className="container" role="main">
-          <Space
-            v={{
-              size: 'l',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
-          >
-            {/* TODO make pagination - cursor based pagination with graphql query */}
-            <ResultsPaginationWrapper>
-              {storyResponseList.totalResults > 0 && (
-                <div>{storyResponseList.totalResults} results</div>
-              )}
-              <SearchPagination totalPages={storyResponseList?.totalPages} />
-            </ResultsPaginationWrapper>
-          </Space>
-          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+          {/* TODO make pagination - cursor based pagination with graphql query */}
+          <PaginationWrapper>
+            {storyResponseList.totalResults > 0 && (
+              <span>{`${storyResponseList.totalResults} result${
+                storyResponseList.totalResults > 1 ? 's' : ''
+              }`}</span>
+            )}
+            <SearchPagination totalPages={storyResponseList.totalPages} />
+          </PaginationWrapper>
+
+          <main>
             {storyResponseList.results.map(story => {
               return (
                 <Container key={story.id}>
@@ -184,11 +191,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                           )}
                           {!!story.contributors.length && (
                             <StoryInformationItem>
-                              {story.contributors.map(contributor => {
-                                return (
-                                  <span key={contributor}>{contributor}</span>
-                                );
-                              })}
+                              {story.contributors.map(contributor => (
+                                <span key={contributor}>{contributor}</span>
+                              ))}
                             </StoryInformationItem>
                           )}
                         </StoryInformation>
@@ -201,11 +206,20 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 </Container>
               );
             })}
+          </main>
+
+          <Space
+            v={{
+              size: 'l',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
+          >
+            {/* TODO make pagination work... */}
+            <BottomPaginationWrapper>
+              <SearchPagination totalPages={storyResponseList.totalPages} />
+            </BottomPaginationWrapper>
           </Space>
         </div>
-      )}
-      {storyResponseList.totalResults === 0 && (
-        <SearchNoResults query={query} hasFilters={false} />
       )}
     </Wrapper>
   );
