@@ -29,6 +29,8 @@
 # A works search page where some results contain thumbnails
 # https://wellcome.slack.com/archives/C8X9YKM5X/p1657191146272169
 /works?subjects.label=Liliaceae
+# A works page with a content warning
+/works/d2mach47
 
 # https://wellcome.slack.com/archives/C8X9YKM5X/p1638456535135800
 /articles/W9m2QxcAAF8AFvE5
