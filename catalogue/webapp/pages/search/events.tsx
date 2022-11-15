@@ -13,20 +13,106 @@ import { Event } from '../../services/prismic/types/event';
 import { PrismicResultsList } from '../../services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 
+import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import { font } from '@weco/common/utils/classnames';
+import styled from 'styled-components';
+
 type Props = {
   eventResponseList: PrismicResultsList<Event>;
   pageview: Pageview;
 };
 
+const PaginationWrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  className: font('intb', 5),
+})`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
+const EventCardWrapper = styled.article`
+  width: 382px;
+  background: #efede3;
+  border-radius: 8px;
+
+  img {
+    border-radius: 8px 8px 0 0;
+  }
+`;
+
+const EventCardMetaWrapper = styled.div`
+  padding: 15px 15px 24px;
+`;
+
+const EventCardTitle = styled.h2`
+  font-size: 20px;
+`;
+
+const EventCardTypesBadgeWrapper = styled.div`
+  display: felx;
+`;
+const EventCardTypesBadge = styled.div`
+  font-size: 14px;
+  padding: 0 4px;
+  background: #ffce3c;
+`;
+
+type EventCardProps = {
+  image?: { url: string };
+  title: string;
+  type: string[];
+};
+
+const EventCard = ({ title, image, type }: EventCardProps) => {
+  return (
+    <EventCardWrapper>
+      <div>
+        <img src={image ? image.url : ''} alt="" />
+      </div>
+      <EventCardMetaWrapper>
+        <EventCardTypesBadgeWrapper>
+          {type.map(type => (
+            <EventCardTypesBadge key={type}>{type}</EventCardTypesBadge>
+          ))}
+        </EventCardTypesBadgeWrapper>
+        <EventCardTitle>{title}</EventCardTitle>
+        <div>location</div>
+        <div>date and time</div>
+        <div>a11y info</div>
+      </EventCardMetaWrapper>
+    </EventCardWrapper>
+  );
+};
+
+const EventCardsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 40px;
+`;
+
 export const SearchPage: NextPageWithLayout<Props> = ({
   eventResponseList,
 }) => {
+  console.log(eventResponseList);
   return (
     <div className="container">
       <h1 className="visually-hidden">Events Search Page</h1>
-      <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-        <div>Events content</div>
-      </Space>
+      <PaginationWrapper aria-label="Sort Search Results">
+        {eventResponseList.totalResults > 0 && (
+          <div>{eventResponseList.totalResults} results</div>
+        )}
+        <SearchPagination totalPages={eventResponseList?.totalPages} />
+      </PaginationWrapper>
+      {eventResponseList.totalResults > 0 && (
+        <EventCardsWrapper>
+          {eventResponseList.results.map(event => (
+            <EventCard key={event.id} {...event} />
+          ))}
+        </EventCardsWrapper>
+      )}
       <pre
         style={{
           maxWidth: '600px',
