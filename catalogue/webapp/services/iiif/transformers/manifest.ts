@@ -35,7 +35,6 @@ export function transformManifest(
     manifestV2 && getFirstCollectionManifestLocation(manifestV2);
   const authService = getAuthService(manifestV2);
   const tokenService = authService && getTokenService(authService);
-  const manifests = manifestV2?.manifests || [];
 
   // V3
   const title = getTitle(manifestV3?.label);
@@ -53,6 +52,7 @@ export function transformManifest(
   const canvasCount = transformedCanvases.length;
   const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
   const restrictedService = getRestricedLoginService(manifestV3);
+  const manifests = manifestV3?.items?.filter(c => c.type === 'Manifest') || [];
 
   // TODO next
   const isTotallyRestricted = checkIsTotallyRestricted(
@@ -72,7 +72,6 @@ export function transformManifest(
     tokenService,
     isTotallyRestricted,
     needsModal,
-    manifests,
     // Taken from V3 manifest:
     id,
     audio,
@@ -94,5 +93,6 @@ export function transformManifest(
     searchService,
     structures,
     isCollectionManifest,
+    manifests,
   };
 }
