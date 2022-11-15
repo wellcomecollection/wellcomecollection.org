@@ -1,17 +1,22 @@
-import { Contributor, Image } from '@weco/common/model/catalogue';
 import { RichTextField } from '@prismicio/types';
 import { ContentType } from './index';
 
 export type Event = {
+  id: string;
+  title: Title;
   image: {
     url: string;
   };
-  summary: Standfirst[];
-  id: string;
-  contributors: Contributor[];
+  url: string;
   firstPublicationDate: Date;
-  title: Title;
+  contributors: (string | undefined)[];
   type: ContentType[];
+  summary: Standfirst;
+  label: Label;
+};
+
+export type Label = {
+  text: string;
 };
 
 export type Title = {
@@ -21,7 +26,7 @@ export type Title = {
 };
 
 export type Standfirst = {
-  text: {
+  caption: {
     text: string;
   };
 };

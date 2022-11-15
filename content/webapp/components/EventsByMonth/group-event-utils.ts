@@ -134,9 +134,14 @@ export function groupEventsByMonth<T extends HasTimeRanges>(
         //    - what's the earliest time it starts in this month?
         //        => where should it appear in the order of events for this month?
         //
+        // Note that we may be partway through the month, so we need to sort based on
+        // the next future date -- this is what will appear on the card.
+        //
         const rangesInMonth = ev.times
           .map(t => t.range)
-          .filter(t => isInMonth(t.startDateTime, month));
+          .filter(
+            t => isInMonth(t.startDateTime, month) && isFuture(t.startDateTime)
+          );
 
         return rangesInMonth.length > 0
           ? {

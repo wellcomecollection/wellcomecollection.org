@@ -10,6 +10,7 @@ import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
+import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
@@ -61,11 +62,6 @@ function reloadAuthIframe(document, id: string) {
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
 }
 
-type Video = {
-  '@id': string;
-  format: string;
-};
-
 type Props = {
   transformedManifest: TransformedManifest;
   manifestIndex?: number;
@@ -75,7 +71,6 @@ type Props = {
   canvasIndex: number;
   canvasOcr?: string;
   currentCanvas?: IIIFCanvas;
-  video?: Video; // TODO - remove as this is on manifestData
   audio?: Audio; // TODO - remove as this is on manifestData
   iiifImageLocation?: DigitalLocation;
   pageview: Pageview;
@@ -210,20 +205,11 @@ const ItemPage: NextPage<Props> = ({
       )}
       {video && (
         <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <video
-              controls
-              style={{
-                maxWidth: '100%',
-                maxHeight: '70vh',
-                display: 'block',
-                margin: '98px auto auto',
-              }}
-              controlsList={!downloadEnabled ? 'nodownload' : undefined}
-            >
-              <source src={video['@id']} type={video.format} />
-              {`Sorry, your browser doesn't support embedded video.`}
-            </video>
+          <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+            <VideoPlayer
+              video={video}
+              showDownloadOptions={downloadEnabled || true}
+            />
           </Space>
         </Layout12>
       )}
@@ -407,16 +393,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // from: https://wellcomecollection.org/works/f6qp7m32/items
     async function getDisplayManifest(
       transformedManifest: TransformedManifest,
-      manifestIndex
+      manifestIndex: number
     ): Promise<TransformedManifest> {
       if (isCollectionManifest) {
         const selectedCollectionManifestLocation =
           manifests?.[manifestIndex]['@id'];
-        const selectedCollectionManifest =
-          selectedCollectionManifestLocation &&
-          (await fetchIIIFPresentationManifest(
-            selectedCollectionManifestLocation
-          ));
+        const selectedCollectionManifest = selectedCollectionManifestLocation
+          ? await fetchIIIFPresentationManifest(
+              selectedCollectionManifestLocation
+            )
+          : undefined;
         const firstChildTransformedManifest =
           selectedCollectionManifest &&
           transformManifest(selectedCollectionManifest);

@@ -1,12 +1,17 @@
 import {
   AuthService,
   AuthServiceService,
-} from '../../../services/iiif/types/manifest/v2'; // TODO v3
-import { Audio } from '../../../services/iiif/types/manifest/v3';
+} from '../../../services/iiif/types/manifest/v2';
+import { Audio, Video } from '../../../services/iiif/types/manifest/v3';
+
 import {
+  AnnotationBody,
+  ChoiceBody,
   ContentResource,
+  ExternalWebResource,
   IIIFExternalWebResource,
   Manifest,
+  MetadataItem,
   Service,
   InternationalString,
 } from '@iiif/presentation-3';
@@ -60,7 +65,8 @@ export function getTokenService(
   );
 }
 
-export function getAudio(manifest: Manifest): Audio {
+export function getAudio(manifest: Manifest | undefined): Audio | undefined {
+  if (!manifest) return;
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
   const firstEnCanvas = canvases.find(c => c?.label?.en);
   const title = firstEnCanvas?.label
@@ -157,10 +163,81 @@ export function getPdf(
   }
 }
 
-export function getTitle(label: InternationalString | string): string {
+export function getTitle(
+  label: InternationalString | string | undefined
+): string {
+  if (!label) return '';
   if (typeof label === 'string') return label;
 
   return getEnFromInternationalString(label);
+}
+
+export function getIIIFMetadata(
+  manifest: Manifest,
+  label: string
+): MetadataItem | undefined {
+  return (manifest.metadata || []).find(
+    data => getEnFromInternationalString(data.label) === label
+  );
+}
+
+export function getIIIFPresentationCredit(
+  manifest: Manifest | undefined
+): string | undefined {
+  if (!manifest) return;
+  const attribution = getIIIFMetadata(manifest, 'Attribution and usage');
+  const maybeValueWithBrTags =
+    attribution?.value && getEnFromInternationalString(attribution.value);
+
+  return maybeValueWithBrTags?.split('<br />')[0];
+}
+
+function getChoiceBody(
+  body?: AnnotationBody | AnnotationBody[]
+): ChoiceBody | undefined {
+  const isChoiceBody =
+    typeof body !== 'string' && !Array.isArray(body) && body?.type === 'Choice';
+
+  return isChoiceBody ? body : undefined;
+}
+
+function getExternalWebResourceBody(
+  body?: AnnotationBody | AnnotationBody[]
+): ExternalWebResource | undefined {
+  const isExternalWebResource =
+    typeof body !== 'string' &&
+    !Array.isArray(body) &&
+    (body?.type === 'Video' ||
+      body?.type === 'Sound' ||
+      body?.type === 'Image' ||
+      body?.type === 'Text');
+  return isExternalWebResource ? body : undefined;
+}
+
+export function getVideo(manifest: Manifest | undefined): Video | undefined {
+  if (!manifest) return;
+  const videoChoiceBody = getChoiceBody(
+    manifest.items?.[0]?.items?.[0]?.items?.[0]?.body
+  );
+  const maybeVideo = getExternalWebResourceBody(videoChoiceBody?.items?.[0]);
+  const thumbnailImageResourceBody = getExternalWebResourceBody(
+    manifest.placeholderCanvas?.items?.[0]?.items?.[0]?.body
+  );
+  const thumbnail = thumbnailImageResourceBody?.id;
+  const annotationPage = manifest.items?.[0]?.annotations?.[0].items?.[0]?.body;
+  const annotations = getExternalWebResourceBody(annotationPage);
+
+  return maybeVideo?.type === 'Video'
+    ? { ...maybeVideo, thumbnail, annotations }
+    : undefined;
+}
+
+export function getMediaClickthroughService(
+  services: Service[]
+): AuthService | undefined {
+  return (services as AuthService[]).find(
+    s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
+  );
 }
 
 export function getSearchService(

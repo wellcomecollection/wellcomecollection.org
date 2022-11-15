@@ -16,11 +16,9 @@ import {
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
 import {
-  getMediaClickthroughService,
-  getMediaClickthroughServiceV3,
   getTokenService,
-} from '../../utils/iiif/v2';
-import { getTokenService as getTokenServiceV3 } from '../../utils/iiif/v3';
+  getMediaClickthroughService,
+} from '../../utils/iiif/v3';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -52,8 +50,7 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
-import { Audio } from 'services/iiif/types/manifest/v3';
-import { IIIFMediaElement } from 'services/iiif/types/manifest/v2';
+import { Audio, Video } from 'services/iiif/types/manifest/v3';
 
 type Props = {
   work: Work;
@@ -75,7 +72,7 @@ function getItemLinkState({
   sierraIdFromManifestUrl: string | undefined;
   itemUrl: LinkProps;
   audio: Audio | undefined;
-  video: IIIFMediaElement | undefined;
+  video: Video | undefined;
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
     return 'useLibraryLink';
@@ -144,15 +141,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice
-  // TODO move following to transformer, so it's available on manifestData
-  const videoAuthService = video && getMediaClickthroughService(video);
-  const audioAuthService = services && getMediaClickthroughServiceV3(services);
-  const authService = videoAuthService || audioAuthService;
-  const tokenService = videoAuthService
-    ? getTokenService(videoAuthService)
-    : audioAuthService
-    ? getTokenServiceV3(audioAuthService['@id'], services)
-    : undefined;
+
+  const authService = services && getMediaClickthroughService(services);
+  const tokenService =
+    authService && getTokenService(authService['@id'], services);
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -347,7 +339,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             {/*
               TODO: This is going to bounce us straight back to wc.org/works
               What should we be doing in this branch?
-              
+
               Note: as of November 2022, I can't find any items that would actually
               trigger this branch – i.e., items with a permission-required access
               status and a IIIF manifest link.

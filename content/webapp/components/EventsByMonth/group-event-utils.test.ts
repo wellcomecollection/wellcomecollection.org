@@ -229,7 +229,13 @@ describe('groupEventsByMonth', () => {
       {
         range: {
           startDateTime: new Date('2022-11-03T16:00:00.000Z'),
-          endDateTime: new Date('2023-02-09T20:00:00.000Z'),
+          endDateTime: new Date('2022-11-03T20:00:00.000Z'),
+        },
+      },
+      {
+        range: {
+          startDateTime: new Date('2022-11-15T10:00:00.000Z'),
+          endDateTime: new Date('2022-11-15T14:00:00.000Z'),
         },
       },
     ],
@@ -275,7 +281,39 @@ describe('groupEventsByMonth', () => {
     expect(groupedEvents).toStrictEqual([
       {
         month: { month: 'November', year: 2022 },
-        events: [evLightsUp, evPhobiasAndManias, evWhatYouSee],
+        events: [evPhobiasAndManias, evLightsUp, evWhatYouSee],
+      },
+    ]);
+  });
+
+  it('puts multi-day events at the right order in the list', () => {
+    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
+    spyOnFuture.mockImplementation(
+      (d: Date) => d > new Date('2022-11-09T00:00:00Z')
+    );
+
+    // Notice that on 9 November, the "HIV and AIDS" event has already
+    // had its first event in the month (on 8 Nov), and the event promo
+    // will be displaying the next event in the series (on 30 Nov).
+    //
+    // It should appear in the list based on that next date, not 8 Nov.
+    const events = [evHivAndAids, evPhobiasAndManias, evWhatYouSee];
+
+    const groupedEvents = groupEventsByMonth(events);
+
+    expect(groupedEvents).toStrictEqual([
+      {
+        month: { month: 'November', year: 2022 },
+        events: [
+          // 10 Nov
+          evPhobiasAndManias,
+
+          // 17 Nov – 19 Nov
+          evWhatYouSee,
+
+          // 30 Nov
+          evHivAndAids,
+        ],
       },
     ]);
   });

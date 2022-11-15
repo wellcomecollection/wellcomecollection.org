@@ -4,6 +4,7 @@ import {
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
   EventPrismicDocument,
+  eventsFetchLinks,
   interpretationTypeFetchLinks,
   teamFetchLinks,
 } from '../types/events';
@@ -34,6 +35,7 @@ const fetchLinks = [
   ...teamFetchLinks,
   ...backgroundTexturesFetchLink,
   ...seasonsFetchLinks,
+  ...eventsFetchLinks,
 ];
 
 const eventsFetcher = fetcher<EventPrismicDocument>('events', fetchLinks);

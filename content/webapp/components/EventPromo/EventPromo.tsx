@@ -175,20 +175,8 @@ const EventPromo: FunctionComponent<Props> = ({
             </Space>
           )}
 
-          {!isPast && (
-            <>
-              {event.scheduleLength > 0 && (
-                <p className={`${font('intb', 5)} no-padding no-margin`}>
-                  {`${event.scheduleLength} ${
-                    event.scheduleLength > 1 ? 'events' : 'event'
-                  }`}
-                </p>
-              )}
-
-              {event.times.length > 1 && (
-                <p className={font('intb', 6)}>See all dates/times</p>
-              )}
-            </>
+          {!isPast && event.times.length > 1 && (
+            <p className={font('intb', 6)}>See all dates/times</p>
           )}
 
           {isPast && !event.availableOnline && (
