@@ -322,7 +322,7 @@ function getImageService(canvas: Canvas): BodyService | undefined {
   ).flat();
   const BodiesServices = AnnotationBodies?.map(body => body?.service).flat();
   const imageService = BodiesServices?.find(
-    service => service['@type'] === 'ImageService2'
+    service => service?.['@type'] === 'ImageService2'
   );
   return imageService;
 }
@@ -419,7 +419,7 @@ export function getSearchService(
   manifest: Manifest | undefined
 ): Service | undefined {
   const searchService = manifest?.service?.find(
-    service => service['@type'] === 'SearchService1'
+    service => service?.['@type'] === 'SearchService1'
   );
   return searchService || undefined;
 }
