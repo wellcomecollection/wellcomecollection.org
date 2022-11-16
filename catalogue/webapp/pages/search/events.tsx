@@ -34,6 +34,7 @@ const PaginationWrapper = styled(Space).attrs({
 
 const EventCardWrapper = styled.article`
   width: 382px;
+  height: 100%;
   background: #efede3;
   border-radius: 8px;
 
@@ -63,26 +64,29 @@ type EventCardProps = {
   image?: { url: string };
   title: string;
   type: string[];
+  url: string;
 };
 
-const EventCard = ({ title, image, type }: EventCardProps) => {
+const EventCard = ({ title, image, type, url }: EventCardProps) => {
   return (
-    <EventCardWrapper>
-      <div>
-        <img src={image ? image.url : ''} alt="" />
-      </div>
-      <EventCardMetaWrapper>
-        <EventCardTypesBadgeWrapper>
-          {type.map(type => (
-            <EventCardTypesBadge key={type}>{type}</EventCardTypesBadge>
-          ))}
-        </EventCardTypesBadgeWrapper>
-        <EventCardTitle>{title}</EventCardTitle>
-        <div>location</div>
-        <div>date and time</div>
-        <div>a11y info</div>
-      </EventCardMetaWrapper>
-    </EventCardWrapper>
+    <a style={{ textDecoration: 'none' }} href={url}>
+      <EventCardWrapper>
+        <div>
+          <img src={image ? image.url : ''} alt="" />
+        </div>
+        <EventCardMetaWrapper>
+          <EventCardTypesBadgeWrapper>
+            {type.map(type => (
+              <EventCardTypesBadge key={type}>{type}</EventCardTypesBadge>
+            ))}
+          </EventCardTypesBadgeWrapper>
+          <EventCardTitle>{title}</EventCardTitle>
+          <div>location</div>
+          <div>date and time</div>
+          <div>a11y info</div>
+        </EventCardMetaWrapper>
+      </EventCardWrapper>
+    </a>
   );
 };
 
@@ -90,7 +94,8 @@ const EventCardsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  gap: 40px;
+  gap: 30px;
+  margin-bottom: 160px;
 `;
 
 export const SearchPage: NextPageWithLayout<Props> = ({
