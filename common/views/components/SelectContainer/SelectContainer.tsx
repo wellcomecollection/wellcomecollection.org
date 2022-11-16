@@ -32,7 +32,7 @@ const StyledSelect = styled.div.attrs({
     font-family: inherit;
     font-weight: inherit;
     appearance: none;
-    padding: 8px 36px 8px 12px;
+    padding: 8px 42px 8px 16px;
     border: 1px solid ${props => props.theme.color('neutral.600')};
     border-radius: ${props =>
       props.isPill ? 20 : props.theme.borderRadiusUnit}px;
