@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
@@ -25,6 +26,8 @@ import SearchPagination from '@weco/common/views/components/SearchPagination/Sea
 import Select from '@weco/common/views/components/Select/Select';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { font } from '@weco/common/utils/classnames';
+import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import { worksFilters } from '@weco/common/services/catalogue/filters';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -93,11 +96,156 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     router.push({ pathname: router.pathname, query: newQuery });
   }, [sortOrder]);
 
+  if (works.totalResults === 0) return <p>nothing</p>;
+
+  const filters = worksFilters({ works, props: worksRouteProps });
+
+  const linkResolver = params => {
+    const queryWithSource = propsToQuery(params);
+    const { source = undefined, ...queryWithoutSource } = {
+      ...queryWithSource,
+    };
+
+    const as = {
+      pathname: '/search/works',
+      query: queryWithoutSource as ParsedUrlQuery,
+    };
+
+    const href = {
+      pathname: '/search/works',
+      query: queryWithSource,
+    };
+
+    return { href, as };
+  };
+
   return (
     <>
       <h1 className="visually-hidden">Works Search Page</h1>
 
       {works.totalResults === 0 && query && (
+        <div className="container">
+          <div>
+            <SearchFilters
+              query={query}
+              linkResolver={linkResolver}
+              searchFormId="searchPageForm"
+              changeHandler={() => {
+                const form = document.getElementById('searchPageForm');
+                form &&
+                  form.dispatchEvent(
+                    new window.Event('submit', {
+                      cancelable: true,
+                      bubbles: true,
+                    })
+                  );
+              }}
+              filters={filters}
+            />
+            <Space
+              v={{ size: 'm', properties: ['margin-bottom', 'margin-top'] }}
+            >
+              <noscript>
+                <fieldset className="">
+                  <legend>Search result sorting</legend>
+                  <span id="sort-label" className="">
+                    Sort by:
+                  </span>
+                  <select
+                    aria-labelledby="sort-label"
+                    name="sort"
+                    form="searchPageForm"
+                  >
+                    {[
+                      {
+                        value: '',
+                        text: 'Relevance',
+                      },
+                      {
+                        value: 'production.dates',
+                        text: 'Production dates',
+                      },
+                    ].map(o => (
+                      <option key={o.value} value={o.value}>
+                        {o.text}
+                      </option>
+                    ))}
+                  </select>
+                  <br />
+                  <span id="sort-order-label" className="">
+                    Sort order:
+                  </span>
+                  <select
+                    aria-labelledby="sort-order-label"
+                    name="sortOrder"
+                    form="searchPageForm"
+                  >
+                    {[
+                      {
+                        value: 'asc',
+                        text: 'Ascending',
+                      },
+                      {
+                        value: 'desc',
+                        text: 'Descending',
+                      },
+                    ].map(o => (
+                      <option key={o.value} value={o.value}>
+                        {o.text}
+                      </option>
+                    ))}
+                  </select>
+                </fieldset>
+              </noscript>
+              {isComponentMounted && (
+                <Select
+                  value={(sortOrder as string) || ''}
+                  form="searchPageForm"
+                  name="sortOrder"
+                  label="sort results by:"
+                  onChange={e => setSortOrder(e.currentTarget.value)}
+                  options={[
+                    {
+                      value: '',
+                      text: 'Relevance',
+                    },
+                    {
+                      value: 'asc',
+                      text: 'Oldest to newest',
+                    },
+                    {
+                      value: 'desc',
+                      text: 'Newest to oldest',
+                    },
+                  ]}
+                  isPill
+                  hideLabel
+                />
+              )}
+            </Space>
+          </div>
+          <Space
+            v={{
+              size: 'l',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
+          >
+            <PaginationWrapper aria-label="Sort Search Results">
+              {works.totalResults > 0 && (
+                <div>{works.totalResults} results</div>
+              )}
+              <SearchPagination totalPages={works?.totalPages} />
+            </PaginationWrapper>
+          </Space>
+          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+            <main>
+              <WorksSearchResults works={works} />
+            </main>
+          </Space>
+        </div>
+      )}
+
+      {works.results.length === 0 && (
         <SearchNoResults
           query={query}
           hasFilters={Boolean(productionDatesFrom || productionDatesTo)}

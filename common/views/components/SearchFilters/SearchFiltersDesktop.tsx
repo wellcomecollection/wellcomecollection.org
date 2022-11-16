@@ -35,6 +35,7 @@ const PaletteColorPicker = dynamic(
 type CheckboxFilterProps = {
   f: CheckboxFilterType;
   changeHandler: () => void;
+  form?: string;
 };
 
 const Wrapper = styled(Space).attrs({
@@ -47,7 +48,7 @@ const Wrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('warmNeutral.400')};
 `;
 
-const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
+const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <DropdownButton label={f.label} buttonType="inline" id={f.id}>
       <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
@@ -62,6 +63,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
                 name={f.id}
                 checked={selected}
                 onChange={changeHandler}
+                form={form}
               />
             </li>
           );
@@ -74,9 +76,10 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
 type DateRangeFilterProps = {
   f: DateRangeFilterType;
   changeHandler: () => void;
+  form?: string;
 };
 
-const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
+const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
   const [from, setFrom] = useControlledState(f.from.value);
   const [to, setTo] = useControlledState(f.to.value);
 
@@ -99,6 +102,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
                   changeHandler();
                 }
               }}
+              form={form}
             />
           </Space>
           <NumberInput
@@ -115,6 +119,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
                 changeHandler();
               }
             }}
+            form={form}
           />
         </>
       </DropdownButton>
@@ -125,14 +130,16 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
 type ColorFilterProps = {
   f: ColorFilterType;
   changeHandler: () => void;
+  form?: string;
 };
-const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
+const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
   return (
     <DropdownButton label="Colours" buttonType="inline" id="images.color">
       <PaletteColorPicker
         name={f.id}
         color={f.color}
         onChangeColor={changeHandler}
+        form={form}
       />
     </DropdownButton>
   );
@@ -146,6 +153,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   filters,
   linkResolver,
   activeFiltersCount,
+  searchFormId,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
@@ -189,15 +197,27 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   }
                 >
                   {f.type === 'checkbox' && (
-                    <CheckboxFilter f={f} changeHandler={changeHandler} />
+                    <CheckboxFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={searchFormId}
+                    />
                   )}
 
                   {f.type === 'dateRange' && (
-                    <DateRangeFilter f={f} changeHandler={changeHandler} />
+                    <DateRangeFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={searchFormId}
+                    />
                   )}
 
                   {f.type === 'color' && (
-                    <ColorFilter f={f} changeHandler={changeHandler} />
+                    <ColorFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={searchFormId}
+                    />
                   )}
                 </Space>
               );
@@ -228,6 +248,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   changeHandler={changeHandler}
                   filters={modalFilters}
+                  form={searchFormId}
                 />
               </Space>
             )}

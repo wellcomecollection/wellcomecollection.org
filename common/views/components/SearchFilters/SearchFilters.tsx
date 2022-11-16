@@ -9,7 +9,7 @@ import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect'
 
 type Props = {
   query: string;
-  searchForm: { current: HTMLFormElement | null };
+  searchFormId?: string;
   changeHandler: () => void;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
@@ -19,7 +19,7 @@ export type SearchFiltersSharedProps = Props & { activeFiltersCount: number };
 
 const SearchFilters: FunctionComponent<Props> = ({
   query,
-  searchForm,
+  searchFormId,
   changeHandler,
   filters,
   linkResolver,
@@ -52,7 +52,7 @@ const SearchFilters: FunctionComponent<Props> = ({
 
   const sharedProps: SearchFiltersSharedProps = {
     query,
-    searchForm,
+    searchFormId,
     changeHandler,
     filters,
     linkResolver,

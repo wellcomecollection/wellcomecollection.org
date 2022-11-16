@@ -114,8 +114,9 @@ const FiltersFooter = styled(Space).attrs({
 type CheckboxFilterProps = {
   f: CheckboxFilterType;
   changeHandler: () => void;
+  form?: string;
 };
-const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
+const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <>
       <h3 className="h3">{f.label}</h3>
@@ -136,6 +137,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
                 checked={selected}
                 onChange={changeHandler}
                 ariaLabel={searchFilterCheckBox(label)}
+                form={form}
               />
             </Space>
           );
@@ -148,8 +150,9 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
 type DateRangeFilterProps = {
   f: DateRangeFilterType;
   changeHandler: () => void;
+  form?: string;
 };
-const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
+const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
   const [from, setFrom] = useControlledState(f.from.value);
   const [to, setTo] = useControlledState(f.to.value);
 
@@ -171,6 +174,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
               changeHandler();
             }
           }}
+          form={form}
         />
       </Space>
       <NumberInput
@@ -187,6 +191,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
             changeHandler();
           }
         }}
+        form={form}
       />
     </>
   );
@@ -195,13 +200,15 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
 type ColorFilterProps = {
   f: ColorFilterType;
   changeHandler: () => void;
+  form?: string;
 };
-const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
+const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
   return (
     <PaletteColorPicker
       color={f.color}
       name={f.id}
       onChangeColor={changeHandler}
+      form={form}
     />
   );
 };
@@ -211,6 +218,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   changeHandler,
   filters,
   activeFiltersCount,
+  searchFormId,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
@@ -305,15 +313,27 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 return (
                   <FilterSection key={f.id}>
                     {f.type === 'checkbox' && (
-                      <CheckboxFilter f={f} changeHandler={changeHandler} />
+                      <CheckboxFilter
+                        f={f}
+                        changeHandler={changeHandler}
+                        form={searchFormId}
+                      />
                     )}
 
                     {f.type === 'dateRange' && (
-                      <DateRangeFilter f={f} changeHandler={changeHandler} />
+                      <DateRangeFilter
+                        f={f}
+                        changeHandler={changeHandler}
+                        form={searchFormId}
+                      />
                     )}
 
                     {f.type === 'color' && (
-                      <ColorFilter f={f} changeHandler={changeHandler} />
+                      <ColorFilter
+                        f={f}
+                        changeHandler={changeHandler}
+                        form={searchFormId}
+                      />
                     )}
                   </FilterSection>
                 );
