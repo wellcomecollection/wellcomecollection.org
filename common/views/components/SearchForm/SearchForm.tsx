@@ -28,6 +28,13 @@ import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
 import { formDataAsUrlQuery } from '../../../utils/forms';
 
+const Wrapper = styled(Space).attrs({
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  display: flex;
+`;
+
 const SearchInputWrapper = styled.div`
   position: relative;
   flex: 1 1 auto;
@@ -169,10 +176,7 @@ const SearchForm = forwardRef(
           return false;
         }}
       >
-        <Space
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        >
+        <Wrapper>
           <SearchInputWrapper>
             <TextInput
               id={`${isImageSearch ? 'images' : 'works'}-search-input`}
@@ -203,9 +207,9 @@ const SearchForm = forwardRef(
             )}
           </SearchInputWrapper>
           <SearchButtonWrapper>
-            <ButtonSolid text="Search" size="medium" />
+            <ButtonSolid text="Search" />
           </SearchButtonWrapper>
-        </Space>
+        </Wrapper>
         {shouldShowFilters && (
           <SearchFilters
             query={query}

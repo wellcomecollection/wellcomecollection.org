@@ -15,6 +15,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -131,6 +132,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
             setValue={setValue}
             required={true}
             ref={inputRef}
+            darkBg
           />
           {value !== '' && (
             <ClearSearch
@@ -147,10 +149,10 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         </SearchInputWrapper>
         <SearchButtonWrapper>
           <ButtonSolid
-            size="medium"
             icon={search}
             text="search"
             isTextHidden={true}
+            colors={themeValues.buttonColors.yellowYellowBlack}
             isNewStyle
           />
         </SearchButtonWrapper>
