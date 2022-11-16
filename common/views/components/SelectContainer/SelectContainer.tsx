@@ -22,7 +22,7 @@ const StyledSelect = styled.div.attrs({
   .icon {
     position: absolute;
     pointer-events: none;
-    top: 4px;
+    top: 6px;
     right: 6px;
   }
 
