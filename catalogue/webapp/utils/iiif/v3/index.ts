@@ -423,3 +423,9 @@ export function getSearchService(
   );
   return searchService || undefined;
 }
+
+export function hasPdfDownload(manifest: Manifest): boolean {
+  return !!manifest.rendering?.find(
+    r => r.type === 'Text' && r.format === 'application/pdf'
+  );
+}
