@@ -17,6 +17,21 @@ import {
   today,
 } from '../../utils/dates';
 
+const ONE_WEEK = 7;
+
+// How many days ahead of exceptional opening dates should we start showing
+// them on the website?
+//
+// We need to make sure exceptional opening times appear on the website so
+// that people who are travelling a long way (e.g. from overseas) have enough
+// time to plan their visit to Wellcome Collection, especially in advance,
+// e.g. over the Christmas/New Year's holiday.
+//
+// TODO: Do we need any limit here, or can we show exceptional opening times
+// as soon as they're entered in Prismic? If there is a reason, document it
+// here; if not, remove this limit.
+const EXCEPTIONAL_OPENING_DATES_ADVANCE_NOTICE_PERIOD = 6 * ONE_WEEK;
+
 /** Returns a list of OverrideDate for which any venue has exceptional hours.
  * The list will be sorted in chronological order.
  *
@@ -278,10 +293,11 @@ export function groupConsecutiveExceptionalDays(
     }, [] as ExceptionalOpeningHoursGroup[]);
 }
 
-/** Returns a list of all exceptional periods coming up in the next 28 days.
+/** Returns a list of all exceptional periods that we want to display.
  *
  * This includes exceptional periods happening today, so that if somebody looks at
- * the site on an exceptional day, it highlights the exceptional hours.
+ * the site on an exceptional day, it highlights the exceptional hours.  We filter
+ * this list so we’re not displaying dates very far in the future.
  */
 export function getUpcomingExceptionalOpeningHours(
   openingHoursGroups: ExceptionalOpeningHoursGroup[]
@@ -290,7 +306,10 @@ export function getUpcomingExceptionalOpeningHours(
     period.some(
       d =>
         isSameDayOrBefore(today(), d.overrideDate) &&
-        isSameDayOrBefore(d.overrideDate, addDays(today(), 42))
+        isSameDayOrBefore(
+          d.overrideDate,
+          addDays(today(), EXCEPTIONAL_OPENING_DATES_ADVANCE_NOTICE_PERIOD)
+        )
     )
   );
 }
