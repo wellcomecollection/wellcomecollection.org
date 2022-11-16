@@ -7,9 +7,19 @@ import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { font } from '@weco/common/utils/classnames';
 
-const Container = styled.nav.attrs({ className: font('intr', 6) })`
+const Container = styled.nav.attrs({ className: font('intr', 6) })<{
+  isHiddenMobile?: boolean;
+}>`
   display: flex;
   align-items: center;
+
+  ${props =>
+    props.theme.media(
+      'medium',
+      'max-width'
+    )(`
+    ${props.isHiddenMobile && 'display: none;'};
+  `)}
 `;
 
 const ChevronWrapper = styled.a<{ prev?: boolean; darkBg?: boolean }>`
@@ -42,7 +52,8 @@ const ChevronWrapper = styled.a<{ prev?: boolean; darkBg?: boolean }>`
 export const SearchPagination: FunctionComponent<{
   totalPages: number;
   darkBg?: boolean;
-}> = ({ totalPages, darkBg }) => {
+  isHiddenMobile?: boolean;
+}> = ({ totalPages, darkBg, isHiddenMobile }) => {
   const { pathname, query } = useRouter();
   const [currentPage, setCurrentPage] = useState(Number(query.page) || 1);
 
@@ -54,7 +65,7 @@ export const SearchPagination: FunctionComponent<{
   const showNext = currentPage < totalPages;
 
   return (
-    <Container aria-label="Search pagination">
+    <Container aria-label="Search pagination" isHiddenMobile={isHiddenMobile}>
       {showPrev && (
         <Link
           passHref

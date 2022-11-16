@@ -45,8 +45,7 @@ const PaginationWrapper = styled(Space).attrs({
 const TotalResultsCopy = styled.span`
   ${props =>
     props.theme.media('medium', 'max-width')`
-    flex: 1 1 100%;
-    text-align: right;
+    flex: 1 1 50%;
   `}
 `;
 
@@ -56,8 +55,8 @@ const SortPaginationWrapper = styled.div`
   flex-wrap: wrap;
 
   ${props => props.theme.media('medium', 'max-width')`
-    flex: 1 1 100%;
-    justify-content: space-between;
+    flex: 1 1 50%;
+    justify-content: flex-end;
   `}
 `;
 
@@ -191,7 +190,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                   sortOrder: sortOptions,
                 }}
               />
-              <SearchPagination totalPages={storyResponseList.totalPages} />
+              <SearchPagination
+                totalPages={storyResponseList.totalPages}
+                isHiddenMobile
+              />
             </SortPaginationWrapper>
           </PaginationWrapper>
 

@@ -38,6 +38,7 @@ const StyledSelect = styled.div.attrs({
       props.isPill ? 20 : props.theme.borderRadiusUnit}px;
     background-color: ${props =>
       props.theme.color(props.darkBg ? 'white' : 'transparent')};
+    color: ${props => props.theme.color('black')};
     width: 100%;
 
     &::-ms-expand {

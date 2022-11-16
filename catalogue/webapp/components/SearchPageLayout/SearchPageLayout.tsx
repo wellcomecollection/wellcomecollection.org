@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
@@ -10,6 +11,12 @@ import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { trackEvent } from '@weco/common/utils/ga';
+
+const SearchBarContainer = styled(Space)`
+  ${props => props.theme.media('medium', 'max-width')`
+    margin-bottom:0;
+  `}
+`;
 
 const SearchLayout: FunctionComponent = ({ children }) => {
   const router = useRouter();
@@ -123,9 +130,11 @@ const SearchLayout: FunctionComponent = ({ children }) => {
             return false;
           }}
         />
-        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+        <SearchBarContainer
+          v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+        >
           <SearchBar type={currentSearchCategory} />
-        </Space>
+        </SearchBarContainer>
 
         <SubNavigation
           label="Search Categories"
