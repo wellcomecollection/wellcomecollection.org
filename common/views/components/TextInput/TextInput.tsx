@@ -79,13 +79,17 @@ type TextInputInputProps = {
 export const TextInputInput = styled.input.attrs(props => ({
   type: props.type || 'text',
 }))<TextInputInputProps>`
-  padding: ${props =>
-    props.big ? '17px 130px 17px 15px' : '17px 40px 17px 15px'};
+  padding: 17px 35px 17px 15px;
   appearance: none;
   border: 0;
   height: 100%;
   font-size: inherit;
   width: 100%;
+
+  ${props =>
+    props.theme.media('large')(`
+      padding: ${props.big ? '17px 130px 17px 15px' : '17px 40px 17px 15px'};
+    `)}
 
   &:focus {
     outline: 0;

@@ -30,7 +30,7 @@ import { formDataAsUrlQuery } from '../../../utils/forms';
 
 const SearchInputWrapper = styled.div`
   position: relative;
-  font-size: 20px;
+  flex: 1 1 auto;
 
   .search-query {
     height: ${props => 10 * props.theme.spacingUnit}px;
@@ -38,21 +38,10 @@ const SearchInputWrapper = styled.div`
 `;
 
 const SearchButtonWrapper = styled.div`
-  position: absolute;
-  top: ${props => props.theme.spacingUnits['3'] + 7}px;
-  right: ${props => props.theme.spacingUnits['5'] + 6}px;
-
-  ${props =>
-    props.theme.media('medium')(`
-      top: ${props.theme.spacingUnits['4'] + 7}px;
-      right: ${props.theme.spacingUnits['6'] + 6}px;
-    `)}
-
-  ${props =>
-    props.theme.media('large')(`
-      top: ${props.theme.spacingUnits['5'] + 7}px;
-      right: ${props.theme.spacingUnits['8'] + 6}px;
-    `)}
+  margin-left: 4px;
+  button {
+    height: 100%;
+  }
 `;
 
 const SearchSortOrderWrapper = styled(Space).attrs({
@@ -181,7 +170,7 @@ const SearchForm = forwardRef(
         }}
       >
         <Space
-          h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
         >
           <SearchInputWrapper>
@@ -209,10 +198,13 @@ const SearchForm = forwardRef(
                   action: 'clear search',
                   label: 'works-search',
                 }}
-                right={102}
+                right={10}
               />
             )}
           </SearchInputWrapper>
+          <SearchButtonWrapper>
+            <ButtonSolid text="Search" size="medium" />
+          </SearchButtonWrapper>
         </Space>
         {shouldShowFilters && (
           <SearchFilters
@@ -231,18 +223,9 @@ const SearchForm = forwardRef(
                 label="Sort by:"
                 value={portalSortOrder || ''}
                 options={[
-                  {
-                    value: '',
-                    text: 'Relevance',
-                  },
-                  {
-                    value: 'asc',
-                    text: 'Oldest to newest',
-                  },
-                  {
-                    value: 'desc',
-                    text: 'Newest to oldest',
-                  },
+                  { value: '', text: 'Relevance' },
+                  { value: 'asc', text: 'Oldest to newest' },
+                  { value: 'desc', text: 'Newest to oldest' },
                 ]}
                 onChange={event => {
                   setPortalSortOrder(event.currentTarget.value);
@@ -260,14 +243,8 @@ const SearchForm = forwardRef(
                   label="Sort by"
                   defaultValue={sort || ''}
                   options={[
-                    {
-                      value: '',
-                      text: 'Relevance',
-                    },
-                    {
-                      value: 'production.dates',
-                      text: 'Production dates',
-                    },
+                    { value: '', text: 'Relevance' },
+                    { value: 'production.dates', text: 'Production dates' },
                   ]}
                 />
               </Space>
@@ -276,22 +253,13 @@ const SearchForm = forwardRef(
                 label="Sort order"
                 defaultValue={sortOrder || ''}
                 options={[
-                  {
-                    value: 'asc',
-                    text: 'Ascending',
-                  },
-                  {
-                    value: 'desc',
-                    text: 'Descending',
-                  },
+                  { value: 'asc', text: 'Ascending' },
+                  { value: 'desc', text: 'Descending' },
                 ]}
               />
             </>
           )}
         </noscript>
-        <SearchButtonWrapper>
-          <ButtonSolid text="Search" size="medium" />
-        </SearchButtonWrapper>
       </form>
     );
   }

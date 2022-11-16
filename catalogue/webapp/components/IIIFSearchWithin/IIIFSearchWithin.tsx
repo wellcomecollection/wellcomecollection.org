@@ -22,20 +22,20 @@ type Props = {
 
 const SearchForm = styled.form`
   position: relative;
+  display: flex;
 `;
 
 const SearchInputWrapper = styled.div`
   position: relative;
-  input {
-    padding-right: 70px;
-  }
+  flex: 1 1 auto;
 `;
 
 const SearchButtonWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 4px;
+  margin-left: 4px;
+
+  button {
+    height: 100%;
+  }
 `;
 
 const ResultsHeader = styled(Space).attrs({
@@ -141,18 +141,19 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                 label: 'item-search-within',
               }}
               setValue={setValue}
-              right={68}
+              right={10}
             />
           )}
-          <SearchButtonWrapper>
-            <ButtonSolid
-              size="medium"
-              icon={search}
-              text="search"
-              isTextHidden={true}
-            />
-          </SearchButtonWrapper>
         </SearchInputWrapper>
+        <SearchButtonWrapper>
+          <ButtonSolid
+            size="medium"
+            icon={search}
+            text="search"
+            isTextHidden={true}
+            isNewStyle
+          />
+        </SearchButtonWrapper>
       </SearchForm>
       <div aria-live="polite">
         {isLoading && <Loading />}
