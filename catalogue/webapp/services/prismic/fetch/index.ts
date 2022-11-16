@@ -24,16 +24,25 @@ export const articleIdToLabel = (id: string): string => {
   return formattedLabel === 'Essay' ? 'Article' : formattedLabel;
 };
 
+type Query = {
+  query?: string | string[];
+  sortOrder?: string;
+};
+
 export const prismicGraphQLQuery = (
   type: string,
-  query?: string | string[],
+  query: Query,
   pageSize?: number
-) => {
+): string => {
+  const { query: queryString, sortOrder } = query;
+
   return gql`
     query {
       ${
         typesToPrismicGraphQLSchemaTypes[type]
-      }(fulltext: "${query}" sortBy: title_ASC first: ${pageSize} ) {
+      }(fulltext: "${queryString}" sortBy: ${
+    sortOrder || 'title_ASC'
+  } first: ${pageSize} ) {
       totalCount
       pageInfo {
         hasNextPage
@@ -91,9 +100,9 @@ const client = prismic.createClient(endpoint, { fetch });
 
 export async function prismicGraphQLClient(
   type: string,
-  query: string,
+  query: Query,
   pageSize: number
-) {
+): Promise<any> {
   const graphqlClient = new GraphQLClient(
     prismic.getGraphQLEndpoint('wellcomecollection'),
     {

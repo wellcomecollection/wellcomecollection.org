@@ -20,11 +20,11 @@ import {
   PrismicResultsList,
 } from '@weco/catalogue/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
+import Sort from '@weco/catalogue/components/Sort/Sort';
 
 type Props = {
   storyResponseList: PrismicResultsList<Story>;
-  totalPages: number;
-  query: string;
+  queryString: string;
   pageview: Pageview;
 };
 
@@ -39,6 +39,26 @@ const PaginationWrapper = styled(Space).attrs({
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+`;
+
+const TotalResultsCopy = styled.span`
+  ${props =>
+    props.theme.media('medium', 'max-width')`
+    flex: 1 1 100%;
+    text-align: right;
+  `}
+`;
+
+const SortPaginationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  ${props => props.theme.media('medium', 'max-width')`
+    flex: 1 1 100%;
+    justify-content: space-between;
+  `}
 `;
 
 const BottomPaginationWrapper = styled(PaginationWrapper)`
@@ -134,28 +154,45 @@ const StoryInformationItem = styled.span`
   }
 `;
 
+const sortOptions = [
+  { value: '', text: 'A -> Z' },
+  { value: 'title_DESC', text: 'Z -> A' },
+  { value: 'meta_firstPublicationDate_DESC', text: 'Last published' },
+  { value: 'meta_firstPublicationDate_ASC', text: 'First published' },
+];
+
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
-  query,
+  queryString,
 }) => {
   return (
     <Wrapper>
       <h1 className="visually-hidden">Stories Search Page</h1>
 
       {storyResponseList.totalResults === 0 && (
-        <SearchNoResults query={query} hasFilters={false} />
+        <SearchNoResults query={queryString} hasFilters={false} />
       )}
 
       {storyResponseList.totalResults > 0 && (
-        <div className="container" role="main">
+        <div className="container">
           {/* TODO make pagination - cursor based pagination with graphql query */}
           <PaginationWrapper>
             {storyResponseList.totalResults > 0 && (
-              <span>{`${storyResponseList.totalResults} result${
+              <TotalResultsCopy>{`${storyResponseList.totalResults} result${
                 storyResponseList.totalResults > 1 ? 's' : ''
-              }`}</span>
+              }`}</TotalResultsCopy>
             )}
-            <SearchPagination totalPages={storyResponseList.totalPages} />
+
+            <SortPaginationWrapper>
+              <Sort
+                form="searchPageForm"
+                options={sortOptions}
+                jsLessOptions={{
+                  sortOrder: sortOptions,
+                }}
+              />
+              <SearchPagination totalPages={storyResponseList.totalPages} />
+            </SortPaginationWrapper>
           </PaginationWrapper>
 
           <main>
@@ -208,17 +245,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             })}
           </main>
 
-          <Space
-            v={{
-              size: 'l',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
-          >
-            {/* TODO make pagination work... */}
-            <BottomPaginationWrapper>
-              <SearchPagination totalPages={storyResponseList.totalPages} />
-            </BottomPaginationWrapper>
-          </Space>
+          {/* TODO make pagination work... */}
+          <BottomPaginationWrapper>
+            <SearchPagination totalPages={storyResponseList.totalPages} />
+          </BottomPaginationWrapper>
         </div>
       )}
     </Wrapper>
@@ -231,57 +261,48 @@ export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
-  const { query } = context.query;
+  const fullQuery = context.query;
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };
   }
 
-  // TODO cleanup all below when we determine what should be optional in Mel's branch (feat/prismic-transform-updates)
-  if (!query)
+  const defaultProps = removeUndefinedProps({
+    serverData,
+    storyResponseList: { totalResults: 0 },
+    queryString: fullQuery.query,
+    pageview: {
+      name: 'stories',
+      properties: {},
+    },
+  });
+
+  // Stop here if no query has been entered
+  if (!fullQuery.query)
     return {
-      props: removeUndefinedProps({
-        serverData,
-        storyResponseList: { totalResults: 0 },
-        query,
-        pageview: {
-          name: 'stories',
-          properties: {},
-        },
-      }),
+      props: defaultProps,
     };
 
+  // Fetch stories
   const pageSize = 6;
-
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
-      query: query as string,
+      query: fullQuery,
       pageSize,
     });
 
-  if (storyResponseList?.type === 'ResultList') {
-    return {
-      props: removeUndefinedProps({
-        serverData,
-        storyResponseList,
-        query,
-        totalPages: Math.ceil(storyResponseList.results.length / pageSize),
-        pageview: {
-          name: 'stories',
-          properties: { totalResults: storyResponseList.totalResults },
-        },
-      }),
-    };
-  }
-
   return {
     props: removeUndefinedProps({
-      serverData,
-      storyResponseList: { totalResults: 0 },
-      query,
+      ...defaultProps,
+      storyResponseList,
       pageview: {
         name: 'stories',
-        properties: {},
+        properties: {
+          totalResults:
+            storyResponseList?.type === 'ResultList'
+              ? storyResponseList.totalResults
+              : 0,
+        },
       },
     }),
   };

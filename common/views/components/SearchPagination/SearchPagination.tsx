@@ -7,7 +7,7 @@ import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { font } from '@weco/common/utils/classnames';
 
-const Container = styled.nav.attrs({ className: font('intr', 5) })`
+const Container = styled.nav.attrs({ className: font('intr', 6) })`
   display: flex;
   align-items: center;
 `;
@@ -70,7 +70,7 @@ export const SearchPagination: FunctionComponent<{
       )}
 
       <span id="searchInputLabel">
-        {`Page ${currentPage} of ${totalPages}`}
+        Page <strong>{currentPage}</strong> of {totalPages}
       </span>
 
       {showNext && (

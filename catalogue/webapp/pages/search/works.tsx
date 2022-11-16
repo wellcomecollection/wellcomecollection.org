@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 import styled from 'styled-components';
 
@@ -22,8 +21,7 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
-import Select from '@weco/common/views/components/Select/Select';
-import { propsToQuery } from '@weco/common/utils/routes';
+import Sort from '@weco/catalogue/components/Sort/Sort';
 import { font } from '@weco/common/utils/classnames';
 
 type Props = {
@@ -50,12 +48,6 @@ const SortPaginationWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const SortWrapper = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },
-})`
-  margin-right: 2rem;
-`;
-
 const BottomPaginationWrapper = styled(PaginationWrapper)`
   justify-content: flex-end;
 `;
@@ -69,29 +61,12 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     'production.dates.from': productionDatesFrom,
     'production.dates.to': productionDatesTo,
   } = worksRouteProps;
-  const router = useRouter();
+
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
     const link = toLink({ ...worksRouteProps }, 'works_search_context');
     setLink(link);
   }, [worksRouteProps]);
-
-  const [isComponentMounted, setIsComponentMounted] = useState(false);
-  useEffect(() => setIsComponentMounted(true), []);
-
-  const [sortOrder, setSortOrder] = useState(router.query.sortOrder || '');
-
-  useEffect(() => {
-    const sort =
-      sortOrder === 'asc' || sortOrder === 'desc'
-        ? 'production.dates'
-        : undefined;
-    const queryParams = { ...router.query, sortOrder, sort };
-
-    const newQuery = propsToQuery(queryParams);
-
-    router.push({ pathname: router.pathname, query: newQuery });
-  }, [sortOrder]);
 
   return (
     <>
@@ -114,87 +89,24 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             )}
 
             <SortPaginationWrapper>
-              <div>
-                <SortWrapper>
-                  <noscript>
-                    <fieldset className="">
-                      <legend>Search result sorting</legend>
-                      <span id="sort-label" className="">
-                        Sort by:
-                      </span>
-                      <select
-                        aria-labelledby="sort-label"
-                        name="sort"
-                        form="searchPageForm"
-                      >
-                        {[
-                          {
-                            value: '',
-                            text: 'Relevance',
-                          },
-                          {
-                            value: 'production.dates',
-                            text: 'Production dates',
-                          },
-                        ].map(o => (
-                          <option key={o.value} value={o.value}>
-                            {o.text}
-                          </option>
-                        ))}
-                      </select>
-                      <br />
-                      <span id="sort-order-label" className="">
-                        Sort order:
-                      </span>
-                      <select
-                        aria-labelledby="sort-order-label"
-                        name="sortOrder"
-                        form="searchPageForm"
-                      >
-                        {[
-                          {
-                            value: 'asc',
-                            text: 'Ascending',
-                          },
-                          {
-                            value: 'desc',
-                            text: 'Descending',
-                          },
-                        ].map(o => (
-                          <option key={o.value} value={o.value}>
-                            {o.text}
-                          </option>
-                        ))}
-                      </select>
-                    </fieldset>
-                  </noscript>
-                  {isComponentMounted && (
-                    <Select
-                      value={(sortOrder as string) || ''}
-                      form="searchPageForm"
-                      name="sortOrder"
-                      label="sort results by:"
-                      onChange={e => setSortOrder(e.currentTarget.value)}
-                      options={[
-                        {
-                          value: '',
-                          text: 'Relevance',
-                        },
-                        {
-                          value: 'asc',
-                          text: 'Oldest to newest',
-                        },
-                        {
-                          value: 'desc',
-                          text: 'Newest to oldest',
-                        },
-                      ]}
-                      isPill
-                      hideLabel
-                    />
-                  )}
-                </SortWrapper>
-              </div>
+              <Sort
+                form="searchPageForm"
+                options={[
+                  { value: '', text: 'Relevance' },
+                  { value: 'asc', text: 'Oldest to newest' },
+                  { value: 'desc', text: 'Newest to oldest' },
+                ]}
+                jsLessOptions={{
+                  sort: [
+                    { value: '', text: 'Relevance' },
+                    { value: 'production.dates', text: 'Production dates' },
+                  ],
+                  sortOrder: [
+                    { value: 'asc', text: 'Ascending' },
+                    { value: 'desc', text: 'Descending' },
+                  ],
+                }}
+              />
 
               <SearchPagination totalPages={works?.totalPages} />
             </SortPaginationWrapper>

@@ -4,9 +4,14 @@ import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
 
 export type PrismicQueryProps = {
-  query: string;
+  query: Query;
   pageSize: number;
   type?: string;
+};
+
+export type Query = {
+  query?: string | string[];
+  sortOrder?: string;
 };
 
 export async function getStories({
@@ -18,11 +23,12 @@ export async function getStories({
     const { allArticless } = await res;
     const { edges } = allArticless;
     const stories = await transformPrismicResponse(['articles'], edges);
+
     return {
       type: 'ResultList',
       totalResults: allArticless.totalCount,
       totalPages: Math.ceil(allArticless.totalCount / pageSize),
-      results: stories,
+      results: stories as Story[],
       pageSize: pageSize,
       prevPage: null,
       nextPage: null,

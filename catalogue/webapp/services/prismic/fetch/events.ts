@@ -4,9 +4,14 @@ import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
 
 export type PrismicQueryProps = {
-  query: string;
+  query: Query;
   pageSize: number;
   type?: string;
+};
+
+export type Query = {
+  query?: string | string[];
+  sortOrder?: string;
 };
 
 export async function getEvents({
@@ -22,7 +27,7 @@ export async function getEvents({
       type: 'ResultList',
       totalResults: allEventss.totalCount,
       totalPages: Math.ceil(allEventss.totalCount / pageSize),
-      results: events,
+      results: events as Event[],
       pageSize: pageSize,
       prevPage: null,
       nextPage: null,
