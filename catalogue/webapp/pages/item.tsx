@@ -398,7 +398,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     ): Promise<TransformedManifest> {
       if (isCollectionManifest) {
         const selectedCollectionManifestLocation =
-          manifests?.[manifestIndex]['@id'];
+          manifests?.[manifestIndex]?.['@id'];
         const selectedCollectionManifest = selectedCollectionManifestLocation
           ? await fetchIIIFPresentationManifest(
               selectedCollectionManifestLocation
