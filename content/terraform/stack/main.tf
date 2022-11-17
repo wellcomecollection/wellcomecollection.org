@@ -30,9 +30,6 @@ module "content-service-17092020" {
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
-
-  deployment_service_name = "content_webapp"
-  deployment_service_env  = var.env_suffix
 }
 
 locals {
