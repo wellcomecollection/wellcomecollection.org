@@ -1,4 +1,4 @@
-import { PrismicResultsList, PrismicApiError } from '../types';
+import { PrismicResultsList, PrismicApiError, Query } from '../types';
 import { Event } from '../types/event';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
@@ -7,11 +7,6 @@ export type PrismicQueryProps = {
   query: Query;
   pageSize: number;
   type?: string;
-};
-
-export type Query = {
-  query?: string | string[];
-  sortOrder?: string;
 };
 
 export async function getEvents({

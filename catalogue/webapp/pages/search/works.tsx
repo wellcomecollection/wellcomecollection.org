@@ -90,11 +90,11 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
             <SortPaginationWrapper>
               <Sort
-                form="searchPageForm"
+                formId="searchPageForm"
                 options={[
                   { value: '', text: 'Relevance' },
-                  { value: 'asc', text: 'Oldest to newest' },
-                  { value: 'desc', text: 'Newest to oldest' },
+                  { value: 'production.dates.asc', text: 'Oldest to newest' },
+                  { value: 'production.dates.desc', text: 'Newest to oldest' },
                 ]}
                 jsLessOptions={{
                   sort: [
@@ -106,9 +106,13 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                     { value: 'desc', text: 'Descending' },
                   ],
                 }}
+                defaultValues={{
+                  sort: worksRouteProps.sort,
+                  sortOrder: worksRouteProps.sortOrder,
+                }}
               />
 
-              <SearchPagination totalPages={works?.totalPages} />
+              <SearchPagination totalPages={works?.totalPages} isHiddenMobile />
             </SortPaginationWrapper>
           </PaginationWrapper>
 

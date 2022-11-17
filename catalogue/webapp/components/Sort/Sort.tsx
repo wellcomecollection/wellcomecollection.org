@@ -16,11 +16,12 @@ const Wrapper = styled(Space).attrs({
 type Props = {
   options: Option[];
   jsLessOptions: JsLessOptions;
-  form: string;
+  formId: string;
+  defaultValues?: DefaultValuesType;
 };
 
 type JsLessOptions = {
-  sort?: Option[];
+  sort: Option[];
   sortOrder: Option[];
 };
 
@@ -29,48 +30,57 @@ type Option = {
   text: string;
 };
 
-const Sort: FunctionComponent<Props> = ({ options, jsLessOptions, form }) => {
+type DefaultValuesType = {
+  sort: string | undefined;
+  sortOrder: string | undefined;
+};
+
+const Sort: FunctionComponent<Props> = ({
+  options,
+  jsLessOptions,
+  formId,
+  defaultValues,
+}) => {
   const router = useRouter();
 
   const [isComponentMounted, setIsComponentMounted] = useState(false);
   useEffect(() => setIsComponentMounted(true), []);
 
   const [sortOrder, setSortOrder] = useState(router.query.sortOrder || '');
+  const [sortType, setSortType] = useState<string | undefined>();
 
   useEffect(() => {
-    const sort =
-      sortOrder === 'asc' || sortOrder === 'desc'
-        ? 'production.dates'
-        : undefined;
-    const queryParams = { ...router.query, sortOrder, sort };
+    const queryParams = { ...router.query, sortOrder, sort: sortType };
     const newQuery = propsToQuery(queryParams);
 
     router.push({ pathname: router.pathname, query: newQuery });
-  }, [sortOrder]);
+  }, [sortOrder, sortType]);
 
   return (
     <Wrapper>
       <noscript>
         <fieldset>
           <legend className="visually-hidden">Search result sorting</legend>
-          {jsLessOptions.sort && (
-            <>
-              <span id="sort-label">Sort by:</span>
-              <select aria-labelledby="sort-label" name="sort" form={form}>
-                {jsLessOptions.sort.map(o => (
-                  <option key={o.value} value={o.value}>
-                    {o.text}
-                  </option>
-                ))}
-              </select>
-              <br />
-            </>
-          )}
+          <span id="sort-label">Sort by:</span>
+          <select
+            aria-labelledby="sort-label"
+            name="sort"
+            form={formId}
+            defaultValue={defaultValues?.sort}
+          >
+            {jsLessOptions.sort.map(o => (
+              <option key={o.value} value={o.value}>
+                {o.text}
+              </option>
+            ))}
+          </select>
+          <br />
           <span id="sort-order-label">Sort order:</span>
           <select
             aria-labelledby="sort-order-label"
             name="sortOrder"
-            form={form}
+            form={formId}
+            defaultValue={defaultValues?.sortOrder}
           >
             {jsLessOptions.sortOrder.map(o => (
               <option key={o.value} value={o.value}>
@@ -78,7 +88,7 @@ const Sort: FunctionComponent<Props> = ({ options, jsLessOptions, form }) => {
               </option>
             ))}
           </select>
-          <button type="submit" form={form}>
+          <button type="submit" form={formId}>
             Submit
           </button>
         </fieldset>
@@ -86,11 +96,15 @@ const Sort: FunctionComponent<Props> = ({ options, jsLessOptions, form }) => {
 
       {isComponentMounted && (
         <Select
-          value={(sortOrder as string) || ''}
-          form={form}
+          value={sortType + '.' + sortOrder || ''}
+          form={formId}
           name="sortOrder"
           label="sort results by:"
-          onChange={e => setSortOrder(e.currentTarget.value)}
+          onChange={e => {
+            const valueArray = e.currentTarget.value.split('.');
+            setSortOrder(valueArray[valueArray.length - 1]);
+            setSortType(valueArray.slice(0, valueArray.length - 1).join('.'));
+          }}
           options={options}
           isPill
           hideLabel

@@ -18,13 +18,14 @@ import { Story } from '@weco/catalogue/services/prismic/types/story';
 import {
   PrismicApiError,
   PrismicResultsList,
+  Query,
 } from '@weco/catalogue/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 import Sort from '@weco/catalogue/components/Sort/Sort';
 
 type Props = {
   storyResponseList: PrismicResultsList<Story>;
-  queryString: string;
+  query: Query;
   pageview: Pageview;
 };
 
@@ -153,23 +154,16 @@ const StoryInformationItem = styled.span`
   }
 `;
 
-const sortOptions = [
-  { value: '', text: 'A -> Z' },
-  { value: 'title_DESC', text: 'Z -> A' },
-  { value: 'meta_firstPublicationDate_DESC', text: 'Last published' },
-  { value: 'meta_firstPublicationDate_ASC', text: 'First published' },
-];
-
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
-  queryString,
+  query,
 }) => {
   return (
     <Wrapper>
       <h1 className="visually-hidden">Stories Search Page</h1>
 
       {storyResponseList.totalResults === 0 && (
-        <SearchNoResults query={queryString} hasFilters={false} />
+        <SearchNoResults query={query.query} hasFilters={false} />
       )}
 
       {storyResponseList.totalResults > 0 && (
@@ -184,11 +178,24 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
             <SortPaginationWrapper>
               <Sort
-                form="searchPageForm"
-                options={sortOptions}
+                formId="searchPageForm"
+                options={[
+                  { value: 'alphabetical.asc', text: 'A -> Z' },
+                  { value: 'alphabetical.desc', text: 'Z -> A' },
+                  { value: 'production.dates.asc', text: 'First published' },
+                  { value: 'production.dates.desc', text: 'Last published' },
+                ]}
                 jsLessOptions={{
-                  sortOrder: sortOptions,
+                  sort: [
+                    { value: 'alphabetical', text: 'Alphabetical' },
+                    { value: 'production.dates', text: 'Publication dates' },
+                  ],
+                  sortOrder: [
+                    { value: 'asc', text: 'Ascending' },
+                    { value: 'desc', text: 'Descending' },
+                  ],
                 }}
+                defaultValues={{ sort: query.sort, sortOrder: query.sortOrder }}
               />
               <SearchPagination
                 totalPages={storyResponseList.totalPages}
@@ -263,7 +270,7 @@ export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
-  const fullQuery = context.query;
+  const query = context.query;
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };
@@ -272,7 +279,7 @@ export const getServerSideProps: GetServerSideProps<
   const defaultProps = removeUndefinedProps({
     serverData,
     storyResponseList: { totalResults: 0 },
-    queryString: fullQuery.query,
+    query,
     pageview: {
       name: 'stories',
       properties: {},
@@ -280,17 +287,37 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   // Stop here if no query has been entered
-  if (!fullQuery.query)
+  if (!query.query)
     return {
       props: defaultProps,
     };
 
   // Fetch stories
-  const pageSize = 6;
+  let sortBy = '';
+  if (query.sort || query.sortOrder) {
+    const { sort, sortOrder } = query;
+
+    const sortOrderVar = sortOrder
+      ? Array.isArray(sortOrder)
+        ? sortOrder[0].toUpperCase()
+        : sortOrder.toUpperCase()
+      : '';
+
+    // Map to match Prismic's API
+    switch (sort) {
+      case 'production.dates':
+        sortBy = 'meta_firstPublicationDate_' + sortOrderVar;
+        break;
+      case 'alphabetical':
+      default:
+        sortBy = 'title_' + sortOrderVar;
+        break;
+    }
+  }
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
-      query: fullQuery,
-      pageSize,
+      query: { query: query.query as string, sort: sortBy },
+      pageSize: 6,
     });
 
   return {

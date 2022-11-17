@@ -25,8 +25,8 @@ export const articleIdToLabel = (id: string): string => {
 };
 
 type Query = {
-  query?: string | string[];
-  sortOrder?: string;
+  query?: string;
+  sort?: string;
 };
 
 export const prismicGraphQLQuery = (
@@ -34,14 +34,14 @@ export const prismicGraphQLQuery = (
   query: Query,
   pageSize?: number
 ): string => {
-  const { query: queryString, sortOrder } = query;
+  const { query: queryString, sort } = query;
 
   return gql`
     query {
       ${
         typesToPrismicGraphQLSchemaTypes[type]
       }(fulltext: "${queryString}" sortBy: ${
-    sortOrder || 'title_ASC'
+    sort || 'title_ASC'
   } first: ${pageSize} ) {
       totalCount
       pageInfo {

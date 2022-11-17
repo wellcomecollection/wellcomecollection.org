@@ -61,14 +61,14 @@ export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
-  const fullQuery = context.query;
+  const query = context.query;
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };
   }
 
   const eventResponseList = await getEvents({
-    query: fullQuery,
+    query,
     pageSize: 5,
   } as PrismicQueryProps);
 
