@@ -3,19 +3,21 @@ steps:
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
     concurrency: 1
     concurrency_group: "experience-deploy"
+    command: |
+      ENV_TAG="$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" .buildkite/scripts/update_ecr_image_tag.sh \
+        uk.ac.wellcome/content_webapp \
+        uk.ac.wellcome/catalogue_webapp \
+        uk.ac.wellcome/identity_webapp
+
+      CLUSTER="experience-frontend-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" ./builds/deploy_ecs_services.sh \
+        "content-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
+        "catalogue-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
+        "identity-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+
     plugins:
-      - docker#v3.5.0:
-          image: 760097843905.dkr.ecr.eu-west-1.amazonaws.com/wellcome/weco-deploy:5.7
-          workdir: /repo
-          mount-ssh-agent: true
-          command: [
-              "--confirm",
-              "--project-id", "experience",
-              "release-deploy",
-              "--from-label", "ref.$BUILDKITE_COMMIT",
-              "--environment-id", "$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT",
-              "--description", $BUILDKITE_BUILD_URL,
-              "--confirmation-wait-for", 3540 ] # Session times out at 3600s / 1 hour
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+
     agents:
       queue: nano
 
