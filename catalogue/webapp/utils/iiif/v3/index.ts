@@ -425,7 +425,10 @@ export function getSearchService(
 }
 
 export function hasPdfDownload(manifest: Manifest): boolean {
-  return !!manifest.rendering?.find(
-    r => r.type === 'Text' && r.format === 'application/pdf'
+  return (
+    Boolean(getPdf(manifest)) ||
+    !!manifest.rendering?.find(
+      r => r.type === 'Text' && r.format === 'application/pdf'
+    )
   );
 }
