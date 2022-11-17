@@ -4,7 +4,6 @@ import { TransformedManifest, DownloadOption } from '../../../types/manifest';
 import {
   getUiExtensions,
   isUiEnabled,
-  getFirstCollectionManifestLocation,
   getAuthService,
   getTokenService,
   checkModalRequired,
@@ -14,6 +13,7 @@ import {
 import {
   getAudio,
   getDownloadOptionsFromManifest,
+  getFirstCollectionManifestLocation,
   getPdf,
   getTitle,
   getTransformedCanvases,
@@ -31,8 +31,6 @@ export function transformManifest(
   const downloadEnabled = manifestV2
     ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
     : true;
-  const firstCollectionManifestLocation =
-    manifestV2 && getFirstCollectionManifestLocation(manifestV2);
   const authService = getAuthService(manifestV2);
   const tokenService = authService && getTokenService(authService);
   const manifests = manifestV2?.manifests || [];
@@ -53,6 +51,8 @@ export function transformManifest(
   const canvasCount = transformedCanvases.length;
   const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
   const restrictedService = getRestricedLoginService(manifestV3);
+  const firstCollectionManifestLocation =
+    manifestV3 && getFirstCollectionManifestLocation(manifestV3);
 
   // TODO next
   const isTotallyRestricted = checkIsTotallyRestricted(

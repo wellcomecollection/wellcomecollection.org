@@ -226,12 +226,6 @@ export function getAnnotationFromMediaElement(
   );
 }
 
-export function getFirstCollectionManifestLocation(
-  iiifManifest: IIIFManifest
-): string | undefined {
-  return iiifManifest.manifests?.find(manifest => manifest['@id'])?.['@id'];
-}
-
 export function getIIIFPresentationCredit(
   manifest: IIIFManifest
 ): string | undefined {

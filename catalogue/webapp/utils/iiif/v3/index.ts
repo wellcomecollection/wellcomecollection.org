@@ -423,3 +423,10 @@ export function getSearchService(
   );
   return searchService || undefined;
 }
+
+export function getFirstCollectionManifestLocation(
+  iiifManifest: Manifest
+): string | undefined {
+  return iiifManifest.items?.filter(c => c.type === 'Manifest')?.find(m => m.id)
+    ?.id;
+}
