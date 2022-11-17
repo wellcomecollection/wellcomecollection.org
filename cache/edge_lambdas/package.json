@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "license": "MIT",
   "description": "Edge lambdas for redirecting and A/B toggling",
-  "engines": {
-    "node": "12.*.*"
-  },
   "scripts": {
     "test": "jest",
     "build": "tsc -p tsconfig.build.json",

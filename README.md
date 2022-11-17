@@ -61,18 +61,6 @@ You can specify a port by setting the `PORT` in your `.env.development`.
 
 This is useful if you want to run webapps simultaneously.
 
-## Deployment
-
-This project uses the [weco-deploy](https://github.com/wellcomecollection/weco-deploy) tool.
-
-### Rolling back
-
-Display a list of releases:
-`weco-deploy show-deployments --limit 30 --environment-id prod`
-
-Choose the last one you know to be good and deploy:
-`weco-deploy deploy --release-id $(LAST_GOOD_RELEASE_ID) --environment-id prod`
-
 ### Running CI steps locally
 
 In order to reproduce a build step locally you can run the same `docker-compose` command that [Buildkite](https://buildkite.com/wellcomecollection/experience) runs.

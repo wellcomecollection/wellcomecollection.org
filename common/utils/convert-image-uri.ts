@@ -51,7 +51,7 @@ export type IIIFUriProps = {
 export function iiifImageTemplate(
   infoJsonLocation: string
 ): (opts: IIIFUriProps) => string {
-  const baseUrl = infoJsonLocation.replace('/info.json', '');
+  const baseUrl = infoJsonLocation?.replace('/info.json', '');
   const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
   const defaultOpts = {
     region: 'full',

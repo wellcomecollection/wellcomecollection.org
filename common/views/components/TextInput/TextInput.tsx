@@ -1,13 +1,6 @@
-import {
-  forwardRef,
-  useContext,
-  useState,
-  RefObject,
-  FunctionComponent,
-} from 'react';
+import { forwardRef, RefObject, FunctionComponent } from 'react';
 import styled from 'styled-components';
-import Icon from '../Icon/Icon';
-import { AppContext } from '../AppContext/AppContext';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import { check } from '@weco/common/icons';
 
 type TextInputWrapProps = {
@@ -18,8 +11,7 @@ type TextInputWrapProps = {
 export const TextInputWrap = styled.div<TextInputWrapProps>`
   display: flex;
   position: relative;
-  border: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  border-radius: 6px;
+  border: 2px solid ${props => props.theme.color('neutral.600')};
   font-size: ${props => (props.big ? '20px' : '16px')};
 
   &:focus-within {
@@ -32,7 +24,6 @@ export const TextInputWrap = styled.div<TextInputWrapProps>`
     }
   }
   overflow: hidden;
-  border-radius: 6px;
 
   ${props =>
     props.hasErrorBorder &&
@@ -47,6 +38,7 @@ type TextInputLabelProps = {
 };
 export const TextInputLabel = styled.label<TextInputLabelProps>`
   position: absolute;
+  left: 15px;
 
   /* Styles for browsers that don't support :focus-within (<=IE11) */
   font-size: 14px;
@@ -62,12 +54,12 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
     top: 50%;
   }
 
-  white-space: nowrap;
-  left: 15px;
-  transition: top 125ms ease-in, font-size 125ms ease-in,
-    transform 125ms ease-in;
-  pointer-events: none;
   color: ${props => props.theme.color('neutral.600')};
+  white-space: nowrap;
+  transition: top ${props => props.theme.transitionProperties},
+    font-size ${props => props.theme.transitionProperties},
+    transform ${props => props.theme.transitionProperties};
+  pointer-events: none;
 
   ${props =>
     (!props.isEnhanced || props.hasValue) &&
@@ -88,7 +80,7 @@ export const TextInputInput = styled.input.attrs(props => ({
   type: props.type || 'text',
 }))<TextInputInputProps>`
   padding: ${props =>
-    props.big ? '27px 130px 8px 15px' : '27px 40px 8px 15px'};
+    props.big ? '17px 130px 17px 15px' : '17px 40px 17px 15px'};
   appearance: none;
   border: 0;
   height: 100%;
@@ -155,6 +147,7 @@ type Props = {
   big?: boolean;
   ariaLabel?: string;
   ariaDescribedBy?: string;
+  form?: string;
 };
 
 const Input: FunctionComponent<Props> = (
@@ -177,12 +170,10 @@ const Input: FunctionComponent<Props> = (
     big,
     ariaLabel,
     ariaDescribedBy,
+    form,
   }: Props,
   ref: RefObject<HTMLInputElement>
 ) => {
-  const { isEnhanced } = useContext(AppContext);
-  const [displayedPlaceholder, setDisplayedPlaceholder] = useState('');
-
   function onChange(event) {
     const isValueValid = event.currentTarget.validity.valid;
 
@@ -202,7 +193,6 @@ const Input: FunctionComponent<Props> = (
   function onBlur(event) {
     setIsValid && setIsValid(event.currentTarget.validity.valid);
     setShowValidity && setShowValidity(!!value && true);
-    setDisplayedPlaceholder('');
   }
 
   return (
@@ -212,9 +202,9 @@ const Input: FunctionComponent<Props> = (
         hasErrorBorder={!!(!isValid && showValidity)}
         big={!!big}
       >
-        <TextInputLabel isEnhanced={isEnhanced} hasValue={!!value} htmlFor={id}>
+        <label className="visually-hidden" htmlFor={id}>
           {label}
-        </TextInputLabel>
+        </label>
         <TextInputInput
           ref={ref}
           id={id}
@@ -226,18 +216,14 @@ const Input: FunctionComponent<Props> = (
           onBlur={onBlur}
           hasErrorBorder={!!(!isValid && showValidity)}
           type={type}
-          placeholder={displayedPlaceholder}
-          onFocus={() => {
-            if (placeholder) {
-              setDisplayedPlaceholder(placeholder);
-            }
-          }}
+          placeholder={placeholder || label}
           autoFocus={autoFocus}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedBy}
           aria-invalid={!!(!isValid && showValidity)}
           aria-errormessage={errorMessage && `${id}-errormessage`}
           big={!!big}
+          form={form}
         />
         {isValid && showValidity && (
           <TextInputCheckmark>

@@ -146,7 +146,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           )}
           <SearchButtonWrapper>
             <ButtonSolid
-              size="large"
+              size="medium"
               icon={search}
               text="search"
               isTextHidden={true}
@@ -178,10 +178,10 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
               const matchingPathname = matchingResources?.[0]?.on || '';
               return (
                 new URL(matchingPathname).pathname ===
-                new URL(canvas['@id']).pathname
+                new URL(canvas.id).pathname
               );
             });
-            const matchingCanvas = index && canvases[index];
+            const matchingCanvas = (index && canvases[index]) || undefined;
             return (
               <ListItem key={i}>
                 <SearchResult
@@ -202,8 +202,8 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                         canvases && canvases.length
                       }`
                     } ${
-                      matchingCanvas && matchingCanvas.label.trim() !== '-'
-                        ? ` (page ${matchingCanvas.label})`
+                      matchingCanvas?.label?.trim() !== '-'
+                        ? ` (page ${matchingCanvas?.label})`
                         : ''
                     }`}
                   </HitData>

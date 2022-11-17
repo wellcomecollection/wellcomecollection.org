@@ -16,24 +16,15 @@ import useScrollVelocity from '../../hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
 import IIIFViewerImage from './IIIFViewerImage';
-import {
-  getCanvasOcr,
-  missingAltTextMessage,
-} from '../../services/catalogue/works';
-import {
-  getServiceId,
-  getImageAuthService,
-  isImageRestricted,
-  getThumbnailService,
-} from '../../utils/iiif/v2';
+import { missingAltTextMessage } from '../../services/catalogue/works';
 import { font } from '@weco/common/utils/classnames';
-import {
-  IIIFCanvas,
-  SearchResults,
-  AuthService,
-} from '../../services/iiif/types/manifest/v2';
+import { SearchResults } from '../../services/iiif/types/manifest/v2';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
+import { TransformedCanvas } from '../../types/manifest';
+import { fetchCanvasOcr } from '../../services/iiif/fetch/canvasOcr';
+import { transformCanvasOcr } from '../../services/iiif/transformers/canvasOcr';
+import { AuthExternalService } from '@iiif/presentation-3';
 
 type SearchTermHighlightProps = {
   top: number;
@@ -90,20 +81,21 @@ type ItemRendererProps = {
     scrollVelocity: number;
     mainAreaRef: RefObject<HTMLDivElement>;
     setActiveIndex: (i: number) => void;
-    canvases: IIIFCanvas[];
+    canvases: TransformedCanvas[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rotatedImages: any[];
     setIsLoading: (value: boolean) => void;
     errorHandler?: () => void;
+    restrictedService: AuthExternalService | undefined;
   };
 };
 
 function getPositionData(
   imageContainerRect: ClientRect,
   imageRect: ClientRect,
-  currentCanvas: IIIFCanvas,
+  currentCanvas: TransformedCanvas,
   searchResults: SearchResults,
-  canvases: IIIFCanvas[]
+  canvases: TransformedCanvas[]
 ) {
   const imageContainerTop = imageContainerRect?.top || 0;
   const imageTop = imageRect?.top || 0;
@@ -111,7 +103,10 @@ function getPositionData(
   const imageLeft = imageRect?.left || 0;
   const overlayStartTop = imageTop - imageContainerTop;
   const overlayStartLeft = imageLeft - imageContainerLeft;
-  const scale = imageRect ? imageRect.width / currentCanvas.width : 1;
+  const scale =
+    imageRect && currentCanvas.width
+      ? imageRect.width / currentCanvas.width
+      : 1;
   const highlightsPositioningData =
     searchResults &&
     searchResults?.resources.map(resource => {
@@ -119,9 +114,7 @@ function getPositionData(
       // OR
       // on: https://iiif.wellcomecollection.org/presentation/b29338062/canvases/b29338062_0031.jp2#xywh=148,2277,259,59"
       const canvasNumber = canvases.findIndex(canvas => {
-        return (
-          new URL(resource.on).pathname === new URL(canvas['@id']).pathname
-        );
+        return new URL(resource.on).pathname === new URL(canvas.id).pathname;
       });
       const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
       const coords = coordsMatch && coordsMatch[2].split(',');
@@ -143,32 +136,28 @@ function getPositionData(
     });
   return highlightsPositioningData;
 }
-
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const { scrollVelocity, canvases, rotatedImages, setIsLoading, mainAreaRef } =
-    data;
+  const {
+    scrollVelocity,
+    canvases,
+    rotatedImages,
+    setIsLoading,
+    mainAreaRef,
+    restrictedService,
+  } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
   const currentCanvas = canvases[index];
-  const mainImageService = { '@id': getServiceId(currentCanvas) };
+  const mainImageService = { '@id': currentCanvas.imageServiceId };
   const urlTemplateMain = mainImageService['@id']
     ? iiifImageTemplate(mainImageService['@id'])
     : undefined;
-  const thumbnailService = getThumbnailService(currentCanvas);
-  const urlTemplateThumbnail =
-    thumbnailService && iiifImageTemplate(thumbnailService['@id']);
-  const smallestWidthImageDimensions =
-    thumbnailService &&
-    thumbnailService.sizes
-      .sort((a, b) => a.width - b.width)
-      .find(dimensions => dimensions.width > 100);
   const infoUrl =
     mainImageService['@id'] && convertIiifUriToInfoUri(mainImageService['@id']);
   const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);
   const rotation = matching ? matching.rotation : 0;
   const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
-  const imageAuthService = getImageAuthService(currentCanvas);
-  const isRestricted = isImageRestricted(currentCanvas);
+  const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults } = useContext(ItemViewerContext);
   const [imageRect, setImageRect] = useState<ClientRect | undefined>();
   const [imageContainerRect, setImageContainerRect] = useState<
@@ -194,8 +183,9 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 
   useEffect(() => {
     const fetchOcr = async () => {
-      const ocrText = await getCanvasOcr(canvases[index]);
-      setOcrText(ocrText || missingAltTextMessage);
+      const ocrText = await fetchCanvasOcr(canvases[index]);
+      const ocrString = transformCanvasOcr(ocrText);
+      setOcrText(ocrString || missingAltTextMessage);
     };
     fetchOcr();
   }, []);
@@ -232,33 +222,23 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         </div>
       ) : isRestricted ? (
         <MessageContainer>
-          <h2 className={font('intb', 4)}>
-            {imageAuthService && (imageAuthService as AuthService).label}
-          </h2>
+          <h2 className={font('intb', 4)}>{restrictedService?.label}</h2>
           <p
             className={font('intr', 5)}
             dangerouslySetInnerHTML={{
-              __html: imageAuthService
-                ? (imageAuthService as AuthService).description
-                : '',
+              __html: restrictedService?.description || '',
             }}
           />
         </MessageContainer>
       ) : (
         <>
           <LL lighten={true} />
-          {!mainLoaded && urlTemplateThumbnail && (
+          {!mainLoaded && currentCanvas.thumbnailImage && (
             <ThumbnailWrapper imageLoaded={thumbLoaded}>
               <IIIFViewerImage
-                width={currentCanvas.width}
-                height={currentCanvas.height}
-                src={urlTemplateThumbnail({
-                  size: `${
-                    smallestWidthImageDimensions
-                      ? smallestWidthImageDimensions.width
-                      : '!100'
-                  },`,
-                })}
+                width={currentCanvas.width || 0}
+                height={currentCanvas.height || 0}
+                src={currentCanvas.thumbnailImage.url}
                 srcSet=""
                 sizes=""
                 alt=""
@@ -288,8 +268,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                 <ImageViewer
                   id="item-page"
                   infoUrl={infoUrl}
-                  width={currentCanvas.width}
-                  height={currentCanvas.height}
+                  width={currentCanvas.width || 0}
+                  height={currentCanvas.height || 0}
                   alt={ocrText}
                   urlTemplate={urlTemplateMain}
                   rotation={rotation}
@@ -314,12 +294,15 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 ItemRenderer.displayName = 'ItemRenderer';
 
 export function scrollViewer(
-  currentCanvas: IIIFCanvas,
+  currentCanvas: TransformedCanvas | undefined,
   canvasIndex: number,
   viewer: FixedSizeList | null,
   mainAreaWidth: number
 ): void {
-  const isLandscape = currentCanvas.width > currentCanvas.height;
+  const isLandscape =
+    currentCanvas?.width && currentCanvas?.height
+      ? currentCanvas.width > currentCanvas.height
+      : false;
 
   // If an image is landscape, it will tend to appear too low in the viewport
   // on account of the FixedSizedList necessarily being comprised of square items.
@@ -329,7 +312,10 @@ export function scrollViewer(
   // 3. We scroll that distance, putting the top of the image at the top of the viewport
 
   if (isLandscape) {
-    const ratio = currentCanvas.height / currentCanvas.width;
+    const ratio =
+      currentCanvas?.height && currentCanvas?.width
+        ? currentCanvas.height / currentCanvas.width
+        : 1;
     const renderedHeight = mainAreaWidth * ratio * 0.8; // TODO: 0.8 = 80% max-width image in container. Variable.
     const heightOfPreviousItems = canvasIndex * (viewer?.props.itemSize || 0);
     const distanceToScroll =
@@ -373,7 +359,7 @@ const MainViewer: FunctionComponent<Props> = ({
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const { canvases } = transformedManifest;
+  const { canvases, restrictedService } = transformedManifest;
 
   function handleOnScroll({ scrollOffset }) {
     timer.current && clearTimeout(timer.current);
@@ -386,20 +372,18 @@ const MainViewer: FunctionComponent<Props> = ({
   }
 
   function handleOnItemsRendered() {
-    let currentCanvas;
+    let currentCanvas: TransformedCanvas | undefined;
     if (firstRenderRef.current) {
       setActiveIndex(canvasIndex);
-      currentCanvas = canvases && canvases[canvasIndex];
+      currentCanvas = canvases?.[canvasIndex];
       const viewer = mainViewerRef?.current;
 
       scrollViewer(currentCanvas, canvasIndex, viewer, mainAreaWidth);
       setFirstRender(false);
       const mainImageService = {
-        '@id': currentCanvas
-          ? currentCanvas.images[0].resource.service['@id']
-          : '',
+        '@id': currentCanvas ? currentCanvas.imageServiceId : '',
       };
-      const infoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
+      const infoUrl = convertIiifUriToInfoUri(mainImageService['@id'] || '');
       if (infoUrl) {
         setZoomInfoUrl(infoUrl);
       }
@@ -424,6 +408,7 @@ const MainViewer: FunctionComponent<Props> = ({
           setIsLoading,
           mainAreaRef,
           errorHandler,
+          restrictedService,
         }}
         itemSize={mainAreaWidth}
         onItemsRendered={debounceHandleOnItemsRendered.current}

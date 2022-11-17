@@ -1,15 +1,16 @@
-import { Manifest, Service } from '@iiif/presentation-3';
-import { getCanvases, groupStructures } from '../../utils/iiif/v2';
+import { Manifest, Range, Service } from '@iiif/presentation-3';
+import { groupStructures } from '../../utils/iiif/v2';
 import {
   getAudio,
   getIIIFMetadata,
   getIIIFPresentationCredit,
   getMediaClickthroughService,
   getVideo,
+  getTransformedCanvases,
   getMultiVolumeLabel,
 } from '../../utils/iiif/v3';
-import manifest from '@weco/common/__mocks__/iiif-manifest';
 import {
+  manifest,
   manifestWithAudioTitles,
   manifestWithTranscript,
   physicalDescriptionMetadataItem,
@@ -18,110 +19,152 @@ import {
   services,
 } from '@weco/common/__mocks__/iiif-manifest-v3';
 
-const canvases = getCanvases(manifest);
+const canvases = getTransformedCanvases(manifest as Manifest);
 const structures = [
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0001',
-    '@type': 'sc:Range',
-    label: 'First',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0001.jp2',
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0002.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0001',
+    type: 'Range',
+    label: {
+      en: ['First'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0001.jp2',
+      },
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0002.jp2',
+      },
     ],
   },
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0002',
-    '@type': 'sc:Range',
-    label: 'First',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0003.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0002',
+    type: 'Range',
+    label: {
+      en: ['First'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0003.jp2',
+      },
     ],
   },
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0003',
-    '@type': 'sc:Range',
-    label: 'First',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0006.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0003',
+    type: 'Range',
+    label: {
+      en: ['First'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0006.jp2',
+      },
     ],
   },
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0004',
-    '@type': 'sc:Range',
-    label: 'Second',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0007.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0004',
+    type: 'Range',
+    label: {
+      en: ['Second'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0007.jp2',
+      },
     ],
   },
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0005',
-    '@type': 'sc:Range',
-    label: 'Third',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0009.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0005',
+    type: 'Range',
+    label: {
+      en: ['Third'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0009.jp2',
+      },
     ],
   },
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0006',
-    '@type': 'sc:Range',
-    label: 'Third',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0010.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0006',
+    type: 'Range',
+    label: {
+      en: ['Third'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0010.jp2',
+      },
     ],
   },
 ];
 
 const correctResult = [
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0001',
-    '@type': 'sc:Range',
-    label: 'First',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0001.jp2',
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0002.jp2',
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0003.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0001',
+    type: 'Range',
+    label: {
+      en: ['First'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0001.jp2',
+      },
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0002.jp2',
+      },
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0003.jp2',
+      },
     ],
   },
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0003',
-    '@type': 'sc:Range',
-    label: 'First',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0006.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0003',
+    type: 'Range',
+    label: {
+      en: ['First'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0006.jp2',
+      },
     ],
   },
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0004',
-    '@type': 'sc:Range',
-    label: 'Second',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0007.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0004',
+    type: 'Range',
+    label: {
+      en: ['Second'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0007.jp2',
+      },
     ],
   },
   {
-    '@id':
-      'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0005',
-    '@type': 'sc:Range',
-    label: 'Third',
-    canvases: [
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0009.jp2',
-      'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0010.jp2',
+    id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0005',
+    type: 'Range',
+    label: {
+      en: ['Third'],
+    },
+    items: [
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0009.jp2',
+      },
+      {
+        id: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0010.jp2',
+      },
     ],
   },
 ];
 
 describe('Group repetitive iiif structures', () => {
   it('groups iiifStructures with consecutive canvases and the same label', () => {
-    const groupedStructures = groupStructures(canvases, structures);
+    const groupedStructures = groupStructures(
+      canvases,
+      structures as unknown as Range[]
+    );
+
     expect(groupedStructures).toEqual(correctResult);
   });
 });

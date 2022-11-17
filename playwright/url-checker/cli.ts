@@ -39,7 +39,7 @@ const action = async (options: Options): Promise<void> => {
     const table = resultTable({ urls, liveProgress: !!options.tty });
     table.init();
 
-    const maxCheckConcurrency = 10;
+    const maxCheckConcurrency = 5;
 
     const rateLimit = pLimit(maxCheckConcurrency);
     await Promise.all(

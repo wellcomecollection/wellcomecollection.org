@@ -1,8 +1,8 @@
 import { FunctionComponent, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import TextInputV2 from '@weco/common/views/components/TextInput/TextInputV2';
-import ButtonSolidV2 from '@weco/common/views/components/ButtonSolid/ButtonSolidV2';
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { themeValues } from '@weco/common/views/themes/config';
 
 import { useRouter } from 'next/router';
@@ -36,10 +36,9 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
   return (
     <Container>
       <SearchInputWrapper>
-        <TextInputV2
+        <TextInput
           id="search-searchbar"
           label={`Search ${type}`}
-          ariaLabel={`Search ${type}`}
           name="query"
           type="search"
           value={inputQuery}
@@ -47,7 +46,6 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
           ref={searchInput}
           form="searchPageForm"
           big={true}
-          placeholder="Search Wellcome"
         />
         {inputQuery && (
           <ClearSearch
@@ -63,11 +61,12 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
         )}
       </SearchInputWrapper>
       <SearchButtonWrapper>
-        <ButtonSolidV2
+        <ButtonSolid
           text="Search"
           size="large"
           form="searchPageForm"
           colors={themeValues.buttonColors.yellowYellowBlack}
+          isNewStyle
         />
       </SearchButtonWrapper>
     </Container>

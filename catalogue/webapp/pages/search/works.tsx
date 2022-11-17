@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react';
+import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
 import { getCookie } from 'cookies-next';
 import styled from 'styled-components';
@@ -23,6 +24,9 @@ import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/Wo
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import { font } from '@weco/common/utils/classnames';
+import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import { worksFilters } from '@weco/common/services/catalogue/filters';
+import { propsToQuery } from '@weco/common/utils/routes';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -68,11 +72,51 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     setLink(link);
   }, [worksRouteProps]);
 
+  const filters = worksFilters({ works, props: worksRouteProps });
+
+  const linkResolver = params => {
+    const queryWithSource = propsToQuery(params);
+    const { source = undefined, ...queryWithoutSource } = {
+      ...queryWithSource,
+    };
+
+    const as = {
+      pathname: '/search/works',
+      query: queryWithoutSource as ParsedUrlQuery,
+    };
+
+    const href = {
+      pathname: '/search/works',
+      query: queryWithSource,
+    };
+
+    return { href, as };
+  };
+
   return (
     <>
       <h1 className="visually-hidden">Works Search Page</h1>
 
-      {works.totalResults === 0 && query && (
+      <div className="container">
+        <SearchFilters
+          query={query}
+          linkResolver={linkResolver}
+          searchFormId="searchPageForm"
+          changeHandler={() => {
+            const form = document.getElementById('searchPageForm');
+            form &&
+              form.dispatchEvent(
+                new window.Event('submit', {
+                  cancelable: true,
+                  bubbles: true,
+                })
+              );
+          }}
+          filters={filters}
+        />
+      </div>
+
+      {works.results.length === 0 && (
         <SearchNoResults
           query={query}
           hasFilters={Boolean(productionDatesFrom || productionDatesTo)}

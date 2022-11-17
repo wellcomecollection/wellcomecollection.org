@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from 'querystring';
 import { useEffect, ReactElement, useContext } from 'react';
 import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
@@ -28,6 +29,10 @@ import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { font } from '@weco/common/utils/classnames';
+
+import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import { imagesFilters } from '@weco/common/services/catalogue/filters';
+import { propsToQuery } from '@weco/common/utils/routes';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -67,6 +72,29 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
     setLink(link);
   }, [imagesRouteProps]);
 
+  const filters = images
+    ? imagesFilters({ images, props: imagesRouteProps })
+    : [];
+
+  const linkResolver = params => {
+    const queryWithSource = propsToQuery(params);
+    const { source = undefined, ...queryWithoutSource } = {
+      ...queryWithSource,
+    };
+
+    const as = {
+      pathname: '/search/images',
+      query: queryWithoutSource as ParsedUrlQuery,
+    };
+
+    const href = {
+      pathname: '/search/images',
+      query: queryWithSource,
+    };
+
+    return { href, as };
+  };
+
   return (
     <>
       <Head>
@@ -91,16 +119,24 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       {/* TODO review if this needs updating */}
 
       <h1 className="visually-hidden">Images Search Page</h1>
-
-      {images?.results && images.totalResults > 0 && (
-        <div className="container">
-          <Space
-            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <h2 style={{ marginBottom: 0 }}>Filters</h2>
-          </Space>
-        </div>
-      )}
+      <div className="container">
+        <SearchFilters
+          query={query}
+          linkResolver={linkResolver}
+          searchFormId="searchPageForm"
+          changeHandler={() => {
+            const form = document.getElementById('searchPageForm');
+            form &&
+              form.dispatchEvent(
+                new window.Event('submit', {
+                  cancelable: true,
+                  bubbles: true,
+                })
+              );
+          }}
+          filters={filters}
+        />
+      </div>
 
       <Wrapper>
         {images?.results && images.totalResults > 0 && (

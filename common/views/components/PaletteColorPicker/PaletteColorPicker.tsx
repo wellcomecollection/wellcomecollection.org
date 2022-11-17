@@ -8,6 +8,7 @@ type Props = {
   name: string;
   color?: string;
   onChangeColor: (color?: string) => void;
+  form?: string;
 };
 
 type ColorSwatch = {
@@ -141,6 +142,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
   name,
   color,
   onChangeColor,
+  form,
 }) => {
   // Because the form is not controlled we need to maintain state internally
   const [colorState, setColorState] = useState(color);
@@ -160,7 +162,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      <input type="hidden" name={name} value={colorState || ''} />
+      <input form={form} type="hidden" name={name} value={colorState || ''} />
       <Swatches>
         {palette.map(swatch => (
           <Swatch
