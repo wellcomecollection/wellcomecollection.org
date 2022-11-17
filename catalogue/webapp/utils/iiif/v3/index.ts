@@ -423,3 +423,15 @@ export function getSearchService(
   );
   return searchService || undefined;
 }
+
+export function hasPdfDownload(manifest: Manifest): boolean {
+  // e.g. https://iiif.wellcomecollection.org/presentation/v3/b21466154_0001 We
+  // have to check `type === 'Text'` to narrow the type enough for TS to know
+  // that `format` will be a `string`
+  return (
+    Boolean(getPdf(manifest)) ||
+    !!manifest.rendering?.find(
+      r => r.type === 'Text' && r.format === 'application/pdf'
+    )
+  );
+}
