@@ -9,7 +9,7 @@ steps:
         uk.ac.wellcome/catalogue_webapp \
         uk.ac.wellcome/identity_webapp
 
-      CLUSTER="experience-frontend-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" ./builds/deploy_ecs_services.sh \
+      CLUSTER="experience-frontend-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" .buildkite/scripts/deploy_ecs_services.sh \
         "content-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
         "catalogue-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
         "identity-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
