@@ -10,8 +10,8 @@ steps:
         uk.ac.wellcome/identity_webapp
 
       CLUSTER="experience-frontend-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" .buildkite/scripts/deploy_ecs_services.sh \
-        "content-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
-        "catalogue-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
+        "content-17092020-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
+        "catalogue-17092020-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
         "identity-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
 
     plugins:
