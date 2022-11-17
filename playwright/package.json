@@ -3,6 +3,7 @@
   "license": "MIT",
   "scripts": {
     "test": "playwright test",
+    "test:desktop": "playwright test",
     "test:mobile": "NODE_ENV=test platform=mobile yarn test",
     "test:debug:mobile": "NODE_ENV=test debug=true platform=mobile yarn test",
     "test:debug": "NODE_ENV=test debug=true yarn test",
