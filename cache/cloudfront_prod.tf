@@ -27,8 +27,7 @@ module "prod_wc_org_cloudfront_distribution" {
   cache_policies    = module.cloudfront_policies.cache_policies
   request_policies  = module.cloudfront_policies.request_policies
   response_policies = module.cloudfront_policies.response_policies
-
-  waf_ip_allowlist = [local.ci_vpc_nat_elastic_ip]
+  waf_ip_allowlist  = local.waf_ip_allowlist
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {

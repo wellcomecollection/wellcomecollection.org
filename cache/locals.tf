@@ -12,4 +12,8 @@ locals {
 
   platform_account_infra = data.terraform_remote_state.platform_account.outputs
   ci_vpc_nat_elastic_ip  = local.platform_account_infra["ci_vpc_nat_elastic_ip"]
+
+  # We exclude requests from the CI VPC's NAT gateway from our managed firewall rules
+  # because AWS sometimes identifies them as bots, causing end-to-end tests to fail with 403s
+  waf_ip_allowlist = [local.ci_vpc_nat_elastic_ip]
 }
