@@ -15,6 +15,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -22,20 +23,20 @@ type Props = {
 
 const SearchForm = styled.form`
   position: relative;
+  display: flex;
 `;
 
 const SearchInputWrapper = styled.div`
   position: relative;
-  input {
-    padding-right: 70px;
-  }
+  flex: 1 1 auto;
 `;
 
 const SearchButtonWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 4px;
+  margin-left: 4px;
+
+  button {
+    height: 100%;
+  }
 `;
 
 const ResultsHeader = styled(Space).attrs({
@@ -131,6 +132,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
             setValue={setValue}
             required={true}
             ref={inputRef}
+            darkBg
           />
           {value !== '' && (
             <ClearSearch
@@ -141,18 +143,19 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                 label: 'item-search-within',
               }}
               setValue={setValue}
-              right={68}
+              right={10}
             />
           )}
-          <SearchButtonWrapper>
-            <ButtonSolid
-              size="medium"
-              icon={search}
-              text="search"
-              isTextHidden={true}
-            />
-          </SearchButtonWrapper>
         </SearchInputWrapper>
+        <SearchButtonWrapper>
+          <ButtonSolid
+            icon={search}
+            text="search"
+            isTextHidden={true}
+            colors={themeValues.buttonColors.yellowYellowBlack}
+            isNewStyle
+          />
+        </SearchButtonWrapper>
       </SearchForm>
       <div aria-live="polite">
         {isLoading && <Loading />}

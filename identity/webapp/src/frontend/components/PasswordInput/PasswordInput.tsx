@@ -30,11 +30,7 @@ export const PasswordInput: React.FunctionComponent<PasswordInputProps> =
 
     return (
       <>
-        <TextInputWrap
-          hasErrorBorder={meta.invalid}
-          value={field.value}
-          big={false}
-        >
+        <TextInputWrap hasErrorBorder={meta.invalid} value={field.value}>
           <TextInputLabel
             htmlFor={props.id}
             isEnhanced={true}
@@ -43,7 +39,6 @@ export const PasswordInput: React.FunctionComponent<PasswordInputProps> =
             {props.label}
           </TextInputLabel>
           <TextInputInput
-            big={false}
             hasErrorBorder={meta.invalid}
             id={props.id || props.name}
             type={isVisible ? 'text' : 'password'}

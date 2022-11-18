@@ -5,13 +5,15 @@ import { check } from '@weco/common/icons';
 
 type TextInputWrapProps = {
   value: string;
-  big: boolean;
   hasErrorBorder: boolean;
+  big?: boolean;
+  darkBg?: boolean;
 };
 export const TextInputWrap = styled.div<TextInputWrapProps>`
   display: flex;
   position: relative;
-  border: 2px solid ${props => props.theme.color('neutral.600')};
+  border: 2px solid
+    ${props => props.theme.color(props.darkBg ? 'white' : 'neutral.600')};
   font-size: ${props => (props.big ? '20px' : '16px')};
 
   &:focus-within {
@@ -74,13 +76,11 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
 
 type TextInputInputProps = {
   hasErrorBorder: boolean;
-  big: boolean;
 };
 export const TextInputInput = styled.input.attrs(props => ({
   type: props.type || 'text',
 }))<TextInputInputProps>`
-  padding: ${props =>
-    props.big ? '17px 130px 17px 15px' : '17px 40px 17px 15px'};
+  padding: 17px 35px 17px 15px;
   appearance: none;
   border: 0;
   height: 100%;
@@ -148,6 +148,7 @@ type Props = {
   ariaLabel?: string;
   ariaDescribedBy?: string;
   form?: string;
+  darkBg?: boolean;
 };
 
 const Input: FunctionComponent<Props> = (
@@ -167,10 +168,11 @@ const Input: FunctionComponent<Props> = (
     showValidity,
     setShowValidity,
     autoFocus,
-    big,
     ariaLabel,
     ariaDescribedBy,
     form,
+    big,
+    darkBg,
   }: Props,
   ref: RefObject<HTMLInputElement>
 ) => {
@@ -200,6 +202,7 @@ const Input: FunctionComponent<Props> = (
       <TextInputWrap
         value={value}
         hasErrorBorder={!!(!isValid && showValidity)}
+        darkBg={darkBg}
         big={!!big}
       >
         <label className="visually-hidden" htmlFor={id}>
@@ -222,7 +225,6 @@ const Input: FunctionComponent<Props> = (
           aria-describedby={ariaDescribedBy}
           aria-invalid={!!(!isValid && showValidity)}
           aria-errormessage={errorMessage && `${id}-errormessage`}
-          big={!!big}
           form={form}
         />
         {isValid && showValidity && (
