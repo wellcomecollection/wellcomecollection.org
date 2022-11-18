@@ -132,10 +132,11 @@ resource "aws_wafv2_regex_pattern_set" "restricted_urls" {
 
 resource "aws_wafv2_ip_set" "allowlist" {
   name        = "allowlist-${var.namespace}"
-  description = "IPs that we don't apply managed WAF rules to"
+  description = "IPs that we do not apply managed WAF rules to"
 
   scope              = "CLOUDFRONT"
   ip_address_version = "IPV4"
 
-  addresses = var.waf_ip_allowlist
+  # These need to be CIDR blocks rather than plain addresses
+  addresses = [for ip in var.waf_ip_allowlist : "${ip}/32"]
 }
