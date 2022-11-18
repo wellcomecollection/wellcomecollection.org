@@ -73,6 +73,7 @@ async function findCloudFrontHitsFromLog(bucket, key) {
         host: hit['x-host-header'],
         path: hit['cs-uri-stem'],
         ipAddress: hit['c-ip'],
+        date: new Date(`${hit['date']}T${hit['time']}Z`),
 
         // The CloudFront log records this as a string, but it's more convenient
         // downstream if we can treat it as a number.
@@ -103,6 +104,37 @@ function humanize(n) {
   }
 }
 
+/** Returns the earliest date from a list. */
+function minDate(dates) {
+  console.assert(dates.length > 0);
+  return dates.reduce((a, b) => (a < b ? a : b));
+}
+
+/** Returns the latest date from a list. */
+function maxDate(dates) {
+  console.assert(dates.length > 0);
+  return dates.reduce((a, b) => (a > b ? a : b));
+}
+
+/** Create a pre-filled link to Kibana logs for the front-end apps.
+ *
+ * This link is meant to filter out happy path traffic that isn't a 5xx error,
+ * e.g. 200 OK or 404 Not Found responses.
+ */
+function createKibanaLogLink(serverErrors) {
+  // Find the time of the earliest/latest error, then add a few minutes either
+  // side for safety.
+  const earliestError = minDate(serverErrors.map(e => e.date));
+  const latestError = maxDate(serverErrors.map(e => e.date));
+
+  const fromDate = new Date(
+    earliestError.setMinutes(earliestError.getMinutes() - 2)
+  );
+  const toDate = new Date(latestError.setMinutes(latestError.getMinutes() + 2));
+
+  return `https://logging.wellcomecollection.org/app/discover#/view/a73e29e0-675a-11ed-96c1-6b238c5d9965?_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3A'${fromDate.toISOString()}'%2Cto%3A'${toDate.toISOString()}'))`;
+}
+
 /** Send a message to Slack describing the errors.
  *
  * This includes a list of the erroring URLs.  Note that it's written
@@ -119,7 +151,7 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
 
   // This creates a Markdown-formatted message like:
   //
-  //    5 errors / 5K requests / <https://us-east-1…|CloudFront logs>
+  //    5 errors / 5K requests / [View app logs in Kibana] / [View CloudFront logs in S3]
   //    ```
   //    https://example.org/badness
   //    https://example.org/more-badness
@@ -130,7 +162,8 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
   //
   // e.g. https://wellcome.slack.com/archives/CQ720BG02/p1659031456721909
   //
-  const url = `https://us-east-1.console.aws.amazon.com/s3/object/${bucket}?region=us-east-1&prefix=${key}`;
+  const cloudfrontUrl = `https://us-east-1.console.aws.amazon.com/s3/object/${bucket}?region=us-east-1&prefix=${key}`;
+  const kibanaUrl = createKibanaLogLink(serverErrors);
 
   const errorCount = `${humanize(lines.length)} error${
     lines.length > 1 ? 's' : ''
@@ -140,7 +173,7 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
   }`;
 
   const message =
-    `${errorCount} / ${requestCount} / <${url}|CloudFront logs>\n` +
+    `${errorCount} / ${requestCount} / <${kibanaUrl}|View app logs in Kibana> / <${cloudfrontUrl}|View CloudFront logs in S3>\n` +
     '```\n' +
     lines.join('\n') +
     '\n```';
