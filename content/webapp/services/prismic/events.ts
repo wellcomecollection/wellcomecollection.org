@@ -14,11 +14,24 @@ import { Event, HasTimes } from '../../types/events';
 import { isNotUndefined } from '@weco/common/utils/array';
 
 function getNextDateInFuture(event: HasTimes): Date | undefined {
-  const futureTimes = event.times.filter(time =>
-    isFuture(time.range.startDateTime)
+  const futureTimes = event.times.filter(
+    time =>
+      isFuture(time.range.startDateTime) || isFuture(time.range.endDateTime)
   );
 
   if (futureTimes.length === 0) {
+    // Events which don't have any future times should have been filtered
+    // out by the time we call this function (e.g. the period predicates
+    // mean we shouldn't have fetched them from Prismic).
+    //
+    // If we do return an empty list here, it implies there's a mismatch
+    // between what different functions think of as a "future" event, so
+    // drop a warning so we know to investigate.
+    const eventId = (event as any).id;
+    console.warn(
+      `No future times – why did we call getNextDateInFuture(${eventId})?`
+    );
+
     return undefined;
   } else {
     return minDate(futureTimes.map(time => time.range.startDateTime));

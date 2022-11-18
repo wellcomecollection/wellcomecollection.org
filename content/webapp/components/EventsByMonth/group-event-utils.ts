@@ -47,7 +47,7 @@ export function getMonthsInDateRange({
   end: Date;
 }): YearMonth[] {
   console.assert(
-    start < end,
+    start <= end,
     `Asked to find months in date range start=${start}, end=${end}`
   );
 
@@ -128,7 +128,7 @@ export function groupEventsByMonth<T extends HasTimeRanges>(
       .map(ev => {
         // For each event, we ask:
         //
-        //    - does it have any start times in this month?
+        //    - does it have any start/end times in this month?
         //        => should it appear in the list of events for this month?
         //
         //    - what's the earliest time it starts in this month?
@@ -140,7 +140,10 @@ export function groupEventsByMonth<T extends HasTimeRanges>(
         const rangesInMonth = ev.times
           .map(t => t.range)
           .filter(
-            t => isInMonth(t.startDateTime, month) && isFuture(t.startDateTime)
+            t =>
+              (isInMonth(t.startDateTime, month) &&
+                isFuture(t.startDateTime)) ||
+              (isInMonth(t.endDateTime, month) && isFuture(t.endDateTime))
           );
 
         return rangesInMonth.length > 0
