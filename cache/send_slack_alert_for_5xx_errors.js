@@ -119,7 +119,7 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
 
   // This creates a Markdown-formatted message like:
   //
-  //    5 errors / 5K requests / <https://us-east-1…|logs in S3>
+  //    5 errors / 5K requests / <https://us-east-1…|CloudFront logs>
   //    ```
   //    https://example.org/badness
   //    https://example.org/more-badness
@@ -140,7 +140,7 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
   }`;
 
   const message =
-    `${errorCount} / ${requestCount} / <${url}|logs in S3>\n` +
+    `${errorCount} / ${requestCount} / <${url}|CloudFront logs>\n` +
     '```\n' +
     lines.join('\n') +
     '\n```';
