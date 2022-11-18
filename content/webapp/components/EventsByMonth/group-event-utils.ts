@@ -47,7 +47,7 @@ export function getMonthsInDateRange({
   end: Date;
 }): YearMonth[] {
   console.assert(
-    start < end,
+    start <= end,
     `Asked to find months in date range start=${start}, end=${end}`
   );
 
