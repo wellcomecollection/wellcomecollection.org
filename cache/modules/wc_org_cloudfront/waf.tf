@@ -32,6 +32,16 @@ resource "aws_wafv2_web_acl" "wc_org" {
         // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-ip-rep.html
         name        = "AWSManagedRulesAmazonIpReputationList"
         vendor_name = "AWS"
+
+        scope_down_statement {
+          not_statement {
+            statement {
+              ip_set_reference_statement {
+                arn = aws_wafv2_ip_set.allowlist.arn
+              }
+            }
+          }
+        }
       }
     }
 
@@ -101,45 +111,6 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
-  rule {
-    name     = "bot-control"
-    priority = 3
-
-    override_action {
-      # We are only counting Bot Control actions for now while we evaluate its impact
-      # https://docs.aws.amazon.com/waf/latest/developerguide/waf-bot-control-deploying.html
-      count {}
-    }
-
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesBotControlRuleSet"
-        vendor_name = "AWS"
-
-        scope_down_statement {
-          regex_pattern_set_reference_statement {
-            field_to_match {
-              uri_path {}
-            }
-
-            arn = aws_wafv2_regex_pattern_set.restricted_urls.arn
-
-            text_transformation {
-              priority = 1
-              type     = "URL_DECODE"
-            }
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "weco-cloudfront-acl-bot-control-${var.namespace}"
-    }
-  }
-
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
@@ -157,4 +128,15 @@ resource "aws_wafv2_regex_pattern_set" "restricted_urls" {
       regex_string = regular_expression.value
     }
   }
+}
+
+resource "aws_wafv2_ip_set" "allowlist" {
+  name        = "allowlist-${var.namespace}"
+  description = "IPs that we do not apply managed WAF rules to"
+
+  scope              = "CLOUDFRONT"
+  ip_address_version = "IPV4"
+
+  # These need to be CIDR blocks rather than plain addresses
+  addresses = [for ip in var.waf_ip_allowlist : "${ip}/32"]
 }

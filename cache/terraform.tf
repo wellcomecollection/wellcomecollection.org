@@ -71,6 +71,17 @@ data "terraform_remote_state" "monitoring" {
   }
 }
 
+data "terraform_remote_state" "platform_account" {
+  backend = "s3"
+
+  config = {
+    bucket   = "wellcomecollection-platform-infra"
+    key      = "terraform/platform-infrastructure/accounts/platform.tfstate"
+    region   = "eu-west-1"
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+  }
+}
+
 output "s3_edge_lambda_origin_version_id" {
   value = data.aws_s3_bucket_object.edge_lambda_origin.version_id
 }
