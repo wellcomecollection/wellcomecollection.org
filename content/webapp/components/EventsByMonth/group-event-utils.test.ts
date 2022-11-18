@@ -318,7 +318,7 @@ describe('groupEventsByMonth', () => {
     ]);
   });
 
-  it.only('includes festivals that are midway through their run', () => {
+  it('includes festivals that are midway through their run', () => {
     const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
     spyOnFuture.mockImplementation(
       (d: Date) => d > new Date('2022-11-18T12:00:00Z')
