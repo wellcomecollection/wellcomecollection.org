@@ -297,23 +297,29 @@ export const getServerSideProps: GetServerSideProps<
   if (query.sort || query.sortOrder) {
     const { sort, sortOrder } = query;
 
+    // Map to match Prismic's API's `sortBy` attributes
     const sortOrderVar = sortOrder
       ? Array.isArray(sortOrder)
-        ? sortOrder[0].toUpperCase()
-        : sortOrder.toUpperCase()
+        ? sortOrder[0]
+        : sortOrder
       : '';
+    const valueArray = sortOrderVar.split('.');
 
-    // Map to match Prismic's API
     switch (sort) {
       case 'production.dates':
-        sortBy = 'meta_firstPublicationDate_' + sortOrderVar;
+        sortBy =
+          'meta_firstPublicationDate_' +
+          valueArray[valueArray.length - 1].toUpperCase();
         break;
       case 'alphabetical':
+        sortBy = 'title_' + valueArray[valueArray.length - 1].toUpperCase();
+        break;
       default:
-        sortBy = 'title_' + sortOrderVar;
+        sortBy = 'title_ASC';
         break;
     }
   }
+
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
       query: { query: query.query as string, sort: sortBy },

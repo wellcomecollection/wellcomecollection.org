@@ -46,8 +46,8 @@ const Sort: FunctionComponent<Props> = ({
   const [isComponentMounted, setIsComponentMounted] = useState(false);
   useEffect(() => setIsComponentMounted(true), []);
 
-  const [sortOrder, setSortOrder] = useState(router.query.sortOrder || '');
-  const [sortType, setSortType] = useState<string | undefined>();
+  const [sortOrder, setSortOrder] = useState(router?.query?.sortOrder);
+  const [sortType, setSortType] = useState(router?.query?.sort);
 
   useEffect(() => {
     const queryParams = { ...router.query, sortOrder, sort: sortType };

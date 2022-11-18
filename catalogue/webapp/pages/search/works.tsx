@@ -87,7 +87,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
     const href = {
       pathname: '/search/works',
-      query: queryWithSource,
+      query: { ...queryWithoutSource, source },
     };
 
     return { href, as };
@@ -116,7 +116,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         />
       </div>
 
-      {works.results.length === 0 && (
+      {works.totalResults === 0 && (
         <SearchNoResults
           query={query}
           hasFilters={Boolean(productionDatesFrom || productionDatesTo)}

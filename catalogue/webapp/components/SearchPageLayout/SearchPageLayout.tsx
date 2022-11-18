@@ -108,7 +108,30 @@ const SearchLayout: FunctionComponent = ({ children }) => {
 
   const updateUrl = (form: HTMLFormElement) => {
     const urlQuery = formDataAsUrlQuery(form);
-    router.push({ pathname: router.pathname, query: urlQuery });
+
+    // TODO remove the default sort query?
+    // As we have to cheat on Prismic data for now we have to map out sortOrder here
+    const sortOrderVar = urlQuery?.sortOrder
+      ? Array.isArray(urlQuery.sortOrder)
+        ? urlQuery.sortOrder[0]
+        : urlQuery.sortOrder
+      : '';
+    const valueArray = sortOrderVar.split('.');
+    const sortOrder = valueArray[valueArray.length - 1];
+    const sort = valueArray.slice(0, valueArray.length - 1).join('.');
+
+    // Remove empty props
+    const query = { ...urlQuery, sortOrder, sort };
+    Object.keys(query).forEach(key => {
+      if (!query[key]) {
+        delete query[key];
+      }
+    });
+
+    router.push({
+      pathname: router.pathname,
+      query,
+    });
   };
 
   return (
