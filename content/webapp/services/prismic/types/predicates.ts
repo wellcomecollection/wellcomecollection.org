@@ -6,6 +6,7 @@ import {
   getNextWeekendDateRange,
   startOfDay,
   startOfWeek,
+  today,
 } from '@weco/common/utils/dates';
 import { Period } from '../../../types/periods';
 
@@ -15,12 +16,12 @@ export const getPeriodPredicates = ({
   startField,
   endField,
 }: Props): string[] => {
-  const today = new Date();
+  const now = today();
 
-  const startOfToday = startOfDay(today);
-  const endOfToday = endOfDay(today);
+  const startOfToday = startOfDay(now);
+  const endOfToday = endOfDay(now);
 
-  const weekendDateRange = getNextWeekendDateRange(today);
+  const weekendDateRange = getNextWeekendDateRange(now);
   const predicates =
     period === 'coming-up'
       ? [predicate.dateAfter(startField, endOfToday)]
@@ -40,12 +41,12 @@ export const getPeriodPredicates = ({
         ]
       : period === 'this-week'
       ? [
-          predicate.dateBefore(startField, endOfWeek(today)),
-          predicate.dateAfter(startField, startOfWeek(today)),
+          predicate.dateBefore(startField, endOfWeek(now)),
+          predicate.dateAfter(startField, startOfWeek(now)),
         ]
       : period === 'next-seven-days'
       ? [
-          predicate.dateBefore(startField, endOfDay(addDays(today, 6))),
+          predicate.dateBefore(startField, endOfDay(addDays(now, 6))),
           predicate.dateAfter(endField, startOfToday),
         ]
       : [];
