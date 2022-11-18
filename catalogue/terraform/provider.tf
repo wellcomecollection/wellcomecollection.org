@@ -8,11 +8,6 @@ provider "aws" {
   assume_role {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
   }
-
-  # Ignore deployment tags on services
-  ignore_tags {
-    keys = ["deployment:label"]
-  }
 }
 
 provider "aws" {
@@ -25,11 +20,6 @@ provider "aws" {
 
   assume_role {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
-  }
-
-  # Ignore deployment tags on services
-  ignore_tags {
-    keys = ["deployment:label"]
   }
 }
 

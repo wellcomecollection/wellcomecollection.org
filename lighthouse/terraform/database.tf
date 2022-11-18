@@ -7,7 +7,7 @@ resource "aws_rds_cluster" "lhci_db" {
   cluster_identifier = "lhci-cluster"
   engine             = "aurora-mysql"
   engine_mode        = "serverless"
-  engine_version     = "5.7.mysql_aurora.2.07.1"
+  engine_version     = "5.7.mysql_aurora.2.08.3"
   port               = local.mysql_port
 
   database_name   = local.db_name
