@@ -22,13 +22,24 @@ export const getPeriodPredicates = ({
   const endOfToday = endOfDay(now);
 
   const weekendDateRange = getNextWeekendDateRange(now);
+
+  // The 'current-and-coming-up' and 'past' predicates should split
+  // events into two segments -- every event/exhibition should match
+  // exactly one of these.
+  //
+  // We use today() as the comparison value so events get removed from
+  // the What's On page as soon as they're done -- otherwise we get
+  // events appearing with a "Past" label in the event list.
+  if (period === 'current-and-coming-up') {
+    return [predicate.dateAfter(endField, today())];
+  }
+  if (period === 'past') {
+    return [predicate.dateBefore(endField, today())];
+  }
+
   const predicates =
     period === 'coming-up'
       ? [predicate.dateAfter(startField, endOfToday)]
-      : period === 'current-and-coming-up'
-      ? [predicate.dateAfter(endField, startOfToday)]
-      : period === 'past'
-      ? [predicate.dateBefore(endField, startOfToday)]
       : period === 'today'
       ? [
           predicate.dateBefore(startField, endOfToday),
