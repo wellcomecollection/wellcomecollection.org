@@ -317,4 +317,25 @@ describe('groupEventsByMonth', () => {
       },
     ]);
   });
+
+  it.only('includes festivals that are midway through their run', () => {
+    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
+    spyOnFuture.mockImplementation(
+      (d: Date) => d > new Date('2022-11-18T12:00:00Z')
+    );
+
+    // The "What You See" event is a three-day festival from 17–19 Nov
+    // with a single entry in the 'times' block; on 18 Nov it's on
+    // its second day, so we should make sure we still show it.
+    const events = [evWhatYouSee];
+
+    const groupedEvents = groupEventsByMonth(events);
+
+    expect(groupedEvents).toStrictEqual([
+      {
+        month: { month: 'November', year: 2022 },
+        events: [evWhatYouSee],
+      },
+    ]);
+  });
 });
