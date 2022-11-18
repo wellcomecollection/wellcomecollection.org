@@ -32,6 +32,16 @@ resource "aws_wafv2_web_acl" "wc_org" {
         // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-ip-rep.html
         name        = "AWSManagedRulesAmazonIpReputationList"
         vendor_name = "AWS"
+
+        scope_down_statement {
+          not_statement {
+            statement {
+              ip_set_reference_statement {
+                arn = aws_wafv2_ip_set.allowlist.arn
+              }
+            }
+          }
+        }
       }
     }
 
@@ -157,4 +167,14 @@ resource "aws_wafv2_regex_pattern_set" "restricted_urls" {
       regex_string = regular_expression.value
     }
   }
+}
+
+resource "aws_wafv2_ip_set" "allowlist" {
+  name        = "allowlist-${var.namespace}"
+  description = "IPs that we don't apply managed WAF rules to"
+
+  scope              = "CLOUDFRONT"
+  ip_address_version = "IPV4"
+
+  addresses = var.waf_ip_allowlist
 }
