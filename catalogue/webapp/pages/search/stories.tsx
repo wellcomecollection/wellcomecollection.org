@@ -182,13 +182,13 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 options={[
                   { value: 'alphabetical.asc', text: 'A -> Z' },
                   { value: 'alphabetical.desc', text: 'Z -> A' },
-                  { value: 'production.dates.asc', text: 'First published' },
-                  { value: 'production.dates.desc', text: 'Last published' },
+                  { value: 'publication.dates.desc', text: 'Newest to oldest' },
+                  { value: 'publication.dates.asc', text: 'Oldest to newest' },
                 ]}
                 jsLessOptions={{
                   sort: [
                     { value: 'alphabetical', text: 'Alphabetical' },
-                    { value: 'production.dates', text: 'Publication dates' },
+                    { value: 'publication.dates', text: 'Publication dates' },
                   ],
                   sortOrder: [
                     { value: 'asc', text: 'Ascending' },
@@ -287,42 +287,15 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   // Stop here if no query has been entered
-  if (!query.query)
+  if (!query.query) {
     return {
       props: defaultProps,
     };
-
-  // Fetch stories
-  let sortBy = '';
-  if (query.sort || query.sortOrder) {
-    const { sort, sortOrder } = query;
-
-    // Map to match Prismic's API's `sortBy` attributes
-    const sortOrderVar = sortOrder
-      ? Array.isArray(sortOrder)
-        ? sortOrder[0]
-        : sortOrder
-      : '';
-    const valueArray = sortOrderVar.split('.');
-
-    switch (sort) {
-      case 'production.dates':
-        sortBy =
-          'meta_firstPublicationDate_' +
-          valueArray[valueArray.length - 1].toUpperCase();
-        break;
-      case 'alphabetical':
-        sortBy = 'title_' + valueArray[valueArray.length - 1].toUpperCase();
-        break;
-      default:
-        sortBy = 'title_ASC';
-        break;
-    }
   }
 
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
-      query: { query: query.query as string, sort: sortBy },
+      query,
       pageSize: 6,
     });
 

@@ -22,7 +22,7 @@ export async function getEvents({
       type: 'ResultList',
       totalResults: allEventss.totalCount,
       totalPages: Math.ceil(allEventss.totalCount / pageSize),
-      results: events as Event[],
+      results: events,
       pageSize: pageSize,
       prevPage: null,
       nextPage: null,

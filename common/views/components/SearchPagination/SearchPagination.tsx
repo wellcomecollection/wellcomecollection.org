@@ -13,12 +13,13 @@ const Container = styled.nav.attrs({ className: font('intr', 6) })<{
   display: flex;
   align-items: center;
 
+  // We're removing the top pagination on mobile to avoid the controls getting too crowded.
   ${props =>
     props.theme.media(
       'medium',
       'max-width'
     )(`
-    ${props.isHiddenMobile && 'display: none;'};
+    ${props.isHiddenMobile && 'display: none;'}; 
   `)}
 `;
 

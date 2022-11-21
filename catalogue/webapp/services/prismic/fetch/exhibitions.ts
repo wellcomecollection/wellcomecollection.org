@@ -24,7 +24,7 @@ export async function getExhibitions({
       type: 'ResultList',
       totalResults: allExhibitionss.totalCount,
       totalPages: Math.ceil(allExhibitionss.totalCount / pageSize),
-      results: exhibitions as Exhibition[],
+      results: exhibitions,
       pageSize: pageSize,
       prevPage: null,
       nextPage: null,

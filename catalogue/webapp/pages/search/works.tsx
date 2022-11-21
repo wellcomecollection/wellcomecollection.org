@@ -76,6 +76,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
   const linkResolver = params => {
     const queryWithSource = propsToQuery(params);
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     const { source = undefined, ...queryWithoutSource } = {
       ...queryWithSource,
     };
@@ -87,7 +88,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
     const href = {
       pathname: '/search/works',
-      query: { ...queryWithoutSource, source },
+      query: queryWithSource,
     };
 
     return { href, as };

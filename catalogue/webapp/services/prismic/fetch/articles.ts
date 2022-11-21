@@ -23,7 +23,7 @@ export async function getStories({
       type: 'ResultList',
       totalResults: allArticless.totalCount,
       totalPages: Math.ceil(allArticless.totalCount / pageSize),
-      results: stories as Story[],
+      results: stories,
       pageSize: pageSize,
       prevPage: null,
       nextPage: null,
