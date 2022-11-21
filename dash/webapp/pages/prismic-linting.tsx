@@ -2,6 +2,7 @@ import React, { useState, useEffect, FunctionComponent } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import Header from '../components/Header';
+import { getHumanFriendlyDateString } from '../utils/formatting';
 
 const fontFamily = 'Gadget, sans-serif';
 const Issue = styled.div<{ type: string }>`
@@ -87,7 +88,7 @@ const Index: FunctionComponent = () => {
               <p>
                 report created from {resultsList.ref}
                 <br />
-                created at {resultsList.createdDate}
+                created {getHumanFriendlyDateString(resultsList.createdDate)}
               </p>
             </main>
           </div>
