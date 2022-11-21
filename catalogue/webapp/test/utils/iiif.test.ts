@@ -1,10 +1,10 @@
-import { Manifest, Range, Service } from '@iiif/presentation-3';
+import { Manifest, Range } from '@iiif/presentation-3';
 import { groupStructures } from '../../utils/iiif/v2';
 import {
   getAudio,
   getIIIFMetadata,
   getIIIFPresentationCredit,
-  getMediaClickthroughService,
+  getClickThroughService,
   getVideo,
   getTransformedCanvases,
   getMultiVolumeLabel,
@@ -13,10 +13,10 @@ import {
   manifest,
   manifestWithAudioTitles,
   manifestWithTranscript,
+  manifestWithClickThroughService,
   physicalDescriptionMetadataItem,
   manifestWithVideo,
-  authService,
-  services,
+  clickThroughService,
 } from '@weco/common/__mocks__/iiif-manifest-v3';
 
 const canvases = getTransformedCanvases(manifest as Manifest);
@@ -195,13 +195,13 @@ describe('getVideo', () => {
   });
 });
 
-describe('getMediaClickthroughService', () => {
-  it('returns an AuthService type from an array of Services', () => {
-    const authServiceFromManifest = getMediaClickthroughService(
-      services as Service[]
+describe('getClickThroughService', () => {
+  it('returns an clickThroughService from a Manifest', () => {
+    const clickThroughServiceFromManifest = getClickThroughService(
+      manifestWithClickThroughService as Manifest
     );
 
-    expect(authServiceFromManifest).toEqual(authService);
+    expect(clickThroughServiceFromManifest).toEqual(clickThroughService);
   });
 });
 
