@@ -534,30 +534,20 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           </SpacingComponent>
           <SpacingComponent>
             <CssGridContainer>
-              <div className="css-grid">
-                <div
-                  className={
-                    'css-grid__scroll-container container--scroll touch-scroll' +
-                    ' ' +
-                    cssGrid({ s: 12, m: 12, l: 12, xl: 12 })
-                  }
-                >
-                  <div className="css-grid grid--scroll card-theme card-theme--transparent">
-                    {tryTheseTooPromos.concat(eatShopPromos).map(promo => (
-                      <div
-                        key={promo.id}
-                        className={cssGrid({
-                          s: 12,
-                          m: 6,
-                          l: 4,
-                          xl: 4,
-                        })}
-                      >
-                        <FacilityPromo {...promo} />
-                      </div>
-                    ))}
+              <div className="css-grid card-theme card-theme--transparent">
+                {tryTheseTooPromos.concat(eatShopPromos).map(promo => (
+                  <div
+                    key={promo.id}
+                    className={cssGrid({
+                      s: 12,
+                      m: 6,
+                      l: 4,
+                      xl: 4,
+                    })}
+                  >
+                    <FacilityPromo {...promo} />
                   </div>
-                </div>
+                ))}
               </div>
             </CssGridContainer>
           </SpacingComponent>
