@@ -1,8 +1,8 @@
+import { FunctionComponent, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Select from '@weco/common/views/components/Select/Select';
-import { FunctionComponent, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { propsToQuery } from '@weco/common/utils/routes';
 
 const Wrapper = styled(Space).attrs({
@@ -14,9 +14,9 @@ const Wrapper = styled(Space).attrs({
 `;
 
 type Props = {
+  formId: string;
   options: Option[];
   jsLessOptions: JsLessOptions;
-  formId: string;
   defaultValues?: DefaultValuesType;
 };
 
@@ -35,10 +35,24 @@ type DefaultValuesType = {
   sortOrder: string | undefined;
 };
 
+export const getUrlQueryFromSortValue = (sortOptionValue: string): DefaultValuesType=>{
+  // The options values are structured like "publication.dates.asc" or "alphabetical.desc"
+  // Here we take the last part and split it so we can update the URL query accordingly 
+  const valueArray = sortOptionValue.split('.');
+
+  // e.g. "asc" OR "desc"
+  const sortOrder = valueArray[valueArray.length - 1];
+  
+  // e.g. "publication.dates" OR "alphabetical" 
+  const sort = valueArray.slice(0, valueArray.length - 1).join('.');
+
+  return { sort, sortOrder };
+};
+
 const Sort: FunctionComponent<Props> = ({
+  formId,
   options,
   jsLessOptions,
-  formId,
   defaultValues,
 }) => {
   const router = useRouter();
@@ -101,9 +115,9 @@ const Sort: FunctionComponent<Props> = ({
           name="sortOrder"
           label="sort results by:"
           onChange={e => {
-            const valueArray = e.currentTarget.value.split('.');
-            setSortOrder(valueArray[valueArray.length - 1]);
-            setSortType(valueArray.slice(0, valueArray.length - 1).join('.'));
+            const { sort, sortOrder } = getUrlQueryFromSortValue(e.currentTarget.value);
+            setSortOrder(sortOrder);
+            setSortType(sort);
           }}
           options={options}
           isPill

@@ -4,6 +4,7 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { PrismicApiError } from '../types';
 import { unCamelCase, capitalize } from '@weco/common/utils/grammar';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+import { Query } from '@weco/catalogue/services/prismic/types';
 
 export const typesToPrismicGraphQLSchemaTypes = {
   // types to graphql query schema types,
@@ -24,9 +25,26 @@ export const articleIdToLabel = (id: string): string => {
   return formattedLabel === 'Essay' ? 'Article' : formattedLabel;
 };
 
-type Query = {
-  query?: string;
+const getPrismicSortValue = ({
+  sort,
+  sortOrder,
+}: {
   sort?: string;
+  sortOrder?: string;
+}) => {
+  // Map to match Prismic's API's `sortBy` attributes
+  if (sortOrder && sort) {
+    switch (sort) {
+      case 'publication.dates':
+        return 'meta_firstPublicationDate_' + sortOrder.toUpperCase();
+      case 'alphabetical':
+        return 'title_' + sortOrder.toUpperCase();
+      default:
+        // TODO change to adapt to events/exhibitions/etc;
+        return 'title_ASC';
+    }
+  }
+  return 'title_ASC';
 };
 
 export const prismicGraphQLQuery = (
@@ -34,15 +52,14 @@ export const prismicGraphQLQuery = (
   query: Query,
   pageSize?: number
 ): string => {
-  const { query: queryString, sort } = query;
+  const { query: queryString, sort, sortOrder } = query;
+  const sortBy = getPrismicSortValue({ sort, sortOrder });
 
   return gql`
     query {
       ${
         typesToPrismicGraphQLSchemaTypes[type]
-      }(fulltext: "${queryString}" sortBy: ${
-    sort || 'title_ASC'
-  } first: ${pageSize} ) {
+      }(fulltext: "${queryString}" sortBy: ${sortBy} first: ${pageSize} ) {
       totalCount
       pageInfo {
         hasNextPage

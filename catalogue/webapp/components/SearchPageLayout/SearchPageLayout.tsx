@@ -11,6 +11,8 @@ import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { trackEvent } from '@weco/common/utils/ga';
+import { removeEmptyProps } from '@weco/common/utils/json';
+import { getUrlQueryFromSortValue } from 'components/Sort/Sort';
 
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`
@@ -107,31 +109,27 @@ const SearchLayout: FunctionComponent = ({ children }) => {
   }, [currentSearchCategory]);
 
   const updateUrl = (form: HTMLFormElement) => {
-    const urlQuery = formDataAsUrlQuery(form);
+    const formValues = formDataAsUrlQuery(form);
 
-    // TODO remove the default sort query?
-    // As we have to cheat on Prismic data for now we have to map out sortOrder here
-    const sortOrderVar = urlQuery?.sortOrder
-      ? Array.isArray(urlQuery.sortOrder)
-        ? urlQuery.sortOrder[0]
-        : urlQuery.sortOrder
-      : '';
-    const valueArray = sortOrderVar.split('.');
-    const sortOrder = valueArray[valueArray.length - 1];
-    const sort = valueArray.slice(0, valueArray.length - 1).join('.');
+    if (formValues.query) {
+      const sortOptionValue = formValues?.sortOrder
+        ? Array.isArray(formValues.sortOrder)
+          ? formValues.sortOrder[0]
+          : formValues.sortOrder
+        : '';
 
-    // Remove empty props
-    const query = { ...urlQuery, sortOrder, sort };
-    Object.keys(query).forEach(key => {
-      if (!query[key]) {
-        delete query[key];
-      }
-    });
+      const { sort, sortOrder } = getUrlQueryFromSortValue(sortOptionValue);
 
-    router.push({
-      pathname: router.pathname,
-      query,
-    });
+      router.push({
+        pathname: router.pathname,
+        query: removeEmptyProps({ ...formValues, sortOrder, sort }),
+      });
+    } else {
+      router.push({
+        pathname: router.pathname,
+        query: {},
+      });
+    }
   };
 
   return (
