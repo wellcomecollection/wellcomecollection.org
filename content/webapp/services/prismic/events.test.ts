@@ -2,6 +2,7 @@ import {
   orderEventsByNextAvailableDate,
   upcomingDatesFullyBooked,
 } from './events';
+import * as dateUtils from '@weco/common/utils/dates';
 
 describe('orderEventsByNextAvailableDate', () => {
   it('returns events in the right order', () => {
@@ -33,6 +34,28 @@ describe('orderEventsByNextAvailableDate', () => {
 
     const result = orderEventsByNextAvailableDate([aprilEvent, marchEvent]);
     expect(result).toEqual([marchEvent, aprilEvent]);
+  });
+
+  it('includes multi-day festivals that are midway through their run', () => {
+    const evWhatYouSee = {
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2022-11-17T18:30:00.000Z'),
+            endDateTime: new Date('2022-11-19T15:00:00.000Z'),
+          },
+        },
+      ],
+      title: 'What You See / Don’t See When…',
+    };
+
+    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
+    spyOnFuture.mockImplementation(
+      (d: Date) => d > new Date('2022-11-18T12:00:00Z')
+    );
+
+    const result = orderEventsByNextAvailableDate([evWhatYouSee]);
+    expect(result).toEqual([evWhatYouSee]);
   });
 });
 

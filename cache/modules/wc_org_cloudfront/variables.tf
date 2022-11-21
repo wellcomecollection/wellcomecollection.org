@@ -42,3 +42,8 @@ variable "response_policies" {
   # name -> id
   type = map(string)
 }
+
+variable "waf_ip_allowlist" {
+  type    = set(string)
+  default = []
+}

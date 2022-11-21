@@ -77,7 +77,7 @@ module "task_definition" {
 }
 
 module "service" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/service?ref=v3.12.2"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/service?ref=v3.13.0"
 
   cluster_arn  = var.cluster_arn
   service_name = var.namespace
@@ -98,7 +98,4 @@ module "service" {
   container_port = module.nginx_container.container_port
 
   propagate_tags = "SERVICE"
-
-  deployment_service = var.deployment_service_name
-  deployment_env     = var.deployment_service_env
 }

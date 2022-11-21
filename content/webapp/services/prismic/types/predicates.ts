@@ -6,6 +6,7 @@ import {
   getNextWeekendDateRange,
   startOfDay,
   startOfWeek,
+  today,
 } from '@weco/common/utils/dates';
 import { Period } from '../../../types/periods';
 
@@ -15,19 +16,30 @@ export const getPeriodPredicates = ({
   startField,
   endField,
 }: Props): string[] => {
-  const today = new Date();
+  const now = today();
 
-  const startOfToday = startOfDay(today);
-  const endOfToday = endOfDay(today);
+  const startOfToday = startOfDay(now);
+  const endOfToday = endOfDay(now);
 
-  const weekendDateRange = getNextWeekendDateRange(today);
+  const weekendDateRange = getNextWeekendDateRange(now);
+
+  // The 'current-and-coming-up' and 'past' predicates should split
+  // events into two segments -- every event/exhibition should match
+  // exactly one of these.
+  //
+  // We use today() as the comparison value so events get removed from
+  // the What's On page as soon as they're done -- otherwise we get
+  // events appearing with a "Past" label in the event list.
+  if (period === 'current-and-coming-up') {
+    return [predicate.dateAfter(endField, today())];
+  }
+  if (period === 'past') {
+    return [predicate.dateBefore(endField, today())];
+  }
+
   const predicates =
     period === 'coming-up'
       ? [predicate.dateAfter(startField, endOfToday)]
-      : period === 'current-and-coming-up'
-      ? [predicate.dateAfter(endField, startOfToday)]
-      : period === 'past'
-      ? [predicate.dateBefore(endField, startOfToday)]
       : period === 'today'
       ? [
           predicate.dateBefore(startField, endOfToday),
@@ -40,12 +52,12 @@ export const getPeriodPredicates = ({
         ]
       : period === 'this-week'
       ? [
-          predicate.dateBefore(startField, endOfWeek(today)),
-          predicate.dateAfter(startField, startOfWeek(today)),
+          predicate.dateBefore(startField, endOfWeek(now)),
+          predicate.dateAfter(startField, startOfWeek(now)),
         ]
       : period === 'next-seven-days'
       ? [
-          predicate.dateBefore(startField, endOfDay(addDays(today, 6))),
+          predicate.dateBefore(startField, endOfDay(addDays(now, 6))),
           predicate.dateAfter(endField, startOfToday),
         ]
       : [];
