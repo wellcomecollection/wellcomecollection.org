@@ -65,9 +65,16 @@ type EventCardProps = {
   title: string;
   type: string[];
   url: string;
+  firstPublicationDate: string;
 };
 
-const EventCard = ({ title, image, type, url }: EventCardProps) => {
+const EventCard = ({
+  title,
+  image,
+  type,
+  url,
+  firstPublicationDate,
+}: EventCardProps) => {
   return (
     <a style={{ textDecoration: 'none' }} href={url}>
       <EventCardWrapper>
@@ -82,7 +89,14 @@ const EventCard = ({ title, image, type, url }: EventCardProps) => {
           </EventCardTypesBadgeWrapper>
           <EventCardTitle>{title}</EventCardTitle>
           <div>location</div>
-          <div>date and time</div>
+          <div>
+            {new Intl.DateTimeFormat('en-GB', {
+              dateStyle: 'full',
+              timeStyle: 'long',
+            })
+              .format(new Date(firstPublicationDate))
+              .replace('at', '\r\n')}
+          </div>
           <div>a11y info</div>
         </EventCardMetaWrapper>
       </EventCardWrapper>
