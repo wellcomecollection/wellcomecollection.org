@@ -117,6 +117,9 @@ const IndexPage: FunctionComponent = () => {
                 Digital Engagement Indicators
               </a>
             </li>
+            <li>
+              <a href="/prismic-linting">Prismic linting report</a>
+            </li>
           </ul>
         </div>
       </div>
