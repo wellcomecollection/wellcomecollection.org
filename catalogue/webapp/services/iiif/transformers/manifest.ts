@@ -2,8 +2,6 @@ import { IIIFManifests } from '../fetch/manifest';
 import { TransformedManifest, DownloadOption } from '../../../types/manifest';
 // TODO move each of these util functions from v2 to v3
 import {
-  getUiExtensions,
-  isUiEnabled,
   getAuthService,
   getTokenService,
   checkModalRequired,
@@ -22,15 +20,14 @@ import {
   getIIIFPresentationCredit,
   getSearchService,
   getVideo,
+  hasPdfDownload,
 } from '../../../utils/iiif/v3';
 
 export function transformManifest(
   iiifManifests: IIIFManifests
 ): TransformedManifest {
   const { manifestV2, manifestV3 } = { ...iiifManifests };
-  const downloadEnabled = manifestV2
-    ? isUiEnabled(getUiExtensions(manifestV2), 'mediaDownload')
-    : true;
+
   const authService = getAuthService(manifestV2);
   const tokenService = authService && getTokenService(authService);
   const manifests = manifestV2?.manifests || [];
@@ -63,11 +60,11 @@ export function transformManifest(
   const searchService = getSearchService(manifestV3);
   const structures = manifestV3?.structures || [];
   const isCollectionManifest = Boolean(manifestV3?.type === 'Collection');
+  const downloadEnabled = manifestV3 ? hasPdfDownload(manifestV3) : false;
 
   // TODO As we move over, further transform the props to exactly what we need
   return {
     // Taken from V2 manifest:
-    downloadEnabled,
     authService,
     tokenService,
     isTotallyRestricted,
@@ -94,5 +91,6 @@ export function transformManifest(
     searchService,
     structures,
     isCollectionManifest,
+    downloadEnabled,
   };
 }

@@ -36,9 +36,6 @@ module "identity-service-18012021" {
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
-
-  deployment_service_name = "identity_webapp"
-  deployment_service_env  = var.env_suffix
 }
 
 locals {

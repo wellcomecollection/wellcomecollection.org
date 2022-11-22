@@ -128,38 +128,6 @@ export function checkIsTotallyRestricted(
   return authService?.['@id'] === restrictedAuthServiceUrl && !isAnyImageOpen;
 }
 
-export function getUiExtensions(
-  iiifManifest: IIIFManifest
-): Service | undefined {
-  if (iiifManifest.service) {
-    if (
-      !Array.isArray(iiifManifest.service) &&
-      iiifManifest.service.profile ===
-        'http://universalviewer.io/ui-extensions-profile'
-    ) {
-      return iiifManifest.service;
-    } else if (Array.isArray(iiifManifest.service)) {
-      return iiifManifest.service.find(
-        service =>
-          service.profile === 'http://universalviewer.io/ui-extensions-profile'
-      );
-    }
-  }
-}
-
-export function isUiEnabled(
-  uiExtensions: Service | undefined,
-  uiName: string
-): boolean {
-  const disableUI = uiExtensions && uiExtensions.disableUI;
-  if (disableUI) {
-    return !(
-      disableUI.includes(uiName) || disableUI.includes(uiName.toLowerCase())
-    );
-  }
-  return true;
-}
-
 export function getIIIFMetadata(
   iiifManifest: IIIFManifest,
   label: string
