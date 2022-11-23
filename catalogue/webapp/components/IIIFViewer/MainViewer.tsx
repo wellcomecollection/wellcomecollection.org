@@ -18,7 +18,7 @@ import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
 import IIIFViewerImage from './IIIFViewerImage';
 import { missingAltTextMessage } from '../../services/catalogue/works';
 import { font } from '@weco/common/utils/classnames';
-import { SearchResults } from '../../services/iiif/types/manifest/v2';
+import { SearchResults } from '../../services/iiif/types/iiif_search/v3';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 import { TransformedCanvas } from '../../types/manifest';

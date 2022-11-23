@@ -1,11 +1,10 @@
-import { getIIIFManifest } from '../../../utils/iiif/v2';
 import { Manifest } from '@iiif/presentation-3';
-import { IIIFManifest } from '../types/manifest/v2';
+import { fetchJson } from '@weco/common/utils/http';
 
-export type IIIFManifests = {
-  manifestV2: IIIFManifest | undefined;
-  manifestV3: Manifest | undefined;
-};
+async function getIIIFManifest(url: string): Promise<Manifest> {
+  const manifest = await fetchJson(url);
+  return manifest;
+}
 
 export async function fetchIIIFPresentationManifest(
   location: string

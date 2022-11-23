@@ -15,7 +15,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
-import { SearchResults } from '../../services/iiif/types/manifest/v2';
+import { SearchResults } from '../../services/iiif/types/iiif_search/v3';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { scrollViewer } from './MainViewer';
