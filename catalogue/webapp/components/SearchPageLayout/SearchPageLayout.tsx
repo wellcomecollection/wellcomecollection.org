@@ -12,7 +12,7 @@ import SubNavigation from '@weco/common/views/components/SubNavigation/SubNaviga
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { trackEvent } from '@weco/common/utils/ga';
 import { removeEmptyProps } from '@weco/common/utils/json';
-import { getUrlQueryFromSortValue } from 'components/Sort/Sort';
+import { getUrlQueryFromSortValue } from '@weco/catalogue/utils/search';
 
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`

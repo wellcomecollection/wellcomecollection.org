@@ -1,9 +1,11 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+
 import Space from '@weco/common/views/components/styled/Space';
 import Select from '@weco/common/views/components/Select/Select';
 import { propsToQuery } from '@weco/common/utils/routes';
+import { DefaultSortValuesType, getUrlQueryFromSortValue } from '@weco/catalogue/utils/search';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },
@@ -17,7 +19,7 @@ type Props = {
   formId: string;
   options: Option[];
   jsLessOptions: JsLessOptions;
-  defaultValues?: DefaultValuesType;
+  defaultValues?: DefaultSortValuesType;
 };
 
 type JsLessOptions = {
@@ -30,24 +32,6 @@ type Option = {
   text: string;
 };
 
-type DefaultValuesType = {
-  sort: string | undefined;
-  sortOrder: string | undefined;
-};
-
-export const getUrlQueryFromSortValue = (sortOptionValue: string): DefaultValuesType=>{
-  // The options values are structured like "publication.dates.asc" or "alphabetical.desc"
-  // Here we take the last part and split it so we can update the URL query accordingly 
-  const valueArray = sortOptionValue.split('.');
-
-  // e.g. "asc" OR "desc"
-  const sortOrder = valueArray[valueArray.length - 1];
-  
-  // e.g. "publication.dates" OR "alphabetical" 
-  const sort = valueArray.slice(0, valueArray.length - 1).join('.');
-
-  return { sort, sortOrder };
-};
 
 const Sort: FunctionComponent<Props> = ({
   formId,
@@ -72,6 +56,8 @@ const Sort: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
+      {/* If the user has JavaScript disabled, we only get the values from the form fields. 
+      We need two query parameters for sorting, so we have two select inputs. */}
       <noscript>
         <fieldset>
           <legend className="visually-hidden">Search result sorting</legend>
@@ -108,6 +94,7 @@ const Sort: FunctionComponent<Props> = ({
         </fieldset>
       </noscript>
 
+      {/* If the user has JavaScript enabled, we can use a sole select input and deal with the logic with JS */}
       {isComponentMounted && (
         <Select
           value={sortType + '.' + sortOrder || ''}

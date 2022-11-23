@@ -1,10 +1,12 @@
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { gql, GraphQLClient } from 'graphql-request';
+
 import { PrismicApiError } from '../types';
 import { unCamelCase, capitalize } from '@weco/common/utils/grammar';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { Query } from '@weco/catalogue/services/prismic/types';
+import { getPrismicSortValue } from '@weco/catalogue/utils/search';
 
 export const typesToPrismicGraphQLSchemaTypes = {
   // types to graphql query schema types,
@@ -23,28 +25,6 @@ export const articleIdToLabel = (id: string): string => {
   // TODO: Essay seems to indicate articles that are part of a series
   // More work to do here to make this label Serial with 'Part of' in the title
   return formattedLabel === 'Essay' ? 'Article' : formattedLabel;
-};
-
-const getPrismicSortValue = ({
-  sort,
-  sortOrder,
-}: {
-  sort?: string;
-  sortOrder?: string;
-}) => {
-  // Map to match Prismic's API's `sortBy` attributes
-  if (sortOrder && sort) {
-    switch (sort) {
-      case 'publication.dates':
-        return 'meta_firstPublicationDate_' + sortOrder.toUpperCase();
-      case 'alphabetical':
-        return 'title_' + sortOrder.toUpperCase();
-      default:
-        // TODO change to adapt to events/exhibitions/etc;
-        return 'title_ASC';
-    }
-  }
-  return 'title_ASC';
 };
 
 export const prismicGraphQLQuery = (
