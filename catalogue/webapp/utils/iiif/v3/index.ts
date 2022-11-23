@@ -409,6 +409,7 @@ export function getRestrictedLoginService(
 export function getTokenService(
   clickThroughService:
     | AuthClickThroughServiceWithPossibleServiceArray
+    | AuthExternalService
     | undefined
 ): AuthAccessTokenService | undefined {
   if (!clickThroughService?.service) return;
