@@ -2,7 +2,6 @@ import { IIIFManifests } from '../fetch/manifest';
 import { TransformedManifest, DownloadOption } from '../../../types/manifest';
 // TODO move each of these util functions from v2 to v3
 import {
-  getFirstCollectionManifestLocation,
   getAuthService,
   getTokenService,
   checkModalRequired,
@@ -12,6 +11,7 @@ import {
 import {
   getAudio,
   getDownloadOptionsFromManifest,
+  getFirstCollectionManifestLocation,
   getPdf,
   getTitle,
   getTransformedCanvases,
@@ -27,8 +27,7 @@ export function transformManifest(
   iiifManifests: IIIFManifests
 ): TransformedManifest {
   const { manifestV2, manifestV3 } = { ...iiifManifests };
-  const firstCollectionManifestLocation =
-    manifestV2 && getFirstCollectionManifestLocation(manifestV2);
+
   const authService = getAuthService(manifestV2);
   const tokenService = authService && getTokenService(authService);
   const manifests = manifestV2?.manifests || [];
@@ -40,7 +39,7 @@ export function transformManifest(
   const iiifCredit = getIIIFPresentationCredit(manifestV3);
   const video = getVideo(manifestV3);
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
-  const pdf = getPdf(manifestV3); // TODO: should this use the `hasPdfDownload` function instead?
+  const pdf = getPdf(manifestV3);
   const id = manifestV3?.id || '';
   const parentManifestUrl = manifestV3?.partOf?.[0].id;
   const collectionManifestsCount =
@@ -49,6 +48,8 @@ export function transformManifest(
   const canvasCount = transformedCanvases.length;
   const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
   const restrictedService = getRestricedLoginService(manifestV3);
+  const firstCollectionManifestLocation =
+    manifestV3 && getFirstCollectionManifestLocation(manifestV3);
 
   // TODO next
   const isTotallyRestricted = checkIsTotallyRestricted(
