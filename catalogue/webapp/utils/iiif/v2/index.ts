@@ -132,9 +132,7 @@ export function getIIIFPresentationCredit(
   return attribution?.value.split('<br/>')[0];
 }
 
-export async function getIIIFManifest(
-  url: string
-): Promise<IIIFManifest | Manifest> {
+export async function getIIIFManifest(url: string): Promise<Manifest> {
   const manifest = await fetchJson(url);
   return manifest;
 }
