@@ -1,7 +1,3 @@
-import {
-  AuthService,
-  AuthServiceService,
-} from '../../../services/iiif/types/manifest/v2'; // TODO update these types
 import { Audio, Video } from '../../../services/iiif/types/manifest/v3';
 import {
   AnnotationBody,
@@ -15,10 +11,15 @@ import {
   InternationalString,
   Canvas,
   AuthExternalService,
+  AuthAccessTokenService,
 } from '@iiif/presentation-3';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { DownloadOption, TransformedCanvas } from '../../../types/manifest';
+import {
+  DownloadOption,
+  TransformedCanvas,
+  AuthClickThroughServiceWithPossibleServiceArray,
+} from '../../../types/manifest';
 
 // The label we want to use to distinguish between parts of a multi-volume work
 // (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
@@ -56,21 +57,6 @@ export function transformLabel(
   if (typeof label === 'string' || label === undefined) return label;
 
   return getEnFromInternationalString(label);
-}
-
-export function getTokenService(
-  authServiceId: string,
-  services?: Service[]
-): AuthServiceService | undefined {
-  const service = (services as AuthService[])?.find(
-    s => s?.['@id'] === authServiceId
-  );
-
-  return service?.service?.find(
-    s =>
-      s.profile === 'http://iiif.io/api/auth/0/token' ||
-      s.profile === 'http://iiif.io/api/auth/1/token'
-  );
 }
 
 export function getAudio(manifest: Manifest | undefined): Audio | undefined {
@@ -153,7 +139,7 @@ export function getPdf(
     ?.flat();
   const allItems = allAnnotations?.map(annotation => annotation?.items).flat();
   // The Annotation[] type on the Manifest, which applies to pdfItem seems incorrect
-  // Temporarily using Rendering this until it is fixed.
+  // Temporarily using Rendering until it is fixed.
   const pdfItem = allItems?.find(item => {
     const body = (
       Array.isArray(item?.body) ? item?.body[0] : item?.body
@@ -191,28 +177,6 @@ export function getTransformedCanvases(
   } else {
     return [];
   }
-}
-
-const restrictedAuthServiceUrl =
-  'https://iiif.wellcomecollection.org/auth/restrictedlogin';
-
-function isImageRestricted(canvas: Canvas): boolean {
-  const imageService = getImageService(canvas);
-  if (imageService?.service?.['@id'] === restrictedAuthServiceUrl) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-export function getRestricedLoginService(
-  manifest: Manifest | undefined
-): AuthExternalService | undefined {
-  if (!manifest) return;
-  return manifest?.services?.find(service => {
-    const typedService = service as AuthExternalService;
-    return typedService['@id'] === restrictedAuthServiceUrl;
-  }) as AuthExternalService;
 }
 
 function getLabelString(
@@ -280,30 +244,6 @@ function getThumbnailImage(canvas: Canvas):
   };
 }
 
-function transformCanvas(canvas: Canvas): TransformedCanvas {
-  const imageService = getImageService(canvas);
-  const imageServiceId = getImageServiceId(imageService);
-  const hasRestrictedImage = isImageRestricted(canvas);
-  const label = getCanvasLabel(canvas);
-  const textServiceId = getCanvasTextServiceId(canvas);
-  const thumbnailImage = getThumbnailImage(canvas);
-  const { id, width, height } = canvas;
-  return {
-    id,
-    width,
-    height,
-    imageServiceId,
-    hasRestrictedImage,
-    label,
-    textServiceId,
-    thumbnailImage,
-  };
-}
-
-export function transformCanvases(canvases: Canvas[]): TransformedCanvas[] {
-  return canvases.map(canvas => transformCanvas(canvas));
-}
-
 type BodyService = {
   '@type': string;
   service: Service;
@@ -335,6 +275,7 @@ function getImageServiceId(
 
 // We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
 // The top-level only holds information about whether the item contains _any_ images with an authService.
+// N.B. this will be changed in the future: https://github.com/wellcomecollection/platform/issues/5630
 // Individual images hold information about their own authService (if it has one).
 // So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
 // This allows us to determine whether or not to show the viewer at all.
@@ -407,14 +348,6 @@ export function getVideo(manifest: Manifest | undefined): Video | undefined {
     : undefined;
 }
 
-export function getMediaClickthroughService(
-  services: Service[]
-): AuthService | undefined {
-  return (services as AuthService[]).find(
-    s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
-  );
-}
-
 export function getSearchService(
   manifest: Manifest | undefined
 ): Service | undefined {
@@ -441,4 +374,98 @@ export function hasPdfDownload(manifest: Manifest): boolean {
       r => r.type === 'Text' && r.format === 'application/pdf'
     )
   );
+}
+
+export function getClickThroughService(
+  manifest: Manifest | undefined
+): AuthClickThroughServiceWithPossibleServiceArray | undefined {
+  return manifest?.services?.find(
+    s => s.profile === 'http://iiif.io/api/auth/1/clickthrough'
+  ) as AuthClickThroughServiceWithPossibleServiceArray | undefined;
+}
+
+const restrictedAuthServiceUrl =
+  'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+
+function isImageRestricted(canvas: Canvas): boolean {
+  const imageService = getImageService(canvas);
+  if (imageService?.service?.['@id'] === restrictedAuthServiceUrl) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function getRestrictedLoginService(
+  manifest: Manifest | undefined
+): AuthExternalService | undefined {
+  if (!manifest) return;
+  return manifest?.services?.find(service => {
+    const typedService = service as AuthExternalService;
+    return typedService['@id'] === restrictedAuthServiceUrl;
+  }) as AuthExternalService;
+}
+
+export function getTokenService(
+  clickThroughService:
+    | AuthClickThroughServiceWithPossibleServiceArray
+    | undefined
+): AuthAccessTokenService | undefined {
+  if (!clickThroughService?.service) return;
+
+  return Array.isArray(clickThroughService?.service)
+    ? clickThroughService?.service.find(
+        s => s?.profile === 'http://iiif.io/api/auth/1/token'
+      )
+    : clickThroughService?.service;
+}
+
+type checkModalParams = {
+  clickThroughService:
+    | AuthClickThroughServiceWithPossibleServiceArray
+    | undefined;
+  restrictedService: AuthExternalService | undefined;
+  isAnyImageOpen: boolean;
+};
+
+export function checkModalRequired(params: checkModalParams): boolean {
+  const { clickThroughService, restrictedService, isAnyImageOpen } = params;
+  if (clickThroughService) {
+    return true;
+  } else if (restrictedService) {
+    return !isAnyImageOpen;
+  } else {
+    return false;
+  }
+}
+
+export function checkIsTotallyRestricted(
+  restrictedAuthService: AuthExternalService | undefined,
+  isAnyImageOpen: boolean
+): boolean {
+  return Boolean(restrictedAuthService && !isAnyImageOpen);
+}
+
+function transformCanvas(canvas: Canvas): TransformedCanvas {
+  const imageService = getImageService(canvas);
+  const imageServiceId = getImageServiceId(imageService);
+  const hasRestrictedImage = isImageRestricted(canvas);
+  const label = getCanvasLabel(canvas);
+  const textServiceId = getCanvasTextServiceId(canvas);
+  const thumbnailImage = getThumbnailImage(canvas);
+  const { id, width, height } = canvas;
+  return {
+    id,
+    width,
+    height,
+    imageServiceId,
+    hasRestrictedImage,
+    label,
+    textServiceId,
+    thumbnailImage,
+  };
+}
+
+export function transformCanvases(canvases: Canvas[]): TransformedCanvas[] {
+  return canvases.map(canvas => transformCanvas(canvas));
 }

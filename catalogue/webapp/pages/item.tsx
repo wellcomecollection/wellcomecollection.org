@@ -99,14 +99,17 @@ const ItemPage: NextPage<Props> = ({
     downloadEnabled,
     video,
     canvases,
-    tokenService,
-    isTotallyRestricted,
     needsModal,
     pdf,
-    authService,
     isAnyImageOpen,
     audio,
+    clickThroughService,
+    tokenService,
+    restrictedService,
+    isTotallyRestricted,
   } = transformedManifest;
+
+  const authService = clickThroughService || restrictedService;
 
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
@@ -398,7 +401,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     ): Promise<TransformedManifest> {
       if (isCollectionManifest) {
         const selectedCollectionManifestLocation =
-          manifests?.[manifestIndex]?.['@id'];
+          manifests?.[manifestIndex]?.id;
         const selectedCollectionManifest = selectedCollectionManifestLocation
           ? await fetchIIIFPresentationManifest(
               selectedCollectionManifestLocation

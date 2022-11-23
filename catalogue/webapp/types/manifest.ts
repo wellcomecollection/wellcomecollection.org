@@ -1,9 +1,11 @@
-import { Service, AuthExternalService, Range } from '@iiif/presentation-3';
 import {
-  AuthService,
-  AuthServiceService,
-  CollectionManifest,
-} from '../../webapp/services/iiif/types/manifest/v2';
+  Service,
+  AuthExternalService,
+  Range,
+  AuthClickThroughService,
+  AuthAccessTokenService,
+  Canvas,
+} from '@iiif/presentation-3';
 import { Audio, Video } from '../../webapp/services/iiif/types/manifest/v3';
 
 type ThumbnailImage = { url: string | undefined; width: number };
@@ -18,10 +20,6 @@ export type TransformedCanvas = {
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
 };
-// TODO now these are all in one place, it's easier to see we may not need them all
-// For example:
-// Do we need collectionManifestsCount and isCollectionManifest?
-// These should be cleaned up as we move to v3
 
 export type DownloadOption = {
   id: string;
@@ -30,20 +28,19 @@ export type DownloadOption = {
   width?: 'full' | number;
 };
 
+export type AuthClickThroughServiceWithPossibleServiceArray = Omit<
+  AuthClickThroughService,
+  'service'
+> & {
+  label?: string;
+  description?: string;
+  service: AuthAccessTokenService | AuthAccessTokenService[];
+};
+
 export type TransformedManifest = {
   // Currently from iiifManifest V2:
-  canvasCount: number;
-  collectionManifestsCount: number;
-  iiifCredit?: string;
   downloadEnabled?: boolean;
   firstCollectionManifestLocation?: string;
-  authService: AuthService | undefined;
-  tokenService: AuthServiceService | undefined;
-  isAnyImageOpen: boolean;
-  isTotallyRestricted: boolean;
-  isCollectionManifest: boolean;
-  parentManifestUrl: string | undefined;
-  needsModal: boolean;
   // Currently from iiif manifest v3:
   title: string;
   id: string;
@@ -53,10 +50,22 @@ export type TransformedManifest = {
   downloadOptions: DownloadOption[];
   pdf: DownloadOption | undefined;
   canvases: TransformedCanvas[];
+  canvasCount: number;
+  collectionManifestsCount: number;
+  iiifCredit?: string;
+  isAnyImageOpen: boolean;
+  isTotallyRestricted: boolean;
+  isCollectionManifest: boolean;
+  parentManifestUrl: string | undefined;
+  needsModal: boolean;
   restrictedService: AuthExternalService | undefined;
   searchService: Service | undefined;
   structures: Range[];
-  manifests: CollectionManifest[];
+  manifests: Canvas[];
+  clickThroughService:
+    | AuthClickThroughServiceWithPossibleServiceArray
+    | undefined;
+  tokenService: AuthAccessTokenService | undefined;
 };
 
 export function createDefaultTransformedManifest(): TransformedManifest {
@@ -68,7 +77,6 @@ export function createDefaultTransformedManifest(): TransformedManifest {
     downloadEnabled: true,
     downloadOptions: [],
     pdf: undefined,
-    authService: undefined,
     tokenService: undefined,
     isAnyImageOpen: true,
     isTotallyRestricted: false,
@@ -84,5 +92,6 @@ export function createDefaultTransformedManifest(): TransformedManifest {
     },
     services: [],
     restrictedService: undefined,
+    clickThroughService: undefined,
   };
 }
