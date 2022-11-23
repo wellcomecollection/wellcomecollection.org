@@ -1,10 +1,10 @@
-import { PrismicResultsList, PrismicApiError } from '../types';
+import { PrismicResultsList, PrismicApiError, Query } from '../types';
 import { Event } from '../types/event';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
 
 export type PrismicQueryProps = {
-  query: string;
+  query: Query;
   pageSize: number;
   type?: string;
 };

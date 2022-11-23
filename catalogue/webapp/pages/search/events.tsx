@@ -61,7 +61,7 @@ export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
-  const { query } = context.query;
+  const query = context.query;
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };

@@ -5,7 +5,7 @@ import { FunctionComponent } from 'react';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
-  query: string;
+  query: string | undefined;
   hasFilters: boolean;
   textColor?: PaletteColor;
 };

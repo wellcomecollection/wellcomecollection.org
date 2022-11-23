@@ -18,13 +18,14 @@ import { Story } from '@weco/catalogue/services/prismic/types/story';
 import {
   PrismicApiError,
   PrismicResultsList,
+  Query,
 } from '@weco/catalogue/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
+import Sort from '@weco/catalogue/components/Sort/Sort';
 
 type Props = {
   storyResponseList: PrismicResultsList<Story>;
-  totalPages: number;
-  query: string;
+  query: Query;
   pageview: Pageview;
 };
 
@@ -39,6 +40,25 @@ const PaginationWrapper = styled(Space).attrs({
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+`;
+
+const TotalResultsCopy = styled.span`
+  ${props =>
+    props.theme.media('medium', 'max-width')`
+    flex: 1 1 50%;
+  `}
+`;
+
+const SortPaginationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  ${props => props.theme.media('medium', 'max-width')`
+    flex: 1 1 50%;
+    justify-content: flex-end;
+  `}
 `;
 
 const BottomPaginationWrapper = styled(PaginationWrapper)`
@@ -143,19 +163,45 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       <h1 className="visually-hidden">Stories Search Page</h1>
 
       {storyResponseList.totalResults === 0 && (
-        <SearchNoResults query={query} hasFilters={false} />
+        <SearchNoResults query={query.query} hasFilters={false} />
       )}
 
       {storyResponseList.totalResults > 0 && (
-        <div className="container" role="main">
+        <div className="container">
           {/* TODO make pagination - cursor based pagination with graphql query */}
           <PaginationWrapper>
             {storyResponseList.totalResults > 0 && (
-              <span>{`${storyResponseList.totalResults} result${
+              <TotalResultsCopy>{`${storyResponseList.totalResults} result${
                 storyResponseList.totalResults > 1 ? 's' : ''
-              }`}</span>
+              }`}</TotalResultsCopy>
             )}
-            <SearchPagination totalPages={storyResponseList.totalPages} />
+
+            <SortPaginationWrapper>
+              <Sort
+                formId="searchPageForm"
+                options={[
+                  { value: 'alphabetical.asc', text: 'A -> Z' },
+                  { value: 'alphabetical.desc', text: 'Z -> A' },
+                  { value: 'publication.dates.desc', text: 'Newest to oldest' },
+                  { value: 'publication.dates.asc', text: 'Oldest to newest' },
+                ]}
+                jsLessOptions={{
+                  sort: [
+                    { value: 'alphabetical', text: 'Alphabetical' },
+                    { value: 'publication.dates', text: 'Publication dates' },
+                  ],
+                  sortOrder: [
+                    { value: 'asc', text: 'Ascending' },
+                    { value: 'desc', text: 'Descending' },
+                  ],
+                }}
+                defaultValues={{ sort: query.sort, sortOrder: query.sortOrder }}
+              />
+              <SearchPagination
+                totalPages={storyResponseList.totalPages}
+                isHiddenMobile
+              />
+            </SortPaginationWrapper>
           </PaginationWrapper>
 
           <main>
@@ -208,17 +254,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             })}
           </main>
 
-          <Space
-            v={{
-              size: 'l',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
-          >
-            {/* TODO make pagination work... */}
-            <BottomPaginationWrapper>
-              <SearchPagination totalPages={storyResponseList.totalPages} />
-            </BottomPaginationWrapper>
-          </Space>
+          {/* TODO make pagination work... */}
+          <BottomPaginationWrapper>
+            <SearchPagination totalPages={storyResponseList.totalPages} />
+          </BottomPaginationWrapper>
         </div>
       )}
     </Wrapper>
@@ -231,57 +270,47 @@ export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
-  const { query } = context.query;
+  const query = context.query;
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };
   }
 
-  // TODO cleanup all below when we determine what should be optional in Mel's branch (feat/prismic-transform-updates)
-  if (!query)
+  const defaultProps = removeUndefinedProps({
+    serverData,
+    storyResponseList: { totalResults: 0 },
+    query,
+    pageview: {
+      name: 'stories',
+      properties: {},
+    },
+  });
+
+  // Stop here if no query has been entered
+  if (!query.query) {
     return {
-      props: removeUndefinedProps({
-        serverData,
-        storyResponseList: { totalResults: 0 },
-        query,
-        pageview: {
-          name: 'stories',
-          properties: {},
-        },
-      }),
-    };
-
-  const pageSize = 6;
-
-  const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
-    await getStories({
-      query: query as string,
-      pageSize,
-    });
-
-  if (storyResponseList?.type === 'ResultList') {
-    return {
-      props: removeUndefinedProps({
-        serverData,
-        storyResponseList,
-        query,
-        totalPages: Math.ceil(storyResponseList.results.length / pageSize),
-        pageview: {
-          name: 'stories',
-          properties: { totalResults: storyResponseList.totalResults },
-        },
-      }),
+      props: defaultProps,
     };
   }
 
+  const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
+    await getStories({
+      query,
+      pageSize: 6,
+    });
+
   return {
     props: removeUndefinedProps({
-      serverData,
-      storyResponseList: { totalResults: 0 },
-      query,
+      ...defaultProps,
+      storyResponseList,
       pageview: {
         name: 'stories',
-        properties: {},
+        properties: {
+          totalResults:
+            storyResponseList?.type === 'ResultList'
+              ? storyResponseList.totalResults
+              : 0,
+        },
       },
     }),
   };

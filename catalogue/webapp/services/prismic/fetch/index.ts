@@ -1,9 +1,12 @@
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { gql, GraphQLClient } from 'graphql-request';
+
 import { PrismicApiError } from '../types';
 import { unCamelCase, capitalize } from '@weco/common/utils/grammar';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+import { Query } from '@weco/catalogue/services/prismic/types';
+import { getPrismicSortValue } from '@weco/catalogue/utils/search';
 
 export const typesToPrismicGraphQLSchemaTypes = {
   // types to graphql query schema types,
@@ -26,14 +29,17 @@ export const articleIdToLabel = (id: string): string => {
 
 export const prismicGraphQLQuery = (
   type: string,
-  query?: string | string[],
+  query: Query,
   pageSize?: number
-) => {
+): string => {
+  const { query: queryString, sort, sortOrder } = query;
+  const sortBy = getPrismicSortValue({ sort, sortOrder });
+
   return gql`
     query {
       ${
         typesToPrismicGraphQLSchemaTypes[type]
-      }(fulltext: "${query}" sortBy: title_ASC first: ${pageSize} ) {
+      }(fulltext: "${queryString}" sortBy: ${sortBy} first: ${pageSize} ) {
       totalCount
       pageInfo {
         hasNextPage
@@ -91,9 +97,9 @@ const client = prismic.createClient(endpoint, { fetch });
 
 export async function prismicGraphQLClient(
   type: string,
-  query: string,
+  query: Query,
   pageSize: number
-) {
+): Promise<any> {
   const graphqlClient = new GraphQLClient(
     prismic.getGraphQLEndpoint('wellcomecollection'),
     {
