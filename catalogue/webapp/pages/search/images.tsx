@@ -139,6 +139,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               );
           }}
           filters={filters}
+          newStyle
         />
       </div>
 
@@ -212,6 +213,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         }),
       };
     }
+    if (params.color) {
+      params.color = params.color.replace('#', '');
+    }
 
     const aggregations = [
       'locations.license',
@@ -250,5 +254,4 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       }),
     };
   };
-
 export default ImagesSearchPage;

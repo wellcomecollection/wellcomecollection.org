@@ -185,6 +185,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const params = fromQuery(context.query);
+
+    if (params.color) {
+      params.color = params.color.replace('#', '');
+    }
     const aggregations = [
       'locations.license',
       'source.genres.label',

@@ -1,6 +1,7 @@
 import React, {
   FunctionComponent,
   ReactElement,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -37,6 +38,7 @@ type CheckboxFilterProps = {
   f: CheckboxFilterType;
   changeHandler: () => void;
   form?: string;
+  newStyle?: boolean;
 };
 
 const Wrapper = styled(Space).attrs({
@@ -44,14 +46,25 @@ const Wrapper = styled(Space).attrs({
     size: 'm',
     properties: ['padding-top'],
   },
-})`
+})<{ newStyle?: boolean }>`
   display: flex;
-  background-color: ${props => props.theme.color('warmNeutral.400')};
+  background-color: ${props =>
+    props.newStyle ? 'unset' : props.theme.color('warmNeutral.400')};
 `;
 
-const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
+const CheckboxFilter = ({
+  f,
+  changeHandler,
+  form,
+  newStyle,
+}: CheckboxFilterProps) => {
   return (
-    <DropdownButton label={f.label} buttonType="inline" id={f.id}>
+    <DropdownButton
+      isPill={newStyle}
+      label={f.label}
+      buttonType="inline"
+      id={f.id}
+    >
       <PlainList className={font('intr', 5)}>
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
@@ -78,15 +91,26 @@ type DateRangeFilterProps = {
   f: DateRangeFilterType;
   changeHandler: () => void;
   form?: string;
+  newStyle?: boolean;
 };
 
-const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
+const DateRangeFilter = ({
+  f,
+  changeHandler,
+  form,
+  newStyle,
+}: DateRangeFilterProps) => {
   const [from, setFrom] = useControlledState(f.from.value);
   const [to, setTo] = useControlledState(f.to.value);
 
   return (
     <Space className={font('intr', 5)}>
-      <DropdownButton label={f.label} buttonType="inline" id={f.id}>
+      <DropdownButton
+        isPill={newStyle}
+        label={f.label}
+        buttonType="inline"
+        id={f.id}
+      >
         <>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <NumberInput
@@ -132,10 +156,21 @@ type ColorFilterProps = {
   f: ColorFilterType;
   changeHandler: () => void;
   form?: string;
+  newStyle?: boolean;
 };
-const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
+const ColorFilter = ({
+  f,
+  changeHandler,
+  form,
+  newStyle,
+}: ColorFilterProps) => {
   return (
-    <DropdownButton label="Colours" buttonType="inline" id="images.color">
+    <DropdownButton
+      isPill={newStyle}
+      label="Colours"
+      buttonType="inline"
+      id="images.color"
+    >
       <PaletteColorPicker
         name={f.id}
         color={f.color}
@@ -155,16 +190,20 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   linkResolver,
   activeFiltersCount,
   searchFormId,
+  newStyle,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
+
+  const [componentMounted, setComponentMounted] = useState(false);
+  useEffect(() => setComponentMounted(true), []);
 
   const visibleFilters = filters.slice(0, nVisibleFilters);
   const modalFilters = filters.slice(nVisibleFilters);
 
   return (
     <>
-      <Wrapper>
+      <Wrapper newStyle={newStyle}>
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           className="flex flex--h-space-between flex--v-center full-width flex--wrap"
@@ -173,19 +212,21 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             v={{ size: 'm', properties: ['margin-bottom'] }}
             className="flex flex--v-center flex--wrap"
           >
-            <Space
-              as="span"
-              h={{ size: 'm', properties: ['margin-right'] }}
-              className="flex flex--v-center"
-            >
-              <Icon icon={filter} />
+            {!newStyle && (
               <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                className={font('intb', 5)}
+                as="span"
+                h={{ size: 'm', properties: ['margin-right'] }}
+                className="flex flex--v-center"
               >
-                Filter by
+                <Icon icon={filter} />
+                <Space
+                  h={{ size: 's', properties: ['margin-left'] }}
+                  className={font('intb', 5)}
+                >
+                  Filter by
+                </Space>
               </Space>
-            </Space>
+            )}
 
             {visibleFilters.map((f, i, arr) => {
               return (
@@ -193,7 +234,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   key={f.id}
                   h={
                     i + 1 !== arr.length
-                      ? { size: 's', properties: ['margin-right'] }
+                      ? {
+                          size: newStyle ? 'm' : 's',
+                          properties: ['margin-right'],
+                        }
                       : undefined
                   }
                 >
@@ -202,6 +246,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       f={f}
                       changeHandler={changeHandler}
                       form={searchFormId}
+                      newStyle={newStyle}
                     />
                   )}
 
@@ -210,6 +255,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       f={f}
                       changeHandler={changeHandler}
                       form={searchFormId}
+                      newStyle={newStyle}
                     />
                   )}
 
@@ -218,6 +264,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       f={f}
                       changeHandler={changeHandler}
                       form={searchFormId}
+                      newStyle={newStyle}
                     />
                   )}
                 </Space>
@@ -227,20 +274,39 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             {modalFilters.length > 0 && (
               <Space
                 className={font('intr', 5)}
-                h={{ size: 's', properties: ['margin-left'] }}
+                h={{ size: newStyle ? 'm' : 's', properties: ['margin-left'] }}
               >
-                <ButtonSolid
-                  colors={themeValues.buttonColors.marbleWhiteCharcoal}
-                  hoverUnderline={true}
-                  size="small"
-                  type={ButtonTypes.button}
-                  text="More filters"
-                  clickHandler={event => {
-                    event.preventDefault();
-                    setShowMoreFiltersModal(true);
-                  }}
-                  ref={openMoreFiltersButtonRef}
-                />
+                {componentMounted &&
+                  (newStyle ? (
+                    <ButtonSolid
+                      colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                      icon={filter}
+                      isIconAfter
+                      hoverUnderline={true}
+                      size="small"
+                      type={ButtonTypes.button}
+                      text="All Filters"
+                      clickHandler={event => {
+                        event.preventDefault();
+                        setShowMoreFiltersModal(true);
+                      }}
+                      ref={openMoreFiltersButtonRef}
+                      isPill
+                    />
+                  ) : (
+                    <ButtonSolid
+                      colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                      hoverUnderline={true}
+                      size="small"
+                      type={ButtonTypes.button}
+                      text="More filters"
+                      clickHandler={event => {
+                        event.preventDefault();
+                        setShowMoreFiltersModal(true);
+                      }}
+                      ref={openMoreFiltersButtonRef}
+                    />
+                  ))}
                 <ModalMoreFilters
                   query={query}
                   id="moreFilters"

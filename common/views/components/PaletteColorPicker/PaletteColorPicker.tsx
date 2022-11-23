@@ -146,7 +146,10 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
 }) => {
   // Because the form is not controlled we need to maintain state internally
   const [colorState, setColorState] = useState(color);
+  const [componentMounted, setComponentMounted] = useState(false);
   const firstRender = useRef(true);
+
+  useEffect(() => setComponentMounted(true), []);
 
   useEffect(() => {
     setColorState(color);
@@ -162,32 +165,56 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      <input form={form} type="hidden" name={name} value={colorState || ''} />
-      <Swatches>
-        {palette.map(swatch => (
-          <Swatch
-            key={swatch.hexValue}
-            id={`swatch-${swatch.colorName.toLowerCase()}`}
-            hexColor={swatch.hexValue}
-            ariaPressed={colorState === swatch.hexValue}
-            onClick={() => setColorState(swatch.hexValue)}
-          >
-            {swatch.colorName}
-          </Swatch>
-        ))}
-      </Swatches>
-      <Slider
-        hue={hexToHsv(colorState || palette[0].hexValue).h}
-        onChangeHue={h => setColorState(hsvToHex({ h, s: 80, v: 90 }))}
-      />
-      <TextWrapper>
-        <ColorLabel active={!!colorState} role="status">
-          {getColorDisplayName(colorState || null)}
-        </ColorLabel>
-        <ClearButton onClick={() => setColorState(undefined)}>
-          Clear
-        </ClearButton>
-      </TextWrapper>
+      <noscript>
+        <input
+          form={form}
+          type="color"
+          name={name}
+          value={
+            color
+              ? color[0] === '#' || color[0] === '%'
+                ? color
+                : '#' + color
+              : ''
+          }
+        />
+      </noscript>
+
+      {componentMounted && (
+        <>
+          <input
+            form={form}
+            type="hidden"
+            name={name}
+            value={colorState || ''}
+          />
+          <Swatches>
+            {palette.map(swatch => (
+              <Swatch
+                key={swatch.hexValue}
+                id={`swatch-${swatch.colorName.toLowerCase()}`}
+                hexColor={swatch.hexValue}
+                ariaPressed={colorState === swatch.hexValue}
+                onClick={() => setColorState(swatch.hexValue)}
+              >
+                {swatch.colorName}
+              </Swatch>
+            ))}
+          </Swatches>
+          <Slider
+            hue={hexToHsv(colorState || palette[0].hexValue).h}
+            onChangeHue={h => setColorState(hsvToHex({ h, s: 80, v: 90 }))}
+          />
+          <TextWrapper>
+            <ColorLabel active={!!colorState} role="status">
+              {getColorDisplayName(colorState || null)}
+            </ColorLabel>
+            <ClearButton onClick={() => setColorState(undefined)}>
+              Clear
+            </ClearButton>
+          </TextWrapper>
+        </>
+      )}
     </Wrapper>
   );
 };

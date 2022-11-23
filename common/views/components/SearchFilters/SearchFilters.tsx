@@ -13,6 +13,7 @@ type Props = {
   changeHandler: () => void;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
+  newStyle?: boolean;
 };
 
 export type SearchFiltersSharedProps = Props & { activeFiltersCount: number };
@@ -23,6 +24,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   changeHandler,
   filters,
   linkResolver,
+  newStyle,
 }: Props): ReactElement<Props> => {
   const { windowSize } = useContext(AppContext);
   // We use the setIsomorphicLayoutEffect here as we can't use CSS to
@@ -57,6 +59,7 @@ const SearchFilters: FunctionComponent<Props> = ({
     filters,
     linkResolver,
     activeFiltersCount,
+    newStyle,
   };
 
   return isEnhanced ? (
