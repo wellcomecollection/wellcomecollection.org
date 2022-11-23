@@ -383,14 +383,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       iiifPresentationLocation &&
       (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
 
-    const transformedManifest = transformManifest(
-      iiifManifest || {
-        manifestV2: undefined,
-        manifestV3: undefined,
-      }
-    );
+    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
-    const { isCollectionManifest, manifests } = transformedManifest;
+    const { isCollectionManifest, manifests } = { ...transformedManifest };
     // If the manifest is actually a Collection, .i.e. a manifest of manifests,
     // then we get the first child manifest and use the data from that
     // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302

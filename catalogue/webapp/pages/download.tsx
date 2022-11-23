@@ -160,12 +160,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const iiifManifest =
       manifestLocation &&
       (await fetchIIIFPresentationManifest(manifestLocation.url));
-    const transformedManifest = transformManifest(
-      iiifManifest || {
-        manifestV2: undefined,
-        manifestV3: undefined,
-      }
-    );
+    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
     return {
       props: removeUndefinedProps({
