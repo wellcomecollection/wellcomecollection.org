@@ -42,7 +42,9 @@ export function transformManifest(
   const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
   const restrictedService = getRestrictedLoginService(manifestV3);
   const clickThroughService = getClickThroughService(manifestV3);
-  const tokenService = getTokenService(clickThroughService);
+  const tokenService = getTokenService(
+    clickThroughService || restrictedService
+  );
   const firstCollectionManifestLocation =
     manifestV3 && getFirstCollectionManifestLocation(manifestV3);
   const isTotallyRestricted = checkIsTotallyRestricted(
