@@ -1,10 +1,10 @@
 import { Story } from '../types/story';
-import { PrismicResultsList, PrismicApiError } from '../types/index';
+import { PrismicResultsList, PrismicApiError, Query } from '../types';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
 
 export type PrismicQueryProps = {
-  query: string;
+  query: Query;
   pageSize: number;
   type?: string;
 };
@@ -18,6 +18,7 @@ export async function getStories({
     const { allArticless } = await res;
     const { edges } = allArticless;
     const stories = await transformPrismicResponse(['articles'], edges);
+
     return {
       type: 'ResultList',
       totalResults: allArticless.totalCount,

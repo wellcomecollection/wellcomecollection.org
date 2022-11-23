@@ -115,3 +115,9 @@ export type PrismicResponse = {
 };
 
 export type TransformedResponse = Story | Event | Exhibition;
+
+export type Query = {
+  query?: string;
+  sortOrder?: string;
+  sort?: string;
+};

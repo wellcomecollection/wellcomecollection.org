@@ -1,11 +1,11 @@
 import { IIIFManifests } from '../fetch/manifest';
 import { TransformedManifest, DownloadOption } from '../../../types/manifest';
 // TODO move each of these util functions from v2 to v3
-import { getFirstCollectionManifestLocation } from '../../../utils/iiif/v2';
 
 import {
   getAudio,
   getDownloadOptionsFromManifest,
+  getFirstCollectionManifestLocation,
   getPdf,
   getTitle,
   getTransformedCanvases,
@@ -25,8 +25,6 @@ export function transformManifest(
   iiifManifests: IIIFManifests
 ): TransformedManifest {
   const { manifestV2, manifestV3 } = { ...iiifManifests };
-  const firstCollectionManifestLocation =
-    manifestV2 && getFirstCollectionManifestLocation(manifestV2);
   // V3
   const title = getTitle(manifestV3?.label);
   const audio = getAudio(manifestV3);
@@ -45,6 +43,8 @@ export function transformManifest(
   const restrictedService = getRestrictedLoginService(manifestV3);
   const clickThroughService = getClickThroughService(manifestV3);
   const tokenService = getTokenService(clickThroughService);
+  const firstCollectionManifestLocation =
+    manifestV3 && getFirstCollectionManifestLocation(manifestV3);
   const isTotallyRestricted = checkIsTotallyRestricted(
     restrictedService,
     isAnyImageOpen
