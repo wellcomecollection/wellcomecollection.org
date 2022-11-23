@@ -150,13 +150,11 @@ const ExpandedImage: FunctionComponent<Props> = ({
       const iiifManifest = await fetchIIIFPresentationManifest(
         manifestLocation
       );
-      const transformedManifest = transformManifest(
-        iiifManifest || {
-          manifestV2: undefined,
-          manifestV3: undefined,
-        }
-      );
-      const { firstCollectionManifestLocation, canvases } = transformedManifest;
+      const transformedManifest =
+        iiifManifest && transformManifest(iiifManifest);
+      const { firstCollectionManifestLocation, canvases } = {
+        ...transformedManifest,
+      };
 
       if (firstCollectionManifestLocation) {
         return fetchDeeplinkCanvasIndex(
@@ -165,13 +163,13 @@ const ExpandedImage: FunctionComponent<Props> = ({
         );
       }
 
-      const canvasIndex = canvases.findIndex(canvas => {
+      const canvasIndex = canvases?.findIndex(canvas => {
         const { imageServiceId } = canvas;
         return (
           imageServiceId && imageServiceId.indexOf(imageLocationBase) !== -1
         );
       });
-      if (canvasIndex !== -1) {
+      if (canvasIndex && canvasIndex !== -1) {
         setCanvasDeeplink({
           canvas: canvasIndex + 1,
           sierraId,
