@@ -122,12 +122,12 @@ export function transformExhibitionGuide(
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
-    (component: ExhibitionGuideComponentPrismicDocument) => {
+    (component: ExhibitionGuideComponentPrismicDocument, index) => {
       const title = asTitle(component.title);
       const standaloneTitle = asTitle(component.standaloneTitle);
 
       const displayTitle = title || standaloneTitle;
-      const anchorId = dasherizeShorten(displayTitle);
+      const anchorId = `${dasherizeShorten(displayTitle)}-${index}`;
 
       return {
         number: component.number || undefined,
