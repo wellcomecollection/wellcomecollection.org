@@ -26,8 +26,8 @@ import { transformManifest } from '../services/iiif/transformers/manifest';
 
 type Props = {
   workId: string;
-  transformedManifest: TransformedManifest;
-  work: Work | undefined;
+  transformedManifest?: TransformedManifest;
+  work?: Work;
 };
 
 const DownloadPage: NextPage<Props> = ({
