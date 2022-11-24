@@ -35,8 +35,9 @@ const DownloadPage: NextPage<Props> = ({
   transformedManifest,
   work,
 }) => {
-  const { title, downloadEnabled, downloadOptions, iiifCredit } =
-    transformedManifest;
+  const { title, downloadEnabled, downloadOptions, iiifCredit } = {
+    ...transformedManifest,
+  };
   const displayTitle = title || work?.title || '';
   const iiifImageLocation = work
     ? getDigitalLocationOfType(work, 'iiif-image')
@@ -62,7 +63,10 @@ const DownloadPage: NextPage<Props> = ({
       })
     : [];
 
-  const allDownloadOptions = [...iiifImageDownloadOptions, ...downloadOptions];
+  const allDownloadOptions = downloadOptions && [
+    ...iiifImageDownloadOptions,
+    ...downloadOptions,
+  ];
 
   const credit = (iiifImageLocation && iiifImageLocation.credit) || iiifCredit;
 
@@ -91,7 +95,7 @@ const DownloadPage: NextPage<Props> = ({
               {displayTitle}
             </Space>
           </SpacingComponent>
-          {workId && (
+          {workId && allDownloadOptions && (
             <SpacingComponent>
               {downloadEnabled && allDownloadOptions.length !== 0 ? (
                 <Download
@@ -104,7 +108,7 @@ const DownloadPage: NextPage<Props> = ({
               )}
             </SpacingComponent>
           )}
-          {license && (
+          {license && title && (
             <SpacingComponent key={license.url}>
               <div>
                 {license.humanReadableText && (
