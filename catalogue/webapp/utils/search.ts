@@ -56,3 +56,20 @@ export const getPrismicSortValue = ({
   // this is currently what we set as default for Stories
   return 'title_ASC';
 };
+
+// FILTERS
+/**
+ * Compare filter options to query parameters
+ * This is used for SearchNoResult's rendered copy
+ * @param {string[]} filters - Available filter options
+ * @param {string[]} queryParams - URL query parameters
+ */
+export const hasFilters = ({
+  filters,
+  queryParams,
+}: {
+  filters: string[];
+  queryParams: string[];
+}): boolean => {
+  return !!filters.filter(element => queryParams.includes(element)).length;
+};

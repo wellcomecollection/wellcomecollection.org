@@ -151,6 +151,14 @@ const SearchLayout: FunctionComponent = ({ children }) => {
             return false;
           }}
         />
+        <h1 className="visually-hidden">
+          {/* Uppercases the first letter */}
+          {`${
+            currentSearchCategory[0].toUpperCase() +
+            currentSearchCategory.substring(1)
+          } search page`}
+        </h1>
+
         <SearchBarContainer
           v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
         >

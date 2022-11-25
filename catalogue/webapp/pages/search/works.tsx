@@ -1,36 +1,46 @@
 import { useContext, useEffect } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { getCookie } from 'cookies-next';
 import styled from 'styled-components';
 
-import { removeUndefinedProps } from '@weco/common/utils/json';
-import { AppErrorProps, appError } from '@weco/common/services/app';
-import { getServerData } from '@weco/common/server-data';
+// Components
 import Space from '@weco/common/views/components/styled/Space';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
-import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
-import {
-  fromQuery,
-  toLink,
-  WorksProps as WorksRouteProps,
-} from '@weco/common/views/components/WorksLink/WorksLink';
-import { Pageview } from '@weco/common/services/conversion/track';
-import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 import Sort from '@weco/catalogue/components/Sort/Sort';
-import { font } from '@weco/common/utils/classnames';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
+import {
+  fromQuery,
+  toLink,
+  WorksProps as WorksRouteProps,
+} from '@weco/common/views/components/WorksLink/WorksLink';
+
+// Utils & Helpers
+import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
+import { NextPageWithLayout } from '@weco/common/views/pages/_app';
+import { Pageview } from '@weco/common/services/conversion/track';
+import { getWorks } from '@weco/catalogue/services/catalogue/works';
+import { font } from '@weco/common/utils/classnames';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
+import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import { hasFilters } from '@weco/catalogue/utils/search';
+import { AppErrorProps, appError } from '@weco/common/services/app';
+
+// Types
+import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
+import { Query } from '@weco/catalogue/types/search';
 
 type Props = {
-  works: CatalogueResultsList<Work>;
+  works?: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
+  query: Query;
   pageview: Pageview;
 };
 
@@ -59,12 +69,9 @@ const BottomPaginationWrapper = styled(PaginationWrapper)`
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   works,
   worksRouteProps,
+  query,
 }) => {
-  const {
-    query,
-    'production.dates.from': productionDatesFrom,
-    'production.dates.to': productionDatesTo,
-  } = worksRouteProps;
+  const { query: queryString } = query;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -72,7 +79,16 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     setLink(link);
   }, [worksRouteProps]);
 
-  const filters = worksFilters({ works, props: worksRouteProps });
+  // If there is no query, return an empty page
+  if (!queryString) {
+    return (
+      <Space
+        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+      ></Space>
+    );
+  }
+
+  const filters = works ? worksFilters({ works, props: worksRouteProps }) : [];
 
   const linkResolver = params => {
     const queryWithSource = propsToQuery(params);
@@ -96,11 +112,34 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
   return (
     <>
-      <h1 className="visually-hidden">Works Search Page</h1>
+      <Head>
+        {works?.prevPage && (
+          <link
+            rel="prev"
+            href={convertUrlToString(
+              toLink(
+                { ...worksRouteProps, page: (worksRouteProps.page || 1) - 1 },
+                'unknown'
+              ).as
+            )}
+          />
+        )}
+        {works?.nextPage && (
+          <link
+            rel="next"
+            href={convertUrlToString(
+              toLink(
+                { ...worksRouteProps, page: worksRouteProps.page + 1 },
+                'unknown'
+              ).as
+            )}
+          />
+        )}
+      </Head>
 
       <div className="container">
         <SearchFilters
-          query={query}
+          query={queryString}
           linkResolver={linkResolver}
           searchFormId="searchPageForm"
           changeHandler={() => {
@@ -115,61 +154,76 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
           }}
           filters={filters}
         />
-      </div>
 
-      {works.totalResults === 0 && (
-        <SearchNoResults
-          query={query}
-          hasFilters={Boolean(productionDatesFrom || productionDatesTo)}
-        />
-      )}
-
-      {works.totalResults > 0 && (
-        <div className="container">
-          <PaginationWrapper aria-label="Sort Search Results">
-            {works.totalResults > 0 && (
-              <span>{`${works.totalResults} result${
-                works.totalResults > 1 ? 's' : ''
-              }`}</span>
-            )}
-
-            <SortPaginationWrapper>
-              <Sort
-                formId="searchPageForm"
-                options={[
-                  { value: '', text: 'Relevance' },
-                  { value: 'production.dates.asc', text: 'Oldest to newest' },
-                  { value: 'production.dates.desc', text: 'Newest to oldest' },
-                ]}
-                jsLessOptions={{
-                  sort: [
-                    { value: '', text: 'Relevance' },
-                    { value: 'production.dates', text: 'Production dates' },
-                  ],
-                  sortOrder: [
-                    { value: 'asc', text: 'Ascending' },
-                    { value: 'desc', text: 'Descending' },
-                  ],
-                }}
-                defaultValues={{
-                  sort: worksRouteProps.sort,
-                  sortOrder: worksRouteProps.sortOrder,
-                }}
+        {works && (
+          <>
+            {works.totalResults === 0 ? (
+              <SearchNoResults
+                query={queryString}
+                hasFilters={hasFilters({
+                  filters: filters.map(f => f.id),
+                  queryParams: Object.keys(query).map(p => p),
+                })}
               />
+            ) : (
+              <>
+                <PaginationWrapper aria-label="Sort Search Results">
+                  <span>{`${works.totalResults} result${
+                    works.totalResults > 1 ? 's' : ''
+                  }`}</span>
 
-              <SearchPagination totalPages={works?.totalPages} isHiddenMobile />
-            </SortPaginationWrapper>
-          </PaginationWrapper>
+                  <SortPaginationWrapper>
+                    <Sort
+                      formId="searchPageForm"
+                      options={[
+                        { value: '', text: 'Relevance' },
+                        {
+                          value: 'production.dates.asc',
+                          text: 'Oldest to newest',
+                        },
+                        {
+                          value: 'production.dates.desc',
+                          text: 'Newest to oldest',
+                        },
+                      ]}
+                      jsLessOptions={{
+                        sort: [
+                          { value: '', text: 'Relevance' },
+                          {
+                            value: 'production.dates',
+                            text: 'Production dates',
+                          },
+                        ],
+                        sortOrder: [
+                          { value: 'asc', text: 'Ascending' },
+                          { value: 'desc', text: 'Descending' },
+                        ],
+                      }}
+                      defaultValues={{
+                        sort: worksRouteProps.sort,
+                        sortOrder: worksRouteProps.sortOrder,
+                      }}
+                    />
 
-          <main>
-            <WorksSearchResults works={works} />
-          </main>
+                    <SearchPagination
+                      totalPages={works?.totalPages}
+                      isHiddenMobile
+                    />
+                  </SortPaginationWrapper>
+                </PaginationWrapper>
 
-          <BottomPaginationWrapper aria-label="Bottom pagination">
-            <SearchPagination totalPages={works?.totalPages} />
-          </BottomPaginationWrapper>
-        </div>
-      )}
+                <main>
+                  <WorksSearchResults works={works} />
+                </main>
+
+                <BottomPaginationWrapper aria-label="Bottom pagination">
+                  <SearchPagination totalPages={works?.totalPages} />
+                </BottomPaginationWrapper>
+              </>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 };
@@ -179,12 +233,28 @@ CatalogueSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+    const query = context.query;
 
     if (!serverData.toggles.searchPage) {
       return { notFound: true };
     }
 
-    const props = fromQuery(context.query);
+    const params = fromQuery(context.query);
+
+    // Stop here if no query has been entered
+    if (!params.query) {
+      return {
+        props: removeUndefinedProps({
+          worksRouteProps: params,
+          serverData,
+          query,
+          pageview: {
+            name: 'works',
+            properties: { totalResults: 0 },
+          },
+        }),
+      };
+    }
 
     const aggregations = [
       'workType',
@@ -198,7 +268,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const _queryType = getCookie('_queryType') as string | undefined;
 
     const worksApiProps = {
-      ...props,
+      ...params,
       _queryType,
       aggregations,
     };
@@ -220,8 +290,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return {
       props: removeUndefinedProps({
         works,
-        worksRouteProps: props,
+        worksRouteProps: params,
         serverData,
+        query,
         pageview: {
           name: 'works',
           properties: works ? { totalResults: works.totalResults } : {},

@@ -1,27 +1,31 @@
 import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 
+// Components
 import Space from '@weco/common/views/components/styled/Space';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import Sort from '@weco/catalogue/components/Sort/Sort';
 
+// Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
+import { Pageview } from '@weco/common/services/conversion/track';
+
+// Types
 import { Story } from '@weco/catalogue/services/prismic/types/story';
 import {
   PrismicApiError,
   PrismicResultsList,
-  Query,
 } from '@weco/catalogue/services/prismic/types';
-import { Pageview } from '@weco/common/services/conversion/track';
-import Sort from '@weco/catalogue/components/Sort/Sort';
+import { Query } from '@weco/catalogue/types/search';
 
 type Props = {
   storyResponseList: PrismicResultsList<Story>;
@@ -158,23 +162,28 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
   query,
 }) => {
+  const { query: queryString } = query;
+
+  // If there is no query, return an empty page
+  if (!queryString) {
+    return (
+      <Space
+        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+      ></Space>
+    );
+  }
+
   return (
     <Wrapper>
-      <h1 className="visually-hidden">Stories Search Page</h1>
-
-      {storyResponseList.totalResults === 0 && (
-        <SearchNoResults query={query.query} hasFilters={false} />
-      )}
-
-      {storyResponseList.totalResults > 0 && (
+      {storyResponseList.totalResults === 0 ? (
+        <SearchNoResults query={queryString} hasFilters={false} />
+      ) : (
         <div className="container">
           {/* TODO make pagination - cursor based pagination with graphql query */}
           <PaginationWrapper>
-            {storyResponseList.totalResults > 0 && (
-              <TotalResultsCopy>{`${storyResponseList.totalResults} result${
-                storyResponseList.totalResults > 1 ? 's' : ''
-              }`}</TotalResultsCopy>
-            )}
+            <TotalResultsCopy>{`${storyResponseList.totalResults} result${
+              storyResponseList.totalResults > 1 ? 's' : ''
+            }`}</TotalResultsCopy>
 
             <SortPaginationWrapper>
               <Sort
