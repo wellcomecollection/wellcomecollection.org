@@ -8,9 +8,9 @@ import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/Sea
 import {
   getEvents,
   PrismicQueryProps,
-} from '../../services/prismic/fetch/events';
-import { Event } from '../../services/prismic/types/event';
-import { PrismicResultsList } from '../../services/prismic/types';
+} from '@weco/catalogue/services/prismic/fetch/events';
+import { Event } from '@weco/catalogue/services/prismic/types/event';
+import { PrismicResultsList } from '@weco/catalogue/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
@@ -63,7 +63,10 @@ export const getServerSideProps: GetServerSideProps<
   const serverData = await getServerData(context);
   const query = context.query;
 
-  if (!serverData.toggles.searchPage) {
+  if (
+    !serverData.toggles.searchPage &&
+    !serverData.toggles.searchPageEventsExhibitions
+  ) {
     return { notFound: true };
   }
 

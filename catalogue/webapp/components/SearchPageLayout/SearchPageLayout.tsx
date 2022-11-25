@@ -20,7 +20,10 @@ const SearchBarContainer = styled(Space)`
   `}
 `;
 
-const SearchLayout: FunctionComponent = ({ children }) => {
+const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
+  children,
+  hasEventsExhibitions,
+}) => {
   const router = useRouter();
 
   const currentSearchCategory =
@@ -62,22 +65,6 @@ const SearchLayout: FunctionComponent = ({ children }) => {
       case 'overview':
         setPageLayoutMetadata(defaultPageLayoutMetadata);
         break;
-      case 'exhibitions':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: 'copy pending',
-          title: `${query ? `${query} | ` : ''}Exhibition Search`,
-          url: { pathname: '/search/exhibitions', query: query || {} },
-        });
-        break;
-      case 'events':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: 'copy pending',
-          title: `${query ? `${query} | ` : ''}Events Search`,
-          url: { pathname: '/search/events', query: query || {} },
-        });
-        break;
       case 'stories':
         setPageLayoutMetadata({
           ...basePageMetadata,
@@ -100,6 +87,23 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           description: 'copy pending',
           title: `${query ? `${query} | ` : ''}Catalogue Search`,
           url: { pathname: '/search/collections', query: query || {} },
+        });
+        break;
+      // In development
+      case 'exhibitions':
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description: 'copy pending',
+          title: `${query ? `${query} | ` : ''}Exhibition Search`,
+          url: { pathname: '/search/exhibitions', query: query || {} },
+        });
+        break;
+      case 'events':
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description: 'copy pending',
+          title: `${query ? `${query} | ` : ''}Events Search`,
+          url: { pathname: '/search/events', query: query || {} },
         });
         break;
 
@@ -166,16 +170,6 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               name: 'Overview',
             },
             {
-              id: 'exhibitions',
-              url: getURL('/search/exhibitions'),
-              name: 'Exhibitions',
-            },
-            {
-              id: 'events',
-              url: getURL('/search/events'),
-              name: 'Events',
-            },
-            {
               id: 'stories',
               url: getURL('/search/stories'),
               name: 'Stories',
@@ -190,6 +184,20 @@ const SearchLayout: FunctionComponent = ({ children }) => {
               url: getURL('/search/works'),
               name: 'Catalogue',
             },
+            ...(hasEventsExhibitions
+              ? [
+                  {
+                    id: 'exhibitions',
+                    url: getURL('/search/exhibitions'),
+                    name: 'Exhibitions',
+                  },
+                  {
+                    id: 'events',
+                    url: getURL('/search/events'),
+                    name: 'Events',
+                  },
+                ]
+              : []),
           ]}
           currentSection={currentSearchCategory}
           hasDivider
@@ -201,8 +209,14 @@ const SearchLayout: FunctionComponent = ({ children }) => {
   );
 };
 
-export const getSearchLayout = (page: ReactElement): JSX.Element => (
-  <SearchLayout>{page}</SearchLayout>
-);
+export const getSearchLayout = (page: ReactElement): JSX.Element => {
+  const { searchPageEventsExhibitions } = page.props.serverData.toggles;
+
+  return (
+    <SearchLayout hasEventsExhibitions={searchPageEventsExhibitions}>
+      {page}
+    </SearchLayout>
+  );
+};
 
 export default SearchLayout;

@@ -63,7 +63,10 @@ export const getServerSideProps: GetServerSideProps<
   const serverData = await getServerData(context);
   const query = context.query;
 
-  if (!serverData.toggles.searchPage) {
+  if (
+    !serverData.toggles.searchPage &&
+    !serverData.toggles.searchPageEventsExhibitions
+  ) {
     return { notFound: true };
   }
 
