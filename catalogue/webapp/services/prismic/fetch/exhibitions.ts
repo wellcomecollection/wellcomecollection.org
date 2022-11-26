@@ -2,7 +2,7 @@ import { PrismicResultsList, PrismicApiError, Query } from '../types';
 import { Exhibition } from '../types/exhibition';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request';
 
 export const exhibitionsQuery = gql`
   query getAllExhibitions(

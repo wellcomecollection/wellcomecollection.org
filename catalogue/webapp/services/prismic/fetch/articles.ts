@@ -2,7 +2,7 @@ import { Story } from '../types/story';
 import { PrismicResultsList, PrismicApiError, Query } from '../types';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request';
 
 export const storiesQuery = gql`
   query getAllStories(
