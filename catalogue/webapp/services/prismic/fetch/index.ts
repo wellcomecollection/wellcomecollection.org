@@ -7,6 +7,9 @@ import { unCamelCase, capitalize } from '@weco/common/utils/grammar';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { Query } from '@weco/catalogue/services/prismic/types';
 import { getPrismicSortValue } from '@weco/catalogue/utils/search';
+import { storiesQuery } from './articles';
+import { eventsQuery } from './events';
+import { exhibitionsQuery } from './exhibitions';
 
 export const typesToPrismicGraphQLSchemaTypes = {
   // types to graphql query schema types,
@@ -167,72 +170,7 @@ export const prismicGraphQLQuery = (
     }
   `;
 };
-const storiesQuery = gql`
-  query getAllStories(
-    $queryString: String
-    $sortBy: SortArticlesy
-    $pageSize: Int
-    $cursor: String
-  ) {
-    allArticless(
-      fulltext: $queryString
-      sortBy: $sortBy
-      first: $pageSize
-      after: $cursor
-    ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        startCursor
-        endCursor
-        hasPreviousPage
-      }
-      edges {
-        cursor
-        node {
-          title
-          _meta {
-            id
-            firstPublicationDate
-          }
-          format {
-            __typename
-          }
-          format {
-            ... on ArticleFormats {
-              _meta {
-                id
-              }
-            }
-          }
-          contributors {
-            contributor {
-              ... on People {
-                name
-              }
-            }
-          }
-          body {
-            ... on ArticlesBodyStandfirst {
-              primary {
-                text
-              }
-            }
-          }
-          promo {
-            ... on ArticlesPromoEditorialimage {
-              primary {
-                image
-                link
-                caption
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+
 const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
 const client = prismic.createClient(endpoint, { fetch });
 
@@ -251,18 +189,26 @@ export async function prismicGraphQLClient(
       fetch: client.graphQLFetch,
     }
   );
-  // fulltext: $queryString sortBy: $sortBy first: $pageSize after: $cursor
-  console.log(cursor, '!!!! DO WE GET CURSOR INSIDE THE GRAPHQL CALL');
+
   const { query: queryString, sort, sortOrder } = query;
-  console.log(queryString, 'do we have this');
   const sortBy = getPrismicSortValue({ sort, sortOrder });
 
+  // We pass through variables for graphql query, we only include cursor if we have it
   const variables = cursor
     ? { queryString, sortBy, pageSize, cursor }
     : { queryString, sortBy, pageSize };
-  console.log(variables, 'what is the var query at this point !!!!!!!!!!!');
-  // const graphQLQuery = prismicGraphQLQuery(type);
-  return graphqlClient.request(storiesQuery, variables);
+
+  const graphQLQueries = {
+    articles: storiesQuery,
+    events: eventsQuery,
+    exhibitions: exhibitionsQuery,
+  };
+
+  const graphQLQuery = (type: string) => {
+    console.log(type, 'what is the type');
+    return graphQLQueries[type];
+  };
+  return graphqlClient.request(graphQLQuery(type), variables);
 }
 
 export const prismicApiError = (): PrismicApiError => ({

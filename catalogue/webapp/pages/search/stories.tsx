@@ -290,8 +290,7 @@ export const getServerSideProps: GetServerSideProps<
       props: defaultProps,
     };
   }
-  const pageQuery = Boolean(query.page);
-  console.log(pageQuery, 'do we have a page in the query');
+
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
       query,

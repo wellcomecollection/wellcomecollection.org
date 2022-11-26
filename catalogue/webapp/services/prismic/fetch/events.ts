@@ -2,6 +2,74 @@ import { PrismicResultsList, PrismicApiError, Query } from '../types';
 import { Event } from '../types/event';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
+import { gql } from "graphql-request";
+
+export const eventsQuery = gql`
+  query getAllEvents(
+    $queryString: String
+    $sortBy: SortArticlesy
+    $pageSize: Int
+    $cursor: String
+  ) {
+    allEventss(
+      fulltext: $queryString
+      sortBy: $sortBy
+      first: $pageSize
+      after: $cursor
+    ) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          title
+          _meta {
+            id
+            firstPublicationDate
+          }
+          format {
+            __typename
+          }
+          format {
+            ... on EventFormats {
+              _meta {
+                id
+              }
+            }
+          }
+          contributors {
+            contributor {
+              ... on People {
+                name
+              }
+            }
+          }
+          body {
+            ... on EventsBodyStandfirst {
+              primary {
+                text
+              }
+            }
+          }
+          promo {
+            ... on EventsPromoEditorialimage {
+              primary {
+                image
+                link
+                caption
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export type PrismicQueryProps = {
   query: Query;

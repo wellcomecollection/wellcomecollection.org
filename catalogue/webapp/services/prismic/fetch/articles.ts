@@ -2,6 +2,74 @@ import { Story } from '../types/story';
 import { PrismicResultsList, PrismicApiError, Query } from '../types';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
+import { gql } from "graphql-request";
+
+export const storiesQuery = gql`
+  query getAllStories(
+    $queryString: String
+    $sortBy: SortArticlesy
+    $pageSize: Int
+    $cursor: String
+  ) {
+    allArticless(
+      fulltext: $queryString
+      sortBy: $sortBy
+      first: $pageSize
+      after: $cursor
+    ) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          title
+          _meta {
+            id
+            firstPublicationDate
+          }
+          format {
+            __typename
+          }
+          format {
+            ... on ArticleFormats {
+              _meta {
+                id
+              }
+            }
+          }
+          contributors {
+            contributor {
+              ... on People {
+                name
+              }
+            }
+          }
+          body {
+            ... on ArticlesBodyStandfirst {
+              primary {
+                text
+              }
+            }
+          }
+          promo {
+            ... on ArticlesPromoEditorialimage {
+              primary {
+                image
+                link
+                caption
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export type PrismicQueryProps = {
   query: Query;
