@@ -68,8 +68,8 @@ export type PrismicResultsList<Result> = {
   totalPages: number;
   results: Result[];
   pageSize: number;
-  prevPage: null;
-  nextPage: null;
+  prevPage: string | null;
+  nextPage: string | null;
 };
 
 export type PrismicNode = {
