@@ -88,14 +88,8 @@ export async function getStories({
   pageSize,
 }: PrismicQueryProps): Promise<PrismicResultsList<Story> | PrismicApiError> {
   try {
-    console.log('<<<<<<< WE ARE IN GET STORIES');
-
-    // TODO: clear up the types in the return objects
-    // TODO: clear up the types in the frontend page
-    // TODO: leave notes on why we are doing the cursor stuff
-
     // Create a map of all cursors to their respective page number by pageSize
-    // A cursor is a pointer to a node within the return list of results from a graphql query
+    // A cursor is a pointer to a node within the returned list of results from a graphql query
     const fetchAllCursors = async (
       type: string,
       query: Query,
@@ -119,7 +113,6 @@ export async function getStories({
             return { cursor: e.cursor, page: index + 1 };
           });
 
-      console.log(cursorsPaginated, 'cursorsPaginated');
       return cursorsPaginated(getStoriesCursors, pageSize);
     };
 
@@ -149,7 +142,6 @@ export async function getStories({
         pageSize,
         cursor
       );
-      console.log(query, 'what is the query in articles ts');
 
       const { allArticless } = await res;
       const { edges } = allArticless;
@@ -167,10 +159,9 @@ export async function getStories({
     };
 
     // To work with existing pagination component we paginate with query.page
-    // If there is no query.page, we will use the page number to get the relevant cursor
+    // If we have query.page, we will use current page number to get the relevant cursor
     if (query.page) {
       const cursor = await currentPageCursor('articles', query, pageSize);
-      console.log(cursor, 'do we have a cursor for this page');
       return fetchStories('articles', query, pageSize, cursor);
     }
     return fetchStories('articles', query, pageSize);

@@ -23,8 +23,6 @@ export const articleIdToLabel = (id: string): string => {
 const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
 const client = prismic.createClient(endpoint, { fetch });
 
-// We need the below function to query with the variables like currentCursor
-// Once we can do that we can update where cursor is and pass through query
 export async function prismicGraphQLClient(
   type: string,
   query: Query,
