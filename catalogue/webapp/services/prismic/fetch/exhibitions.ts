@@ -7,11 +7,12 @@ import { gql } from 'graphql-request';
 export const exhibitionsQuery = gql`
   query getAllExhibitions(
     $queryString: String
-    $sortBy: SortArticlesy
+    # I have changed the below type to work with the error message I get from Prismic graphql when I don't use it
+    $sortBy: SortExhibitionsy
     $pageSize: Int
     $cursor: String
   ) {
-    allExhibitions(
+    allExhibitionss(
       fulltext: $queryString
       sortBy: $sortBy
       first: $pageSize
