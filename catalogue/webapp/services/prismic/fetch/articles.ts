@@ -73,7 +73,7 @@ export async function getStories({
       query: Query,
       pageSize: number,
       cursor?: string
-    ) => {
+    ): Promise<PrismicResultsList<Story> | PrismicApiError> => {
       const res = await prismicGraphQLClient(
         'articles',
         query,

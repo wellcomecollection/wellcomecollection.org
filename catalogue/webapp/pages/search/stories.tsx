@@ -13,10 +13,7 @@ import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import {
-  getStories,
-  getStoriesByPage,
-} from '@weco/catalogue/services/prismic/fetch/articles';
+import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
 import {
   PrismicApiError,
