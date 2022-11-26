@@ -13,7 +13,10 @@ import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
+import {
+  getStories,
+  getStoriesByPage,
+} from '@weco/catalogue/services/prismic/fetch/articles';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
 import {
   PrismicApiError,
@@ -168,7 +171,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
       {storyResponseList.totalResults > 0 && (
         <div className="container">
-          {/* TODO make pagination - cursor based pagination with graphql query */}
           <PaginationWrapper>
             {storyResponseList.totalResults > 0 && (
               <TotalResultsCopy>{`${storyResponseList.totalResults} result${
@@ -254,7 +256,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             })}
           </main>
 
-          {/* TODO make pagination work... */}
           <BottomPaginationWrapper>
             <SearchPagination totalPages={storyResponseList.totalPages} />
           </BottomPaginationWrapper>
@@ -292,7 +293,8 @@ export const getServerSideProps: GetServerSideProps<
       props: defaultProps,
     };
   }
-
+  const pageQuery = Boolean(query.page);
+  console.log(pageQuery, 'do we have a page in the query');
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
       query,

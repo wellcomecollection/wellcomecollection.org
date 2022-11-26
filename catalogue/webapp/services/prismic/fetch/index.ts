@@ -30,16 +30,156 @@ export const articleIdToLabel = (id: string): string => {
 export const prismicGraphQLQuery = (
   type: string,
   query: Query,
-  pageSize?: number
+  pageSize: number
 ): string => {
+  // const { query: queryString, sort, sortOrder } = query;
+  // const sortBy = getPrismicSortValue({ sort, sortOrder });
+
+  // const query = gql`
+  //   query getMovie($title: String!) {
+  //     Movie(title: $title) {
+  //       releaseDate
+  //       actors {
+  //         name
+  //       }
+  //     }
+  //   }
+  // `
+  //
+  // const variables = {
+  //   title: 'Inception',
+  // }
+  // return gql`
+  //   query {
+  //     ${
+  //       typesToPrismicGraphQLSchemaTypes[type]
+  //       }(fulltext: "${queryString}" sortBy: ${sortBy} first: ${pageSize}) {
+  //     totalCount
+  //     pageInfo {
+  //       hasNextPage
+  //       startCursor
+  //       endCursor
+  //       hasPreviousPage
+  //     }
+  //       edges {
+  //         cursor
+  //         node {
+  //           title
+  //           _meta { id, firstPublicationDate }
+  //           format {
+  //             __typename
+  //           }
+  //           format {
+  //             ...on ArticleFormats {
+  //               _meta {
+  //                 id
+  //               }
+  //             }
+  //           }
+  //           contributors {
+  //             contributor {
+  //               ...on People {
+  //                 name
+  //               }
+  //             }
+  //           }
+  //           body {
+  //             ...on ${capitalize(type)}BodyStandfirst {
+  //               primary {
+  //                 text
+  //               }
+  //             }
+  //           }
+  //           promo {
+  //             ...on ${capitalize(type)}PromoEditorialimage {
+  //               primary {
+  //                 image
+  //                 link
+  //                 caption
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // `;
   const { query: queryString, sort, sortOrder } = query;
+  console.log(queryString, 'do we have this');
   const sortBy = getPrismicSortValue({ sort, sortOrder });
+  const variables = { queryString: queryString?.toString(), sortBy, pageSize };
+  console.log(query, 'what is the query at this point');
 
   return gql`
     query {
       ${
         typesToPrismicGraphQLSchemaTypes[type]
-      }(fulltext: "${queryString}" sortBy: ${sortBy} first: ${pageSize} ) {
+        // }(fulltext: "${queryString}" sortBy: ${sortBy} first: ${pageSize}) {
+      }(fulltext: $queryString sortBy: $sortBy first: $pageSize after: $cursor) {
+    totalCount
+    pageInfo {
+    hasNextPage
+    startCursor
+    endCursor
+    hasPreviousPage
+    }
+    edges {
+    cursor
+    node {
+    title
+    _meta { id, firstPublicationDate }
+    format {
+    __typename
+    }
+    format {
+    ...on ArticleFormats {
+    _meta {
+    id
+    }
+    }
+    }
+    contributors {
+    contributor {
+    ...on People {
+    name
+    }
+    }
+    }
+    body {
+    ...on ${capitalize(type)}BodyStandfirst {
+    primary {
+    text
+    }
+    }
+    }
+    promo {
+    ...on ${capitalize(type)}PromoEditorialimage {
+    primary {
+    image
+    link
+    caption
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+  `;
+};
+const storiesQuery = gql`
+  query getAllStories(
+    $queryString: String
+    $sortBy: SortArticlesy
+    $pageSize: Int
+    $cursor: String
+  ) {
+    allArticless(
+      fulltext: $queryString
+      sortBy: $sortBy
+      first: $pageSize
+      after: $cursor
+    ) {
       totalCount
       pageInfo {
         hasNextPage
@@ -47,58 +187,62 @@ export const prismicGraphQLQuery = (
         endCursor
         hasPreviousPage
       }
-        edges {
-          cursor
-          node {
-            title
-            _meta { id, firstPublicationDate }
-            format {
-              __typename
-            }
-            format {
-              ...on ArticleFormats {
-                _meta {
-                  id
-                }
+      edges {
+        cursor
+        node {
+          title
+          _meta {
+            id
+            firstPublicationDate
+          }
+          format {
+            __typename
+          }
+          format {
+            ... on ArticleFormats {
+              _meta {
+                id
               }
             }
-            contributors {
-              contributor {
-                ...on People {
-                  name
-                }
+          }
+          contributors {
+            contributor {
+              ... on People {
+                name
               }
             }
-            body {
-              ...on ${capitalize(type)}BodyStandfirst {
-                primary {
-                  text
-                }
+          }
+          body {
+            ... on ArticlesBodyStandfirst {
+              primary {
+                text
               }
             }
-            promo {
-              ...on ${capitalize(type)}PromoEditorialimage {
-                primary {
-                  image
-                  link
-                  caption
-                }
+          }
+          promo {
+            ... on ArticlesPromoEditorialimage {
+              primary {
+                image
+                link
+                caption
               }
             }
           }
         }
       }
     }
-  `;
-};
-
+  }
+`;
 const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
 const client = prismic.createClient(endpoint, { fetch });
 
+// We need the below function to query with the variables like currentCursor
+// Once we can do that we can update where cursor is and pass through query
 export async function prismicGraphQLClient(
   type: string,
   query: Query,
-  pageSize: number
+  pageSize: number,
+  cursor?: string
 ): Promise<any> {
   const graphqlClient = new GraphQLClient(
     prismic.getGraphQLEndpoint('wellcomecollection'),
@@ -107,8 +251,18 @@ export async function prismicGraphQLClient(
       fetch: client.graphQLFetch,
     }
   );
-  const graphQLQuery = prismicGraphQLQuery(type, query, pageSize);
-  return graphqlClient.request(graphQLQuery);
+  // fulltext: $queryString sortBy: $sortBy first: $pageSize after: $cursor
+  console.log(cursor, '!!!! DO WE GET CURSOR INSIDE THE GRAPHQL CALL');
+  const { query: queryString, sort, sortOrder } = query;
+  console.log(queryString, 'do we have this');
+  const sortBy = getPrismicSortValue({ sort, sortOrder });
+
+  const variables = cursor
+    ? { queryString, sortBy, pageSize, cursor }
+    : { queryString, sortBy, pageSize };
+  console.log(variables, 'what is the var query at this point !!!!!!!!!!!');
+  // const graphQLQuery = prismicGraphQLQuery(type);
+  return graphqlClient.request(storiesQuery, variables);
 }
 
 export const prismicApiError = (): PrismicApiError => ({
