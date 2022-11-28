@@ -86,31 +86,13 @@ const IndexPage: FunctionComponent = () => {
               </a>
             </li>
             <li>
-              <a
-                href="http://ghp.wellcomecollection.org/speedtracker/"
-                rel="performance"
-              >
-                Speedtrack performance monitoring
-              </a>
-            </li>
-            <li>
               <a href="https://updown.io/2cep" rel="uptime">
                 Uptime: Homepage
               </a>
             </li>
             <li>
-              <a href="https://updown.io/5t1q" rel="uptime">
-                Uptime: Stories
-              </a>
-            </li>
-            <li>
               <a href="https://updown.io/bhef" rel="uptime">
                 Uptime: Works
-              </a>
-            </li>
-            <li>
-              <a href="https://stats.uptimerobot.com/x6RyoIGYR" rel="uptime">
-                Uptime: Whole site, no cache
               </a>
             </li>
             <li>
