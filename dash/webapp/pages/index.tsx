@@ -1,10 +1,19 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
+import Issue from './components/Issue';
 
 const fontFamily = 'Gadget, sans-serif';
 
 const IndexPage: FunctionComponent = () => {
+  const [prismicLintResults, setResultsList] = useState(null);
+
+  useEffect(() => {
+    fetch('https://dash.wellcomecollection.org/prismic-linting/report.json')
+      .then(resp => resp.json())
+      .then(json => setResultsList(json));
+  }, []);
+
   return (
     <>
       <Head>
@@ -117,10 +126,25 @@ const IndexPage: FunctionComponent = () => {
                 Digital Engagement Indicators
               </a>
             </li>
-            <li>
-              <a href="/prismic-linting">Prismic linting report</a>
-            </li>
           </ul>
+
+          <table>
+            <tr>
+              <td>
+                {prismicLintResults && prismicLintResults.totalErrors === 0 && (
+                  <Issue type="success">0 issues</Issue>
+                )}
+                {prismicLintResults && prismicLintResults.totalErrors > 0 && (
+                  <Issue type="error">
+                    {prismicLintResults.totalErrors} issues
+                  </Issue>
+                )}
+              </td>
+              <td>
+                <a href="/prismic-linting">Prismic linting report</a>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </>
