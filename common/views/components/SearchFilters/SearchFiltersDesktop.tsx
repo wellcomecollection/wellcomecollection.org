@@ -27,6 +27,7 @@ import { ResetActiveFilters } from './ResetActiveFilters';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
+import { useLayoutEffect } from 'react';
 
 export const dateRegex = /^\d{4}$|^$/;
 
@@ -66,22 +67,26 @@ const CheckboxFilter = ({
       id={f.id}
     >
       <PlainList className={font('intr', 5)}>
-        {f.options.map(({ id, label, value, count, selected }) => {
-          return (
-            <li key={`${f.id}-${id}`}>
-              <CheckboxRadio
-                id={id}
-                type="checkbox"
-                text={filterLabel({ label, count })}
-                value={value}
-                name={f.id}
-                checked={selected}
-                onChange={changeHandler}
-                form={form}
-              />
-            </li>
-          );
-        })}
+        <fieldset name={f.label} form={form}>
+          <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
+            {f.options.map(({ id, label, value, count, selected }) => {
+              return (
+                <li key={`${f.id}-${id}`}>
+                  <CheckboxRadio
+                    id={id}
+                    type="checkbox"
+                    text={filterLabel({ label, count })}
+                    value={value}
+                    name={f.id}
+                    checked={selected}
+                    onChange={changeHandler}
+                    form={form}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        </fieldset>
       </PlainList>
     </DropdownButton>
   );
@@ -111,7 +116,7 @@ const DateRangeFilter = ({
         buttonType="inline"
         id={f.id}
       >
-        <>
+        <fieldset name={f.label} form={form}>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <NumberInput
               name={f.from.id}
@@ -146,7 +151,7 @@ const DateRangeFilter = ({
             }}
             form={form}
           />
-        </>
+        </fieldset>
       </DropdownButton>
     </Space>
   );
@@ -198,126 +203,212 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [componentMounted, setComponentMounted] = useState(false);
   useEffect(() => setComponentMounted(true), []);
 
+  const wrapperRef = useRef(null);
+  const [wrapperWidth, setWrapperWidth] = useState<number>();
+  const updateWrapperWidth = () => {
+    if (wrapperRef.current) {
+      const { width, left } = wrapperRef.current.getBoundingClientRect();
+      setWrapperWidth(left + width);
+    }
+  };
+  useEffect(() => {
+    updateWrapperWidth();
+    window.addEventListener('resize', updateWrapperWidth);
+    return () => window.removeEventListener('resize', updateWrapperWidth);
+  }, []);
+
+  const filterClassname = 'superUniqueDropdownFilterButtonClass';
+  useLayoutEffect(() => {
+    const arrOfDropdownButtonNodes = document.querySelectorAll(
+      `.${filterClassname}`
+    );
+
+    let willAllFit = true;
+
+    for (let i = arrOfDropdownButtonNodes.length - 1; i >= 0; i--) {
+      const dropdownButtonNode = arrOfDropdownButtonNodes[i];
+      const { width, left } = dropdownButtonNode.getBoundingClientRect();
+      const rightmostEdge = width + left;
+      if (rightmostEdge > wrapperWidth) willAllFit = false;
+      const spaceAvailable = willAllFit ? wrapperWidth : wrapperWidth - 150;
+      const canStay = rightmostEdge < spaceAvailable;
+
+      if (canStay) {
+        // render this item
+      } else {
+        // dropdownButtonNode.style
+      }
+
+      console.log(`item at index ${i} is in frame?: ${canStay}`);
+    }
+  }, [wrapperWidth]);
+  const dynamicFilters = filters.map((f, i, arr) => (
+    <Space
+      key={f.id}
+      className={filterClassname}
+      h={
+        i + 1 !== arr.length
+          ? {
+              size: newStyle ? 'm' : 's',
+              properties: ['margin-right'],
+            }
+          : undefined
+      }
+    >
+      {f.type === 'checkbox' && (
+        <CheckboxFilter
+          f={f}
+          changeHandler={changeHandler}
+          form={searchFormId}
+          newStyle={newStyle}
+        />
+      )}
+
+      {f.type === 'dateRange' && (
+        <DateRangeFilter
+          f={f}
+          changeHandler={changeHandler}
+          form={searchFormId}
+          newStyle={newStyle}
+        />
+      )}
+
+      {f.type === 'color' && (
+        <ColorFilter
+          f={f}
+          changeHandler={changeHandler}
+          form={searchFormId}
+          newStyle={newStyle}
+        />
+      )}
+    </Space>
+  ));
+
   const visibleFilters = filters.slice(0, nVisibleFilters);
   const modalFilters = filters.slice(nVisibleFilters);
 
   return (
     <>
-      <Wrapper newStyle={newStyle}>
+      <Wrapper newStyle={newStyle} id="testing" ref={wrapperRef}>
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           className="flex flex--h-space-between flex--v-center full-width flex--wrap"
         >
           <Space
             v={{ size: 'm', properties: ['margin-bottom'] }}
-            className="flex flex--v-center flex--wrap"
+            className="flex flex--v-center flex--no-wrap"
           >
+            {newStyle && dynamicFilters}
             {!newStyle && (
-              <Space
-                as="span"
-                h={{ size: 'm', properties: ['margin-right'] }}
-                className="flex flex--v-center"
-              >
-                <Icon icon={filter} />
+              <>
                 <Space
-                  h={{ size: 's', properties: ['margin-left'] }}
-                  className={font('intb', 5)}
+                  as="span"
+                  h={{ size: 'm', properties: ['margin-right'] }}
+                  className="flex flex--v-center"
                 >
-                  Filter by
+                  <Icon icon={filter} />
+                  <Space
+                    h={{ size: 's', properties: ['margin-left'] }}
+                    className={font('intb', 5)}
+                  >
+                    Filter by
+                  </Space>
                 </Space>
-              </Space>
-            )}
+                {visibleFilters.map((f, i, arr) => {
+                  return (
+                    <Space
+                      key={f.id}
+                      h={
+                        i + 1 !== arr.length
+                          ? {
+                              size: newStyle ? 'm' : 's',
+                              properties: ['margin-right'],
+                            }
+                          : undefined
+                      }
+                    >
+                      {f.type === 'checkbox' && (
+                        <CheckboxFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={searchFormId}
+                          newStyle={newStyle}
+                        />
+                      )}
 
-            {visibleFilters.map((f, i, arr) => {
-              return (
-                <Space
-                  key={f.id}
-                  h={
-                    i + 1 !== arr.length
-                      ? {
-                          size: newStyle ? 'm' : 's',
-                          properties: ['margin-right'],
-                        }
-                      : undefined
-                  }
-                >
-                  {f.type === 'checkbox' && (
-                    <CheckboxFilter
-                      f={f}
+                      {f.type === 'dateRange' && (
+                        <DateRangeFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={searchFormId}
+                          newStyle={newStyle}
+                        />
+                      )}
+
+                      {f.type === 'color' && (
+                        <ColorFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={searchFormId}
+                          newStyle={newStyle}
+                        />
+                      )}
+                    </Space>
+                  );
+                })}
+
+                {modalFilters.length > 0 && (
+                  <Space
+                    className={font('intr', 5)}
+                    h={{
+                      size: newStyle ? 'm' : 's',
+                      properties: ['margin-left'],
+                    }}
+                  >
+                    {componentMounted &&
+                      (newStyle ? (
+                        <ButtonSolid
+                          colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                          icon={filter}
+                          isIconAfter
+                          hoverUnderline={true}
+                          size="small"
+                          type={ButtonTypes.button}
+                          text="All Filters"
+                          clickHandler={event => {
+                            event.preventDefault();
+                            setShowMoreFiltersModal(true);
+                          }}
+                          ref={openMoreFiltersButtonRef}
+                          isPill
+                        />
+                      ) : (
+                        <ButtonSolid
+                          colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                          hoverUnderline={true}
+                          size="small"
+                          type={ButtonTypes.button}
+                          text="More filters"
+                          clickHandler={event => {
+                            event.preventDefault();
+                            setShowMoreFiltersModal(true);
+                          }}
+                          ref={openMoreFiltersButtonRef}
+                        />
+                      ))}
+                    <ModalMoreFilters
+                      query={query}
+                      id="moreFilters"
+                      isActive={showMoreFiltersModal}
+                      setIsActive={setShowMoreFiltersModal}
+                      openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                       changeHandler={changeHandler}
+                      filters={modalFilters}
                       form={searchFormId}
-                      newStyle={newStyle}
                     />
-                  )}
-
-                  {f.type === 'dateRange' && (
-                    <DateRangeFilter
-                      f={f}
-                      changeHandler={changeHandler}
-                      form={searchFormId}
-                      newStyle={newStyle}
-                    />
-                  )}
-
-                  {f.type === 'color' && (
-                    <ColorFilter
-                      f={f}
-                      changeHandler={changeHandler}
-                      form={searchFormId}
-                      newStyle={newStyle}
-                    />
-                  )}
-                </Space>
-              );
-            })}
-
-            {modalFilters.length > 0 && (
-              <Space
-                className={font('intr', 5)}
-                h={{ size: newStyle ? 'm' : 's', properties: ['margin-left'] }}
-              >
-                {componentMounted &&
-                  (newStyle ? (
-                    <ButtonSolid
-                      colors={themeValues.buttonColors.marbleWhiteCharcoal}
-                      icon={filter}
-                      isIconAfter
-                      hoverUnderline={true}
-                      size="small"
-                      type={ButtonTypes.button}
-                      text="All Filters"
-                      clickHandler={event => {
-                        event.preventDefault();
-                        setShowMoreFiltersModal(true);
-                      }}
-                      ref={openMoreFiltersButtonRef}
-                      isPill
-                    />
-                  ) : (
-                    <ButtonSolid
-                      colors={themeValues.buttonColors.marbleWhiteCharcoal}
-                      hoverUnderline={true}
-                      size="small"
-                      type={ButtonTypes.button}
-                      text="More filters"
-                      clickHandler={event => {
-                        event.preventDefault();
-                        setShowMoreFiltersModal(true);
-                      }}
-                      ref={openMoreFiltersButtonRef}
-                    />
-                  ))}
-                <ModalMoreFilters
-                  query={query}
-                  id="moreFilters"
-                  isActive={showMoreFiltersModal}
-                  setIsActive={setShowMoreFiltersModal}
-                  openMoreFiltersButtonRef={openMoreFiltersButtonRef}
-                  changeHandler={changeHandler}
-                  filters={modalFilters}
-                  form={searchFormId}
-                />
-              </Space>
+                  </Space>
+                )}
+              </>
             )}
           </Space>
         </Space>
