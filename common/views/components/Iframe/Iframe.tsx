@@ -13,6 +13,7 @@ export const IframeContainer = styled.div.attrs({
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
   position: relative;
+  overflow: hidden;
 
   .overlay {
     position: absolute;
