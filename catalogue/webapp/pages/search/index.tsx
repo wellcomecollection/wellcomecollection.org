@@ -14,7 +14,6 @@ type Props = {
 export const SearchPage: NextPageWithLayout<Props> = () => {
   return (
     <div className="container">
-      <h1 className="visually-hidden">Overview Search Page</h1>
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
         <div>Overview</div>
       </Space>
