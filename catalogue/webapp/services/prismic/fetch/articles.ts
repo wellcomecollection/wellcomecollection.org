@@ -120,7 +120,7 @@ export async function getStories({
       const allCursors = await fetchAllCursors('articles', query, pageSize);
       const currentPage = query.page ? query.page : 1;
       const getCurrentPageCursor = allCursors.find(
-        cursor => cursor.page === parseFloat(String(currentPage))
+        cursor => cursor.page === currentPage
       );
       return getCurrentPageCursor?.cursor;
     };
