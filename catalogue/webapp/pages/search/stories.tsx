@@ -173,7 +173,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         <SearchNoResults query={queryString} hasFilters={false} />
       ) : (
         <div className="container">
-          {/* TODO make pagination - cursor based pagination with graphql query */}
           <PaginationWrapper>
             <span>{pluralize(storyResponseList.totalResults, 'result')}</span>
 
@@ -255,7 +254,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             })}
           </main>
 
-          {/* TODO make pagination work... */}
           <BottomPaginationWrapper>
             <SearchPagination totalPages={storyResponseList.totalPages} />
           </BottomPaginationWrapper>

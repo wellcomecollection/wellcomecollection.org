@@ -1,21 +1,14 @@
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
-import { gql, GraphQLClient } from 'graphql-request';
-
+import { GraphQLClient } from 'graphql-request';
 import { PrismicApiError } from '../types';
-import { unCamelCase, capitalize } from '@weco/common/utils/grammar';
+import { unCamelCase } from '@weco/common/utils/grammar';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { Query } from '@weco/catalogue/types/search';
 import { getPrismicSortValue } from '@weco/catalogue/utils/search';
-
-export const typesToPrismicGraphQLSchemaTypes = {
-  // types to graphql query schema types,
-  events: 'allEventss',
-  exhibitions: 'allExhibitionss',
-  articles: 'allArticless',
-  series: 'allSeriess',
-  webcomics: 'allWebcomicss',
-};
+import { storiesQuery } from './articles';
+import { eventsQuery } from './events';
+import { exhibitionsQuery } from './exhibitions';
 
 export const articleIdToLabel = (id: string): string => {
   const label = Object.keys(ArticleFormatIds).find(
@@ -27,78 +20,14 @@ export const articleIdToLabel = (id: string): string => {
   return formattedLabel === 'Essay' ? 'Article' : formattedLabel;
 };
 
-export const prismicGraphQLQuery = (
-  type: string,
-  query: Query,
-  pageSize?: number
-): string => {
-  const { query: queryString, sort, sortOrder } = query;
-  const sortBy = getPrismicSortValue({ sort, sortOrder });
-
-  return gql`
-    query {
-      ${
-        typesToPrismicGraphQLSchemaTypes[type]
-      }(fulltext: "${queryString}" sortBy: ${sortBy} first: ${pageSize} ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        startCursor
-        endCursor
-        hasPreviousPage
-      }
-        edges {
-          cursor
-          node {
-            title
-            _meta { id, firstPublicationDate }
-            format {
-              __typename
-            }
-            format {
-              ...on ArticleFormats {
-                _meta {
-                  id
-                }
-              }
-            }
-            contributors {
-              contributor {
-                ...on People {
-                  name
-                }
-              }
-            }
-            body {
-              ...on ${capitalize(type)}BodyStandfirst {
-                primary {
-                  text
-                }
-              }
-            }
-            promo {
-              ...on ${capitalize(type)}PromoEditorialimage {
-                primary {
-                  image
-                  link
-                  caption
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-};
-
 const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
 const client = prismic.createClient(endpoint, { fetch });
 
 export async function prismicGraphQLClient(
   type: string,
   query: Query,
-  pageSize: number
+  pageSize: number,
+  cursor?: string
 ): Promise<any> {
   const graphqlClient = new GraphQLClient(
     prismic.getGraphQLEndpoint('wellcomecollection'),
@@ -107,8 +36,22 @@ export async function prismicGraphQLClient(
       fetch: client.graphQLFetch,
     }
   );
-  const graphQLQuery = prismicGraphQLQuery(type, query, pageSize);
-  return graphqlClient.request(graphQLQuery);
+
+  const { query: queryString, sort, sortOrder } = query;
+  const sortBy = getPrismicSortValue({ sort, sortOrder });
+
+  // We pass through variables for graphql query, we only include cursor if we have it
+  const variables = cursor
+    ? { queryString, sortBy, pageSize, cursor }
+    : { queryString, sortBy, pageSize };
+
+  const graphQLQueries = {
+    articles: storiesQuery,
+    events: eventsQuery,
+    exhibitions: exhibitionsQuery,
+  };
+
+  return graphqlClient.request(graphQLQueries[type], variables);
 }
 
 export const prismicApiError = (): PrismicApiError => ({
