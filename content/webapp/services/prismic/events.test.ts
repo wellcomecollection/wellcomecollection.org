@@ -14,7 +14,7 @@ describe('orderEventsByNextAvailableDate', () => {
             startDateTime: new Date(2032, 3, 25, 15, 30, 0),
             endDateTime: new Date(2032, 3, 25, 16, 30, 0),
           },
-          isFullyBooked: false,
+          isFullyBooked: { inVenue: false, online: false },
         },
       ],
     };
@@ -27,7 +27,7 @@ describe('orderEventsByNextAvailableDate', () => {
             startDateTime: new Date(2032, 2, 24, 18, 0, 0),
             endDateTime: new Date(2032, 2, 25, 19, 30, 0),
           },
-          isFullyBooked: false,
+          isFullyBooked: { inVenue: false, online: false },
         },
       ],
     };
@@ -44,6 +44,7 @@ describe('orderEventsByNextAvailableDate', () => {
             startDateTime: new Date('2022-11-17T18:30:00.000Z'),
             endDateTime: new Date('2022-11-19T15:00:00.000Z'),
           },
+          isFullyBooked: { inVenue: false, online: false },
         },
       ],
       title: 'What You See / Don’t See When…',
@@ -69,16 +70,14 @@ describe('upcomingDatesFullyBooked', () => {
             startDateTime: new Date(2000, 3, 25, 15, 30, 0),
             endDateTime: new Date(2000, 3, 25, 16, 30, 0),
           },
-          isFullyBooked: false,
-          onlineIsFullyBooked: false,
+          isFullyBooked: { inVenue: false, online: false },
         },
         {
           range: {
             startDateTime: new Date(3000, 3, 27, 15, 30, 0),
             endDateTime: new Date(3000, 3, 27, 16, 30, 0),
           },
-          isFullyBooked: true,
-          onlineIsFullyBooked: true,
+          isFullyBooked: { inVenue: true, online: true },
         },
       ],
     };
@@ -86,7 +85,7 @@ describe('upcomingDatesFullyBooked', () => {
     expect(result).toEqual(true);
   });
 
-  it('an event is not fully booked if in-person tickets are still available', () => {
+  it('an event is not fully booked if in-venue tickets are still available', () => {
     const event = {
       id: 'event-id',
       times: [
@@ -95,16 +94,14 @@ describe('upcomingDatesFullyBooked', () => {
             startDateTime: new Date(2000, 3, 25, 15, 30, 0),
             endDateTime: new Date(2000, 3, 25, 16, 30, 0),
           },
-          isFullyBooked: true,
-          onlineIsFullyBooked: true,
+          isFullyBooked: { inVenue: true, online: true },
         },
         {
           range: {
             startDateTime: new Date(3000, 3, 27, 15, 30, 0),
             endDateTime: new Date(3000, 3, 27, 16, 30, 0),
           },
-          isFullyBooked: false,
-          onlineIsFullyBooked: true,
+          isFullyBooked: { inVenue: false, online: true },
         },
       ],
     };
@@ -121,8 +118,7 @@ describe('upcomingDatesFullyBooked', () => {
             startDateTime: new Date(3000, 3, 27, 15, 30, 0),
             endDateTime: new Date(3000, 3, 27, 16, 30, 0),
           },
-          isFullyBooked: true,
-          onlineIsFullyBooked: false,
+          isFullyBooked: { inVenue: true, online: false },
         },
       ],
     };
@@ -139,8 +135,7 @@ describe('upcomingDatesFullyBooked', () => {
             startDateTime: new Date(3000, 3, 27, 15, 30, 0),
             endDateTime: new Date(3000, 3, 27, 16, 30, 0),
           },
-          isFullyBooked: false,
-          onlineIsFullyBooked: true,
+          isFullyBooked: { inVenue: false, online: true },
         },
       ],
     };

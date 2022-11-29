@@ -14,7 +14,7 @@ describe('getUpcomingEvents', () => {
             startDateTime,
             endDateTime: startDateTime,
           },
-          isFullyBooked: false,
+          isFullyBooked: { inVenue: false, online: false },
         },
       ],
     }));
@@ -37,7 +37,7 @@ describe('getUpcomingEvents', () => {
             startDateTime,
             endDateTime: new Date(2100, 3, 25, 16, 30, 0),
           },
-          isFullyBooked: false,
+          isFullyBooked: { inVenue: false, online: false },
         },
       ],
     }));
@@ -57,7 +57,7 @@ describe('getUpcomingEvents', () => {
               startDateTime: new Date(2001, 3, 25, 16, 30, 0),
               endDateTime: new Date(2100, 3, 25, 17, 30),
             },
-            isFullyBooked: false,
+            isFullyBooked: { inVenue: false, online: false },
           },
         ],
       },

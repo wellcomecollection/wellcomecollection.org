@@ -1,5 +1,4 @@
 import { clock } from '@weco/common/icons';
-import { isNotUndefined } from '@weco/common/utils/array';
 import { Exhibition } from '../types/exhibitions';
 import { Props as WhatsOnProps } from '../pages/whats-on';
 
@@ -1266,7 +1265,7 @@ export const whatsOn: (hasExhibition: boolean) => WhatsOnProps = (
     start: null,
     end: null,
     isMultiDate: false,
-    isFullyBooked: false,
+    isFullyBooked: { inVenue: false, online: false },
     hasNotFullyBookedTimes: false,
     description: null,
     series: [],
