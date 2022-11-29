@@ -29,12 +29,9 @@ import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { useLayoutEffect } from 'react';
+import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
 
 export const dateRegex = /^\d{4}$|^$/;
-
-const PaletteColorPicker = dynamic(
-  import('../PaletteColorPicker/PaletteColorPicker')
-);
 
 type CheckboxFilterProps = {
   f: CheckboxFilterType;
@@ -213,9 +210,11 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     }
   };
   useEffect(() => {
-    updateWrapperWidth();
-    window.addEventListener('resize', updateWrapperWidth);
-    return () => window.removeEventListener('resize', updateWrapperWidth);
+    if (newStyle) {
+      updateWrapperWidth();
+      window.addEventListener('resize', updateWrapperWidth);
+      return () => window.removeEventListener('resize', updateWrapperWidth);
+    }
   }, []);
 
   const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
@@ -224,29 +223,31 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
   useLayoutEffect(() => {
-    const arrOfDropdownButtonNodes = document.querySelectorAll(
-      `.${filterClassname}`
-    );
+    if (newStyle) {
+      const arrOfDropdownButtonNodes = document.querySelectorAll(
+        `.${filterClassname}`
+      );
 
-    let willAllFit = true;
+      let willAllFit = true;
 
-    const dynamicFilterArray: Filter[] = [];
-    SetShowFilterModalButton(false);
-    for (let i = arrOfDropdownButtonNodes.length - 1; i >= 0; i--) {
-      const dropdownButtonNode = arrOfDropdownButtonNodes[i];
-      const { width, left } = dropdownButtonNode.getBoundingClientRect();
-      const rightmostEdge = width + left;
-      if (rightmostEdge > wrapperWidth) willAllFit = false;
-      const spaceAvailable = willAllFit ? wrapperWidth : wrapperWidth - 150;
-      const canStay = rightmostEdge < spaceAvailable;
-      if (canStay) {
-        dynamicFilterArray.push(filters[i]);
-      } else {
-        SetShowFilterModalButton(true);
+      const dynamicFilterArray: Filter[] = [];
+      SetShowFilterModalButton(false);
+      for (let i = arrOfDropdownButtonNodes.length - 1; i >= 0; i--) {
+        const dropdownButtonNode = arrOfDropdownButtonNodes[i];
+        const { width, left } = dropdownButtonNode.getBoundingClientRect();
+        const rightmostEdge = width + left;
+        if (rightmostEdge > wrapperWidth) willAllFit = false;
+        const spaceAvailable = willAllFit ? wrapperWidth : wrapperWidth - 150;
+        const canStay = rightmostEdge < spaceAvailable;
+        if (canStay) {
+          dynamicFilterArray[i] = filters[i];
+        } else {
+          SetShowFilterModalButton(true);
+        }
       }
+      setHasCalculatedFilters(true);
+      setDynamicFilters(dynamicFilterArray);
     }
-    setHasCalculatedFilters(true);
-    setDynamicFilters(dynamicFilterArray);
   }, [wrapperWidth]);
 
   const renderDynamicFilter = (f, i, arr) => {
@@ -313,30 +314,49 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         >
           <Space
             v={{ size: 'm', properties: ['margin-bottom'] }}
-            className="flex flex--v-center flex--no-wrap"
+            className={'flex flex--v-center flex--no-wrap'}
           >
-            {newStyle && filtersToDisplay}
-            {showFilterModalButton && (
-              <Space
-                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-              >
-                <ButtonSolid
-                  colors={themeValues.buttonColors.marbleWhiteCharcoal}
-                  icon={filter}
-                  isIconAfter
-                  hoverUnderline={true}
-                  size="small"
-                  type={ButtonTypes.button}
-                  text="All Filters"
-                  clickHandler={event => {
-                    event.preventDefault();
-                    setShowMoreFiltersModal(true);
-                  }}
-                  ref={openMoreFiltersButtonRef}
-                  isPill
+            {newStyle && (
+              <>
+                {filtersToDisplay}
+                {showFilterModalButton && (
+                  <Space
+                    h={{
+                      size: 'm',
+                      properties: ['padding-left', 'padding-right'],
+                    }}
+                  >
+                    <ButtonSolid
+                      colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                      icon={filter}
+                      isIconAfter
+                      hoverUnderline={true}
+                      size="small"
+                      type={ButtonTypes.button}
+                      text="All Filters"
+                      clickHandler={event => {
+                        event.preventDefault();
+                        setShowMoreFiltersModal(true);
+                      }}
+                      ref={openMoreFiltersButtonRef}
+                      isPill
+                    />
+                  </Space>
+                )}
+                <ModalMoreFilters
+                  query={query}
+                  id="moreFilters"
+                  isActive={showMoreFiltersModal}
+                  setIsActive={setShowMoreFiltersModal}
+                  openMoreFiltersButtonRef={openMoreFiltersButtonRef}
+                  changeHandler={changeHandler}
+                  filters={filters}
+                  form={searchFormId}
+                  newStyle
                 />
-              </Space>
+              </>
             )}
+
             {!newStyle && (
               <>
                 <Space

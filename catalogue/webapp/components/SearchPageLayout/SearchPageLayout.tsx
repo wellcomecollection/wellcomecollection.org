@@ -128,7 +128,30 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
   const updateUrl = (form: HTMLFormElement) => {
     const formValues = formDataAsUrlQuery(form);
+    if (
+      formValues['production.dates.from'] &&
+      Array.isArray(formValues['production.dates.from']) &&
+      formValues['production.dates.to'] &&
+      Array.isArray(formValues['production.dates.to'])
+    ) {
+      let to = '',
+        from = '';
 
+      for (let i = 0; i < formValues['production.dates.from'].length; i++) {
+        const element = formValues['production.dates.from'][i];
+        if (element.trim() !== '') {
+          from = element.trim();
+        }
+      }
+      formValues['production.dates.from'] = from;
+      for (let i = 0; i < formValues['production.dates.to'].length; i++) {
+        const element = formValues['production.dates.to'][i];
+        if (element.trim() !== '') {
+          to = element.trim();
+        }
+      }
+      formValues['production.dates.to'] = to;
+    }
     if (formValues.query) {
       const sortOptionValue = formValues?.sortOrder
         ? Array.isArray(formValues.sortOrder)

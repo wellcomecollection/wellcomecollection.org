@@ -34,7 +34,7 @@ type Props = {
   openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
-  modalStyle?: 'filters' | 'calendar' | 'default';
+  modalStyle?: 'filters' | 'calendar' | 'default' | 'filters-new';
 };
 const Overlay = styled.div`
   z-index: 1000;
@@ -165,6 +165,46 @@ const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   padding-right: 0px;
 `;
 
+const FiltersModalNew = styled(Space).attrs<BaseModalProps>({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  className: 'shadow',
+})<BaseModalProps>`
+  overflow: hidden;
+  z-index: 10001;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  overflow: auto;
+  transition: opacity 350ms ease, transform 350ms ease;
+  background-color: ${props => props.theme.color('white')};
+
+  ${props =>
+    props.theme.media('medium')(`
+    top: 0;
+    right: 0;
+    left: auto;
+    bottom: auto;
+    height: 100vh;
+    max-width: ${
+      props.maxWidth || props.width || `${props.theme.sizes.large}px`
+    };
+    width: ${(props.maxWidth && '80%') || props.width || 'auto'};
+    border-radius: ${props.theme.borderRadiusUnit}px;
+
+    &,
+    &.fade-enter,
+    &.fade-exit-active,
+    &.fade-exit-done {
+    }
+    &.fade-enter-active,
+    &.fade-enter-done {
+      opacity: 1;
+    }
+  `)}
+`;
+
 const CalendarModal = styled(BaseModalWindow)`
   padding: 0;
   right: 0;
@@ -180,6 +220,8 @@ function determineModal(modalStyle: Props['modalStyle']) {
   switch (modalStyle) {
     case 'filters':
       return FiltersModal;
+    case 'filters-new':
+      return FiltersModalNew;
     case 'calendar':
       return CalendarModal;
     default:
