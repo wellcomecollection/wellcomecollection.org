@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import {
-  AuthService,
-  AuthServiceService,
-} from '../services/iiif/types/manifest/v2';
+import { AuthClickThroughServiceWithPossibleServiceArray } from '../types/manifest';
+import { AuthAccessTokenService } from '@iiif/presentation-3';
 
 const useShowClickthrough = (
-  authService: AuthService | undefined,
-  tokenService: AuthServiceService | undefined
+  clickThroughService:
+    | AuthClickThroughServiceWithPossibleServiceArray
+    | undefined,
+  tokenService: AuthAccessTokenService | undefined
 ): boolean => {
   const [showClickthrough, setShowClickthrough] = useState(false);
 
@@ -26,7 +26,7 @@ const useShowClickthrough = (
       }
     }
 
-    if (authService) {
+    if (clickThroughService) {
       setShowClickthrough(true);
       window.addEventListener('message', receiveMessage);
       return () => window.removeEventListener('message', receiveMessage);

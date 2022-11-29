@@ -136,6 +136,19 @@ module "search_rule" {
 # These routes will mimic the `/catalogue/webapp/pages/*` directory
 # see: https://github.com/vercel/next.js/issues/16090
 
+// This listener is separate to the below because it has 2 wildcards in
+// the path pattern and so the splitting logic doesn't work for it
+module "any_search_data_listener" {
+  source = "../../../infrastructure/modules/alb_listener_rule"
+
+  alb_listener_https_arn = var.alb_listener_https_arn
+  alb_listener_http_arn  = var.alb_listener_http_arn
+  target_group_arn       = local.target_group_arn
+
+  priority      = "206"
+  path_patterns = ["/_next/data/*/search/*.json"]
+}
+
 locals {
   # Listener rules are limited to 5 different condition values so we
   # must create several to cover all of the path patterns we need

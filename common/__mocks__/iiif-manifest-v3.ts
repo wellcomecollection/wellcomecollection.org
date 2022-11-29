@@ -7,32 +7,6 @@ export const physicalDescriptionMetadataItem = {
   },
 };
 
-export const authService = {
-  '@id': 'https://iiif.wellcomecollection.org/auth/clickthrough',
-  '@type': 'AuthCookieService1',
-  profile: 'http://iiif.io/api/auth/1/clickthrough',
-  label: 'Content advisory',
-  description:
-    '<p>This digitised material is free to access, but contains information or visuals that may:</p><ul><li>include personal details of living individuals</li><li>be upsetting or distressing</li><li>be explicit or graphic</li><li>include objects and images of objects decontextualised in a way that is offensive to the originating culture.</li></ul>By viewing this material, we ask that you use the content lawfully, ethically and responsibly under the conditions set out in our <a href="https://wellcomecollection.cdn.prismic.io/wellcomecollection/d4817da5-c71a-4151-81c4-83e39ad4f5b3_Wellcome+Collection_Access+Policy_Aug+2020.pdf">Access Policy</a>.',
-  service: [
-    {
-      '@id': 'https://iiif.wellcomecollection.org/auth/token',
-      '@type': 'AuthTokenService1',
-      profile: 'http://iiif.io/api/auth/1/token',
-    },
-    {
-      '@id': 'https://iiif.wellcomecollection.org/auth/clickthrough/logout',
-      '@type': 'AuthLogoutService1',
-      profile: 'http://iiif.io/api/auth/1/logout',
-      label: 'Log out of Wellcome Collection',
-    },
-  ],
-  confirmLabel: 'Accept Terms and Open',
-  header: 'Content advisory',
-  failureHeader: 'Terms not accepted',
-  failureDescription: 'You must accept the terms to view the content.',
-};
-
 export const services = [
   {
     id: 'https://iiif.wellcomecollection.org/presentation/b29214397#tracking',
@@ -61,7 +35,6 @@ export const services = [
       en: ['clickthrough'],
     },
   },
-  { ...authService },
 ];
 
 export const manifestWithTranscript = {
@@ -10916,6 +10889,432 @@ export const manifest = {
       label: {
         en: ['Genre: Electronic books'],
       },
+    },
+  ],
+};
+
+export const clickThroughService = {
+  '@id': 'https://iiif.wellcomecollection.org/auth/clickthrough',
+  '@type': 'AuthCookieService1',
+  profile: 'http://iiif.io/api/auth/1/clickthrough',
+  label: 'Content advisory',
+  description:
+    '<p>This digitised material is free to access, but contains information or visuals that may:</p><ul><li>include personal details of living individuals</li><li>be upsetting or distressing</li><li>be explicit or graphic</li><li>include objects and images of objects decontextualised in a way that is offensive to the originating culture.</li></ul>By viewing this material, we ask that you use the content lawfully, ethically and responsibly under the conditions set out in our <a href="https://wellcomecollection.cdn.prismic.io/wellcomecollection/d4817da5-c71a-4151-81c4-83e39ad4f5b3_Wellcome+Collection_Access+Policy_Aug+2020.pdf">Access Policy</a>.',
+  service: [
+    {
+      '@id': 'https://iiif.wellcomecollection.org/auth/token',
+      '@type': 'AuthTokenService1',
+      profile: 'http://iiif.io/api/auth/1/token',
+    },
+    {
+      '@id': 'https://iiif.wellcomecollection.org/auth/clickthrough/logout',
+      '@type': 'AuthLogoutService1',
+      profile: 'http://iiif.io/api/auth/1/logout',
+      label: 'Log out of Wellcome Collection',
+    },
+  ],
+  confirmLabel: 'Accept Terms and Open',
+  header: 'Content advisory',
+  failureHeader: 'Terms not accepted',
+  failureDescription: 'You must accept the terms to view the content.',
+};
+
+export const manifestWithClickThroughService = {
+  '@context': 'http://iiif.io/api/presentation/3/context.json',
+  id: 'https://iiif.wellcomecollection.org/presentation/b19928634',
+  type: 'Manifest',
+  label: {
+    en: ['Channel, Betty'],
+  },
+  summary: {
+    en: ['Correspondence regarding cats.'],
+  },
+  thumbnail: [
+    {
+      id: 'https://iiif.wellcomecollection.org/thumbs/b19928634_haldane_5_1_2_5_31_0001.JP2/full/82,100/0/default.jpg',
+      type: 'Image',
+      width: 82,
+      height: 100,
+      service: [
+        {
+          '@id':
+            'https://iiif.wellcomecollection.org/thumbs/b19928634_haldane_5_1_2_5_31_0001.JP2',
+          '@type': 'ImageService2',
+          profile: 'http://iiif.io/api/image/2/level0.json',
+          width: 165,
+          height: 200,
+          sizes: [
+            {
+              width: 82,
+              height: 100,
+            },
+            {
+              width: 165,
+              height: 200,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  homepage: [
+    {
+      id: 'https://wellcomecollection.org/works/fa7pymra',
+      type: 'Text',
+      label: {
+        en: ['Channel, Betty'],
+      },
+      format: 'text/html',
+      language: ['en'],
+    },
+  ],
+  metadata: [
+    {
+      label: {
+        en: ['Description'],
+      },
+      value: {
+        en: ['Correspondence regarding cats.'],
+      },
+    },
+    {
+      label: {
+        en: ['Reference'],
+      },
+      value: {
+        none: ['HALDANE/5/1/2/5/31'],
+      },
+    },
+    {
+      label: {
+        en: ['Publication/creation'],
+      },
+      value: {
+        none: ['24 Oct 1949'],
+      },
+    },
+    {
+      label: {
+        en: ['Physical description'],
+      },
+      value: {
+        en: ['1 letter 2 sides'],
+      },
+    },
+    {
+      label: {
+        en: ['Attribution and usage'],
+      },
+      value: {
+        en: [
+          'Wellcome Collection',
+          '<span>You have permission to make copies of this work under a <a target="_top" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons, Attribution, Non-commercial license</a>.<br/><br/>Non-commercial use includes private study, academic research, teaching, and other activities that are not primarily intended for, or directed towards, commercial advantage or private monetary compensation. See the <a target="_top" href="http://creativecommons.org/licenses/by-nc/4.0/legalcode">Legal Code</a> for further information.<br/><br/>Image source should be attributed as specified in the full catalogue record. If no source is given the image should be attributed to Wellcome Collection.</span>',
+        ],
+      },
+    },
+  ],
+  rights: 'http://creativecommons.org/licenses/by-nc/4.0/',
+  provider: [
+    {
+      id: 'https://wellcomecollection.org',
+      type: 'Agent',
+      label: {
+        en: [
+          'Wellcome Collection',
+          '183 Euston Road',
+          'London NW1 2BE UK',
+          'T +44 (0)20 7611 8722',
+          'E library@wellcomecollection.org',
+          'https://wellcomecollection.org',
+        ],
+      },
+      homepage: [
+        {
+          id: 'https://wellcomecollection.org/works',
+          type: 'Text',
+          label: {
+            en: ['Explore our collections'],
+          },
+          format: 'text/html',
+        },
+      ],
+      logo: [
+        {
+          id: 'https://iiif.wellcomecollection.org/logos/wellcome-collection-black.png',
+          type: 'Image',
+          format: 'image/png',
+        },
+      ],
+    },
+  ],
+  rendering: [
+    {
+      id: 'https://iiif.wellcomecollection.org/pdf/b19928634',
+      type: 'Text',
+      label: {
+        en: ['View as PDF'],
+      },
+      format: 'application/pdf',
+    },
+  ],
+  seeAlso: [
+    {
+      id: 'https://api.wellcomecollection.org/catalogue/v2/works/fa7pymra',
+      type: 'Dataset',
+      profile: 'https://api.wellcomecollection.org/catalogue/v2/context.json',
+      label: {
+        en: ['Wellcome Collection Catalogue API'],
+      },
+      format: 'application/json',
+    },
+  ],
+  services: [
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/b19928634#tracking',
+      type: 'Text',
+      profile: 'http://universalviewer.io/tracking-extensions-profile',
+      label: {
+        en: [
+          'Format: Archive, Institution: n/a, Identifier: b19928634, Digicode: diggenetics, Collection code: HALDANE/5/1/2/5/31',
+        ],
+      },
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/b19928634#timestamp',
+      type: 'Text',
+      profile:
+        'https://github.com/wellcomecollection/iiif-builder/build-timestamp',
+      label: {
+        none: ['2022-03-09T14:42:23.2209649Z'],
+      },
+    },
+    {
+      '@id': 'https://iiif.wellcomecollection.org/auth/clickthrough',
+      '@type': 'AuthCookieService1',
+      profile: 'http://iiif.io/api/auth/1/clickthrough',
+      label: 'Content advisory',
+      description:
+        '<p>This digitised material is free to access, but contains information or visuals that may:</p><ul><li>include personal details of living individuals</li><li>be upsetting or distressing</li><li>be explicit or graphic</li><li>include objects and images of objects decontextualised in a way that is offensive to the originating culture.</li></ul>By viewing this material, we ask that you use the content lawfully, ethically and responsibly under the conditions set out in our <a href="https://wellcomecollection.cdn.prismic.io/wellcomecollection/d4817da5-c71a-4151-81c4-83e39ad4f5b3_Wellcome+Collection_Access+Policy_Aug+2020.pdf">Access Policy</a>.',
+      service: [
+        {
+          '@id': 'https://iiif.wellcomecollection.org/auth/token',
+          '@type': 'AuthTokenService1',
+          profile: 'http://iiif.io/api/auth/1/token',
+        },
+        {
+          '@id': 'https://iiif.wellcomecollection.org/auth/clickthrough/logout',
+          '@type': 'AuthLogoutService1',
+          profile: 'http://iiif.io/api/auth/1/logout',
+          label: 'Log out of Wellcome Collection',
+        },
+      ],
+      confirmLabel: 'Accept Terms and Open',
+      header: 'Content advisory',
+      failureHeader: 'Terms not accepted',
+      failureDescription: 'You must accept the terms to view the content.',
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/b19928634#accesscontrolhints',
+      type: 'Text',
+      profile: 'http://wellcomelibrary.org/ld/iiif-ext/access-control-hints',
+      label: {
+        en: ['clickthrough'],
+      },
+    },
+  ],
+  items: [
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/b19928634/canvases/b19928634_haldane_5_1_2_5_31_0001.JP2',
+      type: 'Canvas',
+      label: {
+        none: ['-'],
+      },
+      width: 2669,
+      height: 3242,
+      thumbnail: [
+        {
+          id: 'https://iiif.wellcomecollection.org/thumbs/b19928634_haldane_5_1_2_5_31_0001.JP2/full/82,100/0/default.jpg',
+          type: 'Image',
+          width: 82,
+          height: 100,
+          service: [
+            {
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b19928634_haldane_5_1_2_5_31_0001.JP2',
+              '@type': 'ImageService2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
+              width: 165,
+              height: 200,
+              sizes: [
+                {
+                  width: 82,
+                  height: 100,
+                },
+                {
+                  width: 165,
+                  height: 200,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      items: [
+        {
+          id: 'https://iiif.wellcomecollection.org/presentation/b19928634/canvases/b19928634_haldane_5_1_2_5_31_0001.JP2/painting',
+          type: 'AnnotationPage',
+          items: [
+            {
+              id: 'https://iiif.wellcomecollection.org/presentation/b19928634/canvases/b19928634_haldane_5_1_2_5_31_0001.JP2/painting/anno',
+              type: 'Annotation',
+              motivation: 'painting',
+              body: {
+                id: 'https://iiif.wellcomecollection.org/image/b19928634_haldane_5_1_2_5_31_0001.JP2/full/165,200/0/default.jpg',
+                type: 'Image',
+                width: 165,
+                height: 200,
+                format: 'image/jpeg',
+                service: [
+                  {
+                    '@id':
+                      'https://iiif.wellcomecollection.org/image/b19928634_haldane_5_1_2_5_31_0001.JP2',
+                    '@type': 'ImageService2',
+                    profile: 'http://iiif.io/api/image/2/level1.json',
+                    width: 2669,
+                    height: 3242,
+                    service: {
+                      '@id':
+                        'https://iiif.wellcomecollection.org/auth/clickthrough',
+                      '@type': 'AuthCookieService1',
+                    },
+                  },
+                ],
+              },
+              target:
+                'https://iiif.wellcomecollection.org/presentation/b19928634/canvases/b19928634_haldane_5_1_2_5_31_0001.JP2',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/b19928634/canvases/b19928634_haldane_5_1_2_5_31_0002.JP2',
+      type: 'Canvas',
+      label: {
+        none: ['-'],
+      },
+      width: 2672,
+      height: 3243,
+      thumbnail: [
+        {
+          id: 'https://iiif.wellcomecollection.org/thumbs/b19928634_haldane_5_1_2_5_31_0002.JP2/full/82,100/0/default.jpg',
+          type: 'Image',
+          width: 82,
+          height: 100,
+          service: [
+            {
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b19928634_haldane_5_1_2_5_31_0002.JP2',
+              '@type': 'ImageService2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
+              width: 165,
+              height: 200,
+              sizes: [
+                {
+                  width: 82,
+                  height: 100,
+                },
+                {
+                  width: 165,
+                  height: 200,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      items: [
+        {
+          id: 'https://iiif.wellcomecollection.org/presentation/b19928634/canvases/b19928634_haldane_5_1_2_5_31_0002.JP2/painting',
+          type: 'AnnotationPage',
+          items: [
+            {
+              id: 'https://iiif.wellcomecollection.org/presentation/b19928634/canvases/b19928634_haldane_5_1_2_5_31_0002.JP2/painting/anno',
+              type: 'Annotation',
+              motivation: 'painting',
+              body: {
+                id: 'https://iiif.wellcomecollection.org/image/b19928634_haldane_5_1_2_5_31_0002.JP2/full/165,200/0/default.jpg',
+                type: 'Image',
+                width: 165,
+                height: 200,
+                format: 'image/jpeg',
+                service: [
+                  {
+                    '@id':
+                      'https://iiif.wellcomecollection.org/image/b19928634_haldane_5_1_2_5_31_0002.JP2',
+                    '@type': 'ImageService2',
+                    profile: 'http://iiif.io/api/image/2/level1.json',
+                    width: 2672,
+                    height: 3243,
+                    service: {
+                      '@id':
+                        'https://iiif.wellcomecollection.org/auth/clickthrough',
+                      '@type': 'AuthCookieService1',
+                    },
+                  },
+                ],
+              },
+              target:
+                'https://iiif.wellcomecollection.org/presentation/b19928634/canvases/b19928634_haldane_5_1_2_5_31_0002.JP2',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  partOf: [
+    {
+      id: 'https://iiif.wellcomecollection.org/presentation/collections/archives/HALDANE/5/1/2/5',
+      type: 'Collection',
+      label: {
+        en: ['Cats'],
+      },
+      partOf: [
+        {
+          id: 'https://iiif.wellcomecollection.org/presentation/collections/archives/HALDANE/5/1/2',
+          type: 'Collection',
+          label: {
+            en: ['General Correspondence Subjects A-Z 1938-1950'],
+          },
+          partOf: [
+            {
+              id: 'https://iiif.wellcomecollection.org/presentation/collections/archives/HALDANE/5/1',
+              type: 'Collection',
+              label: {
+                en: ['General Correspondence'],
+              },
+              partOf: [
+                {
+                  id: 'https://iiif.wellcomecollection.org/presentation/collections/archives/HALDANE/5',
+                  type: 'Collection',
+                  label: {
+                    en: ['Correspondence'],
+                  },
+                  partOf: [
+                    {
+                      id: 'https://iiif.wellcomecollection.org/presentation/collections/archives/HALDANE',
+                      type: 'Collection',
+                      label: {
+                        en: ['Haldane Papers'],
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   ],
 };

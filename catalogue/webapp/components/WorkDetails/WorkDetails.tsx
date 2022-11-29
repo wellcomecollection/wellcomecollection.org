@@ -15,10 +15,6 @@ import {
   getLocationShelfmark,
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
-import {
-  getTokenService,
-  getMediaClickthroughService,
-} from '../../utils/iiif/v3';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -98,7 +94,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     collectionManifestsCount,
     canvasCount,
     audio,
-    services,
+    clickThroughService,
+    tokenService,
   } = transformedIIIFManifest;
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -138,13 +135,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   // iiif-image locations have credit info.
   // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
   const credit = digitalLocation?.credit || iiifCredit;
-
-  // We display a content advisory warning at the work level, so it is sufficient
-  // to check if any individual piece of audio content requires an advisory notice
-
-  const authService = services && getMediaClickthroughService(services);
-  const tokenService =
-    authService && getTokenService(authService['@id'], services);
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -310,7 +300,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             wrapper={children =>
               itemUrl && (
                 <IIIFClickthrough
-                  authService={authService}
+                  clickThroughService={clickThroughService}
                   tokenService={tokenService}
                   trackingId={work.id}
                 >

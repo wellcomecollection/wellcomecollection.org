@@ -1,8 +1,6 @@
 import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
-import {
-  AuthService,
-  AuthServiceService,
-} from '../../../webapp/services/iiif/types/manifest/v2';
+import { AuthClickThroughServiceWithPossibleServiceArray } from '../../../webapp/types/manifest';
+import { AuthAccessTokenService } from '@iiif/presentation-3';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -22,28 +20,30 @@ function reloadAuthIframe(document, id: string) {
 }
 
 type Props = {
-  authService: AuthService | undefined;
-  tokenService: AuthServiceService | undefined;
+  clickThroughService:
+    | AuthClickThroughServiceWithPossibleServiceArray
+    | undefined;
+  tokenService: AuthAccessTokenService | undefined;
   trackingId: string;
   children: ReactNode;
 };
 
 const IIIFClickthrough: FunctionComponent<Props> = ({
-  authService,
+  clickThroughService,
   tokenService,
   trackingId,
   children,
 }: Props) => {
   const [origin, setOrigin] = useState<string>();
   const showClickthroughMessage = useShowClickthrough(
-    authService,
+    clickThroughService,
     tokenService
   );
   useEffect(() => {
     setOrigin(`${window.location.protocol}//${window.location.hostname}`);
   }, []);
 
-  return authService && tokenService ? (
+  return clickThroughService && tokenService ? (
     <>
       {tokenService && origin && (
         <IframeAuthMessage
@@ -53,17 +53,17 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
       )}
       {showClickthroughMessage ? (
         <div className={font('intr', 5)}>
-          {authService?.label && (
-            <h2 className={font('intb', 4)}>{authService?.label}</h2>
+          {clickThroughService?.label && (
+            <h2 className={font('intb', 4)}>{clickThroughService?.label}</h2>
           )}
-          {authService?.description && (
+          {clickThroughService?.description && (
             <p
               dangerouslySetInnerHTML={{
-                __html: authService?.description,
+                __html: clickThroughService?.description,
               }}
             />
           )}
-          {authService?.['@id'] && origin && (
+          {clickThroughService?.['@id'] && origin && (
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <ButtonSolid
                 text="Show the content"
@@ -74,7 +74,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
                     label: `workId: ${trackingId}`,
                   });
                   const authServiceWindow = window.open(
-                    `${authService?.['@id'] || ''}?origin=${origin}`
+                    `${clickThroughService?.['@id'] || ''}?origin=${origin}`
                   );
                   authServiceWindow &&
                     authServiceWindow.addEventListener('unload', function () {
