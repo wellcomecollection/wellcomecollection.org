@@ -51,10 +51,7 @@ export async function prismicGraphQLClient(
     exhibitions: exhibitionsQuery,
   };
 
-  const graphQLQueryByType = (type: string) => {
-    return graphQLQueries[type];
-  };
-  return graphqlClient.request(graphQLQueryByType(type), variables);
+  return graphqlClient.request(graphQLQueries[type], variables);
 }
 
 export const prismicApiError = (): PrismicApiError => ({
