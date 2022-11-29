@@ -144,7 +144,7 @@ function DateList(event: Event) {
 
               {isDayPast(eventTime.range.endDateTime)
                 ? EventStatus({ text: 'Past', color: 'neutral.500' })
-                : eventTime.isFullyBooked
+                : eventTime.isFullyBooked && eventTime.onlineIsFullyBooked
                 ? EventStatus({ text: 'Full', color: 'validation.red' })
                 : null}
             </TimeWrapper>
