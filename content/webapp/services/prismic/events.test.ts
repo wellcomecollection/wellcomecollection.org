@@ -60,7 +60,7 @@ describe('orderEventsByNextAvailableDate', () => {
 });
 
 describe('upcomingDatesFullyBooked', () => {
-  it('returns true if future dates are not available to book', () => {
+  it('an event is fully booked if future times are fully booked', () => {
     const event = {
       id: 'event-id',
       times: [
@@ -70,6 +70,7 @@ describe('upcomingDatesFullyBooked', () => {
             endDateTime: new Date(2000, 3, 25, 16, 30, 0),
           },
           isFullyBooked: false,
+          onlineIsFullyBooked: false,
         },
         {
           range: {
@@ -77,6 +78,7 @@ describe('upcomingDatesFullyBooked', () => {
             endDateTime: new Date(3000, 3, 27, 16, 30, 0),
           },
           isFullyBooked: true,
+          onlineIsFullyBooked: true,
         },
       ],
     };
@@ -84,7 +86,7 @@ describe('upcomingDatesFullyBooked', () => {
     expect(result).toEqual(true);
   });
 
-  it('returns false if future dates are available to book', () => {
+  it('an event is not fully booked if in-person tickets are still available', () => {
     const event = {
       id: 'event-id',
       times: [
@@ -94,6 +96,7 @@ describe('upcomingDatesFullyBooked', () => {
             endDateTime: new Date(2000, 3, 25, 16, 30, 0),
           },
           isFullyBooked: true,
+          onlineIsFullyBooked: true,
         },
         {
           range: {
@@ -101,6 +104,7 @@ describe('upcomingDatesFullyBooked', () => {
             endDateTime: new Date(3000, 3, 27, 16, 30, 0),
           },
           isFullyBooked: false,
+          onlineIsFullyBooked: true,
         },
       ],
     };
@@ -108,18 +112,28 @@ describe('upcomingDatesFullyBooked', () => {
     expect(result).toEqual(false);
   });
 
-  it('returns false if there are no future dates', () => {
+  it('an event is not fully booked if in-person tickets are sold out but online tickets are available', () => {
     const event = {
       id: 'event-id',
       times: [
         {
           range: {
-            startDateTime: new Date(2000, 3, 25, 15, 30, 0),
-            endDateTime: new Date(2000, 3, 25, 16, 30, 0),
+            startDateTime: new Date(3000, 3, 27, 15, 30, 0),
+            endDateTime: new Date(3000, 3, 27, 16, 30, 0),
           },
           isFullyBooked: true,
+          onlineIsFullyBooked: false,
         },
       ],
+    };
+    const result = upcomingDatesFullyBooked(event);
+    expect(result).toEqual(false);
+  });
+
+  it('an event is not fully booked if there are no future dates', () => {
+    const event = {
+      id: 'event-id',
+      times: [],
     };
     const result = upcomingDatesFullyBooked(event);
     expect(result).toEqual(false);
