@@ -32,6 +32,7 @@ import { propsToQuery } from '@weco/common/utils/routes';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { hasFilters } from '@weco/catalogue/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
+import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
@@ -168,9 +169,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             ) : (
               <>
                 <PaginationWrapper aria-label="Sort Search Results">
-                  <span>{`${works.totalResults} result${
-                    works.totalResults > 1 ? 's' : ''
-                  }`}</span>
+                  <span>{pluralize(works.totalResults, 'result')}</span>
 
                   <SortPaginationWrapper>
                     <Sort

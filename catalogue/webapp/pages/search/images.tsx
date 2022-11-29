@@ -28,11 +28,12 @@ import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { hasFilters } from '@weco/catalogue/utils/search';
+import { pluralize } from '@weco/common/utils/grammar';
+import { font } from '@weco/common/utils/classnames';
 
 // Types
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { font } from '@weco/common/utils/classnames';
 import { Query } from '@weco/catalogue/types/search';
 
 type Props = {
@@ -168,9 +169,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
             <Wrapper>
               <div className="container">
                 <PaginationWrapper>
-                  <span>{`${images.totalResults} result${
-                    images.totalResults > 1 ? 's' : ''
-                  }`}</span>
+                  <span>{pluralize(images.totalResults, 'result')}</span>
                   <SearchPagination totalPages={images?.totalPages} darkBg />
                 </PaginationWrapper>
 

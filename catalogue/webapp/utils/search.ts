@@ -59,7 +59,8 @@ export const getPrismicSortValue = ({
 
 // FILTERS
 /**
- * Compare filter options to query parameters
+ * Compare filter options to query parameters,
+ * telling us if the user has applied any filters.
  * This is used for SearchNoResult's rendered copy
  * @param {string[]} filters - Available filter options
  * @param {string[]} queryParams - URL query parameters

@@ -35,10 +35,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
               We couldn&rsquo;t find anything that matched{' '}
               <QuerySpan>{query}</QuerySpan>
               {hasFilters && (
-                <>
-                  <span> with the filters you have selected</span>. Please try
-                  again.
-                </>
+                <> with the filters you have selected. Please try again.</>
               )}
             </Copy>
           </div>

@@ -18,6 +18,7 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Pageview } from '@weco/common/services/conversion/track';
+import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
 import { Story } from '@weco/catalogue/services/prismic/types/story';
@@ -45,13 +46,6 @@ const PaginationWrapper = styled(Space).attrs({
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-`;
-
-const TotalResultsCopy = styled.span`
-  ${props =>
-    props.theme.media('medium', 'max-width')`
-    flex: 1 1 50%;
-  `}
 `;
 
 const SortPaginationWrapper = styled.div`
@@ -181,9 +175,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         <div className="container">
           {/* TODO make pagination - cursor based pagination with graphql query */}
           <PaginationWrapper>
-            <TotalResultsCopy>{`${storyResponseList.totalResults} result${
-              storyResponseList.totalResults > 1 ? 's' : ''
-            }`}</TotalResultsCopy>
+            <span>{pluralize(storyResponseList.totalResults, 'result')}</span>
 
             <SortPaginationWrapper>
               <Sort

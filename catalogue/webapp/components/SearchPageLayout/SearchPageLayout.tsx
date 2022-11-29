@@ -13,6 +13,7 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { trackEvent } from '@weco/common/utils/ga';
 import { removeEmptyProps } from '@weco/common/utils/json';
 import { getUrlQueryFromSortValue } from '@weco/catalogue/utils/search';
+import { capitalize } from '@weco/common/utils/grammar';
 
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`
@@ -152,11 +153,7 @@ const SearchLayout: FunctionComponent = ({ children }) => {
           }}
         />
         <h1 className="visually-hidden">
-          {/* Uppercases the first letter */}
-          {`${
-            currentSearchCategory[0].toUpperCase() +
-            currentSearchCategory.substring(1)
-          } search page`}
+          {`${capitalize(currentSearchCategory)} search page`}
         </h1>
 
         <SearchBarContainer
