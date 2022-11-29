@@ -9,7 +9,7 @@ export const eventsQuery = gql`
     $queryString: String
     # The below $sortBy type needs to be SortEventsy, rather than String, or you will get the following error from Prismic GraphQl:
     #  ClientError: Variable '$sortBy' of type 'String' used in position expecting type 'SortEventsy'
-    $sortBy: String
+    $sortBy: SortEventsy
     $pageSize: Int
     $cursor: String
   ) {

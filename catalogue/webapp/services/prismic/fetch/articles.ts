@@ -105,14 +105,13 @@ export async function getStories({
         };
       });
       // We now get the first and nth cursor for first and nth page based on pageSize
-      const cursorsPaginated = (cursors, pagesize) =>
+      const cursorsPaginated = (cursors, pageSize) =>
         cursors
-          .filter(
-            (cursor, index) => index % pagesize === pagesize - 1 || index === 0
-          )
-          .map((e, index) => {
-            return { cursor: e.cursor, page: index + 1 };
-          });
+          .filter((cursor, cursorIndex) => {
+            const position = cursorIndex + 1;
+            return position % pageSize === 0;
+          })
+          .map((e, index) => ({ cursor: e.cursor, page: index + 1 }));
 
       return cursorsPaginated(getStoriesCursors, pageSize);
     };
