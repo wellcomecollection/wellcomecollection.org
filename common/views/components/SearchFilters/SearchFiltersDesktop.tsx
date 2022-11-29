@@ -21,6 +21,7 @@ import {
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
   filterLabel,
+  Filter,
 } from '../../../services/catalogue/filters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import { ResetActiveFilters } from './ResetActiveFilters';
@@ -199,15 +200,15 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
-
   const [componentMounted, setComponentMounted] = useState(false);
   useEffect(() => setComponentMounted(true), []);
 
-  const wrapperRef = useRef(null);
-  const [wrapperWidth, setWrapperWidth] = useState<number>();
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [wrapperWidth, setWrapperWidth] = useState<number>(0);
   const updateWrapperWidth = () => {
     if (wrapperRef.current) {
       const { width, left } = wrapperRef.current.getBoundingClientRect();
+      setHasCalculatedFilters(false);
       setWrapperWidth(left + width);
     }
   };
@@ -217,6 +218,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     return () => window.removeEventListener('resize', updateWrapperWidth);
   }, []);
 
+  const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
+  const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
+  const [showFilterModalButton, SetShowFilterModalButton] = useState(false);
+
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
   useLayoutEffect(() => {
     const arrOfDropdownButtonNodes = document.querySelectorAll(
@@ -225,6 +230,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
     let willAllFit = true;
 
+    const dynamicFilterArray: Filter[] = [];
+    SetShowFilterModalButton(false);
     for (let i = arrOfDropdownButtonNodes.length - 1; i >= 0; i--) {
       const dropdownButtonNode = arrOfDropdownButtonNodes[i];
       const { width, left } = dropdownButtonNode.getBoundingClientRect();
@@ -232,60 +239,70 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
       if (rightmostEdge > wrapperWidth) willAllFit = false;
       const spaceAvailable = willAllFit ? wrapperWidth : wrapperWidth - 150;
       const canStay = rightmostEdge < spaceAvailable;
-
       if (canStay) {
-        // render this item
+        dynamicFilterArray.push(filters[i]);
       } else {
-        // dropdownButtonNode.style
+        SetShowFilterModalButton(true);
       }
-
-      console.log(`item at index ${i} is in frame?: ${canStay}`);
     }
+    setHasCalculatedFilters(true);
+    setDynamicFilters(dynamicFilterArray);
   }, [wrapperWidth]);
-  const dynamicFilters = filters.map((f, i, arr) => (
-    <Space
-      key={f.id}
-      className={filterClassname}
-      h={
-        i + 1 !== arr.length
-          ? {
-              size: newStyle ? 'm' : 's',
-              properties: ['margin-right'],
-            }
-          : undefined
-      }
-    >
-      {f.type === 'checkbox' && (
-        <CheckboxFilter
-          f={f}
-          changeHandler={changeHandler}
-          form={searchFormId}
-          newStyle={newStyle}
-        />
-      )}
 
-      {f.type === 'dateRange' && (
-        <DateRangeFilter
-          f={f}
-          changeHandler={changeHandler}
-          form={searchFormId}
-          newStyle={newStyle}
-        />
-      )}
+  const renderDynamicFilter = (f, i, arr) => {
+    return (
+      <Space
+        key={f.id}
+        className={filterClassname}
+        h={
+          i + 1 !== arr.length
+            ? {
+                size: newStyle ? 'm' : 's',
+                properties: ['margin-right'],
+              }
+            : undefined
+        }
+      >
+        {f.type === 'checkbox' && (
+          <CheckboxFilter
+            f={f}
+            changeHandler={changeHandler}
+            form={searchFormId}
+            newStyle={newStyle}
+          />
+        )}
 
-      {f.type === 'color' && (
-        <ColorFilter
-          f={f}
-          changeHandler={changeHandler}
-          form={searchFormId}
-          newStyle={newStyle}
-        />
-      )}
-    </Space>
-  ));
+        {f.type === 'dateRange' && (
+          <DateRangeFilter
+            f={f}
+            changeHandler={changeHandler}
+            form={searchFormId}
+            newStyle={newStyle}
+          />
+        )}
+
+        {f.type === 'color' && (
+          <ColorFilter
+            f={f}
+            changeHandler={changeHandler}
+            form={searchFormId}
+            newStyle={newStyle}
+          />
+        )}
+      </Space>
+    );
+  };
+
+  const dynamicFiltersSource = filters.map(renderDynamicFilter);
+
+  const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
 
   const visibleFilters = filters.slice(0, nVisibleFilters);
   const modalFilters = filters.slice(nVisibleFilters);
+
+  const filtersToDisplay = hasCalculatedFilters
+    ? dynamicFiltersCalculated
+    : dynamicFiltersSource;
 
   return (
     <>
@@ -298,7 +315,28 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             v={{ size: 'm', properties: ['margin-bottom'] }}
             className="flex flex--v-center flex--no-wrap"
           >
-            {newStyle && dynamicFilters}
+            {newStyle && filtersToDisplay}
+            {showFilterModalButton && (
+              <Space
+                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+              >
+                <ButtonSolid
+                  colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                  icon={filter}
+                  isIconAfter
+                  hoverUnderline={true}
+                  size="small"
+                  type={ButtonTypes.button}
+                  text="All Filters"
+                  clickHandler={event => {
+                    event.preventDefault();
+                    setShowMoreFiltersModal(true);
+                  }}
+                  ref={openMoreFiltersButtonRef}
+                  isPill
+                />
+              </Space>
+            )}
             {!newStyle && (
               <>
                 <Space
@@ -365,37 +403,20 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       properties: ['margin-left'],
                     }}
                   >
-                    {componentMounted &&
-                      (newStyle ? (
-                        <ButtonSolid
-                          colors={themeValues.buttonColors.marbleWhiteCharcoal}
-                          icon={filter}
-                          isIconAfter
-                          hoverUnderline={true}
-                          size="small"
-                          type={ButtonTypes.button}
-                          text="All Filters"
-                          clickHandler={event => {
-                            event.preventDefault();
-                            setShowMoreFiltersModal(true);
-                          }}
-                          ref={openMoreFiltersButtonRef}
-                          isPill
-                        />
-                      ) : (
-                        <ButtonSolid
-                          colors={themeValues.buttonColors.marbleWhiteCharcoal}
-                          hoverUnderline={true}
-                          size="small"
-                          type={ButtonTypes.button}
-                          text="More filters"
-                          clickHandler={event => {
-                            event.preventDefault();
-                            setShowMoreFiltersModal(true);
-                          }}
-                          ref={openMoreFiltersButtonRef}
-                        />
-                      ))}
+                    {componentMounted && (
+                      <ButtonSolid
+                        colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                        hoverUnderline={true}
+                        size="small"
+                        type={ButtonTypes.button}
+                        text="More filters"
+                        clickHandler={event => {
+                          event.preventDefault();
+                          setShowMoreFiltersModal(true);
+                        }}
+                        ref={openMoreFiltersButtonRef}
+                      />
+                    )}
                     <ModalMoreFilters
                       query={query}
                       id="moreFilters"
