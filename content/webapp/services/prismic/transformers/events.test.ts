@@ -302,24 +302,30 @@ describe('transformEventBasicTimes', () => {
           startDateTime: new Date('2022-11-03T16:00:00+0000'),
           endDateTime: new Date('2022-11-03T20:00:00+0000'),
         },
-        isFullyBooked: null,
-        onlineIsFullyBooked: null,
+        isFullyBooked: {
+          inVenue: null,
+          online: null,
+        },
       },
       {
         range: {
           startDateTime: new Date('2022-11-15T10:00:00+0000'),
           endDateTime: new Date('2022-11-15T14:00:00+0000'),
         },
-        isFullyBooked: null,
-        onlineIsFullyBooked: null,
+        isFullyBooked: {
+          inVenue: null,
+          online: null,
+        },
       },
       {
         range: {
           startDateTime: new Date('2022-12-03T14:00:00+0000'),
           endDateTime: new Date('2022-12-03T18:00:00+0000'),
         },
-        isFullyBooked: null,
-        onlineIsFullyBooked: null,
+        isFullyBooked: {
+          inVenue: null,
+          online: null,
+        },
       },
     ]);
   });
