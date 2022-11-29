@@ -319,7 +319,7 @@ export function transformEvent(
     schedule,
     eventbriteId,
     isCompletelySoldOut:
-      data.times?.filter((time: EventTime) => {
+      times.filter((time: EventTime) => {
         const onlyInVenueAndItsFullyBooked =
           !hasOnlineBooking && hasInVenueBooking && time.isFullyBooked.inVenue;
         const onlyOnlineAndItsFullyBooked =
@@ -336,11 +336,11 @@ export function transformEvent(
         );
       }).length === 0,
     onlineSoldOut:
-      data.times?.filter((time: EventTime) => {
+      times.filter((time: EventTime) => {
         return !time.isFullyBooked.online;
       }).length === 0,
     inVenueSoldOut:
-      data.times?.filter((time: EventTime) => {
+      times.filter((time: EventTime) => {
         return !time.isFullyBooked.inVenue;
       }).length === 0,
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
