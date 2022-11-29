@@ -130,6 +130,24 @@ describe('upcomingDatesFullyBooked', () => {
     expect(result).toEqual(false);
   });
 
+  it('an event is not fully booked if online tickets are sold out but in-person tickets are available', () => {
+    const event = {
+      id: 'event-id',
+      times: [
+        {
+          range: {
+            startDateTime: new Date(3000, 3, 27, 15, 30, 0),
+            endDateTime: new Date(3000, 3, 27, 16, 30, 0),
+          },
+          isFullyBooked: false,
+          onlineIsFullyBooked: true,
+        },
+      ],
+    };
+    const result = upcomingDatesFullyBooked(event);
+    expect(result).toEqual(false);
+  });
+
   it('an event is not fully booked if there are no future dates', () => {
     const event = {
       id: 'event-id',
