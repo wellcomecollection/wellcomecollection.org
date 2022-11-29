@@ -228,7 +228,9 @@ const Stop: FunctionComponent<{
               }}
               v={{ size: 'l', properties: ['margin-bottom'] }}
             >
-              <StandaloneTitle id={dasherizeShorten(`${standaloneTitle}`)}>
+              <StandaloneTitle
+                id={`${dasherizeShorten(`${standaloneTitle}`)}-${index}`}
+              >
                 {standaloneTitle}
               </StandaloneTitle>
             </Space>
@@ -252,7 +254,7 @@ const Stop: FunctionComponent<{
               {!hasContext && title && (
                 <TombstoneTitle
                   level={tombstoneHeadingLevel}
-                  id={dasherizeShorten(`${title}`)}
+                  id={`${dasherizeShorten(`${title}`)}-${index}`}
                 >
                   {title}
                 </TombstoneTitle>
@@ -267,7 +269,7 @@ const Stop: FunctionComponent<{
                 <>
                   {title.length > 0 && (
                     <ContextTitle
-                      id={dasherizeShorten(title)}
+                      id={`${dasherizeShorten(`${title}`)}-c${index}`}
                       level={contextHeadingLevel}
                     >
                       {title}

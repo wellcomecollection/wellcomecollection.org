@@ -8,9 +8,9 @@ import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/Sea
 import {
   getEvents,
   PrismicQueryProps,
-} from '../../services/prismic/fetch/events';
-import { Event } from '../../services/prismic/types/event';
-import { PrismicResultsList } from '../../services/prismic/types';
+} from '@weco/catalogue/services/prismic/fetch/events';
+import { Event } from '@weco/catalogue/services/prismic/types/event';
+import { PrismicResultsList } from '@weco/catalogue/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
@@ -23,7 +23,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 }) => {
   return (
     <div className="container">
-      <h1 className="visually-hidden">Events Search Page</h1>
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
         <div>Events content</div>
       </Space>

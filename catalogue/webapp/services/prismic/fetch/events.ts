@@ -1,4 +1,5 @@
-import { PrismicResultsList, PrismicApiError, Query } from '../types';
+import { PrismicResultsList, PrismicApiError } from '../types';
+import { Query } from '@weco/catalogue/types/search';
 import { Event } from '../types/event';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';

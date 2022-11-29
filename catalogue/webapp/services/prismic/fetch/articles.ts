@@ -1,5 +1,6 @@
 import { Story } from '../types/story';
-import { PrismicResultsList, PrismicApiError, Query } from '../types';
+import { PrismicResultsList, PrismicApiError } from '../types';
+import { Query } from '@weco/catalogue/types/search';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
 import { gql } from 'graphql-request';

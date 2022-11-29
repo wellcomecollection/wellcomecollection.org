@@ -32,6 +32,10 @@ export function dasherizeShorten(words: string): string {
     .replace(/\W/g, '-');
 }
 
+export function pluralize(count: number, noun: string, suffix = 's'): string {
+  return `${count} ${noun}${count !== 1 ? suffix : ''}`;
+}
+
 export function unCamelCase(words: string): string {
   return words.split(/(?=[A-Z])/).join(' ');
 }

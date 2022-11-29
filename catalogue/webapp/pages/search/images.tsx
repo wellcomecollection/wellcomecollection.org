@@ -10,6 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 
 // Utils & Helpers
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -24,19 +25,21 @@ import {
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
+import { imagesFilters } from '@weco/common/services/catalogue/filters';
+import { propsToQuery } from '@weco/common/utils/routes';
+import { hasFilters } from '@weco/catalogue/utils/search';
+import { pluralize } from '@weco/common/utils/grammar';
+import { font } from '@weco/common/utils/classnames';
 
 // Types
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { font } from '@weco/common/utils/classnames';
-
-import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
-import { imagesFilters } from '@weco/common/services/catalogue/filters';
-import { propsToQuery } from '@weco/common/utils/routes';
+import { Query } from '@weco/catalogue/types/search';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
+  query: Query;
   pageview: Pageview;
 };
 
@@ -63,8 +66,9 @@ const BottomPaginationWrapper = styled(PaginationWrapper)`
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
   images,
   imagesRouteProps,
+  query,
 }): ReactElement<Props> => {
-  const { query, page, color: colorFilter } = imagesRouteProps;
+  const { query: queryString } = query;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -72,12 +76,22 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
     setLink(link);
   }, [imagesRouteProps]);
 
+  // If there is no query, return an empty page
+  if (!queryString) {
+    return (
+      <Space
+        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+      ></Space>
+    );
+  }
+
   const filters = images
     ? imagesFilters({ images, props: imagesRouteProps })
     : [];
 
   const linkResolver = params => {
     const queryWithSource = propsToQuery(params);
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     const { source = undefined, ...queryWithoutSource } = {
       ...queryWithSource,
     };
@@ -102,8 +116,10 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              toLink({ ...imagesRouteProps, page: (page || 1) - 1 }, 'unknown')
-                .as
+              toLink(
+                { ...imagesRouteProps, page: (imagesRouteProps.page || 1) - 1 },
+                'unknown'
+              ).as
             )}
           />
         )}
@@ -111,17 +127,18 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           <link
             rel="next"
             href={convertUrlToString(
-              toLink({ ...imagesRouteProps, page: page + 1 }, 'unknown').as
+              toLink(
+                { ...imagesRouteProps, page: imagesRouteProps.page + 1 },
+                'unknown'
+              ).as
             )}
           />
         )}
       </Head>
-      {/* TODO review if this needs updating */}
 
-      <h1 className="visually-hidden">Images Search Page</h1>
       <div className="container">
         <SearchFilters
-          query={query}
+          query={queryString}
           linkResolver={linkResolver}
           searchFormId="searchPageForm"
           changeHandler={() => {
@@ -138,36 +155,36 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
         />
       </div>
 
-      <Wrapper>
-        {images?.results && images.totalResults > 0 && (
-          <div className="container">
-            <PaginationWrapper>
-              {images.totalResults > 0 && (
-                <span>{`${images.totalResults} result${
-                  images.totalResults > 1 ? 's' : ''
-                }`}</span>
-              )}
-              <SearchPagination totalPages={images?.totalPages} darkBg />
-            </PaginationWrapper>
+      {images && (
+        <>
+          {images?.totalResults === 0 ? (
+            <SearchNoResults
+              query={queryString}
+              hasFilters={hasFilters({
+                filters: filters.map(f => f.id),
+                queryParams: Object.keys(query).map(p => p),
+              })}
+            />
+          ) : (
+            <Wrapper>
+              <div className="container">
+                <PaginationWrapper>
+                  <span>{pluralize(images.totalResults, 'result')}</span>
+                  <SearchPagination totalPages={images?.totalPages} darkBg />
+                </PaginationWrapper>
 
-            <main>
-              <ImageEndpointSearchResults images={images} />
-            </main>
+                <main>
+                  <ImageEndpointSearchResults images={images} />
+                </main>
 
-            <BottomPaginationWrapper>
-              <SearchPagination totalPages={images?.totalPages} darkBg />
-            </BottomPaginationWrapper>
-          </div>
-        )}
-
-        {images?.totalResults === 0 && (
-          <SearchNoResults
-            query={query}
-            hasFilters={!!colorFilter}
-            textColor="white"
-          />
-        )}
-      </Wrapper>
+                <BottomPaginationWrapper>
+                  <SearchPagination totalPages={images?.totalPages} darkBg />
+                </BottomPaginationWrapper>
+              </div>
+            </Wrapper>
+          )}
+        </>
+      )}
     </>
   );
 };
@@ -177,12 +194,29 @@ ImagesSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+    const query = context.query;
 
     if (!serverData.toggles.searchPage) {
       return { notFound: true };
     }
 
     const params = fromQuery(context.query);
+
+    // Stop here if no query has been entered
+    if (!params.query) {
+      return {
+        props: removeUndefinedProps({
+          imagesRouteProps: params,
+          serverData,
+          query,
+          pageview: {
+            name: 'images',
+            properties: { totalResults: 0 },
+          },
+        }),
+      };
+    }
+
     const aggregations = [
       'locations.license',
       'source.genres.label',
@@ -205,9 +239,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     return {
       props: removeUndefinedProps({
-        serverData,
         images,
         imagesRouteProps: params,
+        serverData,
+        query,
         pageview: {
           name: 'images',
           properties: images
