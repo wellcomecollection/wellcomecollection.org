@@ -7,7 +7,8 @@ import { gql } from 'graphql-request';
 export const storiesQuery = gql`
   query getAllStories(
     $queryString: String
-    # I have changed the below type to work with the error message I get from Prismic graphql when I don't use it
+    # The below $sortBy type needs to be SortArticlesy, rather than String, or you will get the following error from Prismic GraphQl:
+    #  ClientError: Variable '$sortBy' of type 'String' used in position expecting type 'SortArticlesy'
     $sortBy: SortArticlesy
     $pageSize: Int
     $cursor: String

@@ -7,7 +7,8 @@ import { gql } from 'graphql-request';
 export const exhibitionsQuery = gql`
   query getAllExhibitions(
     $queryString: String
-    # I have changed the below type to work with the error message I get from Prismic graphql when I don't use it
+    # The below $sortBy type needs to be SortExhibitionsy, rather than String, or you will get the following error from Prismic GraphQl:
+    #   ClientError: Variable '$sortBy' of type 'String' used in position expecting type 'SortExhibitionsy'
     $sortBy: SortExhibitionsy
     $pageSize: Int
     $cursor: String
