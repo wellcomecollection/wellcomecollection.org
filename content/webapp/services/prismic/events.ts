@@ -209,9 +209,10 @@ export function upcomingDatesFullyBooked(event: HasTimes): boolean {
       ? event.times.filter(({ range }) => !isPast(range.endDateTime))
       : [];
   if (upcoming.length > 0) {
-    return upcoming.every(({ isFullyBooked }) => {
-      return isFullyBooked;
-    });
+    return upcoming.every(
+      ({ isFullyBooked, onlineIsFullyBooked }) =>
+        isFullyBooked && onlineIsFullyBooked
+    );
   } else {
     return false;
   }
