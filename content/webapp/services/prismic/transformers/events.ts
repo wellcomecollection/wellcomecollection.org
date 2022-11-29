@@ -465,7 +465,6 @@ export function transformEventBasicTimes(
 export function transformEventBasic(
   document: EventPrismicDocument
 ): EventBasic {
-  const { data } = document;
   const event = transformEvent(document);
 
   const {
