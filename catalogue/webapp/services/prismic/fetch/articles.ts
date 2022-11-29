@@ -100,13 +100,16 @@ export async function getStories({
         };
       });
       // We now get the first and nth cursor for first and nth page based on pageSize
-      const cursorsPaginated = (cursors, pageSize) =>
+      const cursorsPaginated = (cursors, pageSize: number) =>
         cursors
           .filter((cursor, cursorIndex) => {
-            const position = cursorIndex + 1;
+            const position = cursorIndex - 1;
             return position % pageSize === 0;
           })
-          .map((e, index) => ({ cursor: e.cursor, page: index + 1 }));
+          .map((e, index) => ({
+            cursor: e.cursor,
+            page: (index + 1) as number,
+          }));
 
       return cursorsPaginated(getStoriesCursors, pageSize);
     };
@@ -119,8 +122,9 @@ export async function getStories({
     ) => {
       const allCursors = await fetchAllCursors('articles', query, pageSize);
       const currentPage = query.page ? query.page : 1;
+      console.log(typeof currentPage, typeof query.page);
       const getCurrentPageCursor = allCursors.find(
-        cursor => cursor.page === currentPage
+        cursor => cursor.page === parseFloat(String(currentPage))
       );
       return getCurrentPageCursor?.cursor;
     };
@@ -130,7 +134,7 @@ export async function getStories({
     // If the query contains a page number, it will query the prismicGraphQLClient function with the cursor
     // and get the next nth number of stories by pageSize
     const fetchStories = async (
-      // We use type here because we have a GraphQL query for each type, so we can use the type to determine which query to use
+      // We use type here because we have a GraphQL query for each type, so we can use the type to determine which query to us
       type: string,
       query: Query,
       pageSize: number,
