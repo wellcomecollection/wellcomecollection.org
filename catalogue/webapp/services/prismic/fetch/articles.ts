@@ -123,7 +123,7 @@ export async function getStories({
     ) => {
       const allCursors = await fetchAllCursors('articles', query, pageSize);
       const currentPage = query.page ? query.page : 1;
-      console.log(typeof currentPage, typeof query.page);
+
       const getCurrentPageCursor = allCursors.find(
         cursor => cursor.page === parseFloat(String(currentPage))
       );
@@ -136,6 +136,7 @@ export async function getStories({
     // and get the next nth number of stories by pageSize
     const fetchStories = async (
       // We use type here because we have a GraphQL query for each type, so we can use the type to determine which query to us
+      // Type is used on events and exhibitions too, when they are updated/refactored we can remove 'type' from all three
       type: string,
       query: Query,
       pageSize: number,
