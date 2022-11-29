@@ -79,11 +79,6 @@ export type PrismicQueryProps = {
   type?: string;
 };
 
-// This function will:
-// 1. Call the prismicGraphQLClient function with queryString from query and get nth number of stories by pageSize
-// Then, it will transform the above response into a list of stories in the format of ResultList
-// 2. If the query contains a page number, it will query the prismicGraphQLClient function with the cursor
-// and get the next nth number of stories by pageSize
 export async function getStories({
   query,
   pageSize,
@@ -130,6 +125,10 @@ export async function getStories({
       return getCurrentPageCursor?.cursor;
     };
 
+    // Call the prismicGraphQLClient function with queryString from query and get nth number of stories by pageSize
+    // Then, it will transform the above response into a list of stories in the format of ResultList
+    // If the query contains a page number, it will query the prismicGraphQLClient function with the cursor
+    // and get the next nth number of stories by pageSize
     const fetchStories = async (
       type: string,
       query: Query,
