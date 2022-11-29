@@ -130,6 +130,7 @@ export async function getStories({
     // If the query contains a page number, it will query the prismicGraphQLClient function with the cursor
     // and get the next nth number of stories by pageSize
     const fetchStories = async (
+      // We use type here because we have a GraphQL query for each type, so we can use the type to determine which query to use
       type: string,
       query: Query,
       pageSize: number,
