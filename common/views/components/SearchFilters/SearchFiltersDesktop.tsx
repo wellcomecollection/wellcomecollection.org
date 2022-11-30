@@ -301,10 +301,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const visibleFilters = filters.slice(0, nVisibleFilters);
   const modalFilters = filters.slice(nVisibleFilters);
 
-  const filtersToDisplay = hasCalculatedFilters
-    ? dynamicFiltersCalculated
-    : dynamicFiltersSource;
-
   return (
     <>
       <Wrapper newStyle={newStyle} id="testing" ref={wrapperRef}>
@@ -318,7 +314,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           >
             {newStyle && (
               <>
-                {filtersToDisplay}
+                {hasCalculatedFilters
+                  ? dynamicFiltersCalculated
+                  : dynamicFiltersSource}
                 {showFilterModalButton && (
                   <Space
                     h={{
