@@ -9,6 +9,9 @@ export type Props = {
   caption?: prismicT.RichTextField;
 };
 
+// In order to have a red button with a white triangle, we can't reuse the
+// YouTube icon we have in the icon set, so keeping this player button as its
+// own svg in this file.
 const YouTubePlay = () => (
   <svg height="100%" version="1.1" viewBox="0 0 68 48" width="100%">
     <path
@@ -22,6 +25,7 @@ const YouTubePlay = () => (
 const VideoTrigger = styled.button.attrs({
   className: 'plain-button',
 })`
+  cursor: pointer;
   position: absolute;
   padding-bottom: 56.25%; /* 16:9 */
   width: 100%;
@@ -54,7 +58,7 @@ const VideoEmbed: FunctionComponent<Props> = ({ embedUrl, caption }: Props) => {
             className="iframe"
             title="Video"
             allowFullScreen={true}
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allow="autoplay; picture-in-picture"
             src={`${embedUrl}&enablejsapi=1&autoplay=1`}
             frameBorder="0"
           />
@@ -62,7 +66,10 @@ const VideoEmbed: FunctionComponent<Props> = ({ embedUrl, caption }: Props) => {
           <VideoTrigger onClick={() => setIsActive(true)}>
             <span className="visually-hidden">Play video</span>
             <YouTubePlay />
-            <img src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`} />
+            <img
+              src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
+              alt=""
+            />
           </VideoTrigger>
         )}
       </IframeContainer>
