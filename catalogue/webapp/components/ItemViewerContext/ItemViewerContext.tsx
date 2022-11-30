@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import { Work } from '@weco/common/model/catalogue';
-import { SearchResults } from '../../services/iiif/types/iiif_search/v3';
+import { SearchResults } from '../../services/iiif/types/search/v3';
 import { Manifest } from '@iiif/presentation-3';
 import {
   DownloadOption,
