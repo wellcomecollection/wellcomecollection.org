@@ -63,9 +63,9 @@ const DownloadPage: NextPage<Props> = ({
       })
     : [];
 
-  const allDownloadOptions = downloadOptions && [
+  const allDownloadOptions = [
     ...iiifImageDownloadOptions,
-    ...downloadOptions,
+    ...(downloadOptions || []),
   ];
 
   const credit = (iiifImageLocation && iiifImageLocation.credit) || iiifCredit;
@@ -95,7 +95,7 @@ const DownloadPage: NextPage<Props> = ({
               {displayTitle}
             </Space>
           </SpacingComponent>
-          {workId && allDownloadOptions && (
+          {workId && (
             <SpacingComponent>
               {downloadEnabled && allDownloadOptions.length !== 0 ? (
                 <Download
@@ -108,7 +108,7 @@ const DownloadPage: NextPage<Props> = ({
               )}
             </SpacingComponent>
           )}
-          {license && title && (
+          {license && (
             <SpacingComponent key={license.url}>
               <div>
                 {license.humanReadableText && (
@@ -117,10 +117,12 @@ const DownloadPage: NextPage<Props> = ({
                     contents={license.humanReadableText}
                   />
                 )}
-                <WorkDetailsText
-                  title="Credit"
-                  contents={getCredit(workId, title, credit, license)}
-                />
+                {title && (
+                  <WorkDetailsText
+                    title="Credit"
+                    contents={getCredit(workId, title, credit, license)}
+                  />
+                )}
               </div>
             </SpacingComponent>
           )}
