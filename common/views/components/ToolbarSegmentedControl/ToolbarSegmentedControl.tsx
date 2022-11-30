@@ -5,10 +5,13 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
 
-const List = styled.ul.attrs({
-  className:
-    'no-margin no-padding plain-list flex-inline flex--v-center flex--h-center',
-})`
+const List = styled.ul`
+  list-style: none;
+  margin: 0 !important;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 2px solid ${props => props.theme.color('neutral.600')};
   border-radius: 5px;
 `;

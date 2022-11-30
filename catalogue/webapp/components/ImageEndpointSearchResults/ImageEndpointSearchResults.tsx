@@ -16,6 +16,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
@@ -122,7 +123,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
-        <ul role="list" className="plain-list no-margin no-padding">
+        <PlainList role="list">
           <GalleryContainer>
             <Gallery
               photos={imagesWithDimensions}
@@ -131,14 +132,11 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               targetRowHeight={220}
             />
           </GalleryContainer>
-        </ul>
+        </PlainList>
       )}
 
       {(!isFullSupportBrowser || isSmallGallery) && (
-        <ul
-          className="flex flex--wrap plain-list no-padding no-margin"
-          role="list"
-        >
+        <PlainList className="flex flex--wrap" role="list">
           {imagesWithDimensions.map((result: GalleryImageProps) => (
             <li key={result.id} role="listitem">
               <Space
@@ -166,7 +164,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               </Space>
             </li>
           ))}
-        </ul>
+        </PlainList>
       )}
 
       <Modal

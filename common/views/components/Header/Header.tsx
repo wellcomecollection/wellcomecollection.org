@@ -159,6 +159,8 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
 `;
 
 const HeaderList = styled.ul`
+  list-style: none;
+  padding: 0;
   margin-left: -0.3rem;
 
   ${props => props.theme.media('headerMedium')`
@@ -347,9 +349,7 @@ const Header: FunctionComponent<Props> = ({
               id="header-nav"
               aria-labelledby="header-burger-trigger"
             >
-              <HeaderList
-                className={`plain-list ${font('wb', 5)} no-margin no-padding`}
-              >
+              <HeaderList className={`${font('wb', 5)} no-margin`}>
                 {(customNavLinks || links).map((link, i) => (
                   <HeaderItem key={i}>
                     <HeaderLink

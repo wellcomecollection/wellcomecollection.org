@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import styled from 'styled-components';
@@ -98,11 +99,11 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
         </Space>
       </ExhibitionTitleLink>
       <Space v={{ size: 's', properties: ['margin-top'] }}>
-        <ul className={`${font('intr', 5)} no-margin plain-list no-padding`}>
+        <PlainList className={font('intr', 5)}>
           {links.map((link, i) => (
             <TypeListItem key={i} url={link.url} text={link.text} />
           ))}
-        </ul>
+        </PlainList>
       </Space>
     </>
   );

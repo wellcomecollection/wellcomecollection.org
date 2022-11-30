@@ -4,6 +4,7 @@ import { getItemsByLocationType } from '../../utils/works';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const ShowHideButton = styled.button.attrs({
   className: `plain-button no-margin ${font('intr', 5)}`,
@@ -52,7 +53,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
 
   return onlineResources.length > 0 ? (
     <WorkDetailsSection headingText="Online resources">
-      <ul className="plain-list no-margin no-padding">
+      <PlainList>
         {firstThreeOnlineResources.map(item => (
           <li className={font('intr', 5)} key={item.location.url}>
             {item.title && `${item.title}: `}
@@ -78,7 +79,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
             ))}
           </>
         )}
-      </ul>
+      </PlainList>
       {remainingOnlineResources.length > 0 && (
         <ShowHideButton
           ref={showHideResourcesRef}

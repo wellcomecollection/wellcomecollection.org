@@ -11,6 +11,7 @@ import { useControlledState } from '../../../utils/useControlledState';
 import NextLink from 'next/link';
 import { toLink as worksLink } from '../WorksLink/WorksLink';
 import styled from 'styled-components';
+import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
@@ -120,7 +121,7 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <>
       <h3 className="h3">{f.label}</h3>
-      <ul className="no-margin no-padding plain-list">
+      <PlainList>
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
             <Space
@@ -142,7 +143,7 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
             </Space>
           );
         })}
-      </ul>
+      </PlainList>
     </>
   );
 };

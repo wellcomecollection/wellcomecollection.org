@@ -1,3 +1,4 @@
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { Link } from '../../types/link';
@@ -25,13 +26,13 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ links }) => {
   return (
     <Root>
       <h2 className="h3">What’s on this page</h2>
-      <ul className="plain-list no-margin no-padding">
+      <PlainList>
         {links.map((link: Link) => (
           <li key={link.url}>
             <Anchor href={link.url}>{link.text}</Anchor>
           </li>
         ))}
-      </ul>
+      </PlainList>
     </Root>
   );
 };
