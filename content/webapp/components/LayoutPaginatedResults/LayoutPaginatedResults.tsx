@@ -1,6 +1,6 @@
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
+// import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { font } from '@weco/common/utils/classnames';
 import { ExhibitionBasic } from '../../types/exhibitions';
@@ -18,6 +18,8 @@ import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 import styled from 'styled-components';
+import { pluralize } from '@weco/common/utils/grammar';
+import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
@@ -36,24 +38,30 @@ type Props = {
   children?: ReactElement;
 };
 
-const PaginationWrapper = styled(Layout12)`
-  text-align: right;
-`;
-
-const TotalPagesCopy = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-bottom'] },
-  className: font('lr', 6),
+const PaginationWrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  className: font('intb', 5),
 })`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  color: ${props => props.theme.color('neutral.600')};
+  flex-wrap: wrap;
 `;
+
+// const TotalPagesCopy = styled(Space).attrs({
+//   v: { size: 'l', properties: ['padding-bottom'] },
+//   className: font('lr', 6),
+// })`
+//   display: flex;
+//   align-items: center;
+//   color: ${props => props.theme.color('neutral.600')};
+// `;
 
 const LayoutPaginatedResults: FunctionComponent<Props> = ({
   title,
   description,
   paginatedResults,
-  paginationRoot,
+  // paginationRoot,
   showFreeAdmissionMessage,
   children,
 }) => (
@@ -72,17 +80,14 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
     {children}
     {paginatedResults.totalPages > 1 && (
       <Layout12>
-        <TotalPagesCopy>
-          {paginatedResults.pageSize * paginatedResults.currentPage -
-            (paginatedResults.pageSize - 1)}
-          -
-          {paginatedResults.currentPage < paginatedResults.totalPages
-            ? paginatedResults.pageSize * paginatedResults.currentPage
-            : null}
-          {paginatedResults.currentPage === paginatedResults.totalPages
-            ? paginatedResults.totalResults
-            : null}
-        </TotalPagesCopy>
+        <PaginationWrapper>
+          <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
+
+          <SearchPagination
+            totalPages={paginatedResults.totalPages}
+            isHiddenMobile
+          />
+        </PaginationWrapper>
         <Divider />
       </Layout12>
     )}
@@ -107,17 +112,16 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
     {paginatedResults.totalPages > 1 && (
       <Space v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}>
         <PaginationWrapper>
-          <Pagination
-            paginatedResults={paginatedResults}
-            paginationRoot={{
-              href: {
-                pathname: paginationRoot,
-              },
-              as: {
-                pathname: paginationRoot,
-              },
-            }}
-          />
+          <div className="container">
+            <PaginationWrapper>
+              <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
+
+              <SearchPagination
+                totalPages={paginatedResults.totalPages}
+                isHiddenMobile
+              />
+            </PaginationWrapper>
+          </div>
         </PaginationWrapper>
       </Space>
     )}

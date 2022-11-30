@@ -19,6 +19,9 @@ import { articleLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+// import styled from 'styled-components';
+// import Space from '@weco/common/views/components/styled/Space';
+// import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   articles: PaginatedResults<ArticleBasic>;
