@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import { TransformedImageJSON } from '../types/image';
 import { getDigitalLocationOfType } from '../utils/works';
-import { Image as IIIFImage } from '../services/iiif/types/image/v2'; // TODO rename IIIFImage
+import { IIIFImage } from '../services/iiif/types/image/v2';
 import { fetchIIIFImageJson } from '../services/iiif/fetch/image';
 import { transformImageJSON } from '../services/iiif/transformers/image';
 
@@ -29,15 +29,9 @@ const useTransformedIIIFImage = (work: Work): TransformedImageJSON => {
         const iiifImage = await existingPromise;
         iiifImage && transformAndUpdate(iiifImage, work.id);
       } else {
-        const iiifImageLocation = getDigitalLocationOfType(
-          work,
-          'iiif-image'
-        );
+        const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
         if (!iiifImageLocation) return;
-        imagePromises.set(
-          work.id,
-          fetchIIIFImageJson(iiifImageLocation.url)
-        );
+        imagePromises.set(work.id, fetchIIIFImageJson(iiifImageLocation.url));
         const iiifImage = await imagePromises.get(work.id);
         iiifImage && transformAndUpdate(iiifImage, work.id);
       }

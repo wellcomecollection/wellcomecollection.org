@@ -1,26 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Work } from '@weco/common/model/catalogue';
+import { Manifest } from '@iiif/presentation-3';
 import { transformManifest } from '../services/iiif/transformers/manifest';
-import {
-  fetchIIIFPresentationManifest,
-  IIIFManifests,
-} from '../services/iiif/fetch/manifest';
+import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
 import {
   TransformedManifest,
   createDefaultTransformedManifest,
 } from '../types/manifest';
 import { getDigitalLocationOfType } from '../utils/works';
 
-const manifestPromises: Map<
-  string,
-  Promise<IIIFManifests | undefined>
-> = new Map();
+const manifestPromises: Map<string, Promise<Manifest | undefined>> = new Map();
 const cachedTransformedManifest: Map<string, TransformedManifest> = new Map();
 const useTransformedManifest = (work: Work): TransformedManifest => {
   const [transformedManifest, setTransformedManifest] =
     useState<TransformedManifest>(createDefaultTransformedManifest());
 
-  function transformAndUpdate(manifest: IIIFManifests, id: string) {
+  function transformAndUpdate(manifest: Manifest, id: string) {
     const transformedManifest = transformManifest(manifest);
     cachedTransformedManifest.set(id, transformedManifest);
     setTransformedManifest(transformedManifest);
