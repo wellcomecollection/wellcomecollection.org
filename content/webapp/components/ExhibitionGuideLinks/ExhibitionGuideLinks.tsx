@@ -47,7 +47,7 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
       {availableTypes.audioWithoutDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-without-descriptions`}
-          title="Listen, without audio descriptions"
+          title="Listen to audio"
           text="Find out more about the exhibition with short audio tracks."
           backgroundColor="accent.lightSalmon"
           onClick={() => {
@@ -61,7 +61,7 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
       {availableTypes.audioWithDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-with-descriptions`}
-          title="Listen, with audio descriptions"
+          title="Listen to audio with wayfinding"
           text="Find out more about the exhibition with short audio tracks,
             including descriptions of the objects."
           backgroundColor="accent.lightPurple"
@@ -93,7 +93,7 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
       {availableTypes.BSLVideo && (
         <TypeOption
           url={`/${pathname}/bsl`}
-          title="Watch BSL videos"
+          title="Watch British Sign Language videos"
           text="Commentary about the exhibition in British Sign Language videos."
           backgroundColor="accent.lightBlue"
           icon={britishSignLanguage}
