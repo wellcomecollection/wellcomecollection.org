@@ -134,7 +134,9 @@ type Props = {
 };
 
 function includesStandaloneTitle(stop: ExhibitionGuideComponent): boolean {
-  return stop.standaloneTitle.length > 0;
+  return stop.captionsOrTranscripts
+    ? stop.captionsOrTranscripts.standaloneTitle.length > 0
+    : false;
 }
 
 type TitlesUsed = {
@@ -158,12 +160,15 @@ const Stop: FunctionComponent<{
   isFirstStop: boolean;
   titlesUsed: TitlesUsed;
 }> = ({ index, stop, isFirstStop, titlesUsed }) => {
-  const { standaloneTitle, title, image } = stop;
+  const { image } = stop;
 
-  const tombstone = stop.captionsOrTranscripts?.tombstone;
-  const caption = stop.captionsOrTranscripts?.caption;
-  const context = stop.captionsOrTranscripts?.context;
-  const transcription = stop.captionsOrTranscripts?.transcription;
+  // We know the captions-or-transcripts data will be defined, because the
+  // Prismic transformer filters out any stops which don't have this data.
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const captionsOrTranscripts = stop.captionsOrTranscripts!;
+
+  const { title, standaloneTitle, tombstone, caption, context, transcription } =
+    captionsOrTranscripts;
 
   const { isEnhanced } = useContext(AppContext);
   const hasShowFullTranscriptionButton =

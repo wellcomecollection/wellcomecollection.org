@@ -3,6 +3,8 @@ import { ImageType } from '@weco/common/model/image';
 import { RichTextField } from '@prismicio/types';
 
 type CaptionsOrTranscripts = {
+  title: string;
+  standaloneTitle: string;
   tombstone?: RichTextField;
   caption?: RichTextField;
   transcription?: RichTextField;
@@ -11,8 +13,6 @@ type CaptionsOrTranscripts = {
 
 export type ExhibitionGuideComponent = {
   number?: number;
-  standaloneTitle: string;
-  title: string;
   displayTitle: string;
   anchorId: string;
   image?: ImageType;

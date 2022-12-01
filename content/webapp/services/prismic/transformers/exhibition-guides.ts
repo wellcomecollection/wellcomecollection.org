@@ -112,12 +112,12 @@ export function transformExhibitionGuide(
 
       return {
         number: component.number || undefined,
-        title,
-        standaloneTitle,
         displayTitle,
         anchorId,
         image: transformImage(component.image),
         captionsOrTranscripts: {
+          title,
+          standaloneTitle,
           context: component.context
             ? asRichText(component.context)
             : undefined,
