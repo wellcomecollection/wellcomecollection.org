@@ -13,6 +13,8 @@ import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/ty
 import { transformImagePromo } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import { getYouTubeEmbedUrl } from './embeds';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.
@@ -95,28 +97,6 @@ function transformRelatedExhibition(exhibition): RelatedExhibition {
   };
 }
 
-function transformYoutubeEmbed(embed) {
-  // TODO share some of this with transformEmbedSlice?
-  if (embed.provider_url === 'https://www.youtube.com/') {
-    const embedUrl = embed.html!.match(/src="([^"]+)"?/)![1];
-
-    const embedUrlWithEnhancedPrivacy = embedUrl.replace(
-      'www.youtube.com',
-      'www.youtube-nocookie.com'
-    );
-
-    const newEmbedUrl = embedUrl.includes('?')
-      ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
-      : `${embedUrlWithEnhancedPrivacy}?rel=0`;
-
-    return {
-      embedUrl: newEmbedUrl as string,
-    };
-  } else {
-    return {};
-  }
-}
-
 export function transformExhibitionGuide(
   document: ExhibitionGuidePrismicDocument
 ): ExhibitionGuide {
@@ -145,9 +125,10 @@ export function transformExhibitionGuide(
           (component.transcript && asRichText(component.transcript)) || [],
         audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
         audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
-        bsl: component['bsl-video'].provider_name
-          ? transformYoutubeEmbed(component['bsl-video'])
-          : {},
+        bsl:
+          component['bsl-video'].provider_name === 'YouTube'
+            ? { embedUrl: getYouTubeEmbedUrl(component['bsl-video']) }
+            : undefined,
       };
     }
   );
@@ -163,7 +144,7 @@ export function transformExhibitionGuide(
     ? transformRelatedExhibition(data['related-exhibition'])
     : undefined;
 
-  const hasBSLVideo = components.some(component => component.bsl.embedUrl);
+  const hasBSLVideo = components.some(({ bsl }) => isNotUndefined(bsl));
   const hasCaptionsOrTranscripts = components.some(
     component =>
       component.caption.length > 0 || component.transcription.length > 0

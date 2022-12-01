@@ -57,6 +57,11 @@ import { transformArticle } from './articles';
 import { transformEventBasic } from './events';
 import { transformSeason } from './seasons';
 import { transformCard } from './card';
+import {
+  getSoundCloudEmbedUrl,
+  getVimeoEmbedUrl,
+  getYouTubeEmbedUrl,
+} from './embeds';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -362,64 +367,37 @@ function transformCollectionVenueSlice(
     : undefined;
 }
 
-function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
+export function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
   const embed = slice.primary.embed;
 
   if (embed.provider_name === 'Vimeo') {
-    const embedUrl = slice.primary.embed.html?.match(
-      /src="([-a-zA-Z0-9://.?=_]+)?/
-    )![1];
-
     return {
       type: 'videoEmbed',
       weight: getWeight(slice.slice_label),
       value: {
-        embedUrl: `${embedUrl}?rel=0&dnt=1`,
+        embedUrl: getVimeoEmbedUrl(embed),
         caption: slice.primary.caption,
       },
     };
   }
 
   if (embed.provider_name === 'SoundCloud') {
-    const apiUrl = embed.html!.match(/url=([^&]*)&/)!;
-    const secretToken = embed.html!.match(/secret_token=([^"]*)"/);
-    const secretTokenString =
-      secretToken && secretToken[1]
-        ? `%3Fsecret_token%3D${secretToken[1]}`
-        : '';
-
     return {
       type: 'soundcloudEmbed',
       weight: getWeight(slice.slice_label),
       value: {
-        embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}${secretTokenString}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+        embedUrl: getSoundCloudEmbedUrl(embed),
         caption: slice.primary.caption,
       },
     };
   }
 
   if (embed.provider_name === 'YouTube') {
-    // The embed will be a blob of HTML of the form
-    //
-    //    <iframe src=\"https://www.youtube.com/embed/RTlA8X0EJ7w...\" ...></iframe>
-    //
-    // We want to add the query parameter ?rel=0
-    const embedUrl = slice.primary.embed.html!.match(/src="([^"]+)"?/)![1];
-
-    const embedUrlWithEnhancedPrivacy = embedUrl.replace(
-      'www.youtube.com',
-      'www.youtube-nocookie.com'
-    );
-
-    const newEmbedUrl = embedUrl.includes('?')
-      ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
-      : `${embedUrlWithEnhancedPrivacy}?rel=0`;
-
     return {
       type: 'videoEmbed',
       weight: getWeight(slice.slice_label),
       value: {
-        embedUrl: newEmbedUrl,
+        embedUrl: getYouTubeEmbedUrl(embed),
         caption: slice.primary.caption,
       },
     };

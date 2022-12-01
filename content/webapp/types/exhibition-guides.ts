@@ -23,8 +23,8 @@ export type ExhibitionGuideComponent = {
   context?: RichTextField;
   audioWithDescription?: Link;
   audioWithoutDescription?: Link;
-  bsl: {
-    embedUrl?: string;
+  bsl?: {
+    embedUrl: string;
   };
 };
 
