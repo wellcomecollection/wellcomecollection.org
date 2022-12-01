@@ -11,7 +11,7 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
-import Sort from '@weco/catalogue/components/Sort/Sort';
+import Sort from '@weco/common/views/components/Sort/Sort';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import {
@@ -30,18 +30,18 @@ import { font } from '@weco/common/utils/classnames';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { hasFilters } from '@weco/catalogue/utils/search';
+import { hasFilters } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
-import { Query } from '@weco/catalogue/types/search';
+import { Query } from '@weco/common/model/search';
 
 type Props = {
   works?: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
-  query: Query;
+  urlQuery: Query;
   pageview: Pageview;
 };
 
@@ -70,9 +70,9 @@ const BottomPaginationWrapper = styled(PaginationWrapper)`
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   works,
   worksRouteProps,
-  query,
+  urlQuery,
 }) => {
-  const { query: queryString } = query;
+  const { query: queryString } = urlQuery;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -163,7 +163,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 query={queryString}
                 hasFilters={hasFilters({
                   filters: filters.map(f => f.id),
-                  queryParams: Object.keys(query).map(p => p),
+                  queryParams: Object.keys(urlQuery).map(p => p),
                 })}
               />
             ) : (
@@ -232,13 +232,13 @@ CatalogueSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const query = context.query;
+    const urlQuery = context.query;
 
     if (!serverData.toggles.searchPage) {
       return { notFound: true };
     }
 
-    const params = fromQuery(context.query);
+    const params = fromQuery(urlQuery);
 
     // Stop here if no query has been entered
     if (!params.query) {
@@ -246,7 +246,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           worksRouteProps: params,
           serverData,
-          query,
+          urlQuery,
           pageview: {
             name: 'works',
             properties: { totalResults: 0 },
@@ -291,7 +291,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         works,
         worksRouteProps: params,
         serverData,
-        query,
+        urlQuery,
         pageview: {
           name: 'works',
           properties: works ? { totalResults: works.totalResults } : {},

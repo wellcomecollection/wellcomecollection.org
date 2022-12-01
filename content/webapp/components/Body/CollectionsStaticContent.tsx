@@ -5,24 +5,19 @@ import { emptyWorksProps } from '@weco/common/views/components/WorksLink/WorksLi
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
 const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
-  const { query, sort, sortOrder } = emptyWorksProps;
+  const { query } = emptyWorksProps;
   return (
-    <>
-      <Layout12>
-        <SpacingSection>
-          <SearchTabs
-            query={query}
-            sort={sort}
-            sortOrder={sortOrder}
-            worksFilters={[]}
-            imagesFilters={[]}
-            shouldShowDescription={false}
-            shouldShowFilters={false}
-            showSortBy={false}
-          />
-        </SpacingSection>
-      </Layout12>
-    </>
+    <Layout12>
+      <SpacingSection>
+        <SearchTabs
+          query={query}
+          worksFilters={[]}
+          imagesFilters={[]}
+          shouldShowDescription={false}
+          shouldShowFilters={false}
+        />
+      </SpacingSection>
+    </Layout12>
   );
 };
 

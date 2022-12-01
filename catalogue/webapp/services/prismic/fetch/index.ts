@@ -5,8 +5,8 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { PrismicApiError } from '../types';
 import { unCamelCase, capitalize } from '@weco/common/utils/grammar';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
-import { Query } from '@weco/catalogue/types/search';
-import { getPrismicSortValue } from '@weco/catalogue/utils/search';
+import { Query } from '@weco/common/model/search';
+import { getPrismicSortValue } from '@weco/common/utils/search';
 
 export const typesToPrismicGraphQLSchemaTypes = {
   // types to graphql query schema types,

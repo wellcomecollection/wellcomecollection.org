@@ -8,6 +8,8 @@ import {
 } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
+import { ParsedUrlQuery } from 'querystring';
+
 import TextInput from '../TextInput/TextInput';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { trackEvent } from '../../../utils/ga';
@@ -18,11 +20,10 @@ import {
   searchFormInputCatalogue,
   searchFormInputImage,
 } from '../../../text/aria-labels';
-import { ParsedUrlQuery } from 'querystring';
 import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
 import { formDataAsUrlQuery } from '../../../utils/forms';
-import { getUrlQueryFromSortValue } from '@weco/catalogue/utils/search';
+import { getUrlQueryFromSortValue } from '@weco/common/utils/search';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },

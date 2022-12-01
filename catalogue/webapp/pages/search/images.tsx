@@ -27,19 +27,19 @@ import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
-import { hasFilters } from '@weco/catalogue/utils/search';
+import { hasFilters } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 import { font } from '@weco/common/utils/classnames';
 
 // Types
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { Query } from '@weco/catalogue/types/search';
+import { Query } from '@weco/common/model/search';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
-  query: Query;
+  urlQuery: Query;
   pageview: Pageview;
 };
 
@@ -66,9 +66,9 @@ const BottomPaginationWrapper = styled(PaginationWrapper)`
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
   images,
   imagesRouteProps,
-  query,
+  urlQuery,
 }): ReactElement<Props> => {
-  const { query: queryString } = query;
+  const { query: queryString } = urlQuery;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -162,7 +162,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               query={queryString}
               hasFilters={hasFilters({
                 filters: filters.map(f => f.id),
-                queryParams: Object.keys(query).map(p => p),
+                queryParams: Object.keys(urlQuery).map(p => p),
               })}
             />
           ) : (
@@ -194,13 +194,13 @@ ImagesSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const query = context.query;
+    const urlQuery = context.query;
 
     if (!serverData.toggles.searchPage) {
       return { notFound: true };
     }
 
-    const params = fromQuery(context.query);
+    const params = fromQuery(urlQuery);
 
     // Stop here if no query has been entered
     if (!params.query) {
@@ -208,7 +208,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           imagesRouteProps: params,
           serverData,
-          query,
+          urlQuery,
           pageview: {
             name: 'images',
             properties: { totalResults: 0 },
@@ -242,7 +242,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         images,
         imagesRouteProps: params,
         serverData,
-        query,
+        urlQuery,
         pageview: {
           name: 'images',
           properties: images

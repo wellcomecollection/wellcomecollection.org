@@ -28,13 +28,13 @@ import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { hasFilters } from '@weco/catalogue/utils/search';
-import { Query } from '@weco/catalogue/types/search';
+import { hasFilters } from '@weco/common/utils/search';
+import { Query } from '@weco/common/model/search';
 
 type Props = {
   works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
-  query: Query;
+  urlQuery: Query;
   pageview: Pageview;
 };
 
@@ -45,11 +45,11 @@ const PaginationWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const Works: NextPage<Props> = ({ works, worksRouteProps, query }) => {
+const Works: NextPage<Props> = ({ works, worksRouteProps, urlQuery }) => {
   const [loading, setLoading] = useState(false);
 
   // TODO do we actually need query AND worksRouteProps...
-  const { query: queryString } = query;
+  const { query: queryString } = urlQuery;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -148,7 +148,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps, query }) => {
             query={queryString || ''}
             hasFilters={hasFilters({
               filters: filters.map(f => f.id),
-              queryParams: Object.keys(query).map(p => p),
+              queryParams: Object.keys(urlQuery).map(p => p),
             })}
           />
         ) : (
@@ -161,7 +161,6 @@ const Works: NextPage<Props> = ({ works, worksRouteProps, query }) => {
                       <Paginator
                         hasSort
                         query={worksRouteProps}
-                        showPortal={true}
                         currentPage={worksRouteProps.page}
                         totalPages={works.totalPages}
                         totalResults={works.totalResults}
@@ -250,8 +249,8 @@ const Works: NextPage<Props> = ({ works, worksRouteProps, query }) => {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const query = context.query;
-    const params = fromQuery(query);
+    const urlQuery = context.query;
+    const params = fromQuery(urlQuery);
 
     const aggregations = [
       'workType',
@@ -288,7 +287,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       props: removeUndefinedProps({
         works,
         worksRouteProps: params,
-        query,
+        urlQuery,
         serverData,
         pageview: {
           name: 'works',

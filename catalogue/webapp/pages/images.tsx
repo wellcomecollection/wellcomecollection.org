@@ -2,6 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
+import styled from 'styled-components';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -25,16 +26,17 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import styled from 'styled-components';
+import { Query } from '@weco/common/model/search';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
+  urlQuery: Query;
   pageview: Pageview;
 };
 
 type ImagesPaginationProps = {
-  query?: string;
+  urlQuery?: Query;
   page: number;
   results: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
@@ -51,7 +53,7 @@ const PaginationWrapper = styled.div`
 `;
 
 const ImagesPagination = ({
-  query,
+  urlQuery,
   page,
   results,
   imagesRouteProps,
@@ -61,23 +63,14 @@ const ImagesPagination = ({
 }: ImagesPaginationProps) => (
   <PaginationWrapper>
     <Paginator
-      query={query}
-      showPortal={false}
+      query={urlQuery}
       currentPage={page}
       totalPages={results.totalPages}
       totalResults={results.totalResults}
-      link={toLink(
-        {
-          ...imagesRouteProps,
-        },
-        'search/paginator'
-      )}
+      link={toLink({ ...imagesRouteProps }, 'search/paginator')}
       onPageChange={async (event, newPage) => {
         event.preventDefault();
-        const state = {
-          ...imagesRouteProps,
-          page: newPage,
-        };
+        const state = { ...imagesRouteProps, page: newPage };
         const link = toLink({ ...state }, 'search/paginator');
         Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
       }}
@@ -91,9 +84,11 @@ const ImagesPagination = ({
 const Images: NextPage<Props> = ({
   images,
   imagesRouteProps,
+  urlQuery,
 }): ReactElement<Props> => {
   const [isLoading, setIsLoading] = useState(false);
   const { query, page, color } = imagesRouteProps;
+
   useEffect(() => {
     function routeChangeStart() {
       setIsLoading(true);
@@ -168,13 +163,7 @@ const Images: NextPage<Props> = ({
             : []
         }
       >
-        <Space
-          v={{
-            size: 'l',
-            properties: ['padding-bottom'],
-          }}
-          className="row"
-        >
+        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
           <div className="container">
             <SearchTitle isVisuallyHidden={Boolean(images)} />
 
@@ -183,12 +172,9 @@ const Images: NextPage<Props> = ({
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   <SearchTabs
                     query={imagesRouteProps.query}
-                    sort={undefined}
-                    sortOrder={undefined}
                     shouldShowDescription={query === ''}
                     activeTabIndex={1}
                     shouldShowFilters={true}
-                    showSortBy={Boolean(images)}
                     imagesFilters={filters}
                     worksFilters={[]}
                   />
@@ -204,7 +190,7 @@ const Images: NextPage<Props> = ({
                 <div className="grid">
                   <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                     <ImagesPagination
-                      query={query}
+                      urlQuery={urlQuery}
                       page={page}
                       results={images}
                       imagesRouteProps={imagesRouteProps}
@@ -216,27 +202,19 @@ const Images: NextPage<Props> = ({
               </div>
             </Space>
 
-            <Space
-              v={{
-                size: 'l',
-                properties: ['padding-top'],
-              }}
-            >
+            <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <ImageEndpointSearchResults images={images} />
               </div>
 
               <Space
-                v={{
-                  size: 'l',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
+                v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
               >
                 <div className="container">
                   <div className="grid">
                     <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                       <ImagesPagination
-                        query={query}
+                        urlQuery={urlQuery}
                         page={page}
                         results={images}
                         imagesRouteProps={imagesRouteProps}
@@ -261,7 +239,8 @@ const Images: NextPage<Props> = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const params = fromQuery(context.query);
+    const urlQuery = context.query;
+    const params = fromQuery(urlQuery);
     const aggregations = [
       'locations.license',
       'source.genres.label',
@@ -287,6 +266,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         serverData,
         images,
         imagesRouteProps: params,
+        urlQuery,
         pageview: {
           name: 'images',
           properties: images

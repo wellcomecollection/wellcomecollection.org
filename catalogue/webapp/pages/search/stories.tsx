@@ -8,7 +8,7 @@ import SearchPagination from '@weco/common/views/components/SearchPagination/Sea
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import Sort from '@weco/catalogue/components/Sort/Sort';
+import Sort from '@weco/common/views/components/Sort/Sort';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -26,11 +26,11 @@ import {
   PrismicApiError,
   PrismicResultsList,
 } from '@weco/catalogue/services/prismic/types';
-import { Query } from '@weco/catalogue/types/search';
+import { Query } from '@weco/common/model/search';
 
 type Props = {
   storyResponseList: PrismicResultsList<Story>;
-  query: Query;
+  urlQuery: Query;
   pageview: Pageview;
 };
 
@@ -154,9 +154,9 @@ const StoryInformationItem = styled.span`
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
-  query,
+  urlQuery,
 }) => {
-  const { query: queryString } = query;
+  const { query: queryString, sort, sortOrder } = urlQuery;
 
   // If there is no query, return an empty page
   if (!queryString) {
@@ -196,7 +196,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                     { value: 'desc', text: 'Descending' },
                   ],
                 }}
-                defaultValues={{ sort: query.sort, sortOrder: query.sortOrder }}
+                defaultValues={{ sort, sortOrder }}
               />
               <SearchPagination
                 totalPages={storyResponseList.totalPages}
@@ -271,7 +271,7 @@ export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
-  const query = context.query;
+  const urlQuery = context.query;
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };
@@ -280,7 +280,7 @@ export const getServerSideProps: GetServerSideProps<
   const defaultProps = removeUndefinedProps({
     serverData,
     storyResponseList: { totalResults: 0 },
-    query,
+    urlQuery,
     pageview: {
       name: 'stories',
       properties: {},
@@ -288,7 +288,7 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   // Stop here if no query has been entered
-  if (!query.query) {
+  if (!urlQuery.query) {
     return {
       props: defaultProps,
     };
@@ -296,7 +296,7 @@ export const getServerSideProps: GetServerSideProps<
 
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
-      query,
+      query: urlQuery,
       pageSize: 6,
     });
 

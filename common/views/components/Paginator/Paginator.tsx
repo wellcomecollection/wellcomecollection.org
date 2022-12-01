@@ -4,9 +4,9 @@ import { LinkProps } from '../../../model/link-props';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Pagination from '../Pagination/Pagination';
-import Sort from '@weco/catalogue/components/Sort/Sort';
+import Sort from '@weco/common/views/components/Sort/Sort';
 import { pluralize } from '@weco/common/utils/grammar';
-import { Query } from '@weco/catalogue/types/search';
+import { Query } from '@weco/common/model/search';
 
 type PageChangeFunction = (event: Event, page: number) => Promise<void>;
 
@@ -18,7 +18,6 @@ type Props = {
   onPageChange: PageChangeFunction;
   query?: Query;
   hasSort?: boolean;
-  showPortal?: boolean;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
   isLoading?: boolean;
@@ -50,7 +49,6 @@ const Paginator: FunctionComponent<Props> = ({
   onPageChange,
   query,
   hasSort,
-  showPortal,
   hideMobilePagination,
   hideMobileTotalResults,
   isLoading,
@@ -105,7 +103,6 @@ const Paginator: FunctionComponent<Props> = ({
           hideMobilePagination={hideMobilePagination}
           disabled={isLoading}
           onPageChange={onPageChange}
-          showPortal={showPortal}
         />
       </SortPaginationWrapper>
     </>

@@ -1,5 +1,5 @@
 import { PrismicResultsList, PrismicApiError } from '../types';
-import { Query } from '@weco/catalogue/types/search';
+import { Query } from '@weco/common/model/search';
 import { Exhibition } from '../types/exhibition';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
