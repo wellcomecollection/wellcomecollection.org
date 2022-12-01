@@ -130,10 +130,10 @@ export function transformExhibitionGuide(
           tombstone: asRichText(component.tombstone),
         },
         // TODO make these both the same as other audio transforms
-        audioWithDescription: component['audio-with-description']
+        audioWithDescription: component['audio-with-description'].url
           ? { url: component['audio-with-description'].url }
           : undefined,
-        audioWithoutDescription: component['audio-without-description']
+        audioWithoutDescription: component['audio-without-description'].url
           ? { url: component['audio-without-description'].url }
           : undefined,
         bsl:
@@ -168,22 +168,54 @@ export function transformExhibitionGuide(
     component => component.audioWithDescription?.url
   );
 
-  const filteredComponents = components.map(c => ({
-    ...c,
-    captionsOrTranscripts:
+  // This does a couple of filter passes to reduce the size of the page props
+  // we send when rendering the exhibition guides:
+  //
+  //    1.  If we're looking at a guide of type X, remove all the data about
+  //        other guide types.
+  //
+  //        e.g. if we're on the BSL guide, we don't need to include the URLs
+  //        for the audio tracks
+  //
+  //    2.  Remove any data about stops which aren't used in this guide type.
+  //        We've decided we're not going to show them.
+  //
+  //        e.g. if we're on the BSL guide, the BSL guide has 5 videos, and
+  //        the audio guide has 10 tracks, we only need to include the 5 stops
+  //        which have BSL videos.
+  //
+  // Because the captions and transcripts are particularly data heavy, this can
+  // have a dramatic impact on page size.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/pull/8945 for stats.
+  const filteredComponents = components
+    .map(c => ({
+      ...c,
+      captionsOrTranscripts:
+        guideType === 'captions-and-transcripts'
+          ? c.captionsOrTranscripts
+          : undefined,
+      audioWithDescription:
+        guideType === 'audio-with-descriptions'
+          ? c.audioWithDescription
+          : undefined,
+      audioWithoutDescription:
+        guideType === 'audio-without-descriptions'
+          ? c.audioWithoutDescription
+          : undefined,
+      bsl: guideType === 'bsl' ? c.bsl : undefined,
+    }))
+    .filter(c =>
       guideType === 'captions-and-transcripts'
-        ? c.captionsOrTranscripts
-        : undefined,
-    audioWithDescription:
-      guideType === 'audio-with-descriptions'
-        ? c.audioWithDescription
-        : undefined,
-    audioWithoutDescription:
-      guideType === 'audio-without-descriptions'
-        ? c.audioWithoutDescription
-        : undefined,
-    bsl: guideType === 'bsl' ? c.bsl : undefined,
-  }));
+        ? isNotUndefined(c.captionsOrTranscripts)
+        : guideType === 'audio-with-descriptions'
+        ? isNotUndefined(c.audioWithDescription)
+        : guideType === 'audio-without-descriptions'
+        ? isNotUndefined(c.audioWithoutDescription)
+        : guideType === 'bsl'
+        ? isNotUndefined(c.bsl)
+        : false
+    );
 
   return {
     title: relatedExhibition?.title || '',
