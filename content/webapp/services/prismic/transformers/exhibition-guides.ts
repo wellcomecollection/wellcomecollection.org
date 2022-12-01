@@ -116,8 +116,7 @@ export function transformExhibitionGuide(
         standaloneTitle,
         displayTitle,
         anchorId,
-        tombstone:
-          (component.tombstone && asRichText(component.tombstone)) || [],
+        tombstone: asRichText(component.tombstone),
         image: transformImage(component.image),
         context: (component.context && asRichText(component.context)) || [],
         caption: (component.caption && asRichText(component.caption)) || [],

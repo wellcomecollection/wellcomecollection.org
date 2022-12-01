@@ -131,7 +131,7 @@ type Stop = {
   number?: number;
   title: string;
   image?: ImageType;
-  tombstone: prismicT.RichTextField;
+  tombstone?: prismicT.RichTextField;
   caption: prismicT.RichTextField;
   context?: prismicT.RichTextField;
   transcription?: prismicT.RichTextField;
@@ -259,9 +259,11 @@ const Stop: FunctionComponent<{
                   {title}
                 </TombstoneTitle>
               )}
-              <div className={font('intr', 4)}>
-                <PrismicHtmlBlock html={tombstone} />
-              </div>
+              {tombstone && (
+                <div className={font('intr', 4)}>
+                  <PrismicHtmlBlock html={tombstone} />
+                </div>
+              )}
             </Tombstone>
 
             <CaptionTranscription>
