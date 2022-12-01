@@ -34,7 +34,7 @@ export type ExhibitionGuideBasic = {
   id: string;
   image?: ImageType;
   promo?: ImagePromo;
-  relatedExhibition: RelatedExhibition | undefined;
+  relatedExhibition?: RelatedExhibition;
   availableTypes: {
     BSLVideo: boolean;
     captionsOrTranscripts: boolean;
