@@ -1,19 +1,21 @@
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { GetServerSideProps, NextPage } from 'next';
 import Router from 'next/router';
 import Head from 'next/head';
+import styled from 'styled-components';
+import { getCookie } from 'cookies-next';
+
 import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import Space from '@weco/common/views/components/styled/Space';
-import { getWorks } from '../services/catalogue/works';
-import { getCookie } from 'cookies-next';
-import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
+import { getWorks } from '@weco/catalogue/services/catalogue/works';
+import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
-import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
+import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import SearchTitle from '../components/SearchTitle/SearchTitle';
-import { GetServerSideProps, NextPage } from 'next';
+import SearchTitle from '@weco/catalogue/components/SearchTitle/SearchTitle';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import {
@@ -26,11 +28,13 @@ import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import styled from 'styled-components';
+import { hasFilters } from '@weco/catalogue/utils/search';
+import { Query } from '@weco/catalogue/types/search';
 
 type Props = {
   works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
+  query: Query;
   pageview: Pageview;
 };
 
@@ -41,15 +45,11 @@ const PaginationWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
+const Works: NextPage<Props> = ({ works, worksRouteProps, query }) => {
   const [loading, setLoading] = useState(false);
 
-  const {
-    query,
-    page,
-    'production.dates.from': productionDatesFrom,
-    'production.dates.to': productionDatesTo,
-  } = worksRouteProps;
+  // TODO do we actually need query AND worksRouteProps...
+  const { query: queryString } = query;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -78,14 +78,16 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
   const isWorksLanding = url.query ? Object.keys(url.query).length === 0 : true;
 
   return (
-    <Fragment>
+    <>
       <Head>
         {works.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
-              toLink({ ...worksRouteProps, page: (page || 1) - 1 }, 'unknown')
-                .as
+              toLink(
+                { ...worksRouteProps, page: (worksRouteProps.page || 1) - 1 },
+                'unknown'
+              ).as
             )}
           />
         )}
@@ -93,14 +95,17 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
           <link
             rel="next"
             href={convertUrlToString(
-              toLink({ ...worksRouteProps, page: page + 1 }, 'unknown').as
+              toLink(
+                { ...worksRouteProps, page: worksRouteProps.page + 1 },
+                'unknown'
+              ).as
             )}
           />
         )}
       </Head>
 
       <CataloguePageLayout
-        title={`${query ? `${query} | ` : ''}Catalogue search`}
+        title={`${queryString ? `${queryString} | ` : ''}Catalogue search`}
         description={pageDescriptions.works}
         url={url}
         openGraphType="website"
@@ -116,13 +121,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
           },
         ]}
       >
-        <Space
-          v={{
-            size: 'l',
-            properties: ['padding-bottom'],
-          }}
-          className="row"
-        >
+        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
           <div className="container">
             {/* Showing the h1 on `/works` (without a query string) in an attempt to
             have Google use it as the link text in sitelinks
@@ -133,13 +132,10 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   <SearchTabs
                     query={worksRouteProps.query}
-                    sort={worksRouteProps.sort}
-                    sortOrder={worksRouteProps.sortOrder}
                     worksFilters={filters}
                     imagesFilters={[]}
-                    shouldShowDescription={query === ''}
+                    shouldShowDescription={queryString === ''}
                     shouldShowFilters={true}
-                    showSortBy={Boolean(works)}
                   />
                 </Space>
               </div>
@@ -147,46 +143,53 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
           </div>
         </Space>
 
-        {works.results.length > 0 && (
-          <Fragment>
+        {works.results.length === 0 ? (
+          <SearchNoResults
+            query={queryString || ''}
+            hasFilters={hasFilters({
+              filters: filters.map(f => f.id),
+              queryParams: Object.keys(query).map(p => p),
+            })}
+          />
+        ) : (
+          <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <div className="grid">
                   <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                     <PaginationWrapper>
-                      <Fragment>
-                        <Paginator
-                          query={query}
-                          showPortal={true}
-                          currentPage={page}
-                          totalPages={works.totalPages}
-                          totalResults={works.totalResults}
-                          link={toLink(
+                      <Paginator
+                        hasSort
+                        query={worksRouteProps}
+                        showPortal={true}
+                        currentPage={worksRouteProps.page}
+                        totalPages={works.totalPages}
+                        totalResults={works.totalResults}
+                        link={toLink(
+                          {
+                            ...worksRouteProps,
+                          },
+                          'search/paginator'
+                        )}
+                        onPageChange={async (event, newPage) => {
+                          event.preventDefault();
+                          const state = {
+                            ...worksRouteProps,
+                            page: newPage,
+                          };
+                          const link = toLink(
                             {
-                              ...worksRouteProps,
+                              ...state,
                             },
                             'search/paginator'
-                          )}
-                          onPageChange={async (event, newPage) => {
-                            event.preventDefault();
-                            const state = {
-                              ...worksRouteProps,
-                              page: newPage,
-                            };
-                            const link = toLink(
-                              {
-                                ...state,
-                              },
-                              'search/paginator'
-                            );
+                          );
 
-                            Router.push(link.href, link.as).then(() =>
-                              window.scrollTo(0, 0)
-                            );
-                          }}
-                          hideMobilePagination={true}
-                        />
-                      </Fragment>
+                          Router.push(link.href, link.as).then(() =>
+                            window.scrollTo(0, 0)
+                          );
+                        }}
+                        hideMobilePagination={true}
+                      />
                     </PaginationWrapper>
                   </div>
                 </div>
@@ -194,47 +197,34 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
             </Space>
 
             <Space
-              v={{
-                size: 'l',
-                properties: ['padding-top'],
-              }}
+              v={{ size: 'l', properties: ['padding-top'] }}
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container" role="main">
                 <WorksSearchResults works={works} />
               </div>
               <Space
-                v={{
-                  size: 'l',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
+                v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
               >
                 <div className="container">
                   <div className="grid">
                     <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                       <div className="flex flex--h-space-between flex--v-center flex--wrap">
                         <Paginator
-                          query={query}
-                          currentPage={page}
+                          query={worksRouteProps}
+                          currentPage={worksRouteProps.page}
                           totalPages={works.totalPages}
                           totalResults={works.totalResults}
                           link={toLink(
-                            {
-                              ...worksRouteProps,
-                            },
+                            { ...worksRouteProps },
                             'search/paginator'
                           )}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
-                            const state = {
-                              ...worksRouteProps,
-                              page: newPage,
-                            };
+                            const state = { ...worksRouteProps, page: newPage };
 
                             const link = toLink(
-                              {
-                                ...state,
-                              },
+                              { ...state },
                               'search/paginator'
                             );
 
@@ -250,24 +240,18 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                 </div>
               </Space>
             </Space>
-          </Fragment>
-        )}
-
-        {works.results.length === 0 && (
-          <SearchNoResults
-            query={query}
-            hasFilters={Boolean(productionDatesFrom || productionDatesTo)}
-          />
+          </>
         )}
       </CataloguePageLayout>
-    </Fragment>
+    </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const props = fromQuery(context.query);
+    const query = context.query;
+    const params = fromQuery(query);
 
     const aggregations = [
       'workType',
@@ -281,7 +265,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const _queryType = getCookie('_queryType') as string | undefined;
 
     const worksApiProps = {
-      ...props,
+      ...params,
       _queryType,
       aggregations,
     };
@@ -303,7 +287,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return {
       props: removeUndefinedProps({
         works,
-        worksRouteProps: props,
+        worksRouteProps: params,
+        query,
         serverData,
         pageview: {
           name: 'works',

@@ -58,7 +58,6 @@ const Pagination: FunctionComponent<Props> = ({
   hideMobilePagination,
   disabled,
   onPageChange,
-  showPortal,
 }: Props) => {
   const { currentPage, totalPages } = paginatedResults;
 
@@ -105,7 +104,6 @@ const Pagination: FunctionComponent<Props> = ({
 
   return (
     <PaginatorContainer>
-      {showPortal && <div id="sort-select-portal"></div>}
       <PaginatorWrapper
         aria-label="pagination"
         hideMobilePagination={hideMobilePagination}

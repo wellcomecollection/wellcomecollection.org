@@ -1,9 +1,12 @@
-import { Fragment, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { LinkProps } from '../../../model/link-props';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import styled from 'styled-components';
 import Pagination from '../Pagination/Pagination';
+import Sort from '@weco/catalogue/components/Sort/Sort';
+import { pluralize } from '@weco/common/utils/grammar';
+import { Query } from '@weco/catalogue/types/search';
 
 type PageChangeFunction = (event: Event, page: number) => Promise<void>;
 
@@ -13,7 +16,8 @@ type Props = {
   currentPage: number;
   link: LinkProps;
   onPageChange: PageChangeFunction;
-  query?: string;
+  query?: Query;
+  hasSort?: boolean;
   showPortal?: boolean;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
@@ -31,6 +35,13 @@ const TotalResultsWrapper = styled.div.attrs<TotalResultsWrapperProps>(
   })
 )<TotalResultsWrapperProps>``;
 
+const SortPaginationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
+// TODO rename since we added Sort here?
 const Paginator: FunctionComponent<Props> = ({
   totalResults,
   totalPages,
@@ -38,13 +49,14 @@ const Paginator: FunctionComponent<Props> = ({
   link,
   onPageChange,
   query,
+  hasSort,
   showPortal,
   hideMobilePagination,
   hideMobileTotalResults,
   isLoading,
 }: Props) => {
   return (
-    <Fragment>
+    <>
       <Space
         h={{ size: 'm', properties: ['margin-right'] }}
         className={`flex flex--v-center ${font('intb', 3)}`}
@@ -53,22 +65,50 @@ const Paginator: FunctionComponent<Props> = ({
           hideMobileTotalResults={hideMobileTotalResults}
           role="status"
         >
-          {totalResults} {totalResults !== 1 ? 'results' : 'result'}
-          {query && ` for “${query}”`}
+          {pluralize(totalResults, 'result')}
+          {query?.query && ` for “${query.query}”`}
         </TotalResultsWrapper>
       </Space>
-      <Pagination
-        paginatedResults={{
-          currentPage,
-          totalPages,
-        }}
-        paginationRoot={link}
-        hideMobilePagination={hideMobilePagination}
-        disabled={isLoading}
-        onPageChange={onPageChange}
-        showPortal={showPortal}
-      />
-    </Fragment>
+
+      <SortPaginationWrapper>
+        {hasSort && (
+          <Sort
+            formId="worksSearchForm"
+            options={[
+              { value: '', text: 'Relevance' },
+              { value: 'production.dates.asc', text: 'Oldest to newest' },
+              { value: 'production.dates.desc', text: 'Newest to oldest' },
+            ]}
+            jsLessOptions={{
+              sort: [
+                { value: '', text: 'Relevance' },
+                { value: 'production.dates', text: 'Production dates' },
+              ],
+              sortOrder: [
+                { value: 'asc', text: 'Ascending' },
+                { value: 'desc', text: 'Descending' },
+              ],
+            }}
+            defaultValues={{
+              sort: query?.sort,
+              sortOrder: query?.sortOrder,
+            }}
+          />
+        )}
+
+        <Pagination
+          paginatedResults={{
+            currentPage,
+            totalPages,
+          }}
+          paginationRoot={link}
+          hideMobilePagination={hideMobilePagination}
+          disabled={isLoading}
+          onPageChange={onPageChange}
+          showPortal={showPortal}
+        />
+      </SortPaginationWrapper>
+    </>
   );
 };
 export default Paginator;
