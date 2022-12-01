@@ -158,24 +158,22 @@ const Stop: FunctionComponent<{
   isFirstStop: boolean;
   titlesUsed: TitlesUsed;
 }> = ({ index, stop, isFirstStop, titlesUsed }) => {
-  const {
-    standaloneTitle,
-    title,
-    image,
-    tombstone,
-    caption,
-    context,
-    transcription,
-  } = stop;
+  const { standaloneTitle, title, image } = stop;
+
+  const tombstone = stop.captionsOrTranscripts?.tombstone;
+  const caption = stop.captionsOrTranscripts?.caption;
+  const context = stop.captionsOrTranscripts?.context;
+  const transcription = stop.captionsOrTranscripts?.transcription;
+
   const { isEnhanced } = useContext(AppContext);
   const hasShowFullTranscriptionButton =
-    (stop.transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
+    (transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
   const transcriptionFirstParagraph = transcription?.slice(0, 1);
   const [isFullTranscription, setIsFullTranscription] = useState(true);
   const [transcriptionText, setTranscriptionText] = useState(
     transcriptionFirstParagraph
   );
-  const hasContext = isNotUndefined(stop.context);
+  const hasContext = isNotUndefined(context);
   const hasStandaloneTitle = includesStandaloneTitle(stop);
 
   useEffect(() => {
@@ -338,7 +336,9 @@ const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
           titlesUsed.standalone = includesStandaloneTitle(stop);
         }
         if (!titlesUsed.context) {
-          titlesUsed.context = isNotUndefined(stop.context);
+          titlesUsed.context = isNotUndefined(
+            stop.captionsOrTranscripts?.context
+          );
         }
         return (
           <Stop

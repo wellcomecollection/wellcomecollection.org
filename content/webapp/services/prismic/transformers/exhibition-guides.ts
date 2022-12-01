@@ -2,6 +2,7 @@ import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
+  ExhibitionGuideType,
   RelatedExhibition,
 } from '../../../types/exhibition-guides';
 import { asRichText, asTitle } from '.';
@@ -114,13 +115,19 @@ export function transformExhibitionGuide(
         standaloneTitle,
         displayTitle,
         anchorId,
-        tombstone: asRichText(component.tombstone),
         image: transformImage(component.image),
-        context: component.context ? asRichText(component.context) : undefined,
-        caption: component.caption ? asRichText(component.caption) : undefined,
-        transcription: component.transcript
-          ? asRichText(component.transcript)
-          : undefined,
+        captionsOrTranscripts: {
+          context: component.context
+            ? asRichText(component.context)
+            : undefined,
+          caption: component.caption
+            ? asRichText(component.caption)
+            : undefined,
+          transcription: component.transcript
+            ? asRichText(component.transcript)
+            : undefined,
+          tombstone: asRichText(component.tombstone),
+        },
         audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
         audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
         bsl:
@@ -144,8 +151,9 @@ export function transformExhibitionGuide(
 
   const hasBSLVideo = components.some(({ bsl }) => isNotUndefined(bsl));
   const hasCaptionsOrTranscripts = components.some(
-    ({ caption, transcription }) =>
-      isNotUndefined(caption) || isNotUndefined(transcription)
+    ({ captionsOrTranscripts: captions }) =>
+      isNotUndefined(captions?.caption) ||
+      isNotUndefined(captions?.transcription)
   );
   const hasAudioWithoutDescriptions = components.some(
     component => component.audioWithoutDescription?.url
