@@ -4,7 +4,6 @@ import {
   isValidType,
 } from '../../../../types/exhibition-guides';
 import { deleteCookie, getCookie } from 'cookies-next';
-import * as prismicT from '@prismicio/types';
 import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../../../../services/prismic/fetch/exhibition-guides';
@@ -180,9 +179,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </h1>
 
             {exhibitionGuide.introText?.length > 0 ? (
-              <PrismicHtmlBlock
-                html={exhibitionGuide.introText as prismicT.RichTextField}
-              />
+              <PrismicHtmlBlock html={exhibitionGuide.introText} />
             ) : (
               exhibitionGuide.relatedExhibition?.description && (
                 <p>{exhibitionGuide.relatedExhibition.description}</p>
