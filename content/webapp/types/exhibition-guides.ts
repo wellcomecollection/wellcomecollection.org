@@ -1,7 +1,6 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { RichTextField } from '@prismicio/types';
-import { Link } from './link';
 
 type CaptionsOrTranscripts = {
   tombstone?: RichTextField;
@@ -18,8 +17,8 @@ export type ExhibitionGuideComponent = {
   anchorId: string;
   image?: ImageType;
   captionsOrTranscripts?: CaptionsOrTranscripts;
-  audioWithDescription?: Link;
-  audioWithoutDescription?: Link;
+  audioWithDescription?: { url: string };
+  audioWithoutDescription?: { url: string };
   bsl?: {
     embedUrl: string;
   };

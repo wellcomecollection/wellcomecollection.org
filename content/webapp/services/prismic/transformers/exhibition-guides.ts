@@ -129,8 +129,13 @@ export function transformExhibitionGuide(
             : undefined,
           tombstone: asRichText(component.tombstone),
         },
-        audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
-        audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
+        // TODO make these both the same as other audio transforms
+        audioWithDescription: component['audio-with-description']
+          ? { url: component['audio-with-description'].url }
+          : undefined,
+        audioWithoutDescription: component['audio-without-description']
+          ? { url: component['audio-without-description'].url }
+          : undefined,
         bsl:
           component['bsl-video'].provider_name === 'YouTube'
             ? { embedUrl: getYouTubeEmbedUrl(component['bsl-video']) }
