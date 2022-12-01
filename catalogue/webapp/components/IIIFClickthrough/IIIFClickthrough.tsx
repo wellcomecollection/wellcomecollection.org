@@ -48,6 +48,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
       {tokenService && origin && (
         <IframeAuthMessage
           id={iframeId}
+          title="IIIF Authentication iframe for cross-domain messaging"
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
