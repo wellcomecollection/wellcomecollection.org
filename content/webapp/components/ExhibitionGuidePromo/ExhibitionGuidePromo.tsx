@@ -17,7 +17,7 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
     <CardOuter
       data-component="ExhibitionGuidePromo"
       href={
-        (exhibitionGuide.promo && exhibitionGuide.promo.link) ||
+        exhibitionGuide.promo?.link ||
         `/guides/exhibitions/${exhibitionGuide.id}`
       }
       onClick={() => {
@@ -64,7 +64,7 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
           {exhibitionGuide.promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
               <p className={`${font('intr', 5)} no-margin`}>
-                {exhibitionGuide.promo?.caption}
+                {exhibitionGuide.promo.caption}
               </p>
             </Space>
           )}
