@@ -1,21 +1,24 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { RichTextField } from '@prismicio/types';
-import { Link } from './link';
 
-export type ExhibitionGuideComponent = {
-  number?: number;
-  standaloneTitle: string;
+type CaptionsOrTranscripts = {
   title: string;
-  displayTitle: string;
-  anchorId: string;
-  image?: ImageType;
+  standaloneTitle: string;
   tombstone?: RichTextField;
   caption?: RichTextField;
   transcription?: RichTextField;
   context?: RichTextField;
-  audioWithDescription?: Link;
-  audioWithoutDescription?: Link;
+};
+
+export type ExhibitionGuideComponent = {
+  number?: number;
+  displayTitle: string;
+  anchorId: string;
+  image?: ImageType;
+  captionsOrTranscripts?: CaptionsOrTranscripts;
+  audioWithDescription?: { url: string };
+  audioWithoutDescription?: { url: string };
   bsl?: {
     embedUrl: string;
   };

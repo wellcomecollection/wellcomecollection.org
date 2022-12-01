@@ -72,7 +72,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ),
     };
 
-    const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
+    // We don't need to send data about individual components to the page, so
+    // remove it here.
+    const exhibitionGuide = {
+      ...transformExhibitionGuide(exhibitionGuideQuery),
+      components: [],
+    };
 
     const jsonLd = exhibitionGuideLd(exhibitionGuide);
 

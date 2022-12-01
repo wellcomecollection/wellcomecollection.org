@@ -134,7 +134,9 @@ type Props = {
 };
 
 function includesStandaloneTitle(stop: ExhibitionGuideComponent): boolean {
-  return stop.standaloneTitle.length > 0;
+  return stop.captionsOrTranscripts
+    ? stop.captionsOrTranscripts.standaloneTitle.length > 0
+    : false;
 }
 
 type TitlesUsed = {
@@ -158,24 +160,25 @@ const Stop: FunctionComponent<{
   isFirstStop: boolean;
   titlesUsed: TitlesUsed;
 }> = ({ index, stop, isFirstStop, titlesUsed }) => {
-  const {
-    standaloneTitle,
-    title,
-    image,
-    tombstone,
-    caption,
-    context,
-    transcription,
-  } = stop;
+  const { image } = stop;
+
+  // We know the captions-or-transcripts data will be defined, because the
+  // Prismic transformer filters out any stops which don't have this data.
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const captionsOrTranscripts = stop.captionsOrTranscripts!;
+
+  const { title, standaloneTitle, tombstone, caption, context, transcription } =
+    captionsOrTranscripts;
+
   const { isEnhanced } = useContext(AppContext);
   const hasShowFullTranscriptionButton =
-    (stop.transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
+    (transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
   const transcriptionFirstParagraph = transcription?.slice(0, 1);
   const [isFullTranscription, setIsFullTranscription] = useState(true);
   const [transcriptionText, setTranscriptionText] = useState(
     transcriptionFirstParagraph
   );
-  const hasContext = isNotUndefined(stop.context);
+  const hasContext = isNotUndefined(context);
   const hasStandaloneTitle = includesStandaloneTitle(stop);
 
   useEffect(() => {
@@ -338,7 +341,9 @@ const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
           titlesUsed.standalone = includesStandaloneTitle(stop);
         }
         if (!titlesUsed.context) {
-          titlesUsed.context = isNotUndefined(stop.context);
+          titlesUsed.context = isNotUndefined(
+            stop.captionsOrTranscripts?.context
+          );
         }
         return (
           <Stop

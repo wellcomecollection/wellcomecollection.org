@@ -2,6 +2,7 @@ import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
+  ExhibitionGuideType,
   RelatedExhibition,
 } from '../../../types/exhibition-guides';
 import { asRichText, asTitle } from '.';
@@ -110,19 +111,30 @@ export function transformExhibitionGuide(
 
       return {
         number: component.number || undefined,
-        title,
-        standaloneTitle,
         displayTitle,
         anchorId,
-        tombstone: asRichText(component.tombstone),
         image: transformImage(component.image),
-        context: component.context ? asRichText(component.context) : undefined,
-        caption: component.caption ? asRichText(component.caption) : undefined,
-        transcription: component.transcript
-          ? asRichText(component.transcript)
+        captionsOrTranscripts: {
+          title,
+          standaloneTitle,
+          context: component.context
+            ? asRichText(component.context)
+            : undefined,
+          caption: component.caption
+            ? asRichText(component.caption)
+            : undefined,
+          transcription: component.transcript
+            ? asRichText(component.transcript)
+            : undefined,
+          tombstone: asRichText(component.tombstone),
+        },
+        // TODO make these both the same as other audio transforms
+        audioWithDescription: component['audio-with-description'].url
+          ? { url: component['audio-with-description'].url }
           : undefined,
-        audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
-        audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
+        audioWithoutDescription: component['audio-without-description'].url
+          ? { url: component['audio-without-description'].url }
+          : undefined,
         bsl:
           component['bsl-video'].provider_name === 'YouTube'
             ? { embedUrl: getYouTubeEmbedUrl(component['bsl-video']) }
@@ -144,8 +156,9 @@ export function transformExhibitionGuide(
 
   const hasBSLVideo = components.some(({ bsl }) => isNotUndefined(bsl));
   const hasCaptionsOrTranscripts = components.some(
-    ({ caption, transcription }) =>
-      isNotUndefined(caption) || isNotUndefined(transcription)
+    ({ captionsOrTranscripts: captions }) =>
+      isNotUndefined(captions?.caption) ||
+      isNotUndefined(captions?.transcription)
   );
   const hasAudioWithoutDescriptions = components.some(
     component => component.audioWithoutDescription?.url
@@ -168,5 +181,64 @@ export function transformExhibitionGuide(
       audioWithoutDescriptions: hasAudioWithoutDescriptions,
       audioWithDescriptions: hasAudioWithDescriptions,
     },
+  };
+}
+
+export function filterExhibitionGuideComponents(
+  guide: ExhibitionGuide,
+  guideType: ExhibitionGuideType
+): ExhibitionGuide {
+  // This does a couple of filter passes to reduce the size of the page props
+  // we send when rendering the exhibition guides:
+  //
+  //    1.  If we're looking at a guide of type X, remove all the data about
+  //        other guide types.
+  //
+  //        e.g. if we're on the BSL guide, we don't need to include the URLs
+  //        for the audio tracks
+  //
+  //    2.  Remove any data about stops which aren't used in this guide type.
+  //        We've decided we're not going to show them.
+  //
+  //        e.g. if we're on the BSL guide, the BSL guide has 5 videos, and
+  //        the audio guide has 10 tracks, we only need to include the 5 stops
+  //        which have BSL videos.
+  //
+  // Because the captions and transcripts are particularly data heavy, this can
+  // have a dramatic impact on page size.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/pull/8945 for stats.
+  const filteredComponents = guide.components
+    .map(c => ({
+      ...c,
+      captionsOrTranscripts:
+        guideType === 'captions-and-transcripts'
+          ? c.captionsOrTranscripts
+          : undefined,
+      audioWithDescription:
+        guideType === 'audio-with-descriptions'
+          ? c.audioWithDescription
+          : undefined,
+      audioWithoutDescription:
+        guideType === 'audio-without-descriptions'
+          ? c.audioWithoutDescription
+          : undefined,
+      bsl: guideType === 'bsl' ? c.bsl : undefined,
+    }))
+    .filter(c =>
+      guideType === 'captions-and-transcripts'
+        ? isNotUndefined(c.captionsOrTranscripts)
+        : guideType === 'audio-with-descriptions'
+        ? isNotUndefined(c.audioWithDescription)
+        : guideType === 'audio-without-descriptions'
+        ? isNotUndefined(c.audioWithoutDescription)
+        : guideType === 'bsl'
+        ? isNotUndefined(c.bsl)
+        : false
+    );
+
+  return {
+    ...guide,
+    components: filteredComponents,
   };
 }
