@@ -155,8 +155,10 @@ function transformEventTimes(
           isNotUndefined(range.endDateTime)
           ? {
               range: range as DateTimeRange,
-              isFullyBooked,
-              onlineIsFullyBooked,
+              isFullyBooked: {
+                inVenue: isFullyBooked,
+                online: onlineIsFullyBooked,
+              },
             }
           : undefined;
       }
@@ -317,16 +319,16 @@ export function transformEvent(
     schedule,
     eventbriteId,
     isCompletelySoldOut:
-      data.times?.filter((time: EventTime) => {
+      times.filter((time: EventTime) => {
         const onlyInVenueAndItsFullyBooked =
-          !hasOnlineBooking && hasInVenueBooking && time.isFullyBooked;
+          !hasOnlineBooking && hasInVenueBooking && time.isFullyBooked.inVenue;
         const onlyOnlineAndItsFullyBooked =
-          !hasInVenueBooking && hasOnlineBooking && time.onlineIsFullyBooked;
+          !hasInVenueBooking && hasOnlineBooking && time.isFullyBooked.online;
         const bothInVenueAndOnlineAndFullyBooked =
           hasInVenueBooking &&
-          time.isFullyBooked &&
+          time.isFullyBooked.inVenue &&
           hasOnlineBooking &&
-          time.onlineIsFullyBooked;
+          time.isFullyBooked.online;
         return !(
           onlyInVenueAndItsFullyBooked ||
           onlyOnlineAndItsFullyBooked ||
@@ -334,12 +336,12 @@ export function transformEvent(
         );
       }).length === 0,
     onlineSoldOut:
-      data.times?.filter((time: EventTime) => {
-        return !time.onlineIsFullyBooked;
+      times.filter((time: EventTime) => {
+        return !time.isFullyBooked.online;
       }).length === 0,
     inVenueSoldOut:
-      data.times?.filter((time: EventTime) => {
-        return !time.isFullyBooked;
+      times.filter((time: EventTime) => {
+        return !time.isFullyBooked.inVenue;
       }).length === 0,
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
     times,
@@ -465,7 +467,6 @@ export function transformEventBasicTimes(
 export function transformEventBasic(
   document: EventPrismicDocument
 ): EventBasic {
-  const { data } = document;
   const event = transformEvent(document);
 
   const {

@@ -62,6 +62,12 @@ const toggles = {
       description:
         'New search page to help develop new components and functionalities',
     },
+    {
+      id: 'searchPageEventsExhibitions',
+      title: 'Search page: Events & Exhibitions',
+      initialValue: false,
+      description: 'Include events and exhibitions on the new search page',
+    },
   ] as const,
   tests: [] as ABTest[],
 };

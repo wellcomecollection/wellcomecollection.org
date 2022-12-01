@@ -12,6 +12,7 @@ import {
   Canvas,
   AuthExternalService,
   AuthAccessTokenService,
+  Range,
 } from '@iiif/presentation-3';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -20,6 +21,7 @@ import {
   TransformedCanvas,
   AuthClickThroughServiceWithPossibleServiceArray,
 } from '../../../types/manifest';
+import cloneDeep from 'lodash.clonedeep';
 
 // The label we want to use to distinguish between parts of a multi-volume work
 // (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
@@ -469,4 +471,44 @@ function transformCanvas(canvas: Canvas): TransformedCanvas {
 
 export function transformCanvases(canvases: Canvas[]): TransformedCanvas[] {
   return canvases.map(canvas => transformCanvas(canvas));
+}
+
+export function groupStructures(
+  items: TransformedCanvas[],
+  structures: Range[]
+): Range[] {
+  const clonedStructures = cloneDeep(structures);
+  return clonedStructures.reduce(
+    (acc, structure) => {
+      if (!structure.items) return acc;
+
+      const [lastCanvasInRange] = structure.items.slice(-1);
+      const [firstCanvasInRange] = structure.items;
+      const firstCanvasIndex = items.findIndex(
+        canvas => canvas.id === firstCanvasInRange.id
+      );
+
+      if (
+        getEnFromInternationalString(acc.previousLabel) ===
+          getEnFromInternationalString(structure.label) &&
+        firstCanvasIndex === acc.previousLastCanvasIndex + 1
+      ) {
+        acc.groupedArray[acc.groupedArray.length - 1].items.push(
+          lastCanvasInRange
+        );
+      } else if (structure.items.length > 0) {
+        acc.groupedArray.push(structure);
+      }
+      acc.previousLabel = structure.label;
+      acc.previousLastCanvasIndex = items.findIndex(
+        canvas => canvas.id === lastCanvasInRange.id
+      );
+      return acc;
+    },
+    {
+      previousLastCanvasIndex: null,
+      previousLabel: { none: '' },
+      groupedArray: [],
+    }
+  ).groupedArray;
 }

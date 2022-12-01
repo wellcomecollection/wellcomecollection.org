@@ -1,5 +1,5 @@
-import { IIIFManifests } from '../fetch/manifest';
 import { TransformedManifest, DownloadOption } from '../../../types/manifest';
+import { Manifest } from '@iiif/presentation-3';
 // TODO move each of these util functions from v2 to v3
 
 import {
@@ -21,11 +21,7 @@ import {
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v3';
 
-export function transformManifest(
-  iiifManifests: IIIFManifests
-): TransformedManifest {
-  const { manifestV2, manifestV3 } = { ...iiifManifests };
-  // V3
+export function transformManifest(manifestV3: Manifest): TransformedManifest {
   const title = getTitle(manifestV3?.label);
   const audio = getAudio(manifestV3);
   const services = manifestV3?.services || [];
@@ -62,10 +58,8 @@ export function transformManifest(
   const downloadEnabled = manifestV3 ? hasPdfDownload(manifestV3) : false;
 
   return {
-    // Taken from V2 manifest:
-    firstCollectionManifestLocation,
-    // Taken from V3 manifest:
     id,
+    firstCollectionManifestLocation,
     audio,
     services,
     iiifCredit,

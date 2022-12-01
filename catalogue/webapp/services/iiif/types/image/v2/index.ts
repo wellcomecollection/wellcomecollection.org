@@ -1,4 +1,4 @@
-export type Image = {
+export type IIIFImage = {
   '@context': 'http://iiif.io/api/image/2/context.json';
   '@id': string;
   protocol: 'http://iiif.io/api/image';

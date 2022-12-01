@@ -15,10 +15,14 @@ export type DateTimeRange = {
   endDateTime: Date;
 };
 
+export type IsFullyBooked = {
+  inVenue: boolean;
+  online: boolean;
+};
+
 export type EventTime = {
   range: DateTimeRange;
-  isFullyBooked: boolean;
-  onlineIsFullyBooked: boolean;
+  isFullyBooked: IsFullyBooked;
 };
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';

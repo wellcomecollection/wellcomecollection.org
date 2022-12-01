@@ -14,28 +14,28 @@ const eventTimes: EventTime[] = [
       startDateTime: new Date('2020-02-16T11:00:00+0000'),
       endDateTime: new Date('2020-02-16T17:00:00+0000'),
     },
-    isFullyBooked: false,
+    isFullyBooked: { inVenue: false, online: false },
   },
   {
     range: {
       startDateTime: new Date('2020-02-18T11:00:00+0000'),
       endDateTime: new Date('2020-02-18T17:00:00+0000'),
     },
-    isFullyBooked: false,
+    isFullyBooked: { inVenue: false, online: false },
   },
   {
     range: {
       startDateTime: new Date('2020-02-18T13:00:00+0000'),
       endDateTime: new Date('2020-02-18T19:00:00+0000'),
     },
-    isFullyBooked: false,
+    isFullyBooked: { inVenue: false, online: false },
   },
   {
     range: {
       startDateTime: new Date('2020-02-15T11:00:00+0000'),
       endDateTime: new Date('2020-02-15T17:00:00+0000'),
     },
-    isFullyBooked: false,
+    isFullyBooked: { inVenue: false, online: false },
   },
 ];
 
@@ -48,28 +48,28 @@ const multiDayEvents = [
           startDateTime: new Date('2018-01-01'),
           endDateTime: new Date('2018-01-01'),
         },
-        isFullyBooked: false,
+        isFullyBooked: { inVenue: false, online: false },
       },
       {
         range: {
           startDateTime: new Date('2018-01-01'),
           endDateTime: new Date('2018-01-01'),
         },
-        isFullyBooked: false,
+        isFullyBooked: { inVenue: false, online: false },
       },
       {
         range: {
           startDateTime: new Date('2018-01-02'),
           endDateTime: new Date('2018-01-02'),
         },
-        isFullyBooked: false,
+        isFullyBooked: { inVenue: false, online: false },
       },
       {
         range: {
           startDateTime: new Date('2018-01-03'),
           endDateTime: new Date('2018-01-04'),
         },
-        isFullyBooked: false,
+        isFullyBooked: { inVenue: false, online: false },
       },
     ],
   },
@@ -81,7 +81,7 @@ const multiDayEvents = [
           startDateTime: new Date('2018-01-06'),
           endDateTime: new Date('2018-01-07'),
         },
-        isFullyBooked: false,
+        isFullyBooked: { inVenue: false, online: false },
       },
     ],
   },
@@ -130,8 +130,7 @@ describe('transformEventBasicTimes', () => {
           startDateTime: new Date('2022-11-25T19:00:00.000Z'),
           endDateTime: new Date('2022-11-25T20:30:00.000Z'),
         },
-        isFullyBooked: false,
-        onlineIsFullyBooked: false,
+        isFullyBooked: { inVenue: false, online: false },
       },
     ];
     const document: any = {
@@ -154,8 +153,7 @@ describe('transformEventBasicTimes', () => {
           startDateTime: new Date('2019-10-16T23:00:00.000Z'),
           endDateTime: new Date('2019-10-19T23:00:00.000Z'),
         },
-        isFullyBooked: false,
-        onlineIsFullyBooked: false,
+        isFullyBooked: { inVenue: false, online: false },
       },
     ];
     const document: any = {
@@ -238,8 +236,7 @@ describe('transformEventBasicTimes', () => {
           startDateTime: new Date('2022-11-03T16:00:00.000Z'),
           endDateTime: new Date('2023-02-09T20:00:00.000Z'),
         },
-        isFullyBooked: false,
-        onlineIsFullyBooked: false,
+        isFullyBooked: { inVenue: false, online: false },
       },
     ];
 
@@ -305,24 +302,30 @@ describe('transformEventBasicTimes', () => {
           startDateTime: new Date('2022-11-03T16:00:00+0000'),
           endDateTime: new Date('2022-11-03T20:00:00+0000'),
         },
-        isFullyBooked: null,
-        onlineIsFullyBooked: null,
+        isFullyBooked: {
+          inVenue: null,
+          online: null,
+        },
       },
       {
         range: {
           startDateTime: new Date('2022-11-15T10:00:00+0000'),
           endDateTime: new Date('2022-11-15T14:00:00+0000'),
         },
-        isFullyBooked: null,
-        onlineIsFullyBooked: null,
+        isFullyBooked: {
+          inVenue: null,
+          online: null,
+        },
       },
       {
         range: {
           startDateTime: new Date('2022-12-03T14:00:00+0000'),
           endDateTime: new Date('2022-12-03T18:00:00+0000'),
         },
-        isFullyBooked: null,
-        onlineIsFullyBooked: null,
+        isFullyBooked: {
+          inVenue: null,
+          online: null,
+        },
       },
     ]);
   });

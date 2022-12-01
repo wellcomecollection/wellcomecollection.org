@@ -1,5 +1,4 @@
 import { Manifest, Range } from '@iiif/presentation-3';
-import { groupStructures } from '../../utils/iiif/v2';
 import {
   getAudio,
   getIIIFMetadata,
@@ -8,6 +7,7 @@ import {
   getVideo,
   getTransformedCanvases,
   getMultiVolumeLabel,
+  groupStructures,
 } from '../../utils/iiif/v3';
 import {
   manifest,

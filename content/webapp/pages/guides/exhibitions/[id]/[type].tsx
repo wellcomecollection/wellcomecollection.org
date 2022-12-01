@@ -50,10 +50,11 @@ type Props = {
 function getTypeTitle(type: ExhibitionGuideType): string {
   switch (type) {
     case 'bsl':
-      return 'Watch BSL videos';
+      return 'British Sign Language videos';
     case 'audio-with-descriptions':
+      return 'Audio with wayfinding';
     case 'audio-without-descriptions':
-      return 'Listen to audio'; // We don't yet have any audio with descriptions so don't want to imply that we do
+      return 'Audio';
     case 'captions-and-transcripts':
       return 'Captions and transcripts';
   }

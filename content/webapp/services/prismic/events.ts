@@ -210,8 +210,7 @@ export function upcomingDatesFullyBooked(event: HasTimes): boolean {
       : [];
   if (upcoming.length > 0) {
     return upcoming.every(
-      ({ isFullyBooked, onlineIsFullyBooked }) =>
-        isFullyBooked && onlineIsFullyBooked
+      ({ isFullyBooked }) => isFullyBooked.inVenue && isFullyBooked.online
     );
   } else {
     return false;
