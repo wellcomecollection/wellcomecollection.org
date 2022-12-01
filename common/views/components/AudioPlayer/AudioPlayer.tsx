@@ -300,12 +300,14 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
+  const [shouldLoadMetadata, setShouldLoadMetadata] = useState(false);
   // We need static value set to the time that playback begins, to be used as a
   // one-time announcement for screenreaders. Using `currentTime` causes an
   // announcement every second.
   const [startTime, setStartTime] = useState(currentTime);
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
+  const audioPlayerGridRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
   const id = `${idPrefix || ''}${dasherize(title.slice(0, 15))}`;
 
@@ -322,6 +324,23 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
     audioPlayerRef.current?.readyState,
     progressBarRef.current,
   ]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setShouldLoadMetadata(true);
+        observer.disconnect();
+      }
+    });
+
+    audioPlayerGridRef &&
+      audioPlayerGridRef.current &&
+      observer.observe(audioPlayerGridRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     if (!progressBarRef.current) return;
@@ -399,7 +418,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         </figcaption>
       </Space>
 
-      <AudioPlayerGrid>
+      <AudioPlayerGrid ref={audioPlayerGridRef}>
         <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
           <PlayPauseInner>
             <span className="visually-hidden">
@@ -463,7 +482,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onTimeUpdate={onTimeUpdate}
-        preload="metadata"
+        preload={shouldLoadMetadata ? 'metadata' : 'none'}
         ref={audioPlayerRef}
         src={audioFile}
       >
