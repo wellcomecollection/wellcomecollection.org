@@ -29,8 +29,8 @@ describe('CompactCard', () => {
     />
   );
 
-  it('should expect ga trackEvent tobe called ', () => {
-    const spyOnTrackEvent = jest.spyOn(ga, 'trackEvent');
+  it('should expect trackGaEvent to be called ', () => {
+    const spyOnTrackEvent = jest.spyOn(ga, 'trackGaEvent');
     componentWithImage.simulate('click');
     expect(spyOnTrackEvent).toBeCalled();
     expect(spyOnTrackEvent).toHaveBeenCalledTimes(1);

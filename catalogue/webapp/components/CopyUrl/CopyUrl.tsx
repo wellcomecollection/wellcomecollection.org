@@ -5,7 +5,7 @@ import {
   ReactElement,
   FunctionComponent,
 } from 'react';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -56,7 +56,7 @@ const CopyUrl: FunctionComponent<Props> = ({
     buttonRef.current && buttonRef.current.focus();
     textarea.remove();
 
-    trackEvent({
+    trackGaEvent({
       category: 'CopyUrl',
       action: 'copy url to clipboard',
       label: id,

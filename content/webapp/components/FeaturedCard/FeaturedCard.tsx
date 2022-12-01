@@ -16,7 +16,7 @@ import { grid, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Page } from '../../types/pages';
 import { EventSeries } from '../../types/event-series';
@@ -254,7 +254,7 @@ const FeaturedCard: FunctionComponent<Props> = ({
         href={link.url}
         isReversed={isReversed}
         onClick={() => {
-          trackEvent({
+          trackGaEvent({
             category: 'FeaturedCard',
             action: 'follow link',
             label: `${id}`,

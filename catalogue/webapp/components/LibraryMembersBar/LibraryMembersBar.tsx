@@ -6,7 +6,7 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import { useLoginURLWithReturnToCurrent } from '@weco/common/utils/useLoginURLWithReturnToCurrent';
 import { font } from '@weco/common/utils/classnames';
 import { memberCard } from '@weco/common/icons';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { useToggles } from '@weco/common/server-data/Context';
 import { requestingDisabled } from '@weco/common/data/microcopy';
 
@@ -38,7 +38,7 @@ const SignInLink: FunctionComponent = () => {
         href={loginURL}
         className={font('intr', 5)}
         onClick={() => {
-          trackEvent({
+          trackGaEvent({
             category: 'library_account',
             action: 'login',
             label: window.location.pathname,

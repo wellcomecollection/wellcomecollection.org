@@ -93,7 +93,7 @@ function trackPageview(
 }
 
 type EventName = 'download';
-function trackEvent(
+function trackSegmentEvent(
   name: EventName,
   properties: { [key: string]: unknown }
 ): void {
@@ -132,4 +132,4 @@ function track(conversion: Conversion) {
   });
 }
 
-export { trackPageview, trackEvent };
+export { trackPageview, trackSegmentEvent };

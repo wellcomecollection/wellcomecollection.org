@@ -2,7 +2,7 @@ import { FunctionComponent, SyntheticEvent, useContext } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { ImageType } from '@weco/common/model/image';
 
 import IIIFImage from '../IIIFImage/IIIFImage';
@@ -43,7 +43,7 @@ const ImageCard: FunctionComponent<Props> = ({
     <NextLink {...imageLink({ id, workId }, 'images_search_result')} passHref>
       <StyledLink
         onClick={event => {
-          trackEvent({
+          trackGaEvent({
             category: 'ImageCard',
             action: 'open ExpandedImage modal',
             label: id,

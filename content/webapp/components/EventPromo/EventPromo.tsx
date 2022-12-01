@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import EventDateRange from '../EventDateRange/EventDateRange';
@@ -72,7 +72,7 @@ const EventPromo: FunctionComponent<Props> = ({
       data-component-state={JSON.stringify({ position: position })}
       href={(event.promo && event.promo.link) || `/events/${event.id}`}
       onClick={() => {
-        trackEvent({
+        trackGaEvent({
           category: 'EventPromo',
           action: 'follow link',
           label: `${event.id} | position: ${position}`,

@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -74,7 +74,7 @@ const StoryPromo: FunctionComponent<Props> = ({
   return (
     <CardOuter
       onClick={() => {
-        trackEvent({
+        trackGaEvent({
           category: 'StoryPromo',
           action: 'follow link',
           label: `${article.id} | position: ${position}`,

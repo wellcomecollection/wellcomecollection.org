@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext } from 'react';
 import NextLink from 'next/link';
 import { font } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
+import { trackGaEvent } from '../../../utils/ga';
 import SearchContext from '../SearchContext/SearchContext';
 
 const BackToResults: FunctionComponent = () => {
@@ -13,7 +13,7 @@ const BackToResults: FunctionComponent = () => {
     <NextLink {...link}>
       <a
         onClick={() => {
-          trackEvent({
+          trackGaEvent({
             category: 'BackToResults',
             action: 'follow link',
             label: `${query} | page: ${page || 1}`,

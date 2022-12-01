@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
-import { trackEvent, GaEvent } from '../../../utils/ga';
+import { trackGaEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
@@ -222,7 +222,7 @@ const Button: FunctionComponent<ButtonSolidProps> = (
 ) => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
-    trackingEvent && trackEvent(trackingEvent);
+    trackingEvent && trackGaEvent(trackingEvent);
   }
 
   return (

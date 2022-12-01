@@ -17,7 +17,7 @@ import Space, {
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -270,7 +270,7 @@ const ItemPage: NextPage<Props> = ({
               <ButtonSolid
                 text="Show the content"
                 clickHandler={() => {
-                  trackEvent({
+                  trackGaEvent({
                     category: 'ButtonSolidLink',
                     action: 'follow link "Show the content"',
                     label: `workId: ${workId}`,
@@ -289,7 +289,7 @@ const ItemPage: NextPage<Props> = ({
           <WorkLink id={workId} source="item_auth_modal_back_to_work_link">
             <a
               onClick={() => {
-                trackEvent({
+                trackGaEvent({
                   category: 'ButtonSolidLink',
                   action: 'follow link to work page',
                   label: `workId: ${workId}`,

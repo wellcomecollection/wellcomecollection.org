@@ -2,7 +2,7 @@ import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { AuthClickThroughServiceWithPossibleServiceArray } from '../../../webapp/types/manifest';
 import { AuthAccessTokenService } from '@iiif/presentation-3';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
@@ -68,7 +68,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
               <ButtonSolid
                 text="Show the content"
                 clickHandler={() => {
-                  trackEvent({
+                  trackGaEvent({
                     category: 'ButtonSolidLink',
                     action: 'follow link "Show the content"',
                     label: `workId: ${trackingId}`,

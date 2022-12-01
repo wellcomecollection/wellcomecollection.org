@@ -1,5 +1,5 @@
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { BookBasic } from '../../types/books';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
@@ -33,7 +33,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
       url={`/books/${id}`}
       className="block promo-link plain-link"
       onClick={() => {
-        trackEvent({
+        trackGaEvent({
           category: 'BookPromo',
           action: 'follow link',
           label: title,

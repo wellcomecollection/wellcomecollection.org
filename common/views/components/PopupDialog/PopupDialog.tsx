@@ -13,7 +13,7 @@ import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { font } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
-import { trackEvent } from '../../../utils/ga';
+import { trackGaEvent } from '../../../utils/ga';
 import { AppContext } from '../AppContext/AppContext';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -223,7 +223,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
     ) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
-      trackEvent({
+      trackGaEvent({
         category: 'PopupDialog',
         action: 'close dialog',
       });
@@ -234,7 +234,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
     if (event.keyCode === 27 && isActiveRef.current) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
-      trackEvent({
+      trackGaEvent({
         category: 'PopupDialog',
         action: 'close dialog',
       });
@@ -283,7 +283,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             closeDialogRef.current &&
             closeDialogRef.current.focus();
 
-          trackEvent({
+          trackGaEvent({
             category: 'PopupDialog',
             action: 'open dialog',
           });
@@ -314,7 +314,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
               openDialogRef.current &&
               openDialogRef.current.focus();
 
-            trackEvent({
+            trackGaEvent({
               category: 'PopupDialog',
               action: 'close dialog',
             });

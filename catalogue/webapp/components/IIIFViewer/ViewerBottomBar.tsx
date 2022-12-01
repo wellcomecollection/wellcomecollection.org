@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext, RefObject } from 'react';
@@ -70,7 +70,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   icon: singlePage,
                   clickHandler() {
                     setGridVisible(false);
-                    trackEvent({
+                    trackGaEvent({
                       category: 'Control',
                       action: 'clicked work viewer Detail view button',
                       label: work.id,
@@ -83,7 +83,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   icon: gridView,
                   clickHandler() {
                     setGridVisible(true);
-                    trackEvent({
+                    trackGaEvent({
                       category: 'Control',
                       action: 'clicked work viewer Grid view button',
                       label: work.id,

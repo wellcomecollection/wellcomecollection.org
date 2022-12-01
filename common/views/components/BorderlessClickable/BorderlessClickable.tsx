@@ -13,7 +13,7 @@ import {
 } from '../ButtonSolid/ButtonSolid';
 import Icon from '../Icon/Icon';
 import { classNames, font } from '../../../utils/classnames';
-import { GaEvent, trackEvent } from '../../../utils/ga';
+import { GaEvent, trackGaEvent } from '../../../utils/ga';
 import { IconSvg } from '@weco/common/icons';
 
 type ClickableElement = 'a' | 'button';
@@ -151,7 +151,7 @@ const ButtonOuter: FunctionComponent<BorderlessButtonProps> = (
 ) => {
   function onClick(event) {
     clickHandler && clickHandler(event);
-    trackingEvent && trackEvent(trackingEvent);
+    trackingEvent && trackGaEvent(trackingEvent);
   }
 
   return (

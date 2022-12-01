@@ -18,7 +18,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 const VolumeWrapper = styled.div`
@@ -136,7 +136,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({ audioPlayer, id }) => {
   }, [audioPlaybackRate]);
 
   function updatePlaybackRate(speed: number) {
-    trackEvent({
+    trackGaEvent({
       category: 'Audio',
       action: `set speed to ${speed}x`,
       label: id,
@@ -209,7 +209,7 @@ const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id }) => {
   };
 
   const onVolumeButtonClick = () => {
-    trackEvent({
+    trackGaEvent({
       category: 'Audio',
       action: `${isMuted ? 'unmute' : 'mute'} audio`,
       label: id,
@@ -347,14 +347,14 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
     setIsPlaying(!prevValue);
 
     if (prevValue) {
-      trackEvent({
+      trackGaEvent({
         category: 'Audio',
         action: 'pause audio',
         label: id,
       });
       audioPlayerRef.current.pause();
     } else {
-      trackEvent({
+      trackGaEvent({
         category: 'Audio',
         action: 'play audio',
         label: id,
