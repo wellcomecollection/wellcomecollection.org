@@ -28,10 +28,10 @@ export type ExhibitionGuideComponent = {
   };
 };
 
-export type Exhibit = {
+export type RelatedExhibition = {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   exhibitType: 'exhibitions';
   item: ExhibitionLink | undefined;
 };
@@ -43,7 +43,7 @@ export type ExhibitionGuideBasic = {
   id: string;
   image?: ImageType;
   promo?: ImagePromo;
-  relatedExhibition: Exhibit | undefined;
+  relatedExhibition: RelatedExhibition | undefined;
   availableTypes: {
     BSLVideo: boolean;
     captionsOrTranscripts: boolean;

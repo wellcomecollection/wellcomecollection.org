@@ -2,7 +2,7 @@ import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
-  Exhibit,
+  RelatedExhibition,
 } from '../../../types/exhibition-guides';
 import { asRichText, asText, asTitle } from '.';
 import {
@@ -82,15 +82,16 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   }))(exhibitionGuide);
 }
 
-function transformRelatedExhibition(exhibition): Exhibit {
+function transformRelatedExhibition(exhibition): RelatedExhibition {
+  const promo =
+    exhibition.data.promo && transformImagePromo(exhibition.data.promo);
+
   return {
     exhibitType: 'exhibitions',
     item: undefined,
     id: exhibition.id,
     title: (exhibition.data && asText(exhibition.data.title)) || '',
-    description:
-      exhibition.data &&
-      asText(exhibition.data.promo[0].primary.caption[0].text),
+    description: promo?.caption,
   };
 }
 

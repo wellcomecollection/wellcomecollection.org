@@ -184,7 +184,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
                 html={exhibitionGuide.introText as prismicT.RichTextField}
               />
             ) : (
-              exhibitionGuide.relatedExhibition && (
+              exhibitionGuide.relatedExhibition?.description && (
                 <p>{exhibitionGuide.relatedExhibition.description}</p>
               )
             )}
