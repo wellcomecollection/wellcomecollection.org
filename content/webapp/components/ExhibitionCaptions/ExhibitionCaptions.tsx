@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import * as prismicT from '@prismicio/types';
-import { ImageType } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -12,7 +11,11 @@ import { font } from '@weco/common/utils/classnames';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import ZoomedPrismicImage from '../ZoomedPrismicImage/ZoomedPrismicImage';
-import { ExhibitionGuideType } from 'types/exhibition-guides';
+import {
+  ExhibitionGuideComponent,
+  ExhibitionGuideType,
+} from 'types/exhibition-guides';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 export function getTypeColor(type: ExhibitionGuideType): PaletteColor {
   switch (type) {
@@ -126,30 +129,20 @@ const Transcription = styled(Space).attrs({
   border-left: 20px solid ${props => props.theme.color('accent.lightBlue')};
 `;
 
-type Stop = {
-  standaloneTitle: string;
-  number?: number;
-  title: string;
-  image?: ImageType;
-  tombstone: prismicT.RichTextField;
-  caption: prismicT.RichTextField;
-  context?: prismicT.RichTextField;
-  transcription?: prismicT.RichTextField;
-};
-
 type Props = {
-  stops: Stop[];
+  stops: ExhibitionGuideComponent[];
 };
 
-function includesStandaloneTitle(stop) {
-  return Boolean(stop.standaloneTitle.length > 0);
+function includesStandaloneTitle(stop: ExhibitionGuideComponent): boolean {
+  return stop.standaloneTitle.length > 0;
 }
 
-function includesContextTitle(stop) {
-  return Boolean(stop.context.length > 0);
-}
+type TitlesUsed = {
+  standalone: boolean;
+  context: boolean;
+};
 
-function calculateTombstoneHeadingLevel(titlesUsed) {
+function calculateTombstoneHeadingLevel(titlesUsed: TitlesUsed): number {
   if (titlesUsed.standalone && titlesUsed.context) {
     return 4;
   } else if (titlesUsed.standalone || titlesUsed.context) {
@@ -161,12 +154,9 @@ function calculateTombstoneHeadingLevel(titlesUsed) {
 
 const Stop: FunctionComponent<{
   index: number;
-  stop: Stop;
+  stop: ExhibitionGuideComponent;
   isFirstStop: boolean;
-  titlesUsed: {
-    standalone: boolean;
-    context: boolean;
-  };
+  titlesUsed: TitlesUsed;
 }> = ({ index, stop, isFirstStop, titlesUsed }) => {
   const {
     standaloneTitle,
@@ -185,7 +175,7 @@ const Stop: FunctionComponent<{
   const [transcriptionText, setTranscriptionText] = useState(
     transcriptionFirstParagraph
   );
-  const hasContext = includesContextTitle(stop);
+  const hasContext = isNotUndefined(stop.context);
   const hasStandaloneTitle = includesStandaloneTitle(stop);
 
   useEffect(() => {
@@ -259,9 +249,11 @@ const Stop: FunctionComponent<{
                   {title}
                 </TombstoneTitle>
               )}
-              <div className={font('intr', 4)}>
-                <PrismicHtmlBlock html={tombstone} />
-              </div>
+              {tombstone && (
+                <div className={font('intr', 4)}>
+                  <PrismicHtmlBlock html={tombstone} />
+                </div>
+              )}
             </Tombstone>
 
             <CaptionTranscription>
@@ -279,7 +271,7 @@ const Stop: FunctionComponent<{
                 </>
               )}
 
-              {caption.length > 0 && (
+              {caption && (
                 <Caption>
                   {image?.contentUrl && (
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -346,7 +338,7 @@ const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
           titlesUsed.standalone = includesStandaloneTitle(stop);
         }
         if (!titlesUsed.context) {
-          titlesUsed.context = includesContextTitle(stop);
+          titlesUsed.context = isNotUndefined(stop.context);
         }
         return (
           <Stop

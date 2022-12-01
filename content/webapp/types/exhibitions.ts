@@ -54,7 +54,6 @@ export type Exhibition = GenericContentFields & {
 };
 
 export type Exhibit = {
-  exhibitType: 'exhibitions';
   item: Exhibition;
 };
 
