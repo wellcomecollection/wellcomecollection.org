@@ -89,8 +89,6 @@ function transformRelatedExhibition(exhibition): RelatedExhibition {
     exhibition.data.promo && transformImagePromo(exhibition.data.promo);
 
   return {
-    exhibitType: 'exhibitions',
-    item: undefined,
     id: exhibition.id,
     title: asTitle(exhibition.data.title),
     description: promo?.caption,

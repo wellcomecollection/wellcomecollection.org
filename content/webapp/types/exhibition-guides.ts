@@ -3,13 +3,6 @@ import { ImageType } from '@weco/common/model/image';
 import { RichTextField } from '@prismicio/types';
 import { Link } from './link';
 
-export type ExhibitionLink = {
-  id: string;
-  title: string;
-  description?: string;
-  promo?: ImagePromo;
-};
-
 export type ExhibitionGuideComponent = {
   number?: number;
   standaloneTitle: string;
@@ -32,8 +25,6 @@ export type RelatedExhibition = {
   id: string;
   title: string;
   description?: string;
-  exhibitType: 'exhibitions';
-  item: ExhibitionLink | undefined;
 };
 
 export type ExhibitionGuideBasic = {
