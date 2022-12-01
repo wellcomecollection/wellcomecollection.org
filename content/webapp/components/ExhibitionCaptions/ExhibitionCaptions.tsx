@@ -135,8 +135,8 @@ type Props = {
   stops: ExhibitionGuideComponent[];
 };
 
-function includesStandaloneTitle(stop: Stop) {
-  return Boolean(stop.standaloneTitle.length > 0);
+function includesStandaloneTitle(stop: Stop): boolean {
+  return stop.standaloneTitle.length > 0;
 }
 
 type TitlesUsed = {
@@ -273,7 +273,7 @@ const Stop: FunctionComponent<{
                 </>
               )}
 
-              {caption.length > 0 && (
+              {caption && (
                 <Caption>
                   {image?.contentUrl && (
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>

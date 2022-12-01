@@ -18,8 +18,8 @@ export type ExhibitionGuideComponent = {
   anchorId: string;
   image?: ImageType;
   tombstone?: RichTextField;
-  caption: RichTextField;
-  transcription: RichTextField;
+  caption?: RichTextField;
+  transcription?: RichTextField;
   context?: RichTextField;
   audioWithDescription?: Link;
   audioWithoutDescription?: Link;

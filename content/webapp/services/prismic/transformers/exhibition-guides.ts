@@ -119,9 +119,10 @@ export function transformExhibitionGuide(
         tombstone: asRichText(component.tombstone),
         image: transformImage(component.image),
         context: component.context ? asRichText(component.context) : undefined,
-        caption: (component.caption && asRichText(component.caption)) || [],
-        transcription:
-          (component.transcript && asRichText(component.transcript)) || [],
+        caption: component.caption ? asRichText(component.caption) : undefined,
+        transcription: component.transcript
+          ? asRichText(component.transcript)
+          : undefined,
         audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
         audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
         bsl:
@@ -145,8 +146,8 @@ export function transformExhibitionGuide(
 
   const hasBSLVideo = components.some(({ bsl }) => isNotUndefined(bsl));
   const hasCaptionsOrTranscripts = components.some(
-    component =>
-      component.caption.length > 0 || component.transcription.length > 0
+    ({ caption, transcription }) =>
+      isNotUndefined(caption) || isNotUndefined(transcription)
   );
   const hasAudioWithoutDescriptions = components.some(
     component => component.audioWithoutDescription?.url
