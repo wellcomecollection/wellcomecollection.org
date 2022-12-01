@@ -4,7 +4,7 @@ import {
   ExhibitionGuideComponent,
   RelatedExhibition,
 } from '../../../types/exhibition-guides';
-import { asRichText, asText, asTitle } from '.';
+import { asRichText, asTitle } from '.';
 import {
   ExhibitionGuideComponentPrismicDocument,
   ExhibitionGuidePrismicDocument,
@@ -92,7 +92,7 @@ function transformRelatedExhibition(exhibition): RelatedExhibition {
     exhibitType: 'exhibitions',
     item: undefined,
     id: exhibition.id,
-    title: (exhibition.data && asText(exhibition.data.title)) || '',
+    title: asTitle(exhibition.data.title),
     description: promo?.caption,
   };
 }
