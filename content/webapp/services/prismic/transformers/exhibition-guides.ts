@@ -97,8 +97,7 @@ function transformRelatedExhibition(exhibition): RelatedExhibition {
 }
 
 export function transformExhibitionGuide(
-  document: ExhibitionGuidePrismicDocument,
-  guideType?: ExhibitionGuideType
+  document: ExhibitionGuidePrismicDocument
 ): ExhibitionGuide {
   const { data } = document;
 
@@ -168,6 +167,27 @@ export function transformExhibitionGuide(
     component => component.audioWithDescription?.url
   );
 
+  return {
+    title: relatedExhibition?.title || '',
+    introText,
+    type: 'exhibition-guides',
+    promo,
+    relatedExhibition,
+    components,
+    id: document.id,
+    availableTypes: {
+      BSLVideo: hasBSLVideo,
+      captionsOrTranscripts: hasCaptionsOrTranscripts,
+      audioWithoutDescriptions: hasAudioWithoutDescriptions,
+      audioWithDescriptions: hasAudioWithDescriptions,
+    },
+  };
+}
+
+export function filterExhibitionGuideComponents(
+  guide: ExhibitionGuide,
+  guideType: ExhibitionGuideType
+): ExhibitionGuide {
   // This does a couple of filter passes to reduce the size of the page props
   // we send when rendering the exhibition guides:
   //
@@ -188,7 +208,7 @@ export function transformExhibitionGuide(
   // have a dramatic impact on page size.
   //
   // See https://github.com/wellcomecollection/wellcomecollection.org/pull/8945 for stats.
-  const filteredComponents = components
+  const filteredComponents = guide.components
     .map(c => ({
       ...c,
       captionsOrTranscripts:
@@ -218,18 +238,7 @@ export function transformExhibitionGuide(
     );
 
   return {
-    title: relatedExhibition?.title || '',
-    introText,
-    type: 'exhibition-guides',
-    promo,
-    relatedExhibition,
+    ...guide,
     components: filteredComponents,
-    id: document.id,
-    availableTypes: {
-      BSLVideo: hasBSLVideo,
-      captionsOrTranscripts: hasCaptionsOrTranscripts,
-      audioWithoutDescriptions: hasAudioWithoutDescriptions,
-      audioWithDescriptions: hasAudioWithDescriptions,
-    },
   };
 }

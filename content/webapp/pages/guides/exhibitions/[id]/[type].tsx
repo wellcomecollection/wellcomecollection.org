@@ -7,7 +7,10 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../../../../services/prismic/fetch/exhibition-guides';
-import { transformExhibitionGuide } from '../../../../services/prismic/transformers/exhibition-guides';
+import {
+  filterExhibitionGuideComponents,
+  transformExhibitionGuide,
+} from '../../../../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -113,8 +116,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     if (exhibitionGuideQuery) {
-      const exhibitionGuide = transformExhibitionGuide(
-        exhibitionGuideQuery,
+      const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
+      const filteredExhibitionGuide = filterExhibitionGuideComponents(
+        exhibitionGuide,
         type
       );
 
@@ -122,7 +126,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
       return {
         props: removeUndefinedProps({
-          exhibitionGuide,
+          exhibitionGuide: filteredExhibitionGuide,
           jsonLd,
           serverData,
           type,
