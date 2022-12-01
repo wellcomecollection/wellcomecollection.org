@@ -129,13 +129,11 @@ const Transcription = styled(Space).attrs({
   border-left: 20px solid ${props => props.theme.color('accent.lightBlue')};
 `;
 
-type Stop = ExhibitionGuideComponent;
-
 type Props = {
   stops: ExhibitionGuideComponent[];
 };
 
-function includesStandaloneTitle(stop: Stop): boolean {
+function includesStandaloneTitle(stop: ExhibitionGuideComponent): boolean {
   return stop.standaloneTitle.length > 0;
 }
 
@@ -156,7 +154,7 @@ function calculateTombstoneHeadingLevel(titlesUsed: TitlesUsed): number {
 
 const Stop: FunctionComponent<{
   index: number;
-  stop: Stop;
+  stop: ExhibitionGuideComponent;
   isFirstStop: boolean;
   titlesUsed: TitlesUsed;
 }> = ({ index, stop, isFirstStop, titlesUsed }) => {
