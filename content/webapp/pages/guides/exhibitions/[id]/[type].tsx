@@ -113,7 +113,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     if (exhibitionGuideQuery) {
-      const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
+      const exhibitionGuide = transformExhibitionGuide(
+        exhibitionGuideQuery,
+        type
+      );
 
       const jsonLd = exhibitionGuideLd(exhibitionGuide);
 

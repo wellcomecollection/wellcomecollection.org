@@ -97,7 +97,8 @@ function transformRelatedExhibition(exhibition): RelatedExhibition {
 }
 
 export function transformExhibitionGuide(
-  document: ExhibitionGuidePrismicDocument
+  document: ExhibitionGuidePrismicDocument,
+  guideType?: ExhibitionGuideType
 ): ExhibitionGuide {
   const { data } = document;
 
@@ -162,13 +163,30 @@ export function transformExhibitionGuide(
     component => component.audioWithDescription?.url
   );
 
+  const filteredComponents = components.map(c => ({
+    ...c,
+    captionsOrTranscripts:
+      guideType === 'captions-and-transcripts'
+        ? c.captionsOrTranscripts
+        : undefined,
+    audioWithDescription:
+      guideType === 'audio-with-descriptions'
+        ? c.audioWithDescription
+        : undefined,
+    audioWithoutDescription:
+      guideType === 'audio-without-descriptions'
+        ? c.audioWithoutDescription
+        : undefined,
+    bsl: guideType === 'bsl' ? c.bsl : undefined,
+  }));
+
   return {
     title: relatedExhibition?.title || '',
     introText,
     type: 'exhibition-guides',
     promo,
     relatedExhibition,
-    components,
+    components: filteredComponents,
     id: document.id,
     availableTypes: {
       BSLVideo: hasBSLVideo,
