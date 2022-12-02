@@ -91,7 +91,10 @@ const DownloadLink: FunctionComponent<Props> = ({
       rel="noopener noreferrer"
       href={href}
       onClick={() => {
-        trackSegmentEvent('download', { width, mimeType, tags: trackingTags });
+        trackSegmentEvent({
+          name: 'download',
+          properties: { width, mimeType, tags: trackingTags },
+        });
         trackingEvent && trackGaEvent(trackingEvent);
       }}
     >

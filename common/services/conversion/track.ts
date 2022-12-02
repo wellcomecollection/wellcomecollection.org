@@ -18,6 +18,7 @@ type Page = {
 };
 
 type ConversionType = 'pageview' | 'event';
+type EventGroup = 'conversion' | 'similarity';
 
 interface Conversion {
   type: ConversionType;
@@ -26,6 +27,7 @@ interface Conversion {
   properties: {
     [key: string]: unknown;
   };
+  eventGroup: EventGroup;
 }
 
 type Session = {
@@ -36,6 +38,7 @@ type Session = {
 export type Pageview = {
   name: string;
   properties: Record<string, string[] | number[] | string | number | undefined>;
+  eventGroup?: EventGroup;
 };
 
 const sessionIdLocalStorageKey = 'sessionId';
@@ -68,10 +71,15 @@ function resetSessionId(): string {
 }
 
 let pageName: string;
-function trackPageview(
-  name: string,
-  properties: { [key: string]: unknown }
-): void {
+function trackPageview({
+  name,
+  properties,
+  eventGroup,
+}: {
+  name: string;
+  properties: { [key: string]: unknown };
+  eventGroup?: EventGroup;
+}): void {
   // Source is passed in the querystring in the app, but not the client.
   // e.g. /common/views/component/WorkLink/WorkLink.tsx
   const { source, ...query } = Router.query;
@@ -80,6 +88,7 @@ function trackPageview(
   const conversion: Conversion = {
     type: 'pageview',
     source: source?.toString() || 'unknown',
+    eventGroup: eventGroup || 'conversion',
     page: {
       path: Router.asPath,
       pathname: Router.pathname,
@@ -92,13 +101,18 @@ function trackPageview(
   track(conversion);
 }
 
-type EventName = 'download';
-function trackSegmentEvent(
-  name: EventName,
-  properties: { [key: string]: unknown }
-): void {
+function trackSegmentEvent({
+  name,
+  properties,
+  eventGroup,
+}: {
+  name: string;
+  properties: { [key: string]: unknown };
+  eventGroup?: EventGroup;
+}): void {
   track({
     type: 'event',
+    eventGroup: eventGroup || 'conversion',
     page: {
       path: Router.asPath,
       pathname: Router.pathname,
@@ -116,19 +130,20 @@ function track(conversion: Conversion) {
     id: sessionId,
     timeout: sessionTimeout,
   };
+  const { eventGroup, ...restConversion } = conversion;
 
   localStorage.setItem(lastTrackedLocalStorageKey, Date.now().toString());
 
   if (debug) {
     console.info({
       session,
-      ...conversion,
+      ...restConversion,
     });
   }
 
-  window.analytics.track('conversion', {
+  window.analytics.track(eventGroup, {
     session,
-    ...conversion,
+    ...restConversion,
   });
 }
 
