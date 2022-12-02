@@ -178,6 +178,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
         <ExpandedImage
           resultPosition={expandedImagePosition}
           image={expandedImage}
+          isActive={isActive}
           setExpandedImage={setExpandedImage}
         />
       </Modal>

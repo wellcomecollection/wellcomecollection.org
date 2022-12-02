@@ -5,6 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
+  getProductionDates,
 } from '@weco/catalogue/utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
@@ -21,12 +22,13 @@ import IIIFImage from '@weco/catalogue/components/IIIFImage/IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
-import { getProductionDates } from '../../utils/works';
+import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 
 type Props = {
   image: ImageType | undefined;
   setExpandedImage: (image?: ImageType) => void;
   resultPosition: number;
+  isActive: boolean;
 };
 
 type CanvasLink = {
@@ -112,6 +114,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   image,
   setExpandedImage,
   resultPosition,
+  isActive,
 }: Props) => {
   const [detailedWork, setDetailedWork] = useState<Work | undefined>();
   const [canvasDeeplink, setCanvasDeeplink] = useState<
@@ -120,6 +123,39 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const [currentImageId, setCurrentImageId] = useState<string | undefined>();
 
   const workId = image?.source.id;
+
+  useEffect(() => {
+    // We want this fired only if there is a workId (not on initial load),
+    // but not everytime it changes, so excluding it from dependency array
+    if (workId) {
+      // Send reporting events
+      if (!isActive) {
+        trackSegmentEvent({
+          name: 'Close image modal',
+          eventGroup: 'similarity',
+          properties: {
+            imageId: image?.id,
+          },
+        });
+      } else {
+        trackSegmentEvent({
+          name: 'Open image modal',
+          eventGroup: 'similarity',
+          properties: {
+            imageId: image?.id,
+          },
+        });
+
+        trackSegmentEvent({
+          name: 'Open image modal',
+          eventGroup: 'conversion',
+          properties: {
+            imageId: image?.id,
+          },
+        });
+      }
+    }
+  }, [isActive]);
 
   useEffect(() => {
     if (workId && workId !== currentImageId) {
