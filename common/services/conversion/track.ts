@@ -38,6 +38,12 @@ type Session = {
   timeout: number;
 };
 
+type EventProps = {
+  name: string;
+  properties: { [key: string]: unknown };
+  eventGroup?: EventGroup;
+};
+
 export type Pageview = {
   name: string;
   properties: Record<string, string[] | number[] | string | number | undefined>;
@@ -78,11 +84,7 @@ function trackPageview({
   name,
   properties,
   eventGroup = 'conversion',
-}: {
-  name: string;
-  properties: { [key: string]: unknown };
-  eventGroup?: EventGroup;
-}): void {
+}: EventProps): void {
   // Source is passed in the querystring in the app, but not the client.
   // e.g. /common/views/component/WorkLink/WorkLink.tsx
   const { source, ...query } = Router.query;
@@ -108,11 +110,7 @@ function trackSegmentEvent({
   name,
   properties,
   eventGroup = 'conversion',
-}: {
-  name: string;
-  properties: { [key: string]: unknown };
-  eventGroup?: EventGroup;
-}): void {
+}: EventProps): void {
   track({
     type: 'event',
     eventGroup,
