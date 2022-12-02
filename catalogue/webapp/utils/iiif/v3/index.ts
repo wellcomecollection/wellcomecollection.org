@@ -278,7 +278,7 @@ function getImageAuthCookieService(
 ): Service | undefined {
   const imageCookieService = Array.isArray(imageService?.service)
     ? imageService?.service?.find(s => s['@type'] === 'AuthCookieService1')
-    : imageService?.service['@type'] === 'AuthCookieService1'
+    : imageService?.service?.['@type'] === 'AuthCookieService1'
     ? imageService?.service
     : undefined;
   return imageCookieService;
