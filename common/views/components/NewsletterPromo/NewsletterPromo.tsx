@@ -4,7 +4,7 @@ import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import TextInput from '../TextInput/TextInput';
-import { trackEvent } from '../../../utils/ga';
+import { trackGaEvent } from '../../../utils/ga';
 import useValidation from '../../../hooks/useValidation';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { newsletterAddressBook } from '../../../data/dotdigital';
@@ -136,7 +136,7 @@ const NewsletterPromo: FunctionComponent = () => {
     switch (result) {
       case 'ok':
         setIsSuccess(true);
-        trackEvent({ category: 'NewsletterPromo', action: 'submit email' });
+        trackGaEvent({ category: 'NewsletterPromo', action: 'submit email' });
         break;
       case 'error':
         setIsSubmitError(true);

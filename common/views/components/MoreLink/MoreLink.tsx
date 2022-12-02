@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactElement } from 'react';
-import { trackEvent, GaEvent } from '../../../utils/ga';
+import { trackGaEvent, GaEvent } from '../../../utils/ga';
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import { arrowSmall } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -17,7 +17,7 @@ const MoreLink: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   function handleClick() {
     if (trackingEvent) {
-      trackEvent({
+      trackGaEvent({
         category: 'MoreLink',
         action: 'follow link',
         label: `${url} | text: ${name}`,

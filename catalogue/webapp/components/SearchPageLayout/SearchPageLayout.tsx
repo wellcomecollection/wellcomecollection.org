@@ -10,7 +10,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { removeEmptyProps } from '@weco/common/utils/json';
 import { getUrlQueryFromSortValue } from '@weco/catalogue/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -146,7 +146,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           onSubmit={event => {
             event.preventDefault();
 
-            trackEvent({
+            trackGaEvent({
               category: 'SearchForm',
               action: 'submit search',
               label: router.query.query as string,

@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { FunctionComponent, useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
@@ -18,7 +18,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
   const [isPlaying, setIsPlaying] = useState(false);
 
   function trackViewingTime() {
-    trackEvent({
+    trackGaEvent({
       category: 'Engagement',
       action: 'Amount of media played',
       value: secondsPlayed,
@@ -34,7 +34,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
     try {
       window.addEventListener('beforeunload', trackViewingTime);
     } catch (error) {
-      trackEvent({
+      trackGaEvent({
         category: 'Engagement',
         action: 'unable to track media playing time',
         nonInteraction: true,
@@ -61,7 +61,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
       <video
         onPlay={() => {
           setIsPlaying(true);
-          trackEvent({
+          trackGaEvent({
             category: 'Video',
             action: 'play video',
             label: video.id,

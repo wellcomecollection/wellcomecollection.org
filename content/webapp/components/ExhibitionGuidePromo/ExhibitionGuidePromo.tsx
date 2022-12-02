@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody, CardImageWrapper } from '../Card/Card';
@@ -21,7 +21,7 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
         `/guides/exhibitions/${exhibitionGuide.id}`
       }
       onClick={() => {
-        trackEvent({
+        trackGaEvent({
           category: 'ExhibitionGuide',
           action: 'follow link',
           label: `${exhibitionGuide.id}`,

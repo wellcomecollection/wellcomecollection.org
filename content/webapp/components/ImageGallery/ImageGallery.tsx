@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
 import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -250,7 +250,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
         headingRef.current.scrollIntoView();
       }
 
-      trackEvent({
+      trackGaEvent({
         category: 'Control',
         action: 'close ImageGallery',
         label: id.toString(),
@@ -263,7 +263,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   }
 
   function showAllImages(isButton?: boolean) {
-    trackEvent({
+    trackGaEvent({
       category: `${isButton ? 'Button' : 'CaptionedImage'}`,
       action: 'open ImageGallery',
       label: id.toString(),

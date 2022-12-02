@@ -1,5 +1,5 @@
 import { FunctionComponent, RefObject, Dispatch, SetStateAction } from 'react';
-import { trackEvent, GaEvent } from '../../../utils/ga';
+import { trackGaEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import { clear } from '@weco/common/icons';
 import styled from 'styled-components';
@@ -31,7 +31,7 @@ const ClearSearch: FunctionComponent<Props> = ({
     <Button
       style={right ? { right: `${right}px` } : undefined}
       onClick={() => {
-        gaEvent && trackEvent(gaEvent);
+        gaEvent && trackGaEvent(gaEvent);
         setValue('');
         inputRef?.current?.focus();
       }}

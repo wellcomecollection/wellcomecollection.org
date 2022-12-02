@@ -1,6 +1,6 @@
 import { MultiContent } from '../../types/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import CompactCard from '../CompactCard/CompactCard';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
@@ -86,7 +86,7 @@ const Outro: FunctionComponent<Props> = ({
               <li
                 key={item.id}
                 onClick={() => {
-                  trackEvent({
+                  trackGaEvent({
                     category: 'Outro',
                     action: `follow ${type} link`,
                     label: item.id,
