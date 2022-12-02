@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FunctionComponent } from 'react';
+import { useEffect, useState, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import { font } from '@weco/common/utils/classnames';
@@ -125,6 +125,8 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const workId = image?.source.id;
 
   useEffect(() => {
+    // We want this fired only if there is a workId (not on initial load),
+    // but not everytime it changes, so excluding it from dependency array
     if (workId) {
       // Send reporting events
       if (!isActive) {

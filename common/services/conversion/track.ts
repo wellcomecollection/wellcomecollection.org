@@ -6,6 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 declare global {
   interface Window {
+    // Segment.io requires `analytics: any;`
+    // https://ashokraju.medium.com/using-segment-io-analytics-js-with-single-page-react-typescript-app-a8c12b4816c4
+    // eslint-disable-next-line
     analytics: any;
   }
 }
@@ -74,7 +77,7 @@ let pageName: string;
 function trackPageview({
   name,
   properties,
-  eventGroup,
+  eventGroup = 'conversion',
 }: {
   name: string;
   properties: { [key: string]: unknown };
@@ -88,7 +91,7 @@ function trackPageview({
   const conversion: Conversion = {
     type: 'pageview',
     source: source?.toString() || 'unknown',
-    eventGroup: eventGroup || 'conversion',
+    eventGroup,
     page: {
       path: Router.asPath,
       pathname: Router.pathname,
@@ -104,7 +107,7 @@ function trackPageview({
 function trackSegmentEvent({
   name,
   properties,
-  eventGroup,
+  eventGroup = 'conversion',
 }: {
   name: string;
   properties: { [key: string]: unknown };
@@ -112,7 +115,7 @@ function trackSegmentEvent({
 }): void {
   track({
     type: 'event',
-    eventGroup: eventGroup || 'conversion',
+    eventGroup,
     page: {
       path: Router.asPath,
       pathname: Router.pathname,
