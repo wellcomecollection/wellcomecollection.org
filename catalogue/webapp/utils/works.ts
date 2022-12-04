@@ -171,23 +171,16 @@ function itemIdentifierWithId(
   item: Item<PhysicalLocation | DigitalLocation>,
   id: string
 ): boolean {
-  const matchedIdentifiers =
-    item.identifiers?.filter(
-      identifier => identifier && identifier.identifierType.id === id
-    ) ?? [];
-
-  return matchedIdentifiers.length >= 1;
+  return (item.identifiers || []).some(
+    identifier => identifier.identifierType.id === id
+  );
 }
 
 function itemLocationWithType(
   item: Item<PhysicalLocation | DigitalLocation>,
   locationType: string
 ): boolean {
-  const matchedIdentifiers = item.locations.filter(
-    location => location.type === locationType
-  );
-
-  return matchedIdentifiers.length >= 1;
+  return item.locations.some(location => location.type === locationType);
 }
 
 type ItemProps = {
