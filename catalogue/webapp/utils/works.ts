@@ -258,7 +258,10 @@ export const getCardLabels = (work: Work): Label[] => {
   }
 };
 
-function makeArchiveAncestorArray(partOfArray, nextPart) {
+function makeArchiveAncestorArray(
+  partOfArray: RelatedWork[],
+  nextPart: RelatedWork | undefined
+) {
   /*
   Recursively populate a list of ancestors (i.e. things that this object is "part of")
 
@@ -275,7 +278,7 @@ function makeArchiveAncestorArray(partOfArray, nextPart) {
   );
 }
 
-function hierarchicalParentOf(work) {
+function hierarchicalParentOf(work: RelatedWork): RelatedWork | undefined {
   /*
   Return the immediate parent of a Work within a strict single parent hierarchy.
 
