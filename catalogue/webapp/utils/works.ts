@@ -162,13 +162,9 @@ export function getDigitalLocationOfType(
 export function getAccessConditionForDigitalLocation(
   digitalLocation?: DigitalLocation
 ): string | undefined {
-  if (digitalLocation) {
-    const accessConditions = digitalLocation?.accessConditions || [];
-    const accessCondition = accessConditions.find(
-      condition => condition.status
-    );
-    return accessCondition?.status?.id;
-  }
+  const accessConditions = digitalLocation?.accessConditions || [];
+  const accessCondition = accessConditions.find(condition => condition.status);
+  return accessCondition?.status?.id;
 }
 
 function itemIdentifierWithId(
