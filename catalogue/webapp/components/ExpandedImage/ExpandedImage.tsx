@@ -4,7 +4,6 @@ import NextLink from 'next/link';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
-  sierraIdFromPresentationManifestUrl,
   getProductionDates,
 } from '@weco/catalogue/utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
@@ -33,7 +32,6 @@ type Props = {
 
 type CanvasLink = {
   canvas: number;
-  sierraId: string | undefined;
 };
 
 const ImageInfoWrapper = styled.div`
@@ -184,7 +182,6 @@ const ExpandedImage: FunctionComponent<Props> = ({
       imageUrl: string
     ) => {
       const imageLocationBase = imageUrl.replace('/info.json', '');
-      const sierraId = sierraIdFromPresentationManifestUrl(manifestLocation);
       const iiifManifest = await fetchIIIFPresentationManifest(
         manifestLocation
       );
@@ -210,7 +207,6 @@ const ExpandedImage: FunctionComponent<Props> = ({
       if (canvasIndex && canvasIndex !== -1) {
         setCanvasDeeplink({
           canvas: canvasIndex + 1,
-          sierraId,
         });
       }
     };
