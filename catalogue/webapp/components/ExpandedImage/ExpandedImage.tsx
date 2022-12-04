@@ -33,7 +33,7 @@ type Props = {
 
 type CanvasLink = {
   canvas: number;
-  sierraId: string;
+  sierraId: string | undefined;
 };
 
 const ImageInfoWrapper = styled.div`

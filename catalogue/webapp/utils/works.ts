@@ -74,7 +74,7 @@ export function getDownloadOptionsFromImageUrl(
 
 export function sierraIdFromPresentationManifestUrl(
   iiifPresentationLocation: string
-): string {
+): string | undefined {
   return (iiifPresentationLocation.match(/iiif\/(.*)\/manifest/) || [])[1];
 }
 
