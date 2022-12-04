@@ -12,6 +12,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import { NextPage } from 'next';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 
 export const DownloadOptions = styled.div.attrs(() => ({
   className: font('intb', 4),
@@ -117,7 +118,7 @@ const Download: NextPage<Props> = ({
           >
             <DownloadOptions className={font('intb', 5)}>
               <SpacingComponent>
-                <ul className="plain-list no-margin no-padding">
+                <PlainList>
                   {downloadOptions.map(option => {
                     const action = option.id?.match(/\/full\/full\//)
                       ? 'download large work image'
@@ -147,7 +148,7 @@ const Download: NextPage<Props> = ({
                       </li>
                     );
                   })}
-                </ul>
+                </PlainList>
               </SpacingComponent>
               {license && (
                 <>

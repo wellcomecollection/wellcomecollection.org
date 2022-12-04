@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import { font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { IconSvg } from '@weco/common/icons';
@@ -40,11 +41,14 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   `}
 `;
 
-const LinkLabels: FunctionComponent<Props> = ({
-  items,
-  heading,
-  icon,
-}: Props) =>
+const PlainItemList = styled(PlainList).attrs({
+  className: font('intb', 5),
+})`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
   heading ? (
     <dl className={`flex flex--wrap no-margin ${font('intr', 5)}`}>
       <Space
@@ -68,13 +72,7 @@ const LinkLabels: FunctionComponent<Props> = ({
       ))}
     </dl>
   ) : (
-    <ul
-      className={
-        'flex plain-list flex--wrap no-margin no-padding' +
-        ' ' +
-        font('intb', 5)
-      }
-    >
+    <PlainItemList>
       {items.map(({ url, text }, i) => (
         <li key={`${url || text}-${i}`} className="no-margin">
           <ItemText url={url || null} addBorder={i !== 0}>
@@ -82,7 +80,7 @@ const LinkLabels: FunctionComponent<Props> = ({
           </ItemText>
         </li>
       ))}
-    </ul>
+    </PlainItemList>
   );
 
 export default LinkLabels;
