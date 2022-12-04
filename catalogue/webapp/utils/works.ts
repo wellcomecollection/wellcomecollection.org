@@ -117,7 +117,7 @@ export type PhysicalItemAugmented = {
 };
 
 export function getHoldings(work: Work): Holding[] {
-  return work?.holdings || [];
+  return work.holdings || [];
 }
 
 export function getItemsWithPhysicalLocation(
@@ -139,7 +139,7 @@ export function getItemsByLocationType(
   locationTypeId: string
 ): Item<PhysicalLocation | DigitalLocation>[] {
   return (work.items || []).filter(i =>
-    i?.locations.find(l => l.locationType.id === locationTypeId)
+    i.locations.find(l => l.locationType.id === locationTypeId)
   );
 }
 
