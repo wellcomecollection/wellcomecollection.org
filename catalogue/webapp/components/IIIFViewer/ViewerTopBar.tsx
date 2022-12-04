@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/Download';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -222,7 +222,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 isDark
                 onClick={() => {
                   setIsDesktopSidebarActive(!isDesktopSidebarActive);
-                  trackEvent({
+                  trackGaEvent({
                     category: 'Control',
                     action: 'Toggle item viewer sidebar',
                     label: `${work.id}`,
@@ -264,7 +264,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   icon: singlePage,
                   clickHandler() {
                     setGridVisible(false);
-                    trackEvent({
+                    trackGaEvent({
                       category: 'Control',
                       action: 'clicked work viewer Detail view button',
                       label: `${work.id}`,
@@ -277,7 +277,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   icon: gridView,
                   clickHandler() {
                     setGridVisible(true);
-                    trackEvent({
+                    trackGaEvent({
                       category: 'Control',
                       action: 'clicked work viewer Grid view button',
                       label: `${work.id}`,

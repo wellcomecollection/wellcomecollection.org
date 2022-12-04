@@ -6,7 +6,7 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import Space from '../styled/Space';
 import { BorderlessLink } from '../BorderlessClickable/BorderlessClickable';
 import { user as userIcon } from '../../../icons';
-import { trackEvent } from '../../../utils/ga';
+import { trackGaEvent } from '../../../utils/ga';
 
 type AccountAProps = {
   last?: true;
@@ -43,7 +43,7 @@ const DesktopSignIn: FunctionComponent = () => {
               text={<span className={font('intr', 6)}>Library sign in</span>}
               href="/account/api/auth/login"
               onClick={() => {
-                trackEvent({
+                trackGaEvent({
                   category: 'library_account',
                   action: 'login',
                   label: window.location.pathname,
@@ -88,7 +88,7 @@ const DesktopSignIn: FunctionComponent = () => {
               <AccountA
                 as="a"
                 onClick={() => {
-                  trackEvent({
+                  trackGaEvent({
                     category: 'library_account',
                     action: 'view',
                     label: window.location.pathname,

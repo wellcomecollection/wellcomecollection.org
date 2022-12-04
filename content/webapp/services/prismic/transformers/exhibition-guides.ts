@@ -2,9 +2,10 @@ import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
-  Exhibit,
+  ExhibitionGuideType,
+  RelatedExhibition,
 } from '../../../types/exhibition-guides';
-import { asRichText, asText, asTitle } from '.';
+import { asRichText, asTitle } from '.';
 import {
   ExhibitionGuideComponentPrismicDocument,
   ExhibitionGuidePrismicDocument,
@@ -13,6 +14,8 @@ import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/ty
 import { transformImagePromo } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import { getYouTubeEmbedUrl } from './embeds';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.
@@ -82,38 +85,15 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   }))(exhibitionGuide);
 }
 
-function transformRelatedExhibition(exhibition): Exhibit {
+function transformRelatedExhibition(exhibition): RelatedExhibition {
+  const promo =
+    exhibition.data.promo && transformImagePromo(exhibition.data.promo);
+
   return {
-    exhibitType: 'exhibitions',
-    item: undefined,
     id: exhibition.id,
-    title: (exhibition.data && asText(exhibition.data.title)) || '',
-    description:
-      exhibition.data &&
-      asText(exhibition.data.promo[0].primary.caption[0].text),
+    title: asTitle(exhibition.data.title),
+    description: promo?.caption,
   };
-}
-
-function transformYoutubeEmbed(embed) {
-  // TODO share some of this with transformEmbedSlice?
-  if (embed.provider_url === 'https://www.youtube.com/') {
-    const embedUrl = embed.html!.match(/src="([^"]+)"?/)![1];
-
-    const embedUrlWithEnhancedPrivacy = embedUrl.replace(
-      'www.youtube.com',
-      'www.youtube-nocookie.com'
-    );
-
-    const newEmbedUrl = embedUrl.includes('?')
-      ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
-      : `${embedUrlWithEnhancedPrivacy}?rel=0`;
-
-    return {
-      embedUrl: newEmbedUrl as string,
-    };
-  } else {
-    return {};
-  }
 }
 
 export function transformExhibitionGuide(
@@ -131,31 +111,42 @@ export function transformExhibitionGuide(
 
       return {
         number: component.number || undefined,
-        title,
-        standaloneTitle,
         displayTitle,
         anchorId,
-        tombstone:
-          (component.tombstone && asRichText(component.tombstone)) || [],
         image: transformImage(component.image),
-        context: (component.context && asRichText(component.context)) || [],
-        caption: (component.caption && asRichText(component.caption)) || [],
-        transcription:
-          (component.transcript && asRichText(component.transcript)) || [],
-        audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
-        audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
-        bsl: component['bsl-video'].provider_name
-          ? transformYoutubeEmbed(component['bsl-video'])
-          : {},
+        captionsOrTranscripts: {
+          title,
+          standaloneTitle,
+          context: component.context
+            ? asRichText(component.context)
+            : undefined,
+          caption: component.caption
+            ? asRichText(component.caption)
+            : undefined,
+          transcription: component.transcript
+            ? asRichText(component.transcript)
+            : undefined,
+          tombstone: asRichText(component.tombstone),
+        },
+        // TODO make these both the same as other audio transforms
+        audioWithDescription: component['audio-with-description'].url
+          ? { url: component['audio-with-description'].url }
+          : undefined,
+        audioWithoutDescription: component['audio-without-description'].url
+          ? { url: component['audio-without-description'].url }
+          : undefined,
+        bsl:
+          component['bsl-video'].provider_name === 'YouTube'
+            ? { embedUrl: getYouTubeEmbedUrl(component['bsl-video']) }
+            : undefined,
       };
     }
   );
 
   const introText = (data.introText && asRichText(data.introText)) || [];
-  const promo =
-    (data['related-exhibition'].data.promo &&
-      transformImagePromo(data['related-exhibition'].data.promo)) ||
-    '';
+  const promo = isFilledLinkToDocumentWithData(data['related-exhibition'])
+    ? transformImagePromo(data['related-exhibition'].data.promo)
+    : undefined;
 
   const relatedExhibition = isFilledLinkToDocumentWithData(
     data['related-exhibition']
@@ -163,10 +154,11 @@ export function transformExhibitionGuide(
     ? transformRelatedExhibition(data['related-exhibition'])
     : undefined;
 
-  const hasBSLVideo = components.some(component => component.bsl.embedUrl);
+  const hasBSLVideo = components.some(({ bsl }) => isNotUndefined(bsl));
   const hasCaptionsOrTranscripts = components.some(
-    component =>
-      component.caption.length > 0 || component.transcription.length > 0
+    ({ captionsOrTranscripts: captions }) =>
+      isNotUndefined(captions?.caption) ||
+      isNotUndefined(captions?.transcription)
   );
   const hasAudioWithoutDescriptions = components.some(
     component => component.audioWithoutDescription?.url
@@ -189,5 +181,64 @@ export function transformExhibitionGuide(
       audioWithoutDescriptions: hasAudioWithoutDescriptions,
       audioWithDescriptions: hasAudioWithDescriptions,
     },
+  };
+}
+
+export function filterExhibitionGuideComponents(
+  guide: ExhibitionGuide,
+  guideType: ExhibitionGuideType
+): ExhibitionGuide {
+  // This does a couple of filter passes to reduce the size of the page props
+  // we send when rendering the exhibition guides:
+  //
+  //    1.  If we're looking at a guide of type X, remove all the data about
+  //        other guide types.
+  //
+  //        e.g. if we're on the BSL guide, we don't need to include the URLs
+  //        for the audio tracks
+  //
+  //    2.  Remove any data about stops which aren't used in this guide type.
+  //        We've decided we're not going to show them.
+  //
+  //        e.g. if we're on the BSL guide, the BSL guide has 5 videos, and
+  //        the audio guide has 10 tracks, we only need to include the 5 stops
+  //        which have BSL videos.
+  //
+  // Because the captions and transcripts are particularly data heavy, this can
+  // have a dramatic impact on page size.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/pull/8945 for stats.
+  const filteredComponents = guide.components
+    .map(c => ({
+      ...c,
+      captionsOrTranscripts:
+        guideType === 'captions-and-transcripts'
+          ? c.captionsOrTranscripts
+          : undefined,
+      audioWithDescription:
+        guideType === 'audio-with-descriptions'
+          ? c.audioWithDescription
+          : undefined,
+      audioWithoutDescription:
+        guideType === 'audio-without-descriptions'
+          ? c.audioWithoutDescription
+          : undefined,
+      bsl: guideType === 'bsl' ? c.bsl : undefined,
+    }))
+    .filter(c =>
+      guideType === 'captions-and-transcripts'
+        ? isNotUndefined(c.captionsOrTranscripts)
+        : guideType === 'audio-with-descriptions'
+        ? isNotUndefined(c.audioWithDescription)
+        : guideType === 'audio-without-descriptions'
+        ? isNotUndefined(c.audioWithoutDescription)
+        : guideType === 'bsl'
+        ? isNotUndefined(c.bsl)
+        : false
+    );
+
+  return {
+    ...guide,
+    components: filteredComponents,
   };
 }

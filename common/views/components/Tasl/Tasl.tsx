@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactElement, useContext, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { getPrismicLicenseData } from '../../../utils/licenses';
-import { trackEvent } from '../../../utils/ga';
+import { trackGaEvent } from '../../../utils/ga';
 import { AppContext } from '../../components/AppContext/AppContext';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
@@ -195,7 +195,7 @@ const Tasl: FunctionComponent<Props> = ({
   const [isActive, setIsActive] = useState(false);
   function toggleWithAnalytics(event) {
     event.preventDefault();
-    trackEvent({
+    trackGaEvent({
       category: 'Tasl',
       action: isActive ? 'closed' : 'opened',
       label: title || 'no title',

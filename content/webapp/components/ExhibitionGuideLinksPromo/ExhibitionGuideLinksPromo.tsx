@@ -42,13 +42,13 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
   if (exhibitionGuide.availableTypes.audioWithoutDescriptions) {
     links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-without-descriptions`,
-      text: 'Listen to audio guide, without audio description',
+      text: 'Listen to audio',
     });
   }
   if (exhibitionGuide.availableTypes.audioWithDescriptions) {
     links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-with-descriptions`,
-      text: 'Listen to audio guide, with audio description',
+      text: 'Listen to audio with wayfinding',
     });
   }
   if (exhibitionGuide.availableTypes.captionsOrTranscripts) {
@@ -60,7 +60,7 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
   if (exhibitionGuide.availableTypes.BSLVideo) {
     links.push({
       url: `/guides/exhibitions/${exhibitionGuide.id}/bsl`,
-      text: 'Watch BSL videos',
+      text: 'Watch British Sign Language videos',
     });
   }
   return (

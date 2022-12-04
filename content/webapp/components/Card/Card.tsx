@@ -1,6 +1,6 @@
 import { Card as CardType } from '../../types/card';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
@@ -121,7 +121,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
     <CardOuter
       href={item.link}
       onClick={() => {
-        trackEvent({
+        trackGaEvent({
           category: 'Card',
           action: 'follow link',
           label: `${item.title || ''}`,

@@ -4,11 +4,13 @@ import {
   isValidType,
 } from '../../../../types/exhibition-guides';
 import { deleteCookie, getCookie } from 'cookies-next';
-import * as prismicT from '@prismicio/types';
 import { FC } from 'react';
 import { createClient } from '../../../../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../../../../services/prismic/fetch/exhibition-guides';
-import { transformExhibitionGuide } from '../../../../services/prismic/transformers/exhibition-guides';
+import {
+  filterExhibitionGuideComponents,
+  transformExhibitionGuide,
+} from '../../../../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -50,10 +52,11 @@ type Props = {
 function getTypeTitle(type: ExhibitionGuideType): string {
   switch (type) {
     case 'bsl':
-      return 'Watch BSL videos';
+      return 'British Sign Language videos';
     case 'audio-with-descriptions':
+      return 'Audio with wayfinding';
     case 'audio-without-descriptions':
-      return 'Listen to audio'; // We don't yet have any audio with descriptions so don't want to imply that we do
+      return 'Audio';
     case 'captions-and-transcripts':
       return 'Captions and transcripts';
   }
@@ -114,12 +117,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (exhibitionGuideQuery) {
       const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
+      const filteredExhibitionGuide = filterExhibitionGuideComponents(
+        exhibitionGuide,
+        type
+      );
 
       const jsonLd = exhibitionGuideLd(exhibitionGuide);
 
       return {
         props: removeUndefinedProps({
-          exhibitionGuide,
+          exhibitionGuide: filteredExhibitionGuide,
           jsonLd,
           serverData,
           type,
@@ -179,11 +186,9 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </h1>
 
             {exhibitionGuide.introText?.length > 0 ? (
-              <PrismicHtmlBlock
-                html={exhibitionGuide.introText as prismicT.RichTextField}
-              />
+              <PrismicHtmlBlock html={exhibitionGuide.introText} />
             ) : (
-              exhibitionGuide.relatedExhibition && (
+              exhibitionGuide.relatedExhibition?.description && (
                 <p>{exhibitionGuide.relatedExhibition.description}</p>
               )
             )}

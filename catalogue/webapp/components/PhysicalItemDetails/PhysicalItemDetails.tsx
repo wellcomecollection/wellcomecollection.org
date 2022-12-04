@@ -23,7 +23,7 @@ import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { useToggles } from '@weco/common/server-data/Context';
 import { themeValues } from '@weco/common/views/themes/config';
 
@@ -188,7 +188,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           ref={requestButtonRef}
           text="Request item"
           clickHandler={() => {
-            trackEvent({
+            trackGaEvent({
               category: 'requesting',
               action: 'initiate_request',
               label: `/works/${work.id}`,

@@ -1,7 +1,7 @@
 import ReactGA, { EventArgs as GaEvent } from 'react-ga';
 
 // TODO this wrapper function is redundant but pervasive; consider getting rid of it
-export function trackEvent(gaEvent: GaEvent): void {
+export function trackGaEvent(gaEvent: GaEvent): void {
   ReactGA.event(gaEvent);
 }
 

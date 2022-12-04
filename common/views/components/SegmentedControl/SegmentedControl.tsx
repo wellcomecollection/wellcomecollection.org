@@ -2,7 +2,7 @@ import { Component, Fragment, ReactElement } from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
-import { trackEvent } from '../../../utils/ga';
+import { trackGaEvent } from '../../../utils/ga';
 import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -263,7 +263,7 @@ class SegmentedControl extends Component<Props, State> {
                       const url = e.currentTarget.href;
                       const isHash = url.startsWith('#');
 
-                      trackEvent({
+                      trackGaEvent({
                         category: 'SegmentedControl',
                         action: 'select segment',
                         label: item.text,
@@ -299,7 +299,7 @@ class SegmentedControl extends Component<Props, State> {
                   const url = e.currentTarget.href;
                   const isHash = url.startsWith('#');
 
-                  trackEvent({
+                  trackGaEvent({
                     category: 'SegmentedControl',
                     action: 'select segment',
                     label: item.text,

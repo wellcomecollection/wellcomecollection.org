@@ -109,7 +109,6 @@ export function transformExhibition(
     'item'
   ).map(exhibit => {
     return {
-      exhibitType: 'exhibitions',
       item: transformExhibition(exhibit as ExhibitionPrismicDocument),
     };
   });

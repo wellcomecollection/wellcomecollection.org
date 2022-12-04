@@ -2,7 +2,7 @@ import { forwardRef, FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import { LinkProps } from '../../../../model/link-props';
 import Icon from '../../Icon/Icon';
-import { GaEvent, trackEvent } from '../../../../utils/ga';
+import { GaEvent, trackGaEvent } from '../../../../utils/ga';
 import styled from 'styled-components';
 import { IconSvg } from '@weco/common/icons';
 
@@ -222,7 +222,7 @@ const BaseControl: FunctionComponent<Props> = (
 
   function handleClick(event) {
     if (trackingEvent) {
-      trackEvent(trackingEvent);
+      trackGaEvent(trackingEvent);
     }
 
     if (clickHandler) {

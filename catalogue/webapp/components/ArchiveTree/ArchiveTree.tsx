@@ -20,7 +20,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { chevron, tree } from '@weco/common/icons';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 
 const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('warmNeutral.400')};
@@ -648,7 +648,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           <TreeControl
             highlightCondition={highlightCondition}
             onClick={() => {
-              trackEvent({
+              trackGaEvent({
                 category: 'ArchiveTree',
                 action: 'Chevron clicked',
                 label: item.work.id,
@@ -676,7 +676,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             onClick={event => {
               event.stopPropagation();
               setShowArchiveTree(false);
-              trackEvent({
+              trackGaEvent({
                 category: 'ArchiveTree',
                 action: 'Link clicked',
                 label: item.work.id,

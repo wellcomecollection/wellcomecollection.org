@@ -6,6 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 declare global {
   interface Window {
+    // Segment.io requires `analytics: any;`
+    // https://ashokraju.medium.com/using-segment-io-analytics-js-with-single-page-react-typescript-app-a8c12b4816c4
+    // eslint-disable-next-line
     analytics: any;
   }
 }
@@ -18,6 +21,7 @@ type Page = {
 };
 
 type ConversionType = 'pageview' | 'event';
+type EventGroup = 'conversion' | 'similarity';
 
 interface Conversion {
   type: ConversionType;
@@ -26,6 +30,7 @@ interface Conversion {
   properties: {
     [key: string]: unknown;
   };
+  eventGroup: EventGroup;
 }
 
 type Session = {
@@ -33,9 +38,16 @@ type Session = {
   timeout: number;
 };
 
+type EventProps = {
+  name: string;
+  properties: { [key: string]: unknown };
+  eventGroup?: EventGroup;
+};
+
 export type Pageview = {
   name: string;
   properties: Record<string, string[] | number[] | string | number | undefined>;
+  eventGroup?: EventGroup;
 };
 
 const sessionIdLocalStorageKey = 'sessionId';
@@ -68,10 +80,11 @@ function resetSessionId(): string {
 }
 
 let pageName: string;
-function trackPageview(
-  name: string,
-  properties: { [key: string]: unknown }
-): void {
+function trackPageview({
+  name,
+  properties,
+  eventGroup = 'conversion',
+}: EventProps): void {
   // Source is passed in the querystring in the app, but not the client.
   // e.g. /common/views/component/WorkLink/WorkLink.tsx
   const { source, ...query } = Router.query;
@@ -80,6 +93,7 @@ function trackPageview(
   const conversion: Conversion = {
     type: 'pageview',
     source: source?.toString() || 'unknown',
+    eventGroup,
     page: {
       path: Router.asPath,
       pathname: Router.pathname,
@@ -92,13 +106,14 @@ function trackPageview(
   track(conversion);
 }
 
-type EventName = 'download';
-function trackEvent(
-  name: EventName,
-  properties: { [key: string]: unknown }
-): void {
+function trackSegmentEvent({
+  name,
+  properties,
+  eventGroup = 'conversion',
+}: EventProps): void {
   track({
     type: 'event',
+    eventGroup,
     page: {
       path: Router.asPath,
       pathname: Router.pathname,
@@ -116,20 +131,21 @@ function track(conversion: Conversion) {
     id: sessionId,
     timeout: sessionTimeout,
   };
+  const { eventGroup, ...restConversion } = conversion;
 
   localStorage.setItem(lastTrackedLocalStorageKey, Date.now().toString());
 
   if (debug) {
     console.info({
       session,
-      ...conversion,
+      ...restConversion,
     });
   }
 
-  window.analytics.track('conversion', {
+  window.analytics.track(eventGroup, {
     session,
-    ...conversion,
+    ...restConversion,
   });
 }
 
-export { trackPageview, trackEvent };
+export { trackPageview, trackSegmentEvent };

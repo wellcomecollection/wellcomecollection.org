@@ -7,7 +7,7 @@ import {
   SolidButton,
   ButtonSolidBaseProps,
 } from '../ButtonSolid/ButtonSolid';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
@@ -38,7 +38,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
 }: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
-    trackingEvent && trackEvent(trackingEvent);
+    trackingEvent && trackGaEvent(trackingEvent);
   }
 
   const isNextLink = typeof link === 'object';

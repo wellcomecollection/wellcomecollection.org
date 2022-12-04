@@ -2,7 +2,7 @@ import { FunctionComponent, useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import Tasl from '@weco/common/views/components/Tasl/Tasl';
 import Caption from '@weco/common/views/components/Caption/Caption';
 import { Tasl as TaslType } from '@weco/common/model/tasl';
@@ -138,7 +138,7 @@ const GifVideo: FunctionComponent<Props> = ({
         pauseVideo(video);
       }
     }
-    trackEvent({
+    trackGaEvent({
       category: 'GifVideo',
       action: isPlaying ? 'pause video' : 'play video',
       label: videoUrl,

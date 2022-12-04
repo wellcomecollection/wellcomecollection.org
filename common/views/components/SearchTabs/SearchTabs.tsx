@@ -6,7 +6,7 @@ import Space from '../styled/Space';
 import { useContext, FunctionComponent, ReactElement, useRef } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
@@ -273,7 +273,7 @@ const SearchTabs: FunctionComponent<Props> = ({
     } else {
       searchWorksFormRef?.current?.submit();
     }
-    trackEvent({
+    trackGaEvent({
       category: 'SearchTabs',
       action: 'click tab',
       label: `${id}`,

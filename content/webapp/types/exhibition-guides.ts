@@ -1,39 +1,33 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { RichTextField } from '@prismicio/types';
-import { Link } from './link';
 
-export type ExhibitionLink = {
-  id: string;
+type CaptionsOrTranscripts = {
   title: string;
-  description?: string;
-  promo?: ImagePromo;
+  standaloneTitle: string;
+  tombstone?: RichTextField;
+  caption?: RichTextField;
+  transcription?: RichTextField;
+  context?: RichTextField;
 };
 
 export type ExhibitionGuideComponent = {
   number?: number;
-  standaloneTitle: string;
-  title: string;
   displayTitle: string;
   anchorId: string;
   image?: ImageType;
-  tombstone: RichTextField;
-  caption: RichTextField;
-  transcription: RichTextField;
-  context?: RichTextField;
-  audioWithDescription?: Link;
-  audioWithoutDescription?: Link;
-  bsl: {
-    embedUrl?: string;
+  captionsOrTranscripts?: CaptionsOrTranscripts;
+  audioWithDescription?: { url: string };
+  audioWithoutDescription?: { url: string };
+  bsl?: {
+    embedUrl: string;
   };
 };
 
-export type Exhibit = {
+export type RelatedExhibition = {
   id: string;
   title: string;
-  description: string;
-  exhibitType: 'exhibitions';
-  item: ExhibitionLink | undefined;
+  description?: string;
 };
 
 export type ExhibitionGuideBasic = {
@@ -43,7 +37,7 @@ export type ExhibitionGuideBasic = {
   id: string;
   image?: ImageType;
   promo?: ImagePromo;
-  relatedExhibition: Exhibit | undefined;
+  relatedExhibition?: RelatedExhibition;
   availableTypes: {
     BSLVideo: boolean;
     captionsOrTranscripts: boolean;

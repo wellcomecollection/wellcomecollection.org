@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { arrowSmall } from '@weco/common/icons';
 import styled from 'styled-components';
@@ -20,7 +20,7 @@ const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => (
   <Wrapper
     href="#dates"
     onClick={() => {
-      trackEvent({
+      trackGaEvent({
         category: 'EventDatesLink',
         action: 'follow link',
         label: id,

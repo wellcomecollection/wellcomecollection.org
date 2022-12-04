@@ -26,8 +26,8 @@ import { transformManifest } from '../services/iiif/transformers/manifest';
 
 type Props = {
   workId: string;
-  transformedManifest: TransformedManifest;
-  work: Work | undefined;
+  transformedManifest?: TransformedManifest;
+  work?: Work;
 };
 
 const DownloadPage: NextPage<Props> = ({
@@ -35,8 +35,9 @@ const DownloadPage: NextPage<Props> = ({
   transformedManifest,
   work,
 }) => {
-  const { title, downloadEnabled, downloadOptions, iiifCredit } =
-    transformedManifest;
+  const { title, downloadEnabled, downloadOptions, iiifCredit } = {
+    ...transformedManifest,
+  };
   const displayTitle = title || work?.title || '';
   const iiifImageLocation = work
     ? getDigitalLocationOfType(work, 'iiif-image')
@@ -62,7 +63,10 @@ const DownloadPage: NextPage<Props> = ({
       })
     : [];
 
-  const allDownloadOptions = [...iiifImageDownloadOptions, ...downloadOptions];
+  const allDownloadOptions = [
+    ...iiifImageDownloadOptions,
+    ...(downloadOptions || []),
+  ];
 
   const credit = (iiifImageLocation && iiifImageLocation.credit) || iiifCredit;
 
@@ -113,10 +117,12 @@ const DownloadPage: NextPage<Props> = ({
                     contents={license.humanReadableText}
                   />
                 )}
-                <WorkDetailsText
-                  title="Credit"
-                  contents={getCredit(workId, title, credit, license)}
-                />
+                {title && (
+                  <WorkDetailsText
+                    title="Credit"
+                    contents={getCredit(workId, title, credit, license)}
+                  />
+                )}
               </div>
             </SpacingComponent>
           )}
@@ -160,12 +166,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const iiifManifest =
       manifestLocation &&
       (await fetchIIIFPresentationManifest(manifestLocation.url));
-    const transformedManifest = transformManifest(
-      iiifManifest || {
-        manifestV2: undefined,
-        manifestV3: undefined,
-      }
-    );
+    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
     return {
       props: removeUndefinedProps({
