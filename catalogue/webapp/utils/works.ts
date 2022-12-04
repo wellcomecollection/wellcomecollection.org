@@ -160,10 +160,11 @@ export function getDigitalLocationOfType(
 }
 
 export function getAccessConditionForDigitalLocation(
-  digitalLocation?: DigitalLocation
+  digitalLocation: DigitalLocation
 ): string | undefined {
-  const accessConditions = digitalLocation?.accessConditions || [];
-  const accessCondition = accessConditions.find(condition => condition.status);
+  const accessCondition = digitalLocation.accessConditions.find(
+    condition => condition.status
+  );
   return accessCondition?.status?.id;
 }
 
