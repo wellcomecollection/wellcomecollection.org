@@ -41,6 +41,13 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   `}
 `;
 
+const PlainItemList = styled(PlainList).attrs({
+  className: font('intb', 5),
+})`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 const LinkLabels: FunctionComponent<Props> = ({
   items,
   heading,
@@ -69,7 +76,7 @@ const LinkLabels: FunctionComponent<Props> = ({
       ))}
     </dl>
   ) : (
-    <PlainList className={`flex flex--wrap ${font('intb', 5)}`}>
+    <PlainItemList>
       {items.map(({ url, text }, i) => (
         <li key={`${url || text}-${i}`} className="no-margin">
           <ItemText url={url || null} addBorder={i !== 0}>
@@ -77,7 +84,7 @@ const LinkLabels: FunctionComponent<Props> = ({
           </ItemText>
         </li>
       ))}
-    </PlainList>
+    </PlainItemList>
   );
 
 export default LinkLabels;

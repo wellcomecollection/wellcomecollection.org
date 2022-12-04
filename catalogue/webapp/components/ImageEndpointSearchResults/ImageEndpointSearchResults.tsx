@@ -60,6 +60,11 @@ const ImageContainer = styled.li`
   `)}
 `;
 
+const ImageCardList = styled(PlainList)`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
   background,
@@ -136,7 +141,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       )}
 
       {(!isFullSupportBrowser || isSmallGallery) && (
-        <PlainList className="flex flex--wrap" role="list">
+        <ImageCardList role="list">
           {imagesWithDimensions.map((result: GalleryImageProps) => (
             <li key={result.id} role="listitem">
               <Space
@@ -164,7 +169,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               </Space>
             </li>
           ))}
-        </PlainList>
+        </ImageCardList>
       )}
 
       <Modal
