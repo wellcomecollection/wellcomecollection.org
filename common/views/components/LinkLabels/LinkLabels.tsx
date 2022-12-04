@@ -48,11 +48,7 @@ const PlainItemList = styled(PlainList).attrs({
   flex-wrap: wrap;
 `;
 
-const LinkLabels: FunctionComponent<Props> = ({
-  items,
-  heading,
-  icon,
-}: Props) =>
+const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
   heading ? (
     <dl className={`flex flex--wrap no-margin ${font('intr', 5)}`}>
       <Space
