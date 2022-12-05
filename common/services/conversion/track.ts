@@ -1,4 +1,4 @@
-import { getCookie } from 'cookies-next';
+import { getCookie, getCookies } from 'cookies-next';
 import cookies from '@weco/common/data/cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
@@ -126,24 +126,37 @@ function trackSegmentEvent({
 
 function track(conversion: Conversion) {
   const debug = getCookie(cookies.analyticsDebug) === true;
+  const allCookies = getCookies();
+  const toggles: { [key: string]: string }[] = [];
+
+  for (const cookie in allCookies) {
+    const isToggleCookie = cookie.match(/toggle_/);
+
+    if (isToggleCookie) {
+      toggles.push({ [cookie]: allCookies[cookie] || 'false' });
+    }
+  }
+
   const sessionId = getSessionId();
   const session: Session = {
     id: sessionId,
     timeout: sessionTimeout,
   };
-  const { eventGroup, ...restConversion } = conversion;
+  const { eventGroup, properties, ...restConversion } = conversion;
 
   localStorage.setItem(lastTrackedLocalStorageKey, Date.now().toString());
 
   if (debug) {
     console.info({
       session,
+      properties: { ...properties, toggles },
       ...restConversion,
     });
   }
 
   window.analytics.track(eventGroup, {
     session,
+    properties: { ...properties, toggles },
     ...restConversion,
   });
 }
