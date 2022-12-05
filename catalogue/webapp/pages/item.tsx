@@ -40,6 +40,10 @@ import {
   TransformedManifest,
   createDefaultTransformedManifest,
 } from '../types/manifest';
+import WorkHeader from '../components/WorkHeader/WorkHeader';
+import WorkTabbedNav from '../components/WorkTabbedNav/WorkTabbedNav';
+import { Container, Grid } from '../components/Work/Work';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -93,7 +97,7 @@ const ItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
-
+  const { worksTabbedNav } = useToggles();
   const {
     title,
     downloadEnabled,
@@ -196,6 +200,18 @@ const ItemPage: NextPage<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
+
+      {worksTabbedNav && (
+        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          <Container>
+            <Grid>
+              <WorkHeader work={work} />
+            </Grid>
+            <WorkTabbedNav work={work} selected="imageViewer" />
+          </Container>
+        </Space>
+      )}
+
       {isNotUndefined(audio) && audio?.sounds?.length > 0 && (
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <Layout12>
