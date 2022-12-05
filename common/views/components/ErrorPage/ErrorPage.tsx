@@ -62,7 +62,7 @@ const TogglesMessage: FunctionComponent = () => {
   // See https://nextjs.org/docs/messages/404-get-initial-props
   const toggles = Object.entries(getCookies())
     .filter(([k, v]) => k.startsWith('toggle_') && v === 'true')
-    .map(kv => kv[0].replaceAll('toggle_', ''))
+    .map(kv => kv[0].replace('toggle_', ''))
     .sort();
 
   return toggles.length > 0 ? (
