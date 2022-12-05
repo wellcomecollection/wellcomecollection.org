@@ -68,6 +68,13 @@ const toggles = {
       initialValue: false,
       description: 'Include events and exhibitions on the new search page',
     },
+    {
+      id: 'worksTabbedNav',
+      title: 'Works page: Tabbed navigation',
+      initialValue: false,
+      description:
+        'Adds tabbed navigation to the works page, for switching between work, item and related content',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
