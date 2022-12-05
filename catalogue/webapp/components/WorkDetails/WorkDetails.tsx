@@ -296,7 +296,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection headingText="Available online">
           <ConditionalWrapper
-            condition={Boolean(tokenService)}
+            condition={Boolean(tokenService && itemLinkState !== 'useItemLink')}
             wrapper={children =>
               itemUrl && (
                 <IIIFClickthrough
