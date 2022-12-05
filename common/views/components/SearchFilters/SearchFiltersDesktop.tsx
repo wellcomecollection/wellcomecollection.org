@@ -14,7 +14,6 @@ import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import dynamic from 'next/dynamic';
 import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
 import {
   CheckboxFilter as CheckboxFilterType,
@@ -30,6 +29,7 @@ import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { useLayoutEffect } from 'react';
 import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
+import { useRouter } from 'next/router';
 
 export const dateRegex = /^\d{4}$|^$/;
 
@@ -222,34 +222,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [showFilterModalButton, SetShowFilterModalButton] = useState(false);
 
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
-  useLayoutEffect(() => {
-    if (newStyle) {
-      const arrOfDropdownButtonNodes = document.querySelectorAll(
-        `.${filterClassname}`
-      );
-
-      let willAllFit = true;
-
-      const dynamicFilterArray: Filter[] = [];
-      SetShowFilterModalButton(false);
-      for (let i = arrOfDropdownButtonNodes.length - 1; i >= 0; i--) {
-        const dropdownButtonNode = arrOfDropdownButtonNodes[i];
-        const { width, left } = dropdownButtonNode.getBoundingClientRect();
-        const rightmostEdge = width + left;
-        if (rightmostEdge > wrapperWidth) willAllFit = false;
-        const spaceAvailable = willAllFit ? wrapperWidth : wrapperWidth - 150;
-        const canStay = rightmostEdge < spaceAvailable;
-        if (canStay) {
-          dynamicFilterArray[i] = filters[i];
-        } else {
-          SetShowFilterModalButton(true);
-        }
-      }
-      setHasCalculatedFilters(true);
-      setDynamicFilters(dynamicFilterArray);
-    }
-  }, [wrapperWidth]);
-
   const renderDynamicFilter = (f, i, arr) => {
     return (
       <Space
@@ -297,6 +269,33 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const dynamicFiltersSource = filters.map(renderDynamicFilter);
 
   const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
+  useLayoutEffect(() => {
+    if (newStyle) {
+      const arrOfDropdownButtonNodes = document.querySelectorAll(
+        `.${filterClassname}`
+      );
+
+      let willAllFit = true;
+
+      const dynamicFilterArray: Filter[] = [];
+      SetShowFilterModalButton(false);
+      for (let i = arrOfDropdownButtonNodes.length - 1; i >= 0; i--) {
+        const dropdownButtonNode = arrOfDropdownButtonNodes[i];
+        const { width, left } = dropdownButtonNode.getBoundingClientRect();
+        const rightmostEdge = width + left;
+        if (rightmostEdge > wrapperWidth) willAllFit = false;
+        const spaceAvailable = willAllFit ? wrapperWidth : wrapperWidth - 150;
+        const canStay = rightmostEdge < spaceAvailable;
+        if (canStay) {
+          dynamicFilterArray[i] = filters[i];
+        } else {
+          SetShowFilterModalButton(true);
+        }
+      }
+      setHasCalculatedFilters(true);
+      setDynamicFilters(dynamicFilterArray);
+    }
+  }, [wrapperWidth, useRouter().query]);
 
   const visibleFilters = filters.slice(0, nVisibleFilters);
   const modalFilters = filters.slice(nVisibleFilters);
