@@ -17,10 +17,7 @@ type Props = {
   title?: string;
 };
 
-const ErrorPage: FunctionComponent<Props> = ({
-  statusCode = 500,
-  title,
-}: Props) => {
+const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
   const errorMessage = isNotUndefined(title)
     ? title
     : statusCode in errorMessages
