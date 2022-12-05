@@ -78,10 +78,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     justify-content: space-between;
   }
 
-  .flex-end {
-    justify-content: flex-end;
-  }
-
   .plain-button {
     appearance: none;
     font-family: inherit;
