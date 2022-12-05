@@ -126,16 +126,13 @@ function trackSegmentEvent({
 
 function track(conversion: Conversion) {
   const debug = getCookie(cookies.analyticsDebug) === true;
-  const allCookies = getCookies();
-  const toggles: { [key: string]: string }[] = [];
+  const toggles = Object.entries(getCookies())
+    .map(([k, v]) => {
+      const isToggleCookie = k.match(/toggle_/);
 
-  for (const cookie in allCookies) {
-    const isToggleCookie = cookie.match(/toggle_/);
-
-    if (isToggleCookie) {
-      toggles.push({ [cookie]: allCookies[cookie] || 'false' });
-    }
-  }
+      return isToggleCookie && { [k]: v === 'true' };
+    })
+    .filter(Boolean);
 
   const sessionId = getSessionId();
   const session: Session = {
