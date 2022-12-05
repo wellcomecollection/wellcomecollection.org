@@ -50,7 +50,6 @@ Digital Platform:
  Alex Chan
  Harrison Pim
  Paul Butcher
- Mel Rogan
  Raphaëlle Cantin
  Adilson Mendes Bacelar
 
@@ -61,6 +60,7 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Mel Rogan
  Gareth Ormerod
  Paul Horn
  Effie Webb
