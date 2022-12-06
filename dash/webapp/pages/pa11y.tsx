@@ -2,6 +2,7 @@ import React, { useState, useEffect, FunctionComponent } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import Header from '../components/Header';
+import Issue from './components/Issue';
 
 const fontFamily = 'Gadget, sans-serif';
 const Pre = styled.pre`
@@ -16,40 +17,6 @@ const Pre = styled.pre`
 
   margin: 6px 0;
   padding: 6px;
-`;
-const Issue = styled.div<{ type: string }>`
-  padding: 12px;
-  margin: 12px 0px;
-  ${props =>
-    props.type === 'error'
-      ? `
-      border: 1px solid rgba(224, 27, 47, 1);
-      background: rgba(224, 27, 47, 0.25);
-    `
-      : ''}
-  ${props =>
-    props.type === 'warning'
-      ? `
-      border: 1px solid rgba(232, 117, 0, 1);
-      background: rgba(232, 117, 0, 0.25);
-    `
-      : ''}
-  ${props =>
-    props.type === 'notice'
-      ? `
-      border: 1px solid rgba(92, 184, 191, 1);
-      background: rgba(92, 184, 191, 0.25);
-    `
-      : ''}
-
-  // This is the validation green from the global palette
-  ${props =>
-    props.type === 'success'
-      ? `
-          border: 1px solid rgba(11, 112, 81, 1);
-          background: rgba(11, 112, 81, 0.1);
-        `
-      : ''}
 `;
 
 const OriginalPageLink = styled.a`
