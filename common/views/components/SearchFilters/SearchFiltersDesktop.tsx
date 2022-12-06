@@ -304,7 +304,12 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     <>
       <Wrapper isNewStyle={isNewStyle} id="testing" ref={wrapperRef}>
         <Space
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          h={{
+            size: 'm',
+            properties: !!isNewStyle
+              ? ['padding-right']
+              : ['padding-left', 'padding-right'],
+          }}
           className="flex flex--h-space-between flex--v-center full-width flex--wrap"
         >
           <Space
