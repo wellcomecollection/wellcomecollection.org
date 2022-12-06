@@ -32,7 +32,7 @@ const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
         },
         {
           id: 'imageViewer',
-          url: itemUrl, // TODO typing to also accept an object
+          url: itemUrl,
           name: 'Image viewer',
           icon: eye,
         },
