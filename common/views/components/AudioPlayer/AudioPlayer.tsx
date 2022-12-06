@@ -192,6 +192,26 @@ type VolumeProps = {
 const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id }) => {
   const [volume, setVolume] = useState(audioPlayer.volume);
   const [isMuted, setIsMuted] = useState(audioPlayer.muted);
+  const [showVolume, setShowVolume] = useState(false);
+
+  // iOS doesn't allow for programmatic volume control changes. Rather than
+  // sniffing for iOS, we can check if a volumechange event is fired and decide
+  // whether to show the volume controls accordingly
+  useEffect(() => {
+    function handleVolumeChange() {
+      if (audioPlayer.muted) return; // Muting _does_ work on iOS and also triggers a volumechange event
+      setShowVolume(true);
+    }
+
+    audioPlayer.addEventListener('volumechange', handleVolumeChange, {
+      once: true,
+    });
+    audioPlayer.volume = 0.9;
+    audioPlayer.volume = 1;
+
+    return () =>
+      audioPlayer.removeEventListener('volumechange', handleVolumeChange);
+  }, []);
 
   useEffect(() => {
     audioPlayer.volume = volume;
@@ -227,21 +247,23 @@ const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id }) => {
           icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
         />
       </MuteUnmuteButton>
-      <div style={{ lineHeight: 0 }}>
-        <label htmlFor={`volume-${id}`}>
-          <span className="visually-hidden">volume control</span>
-        </label>
-        <input
-          aria-valuetext={`volume: ${formatVolume(volume)}`}
-          id={`volume-${id}`}
-          type="range"
-          min={0}
-          max={1}
-          step={0.01}
-          value={isMuted ? 0 : volume}
-          onChange={onChange}
-        />
-      </div>
+      {showVolume && (
+        <div style={{ lineHeight: 0 }}>
+          <label htmlFor={`volume-${id}`}>
+            <span className="visually-hidden">volume control</span>
+          </label>
+          <input
+            aria-valuetext={`volume: ${formatVolume(volume)}`}
+            id={`volume-${id}`}
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            value={isMuted ? 0 : volume}
+            onChange={onChange}
+          />
+        </div>
+      )}
     </VolumeWrapper>
   );
 };
