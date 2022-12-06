@@ -2,16 +2,15 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
 import Issue from '../components/Issue';
+import { getPrismicLintingReport } from './prismic-linting';
 
 const fontFamily = 'Gadget, sans-serif';
 
 const IndexPage: FunctionComponent = () => {
-  const [prismicLintResults, setResultsList] = useState(null);
+  const [prismicLintResults, setPrismicLintResults] = useState(null);
 
   useEffect(() => {
-    fetch('https://dash.wellcomecollection.org/prismic-linting/report.json')
-      .then(resp => resp.json())
-      .then(json => setResultsList(json));
+    getPrismicLintingReport().then(json => setPrismicLintResults(json));
   }, []);
 
   return (
@@ -112,13 +111,14 @@ const IndexPage: FunctionComponent = () => {
 
           <table>
             <tr>
-              <td>
+              <td style={{ paddingRight: '1em' }}>
                 {prismicLintResults && prismicLintResults.totalErrors === 0 && (
                   <Issue type="success">0 issues</Issue>
                 )}
                 {prismicLintResults && prismicLintResults.totalErrors > 0 && (
                   <Issue type="error">
-                    {prismicLintResults.totalErrors} issues
+                    {prismicLintResults.totalErrors} issue
+                    {prismicLintResults.totalErrors > 1 ? 's' : ''}
                   </Issue>
                 )}
               </td>

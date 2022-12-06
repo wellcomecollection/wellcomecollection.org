@@ -6,13 +6,18 @@ import { getHumanFriendlyDateString } from '../utils/formatting';
 
 const fontFamily = 'Gadget, sans-serif';
 
+export function getPrismicLintingReport(): Promise<any> {
+  const reportUrl =
+    'https://dash.wellcomecollection.org/prismic-linting/report.json';
+
+  return fetch(reportUrl).then(resp => resp.json());
+}
+
 const Index: FunctionComponent = () => {
   const [resultsList, setResultsList] = useState(null);
 
   useEffect(() => {
-    fetch('https://dash.wellcomecollection.org/prismic-linting/report.json?t=1')
-      .then(resp => resp.json())
-      .then(json => setResultsList(json));
+    getPrismicLintingReport().then(json => setResultsList(json));
   }, []);
 
   return (
@@ -52,7 +57,15 @@ const Index: FunctionComponent = () => {
                     href={`https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${e.id}`}
                   >
                     <h3>
-                      {e.title[0].text} ({e.type} {e.id})
+                      {e.title && e.title.length > 0 ? (
+                        <>
+                          {e.title[0].text} ({e.type} {e.id})
+                        </>
+                      ) : (
+                        <>
+                          {e.type} {e.id}
+                        </>
+                      )}
                     </h3>
                   </a>
                   <ul>
