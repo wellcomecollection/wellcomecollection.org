@@ -19,7 +19,7 @@ import PlainList from '../styled/PlainList';
 import NumberInput from '../NumberInput/NumberInput';
 import { dateRegex } from '../SearchFilters/SearchFiltersDesktop';
 import { useControlledState } from '@weco/common/utils/useControlledState';
-import dynamic from 'next/dynamic';
+import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -185,10 +185,6 @@ const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
     </fieldset>
   );
 };
-
-const PaletteColorPicker = dynamic(
-  import('../PaletteColorPicker/PaletteColorPicker')
-);
 
 type ColorFilterProps = {
   f: ColorFilterType;
