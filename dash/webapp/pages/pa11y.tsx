@@ -2,7 +2,7 @@ import React, { useState, useEffect, FunctionComponent } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import Header from '../components/Header';
-import Issue from './components/Issue';
+import Issue from '../components/Issue';
 
 const fontFamily = 'Gadget, sans-serif';
 const Pre = styled.pre`
