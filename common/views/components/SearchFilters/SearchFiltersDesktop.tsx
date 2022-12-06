@@ -309,7 +309,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         >
           <Space
             v={{ size: 'm', properties: ['margin-bottom'] }}
-            className={'flex flex--v-center flex--no-wrap'}
+            className={`flex flex--v-center flex--${
+              componentMounted ? 'no-' : ''
+            }wrap`}
           >
             {newStyle && (
               <>
