@@ -30,7 +30,7 @@ type ModalMoreFiltersProps = {
   changeHandler: () => void;
   filters: Filter[];
   form?: string;
-  newStyle?: boolean;
+  isNewStyle?: boolean;
 };
 
 type MoreFiltersProps = {
@@ -41,7 +41,7 @@ type MoreFiltersProps = {
 
 const ModalInner = styled(Space).attrs(props => ({
   v: { size: 'l', properties: ['padding-bottom'] },
-}))<{ newStyle?: boolean }>`
+}))<{ isNewStyle?: boolean }>`
   display: flex;
   flex-direction: column;
   min-width: 320px;
@@ -51,7 +51,7 @@ const ModalInner = styled(Space).attrs(props => ({
     top: 10px;
   `}
   position: relative;
-  top: ${props => (props.newStyle ? '0' : '15px')};
+  top: ${props => (props.isNewStyle ? '0' : '15px')};
   overflow-y: auto;
   max-height: 80vh;
 `;
@@ -75,13 +75,13 @@ const List = styled(PlainList)`
 const FiltersFooter = styled(Space).attrs(props => ({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-}))<{ newStyle?: boolean }>`
+}))<{ isNewStyle?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: ${props => props.theme.color('white')};
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  position: ${props => (props.newStyle ? 'relative' : 'fixed')};
+  position: ${props => (props.isNewStyle ? 'relative' : 'fixed')};
   bottom: 0;
   left: 0;
   right: 0;
@@ -91,8 +91,8 @@ const FiltersFooter = styled(Space).attrs(props => ({
 const FiltersHeader = styled(Space).attrs(props => ({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-}))<{ newStyle?: boolean }>`
-  position: ${props => (props.newStyle ? 'relative' : 'absolute')};
+}))<{ isNewStyle?: boolean }>`
+  position: ${props => (props.isNewStyle ? 'relative' : 'absolute')};
   background-color: ${props => props.theme.color('white')};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   text-align: center;
@@ -139,7 +139,7 @@ type DateRangeFilterProps = {
   f: DateRangeFilterType;
   changeHandler: () => void;
   form?: string;
-  newStyle?: boolean;
+  isNewStyle?: boolean;
 };
 
 const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
@@ -194,7 +194,7 @@ type ColorFilterProps = {
   f: ColorFilterType;
   changeHandler: () => void;
   form?: string;
-  newStyle?: boolean;
+  isNewStyle?: boolean;
 };
 const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
   return (
@@ -278,7 +278,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   changeHandler,
   filters,
   form,
-  newStyle,
+  isNewStyle,
 }: ModalMoreFiltersProps) => {
   const { isEnhanced } = useContext(AppContext);
 
@@ -298,13 +298,13 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         isActive={isActive}
         setIsActive={setIsActive}
         openButtonRef={openMoreFiltersButtonRef}
-        modalStyle={newStyle ? 'filters-new' : 'filters'}
+        modalStyle={isNewStyle ? 'filters-new' : 'filters'}
       >
-        <FiltersHeader newStyle={newStyle}>
-          <h3 className="h3">{newStyle ? 'All Filters' : 'More filters'}</h3>
+        <FiltersHeader isNewStyle={isNewStyle}>
+          <h3 className="h3">{isNewStyle ? 'All Filters' : 'More filters'}</h3>
         </FiltersHeader>
 
-        <ModalInner newStyle={newStyle}>
+        <ModalInner isNewStyle={isNewStyle}>
           {isEnhanced && (
             <MoreFilters
               changeHandler={changeHandler}
@@ -313,7 +313,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
             />
           )}
         </ModalInner>
-        <FiltersFooter newStyle={newStyle}>
+        <FiltersFooter isNewStyle={isNewStyle}>
           <NextLink
             passHref
             {...worksLink(

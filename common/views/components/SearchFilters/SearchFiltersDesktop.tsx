@@ -37,7 +37,7 @@ type CheckboxFilterProps = {
   f: CheckboxFilterType;
   changeHandler: () => void;
   form?: string;
-  newStyle?: boolean;
+  isNewStyle?: boolean;
 };
 
 const Wrapper = styled(Space).attrs({
@@ -45,21 +45,21 @@ const Wrapper = styled(Space).attrs({
     size: 'm',
     properties: ['padding-top'],
   },
-})<{ newStyle?: boolean }>`
+})<{ isNewStyle?: boolean }>`
   display: flex;
   background-color: ${props =>
-    props.newStyle ? 'unset' : props.theme.color('warmNeutral.400')};
+    props.isNewStyle ? 'unset' : props.theme.color('warmNeutral.400')};
 `;
 
 const CheckboxFilter = ({
   f,
   changeHandler,
   form,
-  newStyle,
+  isNewStyle,
 }: CheckboxFilterProps) => {
   return (
     <DropdownButton
-      isPill={newStyle}
+      isPill={isNewStyle}
       label={f.label}
       buttonType="inline"
       id={f.id}
@@ -94,14 +94,14 @@ type DateRangeFilterProps = {
   f: DateRangeFilterType;
   changeHandler: () => void;
   form?: string;
-  newStyle?: boolean;
+  isNewStyle?: boolean;
 };
 
 const DateRangeFilter = ({
   f,
   changeHandler,
   form,
-  newStyle,
+  isNewStyle,
 }: DateRangeFilterProps) => {
   const [from, setFrom] = useControlledState(f.from.value);
   const [to, setTo] = useControlledState(f.to.value);
@@ -109,7 +109,7 @@ const DateRangeFilter = ({
   return (
     <Space className={font('intr', 5)}>
       <DropdownButton
-        isPill={newStyle}
+        isPill={isNewStyle}
         label={f.label}
         buttonType="inline"
         id={f.id}
@@ -159,17 +159,17 @@ type ColorFilterProps = {
   f: ColorFilterType;
   changeHandler: () => void;
   form?: string;
-  newStyle?: boolean;
+  isNewStyle?: boolean;
 };
 const ColorFilter = ({
   f,
   changeHandler,
   form,
-  newStyle,
+  isNewStyle,
 }: ColorFilterProps) => {
   return (
     <DropdownButton
-      isPill={newStyle}
+      isPill={isNewStyle}
       label="Colours"
       buttonType="inline"
       id="images.color"
@@ -193,7 +193,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   linkResolver,
   activeFiltersCount,
   searchFormId,
-  newStyle,
+  isNewStyle,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
@@ -210,7 +210,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     }
   };
   useEffect(() => {
-    if (newStyle) {
+    if (isNewStyle) {
       updateWrapperWidth();
       window.addEventListener('resize', updateWrapperWidth);
       return () => window.removeEventListener('resize', updateWrapperWidth);
@@ -230,7 +230,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         h={
           i + 1 !== arr.length
             ? {
-                size: newStyle ? 'm' : 's',
+                size: isNewStyle ? 'm' : 's',
                 properties: ['margin-right'],
               }
             : undefined
@@ -241,7 +241,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             f={f}
             changeHandler={changeHandler}
             form={searchFormId}
-            newStyle={newStyle}
+            isNewStyle={isNewStyle}
           />
         )}
 
@@ -250,7 +250,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             f={f}
             changeHandler={changeHandler}
             form={searchFormId}
-            newStyle={newStyle}
+            isNewStyle={isNewStyle}
           />
         )}
 
@@ -259,7 +259,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             f={f}
             changeHandler={changeHandler}
             form={searchFormId}
-            newStyle={newStyle}
+            isNewStyle={isNewStyle}
           />
         )}
       </Space>
@@ -270,7 +270,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
   const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
   useLayoutEffect(() => {
-    if (newStyle) {
+    if (isNewStyle) {
       const arrOfDropdownButtonNodes = document.querySelectorAll(
         `.${filterClassname}`
       );
@@ -302,7 +302,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
   return (
     <>
-      <Wrapper newStyle={newStyle} id="testing" ref={wrapperRef}>
+      <Wrapper isNewStyle={isNewStyle} id="testing" ref={wrapperRef}>
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           className="flex flex--h-space-between flex--v-center full-width flex--wrap"
@@ -313,7 +313,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               componentMounted ? 'no-' : ''
             }wrap`}
           >
-            {newStyle && (
+            {isNewStyle && (
               <>
                 {hasCalculatedFilters
                   ? dynamicFiltersCalculated
@@ -351,12 +351,12 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   changeHandler={changeHandler}
                   filters={filters}
                   form={searchFormId}
-                  newStyle
+                  isNewStyle
                 />
               </>
             )}
 
-            {!newStyle && (
+            {!isNewStyle && (
               <>
                 <Space
                   as="span"
@@ -378,7 +378,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       h={
                         i + 1 !== arr.length
                           ? {
-                              size: newStyle ? 'm' : 's',
+                              size: isNewStyle ? 'm' : 's',
                               properties: ['margin-right'],
                             }
                           : undefined
@@ -389,7 +389,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                           f={f}
                           changeHandler={changeHandler}
                           form={searchFormId}
-                          newStyle={newStyle}
+                          isNewStyle={isNewStyle}
                         />
                       )}
 
@@ -398,7 +398,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                           f={f}
                           changeHandler={changeHandler}
                           form={searchFormId}
-                          newStyle={newStyle}
+                          isNewStyle={isNewStyle}
                         />
                       )}
 
@@ -407,7 +407,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                           f={f}
                           changeHandler={changeHandler}
                           form={searchFormId}
-                          newStyle={newStyle}
+                          isNewStyle={isNewStyle}
                         />
                       )}
                     </Space>
@@ -418,7 +418,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   <Space
                     className={font('intr', 5)}
                     h={{
-                      size: newStyle ? 'm' : 's',
+                      size: isNewStyle ? 'm' : 's',
                       properties: ['margin-left'],
                     }}
                   >
