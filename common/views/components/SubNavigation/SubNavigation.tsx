@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { IconSvg } from '../../../icons';
+import Link, { LinkProps } from 'next/link';
 import {
   Wrapper,
   TabsContainer,
@@ -7,9 +7,9 @@ import {
   NavItemInner,
 } from './SubNavigation.styles';
 import Divider from '../Divider/Divider';
-import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
-import Link from 'next/link';
+import Icon from '../Icon/Icon';
+import { IconSvg } from '../../../icons';
 import styled from 'styled-components';
 
 const IconWrapper = styled.span`
@@ -21,7 +21,7 @@ const IconWrapper = styled.span`
 type SelectableTextLink = {
   name: string;
   id: string;
-  url: string;
+  url: string | LinkProps;
   icon?: IconSvg;
 };
 
@@ -51,7 +51,7 @@ const SubNavigation: FunctionComponent<Props> = ({
                 scroll={false}
                 passHref
                 href={typeof item.url === 'string' ? item.url : item.url.href}
-                as={item.url.as}
+                as={typeof item.url === 'string' ? undefined : item.url.as}
               >
                 <NavItemInner
                   variant={variant}
