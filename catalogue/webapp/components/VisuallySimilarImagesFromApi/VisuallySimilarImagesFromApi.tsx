@@ -8,6 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
 import IIIFImage from '@weco/catalogue/components/IIIFImage/IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
+import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 
 type Props = {
   originalId: string;
@@ -95,7 +96,23 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
 
       <Wrapper>
         {similarImages.map(related => (
-          <a key={related.id} onClick={() => onClickImage(related)} href="#">
+          <a
+            key={related.id}
+            onClick={() => {
+              onClickImage(related);
+
+              trackSegmentEvent({
+                name: 'Click visually similar image',
+                eventGroup: 'similarity',
+                properties: {
+                  sourceImageId: originalId,
+                  imageId: related?.id,
+                  siblingImageIds: similarImages.map(s => s.id),
+                },
+              });
+            }}
+            href="#"
+          >
             <IIIFImage
               layout="raw"
               image={{

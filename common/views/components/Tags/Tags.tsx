@@ -1,5 +1,6 @@
 import { font } from '../../../utils/classnames';
 import NextLink from 'next/link';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '../styled/Space';
 import { SolidButton } from '../ButtonSolid/ButtonSolid';
 import { FunctionComponent, ReactElement } from 'react';
@@ -47,7 +48,7 @@ const Tags: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   return (
     <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
-      <ul className="plain-list no-margin no-padding">
+      <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
         {tags.map(({ textParts, linkAttributes }, i) => {
           return (
@@ -90,7 +91,7 @@ const Tags: FunctionComponent<Props> = ({
             </Space>
           );
         })}
-      </ul>
+      </PlainList>
     </Space>
   );
 };

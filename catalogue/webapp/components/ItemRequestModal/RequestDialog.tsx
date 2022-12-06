@@ -1,7 +1,7 @@
 import { FunctionComponent, FormEvent, useState } from 'react';
 import { useAvailableDates } from './useAvailableDates';
 import { isRequestableDate } from '../../utils/dates';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { allowedRequests } from '@weco/common/values/requests';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -89,7 +89,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         excludedDays: availableDates.closedDays,
       })
     ) {
-      trackEvent({
+      trackGaEvent({
         category: 'requesting',
         action: 'confirm_request',
         label: `/works/${work.id}`,

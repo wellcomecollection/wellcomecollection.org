@@ -1,10 +1,10 @@
-import { trackEvent as trackGaEvent, GaEvent } from '@weco/common/utils/ga';
+import { trackGaEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, ReactNode } from 'react';
-import { trackEvent } from '@weco/common/services/conversion/track';
+import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { download } from '@weco/common/icons';
 
 const DownloadLinkStyle = styled.a.attrs({
@@ -91,7 +91,10 @@ const DownloadLink: FunctionComponent<Props> = ({
       rel="noopener noreferrer"
       href={href}
       onClick={() => {
-        trackEvent('download', { width, mimeType, tags: trackingTags });
+        trackSegmentEvent({
+          name: 'download',
+          properties: { width, mimeType, tags: trackingTags },
+        });
         trackingEvent && trackGaEvent(trackingEvent);
       }}
     >

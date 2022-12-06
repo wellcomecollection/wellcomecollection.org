@@ -110,7 +110,7 @@ const Stops: FunctionComponent<Props> = ({ stops, type }) => {
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
-                {type === 'bsl' && bsl.embedUrl && (
+                {type === 'bsl' && bsl && (
                   <VideoPlayer
                     title={stopTitle}
                     titleProps={titleProps}

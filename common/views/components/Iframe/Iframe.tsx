@@ -1,5 +1,5 @@
 import { Component, Fragment, createRef, ReactElement } from 'react';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import PrismicImage from '../PrismicImage/PrismicImage';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -13,6 +13,7 @@ export const IframeContainer = styled.div.attrs({
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
   position: relative;
+  overflow: hidden;
 
   .overlay {
     position: absolute;
@@ -97,7 +98,7 @@ class Iframe extends Component<Props, State> {
 
   toggleIframeDisplay = (): void => {
     if (!this.state.iframeShowing) {
-      trackEvent({
+      trackGaEvent({
         category: 'Iframe',
         action: 'launch iframe',
         label: this.props.src,

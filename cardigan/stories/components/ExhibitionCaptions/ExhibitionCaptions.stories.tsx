@@ -7,21 +7,25 @@ basic.args = {
   stops: [
     {
       number: 6,
-      title: 'Stockport Spider-Man',
       image: image(),
-      tombstone: text(),
-      caption: text(),
-      transcription: text(),
-      context: [],
-      standaloneTitle: [],
+      captionsOrTranscripts: {
+        title: 'Stockport Spider-Man',
+        standaloneTitle: '',
+        tombstone: text(),
+        caption: text(),
+        transcription: text(),
+        context: undefined,
+      },
     },
     {
       number: 7,
-      title: 'Sagacity: The Periodic Table of Emotions',
-      tombstone: text(),
-      caption: text(),
-      context: [],
-      standaloneTitle: [],
+      captionsOrTranscripts: {
+        title: 'Sagacity: The Periodic Table of Emotions',
+        standaloneTitle: '',
+        tombstone: text(),
+        caption: text(),
+        context: undefined,
+      },
     },
   ],
 };

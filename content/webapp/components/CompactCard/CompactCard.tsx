@@ -4,7 +4,7 @@ import {
   ReactElement,
   ReactNode,
 } from 'react';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
@@ -82,7 +82,7 @@ const CompactCard: FunctionComponent<Props> = ({
       OverrideTextWrapper={OverrideTextWrapper}
       OverrideTitleWrapper={OverrideTitleWrapper}
       onClick={(): void => {
-        trackEvent({
+        trackGaEvent({
           category: 'CompactCard',
           action: 'follow link',
           label: title,

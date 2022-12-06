@@ -24,10 +24,7 @@ const langCode = 'eng';
 const pageSize = 4;
 const pageIndex = 2;
 const canvasIndex = 8;
-const transformedManifest = transformManifest({
-  manifestV2: manifest,
-  manifestV3: undefined,
-});
+const transformedManifest = transformManifest(manifest);
 const { canvases } = transformedManifest;
 const currentCanvas = canvases[canvasIndex];
 const sharedPaginatorProps = {

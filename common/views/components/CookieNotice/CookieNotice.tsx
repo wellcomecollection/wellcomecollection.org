@@ -7,7 +7,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { clear, cookies as cookiesIcon } from '@weco/common/icons';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { addDays, today } from '../../../utils/dates';
 
 const CookieNoticeStyle = styled.div.attrs({
@@ -45,7 +45,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
       expires: addDays(today(), 30),
     });
 
-    trackEvent({
+    trackGaEvent({
       category: 'CookieNotice',
       action: 'click close cookie notice button',
       label: source,

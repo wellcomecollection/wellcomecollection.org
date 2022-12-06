@@ -99,7 +99,11 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   useOnPageLoad(url => ReactGA.pageview(url));
   useOnPageLoad(() => {
     if (pageProps.pageview) {
-      trackPageview(pageProps.pageview.name, pageProps.pageview.properties);
+      trackPageview({
+        name: pageProps.pageview.name,
+        properties: pageProps.pageview.properties,
+        eventGroup: pageProps.pageview.eventGroup,
+      });
     }
   });
 

@@ -117,7 +117,7 @@ export type PhysicalItemAugmented = {
 };
 
 export function getHoldings(work: Work): Holding[] {
-  return work?.holdings || [];
+  return work.holdings || [];
 }
 
 export function getItemsWithPhysicalLocation(
@@ -139,7 +139,7 @@ export function getItemsByLocationType(
   locationTypeId: string
 ): Item<PhysicalLocation | DigitalLocation>[] {
   return (work.items || []).filter(i =>
-    i?.locations.find(l => l.locationType.id === locationTypeId)
+    i.locations.find(l => l.locationType.id === locationTypeId)
   );
 }
 
@@ -160,38 +160,28 @@ export function getDigitalLocationOfType(
 }
 
 export function getAccessConditionForDigitalLocation(
-  digitalLocation?: DigitalLocation
+  digitalLocation: DigitalLocation
 ): string | undefined {
-  if (digitalLocation) {
-    const accessConditions = digitalLocation?.accessConditions || [];
-    const accessCondition = accessConditions.find(
-      condition => condition.status
-    );
-    return accessCondition?.status?.id;
-  }
+  const accessCondition = digitalLocation.accessConditions.find(
+    condition => condition.status
+  );
+  return accessCondition?.status?.id;
 }
 
 function itemIdentifierWithId(
   item: Item<PhysicalLocation | DigitalLocation>,
   id: string
 ): boolean {
-  const matchedIdentifiers =
-    item.identifiers?.filter(
-      identifier => identifier && identifier.identifierType.id === id
-    ) ?? [];
-
-  return matchedIdentifiers.length >= 1;
+  return (item.identifiers || []).some(
+    identifier => identifier.identifierType.id === id
+  );
 }
 
 function itemLocationWithType(
   item: Item<PhysicalLocation | DigitalLocation>,
   locationType: string
 ): boolean {
-  const matchedIdentifiers = item.locations.filter(
-    location => location.type === locationType
-  );
-
-  return matchedIdentifiers.length >= 1;
+  return item.locations.some(location => location.type === locationType);
 }
 
 type ItemProps = {
@@ -269,7 +259,10 @@ export const getCardLabels = (work: Work): Label[] => {
   }
 };
 
-function makeArchiveAncestorArray(partOfArray, nextPart) {
+function makeArchiveAncestorArray(
+  partOfArray: RelatedWork[],
+  nextPart: RelatedWork | undefined
+) {
   /*
   Recursively populate a list of ancestors (i.e. things that this object is "part of")
 
@@ -286,7 +279,7 @@ function makeArchiveAncestorArray(partOfArray, nextPart) {
   );
 }
 
-function hierarchicalParentOf(work) {
+function hierarchicalParentOf(work: RelatedWork): RelatedWork | undefined {
   /*
   Return the immediate parent of a Work within a strict single parent hierarchy.
 

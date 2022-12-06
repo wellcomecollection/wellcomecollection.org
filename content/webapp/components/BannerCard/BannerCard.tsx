@@ -1,6 +1,6 @@
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { FunctionComponent } from 'react';
 import { Season } from '../../types/seasons';
 import styled from 'styled-components';
@@ -129,7 +129,7 @@ const BannerCard: FunctionComponent<Props> = ({
       href={link}
       background={background}
       onClick={() => {
-        trackEvent({
+        trackGaEvent({
           category: 'BannerCard',
           action: 'follow link',
           label: `${title || ''}`,

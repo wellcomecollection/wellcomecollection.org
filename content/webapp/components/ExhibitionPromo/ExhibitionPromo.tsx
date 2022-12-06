@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -39,7 +39,7 @@ const ExhibitionPromo: FunctionComponent<Props> = ({
       id={exhibition.id}
       href={url}
       onClick={() => {
-        trackEvent({
+        trackGaEvent({
           category: 'ExhibitionPromo',
           action: 'follow link',
           label: `${exhibition.id} | position: ${position}`,

@@ -28,7 +28,7 @@ import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ExplanatoryText from './ExplanatoryText';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
@@ -296,7 +296,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection headingText="Available online">
           <ConditionalWrapper
-            condition={Boolean(tokenService)}
+            condition={Boolean(tokenService && itemLinkState !== 'useItemLink')}
             wrapper={children =>
               itemUrl && (
                 <IIIFClickthrough
@@ -372,7 +372,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                           <NextLink href={itemUrl.href} as={itemUrl.as}>
                             <a
                               onClick={() =>
-                                trackEvent({
+                                trackGaEvent({
                                   category: 'WorkDetails',
                                   action: 'follow image link',
                                   label: work.id,

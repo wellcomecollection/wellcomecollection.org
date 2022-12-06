@@ -7,6 +7,7 @@ import React, {
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
 import { useControlledState } from '../../../utils/useControlledState';
+import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
@@ -51,7 +52,7 @@ const Wrapper = styled(Space).attrs({
 const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <DropdownButton label={f.label} buttonType="inline" id={f.id}>
-      <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
+      <PlainList className={font('intr', 5)}>
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
             <li key={`${f.id}-${id}`}>
@@ -68,7 +69,7 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
             </li>
           );
         })}
-      </ul>
+      </PlainList>
     </DropdownButton>
   );
 };

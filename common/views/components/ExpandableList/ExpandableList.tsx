@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const ShowHideButton = styled.button.attrs({
   className: `plain-button ${font('intr', 5)}`,
@@ -50,7 +51,7 @@ const ExpandableList: FunctionComponent<Props> = ({
 
   return listItems.length > 0 ? (
     <>
-      <ul className="plain-list no-margin no-padding">
+      <PlainList>
         {firstListItems.map(
           (
             item,
@@ -71,7 +72,7 @@ const ExpandableList: FunctionComponent<Props> = ({
             ))}
           </>
         )}
-      </ul>
+      </PlainList>
       {remainingListItems.length > 0 && (
         <ShowHideButton
           ref={showHideItemsRef}

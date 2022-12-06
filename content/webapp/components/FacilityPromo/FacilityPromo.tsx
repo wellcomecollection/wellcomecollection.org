@@ -1,5 +1,5 @@
 import { font } from '@weco/common/utils/classnames';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -30,7 +30,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
     <CardOuter
       data-component="FacilityPromo"
       onClick={() => {
-        trackEvent({
+        trackGaEvent({
           category: 'FacilityPromo',
           action: 'follow link',
           label: title,

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import IIIFViewerImage from './IIIFViewerImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import Space from '@weco/common/views/components/styled/Space';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import Paginator, {
@@ -105,7 +105,7 @@ export const PaginatorButtons = (
                 text="Previous page"
                 tabIndex={isTabbable ? 0 : -1}
                 clickHandler={() => {
-                  trackEvent({
+                  trackGaEvent({
                     category: 'Control',
                     action: 'clicked work viewer previous page link',
                     label: `${workId} | page: ${currentPage}`,
@@ -127,7 +127,7 @@ export const PaginatorButtons = (
                 text="Next page"
                 tabIndex={isTabbable ? 0 : -1}
                 clickHandler={() => {
-                  trackEvent({
+                  trackGaEvent({
                     category: 'Control',
                     action: 'clicked work viewer next page link',
                     label: `${workId} | page: ${currentPage}`,

@@ -1,11 +1,13 @@
-import { groupStructures } from '../../utils/iiif/v2';
 import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import { getEnFromInternationalString } from '../../utils/iiif/v3';
+import {
+  getEnFromInternationalString,
+  groupStructures,
+} from '../../utils/iiif/v3';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -21,7 +23,6 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   } = useContext(ItemViewerContext);
   const { structures, canvases } = transformedManifest;
   const groupedStructures = groupStructures(canvases, structures);
-  console.log({ activeIndex });
   const List = styled.ul`
     list-style: none;
     margin: 0 !important;

@@ -11,7 +11,7 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '../TextInput/TextInput';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import { trackEvent } from '../../../utils/ga';
+import { trackGaEvent } from '../../../utils/ga';
 import SearchFilters from '../SearchFilters/SearchFilters';
 import Select from '../Select/Select';
 import Space from '../styled/Space';
@@ -166,7 +166,7 @@ const SearchForm = forwardRef(
         onSubmit={event => {
           event.preventDefault();
 
-          trackEvent({
+          trackGaEvent({
             category: 'SearchForm',
             action: 'submit search',
             label: query,

@@ -1,8 +1,9 @@
 import { MultiContent } from '../../types/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { trackEvent } from '@weco/common/utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import CompactCard from '../CompactCard/CompactCard';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { FunctionComponent } from 'react';
@@ -76,7 +77,7 @@ const Outro: FunctionComponent<Props> = ({
         Try these next
       </Space>
 
-      <ul className="no-margin no-padding plain-list">
+      <PlainList>
         {[researchItem, readItem, visitItem]
           .filter(isNotUndefined)
           .map((item, index, arr) => {
@@ -86,7 +87,7 @@ const Outro: FunctionComponent<Props> = ({
               <li
                 key={item.id}
                 onClick={() => {
-                  trackEvent({
+                  trackGaEvent({
                     category: 'Outro',
                     action: `follow ${type} link`,
                     label: item.id,
@@ -104,7 +105,7 @@ const Outro: FunctionComponent<Props> = ({
               </li>
             );
           })}
-      </ul>
+      </PlainList>
     </div>
   );
 };
