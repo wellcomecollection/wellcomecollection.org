@@ -36,6 +36,7 @@ const Header: FunctionComponent<Props> = ({ title }) => {
             margin: 0,
             padding: 0,
             marginLeft: '18px',
+            marginRight: '18px',
             color: '#323232',
             fontWeight: 'normal',
             lineHeight: '2.5em',

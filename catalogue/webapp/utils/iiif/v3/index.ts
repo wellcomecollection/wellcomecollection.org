@@ -248,7 +248,7 @@ function getThumbnailImage(canvas: Canvas):
 
 type BodyService = {
   '@type': string;
-  service: Service;
+  service: Service | Service[];
 };
 
 // Temporary types, as the provided AnnotationBody doesn't seem to be correct
@@ -273,6 +273,17 @@ function getImageServiceId(
   imageService: BodyService | undefined
 ): string | undefined {
   return imageService?.['@id'];
+}
+
+function getImageAuthCookieService(
+  imageService: BodyService | undefined
+): Service | undefined {
+  const imageCookieService = Array.isArray(imageService?.service)
+    ? imageService?.service?.find(s => s['@type'] === 'AuthCookieService1')
+    : imageService?.service?.['@type'] === 'AuthCookieService1'
+    ? imageService?.service
+    : undefined;
+  return imageCookieService;
 }
 
 // We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
@@ -391,7 +402,8 @@ const restrictedAuthServiceUrl =
 
 function isImageRestricted(canvas: Canvas): boolean {
   const imageService = getImageService(canvas);
-  if (imageService?.service?.['@id'] === restrictedAuthServiceUrl) {
+  const imageAuthCookieService = getImageAuthCookieService(imageService);
+  if (imageAuthCookieService?.['@id'] === restrictedAuthServiceUrl) {
     return true;
   } else {
     return false;
@@ -415,7 +427,6 @@ export function getTokenService(
     | undefined
 ): AuthAccessTokenService | undefined {
   if (!clickThroughService?.service) return;
-
   return Array.isArray(clickThroughService?.service)
     ? clickThroughService?.service.find(
         s => s?.profile === 'http://iiif.io/api/auth/1/token'
