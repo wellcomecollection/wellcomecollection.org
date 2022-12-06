@@ -32,6 +32,13 @@ import cookies from '@weco/common/data/cookies';
 import ExhibitionGuideStops from '../../../../components/ExhibitionGuideStops/ExhibitionGuideStops';
 import { getTypeColor } from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
 
+const ButtonWrapper = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-bottom'] },
+  h: { size: 's', properties: ['margin-right'] },
+})`
+  display: inline-block;
+`;
+
 const Header = styled(Space).attrs({
   v: {
     size: 'xl',
@@ -192,7 +199,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
                 <p>{exhibitionGuide.relatedExhibition.description}</p>
               )
             )}
-            <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+            <ButtonWrapper>
               <ButtonSolidLink
                 colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                 text="Change guide type"
@@ -201,7 +208,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
                   deleteCookie(cookies.exhibitionGuideType);
                 }}
               />
-            </Space>
+            </ButtonWrapper>
             <ButtonSolidLink
               colors={themeValues.buttonColors.charcoalWhiteCharcoal}
               text="Change exhibition"
