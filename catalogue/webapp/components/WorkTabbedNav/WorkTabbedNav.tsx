@@ -6,7 +6,7 @@ import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemL
 
 type Props = {
   work: Work;
-  selected:'catalogueDetails' | imageViewer';
+  selected: 'catalogueDetails' | 'imageViewer';
 };
 const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
   const itemUrl = itemLink({ workId: work.id }, 'work');
