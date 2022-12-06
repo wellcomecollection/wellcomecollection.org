@@ -138,7 +138,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
               );
           }}
           filters={filters}
-          newStyle
+          isNewStyle
         />
 
         {works && (

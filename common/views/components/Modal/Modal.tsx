@@ -34,7 +34,7 @@ type Props = {
   openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
-  modalStyle?: 'filters' | 'calendar' | 'default' | 'filters-new';
+  modalStyle?: 'filters' | 'calendar' | 'filters-new';
 };
 const Overlay = styled.div`
   z-index: 1000;
@@ -165,6 +165,7 @@ const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   padding-right: 0px;
 `;
 
+// TODO Is this still considered 'new'? rename otherwise
 const FiltersModalNew = styled(Space).attrs<BaseModalProps>({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   className: 'shadow',
@@ -256,7 +257,7 @@ const Modal: FunctionComponent<Props> = ({
   openButtonRef,
   removeCloseButton = false,
   showOverlay = true,
-  modalStyle = 'default',
+  modalStyle,
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
   const { isKeyboard } = useContext(AppContext);
