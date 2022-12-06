@@ -1,23 +1,22 @@
+import { FunctionComponent, ReactElement } from 'react';
+import styled from 'styled-components';
+import * as prismicT from '@prismicio/types';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Divider from '@weco/common/views/components/Divider/Divider';
-// import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { font } from '@weco/common/utils/classnames';
-import { ExhibitionBasic } from '../../types/exhibitions';
-import { EventBasic } from '../../types/events';
-import { ArticleBasic } from '../../types/articles';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { EventBasic } from '@weco/content/types/events';
+import { ArticleBasic } from '@weco/content/types/articles';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { FunctionComponent, ReactElement } from 'react';
-import CardGrid from '../CardGrid/CardGrid';
-import { BookBasic } from '../../types/books';
-import { Guide } from '../../types/guides';
-import * as prismicT from '@prismicio/types';
-import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
-import styled from 'styled-components';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import { BookBasic } from '@weco/content/types/books';
+import { Guide } from '@weco/content/types/guides';
+import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import { pluralize } from '@weco/common/utils/grammar';
 import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 
@@ -47,15 +46,6 @@ const PaginationWrapper = styled(Space).attrs({
   align-items: center;
   flex-wrap: wrap;
 `;
-
-// const TotalPagesCopy = styled(Space).attrs({
-//   v: { size: 'l', properties: ['padding-bottom'] },
-//   className: font('lr', 6),
-// })`
-//   display: flex;
-//   align-items: center;
-//   color: ${props => props.theme.color('neutral.600')};
-// `;
 
 const LayoutPaginatedResults: FunctionComponent<Props> = ({
   title,
@@ -116,10 +106,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
             <PaginationWrapper>
               <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
 
-              <SearchPagination
-                totalPages={paginatedResults.totalPages}
-                isHiddenMobile
-              />
+              <SearchPagination totalPages={paginatedResults.totalPages} />
             </PaginationWrapper>
           </div>
         </PaginationWrapper>

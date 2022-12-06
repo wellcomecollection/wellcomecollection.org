@@ -1,33 +1,33 @@
 import type { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { Period } from '../types/periods';
+import { Period } from '@weco/content/types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { exhibitionLd } from '../services/prismic/transformers/json-ld';
-import { getPage } from '../utils/query-params';
+import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { getPage } from '@weco/content/utils/query-params';
 import {
   pageDescriptions,
   pastExhibitionsStrapline,
 } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
-import { createClient } from '../services/prismic/fetch';
-import { ExhibitionBasic } from '../types/exhibitions';
+import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
-import CardGrid from '../components/CardGrid/CardGrid';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { isFuture } from '@weco/common/utils/dates';
-import styled from 'styled-components';
+import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -71,8 +71,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const PaginationWrapper = styled(Layout12)`
-  text-align: right;
+const PaginationWrapper = styled(Space).attrs({
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  className: 'container',
+})`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const ExhibitionsPage: FunctionComponent<Props> = props => {
@@ -162,17 +166,7 @@ const ExhibitionsPage: FunctionComponent<Props> = props => {
             />
             {exhibitions.totalPages > 1 && (
               <PaginationWrapper>
-                <Pagination
-                  paginatedResults={exhibitions}
-                  paginationRoot={{
-                    href: {
-                      pathname: paginationRoot,
-                    },
-                    as: {
-                      pathname: paginationRoot,
-                    },
-                  }}
-                />
+                <SearchPagination totalPages={exhibitions.totalPages} />
               </PaginationWrapper>
             )}
           </SpacingSection>
