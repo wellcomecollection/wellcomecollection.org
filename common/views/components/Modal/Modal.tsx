@@ -177,8 +177,35 @@ const FiltersModalNew = styled(Space).attrs<BaseModalProps>({
   right: 0;
   position: fixed;
   overflow: auto;
-  transition: opacity 350ms ease, transform 350ms ease;
   background-color: ${props => props.theme.color('white')};
+
+  &,
+  &.fade-exit-done {
+    z-index: -1;
+    pointer-events: none;
+  }
+  &.fade-enter,
+  &.fade-exit,
+  &.fade-enter-done {
+    z-index: 1001;
+    pointer-events: all;
+  }
+
+  &.fade-enter {
+    transform: translate(100%, 0);
+  }
+  &.fade-exit {
+    transform: translate(0, 0);
+  }
+
+  &.fade-exit-active {
+    transform: translate(100%, 0);
+    transition: transform 200ms ease;
+  }
+  &.fade-enter-active {
+    transform: translate(0, 0);
+    transition: transform 200ms ease;
+  }
 
   ${props =>
     props.theme.media('medium')(`
@@ -192,16 +219,6 @@ const FiltersModalNew = styled(Space).attrs<BaseModalProps>({
     };
     width: ${(props.maxWidth && '80%') || props.width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;
-
-    &,
-    &.fade-enter,
-    &.fade-exit-active,
-    &.fade-exit-done {
-    }
-    &.fade-enter-active,
-    &.fade-enter-done {
-      opacity: 1;
-    }
   `)}
 `;
 
@@ -245,6 +262,7 @@ const Modal: FunctionComponent<Props> = ({
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = determineModal(modalStyle);
   const initialLoad = useRef(true);
+  const nodeRef = useRef(null);
 
   useEffect(() => {
     if (isActive) {
@@ -294,12 +312,19 @@ const Modal: FunctionComponent<Props> = ({
             }}
           />
         )}
-        <CSSTransition in={isActive} classNames="fade" timeout={350}>
+        <CSSTransition
+          in={isActive}
+          classNames="fade"
+          timeout={350}
+          unmountOnExit
+          nodeRef={nodeRef}
+        >
           <ModalWindow
             width={width}
             maxWidth={maxWidth}
             id={id}
             hidden={!isActive}
+            ref={nodeRef}
           >
             {!removeCloseButton && (
               <CloseButton
