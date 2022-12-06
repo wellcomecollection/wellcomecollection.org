@@ -126,6 +126,7 @@ function trackSegmentEvent({
 
 function track(conversion: Conversion) {
   const debug = getCookie(cookies.analyticsDebug) === true;
+  // We're not in React land here, so we can't use `useToggles`
   const toggles = getActiveToggles(getCookies());
   const sessionId = getSessionId();
   const session: Session = {
