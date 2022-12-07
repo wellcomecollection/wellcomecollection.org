@@ -19,6 +19,7 @@ const articleSeries: CustomType = {
   json: {
     'Story series': {
       title,
+      format: documentLink('Format', { linkedType: 'article-formats' }),
       color: select('Colour', {
         options: [
           'accent.green',
