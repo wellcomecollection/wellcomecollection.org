@@ -68,11 +68,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
     const { res, req } = context;
 
-    if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
-      return { notFound: true };
-    }
-
-    if (!isValidType(type)) {
+    if (!looksLikePrismicId(id) || !isValidType(type)) {
       return { notFound: true };
     }
 

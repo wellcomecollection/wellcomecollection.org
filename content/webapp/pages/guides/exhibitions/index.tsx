@@ -31,10 +31,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const page = getPage(context.query);
 
-    if (!serverData.toggles.exhibitionGuides) {
-      return { notFound: true };
-    }
-
     if (typeof page !== 'number') {
       return appError(context, 400, page.message);
     }
