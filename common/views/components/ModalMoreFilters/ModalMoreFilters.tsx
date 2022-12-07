@@ -37,6 +37,7 @@ type MoreFiltersProps = {
   filters: Filter[];
   changeHandler: () => void;
   form?: string;
+  isNewStyle?: boolean;
 };
 
 const ModalInner = styled(Space).attrs(props => ({
@@ -207,28 +208,34 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   changeHandler,
   filters,
   form,
-}) => {
+  isNewStyle,
+}: MoreFiltersProps) => {
   return (
     <>
-      {filters
-        .filter(f => f.excludeFromMoreFilters)
-        .map(f => (
-          <div key={f.id} style={{ display: 'none' }}>
-            {f.type === 'checkbox' && (
-              <CheckboxFilter f={f} changeHandler={changeHandler} form={form} />
-            )}
-            {f.type === 'dateRange' && (
-              <DateRangeFilter
-                f={f}
-                changeHandler={changeHandler}
-                form={form}
-              />
-            )}
-            {f.type === 'color' && (
-              <ColorFilter f={f} changeHandler={changeHandler} form={form} />
-            )}
-          </div>
-        ))}
+      {!isNewStyle &&
+        filters
+          .filter(f => f.excludeFromMoreFilters)
+          .map(f => (
+            <div key={f.id} style={{ display: 'none' }}>
+              {f.type === 'checkbox' && (
+                <CheckboxFilter
+                  f={f}
+                  changeHandler={changeHandler}
+                  form={form}
+                />
+              )}
+              {f.type === 'dateRange' && (
+                <DateRangeFilter
+                  f={f}
+                  changeHandler={changeHandler}
+                  form={form}
+                />
+              )}
+              {f.type === 'color' && (
+                <ColorFilter f={f} changeHandler={changeHandler} form={form} />
+              )}
+            </div>
+          ))}
       {filters
         .filter(f => !f.excludeFromMoreFilters)
         .map(f => (
@@ -306,6 +313,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
               changeHandler={changeHandler}
               filters={filters}
               form={form}
+              isNewStyle={isNewStyle}
             />
           )}
         </ModalInner>

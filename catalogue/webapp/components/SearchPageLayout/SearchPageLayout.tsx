@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -14,6 +15,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import { removeEmptyProps } from '@weco/common/utils/json';
 import { getUrlQueryFromSortValue } from '@weco/catalogue/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
+import { propsToQuery } from '@weco/common/utils/routes';
 
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`
@@ -100,7 +102,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           ...basePageMetadata,
           description: 'copy pending',
           title: `${query ? `${query} | ` : ''}Catalogue Search`,
-          url: { pathname: '/search/collections', query: { query } || {} },
+          url: { pathname: '/search/works', query: { query } || {} },
         });
         break;
       // In development
@@ -125,6 +127,26 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         break;
     }
   }, [currentSearchCategory]);
+
+  const linkResolver = params => {
+    const queryWithSource = propsToQuery(params);
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+    const { source = undefined, ...queryWithoutSource } = {
+      ...queryWithSource,
+    };
+
+    const as = {
+      pathname: pageLayoutMetadata.url.pathname,
+      query: queryWithoutSource as ParsedUrlQuery,
+    };
+
+    const href = {
+      pathname: pageLayoutMetadata.url.pathname,
+      query: queryWithSource,
+    };
+
+    return { href, as };
+  };
 
   const updateUrl = (form: HTMLFormElement) => {
     const formValues = formDataAsUrlQuery(form);
@@ -161,10 +183,13 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
       const { sort, sortOrder } = getUrlQueryFromSortValue(sortOptionValue);
 
-      router.push({
-        pathname: router.pathname,
-        query: removeEmptyProps({ ...formValues, sortOrder, sort }),
+      const link = linkResolver({
+        ...formValues,
+        sortOrder,
+        sort,
       });
+
+      return router.push(link.href, link.as);
     } else {
       router.push({
         pathname: router.pathname,

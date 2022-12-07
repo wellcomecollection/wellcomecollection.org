@@ -198,7 +198,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
   const [componentMounted, setComponentMounted] = useState(false);
-  useEffect(() => setComponentMounted(true), []);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperWidth, setWrapperWidth] = useState<number>(0);
@@ -207,12 +206,16 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
       const { width, left } = wrapperRef.current.getBoundingClientRect();
       setHasCalculatedFilters(false);
       setWrapperWidth(left + width);
+    } else {
+      console.log('no wrapper ref...');
     }
   };
   useEffect(() => {
     if (isNewStyle) {
-      updateWrapperWidth();
+      console.log('hmmmmmmm');
+      setComponentMounted(true);
       window.addEventListener('resize', updateWrapperWidth);
+      updateWrapperWidth();
       return () => window.removeEventListener('resize', updateWrapperWidth);
     }
   }, []);
@@ -266,17 +269,20 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     );
   };
 
-  const dynamicFiltersSource = filters.map(renderDynamicFilter);
+  const dynamicFiltersSource = (
+    <>
+      dynamic
+      {filters.map(renderDynamicFilter)}
+    </>
+  );
 
   const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isNewStyle) {
       const arrOfDropdownButtonNodes = document.querySelectorAll(
         `.${filterClassname}`
       );
-
       let willAllFit = true;
-
       const dynamicFilterArray: Filter[] = [];
       SetShowFilterModalButton(false);
       for (let i = arrOfDropdownButtonNodes.length - 1; i >= 0; i--) {
@@ -320,32 +326,36 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           >
             {isNewStyle && (
               <>
-                {hasCalculatedFilters
-                  ? dynamicFiltersCalculated
-                  : dynamicFiltersSource}
-                {showFilterModalButton && (
-                  <Space
-                    h={{
-                      size: 'm',
-                      properties: ['padding-left', 'padding-right'],
-                    }}
-                  >
-                    <ButtonSolid
-                      colors={themeValues.buttonColors.marbleWhiteCharcoal}
-                      icon={filter}
-                      isIconAfter
-                      hoverUnderline={true}
-                      size="small"
-                      type={ButtonTypes.button}
-                      text="All Filters"
-                      clickHandler={event => {
-                        event.preventDefault();
-                        setShowMoreFiltersModal(true);
-                      }}
-                      ref={openMoreFiltersButtonRef}
-                      isPill
-                    />
-                  </Space>
+                {componentMounted && (
+                  <>
+                    {hasCalculatedFilters
+                      ? dynamicFiltersCalculated
+                      : dynamicFiltersSource}
+                    {showFilterModalButton && (
+                      <Space
+                        h={{
+                          size: 'm',
+                          properties: ['padding-left', 'padding-right'],
+                        }}
+                      >
+                        <ButtonSolid
+                          colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                          icon={filter}
+                          isIconAfter
+                          hoverUnderline={true}
+                          size="small"
+                          type={ButtonTypes.button}
+                          text="All Filters"
+                          clickHandler={event => {
+                            event.preventDefault();
+                            setShowMoreFiltersModal(true);
+                          }}
+                          ref={openMoreFiltersButtonRef}
+                          isPill
+                        />
+                      </Space>
+                    )}
+                  </>
                 )}
                 <ModalMoreFilters
                   query={query}
