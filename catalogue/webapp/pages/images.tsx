@@ -152,6 +152,7 @@ const Images: NextPage<Props> = ({
                   <span>{pluralize(images.totalResults, 'result')}</span>
                   <Pagination
                     totalPages={images.totalPages}
+                    ariaLabel="Image search pagination"
                     isLoading={isLoading}
                     isHiddenMobile
                   />
@@ -172,6 +173,7 @@ const Images: NextPage<Props> = ({
                     <span>{pluralize(images.totalResults, 'result')}</span>
                     <Pagination
                       totalPages={images.totalPages}
+                      ariaLabel="Image search pagination"
                       isLoading={isLoading}
                     />
                   </PaginationWrapper>

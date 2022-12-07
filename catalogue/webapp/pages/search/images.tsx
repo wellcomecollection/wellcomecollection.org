@@ -170,7 +170,11 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               <div className="container">
                 <PaginationWrapper>
                   <span>{pluralize(images.totalResults, 'result')}</span>
-                  <Pagination totalPages={images?.totalPages} darkBg />
+                  <Pagination
+                    totalPages={images?.totalPages}
+                    ariaLabel="Image search pagination"
+                    hasDarkBg
+                  />
                 </PaginationWrapper>
 
                 <main>
@@ -178,7 +182,11 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                 </main>
 
                 <BottomPaginationWrapper>
-                  <Pagination totalPages={images?.totalPages} darkBg />
+                  <Pagination
+                    totalPages={images?.totalPages}
+                    ariaLabel="Image search pagination"
+                    hasDarkBg
+                  />
                 </BottomPaginationWrapper>
               </div>
             </Wrapper>

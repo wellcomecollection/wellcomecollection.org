@@ -167,7 +167,10 @@ const ExhibitionsPage: FunctionComponent<Props> = props => {
             />
             {exhibitions.totalPages > 1 && (
               <PaginationWrapper>
-                <Pagination totalPages={exhibitions.totalPages} />
+                <Pagination
+                  totalPages={exhibitions.totalPages}
+                  ariaLabel="Exhibitions pagination"
+                />
               </PaginationWrapper>
             )}
           </SpacingSection>

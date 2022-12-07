@@ -7,6 +7,14 @@ import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { font } from '@weco/common/utils/classnames';
 
+type Props = {
+  totalPages: number;
+  ariaLabel: string;
+  hasDarkBg?: boolean;
+  isHiddenMobile?: boolean;
+  isLoading?: boolean;
+};
+
 const Container = styled.nav.attrs({ className: font('intr', 6) })<{
   isHiddenMobile?: boolean;
 }>`
@@ -23,7 +31,7 @@ const Container = styled.nav.attrs({ className: font('intr', 6) })<{
   `)}
 `;
 
-const ChevronWrapper = styled.button<{ prev?: boolean; darkBg?: boolean }>`
+const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -37,37 +45,38 @@ const ChevronWrapper = styled.button<{ prev?: boolean; darkBg?: boolean }>`
   &[disabled] {
     pointer-events: none;
     color: ${props =>
-      props.theme.color(props.darkBg ? 'neutral.300' : 'neutral.500')};
+      props.theme.color(props.hasDarkBg ? 'neutral.300' : 'neutral.500')};
     border-color: ${props =>
-      props.theme.color(props.darkBg ? 'neutral.300' : 'neutral.500')};
+      props.theme.color(props.hasDarkBg ? 'neutral.300' : 'neutral.500')};
   }
 
   ${props => `
-    color: ${props.theme.color(props.darkBg ? 'white' : 'black')};
+    color: ${props.theme.color(props.hasDarkBg ? 'white' : 'black')};
     border: 1px solid ${props.theme.color(
-      props.darkBg ? 'neutral.400' : 'neutral.600'
+      props.hasDarkBg ? 'neutral.400' : 'neutral.600'
     )};
     transform: rotate(${props.prev ? '90' : '270'}deg);
     ${props.prev && `margin: 0 1rem 0 0;`};
     background-color: ${
-      props.darkBg ? props.theme.color('white') : 'transparent'
+      props.hasDarkBg ? props.theme.color('white') : 'transparent'
     };
 
 
     &:hover, &:focus {
       background-color: ${props.theme.color(
-        props.darkBg ? 'neutral.600' : 'neutral.300'
+        props.hasDarkBg ? 'neutral.600' : 'neutral.300'
       )};
     }
   `}
 `;
 
-export const Pagination: FunctionComponent<{
-  totalPages: number;
-  darkBg?: boolean;
-  isHiddenMobile?: boolean;
-  isLoading?: boolean;
-}> = ({ totalPages, darkBg, isHiddenMobile, isLoading }) => {
+export const Pagination: FunctionComponent<Props> = ({
+  totalPages,
+  ariaLabel,
+  hasDarkBg,
+  isHiddenMobile,
+  isLoading,
+}) => {
   const { pathname, query } = useRouter();
   const [currentPage, setCurrentPage] = useState(Number(query.page) || 1);
 
@@ -79,14 +88,13 @@ export const Pagination: FunctionComponent<{
   const showNext = currentPage < totalPages;
 
   return (
-    // TODO pass aria-label as a prop instead
-    <Container aria-label="Search pagination" isHiddenMobile={isHiddenMobile}>
+    <Container aria-label={ariaLabel} isHiddenMobile={isHiddenMobile}>
       {showPrev && (
         <Link
           passHref
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
         >
-          <ChevronWrapper darkBg={darkBg} prev disabled={isLoading}>
+          <ChevronWrapper hasDarkBg={hasDarkBg} prev disabled={isLoading}>
             <Icon icon={chevron} />
             <span className="visually-hidden">
               {`Previous (page ${currentPage - 1})`}
@@ -104,7 +112,7 @@ export const Pagination: FunctionComponent<{
           passHref
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
         >
-          <ChevronWrapper darkBg={darkBg} disabled={isLoading}>
+          <ChevronWrapper hasDarkBg={hasDarkBg} disabled={isLoading}>
             <Icon icon={chevron} />
             <span className="visually-hidden">
               {`Next (page ${currentPage + 1})`}

@@ -196,7 +196,10 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
         <SearchResults items={series.items} showPosition={true} />
         {articles.totalPages > 1 && (
           <PaginationWrapper>
-            <Pagination totalPages={articles.totalPages} />
+            <Pagination
+              totalPages={articles.totalPages}
+              ariaLabel="Series pagination"
+            />
           </PaginationWrapper>
         )}
       </ContentPage>

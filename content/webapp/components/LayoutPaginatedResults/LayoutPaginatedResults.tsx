@@ -59,7 +59,11 @@ const ResultsPagination = ({
   <PaginationWrapper>
     <span>{pluralize(totalResults, 'result')}</span>
 
-    <Pagination totalPages={totalPages} isHiddenMobile={isHiddenMobile} />
+    <Pagination
+      totalPages={totalPages}
+      ariaLabel="Pagination" // TODO is this good ?
+      isHiddenMobile={isHiddenMobile}
+    />
   </PaginationWrapper>
 );
 

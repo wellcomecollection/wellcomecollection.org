@@ -162,7 +162,11 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                     {/* #sort-select-portal displays the sort component  */}
                     <div id="sort-select-portal" />
 
-                    <Pagination totalPages={works.totalPages} isHiddenMobile />
+                    <Pagination
+                      totalPages={works.totalPages}
+                      ariaLabel="Catalogue search pagination"
+                      isHiddenMobile
+                    />
                   </SortPaginationWrapper>
                 </PaginationWrapper>
               </div>
@@ -182,7 +186,11 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                 <div className="container">
                   <PaginationWrapper>
                     <span>{pluralize(works.totalResults, 'result')}</span>
-                    <Pagination totalPages={works.totalPages} isHiddenMobile />
+                    <Pagination
+                      totalPages={works.totalPages}
+                      ariaLabel="Catalogue search pagination"
+                      isHiddenMobile
+                    />
                   </PaginationWrapper>
                 </div>
               </Space>

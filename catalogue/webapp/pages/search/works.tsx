@@ -204,7 +204,11 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                       }}
                     />
 
-                    <Pagination totalPages={works?.totalPages} isHiddenMobile />
+                    <Pagination
+                      totalPages={works?.totalPages}
+                      ariaLabel="Catalogue search pagination"
+                      isHiddenMobile
+                    />
                   </SortPaginationWrapper>
                 </PaginationWrapper>
 
@@ -213,7 +217,10 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 </main>
 
                 <BottomPaginationWrapper aria-label="Bottom pagination">
-                  <Pagination totalPages={works?.totalPages} />
+                  <Pagination
+                    totalPages={works?.totalPages}
+                    ariaLabel="Catalogue search pagination"
+                  />
                 </BottomPaginationWrapper>
               </>
             )}
