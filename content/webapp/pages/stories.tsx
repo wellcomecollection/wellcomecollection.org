@@ -37,9 +37,11 @@ import { RichTextField } from '@prismicio/types';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { fetchSeries } from '../services/prismic/fetch/series';
 import { transformSeries } from '../services/prismic/transformers/series';
+import { Series } from '../types/series';
 
 type Props = {
   articles: ArticleBasic[];
+  comicSeries: Series[];
   storiesLanding: StoriesLanding;
   jsonLd: JsonLdObj[];
 };
@@ -69,9 +71,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
 
     const comicSeriesPromise = fetchSeries(client, {
-      predicates: [`[at(my.series.seasons.season, "${id}")]`],
+      predicates: [`[at(my.series.format, "${ArticleFormatIds.Comic}")]`],
     });
-    // const comicSeriesPromise = fetchArticleSeries
 
     const storiesLandingPromise = fetchStoriesLanding(client);
 
@@ -85,8 +86,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const articles = transformQuery(articlesQuery, transformArticle);
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
-    const series = transformQuery(comicSeriesQuery, transformSeries);
-    console.log({ series });
+    const comicSeries = transformQuery(comicSeriesQuery, transformSeries);
+    console.log(comicSeries.results);
 
     const storiesLanding =
       storiesLandingDoc &&
@@ -98,6 +99,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           articles: basicArticles,
+          comicSeries: comicSeries.results, // TODO: these probably need to be more basic, like basicArticles
           serverData,
           jsonLd,
           storiesLanding,
@@ -110,6 +112,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
 const StoriesPage: FunctionComponent<Props> = ({
   articles,
+  comicSeries,
   jsonLd,
   storiesLanding,
 }) => {
@@ -208,6 +211,27 @@ const StoriesPage: FunctionComponent<Props> = ({
             items={storiesLanding.stories}
             itemsPerRow={3}
             links={[{ text: 'More stories', url: '/articles' }]}
+          />
+        </SpacingComponent>
+      </SpacingSection>
+
+      <SpacingSection>
+        <SpacingComponent>
+          {/* TODO: add to storiesLandingDoc */}
+          <SectionHeader title={'Comics'} />
+        </SpacingComponent>
+
+        <SpacingComponent>
+          <Layout12>
+            <p>Intro text about comic series</p>
+          </Layout12>
+        </SpacingComponent>
+
+        <SpacingComponent>
+          <CardGrid
+            items={comicSeries}
+            itemsPerRow={3}
+            itemsHaveTransparentBackground={true}
           />
         </SpacingComponent>
       </SpacingSection>
