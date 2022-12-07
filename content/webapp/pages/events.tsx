@@ -113,7 +113,6 @@ const EventsPage: FunctionComponent<Props> = props => {
             },
           ]}
           paginatedResults={convertedPaginatedResults}
-          paginationRoot={`/events${period ? `/${period}` : ''}`}
         />
         {period === 'current-and-coming-up' && (
           <Layout12>

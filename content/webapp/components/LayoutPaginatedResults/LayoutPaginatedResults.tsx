@@ -9,7 +9,6 @@ import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -31,10 +30,15 @@ type PaginatedResultsTypes =
 type Props = {
   title: string;
   description?: prismicT.RichTextField;
-  paginationRoot: string;
   paginatedResults: PaginatedResultsTypes;
   showFreeAdmissionMessage: boolean;
   children?: ReactElement;
+};
+
+type ResultsPaginationProps = {
+  totalResults: number;
+  totalPages: number;
+  isHiddenMobile?: boolean;
 };
 
 const PaginationWrapper = styled(Space).attrs({
@@ -47,38 +51,46 @@ const PaginationWrapper = styled(Space).attrs({
   flex-wrap: wrap;
 `;
 
+const ResultsPagination = ({
+  totalResults,
+  totalPages,
+  isHiddenMobile,
+}: ResultsPaginationProps) => (
+  <PaginationWrapper>
+    <span>{pluralize(totalResults, 'result')}</span>
+
+    <SearchPagination totalPages={totalPages} isHiddenMobile={isHiddenMobile} />
+  </PaginationWrapper>
+);
+
 const LayoutPaginatedResults: FunctionComponent<Props> = ({
   title,
   description,
   paginatedResults,
-  // paginationRoot,
   showFreeAdmissionMessage,
   children,
 }) => (
   <>
-    <SpacingSection>
-      <PageHeader
-        breadcrumbs={{ items: [] }}
-        labels={undefined}
-        title={title}
-        ContentTypeInfo={description && <PrismicHtmlBlock html={description} />}
-        backgroundTexture={headerBackgroundLs}
-        highlightHeading={true}
-        isContentTypeInfoBeforeMedia={false}
-      />
-    </SpacingSection>
+    <PageHeader
+      breadcrumbs={{ items: [] }}
+      labels={undefined}
+      title={title}
+      ContentTypeInfo={description && <PrismicHtmlBlock html={description} />}
+      backgroundTexture={headerBackgroundLs}
+      highlightHeading={true}
+      isContentTypeInfoBeforeMedia={false}
+    />
     {children}
     {paginatedResults.totalPages > 1 && (
       <Layout12>
-        <PaginationWrapper>
-          <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
-
-          <SearchPagination
-            totalPages={paginatedResults.totalPages}
-            isHiddenMobile
-          />
-        </PaginationWrapper>
-        <Divider />
+        <ResultsPagination
+          totalResults={paginatedResults.totalResults}
+          totalPages={paginatedResults.totalPages}
+          isHiddenMobile
+        />
+        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Divider />
+        </Space>
       </Layout12>
     )}
     {showFreeAdmissionMessage && (
@@ -88,7 +100,6 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
         </div>
       </Layout12>
     )}
-
     <Space v={{ size: 'l', properties: ['margin-top'] }}>
       {paginatedResults.results.length > 0 ? (
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
@@ -98,19 +109,13 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
         </Layout12>
       )}
     </Space>
-
     {paginatedResults.totalPages > 1 && (
-      <Space v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}>
-        <PaginationWrapper>
-          <div className="container">
-            <PaginationWrapper>
-              <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
-
-              <SearchPagination totalPages={paginatedResults.totalPages} />
-            </PaginationWrapper>
-          </div>
-        </PaginationWrapper>
-      </Space>
+      <Layout12>
+        <ResultsPagination
+          totalResults={paginatedResults.totalResults}
+          totalPages={paginatedResults.totalPages}
+        />
+      </Layout12>
     )}
   </>
 );

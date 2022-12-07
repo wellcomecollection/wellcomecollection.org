@@ -84,7 +84,6 @@ const ArticlesPage: FunctionComponent<Props> = ({
             },
           ]}
           paginatedResults={articles}
-          paginationRoot="/articles"
         />
       </SpacingSection>
     </PageLayout>

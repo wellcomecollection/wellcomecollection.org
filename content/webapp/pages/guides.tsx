@@ -90,7 +90,6 @@ const GuidePage: FunctionComponent<Props> = ({
             },
           ]}
           paginatedResults={guides}
-          paginationRoot="/guides"
         >
           <Filters currentId={formatId} guideFormats={guideFormats} />
         </LayoutPaginatedResults>
