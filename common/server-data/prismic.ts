@@ -6,8 +6,8 @@ import {
 } from '../services/prismic/documents';
 import { Handler } from './';
 import * as prismic from '@prismicio/client';
-import fetch from 'node-fetch';
 import { InferDataInterface } from '../services/prismic/types';
+import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 
 export type CollectionVenuePrismicDocumentLite = {
   id: string;
@@ -84,10 +84,7 @@ const fetchers: Record<Key, (client: prismic.Client) => unknown> = {
 };
 
 async function fetchPrismicValues(): Promise<PrismicData> {
-  // We should probably make this generic somewhere.
-  // The only place we have it is JS not TS, so leaving it ungenerified for now
-  const endpoint = prismic.getEndpoint('wellcomecollection');
-  const client = prismic.createClient(endpoint, { fetch });
+  const client = createPrismicClient();
 
   const keys = Object.keys(fetchers);
   const values = await Promise.allSettled(
