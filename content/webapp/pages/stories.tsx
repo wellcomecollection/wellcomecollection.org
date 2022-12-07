@@ -35,6 +35,8 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { RichTextField } from '@prismicio/types';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+import { fetchSeries } from '../services/prismic/fetch/series';
+import { transformSeries } from '../services/prismic/transformers/series';
 
 type Props = {
   articles: ArticleBasic[];
@@ -66,16 +68,25 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       predicates: [`[not(my.articles.format, "${ArticleFormatIds.Comic}")]`],
     });
 
+    const comicSeriesPromise = fetchSeries(client, {
+      predicates: [`[at(my.series.seasons.season, "${id}")]`],
+    });
+    // const comicSeriesPromise = fetchArticleSeries
+
     const storiesLandingPromise = fetchStoriesLanding(client);
 
-    const [articlesQuery, storiesLandingDoc] = await Promise.all([
-      articlesQueryPromise,
-      storiesLandingPromise,
-    ]);
+    const [articlesQuery, storiesLandingDoc, comicSeriesQuery] =
+      await Promise.all([
+        articlesQueryPromise,
+        storiesLandingPromise,
+        comicSeriesPromise,
+      ]);
 
     const articles = transformQuery(articlesQuery, transformArticle);
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
+    const series = transformQuery(comicSeriesQuery, transformSeries);
+    console.log({ series });
 
     const storiesLanding =
       storiesLandingDoc &&
