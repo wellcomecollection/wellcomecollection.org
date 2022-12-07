@@ -34,6 +34,7 @@ import { StoriesLandingPrismicDocument } from '../services/prismic/types/stories
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { RichTextField } from '@prismicio/types';
+import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 
 type Props = {
   articles: ArticleBasic[];
@@ -61,8 +62,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const client = createClient(context);
-
-    const articlesQueryPromise = fetchArticles(client);
+    const articlesQueryPromise = fetchArticles(client, {
+      predicates: [`[not(my.articles.format, "${ArticleFormatIds.Comic}")]`],
+    });
 
     const storiesLandingPromise = fetchStoriesLanding(client);
 
