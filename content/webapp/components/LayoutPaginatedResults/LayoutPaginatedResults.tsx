@@ -17,7 +17,7 @@ import { BookBasic } from '@weco/content/types/books';
 import { Guide } from '@weco/content/types/guides';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import { pluralize } from '@weco/common/utils/grammar';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
@@ -59,7 +59,7 @@ const ResultsPagination = ({
   <PaginationWrapper>
     <span>{pluralize(totalResults, 'result')}</span>
 
-    <SearchPagination totalPages={totalPages} isHiddenMobile={isHiddenMobile} />
+    <Pagination totalPages={totalPages} isHiddenMobile={isHiddenMobile} />
   </PaginationWrapper>
 );
 

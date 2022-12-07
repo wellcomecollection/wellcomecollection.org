@@ -5,7 +5,7 @@ import Head from 'next/head';
 import styled from 'styled-components';
 
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
@@ -150,7 +150,7 @@ const Images: NextPage<Props> = ({
               <div className="container">
                 <PaginationWrapper>
                   <span>{pluralize(images.totalResults, 'result')}</span>
-                  <SearchPagination
+                  <Pagination
                     totalPages={images.totalPages}
                     isLoading={isLoading}
                     isHiddenMobile
@@ -170,7 +170,7 @@ const Images: NextPage<Props> = ({
                 <div className="container">
                   <PaginationWrapper>
                     <span>{pluralize(images.totalResults, 'result')}</span>
-                    <SearchPagination
+                    <Pagination
                       totalPages={images.totalPages}
                       isLoading={isLoading}
                     />

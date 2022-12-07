@@ -27,7 +27,8 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isFuture } from '@weco/common/utils/dates';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -73,7 +74,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
 const PaginationWrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  className: 'container',
+  className: `container ${font('intb', 5)}`,
 })`
   display: flex;
   justify-content: flex-end;
@@ -166,7 +167,7 @@ const ExhibitionsPage: FunctionComponent<Props> = props => {
             />
             {exhibitions.totalPages > 1 && (
               <PaginationWrapper>
-                <SearchPagination totalPages={exhibitions.totalPages} />
+                <Pagination totalPages={exhibitions.totalPages} />
               </PaginationWrapper>
             )}
           </SpacingSection>

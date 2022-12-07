@@ -27,7 +27,7 @@ import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { pluralize } from '@weco/common/utils/grammar';
 
 type Props = {
@@ -162,10 +162,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                     {/* #sort-select-portal displays the sort component  */}
                     <div id="sort-select-portal" />
 
-                    <SearchPagination
-                      totalPages={works.totalPages}
-                      isHiddenMobile
-                    />
+                    <Pagination totalPages={works.totalPages} isHiddenMobile />
                   </SortPaginationWrapper>
                 </PaginationWrapper>
               </div>
@@ -185,10 +182,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                 <div className="container">
                   <PaginationWrapper>
                     <span>{pluralize(works.totalResults, 'result')}</span>
-                    <SearchPagination
-                      totalPages={works.totalPages}
-                      isHiddenMobile
-                    />
+                    <Pagination totalPages={works.totalPages} isHiddenMobile />
                   </PaginationWrapper>
                 </div>
               </Space>

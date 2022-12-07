@@ -10,7 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
@@ -204,10 +204,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                       }}
                     />
 
-                    <SearchPagination
-                      totalPages={works?.totalPages}
-                      isHiddenMobile
-                    />
+                    <Pagination totalPages={works?.totalPages} isHiddenMobile />
                   </SortPaginationWrapper>
                 </PaginationWrapper>
 
@@ -216,7 +213,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 </main>
 
                 <BottomPaginationWrapper aria-label="Bottom pagination">
-                  <SearchPagination totalPages={works?.totalPages} />
+                  <Pagination totalPages={works?.totalPages} />
                 </BottomPaginationWrapper>
               </>
             )}

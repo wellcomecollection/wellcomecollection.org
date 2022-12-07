@@ -31,9 +31,10 @@ import {
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
+import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   series: Series;
@@ -169,6 +170,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
 
   const PaginationWrapper = styled(Space).attrs({
     v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+    className: font('intb', 5),
   })`
     display: flex;
     justify-content: flex-end;
@@ -194,7 +196,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
         <SearchResults items={series.items} showPosition={true} />
         {articles.totalPages > 1 && (
           <PaginationWrapper>
-            <SearchPagination totalPages={articles.totalPages} />
+            <Pagination totalPages={articles.totalPages} />
           </PaginationWrapper>
         )}
       </ContentPage>

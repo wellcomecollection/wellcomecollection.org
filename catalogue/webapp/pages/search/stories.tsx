@@ -4,7 +4,7 @@ import styled from 'styled-components';
 // Components
 import Space from '@weco/common/views/components/styled/Space';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -197,7 +197,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 }}
                 defaultValues={{ sort: query.sort, sortOrder: query.sortOrder }}
               />
-              <SearchPagination
+              <Pagination
                 totalPages={storyResponseList.totalPages}
                 isHiddenMobile
               />
@@ -255,7 +255,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           </main>
 
           <BottomPaginationWrapper>
-            <SearchPagination totalPages={storyResponseList.totalPages} />
+            <Pagination totalPages={storyResponseList.totalPages} />
           </BottomPaginationWrapper>
         </div>
       )}

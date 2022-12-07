@@ -62,7 +62,7 @@ const ChevronWrapper = styled.button<{ prev?: boolean; darkBg?: boolean }>`
   `}
 `;
 
-export const SearchPagination: FunctionComponent<{
+export const Pagination: FunctionComponent<{
   totalPages: number;
   darkBg?: boolean;
   isHiddenMobile?: boolean;
@@ -79,6 +79,7 @@ export const SearchPagination: FunctionComponent<{
   const showNext = currentPage < totalPages;
 
   return (
+    // TODO pass aria-label as a prop instead
     <Container aria-label="Search pagination" isHiddenMobile={isHiddenMobile}>
       {showPrev && (
         <Link
@@ -94,7 +95,7 @@ export const SearchPagination: FunctionComponent<{
         </Link>
       )}
 
-      <span id="searchInputLabel">
+      <span>
         Page <strong>{currentPage}</strong> of {totalPages}
       </span>
 
@@ -115,4 +116,4 @@ export const SearchPagination: FunctionComponent<{
   );
 };
 
-export default SearchPagination;
+export default Pagination;

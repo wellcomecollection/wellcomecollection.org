@@ -9,7 +9,7 @@ import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpoint
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 
 // Utils & Helpers
@@ -170,7 +170,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               <div className="container">
                 <PaginationWrapper>
                   <span>{pluralize(images.totalResults, 'result')}</span>
-                  <SearchPagination totalPages={images?.totalPages} darkBg />
+                  <Pagination totalPages={images?.totalPages} darkBg />
                 </PaginationWrapper>
 
                 <main>
@@ -178,7 +178,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                 </main>
 
                 <BottomPaginationWrapper>
-                  <SearchPagination totalPages={images?.totalPages} darkBg />
+                  <Pagination totalPages={images?.totalPages} darkBg />
                 </BottomPaginationWrapper>
               </div>
             </Wrapper>
