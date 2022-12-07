@@ -240,7 +240,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           <CheckboxFilter
             f={f}
             changeHandler={changeHandler}
-            form={searchFormId}
+            form={showMoreFiltersModal ? undefined : searchFormId}
             isNewStyle={isNewStyle}
           />
         )}
@@ -249,7 +249,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           <DateRangeFilter
             f={f}
             changeHandler={changeHandler}
-            form={searchFormId}
+            form={showMoreFiltersModal ? undefined : searchFormId}
             isNewStyle={isNewStyle}
           />
         )}
@@ -258,7 +258,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           <ColorFilter
             f={f}
             changeHandler={changeHandler}
-            form={searchFormId}
+            form={showMoreFiltersModal ? undefined : searchFormId}
             isNewStyle={isNewStyle}
           />
         )}

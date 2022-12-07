@@ -220,8 +220,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
      * include the # symbol.
      */
     if (params.color) {
-      console.log('###', params.color, typeof params.color);
-      // params.color = params.color.replace('#', '').replace('%2C', '');
+      params.color = params.color.replace('#', '');
     }
 
     const aggregations = [
