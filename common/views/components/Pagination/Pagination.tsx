@@ -7,7 +7,7 @@ import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { font } from '@weco/common/utils/classnames';
 
-type Props = {
+export type Props = {
   totalPages: number;
   ariaLabel: string;
   hasDarkBg?: boolean;

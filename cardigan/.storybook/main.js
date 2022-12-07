@@ -12,6 +12,7 @@ module.exports = {
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
     '@storybook/addon-backgrounds',
+    'storybook-addon-next-router'
   ],
   webpackFinal: async (config, { configType }) => {
     // Adds support for modules using mjs
