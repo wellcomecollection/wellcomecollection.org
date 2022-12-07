@@ -2,30 +2,33 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
-import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
-import { grid } from '@weco/common/utils/classnames';
-import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
-import Paginator from '@weco/common/views/components/Paginator/Paginator';
+import styled from 'styled-components';
+
+import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
+import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
 import Space from '@weco/common/views/components/styled/Space';
-import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import { getImages } from '../services/catalogue/images';
+import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
-import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
-import { removeUndefinedProps } from '@weco/common/utils/json';
-import SearchTitle from '../components/SearchTitle/SearchTitle';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
+import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
+import SearchTitle from '@weco/catalogue/components/SearchTitle/SearchTitle';
 import {
   fromQuery,
   ImagesProps,
   toLink,
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+
+import { font, grid } from '@weco/common/utils/classnames';
+import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import { getImages } from '@weco/catalogue/services/catalogue/images';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import styled from 'styled-components';
+import { removeUndefinedProps } from '@weco/common/utils/json';
+import { pluralize } from '@weco/common/utils/grammar';
+import { Pageview } from '@weco/common/services/conversion/track';
+import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -33,60 +36,14 @@ type Props = {
   pageview: Pageview;
 };
 
-type ImagesPaginationProps = {
-  query?: string;
-  page: number;
-  results: CatalogueResultsList<Image>;
-  imagesRouteProps: ImagesProps;
-  hideMobilePagination?: boolean;
-  hideMobileTotalResults?: boolean;
-  isLoading?: boolean;
-};
-
-const PaginationWrapper = styled.div`
+const PaginationWrapper = styled.div.attrs({
+  className: font('intb', 5),
+})`
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 `;
-
-const ImagesPagination = ({
-  query,
-  page,
-  results,
-  imagesRouteProps,
-  hideMobilePagination,
-  hideMobileTotalResults,
-  isLoading,
-}: ImagesPaginationProps) => (
-  <PaginationWrapper>
-    <Paginator
-      query={query}
-      showPortal={false}
-      currentPage={page}
-      totalPages={results.totalPages}
-      totalResults={results.totalResults}
-      link={toLink(
-        {
-          ...imagesRouteProps,
-        },
-        'search/paginator'
-      )}
-      onPageChange={async (event, newPage) => {
-        event.preventDefault();
-        const state = {
-          ...imagesRouteProps,
-          page: newPage,
-        };
-        const link = toLink({ ...state }, 'search/paginator');
-        Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
-      }}
-      hideMobilePagination={hideMobilePagination}
-      hideMobileTotalResults={hideMobileTotalResults}
-      isLoading={isLoading}
-    />
-  </PaginationWrapper>
-);
 
 const Images: NextPage<Props> = ({
   images,
@@ -116,12 +73,7 @@ const Images: NextPage<Props> = ({
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
-    const link = toLink(
-      {
-        ...imagesRouteProps,
-      },
-      'images_search_context'
-    );
+    const link = toLink({ ...imagesRouteProps }, 'images_search_context');
     setLink(link);
   }, [imagesRouteProps]);
 
@@ -168,13 +120,7 @@ const Images: NextPage<Props> = ({
             : []
         }
       >
-        <Space
-          v={{
-            size: 'l',
-            properties: ['padding-bottom'],
-          }}
-          className="row"
-        >
+        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
           <div className="container">
             <SearchTitle isVisuallyHidden={Boolean(images)} />
 
@@ -197,59 +143,44 @@ const Images: NextPage<Props> = ({
             </div>
           </div>
         </Space>
+
         {images?.results && images.results.length > 0 && (
           <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
-                <div className="grid">
-                  <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                    <ImagesPagination
-                      query={query}
-                      page={page}
-                      results={images}
-                      imagesRouteProps={imagesRouteProps}
-                      hideMobilePagination={true}
-                      isLoading={isLoading}
-                    />
-                  </div>
-                </div>
+                <PaginationWrapper>
+                  <span>{pluralize(images.totalResults, 'result')}</span>
+                  <SearchPagination
+                    totalPages={images.totalPages}
+                    isLoading={isLoading}
+                    isHiddenMobile
+                  />
+                </PaginationWrapper>
               </div>
             </Space>
 
-            <Space
-              v={{
-                size: 'l',
-                properties: ['padding-top'],
-              }}
-            >
+            <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <ImageEndpointSearchResults images={images} />
               </div>
 
               <Space
-                v={{
-                  size: 'l',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
+                v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
               >
                 <div className="container">
-                  <div className="grid">
-                    <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                      <ImagesPagination
-                        query={query}
-                        page={page}
-                        results={images}
-                        imagesRouteProps={imagesRouteProps}
-                        hideMobileTotalResults={true}
-                        isLoading={isLoading}
-                      />
-                    </div>
-                  </div>
+                  <PaginationWrapper>
+                    <span>{pluralize(images.totalResults, 'result')}</span>
+                    <SearchPagination
+                      totalPages={images.totalPages}
+                      isLoading={isLoading}
+                    />
+                  </PaginationWrapper>
                 </div>
               </Space>
             </Space>
           </>
         )}
+
         {images?.results.length === 0 && (
           <SearchNoResults query={query} hasFilters={!!color} />
         )}

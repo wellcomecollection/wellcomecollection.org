@@ -23,7 +23,7 @@ const Container = styled.nav.attrs({ className: font('intr', 6) })<{
   `)}
 `;
 
-const ChevronWrapper = styled.a<{ prev?: boolean; darkBg?: boolean }>`
+const ChevronWrapper = styled.button<{ prev?: boolean; darkBg?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -31,15 +31,27 @@ const ChevronWrapper = styled.a<{ prev?: boolean; darkBg?: boolean }>`
   width: 34px;
   border-radius: 100%;
   margin: 0 0 0 1rem;
+  cursor: pointer;
+  transition: background ${props => props.theme.transitionProperties};
+
+  &[disabled] {
+    pointer-events: none;
+    color: ${props =>
+      props.theme.color(props.darkBg ? 'neutral.300' : 'neutral.500')};
+    border-color: ${props =>
+      props.theme.color(props.darkBg ? 'neutral.300' : 'neutral.500')};
+  }
 
   ${props => `
-    color:  ${props.theme.color(props.darkBg ? 'white' : 'black')};
+    color: ${props.theme.color(props.darkBg ? 'white' : 'black')};
     border: 1px solid ${props.theme.color(
       props.darkBg ? 'neutral.400' : 'neutral.600'
     )};
     transform: rotate(${props.prev ? '90' : '270'}deg);
     ${props.prev && `margin: 0 1rem 0 0;`};
-    transition: all ${props => props.theme.transitionProperties};
+    background-color: ${
+      props.darkBg ? props.theme.color('white') : 'transparent'
+    };
 
 
     &:hover, &:focus {
@@ -54,7 +66,8 @@ export const SearchPagination: FunctionComponent<{
   totalPages: number;
   darkBg?: boolean;
   isHiddenMobile?: boolean;
-}> = ({ totalPages, darkBg, isHiddenMobile }) => {
+  isLoading?: boolean;
+}> = ({ totalPages, darkBg, isHiddenMobile, isLoading }) => {
   const { pathname, query } = useRouter();
   const [currentPage, setCurrentPage] = useState(Number(query.page) || 1);
 
@@ -72,7 +85,7 @@ export const SearchPagination: FunctionComponent<{
           passHref
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
         >
-          <ChevronWrapper darkBg={darkBg} prev>
+          <ChevronWrapper darkBg={darkBg} prev disabled={isLoading}>
             <Icon icon={chevron} />
             <span className="visually-hidden">
               {`Previous (page ${currentPage - 1})`}
@@ -90,7 +103,7 @@ export const SearchPagination: FunctionComponent<{
           passHref
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
         >
-          <ChevronWrapper darkBg={darkBg}>
+          <ChevronWrapper darkBg={darkBg} disabled={isLoading}>
             <Icon icon={chevron} />
             <span className="visually-hidden">
               {`Next (page ${currentPage + 1})`}
