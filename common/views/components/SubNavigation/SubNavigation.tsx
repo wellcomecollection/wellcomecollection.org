@@ -1,17 +1,28 @@
 import { FunctionComponent } from 'react';
+import Link, { LinkProps } from 'next/link';
 import {
   Wrapper,
   TabsContainer,
   Tab,
   NavItemInner,
 } from './SubNavigation.styles';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import Link from 'next/link';
+import Divider from '../Divider/Divider';
+import Space from '../styled/Space';
+import Icon from '../Icon/Icon';
+import { IconSvg } from '../../../icons';
+import styled from 'styled-components';
+
+const IconWrapper = styled.span`
+  div {
+    top: 6px;
+  }
+`;
 
 type SelectableTextLink = {
   name: string;
   id: string;
-  url: string;
+  url: string | LinkProps;
+  icon?: IconSvg;
 };
 
 type Props = {
@@ -36,7 +47,12 @@ const SubNavigation: FunctionComponent<Props> = ({
           const isSelected = currentSection === item.id;
           return (
             <Tab key={item.id}>
-              <Link scroll={false} passHref href={item.url}>
+              <Link
+                scroll={false}
+                passHref
+                href={typeof item.url === 'string' ? item.url : item.url.href}
+                as={typeof item.url === 'string' ? undefined : item.url.as}
+              >
                 <NavItemInner
                   variant={variant}
                   selected={isSelected}
@@ -51,6 +67,16 @@ const SubNavigation: FunctionComponent<Props> = ({
                     }
                   }}
                 >
+                  {item.icon && (
+                    <Space
+                      as="span"
+                      h={{ size: 's', properties: ['margin-right'] }}
+                    >
+                      <IconWrapper>
+                        <Icon icon={item.icon} />
+                      </IconWrapper>
+                    </Space>
+                  )}
                   {item.name}
                 </NavItemInner>
               </Link>

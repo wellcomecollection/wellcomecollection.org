@@ -1,10 +1,18 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
+import Issue from '../components/Issue';
+import { getPrismicLintingReport } from './prismic-linting';
 
 const fontFamily = 'Gadget, sans-serif';
 
 const IndexPage: FunctionComponent = () => {
+  const [prismicLintResults, setPrismicLintResults] = useState(null);
+
+  useEffect(() => {
+    getPrismicLintingReport().then(json => setPrismicLintResults(json));
+  }, []);
+
   return (
     <>
       <Head>
@@ -77,31 +85,13 @@ const IndexPage: FunctionComponent = () => {
               </a>
             </li>
             <li>
-              <a
-                href="http://ghp.wellcomecollection.org/speedtracker/"
-                rel="performance"
-              >
-                Speedtrack performance monitoring
-              </a>
-            </li>
-            <li>
               <a href="https://updown.io/2cep" rel="uptime">
                 Uptime: Homepage
               </a>
             </li>
             <li>
-              <a href="https://updown.io/5t1q" rel="uptime">
-                Uptime: Stories
-              </a>
-            </li>
-            <li>
               <a href="https://updown.io/bhef" rel="uptime">
                 Uptime: Works
-              </a>
-            </li>
-            <li>
-              <a href="https://stats.uptimerobot.com/x6RyoIGYR" rel="uptime">
-                Uptime: Whole site, no cache
               </a>
             </li>
             <li>
@@ -118,6 +108,25 @@ const IndexPage: FunctionComponent = () => {
               </a>
             </li>
           </ul>
+
+          <table>
+            <tr>
+              <td style={{ paddingRight: '1em' }}>
+                {prismicLintResults && prismicLintResults.totalErrors === 0 && (
+                  <Issue type="success">0 issues</Issue>
+                )}
+                {prismicLintResults && prismicLintResults.totalErrors > 0 && (
+                  <Issue type="error">
+                    {prismicLintResults.totalErrors} issue
+                    {prismicLintResults.totalErrors > 1 ? 's' : ''}
+                  </Issue>
+                )}
+              </td>
+              <td>
+                <a href="/prismic-linting">Prismic linting report</a>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </>

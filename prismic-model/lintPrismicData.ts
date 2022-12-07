@@ -8,12 +8,16 @@
  */
 
 import chalk from 'chalk';
-import exp from 'constants';
 import { error } from './console';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
 } from './downloadSnapshot';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  CloudFrontClient,
+  CreateInvalidationCommand,
+} from '@aws-sdk/client-cloudfront';
 
 // Look for eur01 safelinks.  These occur when somebody has copied
 // a URL directly from Outlook and isn't using the original URL.
@@ -27,7 +31,7 @@ function detectEur01Safelinks(doc: any): string[] {
       'https://eur01.safelinks.protection.outlook.com'
     ) !== -1
   ) {
-    return ['- eur01 safelinks URL detected!'];
+    return ['eur01 safelinks URL detected'];
   }
 
   return [];
@@ -46,7 +50,7 @@ function detectBrokenInterpretationTypeLinks(doc: any): string[] {
     );
 
     if (brokenLinks.length > 0) {
-      return ['- link to an interpretation type is broken'];
+      return ['link to an interpretation type is broken'];
     }
   }
 
@@ -71,7 +75,7 @@ function detectNonHttpContributorLinks(doc: any): string[] {
         continue;
       }
 
-      return ['- non-HTTP link in contributor link'];
+      return ['non-HTTP link in contributor link'];
     }
   }
 
@@ -82,6 +86,7 @@ async function run() {
   const snapshotDir = await downloadPrismicSnapshot();
 
   let totalErrors = 0;
+  const allErrors = [];
 
   for (const doc of getPrismicDocuments(snapshotDir)) {
     const errors = [
@@ -94,17 +99,51 @@ async function run() {
 
     // If there are any errors, report them to the console.
     if (errors.length > 0) {
+      allErrors.push({
+        id: doc.id,
+        type: doc.type,
+        title: doc.data.title,
+        errors,
+      });
+
       console.log(
         chalk.blue(
           `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${doc.id}/`
         )
       );
       for (const msg of errors) {
-        console.log(msg);
+        console.log(`- ${msg}`);
       }
       console.log('');
     }
   }
+
+  const s3Client = new S3Client({ region: 'eu-west-1' });
+
+  const putObjectCommand = new PutObjectCommand({
+    Bucket: 'dash.wellcomecollection.org',
+    Key: 'prismic-linting/report.json',
+    Body: JSON.stringify({
+      errors: allErrors,
+      totalErrors,
+      ref: snapshotDir.split('.')[snapshotDir.split('.').length - 1],
+      createdDate: new Date().toString(),
+    }),
+    ACL: 'public-read',
+    ContentType: 'application/json',
+  });
+
+  await s3Client.send(putObjectCommand);
+
+  const cloudFrontClient = new CloudFrontClient({ region: 'eu-west-1' });
+  const command = new CreateInvalidationCommand({
+    DistributionId: 'EIOS79GG23UUY',
+    InvalidationBatch: {
+      Paths: { Items: [`/prismic-linting/report.json`], Quantity: 1 },
+      CallerReference: `PrismicModelInvalidationCallerReference${Date.now()}`,
+    },
+  });
+  await cloudFrontClient.send(command);
 
   if (totalErrors === 0) {
     console.log(chalk.green('✅ No errors detected'));

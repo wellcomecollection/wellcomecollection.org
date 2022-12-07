@@ -22,7 +22,7 @@ import PageLayout from '../PageLayout/PageLayout';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Space from '../styled/Space';
-
+import { getActiveToggles } from '@weco/common/utils/cookies';
 const ToggleMessageBar = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
@@ -60,10 +60,7 @@ const TogglesMessage: FunctionComponent = () => {
   // useToggles() because we don't have access to the server data context
   // here -- we can't use getServerSideProps on an error page.
   // See https://nextjs.org/docs/messages/404-get-initial-props
-  const toggles = Object.entries(getCookies())
-    .filter(([k, v]) => k.startsWith('toggle_') && v === 'true')
-    .map(kv => kv[0].replace('toggle_', ''))
-    .sort();
+  const toggles = getActiveToggles(getCookies());
 
   return toggles.length > 0 ? (
     <Layout8>
