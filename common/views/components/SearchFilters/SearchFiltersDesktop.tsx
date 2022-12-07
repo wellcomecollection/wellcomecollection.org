@@ -206,13 +206,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
       const { width, left } = wrapperRef.current.getBoundingClientRect();
       setHasCalculatedFilters(false);
       setWrapperWidth(left + width);
-    } else {
-      console.log('no wrapper ref...');
     }
   };
   useEffect(() => {
     if (isNewStyle) {
-      console.log('hmmmmmmm');
       setComponentMounted(true);
       window.addEventListener('resize', updateWrapperWidth);
       updateWrapperWidth();
@@ -269,12 +266,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     );
   };
 
-  const dynamicFiltersSource = (
-    <>
-      dynamic
-      {filters.map(renderDynamicFilter)}
-    </>
-  );
+  const dynamicFiltersSource = filters.map(renderDynamicFilter);
 
   const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
   useEffect(() => {
