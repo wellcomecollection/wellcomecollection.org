@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useRef,
   useState,
+  useLayoutEffect,
 } from 'react';
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
@@ -27,7 +28,6 @@ import { ResetActiveFilters } from './ResetActiveFilters';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
-import { useLayoutEffect } from 'react';
 import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
 import { useRouter } from 'next/router';
 
@@ -209,8 +209,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     }
   };
   useEffect(() => {
+    setComponentMounted(true);
     if (isNewStyle) {
-      setComponentMounted(true);
       window.addEventListener('resize', updateWrapperWidth);
       updateWrapperWidth();
       return () => window.removeEventListener('resize', updateWrapperWidth);
@@ -265,35 +265,60 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
       </Space>
     );
   };
-
   const dynamicFiltersSource = filters.map(renderDynamicFilter);
-
   const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isNewStyle) {
       const arrOfDropdownButtonNodes = document.querySelectorAll(
         `.${filterClassname}`
       );
-      let willAllFit = true;
-      const dynamicFilterArray: Filter[] = [];
+      const showAllFiltersModalButtonWidthInPixels = 150;
+      const availableSpace =
+        wrapperWidth - showAllFiltersModalButtonWidthInPixels;
+      let showModalButton = false;
+      let dynamicFilterArray: Filter[] = [];
       SetShowFilterModalButton(false);
+      /**
+       * running a for loop in reverse, so that we start at the last item
+       * and go backwards until one of the nodes fit, then all nodes
+       * following should fit
+       */
       for (let i = arrOfDropdownButtonNodes.length - 1; i >= 0; i--) {
         const dropdownButtonNode = arrOfDropdownButtonNodes[i];
         const { width, left } = dropdownButtonNode.getBoundingClientRect();
         const rightmostEdge = width + left;
-        if (rightmostEdge > wrapperWidth) willAllFit = false;
-        const spaceAvailable = willAllFit ? wrapperWidth : wrapperWidth - 150;
-        const canStay = rightmostEdge < spaceAvailable;
-        if (canStay) {
-          dynamicFilterArray[i] = filters[i];
-        } else {
-          SetShowFilterModalButton(true);
+        if (i === arrOfDropdownButtonNodes.length - 1) {
+          if (rightmostEdge < wrapperWidth) {
+            /**
+             * If the right edge of the first element is inside the right edge
+             * of the wrapper surrounding the elements, then all items will fit
+             */
+            dynamicFilterArray = [...filters];
+            break;
+          }
+        }
+
+        /**
+         * If we are still in the loop, this means that the nodes do not
+         * all fit inside of the wrapper, okay, let us see how many of
+         * them do fit!
+         */
+        showModalButton = true;
+        if (rightmostEdge < availableSpace) {
+          /**
+           * checking to see which node is within not just the wrapper
+           * but also gives enough space for the `showModal` button
+           */
+          dynamicFilterArray = filters.slice(0, i + 1);
+          break;
         }
       }
-      setHasCalculatedFilters(true);
+
+      SetShowFilterModalButton(showModalButton);
       setDynamicFilters(dynamicFilterArray);
+      setHasCalculatedFilters(true);
     }
-  }, [wrapperWidth, useRouter().query]);
+  }, [wrapperWidth, hasCalculatedFilters, useRouter().query]);
 
   const visibleFilters = filters.slice(0, nVisibleFilters);
   const modalFilters = filters.slice(nVisibleFilters);
