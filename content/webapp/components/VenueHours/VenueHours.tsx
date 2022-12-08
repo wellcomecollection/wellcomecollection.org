@@ -261,6 +261,9 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                   happening imminently (within a few weeks), and so the year is unambiguous.
                  */}
                 {upcomingExceptionalPeriod.map(exceptional => {
+                  // We have regular opening hours for each day of the week, so we'll
+                  // always find something here.
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   const regular = venue.openingHours.regular
                     .filter(
                       ({ dayOfWeek }) =>
