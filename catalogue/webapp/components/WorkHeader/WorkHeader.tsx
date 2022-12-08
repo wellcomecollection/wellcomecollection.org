@@ -21,6 +21,11 @@ const WorkHeaderContainer = styled.div`
   align-content: flex-start;
 `;
 
+const WorkTitleWrapper = styled.h1.attrs({ className: font('intb', 2) })`
+  margin: 0;
+  display: inline-block;
+`;
+
 type Props = {
   work: Work;
 };
@@ -48,10 +53,9 @@ const WorkHeader: FunctionComponent<Props> = ({
         className={grid({ s: 12, m: 12, l: 10, xl: 10 })}
       >
         <SpacingComponent>
-          <h1
+          <WorkTitleWrapper
             aria-live="polite"
             id="work-info"
-            className={`no-margin ${font('intb', 2)} inline-block`}
             // We only send a lang if it's unambiguous -- better to send
             // no language than the wrong one.
             lang={
@@ -59,7 +63,7 @@ const WorkHeader: FunctionComponent<Props> = ({
             }
           >
             <WorkTitle title={work.title} />
-          </h1>
+          </WorkTitleWrapper>
 
           {primaryContributorLabel && (
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
