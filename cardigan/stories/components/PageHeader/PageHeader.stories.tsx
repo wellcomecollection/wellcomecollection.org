@@ -21,6 +21,11 @@ const breadcrumbItems = [
   },
 ];
 
+const ContentTypeWrapper = styled.div`
+  display: flex;
+  align-items: baseline;
+`;
+
 const ContentTypeInfo = (
   <>
     <PageHeaderStandfirst
@@ -32,7 +37,7 @@ const ContentTypeInfo = (
         },
       ]}
     />
-    <div className="flex flex--h-baseline">
+    <ContentTypeWrapper>
       <Space
         h={{ size: 's', properties: ['margin-right'] }}
         v={{ size: 's', properties: ['margin-top'] }}
@@ -44,7 +49,7 @@ const ContentTypeInfo = (
           <Date>17 April 2019</Date>
         </p>
       </Space>
-    </div>
+    </ContentTypeWrapper>
   </>
 );
 

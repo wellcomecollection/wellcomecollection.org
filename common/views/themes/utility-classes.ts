@@ -62,10 +62,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     align-items: center;
   }
 
-  .flex--h-baseline {
-    align-items: baseline;
-  }
-
   .flex--wrap {
     flex-wrap: wrap;
   }
