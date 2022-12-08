@@ -12,7 +12,7 @@ We currently use three categories of toggles:
 Used to release a feature early, generally internally. We then develop the feature until
 we are happy for it to be released to the public. These should expire over time.
 
-* create new toggle with `defaultValue: false`
+* create new toggle with `initialValue: false`
 * let internal users know they can turn this feature on via the [toggles dashboard][toggles-dashboard]
 * iterate!
 * set `defaultValue: true` once you're happy with releasing the feature publicly
