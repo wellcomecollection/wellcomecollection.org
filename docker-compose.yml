@@ -44,4 +44,5 @@ services:
       - ./playwright/test:/usr/src/app/webapp/playwright/test
   prismic_model:
     build:
-      context: ./prismic-model
+      context: .
+      dockerfile: prismic-model/Dockerfile

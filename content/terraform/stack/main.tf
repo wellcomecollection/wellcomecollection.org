@@ -26,6 +26,8 @@ module "content-service-17092020" {
     APM_SECRET          = "elasticsearch/logging/apm_secret"
     dotdigital_username = "content/dotdigital/username"
     dotdigital_password = "content/dotdigital/password"
+
+    PRISMIC_ACCESS_TOKEN = "prismic-model/prod/access-token"
   }
 
   vpc_id  = local.vpc_id
