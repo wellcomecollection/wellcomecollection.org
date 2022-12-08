@@ -198,7 +198,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
   const [componentMounted, setComponentMounted] = useState(false);
-
+  const router = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperWidth, setWrapperWidth] = useState<number>(0);
   const updateWrapperWidth = () => {
@@ -221,7 +221,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
 
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
-  const renderDynamicFilter = (f, i, arr) => {
+  const renderDynamicFilter = (f: Filter, i: number, arr: Filter[]) => {
     return (
       <Space
         key={f.id}
@@ -276,7 +276,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
    */
   useEffect(() => {
     setHasCalculatedFilters(false);
-  }, [useRouter().query]);
+  }, [router.query]);
   useLayoutEffect(() => {
     if (isNewStyle && !hasCalculatedFilters) {
       const arrOfDropdownButtonNodes = document.querySelectorAll(
@@ -324,7 +324,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
       setDynamicFilters(dynamicFilterArray);
       setHasCalculatedFilters(true);
     }
-  }, [wrapperWidth, hasCalculatedFilters, useRouter().query]);
+  }, [wrapperWidth, hasCalculatedFilters, router.query]);
 
   const visibleFilters = filters.slice(0, nVisibleFilters);
   const modalFilters = filters.slice(nVisibleFilters);
