@@ -35,6 +35,16 @@ const PartWithSeparator = styled.span.attrs({
   }
 `;
 
+const LinkWrapper = styled(Space).attrs({
+  v: {
+    size: 's',
+    properties: ['margin-bottom'],
+  },
+  h: { size: 's', properties: ['margin-right'] },
+})`
+  display: inline-block;
+`;
+
 export type Props = {
   tags: TagType[];
   isFirstPartBold?: boolean;
@@ -52,16 +62,7 @@ const Tags: FunctionComponent<Props> = ({
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
         {tags.map(({ textParts, linkAttributes }, i) => {
           return (
-            <Space
-              as="li"
-              key={i}
-              v={{
-                size: 's',
-                properties: ['margin-bottom'],
-              }}
-              h={{ size: 's', properties: ['margin-right'] }}
-              className="inline-block"
-            >
+            <LinkWrapper as="li" key={i}>
               <NextLink {...linkAttributes} passHref>
                 <SolidButton
                   size="small"
@@ -88,7 +89,7 @@ const Tags: FunctionComponent<Props> = ({
                   </TagInner>
                 </SolidButton>
               </NextLink>
-            </Space>
+            </LinkWrapper>
           );
         })}
       </PlainList>
