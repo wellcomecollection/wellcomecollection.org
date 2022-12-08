@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '../styled/Space';
 import { SolidButton } from '../ButtonSolid/ButtonSolid';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import { LinkProps } from '../../../model/link-props';
 import styled from 'styled-components';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -55,7 +55,7 @@ const Tags: FunctionComponent<Props> = ({
   tags,
   isFirstPartBold = true,
   separator = '–',
-}: Props): ReactElement<Props> => {
+}) => {
   return (
     <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
       <PlainList>
