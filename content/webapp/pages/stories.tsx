@@ -43,6 +43,7 @@ type Props = {
   articles: ArticleBasic[];
   comicSeries: Series[];
   storiesLanding: StoriesLanding;
+  storiesLandingComics: boolean;
   jsonLd: JsonLdObj[];
 };
 
@@ -65,13 +66,21 @@ const StoryPromoContainer = styled.div.attrs({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+    const storiesLandingComics = serverData.toggles.storiesLandingComics;
     const client = createClient(context);
     const articlesQueryPromise = fetchArticles(client, {
-      predicates: [`[not(my.articles.format, "${ArticleFormatIds.Comic}")]`],
+      predicates: storiesLandingComics
+        ? [`[not(my.articles.format, "${ArticleFormatIds.Comic}")]`]
+        : undefined,
     });
 
     const comicSeriesPromise = fetchSeries(client, {
       predicates: [`[at(my.series.format, "${ArticleFormatIds.Comic}")]`],
+      pageSize: 3,
+      orderings: {
+        field: 'document.first_publication_date',
+        direction: 'desc',
+      },
     });
 
     const storiesLandingPromise = fetchStoriesLanding(client);
@@ -87,7 +96,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
     const comicSeries = transformQuery(comicSeriesQuery, transformSeries);
-    console.log(comicSeries.results);
 
     const storiesLanding =
       storiesLandingDoc &&
@@ -103,6 +111,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
           jsonLd,
           storiesLanding,
+          storiesLandingComics,
         }),
       };
     } else {
@@ -115,6 +124,7 @@ const StoriesPage: FunctionComponent<Props> = ({
   comicSeries,
   jsonLd,
   storiesLanding,
+  storiesLandingComics,
 }) => {
   const firstArticle = articles[0];
   const introText = storiesLanding?.introText;
@@ -215,26 +225,27 @@ const StoriesPage: FunctionComponent<Props> = ({
         </SpacingComponent>
       </SpacingSection>
 
-      <SpacingSection>
-        <SpacingComponent>
-          {/* TODO: add to storiesLandingDoc */}
-          <SectionHeader title={'Comics'} />
-        </SpacingComponent>
+      {storiesLandingComics && (
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title={'Comics'} />
+          </SpacingComponent>
 
-        <SpacingComponent>
-          <Layout12>
-            <p>Intro text about comic series</p>
-          </Layout12>
-        </SpacingComponent>
+          <SpacingComponent>
+            <Layout12>
+              <p>Intro text about comic series</p>
+            </Layout12>
+          </SpacingComponent>
 
-        <SpacingComponent>
-          <CardGrid
-            items={comicSeries}
-            itemsPerRow={3}
-            itemsHaveTransparentBackground={true}
-          />
-        </SpacingComponent>
-      </SpacingSection>
+          <SpacingComponent>
+            <CardGrid
+              items={comicSeries}
+              itemsPerRow={3}
+              itemsHaveTransparentBackground={true}
+            />
+          </SpacingComponent>
+        </SpacingSection>
+      )}
 
       <SpacingSection>
         {storiesLanding.booksTitle && (

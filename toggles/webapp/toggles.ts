@@ -49,11 +49,11 @@ const toggles = {
       description: 'View pages related to exhibition guides',
     },
     {
-      id: 'newStoriesLanding',
-      title: 'New stories landing page content',
+      id: 'storiesLandingComics',
+      title: 'Rearranging comics on the stories landing page',
       initialValue: false,
       description:
-        'Uses the new stories-landing type in Prismic to provide page content for /stories. Namely, the introductory text and featured books section (currently being populated from different places), and replaces the hard coded promoted series with a list of editor chosen articles and series.',
+        'Takes the comics out of the general set of stories, and moves them to their own page section, grouped by series.',
     },
     {
       id: 'searchPage',
