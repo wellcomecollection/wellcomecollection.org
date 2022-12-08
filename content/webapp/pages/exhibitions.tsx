@@ -1,6 +1,5 @@
 import type { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Period } from '@weco/content/types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -20,6 +19,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -28,7 +28,6 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isFuture } from '@weco/common/utils/dates';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -71,14 +70,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
   };
-
-const PaginationWrapper = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  className: `container ${font('intb', 5)}`,
-})`
-  display: flex;
-  justify-content: flex-end;
-`;
 
 const ExhibitionsPage: FunctionComponent<Props> = props => {
   const { exhibitions, period, title, jsonLd } = props;
@@ -166,12 +157,14 @@ const ExhibitionsPage: FunctionComponent<Props> = props => {
               itemsPerRow={3}
             />
             {exhibitions.totalPages > 1 && (
-              <PaginationWrapper>
-                <Pagination
-                  totalPages={exhibitions.totalPages}
-                  ariaLabel="Exhibitions pagination"
-                />
-              </PaginationWrapper>
+              <div className="container">
+                <PaginationWrapper verticalSpacing="m" alignRight>
+                  <Pagination
+                    totalPages={exhibitions.totalPages}
+                    ariaLabel="Exhibitions pagination"
+                  />
+                </PaginationWrapper>
+              </div>
             )}
           </SpacingSection>
         </>

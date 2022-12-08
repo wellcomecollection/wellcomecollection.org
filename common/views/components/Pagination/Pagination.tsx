@@ -41,6 +41,7 @@ const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
   margin: 0 0 0 1rem;
   cursor: pointer;
   transition: background ${props => props.theme.transitionProperties};
+  background-color: transparent;
 
   &[disabled] {
     pointer-events: none;
@@ -50,17 +51,14 @@ const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
       props.theme.color(props.hasDarkBg ? 'neutral.300' : 'neutral.500')};
   }
 
+  ${props => props.prev && `margin: 0 1rem 0 0;`}
+
   ${props => `
     color: ${props.theme.color(props.hasDarkBg ? 'white' : 'black')};
     border: 1px solid ${props.theme.color(
       props.hasDarkBg ? 'neutral.400' : 'neutral.600'
     )};
     transform: rotate(${props.prev ? '90' : '270'}deg);
-    ${props.prev && `margin: 0 1rem 0 0;`};
-    background-color: ${
-      props.hasDarkBg ? props.theme.color('white') : 'transparent'
-    };
-
 
     &:hover, &:focus {
       background-color: ${props.theme.color(

@@ -1,13 +1,12 @@
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import Space from '@weco/common/views/components/styled/Space';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
 import { Series } from '@weco/content/types/series';
 import { ArticleBasic } from '@weco/content/types/articles';
@@ -34,7 +33,6 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   series: Series;
@@ -168,14 +166,6 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
 
   const paginationRoot = `/series/${series.id}`;
 
-  const PaginationWrapper = styled(Space).attrs({
-    v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-    className: font('intb', 5),
-  })`
-    display: flex;
-    justify-content: flex-end;
-  `;
-
   return (
     <PageLayout
       title={series.title}
@@ -195,7 +185,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
       >
         <SearchResults items={series.items} showPosition={true} />
         {articles.totalPages > 1 && (
-          <PaginationWrapper>
+          <PaginationWrapper verticalSpacing="m" alignRight>
             <Pagination
               totalPages={articles.totalPages}
               ariaLabel="Series pagination"

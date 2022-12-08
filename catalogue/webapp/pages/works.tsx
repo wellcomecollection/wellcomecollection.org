@@ -5,7 +5,7 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import { getCookie } from 'cookies-next';
 
-import { font, grid } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Space from '@weco/common/views/components/styled/Space';
@@ -13,6 +13,7 @@ import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '@weco/catalogue/components/SearchTitle/SearchTitle';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -35,15 +36,6 @@ type Props = {
   worksRouteProps: WorksRouteProps;
   pageview: Pageview;
 };
-
-const PaginationWrapper = styled.div.attrs({
-  className: font('intb', 5),
-})`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-`;
 
 const SortPaginationWrapper = styled.div`
   display: flex;
@@ -184,8 +176,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                 v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
               >
                 <div className="container">
-                  <PaginationWrapper>
-                    <span>{pluralize(works.totalResults, 'result')}</span>
+                  <PaginationWrapper alignRight>
                     <Pagination
                       totalPages={works.totalPages}
                       ariaLabel="Catalogue search pagination"

@@ -2,7 +2,6 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
-import styled from 'styled-components';
 
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
@@ -17,8 +16,9 @@ import {
   toLink,
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 
-import { font, grid } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { getImages } from '@weco/catalogue/services/catalogue/images';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
@@ -35,15 +35,6 @@ type Props = {
   imagesRouteProps: ImagesProps;
   pageview: Pageview;
 };
-
-const PaginationWrapper = styled.div.attrs({
-  className: font('intb', 5),
-})`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-`;
 
 const Images: NextPage<Props> = ({
   images,
@@ -169,8 +160,7 @@ const Images: NextPage<Props> = ({
                 v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
               >
                 <div className="container">
-                  <PaginationWrapper>
-                    <span>{pluralize(images.totalResults, 'result')}</span>
+                  <PaginationWrapper alignRight>
                     <Pagination
                       totalPages={images.totalPages}
                       ariaLabel="Image search pagination"

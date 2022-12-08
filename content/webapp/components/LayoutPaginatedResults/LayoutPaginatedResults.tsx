@@ -1,5 +1,4 @@
 import { FunctionComponent, ReactElement } from 'react';
-import styled from 'styled-components';
 import * as prismicT from '@prismicio/types';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -18,6 +17,7 @@ import { Guide } from '@weco/content/types/guides';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import { pluralize } from '@weco/common/utils/grammar';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
@@ -34,38 +34,6 @@ type Props = {
   showFreeAdmissionMessage: boolean;
   children?: ReactElement;
 };
-
-type ResultsPaginationProps = {
-  totalResults: number;
-  totalPages: number;
-  isHiddenMobile?: boolean;
-};
-
-const PaginationWrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: font('intb', 5),
-})`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-`;
-
-const ResultsPagination = ({
-  totalResults,
-  totalPages,
-  isHiddenMobile,
-}: ResultsPaginationProps) => (
-  <PaginationWrapper>
-    <span>{pluralize(totalResults, 'result')}</span>
-
-    <Pagination
-      totalPages={totalPages}
-      ariaLabel="Pagination" // TODO is this good ?
-      isHiddenMobile={isHiddenMobile}
-    />
-  </PaginationWrapper>
-);
 
 const LayoutPaginatedResults: FunctionComponent<Props> = ({
   title,
@@ -85,18 +53,25 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
       isContentTypeInfoBeforeMedia={false}
     />
     {children}
+
     {paginatedResults.totalPages > 1 && (
       <Layout12>
-        <ResultsPagination
-          totalResults={paginatedResults.totalResults}
-          totalPages={paginatedResults.totalPages}
-          isHiddenMobile
-        />
+        <PaginationWrapper verticalSpacing="l">
+          <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
+
+          <Pagination
+            totalPages={paginatedResults.totalPages}
+            ariaLabel="Results pagination"
+            isHiddenMobile
+          />
+        </PaginationWrapper>
+
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
           <Divider />
         </Space>
       </Layout12>
     )}
+
     {showFreeAdmissionMessage && (
       <Layout12>
         <div className="flex-inline flex--v-center">
@@ -104,6 +79,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
         </div>
       </Layout12>
     )}
+
     <Space v={{ size: 'l', properties: ['margin-top'] }}>
       {paginatedResults.results.length > 0 ? (
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
@@ -113,12 +89,15 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
         </Layout12>
       )}
     </Space>
+
     {paginatedResults.totalPages > 1 && (
       <Layout12>
-        <ResultsPagination
-          totalResults={paginatedResults.totalResults}
-          totalPages={paginatedResults.totalPages}
-        />
+        <PaginationWrapper verticalSpacing="l">
+          <Pagination
+            totalPages={paginatedResults.totalPages}
+            ariaLabel="Results pagination"
+          />
+        </PaginationWrapper>
       </Layout12>
     )}
   </>

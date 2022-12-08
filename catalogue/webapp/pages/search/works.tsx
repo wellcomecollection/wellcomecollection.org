@@ -13,6 +13,7 @@ import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/Wo
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import {
   fromQuery,
@@ -26,7 +27,6 @@ import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
-import { font } from '@weco/common/utils/classnames';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -45,26 +45,10 @@ type Props = {
   pageview: Pageview;
 };
 
-// TODO work on layout further in
-// https://github.com/wellcomecollection/wellcomecollection.org/issues/8863
-const PaginationWrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: font('intb', 5),
-})`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-`;
-
 const SortPaginationWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-`;
-
-const BottomPaginationWrapper = styled(PaginationWrapper)`
-  justify-content: flex-end;
 `;
 
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
@@ -168,7 +152,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
               />
             ) : (
               <>
-                <PaginationWrapper aria-label="Sort Search Results">
+                <PaginationWrapper verticalSpacing="l">
                   <span>{pluralize(works.totalResults, 'result')}</span>
 
                   <SortPaginationWrapper>
@@ -216,12 +200,12 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   <WorksSearchResults works={works} />
                 </main>
 
-                <BottomPaginationWrapper aria-label="Bottom pagination">
+                <PaginationWrapper verticalSpacing="l" alignRight>
                   <Pagination
                     totalPages={works?.totalPages}
                     ariaLabel="Catalogue search pagination"
                   />
-                </BottomPaginationWrapper>
+                </PaginationWrapper>
               </>
             )}
           </>
