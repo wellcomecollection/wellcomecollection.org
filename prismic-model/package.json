@@ -1,4 +1,7 @@
 {
+  "name": "@weco/prismic-model",
+  "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "sliceAnalysis": "ts-node sliceAnalysis",
     "deployType": "ts-node deployType",
