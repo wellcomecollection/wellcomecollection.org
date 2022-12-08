@@ -219,7 +219,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
   const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
   const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
-  const [showFilterModalButton, SetShowFilterModalButton] = useState(false);
 
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
   const renderDynamicFilter = (f, i, arr) => {
@@ -267,17 +266,27 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   };
   const dynamicFiltersSource = filters.map(renderDynamicFilter);
   const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
+
+  /**
+   * if you don't set this to false, then on route change, you don't get the
+   * full filter list rendered before useLayoutEffect runs, which will have
+   * `arrOfDropdownButtonNodes` count the dynamic list, which is not what we
+   * want, and can result in smaller screens rendering out the entire filter
+   * list
+   */
+  useEffect(() => {
+    setHasCalculatedFilters(false);
+  }, [useRouter().query]);
   useLayoutEffect(() => {
-    if (isNewStyle) {
+    if (isNewStyle && !hasCalculatedFilters) {
       const arrOfDropdownButtonNodes = document.querySelectorAll(
         `.${filterClassname}`
       );
+
       const showAllFiltersModalButtonWidthInPixels = 150;
       const availableSpace =
         wrapperWidth - showAllFiltersModalButtonWidthInPixels;
-      let showModalButton = false;
       let dynamicFilterArray: Filter[] = [];
-      SetShowFilterModalButton(false);
       /**
        * running a for loop in reverse, so that we start at the last item
        * and go backwards until one of the nodes fit, then all nodes
@@ -303,7 +312,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
          * all fit inside of the wrapper, okay, let us see how many of
          * them do fit!
          */
-        showModalButton = true;
         if (rightmostEdge < availableSpace) {
           /**
            * checking to see which node is within not just the wrapper
@@ -313,8 +321,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           break;
         }
       }
-
-      SetShowFilterModalButton(showModalButton);
       setDynamicFilters(dynamicFilterArray);
       setHasCalculatedFilters(true);
     }
@@ -348,7 +354,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     {hasCalculatedFilters
                       ? dynamicFiltersCalculated
                       : dynamicFiltersSource}
-                    {showFilterModalButton && (
+                    {dynamicFilters.length < filters.length && (
                       <Space
                         h={{
                           size: 'm',
