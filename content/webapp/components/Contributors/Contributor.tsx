@@ -12,6 +12,11 @@ const ContributorInfoWrapper = styled(Space)`
   color: ${props => props.theme.color('neutral.600')};
 `;
 
+const ContributorNameWrapper = styled.div`
+  display: flex;
+  align-items: baseline;
+`;
+
 const Contributor: FunctionComponent<ContributorType> = ({
   contributor,
   role,
@@ -79,7 +84,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
           )}
         </Space>
         <div>
-          <div className="flex flex--h-baseline">
+          <ContributorNameWrapper>
             <h3 className={`${font('intb', 4)} no-margin`}>
               {contributor.name}
             </h3>
@@ -91,7 +96,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
                 ({contributor.pronouns})
               </ContributorInfoWrapper>
             )}
-          </div>
+          </ContributorNameWrapper>
 
           {role && role.title && (
             <ContributorInfoWrapper className={font('intb', 5)}>

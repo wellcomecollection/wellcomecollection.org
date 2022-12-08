@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const { id } = context.query;
 
-    if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
+    if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
 

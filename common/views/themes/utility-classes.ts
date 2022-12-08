@@ -62,10 +62,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     align-items: center;
   }
 
-  .flex--h-baseline {
-    align-items: baseline;
-  }
-
   .flex--wrap {
     flex-wrap: wrap;
   }
@@ -76,10 +72,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .flex--h-space-between {
     justify-content: space-between;
-  }
-
-  .flex-end {
-    justify-content: flex-end;
   }
 
   .plain-button {

@@ -7,26 +7,26 @@ There is [a great article by Martin Fowler][martin-fowler-feature-toggles] on th
 
 We currently use three categories of toggles:
 
-## Feature development toggle
+### 1. Feature development toggle
 
 Used to release a feature early, generally internally. We then develop the feature until
 we are happy for it to be released to the public. These should expire over time.
 
-* create new toggle with `defaultValue: false`
+* create new toggle with `initialValue: false`
 * let internal users know they can turn this feature on via the [toggles dashboard][toggles-dashboard]
 * iterate!
 * set `defaultValue: true` once you're happy with releasing the feature publicly
 * if anything goes wrong, you can run `yarn setDefaultValueFor --{toggle_id}=false`
 * once you're happy, remove the toggle from the code
 
-## Feature toggle
+### 2. Feature toggle
 
 Used to make certain permanent features available to people, but are generally turned off
 for the public.
 
 e.g. An API toolbar adding more context to works for internal users.
 
-## A/B tests
+### 3. A/B tests
 
 This is to serve different content to different cohorts of people randomly based on a toggle.
 
@@ -60,7 +60,8 @@ yarn setDefaultValueFor --{toggle_id}=true
 ```
 
 ## Useful links
-- ["Feature Toggles (aka Feature Flags)" - by Martin Fowler](https://martinfowler.com/articles/feature-toggles.html)
+- ["Feature Toggles (aka Feature Flags)" - by Martin Fowler][martin-fowler-feature-toggles]
 - [Toggles Dashboard](https://dash.wellcomecollection.org/toggles)
 - [Toggles](https://toggles.wellcomecollection.org/toggles.json)
 
+[martin-fowler-feature-toggles]: https://martinfowler.com/articles/feature-toggles.html
