@@ -233,7 +233,10 @@ const StoriesPage: FunctionComponent<Props> = ({
 
           <SpacingComponent>
             <Layout12>
-              <p>Intro text about comic series</p>
+              <p>
+                Explore new perspectives on bodies, brains and health with our
+                guest comic artists.
+              </p>
             </Layout12>
           </SpacingComponent>
 
