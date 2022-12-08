@@ -31,7 +31,9 @@ function detectEur01Safelinks(doc: any): string[] {
       'https://eur01.safelinks.protection.outlook.com'
     ) !== -1
   ) {
-    return ['eur01 safelinks URL detected'];
+    return [
+      'One of the links is an eur01.safelinks URL, which has probably been copy/pasted from an email. Replace this URL with an un-safelink’d version.',
+    ];
   }
 
   return [];
@@ -50,7 +52,9 @@ function detectBrokenInterpretationTypeLinks(doc: any): string[] {
     );
 
     if (brokenLinks.length > 0) {
-      return ['link to an interpretation type is broken'];
+      return [
+        'This event has a broken link to an interpretation type; remove or update the link.',
+      ];
     }
   }
 
@@ -75,7 +79,9 @@ function detectNonHttpContributorLinks(doc: any): string[] {
         continue;
       }
 
-      return ['non-HTTP link in contributor link'];
+      return [
+        'This contributor has a URL which doesn’t start with http:// or https://, replace it with a complete link',
+      ];
     }
   }
 
@@ -83,12 +89,12 @@ function detectNonHttpContributorLinks(doc: any): string[] {
 }
 
 async function run() {
-  const snapshotDir = await downloadPrismicSnapshot();
+  const snapshotFile = await downloadPrismicSnapshot();
 
   let totalErrors = 0;
   const allErrors = [];
 
-  for (const doc of getPrismicDocuments(snapshotDir)) {
+  for (const doc of getPrismicDocuments(snapshotFile)) {
     const errors = [
       ...detectEur01Safelinks(doc),
       ...detectBrokenInterpretationTypeLinks(doc),
@@ -120,13 +126,14 @@ async function run() {
 
   const s3Client = new S3Client({ region: 'eu-west-1' });
 
+  console.log('Uploading Prismic linting reporting to S3');
   const putObjectCommand = new PutObjectCommand({
     Bucket: 'dash.wellcomecollection.org',
     Key: 'prismic-linting/report.json',
     Body: JSON.stringify({
       errors: allErrors,
       totalErrors,
-      ref: snapshotDir.split('.')[snapshotDir.split('.').length - 1],
+      ref: snapshotFile.split('.')[snapshotFile.split('.').length - 1],
       createdDate: new Date().toString(),
     }),
     ACL: 'public-read',
