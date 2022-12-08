@@ -36,12 +36,15 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { RichTextField } from '@prismicio/types';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { fetchSeries } from '../services/prismic/fetch/series';
-import { transformSeries } from '../services/prismic/transformers/series';
-import { Series } from '../types/series';
+import {
+  transformSeries,
+  transformSeriesToSeriesBasic,
+} from '../services/prismic/transformers/series';
+import { SeriesBasic } from '../types/series';
 
 type Props = {
   articles: ArticleBasic[];
-  comicSeries: Series[];
+  comicSeries: SeriesBasic[];
   storiesLanding: StoriesLanding;
   storiesLandingComics: boolean;
   jsonLd: JsonLdObj[];
@@ -96,6 +99,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
     const comicSeries = transformQuery(comicSeriesQuery, transformSeries);
+    const basicComicSeries = comicSeries.results.map(
+      transformSeriesToSeriesBasic
+    );
 
     const storiesLanding =
       storiesLandingDoc &&
@@ -107,7 +113,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           articles: basicArticles,
-          comicSeries: comicSeries.results, // TODO: these probably need to be more basic, like basicArticles
+          comicSeries: basicComicSeries,
           serverData,
           jsonLd,
           storiesLanding,
