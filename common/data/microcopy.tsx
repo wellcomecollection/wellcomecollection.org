@@ -34,6 +34,7 @@ export const pageDescriptions = {
   whatsOn:
     'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.',
   works: 'Search the Wellcome Collection catalogue',
+  series: 'TODO: write words that makek sense for a series here',
 };
 
 export const pageDescriptionConcepts = (label: string): string => {

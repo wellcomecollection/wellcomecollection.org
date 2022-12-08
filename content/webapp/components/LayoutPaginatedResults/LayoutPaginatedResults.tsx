@@ -18,6 +18,7 @@ import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 import styled from 'styled-components';
+import { SeriesBasic } from '../../types/series';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
@@ -25,7 +26,8 @@ type PaginatedResultsTypes =
   | PaginatedResults<BookBasic>
   | PaginatedResults<ArticleBasic>
   | PaginatedResults<Guide>
-  | PaginatedResults<ExhibitionGuideBasic>;
+  | PaginatedResults<ExhibitionGuideBasic>
+  | PaginatedResults<SeriesBasic>;
 
 type Props = {
   title: string;

@@ -117,6 +117,8 @@ const appPromise = nextApp
     route(`/events/:id(${prismicId})`, '/event', router, nextApp);
     route(`/event-series/:id(${prismicId})`, '/event-series', router, nextApp);
 
+    route(`/series`, '/article-series-many', router, nextApp);
+
     route('/articles', '/articles', router, nextApp);
     route(`/articles/:id(${prismicId})`, '/article', router, nextApp);
     route(`/series/:id(${prismicId})`, '/article-series', router, nextApp);
