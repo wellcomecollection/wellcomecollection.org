@@ -4,18 +4,15 @@ import { Venue } from '../../../model/opening-hours';
 import { getNameFromCollectionVenue } from '@weco/common/data/hardcoded-ids';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import PlainList from '../styled/PlainList';
 
 type Props = {
   venues: Venue[];
 };
 
-const OpeningTimesList = styled.ul.attrs({
+const OpeningTimesList = styled(PlainList).attrs({
   'data-chromatic': 'ignore',
-})`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-`;
+})``;
 
 // This is chosen to be wider than any of the venue names, but not so wide as
 // to leave lots of space between the name and the opening hours.

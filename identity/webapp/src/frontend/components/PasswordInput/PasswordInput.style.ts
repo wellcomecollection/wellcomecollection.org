@@ -18,13 +18,6 @@ export const RulesListWrapper = styled(Space).attrs({
   border-radius: ${props => props.theme.borderRadiusUnit}px;
 `;
 
-export const RulesList = styled.ul.attrs({
-  className: 'no-margin',
-})`
-  list-style: none;
-  padding: 0;
-`;
-
 export const RulesListItem = styled(Space).attrs({
   as: 'li',
   h: { size: 's', properties: ['margin-bottom'] },

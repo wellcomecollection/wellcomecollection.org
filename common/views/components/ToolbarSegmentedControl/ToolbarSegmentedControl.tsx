@@ -2,13 +2,11 @@ import { FunctionComponent, SyntheticEvent } from 'react';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
+import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
 
-const List = styled.ul`
-  list-style: none;
-  margin: 0 !important;
-  padding: 0;
+const List = styled(PlainList)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
