@@ -1,8 +1,5 @@
 import React from 'react';
 
-type TypeDependency = any[];
-type TypeDependencyNames = string;
-
 let what_debug_changed = 0;
 
 /**
@@ -50,18 +47,45 @@ const useHotRefs = (value: any) => {
   return fnRef;
 };
 
+/**
+ * @description the function will print the debug logs in the browser console, please make sure to not keep this function in in prod builds!
+ * @param dependency the dependency array to observe
+ * @param dependencyNames a comma separated string that matches the dependencies to observe for better developer experience while debugging
+ * @param isUseLayoutEffect since useEffect and useLayoutEffect work slightly different this optional boolean is here
+ *
+ * @example <caption>Example usage with regular hooks with dependency arrays.</caption>
+ * const [a, setA] = React.useState(0);
+ * const [b, setB] = React.useState(0);
+ * const [c, setC] = React.useState(0);
+ *
+ * // Just place the useWhatChanged hook call with dependency before your
+ * // useEffect, useCallback or useMemo
+ *
+ * useWhatChanged([a, b, c]); // debugs the below useEffect
+ * React.useEffect(() => {
+ *   // console.log("why am I running?")
+ * }, [a, b, c]);
+ *
+ * @example <caption>Example usage for useLayoutEffect.</caption>
+ * const [count, setCount] = React.useState(0);
+ * const [current, setCurrent] = React.useState('');
+ *
+ * useWhatChanged([count, current], 'count, current', true); // debugs the below useEffect
+ * React.useLayoutEffect(() => {
+ *   // blah
+ * }, [count, current]);
+ */
 export const useWhatHasUpdated = (
-  dependency?: TypeDependency,
-  dependencyNames?: TypeDependencyNames,
-  hookName?: string
+  dependency: any[],
+  dependencyNames?: string,
+  isUseLayoutEffect?: boolean
 ) => {
   // It's a fair assumption the hooks type will not change for a component during
   // its life time
   const hookNameFinal = React.useMemo(() => {
-    if (hookName === 'useLayoutEffect') {
+    if (isUseLayoutEffect) {
       return 'useLayoutEffect';
     }
-
     return 'useEffect';
   }, []);
   // This ref is responsible for book keeping of the old value
@@ -193,6 +217,6 @@ export const useWhatHasUpdated = (
     })(),
     dependencyRef,
     longBannersRef,
-    hookName,
+    isUseLayoutEffect,
   ]);
 };
