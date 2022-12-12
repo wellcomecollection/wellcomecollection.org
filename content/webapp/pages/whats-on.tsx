@@ -409,6 +409,13 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       openGraphType="website"
       siteSection="whats-on"
       image={firstExhibition && firstExhibition.promo?.image}
+      apiToolbarLinks={[
+        {
+          id: 'prismic',
+          label: 'Prismic',
+          link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${prismicPageIds.whatsOn}/`,
+        },
+      ]}
     >
       <>
         <Header
