@@ -102,7 +102,7 @@ export type Props = {
   availableOnlineEvents: EventBasic[];
   period: string;
   dateRange: { start: Date; end?: Date };
-  featuredText: FeaturedTextType;
+  featuredText: FeaturedTextType | undefined;
   jsonLd: JsonLdObj[];
 };
 
@@ -189,11 +189,12 @@ type HeaderProps = {
   todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
   featuredText?: FeaturedTextType;
 };
-const Header = ({
+
+const Header: FunctionComponent<HeaderProps> = ({
   activeId,
   todaysOpeningHours,
   featuredText,
-}: HeaderProps) => {
+}) => {
   return (
     <Space
       v={{
@@ -360,7 +361,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           availableOnlineEvents,
           dateRange,
           jsonLd,
-          featuredText: featuredText!,
+          featuredText,
           serverData,
         }),
       };
