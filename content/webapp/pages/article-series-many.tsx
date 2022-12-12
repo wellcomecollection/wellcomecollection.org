@@ -18,8 +18,13 @@ import {
   transformSeries,
   transformSeriesToSeriesBasic,
 } from 'services/prismic/transformers/series';
+import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+
+type ContentType = 'comic';
 
 type Props = {
+  title: string;
+  contentType: ContentType;
   series: PaginatedResults<SeriesBasic>;
   jsonLd: JsonLdObj[];
 };
@@ -27,6 +32,32 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const page = getPage(context.query);
+    const { contentType } = context.query;
+    const contentTypes = ['comic'];
+
+    if (
+      typeof contentType !== 'string' ||
+      !contentTypes.includes(contentType)
+    ) {
+      return { notFound: true };
+    }
+
+    const contentTypeInfo = getContentTypeId(contentType);
+
+    type SeriesIdAndTitle = {
+      id: string;
+      title: string;
+    };
+
+    function getContentTypeId(type: ContentType): SeriesIdAndTitle {
+      switch (type) {
+        case 'comic':
+          return {
+            id: ArticleFormatIds.Comic,
+            title: 'Comics',
+          };
+      }
+    }
 
     if (typeof page !== 'number') {
       return appError(context, 400, page.message);
@@ -34,7 +65,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
     // TODO: ordering
-    const seriesQuery = await fetchSeries(client, { page });
+    const seriesQuery = await fetchSeries(client, {
+      predicates: [`[at(my.series.format, "${contentTypeInfo.id}")]`],
+      page,
+      orderings: {
+        field: 'document.first_publication_date',
+        direction: 'desc',
+      },
+    });
     const series = transformQuery(seriesQuery, transformSeries);
     const basicSeries = {
       ...series,
@@ -48,6 +86,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     return {
       props: removeUndefinedProps({
+        title: contentTypeInfo.title,
+        contentType,
         series: basicSeries,
         jsonLd: [],
         serverData,
@@ -56,13 +96,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ArticleSeriesManyPage: FunctionComponent<Props> = ({
+  title,
+  contentType,
   series,
   jsonLd,
 }: Props) => {
   return (
     <PageLayout
-      title="Series"
-      description={pageDescriptions.series}
+      title={title}
+      description={pageDescriptions[contentType]}
       url={{ pathname: '/series' }}
       jsonLd={jsonLd}
       openGraphType="website"
@@ -72,11 +114,11 @@ const ArticleSeriesManyPage: FunctionComponent<Props> = ({
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={false}
-          title="Series"
+          title={title}
           description={[
             {
               type: 'paragraph',
-              text: pageDescriptions.series,
+              text: pageDescriptions[contentType],
               spans: [],
             },
           ]}
