@@ -20,7 +20,8 @@ import {
 } from 'services/prismic/transformers/series';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 
-type ContentType = 'comic';
+const contentTypes = ['comic'] as const;
+type ContentType = typeof contentTypes[number];
 
 type Props = {
   title: string;
@@ -31,25 +32,35 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
+    const storiesLandingComics = serverData.toggles.storiesLandingComics;
+
+    if (!storiesLandingComics) {
+      return { notFound: true };
+    }
+
     const page = getPage(context.query);
     const { contentType } = context.query;
-    const contentTypes = ['comic'];
 
-    if (
-      typeof contentType !== 'string' ||
-      !contentTypes.includes(contentType)
-    ) {
+    // TODO: should this guard live somewhere else? Do we already have something that does this?
+    // Is this possible without `any`?
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function isContentType(x: any): x is ContentType {
+      return contentTypes.includes(x);
+    }
+
+    if (!isContentType(contentType)) {
       return { notFound: true };
     }
 
     const contentTypeInfo = getContentTypeId(contentType);
 
-    type SeriesIdAndTitle = {
+    type ContentTypeIdAndTitle = {
       id: string;
       title: string;
     };
 
-    function getContentTypeId(type: ContentType): SeriesIdAndTitle {
+    function getContentTypeId(type: ContentType): ContentTypeIdAndTitle {
       switch (type) {
         case 'comic':
           return {
@@ -81,8 +92,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     // TODO: seriesLd
     // TODO: image for openGraph etc.
-
-    const serverData = await getServerData(context);
 
     return {
       props: removeUndefinedProps({
