@@ -32,7 +32,6 @@ type Props = {
   description?: prismicT.RichTextField;
   paginationRoot: string;
   paginatedResults: PaginatedResultsTypes;
-  showFreeAdmissionMessage: boolean;
   children?: ReactElement;
 };
 
@@ -54,7 +53,6 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
   description,
   paginatedResults,
   paginationRoot,
-  showFreeAdmissionMessage,
   children,
 }) => (
   <>
@@ -84,13 +82,6 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
             : null}
         </TotalPagesCopy>
         <Divider />
-      </Layout12>
-    )}
-    {showFreeAdmissionMessage && (
-      <Layout12>
-        <div className="flex-inline flex--v-center">
-          <span className={font('intb', 4)}>Free admission</span>
-        </div>
       </Layout12>
     )}
 
