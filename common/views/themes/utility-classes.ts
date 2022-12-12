@@ -259,9 +259,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .empty-filler:before {
-    content: '\\200b';
-  }
   .shadow {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
   }

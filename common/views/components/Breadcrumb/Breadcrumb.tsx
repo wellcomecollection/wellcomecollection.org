@@ -9,6 +9,16 @@ const ItemWrapper = styled(Space).attrs({
   className: font('intr', 6),
 })``;
 
+const EmptyFiller = styled.span.attrs({
+  className: `${font('intr', 6)} empty-filler`,
+})`
+  line-height: 1;
+
+  :before {
+    content: '\\200b';
+  }
+`;
+
 const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => (
   <div className="flex">
     {items
@@ -38,12 +48,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => (
         );
       })}
     {/* We do this so that the page doesn't bounce around if we don't have any breadcrumbs */}
-    {items.length === 0 && (
-      <span
-        className={`${font('intr', 6)} empty-filler`}
-        style={{ lineHeight: 1 }}
-      />
-    )}
+    {items.length === 0 && <EmptyFiller />}
     {items.length > 0 && (
       <script
         type="application/ld+json"
