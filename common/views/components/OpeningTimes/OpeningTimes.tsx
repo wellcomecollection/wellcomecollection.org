@@ -10,10 +10,6 @@ type Props = {
   venues: Venue[];
 };
 
-const OpeningTimesList = styled(PlainList).attrs({
-  'data-chromatic': 'ignore',
-})``;
-
 // This is chosen to be wider than any of the venue names, but not so wide as
 // to leave lots of space between the name and the opening hours.
 //
@@ -24,7 +20,7 @@ const VenueName = styled.div`
 `;
 
 const OpeningTimes: FunctionComponent<Props> = ({ venues }) => (
-  <OpeningTimesList>
+  <PlainList data-chromatic="ignore">
     {venues.map(venue => {
       const todaysHours = getTodaysVenueHours(venue);
       return (
@@ -51,6 +47,6 @@ const OpeningTimes: FunctionComponent<Props> = ({ venues }) => (
         )
       );
     })}
-  </OpeningTimesList>
+  </PlainList>
 );
 export default OpeningTimes;
