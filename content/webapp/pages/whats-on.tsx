@@ -165,6 +165,13 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
         <>
           <time dateTime={formatDate(start)}>{formatDayName(start)}</time>
           {' – '}
+          {/*
+            When the period is 'this-weekend', the dates come from getNextWeekendDateRange,
+            which always includes a start and an end, so we can safely non-null here.
+
+            We could get this working in the type system, but it's a more invasive change.
+          */}
+          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
           <time dateTime={formatDate(end!)}>{formatDayName(end!)}</time>
         </>
       )}
