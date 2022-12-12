@@ -297,10 +297,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ? context.query.period.toString()
       : 'current-and-coming-up';
 
-    // call prismic for specific content for section page such as featured text
-
-    // TODO: If we're only looking up this page to get the featured text slice,
-    // would it be faster to skip all the fetchLinks?  Is that possible?
     const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 
     const exhibitionsQueryPromise = fetchExhibitions(client, {
