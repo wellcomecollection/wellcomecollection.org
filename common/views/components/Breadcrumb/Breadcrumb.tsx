@@ -5,9 +5,9 @@ import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 import { BreadcrumbItems } from '../../../model/breadcrumbs';
 
-const ItemWrapper = styled(Space).attrs(() => ({
+const ItemWrapper = styled(Space).attrs({
   className: font('intr', 6),
-}))``;
+})``;
 
 const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
   items,
