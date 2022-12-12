@@ -83,7 +83,6 @@ const ExhibitionGuidesPage: FC<Props> = props => {
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
           title="Exhibition guides"
           paginatedResults={exhibitionGuides}
           paginationRoot="exhibition-guides"
