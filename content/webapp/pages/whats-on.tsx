@@ -322,7 +322,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       exhibitionsQuery,
       eventsQuery,
       availableOnlineEventsQuery,
-      whatsOnPage,
+      whatsOnPageDocument,
     ] = await Promise.all([
       exhibitionsQueryPromise,
       eventsQueryPromise,
@@ -330,10 +330,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       whatsOnPagePromise,
     ]);
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const whatsOnPage = transformPage(whatsOnPageDocument!);
+
     const dateRange = getRangeForPeriod(period);
 
-    const featuredText =
-      whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
+    const featuredText = getPageFeaturedText(whatsOnPage);
 
     const events = transformQuery(eventsQuery, transformEvent).results;
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
