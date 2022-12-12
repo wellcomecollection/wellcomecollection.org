@@ -1200,19 +1200,6 @@ export const whatsOn: (hasExhibition: boolean) => WhatsOnProps = (
   availableOnlineEvents: [],
   dateRange: { start: new Date(2020, 11, 5) },
   jsonLd: [],
-  whatsOnPage: {
-    type: 'pages',
-    id: 'YD_IQxAAACUAK6HG',
-    title: 'What’s on',
-    body: [
-      {
-        type: 'contentList',
-        weight: 'default',
-        value: {
-          title: 'Try these too',
-          items: [],
-        },
-      },
-    ],
-  },
+  featuredText: undefined,
+  tryTheseToo: [],
 });

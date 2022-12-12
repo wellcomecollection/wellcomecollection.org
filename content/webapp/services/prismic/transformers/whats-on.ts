@@ -12,16 +12,10 @@ import { Page as PageType } from '../../../types/pages';
  * easily record in Prismic.
  *
  */
+
 export function getTryTheseTooPromos(
   whatsOnPage: PageType
 ): FacilityPromoType[] {
-  const facilityPromoMetas = {
-    'The Reading Room': {
-      metaIcon: clock,
-      metaText: 'Open during gallery hours',
-    },
-  };
-
   return whatsOnPage.body
     .filter(isContentList)
     .filter(slice => slice.value.title === 'Try these too')
@@ -36,12 +30,25 @@ export function getTryTheseTooPromos(
             image: item.promo!.image!,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             description: item.promo!.caption!,
-            // Add any extra meta information which can't be recorded in Prismic
-            ...(facilityPromoMetas[item.title]
-              ? facilityPromoMetas[item.title]
-              : {}),
           }
         : undefined
     )
     .filter(isNotUndefined);
+}
+
+export function enrichTryTheseTooPromos(
+  promos: FacilityPromoType[]
+): FacilityPromoType[] {
+  const facilityPromoMetas = {
+    'The Reading Room': {
+      metaIcon: clock,
+      metaText: 'Open during gallery hours',
+    },
+  };
+
+  return promos.map(p => ({
+    ...p,
+    // Add any extra meta information which can't be recorded in Prismic
+    ...(facilityPromoMetas[p.title] ? facilityPromoMetas[p.title] : {}),
+  }));
 }

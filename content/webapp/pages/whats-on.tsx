@@ -72,8 +72,11 @@ import {
   startOfDay,
 } from '@weco/common/utils/dates';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import { Page as PageType } from '../types/pages';
-import { getTryTheseTooPromos } from '../services/prismic/transformers/whats-on';
+import {
+  enrichTryTheseTooPromos,
+  getTryTheseTooPromos,
+} from '../services/prismic/transformers/whats-on';
+import { FacilityPromo as FacilityPromoType } from '../types/facility-promo';
 
 const segmentedControlItems = [
   {
@@ -99,7 +102,8 @@ export type Props = {
   availableOnlineEvents: EventBasic[];
   period: string;
   dateRange: { start: Date; end?: Date };
-  whatsOnPage: PageType;
+  featuredText?: FeaturedTextType;
+  tryTheseToo: FacilityPromoType[];
   jsonLd: JsonLdObj[];
 };
 
@@ -330,6 +334,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const whatsOnPage = transformPage(whatsOnPageDocument!);
 
+    const featuredText = getPageFeaturedText(whatsOnPage);
+    const tryTheseToo = getTryTheseTooPromos(whatsOnPage);
+
     const dateRange = getRangeForPeriod(period);
 
     const events = transformQuery(eventsQuery, transformEvent).results;
@@ -358,7 +365,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           availableOnlineEvents,
           dateRange,
           jsonLd,
-          whatsOnPage,
+          featuredText,
+          tryTheseToo,
           serverData,
         }),
       };
@@ -375,11 +383,11 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     availableOnlineEvents,
     dateRange,
     jsonLd,
-    whatsOnPage,
+    featuredText,
+    tryTheseToo: basicTryTheseTooPromos,
   } = props;
 
-  const featuredText = getPageFeaturedText(whatsOnPage);
-  const tryTheseToo = getTryTheseTooPromos(whatsOnPage);
+  const tryTheseToo = enrichTryTheseTooPromos(basicTryTheseTooPromos);
 
   const firstExhibition = exhibitions[0];
 
