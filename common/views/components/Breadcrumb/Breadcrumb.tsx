@@ -1,7 +1,7 @@
 import { font, classNames } from '../../../utils/classnames';
 import { breadcrumbsLd } from '../../../utils/json-ld';
 import Space from '../styled/Space';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { BreadcrumbItems } from '../../../model/breadcrumbs';
 
@@ -9,9 +9,7 @@ const ItemWrapper = styled(Space).attrs({
   className: font('intr', 6),
 })``;
 
-const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
-  items,
-}: BreadcrumbItems): ReactElement => (
+const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => (
   <div className="flex">
     {items
       .filter(({ isHidden }) => !isHidden)
