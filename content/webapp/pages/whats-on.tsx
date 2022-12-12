@@ -19,11 +19,6 @@ import {
   getVenueById,
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import {
-  cafePromo,
-  // shopPromo,
-  readingRoomPromo,
-} from '../data/facility-promos';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import EventsByMonth from '../components/EventsByMonth/EventsByMonth';
@@ -77,6 +72,8 @@ import {
   startOfDay,
 } from '@weco/common/utils/dates';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { Page as PageType } from '../types/pages';
+import { getTryTheseTooPromos } from '../services/prismic/transformers/whats-on';
 
 const segmentedControlItems = [
   {
@@ -102,7 +99,7 @@ export type Props = {
   availableOnlineEvents: EventBasic[];
   period: string;
   dateRange: { start: Date; end?: Date };
-  featuredText: FeaturedTextType | undefined;
+  whatsOnPage: PageType;
   jsonLd: JsonLdObj[];
 };
 
@@ -335,8 +332,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const dateRange = getRangeForPeriod(period);
 
-    const featuredText = getPageFeaturedText(whatsOnPage);
-
     const events = transformQuery(eventsQuery, transformEvent).results;
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
     const availableOnlineEvents = transformQuery(
@@ -363,7 +358,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           availableOnlineEvents,
           dateRange,
           jsonLd,
-          featuredText,
+          whatsOnPage,
           serverData,
         }),
       };
@@ -380,11 +375,11 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     availableOnlineEvents,
     dateRange,
     jsonLd,
-    featuredText,
+    whatsOnPage,
   } = props;
 
-  const tryTheseTooPromos = [readingRoomPromo];
-  const eatShopPromos = [cafePromo];
+  const featuredText = getPageFeaturedText(whatsOnPage);
+  const tryTheseToo = getTryTheseTooPromos(whatsOnPage);
 
   const firstExhibition = exhibitions[0];
 
@@ -545,7 +540,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           <SpacingComponent>
             <CssGridContainer>
               <div className="css-grid card-theme card-theme--transparent">
-                {tryTheseTooPromos.concat(eatShopPromos).map(promo => (
+                {tryTheseToo.map(promo => (
                   <div
                     key={promo.id}
                     className={cssGrid({
