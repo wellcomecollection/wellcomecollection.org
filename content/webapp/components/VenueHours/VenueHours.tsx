@@ -24,6 +24,7 @@ import {
   Venue,
 } from '@weco/common/model/opening-hours';
 import { Weight } from '../../types/body';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const VenueHoursImage = styled(Space)`
   ${props => props.theme.media('medium')`
@@ -93,12 +94,9 @@ export const OverrideDay = styled.div`
   width: 200px;
 `;
 
-const OpeningHours = styled.ul.attrs({
-  className: `no-margin ${font('intr', 5)}`,
-})`
-  list-style: none;
-  padding: 0;
-`;
+const OpeningHours = styled(PlainList).attrs({
+  className: font('intr', 5),
+})``;
 
 export const DifferentToRegularTime = styled.span`
   font-weight: bold;
@@ -261,6 +259,9 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                   happening imminently (within a few weeks), and so the year is unambiguous.
                  */}
                 {upcomingExceptionalPeriod.map(exceptional => {
+                  // We have regular opening hours for each day of the week, so we'll
+                  // always find something here.
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   const regular = venue.openingHours.regular
                     .filter(
                       ({ dayOfWeek }) =>

@@ -43,6 +43,13 @@ const ToolbarContainer = styled.div<{ mini: boolean }>`
   z-index: 100;
 `;
 
+const LinkList = styled.ul.attrs({
+  className: 'no-margin font-size-5',
+})`
+  display: flex;
+  list-style: none;
+`;
+
 /** tzitzit is a tool used by the Digital Editorial team to create TASL
  * strings for Prismic. https://github.com/wellcomecollection/tzitzit
  *
@@ -282,7 +289,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ extraLinks = [] }) => {
             >
               API toolbar
             </span>
-            <ul className="flex plain-list no-margin font-size-5">
+            <LinkList>
               {extraLinks.concat(links).map(prop => (
                 <li
                   key={prop.id}
@@ -296,7 +303,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ extraLinks = [] }) => {
                   {!prop.link && propValue(prop)}
                 </li>
               ))}
-            </ul>
+            </LinkList>
           </>
         )}
       </div>

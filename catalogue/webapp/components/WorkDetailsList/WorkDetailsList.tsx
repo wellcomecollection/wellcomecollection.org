@@ -1,26 +1,31 @@
-import Space from '@weco/common/views/components/styled/Space';
-import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
+import styled from 'styled-components';
 import { FunctionComponent } from 'react';
 
+import Space from '@weco/common/views/components/styled/Space';
+import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
+
+const PlainList = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['margin-bottom'],
+  },
+  className: 'no-margin',
+})`
+  list-style: none;
+  padding: 0;
+`;
 type Props = { title: string; list: string[] };
 
 const WorkDetailsList: FunctionComponent<Props> = ({ title, list }: Props) => {
   return (
     <WorkDetailsProperty title={title}>
-      <Space
-        v={{
-          size: 'm',
-          properties: ['margin-bottom'],
-        }}
-        as="ul"
-        className="plain-list no-margin no-padding"
-      >
+      <PlainList as="ul">
         {list.map((item, i) => (
           <li key={i} style={{ listStylePosition: 'inside' }}>
             {item}
           </li>
         ))}
-      </Space>
+      </PlainList>
     </WorkDetailsProperty>
   );
 };

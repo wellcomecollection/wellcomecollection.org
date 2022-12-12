@@ -2,13 +2,11 @@ import { FunctionComponent, SyntheticEvent } from 'react';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
+import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
 
-const List = styled.ul`
-  list-style: none;
-  margin: 0 !important;
-  padding: 0;
+const List = styled(PlainList)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -26,8 +24,11 @@ const Item = styled.li<{ isActive: boolean }>`
 
 const Button = styled.button.attrs({
   type: 'button',
-  className: 'flex plain-button no-margin no-padding',
-})``;
+  className: 'plain-button no-margin',
+})`
+  display: flex;
+  padding: 0;
+`;
 
 const ButtonInner = styled(Space).attrs({
   as: 'span',
@@ -39,8 +40,11 @@ const ButtonInner = styled(Space).attrs({
     size: 'xs',
     properties: ['padding-top', 'padding-bottom'],
   },
-  className: `flex flex--v-center flex--h-center ${font('intb', 5)}`,
+  className: font('intb', 5),
 })<{ isActive: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: ${props => props.theme.color('white')};
 `;
 
