@@ -129,3 +129,6 @@ export const requestingDisabled =
 
 export const pastExhibitionsStrapline =
   'Take a look at our past exhibitions and installations.';
+
+export const comicsStrapline =
+  'Explore new perspectives on bodies, brains and health with our guest comic artists.';

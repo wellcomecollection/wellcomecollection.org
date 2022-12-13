@@ -31,10 +31,7 @@ import {
   transformBook,
   transformBookToBookBasic,
 } from '../services/prismic/transformers/books';
-import {
-  transformEvent,
-  transformEventBasic,
-} from '../services/prismic/transformers/events';
+import { transformEventBasic } from '../services/prismic/transformers/events';
 import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { transformProject } from '../services/prismic/transformers/projects';

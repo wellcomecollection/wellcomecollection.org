@@ -28,16 +28,26 @@ import {
   transformArticleToArticleBasic,
 } from '../services/prismic/transformers/articles';
 import { transformStoriesLanding } from '../services/prismic/transformers/stories-landing';
-import { pageDescriptions } from '@weco/common/data/microcopy';
+import { pageDescriptions, comicsStrapline } from '@weco/common/data/microcopy';
 import { StoriesLanding } from '../types/stories-landing';
 import { StoriesLandingPrismicDocument } from '../services/prismic/types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { RichTextField } from '@prismicio/types';
+import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+import { fetchSeries } from '../services/prismic/fetch/series';
+import {
+  transformSeries,
+  transformSeriesToSeriesBasic,
+} from '../services/prismic/transformers/series';
+import { SeriesBasic } from '../types/series';
+import * as prismic from '@prismicio/client';
 
 type Props = {
   articles: ArticleBasic[];
+  comicSeries: SeriesBasic[];
   storiesLanding: StoriesLanding;
+  storiesLandingComics: boolean;
   jsonLd: JsonLdObj[];
 };
 
@@ -60,20 +70,42 @@ const StoryPromoContainer = styled.div.attrs({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+    const storiesLandingComics = serverData.toggles.storiesLandingComics;
     const client = createClient(context);
-
-    const articlesQueryPromise = fetchArticles(client);
+    const articlesQueryPromise = fetchArticles(client, {
+      predicates: storiesLandingComics
+        ? prismic.predicate.not('my.articles.format', ArticleFormatIds.Comic)
+        : undefined,
+    });
 
     const storiesLandingPromise = fetchStoriesLanding(client);
 
-    const [articlesQuery, storiesLandingDoc] = await Promise.all([
-      articlesQueryPromise,
-      storiesLandingPromise,
-    ]);
+    const comicSeriesPromise = fetchSeries(client, {
+      predicates: prismic.predicate.at(
+        'my.series.format',
+        ArticleFormatIds.Comic
+      ),
+      pageSize: 3,
+      orderings: {
+        field: 'document.first_publication_date',
+        direction: 'desc',
+      },
+    });
+
+    const [articlesQuery, storiesLandingDoc, comicSeriesQuery] =
+      await Promise.all([
+        articlesQueryPromise,
+        storiesLandingPromise,
+        comicSeriesPromise,
+      ]);
 
     const articles = transformQuery(articlesQuery, transformArticle);
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
+    const comicSeries = transformQuery(comicSeriesQuery, transformSeries);
+    const basicComicSeries = comicSeries.results.map(
+      transformSeriesToSeriesBasic
+    );
 
     const storiesLanding =
       storiesLandingDoc &&
@@ -85,9 +117,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           articles: basicArticles,
+          comicSeries: basicComicSeries,
           serverData,
           jsonLd,
           storiesLanding,
+          storiesLandingComics,
         }),
       };
     } else {
@@ -97,8 +131,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
 const StoriesPage: FunctionComponent<Props> = ({
   articles,
+  comicSeries,
   jsonLd,
   storiesLanding,
+  storiesLandingComics,
 }) => {
   const firstArticle = articles[0];
   const introText = storiesLanding?.introText;
@@ -198,6 +234,28 @@ const StoriesPage: FunctionComponent<Props> = ({
           />
         </SpacingComponent>
       </SpacingSection>
+
+      {storiesLandingComics && (
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title="Comics" />
+          </SpacingComponent>
+
+          <SpacingComponent>
+            <Layout12>
+              <p>{comicsStrapline}</p>
+            </Layout12>
+          </SpacingComponent>
+
+          <SpacingComponent>
+            <CardGrid
+              items={comicSeries}
+              itemsPerRow={3}
+              itemsHaveTransparentBackground={true}
+            />
+          </SpacingComponent>
+        </SpacingSection>
+      )}
 
       <SpacingSection>
         {storiesLanding.booksTitle && (
