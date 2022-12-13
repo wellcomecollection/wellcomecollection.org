@@ -66,7 +66,7 @@ const navigateToNextPage = async (page: Page) => {
   await Promise.all([
     safeWaitForNavigation(page),
     page.click(
-      `[aria-label="pagination"]${
+      `[id="pagination"]${
         isMobile(page) ? ':not(.is-hidden-s)' : ''
       }:nth-of-type(1) a`
     ),
