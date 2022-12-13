@@ -32,6 +32,13 @@ export function dasherizeShorten(words: string): string {
     .replace(/\W/g, '-');
 }
 
+/** Formats a string to describe a list of results, e.g.
+ *
+ *      1 work
+ *      5 images
+ *      100 events
+ *
+ */
 export function pluralize(count: number, noun: string, suffix = 's'): string {
   return `${count} ${noun}${count !== 1 ? suffix : ''}`;
 }
