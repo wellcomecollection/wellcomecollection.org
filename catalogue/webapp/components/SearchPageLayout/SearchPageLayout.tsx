@@ -21,6 +21,20 @@ const SearchBarContainer = styled(Space)`
   `}
 `;
 
+type PageLayoutMetadata = {
+  openGraphType: 'website';
+  siteSection: 'collections';
+  jsonLd: { '@type': 'WebPage' };
+  hideNewsletterPromo: true;
+  excludeRoleMain: true;
+  title: string;
+  description: string;
+  url: {
+    pathname: string;
+    query: Record<string, string | string[] | undefined>;
+  };
+};
+
 const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
   children,
   hasEventsExhibitions,
@@ -40,16 +54,15 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
     excludeRoleMain: true,
   } as const;
 
-  const defaultPageLayoutMetadata = {
+  const defaultPageLayoutMetadata: PageLayoutMetadata = {
     ...basePageMetadata,
     title: 'Search Page',
     description: 'TBC',
     url: { pathname: '/search', query: {} },
   };
 
-  const [pageLayoutMetadata, setPageLayoutMetadata] = useState(
-    defaultPageLayoutMetadata
-  );
+  const [pageLayoutMetadata, setPageLayoutMetadata] =
+    useState<PageLayoutMetadata>(defaultPageLayoutMetadata);
 
   const getURL = pathname => {
     const query = { query: router.query.query };
@@ -71,7 +84,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           ...basePageMetadata,
           description: 'copy pending',
           title: `${query ? `${query} | ` : ''}Stories Search`,
-          url: { pathname: '/search/stories', query: query || {} },
+          url: { pathname: '/search/stories', query: { query } || {} },
         });
         break;
       case 'images':
@@ -79,7 +92,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           ...basePageMetadata,
           description: pageDescriptions.images,
           title: `${query ? `${query} | ` : ''}Image Search`,
-          url: { pathname: '/search/images', query: query || {} },
+          url: { pathname: '/search/images', query: { query } || {} },
         });
         break;
       case 'works':
@@ -87,7 +100,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           ...basePageMetadata,
           description: 'copy pending',
           title: `${query ? `${query} | ` : ''}Catalogue Search`,
-          url: { pathname: '/search/collections', query: query || {} },
+          url: { pathname: '/search/collections', query: { query } || {} },
         });
         break;
       // In development
@@ -96,7 +109,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           ...basePageMetadata,
           description: 'copy pending',
           title: `${query ? `${query} | ` : ''}Exhibition Search`,
-          url: { pathname: '/search/exhibitions', query: query || {} },
+          url: { pathname: '/search/exhibitions', query: { query } || {} },
         });
         break;
       case 'events':
@@ -104,7 +117,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           ...basePageMetadata,
           description: 'copy pending',
           title: `${query ? `${query} | ` : ''}Events Search`,
-          url: { pathname: '/search/events', query: query || {} },
+          url: { pathname: '/search/events', query: { query } || {} },
         });
         break;
 

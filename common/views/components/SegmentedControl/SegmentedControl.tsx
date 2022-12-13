@@ -33,13 +33,10 @@ const DrawerItem = styled(Space).attrs({
   `}
 `;
 
-const List = styled.ul.attrs({
+const List = styled(PlainList).attrs({
   className: 'segmented-control__list rounded-diagonal',
 })`
   border: 1px solid ${props => props.theme.color('black')};
-  margin: 0 !important;
-  padding: 0;
-  list-style: none;
   overflow: hidden;
 `;
 

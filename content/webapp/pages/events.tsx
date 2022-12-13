@@ -103,7 +103,6 @@ const EventsPage: FunctionComponent<Props> = props => {
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          showFreeAdmissionMessage={true}
           title={title}
           description={[
             {

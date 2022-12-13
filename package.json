@@ -58,6 +58,7 @@
     "catalogue/webapp",
     "content/webapp",
     "identity/webapp",
+    "prismic-model",
     "toggles/webapp"
   ],
   "lint-staged": {

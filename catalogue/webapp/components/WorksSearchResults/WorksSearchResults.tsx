@@ -2,17 +2,15 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 
 type Props = {
   works: CatalogueResultsList<Work>;
 };
 
-const SearchResultUnorderedList = styled.ul`
-  list-style: none;
+const SearchResultUnorderedList = styled(PlainList)`
   display: flex;
   flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
 `;
 
 const SearchResultListItem = styled.li`
