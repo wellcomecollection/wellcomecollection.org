@@ -81,7 +81,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
 
     {paginatedResults.totalPages > 1 && (
       <Layout12>
-        <PaginationWrapper verticalSpacing="l">
+        <PaginationWrapper verticalSpacing="l" alignRight>
           <Pagination
             totalPages={paginatedResults.totalPages}
             ariaLabel="Results pagination"
