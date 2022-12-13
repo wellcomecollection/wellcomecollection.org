@@ -6,8 +6,8 @@ import {
 } from '../services/prismic/documents';
 import { Handler } from './';
 import * as prismic from '@prismicio/client';
-import fetch from 'node-fetch';
 import { InferDataInterface } from '../services/prismic/types';
+import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 
 export type CollectionVenuePrismicDocumentLite = {
   id: string;
@@ -64,30 +64,20 @@ export const handler: Handler<SimplifiedPrismicData, PrismicData> = {
 };
 
 const fetchers: Record<Key, (client: prismic.Client) => unknown> = {
-  globalAlert: async client => {
-    const document = await client.getSingle('global-alert');
-    return document;
-  },
+  globalAlert: async client => client.getSingle('global-alert'),
 
-  popupDialog: async client => {
-    const document = await client.getSingle('popup-dialog');
-    return document;
-  },
+  popupDialog: async client => client.getSingle('popup-dialog'),
 
-  collectionVenues: async client => {
-    return client.get({
+  collectionVenues: async client =>
+    client.get({
       predicates: [
         prismic.predicate.any('document.type', ['collection-venue']),
       ],
-    });
-  },
+    }),
 };
 
 async function fetchPrismicValues(): Promise<PrismicData> {
-  // We should probably make this generic somewhere.
-  // The only place we have it is JS not TS, so leaving it ungenerified for now
-  const endpoint = prismic.getEndpoint('wellcomecollection');
-  const client = prismic.createClient(endpoint, { fetch });
+  const client = createPrismicClient();
 
   const keys = Object.keys(fetchers);
   const values = await Promise.allSettled(

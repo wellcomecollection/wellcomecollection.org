@@ -38,6 +38,11 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import styled from 'styled-components';
 import { Pageview } from '@weco/common/services/conversion/track';
 
+const ContentTypeWrapper = styled.div`
+  display: flex;
+  align-items: baseline;
+`;
+
 type Props = {
   article: Article;
   jsonLd: JsonLdObj;
@@ -226,7 +231,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
-      <div className="flex flex--h-baseline">
+      <ContentTypeWrapper>
         <Space v={{ size: 's', properties: ['margin-top'] }}>
           <p className={`no-margin ${font('intr', 6)}`}>
             {article.contributors.length > 0 &&
@@ -256,7 +261,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             </HTMLDateWrapper>
           </p>
         </Space>
-      </div>
+      </ContentTypeWrapper>
     </Fragment>
   );
 

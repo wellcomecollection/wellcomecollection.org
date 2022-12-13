@@ -6,9 +6,9 @@ import { ContentType } from '@weco/common/services/prismic/content-types';
 import { isString } from '@weco/common/utils/array';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import superjson from 'superjson';
+import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 
-const endpoint = prismic.getEndpoint('wellcomecollection');
-const client = prismic.createClient(endpoint, { fetch });
+const client = createPrismicClient();
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';

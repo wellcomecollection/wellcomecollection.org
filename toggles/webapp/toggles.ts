@@ -43,12 +43,6 @@ const toggles = {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
     {
-      id: 'exhibitionGuides',
-      title: 'Exhibition guides',
-      initialValue: false,
-      description: 'View pages related to exhibition guides',
-    },
-    {
       id: 'storiesLandingComics',
       title: 'Rearranging comics on the stories landing page',
       initialValue: false,

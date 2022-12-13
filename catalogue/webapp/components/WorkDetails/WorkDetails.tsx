@@ -1,7 +1,6 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { downloadUrl } from '../../services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import {
@@ -13,7 +12,6 @@ import {
   getLocationLabel,
   getLocationLink,
   getLocationShelfmark,
-  sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
@@ -52,27 +50,19 @@ type Props = {
   work: Work;
 };
 
-// At the moment we aren't set up to cope with access conditions,
-// 'permission-required', so we pass them off to the UV on the library site
-// If we have audio or video, then we show it in situ and don't link to the Item page
-type ItemLinkState = 'useItemLink' | 'useLibraryLink' | 'useNoLink';
+type ItemLinkState = 'useItemLink' | 'useNoLink';
 
 function getItemLinkState({
   accessCondition,
-  sierraIdFromManifestUrl,
   itemUrl,
   audio,
   video,
 }: {
   accessCondition: string | undefined;
-  sierraIdFromManifestUrl: string | undefined;
   itemUrl: LinkProps;
   audio: Audio | undefined;
   video: Video | undefined;
 }): ItemLinkState | undefined {
-  if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
-    return 'useLibraryLink';
-  }
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return 'useNoLink';
   }
@@ -148,9 +138,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     return id.identifierType.id === 'issn';
   });
   const seriesPartOfs = work.partOf.filter(p => !p['id']);
-  const sierraIdFromManifestUrl =
-    iiifPresentationLocation &&
-    sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url);
 
   const physicalItems = getItemsWithPhysicalLocation(work.items ?? []);
 
@@ -193,7 +180,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const itemLinkState = getItemLinkState({
     accessCondition: digitalLocationInfo?.accessCondition,
-    sierraIdFromManifestUrl,
     itemUrl,
     audio,
     video,
@@ -326,36 +312,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 workTitle={work.title}
               />
             )}
-            {/*
-              TODO: This is going to bounce us straight back to wc.org/works
-              What should we be doing in this branch?
-
-              Note: as of November 2022, I can't find any items that would actually
-              trigger this branch – i.e., items with a permission-required access
-              status and a IIIF manifest link.
-            */}
-            {itemLinkState === 'useLibraryLink' && (
-              <Space
-                as="span"
-                h={{
-                  size: 'm',
-                  properties: ['margin-right'],
-                }}
-              >
-                <ButtonSolidLink
-                  icon={eye}
-                  text="View"
-                  trackingEvent={{
-                    category: 'WorkDetails',
-                    action: 'follow view link',
-                    label: work.id,
-                  }}
-                  link={`https://wellcomelibrary.org/item/${
-                    sierraIdFromManifestUrl || ''
-                  }`}
-                />
-              </Space>
-            )}
             {itemLinkState === 'useItemLink' && (
               <>
                 {work.thumbnail && (
@@ -427,18 +383,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     />
                   )}
                 </div>
-                {!(downloadOptions.length > 0) &&
-                  sierraIdFromManifestUrl &&
-                  collectionManifestsCount === 0 && (
-                    <NextLink
-                      {...downloadUrl({
-                        workId: work.id,
-                        sierraId: sierraIdFromManifestUrl,
-                      })}
-                    >
-                      <a>Download options</a>
-                    </NextLink>
-                  )}
                 {(collectionManifestsCount > 0 || canvasCount > 0) && (
                   <Space
                     v={{
