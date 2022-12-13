@@ -131,7 +131,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   changeHandler,
   filters,
   form,
-}: MoreFiltersProps) => {
+}) => {
   return (
     <>
       {filters
