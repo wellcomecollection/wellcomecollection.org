@@ -20,8 +20,29 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "managed-ip-blocking"
+    name     = "ip-allowlist"
     priority = 0
+
+    action {
+      allow {}
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.allowlist.arn
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = false
+      sampled_requests_enabled   = false
+      metric_name                = "weco-cloudfront-acl-allowlist-${var.namespace}"
+    }
+  }
+
+  rule {
+    name     = "managed-ip-blocking"
+    priority = 1
 
     override_action {
       none {}
@@ -32,16 +53,6 @@ resource "aws_wafv2_web_acl" "wc_org" {
         // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-ip-rep.html
         name        = "AWSManagedRulesAmazonIpReputationList"
         vendor_name = "AWS"
-
-        scope_down_statement {
-          not_statement {
-            statement {
-              ip_set_reference_statement {
-                arn = aws_wafv2_ip_set.allowlist.arn
-              }
-            }
-          }
-        }
       }
     }
 
@@ -54,7 +65,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 1
+    priority = 2
 
     action {
       block {}
@@ -76,7 +87,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 2
+    priority = 3
 
     action {
       block {}
