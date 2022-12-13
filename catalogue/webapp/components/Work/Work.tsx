@@ -112,7 +112,6 @@ const Work: FunctionComponent<Props> = ({
   });
   const showTabbedNav =
     worksTabbedNav && (shouldShowItemLink || audio || video);
-  // end TODO pass these through to WorkDetails, no need to get again
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
