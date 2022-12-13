@@ -1,37 +1,37 @@
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+
+import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
+import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getFeaturedMedia } from '../utils/page-header';
-import { Series } from '../types/series';
-import { ArticleBasic } from '../types/articles';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
+import { Series } from '@weco/content/types/series';
+import { ArticleBasic } from '@weco/content/types/articles';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import Body from '../components/Body/Body';
-import SearchResults from '../components/SearchResults/SearchResults';
-import ContentPage from '../components/ContentPage/ContentPage';
+import Body from '@weco/content/components/Body/Body';
+import SearchResults from '@weco/content/components/SearchResults/SearchResults';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { createClient } from '../services/prismic/fetch';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
-import { fetchArticles } from '../services/prismic/fetch/articles';
-import * as prismic from '@prismicio/client';
-import { transformArticleSeries } from '../services/prismic/transformers/article-series';
-import { getPage } from '../utils/query-params';
+import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
+import { transformArticleSeries } from '@weco/content/services/prismic/transformers/article-series';
+import { getPage } from '@weco/content/utils/query-params';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import {
   transformArticle,
   transformArticleToArticleBasic,
-} from 'services/prismic/transformers/articles';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
-import Space from '@weco/common/views/components/styled/Space';
+} from '@weco/content/services/prismic/transformers/articles';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import { seasonsFetchLinks } from 'services/prismic/types';
+import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 
 type Props = {
@@ -166,12 +166,6 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
 
   const paginationRoot = `/series/${series.id}`;
 
-  const PaginationWrapper = styled(Space).attrs({
-    v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  })`
-    text-align: right;
-  `;
-
   return (
     <PageLayout
       title={series.title}
@@ -191,17 +185,10 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
       >
         <SearchResults items={series.items} showPosition={true} />
         {articles.totalPages > 1 && (
-          <PaginationWrapper>
+          <PaginationWrapper verticalSpacing="m" alignRight>
             <Pagination
-              paginatedResults={articles}
-              paginationRoot={{
-                href: {
-                  pathname: paginationRoot,
-                },
-                as: {
-                  pathname: paginationRoot,
-                },
-              }}
+              totalPages={articles.totalPages}
+              ariaLabel="Series pagination"
             />
           </PaginationWrapper>
         )}

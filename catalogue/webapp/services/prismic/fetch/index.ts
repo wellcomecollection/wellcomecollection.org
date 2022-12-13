@@ -1,5 +1,4 @@
 import * as prismic from '@prismicio/client';
-import fetch from 'node-fetch';
 import { GraphQLClient } from 'graphql-request';
 import { PrismicApiError } from '../types';
 import { unCamelCase } from '@weco/common/utils/grammar';
@@ -9,6 +8,7 @@ import { getPrismicSortValue } from '@weco/catalogue/utils/search';
 import { storiesQuery } from './articles';
 import { eventsQuery } from './events';
 import { exhibitionsQuery } from './exhibitions';
+import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 
 export const articleIdToLabel = (id: string): string => {
   const label = Object.keys(ArticleFormatIds).find(
@@ -20,8 +20,7 @@ export const articleIdToLabel = (id: string): string => {
   return formattedLabel === 'Essay' ? 'Article' : formattedLabel;
 };
 
-const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
-const client = prismic.createClient(endpoint, { fetch });
+const client = createPrismicClient();
 
 export async function prismicGraphQLClient(
   type: string,

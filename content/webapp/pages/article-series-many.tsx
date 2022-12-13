@@ -19,6 +19,7 @@ import {
   transformSeriesToSeriesBasic,
 } from 'services/prismic/transformers/series';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+import * as prismic from '@prismicio/client';
 
 const contentTypes = ['comic'] as const;
 type ContentType = typeof contentTypes[number];
@@ -75,9 +76,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    // TODO: ordering
     const seriesQuery = await fetchSeries(client, {
-      predicates: [`[at(my.series.format, "${contentTypeInfo.id}")]`],
+      predicates: prismic.predicate.at('my.series.format', contentTypeInfo.id),
       page,
       orderings: {
         field: 'document.first_publication_date',
@@ -122,7 +122,6 @@ const ArticleSeriesManyPage: FunctionComponent<Props> = ({
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
           title={title}
           description={[
             {
@@ -132,7 +131,6 @@ const ArticleSeriesManyPage: FunctionComponent<Props> = ({
             },
           ]}
           paginatedResults={series}
-          paginationRoot="/series"
         />
       </SpacingSection>
     </PageLayout>

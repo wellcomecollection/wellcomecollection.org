@@ -1,19 +1,21 @@
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { GetServerSideProps, NextPage } from 'next';
 import Router from 'next/router';
 import Head from 'next/head';
+import styled from 'styled-components';
+import { getCookie } from 'cookies-next';
+
 import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
-import Paginator from '@weco/common/views/components/Paginator/Paginator';
+import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Space from '@weco/common/views/components/styled/Space';
-import { getWorks } from '../services/catalogue/works';
-import { getCookie } from 'cookies-next';
-import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
+import { getWorks } from '@weco/catalogue/services/catalogue/works';
+import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
-import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
+import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import SearchTitle from '../components/SearchTitle/SearchTitle';
-import { GetServerSideProps, NextPage } from 'next';
+import SearchTitle from '@weco/catalogue/components/SearchTitle/SearchTitle';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import {
@@ -26,7 +28,8 @@ import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import styled from 'styled-components';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import { pluralize } from '@weco/common/utils/grammar';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -34,9 +37,8 @@ type Props = {
   pageview: Pageview;
 };
 
-const PaginationWrapper = styled.div`
+const SortPaginationWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 `;
@@ -78,7 +80,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
   const isWorksLanding = url.query ? Object.keys(url.query).length === 0 : true;
 
   return (
-    <Fragment>
+    <>
       <Head>
         {works.prevPage && (
           <link
@@ -116,13 +118,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
           },
         ]}
       >
-        <Space
-          v={{
-            size: 'l',
-            properties: ['padding-bottom'],
-          }}
-          className="row"
-        >
+        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
           <div className="container">
             {/* Showing the h1 on `/works` (without a query string) in an attempt to
             have Google use it as the link text in sitelinks
@@ -148,109 +144,48 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
         </Space>
 
         {works.results.length > 0 && (
-          <Fragment>
+          <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
-                <div className="grid">
-                  <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                    <PaginationWrapper>
-                      <Fragment>
-                        <Paginator
-                          query={query}
-                          showPortal={true}
-                          currentPage={page}
-                          totalPages={works.totalPages}
-                          totalResults={works.totalResults}
-                          link={toLink(
-                            {
-                              ...worksRouteProps,
-                            },
-                            'search/paginator'
-                          )}
-                          onPageChange={async (event, newPage) => {
-                            event.preventDefault();
-                            const state = {
-                              ...worksRouteProps,
-                              page: newPage,
-                            };
-                            const link = toLink(
-                              {
-                                ...state,
-                              },
-                              'search/paginator'
-                            );
+                <PaginationWrapper>
+                  <span>{pluralize(works.totalResults, 'result')}</span>
 
-                            Router.push(link.href, link.as).then(() =>
-                              window.scrollTo(0, 0)
-                            );
-                          }}
-                          hideMobilePagination={true}
-                        />
-                      </Fragment>
-                    </PaginationWrapper>
-                  </div>
-                </div>
+                  <SortPaginationWrapper>
+                    {/* #sort-select-portal displays the sort component  */}
+                    <div id="sort-select-portal" />
+
+                    <Pagination
+                      totalPages={works.totalPages}
+                      ariaLabel="Catalogue search pagination"
+                      isHiddenMobile
+                    />
+                  </SortPaginationWrapper>
+                </PaginationWrapper>
               </div>
             </Space>
 
             <Space
-              v={{
-                size: 'l',
-                properties: ['padding-top'],
-              }}
+              v={{ size: 'l', properties: ['padding-top'] }}
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container" role="main">
                 <WorksSearchResults works={works} />
               </div>
+
               <Space
-                v={{
-                  size: 'l',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
+                v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
               >
                 <div className="container">
-                  <div className="grid">
-                    <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                      <div className="flex flex--h-space-between flex--v-center flex--wrap">
-                        <Paginator
-                          query={query}
-                          currentPage={page}
-                          totalPages={works.totalPages}
-                          totalResults={works.totalResults}
-                          link={toLink(
-                            {
-                              ...worksRouteProps,
-                            },
-                            'search/paginator'
-                          )}
-                          onPageChange={async (event, newPage) => {
-                            event.preventDefault();
-                            const state = {
-                              ...worksRouteProps,
-                              page: newPage,
-                            };
-
-                            const link = toLink(
-                              {
-                                ...state,
-                              },
-                              'search/paginator'
-                            );
-
-                            Router.push(link.href, link.as).then(() =>
-                              window.scrollTo(0, 0)
-                            );
-                          }}
-                          hideMobileTotalResults={true}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <PaginationWrapper alignRight>
+                    <Pagination
+                      totalPages={works.totalPages}
+                      ariaLabel="Catalogue search pagination"
+                    />
+                  </PaginationWrapper>
                 </div>
               </Space>
             </Space>
-          </Fragment>
+          </>
         )}
 
         {works.results.length === 0 && (
@@ -260,7 +195,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
           />
         )}
       </CataloguePageLayout>
-    </Fragment>
+    </>
   );
 };
 

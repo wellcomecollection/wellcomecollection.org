@@ -8,11 +8,9 @@ import {
 } from '@weco/common/icons';
 import TypeOption from './TypeOption';
 import cookies from '@weco/common/data/cookies';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 
-const TypeList = styled.ul`
-  list-style: none;
-  margin: 0 !important;
-  padding: 0;
+const TypeList = styled(PlainList)`
   display: flex;
   flex-wrap: wrap;
   gap: 20px;

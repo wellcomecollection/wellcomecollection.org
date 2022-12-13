@@ -3,6 +3,7 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { chevron, digitalImage, eye, gridView } from '@weco/common/icons';
 
@@ -60,13 +61,9 @@ const DropdownButtonTemplate = args => {
   return (
     <DropdownButton label="Filters" buttonType={args.buttonType} id="example">
       <div>
-        <ul className="plain-list no-margin no-padding">
+        <PlainList>
           <li>
-            <CheckboxRadio
-              id="1"
-              type="checkbox"
-              text="Manuscripts (1,856)"
-            />
+            <CheckboxRadio id="1" type="checkbox" text="Manuscripts (1,856)" />
           </li>
           <li>
             <CheckboxRadio id="2" type="checkbox" text="Archives (1,784)" />
@@ -77,7 +74,7 @@ const DropdownButtonTemplate = args => {
           <li>
             <CheckboxRadio id="4" type="checkbox" text="Books (12,465)" />
           </li>
-        </ul>
+        </PlainList>
       </div>
     </DropdownButton>
   );

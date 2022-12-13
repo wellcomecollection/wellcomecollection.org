@@ -16,6 +16,7 @@ import {
 import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Periods } from './types/periods';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import * as prismic from '@prismicio/client';
 import { vanityUrls } from '@weco/common/data/vanity-urls';
 
@@ -160,8 +161,7 @@ const appPromise = nextApp
       // Kill any cookie we had set, as it think it is causing issues.
       ctx.cookies.set(prismic.cookie.preview);
 
-      const endpoint = prismic.getEndpoint('wellcomecollection');
-      const client = prismic.createClient(endpoint, { fetch });
+      const client = createPrismicClient();
       client.enableAutoPreviewsFromReq(ctx.request);
 
       /**

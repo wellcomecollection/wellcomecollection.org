@@ -31,10 +31,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const page = getPage(context.query);
 
-    if (!serverData.toggles.exhibitionGuides) {
-      return { notFound: true };
-    }
-
     if (typeof page !== 'number') {
       return appError(context, 400, page.message);
     }
@@ -87,10 +83,8 @@ const ExhibitionGuidesPage: FC<Props> = props => {
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
           title="Exhibition guides"
           paginatedResults={exhibitionGuides}
-          paginationRoot="exhibition-guides"
         />
       </SpacingSection>
     </PageLayout>

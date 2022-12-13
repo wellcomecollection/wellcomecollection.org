@@ -1,24 +1,24 @@
-import { ArticleBasic } from '../types/articles';
+import { FunctionComponent } from 'react';
+import { GetServerSideProps } from 'next';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
-import { createClient } from '../services/prismic/fetch';
-import { fetchArticles } from '../services/prismic/fetch/articles';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformArticle,
   transformArticleToArticleBasic,
-} from '../services/prismic/transformers/articles';
+} from '@weco/content/services/prismic/transformers/articles';
+import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
+import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import { FunctionComponent } from 'react';
-import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { articleLd } from '../services/prismic/transformers/json-ld';
-import { getPage } from '../utils/query-params';
+import { getPage } from '@weco/content/utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { ArticleBasic } from '@weco/content/types/articles';
 
 type Props = {
   articles: PaginatedResults<ArticleBasic>;
@@ -74,7 +74,6 @@ const ArticlesPage: FunctionComponent<Props> = ({
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
           title="Stories"
           description={[
             {
@@ -84,7 +83,6 @@ const ArticlesPage: FunctionComponent<Props> = ({
             },
           ]}
           paginatedResults={articles}
-          paginationRoot="/articles"
         />
       </SpacingSection>
     </PageLayout>

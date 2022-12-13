@@ -1,9 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import {
-  RulesList,
-  RulesListItem,
-  RulesListWrapper,
-} from './PasswordInput.style';
+import { RulesListItem, RulesListWrapper } from './PasswordInput.style';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { check } from '@weco/common/icons';
@@ -57,7 +54,7 @@ export const PasswordRules: React.FunctionComponent<Props> = ({
       <Space v={{ size: 's', properties: ['margin-bottom'] }}>
         Your password must contain:
       </Space>
-      <RulesList>
+      <PlainList>
         <RulesListItem>
           <Dot isValid={isAtLeast8Characters} />
           At least 8 characters
@@ -74,7 +71,7 @@ export const PasswordRules: React.FunctionComponent<Props> = ({
           <Dot isValid={hasNumbers} />
           Numbers (0-9)
         </RulesListItem>
-      </RulesList>
+      </PlainList>
     </RulesListWrapper>
   );
 };

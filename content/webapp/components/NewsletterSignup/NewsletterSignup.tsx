@@ -24,6 +24,11 @@ const ErrorBox = styled(Space).attrs({
   color: ${props => props.theme.color('validation.red')};
 `;
 
+const PlainList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
 type Props = {
   isSuccess?: boolean;
   isError?: boolean;
@@ -173,7 +178,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 You might also be interested in receiving updates on:
               </legend>
             </Space>
-            <ul className="plain-list no-padding">
+            <PlainList>
               {secondaryAddressBooks.map(addressBook => (
                 <Space
                   as="li"
@@ -191,7 +196,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                   />
                 </Space>
               ))}
-            </ul>
+            </PlainList>
           </Space>
 
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>

@@ -203,6 +203,23 @@ const ButtonContainer = styled.div<{ isHidden: boolean }>`
   z-index: 2;
 `;
 
+type ControlContainerProps = { isActive: boolean };
+
+const ControlContainer = styled(Space).attrs<ControlContainerProps>(props => ({
+  v: {
+    size: 'm',
+    properties: ['padding-bottom'],
+  },
+  h: { size: 'm', properties: ['padding-right'] },
+  className: classNames({
+    close: true,
+    'is-hidden': !props.isActive,
+  }),
+}))<ControlContainerProps>`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 export type Props = {
   title?: string;
   items: CaptionedImageProps[];
@@ -348,18 +365,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 }}
                 className="close-wrapper absolute"
               >
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: ['padding-bottom'],
-                  }}
-                  h={{ size: 'm', properties: ['padding-right'] }}
-                  className={classNames({
-                    'flex flex-end': true,
-                    close: true,
-                    'is-hidden': !isActive,
-                  })}
-                >
+                <ControlContainer isActive={isActive}>
                   <Control
                     tabIndex={-1}
                     ariaControls={`image-gallery-${id}`}
@@ -371,7 +377,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                     icon={cross}
                     clickHandler={handleCloseClicked}
                   />
-                </Space>
+                </ControlContainer>
               </Space>
             )}
             {isFrames && (

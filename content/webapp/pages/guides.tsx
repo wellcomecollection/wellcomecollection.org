@@ -80,7 +80,6 @@ const GuidePage: FunctionComponent<Props> = ({
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
           title={displayTitle}
           description={[
             {
@@ -90,7 +89,6 @@ const GuidePage: FunctionComponent<Props> = ({
             },
           ]}
           paginatedResults={guides}
-          paginationRoot="/guides"
         >
           <Filters currentId={formatId} guideFormats={guideFormats} />
         </LayoutPaginatedResults>

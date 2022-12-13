@@ -24,7 +24,9 @@ module "identity-service-18012021" {
     APM_ENVIRONMENT = var.env_suffix
   }, var.env_vars)
 
-  secret_env_vars = merge({}, var.secret_env_vars)
+  secret_env_vars = merge({
+    PRISMIC_ACCESS_TOKEN = "prismic-model/prod/access-token"
+  }, var.secret_env_vars)
 
   # We have a custom nginx container that redacts the values of
   # sensitive query parameters, e.g. email, to avoid leaking PII

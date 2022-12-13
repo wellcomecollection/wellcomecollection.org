@@ -182,8 +182,13 @@ export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
     credentials: 'same-origin',
   });
 
-  const work: WorkResponse = await response.json();
-  return work;
+  const resp = await response.json();
+
+  if (resp.type === 'Redirect') {
+    return getWorkClientSide(resp.redirectToId);
+  } else {
+    return resp;
+  }
 }
 
 export async function getWorkItemsClientSide(
