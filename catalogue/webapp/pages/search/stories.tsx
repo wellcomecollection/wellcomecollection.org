@@ -4,11 +4,12 @@ import styled from 'styled-components';
 // Components
 import Space from '@weco/common/views/components/styled/Space';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Sort from '@weco/catalogue/components/Sort/Sort';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -38,16 +39,6 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme.color('neutral.200')};
 `;
 
-const PaginationWrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: font('intb', 5),
-})`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-`;
-
 const SortPaginationWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -57,10 +48,6 @@ const SortPaginationWrapper = styled.div`
     flex: 1 1 50%;
     justify-content: flex-end;
   `}
-`;
-
-const BottomPaginationWrapper = styled(PaginationWrapper)`
-  justify-content: flex-end;
 `;
 
 const Container = styled(Space).attrs({
@@ -173,7 +160,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         <SearchNoResults query={queryString} hasFilters={false} />
       ) : (
         <div className="container">
-          <PaginationWrapper>
+          <PaginationWrapper verticalSpacing="l">
             <span>{pluralize(storyResponseList.totalResults, 'result')}</span>
 
             <SortPaginationWrapper>
@@ -197,8 +184,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 }}
                 defaultValues={{ sort: query.sort, sortOrder: query.sortOrder }}
               />
-              <SearchPagination
+              <Pagination
                 totalPages={storyResponseList.totalPages}
+                ariaLabel="Stories search pagination"
                 isHiddenMobile
               />
             </SortPaginationWrapper>
@@ -254,9 +242,12 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             })}
           </main>
 
-          <BottomPaginationWrapper>
-            <SearchPagination totalPages={storyResponseList.totalPages} />
-          </BottomPaginationWrapper>
+          <PaginationWrapper verticalSpacing="l" alignRight>
+            <Pagination
+              totalPages={storyResponseList.totalPages}
+              ariaLabel="Stories search pagination"
+            />
+          </PaginationWrapper>
         </div>
       )}
     </Wrapper>

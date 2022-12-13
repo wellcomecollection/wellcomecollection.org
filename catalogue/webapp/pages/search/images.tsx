@@ -9,8 +9,9 @@ import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpoint
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
-import SearchPagination from '@weco/common/views/components/SearchPagination/SearchPagination';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 
 // Utils & Helpers
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -29,7 +30,6 @@ import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { hasFilters } from '@weco/catalogue/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
-import { font } from '@weco/common/utils/classnames';
 
 // Types
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
@@ -48,19 +48,6 @@ const Wrapper = styled(Space).attrs({
 })`
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
-`;
-
-const PaginationWrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: font('intb', 5),
-})`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const BottomPaginationWrapper = styled(PaginationWrapper)`
-  justify-content: flex-end;
 `;
 
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
@@ -168,18 +155,27 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           ) : (
             <Wrapper>
               <div className="container">
-                <PaginationWrapper>
+                <PaginationWrapper verticalSpacing="l">
                   <span>{pluralize(images.totalResults, 'result')}</span>
-                  <SearchPagination totalPages={images?.totalPages} darkBg />
+                  <Pagination
+                    totalPages={images?.totalPages}
+                    ariaLabel="Image search pagination"
+                    hasDarkBg
+                    isHiddenMobile
+                  />
                 </PaginationWrapper>
 
                 <main>
                   <ImageEndpointSearchResults images={images} />
                 </main>
 
-                <BottomPaginationWrapper>
-                  <SearchPagination totalPages={images?.totalPages} darkBg />
-                </BottomPaginationWrapper>
+                <PaginationWrapper verticalSpacing="l" alignRight>
+                  <Pagination
+                    totalPages={images?.totalPages}
+                    ariaLabel="Image search pagination"
+                    hasDarkBg
+                  />
+                </PaginationWrapper>
               </div>
             </Wrapper>
           )}

@@ -6,7 +6,7 @@ import { imageSizes } from '@weco/common/utils/image-sizes';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import Space from '@weco/common/views/components/styled/Space';
 import Rotator from '@weco/common/views/components/styled/Rotator';
-import Paginator, {
+import RenderlessPaginator, {
   PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   PaginatorRenderFunctionProps,
 } from './RenderlessPaginator';
@@ -224,7 +224,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
           )}
         </NoScriptViewerImageWrapper>
         <NoScriptViewerPaginatorButtons>
-          <Paginator
+          <RenderlessPaginator
             {...mainPaginatorProps}
             render={PaginatorButtons(true, workId)}
           />
@@ -237,7 +237,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
             navigationCanvases.map((canvas, i) => {
               const canvasNumber = pageSize * pageIndex + (i + 1);
               return (
-                <Paginator
+                <RenderlessPaginator
                   key={canvas['@id']}
                   {...thumbsPaginatorProps}
                   render={() => (
@@ -267,7 +267,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               );
             })}
           <NoScriptViewerPaginatorButtons>
-            <Paginator
+            <RenderlessPaginator
               {...thumbsPaginatorProps}
               render={PaginatorButtons(true, workId)}
             />
