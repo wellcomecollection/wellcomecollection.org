@@ -28,7 +28,7 @@ import {
   transformArticleToArticleBasic,
 } from '../services/prismic/transformers/articles';
 import { transformStoriesLanding } from '../services/prismic/transformers/stories-landing';
-import { pageDescriptions } from '@weco/common/data/microcopy';
+import { pageDescriptions, comicsStrapline } from '@weco/common/data/microcopy';
 import { StoriesLanding } from '../types/stories-landing';
 import { StoriesLandingPrismicDocument } from '../services/prismic/types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -41,6 +41,7 @@ import {
   transformSeriesToSeriesBasic,
 } from '../services/prismic/transformers/series';
 import { SeriesBasic } from '../types/series';
+import * as prismic from '@prismicio/client';
 
 type Props = {
   articles: ArticleBasic[];
@@ -77,16 +78,19 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         : undefined,
     });
 
+    const storiesLandingPromise = fetchStoriesLanding(client);
+
     const comicSeriesPromise = fetchSeries(client, {
-      predicates: [`[at(my.series.format, "${ArticleFormatIds.Comic}")]`],
+      predicates: prismic.predicate.at(
+        'my.series.format',
+        ArticleFormatIds.Comic
+      ),
       pageSize: 3,
       orderings: {
         field: 'document.first_publication_date',
         direction: 'desc',
       },
     });
-
-    const storiesLandingPromise = fetchStoriesLanding(client);
 
     const [articlesQuery, storiesLandingDoc, comicSeriesQuery] =
       await Promise.all([
@@ -234,15 +238,12 @@ const StoriesPage: FunctionComponent<Props> = ({
       {storiesLandingComics && (
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title={'Comics'} />
+            <SectionHeader title="Comics" />
           </SpacingComponent>
 
           <SpacingComponent>
             <Layout12>
-              <p>
-                Explore new perspectives on bodies, brains and health with our
-                guest comic artists.
-              </p>
+              <p>{comicsStrapline}</p>
             </Layout12>
           </SpacingComponent>
 
