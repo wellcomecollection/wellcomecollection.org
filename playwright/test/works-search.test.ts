@@ -65,11 +65,7 @@ const navigateToNextPage = async (page: Page) => {
   // another hack
   await Promise.all([
     safeWaitForNavigation(page),
-    page.click(
-      `[id="pagination"]${
-        isMobile(page) ? ':not(.is-hidden-s)' : ''
-      }:nth-of-type(1) a`
-    ),
+    page.click(`[id="pagination"]:nth-of-type(1) button`),
   ]);
 };
 

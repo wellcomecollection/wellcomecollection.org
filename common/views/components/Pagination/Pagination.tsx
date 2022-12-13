@@ -87,7 +87,7 @@ export const Pagination: FunctionComponent<Props> = ({
 
   return (
     <Container
-      id="pagination"
+      id={isHiddenMobile ? 'desktop-pagination' : 'pagination'}
       aria-label={ariaLabel}
       isHiddenMobile={isHiddenMobile}
     >
