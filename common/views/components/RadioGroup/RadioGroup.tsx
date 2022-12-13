@@ -21,7 +21,7 @@ const RadioGroup: FunctionComponent<Props> = ({
   selected,
   onChange,
   options,
-}: Props) => (
+}) => (
   <div>
     {options.map(({ value, label, id }, index) => (
       <Space

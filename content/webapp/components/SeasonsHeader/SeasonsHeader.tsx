@@ -23,6 +23,12 @@ const FeaturedMediaWrapper = styled.div`
   position: relative;
 `;
 
+const TitleWrapper = styled.h1.attrs({
+  className: `no-margin ${font('wb', 1)}`,
+})`
+  display: inline-block;
+`;
+
 type Props = {
   labels: ComponentProps<typeof LabelsList>;
   title: string;
@@ -65,11 +71,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({
                     )}
                     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                        <h1
-                          className={`inline-block no-margin ${font('wb', 1)}`}
-                        >
-                          {title}
-                        </h1>
+                        <TitleWrapper>{title}</TitleWrapper>
                       </Space>
                       {start && end && (
                         <div className={font('intr', 5)}>
