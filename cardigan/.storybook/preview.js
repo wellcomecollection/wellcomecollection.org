@@ -1,10 +1,11 @@
-import { default as React, Fragment } from 'react';
+import { default as React } from 'react';
 import theme from '../../common/views/themes/default';
 import { ContextDecorator } from '../config/decorators';
 import wellcomeTheme from './wellcome-theme';
 import { DocsContainer } from '@storybook/addon-docs/blocks';
 import { grid } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
 
 export const decorators = [
   (Story, context) => {
@@ -53,5 +54,8 @@ export const parameters = {
         <ContextDecorator>{children}</ContextDecorator>
       </DocsContainer>
     ),
+  },
+  nextRouter: {
+    Provider: RouterContext.Provider,
   },
 };

@@ -21,7 +21,7 @@ export type Props = PropsWithoutRenderFunction & {
   render: (data: PaginatorRenderFunctionProps) => ReactNode;
 };
 
-const Paginator: FunctionComponent<Props> = ({
+const RenderlessPaginator: FunctionComponent<Props> = ({
   currentPage,
   pageSize,
   totalResults,
@@ -89,4 +89,4 @@ const Paginator: FunctionComponent<Props> = ({
     </Fragment>
   );
 };
-export default Paginator;
+export default RenderlessPaginator;

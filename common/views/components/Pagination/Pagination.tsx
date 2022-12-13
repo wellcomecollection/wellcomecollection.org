@@ -1,160 +1,124 @@
-import { FunctionComponent } from 'react';
-import { classNames, font } from '../../../utils/classnames';
-import Control from '../Buttons/Control/Control';
-import Space from '../styled/Space';
-import Rotator from '../styled/Rotator';
-import { arrow } from '@weco/common/icons';
+import { useEffect, useState, FunctionComponent } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { LinkProps } from '../../../model/link-props';
 
-type PageChangeFunction = (event: Event, page: number) => Promise<void>;
-
-export type PaginatedResultsProps = {
-  currentPage: number;
-  totalPages: number;
-};
+import { chevron } from '@weco/common/icons';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { font } from '@weco/common/utils/classnames';
 
 export type Props = {
-  paginatedResults: PaginatedResultsProps;
-  paginationRoot: LinkProps;
-  hideMobilePagination?: boolean;
-  disabled?: boolean;
-  onPageChange?: PageChangeFunction;
-  showPortal?: boolean;
+  totalPages: number;
+  ariaLabel: string;
+  hasDarkBg?: boolean;
+  isHiddenMobile?: boolean;
+  isLoading?: boolean;
 };
 
-const PaginatorContainer = styled(Space).attrs({
-  className: font('intr', 5),
-  v: {
-    size: 'm',
-    properties: ['padding-top', 'padding-bottom'],
-    overrides: { small: 5, medium: 5, large: 1 },
-  },
-})`
+const Container = styled.nav.attrs({ className: font('intr', 6) })<{
+  isHiddenMobile?: boolean;
+}>`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+
+  // We're removing the top pagination on mobile to avoid the controls getting too crowded.
+  ${props =>
+    props.theme.media(
+      'medium',
+      'max-width'
+    )(`
+    ${props.isHiddenMobile && 'display: none;'}; 
+  `)}
 `;
 
-type PaginatorWrapperProps = {
-  hideMobilePagination?: boolean;
-};
-const PaginatorWrapper = styled.nav.attrs<PaginatorWrapperProps>(props => ({
-  className: classNames({
-    'is-hidden-s': Boolean(props.hideMobilePagination),
-  }),
-}))<PaginatorWrapperProps>`
-  display: flex;
+const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  height: 34px;
+  width: 34px;
+  border-radius: 100%;
+  margin: 0 0 0 1rem;
+  cursor: pointer;
+  transition: background ${props => props.theme.transitionProperties};
+  background-color: transparent;
+
+  &[disabled] {
+    pointer-events: none;
+    color: ${props =>
+      props.theme.color(props.hasDarkBg ? 'neutral.300' : 'neutral.500')};
+    border-color: ${props =>
+      props.theme.color(props.hasDarkBg ? 'neutral.300' : 'neutral.500')};
+  }
+
+  ${props => props.prev && `margin: 0 1rem 0 0;`}
+
+  ${props => `
+    color: ${props.theme.color(props.hasDarkBg ? 'white' : 'black')};
+    border: 1px solid ${props.theme.color(
+      props.hasDarkBg ? 'neutral.400' : 'neutral.600'
+    )};
+    transform: rotate(${props.prev ? '90' : '270'}deg);
+
+    &:hover, &:focus {
+      background-color: ${props.theme.color(
+        props.hasDarkBg ? 'neutral.600' : 'neutral.300'
+      )};
+    }
+  `}
 `;
 
-const PageOf = styled.span`
-  color: ${props => props.theme.color('neutral.600')};
-`;
+export const Pagination: FunctionComponent<Props> = ({
+  totalPages,
+  ariaLabel,
+  hasDarkBg,
+  isHiddenMobile,
+  isLoading,
+}) => {
+  const { pathname, query } = useRouter();
+  const [currentPage, setCurrentPage] = useState(Number(query.page) || 1);
 
-const Pagination: FunctionComponent<Props> = ({
-  paginatedResults,
-  paginationRoot,
-  hideMobilePagination,
-  disabled,
-  onPageChange,
-  showPortal,
-}: Props) => {
-  const { currentPage, totalPages } = paginatedResults;
+  useEffect(() => {
+    setCurrentPage(Number(query.page) || 1);
+  }, [query.page]);
 
-  const prevPage = currentPage > 1 ? currentPage - 1 : undefined;
-  const nextPage = currentPage < totalPages ? currentPage + 1 : undefined;
-
-  const prevQueryString = prevPage
-    ? {
-        href: {
-          ...paginationRoot.href,
-          query: {
-            ...paginationRoot.href.query,
-            page: prevPage,
-          },
-        },
-        as: {
-          ...paginationRoot.as,
-          query: {
-            ...paginationRoot?.as?.query,
-            page: prevPage,
-          },
-        },
-      }
-    : null;
-
-  const nextQueryString = nextPage
-    ? {
-        href: {
-          ...paginationRoot.href,
-          query: {
-            ...paginationRoot.href.query,
-            page: nextPage,
-          },
-        },
-        as: {
-          ...paginationRoot.as,
-          query: {
-            ...paginationRoot?.as?.query,
-            page: nextPage,
-          },
-        },
-      }
-    : null;
+  const showPrev = currentPage > 1;
+  const showNext = currentPage < totalPages;
 
   return (
-    <PaginatorContainer>
-      {showPortal && <div id="sort-select-portal"></div>}
-      <PaginatorWrapper
-        aria-label="pagination"
-        hideMobilePagination={hideMobilePagination}
-      >
-        {prevPage && prevQueryString && (
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <Rotator rotate={180}>
-              <Control
-                link={prevQueryString}
-                colorScheme="light"
-                icon={arrow}
-                text={`Previous (page ${prevPage})`}
-                disabled={disabled}
-                clickHandler={
-                  onPageChange
-                    ? event => {
-                        onPageChange(event, prevPage);
-                      }
-                    : undefined
-                }
-              />
-            </Rotator>
-          </Space>
-        )}
+    <Container aria-label={ariaLabel} isHiddenMobile={isHiddenMobile}>
+      {showPrev && (
+        <Link
+          passHref
+          href={{ pathname, query: { ...query, page: currentPage - 1 } }}
+        >
+          <ChevronWrapper hasDarkBg={hasDarkBg} prev disabled={isLoading}>
+            <Icon icon={chevron} />
+            <span className="visually-hidden">
+              {`Previous (page ${currentPage - 1})`}
+            </span>
+          </ChevronWrapper>
+        </Link>
+      )}
 
-        <PageOf>
-          Page {currentPage} of {totalPages}
-        </PageOf>
+      <span>
+        Page <strong>{currentPage}</strong> of {totalPages}
+      </span>
 
-        {nextPage && nextQueryString && (
-          <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
-            <Control
-              link={nextQueryString}
-              colorScheme="light"
-              icon={arrow}
-              text={`Next (page ${nextPage})`}
-              disabled={disabled}
-              clickHandler={
-                onPageChange
-                  ? event => {
-                      onPageChange(event, nextPage);
-                    }
-                  : undefined
-              }
-            />
-          </Space>
-        )}
-      </PaginatorWrapper>
-    </PaginatorContainer>
+      {showNext && (
+        <Link
+          passHref
+          href={{ pathname, query: { ...query, page: currentPage + 1 } }}
+        >
+          <ChevronWrapper hasDarkBg={hasDarkBg} disabled={isLoading}>
+            <Icon icon={chevron} />
+            <span className="visually-hidden">
+              {`Next (page ${currentPage + 1})`}
+            </span>
+          </ChevronWrapper>
+        </Link>
+      )}
+    </Container>
   );
 };
 

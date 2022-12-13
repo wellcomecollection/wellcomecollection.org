@@ -19,7 +19,13 @@ const YellowBox = styled.div`
   `}
 `;
 
-const TitleWrapper = styled.span`
+const TitleWrapper = styled(Space).attrs({
+  h: { size: 's', properties: ['margin-left'] },
+})`
+  display: inline;
+`;
+
+const Title = styled.span`
   .bg-dark & {
     color: ${props => props.theme.color('white')};
   }
@@ -36,13 +42,9 @@ const SectionHeader: FunctionComponent<Props> = ({ title }) => {
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <YellowBox />
-            <Space
-              as="h2"
-              h={{ size: 's', properties: ['margin-left'] }}
-              className="inline"
-            >
-              <TitleWrapper>{title}</TitleWrapper>
-            </Space>
+            <TitleWrapper as="h2">
+              <Title>{title}</Title>
+            </TitleWrapper>
           </div>
         </div>
       </div>
