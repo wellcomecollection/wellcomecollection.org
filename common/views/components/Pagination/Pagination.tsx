@@ -86,7 +86,11 @@ export const Pagination: FunctionComponent<Props> = ({
   const showNext = currentPage < totalPages;
 
   return (
-    <Container aria-label={ariaLabel} isHiddenMobile={isHiddenMobile}>
+    <Container
+      id="pagination"
+      aria-label={ariaLabel}
+      isHiddenMobile={isHiddenMobile}
+    >
       {showPrev && (
         <Link
           passHref
