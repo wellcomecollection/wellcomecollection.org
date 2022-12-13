@@ -74,7 +74,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
     const articlesQueryPromise = fetchArticles(client, {
       predicates: storiesLandingComics
-        ? [`[not(my.articles.format, "${ArticleFormatIds.Comic}")]`]
+        ? prismic.predicate.not('my.articles.format', ArticleFormatIds.Comic)
         : undefined,
     });
 
