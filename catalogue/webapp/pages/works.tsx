@@ -180,7 +180,6 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                     <Pagination
                       totalPages={works.totalPages}
                       ariaLabel="Catalogue search pagination"
-                      isHiddenMobile
                     />
                   </PaginationWrapper>
                 </div>

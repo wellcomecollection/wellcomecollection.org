@@ -63,7 +63,7 @@ const navigateToNextPage = async (page: Page) => {
   // in `common/views/components/Pagination/Pagination.tsx`
   await Promise.all([
     safeWaitForNavigation(page),
-    page.click(`[data-test-id="pagination"] button`),
+    page.click('[data-test-id="pagination"] button'),
   ]);
 };
 
