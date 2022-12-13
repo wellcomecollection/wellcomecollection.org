@@ -40,7 +40,9 @@ export function dasherizeShorten(words: string): string {
  *
  */
 export function pluralize(count: number, noun: string, suffix = 's'): string {
-  return `${count} ${noun}${count !== 1 ? suffix : ''}`;
+  const format = new Intl.NumberFormat('en-GB');
+
+  return `${format.format(count)} ${noun}${count !== 1 ? suffix : ''}`;
 }
 
 export function unCamelCase(words: string): string {
