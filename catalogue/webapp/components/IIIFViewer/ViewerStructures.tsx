@@ -8,6 +8,7 @@ import {
   getEnFromInternationalString,
   groupStructures,
 } from '../../utils/iiif/v3';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -23,10 +24,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   } = useContext(ItemViewerContext);
   const { structures, canvases } = transformedManifest;
   const groupedStructures = groupStructures(canvases, structures);
-  const List = styled.ul`
-    list-style: none;
-    margin: 0 !important;
-    padding: 0;
+  const List = styled(PlainList)`
     border-left: 1px solid ${props => props.theme.color('neutral.600')};
   `;
 

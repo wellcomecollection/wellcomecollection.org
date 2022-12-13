@@ -80,7 +80,6 @@ const GuidePage: FunctionComponent<Props> = ({
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
           title={displayTitle}
           description={[
             {

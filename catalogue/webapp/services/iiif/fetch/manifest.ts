@@ -1,8 +1,20 @@
 import { Manifest } from '@iiif/presentation-3';
-import { fetchJson } from '@weco/common/utils/http';
 
 async function getIIIFManifest(url: string): Promise<Manifest> {
-  const manifest = await fetchJson(url);
+  const resp = await fetch(url);
+
+  if (resp.status === 404) {
+    const bnumber = url.match(/b[0-9]{7}[0-9x]/)?.[0];
+    const dashboardUrl = bnumber
+      ? `https://iiif.wellcomecollection.org/dash/Manifestation/${bnumber}`
+      : '';
+
+    throw new Error(
+      `Tried to retrieve IIIF Manifest at ${url}, but it's 404-ing. To fix, try running the "Rebuild IIIF" task in the iiif-builder dashboard. ${dashboardUrl}`
+    );
+  }
+
+  const manifest = await resp.json();
   return manifest;
 }
 

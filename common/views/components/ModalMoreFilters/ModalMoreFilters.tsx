@@ -13,6 +13,7 @@ import {
 } from '../../../services/catalogue/filters';
 import { AppContext } from '../AppContext/AppContext';
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
+import PlainList from '../styled/PlainList';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -56,10 +57,7 @@ const FilterSection = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
-const List = styled.ul`
-  margin: 0 !important;
-  padding: 0;
-  list-style: none;
+const List = styled(PlainList)`
   display: flex;
   flex-wrap: wrap;
   > * {

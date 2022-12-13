@@ -3,7 +3,6 @@ import * as prismicT from '@prismicio/types';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { font } from '@weco/common/utils/classnames';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
 import { ArticleBasic } from '@weco/content/types/articles';
@@ -31,7 +30,6 @@ type Props = {
   title: string;
   description?: prismicT.RichTextField;
   paginatedResults: PaginatedResultsTypes;
-  showFreeAdmissionMessage: boolean;
   children?: ReactElement;
 };
 
@@ -39,7 +37,6 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
   title,
   description,
   paginatedResults,
-  showFreeAdmissionMessage,
   children,
 }) => (
   <>
@@ -69,14 +66,6 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
           <Divider />
         </Space>
-      </Layout12>
-    )}
-
-    {showFreeAdmissionMessage && (
-      <Layout12>
-        <div className="flex-inline flex--v-center">
-          <span className={font('intb', 4)}>Free admission</span>
-        </div>
       </Layout12>
     )}
 

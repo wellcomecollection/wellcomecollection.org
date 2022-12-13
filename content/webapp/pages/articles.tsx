@@ -74,7 +74,6 @@ const ArticlesPage: FunctionComponent<Props> = ({
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
           title="Stories"
           description={[
             {

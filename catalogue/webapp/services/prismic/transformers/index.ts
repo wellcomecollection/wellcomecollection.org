@@ -5,6 +5,7 @@ import {
   Contributor,
 } from '../types';
 import { articleIdToLabel } from '../fetch';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 export async function transformPrismicResponse(
   type: ContentType[],
@@ -18,13 +19,15 @@ export async function transformPrismicResponse(
     const summary = image.caption[0].text;
     const isArticle = type.includes('articles');
     // in some cases we don't have contributors
-    const allContributors = contributors?.map(contributor => {
-      const { contributor: contributorNode }: Contributor = contributor;
-      const hasContributor = contributor.contributor
-        ? contributorNode?.name
-        : '';
-      return hasContributor;
-    });
+    const allContributors = contributors
+      ?.map(contributor => {
+        const { contributor: contributorNode }: Contributor = contributor;
+        const hasContributor = contributor.contributor
+          ? contributorNode?.name
+          : undefined;
+        return hasContributor;
+      })
+      .filter(isNotUndefined);
 
     return {
       id,

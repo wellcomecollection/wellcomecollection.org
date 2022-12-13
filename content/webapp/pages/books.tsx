@@ -67,7 +67,6 @@ const BooksPage: FunctionComponent<Props> = props => {
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
           title="Books"
           description={[
             {
