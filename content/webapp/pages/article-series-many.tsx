@@ -1,4 +1,5 @@
 import { SeriesBasic } from '../types/series';
+import Head from 'next/head';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
@@ -111,29 +112,34 @@ const ArticleSeriesManyPage: FunctionComponent<Props> = ({
   jsonLd,
 }: Props) => {
   return (
-    <PageLayout
-      title={title}
-      description={pageDescriptions[contentType]}
-      url={{ pathname: '/series' }}
-      jsonLd={jsonLd}
-      openGraphType="website"
-      siteSection="stories"
-      image={undefined}
-    >
-      <SpacingSection>
-        <LayoutPaginatedResults
-          title={title}
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescriptions[contentType],
-              spans: [],
-            },
-          ]}
-          paginatedResults={series}
-        />
-      </SpacingSection>
-    </PageLayout>
+    <>
+      <Head>
+        <meta name="robots" content="noindex" />
+      </Head>
+      <PageLayout
+        title={title}
+        description={pageDescriptions[contentType]}
+        url={{ pathname: '/series' }}
+        jsonLd={jsonLd}
+        openGraphType="website"
+        siteSection="stories"
+        image={undefined}
+      >
+        <SpacingSection>
+          <LayoutPaginatedResults
+            title={title}
+            description={[
+              {
+                type: 'paragraph',
+                text: pageDescriptions[contentType],
+                spans: [],
+              },
+            ]}
+            paginatedResults={series}
+          />
+        </SpacingSection>
+      </PageLayout>
+    </>
   );
 };
 
