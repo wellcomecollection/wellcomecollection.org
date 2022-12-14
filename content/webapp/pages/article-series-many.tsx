@@ -21,6 +21,7 @@ import {
 } from 'services/prismic/transformers/series';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import * as prismic from '@prismicio/client';
+import { articleSeriesLd } from '@weco/content/services/prismic/transformers/json-ld';
 
 const contentTypes = ['comic'] as const;
 type ContentType = typeof contentTypes[number];
@@ -35,7 +36,8 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const storiesLandingComics = serverData.toggles.storiesLandingComics;
+    // const storiesLandingComics = serverData.toggles.storiesLandingComics;
+    const storiesLandingComics = true;
 
     if (!storiesLandingComics) {
       return { notFound: true };
@@ -91,15 +93,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       results: series.results.map(transformSeriesToSeriesBasic),
     };
 
-    // TODO: seriesLd
-    // TODO: image for openGraph etc.
+    const jsonLd = series.results.map(articleSeriesLd);
 
     return {
       props: removeUndefinedProps({
         title: contentTypeInfo.title,
         contentType,
         series: basicSeries,
-        jsonLd: [],
+        jsonLd,
         serverData,
       }),
     };
@@ -111,6 +112,8 @@ const ArticleSeriesManyPage: FunctionComponent<Props> = ({
   series,
   jsonLd,
 }: Props) => {
+  const image = series.results[0]?.image;
+
   return (
     <>
       <Head>
@@ -123,7 +126,7 @@ const ArticleSeriesManyPage: FunctionComponent<Props> = ({
         jsonLd={jsonLd}
         openGraphType="website"
         siteSection="stories"
-        image={undefined}
+        image={image}
       >
         <SpacingSection>
           <LayoutPaginatedResults

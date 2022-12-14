@@ -14,6 +14,7 @@ import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { Exhibition } from '../../../types/exhibitions';
 import { ExhibitionGuide } from '../../../types/exhibition-guides';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { Series } from 'types/series';
 
 // Guide from schema.org
 // https://schema.org/Thing
@@ -129,6 +130,30 @@ export function eventLd(event: Event): JsonLdObj[] {
     });
 }
 
+export function articleSeriesLd(series: Series): JsonLdObj {
+  return objToJsonLd(
+    {
+      headline: series.title,
+      contributor: series.contributors.map(({ contributor }) => {
+        const type = contributor.type === 'people' ? 'Person' : 'Organization';
+        return objToJsonLd(
+          {
+            name: contributor.name,
+            image: contributor.image
+              ? getImageUrlAtSize(contributor.image, { w: 600 })
+              : undefined,
+          },
+          { type, root: false }
+        );
+      }),
+      image: series.promo?.image?.contentUrl,
+      publisher: orgLd(wellcomeCollectionGallery),
+      url: `https://wellcomecollection.org/series/${series.id}`,
+    },
+    { type: 'Series' }
+  );
+}
+
 export function articleLd(article: Article): JsonLdObj {
   // We've left the role off of a lot of articles
   const author: Contributor = article.contributors.find(
@@ -157,7 +182,7 @@ export function articleLd(article: Article): JsonLdObj {
           ? objToJsonLd(
               {
                 name: author.contributor.name,
-                image: author?.contributor?.image
+                image: author.contributor.image
                   ? getImageUrlAtSize(author.contributor.image, { w: 600 })
                   : undefined,
               },
