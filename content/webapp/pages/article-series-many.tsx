@@ -33,50 +33,47 @@ type Props = {
   jsonLd: JsonLdObj[];
 };
 
+type ContentTypeIdAndTitle = {
+  id: string;
+  title: string;
+};
+
+function getContentTypeId(type: ContentType): ContentTypeIdAndTitle {
+  switch (type) {
+    case 'comic':
+      return {
+        id: ArticleFormatIds.Comic,
+        title: 'Comics',
+      };
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isContentType(x: any): x is ContentType {
+  return contentTypes.includes(x);
+}
+
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    // const storiesLandingComics = serverData.toggles.storiesLandingComics;
-    const storiesLandingComics = true;
+    const storiesLandingComics = serverData.toggles.storiesLandingComics;
 
     if (!storiesLandingComics) {
       return { notFound: true };
     }
 
     const page = getPage(context.query);
-    const { contentType } = context.query;
-
-    // TODO: should this guard live somewhere else? Do we already have something that does this?
-    // Is this possible without `any`?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function isContentType(x: any): x is ContentType {
-      return contentTypes.includes(x);
+    if (typeof page !== 'number') {
+      return appError(context, 400, page.message);
     }
+
+    const { contentType } = context.query;
 
     if (!isContentType(contentType)) {
       return { notFound: true };
     }
 
     const contentTypeInfo = getContentTypeId(contentType);
-
-    type ContentTypeIdAndTitle = {
-      id: string;
-      title: string;
-    };
-
-    function getContentTypeId(type: ContentType): ContentTypeIdAndTitle {
-      switch (type) {
-        case 'comic':
-          return {
-            id: ArticleFormatIds.Comic,
-            title: 'Comics',
-          };
-      }
-    }
-
-    if (typeof page !== 'number') {
-      return appError(context, 400, page.message);
-    }
 
     const client = createClient(context);
     const seriesQuery = await fetchSeries(client, {
