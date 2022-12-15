@@ -1,5 +1,6 @@
 import { clock } from '@weco/common/icons';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 
 import { isContentList } from '../../../types/body';
 import { FacilityPromo as FacilityPromoType } from '../../../types/facility-promo';
@@ -40,7 +41,7 @@ export function enrichTryTheseTooPromos(
   promos: FacilityPromoType[]
 ): FacilityPromoType[] {
   const facilityPromoMetas = {
-    'The Reading Room': {
+    [collectionVenueId.readingRoom.id]: {
       metaIcon: clock,
       metaText: 'Open during gallery hours',
     },
@@ -49,6 +50,6 @@ export function enrichTryTheseTooPromos(
   return promos.map(p => ({
     ...p,
     // Add any extra meta information which can't be recorded in Prismic
-    ...(facilityPromoMetas[p.title] ? facilityPromoMetas[p.title] : {}),
+    ...(facilityPromoMetas[p.id] ? facilityPromoMetas[p.id] : {}),
   }));
 }
