@@ -28,6 +28,21 @@ import { Series } from 'types/series';
 //     }
 //   }
 
+function contributorLd(contributors: Contributor[]) {
+  return contributors.map(({ contributor }) => {
+    const type = contributor.type === 'people' ? 'Person' : 'Organization';
+    return objToJsonLd(
+      {
+        name: contributor.name,
+        image: contributor.image
+          ? getImageUrlAtSize(contributor.image, { w: 600 })
+          : undefined,
+      },
+      { type, root: false }
+    );
+  });
+}
+
 export function exhibitionGuideLd(exhibitionGuide: ExhibitionGuide): JsonLdObj {
   return objToJsonLd(
     {
@@ -65,18 +80,7 @@ export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
       endDate: exhibition.end,
       url: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
       isAccessibleForFree: true,
-      performers: exhibition.contributors.map(({ contributor }) => {
-        const type = contributor.type === 'people' ? 'Person' : 'Organization';
-        return objToJsonLd(
-          {
-            name: contributor.name,
-            image: contributor.image
-              ? getImageUrlAtSize(contributor.image, { w: 600 })
-              : undefined,
-          },
-          { type, root: false }
-        );
-      }),
+      performers: contributorLd(exhibition.contributors),
     },
     { type: 'ExhibitionEvent' }
   );
@@ -111,19 +115,7 @@ export function eventLd(event: Event): JsonLdObj[] {
             ? getImageUrlAtSize(promoImage, { w: 600 })
             : undefined,
           isAccessibleForFree: !event.cost,
-          performers: event.contributors.map(({ contributor }) => {
-            const type =
-              contributor.type === 'people' ? 'Person' : 'Organization';
-            return objToJsonLd(
-              {
-                name: contributor.name,
-                image: contributor.image
-                  ? getImageUrlAtSize(contributor.image, { w: 600 })
-                  : undefined,
-              },
-              { type, root: false }
-            );
-          }),
+          performers: contributorLd(event.contributors),
         },
         { type: 'Event' }
       );
@@ -134,18 +126,7 @@ export function articleSeriesLd(series: Series): JsonLdObj {
   return objToJsonLd(
     {
       headline: series.title,
-      contributor: series.contributors.map(({ contributor }) => {
-        const type = contributor.type === 'people' ? 'Person' : 'Organization';
-        return objToJsonLd(
-          {
-            name: contributor.name,
-            image: contributor.image
-              ? getImageUrlAtSize(contributor.image, { w: 600 })
-              : undefined,
-          },
-          { type, root: false }
-        );
-      }),
+      contributor: contributorLd(series.contributors),
       image: series.promo?.image?.contentUrl,
       publisher: orgLd(wellcomeCollectionGallery),
       url: `https://wellcomecollection.org/series/${series.id}`,
@@ -162,18 +143,7 @@ export function articleLd(article: Article): JsonLdObj {
 
   return objToJsonLd(
     {
-      contributor: article.contributors.map(({ contributor }) => {
-        const type = contributor.type === 'people' ? 'Person' : 'Organization';
-        return objToJsonLd(
-          {
-            name: contributor.name,
-            image: contributor.image
-              ? getImageUrlAtSize(contributor.image, { w: 600 })
-              : undefined,
-          },
-          { type, root: false }
-        );
-      }),
+      contributor: contributorLd(article.contributors),
       dateCreated: article.datePublished,
       datePublished: article.datePublished,
       headline: article.title,

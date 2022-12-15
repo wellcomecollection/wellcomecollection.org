@@ -63,6 +63,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const page = getPage(context.query);
+
     if (typeof page !== 'number') {
       return appError(context, 400, page.message);
     }
@@ -113,6 +114,7 @@ const ArticleSeriesManyPage: FunctionComponent<Props> = ({
 
   return (
     <>
+      {/* TODO: remove this when we're sure we've got the right route  */}
       <Head>
         <meta name="robots" content="noindex" />
       </Head>
