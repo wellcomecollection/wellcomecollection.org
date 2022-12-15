@@ -20,7 +20,7 @@ import { Venue } from '@weco/common/model/opening-hours';
 import { Page } from './pages';
 import { EventSeries } from './event-series';
 import { Book } from './books';
-import { Event, EventBasic } from './events';
+import { EventBasic } from './events';
 import { Article } from './articles';
 import { Exhibition } from './exhibitions';
 import { Card } from './card';

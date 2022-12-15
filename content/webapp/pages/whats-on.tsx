@@ -19,11 +19,6 @@ import {
   getVenueById,
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import {
-  cafePromo,
-  // shopPromo,
-  readingRoomPromo,
-} from '../data/facility-promos';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import EventsByMonth from '../components/EventsByMonth/EventsByMonth';
@@ -77,6 +72,11 @@ import {
   startOfDay,
 } from '@weco/common/utils/dates';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import {
+  enrichTryTheseTooPromos,
+  getTryTheseTooPromos,
+} from '../services/prismic/transformers/whats-on';
+import { FacilityPromo as FacilityPromoType } from '../types/facility-promo';
 
 const segmentedControlItems = [
   {
@@ -102,7 +102,8 @@ export type Props = {
   availableOnlineEvents: EventBasic[];
   period: string;
   dateRange: { start: Date; end?: Date };
-  featuredText: FeaturedTextType;
+  featuredText?: FeaturedTextType;
+  tryTheseToo: FacilityPromoType[];
   jsonLd: JsonLdObj[];
 };
 
@@ -165,6 +166,13 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
         <>
           <time dateTime={formatDate(start)}>{formatDayName(start)}</time>
           {' – '}
+          {/*
+            When the period is 'this-weekend', the dates come from getNextWeekendDateRange,
+            which always includes a start and an end, so we can safely non-null here.
+
+            We could get this working in the type system, but it's a more invasive change.
+          */}
+          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
           <time dateTime={formatDate(end!)}>{formatDayName(end!)}</time>
         </>
       )}
@@ -182,11 +190,12 @@ type HeaderProps = {
   todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
   featuredText?: FeaturedTextType;
 };
-const Header = ({
+
+const Header: FunctionComponent<HeaderProps> = ({
   activeId,
   todaysOpeningHours,
   featuredText,
-}: HeaderProps) => {
+}) => {
   return (
     <Space
       v={{
@@ -288,10 +297,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ? context.query.period.toString()
       : 'current-and-coming-up';
 
-    // call prismic for specific content for section page such as featured text
-
-    // TODO: If we're only looking up this page to get the featured text slice,
-    // would it be faster to skip all the fetchLinks?  Is that possible?
     const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 
     const exhibitionsQueryPromise = fetchExhibitions(client, {
@@ -314,7 +319,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       exhibitionsQuery,
       eventsQuery,
       availableOnlineEventsQuery,
-      whatsOnPage,
+      whatsOnPageDocument,
     ] = await Promise.all([
       exhibitionsQueryPromise,
       eventsQueryPromise,
@@ -322,10 +327,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       whatsOnPagePromise,
     ]);
 
-    const dateRange = getRangeForPeriod(period);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const whatsOnPage = transformPage(whatsOnPageDocument!);
 
-    const featuredText =
-      whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
+    const featuredText = getPageFeaturedText(whatsOnPage);
+    const tryTheseToo = getTryTheseTooPromos(whatsOnPage);
+
+    const dateRange = getRangeForPeriod(period);
 
     const events = transformQuery(eventsQuery, transformEvent).results;
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
@@ -353,7 +361,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           availableOnlineEvents,
           dateRange,
           jsonLd,
-          featuredText: featuredText!,
+          featuredText,
+          tryTheseToo,
           serverData,
         }),
       };
@@ -371,10 +380,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     dateRange,
     jsonLd,
     featuredText,
+    tryTheseToo: basicTryTheseTooPromos,
   } = props;
 
-  const tryTheseTooPromos = [readingRoomPromo];
-  const eatShopPromos = [cafePromo];
+  const tryTheseToo = enrichTryTheseTooPromos(basicTryTheseTooPromos);
 
   const firstExhibition = exhibitions[0];
 
@@ -404,6 +413,13 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       openGraphType="website"
       siteSection="whats-on"
       image={firstExhibition && firstExhibition.promo?.image}
+      apiToolbarLinks={[
+        {
+          id: 'prismic',
+          label: 'Prismic',
+          link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${prismicPageIds.whatsOn}/`,
+        },
+      ]}
     >
       <>
         <Header
@@ -535,7 +551,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           <SpacingComponent>
             <CssGridContainer>
               <div className="css-grid card-theme card-theme--transparent">
-                {tryTheseTooPromos.concat(eatShopPromos).map(promo => (
+                {tryTheseToo.map(promo => (
                   <div
                     key={promo.id}
                     className={cssGrid({
