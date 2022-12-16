@@ -26,6 +26,8 @@ import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
+import { WorkLinkAnchor } from './ViewerTopBar';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -121,6 +123,7 @@ type Props = {
 };
 
 const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
+  const { itemWorkLink } = useToggles();
   const { work, transformedManifest, parentManifest, currentManifestLabel } =
     useContext(ItemViewerContext);
   const { iiifCredit, structures, searchService } = transformedManifest;
@@ -143,6 +146,20 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
   return (
     <>
       <Inner className={font('intb', 5)}>
+        {itemWorkLink && (
+          <div className="viewer-mobile">
+            <Space
+              v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <WorkLink id={work.id} source="button_back_link" passHref>
+                <WorkLinkAnchor className={`${font('intr', 5)}`}>
+                  More about this item
+                </WorkLinkAnchor>
+              </WorkLink>
+            </Space>
+          </div>
+        )}
+
         {currentManifestLabel && (
           <span data-test-id="current-manifest" className={font('intr', 5)}>
             {currentManifestLabel}
@@ -195,19 +212,21 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </div>
         )}
 
-        <Space v={{ size: 'm', properties: ['margin-top'] }}>
-          <WorkLink id={work.id} source="viewer_back_link">
-            <a className={`${font('intr', 5)} flex flex--v-center`}>
-              Catalogue details
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                className="flex flex--v-center"
-              >
-                <Icon icon={arrow} matchText={true} iconColor="white" />
-              </Space>
-            </a>
-          </WorkLink>
-        </Space>
+        {!itemWorkLink && (
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+            <WorkLink id={work.id} source="viewer_back_link">
+              <a className={`${font('intr', 5)} flex flex--v-center`}>
+                Catalogue details
+                <Space
+                  h={{ size: 's', properties: ['margin-left'] }}
+                  className="flex flex--v-center"
+                >
+                  <Icon icon={arrow} matchText={true} iconColor="white" />
+                </Space>
+              </a>
+            </WorkLink>
+          </Space>
+        )}
       </Inner>
       <Inner>
         <AccordionItem title="Licence and credit" testId="license-and-credit">
