@@ -34,7 +34,7 @@ type Props = {
   openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
-  modalStyle?: 'filters' | 'calendar' | 'default';
+  modalStyle?: 'filters' | 'calendar' | 'filters-new';
 };
 const Overlay = styled.div`
   z-index: 1000;
@@ -165,6 +165,64 @@ const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   padding-right: 0px;
 `;
 
+// TODO Is this still considered 'new'? rename otherwise
+const FiltersModalNew = styled(Space).attrs<BaseModalProps>({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  className: 'shadow',
+})<BaseModalProps>`
+  overflow: hidden;
+  z-index: 10001;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  overflow: auto;
+  background-color: ${props => props.theme.color('white')};
+
+  &,
+  &.fade-exit-done {
+    z-index: -1;
+    pointer-events: none;
+  }
+  &.fade-enter,
+  &.fade-exit,
+  &.fade-enter-done {
+    z-index: 1001;
+    pointer-events: all;
+  }
+
+  &.fade-enter {
+    transform: translate(100%, 0);
+  }
+  &.fade-exit {
+    transform: translate(0, 0);
+  }
+
+  &.fade-exit-active {
+    transform: translate(100%, 0);
+    transition: transform 200ms ease;
+  }
+  &.fade-enter-active {
+    transform: translate(0, 0);
+    transition: transform 200ms ease;
+  }
+
+  ${props =>
+    props.theme.media('medium')(`
+    top: 0;
+    right: 0;
+    left: auto;
+    bottom: auto;
+    height: 100vh;
+    max-width: ${
+      props.maxWidth || props.width || `${props.theme.sizes.large}px`
+    };
+    width: ${(props.maxWidth && '80%') || props.width || 'auto'};
+    border-radius: ${props.theme.borderRadiusUnit}px;
+  `)}
+`;
+
 const CalendarModal = styled(BaseModalWindow)`
   padding: 0;
   right: 0;
@@ -180,6 +238,8 @@ function determineModal(modalStyle: Props['modalStyle']) {
   switch (modalStyle) {
     case 'filters':
       return FiltersModal;
+    case 'filters-new':
+      return FiltersModalNew;
     case 'calendar':
       return CalendarModal;
     default:
@@ -197,12 +257,13 @@ const Modal: FunctionComponent<Props> = ({
   openButtonRef,
   removeCloseButton = false,
   showOverlay = true,
-  modalStyle = 'default',
+  modalStyle,
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = determineModal(modalStyle);
   const initialLoad = useRef(true);
+  const nodeRef = useRef(null);
 
   useEffect(() => {
     if (isActive) {
@@ -252,12 +313,19 @@ const Modal: FunctionComponent<Props> = ({
             }}
           />
         )}
-        <CSSTransition in={isActive} classNames="fade" timeout={350}>
+        <CSSTransition
+          in={isActive}
+          classNames="fade"
+          timeout={350}
+          unmountOnExit
+          nodeRef={nodeRef}
+        >
           <ModalWindow
             width={width}
             maxWidth={maxWidth}
             id={id}
             hidden={!isActive}
+            ref={nodeRef}
           >
             {!removeCloseButton && (
               <CloseButton

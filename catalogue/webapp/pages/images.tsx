@@ -185,6 +185,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const params = fromQuery(context.query);
+
+    /**
+     * This is here due to the noscript colour element
+     * the value provided by the native element will
+     * include the # symbol.
+     */
+    if (params.color) {
+      params.color = params.color.replace('#', '');
+    }
     const aggregations = [
       'locations.license',
       'source.genres.label',

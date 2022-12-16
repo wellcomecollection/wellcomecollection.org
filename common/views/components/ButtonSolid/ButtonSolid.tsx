@@ -122,6 +122,7 @@ export type ButtonSolidBaseProps = {
 type ButtonSolidProps = ButtonSolidBaseProps & {
   disabled?: boolean;
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
+  isPill?: boolean;
 };
 
 type SolidButtonProps = {
@@ -131,6 +132,7 @@ type SolidButtonProps = {
   size?: ButtonSize;
   hoverUnderline?: boolean;
   isNewStyle?: boolean;
+  isPill?: boolean;
 };
 
 // Default to medium button
@@ -185,6 +187,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
       }`;
     } else {
       return `
+        ${props.isPill && 'border-radius: 24px;'}
         border: 2px solid
         ${props.theme.color(
           props?.colors?.border || props.theme.buttonColors.default.border
@@ -217,6 +220,7 @@ const Button: FunctionComponent<ButtonSolidProps> = (
     hoverUnderline,
     form,
     isNewStyle,
+    isPill,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -239,6 +243,7 @@ const Button: FunctionComponent<ButtonSolidProps> = (
       ref={ref}
       form={form}
       isNewStyle={isNewStyle}
+      isPill={isPill}
     >
       <BaseButtonInner isInline={size === 'small'}>
         {isIconAfter && (

@@ -139,6 +139,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               );
           }}
           filters={filters}
+          isNewStyle
         />
       </div>
 
@@ -213,6 +214,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       };
     }
 
+    /**
+     * This is here due to the noscript colour element
+     * the value provided by the native element will
+     * include the # symbol.
+     */
+    if (params.color) {
+      params.color = params.color.replace('#', '');
+    }
+
     const aggregations = [
       'locations.license',
       'source.genres.label',
@@ -250,5 +260,4 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       }),
     };
   };
-
 export default ImagesSearchPage;

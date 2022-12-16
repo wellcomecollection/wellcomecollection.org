@@ -9,11 +9,17 @@ import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
+  DateRangeFilter as DateRangeFilterType,
+  ColorFilter as ColorFilterType,
   filterLabel,
 } from '../../../services/catalogue/filters';
 import { AppContext } from '../AppContext/AppContext';
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import PlainList from '../styled/PlainList';
+import NumberInput from '../NumberInput/NumberInput';
+import { dateRegex } from '../SearchFilters/SearchFiltersDesktop';
+import { useControlledState } from '@weco/common/utils/useControlledState';
+import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -24,17 +30,19 @@ type ModalMoreFiltersProps = {
   changeHandler: () => void;
   filters: Filter[];
   form?: string;
+  isNewStyle?: boolean;
 };
 
 type MoreFiltersProps = {
   filters: Filter[];
   changeHandler: () => void;
   form?: string;
+  isNewStyle?: boolean;
 };
 
-const ModalInner = styled(Space).attrs({
+const ModalInner = styled(Space).attrs(props => ({
   v: { size: 'l', properties: ['padding-bottom'] },
-})`
+}))<{ isNewStyle?: boolean }>`
   display: flex;
   flex-direction: column;
   min-width: 320px;
@@ -44,7 +52,7 @@ const ModalInner = styled(Space).attrs({
     top: 10px;
   `}
   position: relative;
-  top: 15px;
+  top: ${props => (props.isNewStyle ? '0' : '15px')};
   overflow-y: auto;
   max-height: 80vh;
 `;
@@ -65,27 +73,28 @@ const List = styled(PlainList)`
   }
 `;
 
-const FiltersFooter = styled(Space).attrs({
+const FiltersFooter = styled(Space).attrs(props => ({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})`
+}))<{ isNewStyle?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: ${props => props.theme.color('white')};
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  position: fixed;
+  position: ${props => (props.isNewStyle ? 'relative' : 'fixed')};
   bottom: 0;
   left: 0;
   right: 0;
   height: 60px;
 `;
 
-const FiltersHeader = styled(Space).attrs({
+const FiltersHeader = styled(Space).attrs(props => ({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-})`
-  position: absolute;
+}))<{ isNewStyle?: boolean }>`
+  position: ${props => (props.isNewStyle ? 'relative' : 'absolute')};
+  background-color: ${props => props.theme.color('white')};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   text-align: center;
   top: 0px;
@@ -127,22 +136,106 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   );
 };
 
+type DateRangeFilterProps = {
+  f: DateRangeFilterType;
+  changeHandler: () => void;
+  form?: string;
+  isNewStyle?: boolean;
+};
+
+const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
+  const [from, setFrom] = useControlledState(f.from.value);
+  const [to, setTo] = useControlledState(f.to.value);
+
+  return (
+    <fieldset name={f.label} form={form}>
+      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+        <NumberInput
+          name={f.from.id}
+          label="From"
+          min="0"
+          max="9999"
+          placeholder="Year"
+          value={from || ''}
+          onChange={event => {
+            const val = `${event.currentTarget.value}`;
+            setFrom(val);
+            if (val.match(dateRegex)) {
+              changeHandler();
+            }
+          }}
+          form={form}
+        />
+      </Space>
+      <NumberInput
+        name={f.to.id}
+        label="to"
+        min="0"
+        max="9999"
+        placeholder="Year"
+        value={to || ''}
+        onChange={event => {
+          const val = `${event.currentTarget.value}`;
+          setTo(val);
+          if (val.match(dateRegex)) {
+            changeHandler();
+          }
+        }}
+        form={form}
+      />
+    </fieldset>
+  );
+};
+
+type ColorFilterProps = {
+  f: ColorFilterType;
+  changeHandler: () => void;
+  form?: string;
+  isNewStyle?: boolean;
+};
+const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
+  return (
+    <PaletteColorPicker
+      name={f.id}
+      color={f.color}
+      onChangeColor={changeHandler}
+      form={form}
+    />
+  );
+};
+
 const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   changeHandler,
   filters,
   form,
-}) => {
+  isNewStyle,
+}: MoreFiltersProps) => {
   return (
     <>
-      {filters
-        .filter(f => f.excludeFromMoreFilters)
-        .map(f => (
-          <div key={f.id} style={{ display: 'none' }}>
-            {f.type === 'checkbox' && (
-              <CheckboxFilter f={f} changeHandler={changeHandler} form={form} />
-            )}
-          </div>
-        ))}
+      {!isNewStyle &&
+        filters
+          .filter(f => f.excludeFromMoreFilters)
+          .map(f => (
+            <div key={f.id} style={{ display: 'none' }}>
+              {f.type === 'checkbox' && (
+                <CheckboxFilter
+                  f={f}
+                  changeHandler={changeHandler}
+                  form={form}
+                />
+              )}
+              {f.type === 'dateRange' && (
+                <DateRangeFilter
+                  f={f}
+                  changeHandler={changeHandler}
+                  form={form}
+                />
+              )}
+              {f.type === 'color' && (
+                <ColorFilter f={f} changeHandler={changeHandler} form={form} />
+              )}
+            </div>
+          ))}
       {filters
         .filter(f => !f.excludeFromMoreFilters)
         .map(f => (
@@ -152,6 +245,20 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
               <div className="no-margin no-padding plain-list">
                 {f.type === 'checkbox' && (
                   <CheckboxFilter
+                    f={f}
+                    changeHandler={changeHandler}
+                    form={form}
+                  />
+                )}
+                {f.type === 'dateRange' && (
+                  <DateRangeFilter
+                    f={f}
+                    changeHandler={changeHandler}
+                    form={form}
+                  />
+                )}
+                {f.type === 'color' && (
+                  <ColorFilter
                     f={f}
                     changeHandler={changeHandler}
                     form={form}
@@ -174,6 +281,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   changeHandler,
   filters,
   form,
+  isNewStyle,
 }: ModalMoreFiltersProps) => {
   const { isEnhanced } = useContext(AppContext);
 
@@ -193,22 +301,23 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         isActive={isActive}
         setIsActive={setIsActive}
         openButtonRef={openMoreFiltersButtonRef}
-        modalStyle="filters"
+        modalStyle={isNewStyle ? 'filters-new' : 'filters'}
       >
-        <FiltersHeader>
-          <h3 className="h3">More filters</h3>
+        <FiltersHeader isNewStyle={isNewStyle}>
+          <h3 className="h3">{isNewStyle ? 'All Filters' : 'More filters'}</h3>
         </FiltersHeader>
 
-        <ModalInner>
+        <ModalInner isNewStyle={isNewStyle}>
           {isEnhanced && (
             <MoreFilters
               changeHandler={changeHandler}
               filters={filters}
               form={form}
+              isNewStyle={isNewStyle}
             />
           )}
         </ModalInner>
-        <FiltersFooter>
+        <FiltersFooter isNewStyle={isNewStyle}>
           <NextLink
             passHref
             {...worksLink(
