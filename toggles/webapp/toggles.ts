@@ -69,6 +69,12 @@ const toggles = {
       description:
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
+    {
+      id: 'itemWorkLink',
+      title: 'Item page: Work page link',
+      initialValue: false,
+      description: 'Repositiions and changes the style of the work page link',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
