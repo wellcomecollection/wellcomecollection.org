@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { MultiContent } from '../../types/multi-content';
 import { grid } from '@weco/common/utils/classnames';
@@ -30,7 +30,7 @@ const SearchResults: FunctionComponent<Props> = ({
   summary,
   showPosition = false,
 }) => (
-  <Fragment>
+  <>
     {title && (
       <Space
         v={!summary ? { size: 'l', properties: ['margin-bottom'] } : undefined}
@@ -247,7 +247,7 @@ const SearchResults: FunctionComponent<Props> = ({
           </Result>
         )
     )}
-  </Fragment>
+  </>
 );
 
 export default SearchResults;
