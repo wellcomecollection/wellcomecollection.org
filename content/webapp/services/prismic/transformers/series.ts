@@ -8,6 +8,7 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { transformContributors } from './contributors';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { getSeriesColor } from '../../../utils/colors';
+import { noAltTextBecausePromo } from './images';
 
 export function transformSeries(document: SeriesPrismicDocument): Series {
   const { data } = document;
@@ -52,14 +53,25 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
 }
 
 export function transformSeriesToSeriesBasic(series: Series): SeriesBasic {
-  return (({ id, type, title, labels, color, schedule, promo, image }) => ({
+  const { id, type, title, labels, color, schedule, promo, image } = series;
+
+  return {
     id,
     type,
     title,
     labels,
     color,
     schedule,
-    promo,
-    image,
-  }))(series);
+    promo: promo && {
+      ...promo,
+      image: promo.image && {
+        ...promo.image,
+        ...noAltTextBecausePromo,
+      },
+    },
+    image: image && {
+      ...image,
+      ...noAltTextBecausePromo,
+    },
+  };
 }
