@@ -76,6 +76,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       predicates: storiesLandingComics
         ? prismic.predicate.not('my.articles.format', ArticleFormatIds.Comic)
         : undefined,
+      // We only display 11 articles on the stories homepage: 5 at the top of
+      // the page, then another 6 as "you might have missed".
+      pageSize: 11,
     });
 
     const storiesLandingPromise = fetchStoriesLanding(client);
