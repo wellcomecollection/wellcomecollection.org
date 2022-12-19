@@ -235,7 +235,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
         {itemWorkLink && (
           <div className="viewer-desktop">
             <WorkLink id={work.id} source="button_back_link" passHref>
-              <WorkLinkAnchor className={`${font('intr', 5)}`}>
+              <WorkLinkAnchor className={font('intr', 5)}>
                 More about this item
               </WorkLinkAnchor>
             </WorkLink>
