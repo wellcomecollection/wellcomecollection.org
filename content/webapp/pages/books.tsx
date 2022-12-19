@@ -68,13 +68,7 @@ const BooksPage: FunctionComponent<Props> = props => {
       <SpacingSection>
         <LayoutPaginatedResults
           title="Books"
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescriptions.books,
-              spans: [],
-            },
-          ]}
+          description={pageDescriptions.books}
           paginatedResults={books}
         />
       </SpacingSection>
