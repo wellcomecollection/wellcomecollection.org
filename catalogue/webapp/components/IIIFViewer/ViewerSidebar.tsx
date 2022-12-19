@@ -152,7 +152,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
               v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
             >
               <WorkLink id={work.id} source="button_back_link" passHref>
-                <WorkLinkAnchor className={`${font('intr', 5)}`}>
+                <WorkLinkAnchor className={font('intr', 5)}>
                   More about this item
                 </WorkLinkAnchor>
               </WorkLink>
