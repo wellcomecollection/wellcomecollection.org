@@ -84,7 +84,6 @@ type Props = {
   heroImageBgColor?: 'warmNeutral.300' | 'white';
   backgroundTexture?: string;
   highlightHeading?: boolean;
-  asyncBreadcrumbsRoute?: string;
   isContentTypeInfoBeforeMedia?: boolean;
   sectionLevelPage?: boolean;
   // TODO: Don't overload this, it's just for putting things in till
@@ -108,7 +107,6 @@ const PageHeader: FunctionComponent<Props> = ({
   heroImageBgColor = 'white',
   backgroundTexture,
   highlightHeading,
-  asyncBreadcrumbsRoute,
   TitleTopper,
   sectionLevelPage,
 }) => {
@@ -159,23 +157,7 @@ const PageHeader: FunctionComponent<Props> = ({
                 }}
               >
                 {breadcrumbs.items.length > 0 ? (
-                  <div
-                    data-component={
-                      asyncBreadcrumbsRoute ? 'AsyncBreadcrumb' : undefined
-                    }
-                    className={
-                      asyncBreadcrumbsRoute
-                        ? 'breadcrumb-placeholder'
-                        : undefined
-                    }
-                    data-endpoint={asyncBreadcrumbsRoute || undefined}
-                    data-prefix-endpoint={
-                      asyncBreadcrumbsRoute ? 'false' : undefined
-                    }
-                    data-modifiers={asyncBreadcrumbsRoute ? '' : undefined}
-                  >
-                    <Breadcrumb {...breadcrumbs} />
-                  </div>
+                  <Breadcrumb {...breadcrumbs} />
                 ) : (
                   <span className={`${font('intr', 5)} flex`}>&nbsp;</span>
                 )}
