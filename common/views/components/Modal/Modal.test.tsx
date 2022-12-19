@@ -41,16 +41,16 @@ describe('Modal', () => {
   it('should focus the close button when opened', () => {
     renderComponent();
     const openButton = screen.getByText(/^Open modal window$/i);
-    const closeButton = screen.getByTestId('close-modal-button');
     userEvent.click(openButton);
+    const closeButton = screen.getByTestId('close-modal-button');
     expect(document.activeElement).toEqual(closeButton);
   });
 
   it('should focus the open button when closed', () => {
     renderComponent();
     const openButton = screen.getByText(/^Open modal window$/i);
-    const closeButton = screen.getByTestId('close-modal-button');
     userEvent.click(openButton);
+    const closeButton = screen.getByTestId('close-modal-button');
     userEvent.click(closeButton);
     expect(document.activeElement).toEqual(openButton);
   });

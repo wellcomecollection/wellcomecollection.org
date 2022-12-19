@@ -258,7 +258,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             }}
             ariaDescribedBy="images-form-description"
             isImageSearch={true}
-            shouldShowFilters={isEnhanced && shouldShowFilters} // non js images filters doesnt work hide for now\
+            shouldShowFilters={shouldShowFilters}
             showSortBy={showSortBy}
             filters={imagesFilters}
           />

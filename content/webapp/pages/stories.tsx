@@ -252,6 +252,7 @@ const StoriesPage: FunctionComponent<Props> = ({
               items={comicSeries}
               itemsPerRow={3}
               itemsHaveTransparentBackground={true}
+              links={[{ text: 'More comics', url: '/stories/comic' }]}
             />
           </SpacingComponent>
         </SpacingSection>

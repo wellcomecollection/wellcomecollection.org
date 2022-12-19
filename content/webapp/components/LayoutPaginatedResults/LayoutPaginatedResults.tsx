@@ -10,6 +10,7 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { SeriesBasic } from '@weco/content/types/series';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import { BookBasic } from '@weco/content/types/books';
 import { Guide } from '@weco/content/types/guides';
@@ -24,7 +25,8 @@ type PaginatedResultsTypes =
   | PaginatedResults<BookBasic>
   | PaginatedResults<ArticleBasic>
   | PaginatedResults<Guide>
-  | PaginatedResults<ExhibitionGuideBasic>;
+  | PaginatedResults<ExhibitionGuideBasic>
+  | PaginatedResults<SeriesBasic>;
 
 type Props = {
   title: string;
