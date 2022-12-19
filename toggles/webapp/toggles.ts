@@ -1,3 +1,5 @@
+import { CloudFrontRequest } from 'aws-lambda';
+
 type ToggleBase = {
   id: string;
   title: string;
@@ -16,7 +18,7 @@ export type ABTest = {
   id: string;
   title: string;
   range: [number, number];
-  when: (request: Request) => boolean; // TODO: should take request of type CloudFrontRequest
+  when: (request: CloudFrontRequest) => boolean;
 };
 
 const toggles = {
