@@ -72,7 +72,16 @@ const toggles = {
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
   ] as const,
-  tests: [] as ABTest[],
+  tests: [
+    {
+      id: 'itemWorkLink',
+      title: 'Item page: Work page link',
+      range: [0, 20], // TODO How much traffic should we put in this condition?
+      when: (request: CloudFrontRequest): boolean => {
+        return Boolean(request.uri.match(/^\/works\/\w*\/items/));
+      },
+    },
+  ] as ABTest[],
 };
 
 export default toggles;

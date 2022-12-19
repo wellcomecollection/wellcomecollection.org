@@ -19,7 +19,16 @@ type Test = {
 };
 
 // This is mutable for testing
-export let tests: Test[] = [];
+export let tests: Test[] = [
+  {
+    id: 'itemWorkLink',
+    title: 'Item page: Work page link',
+    range: [0, 20], // TODO How much traffic should we put in this condition?
+    when: (request: CloudFrontRequest): boolean => {
+      return Boolean(request.uri.match(/^\/works\/\w*\/items/));
+    },
+  },
+];
 export const setTests = function (newTests: Test[]): void {
   tests = newTests;
 };
