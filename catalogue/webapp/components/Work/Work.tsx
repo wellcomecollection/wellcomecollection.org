@@ -1,4 +1,3 @@
-import { LinkProps } from 'next/link';
 import {
   Work as WorkType,
   DigitalLocation,
@@ -27,7 +26,6 @@ import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import { useToggles } from '@weco/common/server-data/Context';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
-import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { Audio, Video } from 'services/iiif/types/manifest/v3';
 
 const ArchiveDetailsContainer = styled.div`
@@ -55,19 +53,19 @@ export const Grid = styled.div.attrs({
 })``;
 
 function showItemLink({
+  digitalLocation,
   accessCondition,
-  itemUrl,
   audio,
   video,
 }: {
+  digitalLocation: DigitalLocation | undefined;
   accessCondition: string | undefined;
-  itemUrl: LinkProps;
   audio: Audio | undefined;
   video: Video | undefined;
 }): boolean {
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return false;
-  } else if (itemUrl && !((audio?.sounds || []).length > 0) && !video) {
+  } else if (digitalLocation && !((audio?.sounds || []).length > 0) && !video) {
     return true;
   } else {
     return false;
@@ -102,16 +100,18 @@ const Work: FunctionComponent<Props> = ({
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-  const itemUrl = itemLink({ workId: work.id }, 'work');
   const { video, audio } = transformedIIIFManifest;
   const shouldShowItemLink = showItemLink({
+    digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
-    itemUrl,
     audio,
     video,
   });
   const showTabbedNav =
-    worksTabbedNav && (shouldShowItemLink || audio || video);
+    worksTabbedNav &&
+    (shouldShowItemLink || (audio?.sounds.length || []) > 0 || video);
+  // we want to experiment with showing the tabs for audio and video content
+  // so we can't rely on shouldShowItemLink if we have that content
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
