@@ -34,6 +34,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => {
               <Space
                 as="span"
                 h={{ size: 's', properties: ['margin-left', 'margin-right'] }}
+                aria-hidden="true"
               >
                 |
               </Space>
