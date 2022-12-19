@@ -73,7 +73,7 @@ const toggles = {
       id: 'itemWorkLink',
       title: 'Item page: Work page link',
       initialValue: false,
-      description: 'Repositiions and changes the style of the work page link',
+      description: 'Tries an alternative style for the link from the item page to the corresponding work',
     },
   ] as const,
   tests: [] as ABTest[],
