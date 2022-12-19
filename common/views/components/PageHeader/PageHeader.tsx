@@ -111,7 +111,7 @@ const PageHeader: FunctionComponent<Props> = ({
   asyncBreadcrumbsRoute,
   TitleTopper,
   sectionLevelPage,
-}: Props) => {
+}) => {
   const Heading =
     highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
