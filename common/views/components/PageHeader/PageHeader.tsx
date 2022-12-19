@@ -156,11 +156,7 @@ const PageHeader: FunctionComponent<Props> = ({
                   overrides: { large: 4 },
                 }}
               >
-                {breadcrumbs.items.length > 0 ? (
-                  <Breadcrumb {...breadcrumbs} />
-                ) : (
-                  <span className={`${font('intr', 5)} flex`}>&nbsp;</span>
-                )}
+                <Breadcrumb {...breadcrumbs} />
               </Space>
             )}
             <ConditionalWrapper
