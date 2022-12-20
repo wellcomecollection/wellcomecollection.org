@@ -75,13 +75,7 @@ const ArticlesPage: FunctionComponent<Props> = ({
       <SpacingSection>
         <LayoutPaginatedResults
           title="Stories"
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescriptions.articles,
-              spans: [],
-            },
-          ]}
+          description={pageDescriptions.articles}
           paginatedResults={articles}
         />
       </SpacingSection>

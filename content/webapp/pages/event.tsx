@@ -267,7 +267,6 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
 
   const Header = (
     <PageHeader
-      asyncBreadcrumbsRoute={`/events/${event.id}/scheduled-in`}
       breadcrumbs={breadcrumbs}
       labels={labels}
       title={event.title}

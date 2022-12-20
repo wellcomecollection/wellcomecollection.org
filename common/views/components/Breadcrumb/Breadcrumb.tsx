@@ -5,25 +5,28 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { BreadcrumbItems } from '../../../model/breadcrumbs';
 
+const BreadcrumbWrapper = styled.div`
+  display: flex;
+`;
+
 const ItemWrapper = styled(Space).attrs({
   className: font('intr', 6),
 })``;
 
-const EmptyFiller = styled.span.attrs({
-  className: `${font('intr', 6)} empty-filler`,
-})`
-  line-height: 1;
+const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => {
+  // We prepend a 'Home' breadcrumb at the start of every chain, so every page
+  // will always have a visible breadcrumb.
+  const visibleItems = [
+    {
+      text: 'Home',
+      url: '/',
+    },
+    ...items.filter(({ isHidden }) => !isHidden),
+  ];
 
-  :before {
-    content: '\\200b';
-  }
-`;
-
-const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => (
-  <div className="flex">
-    {items
-      .filter(({ isHidden }) => !isHidden)
-      .map(({ text, url, prefix }, i) => {
+  return (
+    <BreadcrumbWrapper>
+      {visibleItems.map(({ text, url, prefix }, i) => {
         const LinkOrSpanTag = url ? 'a' : 'span';
         return (
           <ItemWrapper key={text} as={prefix ? 'b' : 'span'}>
@@ -31,6 +34,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => (
               <Space
                 as="span"
                 h={{ size: 's', properties: ['margin-left', 'margin-right'] }}
+                aria-hidden="true"
               >
                 |
               </Space>
@@ -47,16 +51,14 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => (
           </ItemWrapper>
         );
       })}
-    {/* We do this so that the page doesn't bounce around if we don't have any breadcrumbs */}
-    {items.length === 0 && <EmptyFiller />}
-    {items.length > 0 && (
+      {/* Because we always insert a 'Home' breadcrumb, we know it will be non-empty. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbsLd({ items })),
         }}
       />
-    )}
-  </div>
-);
+    </BreadcrumbWrapper>
+  );
+};
 export default Breadcrumb;

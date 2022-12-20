@@ -84,7 +84,6 @@ type Props = {
   heroImageBgColor?: 'warmNeutral.300' | 'white';
   backgroundTexture?: string;
   highlightHeading?: boolean;
-  asyncBreadcrumbsRoute?: string;
   isContentTypeInfoBeforeMedia?: boolean;
   sectionLevelPage?: boolean;
   // TODO: Don't overload this, it's just for putting things in till
@@ -108,10 +107,9 @@ const PageHeader: FunctionComponent<Props> = ({
   heroImageBgColor = 'white',
   backgroundTexture,
   highlightHeading,
-  asyncBreadcrumbsRoute,
   TitleTopper,
   sectionLevelPage,
-}: Props) => {
+}) => {
   const Heading =
     highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
@@ -158,27 +156,7 @@ const PageHeader: FunctionComponent<Props> = ({
                   overrides: { large: 4 },
                 }}
               >
-                {breadcrumbs.items.length > 0 ? (
-                  <div
-                    data-component={
-                      asyncBreadcrumbsRoute ? 'AsyncBreadcrumb' : undefined
-                    }
-                    className={
-                      asyncBreadcrumbsRoute
-                        ? 'breadcrumb-placeholder'
-                        : undefined
-                    }
-                    data-endpoint={asyncBreadcrumbsRoute || undefined}
-                    data-prefix-endpoint={
-                      asyncBreadcrumbsRoute ? 'false' : undefined
-                    }
-                    data-modifiers={asyncBreadcrumbsRoute ? '' : undefined}
-                  >
-                    <Breadcrumb {...breadcrumbs} />
-                  </div>
-                ) : (
-                  <span className={`${font('intr', 5)} flex`}>&nbsp;</span>
-                )}
+                <Breadcrumb {...breadcrumbs} />
               </Space>
             )}
             <ConditionalWrapper

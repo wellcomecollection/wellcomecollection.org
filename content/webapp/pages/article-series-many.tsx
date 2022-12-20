@@ -130,13 +130,7 @@ const ArticleSeriesManyPage: FunctionComponent<Props> = ({
         <SpacingSection>
           <LayoutPaginatedResults
             title={title}
-            description={[
-              {
-                type: 'paragraph',
-                text: pageDescriptions[contentType],
-                spans: [],
-              },
-            ]}
+            description={pageDescriptions[contentType]}
             paginatedResults={series}
           />
         </SpacingSection>

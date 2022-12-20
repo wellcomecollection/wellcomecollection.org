@@ -1,5 +1,4 @@
 import { FunctionComponent, ReactElement } from 'react';
-import * as prismicT from '@prismicio/types';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -30,7 +29,7 @@ type PaginatedResultsTypes =
 
 type Props = {
   title: string;
-  description?: prismicT.RichTextField;
+  description?: string;
   paginatedResults: PaginatedResultsTypes;
   children?: ReactElement;
 };
@@ -46,7 +45,19 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
       breadcrumbs={{ items: [] }}
       labels={undefined}
       title={title}
-      ContentTypeInfo={description && <PrismicHtmlBlock html={description} />}
+      ContentTypeInfo={
+        description && (
+          <PrismicHtmlBlock
+            html={[
+              {
+                type: 'paragraph',
+                text: description,
+                spans: [],
+              },
+            ]}
+          />
+        )
+      }
       backgroundTexture={headerBackgroundLs}
       highlightHeading={true}
       isContentTypeInfoBeforeMedia={false}

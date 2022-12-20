@@ -81,13 +81,7 @@ const GuidePage: FunctionComponent<Props> = ({
       <SpacingSection>
         <LayoutPaginatedResults
           title={displayTitle}
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescriptions.guides,
-              spans: [],
-            },
-          ]}
+          description={pageDescriptions.guides}
           paginatedResults={guides}
         >
           <Filters currentId={formatId} guideFormats={guideFormats} />
