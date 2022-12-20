@@ -4,6 +4,7 @@ import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 import { IIIFExternalWebResource, ContentResource } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 
 type Props = {
   items: {
@@ -30,7 +31,7 @@ const AudioList: FunctionComponent<Props> = ({
           <img src={thumbnail.id} alt="" />
         </Space>
       )} */}
-      <ol className="no-margin no-padding plain-list">
+      <PlainList as="ol">
         {items.map((item, index) => (
           <>
             {item.sound.id && (
@@ -47,7 +48,7 @@ const AudioList: FunctionComponent<Props> = ({
             )}
           </>
         ))}
-      </ol>
+      </PlainList>
       {isNotUndefined(transcript) && isNotUndefined(transcript.id) && (
         <Space v={{ size: 's', properties: ['margin-top'] }}>
           <DownloadLink
