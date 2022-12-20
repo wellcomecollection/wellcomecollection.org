@@ -46,10 +46,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     `}
   }
 
-  .touch-scroll {
-    -webkit-overflow-scrolling: touch;
-  }
-
   .flex {
     display: flex;
   }
