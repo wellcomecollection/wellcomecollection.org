@@ -187,7 +187,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
       }`;
     } else {
       return `
-        ${props.isPill && 'border-radius: 24px;'}
+        ${props.isPill ? 'border-radius: 24px;' : ''}
         border: 2px solid
         ${props.theme.color(
           props?.colors?.border || props.theme.buttonColors.default.border
