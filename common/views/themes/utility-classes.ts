@@ -107,10 +107,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .plain-list {
-    list-style: none;
-  }
-
   .block {
     display: block;
   }
