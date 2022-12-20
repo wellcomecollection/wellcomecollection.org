@@ -23,7 +23,7 @@ export let tests: Test[] = [
   {
     id: 'itemWorkLink',
     title: 'Item page: Work page link',
-    range: [0, 20], // TODO How much traffic should we put in this condition?
+    range: [0, 50],
     when: (request: CloudFrontRequest): boolean => {
       return Boolean(request.uri.match(/^\/works\/\w*\/items/));
     },
