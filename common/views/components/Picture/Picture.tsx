@@ -18,7 +18,7 @@ type Props = {
 export const Picture: FunctionComponent<Props> = ({
   images,
   isFull = false,
-}: Props) => {
+}) => {
   const lastImage = images[images.length - 1];
   const { tasl } = lastImage;
 
