@@ -48,7 +48,7 @@ export const Picture: FunctionComponent<Props> = ({
 
         {lastImage && lastImage.contentUrl && (
           <img
-            className="image block"
+            className="block"
             src={convertImageUri(lastImage.contentUrl, 1200)}
             alt={lastImage.alt || ''}
           />
