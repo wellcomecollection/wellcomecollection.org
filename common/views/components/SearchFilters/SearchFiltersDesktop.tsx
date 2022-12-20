@@ -66,7 +66,7 @@ const CheckboxFilter = ({
     >
       <PlainList className={font('intr', 5)}>
         <fieldset name={f.label} form={form}>
-          <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
+          <PlainList className={font('intr', 5)}>
             {f.options.map(({ id, label, value, count, selected }) => {
               return (
                 <li key={`${f.id}-${id}`}>
@@ -83,7 +83,7 @@ const CheckboxFilter = ({
                 </li>
               );
             })}
-          </ul>
+          </PlainList>
         </fieldset>
       </PlainList>
     </DropdownButton>
@@ -335,7 +335,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         <Space
           h={{
             size: 'm',
-            properties: !!isNewStyle
+            properties: isNewStyle
               ? ['padding-right']
               : ['padding-left', 'padding-right'],
           }}
