@@ -1,3 +1,5 @@
+import { CloudFrontRequest } from 'aws-lambda';
+
 type ToggleBase = {
   id: string;
   title: string;
@@ -16,7 +18,7 @@ export type ABTest = {
   id: string;
   title: string;
   range: [number, number];
-  when: (request: Request) => boolean; // TODO: should take request of type CloudFrontRequest
+  when: (request: CloudFrontRequest) => boolean;
 };
 
 const toggles = {
@@ -69,14 +71,17 @@ const toggles = {
       description:
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
+  ] as const,
+  tests: [
     {
       id: 'itemWorkLink',
       title: 'Item page: Work page link',
-      initialValue: false,
-      description: 'Tries an alternative style for the link from the item page to the corresponding work',
+      range: [0, 50],
+      when: (request: CloudFrontRequest): boolean => {
+        return Boolean(request.uri.match(/^\/works\/\w*\/items/));
+      },
     },
-  ] as const,
-  tests: [] as ABTest[],
+  ] as ABTest[],
 };
 
 export default toggles;
