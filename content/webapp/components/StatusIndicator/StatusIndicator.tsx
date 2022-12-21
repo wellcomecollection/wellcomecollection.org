@@ -7,6 +7,7 @@ import {
   isFuture,
   isPast,
   isSameDay,
+  isSameDayOrBefore,
   today,
 } from '@weco/common/utils/dates';
 import { PaletteColor } from '@weco/common/views/themes/config';
@@ -24,17 +25,16 @@ export function formatDateRangeWithMessage({
   start: Date;
   end: Date;
 }): { text: string; color: PaletteColor } {
-  const sevenDaysTime = addDays(today(), 7);
+  const closesInThisWeek = isSameDayOrBefore(end, addDays(today(), 6));
 
   const opensToday = isSameDay(start, today(), 'London');
   const closesToday = isSameDay(end, today(), 'London');
-  const closesInSevenDays = today() < end && end < sevenDaysTime;
 
   if (!opensToday && isFuture(start)) {
     return { text: 'Coming soon', color: 'neutral.500' };
   } else if (!closesToday && isPast(end)) {
     return { text: 'Past', color: 'neutral.500' };
-  } else if (closesToday || closesInSevenDays) {
+  } else if (closesInThisWeek) {
     return { text: 'Final week', color: 'accent.salmon' };
   } else {
     return { text: 'Now on', color: 'validation.green' };
