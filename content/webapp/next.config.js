@@ -53,5 +53,13 @@ module.exports = createConfig({
       source: '/search/:path*',
       destination: `${CATALOGUE_URL}/search/:path*`,
     },
+    {
+      source: '/api/works',
+      destination: `${CATALOGUE_URL}/api/works`,
+    },
+    {
+      source: '/api/works/:path*',
+      destination: `${CATALOGUE_URL}/api/works/:path*`,
+    },
   ],
 });
