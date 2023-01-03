@@ -43,7 +43,6 @@ Digital Platform:
  Gareth Estchild
  David McCormick
  Dominique Marshall
- Alice Richmond
  Jamie Parkinson
  Jonathan Tweed
  Jennifer Phillips-Bacher
@@ -61,6 +60,7 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Alice Richmond
  Mel Rogan
  Gareth Ormerod
  Paul Horn
