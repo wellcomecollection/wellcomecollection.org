@@ -27,6 +27,7 @@ import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import { useToggles } from '@weco/common/server-data/Context';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import { Audio, Video } from 'services/iiif/types/manifest/v3';
+import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -143,7 +144,7 @@ const Work: FunctionComponent<Props> = ({
       >
         <Container>
           <Grid>
-            <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+            <div className={grid(gridSize12)}>
               <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 <SearchTabs
                   query={searchLink.as.query?.query?.toString() || ''}

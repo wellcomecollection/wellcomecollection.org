@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { grid } from '../../../utils/classnames';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import { repeatingLsBlack } from '../../../utils/backgrounds';
+import { gridSize12 } from '../Layout12/Layout12';
 
 type Props = {
   children: ReactNode;
@@ -33,7 +34,7 @@ const WobblyRow: FunctionComponent<Props> = ({ children }: Props) => (
     <div className="container">
       <div className="grid" style={{ marginTop: '50px' }}>
         <div
-          className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
+          className={grid(gridSize12)}
           style={{ marginTop: '-50px', position: 'relative' }}
         >
           {children}

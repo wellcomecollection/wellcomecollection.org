@@ -1,6 +1,7 @@
 import { FunctionComponent, ReactElement } from 'react';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 
 type Props = {
   isVisuallyHidden: boolean;
@@ -16,7 +17,7 @@ const SearchTitle: FunctionComponent<Props> = ({
         'visually-hidden': isVisuallyHidden,
       })}
     >
-      <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+      <div className={grid(gridSize12)}>
         <Space
           v={{
             size: 'm',

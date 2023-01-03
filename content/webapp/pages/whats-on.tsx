@@ -25,7 +25,9 @@ import EventsByMonth from '../components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout12, {
+  gridSize12,
+} from '@weco/common/views/components/Layout12/Layout12';
 import FacilityPromo from '../components/FacilityPromo/FacilityPromo';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
@@ -206,7 +208,7 @@ const Header: FunctionComponent<HeaderProps> = ({
     >
       <div className="container">
         <div className="grid">
-          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+          <div className={grid(gridSize12)}>
             <div className="flex flex--v-center flex--h-space-between flex--wrap">
               <SectionPageHeader sectionLevelPage={true}>
                 What’s on
