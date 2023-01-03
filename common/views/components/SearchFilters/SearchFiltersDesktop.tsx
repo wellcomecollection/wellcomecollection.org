@@ -222,6 +222,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
   const renderDynamicFilter = (f: Filter, i: number, arr: Filter[]) => {
+    if (f.type === 'checkbox' && f.options.length === 0) {
+      return <></>;
+    }
     return (
       <Space
         key={f.id}
@@ -387,6 +390,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   setIsActive={setShowMoreFiltersModal}
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   changeHandler={changeHandler}
+                  resetFilters={linkResolver({ query })}
                   filters={filters}
                   form={searchFormId}
                   isNewStyle
@@ -481,6 +485,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       setIsActive={setShowMoreFiltersModal}
                       openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                       changeHandler={changeHandler}
+                      resetFilters={linkResolver({ query })}
                       filters={modalFilters}
                       form={searchFormId}
                     />

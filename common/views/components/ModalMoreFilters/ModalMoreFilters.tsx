@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import { searchFilterCheckBox } from '../../../text/aria-labels';
 import NextLink from 'next/link';
-import { toLink as worksLink } from '../WorksLink/WorksLink';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import {
   Filter,
@@ -20,6 +19,7 @@ import NumberInput from '../NumberInput/NumberInput';
 import { dateRegex } from '../SearchFilters/SearchFiltersDesktop';
 import { useControlledState } from '@weco/common/utils/useControlledState';
 import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
+import { LinkProps } from '@weco/common/model/link-props';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -28,6 +28,7 @@ type ModalMoreFiltersProps = {
   openMoreFiltersButtonRef: RefObject<HTMLInputElement>;
   query: string;
   changeHandler: () => void;
+  resetFilters: LinkProps;
   filters: Filter[];
   form?: string;
   isNewStyle?: boolean;
@@ -279,6 +280,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   setIsActive,
   openMoreFiltersButtonRef,
   changeHandler,
+  resetFilters,
   filters,
   form,
   isNewStyle,
@@ -318,15 +320,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
           )}
         </ModalInner>
         <FiltersFooter isNewStyle={isNewStyle}>
-          <NextLink
-            passHref
-            {...worksLink(
-              {
-                query,
-              },
-              'cancel_filter/all'
-            )}
-          >
+          <NextLink passHref {...resetFilters}>
             <a>Reset filters</a>
           </NextLink>
 
