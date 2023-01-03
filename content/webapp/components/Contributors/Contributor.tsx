@@ -22,7 +22,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
   contributor,
   role,
   description,
-}: ContributorType) => {
+}) => {
   const descriptionToRender = description || contributor.description;
 
   // Contributor images should always be square.

@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import MediaObjectBase, {
   HasImageProps,
@@ -40,7 +40,7 @@ export const MediaObject: FunctionComponent<Props> = ({
   title,
   text,
   image,
-}: Props): ReactElement<Props> => {
+}) => {
   const squareImage = getCrop(image, 'square');
   const ImageComponent = squareImage && (
     <PrismicImage

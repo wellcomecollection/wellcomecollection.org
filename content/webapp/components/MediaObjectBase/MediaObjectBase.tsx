@@ -96,7 +96,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   OverrideTitleWrapper,
   onClick,
   postTitleChildren,
-}: Props): ReactElement<Props> => {
+}) => {
   const { x, y } = xOfY || {};
   const ImageWrapper = OverrideImageWrapper || BaseImageWrapper;
   const TextWrapper = OverrideTextWrapper || BaseTextWrapper;

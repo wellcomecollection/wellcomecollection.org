@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
@@ -7,9 +7,7 @@ type Props = {
   isVisuallyHidden: boolean;
 };
 
-const SearchTitle: FunctionComponent<Props> = ({
-  isVisuallyHidden,
-}): ReactElement => {
+const SearchTitle: FunctionComponent<Props> = ({ isVisuallyHidden }) => {
   return (
     <div
       className={classNames({
