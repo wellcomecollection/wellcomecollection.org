@@ -1,7 +1,8 @@
 import { FunctionComponent } from 'react';
-import { grid, font } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import Layout12 from '../Layout12/Layout12';
 
 const YellowBox = styled.div`
   display: inline-block;
@@ -38,16 +39,12 @@ type Props = {
 const SectionHeader: FunctionComponent<Props> = ({ title }) => {
   return (
     <div className={`row ${font('wb', 2)}`}>
-      <div className="container">
-        <div className="grid">
-          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <YellowBox />
-            <TitleWrapper as="h2">
-              <Title>{title}</Title>
-            </TitleWrapper>
-          </div>
-        </div>
-      </div>
+      <Layout12>
+        <YellowBox />
+        <TitleWrapper as="h2">
+          <Title>{title}</Title>
+        </TitleWrapper>
+      </Layout12>
     </div>
   );
 };

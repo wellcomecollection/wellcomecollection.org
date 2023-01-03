@@ -1,5 +1,6 @@
 import { ReactNode, FunctionComponent } from 'react';
-import { grid, SizeMap } from '../../../utils/classnames';
+import { SizeMap } from '../../../utils/classnames';
+import Grid from '../styled/Grid';
 
 type Props = {
   gridSizes: SizeMap;
@@ -8,9 +9,7 @@ type Props = {
 
 const Layout: FunctionComponent<Props> = ({ gridSizes, children }: Props) => (
   <div className="container">
-    <div className="grid">
-      <div className={grid(gridSizes)}>{children}</div>
-    </div>
+    <Grid sizes={gridSizes}>{children}</Grid>
   </div>
 );
 export default Layout;

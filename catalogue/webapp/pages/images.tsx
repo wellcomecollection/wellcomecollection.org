@@ -17,8 +17,8 @@ import {
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Grid from '@weco/common/views/components/styled/Grid';
 
-import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { getImages } from '@weco/catalogue/services/catalogue/images';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
@@ -115,23 +115,21 @@ const Images: NextPage<Props> = ({
           <div className="container">
             <SearchTitle isVisuallyHidden={Boolean(images)} />
 
-            <div className="grid">
-              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                  <SearchTabs
-                    query={imagesRouteProps.query}
-                    sort={undefined}
-                    sortOrder={undefined}
-                    shouldShowDescription={query === ''}
-                    activeTabIndex={1}
-                    shouldShowFilters={true}
-                    showSortBy={Boolean(images)}
-                    imagesFilters={filters}
-                    worksFilters={[]}
-                  />
-                </Space>
-              </div>
-            </div>
+            <Grid sizes={{ s: 12, m: 12, l: 12, xl: 12 }}>
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <SearchTabs
+                  query={imagesRouteProps.query}
+                  sort={undefined}
+                  sortOrder={undefined}
+                  shouldShowDescription={query === ''}
+                  activeTabIndex={1}
+                  shouldShowFilters={true}
+                  showSortBy={Boolean(images)}
+                  imagesFilters={filters}
+                  worksFilters={[]}
+                />
+              </Space>
+            </Grid>
           </div>
         </Space>
 
@@ -189,7 +187,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     /**
      * This is here due to the noscript colour element
      * the value provided by the native element will
-     * include the # symbol.
+     * include the # symbol.
      */
     if (params.color) {
       params.color = params.color.replace('#', '');

@@ -1,8 +1,9 @@
 import Space from '@weco/common/views/components/styled/Space';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { FunctionComponent } from 'react';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import Layout from '@weco/common/views/components/Layout/Layout';
 
 type Props = {
   query: string;
@@ -28,19 +29,15 @@ const SearchNoResults: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
-      <div className="container">
-        <div className="grid">
-          <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-            <Copy textColor={textColor}>
-              We couldn&rsquo;t find anything that matched{' '}
-              <QuerySpan>{query}</QuerySpan>
-              {hasFilters && (
-                <> with the filters you have selected. Please try again.</>
-              )}
-            </Copy>
-          </div>
-        </div>
-      </div>
+      <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
+        <Copy textColor={textColor}>
+          We couldn&rsquo;t find anything that matched{' '}
+          <QuerySpan>{query}</QuerySpan>
+          {hasFilters && (
+            <> with the filters you have selected. Please try again.</>
+          )}
+        </Copy>
+      </Layout>
     </Space>
   );
 };

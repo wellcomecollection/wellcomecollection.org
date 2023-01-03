@@ -5,7 +5,6 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import { getCookie } from 'cookies-next';
 
-import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Space from '@weco/common/views/components/styled/Space';
@@ -30,6 +29,7 @@ import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { pluralize } from '@weco/common/utils/grammar';
+import Grid from '@weco/common/views/components/styled/Grid';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -131,22 +131,20 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
             have Google use it as the link text in sitelinks
             https://github.com/wellcomecollection/wellcomecollection.org/issues/7297 */}
             <SearchTitle isVisuallyHidden={Boolean(works) && !isWorksLanding} />
-            <div className="grid">
-              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                  <SearchTabs
-                    query={worksRouteProps.query}
-                    sort={worksRouteProps.sort}
-                    sortOrder={worksRouteProps.sortOrder}
-                    worksFilters={filters}
-                    imagesFilters={[]}
-                    shouldShowDescription={query === ''}
-                    shouldShowFilters={true}
-                    showSortBy={Boolean(works)}
-                  />
-                </Space>
-              </div>
-            </div>
+            <Grid sizes={{ s: 12, m: 12, l: 12, xl: 12 }}>
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <SearchTabs
+                  query={worksRouteProps.query}
+                  sort={worksRouteProps.sort}
+                  sortOrder={worksRouteProps.sortOrder}
+                  worksFilters={filters}
+                  imagesFilters={[]}
+                  shouldShowDescription={query === ''}
+                  shouldShowFilters={true}
+                  showSortBy={Boolean(works)}
+                />
+              </Space>
+            </Grid>
           </div>
         </Space>
 

@@ -1,7 +1,6 @@
 import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { MultiContent } from '../../types/multi-content';
-import { grid } from '@weco/common/utils/classnames';
 import { formatDate } from '@weco/common/utils/format-date';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import CompactCard from '../CompactCard/CompactCard';
@@ -12,6 +11,7 @@ import ArticleCard from '../ArticleCard/ArticleCard';
 import { ArticleScheduleItem } from '../../types/article-schedule-items';
 import { getCrop } from '@weco/common/model/image';
 import { Card } from '../../types/card';
+import Grid from '@weco/common/views/components/styled/Grid';
 
 const Result = styled.div`
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
@@ -35,11 +35,9 @@ const SearchResults: FunctionComponent<Props> = ({
       <Space
         v={!summary ? { size: 'l', properties: ['margin-bottom'] } : undefined}
       >
-        <div className="grid">
-          <div className={grid({ s: 12 })}>
-            <h2 className="h2">{title}</h2>
-          </div>
-        </div>
+        <Grid sizes={{ s: 12 }}>
+          <h2 className="h2">{title}</h2>
+        </Grid>
       </Space>
     )}
     {summary && (
@@ -67,6 +65,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         ...getCrop(item.image, 'square')!,
                         alt: '',
                       }}
@@ -100,6 +99,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         ...getCrop(item.image, 'square')!,
                         alt: '',
                       }}
@@ -133,6 +133,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         ...getCrop(item.cover, 'square')!,
                         alt: '',
                       }}
@@ -173,6 +174,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         ...getCrop(item.image, 'square')!,
                         alt: '',
                       }}
@@ -228,6 +230,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         ...getCrop(item.promo?.image, 'square')!,
                         alt: '',
                       }}
