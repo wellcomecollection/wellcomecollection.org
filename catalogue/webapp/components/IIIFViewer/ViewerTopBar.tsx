@@ -338,7 +338,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                     ariaControlsId="itemDownloads"
                     title={work.title}
                     workId={work.id}
-                    license={licenseInfo}
                     iiifImageLocationCredit={iiifImageLocationCredit}
                     downloadOptions={downloadOptions}
                     useDarkControl={true}
