@@ -86,7 +86,11 @@ export const Pagination: FunctionComponent<Props> = ({
   const showNext = currentPage < totalPages;
 
   return (
-    <Container aria-label={ariaLabel} isHiddenMobile={isHiddenMobile}>
+    <Container
+      {...(!isHiddenMobile && { 'data-test-id': 'pagination' })} // This ensures that we only target the version of component that is also visible on mobile
+      aria-label={ariaLabel}
+      isHiddenMobile={isHiddenMobile}
+    >
       {showPrev && (
         <Link
           passHref

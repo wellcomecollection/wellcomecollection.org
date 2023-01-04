@@ -108,7 +108,14 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
         openGraphType="website"
         jsonLd={{ '@type': 'WebPage' }}
         siteSection="collections"
-        // TODO: Why do we remove the 'main' role here?
+        /**
+         * We explicitly set the main role to be the container of the search results
+         * this is for accessibility purposes e.g. screen readers/keyboard only users,
+         * who would use the 'skip to main' element, and
+         * would expect to be on the first search result.
+         *
+         * this behaviour matches the expectations set by Google
+         */
         excludeRoleMain={true}
         apiToolbarLinks={[
           {
@@ -180,7 +187,6 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
                     <Pagination
                       totalPages={works.totalPages}
                       ariaLabel="Catalogue search pagination"
-                      isHiddenMobile
                     />
                   </PaginationWrapper>
                 </div>

@@ -1,4 +1,4 @@
-import NextLink, { LinkProps } from 'next/link';
+import NextLink from 'next/link';
 import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
@@ -44,34 +44,16 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
-import { Audio, Video } from 'services/iiif/types/manifest/v3';
 
 type Props = {
   work: Work;
+  shouldShowItemLink: boolean;
 };
 
-type ItemLinkState = 'useItemLink' | 'useNoLink';
-
-function getItemLinkState({
-  accessCondition,
-  itemUrl,
-  audio,
-  video,
-}: {
-  accessCondition: string | undefined;
-  itemUrl: LinkProps;
-  audio: Audio | undefined;
-  video: Video | undefined;
-}): ItemLinkState | undefined {
-  if (accessCondition === 'closed' || accessCondition === 'restricted') {
-    return 'useNoLink';
-  }
-  if (itemUrl && !((audio?.sounds || []).length > 0) && !video) {
-    return 'useItemLink';
-  }
-}
-
-const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
+const WorkDetails: FunctionComponent<Props> = ({
+  work,
+  shouldShowItemLink,
+}: Props) => {
   const isArchive = useContext(IsArchiveContext);
   const itemUrl = itemLink({ workId: work.id }, 'work');
   const transformedIIIFImage = useTransformedIIIFImage(work);
@@ -178,14 +160,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const showDownloadOptions = determineDownloadVisibility(downloadEnabled);
 
-  const itemLinkState = getItemLinkState({
-    accessCondition: digitalLocationInfo?.accessCondition,
-    itemUrl,
-    audio,
-    video,
-  });
-
   const holdings = getHoldings(work);
+
+  const showAvailableOnlineSection =
+    digitalLocation && (shouldShowItemLink || audio || video);
 
   const renderWhereToFindIt = () => {
     return (
@@ -279,10 +257,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const renderContent = () => (
     <>
-      {digitalLocation && itemLinkState !== 'useNoLink' && (
+      {showAvailableOnlineSection && (
         <WorkDetailsSection headingText="Available online">
           <ConditionalWrapper
-            condition={Boolean(tokenService && itemLinkState !== 'useItemLink')}
+            condition={Boolean(tokenService && !shouldShowItemLink)}
             wrapper={children =>
               itemUrl && (
                 <IIIFClickthrough
@@ -312,7 +290,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 workTitle={work.title}
               />
             )}
-            {itemLinkState === 'useItemLink' && (
+
+            {shouldShowItemLink && (
               <>
                 {work.thumbnail && (
                   <Space

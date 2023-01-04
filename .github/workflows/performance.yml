@@ -1,5 +1,10 @@
 name: Performance
-on: [pull_request]
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'assets/**'
+
 jobs:
   bundle_size_diff:
     name: Bundle size diff

@@ -236,14 +236,18 @@ export const Page: FunctionComponent<Props> = ({
   }
 
   // TODO: This is not the way to do site sections
-  const sectionItem = page.siteSection
-    ? [
-        {
-          text: getBreadcrumbText(page.siteSection),
-          url: page.siteSection ? `/${page.siteSection}` : '',
-        },
-      ]
-    : [];
+  // Note: the 'About Us' page is a bit unusual, because it's the only top-level
+  // item in the site header which shows a breadcrumb, so we need to avoid
+  // triplicating it in the breadcrumb/header/page title.
+  const sectionItem =
+    page.id !== prismicPageIds.aboutUs && page.siteSection
+      ? [
+          {
+            text: getBreadcrumbText(page.siteSection),
+            url: page.siteSection ? `/${page.siteSection}` : '',
+          },
+        ]
+      : [];
 
   const breadcrumbs = {
     items: [

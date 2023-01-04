@@ -20,6 +20,9 @@ export const collectionVenueId = {
     id: 'WsuZKh8AAOG_NyUo',
     name: 'Café',
   },
+  readingRoom: {
+    id: 'Wvlk4yAAAB8A3ufp',
+  },
 };
 
 export const prismicPageIds = {

@@ -59,17 +59,11 @@ const selectCheckbox = async (label: string, page: Page) => {
 };
 
 const navigateToNextPage = async (page: Page) => {
-  // Not a massive fan of this selector, as it isn't very user-centric,
-  // but the selector `Next (page 2)` doesn't work as it's `visually-hidden`
-  // we also use nth-of-type as the bottom navigation is the one ued on mobile
-  // another hack
+  // data-test-id is only set on Pagination components that aren't hidden on mobile
+  // in `common/views/components/Pagination/Pagination.tsx`
   await Promise.all([
     safeWaitForNavigation(page),
-    page.click(
-      `[aria-label="pagination"]${
-        isMobile(page) ? ':not(.is-hidden-s)' : ''
-      }:nth-of-type(1) a`
-    ),
+    page.click('[data-test-id="pagination"] button'),
   ]);
 };
 

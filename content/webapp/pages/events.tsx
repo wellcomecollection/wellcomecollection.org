@@ -104,13 +104,7 @@ const EventsPage: FunctionComponent<Props> = props => {
       <SpacingSection>
         <LayoutPaginatedResults
           title={title}
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescriptions.events,
-              spans: [],
-            },
-          ]}
+          description={pageDescriptions.events}
           paginatedResults={convertedPaginatedResults}
         />
         {period === 'current-and-coming-up' && (

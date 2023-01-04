@@ -1,5 +1,4 @@
 import { FunctionComponent, ReactElement } from 'react';
-import * as prismicT from '@prismicio/types';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -10,6 +9,7 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { SeriesBasic } from '@weco/content/types/series';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import { BookBasic } from '@weco/content/types/books';
 import { Guide } from '@weco/content/types/guides';
@@ -24,11 +24,12 @@ type PaginatedResultsTypes =
   | PaginatedResults<BookBasic>
   | PaginatedResults<ArticleBasic>
   | PaginatedResults<Guide>
-  | PaginatedResults<ExhibitionGuideBasic>;
+  | PaginatedResults<ExhibitionGuideBasic>
+  | PaginatedResults<SeriesBasic>;
 
 type Props = {
   title: string;
-  description?: prismicT.RichTextField;
+  description?: string;
   paginatedResults: PaginatedResultsTypes;
   children?: ReactElement;
 };
@@ -44,7 +45,19 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
       breadcrumbs={{ items: [] }}
       labels={undefined}
       title={title}
-      ContentTypeInfo={description && <PrismicHtmlBlock html={description} />}
+      ContentTypeInfo={
+        description && (
+          <PrismicHtmlBlock
+            html={[
+              {
+                type: 'paragraph',
+                text: description,
+                spans: [],
+              },
+            ]}
+          />
+        )
+      }
       backgroundTexture={headerBackgroundLs}
       highlightHeading={true}
       isContentTypeInfoBeforeMedia={false}
@@ -81,7 +94,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
 
     {paginatedResults.totalPages > 1 && (
       <Layout12>
-        <PaginationWrapper verticalSpacing="l">
+        <PaginationWrapper verticalSpacing="l" alignRight>
           <Pagination
             totalPages={paginatedResults.totalPages}
             ariaLabel="Results pagination"

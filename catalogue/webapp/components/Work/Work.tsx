@@ -1,7 +1,13 @@
-import { Work as WorkType } from '@weco/common/model/catalogue';
+import {
+  Work as WorkType,
+  DigitalLocation,
+} from '@weco/common/model/catalogue';
 import { useContext, FunctionComponent, ReactElement } from 'react';
 import { grid } from '@weco/common/utils/classnames';
-import { getDigitalLocationOfType } from '../../utils/works';
+import {
+  getDigitalLocationOfType,
+  getDigitalLocationInfo,
+} from '../../utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '../CataloguePageLayout/CataloguePageLayout';
@@ -19,6 +25,8 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import { useToggles } from '@weco/common/server-data/Context';
+import useTransformedManifest from '../../hooks/useTransformedManifest';
+import { Audio, Video } from 'services/iiif/types/manifest/v3';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -44,6 +52,26 @@ export const Grid = styled.div.attrs({
   className: 'grid',
 })``;
 
+function showItemLink({
+  digitalLocation,
+  accessCondition,
+  audio,
+  video,
+}: {
+  digitalLocation: DigitalLocation | undefined;
+  accessCondition: string | undefined;
+  audio: Audio | undefined;
+  video: Video | undefined;
+}): boolean {
+  if (accessCondition === 'closed' || accessCondition === 'restricted') {
+    return false;
+  } else if (digitalLocation && !((audio?.sounds || []).length > 0) && !video) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 type Props = {
   work: WorkType;
 };
@@ -53,6 +81,7 @@ const Work: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const { link: searchLink } = useContext(SearchContext);
   const { worksTabbedNav } = useToggles();
+  const transformedIIIFManifest = useTransformedManifest(work);
 
   const isArchive = !!(
     work.parts.length ||
@@ -60,7 +89,29 @@ const Work: FunctionComponent<Props> = ({
   );
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
 
+  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
+  // we use the former
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
+  const { video, audio } = transformedIIIFManifest;
+  const shouldShowItemLink = showItemLink({
+    digitalLocation,
+    accessCondition: digitalLocationInfo?.accessCondition,
+    audio,
+    video,
+  });
+  const showTabbedNav =
+    worksTabbedNav &&
+    (shouldShowItemLink || (audio?.sounds.length || []) > 0 || video);
+  // we want to experiment with showing the tabs for audio and video content
+  // so we can't rely on shouldShowItemLink if we have that content
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
@@ -139,7 +190,7 @@ const Work: FunctionComponent<Props> = ({
               <Grid>
                 <WorkHeader work={work} />
               </Grid>
-              {worksTabbedNav && (
+              {showTabbedNav && (
                 <WorkTabbedNav work={work} selected="catalogueDetails" />
               )}
             </Container>
@@ -149,7 +200,10 @@ const Work: FunctionComponent<Props> = ({
               <ArchiveDetailsContainer>
                 <ArchiveTree work={work} />
                 <WorkDetailsWrapper>
-                  <WorkDetails work={work} />
+                  <WorkDetails
+                    work={work}
+                    shouldShowItemLink={shouldShowItemLink}
+                  />
                 </WorkDetailsWrapper>
               </ArchiveDetailsContainer>
             </Container>
@@ -160,11 +214,11 @@ const Work: FunctionComponent<Props> = ({
               <Grid>
                 <WorkHeader work={work} />
               </Grid>
-              {worksTabbedNav && (
+              {showTabbedNav && (
                 <WorkTabbedNav work={work} selected="catalogueDetails" />
               )}
             </Container>
-            <WorkDetails work={work} />
+            <WorkDetails work={work} shouldShowItemLink={shouldShowItemLink} />
           </>
         )}
       </CataloguePageLayout>

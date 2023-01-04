@@ -29,6 +29,8 @@ const CloseButton = styled.button.attrs({
   margin: 0;
   padding: 0;
   cursor: pointer;
+  color: ${props =>
+    props.theme.color('black')}; // This avoids the default blue links on iOS
 `;
 
 const InfoBanner: FunctionComponent<Props> = ({

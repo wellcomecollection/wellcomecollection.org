@@ -35,6 +35,7 @@ Photography:
  Laurie Auchterlonie
  Steven Pocock
  Thomas Cox
+ Eszter Bonyi
  Kathleen Arundell
 
 Digital Platform:
@@ -42,7 +43,6 @@ Digital Platform:
  Gareth Estchild
  David McCormick
  Dominique Marshall
- Alice Richmond
  Jamie Parkinson
  Jonathan Tweed
  Jennifer Phillips-Bacher
@@ -60,6 +60,7 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Alice Richmond
  Mel Rogan
  Gareth Ormerod
  Paul Horn

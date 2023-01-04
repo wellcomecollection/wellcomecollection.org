@@ -1,3 +1,5 @@
+import { CloudFrontRequest } from 'aws-lambda';
+
 type ToggleBase = {
   id: string;
   title: string;
@@ -16,7 +18,7 @@ export type ABTest = {
   id: string;
   title: string;
   range: [number, number];
-  when: (request: Request) => boolean; // TODO: should take request of type CloudFrontRequest
+  when: (request: CloudFrontRequest) => boolean;
 };
 
 const toggles = {
@@ -43,6 +45,13 @@ const toggles = {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
     {
+      id: 'storiesLandingComics',
+      title: 'Rearranging comics on the stories landing page',
+      initialValue: false,
+      description:
+        'Takes the comics out of the general set of stories, and moves them to their own page section, grouped by series.',
+    },
+    {
       id: 'searchPage',
       title: 'Search page',
       initialValue: false,
@@ -63,7 +72,16 @@ const toggles = {
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
   ] as const,
-  tests: [] as ABTest[],
+  tests: [
+    {
+      id: 'itemWorkLink',
+      title: 'Item page: Work page link',
+      range: [0, 50],
+      when: (request: CloudFrontRequest): boolean => {
+        return Boolean(request.uri.match(/^\/works\/\w*\/items/));
+      },
+    },
+  ] as ABTest[],
 };
 
 export default toggles;
