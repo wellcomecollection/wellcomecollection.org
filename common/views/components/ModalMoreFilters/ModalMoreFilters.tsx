@@ -149,7 +149,7 @@ const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
   const [to, setTo] = useControlledState(f.to.value);
 
   return (
-    <fieldset name={f.label} form={form}>
+    <>
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
         <NumberInput
           name={f.from.id}
@@ -184,7 +184,7 @@ const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
         }}
         form={form}
       />
-    </fieldset>
+    </>
   );
 };
 
@@ -218,23 +218,29 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           .filter(f => f.excludeFromMoreFilters)
           .map(f => (
             <div key={f.id} style={{ display: 'none' }}>
-              {f.type === 'checkbox' && (
-                <CheckboxFilter
-                  f={f}
-                  changeHandler={changeHandler}
-                  form={form}
-                />
-              )}
-              {f.type === 'dateRange' && (
-                <DateRangeFilter
-                  f={f}
-                  changeHandler={changeHandler}
-                  form={form}
-                />
-              )}
-              {f.type === 'color' && (
-                <ColorFilter f={f} changeHandler={changeHandler} form={form} />
-              )}
+              <section aria-label={f.label}>
+                {f.type === 'checkbox' && (
+                  <CheckboxFilter
+                    f={f}
+                    changeHandler={changeHandler}
+                    form={form}
+                  />
+                )}
+                {f.type === 'dateRange' && (
+                  <DateRangeFilter
+                    f={f}
+                    changeHandler={changeHandler}
+                    form={form}
+                  />
+                )}
+                {f.type === 'color' && (
+                  <ColorFilter
+                    f={f}
+                    changeHandler={changeHandler}
+                    form={form}
+                  />
+                )}
+              </section>
             </div>
           ))}
       {filters

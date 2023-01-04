@@ -65,7 +65,7 @@ const CheckboxFilter = ({
       id={f.id}
     >
       <PlainList className={font('intr', 5)}>
-        <fieldset name={f.label} form={form}>
+        <section aria-label={f.label}>
           <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
             {f.options.map(({ id, label, value, count, selected }) => {
               return (
@@ -84,7 +84,7 @@ const CheckboxFilter = ({
               );
             })}
           </ul>
-        </fieldset>
+        </section>
       </PlainList>
     </DropdownButton>
   );
@@ -114,7 +114,7 @@ const DateRangeFilter = ({
         buttonType="inline"
         id={f.id}
       >
-        <fieldset name={f.label} form={form}>
+        <section aria-label={f.label}>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <NumberInput
               name={f.from.id}
@@ -149,7 +149,7 @@ const DateRangeFilter = ({
             }}
             form={form}
           />
-        </fieldset>
+        </section>
       </DropdownButton>
     </Space>
   );
@@ -174,12 +174,14 @@ const ColorFilter = ({
       buttonType="inline"
       id="images.color"
     >
-      <PaletteColorPicker
-        name={f.id}
-        color={f.color}
-        onChangeColor={changeHandler}
-        form={form}
-      />
+      <section aria-label="Color Filter">
+        <PaletteColorPicker
+          name={f.id}
+          color={f.color}
+          onChangeColor={changeHandler}
+          form={form}
+        />
+      </section>
     </DropdownButton>
   );
 };
