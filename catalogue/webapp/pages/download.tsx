@@ -1,17 +1,19 @@
+import { ReactElement } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
 } from '../utils/works';
-import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
+import {
+  getCatalogueLicenseData,
+  LicenseData,
+} from '@weco/common/utils/licenses';
 import { TransformedManifest } from '../types/manifest';
 import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import Download, {
-  getCredit,
-} from '@weco/catalogue/components/Download/Download';
+import Download from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
@@ -23,6 +25,39 @@ import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from 'services/catalogue';
 import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
 import { transformManifest } from '../services/iiif/transformers/manifest';
+
+function getCredit(
+  workId: string,
+  title: string,
+  iiifImageLocationCredit: string | undefined,
+  license: LicenseData
+): ReactElement {
+  const titleCredit = title.replace(/\.$/g, '');
+
+  const linkCredit = iiifImageLocationCredit ? (
+    <>
+      Credit:{' '}
+      <a href={`https://wellcomecollection.org/works/${workId}`}>
+        {iiifImageLocationCredit}
+      </a>
+      .
+    </>
+  ) : null;
+
+  const licenseCredit: ReactElement = license.url ? (
+    <a href={license.url}>{license.label}</a>
+  ) : (
+    <>{license.label}</>
+  );
+
+  return (
+    <>
+      <div key="0">
+        {titleCredit}. {linkCredit} {licenseCredit}
+      </div>
+    </>
+  );
+}
 
 type Props = {
   workId: string;

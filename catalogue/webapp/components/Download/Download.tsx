@@ -1,7 +1,6 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { DownloadOption } from '../../types/manifest';
-import { LicenseData } from '@weco/common/utils/licenses';
-import { ReactElement, useContext, useRef } from 'react';
+import { useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import DownloadLink, {
@@ -38,39 +37,6 @@ function getFormatString(format: string): DownloadFormat | undefined {
     default:
       return undefined;
   }
-}
-
-export function getCredit(
-  workId: string,
-  title: string,
-  iiifImageLocationCredit: string | undefined,
-  license: LicenseData
-): ReactElement {
-  const titleCredit = title.replace(/\.$/g, '');
-
-  const linkCredit = iiifImageLocationCredit ? (
-    <>
-      Credit:{' '}
-      <a href={`https://wellcomecollection.org/works/${workId}`}>
-        {iiifImageLocationCredit}
-      </a>
-      .
-    </>
-  ) : null;
-
-  const licenseCredit: ReactElement = license.url ? (
-    <a href={license.url}>{license.label}</a>
-  ) : (
-    <>{license.label}</>
-  );
-
-  return (
-    <>
-      <div key="0">
-        {titleCredit}. {linkCredit} {licenseCredit}
-      </div>
-    </>
-  );
 }
 
 type Props = {
