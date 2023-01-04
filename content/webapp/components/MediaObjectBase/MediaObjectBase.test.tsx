@@ -24,27 +24,13 @@ const grid9 = grid({ s: 9, m: 9, l: 9, xl: 9 });
 const grid10 = grid({ s: 10, m: 10, l: 10, xl: 10 });
 const grid12 = grid({ s: 12, m: 12, l: 12, xl: 12 });
 
-const ImageWrapper = styled.div.attrs<HasImageProps>(props => {
-  if (props.hasImage) {
-    return {
-      className: grid2,
-    };
-  }
-  return {
-    className: grid12,
-  };
-})<HasImageProps>``;
+const ImageWrapper = styled.div.attrs<HasImageProps>(props => ({
+  className: props.hasImage ? grid2 : grid12,
+}))<HasImageProps>``;
 
-const TextWrapper = styled.div.attrs<HasImageProps>(props => {
-  if (props.hasImage) {
-    return {
-      className: grid10,
-    };
-  }
-  return {
-    className: grid12,
-  };
-})<HasImageProps>``;
+const TextWrapper = styled.div.attrs<HasImageProps>(props => ({
+  className: props.hasImage ? grid10 : grid12,
+}))<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
   className: `card-link__title ${font('wb', 4)}`,
