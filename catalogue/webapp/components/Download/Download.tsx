@@ -7,9 +7,7 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import DownloadLink, {
   DownloadFormat,
 } from '@weco/common/views/components/DownloadLink/DownloadLink';
-import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import { NextPage } from 'next';
 import PlainList from '@weco/common/views/components/styled/PlainList';
@@ -80,7 +78,6 @@ type Props = {
   workId: string;
   downloadOptions: DownloadOption[];
   title?: string;
-  license?: LicenseData;
   iiifImageLocationCredit?: string;
   useDarkControl?: boolean;
   isInline?: boolean;
@@ -88,11 +85,8 @@ type Props = {
 
 const Download: NextPage<Props> = ({
   ariaControlsId,
-  title = '',
   workId,
   downloadOptions,
-  license,
-  iiifImageLocationCredit,
   useDarkControl = false,
   isInline = false,
 }: Props) => {
@@ -150,32 +144,6 @@ const Download: NextPage<Props> = ({
                   })}
                 </PlainList>
               </SpacingComponent>
-              {license && (
-                <>
-                  <SpacingComponent>
-                    <Divider />
-                  </SpacingComponent>
-                  <SpacingComponent>
-                    <div>
-                      {license.humanReadableText && (
-                        <WorkDetailsText
-                          title="Licence information"
-                          contents={license.humanReadableText}
-                        />
-                      )}
-                      <WorkDetailsText
-                        title="Credit"
-                        contents={getCredit(
-                          workId,
-                          title,
-                          iiifImageLocationCredit,
-                          license
-                        )}
-                      />
-                    </div>
-                  </SpacingComponent>
-                </>
-              )}
             </DownloadOptions>
           </DropdownButton>
         </>

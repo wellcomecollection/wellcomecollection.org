@@ -213,7 +213,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     setGridVisible,
     work,
     activeIndex,
-    licenseInfo,
     iiifImageLocationCredit,
     downloadOptions,
     setIsMobileSidebarActive,
