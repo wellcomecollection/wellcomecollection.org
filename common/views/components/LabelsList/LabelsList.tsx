@@ -36,7 +36,7 @@ export type Props = {
 const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',
-}: Props) => (
+}) => (
   <List as="ul">
     {labels.filter(Boolean).map((label, i) => (
       <ListItem as="li" key={`${label.text}-${i}`}>

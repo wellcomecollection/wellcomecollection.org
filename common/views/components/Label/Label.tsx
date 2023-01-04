@@ -35,7 +35,7 @@ export type Props = {
 const Label: FunctionComponent<Props> = ({
   label,
   defaultLabelColor = 'yellow',
-}: Props) => {
+}) => {
   return (
     <LabelContainer
       v={{
