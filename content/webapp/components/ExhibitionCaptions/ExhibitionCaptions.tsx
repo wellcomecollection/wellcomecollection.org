@@ -334,29 +334,31 @@ const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
   };
 
   return (
-    <PlainList>
-      {stops.map((stop, index) => {
-        // We want to know whether a standalone title and/or a context title has been used
-        // so we can decrease subsequent headings to the appropriate level
-        if (!titlesUsed.standalone) {
-          titlesUsed.standalone = includesStandaloneTitle(stop);
-        }
-        if (!titlesUsed.context) {
-          titlesUsed.context = isNotUndefined(
-            stop.captionsOrTranscripts?.context
+    <article>
+      <PlainList>
+        {stops.map((stop, index) => {
+          // We want to know whether a standalone title and/or a context title has been used
+          // so we can decrease subsequent headings to the appropriate level
+          if (!titlesUsed.standalone) {
+            titlesUsed.standalone = includesStandaloneTitle(stop);
+          }
+          if (!titlesUsed.context) {
+            titlesUsed.context = isNotUndefined(
+              stop.captionsOrTranscripts?.context
+            );
+          }
+          return (
+            <Stop
+              key={index}
+              index={index}
+              stop={stop}
+              isFirstStop={index === 0}
+              titlesUsed={titlesUsed}
+            />
           );
-        }
-        return (
-          <Stop
-            key={index}
-            index={index}
-            stop={stop}
-            isFirstStop={index === 0}
-            titlesUsed={titlesUsed}
-          />
-        );
-      })}
-    </PlainList>
+        })}
+      </PlainList>
+    </article>
   );
 };
 
