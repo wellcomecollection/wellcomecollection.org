@@ -123,7 +123,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
       // An error shouldn't stop the other results from displaying
       if (storiesFetch.type === 'Error') {
-        console.error('Error fetching works:', storiesFetch.label);
+        console.error('Error fetching stories:', storiesFetch.label);
       }
 
       /*
