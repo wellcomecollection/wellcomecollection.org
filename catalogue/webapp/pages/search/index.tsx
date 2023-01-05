@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { getCookie } from 'cookies-next';
+import { ParsedUrlQuery } from 'querystring';
 
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -13,12 +14,19 @@ import { Story } from '@weco/catalogue/services/prismic/types/story';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { getImages } from 'services/catalogue/images';
 import { Image, Work } from '@weco/common/model/catalogue';
+import {
+  decodeQuery,
+  FromCodecMap,
+  stringCodec,
+} from '@weco/common/utils/routes';
 
-// TODO do we need to have these functions in all different types?
-// Could we make it flexible?
-import { fromQuery } from '@weco/common/views/components/WorksLink/WorksLink';
-// import { fromQuery } from '@weco/common/views/components/ImagesLink/ImagesLink';
-// import { fromQuery } from '@weco/common/views/components/ItemLink/ItemLink';
+// Creating this version of fromQuery for the overview page only
+// No filters or pagination required.
+const codecMap = { query: stringCodec };
+type CodecMapProps = FromCodecMap<typeof codecMap>;
+const fromQuery: (params: ParsedUrlQuery) => CodecMapProps = params => {
+  return decodeQuery<CodecMapProps>(params, codecMap);
+};
 
 type Props = {
   works: Work[] | undefined;
@@ -78,7 +86,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const query = context.query;
-    // See TODO at the import level, this is Works specific but we need it for all types
     const params = fromQuery(query);
 
     const defaultProps = removeUndefinedProps({
@@ -114,10 +121,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ? storiesFetch.results
           : undefined;
 
-      // TODO log an error if unsuccesful to help with debugging?
-      // We don't want to return props here though, an error shouldn't stop the other results from displaying
-      if (storiesFetch.type !== 'Error') {
-        // console.log(appError(context, 500, 'images fetch error'));
+      // An error shouldn't stop the other results from displaying
+      if (storiesFetch.type === 'Error') {
+        console.error('Error fetching works:', storiesFetch.label);
       }
 
       /*
@@ -148,10 +154,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ? worksFetch.results
           : undefined;
 
-      // TODO log an error if unsuccesful to help with debugging?
-      // We don't want to return props here though, an error shouldn't stop the other results from displaying
-      if (worksFetch.type !== 'Error') {
-        // console.log(appError(context, 500, 'images fetch error'));
+      // An error shouldn't stop the other results from displaying
+      if (worksFetch.type === 'Error') {
+        console.error('Error fetching works:', worksFetch.label);
       }
 
       /*
@@ -179,10 +184,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ? imagesFetch.results
           : undefined;
 
-      // TODO log an error if unsuccesful to help with debugging?
-      // We don't want to return props here though, an error shouldn't stop the other results from displaying
-      if (imagesFetch.type !== 'Error') {
-        // console.log(appError(context, 500, 'images fetch error'));
+      // An error shouldn't stop the other results from displaying
+      if (imagesFetch.type === 'Error') {
+        console.error('Error fetching images:', imagesFetch.label);
       }
 
       /*
