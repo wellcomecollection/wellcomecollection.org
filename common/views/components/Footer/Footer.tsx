@@ -101,6 +101,7 @@ const PoliciesContainer = styled(Space)`
 
 const SocialsContainer = styled(Space)`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   align-self: flex-start;
