@@ -8,10 +8,12 @@ import { getServerData } from '@weco/common/server-data';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
+import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
+import { Query } from '@weco/catalogue/types/search';
 import { getImages } from 'services/catalogue/images';
 import { Image, Work } from '@weco/common/model/catalogue';
 import {
@@ -32,6 +34,7 @@ type Props = {
   works: Work[] | undefined;
   images: Image[] | undefined;
   stories: Story[] | undefined;
+  query: Query;
   pageview: Pageview;
 };
 
@@ -39,37 +42,61 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   works,
   images,
   stories,
+  query,
 }) => {
+  const { query: queryString } = query;
+
+  const hasResults = (
+    content: (Work[] | Image[] | Story[] | undefined)[]
+  ): boolean => {
+    return !!content.find(c => c && c.length);
+  };
+
+  // If there is no query, return an empty page
+  if (!queryString) {
+    return (
+      <Space
+        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+      ></Space>
+    );
+  }
+
   return (
     <div className="container">
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-        <pre
-          style={{
-            fontSize: '14px',
-            overflow: 'hidden',
-          }}
-        >
-          {!!works?.length && (
-            <details>
-              <summary>WORKS</summary>
-              {JSON.stringify(works, null, 1)}
-            </details>
-          )}
+        {!hasResults([stories, images, works]) ? (
+          <SearchNoResults query={queryString} hasFilters={false} />
+        ) : (
+          <main>
+            <pre
+              style={{
+                fontSize: '14px',
+                overflow: 'hidden',
+              }}
+            >
+              {hasResults([stories]) && (
+                <details>
+                  <summary>STORIES</summary>
+                  {JSON.stringify(stories, null, 1)}
+                </details>
+              )}
 
-          {!!images?.length && (
-            <details>
-              <summary>IMAGES</summary>
-              {JSON.stringify(images, null, 1)}
-            </details>
-          )}
+              {hasResults([images]) && (
+                <details>
+                  <summary>IMAGES</summary>
+                  {JSON.stringify(images, null, 1)}
+                </details>
+              )}
 
-          {!!stories?.length && (
-            <details>
-              <summary>STORIES</summary>
-              {JSON.stringify(stories, null, 1)}
-            </details>
-          )}
-        </pre>
+              {hasResults([works]) && (
+                <details>
+                  <summary>WORKS</summary>
+                  {JSON.stringify(works, null, 1)}
+                </details>
+              )}
+            </pre>
+          </main>
+        )}
       </Space>
     </div>
   );
@@ -93,6 +120,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       works: undefined,
       images: undefined,
       stories: undefined,
+      query,
       // TODO Harrison to explore what properties we'd want here
       pageview: {
         name: 'stories',
@@ -189,6 +217,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         console.error('Error fetching images:', imagesFetch.label);
       }
 
+      // But if all three queries fail, return an error page
+      if (
+        imagesFetch.type === 'Error' &&
+        worksFetch.type === 'Error' &&
+        storiesFetch.type === 'Error'
+      ) {
+        return appError(context, 500, 'Search results error');
+      }
+
       /*
        * Return results or undefined for each category
        */
@@ -196,7 +233,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: { ...defaultProps, works, stories, images },
       };
     } catch (error) {
-      return appError(context, error.httpStatus, 'Search results fetch error');
+      return appError(context, error.httpStatus, 'Search results error');
     }
   };
 
