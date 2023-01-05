@@ -218,59 +218,55 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           .filter(f => f.excludeFromMoreFilters)
           .map(f => (
             <div key={f.id} style={{ display: 'none' }}>
-              <section aria-label={f.label}>
-                {f.type === 'checkbox' && (
-                  <CheckboxFilter
-                    f={f}
-                    changeHandler={changeHandler}
-                    form={form}
-                  />
-                )}
-                {f.type === 'dateRange' && (
-                  <DateRangeFilter
-                    f={f}
-                    changeHandler={changeHandler}
-                    form={form}
-                  />
-                )}
-                {f.type === 'color' && (
-                  <ColorFilter
-                    f={f}
-                    changeHandler={changeHandler}
-                    form={form}
-                  />
-                )}
-              </section>
+              {f.type === 'checkbox' && (
+                <CheckboxFilter
+                  f={f}
+                  changeHandler={changeHandler}
+                  form={form}
+                />
+              )}
+              {f.type === 'dateRange' && (
+                <DateRangeFilter
+                  f={f}
+                  changeHandler={changeHandler}
+                  form={form}
+                />
+              )}
+              {f.type === 'color' && (
+                <ColorFilter f={f} changeHandler={changeHandler} form={form} />
+              )}
             </div>
           ))}
       {filters
         .filter(f => !f.excludeFromMoreFilters)
         .map(f => (
           <FilterSection key={f.id}>
-            <h3 className="h3">{f.label}</h3>
+            <h3 className="h3">{f.type === 'color' ? 'Colours' : f.label}</h3>
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <div className="no-margin no-padding plain-list">
-                {f.type === 'checkbox' && (
-                  <CheckboxFilter
-                    f={f}
-                    changeHandler={changeHandler}
-                    form={form}
-                  />
-                )}
-                {f.type === 'dateRange' && (
-                  <DateRangeFilter
-                    f={f}
-                    changeHandler={changeHandler}
-                    form={form}
-                  />
-                )}
-                {f.type === 'color' && (
-                  <ColorFilter
-                    f={f}
-                    changeHandler={changeHandler}
-                    form={form}
-                  />
-                )}
+                <section aria-label={f.label}>
+                  {f.type === 'checkbox' && (
+                    <CheckboxFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={form}
+                    />
+                  )}
+                  {f.type === 'dateRange' && (
+                    <DateRangeFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={form}
+                    />
+                  )}
+                  {f.type === 'color' && (
+                    <ColorFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={form}
+                    />
+                  )}
+                </section>
               </div>
             </Space>
           </FilterSection>

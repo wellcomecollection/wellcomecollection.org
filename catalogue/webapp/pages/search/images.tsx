@@ -1,5 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
-import { useEffect, ReactElement, useContext } from 'react';
+import { useEffect, ReactElement, useContext, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import Head from 'next/head';
@@ -56,6 +56,8 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   query,
 }): ReactElement<Props> => {
   const { query: queryString } = query;
+  const [isEnhanced, setIsEnhanced] = useState(false);
+  useEffect(() => setIsEnhanced(true));
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -124,23 +126,25 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       </Head>
 
       <div className="container">
-        <SearchFilters
-          query={queryString}
-          linkResolver={linkResolver}
-          searchFormId="searchPageForm"
-          changeHandler={() => {
-            const form = document.getElementById('searchPageForm');
-            form &&
-              form.dispatchEvent(
-                new window.Event('submit', {
-                  cancelable: true,
-                  bubbles: true,
-                })
-              );
-          }}
-          filters={filters}
-          isNewStyle
-        />
+        {isEnhanced && (
+          <SearchFilters
+            query={queryString}
+            linkResolver={linkResolver}
+            searchFormId="searchPageForm"
+            changeHandler={() => {
+              const form = document.getElementById('searchPageForm');
+              form &&
+                form.dispatchEvent(
+                  new window.Event('submit', {
+                    cancelable: true,
+                    bubbles: true,
+                  })
+                );
+            }}
+            filters={filters}
+            isNewStyle
+          />
+        )}
       </div>
 
       {images && (

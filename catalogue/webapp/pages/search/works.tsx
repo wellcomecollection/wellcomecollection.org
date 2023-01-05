@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
@@ -57,6 +57,8 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   query,
 }) => {
   const { query: queryString } = query;
+  const [isEnhanced, setIsEnhanced] = useState(false);
+  useEffect(() => setIsEnhanced(true));
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -123,23 +125,25 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
       </Head>
 
       <div className="container">
-        <SearchFilters
-          query={queryString}
-          linkResolver={linkResolver}
-          searchFormId="searchPageForm"
-          changeHandler={() => {
-            const form = document.getElementById('searchPageForm');
-            form &&
-              form.dispatchEvent(
-                new window.Event('submit', {
-                  cancelable: true,
-                  bubbles: true,
-                })
-              );
-          }}
-          filters={filters}
-          isNewStyle
-        />
+        {isEnhanced && (
+          <SearchFilters
+            query={queryString}
+            linkResolver={linkResolver}
+            searchFormId="searchPageForm"
+            changeHandler={() => {
+              const form = document.getElementById('searchPageForm');
+              form &&
+                form.dispatchEvent(
+                  new window.Event('submit', {
+                    cancelable: true,
+                    bubbles: true,
+                  })
+                );
+            }}
+            filters={filters}
+            isNewStyle
+          />
+        )}
 
         {works && (
           <>

@@ -65,26 +65,24 @@ const CheckboxFilter = ({
       id={f.id}
     >
       <PlainList className={font('intr', 5)}>
-        <section aria-label={f.label}>
-          <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
-            {f.options.map(({ id, label, value, count, selected }) => {
-              return (
-                <li key={`${f.id}-${id}`}>
-                  <CheckboxRadio
-                    id={id}
-                    type="checkbox"
-                    text={filterLabel({ label, count })}
-                    value={value}
-                    name={f.id}
-                    checked={selected}
-                    onChange={changeHandler}
-                    form={form}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        </section>
+        <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
+          {f.options.map(({ id, label, value, count, selected }) => {
+            return (
+              <li key={`${f.id}-${id}`}>
+                <CheckboxRadio
+                  id={id}
+                  type="checkbox"
+                  text={filterLabel({ label, count })}
+                  value={value}
+                  name={f.id}
+                  checked={selected}
+                  onChange={changeHandler}
+                  form={form}
+                />
+              </li>
+            );
+          })}
+        </ul>
       </PlainList>
     </DropdownButton>
   );
@@ -114,7 +112,7 @@ const DateRangeFilter = ({
         buttonType="inline"
         id={f.id}
       >
-        <section aria-label={f.label}>
+        <>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <NumberInput
               name={f.from.id}
@@ -149,7 +147,7 @@ const DateRangeFilter = ({
             }}
             form={form}
           />
-        </section>
+        </>
       </DropdownButton>
     </Space>
   );
@@ -174,14 +172,12 @@ const ColorFilter = ({
       buttonType="inline"
       id="images.color"
     >
-      <section aria-label="Color Filter">
-        <PaletteColorPicker
-          name={f.id}
-          color={f.color}
-          onChangeColor={changeHandler}
-          form={form}
-        />
-      </section>
+      <PaletteColorPicker
+        name={f.id}
+        color={f.color}
+        onChangeColor={changeHandler}
+        form={form}
+      />
     </DropdownButton>
   );
 };
@@ -225,7 +221,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
   const renderDynamicFilter = (f: Filter, i: number, arr: Filter[]) => {
     if (f.type === 'checkbox' && f.options.length === 0) {
-      return <></>;
+      return <></>; // if there are no options, do not render the dropdown button
     }
     return (
       <Space
@@ -505,6 +501,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           linkResolver={linkResolver}
           resetFilters={linkResolver({ query })}
           filters={filters}
+          isNewStyle={isNewStyle}
         />
       )}
     </>

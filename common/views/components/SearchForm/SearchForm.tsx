@@ -210,7 +210,7 @@ const SearchForm = forwardRef(
             <ButtonSolid text="Search" />
           </SearchButtonWrapper>
         </Wrapper>
-        {shouldShowFilters && (
+        {shouldShowFilters && isEnhanced && (
           <SearchFilters
             query={query}
             linkResolver={linkResolver}
