@@ -31,12 +31,14 @@ const fromQuery: (params: ParsedUrlQuery) => CodecMapProps = params => {
 };
 
 type Props = {
-  works: Work[] | undefined;
-  images: Image[] | undefined;
-  stories: Story[] | undefined;
+  works?: Work[];
+  images?: Image[];
+  stories?: Story[];
   query: Query;
   pageview: Pageview;
 };
+
+type FetchedDataProps = (Work | Image | Story)[] | undefined;
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   works,
@@ -45,12 +47,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   query,
 }) => {
   const { query: queryString } = query;
-
-  const hasResults = (
-    content: (Work[] | Image[] | Story[] | undefined)[]
-  ): boolean => {
-    return !!content.find(c => c && c.length);
-  };
 
   // If there is no query, return an empty page
   if (!queryString) {
@@ -64,7 +60,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   return (
     <div className="container">
       <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-        {!hasResults([stories, images, works]) ? (
+        {!stories && !images && !works ? (
           <SearchNoResults query={queryString} hasFilters={false} />
         ) : (
           <main>
@@ -74,21 +70,21 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 overflow: 'hidden',
               }}
             >
-              {hasResults([stories]) && (
+              {stories && (
                 <details>
                   <summary>STORIES</summary>
                   {JSON.stringify(stories, null, 1)}
                 </details>
               )}
 
-              {hasResults([images]) && (
+              {images && (
                 <details>
                   <summary>IMAGES</summary>
                   {JSON.stringify(images, null, 1)}
                 </details>
               )}
 
-              {hasResults([works]) && (
+              {works && (
                 <details>
                   <summary>WORKS</summary>
                   {JSON.stringify(works, null, 1)}
@@ -117,10 +113,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const defaultProps = removeUndefinedProps({
       serverData,
-      works: undefined,
-      images: undefined,
-      stories: undefined,
       query,
+
       // TODO Harrison to explore what properties we'd want here
       pageview: {
         name: 'stories',
@@ -136,6 +130,18 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     try {
+      // Helper function as this is repeated across all queries
+      const setData = (categoryName, fetchedData): FetchedDataProps => {
+        // An error shouldn't stop the other results from displaying
+        if (fetchedData.type === 'Error') {
+          console.error(fetchedData.label + ': Error fetching ' + categoryName);
+        }
+
+        return fetchedData && fetchedData.type !== 'Error'
+          ? fetchedData.results
+          : undefined;
+      };
+
       /*
        * Stories
        */
@@ -143,79 +149,32 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         query,
         pageSize: 3,
       });
-
-      const stories =
-        storiesFetch && storiesFetch.type !== 'Error'
-          ? storiesFetch.results
-          : undefined;
-
-      // An error shouldn't stop the other results from displaying
-      if (storiesFetch.type === 'Error') {
-        console.error('Error fetching stories:', storiesFetch.label);
-      }
+      const stories = setData('stories', storiesFetch) as Story[] | undefined;
 
       /*
        * Works
        */
-      const worksAggregations = [
-        'workType',
-        'availabilities',
-        'genres.label',
-        'languages',
-        'subjects.label',
-        'contributors.agent.label',
-      ];
       const _worksQueryType = getCookie('_queryType') as string | undefined;
       const worksApiProps = {
         ...params,
         _queryType: _worksQueryType,
-        aggregations: worksAggregations,
       };
       const worksFetch = await getWorks({
         params: worksApiProps,
         pageSize: 3,
         toggles: serverData.toggles,
       });
-
-      const works =
-        worksFetch && worksFetch.type !== 'Error'
-          ? worksFetch.results
-          : undefined;
-
-      // An error shouldn't stop the other results from displaying
-      if (worksFetch.type === 'Error') {
-        console.error('Error fetching works:', worksFetch.label);
-      }
+      const works = setData('works', worksFetch) as Work[] | undefined;
 
       /*
        * Images
        */
-      const imagesAggregations = [
-        'locations.license',
-        'source.genres.label',
-        'source.subjects.label',
-        'source.contributors.agent.label',
-      ];
-      const apiProps = {
-        ...params,
-        aggregations: imagesAggregations,
-      };
-
       const imagesFetch = await getImages({
-        params: apiProps,
+        params,
         toggles: serverData.toggles,
         pageSize: 3,
       });
-
-      const images =
-        imagesFetch && imagesFetch.type !== 'Error'
-          ? imagesFetch.results
-          : undefined;
-
-      // An error shouldn't stop the other results from displaying
-      if (imagesFetch.type === 'Error') {
-        console.error('Error fetching images:', imagesFetch.label);
-      }
+      const images = setData('images', imagesFetch) as Image[] | undefined;
 
       // But if all three queries fail, return an error page
       if (
@@ -225,12 +184,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ) {
         return appError(context, 500, 'Search results error');
       }
-
       /*
        * Return results or undefined for each category
        */
       return {
-        props: { ...defaultProps, works, stories, images },
+        props: {
+          ...defaultProps,
+          ...(stories?.length && { stories }),
+          ...(images?.length && { images }),
+          ...(works?.length && { works }),
+        },
       };
     } catch (error) {
       return appError(context, error.httpStatus, 'Search results error');
