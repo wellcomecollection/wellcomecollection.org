@@ -15,6 +15,7 @@ type ResetActiveFilters = {
   resetFilters: LinkProps;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
+  isNewStyle?: boolean;
 };
 
 const ColorSwatch = styled.span<{ hexColor: string }>`
@@ -26,11 +27,14 @@ const ColorSwatch = styled.span<{ hexColor: string }>`
   padding-top: 2px;
 `;
 
-const Wrapper = styled(Space).attrs({
+const Wrapper = styled(Space).attrs<{ isNewStyle?: boolean }>(props => ({
   v: { size: 's', properties: ['padding-top'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  h: {
+    size: 'm',
+    properties: [!props.isNewStyle && 'padding-left', 'padding-right'],
+  },
   className: 'tokens',
-})`
+}))<{ isNewStyle?: boolean }>`
   background-color: ${props => props.theme.color('white')};
 `;
 
@@ -74,6 +78,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   resetFilters,
   filters,
   linkResolver,
+  isNewStyle,
 }: ResetActiveFilters) => {
   // This is a hack until we decide exactly what it is we want the
   // reset filters to do
@@ -107,7 +112,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   const filterState = Object.fromEntries(filterStateMap);
 
   return (
-    <Wrapper>
+    <Wrapper isNewStyle={isNewStyle}>
       <div className={font('intb', 5)} role="status">
         <div>
           <h2 className="inline">
