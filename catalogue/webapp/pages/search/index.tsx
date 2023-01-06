@@ -16,6 +16,7 @@ import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
 import { getImages } from 'services/catalogue/images';
 import { Image, Work } from '@weco/common/model/catalogue';
+import { setQueryResultsData } from '@weco/catalogue/utils/search';
 import {
   decodeQuery,
   FromCodecMap,
@@ -37,8 +38,6 @@ type Props = {
   query: Query;
   pageview: Pageview;
 };
-
-type FetchedDataProps = (Work | Image | Story)[] | undefined;
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   works,
@@ -130,63 +129,42 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     try {
-      // Helper function as this is repeated across all queries
-      const setData = (categoryName, fetchedData): FetchedDataProps => {
-        // An error shouldn't stop the other results from displaying
-        if (fetchedData.type === 'Error') {
-          console.error(fetchedData.label + ': Error fetching ' + categoryName);
-        }
-
-        return fetchedData && fetchedData.type !== 'Error'
-          ? fetchedData.results
-          : undefined;
-      };
-
-      /*
-       * Stories
-       */
-      const storiesFetch = await getStories({
+      // Stories
+      const storiesResults = await getStories({
         query,
         pageSize: 3,
       });
-      const stories = setData('stories', storiesFetch) as Story[] | undefined;
+      const stories = setQueryResultsData('stories', storiesResults);
 
-      /*
-       * Works
-       */
+      // Works
       const _worksQueryType = getCookie('_queryType') as string | undefined;
-      const worksApiProps = {
-        ...params,
-        _queryType: _worksQueryType,
-      };
-      const worksFetch = await getWorks({
-        params: worksApiProps,
+      const worksResults = await getWorks({
+        params: {
+          ...params,
+          _queryType: _worksQueryType,
+        },
         pageSize: 3,
         toggles: serverData.toggles,
       });
-      const works = setData('works', worksFetch) as Work[] | undefined;
+      const works = setQueryResultsData('works', worksResults);
 
-      /*
-       * Images
-       */
-      const imagesFetch = await getImages({
+      // Images
+      const imagesResults = await getImages({
         params,
         toggles: serverData.toggles,
         pageSize: 3,
       });
-      const images = setData('images', imagesFetch) as Image[] | undefined;
+      const images = setQueryResultsData('images', imagesResults);
 
-      // But if all three queries fail, return an error page
+      // If all three queries fail, return an error page
       if (
-        imagesFetch.type === 'Error' &&
-        worksFetch.type === 'Error' &&
-        storiesFetch.type === 'Error'
+        imagesResults.type === 'Error' &&
+        worksResults.type === 'Error' &&
+        storiesResults.type === 'Error'
       ) {
         return appError(context, 500, 'Search results error');
       }
-      /*
-       * Return results or undefined for each category
-       */
+
       return {
         props: {
           ...defaultProps,

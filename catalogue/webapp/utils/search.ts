@@ -1,16 +1,50 @@
+import {
+  CatalogueApiError,
+  CatalogueResultsList,
+  Image,
+  Work,
+} from '@weco/common/model/catalogue';
+import { Story } from '@weco/catalogue/services/prismic/types/story';
+import { PrismicApiError, PrismicResultsList } from 'services/prismic/types';
+
 export type DefaultSortValuesType = {
   sort: string | undefined;
   sortOrder: string | undefined;
 };
 
-//  SORT
+type QueryResultsProps = (Work | Image | Story)[] | undefined;
+
+/**
+ * Takes query result and checks for errors to log before returning required data.
+ * @param {string} categoryName - e.g. works
+ * @param queryResults - Original result from query
+ */
+export const setQueryResultsData = (
+  categoryName: string,
+  queryResults:
+    | CatalogueResultsList<Image | Work>
+    | CatalogueApiError
+    | PrismicResultsList<Story>
+    | PrismicApiError
+): QueryResultsProps => {
+  // An error shouldn't stop the other results from displaying
+  if (queryResults.type === 'Error') {
+    console.error(queryResults.label + ': Error fetching ' + categoryName);
+  }
+
+  return queryResults && queryResults.type !== 'Error'
+    ? queryResults.results
+    : undefined;
+};
+
+// SORT
 // The works API expects 'sort' and 'sortOrder' parameters, whereas the Prismic API only wants one; 'sortBy'.
 // As those are taken from the URL query and we know we'll eventually fetch everything from the former API,
 // We'd like our URL structure to match, therefore we need to to some mapping for it.
 //
 
 /**
- * This function takes select option's value and transforms it into our URL query parameters
+ * Takes "select option"'s value and transforms it into our URL query parameters
  * The options values are structured like "publication.dates.asc" or "alphabetical.desc"
  * @param {string} sortOptionValue - e.g. publication.dates.asc
  */
@@ -30,7 +64,7 @@ export const getUrlQueryFromSortValue = (
 };
 
 /**
- * This function takes the 'sort' and 'sortOrder' parameters from the URL query and maps it to what the Prismic API
+ * Takes the 'sort' and 'sortOrder' parameters from the URL query and maps it to what the Prismic API
  * expects for its 'sortBy' parameter.
  * @param {string} sort - e.g. publication.dates
  * @param {string} sortOrder - e.g. asc
