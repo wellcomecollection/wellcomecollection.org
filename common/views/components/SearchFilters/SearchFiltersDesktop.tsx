@@ -184,20 +184,17 @@ const ColorFilter = ({
 
 const nVisibleFilters = 3;
 
-const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
-  query,
-  changeHandler,
-  filters,
-  linkResolver,
-  activeFiltersCount,
-  searchFormId,
+const DynamicFilterArray = ({
+  showMoreFiltersModal,
+  setShowMoreFiltersModal,
+  wrapperRef,
   isNewStyle,
-}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
-  const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
-  const openMoreFiltersButtonRef = useRef(null);
-  const [componentMounted, setComponentMounted] = useState(false);
+  changeHandler,
+  searchFormId,
+  filters,
+  openMoreFiltersButtonRef,
+}) => {
   const router = useRouter();
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperWidth, setWrapperWidth] = useState<number>(0);
   const updateWrapperWidth = () => {
     if (wrapperRef.current) {
@@ -207,7 +204,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     }
   };
   useEffect(() => {
-    setComponentMounted(true);
     if (isNewStyle) {
       window.addEventListener('resize', updateWrapperWidth);
       updateWrapperWidth();
@@ -327,6 +323,52 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     }
   }, [wrapperWidth, hasCalculatedFilters, router.query]);
 
+  return (
+    <>
+      {hasCalculatedFilters ? dynamicFiltersCalculated : dynamicFiltersSource}
+      {dynamicFilters.length < filters.length && (
+        <Space
+          h={{
+            size: 'm',
+            properties: ['padding-left', 'padding-right'],
+          }}
+        >
+          <ButtonSolid
+            colors={themeValues.buttonColors.marbleWhiteCharcoal}
+            icon={filter}
+            isIconAfter
+            hoverUnderline={true}
+            size="small"
+            type={ButtonTypes.button}
+            text="All Filters"
+            clickHandler={event => {
+              event.preventDefault();
+              setShowMoreFiltersModal(true);
+            }}
+            ref={openMoreFiltersButtonRef}
+            isPill
+          />
+        </Space>
+      )}
+    </>
+  );
+};
+
+const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
+  query,
+  changeHandler,
+  filters,
+  linkResolver,
+  activeFiltersCount,
+  searchFormId,
+  isNewStyle,
+}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
+  const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [componentMounted, setComponentMounted] = useState(false);
+  useEffect(() => setComponentMounted(true));
+  const openMoreFiltersButtonRef = useRef(null);
+
   const visibleFilters = filters.slice(0, nVisibleFilters);
   const modalFilters = filters.slice(nVisibleFilters);
 
@@ -351,35 +393,20 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             {isNewStyle && (
               <>
                 {componentMounted && (
-                  <>
-                    {hasCalculatedFilters
-                      ? dynamicFiltersCalculated
-                      : dynamicFiltersSource}
-                    {dynamicFilters.length < filters.length && (
-                      <Space
-                        h={{
-                          size: 'm',
-                          properties: ['padding-left', 'padding-right'],
-                        }}
-                      >
-                        <ButtonSolid
-                          colors={themeValues.buttonColors.marbleWhiteCharcoal}
-                          icon={filter}
-                          isIconAfter
-                          hoverUnderline={true}
-                          size="small"
-                          type={ButtonTypes.button}
-                          text="All Filters"
-                          clickHandler={event => {
-                            event.preventDefault();
-                            setShowMoreFiltersModal(true);
-                          }}
-                          ref={openMoreFiltersButtonRef}
-                          isPill
-                        />
-                      </Space>
-                    )}
-                  </>
+                  /**
+                   * I had to extract this component so that useLayoutEffect
+                   * didn't try to run before it could/cause syncing issues
+                   */
+                  <DynamicFilterArray
+                    showMoreFiltersModal={showMoreFiltersModal}
+                    setShowMoreFiltersModal={setShowMoreFiltersModal}
+                    wrapperRef={wrapperRef}
+                    isNewStyle={isNewStyle}
+                    changeHandler={changeHandler}
+                    searchFormId={searchFormId}
+                    filters={filters}
+                    openMoreFiltersButtonRef={openMoreFiltersButtonRef}
+                  />
                 )}
                 <ModalMoreFilters
                   query={query}
