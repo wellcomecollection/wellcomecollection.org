@@ -14,7 +14,7 @@ import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
-import { getImages } from 'services/catalogue/images';
+import { getImages } from '@weco/catalogue/services/catalogue/images';
 import { Image, Work } from '@weco/common/model/catalogue';
 import { setQueryResultsData } from '@weco/catalogue/utils/search';
 import {

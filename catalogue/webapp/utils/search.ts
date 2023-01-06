@@ -5,7 +5,10 @@ import {
   Work,
 } from '@weco/common/model/catalogue';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
-import { PrismicApiError, PrismicResultsList } from 'services/prismic/types';
+import {
+  PrismicApiError,
+  PrismicResultsList,
+} from '@weco/catalogue/services/prismic/types';
 
 export type DefaultSortValuesType = {
   sort: string | undefined;
