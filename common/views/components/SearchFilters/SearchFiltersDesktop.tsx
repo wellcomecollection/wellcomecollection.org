@@ -196,6 +196,9 @@ const DynamicFilterArray = ({
 }) => {
   const router = useRouter();
   const [wrapperWidth, setWrapperWidth] = useState<number>(0);
+  const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
+  const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
+
   const updateWrapperWidth = () => {
     if (wrapperRef.current) {
       const { width, left } = wrapperRef.current.getBoundingClientRect();
@@ -210,9 +213,6 @@ const DynamicFilterArray = ({
       return () => window.removeEventListener('resize', updateWrapperWidth);
     }
   }, []);
-
-  const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
-  const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
 
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
   const renderDynamicFilter = (f: Filter, i: number, arr: Filter[]) => {
@@ -366,7 +366,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [componentMounted, setComponentMounted] = useState(false);
-  useEffect(() => setComponentMounted(true));
+  useEffect(() => setComponentMounted(true), []);
   const openMoreFiltersButtonRef = useRef(null);
 
   const visibleFilters = filters.slice(0, nVisibleFilters);
@@ -374,7 +374,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
   return (
     <>
-      <Wrapper isNewStyle={isNewStyle} id="testing" ref={wrapperRef}>
+      <Wrapper isNewStyle={isNewStyle} ref={wrapperRef}>
         <Space
           h={{
             size: 'm',
