@@ -116,7 +116,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
       // TODO Harrison to explore what properties we'd want here
       pageview: {
-        name: 'stories',
+        name: 'search',
         properties: {},
       },
     });
