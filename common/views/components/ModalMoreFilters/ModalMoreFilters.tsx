@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import { searchFilterCheckBox } from '../../../text/aria-labels';
 import NextLink from 'next/link';
-import { toLink as worksLink } from '../WorksLink/WorksLink';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import {
   Filter,
@@ -20,6 +19,7 @@ import NumberInput from '../NumberInput/NumberInput';
 import { dateRegex } from '../SearchFilters/SearchFiltersDesktop';
 import { useControlledState } from '@weco/common/utils/useControlledState';
 import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
+import { LinkProps } from '@weco/common/model/link-props';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -28,6 +28,7 @@ type ModalMoreFiltersProps = {
   openMoreFiltersButtonRef: RefObject<HTMLInputElement>;
   query: string;
   changeHandler: () => void;
+  resetFilters: LinkProps;
   filters: Filter[];
   form?: string;
   isNewStyle?: boolean;
@@ -148,7 +149,7 @@ const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
   const [to, setTo] = useControlledState(f.to.value);
 
   return (
-    <fieldset name={f.label} form={form}>
+    <>
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
         <NumberInput
           name={f.from.id}
@@ -183,7 +184,7 @@ const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
         }}
         form={form}
       />
-    </fieldset>
+    </>
   );
 };
 
@@ -240,30 +241,32 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
         .filter(f => !f.excludeFromMoreFilters)
         .map(f => (
           <FilterSection key={f.id}>
-            <h3 className="h3">{f.label}</h3>
+            <h3 className="h3">{f.type === 'color' ? 'Colours' : f.label}</h3>
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <div className="no-margin no-padding plain-list">
-                {f.type === 'checkbox' && (
-                  <CheckboxFilter
-                    f={f}
-                    changeHandler={changeHandler}
-                    form={form}
-                  />
-                )}
-                {f.type === 'dateRange' && (
-                  <DateRangeFilter
-                    f={f}
-                    changeHandler={changeHandler}
-                    form={form}
-                  />
-                )}
-                {f.type === 'color' && (
-                  <ColorFilter
-                    f={f}
-                    changeHandler={changeHandler}
-                    form={form}
-                  />
-                )}
+                <section aria-label={f.label}>
+                  {f.type === 'checkbox' && (
+                    <CheckboxFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={form}
+                    />
+                  )}
+                  {f.type === 'dateRange' && (
+                    <DateRangeFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={form}
+                    />
+                  )}
+                  {f.type === 'color' && (
+                    <ColorFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={form}
+                    />
+                  )}
+                </section>
               </div>
             </Space>
           </FilterSection>
@@ -279,6 +282,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   setIsActive,
   openMoreFiltersButtonRef,
   changeHandler,
+  resetFilters,
   filters,
   form,
   isNewStyle,
@@ -318,15 +322,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
           )}
         </ModalInner>
         <FiltersFooter isNewStyle={isNewStyle}>
-          <NextLink
-            passHref
-            {...worksLink(
-              {
-                query,
-              },
-              'cancel_filter/all'
-            )}
-          >
+          <NextLink passHref {...resetFilters}>
             <a>Reset filters</a>
           </NextLink>
 

@@ -65,26 +65,24 @@ const CheckboxFilter = ({
       id={f.id}
     >
       <PlainList className={font('intr', 5)}>
-        <fieldset name={f.label} form={form}>
-          <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
-            {f.options.map(({ id, label, value, count, selected }) => {
-              return (
-                <li key={`${f.id}-${id}`}>
-                  <CheckboxRadio
-                    id={id}
-                    type="checkbox"
-                    text={filterLabel({ label, count })}
-                    value={value}
-                    name={f.id}
-                    checked={selected}
-                    onChange={changeHandler}
-                    form={form}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        </fieldset>
+        <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
+          {f.options.map(({ id, label, value, count, selected }) => {
+            return (
+              <li key={`${f.id}-${id}`}>
+                <CheckboxRadio
+                  id={id}
+                  type="checkbox"
+                  text={filterLabel({ label, count })}
+                  value={value}
+                  name={f.id}
+                  checked={selected}
+                  onChange={changeHandler}
+                  form={form}
+                />
+              </li>
+            );
+          })}
+        </ul>
       </PlainList>
     </DropdownButton>
   );
@@ -114,7 +112,7 @@ const DateRangeFilter = ({
         buttonType="inline"
         id={f.id}
       >
-        <fieldset name={f.label} form={form}>
+        <>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <NumberInput
               name={f.from.id}
@@ -149,7 +147,7 @@ const DateRangeFilter = ({
             }}
             form={form}
           />
-        </fieldset>
+        </>
       </DropdownButton>
     </Space>
   );
@@ -186,21 +184,21 @@ const ColorFilter = ({
 
 const nVisibleFilters = 3;
 
-const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
-  query,
-  changeHandler,
-  filters,
-  linkResolver,
-  activeFiltersCount,
-  searchFormId,
+const DynamicFilterArray = ({
+  showMoreFiltersModal,
+  setShowMoreFiltersModal,
+  wrapperRef,
   isNewStyle,
-}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
-  const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
-  const openMoreFiltersButtonRef = useRef(null);
-  const [componentMounted, setComponentMounted] = useState(false);
+  changeHandler,
+  searchFormId,
+  filters,
+  openMoreFiltersButtonRef,
+}) => {
   const router = useRouter();
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperWidth, setWrapperWidth] = useState<number>(0);
+  const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
+  const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
+
   const updateWrapperWidth = () => {
     if (wrapperRef.current) {
       const { width, left } = wrapperRef.current.getBoundingClientRect();
@@ -209,7 +207,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     }
   };
   useEffect(() => {
-    setComponentMounted(true);
     if (isNewStyle) {
       window.addEventListener('resize', updateWrapperWidth);
       updateWrapperWidth();
@@ -217,11 +214,11 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     }
   }, []);
 
-  const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
-  const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
-
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
   const renderDynamicFilter = (f: Filter, i: number, arr: Filter[]) => {
+    if (f.type === 'checkbox' && f.options.length === 0) {
+      return <></>; // if there are no options, do not render the dropdown button
+    }
     return (
       <Space
         key={f.id}
@@ -326,12 +323,58 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     }
   }, [wrapperWidth, hasCalculatedFilters, router.query]);
 
+  return (
+    <>
+      {hasCalculatedFilters ? dynamicFiltersCalculated : dynamicFiltersSource}
+      {dynamicFilters.length < filters.length && (
+        <Space
+          h={{
+            size: 'm',
+            properties: ['padding-left', 'padding-right'],
+          }}
+        >
+          <ButtonSolid
+            colors={themeValues.buttonColors.marbleWhiteCharcoal}
+            icon={filter}
+            isIconAfter
+            hoverUnderline={true}
+            size="small"
+            type={ButtonTypes.button}
+            text="All Filters"
+            clickHandler={event => {
+              event.preventDefault();
+              setShowMoreFiltersModal(true);
+            }}
+            ref={openMoreFiltersButtonRef}
+            isPill
+          />
+        </Space>
+      )}
+    </>
+  );
+};
+
+const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
+  query,
+  changeHandler,
+  filters,
+  linkResolver,
+  activeFiltersCount,
+  searchFormId,
+  isNewStyle,
+}: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
+  const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [componentMounted, setComponentMounted] = useState(false);
+  useEffect(() => setComponentMounted(true), []);
+  const openMoreFiltersButtonRef = useRef(null);
+
   const visibleFilters = filters.slice(0, nVisibleFilters);
   const modalFilters = filters.slice(nVisibleFilters);
 
   return (
     <>
-      <Wrapper isNewStyle={isNewStyle} id="testing" ref={wrapperRef}>
+      <Wrapper isNewStyle={isNewStyle} ref={wrapperRef}>
         <Space
           h={{
             size: 'm',
@@ -350,35 +393,20 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             {isNewStyle && (
               <>
                 {componentMounted && (
-                  <>
-                    {hasCalculatedFilters
-                      ? dynamicFiltersCalculated
-                      : dynamicFiltersSource}
-                    {dynamicFilters.length < filters.length && (
-                      <Space
-                        h={{
-                          size: 'm',
-                          properties: ['padding-left', 'padding-right'],
-                        }}
-                      >
-                        <ButtonSolid
-                          colors={themeValues.buttonColors.marbleWhiteCharcoal}
-                          icon={filter}
-                          isIconAfter
-                          hoverUnderline={true}
-                          size="small"
-                          type={ButtonTypes.button}
-                          text="All Filters"
-                          clickHandler={event => {
-                            event.preventDefault();
-                            setShowMoreFiltersModal(true);
-                          }}
-                          ref={openMoreFiltersButtonRef}
-                          isPill
-                        />
-                      </Space>
-                    )}
-                  </>
+                  /**
+                   * I had to extract this component so that useLayoutEffect
+                   * didn't try to run before it could/cause syncing issues
+                   */
+                  <DynamicFilterArray
+                    showMoreFiltersModal={showMoreFiltersModal}
+                    setShowMoreFiltersModal={setShowMoreFiltersModal}
+                    wrapperRef={wrapperRef}
+                    isNewStyle={isNewStyle}
+                    changeHandler={changeHandler}
+                    searchFormId={searchFormId}
+                    filters={filters}
+                    openMoreFiltersButtonRef={openMoreFiltersButtonRef}
+                  />
                 )}
                 <ModalMoreFilters
                   query={query}
@@ -387,6 +415,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   setIsActive={setShowMoreFiltersModal}
                   openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                   changeHandler={changeHandler}
+                  resetFilters={linkResolver({ query })}
                   filters={filters}
                   form={searchFormId}
                   isNewStyle
@@ -481,6 +510,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       setIsActive={setShowMoreFiltersModal}
                       openMoreFiltersButtonRef={openMoreFiltersButtonRef}
                       changeHandler={changeHandler}
+                      resetFilters={linkResolver({ query })}
                       filters={modalFilters}
                       form={searchFormId}
                     />
@@ -498,6 +528,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           linkResolver={linkResolver}
           resetFilters={linkResolver({ query })}
           filters={filters}
+          isNewStyle={isNewStyle}
         />
       )}
     </>

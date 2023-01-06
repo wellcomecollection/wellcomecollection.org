@@ -165,6 +165,7 @@ const contentRedirects: Record<string, string> = {
   '/articles/X7bJORMAACEAiRPo': '/articles/X8dU2BIAACMAjKT-',
   '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
   '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
+  '/eat-me': '/books/WwVK3CAAAHm5ExxF',
 
   '/exhibitions/medicine-man': '/exhibitions/Weoe4SQAAKJwjcDC',
 
