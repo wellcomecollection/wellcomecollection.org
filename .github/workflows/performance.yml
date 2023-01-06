@@ -4,6 +4,7 @@ on:
   pull_request:
     paths-ignore:
       - 'assets/**'
+      - 'cache/**'
 
 jobs:
   bundle_size_diff:
