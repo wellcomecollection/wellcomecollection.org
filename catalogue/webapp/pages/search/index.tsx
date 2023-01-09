@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { getCookie } from 'cookies-next';
+import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
 
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -9,9 +10,11 @@ import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
+import StoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
+import { font } from '@weco/common/utils/classnames';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
 import { getImages } from '@weco/catalogue/services/catalogue/images';
@@ -39,6 +42,20 @@ type Props = {
   pageview: Pageview;
 };
 
+const StorySection = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top'] },
+})`
+  background-color: ${props => props.theme.color('neutral.200')};
+`;
+
+const SectionTitle = ({ sectionName }: { sectionName: string }) => {
+  return (
+    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <h3 className={font('intb', 2)}>{sectionName}</h3>
+    </Space>
+  );
+};
+
 export const SearchPage: NextPageWithLayout<Props> = ({
   works,
   images,
@@ -57,43 +74,65 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   }
 
   return (
-    <div className="container">
-      <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+    <main>
+      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
         {!stories && !images && !works ? (
-          <SearchNoResults query={queryString} hasFilters={false} />
+          <div className="container">
+            <SearchNoResults query={queryString} hasFilters={false} />
+          </div>
         ) : (
-          <main>
-            <pre
-              style={{
-                fontSize: '14px',
-                overflow: 'hidden',
-              }}
-            >
-              {stories && (
-                <details>
-                  <summary>STORIES</summary>
-                  {JSON.stringify(stories, null, 1)}
-                </details>
-              )}
+          <>
+            {stories && (
+              <StorySection as="section">
+                <div className="container">
+                  <SectionTitle sectionName="Stories" />
+                  <StoriesGrid stories={stories} />
+                </div>
+              </StorySection>
+            )}
 
-              {images && (
-                <details>
-                  <summary>IMAGES</summary>
-                  {JSON.stringify(images, null, 1)}
-                </details>
-              )}
+            {images && (
+              <section>
+                <div className="container">
+                  <SectionTitle sectionName="Images" />
+                </div>
+              </section>
+            )}
 
-              {works && (
-                <details>
-                  <summary>WORKS</summary>
-                  {JSON.stringify(works, null, 1)}
-                </details>
-              )}
-            </pre>
-          </main>
+            {works && (
+              <section>
+                <div className="container">
+                  <SectionTitle sectionName="Works" />
+                </div>
+              </section>
+            )}
+
+            <div className="container">
+              <pre
+                style={{
+                  fontSize: '14px',
+                  overflow: 'hidden',
+                }}
+              >
+                {images && (
+                  <details>
+                    <summary>IMAGES</summary>
+                    {JSON.stringify(images, null, 1)}
+                  </details>
+                )}
+
+                {works && (
+                  <details>
+                    <summary>WORKS</summary>
+                    {JSON.stringify(works, null, 1)}
+                  </details>
+                )}
+              </pre>
+            </div>
+          </>
         )}
       </Space>
-    </div>
+    </main>
   );
 };
 
@@ -132,7 +171,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       // Stories
       const storiesResults = await getStories({
         query,
-        pageSize: 3,
+        pageSize: 4,
       });
       const stories = getQueryResults('stories', storiesResults);
 
