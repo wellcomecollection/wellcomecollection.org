@@ -7,7 +7,6 @@ import {
   TransformedManifest,
   createDefaultTransformedManifest,
 } from '../../types/manifest';
-import { LicenseData } from '@weco/common/utils/licenses';
 import { UrlTemplate } from 'url-template';
 
 export type RotatedImage = { canvasIndex: number; rotation: number };
@@ -22,7 +21,6 @@ type Props = {
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
   currentManifestLabel?: string;
-  licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
   downloadOptions: DownloadOption[]; // This can be downloads from a manifest or created from a iiif-image location
   parentManifest: Manifest | undefined;
@@ -100,7 +98,6 @@ const ItemViewerContext = createContext<Props>({
   canvasIndex: 0,
   gridVisible: false,
   currentManifestLabel: undefined,
-  licenseInfo: undefined,
   iiifImageLocationCredit: '',
   downloadOptions: [],
   parentManifest: undefined,

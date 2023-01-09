@@ -446,7 +446,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         activeIndex,
         gridVisible,
         currentManifestLabel,
-        licenseInfo,
         iiifImageLocationCredit,
         downloadOptions: downloadEnabled ? downloadOptions : [],
         parentManifest,
