@@ -30,7 +30,7 @@ const exceptionalClosedDates = [
   new Date('2020-01-22'),
 ];
 
-const regularOpeningHours = [
+const regularOpeningHours: OpeningHoursDay[] = [
   {
     dayOfWeek: 'Monday',
     opens: '10:00',
@@ -73,7 +73,7 @@ const regularOpeningHours = [
     closes: '00:00',
     isClosed: true,
   },
-] as OpeningHoursDay[];
+];
 
 const exceptionalOpeningHours: ExceptionalOpeningHoursDay[] = [
   {
