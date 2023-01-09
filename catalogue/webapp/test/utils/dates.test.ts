@@ -130,20 +130,18 @@ describe('findClosedDays', () => {
 
 describe('determineNextAvailableDate', () => {
   it('adds a single day to the current date, if the time is before 10am', () => {
-    const result = determineNextAvailableDate(
-      new Date('2021-12-9 09:00'),
-      [0],
-      []
-    );
+    const result = determineNextAvailableDate(new Date('2021-12-9 09:00'), {
+      regularClosedDays: [0],
+      exceptionalClosedDates: [],
+    });
     expect(result).toEqual(new Date('2021-12-10 09:00'));
   });
 
   it('adds 2 days to the current date, if the time is after 10am', () => {
-    const result = determineNextAvailableDate(
-      new Date('2021-12-9 11:00'),
-      [0],
-      []
-    );
+    const result = determineNextAvailableDate(new Date('2021-12-9 11:00'), {
+      regularClosedDays: [0],
+      exceptionalClosedDates: [],
+    });
     expect(result).toEqual(new Date('2021-12-11 11:00'));
   });
 
@@ -203,21 +201,19 @@ describe('determineNextAvailableDate', () => {
   ])(
     '$description: an item ordered at $requestMade can be retrieved on $firstVisits',
     ({ requestMade, firstVisits }) => {
-      const result = determineNextAvailableDate(
-        requestMade,
-        [0], // Sunday
-        []
-      );
+      const result = determineNextAvailableDate(requestMade, {
+        regularClosedDays: [0], // Sunday
+        exceptionalClosedDates: [],
+      });
       expect(result).toEqual(firstVisits);
     }
   );
 
   it("doesn't return a date if there are no regular days that are open", () => {
-    const result = determineNextAvailableDate(
-      new Date(),
-      [0, 1, 2, 3, 4, 5, 6],
-      []
-    );
+    const result = determineNextAvailableDate(new Date(), {
+      regularClosedDays: [0, 1, 2, 3, 4, 5, 6],
+      exceptionalClosedDates: [],
+    });
     expect(result).toBeUndefined();
   });
 
@@ -226,24 +222,36 @@ describe('determineNextAvailableDate', () => {
     // at 09:30 in London -- it can be fulfilled the next day.
     const date1 = new Date('2021-12-09T10:30:00+0100');
 
-    const result1 = determineNextAvailableDate(date1, [0], []);
+    const result1 = determineNextAvailableDate(date1, {
+      regularClosedDays: [0],
+      exceptionalClosedDates: [],
+    });
     expect(result1).toEqual(new Date('2021-12-10T09:30:00Z'));
 
     // Paris is an hour ahead of London, so a request made at 11:30 in Paris is
     // at 10:30 in London -- it can’t be fulfilled the next day.
     const date2 = new Date('2021-12-09T11:30:00+0100');
 
-    const result2 = determineNextAvailableDate(date2, [0], []);
+    const result2 = determineNextAvailableDate(date2, {
+      regularClosedDays: [0],
+      exceptionalClosedDates: [],
+    });
     expect(result2).toEqual(new Date('2021-12-11T10:30:00Z'));
 
     // Now run the same tests, but now during British Summer Time when London
     // and UTC are different.
     const date3 = new Date('2022-09-06T10:30:00+0200');
-    const result3 = determineNextAvailableDate(date3, [0], []);
+    const result3 = determineNextAvailableDate(date3, {
+      regularClosedDays: [0],
+      exceptionalClosedDates: [],
+    });
     expect(result3).toEqual(new Date('2022-09-07T09:30:00+0100'));
 
     const date4 = new Date('2022-09-06T11:30:00+0200');
-    const result4 = determineNextAvailableDate(date4, [0], []);
+    const result4 = determineNextAvailableDate(date4, {
+      regularClosedDays: [0],
+      exceptionalClosedDates: [],
+    });
     expect(result4).toEqual(new Date('2022-09-08T10:30:00+0100'));
   });
 
@@ -255,8 +263,10 @@ describe('determineNextAvailableDate', () => {
 
     const result = determineNextAvailableDate(
       new Date('2022-09-16T18:00:00+0100'), // Friday evening
-      [0], // Sunday
-      [stateFuneral]
+      {
+        regularClosedDays: [0], //
+        exceptionalClosedDates: [stateFuneral],
+      }
     );
 
     // It's past 10am on Friday, so:
@@ -272,8 +282,10 @@ describe('determineNextAvailableDate', () => {
     const exceptionalClosure = new Date('2021-12-13T12:00:00Z'); // Monday
     const result = determineNextAvailableDate(
       new Date('2021-12-10T12:00:00Z'), // Friday
-      [0], // Sunday
-      [exceptionalClosure]
+      {
+        regularClosedDays: [0], // Sunday
+        exceptionalClosedDates: [exceptionalClosure],
+      }
     );
 
     // It's past 10am on Friday, so:
@@ -310,7 +322,7 @@ describe('includedRegularClosedDays', () => {
     const result = includedRegularClosedDays({
       startDate: new Date('2020-01-03'),
       endDate: new Date('2020-01-16'),
-      closedDays: [0, 1, 4],
+      regularClosedDays: [0, 1, 4],
     });
 
     // This is the date range:
@@ -362,7 +374,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2021-11-03'),
       endDate: new Date('2021-11-16'),
       exceptionalClosedDates,
-      closedDays: [0],
+      regularClosedDays: [0],
     });
 
     expect(result).toEqual(new Date('2021-11-16'));
@@ -373,7 +385,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2019-12-28'),
       endDate: new Date('2020-01-10'),
       exceptionalClosedDates,
-      closedDays: [],
+      regularClosedDays: [],
     });
 
     expect(result).toEqual(new Date('2020-01-15'));
@@ -384,7 +396,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2019-12-28'),
       endDate: new Date('2020-01-10'),
       exceptionalClosedDates,
-      closedDays: [0],
+      regularClosedDays: [0],
     });
 
     expect(result).toEqual(new Date('2020-01-16'));
@@ -395,7 +407,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2019-12-16'),
       endDate: new Date('2019-12-30'),
       exceptionalClosedDates,
-      closedDays: [],
+      regularClosedDays: [],
     });
 
     expect(result).toEqual(new Date('2020-01-01'));
@@ -406,7 +418,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2020-01-03'),
       endDate: new Date('2020-01-16'),
       exceptionalClosedDates,
-      closedDays: [0],
+      regularClosedDays: [0],
     });
 
     expect(result).toEqual(new Date('2020-01-24'));
@@ -417,7 +429,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2019-12-24'),
       endDate: new Date('2019-12-31'),
       exceptionalClosedDates,
-      closedDays: [2],
+      regularClosedDays: [2],
     });
 
     expect(result).toEqual(new Date('2019-12-31'));
@@ -427,7 +439,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       endDate: new Date('2020-01-10'),
       exceptionalClosedDates: exceptionalClosedDates,
-      closedDays: [0],
+      regularClosedDays: [0],
     });
 
     expect(result).toBeUndefined();
@@ -437,7 +449,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       startDate: new Date('2019-12-24'),
       exceptionalClosedDates,
-      closedDays: [0],
+      regularClosedDays: [0],
     });
 
     expect(result).toBeUndefined();
