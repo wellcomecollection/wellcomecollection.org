@@ -335,7 +335,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 <Space h={{ size: 's', properties: ['margin-right'] }}>
                   <Download
                     ariaControlsId="itemDownloads"
-                    title={work.title}
                     workId={work.id}
                     iiifImageLocationCredit={iiifImageLocationCredit}
                     downloadOptions={downloadOptions}
