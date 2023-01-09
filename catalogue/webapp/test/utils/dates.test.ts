@@ -11,6 +11,7 @@ import {
 import {
   OverrideType,
   OpeningHoursDay,
+  ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
 
 const exceptionalClosedDates = [
@@ -74,7 +75,7 @@ const regularOpeningHours = [
   },
 ] as OpeningHoursDay[];
 
-const exceptionalOpeningHours = [
+const exceptionalOpeningHours: ExceptionalOpeningHoursDay[] = [
   {
     overrideDate: new Date('2021-12-25T00:00:00.000Z'),
     overrideType: 'Christmas and New Year' as OverrideType,
