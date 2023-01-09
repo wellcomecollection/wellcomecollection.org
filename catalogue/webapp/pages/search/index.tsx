@@ -137,7 +137,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
-                      text={`All stories`}
+                      text="All stories"
                       pathname="/search/stories"
                     />
                   </Space>
@@ -154,7 +154,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
-                      text={`All images`}
+                      text="All images"
                       pathname="/search/images"
                     />
                   </Space>
@@ -170,10 +170,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                   <WorksSearchResults works={works} />
 
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton
-                      text={`All catalogue`}
-                      pathname="/search/works"
-                    />
+                    <SeeMoreButton text="Catalogue" pathname="/search/works" />
                   </Space>
                 </div>
               </WorksSection>
