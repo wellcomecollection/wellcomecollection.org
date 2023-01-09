@@ -213,8 +213,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     setGridVisible,
     work,
     activeIndex,
-    licenseInfo,
-    iiifImageLocationCredit,
     downloadOptions,
     setIsMobileSidebarActive,
     setIsDesktopSidebarActive,
@@ -336,10 +334,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 <Space h={{ size: 's', properties: ['margin-right'] }}>
                   <Download
                     ariaControlsId="itemDownloads"
-                    title={work.title}
                     workId={work.id}
-                    license={licenseInfo}
-                    iiifImageLocationCredit={iiifImageLocationCredit}
                     downloadOptions={downloadOptions}
                     useDarkControl={true}
                     isInline={true}
