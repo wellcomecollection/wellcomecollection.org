@@ -221,13 +221,13 @@ CatalogueSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const query = context.query;
 
     if (!serverData.toggles.searchPage) {
       return { notFound: true };
     }
 
-    const params = fromQuery(context.query);
+    const query = context.query;
+    const params = fromQuery(query);
 
     // Stop here if no query has been entered
     if (!params.query) {

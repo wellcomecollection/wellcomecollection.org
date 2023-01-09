@@ -260,11 +260,12 @@ export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
-  const query = context.query;
 
   if (!serverData.toggles.searchPage) {
     return { notFound: true };
   }
+
+  const query = context.query;
 
   const defaultProps = removeUndefinedProps({
     serverData,
