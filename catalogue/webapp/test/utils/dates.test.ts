@@ -6,6 +6,7 @@ import {
   extendEndDate,
   findClosedDays,
   isRequestableDate,
+  isLibraryOpen,
 } from '../../utils/dates';
 import {
   OverrideType,
@@ -525,5 +526,47 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
       excludedDays: [],
     });
     expect(result).toEqual(true);
+  });
+});
+
+describe('isLibraryOpen: determines whether the library is open on a given day', () => {
+  //
+  //          January 2023
+  //      Mo Tu We Th Fr Sa Su
+  //       2  3  4  5  6  7  8
+  //       9 10 11 12 13 14 15
+  //
+  test.each([
+    {
+      dayOfWeek: 'Monday',
+      state: 'open',
+      date: new Date('2023-01-09T12:00:00Z'),
+    },
+    {
+      dayOfWeek: 'Wednesday',
+      state: 'open',
+      date: new Date('2023-01-11T12:00:00Z'),
+    },
+    {
+      dayOfWeek: 'Saturday',
+      state: 'open',
+      date: new Date('2023-01-14T12:00:00Z'),
+    },
+    {
+      dayOfWeek: 'Sunday',
+      state: 'closed',
+      date: new Date('2023-01-15T12:00:00Z'),
+    },
+  ])('The library is $state on $dayOfWeek', ({ state, date }) => {
+    const result = isLibraryOpen(date, {
+      regularClosedDays: [0],
+      exceptionalClosedDates,
+    });
+
+    if (state === 'open') {
+      expect(result).toBeTruthy();
+    } else {
+      expect(result).toBeFalsy();
+    }
   });
 });
