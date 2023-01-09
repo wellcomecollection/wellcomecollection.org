@@ -51,11 +51,9 @@ function getCredit(
   );
 
   return (
-    <>
-      <div key="0">
-        {titleCredit}. {linkCredit} {licenseCredit}
-      </div>
-    </>
+    <div key="0">
+      {titleCredit}. {linkCredit} {licenseCredit}
+    </div>
   );
 }
 
