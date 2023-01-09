@@ -180,35 +180,36 @@ const ContentPage = ({
               </Layout8>
             </SpacingSection>
           )}
-
-          {RelatedContent.length > 0 && (
-            <SpacingSection>
-              {Children.map(RelatedContent, child => (
-                <Fragment>{child}</Fragment>
-              ))}
-            </SpacingSection>
-          )}
-
-          {outroProps && (
-            <SpacingSection>
-              <Layout8>
-                <Outro {...outroProps} />
-              </Layout8>
-            </SpacingSection>
-          )}
-
-          {postOutroContent && <Layout8>{postOutroContent}</Layout8>}
-
-          {seasons.length > 0 &&
-            seasons.map(season => (
-              <SpacingSection key={season.id}>
-                <Layout12>
-                  <BannerCard item={season} />
-                </Layout12>
-              </SpacingSection>
-            ))}
         </Wrapper>
       </article>
+      <Wrapper isCreamy={isCreamy}>
+        {RelatedContent.length > 0 && (
+          <SpacingSection>
+            {Children.map(RelatedContent, child => (
+              <Fragment>{child}</Fragment>
+            ))}
+          </SpacingSection>
+        )}
+
+        {outroProps && (
+          <SpacingSection>
+            <Layout8>
+              <Outro {...outroProps} />
+            </Layout8>
+          </SpacingSection>
+        )}
+
+        {postOutroContent && <Layout8>{postOutroContent}</Layout8>}
+
+        {seasons.length > 0 &&
+          seasons.map(season => (
+            <SpacingSection key={season.id}>
+              <Layout12>
+                <BannerCard item={season} />
+              </Layout12>
+            </SpacingSection>
+          ))}
+      </Wrapper>
     </PageBackgroundContext.Provider>
   );
 };
