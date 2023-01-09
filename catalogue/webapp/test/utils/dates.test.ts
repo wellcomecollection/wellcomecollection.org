@@ -13,6 +13,7 @@ import {
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
+import timezoneMock from 'timezone-mock';
 
 const exceptionalClosedDates = [
   new Date('2019-12-03'),
@@ -581,5 +582,75 @@ describe('isLibraryOpen: determines whether the library is open on a given day',
     } else {
       expect(result).toBeFalsy();
     }
+  });
+});
+
+describe('works correctly with a non-London timezone', () => {
+  // The tests will run with whatever the local timezone is, which is usually going to
+  // be London (on dev machines) or UTC (in CI).
+  //
+  // These tests run with an explicit timezone, to catch bugs that occur when running
+  // outside the usual timezones we test in.  They use beforeEach() / afterEach() to avoid
+  // polluting the state of the other tests.
+  //
+  // See https://www.npmjs.com/package/timezone-mock
+
+  beforeEach(() => {
+    timezoneMock.register('US/Pacific');
+  });
+
+  afterEach(() => {
+    timezoneMock.unregister();
+  });
+
+  // This is based on an issue reported by email on 7 January 2023 to the
+  // digital@wellcomecollection.org DL
+  it('determineNextAvailableDate: when the request is made on a different day in $timezone and in London', () => {
+    // A user somewhere in the US requested an item in their evening, which was
+    // early morning in London -- and was offered a Sunday pickup date.
+    //
+    // This is the calendar:
+    //
+    //      Mo Tu We Th Fr Sa Su
+    //       2  3  4  5  6  7  8
+    //       9 10 11 12 13 14 15
+    //
+    // The user's local time is Friday 6th @ 6pm in San Francisco (PST), which is
+    // Saturday 7th @ 2am in London.
+    //
+    // The requesting logic should behave as follows:
+    //
+    //    * It is before 10am in London, and Saturday is a working day.
+    //      Staff can retrieve the item from the stores on Saturday 7th.
+    //
+    //    * The user can pick up the item the next working day after that.
+    //      The library is closed on Sundays, so the next available day is
+    //      Monday 9th.
+    //
+
+    const userDate = new Date('2023-01-06T18:00:00-0800');
+    const result = determineNextAvailableDate(userDate, {
+      regularClosedDays: [0],
+      exceptionalClosedDates: [],
+    });
+    expect(result).toEqual(new Date('2023-01-09T02:00:00Z'));
+
+    timezoneMock.unregister();
+  });
+
+  it('isLibraryOpen: when the request is made on a different day in $timezone and in London', () => {
+    const date1 = new Date('2023-01-07T18:00:00-0800'); // Saturday in US, Sunday in London
+    const result1 = isLibraryOpen(date1, {
+      regularClosedDays: [0],
+      exceptionalClosedDates: [],
+    });
+    expect(result1).toBeFalsy();
+
+    const date2 = new Date('2023-01-08T18:00:00-0800'); // Sunday in US, Monday in London
+    const result2 = isLibraryOpen(date2, {
+      regularClosedDays: [0],
+      exceptionalClosedDates: [],
+    });
+    expect(result2).toBeTruthy();
   });
 });
