@@ -2,8 +2,8 @@ import {
   ResultsLite,
   CollectionVenuePrismicDocumentLite,
 } from '../../../server-data/prismic';
-import { formatTime } from '../../../utils/format-date';
-import { Day, Venue, OpeningHoursDay } from '../../../model/opening-hours';
+import { DayOfWeek, formatTime } from '../../../utils/format-date';
+import { Venue, OpeningHoursDay } from '../../../model/opening-hours';
 import {
   CollectionVenuePrismicDocument,
   DayField,
@@ -15,7 +15,7 @@ import { transformImage } from './images';
 import { transformTimestamp } from '.';
 
 export function createRegularDay(
-  day: Day,
+  day: DayOfWeek,
   venue: CollectionVenuePrismicDocument | CollectionVenuePrismicDocumentLite
 ): OpeningHoursDay {
   const { data } = venue;

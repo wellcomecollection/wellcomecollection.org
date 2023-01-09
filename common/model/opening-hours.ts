@@ -1,13 +1,5 @@
+import { DayOfWeek } from '../utils/format-date';
 import { ImageType } from './image';
-
-export type Day =
-  | 'Monday'
-  | 'Tuesday'
-  | 'Wednesday'
-  | 'Thursday'
-  | 'Friday'
-  | 'Saturday'
-  | 'Sunday';
 
 export type DayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -29,7 +21,7 @@ export type ExceptionalPeriod = {
 };
 
 export type OpeningHoursDay = {
-  dayOfWeek: Day;
+  dayOfWeek: DayOfWeek;
   opens: string;
   closes: string;
   isClosed?: boolean;

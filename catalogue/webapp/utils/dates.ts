@@ -1,7 +1,6 @@
 import {
   OpeningHoursDay,
   DayNumber,
-  Day,
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
 import {
@@ -10,6 +9,7 @@ import {
   isSameDay,
   isSameDayOrBefore,
 } from '@weco/common/utils/dates';
+import { DayOfWeek } from '@weco/common/utils/format-date';
 
 export function findClosedDays(
   days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
@@ -38,7 +38,7 @@ export function convertOpeningHoursDayToDayNumber(
   }
 }
 
-export function convertDayNumberToDay(dayNumber: DayNumber): Day {
+export function convertDayNumberToDay(dayNumber: DayNumber): DayOfWeek {
   switch (dayNumber) {
     case 1:
       return 'Monday';
