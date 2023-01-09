@@ -213,7 +213,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     setGridVisible,
     work,
     activeIndex,
-    iiifImageLocationCredit,
     downloadOptions,
     setIsMobileSidebarActive,
     setIsDesktopSidebarActive,
@@ -336,7 +335,6 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   <Download
                     ariaControlsId="itemDownloads"
                     workId={work.id}
-                    iiifImageLocationCredit={iiifImageLocationCredit}
                     downloadOptions={downloadOptions}
                     useDarkControl={true}
                     isInline={true}
