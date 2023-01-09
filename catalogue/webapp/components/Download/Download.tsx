@@ -43,8 +43,6 @@ type Props = {
   ariaControlsId: string;
   workId: string;
   downloadOptions: DownloadOption[];
-  title?: string;
-  iiifImageLocationCredit?: string;
   useDarkControl?: boolean;
   isInline?: boolean;
 };
