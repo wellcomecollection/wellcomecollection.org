@@ -5,7 +5,6 @@ import {
   groupExceptionalClosedDates,
   extendEndDate,
   findClosedDays,
-  findNextPickUpDay,
   isRequestableDate,
 } from '../../utils/dates';
 import {
