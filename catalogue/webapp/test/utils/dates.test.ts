@@ -4,15 +4,10 @@ import {
   includedRegularClosedDays,
   groupExceptionalClosedDates,
   extendEndDate,
-  findClosedDays,
   isRequestableDate,
   isLibraryOpen,
 } from '../../utils/dates';
-import {
-  OverrideType,
-  OpeningHoursDay,
-  ExceptionalOpeningHoursDay,
-} from '@weco/common/model/opening-hours';
+import timezoneMock from 'timezone-mock';
 
 const exceptionalClosedDates = [
   new Date('2019-12-03'),
@@ -30,108 +25,10 @@ const exceptionalClosedDates = [
   new Date('2020-01-22'),
 ];
 
-const regularOpeningHours: OpeningHoursDay[] = [
-  {
-    dayOfWeek: 'Monday',
-    opens: '10:00',
-    closes: '18:00',
-    isClosed: false,
-  },
-  {
-    dayOfWeek: 'Tuesday',
-    opens: '10:00',
-    closes: '18:00',
-    isClosed: false,
-  },
-  {
-    dayOfWeek: 'Wednesday',
-    opens: '10:00',
-    closes: '18:00',
-    isClosed: false,
-  },
-  {
-    dayOfWeek: 'Thursday',
-    opens: '10:00',
-    closes: '18:00',
-    isClosed: false,
-  },
-  {
-    dayOfWeek: 'Friday',
-    opens: '10:00',
-    closes: '18:00',
-    isClosed: false,
-  },
-  {
-    dayOfWeek: 'Saturday',
-    opens: '10:00',
-    closes: '16:00',
-    isClosed: false,
-  },
-  {
-    dayOfWeek: 'Sunday',
-    opens: '00:00',
-    closes: '00:00',
-    isClosed: true,
-  },
-];
-
-const exceptionalOpeningHours: ExceptionalOpeningHoursDay[] = [
-  {
-    overrideDate: new Date('2021-12-25T00:00:00.000Z'),
-    overrideType: 'Christmas and New Year' as OverrideType,
-    opens: '00:00',
-    closes: '00:00',
-    isClosed: true,
-  },
-  {
-    overrideDate: new Date('2021-12-26T00:00:00.000Z'),
-    overrideType: 'Christmas and New Year' as OverrideType,
-    opens: '12:00',
-    closes: '14:00',
-    isClosed: false,
-  },
-  {
-    overrideDate: new Date('2021-12-27T00:00:00.000Z'),
-    overrideType: 'Christmas and New Year' as OverrideType,
-    opens: '00:00',
-    closes: '00:00',
-    isClosed: true,
-  },
-];
-
-describe('findClosedDays', () => {
-  it('filters out any non closed days from regular opening hours', () => {
-    const result = findClosedDays(regularOpeningHours);
-    expect(result).toEqual([
-      { dayOfWeek: 'Sunday', opens: '00:00', closes: '00:00', isClosed: true },
-    ]);
-  });
-
-  it('filters out any non closed days from exceptional opening hours', () => {
-    const result = findClosedDays(exceptionalOpeningHours);
-    expect(result).toEqual([
-      {
-        overrideDate: new Date('2021-12-25T00:00:00.000Z'),
-        overrideType: 'Christmas and New Year',
-        opens: '00:00',
-        closes: '00:00',
-        isClosed: true,
-      },
-      {
-        overrideDate: new Date('2021-12-27T00:00:00.000Z'),
-        overrideType: 'Christmas and New Year',
-        opens: '00:00',
-        closes: '00:00',
-        isClosed: true,
-      },
-    ]);
-  });
-});
-
 describe('determineNextAvailableDate', () => {
   it('adds a single day to the current date, if the time is before 10am', () => {
     const result = determineNextAvailableDate(new Date('2021-12-9 09:00'), {
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
       exceptionalClosedDates: [],
     });
     expect(result).toEqual(new Date('2021-12-10 09:00'));
@@ -139,7 +36,7 @@ describe('determineNextAvailableDate', () => {
 
   it('adds 2 days to the current date, if the time is after 10am', () => {
     const result = determineNextAvailableDate(new Date('2021-12-9 11:00'), {
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
       exceptionalClosedDates: [],
     });
     expect(result).toEqual(new Date('2021-12-11 11:00'));
@@ -202,7 +99,7 @@ describe('determineNextAvailableDate', () => {
     '$description: an item ordered at $requestMade can be retrieved on $firstVisits',
     ({ requestMade, firstVisits }) => {
       const result = determineNextAvailableDate(requestMade, {
-        regularClosedDays: [0], // Sunday
+        regularClosedDays: ['Sunday'],
         exceptionalClosedDates: [],
       });
       expect(result).toEqual(firstVisits);
@@ -211,7 +108,15 @@ describe('determineNextAvailableDate', () => {
 
   it("doesn't return a date if there are no regular days that are open", () => {
     const result = determineNextAvailableDate(new Date(), {
-      regularClosedDays: [0, 1, 2, 3, 4, 5, 6],
+      regularClosedDays: [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ],
       exceptionalClosedDates: [],
     });
     expect(result).toBeUndefined();
@@ -223,7 +128,7 @@ describe('determineNextAvailableDate', () => {
     const date1 = new Date('2021-12-09T10:30:00+0100');
 
     const result1 = determineNextAvailableDate(date1, {
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
       exceptionalClosedDates: [],
     });
     expect(result1).toEqual(new Date('2021-12-10T09:30:00Z'));
@@ -233,7 +138,7 @@ describe('determineNextAvailableDate', () => {
     const date2 = new Date('2021-12-09T11:30:00+0100');
 
     const result2 = determineNextAvailableDate(date2, {
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
       exceptionalClosedDates: [],
     });
     expect(result2).toEqual(new Date('2021-12-11T10:30:00Z'));
@@ -242,14 +147,14 @@ describe('determineNextAvailableDate', () => {
     // and UTC are different.
     const date3 = new Date('2022-09-06T10:30:00+0200');
     const result3 = determineNextAvailableDate(date3, {
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
       exceptionalClosedDates: [],
     });
     expect(result3).toEqual(new Date('2022-09-07T09:30:00+0100'));
 
     const date4 = new Date('2022-09-06T11:30:00+0200');
     const result4 = determineNextAvailableDate(date4, {
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
       exceptionalClosedDates: [],
     });
     expect(result4).toEqual(new Date('2022-09-08T10:30:00+0100'));
@@ -264,7 +169,7 @@ describe('determineNextAvailableDate', () => {
     const result = determineNextAvailableDate(
       new Date('2022-09-16T18:00:00+0100'), // Friday evening
       {
-        regularClosedDays: [0], //
+        regularClosedDays: ['Sunday'], //
         exceptionalClosedDates: [stateFuneral],
       }
     );
@@ -283,7 +188,7 @@ describe('determineNextAvailableDate', () => {
     const result = determineNextAvailableDate(
       new Date('2021-12-10T12:00:00Z'), // Friday
       {
-        regularClosedDays: [0], // Sunday
+        regularClosedDays: ['Sunday'],
         exceptionalClosedDates: [exceptionalClosure],
       }
     );
@@ -300,10 +205,11 @@ describe('determineNextAvailableDate', () => {
 
 describe('filterExceptionalClosedDates', () => {
   it('removes any date that is a regular closed day', () => {
-    const result = filterExceptionalClosedDates(
-      exceptionalClosedDates,
-      [0, 1, 3]
-    );
+    const result = filterExceptionalClosedDates(exceptionalClosedDates, [
+      'Sunday',
+      'Monday',
+      'Wednesday',
+    ]);
 
     expect(result).toEqual([
       new Date('2019-12-03'),
@@ -322,7 +228,7 @@ describe('includedRegularClosedDays', () => {
     const result = includedRegularClosedDays({
       startDate: new Date('2020-01-03'),
       endDate: new Date('2020-01-16'),
-      regularClosedDays: [0, 1, 4],
+      regularClosedDays: ['Sunday', 'Monday', 'Thursday'],
     });
 
     // This is the date range:
@@ -333,7 +239,6 @@ describe('includedRegularClosedDays', () => {
     //      5  6  7  8  9 10 11
     //     12 13 14 15 16
     //
-    // Of these, we're counting Sunday (0), Monday (1) and Thursday (4).
     expect(result).toEqual(6);
   });
 });
@@ -374,7 +279,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2021-11-03'),
       endDate: new Date('2021-11-16'),
       exceptionalClosedDates,
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
     });
 
     expect(result).toEqual(new Date('2021-11-16'));
@@ -396,7 +301,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2019-12-28'),
       endDate: new Date('2020-01-10'),
       exceptionalClosedDates,
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
     });
 
     expect(result).toEqual(new Date('2020-01-16'));
@@ -418,7 +323,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2020-01-03'),
       endDate: new Date('2020-01-16'),
       exceptionalClosedDates,
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
     });
 
     expect(result).toEqual(new Date('2020-01-24'));
@@ -429,7 +334,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: new Date('2019-12-24'),
       endDate: new Date('2019-12-31'),
       exceptionalClosedDates,
-      regularClosedDays: [2],
+      regularClosedDays: ['Tuesday'],
     });
 
     expect(result).toEqual(new Date('2019-12-31'));
@@ -439,7 +344,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       endDate: new Date('2020-01-10'),
       exceptionalClosedDates: exceptionalClosedDates,
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
     });
 
     expect(result).toBeUndefined();
@@ -449,7 +354,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       startDate: new Date('2019-12-24'),
       exceptionalClosedDates,
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
     });
 
     expect(result).toBeUndefined();
@@ -485,7 +390,7 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
       startDate: new Date('2019-12-17'),
       endDate: new Date('2019-12-31'),
       excludedDates: [],
-      excludedDays: [2], // Tuesday
+      excludedDays: ['Tuesday'],
     });
     expect(result).toEqual(false);
   });
@@ -572,7 +477,7 @@ describe('isLibraryOpen: determines whether the library is open on a given day',
     },
   ])('The library is $state on $dayOfWeek', ({ state, date }) => {
     const result = isLibraryOpen(date, {
-      regularClosedDays: [0],
+      regularClosedDays: ['Sunday'],
       exceptionalClosedDates,
     });
 
@@ -581,5 +486,75 @@ describe('isLibraryOpen: determines whether the library is open on a given day',
     } else {
       expect(result).toBeFalsy();
     }
+  });
+});
+
+describe('works correctly with a non-London timezone', () => {
+  // The tests will run with whatever the local timezone is, which is usually going to
+  // be London (on dev machines) or UTC (in CI).
+  //
+  // These tests run with an explicit timezone, to catch bugs that occur when running
+  // outside the usual timezones we test in.  They use beforeEach() / afterEach() to avoid
+  // polluting the state of the other tests.
+  //
+  // See https://www.npmjs.com/package/timezone-mock
+
+  beforeEach(() => {
+    timezoneMock.register('US/Pacific');
+  });
+
+  afterEach(() => {
+    timezoneMock.unregister();
+  });
+
+  // This is based on an issue reported by email on 7 January 2023 to the
+  // digital@wellcomecollection.org DL
+  it('determineNextAvailableDate: when the request is made on a different day in $timezone and in London', () => {
+    // A user somewhere in the US requested an item in their evening, which was
+    // early morning in London -- and was offered a Sunday pickup date.
+    //
+    // This is the calendar:
+    //
+    //      Mo Tu We Th Fr Sa Su
+    //       2  3  4  5  6  7  8
+    //       9 10 11 12 13 14 15
+    //
+    // The user's local time is Friday 6th @ 6pm in San Francisco (PST), which is
+    // Saturday 7th @ 2am in London.
+    //
+    // The requesting logic should behave as follows:
+    //
+    //    * It is before 10am in London, and Saturday is a working day.
+    //      Staff can retrieve the item from the stores on Saturday 7th.
+    //
+    //    * The user can pick up the item the next working day after that.
+    //      The library is closed on Sundays, so the next available day is
+    //      Monday 9th.
+    //
+
+    const userDate = new Date('2023-01-06T18:00:00-0800');
+    const result = determineNextAvailableDate(userDate, {
+      regularClosedDays: ['Sunday'],
+      exceptionalClosedDates: [],
+    });
+    expect(result).toEqual(new Date('2023-01-09T02:00:00Z'));
+
+    timezoneMock.unregister();
+  });
+
+  it('isLibraryOpen: when the request is made on a different day in $timezone and in London', () => {
+    const date1 = new Date('2023-01-07T18:00:00-0800'); // Saturday in US, Sunday in London
+    const result1 = isLibraryOpen(date1, {
+      regularClosedDays: ['Sunday'],
+      exceptionalClosedDates: [],
+    });
+    expect(result1).toBeFalsy();
+
+    const date2 = new Date('2023-01-08T18:00:00-0800'); // Sunday in US, Monday in London
+    const result2 = isLibraryOpen(date2, {
+      regularClosedDays: ['Sunday'],
+      exceptionalClosedDates: [],
+    });
+    expect(result2).toBeTruthy();
   });
 });

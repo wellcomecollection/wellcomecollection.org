@@ -2,18 +2,21 @@ import { FunctionComponent } from 'react';
 import Select, {
   SelectOption,
 } from '@weco/common/views/components/Select/Select';
-import { DayNumber } from '@weco/common/model/opening-hours';
 import { isRequestableDate } from '../../utils/dates';
 import { isTruthy } from '@weco/common/utils/array';
 import { getDatesBetween } from '@weco/common/utils/dates';
 import { dateAsValue } from '../ItemRequestModal/format-date';
-import { formatDayName, formatDayMonth } from '@weco/common/utils/format-date';
+import {
+  formatDayName,
+  formatDayMonth,
+  DayOfWeek,
+} from '@weco/common/utils/format-date';
 
 type Props = {
   min?: Date;
   max?: Date;
   excludedDates: Date[];
-  excludedDays: DayNumber[];
+  excludedDays: DayOfWeek[];
   chosenDate?: string;
   setChosenDate: (value: string) => void;
 };
@@ -22,7 +25,7 @@ function getAvailableDates(
   min: Date,
   max: Date,
   excludedDates: Date[],
-  excludedDays: DayNumber[]
+  excludedDays: DayOfWeek[]
 ): SelectOption[] {
   const days = getDatesBetween({ start: min, end: max });
 
