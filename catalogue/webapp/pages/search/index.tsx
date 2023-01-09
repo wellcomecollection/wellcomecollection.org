@@ -16,7 +16,7 @@ import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
 import { getImages } from '@weco/catalogue/services/catalogue/images';
 import { Image, Work } from '@weco/common/model/catalogue';
-import { setQueryResultsData } from '@weco/catalogue/utils/search';
+import { getQueryResults } from '@weco/catalogue/utils/search';
 import {
   decodeQuery,
   FromCodecMap,
@@ -134,7 +134,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         query,
         pageSize: 3,
       });
-      const stories = setQueryResultsData('stories', storiesResults);
+      const stories = getQueryResults('stories', storiesResults);
 
       // Works
       const _worksQueryType = getCookie('_queryType') as string | undefined;
@@ -146,7 +146,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         pageSize: 3,
         toggles: serverData.toggles,
       });
-      const works = setQueryResultsData('works', worksResults);
+      const works = getQueryResults('works', worksResults);
 
       // Images
       const imagesResults = await getImages({
@@ -154,7 +154,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         toggles: serverData.toggles,
         pageSize: 3,
       });
-      const images = setQueryResultsData('images', imagesResults);
+      const images = getQueryResults('images', imagesResults);
 
       // If all three queries fail, return an error page
       if (

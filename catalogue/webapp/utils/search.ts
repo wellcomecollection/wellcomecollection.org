@@ -22,7 +22,7 @@ type QueryResultsProps = (Work | Image | Story)[] | undefined;
  * @param {string} categoryName - e.g. works
  * @param queryResults - Original result from query
  */
-export const setQueryResultsData = (
+export const getQueryResults = (
   categoryName: string,
   queryResults:
     | CatalogueResultsList<Image | Work>
