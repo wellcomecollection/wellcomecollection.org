@@ -176,7 +176,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container" role="main">
-                <WorksSearchResults works={works} />
+                <WorksSearchResults works={works.results} />
               </div>
 
               <Space
