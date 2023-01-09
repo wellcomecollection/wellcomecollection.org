@@ -19,9 +19,9 @@ const StoriesContainer = styled.div<{ isDetailed?: boolean }>`
 
 const StoryWrapper = styled(Space).attrs<{
   isDetailed?: boolean;
-}>({
-  v: { size: 'xl', properties: ['padding-bottom'] },
-})<{ isDetailed?: boolean }>`
+}>(props => ({
+  v: { size: 'xl', properties: [props.isDetailed ? 'padding-bottom' : ''] },
+}))<{ isDetailed?: boolean }>`
   display: flex;
   flex-direction: ${props => (props.isDetailed ? 'row' : 'column')};
   align-items: flex-start;

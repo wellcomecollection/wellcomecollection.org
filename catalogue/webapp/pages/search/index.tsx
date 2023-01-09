@@ -3,14 +3,19 @@ import { getCookie } from 'cookies-next';
 import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
 
+import Space from '@weco/common/views/components/styled/Space';
+import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
+import StoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid';
+import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import { arrow } from '@weco/common/icons';
+
+import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
-import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
-import StoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
@@ -42,11 +47,22 @@ type Props = {
   pageview: Pageview;
 };
 
-const StorySection = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top'] },
+const StoriesSection = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('neutral.200')};
 `;
+
+const ImagesSection = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
+`;
+
+const WorksSection = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})``;
 
 const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   return (
@@ -73,6 +89,36 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     );
   }
 
+  const SeeMoreButton = ({
+    text,
+    pathname,
+  }: {
+    text: string;
+    pathname: string;
+  }) => (
+    <ButtonSolidLink
+      text={text}
+      link={{
+        href: {
+          pathname,
+          query: { query: queryString },
+        },
+        as: {
+          pathname,
+          query: { query: queryString },
+        },
+      }}
+      icon={arrow}
+      isIconAfter={true}
+      colors={{
+        border: 'yellow',
+        background: 'yellow',
+        text: 'black',
+      }}
+      hoverUnderline={true}
+    />
+  );
+
   return (
     <main>
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -83,52 +129,55 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         ) : (
           <>
             {stories && (
-              <StorySection as="section">
+              <StoriesSection as="section">
                 <div className="container">
                   <SectionTitle sectionName="Stories" />
+
                   <StoriesGrid stories={stories} />
+
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text={`All stories`}
+                      pathname="/search/stories"
+                    />
+                  </Space>
                 </div>
-              </StorySection>
+              </StoriesSection>
             )}
 
             {images && (
-              <section>
+              <ImagesSection>
                 <div className="container">
                   <SectionTitle sectionName="Images" />
+
+                  <ImageEndpointSearchResults images={images} />
+
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text={`All images`}
+                      pathname="/search/images"
+                    />
+                  </Space>
                 </div>
-              </section>
+              </ImagesSection>
             )}
 
             {works && (
-              <section>
+              <WorksSection>
                 <div className="container">
-                  <SectionTitle sectionName="Works" />
+                  <SectionTitle sectionName="Catalogue" />
+
+                  <WorksSearchResults works={works} />
+
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text={`All catalogue`}
+                      pathname="/search/works"
+                    />
+                  </Space>
                 </div>
-              </section>
+              </WorksSection>
             )}
-
-            <div className="container">
-              <pre
-                style={{
-                  fontSize: '14px',
-                  overflow: 'hidden',
-                }}
-              >
-                {images && (
-                  <details>
-                    <summary>IMAGES</summary>
-                    {JSON.stringify(images, null, 1)}
-                  </details>
-                )}
-
-                {works && (
-                  <details>
-                    <summary>WORKS</summary>
-                    {JSON.stringify(works, null, 1)}
-                  </details>
-                )}
-              </pre>
-            </div>
           </>
         )}
       </Space>
@@ -182,7 +231,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ...params,
           _queryType: _worksQueryType,
         },
-        pageSize: 3,
+        pageSize: 5,
         toggles: serverData.toggles,
       });
       const works = getQueryResults('works', worksResults);
@@ -191,7 +240,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       const imagesResults = await getImages({
         params,
         toggles: serverData.toggles,
-        pageSize: 3,
+        pageSize: 10,
       });
       const images = getQueryResults('images', imagesResults);
 
