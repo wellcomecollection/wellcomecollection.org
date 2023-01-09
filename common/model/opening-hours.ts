@@ -1,8 +1,6 @@
 import { DayOfWeek } from '../utils/format-date';
 import { ImageType } from './image';
 
-export type DayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-
 export type OverrideType =
   | 'Bank holiday'
   | 'Easter'

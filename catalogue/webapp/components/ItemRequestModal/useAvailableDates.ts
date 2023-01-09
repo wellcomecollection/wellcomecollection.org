@@ -1,24 +1,19 @@
 import {
   determineNextAvailableDate,
-  convertOpeningHoursDayToDayNumber,
   extendEndDate,
-  findClosedDays,
 } from '@weco/catalogue/utils/dates';
-import {
-  DayNumber,
-  ExceptionalOpeningHoursDay,
-} from '@weco/common/model/opening-hours';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { getVenueById } from '@weco/common/services/prismic/opening-times';
 import { addDays, today } from '@weco/common/utils/dates';
+import { DayOfWeek } from '@weco/common/utils/format-date';
 
 type AvailableDates = {
   nextAvailable?: Date;
   lastAvailable?: Date;
   exceptionalClosedDates: Date[];
-  regularClosedDays: DayNumber[];
+  regularClosedDays: DayOfWeek[];
 };
 
 export const useAvailableDates = (): AvailableDates => {
@@ -29,17 +24,13 @@ export const useAvailableDates = (): AvailableDates => {
   const venues = transformCollectionVenues(collectionVenues);
   const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
 
-  const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
-  const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(
-    convertOpeningHoursDayToDayNumber
-  );
-  const exceptionalLibraryOpeningTimes =
-    libraryVenue?.openingHours.exceptional || [];
-  const exceptionalClosedDates = findClosedDays(exceptionalLibraryOpeningTimes)
-    .map(day => {
-      const exceptionalDay = day as ExceptionalOpeningHoursDay;
-      return exceptionalDay.overrideDate;
-    })
+  const regularClosedDays = (libraryVenue?.openingHours.regular || [])
+    .filter(t => t.isClosed)
+    .map(t => t.dayOfWeek);
+
+  const exceptionalClosedDates = (libraryVenue?.openingHours.exceptional || [])
+    .filter(t => t.isClosed)
+    .map(day => day.overrideDate)
     .filter(Boolean);
 
   const closedDates = { regularClosedDays, exceptionalClosedDates };

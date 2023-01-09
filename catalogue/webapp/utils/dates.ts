@@ -1,64 +1,13 @@
 import {
-  OpeningHoursDay,
-  DayNumber,
-  ExceptionalOpeningHoursDay,
-} from '@weco/common/model/opening-hours';
-import {
   addDays,
   getDatesBetween,
   isSameDay,
   isSameDayOrBefore,
 } from '@weco/common/utils/dates';
-import { DayOfWeek } from '@weco/common/utils/format-date';
-
-export function findClosedDays(
-  days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
-): (OpeningHoursDay | ExceptionalOpeningHoursDay)[] {
-  return days.filter(day => day.isClosed);
-}
-
-export function convertOpeningHoursDayToDayNumber(
-  day: OpeningHoursDay
-): DayNumber {
-  switch (day.dayOfWeek) {
-    case 'Monday':
-      return 1;
-    case 'Tuesday':
-      return 2;
-    case 'Wednesday':
-      return 3;
-    case 'Thursday':
-      return 4;
-    case 'Friday':
-      return 5;
-    case 'Saturday':
-      return 6;
-    case 'Sunday':
-      return 0;
-  }
-}
-
-export function convertDayNumberToDay(dayNumber: DayNumber): DayOfWeek {
-  switch (dayNumber) {
-    case 1:
-      return 'Monday';
-    case 2:
-      return 'Tuesday';
-    case 3:
-      return 'Wednesday';
-    case 4:
-      return 'Thursday';
-    case 5:
-      return 'Friday';
-    case 6:
-      return 'Saturday';
-    case 0:
-      return 'Sunday';
-  }
-}
+import { DayOfWeek, formatDayName } from '@weco/common/utils/format-date';
 
 type ClosedDates = {
-  regularClosedDays: DayNumber[];
+  regularClosedDays: DayOfWeek[];
   exceptionalClosedDates: Date[];
 };
 
@@ -67,7 +16,7 @@ export function isLibraryOpen(
   date: Date,
   { regularClosedDays, exceptionalClosedDates }: ClosedDates
 ): boolean {
-  if (regularClosedDays.includes(date.getDay() as DayNumber)) {
+  if (regularClosedDays.includes(formatDayName(date))) {
     return false;
   }
 
@@ -155,22 +104,22 @@ export function groupExceptionalClosedDates(params: {
 
 export function filterExceptionalClosedDates(
   exceptionalClosedDates: Date[],
-  regularClosedDays: DayNumber[]
+  regularClosedDays: DayOfWeek[]
 ): Date[] {
   return exceptionalClosedDates.filter(date => {
-    return regularClosedDays.every(day => day !== date.getDay());
+    return regularClosedDays.every(day => day !== formatDayName(date));
   });
 }
 
 export function includedRegularClosedDays(params: {
   startDate: Date;
   endDate: Date;
-  regularClosedDays: number[];
+  regularClosedDays: DayOfWeek[];
 }): number {
   const { startDate, endDate, regularClosedDays } = params;
 
   const dayArray = getDatesBetween({ start: startDate, end: endDate }).map(d =>
-    d.getDay()
+    formatDayName(d)
   );
 
   const includedRegularClosedDays = dayArray.filter(day =>
@@ -183,7 +132,7 @@ export function extendEndDate(params: {
   startDate?: Date;
   endDate?: Date;
   exceptionalClosedDates: Date[];
-  regularClosedDays: DayNumber[];
+  regularClosedDays: DayOfWeek[];
 }): Date | undefined {
   const { startDate, endDate, exceptionalClosedDates, regularClosedDays } =
     params;
@@ -240,13 +189,13 @@ export function isRequestableDate(params: {
   startDate?: Date;
   endDate?: Date;
   excludedDates: Date[];
-  excludedDays: DayNumber[];
+  excludedDays: DayOfWeek[];
 }): boolean {
   const { date, startDate, endDate, excludedDates, excludedDays } = params;
   const isExceptionalClosedDay = excludedDates.some(excluded =>
     isSameDay(excluded, date, 'London')
   );
-  const isRegularClosedDay = excludedDays.includes(date.getDay() as DayNumber);
+  const isRegularClosedDay = excludedDays.includes(formatDayName(date));
   return (
     Boolean(
       // no start and end date

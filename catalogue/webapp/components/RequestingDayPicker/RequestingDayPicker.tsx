@@ -1,12 +1,12 @@
+import { DayOfWeek } from '@weco/common/utils/format-date';
 import { FunctionComponent } from 'react';
-import { DayNumber } from '@weco/common/model/opening-hours';
 import CalendarSelect from '../CalendarSelect/CalendarSelect';
 
 type Props = {
   startDate?: Date;
   endDate?: Date;
   exceptionalClosedDates: Date[];
-  regularClosedDays: DayNumber[];
+  regularClosedDays: DayOfWeek[];
   pickUpDate?: string;
   setPickUpDate: (date: string) => void;
 };
