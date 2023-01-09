@@ -5,9 +5,18 @@ function formatLondon(date: Date, options: Intl.DateTimeFormatOptions): string {
   });
 }
 
+export type DayOfWeek =
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday'
+  | 'Sunday';
+
 /** Formats a date as the day of the week, e.g. 'Monday', 'Tuesday'. */
-export function formatDayName(date: Date): string {
-  return formatLondon(date, { weekday: 'long' });
+export function formatDayName(date: Date): DayOfWeek {
+  return formatLondon(date, { weekday: 'long' }) as DayOfWeek;
 }
 
 /** Formats a date as the day of the week, plus the day of the month and the name of the month.

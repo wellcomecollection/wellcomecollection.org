@@ -1,7 +1,6 @@
 import {
   OpeningHoursDay,
   DayNumber,
-  Day,
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
 import {
@@ -10,6 +9,7 @@ import {
   isSameDay,
   isSameDayOrBefore,
 } from '@weco/common/utils/dates';
+import { DayOfWeek } from '@weco/common/utils/format-date';
 
 export function findClosedDays(
   days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
@@ -38,7 +38,7 @@ export function convertOpeningHoursDayToDayNumber(
   }
 }
 
-export function convertDayNumberToDay(dayNumber: DayNumber): Day {
+export function convertDayNumberToDay(dayNumber: DayNumber): DayOfWeek {
   switch (dayNumber) {
     case 1:
       return 'Monday';
@@ -103,10 +103,9 @@ export function findNextOpenDayOnOrAfter(
  */
 export function determineNextAvailableDate(
   date: Date,
-  regularClosedDays: DayNumber[],
-  exceptionalClosedDates: Date[]
+  closedDates: ClosedDates
 ): Date | undefined {
-  if (regularClosedDays.length === 7) {
+  if (closedDates.regularClosedDays.length === 7) {
     // All days are closed, so we'll never be able to find a non closed day.
     return undefined;
   }
@@ -121,14 +120,14 @@ export function determineNextAvailableDate(
 
   const staffRetrievalDate = findNextOpenDayOnOrAfter(
     isBeforeTen ? date : addDays(date, 1),
-    { regularClosedDays, exceptionalClosedDates }
+    closedDates
   );
 
   // The earliest a user can come to view their item is the next open day *after*
   // it's been retrieved by staff.
   const userPickupDate = findNextOpenDayOnOrAfter(
     addDays(staffRetrievalDate, 1),
-    { regularClosedDays, exceptionalClosedDates }
+    closedDates
   );
 
   return userPickupDate;
@@ -166,16 +165,16 @@ export function filterExceptionalClosedDates(
 export function includedRegularClosedDays(params: {
   startDate: Date;
   endDate: Date;
-  closedDays: number[];
+  regularClosedDays: number[];
 }): number {
-  const { startDate, endDate, closedDays } = params;
+  const { startDate, endDate, regularClosedDays } = params;
 
   const dayArray = getDatesBetween({ start: startDate, end: endDate }).map(d =>
     d.getDay()
   );
 
   const includedRegularClosedDays = dayArray.filter(day =>
-    closedDays.includes(day)
+    regularClosedDays.includes(day)
   );
   return includedRegularClosedDays.length;
 }
@@ -184,14 +183,15 @@ export function extendEndDate(params: {
   startDate?: Date;
   endDate?: Date;
   exceptionalClosedDates: Date[];
-  closedDays: DayNumber[];
+  regularClosedDays: DayNumber[];
 }): Date | undefined {
-  const { startDate, endDate, exceptionalClosedDates, closedDays } = params;
+  const { startDate, endDate, exceptionalClosedDates, regularClosedDays } =
+    params;
   if (startDate === undefined || endDate === undefined) return undefined;
   // Filter out any exceptional closed dates fall on regular closed days, as we don't want to include these for extending the end date
   const filteredExceptionalClosedDates = filterExceptionalClosedDates(
     exceptionalClosedDates,
-    closedDays
+    regularClosedDays
   );
   // Find any exceptional closed dates that occur between the start and end dates
   const groupedClosedDates = groupExceptionalClosedDates({
@@ -217,7 +217,7 @@ export function extendEndDate(params: {
     const regularDaysToAdd = includedRegularClosedDays({
       startDate: addDays(endDate, 1), // We only want to check new days
       endDate: extendedEndDate,
-      closedDays,
+      regularClosedDays,
     });
     const daysToAdd = additionalExceptionalDaysToAdd + regularDaysToAdd;
     if (daysToAdd > 0) {
@@ -227,7 +227,7 @@ export function extendEndDate(params: {
         startDate: addDays(extendedEndDate, 1), // We only want to check new days
         endDate: nextExtendedEndDate,
         exceptionalClosedDates: groupedClosedDates.excluded,
-        closedDays,
+        regularClosedDays,
       });
     } else {
       return extendedEndDate;

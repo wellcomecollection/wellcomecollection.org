@@ -86,7 +86,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         startDate: availableDates.nextAvailable,
         endDate: availableDates.lastAvailable,
         excludedDates: availableDates.exceptionalClosedDates,
-        excludedDays: availableDates.closedDays,
+        excludedDays: availableDates.regularClosedDays,
       })
     ) {
       trackGaEvent({
@@ -135,7 +135,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
               startDate={availableDates.nextAvailable}
               endDate={availableDates.lastAvailable}
               exceptionalClosedDates={availableDates.exceptionalClosedDates}
-              regularClosedDays={availableDates.closedDays}
+              regularClosedDays={availableDates.regularClosedDays}
               pickUpDate={pickUpDate}
               setPickUpDate={setPickUpDate}
             />
