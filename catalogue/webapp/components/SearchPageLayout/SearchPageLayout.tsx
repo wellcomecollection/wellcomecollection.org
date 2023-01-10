@@ -57,8 +57,9 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
   const defaultPageLayoutMetadata: PageLayoutMetadata = {
     ...basePageMetadata,
-    title: 'Search Page',
-    description: 'TBC',
+    title: 'Search | Wellcome Collection',
+    description:
+      'Search Wellcome Collection. Our stories, images and collections make connections and provoke new thinking about health and human experience.',
     url: { pathname: '/search', query: {} },
   };
 
@@ -78,29 +79,44 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
     switch (currentSearchCategory) {
       case 'overview':
-        setPageLayoutMetadata(defaultPageLayoutMetadata);
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description:
+            'Search Wellcome Collection. Our stories, images and collections make connections and provoke new thinking about health and human experience.',
+          title: `${query ? `${query} | ` : ''}Search | Wellcome Collection`,
+          url: { pathname: '/search', query: { query } || {} },
+        });
         break;
       case 'stories':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description: 'copy pending',
-          title: `${query ? `${query} | ` : ''}Stories Search`,
+          description:
+            'Search for stories about health and human experience. Our words and pictures make connections, provoke new thinking and share lived experiences.',
+          title: `${
+            query ? `${query} | ` : ''
+          }Stories search | Wellcome Collection`,
           url: { pathname: '/search/stories', query: { query } || {} },
         });
         break;
       case 'images':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description: pageDescriptions.images,
-          title: `${query ? `${query} | ` : ''}Image Search`,
+          description:
+            'Search for images about health and human experience. Our collections include paintings, photogrpahs, engravings, etchings, illustrations and more.',
+          title: `${
+            query ? `${query} | ` : ''
+          }Image search | Wellcome Collection`,
           url: { pathname: '/search/images', query: { query } || {} },
         });
         break;
       case 'works':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description: 'copy pending',
-          title: `${query ? `${query} | ` : ''}Catalogue Search`,
+          description:
+            'Search our collections about health and human experience. Our collections include books, manuscripts, visual materials, journals and unpublished archives.',
+          title: `${
+            query ? `${query} | ` : ''
+          }Catalogue search | Wellcome Collection`,
           url: { pathname: '/search/works', query: { query } || {} },
         });
         break;
@@ -109,7 +125,9 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: 'copy pending',
-          title: `${query ? `${query} | ` : ''}Exhibition Search`,
+          title: `${
+            query ? `${query} | ` : ''
+          }Exhibition Search | Wellcome Collection`,
           url: { pathname: '/search/exhibitions', query: { query } || {} },
         });
         break;
@@ -117,7 +135,9 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: 'copy pending',
-          title: `${query ? `${query} | ` : ''}Events Search`,
+          title: `${
+            query ? `${query} | ` : ''
+          }Events Search | Wellcome Collection`,
           url: { pathname: '/search/events', query: { query } || {} },
         });
         break;
@@ -126,6 +146,15 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         break;
     }
   }, [currentSearchCategory]);
+
+  const searchbarPlaceholderText = {
+    overview: 'Search Wellcome Collection',
+    stories: 'Search for stories',
+    images: 'Search for images',
+    works: 'Search the catalogue',
+    exhibitions: 'Search for exhibitions',
+    events: 'Search for events',
+  };
 
   const linkResolver = params => {
     const queryWithSource = propsToQuery(params);
@@ -199,7 +228,10 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         <SearchBarContainer
           v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
         >
-          <SearchBar type={currentSearchCategory} />
+          <SearchBar
+            type={currentSearchCategory}
+            placeholder={searchbarPlaceholderText[currentSearchCategory]}
+          />
         </SearchBarContainer>
 
         <SubNavigation
