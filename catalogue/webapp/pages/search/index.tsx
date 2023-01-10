@@ -24,7 +24,10 @@ import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
 import { getImages } from '@weco/catalogue/services/catalogue/images';
 import { Image, Work } from '@weco/common/model/catalogue';
-import { getQueryResults } from '@weco/catalogue/utils/search';
+import {
+  getQueryResults,
+  getQueryPropertyValue,
+} from '@weco/catalogue/utils/search';
 import {
   decodeQuery,
   FromCodecMap,
@@ -78,16 +81,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   stories,
   query,
 }) => {
-  const { query: queryString } = query;
-
-  // If there is no query, return an empty page
-  if (!queryString) {
-    return (
-      <Space
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-      ></Space>
-    );
-  }
+  const { query: queryString = '' } = query;
 
   const SeeMoreButton = ({
     text,
@@ -200,26 +194,27 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       query,
 
       // TODO Harrison to explore what properties we'd want here
+      // https://github.com/wellcomecollection/wellcomecollection.org/issues/8977
       pageview: {
         name: 'search',
         properties: {},
       },
     });
 
-    // Stop here if no query has been entered
-    if (!params.query) {
-      return {
-        props: defaultProps,
-      };
-    }
-
     try {
       // Stories
+      // Setting a default order of descending publication date as default state
       const storiesResults = await getStories({
-        query,
+        query: {
+          ...query,
+          sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+          sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+        },
         pageSize: 4,
       });
-      const stories = getQueryResults('stories', storiesResults);
+      const stories = getQueryResults('stories', storiesResults) as
+        | Story[]
+        | undefined;
 
       // Works
       const _worksQueryType = getCookie('_queryType') as string | undefined;
@@ -231,7 +226,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         pageSize: 5,
         toggles: serverData.toggles,
       });
-      const works = getQueryResults('works', worksResults);
+      const works = getQueryResults('works', worksResults) as
+        | Work[]
+        | undefined;
 
       // Images
       const imagesResults = await getImages({
@@ -239,7 +236,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         toggles: serverData.toggles,
         pageSize: 10,
       });
-      const images = getQueryResults('images', imagesResults);
+      const images = getQueryResults('images', imagesResults) as
+        | Image[]
+        | undefined;
 
       // If all three queries fail, return an error page
       if (

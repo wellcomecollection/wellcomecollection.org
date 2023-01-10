@@ -40,6 +40,21 @@ export const getQueryResults = (
     : undefined;
 };
 
+//
+/**
+ * Query properties can an array or a single value.
+ * This returns the first value of the array || string value
+ * @param originalValue - Value from URL query
+ */
+export const getQueryPropertyValue = (
+  originalValue?: string[] | string
+): string =>
+  originalValue
+    ? Array.isArray(originalValue)
+      ? originalValue[0] || ''
+      : originalValue
+    : '';
+
 // SORT
 // The works API expects 'sort' and 'sortOrder' parameters, whereas the Prismic API only wants one; 'sortBy'.
 // As those are taken from the URL query and we know we'll eventually fetch everything from the former API,

@@ -55,22 +55,13 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   imagesRouteProps,
   query,
 }): ReactElement<Props> => {
-  const { query: queryString } = query;
+  const { query: queryString = '' } = query;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
     const link = toLink({ ...imagesRouteProps }, 'images_search_context');
     setLink(link);
   }, [imagesRouteProps]);
-
-  // If there is no query, return an empty page
-  if (!queryString) {
-    return (
-      <Space
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-      ></Space>
-    );
-  }
 
   const filters = images
     ? imagesFilters({ images, props: imagesRouteProps })
@@ -198,21 +189,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const query = context.query;
     const params = fromQuery(query);
-
-    // Stop here if no query has been entered
-    if (!params.query) {
-      return {
-        props: removeUndefinedProps({
-          imagesRouteProps: params,
-          serverData,
-          query,
-          pageview: {
-            name: 'images',
-            properties: { totalResults: 0 },
-          },
-        }),
-      };
-    }
 
     /**
      * This is here due to the noscript colour element

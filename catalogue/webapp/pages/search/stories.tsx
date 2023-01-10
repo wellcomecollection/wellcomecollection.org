@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 
 // Components
-import Space from '@weco/common/views/components/styled/Space';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
@@ -18,6 +17,7 @@ import { getServerData } from '@weco/common/server-data';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
+import { getQueryPropertyValue } from '@weco/catalogue/utils/search';
 
 // Types
 import { Story } from '@weco/catalogue/services/prismic/types/story';
@@ -52,16 +52,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
   query,
 }) => {
-  const { query: queryString } = query;
-
-  // If there is no query, return an empty page
-  if (!queryString) {
-    return (
-      <Space
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-      ></Space>
-    );
-  }
+  const { query: queryString = '' } = query;
 
   return (
     <Wrapper>
@@ -76,15 +67,15 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               <Sort
                 formId="searchPageForm"
                 options={[
-                  { value: 'alphabetical.asc', text: 'A -> Z' },
-                  { value: 'alphabetical.desc', text: 'Z -> A' },
                   { value: 'publication.dates.desc', text: 'Newest to oldest' },
                   { value: 'publication.dates.asc', text: 'Oldest to newest' },
+                  { value: 'alphabetical.asc', text: 'A -> Z' },
+                  { value: 'alphabetical.desc', text: 'Z -> A' },
                 ]}
                 jsLessOptions={{
                   sort: [
-                    { value: 'alphabetical', text: 'Alphabetical' },
                     { value: 'publication.dates', text: 'Publication dates' },
+                    { value: 'alphabetical', text: 'Alphabetical' },
                   ],
                   sortOrder: [
                     { value: 'asc', text: 'Ascending' },
@@ -140,16 +131,20 @@ export const getServerSideProps: GetServerSideProps<
     },
   });
 
-  // Stop here if no query has been entered
-  if (!query.query) {
-    return {
-      props: defaultProps,
-    };
-  }
+  // Sending page=1 to Prismic skips the two first results, which seems to have to do with the cursor work
+  // This is a workaround that ensures we only send the page if relevant
+  const { page, ...restOfQuery } = query;
+  const pageNumber = page !== '1' && getQueryPropertyValue(page);
 
+  // Setting a default order of descending publication date as default state
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
-      query,
+      query: {
+        ...restOfQuery,
+        sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+        sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+        ...(pageNumber && { page: pageNumber }),
+      },
       pageSize: 6,
     });
 

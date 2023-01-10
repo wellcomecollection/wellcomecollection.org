@@ -6,7 +6,6 @@ import { getCookie } from 'cookies-next';
 import styled from 'styled-components';
 
 // Components
-import Space from '@weco/common/views/components/styled/Space';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
@@ -56,22 +55,13 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   worksRouteProps,
   query,
 }) => {
-  const { query: queryString } = query;
+  const { query: queryString = '' } = query;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
     const link = toLink({ ...worksRouteProps }, 'works_search_context');
     setLink(link);
   }, [worksRouteProps]);
-
-  // If there is no query, return an empty page
-  if (!queryString) {
-    return (
-      <Space
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-      ></Space>
-    );
-  }
 
   const filters = works ? worksFilters({ works, props: worksRouteProps }) : [];
 
@@ -228,21 +218,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const query = context.query;
     const params = fromQuery(query);
-
-    // Stop here if no query has been entered
-    if (!params.query) {
-      return {
-        props: removeUndefinedProps({
-          worksRouteProps: params,
-          serverData,
-          query,
-          pageview: {
-            name: 'works',
-            properties: { totalResults: 0 },
-          },
-        }),
-      };
-    }
 
     const aggregations = [
       'workType',
