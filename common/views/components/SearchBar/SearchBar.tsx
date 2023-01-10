@@ -28,7 +28,10 @@ const SearchButtonWrapper = styled.div`
   flex: 0 1 auto;
 `;
 
-const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
+const SearchBar: FunctionComponent<{ type: string; placeholder: string }> = ({
+  type,
+  placeholder,
+}) => {
   const { query } = useRouter();
   const [inputQuery, setInputQuery] = useState((query.query as string) || '');
   const searchInput = useRef<HTMLInputElement>(null);
@@ -38,7 +41,7 @@ const SearchBar: FunctionComponent<{ type: string }> = ({ type }) => {
       <SearchInputWrapper>
         <TextInput
           id="search-searchbar"
-          label={`Search ${type}`}
+          label={placeholder}
           name="query"
           type="search"
           value={inputQuery}
