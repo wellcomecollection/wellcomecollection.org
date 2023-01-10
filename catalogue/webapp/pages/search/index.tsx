@@ -1,17 +1,25 @@
 import { GetServerSideProps } from 'next';
 import { getCookie } from 'cookies-next';
+import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
 
+import Space from '@weco/common/views/components/styled/Space';
+import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
+import StoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid';
+import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import { arrow } from '@weco/common/icons';
+
+import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
-import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
+import { font } from '@weco/common/utils/classnames';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
 import { getImages } from '@weco/catalogue/services/catalogue/images';
@@ -39,6 +47,31 @@ type Props = {
   pageview: Pageview;
 };
 
+const StoriesSection = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('neutral.200')};
+`;
+
+const ImagesSection = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
+`;
+
+const WorksSection = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})``;
+
+const SectionTitle = ({ sectionName }: { sectionName: string }) => {
+  return (
+    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <h3 className={font('intb', 2)}>{sectionName}</h3>
+    </Space>
+  );
+};
+
 export const SearchPage: NextPageWithLayout<Props> = ({
   works,
   images,
@@ -56,44 +89,96 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     );
   }
 
+  const SeeMoreButton = ({
+    text,
+    pathname,
+  }: {
+    text: string;
+    pathname: string;
+  }) => (
+    <ButtonSolidLink
+      text={text}
+      link={{
+        href: {
+          pathname,
+          query: { query: queryString },
+        },
+        as: {
+          pathname,
+          query: { query: queryString },
+        },
+      }}
+      icon={arrow}
+      isIconAfter={true}
+      colors={{
+        border: 'yellow',
+        background: 'yellow',
+        text: 'black',
+      }}
+      hoverUnderline={true}
+    />
+  );
+
   return (
-    <div className="container">
-      <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+    <main>
+      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
         {!stories && !images && !works ? (
-          <SearchNoResults query={queryString} hasFilters={false} />
+          <div className="container">
+            <SearchNoResults query={queryString} hasFilters={false} />
+          </div>
         ) : (
-          <main>
-            <pre
-              style={{
-                fontSize: '14px',
-                overflow: 'hidden',
-              }}
-            >
-              {stories && (
-                <details>
-                  <summary>STORIES</summary>
-                  {JSON.stringify(stories, null, 1)}
-                </details>
-              )}
+          <>
+            {stories && (
+              <StoriesSection as="section">
+                <div className="container">
+                  <SectionTitle sectionName="Stories" />
 
-              {images && (
-                <details>
-                  <summary>IMAGES</summary>
-                  {JSON.stringify(images, null, 1)}
-                </details>
-              )}
+                  <StoriesGrid stories={stories} />
 
-              {works && (
-                <details>
-                  <summary>WORKS</summary>
-                  {JSON.stringify(works, null, 1)}
-                </details>
-              )}
-            </pre>
-          </main>
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text="All stories"
+                      pathname="/search/stories"
+                    />
+                  </Space>
+                </div>
+              </StoriesSection>
+            )}
+
+            {images && (
+              <ImagesSection>
+                <div className="container">
+                  <SectionTitle sectionName="Images" />
+
+                  <ImageEndpointSearchResults images={images} />
+
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text="All images"
+                      pathname="/search/images"
+                    />
+                  </Space>
+                </div>
+              </ImagesSection>
+            )}
+
+            {works && (
+              <WorksSection>
+                <div className="container">
+                  <SectionTitle sectionName="Catalogue" />
+
+                  <WorksSearchResults works={works} />
+
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton text="Catalogue" pathname="/search/works" />
+                  </Space>
+                </div>
+              </WorksSection>
+            )}
+          </>
         )}
       </Space>
-    </div>
+    </main>
   );
 };
 
@@ -132,7 +217,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       // Stories
       const storiesResults = await getStories({
         query,
-        pageSize: 3,
+        pageSize: 4,
       });
       const stories = getQueryResults('stories', storiesResults);
 
@@ -143,7 +228,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ...params,
           _queryType: _worksQueryType,
         },
-        pageSize: 3,
+        pageSize: 5,
         toggles: serverData.toggles,
       });
       const works = getQueryResults('works', worksResults);
@@ -152,7 +237,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       const imagesResults = await getImages({
         params,
         toggles: serverData.toggles,
-        pageSize: 3,
+        pageSize: 10,
       });
       const images = getQueryResults('images', imagesResults);
 

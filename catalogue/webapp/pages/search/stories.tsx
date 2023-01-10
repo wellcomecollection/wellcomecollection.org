@@ -6,14 +6,12 @@ import Space from '@weco/common/views/components/styled/Space';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import StoriesGrid from 'components/StoriesGrid/StoriesGrid';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
@@ -48,95 +46,6 @@ const SortPaginationWrapper = styled.div`
     flex: 1 1 50%;
     justify-content: flex-end;
   `}
-`;
-
-const Container = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-bottom'] },
-})`
-  &:last-child {
-    padding-bottom: 0;
-  }
-`;
-
-const StoryWrapper = styled.a`
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  text-decoration: none;
-
-  ${props => props.theme.media('medium')`
-    flex-wrap: nowrap;
-  `}
-`;
-
-const ImageWrapper = styled.div`
-  position: relative;
-  flex: 1 1 100%;
-  margin-bottom: ${props => props.theme.spacingUnit * 2}px;
-
-  max-height: 250px;
-  max-width: 100%;
-  width: auto;
-  height: auto;
-
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  ${props => props.theme.media('medium')`
-    flex: 1 0 40%;
-    margin-right: 1rem;
-    max-height: 155px;
-    max-width: 275px;
-    width: 100%;
-  `}
-`;
-
-const Details = styled.div`
-  flex: 1 1 100%;
-
-  ${props => props.theme.media('medium')`
-    max-width: 820px;
-  `}
-`;
-
-const DesktopLabel = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom'] },
-})`
-  ${props => props.theme.media('medium', 'max-width')`
-    display:none;
-  `}
-`;
-
-const MobileLabel = styled(Space)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-
-  ${props => props.theme.media('medium')`
-    display: none;
-  `}
-`;
-
-const StoryInformation = styled(Space).attrs({
-  className: font('intr', 5),
-  v: { size: 'xs', properties: ['margin-bottom'] },
-})`
-  color: ${props => props.theme.color('neutral.600')};
-`;
-
-const StoryInformationItem = styled.span`
-  &:not(:first-child)::before {
-    content: ' | ';
-    margin: 0 4px;
-  }
-
-  span {
-    &:not(:first-child)::before {
-      content: ', ';
-    }
-  }
 `;
 
 export const SearchPage: NextPageWithLayout<Props> = ({
@@ -193,53 +102,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           </PaginationWrapper>
 
           <main>
-            {storyResponseList.results.map(story => {
-              return (
-                <Container key={story.id}>
-                  <StoryWrapper href={story.url}>
-                    <ImageWrapper>
-                      <img src={story.image.url} alt="" />
-
-                      {story.type && (
-                        <MobileLabel>
-                          <LabelsList labels={[story.label]} />
-                        </MobileLabel>
-                      )}
-                    </ImageWrapper>
-                    <Details>
-                      {story.label && (
-                        <DesktopLabel>
-                          <LabelsList labels={[story.label]} />
-                        </DesktopLabel>
-                      )}
-                      <h3 className={font('wb', 4)}>{story.title}</h3>
-                      {(story.firstPublicationDate ||
-                        !!story.contributors.length) && (
-                        <StoryInformation>
-                          {story.firstPublicationDate && (
-                            <StoryInformationItem>
-                              <HTMLDate
-                                date={new Date(story.firstPublicationDate)}
-                              />
-                            </StoryInformationItem>
-                          )}
-                          {!!story.contributors.length && (
-                            <StoryInformationItem>
-                              {story.contributors.map(contributor => (
-                                <span key={contributor}>{contributor}</span>
-                              ))}
-                            </StoryInformationItem>
-                          )}
-                        </StoryInformation>
-                      )}
-                      {story.summary && (
-                        <p className={font('intr', 5)}>{story.summary}</p>
-                      )}
-                    </Details>
-                  </StoryWrapper>
-                </Container>
-              );
-            })}
+            <StoriesGrid stories={storyResponseList.results} isDetailed />
           </main>
 
           <PaginationWrapper verticalSpacing="l" alignRight>

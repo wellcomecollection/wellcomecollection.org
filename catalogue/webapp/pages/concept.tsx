@@ -198,7 +198,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-imagesAbout"
                   aria-labelledby="tab-imagesAbout"
                 >
-                  <ImageEndpointSearchResults images={imagesAbout} />
+                  <ImageEndpointSearchResults images={imagesAbout.results} />
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
                     <SeeMoreButton
                       text={`All images (${imagesAbout.totalResults})`}
@@ -219,7 +219,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-imagesBy"
                   aria-labelledby="tab-imagesBy"
                 >
-                  <ImageEndpointSearchResults images={imagesBy} />
+                  <ImageEndpointSearchResults images={imagesBy.results} />
                   <SeeMoreButton
                     text={`All images (${imagesBy.totalResults})`}
                     link={toImagesLink(
@@ -291,7 +291,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-worksAbout"
                   aria-labelledby="tab-worksAbout"
                 >
-                  <WorksSearchResults works={worksAbout} />
+                  <WorksSearchResults works={worksAbout.results} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksAbout.totalResults})`}
@@ -312,7 +312,7 @@ export const ConceptPage: NextPage<Props> = ({
                   id="tabpanel-worksBy"
                   aria-labelledby="tab-worksBy"
                 >
-                  <WorksSearchResults works={worksBy} />
+                  <WorksSearchResults works={worksBy.results} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksBy.totalResults})`}

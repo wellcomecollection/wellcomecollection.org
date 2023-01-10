@@ -167,7 +167,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                 </PaginationWrapper>
 
                 <main>
-                  <ImageEndpointSearchResults images={images} />
+                  <ImageEndpointSearchResults images={images.results} />
                 </main>
 
                 <PaginationWrapper verticalSpacing="l" alignRight>
@@ -217,7 +217,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     /**
      * This is here due to the noscript colour element
      * the value provided by the native element will
-     * include the # symbol.
+     * include the "#" symbol.
      */
     if (params.color) {
       params.color = params.color.replace('#', '');

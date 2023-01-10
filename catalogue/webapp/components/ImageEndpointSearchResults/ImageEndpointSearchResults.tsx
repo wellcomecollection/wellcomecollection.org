@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { hexToRgb } from '@weco/common/utils/convert-colors';
-import { Image, CatalogueResultsList } from '@weco/common/model/catalogue';
+import { Image } from '@weco/common/model/catalogue';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
@@ -20,7 +20,7 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
-  images: CatalogueResultsList<Image>;
+  images: Image[];
   background?: string;
 };
 
@@ -75,23 +75,23 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
 
   // In the case that the modal changes the expanded image to
   // be one that isn't on this results page, this index will be -1
-  const expandedImagePosition = images.results.findIndex(
+  const expandedImagePosition = images.findIndex(
     img => expandedImage && img.id === expandedImage.id
   );
 
   // If there's only two images or less, display them differently (not worth loading the gallery + they display too large)
-  const isSmallGallery = images.results.length < 3;
+  const isSmallGallery = images.length < 3;
 
   // Loop through images to add data that Gallery needs in order to render
   const imagesWithDimensions: GalleryImageProps[] = useMemo(
     () =>
-      images.results.map(image => ({
+      images.map(image => ({
         ...image,
         src: convertImageUri(image.locations[0].url, 300),
         width: (image.aspectRatio || 1) * 100 + imageMargin,
         height: 100,
       })),
-    [images.results]
+    [images]
   );
 
   const imageRenderer = useCallback(galleryImage => {

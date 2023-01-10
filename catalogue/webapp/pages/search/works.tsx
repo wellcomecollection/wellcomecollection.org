@@ -198,7 +198,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 </PaginationWrapper>
 
                 <main>
-                  <WorksSearchResults works={works} />
+                  <WorksSearchResults works={works.results} />
                 </main>
 
                 <PaginationWrapper verticalSpacing="l" alignRight>
