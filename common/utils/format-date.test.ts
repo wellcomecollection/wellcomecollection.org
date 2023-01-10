@@ -7,6 +7,7 @@ import {
   formatTime,
   formatYear,
 } from './format-date';
+import timezoneMock from 'timezone-mock';
 
 it('formats a day', () => {
   const result = formatDayName(new Date('2001-01-01'));
@@ -81,6 +82,62 @@ describe('formatDuration', () => {
     '$seconds seconds is formatted as $formattedDuration',
     ({ seconds, formattedDuration }) => {
       expect(formatDuration(seconds)).toStrictEqual(formattedDuration);
+    }
+  );
+});
+
+describe('formats times as they are in London, regardless of user locale', () => {
+  // The tests will run with whatever the local timezone is, which is usually going to
+  // be London (on dev machines) or UTC (in CI).
+  //
+  // These tests run with an explicit timezone, to catch bugs that occur when running
+  // outside the usual timezones we test in.  They use beforeEach() / afterEach() to avoid
+  // polluting the state of the other tests.
+  //
+  // The time is 6pm in San Francisco, which becomes 2am in London.
+  // We want to check the dates are formatted as they are in London.
+  //
+  // See https://www.npmjs.com/package/timezone-mock
+
+  beforeEach(() => {
+    timezoneMock.register('US/Pacific');
+  });
+
+  afterEach(() => {
+    timezoneMock.unregister();
+  });
+
+  test.each([
+    {
+      formatFunction: formatDayName,
+      date: '2023-01-06T18:00:00-0800',
+      output: 'Saturday',
+    },
+    {
+      formatFunction: formatDayDate,
+      date: '2023-01-06T18:00:00-0800',
+      output: 'Saturday 7 January 2023',
+    },
+    {
+      formatFunction: formatDate,
+      date: '2023-01-06T18:00:00-0800',
+      output: '7 January 2023',
+    },
+    {
+      formatFunction: formatTime,
+      date: '2023-01-06T18:00:00-0800',
+      output: '02:00',
+    },
+    {
+      formatFunction: formatYear,
+      date: '2022-12-31T18:00:00-0800',
+      output: '2023',
+    },
+  ])(
+    '$formatFunction($date) should be $output',
+    ({ formatFunction, date, output }) => {
+      const result = formatFunction(new Date(date));
+      expect(result).toBe(output);
     }
   );
 });
