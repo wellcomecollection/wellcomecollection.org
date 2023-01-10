@@ -21,6 +21,7 @@ export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
 export type Props = {
   image: ImageType;
   sizes?: BreakpointSizes;
+  imgSizes?: string;
   // The maximum width at which the image will be displayed
   maxWidth?: number;
   quality: 'low' | 'high';
@@ -99,6 +100,7 @@ export function createPrismicLoader(maxWidth: number, quality: ImageQuality) {
 const PrismicImage: FunctionComponent<Props> = ({
   image,
   sizes,
+  imgSizes,
   maxWidth,
   quality,
   desaturate = false,
@@ -118,7 +120,7 @@ const PrismicImage: FunctionComponent<Props> = ({
       width={image.width}
       height={image.height}
       layout="responsive"
-      sizes={sizesString}
+      sizes={imgSizes || sizesString}
       src={image.contentUrl}
       alt={image.alt || ''}
       loader={createPrismicLoader(maxLoaderWidth, quality)}
