@@ -57,9 +57,8 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
   const defaultPageLayoutMetadata: PageLayoutMetadata = {
     ...basePageMetadata,
-    title: 'Search | Wellcome Collection',
-    description:
-      'Search Wellcome Collection. Our stories, images and collections make connections and provoke new thinking about health and human experience.',
+    title: 'Search',
+    description: pageDescriptions.search.overview,
     url: { pathname: '/search', query: {} },
   };
 
@@ -81,42 +80,32 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
       case 'overview':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description:
-            'Search Wellcome Collection. Our stories, images and collections make connections and provoke new thinking about health and human experience.',
-          title: `${query ? `${query} | ` : ''}Search | Wellcome Collection`,
+          description: pageDescriptions.search.overview,
+          title: `${query ? `${query} | ` : ''}Search`,
           url: { pathname: '/search', query: { query } || {} },
         });
         break;
       case 'stories':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description:
-            'Search for stories about health and human experience. Our words and pictures make connections, provoke new thinking and share lived experiences.',
-          title: `${
-            query ? `${query} | ` : ''
-          }Stories search | Wellcome Collection`,
+          description: pageDescriptions.search.stories,
+          title: `${query ? `${query} | ` : ''}Stories search`,
           url: { pathname: '/search/stories', query: { query } || {} },
         });
         break;
       case 'images':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description:
-            'Search for images about health and human experience. Our collections include paintings, photogrpahs, engravings, etchings, illustrations and more.',
-          title: `${
-            query ? `${query} | ` : ''
-          }Image search | Wellcome Collection`,
+          description: pageDescriptions.search.images,
+          title: `${query ? `${query} | ` : ''}Image search`,
           url: { pathname: '/search/images', query: { query } || {} },
         });
         break;
       case 'works':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description:
-            'Search our collections about health and human experience. Our collections include books, manuscripts, visual materials, journals and unpublished archives.',
-          title: `${
-            query ? `${query} | ` : ''
-          }Catalogue search | Wellcome Collection`,
+          description: pageDescriptions.search.works,
+          title: `${query ? `${query} | ` : ''}Catalogue search`,
           url: { pathname: '/search/works', query: { query } || {} },
         });
         break;
@@ -124,20 +113,16 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
       case 'exhibitions':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description: 'copy pending',
-          title: `${
-            query ? `${query} | ` : ''
-          }Exhibition Search | Wellcome Collection`,
+          description: pageDescriptions.search.exhibitions,
+          title: `${query ? `${query} | ` : ''}Exhibition Search`,
           url: { pathname: '/search/exhibitions', query: { query } || {} },
         });
         break;
       case 'events':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description: 'copy pending',
-          title: `${
-            query ? `${query} | ` : ''
-          }Events Search | Wellcome Collection`,
+          description: pageDescriptions.search.events,
+          title: `${query ? `${query} | ` : ''}Events Search`,
           url: { pathname: '/search/events', query: { query } || {} },
         });
         break;

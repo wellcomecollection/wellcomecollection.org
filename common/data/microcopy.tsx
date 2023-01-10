@@ -35,6 +35,19 @@ export const pageDescriptions = {
     'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.',
   works: 'Search the Wellcome Collection catalogue',
   comic: 'TODO: write words that make sense for comic series here',
+
+  search: {
+    overview:
+      'Search Wellcome Collection. Our stories, images and collections make connections and provoke new thinking about health and human experience.',
+    stories:
+      'Search for stories about health and human experience. Our words and pictures make connections, provoke new thinking and share lived experiences.',
+    images:
+      'Search for images about health and human experience. Our collections include paintings, photogrpahs, engravings, etchings, illustrations and more.',
+    works:
+      'Search our collections about health and human experience. Our collections include books, manuscripts, visual materials, journals and unpublished archives.',
+    exhibitions: 'copy pending',
+    events: 'copy pending',
+  },
 };
 
 export const pageDescriptionConcepts = (label: string): string => {
