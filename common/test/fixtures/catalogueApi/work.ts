@@ -354,6 +354,9 @@ export const workFixture: Work = {
       type: 'Note',
     },
   ],
+  currentFrequency: 'Published annually',
+  formerFrequency: ['Published bi-annually', 'Published semi-annually'],
+  designation: ['Issues 1–10', 'Issues 12–22'],
   images: [
     {
       id: 'y6v52b5g',
@@ -413,6 +416,8 @@ export const workWithLibrarySeriesPartOf: Work = {
   precededBy: [],
   succeededBy: [],
   notes: [],
+  formerFrequency: [],
+  designation: [],
   parts: [],
   holdings: [],
 };

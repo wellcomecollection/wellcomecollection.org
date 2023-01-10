@@ -520,7 +520,21 @@ const WorkDetails: FunctionComponent<Props> = ({
             text={work.production.map(productionEvent => productionEvent.label)}
           />
         )}
-
+        {work.currentFrequency && (
+          <WorkDetailsText
+            title="Current frequency"
+            text={work.currentFrequency}
+          />
+        )}
+        {work.formerFrequency && (
+          <WorkDetailsText
+            title="Former frequency"
+            text={work.formerFrequency}
+          />
+        )}
+        {work.designation && (
+          <WorkDetailsText title="Designation" text={work.designation} />
+        )}
         {work.physicalDescription && (
           <WorkDetailsText
             title="Physical description"
