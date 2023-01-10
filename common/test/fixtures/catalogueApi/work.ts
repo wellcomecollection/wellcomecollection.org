@@ -574,6 +574,8 @@ export const workWithPartOf: Work = {
   notes: [],
   languages: [],
   images: [],
+  formerFrequency: [],
+  designation: [],
   parts: [],
   partOf: [
     {
@@ -786,6 +788,8 @@ export const workWithMixedPartOf: Work = {
   precededBy: [],
   succeededBy: [],
   notes: [],
+  formerFrequency: [],
+  designation: [],
   parts: [],
   holdings: [],
   physicalDescription: '',
