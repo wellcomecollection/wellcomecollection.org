@@ -184,24 +184,16 @@ function getRouteProps(path: string) {
           }, [] as Location[])
           ?.find(location => location.locationType.id.startsWith('iiif'));
 
-        const iiifV2Link = iiifItem &&
+        const iiifLink = iiifItem &&
           iiifItem.type === 'DigitalLocation' && {
-            id: 'iiifv2',
-            label: 'IIIF V2',
-            link: iiifItem.url,
-          };
-
-        const iiifV3Link = iiifItem &&
-          iiifItem.type === 'DigitalLocation' && {
-            id: 'iiifv3',
-            label: 'IIIF V3',
+            id: 'iiif',
+            label: 'IIIF',
             link: iiifItem.url.replace('/v2/', '/v3/'),
           };
 
         const links = [
           apiLink,
-          iiifV2Link,
-          iiifV3Link,
+          iiifLink,
           ...work.identifiers.map(id => ({
             id: id.value,
             label: id.identifierType.label,
