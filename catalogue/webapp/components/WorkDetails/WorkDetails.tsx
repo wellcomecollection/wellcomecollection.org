@@ -657,7 +657,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                     ),
                     linkAttributes: {
                       href: {
-                        pathname: `/concepts/${s.id}`,
+                        pathname: '/concept',
+                        query: { id: s.id },
                       },
                       as: {
                         pathname: `/concepts/${s.id}`,
