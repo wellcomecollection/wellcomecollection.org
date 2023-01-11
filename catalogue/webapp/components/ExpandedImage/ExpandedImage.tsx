@@ -54,6 +54,12 @@ const Metadata = styled.span`
   }
 `;
 
+const ModalTitle = styled.h2.attrs({
+  className: `${font('intb', 3)} no-margin`,
+})`
+  color: ${props => props.theme.color('black')};
+`;
+
 const ImageWrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-bottom'] },
 })`
@@ -294,8 +300,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           {(displayTitle || displayContributor || license) && (
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               {displayTitle && (
-                <h2
-                  className={`${font('intb', 3)} no-margin`}
+                <ModalTitle
                   dangerouslySetInnerHTML={{ __html: displayTitle }}
                 />
               )}
