@@ -76,8 +76,8 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               <Sort
                 formId="searchPageForm"
                 options={[
-                  { value: 'alphabetical.asc', text: 'A -> Z' },
-                  { value: 'alphabetical.desc', text: 'Z -> A' },
+                  { value: 'alphabetical.asc', text: 'A-Z' },
+                  { value: 'alphabetical.desc', text: 'Z-A' },
                   { value: 'publication.dates.desc', text: 'Newest to oldest' },
                   { value: 'publication.dates.asc', text: 'Oldest to newest' },
                 ]}
