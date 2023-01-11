@@ -214,7 +214,6 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
         >
           <SearchBar
-            type={currentSearchCategory}
             placeholder={searchbarPlaceholderText[currentSearchCategory]}
           />
         </SearchBarContainer>
