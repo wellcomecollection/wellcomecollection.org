@@ -1,11 +1,5 @@
-import {
-  FunctionComponent,
-  useMemo,
-  useState,
-  useCallback,
-  useContext,
-} from 'react';
-import Gallery from 'react-photo-gallery';
+import { FunctionComponent, useMemo, useState, useContext } from 'react';
+import PhotoAlbum, { RenderPhotoProps } from 'react-photo-album';
 import styled from 'styled-components';
 
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -50,15 +44,6 @@ const GalleryContainer = styled.div`
     }
   `)}
 `;
-const ImageContainer = styled.li`
-  margin: 0 ${imageMargin ? imageMargin / 2 : 0}px
-    ${imageMargin ? imageMargin / 2 : 0}px;
-
-  ${props =>
-    props.theme.media('medium')(`
-    margin: 0 ${imageMargin}px ${imageMargin}px;
-  `)}
-`;
 
 const ImageCardList = styled(PlainList)`
   display: flex;
@@ -94,50 +79,61 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     [images]
   );
 
-  const imageRenderer = useCallback(galleryImage => {
-    const photo: GalleryImageProps = galleryImage.photo;
+  const imageRenderer: React.FC<RenderPhotoProps<GalleryImageProps>> = ({
+    photo,
+    layout,
+    wrapperStyle,
+  }) => {
     const rgbColor = hexToRgb(photo.averageColor || '');
-
     return (
-      <ImageContainer key={galleryImage.key} role="listitem">
-        <ImageCard
-          id={photo.id}
-          workId={photo.source.id}
-          image={{
-            contentUrl: photo.src,
-            width: photo.width - imageMargin * 2,
-            height: photo.height,
-            alt: photo.source.title,
+      <div style={wrapperStyle}>
+        <div
+          style={{
+            display: 'block',
+            position: 'relative',
+            width: '100%',
+            height: '100%',
           }}
-          onClick={event => {
-            event.preventDefault();
-            setExpandedImage(photo);
-            setIsActive(true);
-          }}
-          layout="fixed"
-          background={
-            background ||
-            (rgbColor &&
-              `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
-          }
-        />
-      </ImageContainer>
+        >
+          <ImageCard
+            id={photo.id}
+            workId={photo.source.id}
+            image={{
+              contentUrl: photo.src,
+              width: layout.width,
+              height: layout.height,
+              alt: photo.source.title,
+            }}
+            onClick={event => {
+              event.preventDefault();
+              setExpandedImage(photo);
+              setIsActive(true);
+            }}
+            layout="fixed"
+            background={
+              background ||
+              (rgbColor &&
+                `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
+            }
+          />
+        </div>
+      </div>
     );
-  }, []);
+  };
 
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
-        <PlainList role="list">
-          <GalleryContainer>
-            <Gallery
-              photos={imagesWithDimensions}
-              renderImage={imageRenderer}
-              margin={0} // The default margin is 2, but it doesn't work with our setup, so setting it to 0 and styling it manually
-              targetRowHeight={220}
-            />
-          </GalleryContainer>
-        </PlainList>
+        <GalleryContainer>
+          <PhotoAlbum
+            photos={imagesWithDimensions}
+            renderPhoto={imageRenderer}
+            layout="rows"
+            spacing={0}
+            padding={8}
+            targetRowHeight={200}
+          />
+        </GalleryContainer>
       )}
 
       {(!isFullSupportBrowser || isSmallGallery) && (
