@@ -188,7 +188,7 @@ function getRouteProps(path: string) {
           iiifItem.type === 'DigitalLocation' && {
             id: 'iiif',
             label: 'IIIF',
-            link: iiifItem.url,
+            link: iiifItem.url.replace('/v2/', '/v3/'),
           };
 
         const links = [
