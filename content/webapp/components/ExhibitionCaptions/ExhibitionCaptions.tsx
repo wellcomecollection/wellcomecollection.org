@@ -310,6 +310,11 @@ const Stop: FunctionComponent<{
                       clickHandler={() => {
                         setIsFullTranscription(!isFullTranscription);
                       }}
+                      trackingEvent={{
+                        category: 'ExhibitionCaptions',
+                        action: 'read full transcript',
+                        label: stop.anchorId,
+                      }}
                       text={
                         isFullTranscription
                           ? 'Hide full transcript'
