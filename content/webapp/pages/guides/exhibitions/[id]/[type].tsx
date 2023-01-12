@@ -31,6 +31,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import cookies from '@weco/common/data/cookies';
 import ExhibitionGuideStops from '../../../../components/ExhibitionGuideStops/ExhibitionGuideStops';
 import { getTypeColor } from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
+import useHotjar from '@weco/common/hooks/useHotjar';
 
 const ButtonWrapper = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
@@ -143,6 +144,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionGuidePage: FC<Props> = props => {
+  useHotjar(true);
+
   const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}/${type}`;
   const typeColor = getTypeColor(type);
