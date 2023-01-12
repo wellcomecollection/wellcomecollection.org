@@ -34,9 +34,8 @@ const SearchNoResults: FunctionComponent<Props> = ({
             <Copy textColor={textColor}>
               We couldn&rsquo;t find anything that matched{' '}
               <QuerySpan>{query}</QuerySpan>
-              {hasFilters && (
-                <> with the filters you have selected. Please try again.</>
-              )}
+              {hasFilters ? ' with the filters you have selected.' : '.'} Please
+              try again.
             </Copy>
           </div>
         </div>
