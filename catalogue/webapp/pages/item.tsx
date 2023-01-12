@@ -381,10 +381,19 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (work.type === 'Error') {
       return appError(context, work.httpStatus, work.description);
-    } else if (work.type === 'Redirect') {
+    }
+
+    if (work.type === 'Redirect') {
+      // This ensures that any query parameters are preserved on redirect,
+      // e.g. if you have a link to /works/$oldId/items?canvas=10, then
+      // you'll go to /works/$newId/items?canvas=10
+      const destination = isNotUndefined(context.req.url)
+        ? context.req.url.replace(workId, work.redirectToId)
+        : `/works/${work.redirectToId}/items`;
+
       return {
         redirect: {
-          destination: work.redirectToId,
+          destination,
           permanent: work.status === 301,
         },
       };
