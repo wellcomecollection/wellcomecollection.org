@@ -97,7 +97,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   });
 
   useOnPageLoad(url => ReactGA.pageview(url));
-  useOnPageLoad(() => {
+
+  useEffect(() => {
     if (pageProps.pageview) {
       trackPageview({
         name: pageProps.pageview.name,
@@ -105,7 +106,11 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         eventGroup: pageProps.pageview.eventGroup,
       });
     }
-  });
+  }, [pageProps.pageview]);
+  // pageProps.pageview is updated by getServerSideProps
+  // getServerSideProps is run when the page is requested directly
+  // or when requested client-side through next/link or next/router
+  // i.e. everything that we consider to be a page view
 
   usePrismicPreview(() => Boolean(document.cookie.match('isPreview=true')));
 
