@@ -238,7 +238,7 @@ const DynamicFilterArray = ({
             changeHandler={changeHandler}
             form={showMoreFiltersModal ? undefined : searchFormId}
             isNewStyle={isNewStyle}
-            isDisabled={!f.options.length}
+            isDisabled={f.options.length === 0}
           />
         )}
 
