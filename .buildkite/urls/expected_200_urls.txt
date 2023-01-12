@@ -76,3 +76,7 @@
 # This page won't serve anything especially useful, but we want to
 # make sure it won't throw a 500 error
 /articles?page=343
+
+# This is an item page which has been redirected; we want to make
+# sure it redirects to the correct location
+/works/m58dxy2s/items
