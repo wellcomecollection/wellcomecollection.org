@@ -52,12 +52,12 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
   query,
 }) => {
-  const { query: queryString = '' } = query;
+  const { query: queryString } = query;
 
   return (
     <Wrapper>
       {storyResponseList.totalResults === 0 ? (
-        <SearchNoResults query={queryString} hasFilters={false} />
+        <SearchNoResults query={queryString} />
       ) : (
         <div className="container">
           <PaginationWrapper verticalSpacing="l">

@@ -8,7 +8,7 @@ import { AppContext } from '../AppContext/AppContext';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
 
 type Props = {
-  query: string;
+  query?: string;
   searchFormId?: string;
   changeHandler: () => void;
   filters: Filter[];

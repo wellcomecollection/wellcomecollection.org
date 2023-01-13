@@ -11,7 +11,7 @@ import { getColorDisplayName } from '../../components/PaletteColorPicker/Palette
 import { cross } from '@weco/common/icons';
 
 type ResetActiveFilters = {
-  query: string;
+  query?: string;
   resetFilters: LinkProps;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
@@ -140,7 +140,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                       passHref
                       {...linkResolver({
                         ...filterState,
-                        query,
+                        ...(query && { query }),
                         page: '1',
                         [f.id]: selectedOptions
                           .filter(

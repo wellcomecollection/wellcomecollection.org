@@ -55,7 +55,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   worksRouteProps,
   query,
 }) => {
-  const { query: queryString = '' } = query;
+  const { query: queryString } = query;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {

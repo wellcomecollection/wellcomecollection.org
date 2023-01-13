@@ -55,7 +55,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   imagesRouteProps,
   query,
 }): ReactElement<Props> => {
-  const { query: queryString = '' } = query;
+  const { query: queryString } = query;
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {

@@ -81,7 +81,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   stories,
   query,
 }) => {
-  const { query: queryString = '' } = query;
+  const { query: queryString } = query;
 
   const SeeMoreButton = ({
     text,
@@ -118,7 +118,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
         {!stories && !images && !works ? (
           <div className="container">
-            <SearchNoResults query={queryString} hasFilters={false} />
+            <SearchNoResults query={queryString} />
           </div>
         ) : (
           <>
