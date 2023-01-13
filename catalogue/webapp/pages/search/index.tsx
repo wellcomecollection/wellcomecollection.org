@@ -192,9 +192,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const defaultProps = removeUndefinedProps({
       serverData,
       query,
-
-      // TODO Harrison to explore what properties we'd want here
-      // https://github.com/wellcomecollection/wellcomecollection.org/issues/8977
       pageview: {
         name: 'search',
         properties: {},
