@@ -84,6 +84,8 @@ const ItemViewerContext = createContext<Props>({
     production: [],
     languages: [],
     notes: [],
+    formerFrequency: [],
+    designation: [],
     parts: [],
     partOf: [],
     precededBy: [],
