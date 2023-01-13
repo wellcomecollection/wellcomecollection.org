@@ -47,12 +47,12 @@ export const getQueryResults = (
  */
 export const getQueryPropertyValue = (
   originalValue?: string[] | string
-): string =>
+): string | undefined =>
   originalValue
     ? Array.isArray(originalValue)
-      ? originalValue[0] || ''
+      ? originalValue[0]
       : originalValue
-    : '';
+    : undefined;
 
 // SORT
 // The works API expects 'sort' and 'sortOrder' parameters, whereas the Prismic API only wants one; 'sortBy'.
