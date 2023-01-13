@@ -69,8 +69,8 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 options={[
                   { value: 'publication.dates.desc', text: 'Newest to oldest' },
                   { value: 'publication.dates.asc', text: 'Oldest to newest' },
-                  { value: 'alphabetical.asc', text: 'A -> Z' },
-                  { value: 'alphabetical.desc', text: 'Z -> A' },
+                  { value: 'alphabetical.asc', text: 'A-Z' },
+                  { value: 'alphabetical.desc', text: 'Z-A' },
                 ]}
                 jsLessOptions={{
                   sort: [

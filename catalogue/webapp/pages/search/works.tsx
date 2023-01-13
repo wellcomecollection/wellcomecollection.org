@@ -137,7 +137,12 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
               <SearchNoResults
                 query={queryString}
                 hasFilters={hasFilters({
-                  filters: filters.map(f => f.id),
+                  filters: [
+                    ...filters.map(f => f.id),
+                    // production.dates is one dropdown but two properties, so we're specifying them in their individual format
+                    'production.dates.from',
+                    'production.dates.to',
+                  ],
                   queryParams: Object.keys(query).map(p => p),
                 })}
               />

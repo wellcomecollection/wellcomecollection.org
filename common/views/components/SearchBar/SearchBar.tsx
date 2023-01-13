@@ -28,8 +28,7 @@ const SearchButtonWrapper = styled.div`
   flex: 0 1 auto;
 `;
 
-const SearchBar: FunctionComponent<{ type: string; placeholder: string }> = ({
-  type,
+const SearchBar: FunctionComponent<{ placeholder: string }> = ({
   placeholder,
 }) => {
   const { query } = useRouter();
@@ -69,7 +68,6 @@ const SearchBar: FunctionComponent<{ type: string; placeholder: string }> = ({
           size="large"
           form="searchPageForm"
           colors={themeValues.buttonColors.yellowYellowBlack}
-          isNewStyle
         />
       </SearchButtonWrapper>
     </Container>

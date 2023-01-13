@@ -21,11 +21,30 @@ import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import { cross, gallery } from '@weco/common/icons';
 import { PageBackgroundContext } from '../ContentPage/ContentPage';
-import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 import Tasl from '@weco/common/views/components/Tasl/Tasl';
 import ComicPreviousNext, {
   Props as ComicPreviousNextProps,
 } from '../ComicPreviousNext/ComicPreviousNext';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { sizes } from '@weco/common/views/themes/config';
+
+function makeSizesForFrames(isThreeUp: boolean) {
+  // the frames gallery takes up c. 80% of the width of the screen, so basing
+  // image width calculations off 80vw and limiting to 0.8 of the overall
+  // grid-width
+  if (isThreeUp) {
+    return `
+        (min-width: ${sizes.medium}px) calc(80vw / 2),
+        (min-width: ${sizes.large}px) calc(80vw / 3),
+        (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 3)
+      `;
+  } else {
+    return `
+      (min-width: ${sizes.medium}px) calc(80vw / 2),
+      (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 2)
+    `;
+  }
+}
 
 const FrameGridWrap = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -385,9 +404,10 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 <FrameGrid isThreeUp={isThreeUp}>
                   {itemsToShow().map(captionedImage => (
                     <FrameItem key={captionedImage.image.contentUrl}>
-                      <HeightRestrictedPrismicImage
+                      <PrismicImage
                         image={captionedImage.image}
                         quality="high"
+                        imgSizes={makeSizesForFrames(isThreeUp)}
                       />
                     </FrameItem>
                   ))}

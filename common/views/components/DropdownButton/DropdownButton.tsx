@@ -85,6 +85,7 @@ type Props = {
   isOnDark?: boolean;
   iconLeft?: IconSvg;
   isPill?: boolean;
+  isDisabled?: boolean;
 };
 
 const DropdownButton: FunctionComponent<Props> = ({
@@ -95,6 +96,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   id,
   iconLeft,
   isPill,
+  isDisabled,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [focusables, setFocusables] = useState<HTMLElement[]>([]);
@@ -159,6 +161,7 @@ const DropdownButton: FunctionComponent<Props> = ({
     ariaControls: id,
     ariaExpanded: isActive,
     isPill,
+    disabled: isDisabled,
   };
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>

@@ -138,7 +138,7 @@ function track(conversion: Conversion) {
   localStorage.setItem(lastTrackedLocalStorageKey, Date.now().toString());
 
   if (debug) {
-    console.info({
+    console.info(eventGroup, {
       session,
       properties: { ...properties, toggles },
       ...restConversion,
