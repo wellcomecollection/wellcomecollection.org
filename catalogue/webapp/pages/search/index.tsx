@@ -200,7 +200,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     try {
       // Stories
-      // Setting a default order of descending publication date as default state
+      // We want the default order to be "descending publication date"
       const storiesResults = await getStories({
         query: {
           ...query,

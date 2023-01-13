@@ -40,7 +40,6 @@ export const getQueryResults = (
     : undefined;
 };
 
-//
 /**
  * Query properties can an array or a single value.
  * This returns the first value of the array || string value
