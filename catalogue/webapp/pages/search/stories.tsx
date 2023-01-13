@@ -102,7 +102,15 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           </PaginationWrapper>
 
           <main>
-            <StoriesGrid stories={storyResponseList.results} isDetailed />
+            <StoriesGrid
+              stories={storyResponseList.results}
+              imagesSize={{
+                width: 600,
+                height: 400,
+                sizes: { xlarge: 1 / 6, large: 1 / 6, medium: 1, small: 1 },
+              }}
+              isDetailed
+            />
           </main>
 
           <PaginationWrapper verticalSpacing="l" alignRight>
