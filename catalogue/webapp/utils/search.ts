@@ -1,44 +1,35 @@
-import {
-  CatalogueApiError,
-  CatalogueResultsList,
-  Image,
-  Work,
-} from '@weco/common/model/catalogue';
-import { Story } from '@weco/catalogue/services/prismic/types/story';
-import {
-  PrismicApiError,
-  PrismicResultsList,
-} from '@weco/catalogue/services/prismic/types';
+import { CatalogueApiError } from '@weco/common/model/catalogue';
+import { PrismicApiError } from '@weco/catalogue/services/prismic/types';
 
 export type DefaultSortValuesType = {
   sort: string | undefined;
   sortOrder: string | undefined;
 };
 
-type QueryResultsProps = (Work | Image | Story)[] | undefined;
+type HasResultsList<T> = {
+  results: T[];
+  type: 'ResultList';
+};
 
 /**
  * Takes query result and checks for errors to log before returning required data.
  * @param {string} categoryName - e.g. works
  * @param queryResults - Original result from query
  */
-export const getQueryResults = (
-  categoryName: string,
-  queryResults:
-    | CatalogueResultsList<Image | Work>
-    | CatalogueApiError
-    | PrismicResultsList<Story>
-    | PrismicApiError
-): QueryResultsProps => {
+export function getQueryResults<T>({
+  categoryName,
+  queryResults,
+}: {
+  categoryName: string;
+  queryResults: HasResultsList<T> | CatalogueApiError | PrismicApiError;
+}): T[] | undefined {
   // An error shouldn't stop the other results from displaying
   if (queryResults.type === 'Error') {
     console.error(queryResults.label + ': Error fetching ' + categoryName);
+  } else {
+    return queryResults.results;
   }
-
-  return queryResults && queryResults.type !== 'Error'
-    ? queryResults.results
-    : undefined;
-};
+}
 
 /**
  * Query properties can an array or a single value.

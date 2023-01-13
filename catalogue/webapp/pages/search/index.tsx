@@ -209,9 +209,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         },
         pageSize: 4,
       });
-      const stories = getQueryResults('stories', storiesResults) as
-        | Story[]
-        | undefined;
+      const stories = getQueryResults({
+        categoryName: 'stories',
+        queryResults: storiesResults,
+      });
 
       // Works
       const _worksQueryType = getCookie('_queryType') as string | undefined;
@@ -223,9 +224,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         pageSize: 5,
         toggles: serverData.toggles,
       });
-      const works = getQueryResults('works', worksResults) as
-        | Work[]
-        | undefined;
+      const works = getQueryResults({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
 
       // Images
       const imagesResults = await getImages({
@@ -233,9 +235,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         toggles: serverData.toggles,
         pageSize: 10,
       });
-      const images = getQueryResults('images', imagesResults) as
-        | Image[]
-        | undefined;
+      const images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
 
       // If all three queries fail, return an error page
       if (
