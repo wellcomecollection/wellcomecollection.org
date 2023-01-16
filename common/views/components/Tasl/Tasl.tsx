@@ -7,6 +7,7 @@ import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { cross, information } from '@weco/common/icons';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 type StyledTaslProps = {
   positionAtTop: boolean;
@@ -204,13 +205,21 @@ const Tasl: FunctionComponent<Props> = ({
     setIsActive(!isActive);
   }
 
+  const id = title
+    ? dasherizeShorten(title)
+    : sourceName
+    ? dasherizeShorten(sourceName)
+    : copyrightHolder
+    ? dasherizeShorten(copyrightHolder)
+    : '';
+
   return [title, sourceName, copyrightHolder].some(_ => _) ? (
     <StyledTasl positionAtTop={positionTop} isEnhanced={isEnhanced}>
       <TaslButton
         onClick={toggleWithAnalytics}
         positionAtTop={positionTop}
         aria-expanded={isActive}
-        aria-controls={title || sourceName || copyrightHolder || ''}
+        aria-controls={id}
       >
         <TaslIcon isEnhanced={isEnhanced}>
           <Icon icon={isActive ? cross : information} iconColor="white" />
@@ -222,7 +231,7 @@ const Tasl: FunctionComponent<Props> = ({
         </TaslIcon>
       </TaslButton>
       <InfoContainer
-        id={title || sourceName || copyrightHolder || ''}
+        id={id}
         className={classNames({
           'is-hidden': isEnhanced && !isActive,
         })}
