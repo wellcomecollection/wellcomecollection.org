@@ -73,6 +73,7 @@ export type MarkUpProps = {
   license?: string;
   copyrightHolder?: string;
   copyrightLink?: string;
+  idSuffix?: string;
 };
 
 function getMarkup({
@@ -191,6 +192,7 @@ const Tasl: FunctionComponent<Props> = ({
   license,
   copyrightHolder,
   copyrightLink,
+  idSuffix = '',
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(false);
@@ -212,6 +214,7 @@ const Tasl: FunctionComponent<Props> = ({
     : copyrightHolder
     ? dasherizeShorten(copyrightHolder)
     : '';
+  const idWithSuffix = `${id}${idSuffix}`;
 
   return [title, sourceName, copyrightHolder].some(_ => _) ? (
     <StyledTasl positionAtTop={positionTop} isEnhanced={isEnhanced}>
@@ -219,7 +222,7 @@ const Tasl: FunctionComponent<Props> = ({
         onClick={toggleWithAnalytics}
         positionAtTop={positionTop}
         aria-expanded={isActive}
-        aria-controls={id}
+        aria-controls={idWithSuffix}
       >
         <TaslIcon isEnhanced={isEnhanced}>
           <Icon icon={isActive ? cross : information} iconColor="white" />
@@ -231,7 +234,7 @@ const Tasl: FunctionComponent<Props> = ({
         </TaslIcon>
       </TaslButton>
       <InfoContainer
-        id={id}
+        id={idWithSuffix}
         className={classNames({
           'is-hidden': isEnhanced && !isActive,
         })}
