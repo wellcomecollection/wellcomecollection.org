@@ -9,7 +9,6 @@ import { Story } from '@weco/catalogue/services/prismic/types/story';
 import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { ImageDimensions } from '@weco/common/model/image';
 
 const StoriesContainer = styled.div<{ isDetailed?: boolean }>`
   display: flex;
@@ -176,14 +175,12 @@ const StoryInformationItem = styled.span`
 
 type Props = {
   stories: Story[];
-  defaultImageSize: ImageDimensions;
   dynamicImageSizes?: BreakpointSizes;
   isDetailed?: boolean;
 };
 
 const StoriesGrid: FunctionComponent<Props> = ({
   stories,
-  defaultImageSize,
   dynamicImageSizes,
   isDetailed,
 }: Props) => {
@@ -201,7 +198,8 @@ const StoriesGrid: FunctionComponent<Props> = ({
               image={{
                 contentUrl: story.image.url,
                 alt: '',
-                ...defaultImageSize,
+                width: story.image.width,
+                height: story.image.height,
               }}
               sizes={dynamicImageSizes}
               quality="low"

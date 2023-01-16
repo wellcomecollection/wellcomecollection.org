@@ -105,14 +105,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             <StoriesGrid
               isDetailed
               stories={storyResponseList.results}
-              defaultImageSize={{
-                width: 600,
-                height: 400,
-              }}
               dynamicImageSizes={{
-                xlarge: 1 / 6,
-                large: 1 / 6,
-                medium: 1,
+                xlarge: 1 / 5,
+                large: 1 / 5,
+                medium: 1 / 5,
                 small: 1,
               }}
             />
