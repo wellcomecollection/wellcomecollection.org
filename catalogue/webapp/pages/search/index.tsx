@@ -133,7 +133,15 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 <div className="container">
                   <SectionTitle sectionName="Stories" />
 
-                  <StoriesGrid stories={stories} />
+                  <StoriesGrid
+                    stories={stories}
+                    dynamicImageSizes={{
+                      xlarge: 1 / 5,
+                      large: 1 / 5,
+                      medium: 1 / 2,
+                      small: 1 / 2,
+                    }}
+                  />
 
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
@@ -199,7 +207,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       serverData,
       query,
 
-      // TODO Harrison to explore what properties we'd want here
       pageview: {
         name: 'search',
         properties: {},

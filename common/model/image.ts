@@ -2,7 +2,7 @@ import { Tasl } from './tasl';
 
 export type Crop = '32:15' | '16:9' | 'square';
 
-type ImageDimensions = {
+export type ImageDimensions = {
   width: number;
   height: number;
 };

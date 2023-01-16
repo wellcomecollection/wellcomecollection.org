@@ -78,6 +78,8 @@ describe('transformPrismicResponse', () => {
         contributors: ['Willow Wisp'],
         image: {
           url: 'https://images.prismic.io/wellcomecollection/8b6b4b4e-4f1c-4f9e-8c1a-1b0c2b0e8b1a_The+cat+in+the+hat.jpg?auto=compress,format&rect=0,0,2000,2000&w=2000&h=2000',
+          width: 4000,
+          height: 2644,
         },
         label: { text: 'Article' },
         type: ['articles'],

@@ -1,6 +1,7 @@
 import { Story } from './story';
 import { Event } from './event';
 import { Exhibition } from './exhibition';
+import { ImageDimensions } from '@weco/common/model/image';
 
 const contentTypes = [
   'articles',
@@ -39,6 +40,7 @@ export type Standfirst = {
 
 export type Image = {
   url: string;
+  dimensions: ImageDimensions;
 };
 
 export type Promo = {

@@ -34,6 +34,8 @@ export async function transformPrismicResponse(
       title: title[0]?.text,
       image: {
         url: image.image?.url,
+        width: image.image?.dimensions?.width,
+        height: image.image?.dimensions?.height,
       },
       url: `https://wellcomecollection.org/${type}/${id}`,
       firstPublicationDate,

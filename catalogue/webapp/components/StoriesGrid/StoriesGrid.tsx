@@ -6,6 +6,9 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { font } from '@weco/common/utils/classnames';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { Story } from '@weco/catalogue/services/prismic/types/story';
+import PrismicImage, {
+  BreakpointSizes,
+} from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 const StoriesContainer = styled.div<{ isDetailed?: boolean }>`
   display: flex;
@@ -42,6 +45,12 @@ const StoryWrapper = styled(Space).attrs<{
 
   &:last-child {
     padding-bottom: 0;
+  }
+
+  &:hover {
+    h3 {
+      text-decoration: underline;
+    }
   }
 
   ${props =>
@@ -85,15 +94,20 @@ const ImageWrapper = styled.div<{ isDetailed?: boolean }>`
   justify-content: center;
   align-items: center;
 
-  ${props =>
-    props.isDetailed
-      ? ``
-      : `
-        img {
-            object-fit: cover;
-            height: 100%;
-        }
-    `}
+  & > div {
+    height: 100%;
+    width: 100%;
+
+    ${props =>
+      props.isDetailed
+        ? ``
+        : `
+          img {
+              object-fit: cover;
+              height: 100%;
+          }
+      `}
+  }
 
   ${props =>
     props.theme.media('medium')(`
@@ -161,11 +175,13 @@ const StoryInformationItem = styled.span`
 
 type Props = {
   stories: Story[];
+  dynamicImageSizes?: BreakpointSizes;
   isDetailed?: boolean;
 };
 
 const StoriesGrid: FunctionComponent<Props> = ({
   stories,
+  dynamicImageSizes,
   isDetailed,
 }: Props) => {
   return (
@@ -178,7 +194,16 @@ const StoriesGrid: FunctionComponent<Props> = ({
           isDetailed={isDetailed}
         >
           <ImageWrapper isDetailed={isDetailed}>
-            <img src={story.image.url} alt="" />
+            <PrismicImage
+              image={{
+                contentUrl: story.image.url,
+                alt: '',
+                width: story.image.width,
+                height: story.image.height,
+              }}
+              sizes={dynamicImageSizes}
+              quality="low"
+            />
 
             {story.type && (
               <MobileLabel>
