@@ -6,12 +6,14 @@ describe('transformPrismicResponse', () => {
       totalCount: 30,
       edges: [
         {
+          cursor: 'YXJyYXljb25uZWN0aW9uOjA=',
           node: {
             _meta: {
               id: 'X123456',
-              firstPublicationDate: '2022-09-08T09:29:27+0000',
+              firstPublicationDate: new Date('2022-09-08T09:29:27+0000'),
               format: { _meta: { id: 'X123456' } },
             },
+            format: { __typename: 'ArticleFormats' },
             title: [
               {
                 type: 'heading1',
@@ -23,6 +25,7 @@ describe('transformPrismicResponse', () => {
                 primary: {
                   text: [
                     {
+                      type: 'paragraph',
                       text: 'A cat in a hat, a great story of an ace cat',
                     },
                   ],

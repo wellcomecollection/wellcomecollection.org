@@ -40,13 +40,14 @@ export async function transformPrismicResponse(
       url: `https://wellcomecollection.org/${type}/${id}`,
       firstPublicationDate,
       contributors: allContributors,
-      type: type,
-      summary: summary,
+      type,
+      summary,
       label:
-        isArticle && format
+        isArticle && format?._meta
           ? { text: articleIdToLabel(format._meta.id) }
           : { text: 'Article' },
     };
   });
+
   return results;
 }
