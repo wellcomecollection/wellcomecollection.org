@@ -150,6 +150,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             sortOrder={sortOrder}
             linkResolver={params => {
               const queryWithSource = propsToQuery(params);
+              /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
               const { source = undefined, ...queryWithoutSource } = {
                 ...queryWithSource,
               };
@@ -240,6 +241,7 @@ const SearchTabs: FunctionComponent<Props> = ({
             sortOrder={undefined}
             linkResolver={params => {
               const queryWithSource = propsToQuery(params);
+              /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
               const { source = undefined, ...queryWithoutSource } = {
                 ...queryWithSource,
               };

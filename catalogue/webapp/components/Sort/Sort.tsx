@@ -5,7 +5,10 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Select from '@weco/common/views/components/Select/Select';
 import { propsToQuery } from '@weco/common/utils/routes';
-import { DefaultSortValuesType, getUrlQueryFromSortValue } from '@weco/catalogue/utils/search';
+import {
+  DefaultSortValuesType,
+  getUrlQueryFromSortValue,
+} from '@weco/catalogue/utils/search';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },
@@ -31,7 +34,6 @@ type Option = {
   value: string;
   text: string;
 };
-
 
 const Sort: FunctionComponent<Props> = ({
   formId,
@@ -102,7 +104,9 @@ const Sort: FunctionComponent<Props> = ({
           name="sortOrder"
           label="sort results by:"
           onChange={e => {
-            const { sort, sortOrder } = getUrlQueryFromSortValue(e.currentTarget.value);
+            const { sort, sortOrder } = getUrlQueryFromSortValue(
+              e.currentTarget.value
+            );
             setSortOrder(sortOrder);
             setSortType(sort);
           }}

@@ -9,6 +9,7 @@
     "catalogue": "yarn workspace @weco/catalogue run dev",
     "content": "yarn workspace @weco/content run dev",
     "build-webapps": "echo '@weco/catalogue @weco/content @weco/identity' | xargs -n 1 | xargs -I% yarn workspace % run build",
+    "lint": "eslint \"**/*.tsx\"",
     "clean": "rimraf '**/.next **/lib'",
     "clean-deps": "rimraf '**/node_modules'",
     "test:common" : "echo \"⭕️ Running common tests...\" && cd common && NODE_ENV=test jest --no-cache && echo \"✅️ common tests finished\"",
@@ -31,8 +32,8 @@
   },
   "homepage": "https://github.com/wellcomecollection/wellcomecollection.org#readme",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.15.1",
-    "@typescript-eslint/parser": "^4.15.1",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^4.0.0",

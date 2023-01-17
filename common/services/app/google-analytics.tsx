@@ -1,7 +1,6 @@
 import { FunctionComponent, useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { Toggles } from '@weco/toggles';
-import Script from 'next/script';
 
 export const GOOGLE_ANALYTICS_V4_ID = 'G-206J7SLYFC';
 export const GOOGLE_ANALYTICS_UA_ID = 'UA-55614-6';
