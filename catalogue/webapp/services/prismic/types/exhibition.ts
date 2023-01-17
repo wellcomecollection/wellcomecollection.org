@@ -6,6 +6,8 @@ export type Exhibition = {
   title: Title;
   image: {
     url: string;
+    width: number;
+    height: number;
   };
   url: string;
   firstPublicationDate: Date;

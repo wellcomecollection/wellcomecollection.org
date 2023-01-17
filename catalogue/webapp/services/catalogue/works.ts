@@ -46,6 +46,8 @@ const workIncludes = [
   'contributors',
   'production',
   'notes',
+  'formerFrequency',
+  'designation',
   'parts',
   'partOf',
   'precededBy',

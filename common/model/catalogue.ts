@@ -16,6 +16,9 @@ export type Work = {
   thumbnail?: DigitalLocation;
   items?: Item<Location>[];
   production: Production[];
+  currentFrequency?: string;
+  formerFrequency: string[];
+  designation: string[];
   languages: Language[];
   edition?: string;
   notes: Note[];
