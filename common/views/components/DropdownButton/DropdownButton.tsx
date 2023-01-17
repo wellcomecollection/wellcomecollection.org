@@ -14,7 +14,7 @@ import Space from '../styled/Space';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
-import { chevron, IconSvg } from '@weco/common/icons';
+import { chevron, indicator, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { font } from '@weco/common/utils/classnames';
 
@@ -26,6 +26,7 @@ const DropdownWrapper = styled.div`
 type DropdownProps = {
   isActive: boolean;
   isEnhanced: boolean;
+  hasNoOptions?: boolean;
 };
 const Dropdown = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -155,13 +156,14 @@ const DropdownButton: FunctionComponent<Props> = ({
   const buttonProps = {
     isActive: isActive,
     clickHandler: () => setIsActive(!isActive),
-    icon: chevron,
+    icon: hasNoOptions ? indicator : chevron,
     isIconAfter: true,
     text: label,
     type: ButtonTypes.button,
     ariaControls: id,
     ariaExpanded: isActive,
     isPill,
+    disabled: hasNoOptions,
   };
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
@@ -218,6 +220,7 @@ const DropdownButton: FunctionComponent<Props> = ({
             <Dropdown
               isActive={isActive}
               isEnhanced={isEnhanced}
+              hasNoOptions={hasNoOptions}
               ref={dropdownRef}
             >
               {hasNoOptions ? (
@@ -234,6 +237,7 @@ const DropdownButton: FunctionComponent<Props> = ({
           <Dropdown
             isActive={isActive}
             isEnhanced={isEnhanced}
+            hasNoOptions={hasNoOptions}
             ref={dropdownRef}
           >
             {children}
