@@ -1,9 +1,14 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import {
+  FunctionComponent,
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+} from 'react';
 import styled from 'styled-components';
 import HueSlider from './HueSlider';
 import { hexToHsv, hsvToHex } from '@weco/common/utils/convert-colors';
 import { font } from '@weco/common/utils/classnames';
-import { useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 type Props = {
