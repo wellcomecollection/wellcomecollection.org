@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import HueSlider from './HueSlider';
 import { hexToHsv, hsvToHex } from '@weco/common/utils/convert-colors';
 import { font } from '@weco/common/utils/classnames';
+import { useContext } from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 type Props = {
   name: string;
@@ -146,10 +148,8 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
 }) => {
   // Because the form is not controlled we need to maintain state internally
   const [colorState, setColorState] = useState(color);
-  const [componentMounted, setComponentMounted] = useState(false);
+  const { isEnhanced } = useContext(AppContext);
   const firstRender = useRef(true);
-
-  useEffect(() => setComponentMounted(true), []);
 
   useEffect(() => {
     setColorState(color);
@@ -165,7 +165,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      <noscript>
+      {!isEnhanced ? (
         <input
           form={form}
           type="color"
@@ -178,9 +178,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
               : ''
           }
         />
-      </noscript>
-
-      {componentMounted && (
+      ) : (
         <>
           <input
             form={form}
