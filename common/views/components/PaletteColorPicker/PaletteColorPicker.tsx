@@ -170,7 +170,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
           form={form}
           type="color"
           name={name}
-          value={
+          defaultValue={
             color
               ? color[0] === '#' || color[0] === '%' // url encoded value for the hash symbol is '%23'
                 ? color
