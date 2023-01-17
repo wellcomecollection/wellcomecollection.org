@@ -5,7 +5,6 @@ import { CaptionedImage as CaptionedImageType } from '@weco/common/model/caption
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
-import * as prismicH from '@prismicio/helpers';
 
 type CaptionedImageFigureProps = {
   isBody?: boolean;
@@ -91,7 +90,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
           Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={{
             ...image.tasl,
-            idSuffix: dasherizeShorten(prismicH.asText(caption)),
+            idSuffix: dasherizeShorten(image.contentUrl),
           }}
         />
         <Caption caption={caption} preCaptionNode={preCaptionNode} />
