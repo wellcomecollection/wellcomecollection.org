@@ -7,6 +7,7 @@ import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { cross, information } from '@weco/common/icons';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 type StyledTaslProps = {
   positionAtTop: boolean;
@@ -72,6 +73,7 @@ export type MarkUpProps = {
   license?: string;
   copyrightHolder?: string;
   copyrightLink?: string;
+  idSuffix?: string;
 };
 
 function getMarkup({
@@ -190,6 +192,7 @@ const Tasl: FunctionComponent<Props> = ({
   license,
   copyrightHolder,
   copyrightLink,
+  idSuffix = '',
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(false);
@@ -204,13 +207,22 @@ const Tasl: FunctionComponent<Props> = ({
     setIsActive(!isActive);
   }
 
+  const id = title
+    ? dasherizeShorten(title)
+    : sourceName
+    ? dasherizeShorten(sourceName)
+    : copyrightHolder
+    ? dasherizeShorten(copyrightHolder)
+    : '';
+  const idWithSuffix = `${id}${idSuffix}`;
+
   return [title, sourceName, copyrightHolder].some(_ => _) ? (
     <StyledTasl positionAtTop={positionTop} isEnhanced={isEnhanced}>
       <TaslButton
         onClick={toggleWithAnalytics}
         positionAtTop={positionTop}
         aria-expanded={isActive}
-        aria-controls={title || sourceName || copyrightHolder || ''}
+        aria-controls={idWithSuffix}
       >
         <TaslIcon isEnhanced={isEnhanced}>
           <Icon icon={isActive ? cross : information} iconColor="white" />
@@ -222,7 +234,7 @@ const Tasl: FunctionComponent<Props> = ({
         </TaslIcon>
       </TaslButton>
       <InfoContainer
-        id={title || sourceName || copyrightHolder || ''}
+        id={idWithSuffix}
         className={classNames({
           'is-hidden': isEnhanced && !isActive,
         })}
