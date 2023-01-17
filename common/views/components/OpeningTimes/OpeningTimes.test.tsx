@@ -3,7 +3,6 @@ import {
   shallowWithTheme,
   mountWithTheme,
 } from '../../../test/fixtures/enzyme-helpers';
-import { venues } from '../../../test/fixtures/components/venues';
 import * as serviceOpeningTimes from '@weco/common/services/prismic/opening-times';
 import { shopVenue } from '../../../test/fixtures/components/shop-venue';
 

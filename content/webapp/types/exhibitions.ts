@@ -2,7 +2,7 @@ import { Article } from './articles';
 import { Series } from './series';
 import { Book } from './books';
 import { Contributor, ContributorBasic } from './contributors';
-import { Event, EventBasic } from './events';
+import { EventBasic } from './events';
 import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';

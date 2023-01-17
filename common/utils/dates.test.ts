@@ -1,7 +1,6 @@
 import each from 'jest-each';
 import {
   countDaysBetween,
-  dayBefore,
   endOfWeek,
   getDatesBetween,
   getNextWeekendDateRange,
