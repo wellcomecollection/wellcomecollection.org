@@ -90,28 +90,26 @@ const FooterNav = ({
     type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
 
   return (
-    <NavList
-      role="navigation"
-      aria-label="Footer navigation"
-      isInline={isInline}
-    >
-      {itemsList.map((link, i) => {
-        // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here
-        const isBurgerMenuLink = type === 'InternalNavigation' && i === 0;
+    <nav>
+      <NavList aria-label="Footer navigation" isInline={isInline}>
+        {itemsList.map((link, i) => {
+          // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here
+          const isBurgerMenuLink = type === 'InternalNavigation' && i === 0;
 
-        return (
-          <li key={link.title}>
-            <NavLinkElement
-              as="a"
-              href={link.href}
-              {...(isBurgerMenuLink && { id: 'footer-nav-1' })}
-            >
-              {link.title}
-            </NavLinkElement>
-          </li>
-        );
-      })}
-    </NavList>
+          return (
+            <li key={link.title}>
+              <NavLinkElement
+                as="a"
+                href={link.href}
+                {...(isBurgerMenuLink && { id: 'footer-nav-1' })}
+              >
+                {link.title}
+              </NavLinkElement>
+            </li>
+          );
+        })}
+      </NavList>
+    </nav>
   );
 };
 
