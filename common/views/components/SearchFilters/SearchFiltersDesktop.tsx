@@ -38,7 +38,6 @@ type CheckboxFilterProps = {
   changeHandler: () => void;
   form?: string;
   isNewStyle?: boolean;
-  isDisabled?: boolean;
 };
 
 const Wrapper = styled(Space).attrs({
@@ -57,7 +56,6 @@ const CheckboxFilter = ({
   changeHandler,
   form,
   isNewStyle,
-  isDisabled,
 }: CheckboxFilterProps) => {
   return (
     <DropdownButton
@@ -65,7 +63,7 @@ const CheckboxFilter = ({
       label={f.label}
       buttonType="inline"
       id={f.id}
-      isDisabled={isDisabled}
+      hasNoOptions={f.options.length === 0}
     >
       <PlainList className={font('intr', 5)}>
         <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
@@ -238,7 +236,6 @@ const DynamicFilterArray = ({
             changeHandler={changeHandler}
             form={showMoreFiltersModal ? undefined : searchFormId}
             isNewStyle={isNewStyle}
-            isDisabled={f.options.length === 0}
           />
         )}
 

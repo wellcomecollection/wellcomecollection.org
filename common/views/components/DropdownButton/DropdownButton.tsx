@@ -9,13 +9,14 @@ import {
 } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
-import getFocusableElements from '../../../utils/get-focusable-elements';
+import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import Space from '../styled/Space';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
-import { chevron, IconSvg } from '../../../icons';
+import { chevron, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
+import { font } from '@weco/common/utils/classnames';
 
 const DropdownWrapper = styled.div`
   display: inline-flex;
@@ -85,7 +86,7 @@ type Props = {
   isOnDark?: boolean;
   iconLeft?: IconSvg;
   isPill?: boolean;
-  isDisabled?: boolean;
+  hasNoOptions?: boolean;
 };
 
 const DropdownButton: FunctionComponent<Props> = ({
@@ -96,7 +97,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   id,
   iconLeft,
   isPill,
-  isDisabled,
+  hasNoOptions,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [focusables, setFocusables] = useState<HTMLElement[]>([]);
@@ -161,7 +162,6 @@ const DropdownButton: FunctionComponent<Props> = ({
     ariaControls: id,
     ariaExpanded: isActive,
     isPill,
-    disabled: isDisabled,
   };
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
@@ -220,7 +220,11 @@ const DropdownButton: FunctionComponent<Props> = ({
               isEnhanced={isEnhanced}
               ref={dropdownRef}
             >
-              {children}
+              {hasNoOptions ? (
+                <p className={`${font('intr', 5)} no-margin`}>has no options</p>
+              ) : (
+                <>{children}</>
+              )}
             </Dropdown>
           </CSSTransition>
         </Popper>
