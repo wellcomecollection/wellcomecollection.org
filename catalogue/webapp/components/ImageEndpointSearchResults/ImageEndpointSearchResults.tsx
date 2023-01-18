@@ -149,7 +149,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               renderRowContainer={renderRowContainer}
               layout="rows"
               spacing={0}
-              padding={8}
+              padding={12}
               targetRowHeight={200}
             />
           </GalleryContainer>
