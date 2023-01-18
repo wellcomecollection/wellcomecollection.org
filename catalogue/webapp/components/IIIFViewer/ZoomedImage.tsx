@@ -77,7 +77,7 @@ const ZoomedImage: FunctionComponent = () => {
         });
         setViewer(osdViewer);
       })
-      .catch(error => {
+      .catch(() => {
         setScriptError(true);
       });
   }

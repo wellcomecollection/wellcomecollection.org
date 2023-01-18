@@ -35,10 +35,7 @@ import { homepageId } from '@weco/common/data/hardcoded-ids';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
-import {
-  transformEvent,
-  transformEventBasic,
-} from '../services/prismic/transformers/events';
+import { transformEventBasic } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
 import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
