@@ -5,12 +5,13 @@ import { CaptionedImage as CaptionedImageType } from '@weco/common/model/caption
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 type CaptionedImageFigureProps = {
   isBody?: boolean;
 };
 
-const CaptionedImageFigure = styled.div<CaptionedImageFigureProps>`
+const CaptionedImageFigure = styled.figure<CaptionedImageFigureProps>`
   margin: 0;
   display: inline-block;
   width: 100%;
@@ -93,8 +94,16 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
             idSuffix: dasherizeShorten(image.contentUrl),
           }}
         />
-        <Caption caption={caption} preCaptionNode={preCaptionNode} />
+        <Caption
+          caption={caption}
+          preCaptionNode={preCaptionNode}
+          ariaHidden={true}
+        />
       </ImageContainerInner>
+      <figcaption className="visually-hidden">
+        {preCaptionNode}
+        <PrismicHtmlBlock html={caption} />
+      </figcaption>
     </CaptionedImageFigure>
   );
 };

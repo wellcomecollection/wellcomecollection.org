@@ -26,12 +26,14 @@ type Props = {
   caption: prismicT.RichTextField;
   preCaptionNode?: ReactNode;
   width?: number;
+  ariaHidden?: boolean;
 };
 
 const Caption: FunctionComponent<Props> = ({
   caption,
   preCaptionNode,
   width,
+  ariaHidden,
 }: Props) => {
   return (
     <Space
@@ -39,7 +41,7 @@ const Caption: FunctionComponent<Props> = ({
         size: 'm',
         properties: ['margin-top'],
       }}
-      as="figcaption"
+      aria-hidden={ariaHidden ? 'true' : undefined}
       style={width ? { width: `${width}px` } : undefined}
       className={`${font('lr', 6)} caption h-center`}
     >
