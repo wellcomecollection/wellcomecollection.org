@@ -143,7 +143,7 @@ const getPadding = (size: ButtonSize = 'medium') => {
     case 'medium':
       return '13px 20px';
     case 'large':
-      return '23px 24px';
+      return '21px 24px';
   }
 };
 
@@ -218,7 +218,7 @@ const Button: FunctionComponent<ButtonSolidProps> = (
     clickHandler && clickHandler(event);
     trackingEvent && trackGaEvent(trackingEvent);
   }
-
+  console.log({ text, colors });
   return (
     <SolidButton
       type={type}
