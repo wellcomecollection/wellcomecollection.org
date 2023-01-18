@@ -153,6 +153,7 @@ export async function getStories({
       const { edges } = allArticless;
 
       const stories = await transformPrismicResponse(['articles'], edges);
+
       return {
         type: 'ResultList',
         totalResults: allArticless.totalCount,

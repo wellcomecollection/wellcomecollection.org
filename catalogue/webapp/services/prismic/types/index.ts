@@ -32,36 +32,43 @@ const querySchemaTypes = [
 
 export type QuerySchemaType = typeof querySchemaTypes[number];
 
-export type Standfirst = {
-  caption: {
-    text: string;
+type BodyCopy = {
+  [id: string]: {
+    text: PrismicTitle[];
   };
 };
 
-export type Image = {
-  url: string;
-  dimensions: ImageDimensions;
+type PrismicTitle = {
+  type: string;
+  text: string;
 };
 
-export type Promo = {
+type TextObject = {
+  text: string;
+};
+
+type Promo = {
   primary: {
-    caption: Standfirst;
-    title: string;
-    image: Image;
-    description: string;
-    link: {
-      id: string;
-      type: string;
+    image: {
+      url: string;
+      dimensions: ImageDimensions;
+      alt?: string;
+      copyright?: string;
     };
+    caption: TextObject[];
+    link?: string;
   };
 };
 
-export type PrismicApiError = {
-  errorType: string;
-  httpStatus: number;
-  label: string;
-  description: string;
-  type: 'Error';
+type Format = {
+  __typename: string;
+  _meta?: {
+    id: string;
+  };
+};
+
+export type Contributor = {
+  contributor?: { name?: string };
 };
 
 export type PrismicResultsList<Result> = {
@@ -74,46 +81,29 @@ export type PrismicResultsList<Result> = {
   nextPage: string | null;
 };
 
-export type PrismicNode = {
-  node: PrismicNodeList[];
-};
-
-export type PrismicNodeList = {
-  title: {
-    text: string;
-  };
+export type PrismicNodeItem = {
+  title: PrismicTitle[];
   contributors: Contributor[];
-  image: Image;
-  type: string;
   _meta: {
     id: string;
     firstPublicationDate: Date;
   };
-  body: Standfirst[];
+  body: BodyCopy[];
   promo: Promo[];
   format: Format;
 };
 
-export type Format = {
-  __typename: string;
-  _meta: ContentId;
-};
-
-export type ContentId = {
-  id: string;
-};
-
-export type Contributor = {
-  contributor?: ContributorNode;
-};
-
-export type ContributorNode = {
-  name?: string;
-};
-
 export type PrismicResponse = {
-  edges: PrismicNode[];
-  node: PrismicNodeList;
+  node: PrismicNodeItem;
+  cursor: string;
+};
+
+export type PrismicApiError = {
+  errorType: string;
+  httpStatus: number;
+  label: string;
+  description: string;
+  type: 'Error';
 };
 
 export type TransformedResponse = Story | Event | Exhibition;
