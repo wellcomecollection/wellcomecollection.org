@@ -1,4 +1,10 @@
-import { FunctionComponent, useMemo, useState, useContext } from 'react';
+import {
+  FunctionComponent,
+  useMemo,
+  useState,
+  useContext,
+  ReactChild,
+} from 'react';
 import PhotoAlbum, { RenderPhotoProps } from 'react-photo-album';
 import styled from 'styled-components';
 
@@ -79,6 +85,18 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     [images]
   );
 
+  const AlbumRow = styled.ul`
+    display: flex;
+    flex-flow: row no-wrap;
+    align-items: space-between;
+    margin-bottom: 0;
+  `;
+
+  const renderRowContainer: React.FunctionComponent<{ children?: ReactChild }> =
+    ({ children }) => {
+      return <AlbumRow>{children}</AlbumRow>;
+    };
+
   const ImageFrame = styled.div`
     display: block;
     position: relative;
@@ -86,14 +104,13 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     height: 100%;
   `;
 
-  const imageRenderer: React.FC<RenderPhotoProps<GalleryImageProps>> = ({
-    photo,
-    layout,
-    wrapperStyle,
-  }) => {
+  const imageRenderer: React.FunctionComponent<
+    RenderPhotoProps<GalleryImageProps>
+  > = ({ photo, layout, wrapperStyle }) => {
+    // these are values and props that are passed in by the PhotoAlbum component
     const rgbColor = hexToRgb(photo.averageColor || '');
     return (
-      <div style={wrapperStyle}>
+      <li role="listitem" style={wrapperStyle}>
         <ImageFrame>
           <ImageCard
             id={photo.id}
@@ -117,23 +134,26 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             }
           />
         </ImageFrame>
-      </div>
+      </li>
     );
   };
 
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
-        <GalleryContainer>
-          <PhotoAlbum
-            photos={imagesWithDimensions}
-            renderPhoto={imageRenderer}
-            layout="rows"
-            spacing={0}
-            padding={8}
-            targetRowHeight={200}
-          />
-        </GalleryContainer>
+        <PlainList role="list">
+          <GalleryContainer>
+            <PhotoAlbum
+              photos={imagesWithDimensions}
+              renderPhoto={imageRenderer}
+              renderRowContainer={renderRowContainer}
+              layout="rows"
+              spacing={0}
+              padding={8}
+              targetRowHeight={200}
+            />
+          </GalleryContainer>
+        </PlainList>
       )}
 
       {(!isFullSupportBrowser || isSmallGallery) && (
