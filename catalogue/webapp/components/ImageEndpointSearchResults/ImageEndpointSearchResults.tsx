@@ -79,6 +79,13 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     [images]
   );
 
+  const ImageFrame = styled.div`
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  `;
+
   const imageRenderer: React.FC<RenderPhotoProps<GalleryImageProps>> = ({
     photo,
     layout,
@@ -87,14 +94,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     const rgbColor = hexToRgb(photo.averageColor || '');
     return (
       <div style={wrapperStyle}>
-        <div
-          style={{
-            display: 'block',
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-          }}
-        >
+        <ImageFrame>
           <ImageCard
             id={photo.id}
             workId={photo.source.id}
@@ -116,7 +116,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                 `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
             }
           />
-        </div>
+        </ImageFrame>
       </div>
     );
   };
