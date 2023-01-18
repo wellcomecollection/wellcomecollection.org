@@ -41,12 +41,12 @@ type CheckboxFilterProps = {
   isDisabled?: boolean;
 };
 
-const Wrapper = styled(Space).attrs({
+const Wrapper = styled(Space).attrs<{ isNewStyle?: boolean }>(props => ({
   v: {
     size: 'm',
-    properties: ['padding-top'],
+    properties: [props.isNewStyle ? '' : 'padding-top'],
   },
-})<{ isNewStyle?: boolean }>`
+}))<{ isNewStyle?: boolean }>`
   display: flex;
   background-color: ${props =>
     props.isNewStyle ? 'unset' : props.theme.color('warmNeutral.400')};

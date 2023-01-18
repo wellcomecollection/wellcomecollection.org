@@ -66,7 +66,7 @@ const Dropdown = styled(Space).attrs({
   }
 `;
 
-const Popper = styled('div')<{ isVisible: boolean }>`
+const Popper = styled.div<{ isVisible: boolean }>`
   width: max-content;
   height: ${props => (props.isVisible ? 'auto' : 0)};
   max-width: calc(100vw - 20px);

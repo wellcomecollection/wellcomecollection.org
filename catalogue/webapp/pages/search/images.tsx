@@ -123,7 +123,10 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      <div className="container">
+      <Space
+        className="container"
+        v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+      >
         <SearchFilters
           query={queryString}
           linkResolver={linkResolver}
@@ -141,7 +144,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           filters={filters}
           isNewStyle
         />
-      </div>
+      </Space>
 
       {images && (
         <>
