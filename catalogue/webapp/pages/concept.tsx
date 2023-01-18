@@ -32,7 +32,7 @@ import {
 
 // Styles
 import styled from 'styled-components';
-import { arrow } from '@weco/common/icons';
+import { arrowSmall } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
@@ -92,7 +92,7 @@ const SeeMoreButton = ({ text, link }: { text: string; link: LinkProps }) => (
   <ButtonSolidLink
     text={text}
     link={link}
-    icon={arrow}
+    icon={arrowSmall}
     isIconAfter={true}
     colors={{
       border: leadingColor,

@@ -122,7 +122,10 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      <div className="container">
+      <Space
+        className="container"
+        v={{ size: 'l', properties: ['padding-bottom'] }}
+      >
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
           <SearchFilters
             query={queryString}
@@ -218,7 +221,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             )}
           </>
         )}
-      </div>
+      </Space>
     </>
   );
 };
