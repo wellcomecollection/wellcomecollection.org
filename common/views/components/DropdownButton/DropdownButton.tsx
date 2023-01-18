@@ -14,19 +14,26 @@ import Space from '../styled/Space';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
-import { chevron, indicator, IconSvg } from '@weco/common/icons';
+import { chevron, unavailable, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
-import { font } from '@weco/common/utils/classnames';
 
-const DropdownWrapper = styled.div`
+const DropdownWrapper = styled.div<{ hasNoOptions?: boolean }>`
   display: inline-flex;
   position: relative;
+
+  ${props =>
+    props.hasNoOptions &&
+    `
+    .icon__svg {
+      width: 18px;
+      left: 2px;
+    }
+  `}
 `;
 
 type DropdownProps = {
   isActive: boolean;
   isEnhanced: boolean;
-  hasNoOptions?: boolean;
 };
 const Dropdown = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -156,7 +163,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   const buttonProps = {
     isActive: isActive,
     clickHandler: () => setIsActive(!isActive),
-    icon: hasNoOptions ? indicator : chevron,
+    icon: hasNoOptions ? unavailable : chevron,
     isIconAfter: true,
     text: label,
     type: ButtonTypes.button,
@@ -166,7 +173,7 @@ const DropdownButton: FunctionComponent<Props> = ({
     disabled: hasNoOptions,
   };
   return (
-    <DropdownWrapper ref={dropdownWrapperRef}>
+    <DropdownWrapper ref={dropdownWrapperRef} hasNoOptions={hasNoOptions}>
       {buttonType === 'inline' && (
         <ButtonSolid
           {...buttonProps}
@@ -220,14 +227,9 @@ const DropdownButton: FunctionComponent<Props> = ({
             <Dropdown
               isActive={isActive}
               isEnhanced={isEnhanced}
-              hasNoOptions={hasNoOptions}
               ref={dropdownRef}
             >
-              {hasNoOptions ? (
-                <p className={`${font('intr', 5)} no-margin`}>has no options</p>
-              ) : (
-                <>{children}</>
-              )}
+              {children}
             </Dropdown>
           </CSSTransition>
         </Popper>
@@ -237,7 +239,6 @@ const DropdownButton: FunctionComponent<Props> = ({
           <Dropdown
             isActive={isActive}
             isEnhanced={isEnhanced}
-            hasNoOptions={hasNoOptions}
             ref={dropdownRef}
           >
             {children}
