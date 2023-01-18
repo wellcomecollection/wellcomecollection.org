@@ -10,11 +10,9 @@ import { ImageType } from '../../../model/image';
 // Since this wrapper is only used in this file, we use the slightly clunkier
 // 1 = true / 0 = false to silence the warning.
 const StyledImage = styled(Image)<{ desaturate: 1 | 0 }>`
-  ${props => `
-    color: ${props.theme.color('white')};
-    background-color: ${props.theme.color('neutral.700')};
-    `}
-  ${props => props.desaturate === 1 && 'filter: saturate(0%);'};
+  color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.color('neutral.700')};
+  filter: ${props => (props.desaturate ? 'saturate(0%)' : undefined)};
 `;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
