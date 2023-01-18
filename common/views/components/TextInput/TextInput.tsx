@@ -4,7 +4,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { check } from '@weco/common/icons';
 
 type TextInputWrapProps = {
-  value: string;
   hasErrorBorder: boolean;
   big?: boolean;
   darkBg?: boolean;
@@ -200,7 +199,6 @@ const Input: FunctionComponent<Props> = (
   return (
     <div>
       <TextInputWrap
-        value={value}
         hasErrorBorder={!!(!isValid && showValidity)}
         darkBg={darkBg}
         big={!!big}
