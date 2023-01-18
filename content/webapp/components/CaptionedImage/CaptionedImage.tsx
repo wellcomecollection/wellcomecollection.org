@@ -97,7 +97,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
         <Caption
           caption={caption}
           preCaptionNode={preCaptionNode}
-          ariaHidden={true}
+          isFigcaption={false}
         />
       </ImageContainerInner>
       <figcaption className="visually-hidden">
