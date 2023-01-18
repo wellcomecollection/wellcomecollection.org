@@ -1,11 +1,8 @@
-import {
-  FunctionComponent,
-  useMemo,
-  useState,
-  useContext,
-  ReactChild,
-} from 'react';
-import PhotoAlbum, { RenderPhotoProps } from 'react-photo-album';
+import { FunctionComponent, useMemo, useState, useContext } from 'react';
+import PhotoAlbum, {
+  RenderPhotoProps,
+  RenderRowContainer,
+} from 'react-photo-album';
 import styled from 'styled-components';
 
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -92,10 +89,9 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     margin-bottom: 0;
   `;
 
-  const renderRowContainer: React.FunctionComponent<{ children?: ReactChild }> =
-    ({ children }) => {
-      return <AlbumRow>{children}</AlbumRow>;
-    };
+  const renderRowContainer: RenderRowContainer = ({ children }) => {
+    return <AlbumRow>{children}</AlbumRow>;
+  };
 
   const ImageFrame = styled.div`
     display: block;
