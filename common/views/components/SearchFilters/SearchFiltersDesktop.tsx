@@ -259,8 +259,13 @@ const DynamicFilterArray = ({
       </Space>
     );
   };
-  const dynamicFiltersSource = filters.map(renderDynamicFilter);
-  const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
+
+  const dynamicFiltersSource = filters
+    .filter(f => !f.excludeFromMoreFilters)
+    .map(renderDynamicFilter);
+  const dynamicFiltersCalculated = dynamicFilters
+    .filter(f => !f.excludeFromMoreFilters)
+    .map(renderDynamicFilter);
 
   /**
    * if you don't set this to false, then on route change, you don't get the
