@@ -29,7 +29,7 @@ const FindUs: FunctionComponent = () => (
     </Space>
     <p>
       <PlainLink
-        href={`tel:${wellcomeCollectionGallery.telephone}`}
+        href={`tel:${wellcomeCollectionGallery.telephone.replace(/\s/g, '')}`}
         aria-label={createScreenreaderLabel(
           wellcomeCollectionGallery.displayTelephone
         )}
