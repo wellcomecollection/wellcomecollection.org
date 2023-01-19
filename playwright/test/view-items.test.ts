@@ -229,7 +229,7 @@ test.describe('Scenario 6: Item has multiple volumes', () => {
       await multiVolumeItem(context, page);
       await page.waitForSelector(`css=body >> text="Volumes"`);
       await page.click('text="Volumes"');
-      const navigationSelector = `[role="navigation"][aria-label="${volumesNavigationLabel}"]`;
+      const navigationSelector = `nav [aria-label="${volumesNavigationLabel}"]`;
       await page.waitForSelector(navigationSelector);
 
       const navigationVisible = await page.isVisible(navigationSelector);

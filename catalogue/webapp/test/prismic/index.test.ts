@@ -6,12 +6,14 @@ describe('transformPrismicResponse', () => {
       totalCount: 30,
       edges: [
         {
+          cursor: 'YXJyYXljb25uZWN0aW9uOjA=',
           node: {
             _meta: {
               id: 'X123456',
-              firstPublicationDate: '2022-09-08T09:29:27+0000',
+              firstPublicationDate: new Date('2022-09-08T09:29:27+0000'),
               format: { _meta: { id: 'X123456' } },
             },
+            format: { __typename: 'ArticleFormats' },
             title: [
               {
                 type: 'heading1',
@@ -23,6 +25,7 @@ describe('transformPrismicResponse', () => {
                 primary: {
                   text: [
                     {
+                      type: 'paragraph',
                       text: 'A cat in a hat, a great story of an ace cat',
                     },
                   ],
@@ -74,7 +77,7 @@ describe('transformPrismicResponse', () => {
         summary: 'A cat in a hat, a great story of an ace cat',
         id: 'X123456',
         url: 'https://wellcomecollection.org/articles/X123456',
-        firstPublicationDate: '2022-09-08T09:29:27+0000',
+        firstPublicationDate: new Date('2022-09-08T09:29:27+0000'),
         contributors: ['Willow Wisp'],
         image: {
           url: 'https://images.prismic.io/wellcomecollection/8b6b4b4e-4f1c-4f9e-8c1a-1b0c2b0e8b1a_The+cat+in+the+hat.jpg?auto=compress,format&rect=0,0,2000,2000&w=2000&h=2000',

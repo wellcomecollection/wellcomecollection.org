@@ -15,30 +15,32 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
   const { parentManifest, work, lang, manifestIndex } =
     useContext(ItemViewerContext);
   return (
-    <PlainList role="navigation" aria-label={volumesNavigationLabel}>
-      {parentManifest?.items.map((manifest, i) => (
-        <li key={manifest.id}>
-          <NextLink
-            {...itemLink({
-              workId: work.id,
-              langCode: lang,
-              manifest: i + 1,
-              canvas: 1,
-            })}
-            passHref={true}
-          >
-            <Anchor
-              isManifestIndex={i === manifestIndex}
-              aria-current={i === manifestIndex ? 'page' : undefined}
+    <nav>
+      <PlainList aria-label={volumesNavigationLabel}>
+        {parentManifest?.items.map((manifest, i) => (
+          <li key={manifest.id}>
+            <NextLink
+              {...itemLink({
+                workId: work.id,
+                langCode: lang,
+                manifest: i + 1,
+                canvas: 1,
+              })}
+              passHref={true}
             >
-              {(manifest?.label &&
-                getMultiVolumeLabel(manifest.label, work?.title || '')) ||
-                'Unknown'}
-            </Anchor>
-          </NextLink>
-        </li>
-      ))}
-    </PlainList>
+              <Anchor
+                isManifestIndex={i === manifestIndex}
+                aria-current={i === manifestIndex ? 'page' : undefined}
+              >
+                {(manifest?.label &&
+                  getMultiVolumeLabel(manifest.label, work?.title || '')) ||
+                  'Unknown'}
+              </Anchor>
+            </NextLink>
+          </li>
+        ))}
+      </PlainList>
+    </nav>
   );
 };
 

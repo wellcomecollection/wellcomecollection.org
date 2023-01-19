@@ -28,7 +28,6 @@ export const GoogleAnalyticsV4: FunctionComponent = () => (
 export const GoogleAnalyticsUA: FunctionComponent = () => (
   <script
     id="google-analytics-ua"
-    async={true}
     dangerouslySetInnerHTML={{
       // we don't initialize analytics here, as that is done by ReactGA
       // See `useGoogleAnalyticsUA`

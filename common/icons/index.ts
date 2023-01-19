@@ -98,6 +98,7 @@ export { default as tree } from './components/Tree';
 export { default as tripadvisor } from './components/Tripadvisor';
 export { default as tumblr } from './components/Tumblr';
 export { default as twitter } from './components/Twitter';
+export { default as unavailable } from './components/Unavailable';
 export { default as underConstruction } from './components/UnderConstruction';
 export { default as user } from './components/User';
 export { default as video } from './components/Video';

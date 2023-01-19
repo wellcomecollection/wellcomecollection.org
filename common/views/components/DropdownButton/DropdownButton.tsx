@@ -9,17 +9,26 @@ import {
 } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
-import getFocusableElements from '../../../utils/get-focusable-elements';
+import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import Space from '../styled/Space';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
-import { chevron, IconSvg } from '../../../icons';
+import { chevron, unavailable, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 
-const DropdownWrapper = styled.div`
+const DropdownWrapper = styled.div<{ hasNoOptions?: boolean }>`
   display: inline-flex;
   position: relative;
+
+  ${props =>
+    props.hasNoOptions &&
+    `
+    .icon__svg {
+      width: 18px;
+      left: 2px;
+    }
+  `}
 `;
 
 type DropdownProps = {
@@ -85,7 +94,7 @@ type Props = {
   isOnDark?: boolean;
   iconLeft?: IconSvg;
   isPill?: boolean;
-  isDisabled?: boolean;
+  hasNoOptions?: boolean;
 };
 
 const DropdownButton: FunctionComponent<Props> = ({
@@ -96,7 +105,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   id,
   iconLeft,
   isPill,
-  isDisabled,
+  hasNoOptions,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [focusables, setFocusables] = useState<HTMLElement[]>([]);
@@ -154,17 +163,17 @@ const DropdownButton: FunctionComponent<Props> = ({
   const buttonProps = {
     isActive: isActive,
     clickHandler: () => setIsActive(!isActive),
-    icon: chevron,
+    icon: hasNoOptions ? unavailable : chevron,
     isIconAfter: true,
     text: label,
     type: ButtonTypes.button,
     ariaControls: id,
     ariaExpanded: isActive,
     isPill,
-    disabled: isDisabled,
+    disabled: hasNoOptions,
   };
   return (
-    <DropdownWrapper ref={dropdownWrapperRef}>
+    <DropdownWrapper ref={dropdownWrapperRef} hasNoOptions={hasNoOptions}>
       {buttonType === 'inline' && (
         <ButtonSolid
           {...buttonProps}
