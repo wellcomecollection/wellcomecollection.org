@@ -208,11 +208,9 @@ const DynamicFilterArray = ({
     }
   };
   useEffect(() => {
-    if (isNewStyle) {
-      window.addEventListener('resize', updateWrapperWidth);
-      updateWrapperWidth();
-      return () => window.removeEventListener('resize', updateWrapperWidth);
-    }
+    window.addEventListener('resize', updateWrapperWidth);
+    updateWrapperWidth();
+    return () => window.removeEventListener('resize', updateWrapperWidth);
   }, []);
 
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
@@ -224,7 +222,7 @@ const DynamicFilterArray = ({
         h={
           i + 1 !== arr.length
             ? {
-                size: isNewStyle ? 'm' : 's',
+                size: 'm',
                 properties: ['margin-right'],
               }
             : undefined
@@ -232,27 +230,27 @@ const DynamicFilterArray = ({
       >
         {f.type === 'checkbox' && (
           <CheckboxFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
             f={f}
             changeHandler={changeHandler}
-            form={showMoreFiltersModal ? undefined : searchFormId}
             isNewStyle={isNewStyle}
           />
         )}
 
         {f.type === 'dateRange' && (
           <DateRangeFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
             f={f}
             changeHandler={changeHandler}
-            form={showMoreFiltersModal ? undefined : searchFormId}
             isNewStyle={isNewStyle}
           />
         )}
 
         {f.type === 'color' && (
           <ColorFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
             f={f}
             changeHandler={changeHandler}
-            form={showMoreFiltersModal ? undefined : searchFormId}
             isNewStyle={isNewStyle}
           />
         )}
@@ -412,6 +410,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   />
                 )}
                 <ModalMoreFilters
+                  {...(showMoreFiltersModal && { form: searchFormId })}
                   query={query}
                   id="moreFilters"
                   isActive={showMoreFiltersModal}
@@ -420,7 +419,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   changeHandler={changeHandler}
                   resetFilters={linkResolver({ query })}
                   filters={filters}
-                  form={searchFormId}
                   isNewStyle
                 />
               </>
