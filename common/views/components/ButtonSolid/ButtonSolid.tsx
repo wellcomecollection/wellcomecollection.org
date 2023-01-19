@@ -218,7 +218,7 @@ const Button: FunctionComponent<ButtonSolidProps> = (
     clickHandler && clickHandler(event);
     trackingEvent && trackGaEvent(trackingEvent);
   }
-  console.log({ text, colors });
+
   return (
     <SolidButton
       type={type}
