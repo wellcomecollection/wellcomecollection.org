@@ -317,7 +317,6 @@ const Modal: FunctionComponent<Props> = ({
           in={isActive}
           classNames="fade"
           timeout={350}
-          unmountOnExit
           nodeRef={nodeRef}
         >
           <ModalWindow
