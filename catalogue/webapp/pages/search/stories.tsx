@@ -8,6 +8,7 @@ import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNo
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import StoriesGrid from 'components/StoriesGrid/StoriesGrid';
+import Space from '@weco/common/views/components/styled/Space';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
