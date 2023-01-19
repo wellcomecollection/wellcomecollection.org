@@ -333,6 +333,16 @@ function isInterestingError(hit) {
     return false;
   }
 
+  // Ignore any requests for PHP pages.
+  //
+  // This is usually somebody doing something malicious and hitting
+  // an ALB error, e.g. somebody hammering /wp-login.php with a bunch
+  // of random errors.  We don't have any PHP endpoints, so people trying
+  // to target PHP exploits are just noise.
+  if (hit.path.endsWith('.php')) {
+    return false;
+  }
+
   // This is a path we use for testing the 500 error page.
   if (hit.path === '/500') {
     return false;
