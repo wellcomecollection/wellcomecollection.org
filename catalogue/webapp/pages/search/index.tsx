@@ -9,7 +9,7 @@ import StoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid';
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import { arrow } from '@weco/common/icons';
+import { arrowSmall } from '@weco/common/icons';
 
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -108,7 +108,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           query: { query: queryString },
         },
       }}
-      icon={arrow}
+      icon={arrowSmall}
       isIconAfter={true}
       colors={{
         border: 'yellow',

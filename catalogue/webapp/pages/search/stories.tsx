@@ -33,7 +33,7 @@ type Props = {
   pageview: Pageview;
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled(Space)`
   background-color: ${props => props.theme.color('neutral.200')};
 `;
 
@@ -64,7 +64,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   }
 
   return (
-    <Wrapper>
+    <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
       {storyResponseList.totalResults === 0 ? (
         <SearchNoResults query={queryString} hasFilters={false} />
       ) : (

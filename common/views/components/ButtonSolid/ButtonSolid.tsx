@@ -12,7 +12,6 @@ import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import { hexToRgb } from '@weco/common/utils/convert-colors';
 
 type BaseButtonProps = {
   href?: string;
@@ -65,13 +64,14 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
 
 type BaseButtonInnerProps = {
   isInline?: boolean;
+  isPill?: boolean;
 };
 
 const BaseButtonInnerSpan = styled.span<BaseButtonInnerProps>``;
 export const BaseButtonInner = styled(
   BaseButtonInnerSpan
 ).attrs<BaseButtonInnerProps>(props => ({
-  className: font(props.isInline ? 'intr' : 'intb', 5),
+  className: font(props.isInline ? 'intr' : 'intb', props.isPill ? 6 : 5),
 }))`
   display: flex;
   align-items: center;
@@ -81,6 +81,7 @@ export const BaseButtonInner = styled(
 type ButtonIconWrapperAttrsProps = {
   isTextHidden?: boolean;
   iconAfter?: boolean;
+  isPill?: boolean;
 };
 export const ButtonIconWrapper = styled(Space).attrs({
   as: 'span',
@@ -116,7 +117,7 @@ export type ButtonSolidBaseProps = {
   size?: ButtonSize;
   hoverUnderline?: boolean;
   form?: string;
-  isNewStyle?: boolean;
+  isPill?: boolean;
 };
 
 type ButtonSolidProps = ButtonSolidBaseProps & {
@@ -131,7 +132,6 @@ type SolidButtonProps = {
   colors?: ButtonColors;
   size?: ButtonSize;
   hoverUnderline?: boolean;
-  isNewStyle?: boolean;
   isPill?: boolean;
 };
 
@@ -143,14 +143,10 @@ const getPadding = (size: ButtonSize = 'medium') => {
     case 'medium':
       return '13px 20px';
     case 'large':
-      return '23px 24px';
+      return '21px 24px';
   }
 };
 
-// TODO phase out the "old style" in favour of the new one:
-// Where the hover lightens (or darkens?) the background as Gareth O had wanted
-// And has no border color.
-// Pass in `isNewStyle` in the meantime to get the newest look.
 export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   props => ({
     'aria-label': props.ariaLabel,
@@ -159,8 +155,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
     }),
   })
 )<SolidButtonProps>`
-  padding: ${({ size }) => getPadding(size)};
-
+  padding: ${props => getPadding(props.size)};
   ${props => `
     background: 
       ${props.theme.color(
@@ -171,23 +166,22 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
     )};
   `}
 
-  ${props => {
-    if (props.isNewStyle) {
-      const { r, g, b } = hexToRgb(
-        props.theme.color(
-          props.colors?.background ||
-            props.theme.buttonColors.default.background
-        )
-      );
-      return `
-      border: 0;
+  ${props =>
+    props.isPill
+      ? `
+        border-radius: 20px;
+        border: 1px solid ${props.theme.color('black')};
+        padding: 8px 16px;
 
-      &:not([disabled]):hover {
-        background-color: rgba(${r}, ${g}, ${b}, 0.8);
-      }`;
-    } else {
-      return `
-        ${props.isPill ? 'border-radius: 24px;' : ''}
+        &:hover {
+          box-shadow: ${props.theme.focusBoxShadow};
+        }
+        &:focus {
+          outline: 0;
+        }
+      `
+      : `
+
         border: 2px solid
         ${props.theme.color(
           props?.colors?.border || props.theme.buttonColors.default.border
@@ -196,12 +190,9 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         &:not([disabled]):hover {
           text-decoration: underline;
         }
-      `;
-    }
-  }}
+      `};
 `;
 
-// TODO move styles here - styled component
 const Button: FunctionComponent<ButtonSolidProps> = (
   {
     icon,
@@ -219,7 +210,6 @@ const Button: FunctionComponent<ButtonSolidProps> = (
     isIconAfter,
     hoverUnderline,
     form,
-    isNewStyle,
     isPill,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
@@ -242,10 +232,9 @@ const Button: FunctionComponent<ButtonSolidProps> = (
       hoverUnderline={hoverUnderline}
       ref={ref}
       form={form}
-      isNewStyle={isNewStyle}
       isPill={isPill}
     >
-      <BaseButtonInner isInline={size === 'small'}>
+      <BaseButtonInner isInline={size === 'small'} isPill={isPill}>
         {isIconAfter && (
           <span
             className={classNames({
@@ -259,6 +248,7 @@ const Button: FunctionComponent<ButtonSolidProps> = (
           <ButtonIconWrapper
             iconAfter={isIconAfter}
             isTextHidden={isTextHidden}
+            isPill={isPill}
           >
             <Icon icon={icon} />
           </ButtonIconWrapper>
