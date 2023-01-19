@@ -27,6 +27,7 @@ const DropdownWrapper = styled.div<{ hasNoOptions?: boolean }>`
     .icon__svg {
       width: 18px;
       left: 2px;
+      top: 1px;
     }
   `}
 `;
@@ -94,6 +95,7 @@ type Props = {
   isOnDark?: boolean;
   iconLeft?: IconSvg;
   isPill?: boolean;
+  isFilter?: boolean; // TODO This is a styling workaround for the /works & /images search, remove once we delete those pages.
   hasNoOptions?: boolean;
 };
 
@@ -105,6 +107,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   id,
   iconLeft,
   isPill,
+  isFilter,
   hasNoOptions,
 }) => {
   const [isActive, setIsActive] = useState(false);
@@ -172,6 +175,7 @@ const DropdownButton: FunctionComponent<Props> = ({
     isPill,
     disabled: hasNoOptions,
   };
+
   return (
     <DropdownWrapper ref={dropdownWrapperRef} hasNoOptions={hasNoOptions}>
       {buttonType === 'inline' && (
@@ -182,6 +186,8 @@ const DropdownButton: FunctionComponent<Props> = ({
           colors={
             isOnDark
               ? themeValues.buttonColors.whiteTransparentWhite
+              : isFilter
+              ? themeValues.buttonColors.whiteWhiteCharcoal
               : themeValues.buttonColors.marbleWhiteCharcoal
           }
         />
