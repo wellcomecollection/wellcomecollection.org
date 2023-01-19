@@ -6,6 +6,7 @@ import { getCookie } from 'cookies-next';
 import styled from 'styled-components';
 
 // Components
+import Space from '@weco/common/views/components/styled/Space';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
