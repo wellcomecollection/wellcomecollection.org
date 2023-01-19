@@ -14,7 +14,7 @@
  * there were errors, but with no way to identify which app was the source of
  * the errors.  Now we know which app's logs we should be checking first.)
  *
- * It's written in vanilla JavaScript/Node because it's pretty simpler, and
+ * It's written in vanilla JavaScript/Node because it's pretty simple, and
  * it simplifies the process of deployment.
  *
  */
