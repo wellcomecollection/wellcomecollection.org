@@ -34,7 +34,6 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   hoverUnderline,
   ariaLabel,
   colors,
-  isNewStyle,
   isIconAfter,
 }: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
@@ -64,7 +63,6 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         ariaLabel={ariaLabel}
         colors={colors}
         hoverUnderline={hoverUnderline}
-        isNewStyle={isNewStyle}
       >
         <BaseButtonInner>
           {isIconAfter && (

@@ -14,7 +14,7 @@
  * there were errors, but with no way to identify which app was the source of
  * the errors.  Now we know which app's logs we should be checking first.)
  *
- * It's written in vanilla JavaScript/Node because it's pretty simpler, and
+ * It's written in vanilla JavaScript/Node because it's pretty simple, and
  * it simplifies the process of deployment.
  *
  */
@@ -330,6 +330,16 @@ function isInterestingError(hit) {
   // Since we already get alerts for the e2e tests and they can be
   // very chatty when something goes wrong, ignore these errors.
   if (hit.ipAddress === '54.216.243.181') {
+    return false;
+  }
+
+  // Ignore any requests for PHP pages.
+  //
+  // This is usually somebody doing something malicious and hitting
+  // an ALB error, e.g. somebody hammering /wp-login.php with a bunch
+  // of random errors.  We don't have any PHP endpoints, so people trying
+  // to target PHP exploits are just noise.
+  if (hit.path.endsWith('.php')) {
     return false;
   }
 

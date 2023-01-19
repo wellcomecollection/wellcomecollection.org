@@ -112,24 +112,29 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      <div className="container">
-        <SearchFilters
-          query={queryString}
-          linkResolver={linkResolver}
-          searchFormId="searchPageForm"
-          changeHandler={() => {
-            const form = document.getElementById('searchPageForm');
-            form &&
-              form.dispatchEvent(
-                new window.Event('submit', {
-                  cancelable: true,
-                  bubbles: true,
-                })
-              );
-          }}
-          filters={filters}
-          isNewStyle
-        />
+      <Space
+        className="container"
+        v={{ size: 'l', properties: ['padding-bottom'] }}
+      >
+        <Space v={{ size: 'l', properties: ['padding-top'] }}>
+          <SearchFilters
+            query={queryString}
+            linkResolver={linkResolver}
+            searchFormId="searchPageForm"
+            changeHandler={() => {
+              const form = document.getElementById('searchPageForm');
+              form &&
+                form.dispatchEvent(
+                  new window.Event('submit', {
+                    cancelable: true,
+                    bubbles: true,
+                  })
+                );
+            }}
+            filters={filters}
+            isNewStyle
+          />
+        </Space>
 
         {works && (
           <>
@@ -206,7 +211,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             )}
           </>
         )}
-      </div>
+      </Space>
     </>
   );
 };

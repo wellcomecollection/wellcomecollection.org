@@ -153,7 +153,6 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
             text="search"
             isTextHidden={true}
             colors={themeValues.buttonColors.yellowYellowBlack}
-            isNewStyle
           />
         </SearchButtonWrapper>
       </SearchForm>

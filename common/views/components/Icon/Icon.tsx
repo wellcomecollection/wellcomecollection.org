@@ -9,7 +9,7 @@ type WrapperProps = {
   matchText?: boolean;
 };
 
-const Wrapper = styled.div.attrs({
+const Wrapper = styled.span.attrs({
   className: 'icon',
 })<WrapperProps>`
   display: inline-block;

@@ -16,7 +16,6 @@ import { getMultiVolumeLabel } from '../../utils/iiif/v3';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
-import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ItemViewerContext, {
   results,
   RotatedImage,
@@ -345,10 +344,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   // we use the former
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
-
-  const licenseInfo =
-    digitalLocation?.license &&
-    getCatalogueLicenseData(digitalLocation.license);
 
   // iiif-image locations have credit info.
   // iiif-presentation locations don't have credit info, so we fall back to the data in the manifest

@@ -114,7 +114,10 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      <div className="container">
+      <Space
+        className="container"
+        v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+      >
         <SearchFilters
           query={queryString}
           linkResolver={linkResolver}
@@ -132,7 +135,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           filters={filters}
           isNewStyle
         />
-      </div>
+      </Space>
 
       {images && (
         <>
@@ -146,7 +149,10 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
             />
           ) : (
             <Wrapper>
-              <div className="container">
+              <Space
+                className="container"
+                v={{ size: 'l', properties: ['padding-bottom'] }}
+              >
                 <PaginationWrapper verticalSpacing="l">
                   <span>{pluralize(images.totalResults, 'result')}</span>
                   <Pagination
@@ -168,7 +174,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                     hasDarkBg
                   />
                 </PaginationWrapper>
-              </div>
+              </Space>
             </Wrapper>
           )}
         </>

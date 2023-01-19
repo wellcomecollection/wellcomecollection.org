@@ -153,6 +153,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   return (
     <>
       <Head>
+        <meta charSet="utf-8" />
         <title>{fullTitle}</title>
         <meta name="description" content={description || ''} />
         <link rel="canonical" href={absoluteUrl} />
@@ -200,7 +201,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         />
         <meta key="twitter:image" name="twitter:image" content={imageUrl} />
         <meta name="twitter:image:alt" content={imageAltText} />
-        <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <script
           src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(

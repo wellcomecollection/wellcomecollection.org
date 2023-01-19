@@ -1,9 +1,8 @@
 import { ContentType } from './index';
-import { RichTextField } from '@prismicio/types';
 
 export type Story = {
   id: string;
-  title: Title;
+  title: string;
   image: {
     url: string;
     width: number;
@@ -13,22 +12,8 @@ export type Story = {
   firstPublicationDate: Date;
   contributors: (string | undefined)[];
   type: ContentType[];
-  summary: Standfirst;
-  label: Label;
-};
-
-export type Label = {
-  text: string;
-};
-
-export type Title = {
-  text: {
-    text: RichTextField;
-  };
-};
-
-export type Standfirst = {
-  caption: {
+  summary: string;
+  label: {
     text: string;
   };
 };
