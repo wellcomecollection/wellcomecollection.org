@@ -66,7 +66,6 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
             <div className="flex flex--v-center">
               <Icon icon={cookiesIcon} iconColor="white" />
               <Space
-                as="span"
                 h={{
                   size: 's',
                   properties: ['margin-left', 'margin-right'],
