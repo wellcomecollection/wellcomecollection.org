@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import { font, grid } from '@weco/common/utils/classnames';
 import {
@@ -30,9 +30,7 @@ type Props = {
   work: Work;
 };
 
-const WorkHeader: FunctionComponent<Props> = ({
-  work,
-}: Props): ReactElement<Props> => {
+const WorkHeader: FunctionComponent<Props> = ({ work }) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
@@ -67,27 +65,12 @@ const WorkHeader: FunctionComponent<Props> = ({
 
           {primaryContributorLabel && (
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
-              <LinkLabels
-                items={[
-                  {
-                    text: primaryContributorLabel,
-                    url: null,
-                  },
-                ]}
-              />
+              <LinkLabels items={[{ text: primaryContributorLabel }]} />
             </Space>
           )}
 
           {productionDates.length > 0 && (
-            <LinkLabels
-              heading="Date"
-              items={[
-                {
-                  text: productionDates[0],
-                  url: null,
-                },
-              ]}
-            />
+            <LinkLabels heading="Date" items={[{ text: productionDates[0] }]} />
           )}
 
           {work.referenceNumber && (

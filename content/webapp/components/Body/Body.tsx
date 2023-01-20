@@ -487,12 +487,11 @@ const Body: FunctionComponent<Props> = ({
               )}
               {slice.type === 'collectionVenue' && (
                 <SpacingComponent>
-                  {slice.value.showClosingTimes && (
+                  {slice.value.showClosingTimes ? (
                     <LayoutWidth width={minWidth}>
                       <VenueClosedPeriods venue={slice.value.content} />
                     </LayoutWidth>
-                  )}
-                  {!slice.value.showClosingTimes && (
+                  ) : (
                     <Layout
                       gridSizes={
                         slice.weight === 'featured'

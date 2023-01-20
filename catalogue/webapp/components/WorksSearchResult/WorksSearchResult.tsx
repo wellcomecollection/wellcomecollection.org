@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 
 // Types
-import { Work } from '@weco/common/model/catalogue';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 
 // Helpers/Utils
 import {
@@ -34,7 +34,7 @@ type Props = {
 
 // TODO: remove, hack to handle the fact that we are pulling through PDF thumbnails.
 // These will be removed from the API at some stage.
-function isPdfThumbnail(thumbnail): boolean {
+function isPdfThumbnail(thumbnail: DigitalLocation): boolean {
   // e.g. https://dlcs.io/iiif-img/wellcome/5/b28820769_WG_2006_PAAG-implementing-persistent-identifiers_EN.pdf/full/!200,200/0/default.jpg
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
@@ -42,7 +42,7 @@ function isPdfThumbnail(thumbnail): boolean {
 const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
-}: Props) => {
+}) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
