@@ -90,9 +90,6 @@ const ImageWrapper = styled.div<{ isDetailed?: boolean }>`
   max-width: 100%;
 
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   & > div {
     height: 100%;
