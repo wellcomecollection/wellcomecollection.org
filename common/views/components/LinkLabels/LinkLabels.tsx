@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { IconSvg } from '@weco/common/icons';
 
 type ItemProps = {
-  url?: string | null;
+  url?: string;
   text: string;
 };
 
@@ -18,7 +18,7 @@ type Props = {
 };
 
 type LinkOrSpanSpaceAttrs = {
-  url: string | null;
+  url?: string;
   addBorder: boolean;
 };
 
@@ -65,7 +65,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
       </Space>
       {items.map(({ url, text }, i) => (
         <dd key={`${url || text}-${i}`} className="no-margin">
-          <ItemText url={url || null} addBorder={i !== 0}>
+          <ItemText url={url} addBorder={i !== 0}>
             {text}
           </ItemText>
         </dd>
@@ -75,7 +75,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
     <PlainItemList>
       {items.map(({ url, text }, i) => (
         <li key={`${url || text}-${i}`} className="no-margin">
-          <ItemText url={url || null} addBorder={i !== 0}>
+          <ItemText url={url} addBorder={i !== 0}>
             {text}
           </ItemText>
         </li>

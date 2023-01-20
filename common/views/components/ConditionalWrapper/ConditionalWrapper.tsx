@@ -1,15 +1,15 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactElement, ReactNode } from 'react';
 
 type Props = {
   condition: boolean;
-  wrapper: any;
-  children: any;
+  wrapper: (children: ReactNode) => ReactElement | false;
+  children: ReactNode;
 };
 
 const ConditionalWrapper: FunctionComponent<Props> = ({
   condition,
   wrapper,
   children,
-}: Props) => (condition ? wrapper(children) : children);
+}) => (condition ? wrapper(children) || null : <>{children}</>);
 
 export default ConditionalWrapper;
