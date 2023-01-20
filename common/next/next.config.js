@@ -21,6 +21,8 @@ const createConfig =
     const identityHost = process.env.IDENTITY_HOST || 'http://localhost:3000';
     const shouldAnalyzeBundle = !!process.env.BUNDLE_ANALYZE;
 
+    const rewriteEntries = options.rewriteEntries || [];
+
     return withMDX(
       withTM({
         ...defaultConfig,
@@ -28,6 +30,7 @@ const createConfig =
         // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
         compress: false,
         images: options.images || {},
+        basePath: options.basePath || '',
         assetPrefix:
           isProd && prodSubdomain
             ? `https://${prodSubdomain}.wellcomecollection.org`
@@ -42,9 +45,10 @@ const createConfig =
                 source: '/account/:path*',
                 destination: `${identityHost}/account/:path*`,
               },
+              ...rewriteEntries,
             ];
           }
-          return [];
+          return [...rewriteEntries];
         },
         webpack: (config, { isServer, webpack }) => {
           config.plugins.push(
