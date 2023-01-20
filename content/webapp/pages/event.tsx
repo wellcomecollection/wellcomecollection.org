@@ -401,11 +401,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
 
                 <NextLink
                   href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                  as={`mailto:${
-                    event.bookingEnquiryTeam
-                      ? event.bookingEnquiryTeam.email
-                      : ''
-                  }?subject=${event.title}`}
+                  as={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   passHref
                 >
                   <EmailTeamCopy as="a">
