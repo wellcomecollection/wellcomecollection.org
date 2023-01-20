@@ -12,7 +12,10 @@ import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { getUrlQueryFromSortValue } from '@weco/catalogue/utils/search';
+import {
+  getUrlQueryFromSortValue,
+  getQueryPropertyValue,
+} from '@weco/catalogue/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
 import { propsToQuery } from '@weco/common/utils/routes';
 
@@ -163,28 +166,19 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
   const updateUrl = (form: HTMLFormElement) => {
     const formValues = formDataAsUrlQuery(form);
-    if (formValues.query) {
-      const sortOptionValue = formValues?.sortOrder
-        ? Array.isArray(formValues.sortOrder)
-          ? formValues.sortOrder[0]
-          : formValues.sortOrder
-        : '';
 
-      const { sort, sortOrder } = getUrlQueryFromSortValue(sortOptionValue);
+    const sortOptionValue = getQueryPropertyValue(formValues.sortOrder);
+    const urlFormattedSort =
+      sortOptionValue && getUrlQueryFromSortValue(sortOptionValue);
 
-      const link = linkResolver({
-        ...formValues,
-        sortOrder,
-        sort,
-      });
-
-      return router.push(link.href, link.as);
-    } else {
-      router.push({
-        pathname: router.pathname,
-        query: {},
-      });
-    }
+    const link = linkResolver({
+      ...formValues,
+      ...(urlFormattedSort && {
+        sort: urlFormattedSort.sort,
+        sortOrder: urlFormattedSort.sortOrder,
+      }),
+    });
+    return router.push(link.href, link.as);
   };
 
   return (

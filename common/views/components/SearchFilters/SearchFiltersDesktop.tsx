@@ -415,7 +415,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   />
                 )}
                 <ModalMoreFilters
-                  query={query}
                   id="moreFilters"
                   isActive={showMoreFiltersModal}
                   setIsActive={setShowMoreFiltersModal}
@@ -510,7 +509,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       />
                     )}
                     <ModalMoreFilters
-                      query={query}
                       id="moreFilters"
                       isActive={showMoreFiltersModal}
                       setIsActive={setShowMoreFiltersModal}

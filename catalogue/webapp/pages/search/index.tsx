@@ -24,7 +24,10 @@ import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
 import { getImages } from '@weco/catalogue/services/catalogue/images';
 import { Image, Work } from '@weco/common/model/catalogue';
-import { getQueryResults } from '@weco/catalogue/utils/search';
+import {
+  getQueryResults,
+  getQueryPropertyValue,
+} from '@weco/catalogue/utils/search';
 import {
   decodeQuery,
   FromCodecMap,
@@ -80,15 +83,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 }) => {
   const { query: queryString } = query;
 
-  // If there is no query, return an empty page
-  if (!queryString) {
-    return (
-      <Space
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-      ></Space>
-    );
-  }
-
   const SeeMoreButton = ({
     text,
     pathname,
@@ -124,7 +118,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
         {!stories && !images && !works ? (
           <div className="container">
-            <SearchNoResults query={queryString} hasFilters={false} />
+            <SearchNoResults query={queryString} />
           </div>
         ) : (
           <>
@@ -206,27 +200,27 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const defaultProps = removeUndefinedProps({
       serverData,
       query,
-
       pageview: {
         name: 'search',
         properties: {},
       },
     });
 
-    // Stop here if no query has been entered
-    if (!params.query) {
-      return {
-        props: defaultProps,
-      };
-    }
-
     try {
       // Stories
+      // We want the default order to be "descending publication date"
       const storiesResults = await getStories({
-        query,
+        query: {
+          ...query,
+          sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+          sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+        },
         pageSize: 4,
       });
-      const stories = getQueryResults('stories', storiesResults);
+      const stories = getQueryResults({
+        categoryName: 'stories',
+        queryResults: storiesResults,
+      });
 
       // Works
       const _worksQueryType = getCookie('_queryType') as string | undefined;
@@ -238,7 +232,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         pageSize: 5,
         toggles: serverData.toggles,
       });
-      const works = getQueryResults('works', worksResults);
+      const works = getQueryResults({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
 
       // Images
       const imagesResults = await getImages({
@@ -246,7 +243,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         toggles: serverData.toggles,
         pageSize: 10,
       });
-      const images = getQueryResults('images', imagesResults);
+      const images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
 
       // If all three queries fail, return an error page
       if (
