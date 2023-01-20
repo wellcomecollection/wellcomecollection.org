@@ -436,12 +436,10 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
           items={
             [
               event.locations[0] && {
-                id: undefined,
                 title: 'Location',
                 description: event.locations[0].information,
               },
               event.bookingInformation && {
-                id: undefined,
                 title: 'Extra information',
                 description: event.bookingInformation,
               },
@@ -458,7 +456,6 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                   const description = getDescription(interpretation);
 
                   return {
-                    id: undefined,
                     icon: eventInterpretationIcons[iconName],
                     title: interpretation.interpretationType.title,
                     description,
