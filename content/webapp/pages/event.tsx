@@ -184,7 +184,7 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
+const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
   const [scheduledIn, setScheduledIn] = useState<Event>();
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
