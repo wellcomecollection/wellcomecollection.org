@@ -65,27 +65,12 @@ const WorkHeader: FunctionComponent<Props> = ({ work }) => {
 
           {primaryContributorLabel && (
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
-              <LinkLabels
-                items={[
-                  {
-                    text: primaryContributorLabel,
-                    url: null,
-                  },
-                ]}
-              />
+              <LinkLabels items={[{ text: primaryContributorLabel }]} />
             </Space>
           )}
 
           {productionDates.length > 0 && (
-            <LinkLabels
-              heading="Date"
-              items={[
-                {
-                  text: productionDates[0],
-                  url: null,
-                },
-              ]}
-            />
+            <LinkLabels heading="Date" items={[{ text: productionDates[0] }]} />
           )}
 
           {work.referenceNumber && (
