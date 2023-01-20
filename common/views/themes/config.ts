@@ -202,6 +202,12 @@ const yellowYellowBlack: ButtonColors = {
   text: 'black',
 };
 
+const whiteWhiteCharcoal: ButtonColors = {
+  border: 'white',
+  background: 'white',
+  text: 'neutral.700', // legacy charcoal color
+};
+
 export type Size = keyof typeof sizes;
 const media =
   (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
@@ -297,6 +303,7 @@ export const themeValues = {
     charcoalTransparentCharcoal,
     marbleWhiteCharcoal,
     yellowYellowBlack,
+    whiteWhiteCharcoal,
   },
 };
 

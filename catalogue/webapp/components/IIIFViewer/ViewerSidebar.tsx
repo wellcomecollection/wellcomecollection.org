@@ -174,27 +174,13 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
             h={{ size: 'm', properties: ['margin-right'] }}
             data-test-id="work-contributors"
           >
-            <LinkLabels
-              items={[
-                {
-                  text: work.contributors[0].agent.label,
-                },
-              ]}
-            />
+            <LinkLabels items={[{ text: work.contributors[0].agent.label }]} />
           </Space>
         )}
 
         {productionDates.length > 0 && (
           <div data-test-id="work-dates">
-            <LinkLabels
-              heading="Date"
-              items={[
-                {
-                  text: productionDates[0],
-                  url: null,
-                },
-              ]}
-            />
+            <LinkLabels heading="Date" items={[{ text: productionDates[0] }]} />
           </div>
         )}
 
@@ -202,12 +188,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           <div data-test-id="reference-number">
             <LinkLabels
               heading="Reference"
-              items={[
-                {
-                  text: work.referenceNumber,
-                  url: null,
-                },
-              ]}
+              items={[{ text: work.referenceNumber }]}
             />
           </div>
         )}

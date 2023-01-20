@@ -60,6 +60,7 @@ const CheckboxFilter = ({
   return (
     <DropdownButton
       isPill={isNewStyle}
+      isFilter
       label={f.label}
       buttonType="inline"
       id={f.id}
@@ -109,6 +110,7 @@ const DateRangeFilter = ({
     <Space className={font('intr', 5)}>
       <DropdownButton
         isPill={isNewStyle}
+        isFilter
         label={f.label}
         buttonType="inline"
         id={f.id}
@@ -169,6 +171,7 @@ const ColorFilter = ({
   return (
     <DropdownButton
       isPill={isNewStyle}
+      isFilter
       label="Colours"
       buttonType="inline"
       id="images.color"
@@ -411,7 +414,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 )}
                 <ModalMoreFilters
                   {...(showMoreFiltersModal && { form: searchFormId })}
-                  query={query}
                   id="moreFilters"
                   isActive={showMoreFiltersModal}
                   setIsActive={setShowMoreFiltersModal}
@@ -492,7 +494,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   >
                     {componentMounted && (
                       <ButtonSolid
-                        colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                        colors={themeValues.buttonColors.whiteWhiteCharcoal}
                         hoverUnderline={true}
                         size="small"
                         type={ButtonTypes.button}
@@ -505,7 +507,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       />
                     )}
                     <ModalMoreFilters
-                      query={query}
                       id="moreFilters"
                       isActive={showMoreFiltersModal}
                       setIsActive={setShowMoreFiltersModal}

@@ -184,7 +184,7 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
+const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
   const [scheduledIn, setScheduledIn] = useState<Event>();
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
@@ -210,25 +210,13 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
     : event.body;
   const eventFormat = event.format ? [{ text: event.format.title }] : [];
   const eventAudiences = event.audiences
-    ? event.audiences.map(a => {
-        return {
-          text: a.title,
-        };
-      })
+    ? event.audiences.map(a => ({ text: a.title }))
     : [];
   const eventInterpretations = event.interpretations
-    ? event.interpretations.map(i => {
-        return {
-          text: i.interpretationType.title,
-        };
-      })
+    ? event.interpretations.map(i => ({ text: i.interpretationType.title }))
     : [];
   const relaxedPerformanceLabel = event.isRelaxedPerformance
-    ? [
-        {
-          text: 'Relaxed',
-        },
-      ]
+    ? [{ text: 'Relaxed' }]
     : [];
 
   const breadcrumbs = {
@@ -334,18 +322,19 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
         {event.schedule && event.schedule.length > 0 && (
           <>
             <h2 className="h2">Events</h2>
-            {event.schedule && <EventSchedule schedule={event.schedule} />}
+            <EventSchedule schedule={event.schedule} />
           </>
         )}
         {event.ticketSalesStart &&
           showTicketSalesStart(event.ticketSalesStart) && (
             <>
               <Message
-                text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${
-                  event.ticketSalesStart
-                    ? formatTime(event.ticketSalesStart)
-                    : ''
-                }`}
+                text={
+                  'Booking opens ' +
+                  formatDayDate(event.ticketSalesStart) +
+                  ' ' +
+                  formatTime(event.ticketSalesStart)
+                }
               />
             </>
           )}
@@ -400,11 +389,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
 
                 <NextLink
                   href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                  as={`mailto:${
-                    event.bookingEnquiryTeam
-                      ? event.bookingEnquiryTeam.email
-                      : ''
-                  }?subject=${event.title}`}
+                  as={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   passHref
                 >
                   <EmailTeamCopy as="a">
@@ -436,12 +421,10 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
           items={
             [
               event.locations[0] && {
-                id: undefined,
                 title: 'Location',
                 description: event.locations[0].information,
               },
               event.bookingInformation && {
-                id: undefined,
                 title: 'Extra information',
                 description: event.bookingInformation,
               },
@@ -458,7 +441,6 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                   const description = getDescription(interpretation);
 
                   return {
-                    id: undefined,
                     icon: eventInterpretationIcons[iconName],
                     title: interpretation.interpretationType.title,
                     description,
