@@ -84,7 +84,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
 
   const AlbumRow = styled.ul`
     display: flex;
-    flex-flow: row no-wrap;
     align-items: space-between;
     margin-bottom: 0;
   `;
@@ -100,39 +99,38 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     height: 100%;
   `;
 
-  const imageRenderer: React.FunctionComponent<
-    RenderPhotoProps<GalleryImageProps>
-  > = ({ photo, layout, wrapperStyle }) => {
-    // these are values and props that are passed in by the PhotoAlbum component
-    const rgbColor = hexToRgb(photo.averageColor || '');
-    return (
-      <li role="listitem" style={wrapperStyle}>
-        <ImageFrame>
-          <ImageCard
-            id={photo.id}
-            workId={photo.source.id}
-            image={{
-              contentUrl: photo.src,
-              width: layout.width,
-              height: layout.height,
-              alt: photo.source.title,
-            }}
-            onClick={event => {
-              event.preventDefault();
-              setExpandedImage(photo);
-              setIsActive(true);
-            }}
-            layout="fixed"
-            background={
-              background ||
-              (rgbColor &&
-                `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
-            }
-          />
-        </ImageFrame>
-      </li>
-    );
-  };
+  const imageRenderer: FunctionComponent<RenderPhotoProps<GalleryImageProps>> =
+    ({ photo, layout, wrapperStyle }) => {
+      // these are values and props that are passed in by the PhotoAlbum component
+      const rgbColor = hexToRgb(photo.averageColor || '');
+      return (
+        <li style={wrapperStyle}>
+          <ImageFrame>
+            <ImageCard
+              id={photo.id}
+              workId={photo.source.id}
+              image={{
+                contentUrl: photo.src,
+                width: layout.width,
+                height: layout.height,
+                alt: photo.source.title,
+              }}
+              onClick={event => {
+                event.preventDefault();
+                setExpandedImage(photo);
+                setIsActive(true);
+              }}
+              layout="fixed"
+              background={
+                background ||
+                (rgbColor &&
+                  `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
+              }
+            />
+          </ImageFrame>
+        </li>
+      );
+    };
 
   return (
     <>
