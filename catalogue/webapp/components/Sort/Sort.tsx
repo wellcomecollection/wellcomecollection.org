@@ -53,7 +53,11 @@ const Sort: FunctionComponent<Props> = ({
     const queryParams = { ...router.query, sortOrder, sort: sortType };
     const newQuery = propsToQuery(queryParams);
 
-    router.push({ pathname: router.pathname, query: newQuery });
+    // Reset pagination when we change the sort order
+    // as it's likely the user will want to start from page 1
+    const { page, ...rest } = newQuery;
+
+    router.push({ pathname: router.pathname, query: { ...rest } });
   }, [sortOrder, sortType]);
 
   return (
