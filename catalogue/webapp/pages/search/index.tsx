@@ -8,8 +8,7 @@ import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNo
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid';
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import { arrowSmall } from '@weco/common/icons';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -33,6 +32,7 @@ import {
   FromCodecMap,
   stringCodec,
 } from '@weco/common/utils/routes';
+import theme from '@weco/common/views/themes/default';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -90,26 +90,16 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     text: string;
     pathname: string;
   }) => (
-    <ButtonSolidLink
-      text={text}
-      link={{
+    <MoreLink
+      name={text}
+      url={{
         href: {
           pathname,
-          query: { query: queryString },
-        },
-        as: {
-          pathname,
-          query: { query: queryString },
+          query: { ...(queryString && { query: queryString }) },
         },
       }}
-      icon={arrowSmall}
-      isIconAfter={true}
-      colors={{
-        border: 'yellow',
-        background: 'yellow',
-        text: 'black',
-      }}
-      hoverUnderline={true}
+      colors={theme.buttonColors.yellowYellowBlack}
+      hoverUnderline
     />
   );
 

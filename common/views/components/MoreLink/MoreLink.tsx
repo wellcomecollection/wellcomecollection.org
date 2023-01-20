@@ -1,18 +1,24 @@
 import { FunctionComponent, ReactElement } from 'react';
+import { LinkProps } from 'next/link';
 import { trackGaEvent, GaEvent } from '../../../utils/ga';
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import { arrowSmall } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
+import { ButtonColors } from '../ButtonSolid/ButtonSolid';
 
 type Props = {
-  url: string;
+  url: string | LinkProps;
   name: string;
+  colors?: ButtonColors;
+  hoverUnderline?: boolean;
   trackingEvent?: GaEvent;
 };
 
 const MoreLink: FunctionComponent<Props> = ({
   url,
   name,
+  colors,
+  hoverUnderline,
   trackingEvent,
 }: Props): ReactElement<Props> => {
   function handleClick() {
@@ -27,12 +33,13 @@ const MoreLink: FunctionComponent<Props> = ({
 
   return (
     <ButtonSolidLink
-      colors={themeValues.buttonColors.charcoalTransparentCharcoal}
-      isIconAfter={true}
+      colors={colors || themeValues.buttonColors.charcoalTransparentCharcoal}
+      isIconAfter
       clickHandler={handleClick}
       text={name}
       link={url}
       icon={arrowSmall}
+      hoverUnderline={hoverUnderline}
     />
   );
 };
