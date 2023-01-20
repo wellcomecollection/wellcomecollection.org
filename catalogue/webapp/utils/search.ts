@@ -1,14 +1,16 @@
-import { CatalogueApiError } from '@weco/common/model/catalogue';
-import { PrismicApiError } from '@weco/catalogue/services/prismic/types';
-
 export type DefaultSortValuesType = {
   sort: string | undefined;
   sortOrder: string | undefined;
 };
 
-type HasResultsList<T> = {
+type ResultsList<T> = {
   results: T[];
   type: 'ResultList';
+};
+
+type ApiError = {
+  type: 'Error';
+  label: string;
 };
 
 /**
@@ -21,7 +23,7 @@ export function getQueryResults<T>({
   queryResults,
 }: {
   categoryName: string;
-  queryResults: HasResultsList<T> | CatalogueApiError | PrismicApiError;
+  queryResults: ResultsList<T> | ApiError;
 }): T[] | undefined {
   // An error shouldn't stop the other results from displaying
   if (queryResults.type === 'Error') {
@@ -38,11 +40,8 @@ export function getQueryResults<T>({
  */
 export const getQueryPropertyValue = (
   originalValue?: string[] | string
-): string | undefined => {
-  if (originalValue) {
-    return Array.isArray(originalValue) ? originalValue[0] : originalValue;
-  }
-};
+): string | undefined =>
+  Array.isArray(originalValue) ? originalValue[0] : originalValue;
 
 // SORT
 // The works API expects 'sort' and 'sortOrder' parameters, whereas the Prismic API only wants one; 'sortBy'.
