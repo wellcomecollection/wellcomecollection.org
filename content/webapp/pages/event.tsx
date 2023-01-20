@@ -341,11 +341,12 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
           showTicketSalesStart(event.ticketSalesStart) && (
             <>
               <Message
-                text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${
-                  event.ticketSalesStart
-                    ? formatTime(event.ticketSalesStart)
-                    : ''
-                }`}
+                text={
+                  'Booking opens ' +
+                  formatDayDate(event.ticketSalesStart) +
+                  ' ' +
+                  formatTime(event.ticketSalesStart)
+                }
               />
             </>
           )}
