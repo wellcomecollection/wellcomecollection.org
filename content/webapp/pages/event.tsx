@@ -331,7 +331,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
           <h2 id="dates">Dates</h2>
           {DateList(event)}
         </DateWrapper>
-        {event.schedule?.length > 0 && (
+        {event.schedule && event.schedule.length > 0 && (
           <>
             <h2 className="h2">Events</h2>
             <EventSchedule schedule={event.schedule} />
