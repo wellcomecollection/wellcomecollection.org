@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import { font, grid } from '@weco/common/utils/classnames';
 import {
@@ -30,9 +30,7 @@ type Props = {
   work: Work;
 };
 
-const WorkHeader: FunctionComponent<Props> = ({
-  work,
-}: Props): ReactElement<Props> => {
+const WorkHeader: FunctionComponent<Props> = ({ work }) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
