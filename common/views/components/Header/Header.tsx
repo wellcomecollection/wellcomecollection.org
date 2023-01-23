@@ -363,8 +363,8 @@ const Header: FunctionComponent<Props> = ({
                     </HeaderLink>
                   </HeaderItem>
                 ))}
-                {showLibraryLogin && <MobileSignIn />}
               </HeaderList>
+              {showLibraryLogin && <MobileSignIn />}
             </HeaderNav>
             {showLibraryLogin && <DesktopSignIn />}
           </NavLoginWrapper>
