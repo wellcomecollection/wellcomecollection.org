@@ -161,6 +161,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                     <Sort
                       formId="searchPageForm"
                       options={[
+                        // Default value to be left empty so it's not added to the URL query
                         { value: '', text: 'Relevance' },
                         {
                           value: 'production.dates.asc',

@@ -68,14 +68,15 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               <Sort
                 formId="searchPageForm"
                 options={[
-                  { value: 'publication.dates.desc', text: 'Newest to oldest' },
+                  // Default value to be left empty as to not be reflected in URL query
+                  { value: '', text: 'Newest to oldest' },
                   { value: 'publication.dates.asc', text: 'Oldest to newest' },
                   { value: 'alphabetical.asc', text: 'A-Z' },
                   { value: 'alphabetical.desc', text: 'Z-A' },
                 ]}
                 jsLessOptions={{
                   sort: [
-                    { value: 'publication.dates', text: 'Publication dates' },
+                    { value: '', text: 'Publication dates' },
                     { value: 'alphabetical', text: 'Alphabetical' },
                   ],
                   sortOrder: [
@@ -147,6 +148,7 @@ export const getServerSideProps: GetServerSideProps<
   const pageNumber = page !== '1' && getQueryPropertyValue(page);
 
   // Setting a default order of descending publication date as default state
+  // as the Prismic default is last updated
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
       query: {
