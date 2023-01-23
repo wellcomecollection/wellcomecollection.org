@@ -248,4 +248,24 @@ export const queryRedirects: Record<string, QueryRedirect> = {
     ]),
     redirectPath: '/images',
   },
+  // Search hub redirections
+  // TODO: Do we want to keep the /works redirection above,
+  // how do we merge both behaviours if still necessary?
+  // Forward params to add:
+  // sort, sortOrder, workType (Formats), production.dates.from, production.dates.to,
+  // availabilities (Locations), subjects.label (Subjects), genres.label (Types/Techniques),
+  // contributors.agent.label (Contributors), languages
+  '/images': {
+    matchParams: new URLSearchParams({}),
+    forwardParams: new Set([
+      'query',
+      'images.color', // Color filter
+      'locations.license', // Licences filter
+      'source.genres.label', // Types/techniques filter
+      'source.subjects.label', // Subjects filter
+      'source.contributors.agent.label', // Contributors filter
+      'page',
+    ]),
+    redirectPath: '/search/images',
+  },
 };
