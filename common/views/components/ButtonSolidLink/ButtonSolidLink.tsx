@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
+import { FunctionComponent, SyntheticEvent } from 'react';
 import NextLink, { LinkProps } from 'next/link';
 import { classNames } from '../../../utils/classnames';
 import {
@@ -35,7 +35,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   ariaLabel,
   colors,
   isIconAfter,
-}: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
+}) => {
   function handleClick(event: SyntheticEvent<HTMLButtonElement>): void {
     clickHandler && clickHandler(event);
     trackingEvent && trackGaEvent(trackingEvent);
