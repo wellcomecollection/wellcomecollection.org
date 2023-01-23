@@ -100,7 +100,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: pageDescriptions.search.images,
-          title: `${queryStringTitle}Image search`,
+          title: `${queryStringTitle}Images search`,
           url: {
             ...basePageMetadata.url,
             pathname: '/search/images',
@@ -123,7 +123,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: pageDescriptions.search.exhibitions,
-          title: `${queryStringTitle}Exhibition Search`,
+          title: `${queryStringTitle}Exhibitions search`,
           url: {
             ...basePageMetadata.url,
             pathname: '/search/exhibitions',
@@ -134,7 +134,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: pageDescriptions.search.events,
-          title: `${queryStringTitle}Events Search`,
+          title: `${queryStringTitle}Events search`,
           url: {
             ...basePageMetadata.url,
             pathname: '/search/events',
