@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import { useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Link, { LinkProps } from 'next/link';
@@ -16,7 +17,7 @@ import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
@@ -31,13 +32,12 @@ import {
 } from '@weco/common/model/catalogue';
 
 // Styles
-import styled from 'styled-components';
-import { arrowSmall } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar/ApiToolbar';
 import { Pageview } from '@weco/common/services/conversion/track';
+import theme from '@weco/common/views/themes/default';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -48,8 +48,6 @@ type Props = {
   apiToolbarLinks: ApiToolbarLink[];
   pageview: Pageview;
 };
-
-const leadingColor = 'yellow';
 
 const ConceptHero = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
@@ -89,17 +87,11 @@ const ConceptWorksHeader = styled(Space).attrs({
 `;
 
 const SeeMoreButton = ({ text, link }: { text: string; link: LinkProps }) => (
-  <ButtonSolidLink
-    text={text}
-    link={link}
-    icon={arrowSmall}
-    isIconAfter={true}
-    colors={{
-      border: leadingColor,
-      background: leadingColor,
-      text: 'black',
-    }}
-    hoverUnderline={true}
+  <MoreLink
+    name={text}
+    url={link}
+    colors={theme.buttonColors.yellowYellowBlack}
+    hoverUnderline
   />
 );
 
