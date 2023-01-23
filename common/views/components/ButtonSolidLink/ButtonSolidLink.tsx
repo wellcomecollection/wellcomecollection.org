@@ -12,7 +12,7 @@ import Icon from '../Icon/Icon';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
-  clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
+  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
   link: LinkProps | string;
   ariaLabel?: string;
 };
@@ -36,7 +36,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   colors,
   isIconAfter,
 }: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
-  function handleClick(event) {
+  function handleClick(event: SyntheticEvent<HTMLButtonElement>): void {
     clickHandler && clickHandler(event);
     trackingEvent && trackGaEvent(trackingEvent);
   }
