@@ -55,6 +55,12 @@ const LoaderWrapper = styled.div`
   height: 120px;
 `;
 
+const SectionTitle = styled.h3.attrs({
+  className: font('wb', 5),
+})`
+  color: ${props => props.theme.color('black')};
+`;
+
 const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
   originalId,
   onClickImage,
@@ -92,7 +98,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
 
   return similarImages.length === 0 ? null : (
     <>
-      <h3 className={font('wb', 5)}>Visually similar images</h3>
+      <SectionTitle>Visually similar images</SectionTitle>
 
       <Wrapper>
         {similarImages.map(related => (
