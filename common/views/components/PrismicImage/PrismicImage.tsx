@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
 import { ImageType } from '../../../model/image';
 
-const StyledImage = styled(Image)<{ desaturate: boolean }>`
+const StyledImage = styled(Image)<{ $desaturate: boolean }>`
   color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('neutral.700')};
-  filter: ${props => (props.desaturate ? 'saturate(0%)' : undefined)};
+  filter: ${props => (props.$desaturate ? 'saturate(0%)' : undefined)};
 `;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
@@ -117,7 +117,7 @@ const PrismicImage: FunctionComponent<Props> = ({
       src={image.contentUrl}
       alt={image.alt || ''}
       loader={createPrismicLoader(maxLoaderWidth, quality)}
-      desaturate={desaturate}
+      $desaturate={desaturate}
     />
   );
 };
