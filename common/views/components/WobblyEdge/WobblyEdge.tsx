@@ -93,7 +93,7 @@ const WobblyEdge: FunctionComponent<Props> = ({
   function makePolygonPoints(totalPoints: number, intensity: number): string {
     // Determine whether wobbly edge should be a mountain or a valley
     const first = isValley ? '0% 100%, 0% 0%,' : '0% 100%,';
-    const last = isValley ? ',100% 0%, 100% 100%' : ',100% 100%';
+    const last = isValley ? '100% 0%, 100% 100%' : '100% 100%';
     const innerPoints = [...Array(totalPoints)].reduce((acc, curr, index) => {
       const xMean = (100 / totalPoints) * index;
       const xShift = 100 / totalPoints / 2;
@@ -103,10 +103,10 @@ const WobblyEdge: FunctionComponent<Props> = ({
       const x = randomIntFromInterval(xMean - xShift, xMean + xShift - 1);
       const y = randomIntFromInterval(100 - intensity, 100);
 
-      return acc.concat(`${x}% ${y}%`);
+      return acc.concat(`${x}% ${y}%,`);
     }, []);
 
-    return `polygon(${first.concat(innerPoints.join(','), last)})`;
+    return `polygon(${first.concat(innerPoints.join(''), last)})`;
   }
 
   function updatePoints() {
