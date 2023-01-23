@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
+import { FunctionComponent, SyntheticEvent } from 'react';
 import NextLink, { LinkProps } from 'next/link';
 import { classNames } from '../../../utils/classnames';
 import {
@@ -12,7 +12,7 @@ import Icon from '../Icon/Icon';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
-  clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
+  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
   link: LinkProps | string;
   ariaLabel?: string;
 };
@@ -35,8 +35,8 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   ariaLabel,
   colors,
   isIconAfter,
-}: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
-  function handleClick(event) {
+}) => {
+  function handleClick(event: SyntheticEvent<HTMLButtonElement>): void {
     clickHandler && clickHandler(event);
     trackingEvent && trackGaEvent(trackingEvent);
   }
