@@ -148,7 +148,7 @@ export const getServerSideProps: GetServerSideProps<
   const pageNumber = page !== '1' && getQueryPropertyValue(page);
 
   // Setting a default order of descending publication date as default state
-  // as the Prismic default is last updated
+  // as the Prismic default is by "last updated"
   const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
     await getStories({
       query: {
