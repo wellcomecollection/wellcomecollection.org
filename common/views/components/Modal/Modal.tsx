@@ -302,7 +302,7 @@ const Modal: FunctionComponent<Props> = ({
   }, [isActive]);
 
   return (
-    <FocusTrap active={isActive}>
+    <FocusTrap active={isActive} focusTrapOptions={{ preventScroll: true }}>
       <div>
         {isActive && showOverlay && (
           <Overlay
