@@ -27,8 +27,6 @@ const paramsAreSubset = (
   superset: URLSearchParams,
   subset: URLSearchParams
 ): boolean => {
-  if (!subset) return false;
-
   for (const pair of subset.entries()) {
     const [key, value] = pair;
     if (superset.get(key) !== value) {
