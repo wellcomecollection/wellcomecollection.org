@@ -25,7 +25,7 @@ const redirect301 = (host: string, path: string) => ({
 // also contained within `superset`
 const paramsAreSubset = (
   superset: URLSearchParams,
-  subset?: URLSearchParams
+  subset: URLSearchParams
 ): boolean => {
   if (!subset) return false;
 
@@ -75,11 +75,14 @@ export const getRedirect = (
   if (queryRedirects[uriSansSlash]) {
     const requestParams = new URLSearchParams(request.querystring);
 
+    // If the redirect has matchParams, pick the relevant one from the list
+    // Otherwise return the one that has none
     const potentialRedirect = queryRedirects[uriSansSlash].find(q =>
       q.matchParams
         ? paramsAreSubset(requestParams, q.matchParams)
-        : !paramsAreSubset(requestParams, q.matchParams)
+        : !q.matchParams
     );
+
     if (potentialRedirect) {
       // A redirect occurs if all of the params in the redirect rule (matchParams)
       // are contained within the request, or if there are no matchParams
