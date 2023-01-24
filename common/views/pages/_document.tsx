@@ -64,6 +64,7 @@ class WecoDoc extends Document {
     return (
       <Html lang="en" className="is-keyboard">
         <Head>
+          <meta charSet="utf-8" />
           <GoogleAnalyticsV4 />
           <GoogleAnalyticsUA />
           <script
