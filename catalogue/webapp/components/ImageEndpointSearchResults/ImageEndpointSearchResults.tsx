@@ -82,7 +82,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     [images]
   );
 
-  const AlbumRow = styled.ul`
+  const AlbumRow = styled(PlainList)`
     display: flex;
     align-items: space-between;
     margin-bottom: 0;
