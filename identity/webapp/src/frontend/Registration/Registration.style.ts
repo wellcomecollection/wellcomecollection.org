@@ -26,7 +26,7 @@ const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-intr' })`
 
 export const ErrorAlert = styled(AlertBox)`
   background-color: rgba(224, 27, 47, 0.1);
-  color: #d1192c;
+  color: ${props => props.theme.color('validation.red')};
 `;
 
 export const SuccessMessage = styled(AlertBox)`
@@ -58,7 +58,7 @@ const FullWidthElementBase = css`
 export const InProgress = styled.div.attrs({ role: 'progressbar' })`
   ${FullWidthElementBase}
   border-radius: 6px;
-  background-color: #333;
+  background-color: ${props => props.theme.color('neutral.700')};
   color: white;
   user-select: none;
 `;
