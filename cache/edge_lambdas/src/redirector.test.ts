@@ -72,15 +72,17 @@ jest.mock('./redirects', () => {
     ...defaultRedirects,
     queryRedirects: {
       ...defaultRedirects.queryRedirects,
-      '/test': {
-        matchParams: new URLSearchParams({
-          beep: 'boop',
-          bing: 'bong',
-          fizz: 'buzz',
-        }),
-        forwardParams: new Set(),
-        redirectPath: '/test-destination',
-      },
+      '/test': [
+        {
+          matchParams: new URLSearchParams({
+            beep: 'boop',
+            bing: 'bong',
+            fizz: 'buzz',
+          }),
+          forwardParams: new Set(),
+          redirectPath: '/test-destination',
+        },
+      ],
     },
   };
 });
@@ -90,11 +92,21 @@ describe('Query string redirects', () => {
     const redirectedResponse = getRedirect(
       request({ uri: '/works', querystring: 'search=images' })
     );
-
     expect(redirectedResponse?.status).toEqual('301');
     expect(redirectedResponse?.headers.location[0]).toEqual({
       key: 'Location',
-      value: 'https://wellcomecollection.org/images',
+      value: 'https://wellcomecollection.org/search/images',
+    });
+  });
+
+  test('Occur if there are no matchParams, and keep forwarded params', () => {
+    const redirectedResponse = getRedirect(
+      request({ uri: '/works', querystring: 'query=beep' })
+    );
+    expect(redirectedResponse?.status).toEqual('301');
+    expect(redirectedResponse?.headers.location[0]).toEqual({
+      key: 'Location',
+      value: 'https://wellcomecollection.org/search/works?query=beep',
     });
   });
 
@@ -115,7 +127,7 @@ describe('Query string redirects', () => {
     expect(redirectedResponse?.status).toEqual('301');
     expect(redirectedResponse?.headers.location[0]).toEqual({
       key: 'Location',
-      value: 'https://wellcomecollection.org/images?query=beep',
+      value: 'https://wellcomecollection.org/search/images?query=beep',
     });
   });
 });

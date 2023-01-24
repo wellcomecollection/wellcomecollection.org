@@ -228,18 +228,18 @@ export const literalRedirects = { ...contentRedirects, ...vanityUrls };
 //   }
 // }
 type QueryRedirect = {
-  matchParams: URLSearchParams;
-  forwardParams: Set<string>;
+  matchParams?: URLSearchParams;
   redirectPath: string;
+  forwardParams: Set<string>;
 };
 export const queryRedirects: Record<string, QueryRedirect[]> = {
   // Search hub redirections
   '/works': [
     {
-      // TODO hmmmmm
       matchParams: new URLSearchParams({
         search: 'images', // From before image search, around 2020.
       }),
+      redirectPath: '/search/images',
       forwardParams: new Set([
         'query',
         'images.color',
@@ -249,10 +249,9 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
         'source.contributors.agent.label',
         'page',
       ]),
-      redirectPath: '/search/images',
     },
     {
-      matchParams: new URLSearchParams({}),
+      redirectPath: '/search/works',
       forwardParams: new Set([
         'query',
         'sort',
@@ -267,12 +266,11 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
         'languages',
         'page',
       ]),
-      redirectPath: '/search/images',
     },
   ],
   '/images': [
     {
-      matchParams: new URLSearchParams({}),
+      redirectPath: '/search/images',
       forwardParams: new Set([
         'query',
         'images.color', // Color filter
@@ -282,7 +280,6 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
         'source.contributors.agent.label', // Contributors filter
         'page',
       ]),
-      redirectPath: '/search/images',
     },
   ],
 };

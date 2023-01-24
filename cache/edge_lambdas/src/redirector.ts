@@ -25,8 +25,10 @@ const redirect301 = (host: string, path: string) => ({
 // also contained within `superset`
 const paramsAreSubset = (
   superset: URLSearchParams,
-  subset: URLSearchParams
+  subset?: URLSearchParams
 ): boolean => {
+  if (!subset) return false;
+
   for (const pair of subset.entries()) {
     const [key, value] = pair;
     if (superset.get(key) !== value) {
@@ -70,24 +72,37 @@ export const getRedirect = (
     return redirect301(host, literalRedirects[uriSansSlash]);
   }
 
-  if (request.querystring && queryRedirects[uriSansSlash]) {
-    const potentialRedirect = queryRedirects[uriSansSlash];
+  if (queryRedirects[uriSansSlash]) {
     const requestParams = new URLSearchParams(request.querystring);
-    // A redirect occurs if all of the params in the redirect rule are contained
-    // within the request
-    potentialRedirect.forEach(r => {
-      if (paramsAreSubset(requestParams, r.matchParams)) {
+
+    const potentialRedirect = queryRedirects[uriSansSlash].find(q =>
+      q.matchParams
+        ? paramsAreSubset(requestParams, q.matchParams)
+        : !paramsAreSubset(requestParams, q.matchParams)
+    );
+    if (potentialRedirect) {
+      // A redirect occurs if all of the params in the redirect rule (matchParams)
+      // are contained within the request, or if there are no matchParams
+      if (
+        (potentialRedirect.matchParams &&
+          paramsAreSubset(requestParams, potentialRedirect.matchParams)) ||
+        !potentialRedirect.matchParams
+      ) {
         // Only forward params that are in `forwardParams`
-        const newParams = filterParams(requestParams, r.forwardParams);
+        const newParams = filterParams(
+          requestParams,
+          potentialRedirect.forwardParams
+        );
         const requestParamsString = newParams.toString();
+
         return redirect301(
           host,
           requestParamsString
-            ? r.redirectPath + '?' + requestParamsString
-            : r.redirectPath
+            ? potentialRedirect.redirectPath + '?' + requestParamsString
+            : potentialRedirect.redirectPath
         );
       }
-    });
+    }
   }
 
   return undefined;
