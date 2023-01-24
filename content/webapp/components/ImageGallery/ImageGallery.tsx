@@ -36,12 +36,14 @@ function makeSizesForFrames(isThreeUp: boolean) {
     return `
         (min-width: ${sizes.medium}px) calc(80vw / 2),
         (min-width: ${sizes.large}px) calc(80vw / 3),
-        (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 3)
+        (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 3),
+        calc(100vw - 68px)
       `;
   } else {
     return `
       (min-width: ${sizes.medium}px) calc(80vw / 2),
-      (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 2)
+      (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 2),
+      calc(100vw - 68px)
     `;
   }
 }
