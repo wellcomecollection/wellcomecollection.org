@@ -232,40 +232,57 @@ type QueryRedirect = {
   forwardParams: Set<string>;
   redirectPath: string;
 };
-export const queryRedirects: Record<string, QueryRedirect> = {
-  '/works': {
-    matchParams: new URLSearchParams({
-      search: 'images',
-    }),
-    forwardParams: new Set([
-      'query',
-      'images.color',
-      'locations.license',
-      'source.genres.label',
-      'source.subjects.label',
-      'source.contributors.agent.label',
-      'page',
-    ]),
-    redirectPath: '/images',
-  },
+export const queryRedirects: Record<string, QueryRedirect[]> = {
   // Search hub redirections
-  // TODO: Do we want to keep the /works redirection above,
-  // how do we merge both behaviours if still necessary?
-  // Forward params to add:
-  // sort, sortOrder, workType (Formats), production.dates.from, production.dates.to,
-  // availabilities (Locations), subjects.label (Subjects), genres.label (Types/Techniques),
-  // contributors.agent.label (Contributors), languages
-  '/images': {
-    matchParams: new URLSearchParams({}),
-    forwardParams: new Set([
-      'query',
-      'images.color', // Color filter
-      'locations.license', // Licences filter
-      'source.genres.label', // Types/techniques filter
-      'source.subjects.label', // Subjects filter
-      'source.contributors.agent.label', // Contributors filter
-      'page',
-    ]),
-    redirectPath: '/search/images',
-  },
+  '/works': [
+    {
+      // TODO hmmmmm
+      matchParams: new URLSearchParams({
+        search: 'images', // From before image search, around 2020.
+      }),
+      forwardParams: new Set([
+        'query',
+        'images.color',
+        'locations.license',
+        'source.genres.label',
+        'source.subjects.label',
+        'source.contributors.agent.label',
+        'page',
+      ]),
+      redirectPath: '/search/images',
+    },
+    {
+      matchParams: new URLSearchParams({}),
+      forwardParams: new Set([
+        'query',
+        'sort',
+        'sortOrder',
+        'workType', // Formats
+        'production.dates.from',
+        'production.dates.to',
+        'availabilities', // Locations
+        'subjects.label', // Subjects
+        'genres.label', // Types/Techniques
+        'contributors.agent.label', // Contributors
+        'languages',
+        'page',
+      ]),
+      redirectPath: '/search/images',
+    },
+  ],
+  '/images': [
+    {
+      matchParams: new URLSearchParams({}),
+      forwardParams: new Set([
+        'query',
+        'images.color', // Color filter
+        'locations.license', // Licences filter
+        'source.genres.label', // Types/techniques filter
+        'source.subjects.label', // Subjects filter
+        'source.contributors.agent.label', // Contributors filter
+        'page',
+      ]),
+      redirectPath: '/search/images',
+    },
+  ],
 };

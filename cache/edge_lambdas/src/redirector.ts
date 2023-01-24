@@ -75,20 +75,19 @@ export const getRedirect = (
     const requestParams = new URLSearchParams(request.querystring);
     // A redirect occurs if all of the params in the redirect rule are contained
     // within the request
-    if (paramsAreSubset(requestParams, potentialRedirect.matchParams)) {
-      // Only forward params that are in `forwardParams`
-      const newParams = filterParams(
-        requestParams,
-        potentialRedirect.forwardParams
-      );
-      const requestParamsString = newParams.toString();
-      return redirect301(
-        host,
-        requestParamsString
-          ? potentialRedirect.redirectPath + '?' + requestParamsString
-          : potentialRedirect.redirectPath
-      );
-    }
+    potentialRedirect.forEach(r => {
+      if (paramsAreSubset(requestParams, r.matchParams)) {
+        // Only forward params that are in `forwardParams`
+        const newParams = filterParams(requestParams, r.forwardParams);
+        const requestParamsString = newParams.toString();
+        return redirect301(
+          host,
+          requestParamsString
+            ? r.redirectPath + '?' + requestParamsString
+            : r.redirectPath
+        );
+      }
+    });
   }
 
   return undefined;
