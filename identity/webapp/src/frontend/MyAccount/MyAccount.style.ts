@@ -71,7 +71,7 @@ const colours = {
   failure: css`
     background-color: rgba(224, 27, 47, 0.1);
     border: 1px solid rgba(224, 27, 47, 0.3);
-    color: #d1192c;
+    color: ${props => props.theme.color('validation.red')};
   `,
   info: css`
     background-color: rgba(255, 206, 60, 0.2);
