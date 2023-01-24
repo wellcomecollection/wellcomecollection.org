@@ -180,8 +180,9 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
     const formValues = formDataAsUrlQuery(form);
 
     const sortOptionValue = getQueryPropertyValue(formValues.sortOrder);
-    const urlFormattedSort =
-      sortOptionValue && getUrlQueryFromSortValue(sortOptionValue);
+    const urlFormattedSort = sortOptionValue
+      ? getUrlQueryFromSortValue(sortOptionValue)
+      : undefined;
 
     const link = linkResolver({
       ...formValues,
@@ -190,6 +191,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         sortOrder: urlFormattedSort.sortOrder,
       }),
     });
+
     return router.push(link.href, link.as);
   };
 
