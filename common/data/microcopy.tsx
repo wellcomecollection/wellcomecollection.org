@@ -34,8 +34,8 @@ export const pageDescriptions = {
   whatsOn:
     'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.',
   works: 'Search the Wellcome Collection catalogue',
-  comic: 'TODO: write words that make sense for comic series here',
-
+  comic:
+    'Explore new perspectives on bodies, brains and health with our guest comic artists.',
   search: {
     overview:
       'Search Wellcome Collection. Our stories, images and collections make connections and provoke new thinking about health and human experience.',
@@ -143,6 +143,3 @@ export const requestingDisabled =
 
 export const pastExhibitionsStrapline =
   'Take a look at our past exhibitions and installations.';
-
-export const comicsStrapline =
-  'Explore new perspectives on bodies, brains and health with our guest comic artists.';
