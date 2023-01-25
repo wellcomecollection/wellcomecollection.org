@@ -71,7 +71,7 @@ async function findCloudFrontHitsFromLog(bucket, key) {
       result.push({
         protocol: hit['cs-protocol'],
         host: hit['x-host-header'],
-        path: hit['cs-uri-stem'],
+        path: decodeURIComponent(hit['cs-uri-stem']),
         ipAddress: hit['c-ip'],
         date: new Date(`${hit['date']}T${hit['time']}Z`),
 
@@ -312,15 +312,10 @@ function isInterestingError(hit) {
   //
   // We can't do anything about this, so ignore it.
   //
-  // Note: we have to accommodate for the percent-encoding that happens
-  // in CloudFront logs:
-  //
-  //    > decodeURIComponent('%250A%2520')
-  //    "%0A%20"
-  //    > decodeURIComponent('%0A%20')
-  //    "\n"
-  //
-  if (hit.status === 503 && hit.path.indexOf('%250A%2520') !== -1) {
+  if (
+    hit.status === 503 &&
+    (hit.path.indexOf('%0A') !== -1 || hit.path.indexOf('%0a') !== -1)
+  ) {
     return false;
   }
 
