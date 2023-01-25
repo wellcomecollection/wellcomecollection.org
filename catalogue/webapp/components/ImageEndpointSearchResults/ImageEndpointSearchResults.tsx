@@ -100,11 +100,11 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   `;
 
   const imageRenderer: FunctionComponent<RenderPhotoProps<GalleryImageProps>> =
-    ({ photo, layout, wrapperStyle }) => {
-      // these are values and props that are passed in by the PhotoAlbum component
+    // these are values and props that are passed in by the PhotoAlbum component
+    ({ photo, layout }) => {
       const rgbColor = hexToRgb(photo.averageColor || '');
       return (
-        <li style={wrapperStyle}>
+        <li style={{ padding: 12 }}>
           <ImageFrame>
             <ImageCard
               id={photo.id}
