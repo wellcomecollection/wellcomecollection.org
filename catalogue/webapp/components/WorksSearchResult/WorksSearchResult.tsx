@@ -23,7 +23,6 @@ import {
   Preview,
   PreviewImage,
   WorkInformation,
-  WorkInformationItem,
   WorkTitleHeading,
   WorkInformationItemSeparator,
 } from './WorksSearchResult.styles';
@@ -82,9 +81,9 @@ const WorkSearchResult: FunctionComponent<Props> = ({
 
             <WorkInformation>
               {primaryContributorLabel && (
-                <WorkInformationItem className="searchable-selector">
+                <span className="searchable-selector">
                   {primaryContributorLabel}
-                </WorkInformationItem>
+                </span>
               )}
 
               {productionDates.length > 0 && (
@@ -92,9 +91,9 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   <WorkInformationItemSeparator aria-hidden>
                     {' | '}
                   </WorkInformationItemSeparator>
-                  <WorkInformationItem className="searchable-selector">
+                  <span className="searchable-selector">
                     Date:&nbsp;{productionDates[0]}
-                  </WorkInformationItem>
+                  </span>
                 </>
               )}
 
@@ -103,9 +102,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   <WorkInformationItemSeparator aria-hidden>
                     {' | '}
                   </WorkInformationItemSeparator>
-                  <WorkInformationItem>
-                    Reference:&nbsp;{archiveLabels?.reference}
-                  </WorkInformationItem>
+                  <span>Reference:&nbsp;{archiveLabels?.reference}</span>
                 </>
               )}
             </WorkInformation>

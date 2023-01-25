@@ -168,6 +168,9 @@ const StoryInformationItem = styled.span`
   }
 `;
 
+// using the adjacent sibling combinator along with parent selector
+// to create this thing that applies only if it is the immediate
+// sibling after `searchable-selector`
 const StoryInformationItemSeparator = styled.span`
   display: none;
   .searchable-selector + & {
