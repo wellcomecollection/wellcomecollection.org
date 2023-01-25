@@ -10,9 +10,12 @@ module.exports = {
   addons: [
     '@storybook/addon-controls',
     '@storybook/addon-a11y',
-    '@storybook/addon-docs',
     '@storybook/addon-backgrounds',
-    'storybook-addon-next-router'
+    'storybook-addon-next-router',
+     {
+      name: "@storybook/addon-docs",
+      options: { transcludeMarkdown: true },
+    },
   ],
   webpackFinal: async (config, { configType }) => {
     // Adds support for modules using mjs

@@ -34,7 +34,7 @@ export const parameters = {
     name: 'Cardigan',
     url: 'https://cardigan.wellcomecollection.org',
     storySort: {
-      order: ['Cardigan', 'Components', 'Global', 'Documentation'],
+      order: ['Cardigan', 'Components', 'Global'],
     },
   },
   backgrounds: {
@@ -43,9 +43,9 @@ export const parameters = {
       disable: true,
     },
   },
-  viewMode: 'docs',
   previewTabs: {
-    'storybook/docs/panel': { index: -1 },
+    canvas: { hidden: true },
+    'storybook/docs/panel': { hidden:true }
   },
   docs: {
     theme: wellcomeTheme,
@@ -54,6 +54,16 @@ export const parameters = {
         <ContextDecorator>{children}</ContextDecorator>
       </DocsContainer>
     ),
+  },
+   a11y: {
+    config: {
+      rules: [
+        {
+          id: 'color-contrast',
+          selector: '*:not(#readme)',
+        },
+      ],
+    },
   },
   nextRouter: {
     Provider: RouterContext.Provider,

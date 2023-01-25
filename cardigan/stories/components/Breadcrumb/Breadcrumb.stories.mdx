@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import Readme from '@weco/common/views/components/Breadcrumb/README.md';
 import * as stories from './Breadcrumb.stories.tsx';
@@ -7,10 +7,8 @@ import * as stories from './Breadcrumb.stories.tsx';
 
 # Breadcrumb
 
-<Description>{Readme}</Description>
+<Readme />
 
-<Canvas>
   <Story story={stories.basic} />
-</Canvas>
 
 <ArgsTable />
