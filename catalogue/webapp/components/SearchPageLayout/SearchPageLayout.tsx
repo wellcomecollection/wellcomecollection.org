@@ -265,7 +265,6 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
               : []),
           ]}
           currentSection={currentSearchCategory}
-          hasDivider
           variant="yellow"
         />
       </div>
