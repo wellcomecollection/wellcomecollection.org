@@ -54,9 +54,12 @@ export const WorkInformation = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.600')};
 `;
 
-export const WorkInformationItem = styled.span`
-  &:not(:first-child)::before {
-    content: ' | ';
+export const WorkInformationItem = styled.span``;
+
+export const WorkInformationItemSeparator = styled.span`
+  display: none;
+  .searchable-selector + & {
+    display: inline-block;
     margin: 0 4px;
   }
 `;

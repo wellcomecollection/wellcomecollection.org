@@ -161,15 +161,18 @@ const StoryInformation = styled(Space).attrs({
 `;
 
 const StoryInformationItem = styled.span`
-  &:not(:first-child)::before {
-    content: ' | ';
-    margin: 0 4px;
-  }
-
   span {
     &:not(:first-child)::before {
       content: ', ';
     }
+  }
+`;
+
+const StoryInformationItemSeparator = styled.span`
+  display: none;
+  .searchable-selector + & {
+    display: inline-block;
+    margin: 0 4px;
   }
 `;
 
@@ -222,16 +225,21 @@ const StoriesGrid: FunctionComponent<Props> = ({
               (story.firstPublicationDate || !!story.contributors.length) && (
                 <StoryInformation>
                   {story.firstPublicationDate && (
-                    <StoryInformationItem>
+                    <StoryInformationItem className="searchable-selector">
                       <HTMLDate date={new Date(story.firstPublicationDate)} />
                     </StoryInformationItem>
                   )}
                   {!!story.contributors.length && (
-                    <StoryInformationItem>
-                      {story.contributors.map(contributor => (
-                        <span key={contributor}>{contributor}</span>
-                      ))}
-                    </StoryInformationItem>
+                    <>
+                      <StoryInformationItemSeparator>
+                        {' | '}
+                      </StoryInformationItemSeparator>
+                      <StoryInformationItem>
+                        {story.contributors.map(contributor => (
+                          <span key={contributor}>{contributor}</span>
+                        ))}
+                      </StoryInformationItem>
+                    </>
                   )}
                 </StoryInformation>
               )}
