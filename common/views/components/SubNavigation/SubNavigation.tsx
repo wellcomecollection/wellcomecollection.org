@@ -6,7 +6,6 @@ import {
   Tab,
   NavItemInner,
 } from './SubNavigation.styles';
-import Divider from '../Divider/Divider';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { IconSvg } from '../../../icons';
@@ -32,6 +31,12 @@ type Props = {
   variant?: 'yellow' | 'white';
   hasDivider?: boolean;
 };
+
+const Divider = styled.div`
+  height: 1px;
+  width: 100%;
+  background-color: #e8e8e8;
+`;
 
 const SubNavigation: FunctionComponent<Props> = ({
   label,
@@ -85,7 +90,7 @@ const SubNavigation: FunctionComponent<Props> = ({
         })}
       </TabsContainer>
 
-      {hasDivider && <Divider lineColor="neutral.300" />}
+      {hasDivider && <Divider />}
     </Wrapper>
   );
 };
