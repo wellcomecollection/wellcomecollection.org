@@ -96,7 +96,6 @@ export const getRedirect = (
           : potentialRedirect.redirectPath
       );
     }
-    // }
   }
 
   return undefined;
