@@ -101,13 +101,24 @@ describe('Query string redirects', () => {
 
   test('Occur if there are no matchParams, and keep forwarded params', () => {
     const redirectedResponse = getRedirect(
-      request({ uri: '/works', querystring: 'query=beep' })
+      request({
+        uri: '/works',
+        querystring: 'query=beep&production.dates.to=2000',
+      })
     );
     expect(redirectedResponse?.status).toEqual('301');
     expect(redirectedResponse?.headers.location[0]).toEqual({
       key: 'Location',
-      value: 'https://wellcomecollection.org/search/works?query=beep',
+      value:
+        'https://wellcomecollection.org/search/works?query=beep&production.dates.to=2000',
     });
+  });
+
+  test('Do not occure if the uri is not a complete match', () => {
+    const nonRedirectedResponse = getRedirect(
+      request({ uri: '/works-test', querystring: 'query=beep' })
+    );
+    expect(nonRedirectedResponse).toBeUndefined();
   });
 
   test('Do not occur if all of the params in the definition are not matched', () => {

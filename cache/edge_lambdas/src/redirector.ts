@@ -74,7 +74,7 @@ export const getRedirect = (
     const requestParams = new URLSearchParams(request.querystring);
 
     // If the redirect has matchParams, pick the relevant one from the list
-    // Otherwise return the one that has none
+    // Otherwise return the one that has none if it exists
     const potentialRedirect = queryRedirects[uriSansSlash].find(q =>
       q.matchParams
         ? paramsAreSubset(requestParams, q.matchParams)
@@ -82,28 +82,21 @@ export const getRedirect = (
     );
 
     if (potentialRedirect) {
-      // A redirect occurs if all of the params in the redirect rule (matchParams)
-      // are contained within the request, or if there are no matchParams
-      if (
-        (potentialRedirect.matchParams &&
-          paramsAreSubset(requestParams, potentialRedirect.matchParams)) ||
-        !potentialRedirect.matchParams
-      ) {
-        // Only forward params that are in `forwardParams`
-        const newParams = filterParams(
-          requestParams,
-          potentialRedirect.forwardParams
-        );
-        const requestParamsString = newParams.toString();
+      // Only forward params that are in `forwardParams`
+      const newParams = filterParams(
+        requestParams,
+        potentialRedirect.forwardParams
+      );
+      const requestParamsString = newParams.toString();
 
-        return redirect301(
-          host,
-          requestParamsString
-            ? potentialRedirect.redirectPath + '?' + requestParamsString
-            : potentialRedirect.redirectPath
-        );
-      }
+      return redirect301(
+        host,
+        requestParamsString
+          ? potentialRedirect.redirectPath + '?' + requestParamsString
+          : potentialRedirect.redirectPath
+      );
     }
+    // }
   }
 
   return undefined;
