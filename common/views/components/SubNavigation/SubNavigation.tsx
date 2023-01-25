@@ -32,7 +32,7 @@ type Props = {
   hasDivider?: boolean;
 };
 
-const Divider = styled.div`
+const TabNavBottomBorder = styled.div`
   height: 1px;
   width: 100%;
   background-color: #e8e8e8;
@@ -90,7 +90,7 @@ const SubNavigation: FunctionComponent<Props> = ({
         })}
       </TabsContainer>
 
-      {hasDivider && <Divider />}
+      {hasDivider && <TabNavBottomBorder />}
     </Wrapper>
   );
 };
