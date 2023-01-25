@@ -51,6 +51,15 @@ const Wrapper = styled(Space).attrs<{ isNewStyle?: boolean }>(props => ({
     props.isNewStyle ? 'unset' : props.theme.color('warmNeutral.400')};
 `;
 
+const FilterDropdownsContainer = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom'] },
+  className: font('intr', 5),
+})<{ isComponentMounted?: boolean }>`
+  display: flex;
+  align-items: center;
+  ${props => !props.isComponentMounted && `flex-wrap: wrap;`}
+`;
+
 const CheckboxFilter = ({
   f,
   changeHandler,
@@ -67,24 +76,22 @@ const CheckboxFilter = ({
       hasNoOptions={f.options.length === 0}
     >
       <PlainList className={font('intr', 5)}>
-        <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
-          {f.options.map(({ id, label, value, count, selected }) => {
-            return (
-              <li key={`${f.id}-${id}`}>
-                <CheckboxRadio
-                  id={id}
-                  type="checkbox"
-                  text={filterLabel({ label, count })}
-                  value={value}
-                  name={f.id}
-                  checked={selected}
-                  onChange={changeHandler}
-                  form={form}
-                />
-              </li>
-            );
-          })}
-        </ul>
+        {f.options.map(({ id, label, value, count, selected }) => {
+          return (
+            <li key={`${f.id}-${id}`}>
+              <CheckboxRadio
+                id={id}
+                type="checkbox"
+                text={filterLabel({ label, count })}
+                value={value}
+                name={f.id}
+                checked={selected}
+                onChange={changeHandler}
+                form={form}
+              />
+            </li>
+          );
+        })}
       </PlainList>
     </DropdownButton>
   );
@@ -369,8 +376,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [componentMounted, setComponentMounted] = useState(false);
-  useEffect(() => setComponentMounted(true), []);
+  const [isComponentMounted, setIsComponentMounted] = useState(false);
+  useEffect(() => setIsComponentMounted(true), []);
   const openMoreFiltersButtonRef = useRef(null);
 
   const visibleFilters = filters.slice(0, nVisibleFilters);
@@ -388,15 +395,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           }}
           className="flex flex--h-space-between flex--v-center full-width flex--wrap"
         >
-          <Space
-            v={{ size: 'm', properties: ['margin-bottom'] }}
-            className={`flex flex--v-center flex--${
-              componentMounted ? 'no-' : ''
-            }wrap`}
-          >
+          <FilterDropdownsContainer isComponentMounted={isComponentMounted}>
             {isNewStyle && (
               <>
-                {componentMounted && (
+                {isComponentMounted && (
                   /**
                    * I had to extract this component so that useLayoutEffect
                    * didn't try to run before it could/cause syncing issues
@@ -486,13 +488,12 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
                 {modalFilters.length > 0 && (
                   <Space
-                    className={font('intr', 5)}
                     h={{
                       size: isNewStyle ? 'm' : 's',
                       properties: ['margin-left'],
                     }}
                   >
-                    {componentMounted && (
+                    {isComponentMounted && (
                       <ButtonSolid
                         colors={themeValues.buttonColors.whiteWhiteCharcoal}
                         hoverUnderline={true}
@@ -520,7 +521,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 )}
               </>
             )}
-          </Space>
+          </FilterDropdownsContainer>
         </Space>
       </Wrapper>
 

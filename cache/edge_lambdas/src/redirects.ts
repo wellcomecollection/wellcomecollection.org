@@ -168,6 +168,7 @@ const contentRedirects: Record<string, string> = {
   '/eat-me': '/books/WwVK3CAAAHm5ExxF',
 
   '/exhibitions/medicine-man': '/exhibitions/Weoe4SQAAKJwjcDC',
+  '/graphicdesign': '/exhibitions/WZwh4ioAAJ3usf86',
 
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1656920569188629
   '/events/YrCXAREAACEAFSTW': '/events/Yqcv7xEAACEA61Co',

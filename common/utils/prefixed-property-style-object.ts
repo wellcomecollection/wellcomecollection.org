@@ -6,7 +6,6 @@ export const prefixedPropertyStyleObject = (
 
   return {
     [`Webkit${cappedProperty}`]: value,
-    [`moz${property}`]: value,
     [`ms${cappedProperty}`]: value,
     [`O${cappedProperty}`]: value,
     [property]: value,
