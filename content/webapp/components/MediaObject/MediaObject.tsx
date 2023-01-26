@@ -20,27 +20,15 @@ type ImageWrapperProp = {
   hasImage: boolean;
 };
 
-const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => {
-  if (props.hasImage) {
-    return {
-      className: grid({ s: 2, m: 2, l: 2, xl: 2 }),
-    };
-  }
-  return {
-    className: gridSize12,
-  };
-})<ImageWrapperProp>``;
+const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => ({
+  className: props.hasImage ? grid({ s: 2, m: 2, l: 2, xl: 2 }) : gridSize12,
+}))<ImageWrapperProp>``;
 
-const TextWrapper = styled.div.attrs<HasImageProps>(props => {
-  if (props.hasImage) {
-    return {
-      className: grid({ s: 10, m: 10, l: 10, xl: 10 }),
-    };
-  }
-  return {
-    className: gridSize12,
-  };
-})<HasImageProps>``;
+const TextWrapper = styled.div.attrs<HasImageProps>(props => ({
+  className: props.hasImage
+    ? grid({ s: 10, m: 10, l: 10, xl: 10 })
+    : gridSize12,
+}))<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
   className: `card-link__title ${font('wb', 4)}`,
