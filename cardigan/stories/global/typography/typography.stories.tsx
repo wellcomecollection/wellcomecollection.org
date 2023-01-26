@@ -31,7 +31,7 @@ const TypographyScale = ({ fontFamily }) => {
           key={index}
           style={{ fontSize: `${v}rem`, fontFamily: fontFamily }}
         >
-          {v}rem
+          {v}rem ({v * 16}px)
         </span>
       );
     });

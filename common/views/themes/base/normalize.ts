@@ -1,5 +1,5 @@
 export const normalize = `
-/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
+/* normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
 
 /**
  * 1. Change the default font family in all browsers (opinionated).

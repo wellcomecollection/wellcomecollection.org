@@ -5,8 +5,8 @@ import { FunctionComponent } from 'react';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
-  query: string;
-  hasFilters: boolean;
+  query?: string;
+  hasFilters?: boolean;
   textColor?: PaletteColor;
 };
 
@@ -27,17 +27,18 @@ const SearchNoResults: FunctionComponent<Props> = ({
   textColor,
 }: Props) => {
   return (
-    <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
-      <div className="container">
-        <div className="grid">
-          <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-            <Copy textColor={textColor}>
-              We couldn&rsquo;t find anything that matched{' '}
-              <QuerySpan>{query}</QuerySpan>
-              {hasFilters ? ' with the filters you have selected.' : '.'} Please
-              try again.
-            </Copy>
-          </div>
+    <Space
+      className="container"
+      v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+    >
+      <div className="grid">
+        <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+          <Copy textColor={textColor}>
+            We couldn&rsquo;t find anything that matched{' '}
+            {query ? <QuerySpan>{query}</QuerySpan> : 'your search'}
+            {hasFilters ? ' with the filters you have selected.' : '.'} Please
+            try again.
+          </Copy>
         </div>
       </div>
     </Space>

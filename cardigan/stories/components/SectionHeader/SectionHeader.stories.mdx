@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import Readme from '@weco/common/views/components/SectionHeader/README.md';
 import * as stories from './SectionHeader.stories.tsx';
@@ -7,10 +7,8 @@ import * as stories from './SectionHeader.stories.tsx';
 
 # SectionHeader
 
-<Description>{Readme}</Description>
+<Readme />
 
-<Canvas>
   <Story story={stories.basic} />
-</Canvas>
 
 <ArgsTable />

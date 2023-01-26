@@ -26,7 +26,6 @@ type ModalMoreFiltersProps = {
   isActive: boolean;
   setIsActive: (arg: boolean) => void;
   openMoreFiltersButtonRef: RefObject<HTMLInputElement>;
-  query: string;
   changeHandler: () => void;
   resetFilters: LinkProps;
   filters: Filter[];
@@ -41,9 +40,9 @@ type MoreFiltersProps = {
   isNewStyle?: boolean;
 };
 
-const ModalInner = styled(Space).attrs(props => ({
+const ModalInner = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-bottom'] },
-}))<{ isNewStyle?: boolean }>`
+})<{ isNewStyle?: boolean }>`
   display: flex;
   flex-direction: column;
   min-width: 320px;
@@ -74,10 +73,10 @@ const List = styled(PlainList)`
   }
 `;
 
-const FiltersFooter = styled(Space).attrs(props => ({
+const FiltersFooter = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-}))<{ isNewStyle?: boolean }>`
+})<{ isNewStyle?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -90,10 +89,10 @@ const FiltersFooter = styled(Space).attrs(props => ({
   height: 60px;
 `;
 
-const FiltersHeader = styled(Space).attrs(props => ({
+const FiltersHeader = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-}))<{ isNewStyle?: boolean }>`
+})<{ isNewStyle?: boolean }>`
   position: ${props => (props.isNewStyle ? 'relative' : 'absolute')};
   background-color: ${props => props.theme.color('white')};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
@@ -276,7 +275,6 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 };
 
 const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
-  query,
   id,
   isActive,
   setIsActive,

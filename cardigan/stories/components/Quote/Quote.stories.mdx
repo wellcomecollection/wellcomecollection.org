@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
 import Quote from '@weco/content/components/Quote/Quote';
 import Readme from '@weco/content/components/Quote/README.md';
 import * as stories from './Quote.stories.tsx';
@@ -7,16 +7,12 @@ import * as stories from './Quote.stories.tsx';
 
 # Quote
 
-<Description>{Readme}</Description>
+<Readme />
 
 ## Block
-<Canvas>
   <Story story={stories.block} />
-</Canvas>
 
 ## Pull/Review
-<Canvas>
   <Story story={stories.pullOrReview} />
-</Canvas>
 
 <ArgsTable />

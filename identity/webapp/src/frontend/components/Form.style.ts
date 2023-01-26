@@ -18,8 +18,11 @@ export const TextInput = styled.input<{ invalid?: FieldError }>`
   height: 55px;
   margin: 0.333em 0;
   padding: 0.7em;
-  border: ${props =>
-    props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f'};
+  border: solid
+    ${props =>
+      props.invalid
+        ? `2px ${props.theme.color('validation.red')}`
+        : `1px ${props.theme.color('neutral.500')}`};
   border-radius: 6px;
 `;
 

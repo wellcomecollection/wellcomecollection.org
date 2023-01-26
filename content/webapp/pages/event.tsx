@@ -52,7 +52,10 @@ import {
   transformEvent,
 } from '../services/prismic/transformers/events';
 import { createClient } from '../services/prismic/fetch';
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import {
+  eventPolicyIds,
+  prismicPageIds,
+} from '@weco/common/data/hardcoded-ids';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isDayPast, isPast } from '@weco/common/utils/dates';
 
@@ -184,7 +187,7 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
+const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
   const [scheduledIn, setScheduledIn] = useState<Event>();
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
@@ -210,25 +213,13 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
     : event.body;
   const eventFormat = event.format ? [{ text: event.format.title }] : [];
   const eventAudiences = event.audiences
-    ? event.audiences.map(a => {
-        return {
-          text: a.title,
-        };
-      })
+    ? event.audiences.map(a => ({ text: a.title }))
     : [];
   const eventInterpretations = event.interpretations
-    ? event.interpretations.map(i => {
-        return {
-          text: i.interpretationType.title,
-        };
-      })
+    ? event.interpretations.map(i => ({ text: i.interpretationType.title }))
     : [];
   const relaxedPerformanceLabel = event.isRelaxedPerformance
-    ? [
-        {
-          text: 'Relaxed',
-        },
-      ]
+    ? [{ text: 'Relaxed' }]
     : [];
 
   const breadcrumbs = {
@@ -334,18 +325,19 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
         {event.schedule && event.schedule.length > 0 && (
           <>
             <h2 className="h2">Events</h2>
-            {event.schedule && <EventSchedule schedule={event.schedule} />}
+            <EventSchedule schedule={event.schedule} />
           </>
         )}
         {event.ticketSalesStart &&
           showTicketSalesStart(event.ticketSalesStart) && (
             <>
               <Message
-                text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${
-                  event.ticketSalesStart
-                    ? formatTime(event.ticketSalesStart)
-                    : ''
-                }`}
+                text={
+                  'Booking opens ' +
+                  formatDayDate(event.ticketSalesStart) +
+                  ' ' +
+                  formatTime(event.ticketSalesStart)
+                }
               />
             </>
           )}
@@ -400,11 +392,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
 
                 <NextLink
                   href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                  as={`mailto:${
-                    event.bookingEnquiryTeam
-                      ? event.bookingEnquiryTeam.email
-                      : ''
-                  }?subject=${event.title}`}
+                  as={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   passHref
                 >
                   <EmailTeamCopy as="a">
@@ -436,12 +424,10 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
           items={
             [
               event.locations[0] && {
-                id: undefined,
                 title: 'Location',
                 description: event.locations[0].information,
               },
               event.bookingInformation && {
-                id: undefined,
                 title: 'Extra information',
                 description: event.bookingInformation,
               },
@@ -458,7 +444,6 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                   const description = getDescription(interpretation);
 
                   return {
-                    id: undefined,
                     icon: eventInterpretationIcons[iconName],
                     title: interpretation.interpretationType.title,
                     description,
@@ -468,14 +453,33 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
               .filter(Boolean) as LabelField[]
           }
         >
-          <p className={font('intr', 5)}>{a11y.defaultEventMessage}</p>
-          <p className={`no-margin ${font('intr', 5)}`}>
-            <a
-              href={`https://wellcomecollection.org/pages/${prismicPageIds.bookingAndAttendingOurEvents}`}
-            >
-              Our event terms and conditions
-            </a>
-          </p>
+          {/* 
+            By default we show an 'event terms and conditions' link at the bottom
+            of the yellow box, but school events have their own T&Cs which are
+            managed separately, so we suppress the link.
+            
+            Later we might want to make this event configurable in Prismic, 
+
+            See https://wellcome.slack.com/archives/C8X9YKM5X/p1673523089747359
+          */}
+          {isNotUndefined(
+            event.policies.find(p => p.id === eventPolicyIds.schoolBooking)
+          ) ? (
+            <p className={`no-margin ${font('intr', 5)}`}>
+              {a11y.defaultEventMessage}
+            </p>
+          ) : (
+            <>
+              <p className={font('intr', 5)}>{a11y.defaultEventMessage}</p>
+              <p className={`no-margin ${font('intr', 5)}`}>
+                <a
+                  href={`https://wellcomecollection.org/pages/${prismicPageIds.bookingAndAttendingOurEvents}`}
+                >
+                  Our event terms and conditions
+                </a>
+              </p>
+            </>
+          )}
         </InfoBox>
         {/* We deliberately position the contributors below the schedule, so a
         reader can see all the events in a festival/multi-part event before they

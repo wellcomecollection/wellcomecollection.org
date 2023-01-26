@@ -1,11 +1,8 @@
-import {
-  FunctionComponent,
-  useMemo,
-  useState,
-  useCallback,
-  useContext,
-} from 'react';
-import Gallery from 'react-photo-gallery';
+import { FunctionComponent, useMemo, useState, useContext } from 'react';
+import PhotoAlbum, {
+  RenderPhotoProps,
+  RenderRowContainer,
+} from 'react-photo-album';
 import styled from 'styled-components';
 
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -50,15 +47,6 @@ const GalleryContainer = styled.div`
     }
   `)}
 `;
-const ImageContainer = styled.li`
-  margin: 0 ${imageMargin ? imageMargin / 2 : 0}px
-    ${imageMargin ? imageMargin / 2 : 0}px;
-
-  ${props =>
-    props.theme.media('medium')(`
-    margin: 0 ${imageMargin}px ${imageMargin}px;
-  `)}
-`;
 
 const ImageCardList = styled(PlainList)`
   display: flex;
@@ -88,53 +76,75 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       images.map(image => ({
         ...image,
         src: convertImageUri(image.locations[0].url, 300),
-        width: (image.aspectRatio || 1) * 100 + imageMargin,
+        width: (image.aspectRatio || 1) * 100,
         height: 100,
       })),
     [images]
   );
 
-  const imageRenderer = useCallback(galleryImage => {
-    const photo: GalleryImageProps = galleryImage.photo;
-    const rgbColor = hexToRgb(photo.averageColor || '');
+  const AlbumRow = styled(PlainList)`
+    display: flex;
+    align-items: space-between;
+    margin-bottom: 0;
+  `;
 
-    return (
-      <ImageContainer key={galleryImage.key} role="listitem">
-        <ImageCard
-          id={photo.id}
-          workId={photo.source.id}
-          image={{
-            contentUrl: photo.src,
-            width: photo.width - imageMargin * 2,
-            height: photo.height,
-            alt: photo.source.title,
-          }}
-          onClick={event => {
-            event.preventDefault();
-            setExpandedImage(photo);
-            setIsActive(true);
-          }}
-          layout="fixed"
-          background={
-            background ||
-            (rgbColor &&
-              `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
-          }
-        />
-      </ImageContainer>
-    );
-  }, []);
+  const renderRowContainer: RenderRowContainer = ({ children }) => {
+    return <AlbumRow>{children}</AlbumRow>;
+  };
+
+  const ImageFrame = styled.div`
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  `;
+
+  const imageRenderer: FunctionComponent<RenderPhotoProps<GalleryImageProps>> =
+    // these are values and props that are passed in by the PhotoAlbum component
+    ({ photo, layout }) => {
+      const rgbColor = hexToRgb(photo.averageColor || '');
+      return (
+        <li style={{ padding: 12 }}>
+          <ImageFrame>
+            <ImageCard
+              id={photo.id}
+              workId={photo.source.id}
+              image={{
+                contentUrl: photo.src,
+                width: layout.width,
+                height: layout.height,
+                alt: photo.source.title,
+              }}
+              onClick={event => {
+                event.preventDefault();
+                setExpandedImage(photo);
+                setIsActive(true);
+              }}
+              layout="fill"
+              background={
+                background ||
+                (rgbColor &&
+                  `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
+              }
+            />
+          </ImageFrame>
+        </li>
+      );
+    };
 
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
         <PlainList role="list">
           <GalleryContainer>
-            <Gallery
+            <PhotoAlbum
               photos={imagesWithDimensions}
-              renderImage={imageRenderer}
-              margin={0} // The default margin is 2, but it doesn't work with our setup, so setting it to 0 and styling it manually
-              targetRowHeight={220}
+              renderPhoto={imageRenderer}
+              renderRowContainer={renderRowContainer}
+              layout="rows"
+              spacing={0}
+              padding={12}
+              targetRowHeight={200}
             />
           </GalleryContainer>
         </PlainList>

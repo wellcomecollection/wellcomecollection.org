@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
 import VenueHours from '@weco/content/components/VenueHours/VenueHours';
 import Readme from '@weco/content/components/VenueHours/README.md';
 import * as stories from './VenueHours.stories.tsx';
@@ -7,10 +7,8 @@ import * as stories from './VenueHours.stories.tsx';
 
 # VenueHours
 
-<Description>{Readme}</Description>
+<Readme />
 
-<Canvas>
   <Story story={stories.basic} />
-</Canvas>
 
 <ArgsTable />

@@ -12,7 +12,10 @@ import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { getUrlQueryFromSortValue } from '@weco/catalogue/utils/search';
+import {
+  getUrlQueryFromSortValue,
+  getQueryPropertyValue,
+} from '@weco/catalogue/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
 import { propsToQuery } from '@weco/common/utils/routes';
 
@@ -41,72 +44,78 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
   hasEventsExhibitions,
 }) => {
   const router = useRouter();
+  const { query: queryString } = router.query;
 
   const currentSearchCategory =
     router.pathname === '/search'
       ? 'overview'
       : router.pathname.slice(router.pathname.lastIndexOf('/') + 1);
 
-  const basePageMetadata = {
+  const basePageMetadata: PageLayoutMetadata = {
     openGraphType: 'website',
     siteSection: 'collections',
     jsonLd: { '@type': 'WebPage' },
     hideNewsletterPromo: true,
     excludeRoleMain: true,
-  } as const;
-
-  const defaultPageLayoutMetadata: PageLayoutMetadata = {
-    ...basePageMetadata,
-    title: 'Search',
+    title: `${queryString ? `${queryString} | ` : ''}Search`,
     description: pageDescriptions.search.overview,
-    url: { pathname: '/search', query: {} },
+    url: {
+      pathname: '/search',
+      query: queryString ? { query: queryString } : {},
+    },
   };
 
   const [pageLayoutMetadata, setPageLayoutMetadata] =
-    useState<PageLayoutMetadata>(defaultPageLayoutMetadata);
+    useState<PageLayoutMetadata>(basePageMetadata);
 
   const getURL = pathname => {
-    const query = { query: router.query.query };
     return convertUrlToString({
       pathname,
-      query,
+      query: { query: queryString },
     });
   };
 
   useEffect(() => {
-    const { query } = router.query;
+    const queryStringTitle = queryString ? `${queryString} | ` : '';
 
     switch (currentSearchCategory) {
       case 'overview':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description: pageDescriptions.search.overview,
-          title: `${query ? `${query} | ` : ''}Search`,
-          url: { pathname: '/search', query: { query } || {} },
+          title: `${queryStringTitle}Search`,
         });
         break;
       case 'stories':
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: pageDescriptions.search.stories,
-          title: `${query ? `${query} | ` : ''}Stories search`,
-          url: { pathname: '/search/stories', query: { query } || {} },
+          title: `${queryStringTitle}Stories search`,
+          url: {
+            ...basePageMetadata.url,
+            pathname: '/search/stories',
+          },
         });
         break;
       case 'images':
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: pageDescriptions.search.images,
-          title: `${query ? `${query} | ` : ''}Image search`,
-          url: { pathname: '/search/images', query: { query } || {} },
+          title: `${queryStringTitle}Images search`,
+          url: {
+            ...basePageMetadata.url,
+            pathname: '/search/images',
+          },
         });
         break;
       case 'works':
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: pageDescriptions.search.works,
-          title: `${query ? `${query} | ` : ''}Catalogue search`,
-          url: { pathname: '/search/works', query: { query } || {} },
+          title: `${queryStringTitle}Catalogue search`,
+          url: {
+            ...basePageMetadata.url,
+            pathname: '/search/works',
+          },
         });
         break;
       // In development
@@ -114,23 +123,29 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: pageDescriptions.search.exhibitions,
-          title: `${query ? `${query} | ` : ''}Exhibition Search`,
-          url: { pathname: '/search/exhibitions', query: { query } || {} },
+          title: `${queryStringTitle}Exhibitions search`,
+          url: {
+            ...basePageMetadata.url,
+            pathname: '/search/exhibitions',
+          },
         });
         break;
       case 'events':
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: pageDescriptions.search.events,
-          title: `${query ? `${query} | ` : ''}Events Search`,
-          url: { pathname: '/search/events', query: { query } || {} },
+          title: `${queryStringTitle}Events search`,
+          url: {
+            ...basePageMetadata.url,
+            pathname: '/search/events',
+          },
         });
         break;
 
       default:
         break;
     }
-  }, [currentSearchCategory]);
+  }, [currentSearchCategory, queryString]);
 
   const searchbarPlaceholderText = {
     overview: 'Search Wellcome Collection',
@@ -163,28 +178,21 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
   const updateUrl = (form: HTMLFormElement) => {
     const formValues = formDataAsUrlQuery(form);
-    if (formValues.query) {
-      const sortOptionValue = formValues?.sortOrder
-        ? Array.isArray(formValues.sortOrder)
-          ? formValues.sortOrder[0]
-          : formValues.sortOrder
-        : '';
 
-      const { sort, sortOrder } = getUrlQueryFromSortValue(sortOptionValue);
+    const sortOptionValue = getQueryPropertyValue(formValues.sortOrder);
+    const urlFormattedSort = sortOptionValue
+      ? getUrlQueryFromSortValue(sortOptionValue)
+      : undefined;
 
-      const link = linkResolver({
-        ...formValues,
-        sortOrder,
-        sort,
-      });
+    const link = linkResolver({
+      ...formValues,
+      ...(urlFormattedSort && {
+        sort: urlFormattedSort.sort,
+        sortOrder: urlFormattedSort.sortOrder,
+      }),
+    });
 
-      return router.push(link.href, link.as);
-    } else {
-      router.push({
-        pathname: router.pathname,
-        query: {},
-      });
-    }
+    return router.push(link.href, link.as);
   };
 
   return (
