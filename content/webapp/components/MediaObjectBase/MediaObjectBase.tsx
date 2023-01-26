@@ -19,7 +19,7 @@ import Space, {
 import { Label } from '@weco/common/model/labels';
 import styled from 'styled-components';
 
-type Props = {
+export type Props = {
   url?: string;
   title: string;
   primaryLabels: Label[];
@@ -28,7 +28,7 @@ type Props = {
   urlOverride?: string;
   extraClasses?: string;
   partNumber?: number;
-  partDescription: 'Part' | 'Episode';
+  partDescription?: 'Part' | 'Episode';
   partNumberColor?: ColorSelection;
   Image?: ReactElement<typeof ImageType | typeof ImagePlaceholder>;
   DateInfo?:
