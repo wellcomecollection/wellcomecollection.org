@@ -5,7 +5,6 @@ import {
   ReactNode,
 } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -31,9 +30,7 @@ export type Props = {
   partDescription?: 'Part' | 'Episode';
   partNumberColor?: ColorSelection;
   Image?: ReactElement<typeof ImageType | typeof ImagePlaceholder>;
-  DateInfo?:
-    | ReactElement<typeof DateRange>
-    | ReactElement<typeof EventDateRange>;
+  DateInfo?: ReactElement<typeof EventDateRange>;
   StatusIndicator?: ReactElement<typeof StatusIndicator>;
   ExtraInfo?: ReactNode;
   xOfY?: { x: number; y: number };
