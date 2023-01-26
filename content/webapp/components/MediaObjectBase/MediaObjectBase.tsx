@@ -18,6 +18,7 @@ import Space, {
 } from '@weco/common/views/components/styled/Space';
 import { Label } from '@weco/common/model/labels';
 import styled from 'styled-components';
+import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 
 type Props = {
   url?: string;
@@ -63,7 +64,7 @@ export type HasImageProps = {
 const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => ({
   className: props.hasImage
     ? grid({ s: 9, m: 9, l: 9, xl: 9 })
-    : grid({ s: 12, m: 12, l: 12, xl: 12 }),
+    : grid(gridSize12),
 }))<HasImageProps>``;
 
 type LinkOrDivSpaceAttrs = {
