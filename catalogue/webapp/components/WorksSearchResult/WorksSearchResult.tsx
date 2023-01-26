@@ -23,8 +23,8 @@ import {
   Preview,
   PreviewImage,
   WorkInformation,
-  WorkInformationItem,
   WorkTitleHeading,
+  WorkInformationItemSeparator,
 } from './WorksSearchResult.styles';
 
 type Props = {
@@ -81,21 +81,29 @@ const WorkSearchResult: FunctionComponent<Props> = ({
 
             <WorkInformation>
               {primaryContributorLabel && (
-                <WorkInformationItem>
+                <span className="searchable-selector">
                   {primaryContributorLabel}
-                </WorkInformationItem>
+                </span>
               )}
 
               {productionDates.length > 0 && (
-                <WorkInformationItem>
-                  Date:&nbsp;{productionDates[0]}
-                </WorkInformationItem>
+                <>
+                  <WorkInformationItemSeparator aria-hidden>
+                    {' | '}
+                  </WorkInformationItemSeparator>
+                  <span className="searchable-selector">
+                    Date:&nbsp;{productionDates[0]}
+                  </span>
+                </>
               )}
 
               {archiveLabels?.reference && (
-                <WorkInformationItem>
-                  Reference:&nbsp;{archiveLabels?.reference}
-                </WorkInformationItem>
+                <>
+                  <WorkInformationItemSeparator aria-hidden>
+                    {' | '}
+                  </WorkInformationItemSeparator>
+                  <span>Reference:&nbsp;{archiveLabels?.reference}</span>
+                </>
               )}
             </WorkInformation>
             {archiveLabels?.partOf && (

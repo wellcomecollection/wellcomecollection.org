@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
 import CopyUrl from '@weco/catalogue/components/CopyUrl/CopyUrl';
 import Readme from '@weco/catalogue/components/CopyUrl/README.md';
 import * as stories from './CopyUrl.stories.tsx';
@@ -7,10 +7,8 @@ import * as stories from './CopyUrl.stories.tsx';
 
 # CopyUrl
 
-<Description>{Readme}</Description>
+<Readme />
 
-<Canvas>
   <Story story={stories.basic} />
-</Canvas>
 
 <ArgsTable />

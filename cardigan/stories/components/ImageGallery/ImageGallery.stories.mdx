@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
 import ImageGallery from '@weco/content/components/ImageGallery/ImageGallery';
 import Readme from '@weco/content/components/ImageGallery/README.md';
 import * as stories from './ImageGallery.stories.tsx';
@@ -7,21 +7,15 @@ import * as stories from './ImageGallery.stories.tsx';
 
 # ImageGallery
 
-<Description>{Readme}</Description>
+<Readme />
 
 ## Inline
-<Canvas>
   <Story story={stories.inline} />
-</Canvas>
 
 ## Standalone
-<Canvas>
   <Story story={stories.standalone} />
-</Canvas>
 
 ## Frames
-<Canvas>
   <Story story={stories.frames} />
-</Canvas>
 
 <ArgsTable />

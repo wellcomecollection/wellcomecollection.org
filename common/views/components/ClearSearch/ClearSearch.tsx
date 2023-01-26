@@ -36,8 +36,9 @@ const ClearSearch: FunctionComponent<Props> = ({
         inputRef?.current?.focus();
       }}
       type="button"
+      aria-label="clear"
     >
-      <Icon icon={clear} title="Clear" />
+      <Icon iconColor="black" icon={clear} title="Clear" />
     </Button>
   );
 };
