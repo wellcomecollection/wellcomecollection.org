@@ -6,6 +6,8 @@ import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/Exhibition
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
 import { exhibitionBasic } from '../../data/prismic/exhibition';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import CompactCardReadme from '@weco/content/components/CompactCard/README.md';
+import { ReadmeDecorator } from '../../../config/decorators';
 import {
   squareImage,
   singleLineOfText,
@@ -19,7 +21,14 @@ const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
 const secondaryLabelList = [{ text: 'Speech-to-text' }];
 const imageProps = squareImage();
 
-const CompactCardTemplate = args => <CompactCard {...args} />;
+const CompactCardTemplate = args => (
+  <ReadmeDecorator
+    WrappedComponent={CompactCard}
+    args={args}
+    Readme={CompactCardReadme}
+  />
+);
+
 export const compactCard = CompactCardTemplate.bind({});
 compactCard.args = {
   url: 'https://wellcomecollection.org',
