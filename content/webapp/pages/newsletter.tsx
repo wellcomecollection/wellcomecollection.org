@@ -2,7 +2,6 @@ import { FunctionComponent } from 'react';
 import NewsletterSignup from '../components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -10,6 +9,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { newsletterDescription } from '@weco/common/data/microcopy';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 
 type Props = {
   result?: string;
@@ -61,27 +61,13 @@ const Newsletter: FunctionComponent<Props> = ({ result }) => {
           }}
           className="row"
         >
-          <div className="container">
-            <div className="grid">
-              <div
-                className={grid({
-                  s: 12,
-                  m: 10,
-                  shiftM: 1,
-                  l: 8,
-                  shiftL: 2,
-                  xl: 8,
-                  shiftXL: 2,
-                })}
-              >
-                <NewsletterSignup
-                  isSuccess={result === 'success'}
-                  isError={result === 'error'}
-                  isConfirmed={result === 'confirmed'}
-                />
-              </div>
-            </div>
-          </div>
+          <Layout8>
+            <NewsletterSignup
+              isSuccess={result === 'success'}
+              isError={result === 'error'}
+              isConfirmed={result === 'confirmed'}
+            />
+          </Layout8>
         </Space>
       </Space>
     </PageLayout>
