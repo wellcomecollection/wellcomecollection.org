@@ -93,49 +93,67 @@ describe('Query string redirects', () => {
     // listed in redirect.ts rules
     // as we can't have them work locally, we test them here
     {
-      testFunction:
+      description:
         'Image search within works should redirect to Image search hub page',
-      from: { uri: '/works', querystring: 'search=images' },
-      to: 'https://wellcomecollection.org/search/images',
+      from: '/works?search=images',
+      to: '/search/images',
     },
     {
-      testFunction:
+      description:
         'Works should redirect to Catalogue search hub page, with specified forwardParams§',
-      from: { uri: '/works', querystring: 'query=beep&workType=v&beep=boop' },
-      to: 'https://wellcomecollection.org/search/works?query=beep&workType=v',
+      from: '/works?query=beep&workType=v&beep=boop',
+      to: '/search/works?query=beep&workType=v',
     },
     {
-      testFunction:
+      description:
         'Image should redirect to Image search hub page, with specified forwardParams§',
-      from: { uri: '/images', querystring: 'images.color=blue&hello=world' },
-      to: 'https://wellcomecollection.org/search/images?images.color=blue',
+      from: '/images?images.color=blue&hello=world',
+      to: '/search/images?images.color=blue',
     },
     // Extra testing cases
     {
-      testFunction: 'Only forward the specified forwardParams',
-      from: { uri: '/images', querystring: 'beep=boop' },
-      to: 'https://wellcomecollection.org/search/images',
+      description: 'Only forward the specified forwardParams',
+      from: '/images?beep=boop',
+      to: '/search/images',
     },
     {
-      testFunction: 'Do not occur if the uri is not an exact match',
-      from: { uri: '/work' },
+      description: 'Do not occur if the uri is not an exact match',
+      from: '/work',
       to: 'redirectionShouldFail',
     },
     {
-      testFunction: 'Do not occur if the uri is not an exact match',
-      from: { uri: '/test', querystring: 'query=beep' },
+      description: 'Do not occur if the uri is not an exact match',
+      from: '/test?query=beep',
       to: 'redirectionShouldFail',
     },
-    {
-      testFunction: 'Do not occur if the uri is not an exact match',
-      from: { uri: '' },
-      to: 'redirectionShouldFail',
-    },
-  ])(`$testFunction`, ({ from, to }) => {
-    const redirectedResponse = getRedirect(request(from));
+  ])(`$description`, ({ from, to }) => {
+    const origin = 'https://wellcomecollection.org';
 
-    to !== 'redirectionShouldFail'
-      ? expect(redirectedResponse?.headers.location[0].value).toEqual(to)
-      : expect(redirectedResponse).toBeUndefined();
+    const fromUrl = new URL(origin + from);
+    fromUrl.searchParams.sort(); // strictly, we're not testing whether it maintains query string order
+    const fromRequestObject = {
+      uri: fromUrl.pathname,
+      querystring: fromUrl.searchParams.toString(),
+    };
+
+    const redirectedResponse = getRedirect(request(fromRequestObject));
+
+    if (to === 'redirectionShouldFail') {
+      expect(redirectedResponse).toBeUndefined();
+    } else {
+      const redirectLocationUrl = new URL(
+        redirectedResponse?.headers.location[0]?.value || ''
+      );
+      redirectLocationUrl.searchParams.sort(); // as above
+
+      const toUrl = new URL(origin + to);
+      toUrl.searchParams.sort();
+
+      expect(redirectedResponse?.status).toEqual('301');
+      expect(redirectLocationUrl.pathname).toEqual(toUrl.pathname);
+      expect(redirectLocationUrl.searchParams.toString()).toEqual(
+        toUrl.searchParams.toString()
+      );
+    }
   });
 });
