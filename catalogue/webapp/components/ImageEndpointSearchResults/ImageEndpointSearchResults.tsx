@@ -104,7 +104,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     ({ photo, layout }) => {
       const rgbColor = hexToRgb(photo.averageColor || '');
       return (
-        <li role="listitem" style={{ padding: 12 }}>
+        <li style={{ padding: 12 }}>
           <ImageFrame>
             <ImageCard
               id={photo.id}

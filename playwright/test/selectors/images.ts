@@ -7,7 +7,7 @@ export const colourSelectorFilterDropDown = `${searchImagesForm} button[aria-con
 export const colourSelector = 'button[id="swatch-green"]';
 
 // results list
-export const imagesResultsListItem = `${searchResultsContainer} li[role="listitem"]`;
+export const imagesResultsListItem = `${searchResultsContainer} li`;
 
 // modal
 export const mobileModalImageSearch = `${searchImagesForm} ${mobileModal}`;
