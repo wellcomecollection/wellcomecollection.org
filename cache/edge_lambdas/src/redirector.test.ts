@@ -88,57 +88,54 @@ jest.mock('./redirects', () => {
 });
 
 describe('Query string redirects', () => {
-  test('Occur when all the params in the definition are in the request', () => {
-    const redirectedResponse = getRedirect(
-      request({ uri: '/works', querystring: 'search=images' })
-    );
-    expect(redirectedResponse?.status).toEqual('301');
-    expect(redirectedResponse?.headers.location[0]).toEqual({
-      key: 'Location',
-      value: 'https://wellcomecollection.org/search/images',
-    });
-  });
+  test.each([
+    // Offically active cases
+    // listed in redirect.ts rules
+    // as we can't have them work locally, we test them here
+    {
+      testFunction:
+        'Image search within works should redirect to Image search hub page',
+      from: { uri: '/works', querystring: 'search=images' },
+      to: 'https://wellcomecollection.org/search/images',
+    },
+    {
+      testFunction:
+        'Works should redirect to Catalogue search hub page, with specified forwardParams§',
+      from: { uri: '/works', querystring: 'query=beep&workType=v&beep=boop' },
+      to: 'https://wellcomecollection.org/search/works?query=beep&workType=v',
+    },
+    {
+      testFunction:
+        'Image should redirect to Image search hub page, with specified forwardParams§',
+      from: { uri: '/images', querystring: 'images.color=blue&hello=world' },
+      to: 'https://wellcomecollection.org/search/images?images.color=blue',
+    },
+    // Extra testing cases
+    {
+      testFunction: 'Only forward the specified forwardParams',
+      from: { uri: '/images', querystring: 'beep=boop' },
+      to: 'https://wellcomecollection.org/search/images',
+    },
+    {
+      testFunction: 'Do not occur if the uri is not an exact match',
+      from: { uri: '/work' },
+      to: 'redirectionShouldFail',
+    },
+    {
+      testFunction: 'Do not occur if the uri is not an exact match',
+      from: { uri: '/test', querystring: 'query=beep' },
+      to: 'redirectionShouldFail',
+    },
+    {
+      testFunction: 'Do not occur if the uri is not an exact match',
+      from: { uri: '' },
+      to: 'redirectionShouldFail',
+    },
+  ])(`$testFunction`, ({ from, to }) => {
+    const redirectedResponse = getRedirect(request(from));
 
-  test('Occur if there are no matchParams, and keep forwarded params', () => {
-    const redirectedResponse = getRedirect(
-      request({
-        uri: '/works',
-        querystring: 'query=beep&production.dates.to=2000',
-      })
-    );
-    expect(redirectedResponse?.status).toEqual('301');
-    expect(redirectedResponse?.headers.location[0]).toEqual({
-      key: 'Location',
-      value:
-        'https://wellcomecollection.org/search/works?query=beep&production.dates.to=2000',
-    });
-  });
-
-  test('Do not occure if the uri is not a complete match', () => {
-    const nonRedirectedResponse = getRedirect(
-      request({ uri: '/works-test', querystring: 'query=beep' })
-    );
-    expect(nonRedirectedResponse).toBeUndefined();
-  });
-
-  test('Do not occur if all of the params in the definition are not matched', () => {
-    const nonRedirectedResponse = getRedirect(
-      request({ uri: '/test', querystring: 'bing=bong' })
-    );
-    expect(nonRedirectedResponse).toBeUndefined();
-  });
-
-  test('Only forwards params that are contained within forwardParams', () => {
-    const redirectedResponse = getRedirect(
-      request({
-        uri: '/works',
-        querystring: 'search=images&query=beep&something=else',
-      })
-    );
-    expect(redirectedResponse?.status).toEqual('301');
-    expect(redirectedResponse?.headers.location[0]).toEqual({
-      key: 'Location',
-      value: 'https://wellcomecollection.org/search/images?query=beep',
-    });
+    to !== 'redirectionShouldFail'
+      ? expect(redirectedResponse?.headers.location[0].value).toEqual(to)
+      : expect(redirectedResponse).toBeUndefined();
   });
 });

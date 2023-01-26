@@ -233,6 +233,9 @@ type QueryRedirect = {
   redirectPath: string;
   forwardParams: Set<string>;
 };
+
+// When adding a new rule, add it to redirect.tests.ts
+// As we can't test the actual redirection locally
 export const queryRedirects: Record<string, QueryRedirect[]> = {
   // Search hub redirections
   '/works': [
