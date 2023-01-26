@@ -133,6 +133,8 @@ type SolidButtonProps = {
   size?: ButtonSize;
   hoverUnderline?: boolean;
   isPill?: boolean;
+  hasIcon?: boolean;
+  isIconAfter?: boolean;
 };
 
 // Default to medium button
@@ -171,7 +173,13 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
       ? `
         border-radius: 20px;
         border: 1px solid ${props.theme.color('black')};
-        padding: 8px 16px;
+        padding: ${
+          props.hasIcon
+            ? `8px ${props.isIconAfter ? '8px' : '16px'} 8px ${
+                props.isIconAfter ? '16px' : '8px'
+              }`
+            : '8px 16px'
+        };
 
         &:hover {
           box-shadow: ${props.theme.focusBoxShadow};
@@ -233,6 +241,8 @@ const Button: FunctionComponent<ButtonSolidProps> = (
       ref={ref}
       form={form}
       isPill={isPill}
+      hasIcon={!!icon}
+      isIconAfter={isIconAfter}
     >
       <BaseButtonInner isInline={size === 'small'} isPill={isPill}>
         {isIconAfter && (
