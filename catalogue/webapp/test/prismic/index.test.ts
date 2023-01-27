@@ -76,7 +76,7 @@ describe('transformPrismicResponse', () => {
         title: 'A cat in a hat',
         summary: 'A cat in a hat, a great story of an ace cat',
         id: 'X123456',
-        url: 'https://wellcomecollection.org/articles/X123456',
+        url: '/articles/X123456',
         firstPublicationDate: new Date('2022-09-08T09:29:27+0000'),
         contributors: ['Willow Wisp'],
         image: {

@@ -18,7 +18,7 @@ import EventDateRange from '../components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../utils/page-header';
-import { Event, Interpretation } from '../types/events';
+import { Event, EventBasic, Interpretation } from '../types/events';
 import { upcomingDatesFullyBooked } from '../services/prismic/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -188,10 +188,16 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
 };
 
 const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
-  const [scheduledIn, setScheduledIn] = useState<Event>();
+  const [scheduledIn, setScheduledIn] = useState<EventBasic>();
+
+  // This is used to populate the 'Part of' in the breadcrumb trail.
+  //
+  // Here's an example of a page which uses it:
+  // https://wellcomecollection.org/events/W3K54ykAACcAEIGL
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
       predicates: [prismic.predicate.at('my.events.schedule.event', event.id)],
+      pageSize: 1,
     });
 
     if (

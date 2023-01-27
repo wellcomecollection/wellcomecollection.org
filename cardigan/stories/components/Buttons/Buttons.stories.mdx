@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
 import ButtonSolidReadme from '@weco/common/views/components/ButtonSolid/README.md';
 import DropdownButtonReadme from '@weco/common/views/components/DropdownButton/README.md';
 import ToolbarSegmentedControlReadme from '@weco/common/views/components/ToolbarSegmentedControl/README.md';
@@ -11,34 +11,26 @@ import * as stories from './Buttons.stories.tsx';
 
 ## `ButtonSolid`
 
-<Description>{ButtonSolidReadme}</Description>
+<ButtonSolidReadme />
 
-<Canvas>
   <Story story={stories.buttonSolid} />
-</Canvas>
 
 ## `Control`
 
-<Description>{ControlReadme}</Description>
+<ControlReadme />
 
-<Canvas>
   <Story story={stories.control} />
-</Canvas>
 
 ## `ToolbarSegmentedControl`
 
-<Description>{ToolbarSegmentedControlReadme}</Description>
+<ToolbarSegmentedControlReadme />
 
-<Canvas>
   <Story story={stories.toolbarSegmentedControl} />
-</Canvas>
 
 ## `DropdownButton`
 
-<Description>{DropdownButtonReadme}</Description>
+<DropdownButtonReadme />
 
-<Canvas>
   <Story story={stories.dropdownButton} />
-</Canvas>
 
 

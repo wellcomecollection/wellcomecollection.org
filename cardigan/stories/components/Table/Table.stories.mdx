@@ -1,4 +1,4 @@
-import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
 import Table from '@weco/common/views/components/Table/Table';
 import Readme from '@weco/common/views/components/Table/README.md';
 import * as stories from './Table.stories.tsx';
@@ -7,16 +7,12 @@ import * as stories from './Table.stories.tsx';
 
 # Table
 
-<Description>{Readme}</Description>
+<Readme />
 
 ## Column headers
-<Canvas>
   <Story story={stories.colHeaders} />
-</Canvas>
 
 ## Row headers
-<Canvas>
   <Story story={stories.rowHeaders} />
-</Canvas>
 
 <ArgsTable />
