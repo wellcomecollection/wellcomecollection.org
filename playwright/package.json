@@ -2,7 +2,7 @@
   "name": "@weco/e2e-tests",
   "license": "MIT",
   "scripts": {
-    "test": "playwright test",
+    "test": "playwright test --workers=1",
     "test:mobile": "NODE_ENV=test platform=mobile yarn test",
     "test:debug:mobile": "NODE_ENV=test debug=true platform=mobile yarn test",
     "test:debug": "NODE_ENV=test debug=true yarn test",
