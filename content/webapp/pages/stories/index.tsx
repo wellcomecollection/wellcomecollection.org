@@ -33,7 +33,6 @@ import { StoriesLanding } from '@weco/content/types/stories-landing';
 import { StoriesLandingPrismicDocument } from '@weco/content/services/prismic/types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { RichTextField } from '@prismicio/types';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { fetchSeries } from '@weco/content/services/prismic/fetch/series';
 import {
@@ -220,9 +219,7 @@ const StoriesPage: FunctionComponent<Props> = ({
         {storiesLanding.storiesDescription && (
           <SpacingComponent>
             <Layout12>
-              <PrismicHtmlBlock
-                html={storiesLanding.storiesDescription as RichTextField}
-              />
+              <PrismicHtmlBlock html={storiesLanding.storiesDescription} />
             </Layout12>
           </SpacingComponent>
         )}
@@ -267,9 +264,7 @@ const StoriesPage: FunctionComponent<Props> = ({
         {storiesLanding.booksDescription && (
           <SpacingComponent>
             <Layout12>
-              <PrismicHtmlBlock
-                html={storiesLanding.booksDescription as RichTextField}
-              />
+              <PrismicHtmlBlock html={storiesLanding.booksDescription} />
             </Layout12>
           </SpacingComponent>
         )}
