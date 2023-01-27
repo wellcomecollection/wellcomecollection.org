@@ -13,7 +13,7 @@ pushd identity/webapp
         PORT=3002 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn start:dev &
         PROC_IDENTIFY=$!
     else
-        PORT=3002 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn start:ci &
+        PORT=3002 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn start &
         PROC_IDENTIFY=$!
     fi
 popd
