@@ -11,6 +11,8 @@ import { ServerStyleSheet } from 'styled-components';
 import * as snippet from '@segment/snippet';
 import {
   GoogleAnalyticsUA,
+  GoogleTagManager,
+  GoogleTagManagerNoScript,
 } from '../../services/app/google-analytics';
 
 const {
@@ -63,12 +65,14 @@ class WecoDoc extends Document {
     return (
       <Html lang="en" className="is-keyboard">
         <Head>
+          <GoogleTagManager />
           <GoogleAnalyticsUA />
           <script
             dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
           />
         </Head>
         <body>
+          <GoogleTagManagerNoScript />
           <div id="top">
             <Main />
           </div>
