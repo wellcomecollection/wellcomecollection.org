@@ -1,4 +1,8 @@
-
+- label: "run e2e tests"
+  command: .buildkite/scripts/run_e2e_in_buildkite.sh
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
 
 # - label: ":docker: build common"
 #   key: "build_common"
@@ -15,8 +19,6 @@
 # - label: ":docker: build catalogue"
 #   key: "build_catalogue"
 #   plugins:
-#     - wellcomecollection/aws-assume-role#v0.2.2:
-#         role: "arn:aws:iam::130871440101:role/experience-ci"
 #     - ecr#v2.1.1:
 #         login: true
 #     - docker-compose#v3.5.0:
