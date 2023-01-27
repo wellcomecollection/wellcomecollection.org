@@ -3,6 +3,8 @@
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
 
 # - label: ":docker: build common"
 #   key: "build_common"
