@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { font } from '@weco/common/utils/classnames';
+import { formatNumber } from '@weco/common/utils/grammar';
 
 export type Props = {
   totalPages: number;
@@ -106,7 +107,7 @@ export const Pagination: FunctionComponent<Props> = ({
       )}
 
       <span>
-        Page <strong>{currentPage}</strong> of {totalPages}
+        Page <strong>{currentPage}</strong> of {formatNumber(totalPages)}
       </span>
 
       {showNext && (
