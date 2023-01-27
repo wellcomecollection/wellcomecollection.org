@@ -10,6 +10,7 @@ import { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import * as snippet from '@segment/snippet';
 import {
+  GoogleDataLayer,
   GoogleAnalyticsUA,
   GoogleTagManager,
   GoogleTagManagerNoScript,
@@ -65,6 +66,7 @@ class WecoDoc extends Document {
     return (
       <Html lang="en" className="is-keyboard">
         <Head>
+          <GoogleDataLayer />
           <GoogleTagManager />
           <GoogleAnalyticsUA />
           <script
