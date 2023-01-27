@@ -2,7 +2,6 @@ import { FunctionComponent, useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { Toggles } from '@weco/toggles';
 
-export const GOOGLE_ANALYTICS_V4_ID = 'G-206J7SLYFC';
 export const GOOGLE_ANALYTICS_UA_ID = 'UA-55614-6';
 
 const gaCookieFlags = 'SameSite=None;secure';
@@ -17,13 +16,6 @@ const gaDimensionKeys = {
 
 // Don't use the next/script `Script` component for these as in
 // Next.js v11 it does not work when inside a `Head` component
-export const GoogleAnalyticsV4: FunctionComponent = () => (
-  <script
-    id="google-analytics-v4"
-    src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_V4_ID}`}
-    async={true}
-  />
-);
 
 export const GoogleAnalyticsUA: FunctionComponent = () => (
   <script
@@ -38,17 +30,6 @@ export const GoogleAnalyticsUA: FunctionComponent = () => (
     }}
   />
 );
-
-export const useGoogleAnalyticsV4 = (): void =>
-  useEffect(() => {
-    if (window?.gtag) {
-      const path = window.location.pathname + window.location.search;
-      window.gtag('config', GOOGLE_ANALYTICS_V4_ID, {
-        page_path: path,
-        cookie_flags: gaCookieFlags,
-      });
-    }
-  }, []);
 
 export const useGoogleAnalyticsUA = ({
   toggles,
