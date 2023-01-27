@@ -1,18 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-echo Starting the applications
+set -o errexit
+set -o nounset
+
+echo "Starting the applications"
 
 target=true
 
-PORT=3002 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn identity &
-P1=$!
+pushd identity/webapp
+    PORT=3002 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn start:dev &
+    PROC_IDENTIFY=$!
+popd
+
 PORT=3001 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn catalogue &
-P2=$!
+PROC_CATALOGUE=$!
+
 PORT=3000 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn content &
-P3=$!
+PROC_CONTENT=$!
 
 # saves the process IDs into the variables above.
 # passed them in to the array on wait, when you kill wait, you also kill the processes passed in
 
-echo process IDs: $P1 $P2 $P3
-wait $P1 $P2 $P3
+echo process IDs: identity=$PROC_IDENTIFY catalogue=$PROC_CATALOGUE content=$PROC_CONTENT
+wait $PROC_IDENTIFY $PROC_CATALOGUE $PROC_CONTENT
