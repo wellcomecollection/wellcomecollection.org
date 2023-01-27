@@ -11,7 +11,7 @@ import {
 import { Query } from '@prismicio/types';
 import { getPeriodPredicates } from '../types/predicates';
 import * as prismic from '@prismicio/client';
-import { Event } from '../../../types/events';
+import { EventBasic } from '../../../types/events';
 import {
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
@@ -191,14 +191,7 @@ export const fetchEvents = (
   });
 };
 
-// TODO: I suspect any page that uses this fetcher to get a non-empty
-// list of results will throw a client-side error, because these events
-// will have strings as dates instead of the JavaScript Date type.
-//
-// See a similar comment on the client-side fetcher in multi-content.ts.
-//
-// AFAICT, there aren't any events that call this fetcher right now and
-// return a non-empty list of results, so it's hard to test this -- but
-// be aware that bug is potentially lurking out there.
+// See also: the API route /api/events, which returns the data used
+// by this fetcher.
 export const fetchEventsClientSide =
-  clientSideFetcher<Event>('events').getByTypeClientSide;
+  clientSideFetcher<EventBasic>('events').getByTypeClientSide;
