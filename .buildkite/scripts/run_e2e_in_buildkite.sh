@@ -9,5 +9,5 @@ docker run --rm \
   --volume "$ROOT:$ROOT" \
   --workdir "$ROOT" \
   --publish 3000:3000 \
-    public.ecr.aws/docker/library/node:14-slim
+    public.ecr.aws/docker/library/node:14-slim \
       ./run_all_e2e.sh
