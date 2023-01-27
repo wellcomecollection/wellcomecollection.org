@@ -131,7 +131,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
         </li>
       );
     };
-
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (

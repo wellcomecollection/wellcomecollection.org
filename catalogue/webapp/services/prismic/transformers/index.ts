@@ -37,7 +37,7 @@ export async function transformPrismicResponse(
         width: image.image?.dimensions?.width,
         height: image.image?.dimensions?.height,
       },
-      url: `https://wellcomecollection.org/${type}/${id}`,
+      url: `/${type}/${id}`,
       firstPublicationDate,
       contributors: allContributors,
       type,

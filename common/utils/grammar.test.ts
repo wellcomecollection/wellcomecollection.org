@@ -1,4 +1,15 @@
-import { pluralize } from './grammar';
+import { formatNumber, pluralize } from './grammar';
+
+describe('formatNumber', () => {
+  test.each([
+    { n: 1, output: '1' },
+    { n: 5, output: '5' },
+    { n: 100, output: '100' },
+    { n: 1156915, output: '1,156,915' },
+  ])('$n is formatted as $output', ({ n, output }) => {
+    expect(formatNumber(n)).toStrictEqual(output);
+  });
+});
 
 describe('pluralize', () => {
   test.each([
