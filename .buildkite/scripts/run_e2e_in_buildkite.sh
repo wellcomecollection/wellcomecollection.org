@@ -11,7 +11,7 @@ CREDENTIALS=$(
   jq -r .SecretString
 )
 
-docker run --rm --daemon \
+docker run --rm --detach \
   --volume "$ROOT:$ROOT" \
   --workdir "$ROOT" \
   --env CREDENTIALS \
