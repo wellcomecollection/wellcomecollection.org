@@ -28,7 +28,7 @@ import {
   transformArticleToArticleBasic,
 } from '../services/prismic/transformers/articles';
 import { transformStoriesLanding } from '../services/prismic/transformers/stories-landing';
-import { pageDescriptions, comicsStrapline } from '@weco/common/data/microcopy';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { StoriesLanding } from '../types/stories-landing';
 import { StoriesLandingPrismicDocument } from '../services/prismic/types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -243,7 +243,7 @@ const StoriesPage: FunctionComponent<Props> = ({
 
           <SpacingComponent>
             <Layout12>
-              <p>{comicsStrapline}</p>
+              <p>{pageDescriptions.comic}</p>
             </Layout12>
           </SpacingComponent>
 
