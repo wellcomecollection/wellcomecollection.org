@@ -80,4 +80,14 @@ describe('Pagination', () => {
 
     expect(component.text().includes('Page 5 of 10')).toBe(true);
   });
+
+  it('does pretty formatting of large page counts', () => {
+    useRouter.mockImplementationOnce(() => ({ query: { page: '5' } }));
+
+    const component = mountWithTheme(
+      <Pagination totalPages={12345} ariaLabel="Results pagination" />
+    );
+
+    expect(component.text().includes('Page 5 of 12,345')).toBe(true);
+  });
 });
