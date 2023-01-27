@@ -8,8 +8,14 @@ echo "Starting the applications"
 target=true
 
 pushd identity/webapp
-    PORT=3002 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn start:dev &
-    PROC_IDENTIFY=$!
+    if [[ "${CI:-}" == "true" ]]
+    then
+        PORT=3002 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn start:dev &
+        PROC_IDENTIFY=$!
+    else
+        PORT=3002 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn start:ci &
+        PROC_IDENTIFY=$!
+    fi
 popd
 
 PORT=3001 LOCAL_CONCURRENT_DEV_ENV=$target IDENTITY_HOST=http://localhost:3002 yarn catalogue &
