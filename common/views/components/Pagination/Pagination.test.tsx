@@ -70,4 +70,14 @@ describe('Pagination', () => {
         .includes('href="/works?page=4&amp;locations=available-online"')
     ).toBe(true);
   });
+
+  it('includes the total number of pages', () => {
+    useRouter.mockImplementationOnce(() => ({ query: { page: '5' } }));
+
+    const component = mountWithTheme(
+      <Pagination totalPages={10} ariaLabel="Results pagination" />
+    );
+
+    expect(component.text().includes('Page 5 of 10')).toBe(true);
+  });
 });
