@@ -38,6 +38,13 @@ services:
   updown:
     build:
       context: ./updown
+  run-concurrently:
+    image: public.ecr.aws/docker/library/node:14-slim
+    volumes:
+      - ~/.aws:/root/.aws
+      - .:/repo
+    working_dir: /repo
+    command: ./run_all_e2e.sh
   e2e:
     image: "130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright:latest"
     volumes:
