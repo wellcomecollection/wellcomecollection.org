@@ -120,7 +120,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                 setExpandedImage(photo);
                 setIsActive(true);
               }}
-              layout="fill"
+              layout="true-raw"
               background={
                 background ||
                 (rgbColor &&
