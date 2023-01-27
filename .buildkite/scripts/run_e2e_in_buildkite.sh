@@ -33,7 +33,7 @@ do
   fi
 done
 
-docker run \
+docker run --tty \
   --env CI=true \
   --env PLAYWRIGHT_BASE_URL=http://localhost:3000 \
   --network host \
