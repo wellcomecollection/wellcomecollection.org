@@ -7,10 +7,11 @@ ROOT=$(git rev-parse --show-toplevel)
 
 CREDENTIALS=$(
   aws secretsmanager get-secret-value \
-    --secret-id=identity/stage/local_dev_client/credentials
+    --secret-id=identity/stage/local_dev_client/credentials |
+  jq -r .SecretString
 )
 
-docker run --rm \
+docker run --rm --daemon \
   --volume "$ROOT:$ROOT" \
   --workdir "$ROOT" \
   --env CREDENTIALS \
