@@ -126,6 +126,11 @@ describe('Query string redirects', () => {
       from: '/test?query=beep',
       to: 'redirectionShouldFail',
     },
+    {
+      description: 'Do not occur if the uri is not an exact match',
+      from: '/test/works',
+      to: 'redirectionShouldFail',
+    },
   ])(`$description`, ({ from, to }) => {
     const origin = 'https://wellcomecollection.org';
 
