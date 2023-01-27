@@ -22,13 +22,18 @@ docker run --rm --detach \
 # Wait ~12 minutes for the containers to start, otherwise stop
 for i in {1..150}
 do
-  curl http://localhost:3000 && rc=$? || rc=$?
+  curl http://localhost:3000 >/dev/null 2>&1 && rc=$? || rc=$?
   if (( rc == 0 ))
   then
     echo "Docker container has started!"
     break
   else
-    echo "Docker container hasn't started, waiting 5 seconds..."
-    sleep 5
+    echo "Waiting another 15 seconds for Docker container..."
+    sleep 15
   fi
 done
+
+docker run \
+  --env CI=true \
+  --env PLAYWRIGHT_BASE_URL=http://localhost:3000 \
+  e2e yarn test
