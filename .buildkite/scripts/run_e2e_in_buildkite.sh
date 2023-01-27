@@ -36,4 +36,4 @@ done
 docker run \
   --env CI=true \
   --env PLAYWRIGHT_BASE_URL=http://localhost:3000 \
-  e2e yarn test
+  130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright yarn test
