@@ -162,8 +162,8 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                   workId={result.source.id}
                   image={{
                     contentUrl: result.src,
-                    width: 156,
-                    height: 156,
+                    width: result.width * 1.57,
+                    height: result.height * 1.57,
                     alt: result.source.title,
                   }}
                   onClick={event => {

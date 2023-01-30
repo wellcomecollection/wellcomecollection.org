@@ -55,8 +55,8 @@ const ImageCard: FunctionComponent<Props> = ({
         <IIIFImage
           image={{
             contentUrl: image.contentUrl,
-            width: 400,
-            height: 400,
+            width: image.width,
+            height: image.height,
             alt: image.alt,
           }}
           width={300}
