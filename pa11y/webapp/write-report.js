@@ -44,6 +44,12 @@ const urls = [
   '/guides/exhibitions/YzwsAREAAHylrxau/audio-without-descriptions',
   '/guides/exhibitions/YzwsAREAAHylrxau/captions-and-transcripts',
   '/guides/exhibitions/YzwsAREAAHylrxau/bsl',
+
+  // These are the new search pages
+  '/search?query=human',
+  '/search/stories?query=human',
+  '/search/images?query=human',
+  '/search/works?query=human',
 ].map(u => `${baseUrl}${u}`);
 
 const promises = urls.map(url =>
