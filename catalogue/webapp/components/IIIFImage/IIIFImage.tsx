@@ -67,10 +67,9 @@ const IIIFImage: FunctionComponent<Props> = ({
   // which will be rendered as a single image element with no wrappers, sizers or other responsive behavior.
   // We may be able to use this in future but, until then, render our own img element.
   if (layout === 'raw' || layout === 'true-raw') {
-    let imgSrc = image.contentUrl;
-    if (layout === 'raw') {
-      imgSrc = convertIiifImageUri(imgSrc, width);
-    }
+    const imgSrc = layout === 'raw'
+      ? convertIiifImageUri(imgSrc, width)
+      : image.contentUrl;
     return (
       <StyledImageContainer background={background}>
         <img
