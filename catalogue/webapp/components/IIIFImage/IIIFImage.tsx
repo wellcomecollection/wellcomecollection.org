@@ -81,7 +81,10 @@ const IIIFImage: FunctionComponent<Props> = ({
 
   if (layout === 'fixed') {
     return (
-      <StyledImageContainer background={background}>
+      <StyledImageContainer
+        background={background}
+        style={{ height: image.height }} // to not have styledComponents generate too many classes
+      >
         <StyledImage
           layout={layout}
           sizes={sizesString}

@@ -5,7 +5,6 @@ import PhotoAlbum, {
 } from 'react-photo-album';
 import styled from 'styled-components';
 
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { hexToRgb } from '@weco/common/utils/convert-colors';
 import { Image } from '@weco/common/model/catalogue';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -120,7 +119,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                 setExpandedImage(photo);
                 setIsActive(true);
               }}
-              layout="raw"
+              layout="fixed"
               background={
                 background ||
                 (rgbColor &&
@@ -173,7 +172,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                       setIsActive(true);
                     }
                   }}
-                  layout="raw"
+                  layout="fixed"
                 />
               </Space>
             </li>
