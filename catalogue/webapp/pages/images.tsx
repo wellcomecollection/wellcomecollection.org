@@ -31,7 +31,7 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 
 type Props = {
-  images?: CatalogueResultsList<Image>;
+  images: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
   pageview: Pageview;
 };
@@ -55,9 +55,7 @@ const Images: NextPage<Props> = ({ images, imagesRouteProps }) => {
     };
   }, []);
 
-  const filters = images
-    ? imagesFilters({ images, props: imagesRouteProps })
-    : [];
+  const filters = imagesFilters({ images, props: imagesRouteProps });
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -68,7 +66,7 @@ const Images: NextPage<Props> = ({ images, imagesRouteProps }) => {
   return (
     <>
       <Head>
-        {images?.prevPage && (
+        {images.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -77,7 +75,7 @@ const Images: NextPage<Props> = ({ images, imagesRouteProps }) => {
             )}
           />
         )}
-        {images?.nextPage && (
+        {images.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -96,17 +94,13 @@ const Images: NextPage<Props> = ({ images, imagesRouteProps }) => {
         jsonLd={{ '@type': 'WebPage' }}
         siteSection="collections"
         image={undefined}
-        apiToolbarLinks={
-          images
-            ? [
-                {
-                  id: 'catalogue-api-query',
-                  label: 'Catalogue API query',
-                  link: images._requestUrl,
-                },
-              ]
-            : []
-        }
+        apiToolbarLinks={[
+          {
+            id: 'catalogue-api-query',
+            label: 'Catalogue API query',
+            link: images._requestUrl,
+          },
+        ]}
       >
         <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
           <div className="container">
@@ -132,7 +126,7 @@ const Images: NextPage<Props> = ({ images, imagesRouteProps }) => {
           </div>
         </Space>
 
-        {images?.results && images.results.length > 0 && (
+        {images.results.length > 0 ? (
           <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
@@ -168,9 +162,7 @@ const Images: NextPage<Props> = ({ images, imagesRouteProps }) => {
               </Space>
             </Space>
           </>
-        )}
-
-        {images?.results.length === 0 && (
+        ) : (
           <SearchNoResults query={query} hasFilters={!!color} />
         )}
       </CataloguePageLayout>
@@ -207,7 +199,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       pageSize: 30,
     });
 
-    if (images && images.type === 'Error') {
+    if (images.type === 'Error') {
       return appError(context, images.httpStatus, 'Images API error');
     }
 
@@ -218,11 +210,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         imagesRouteProps: params,
         pageview: {
           name: 'images',
-          properties: images
-            ? {
-                totalResults: images.totalResults,
-              }
-            : {},
+          properties: images ? { totalResults: images.totalResults } : {},
         },
       }),
     };
