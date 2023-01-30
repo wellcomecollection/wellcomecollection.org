@@ -172,7 +172,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      {!isEnhanced ? (
+      {!isEnhanced && (
         <input
           form={form}
           type="color"
@@ -185,7 +185,8 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
               : ''
           }
         />
-      ) : (
+      )}
+      {isEnhanced && (
         <>
           <input
             form={form}
