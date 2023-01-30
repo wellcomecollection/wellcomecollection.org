@@ -64,6 +64,9 @@ class WecoDoc extends Document {
     return (
       <Html lang="en" className="is-keyboard">
         <Head>
+          {/* W3C standard: The element containing the character encoding declaration 
+          must be serialized completely within the first 1024 bytes of the document. 
+          It has to be declared here as Next dynamically adds other elements to the Head */}
           <meta charSet="utf-8" />
           <GoogleAnalyticsV4 />
           <GoogleAnalyticsUA />
