@@ -161,6 +161,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return {
       props: removeUndefinedProps({
         image,
+        // We know we'll get a catalogue API URL for a non-error response, but
+        // this isn't (currently) asserted by the type system.
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         catalogueApiUrl: catalogueApiUrl!,
         sourceWork: work,
         pageview: {
