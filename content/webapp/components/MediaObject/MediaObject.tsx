@@ -8,6 +8,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import styled from 'styled-components';
 import { grid, font } from '@weco/common/utils/classnames';
 import * as prismicT from '@prismicio/types';
+import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 
 export type Props = {
   title: string;
@@ -19,29 +20,17 @@ type ImageWrapperProp = {
   hasImage: boolean;
 };
 
-const grid12 = grid({ s: 12, m: 12, l: 12, xl: 12 });
+const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => ({
+  className: props.hasImage
+    ? grid({ s: 2, m: 2, l: 2, xl: 2 })
+    : grid(gridSize12),
+}))<ImageWrapperProp>``;
 
-const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => {
-  if (props.hasImage) {
-    return {
-      className: grid({ s: 2, m: 2, l: 2, xl: 2 }),
-    };
-  }
-  return {
-    className: grid12,
-  };
-})<ImageWrapperProp>``;
-
-const TextWrapper = styled.div.attrs<HasImageProps>(props => {
-  if (props.hasImage) {
-    return {
-      className: grid({ s: 10, m: 10, l: 10, xl: 10 }),
-    };
-  }
-  return {
-    className: grid12,
-  };
-})<HasImageProps>``;
+const TextWrapper = styled.div.attrs<HasImageProps>(props => ({
+  className: props.hasImage
+    ? grid({ s: 10, m: 10, l: 10, xl: 10 })
+    : grid(gridSize12),
+}))<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
   className: `card-link__title ${font('wb', 4)}`,
