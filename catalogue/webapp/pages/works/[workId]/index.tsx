@@ -22,14 +22,14 @@ export const WorkPage: NextPage<Props> = ({ workResponse }) => {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id } = context.query;
+    const { workId } = context.query;
 
-    if (!looksLikeCanonicalId(id)) {
+    if (!looksLikeCanonicalId(workId)) {
       return { notFound: true };
     }
 
     const workResponse = await getWork({
-      id,
+      id: workId,
       toggles: serverData.toggles,
     });
 
