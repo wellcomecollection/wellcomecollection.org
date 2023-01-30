@@ -4,7 +4,7 @@ const localConcurrentDevelopment =
   process.env.LOCAL_CONCURRENT_DEV_ENV === 'true';
 
 console.info(
-  'local concurrent development environment is set to:',
+  '(catalogue) local concurrent development environment is set to:',
   localConcurrentDevelopment
 );
 

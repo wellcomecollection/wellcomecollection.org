@@ -4,6 +4,11 @@ const CATALOGUE_URL = 'http://localhost:3001/';
 const localConcurrentDevelopment =
   process.env.LOCAL_CONCURRENT_DEV_ENV === 'true';
 
+console.info(
+  '(content) local concurrent development environment is set to:',
+  localConcurrentDevelopment
+);
+
 const rewriteEntries = localConcurrentDevelopment
   ? [
       {
