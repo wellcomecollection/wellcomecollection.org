@@ -1,5 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
-import { useEffect, ReactElement, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import Head from 'next/head';
@@ -37,7 +37,7 @@ import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Query } from '@weco/catalogue/types/search';
 
 type Props = {
-  images?: CatalogueResultsList<Image>;
+  images: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
   query: Query;
   pageview: Pageview;
@@ -54,7 +54,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   images,
   imagesRouteProps,
   query,
-}): ReactElement<Props> => {
+}) => {
   const { query: queryString } = query;
 
   const { setLink } = useContext(SearchContext);
