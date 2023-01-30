@@ -6,6 +6,8 @@ import {
 } from '../types';
 import { articleIdToLabel } from '../fetch';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 export async function transformPrismicResponse(
   type: ContentType[],
@@ -16,8 +18,8 @@ export async function transformPrismicResponse(
     const { title, contributors, promo, _meta, format } = node;
     const { id, firstPublicationDate } = _meta;
     const { primary: image } = promo[0];
-    const summary = image.caption[0].text;
     const isArticle = type.includes('articles');
+
     // in some cases we don't have contributors
     const allContributors = contributors
       ?.map(contributor => {
@@ -32,16 +34,12 @@ export async function transformPrismicResponse(
     return {
       id,
       title: title[0]?.text,
-      image: {
-        url: image.image?.url,
-        width: image.image?.dimensions?.width,
-        height: image.image?.dimensions?.height,
-      },
-      url: `/${type}/${id}`,
+      image: transformImage(image.image),
+      url: linkResolver({ id, type: type[0] }),
       firstPublicationDate,
       contributors: allContributors,
       type,
-      summary,
+      summary: image.caption[0].text,
       label:
         isArticle && format?._meta
           ? { text: articleIdToLabel(format._meta.id) }

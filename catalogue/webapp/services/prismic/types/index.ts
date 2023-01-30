@@ -52,8 +52,8 @@ type Promo = {
     image: {
       url: string;
       dimensions: ImageDimensions;
-      alt?: string;
-      copyright?: string;
+      alt: string | null;
+      copyright: string | null;
     };
     caption: TextObject[];
     link?: string;
