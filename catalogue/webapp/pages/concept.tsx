@@ -14,6 +14,7 @@ import { getImages } from 'services/catalogue/images';
 import { toLink as toImagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import { toLink as toWorksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
+import { formatNumber } from '@weco/common/utils/grammar';
 
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
@@ -86,13 +87,30 @@ const ConceptWorksHeader = styled(Space).attrs({
     theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};};
 `;
 
-const SeeMoreButton = ({ text, link }: { text: string; link: LinkProps }) => (
+type SeeMoreButtonType = {
+  text: string;
+  link: LinkProps;
+  totalResults: number;
+};
+
+const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
   <MoreLink
-    name={text}
+    name={`${text} (${formatNumber(totalResults)})`}
     url={link}
     colors={theme.buttonColors.yellowYellowBlack}
     hoverUnderline
   />
+);
+
+type TagLabelType = {
+  text: string;
+  totalResults: number;
+};
+
+const TabLabel = ({ text, totalResults }: TagLabelType) => (
+  <>
+    {text} <span className="is-hidden-s">({formatNumber(totalResults)})</span>
+  </>
 );
 
 export const ConceptPage: NextPage<Props> = ({
@@ -160,22 +178,18 @@ export const ConceptPage: NextPage<Props> = ({
                 items={[
                   {
                     id: 'images-about',
-                    text: (
-                      <>
-                        {`About this ${conceptResponse.type.toLowerCase()} `}
-                        <span className="is-hidden-s">{`(${imagesAbout.totalResults})`}</span>
-                      </>
-                    ),
+                    text: TabLabel({
+                      text: `About this ${conceptResponse.type.toLowerCase()}`,
+                      totalResults: imagesAbout.totalResults,
+                    }),
                     selected: selectedImagesTab === 'images-about',
                   },
                   {
                     id: 'images-by',
-                    text: (
-                      <>
-                        {`By this ${conceptResponse.type.toLowerCase()} `}
-                        <span className="is-hidden-s">{`(${imagesBy.totalResults})`}</span>
-                      </>
-                    ),
+                    text: TabLabel({
+                      text: `By this ${conceptResponse.type.toLowerCase()}`,
+                      totalResults: imagesBy.totalResults,
+                    }),
                     selected: selectedImagesTab === 'images-by',
                   },
                 ]}
@@ -193,7 +207,8 @@ export const ConceptPage: NextPage<Props> = ({
                   <ImageEndpointSearchResults images={imagesAbout.results} />
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
                     <SeeMoreButton
-                      text={`All images (${imagesAbout.totalResults})`}
+                      text="All images"
+                      totalResults={imagesAbout.totalResults}
                       link={toImagesLink(
                         {
                           'source.subjects.label': [conceptResponse.label],
@@ -213,7 +228,8 @@ export const ConceptPage: NextPage<Props> = ({
                 >
                   <ImageEndpointSearchResults images={imagesBy.results} />
                   <SeeMoreButton
-                    text={`All images (${imagesBy.totalResults})`}
+                    text="All images"
+                    totalResults={imagesBy.totalResults}
                     link={toImagesLink(
                       {
                         'source.contributors.agent.label': [
@@ -243,22 +259,18 @@ export const ConceptPage: NextPage<Props> = ({
                   items={[
                     {
                       id: 'works-about',
-                      text: (
-                        <>
-                          {`About this ${conceptResponse.type.toLowerCase()} `}
-                          <span className="is-hidden-s">{`(${worksAbout.totalResults})`}</span>
-                        </>
-                      ),
+                      text: TabLabel({
+                        text: `About this ${conceptResponse.type.toLowerCase()}`,
+                        totalResults: worksAbout.totalResults,
+                      }),
                       selected: selectedWorksTab === 'works-about',
                     },
                     {
                       id: 'works-by',
-                      text: (
-                        <>
-                          {`By this ${conceptResponse.type.toLowerCase()} `}
-                          <span className="is-hidden-s">{`(${worksBy.totalResults})`}</span>
-                        </>
-                      ),
+                      text: TabLabel({
+                        text: `By this ${conceptResponse.type.toLowerCase()}`,
+                        totalResults: worksBy.totalResults,
+                      }),
                       selected: selectedWorksTab === 'works-by',
                     },
                   ]}
@@ -286,7 +298,8 @@ export const ConceptPage: NextPage<Props> = ({
                   <WorksSearchResults works={worksAbout.results} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
-                      text={`All works (${worksAbout.totalResults})`}
+                      text="All works"
+                      totalResults={worksAbout.totalResults}
                       link={toWorksLink(
                         {
                           'subjects.label': [conceptResponse.label],
@@ -307,7 +320,8 @@ export const ConceptPage: NextPage<Props> = ({
                   <WorksSearchResults works={worksBy.results} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
-                      text={`All works (${worksBy.totalResults})`}
+                      text="All works"
+                      totalResults={worksBy.totalResults}
                       link={toWorksLink(
                         {
                           'contributors.agent.label': [conceptResponse.label],
