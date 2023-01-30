@@ -20,13 +20,11 @@ type Props = {
 
 const StyledLink = styled.a<{
   width: number;
-  height: number;
 }>`
   position: relative;
   display: block;
 
   width: ${props => props.width}px;
-  height: ${props => props.height}px;
 `;
 
 const ImageCard: FunctionComponent<Props> = ({
@@ -53,7 +51,6 @@ const ImageCard: FunctionComponent<Props> = ({
         id={id}
         title={isEnhanced ? 'Open modal window' : undefined}
         width={image.width}
-        height={image.height}
       >
         <IIIFImage
           image={{

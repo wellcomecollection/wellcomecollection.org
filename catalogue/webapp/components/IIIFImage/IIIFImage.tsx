@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
 import {
-  iiifImageTemplate,
   convertImageUri,
+  convertIiifImageUri,
 } from '@weco/common/utils/convert-image-uri';
 import {
   convertBreakpointSizesToSizes,
@@ -67,19 +67,19 @@ const IIIFImage: FunctionComponent<Props> = ({
   // which will be rendered as a single image element with no wrappers, sizers or other responsive behavior.
   // We may be able to use this in future but, until then, render our own img element.
   if (layout === 'raw' || layout === 'true-raw') {
+    let imgSrc = image.contentUrl;
+    if (layout === 'raw') {
+      imgSrc = convertIiifImageUri(imgSrc, width);
+    }
     return (
-      <img
-        src={
-          layout === 'true-raw'
-            ? image.contentUrl
-            : iiifImageTemplate(image.contentUrl)({
-                size: `${width},`,
-              })
-        }
-        srcSet={''}
-        sizes={sizesString}
-        alt={image.alt || ''}
-      />
+      <StyledImageContainer background={background}>
+        <img
+          src={imgSrc}
+          srcSet={''}
+          sizes={sizesString}
+          alt={image.alt || ''}
+        />
+      </StyledImageContainer>
     );
   }
 
