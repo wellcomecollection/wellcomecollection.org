@@ -43,11 +43,32 @@ describe('transformPrismicResponse', () => {
               {
                 primary: {
                   image: {
-                    dimensions: { width: 4000, height: 2644 },
-                    alt: 'Photograph of a a cat in a hat.',
+                    dimensions: { width: 4000, height: 2667 },
+                    alt: 'Colour photograph of salt deposits in evaporation pools. The image is abstract in appearance with few recognisable reference points. This makes it difficult to gauge the scale of the subject matter. The image itself is made up of blue, green and white tones. Most of the image seems to have a ripple pattern of whites and blues which resemble the surface of water, but which could be solid. Towards the top of the image the ripple disappear to leave a more constant tone of blues and greens, speckled with white specks and shapes.',
                     copyright:
-                      'A cat | Wellcome Collection | https://wellcomecollection.org/works/g8rvn3y7 | CC-BY | | ',
-                    url: 'https://images.prismic.io/wellcomecollection/8b6b4b4e-4f1c-4f9e-8c1a-1b0c2b0e8b1a_The+cat+in+the+hat.jpg?auto=compress,format&rect=0,0,2000,2000&w=2000&h=2000',
+                      "Salt deposits in the evaporation pools at the only operating lithium mine in USA. Albemarle's Silver Peak mine, Clayton Valley, Nevada, USA. 2018 | | | | | Matjaž Krivic/INSTITUTE |",
+                    url: 'https://images.prismic.io/wellcomecollection/71f733a0-08f5-4137-ad79-b1863ccb6f52_IAM_00089333.jpg?auto=compress,format',
+                    '32:15': {
+                      dimensions: { width: 3200, height: 1500 },
+                      alt: 'Colour photograph of salt deposits in evaporation pools. The image is abstract in appearance with few recognisable reference points. This makes it difficult to gauge the scale of the subject matter. The image itself is made up of blue, green and white tones. Most of the image seems to have a ripple pattern of whites and blues which resemble the surface of water, but which could be solid. Towards the top of the image the ripple disappear to leave a more constant tone of blues and greens, speckled with white specks and shapes.',
+                      copyright:
+                        "Salt deposits in the evaporation pools at the only operating lithium mine in USA. Albemarle's Silver Peak mine, Clayton Valley, Nevada, USA. 2018 | | | | | Matjaž Krivic/INSTITUTE |",
+                      url: 'https://images.prismic.io/wellcomecollection/71f733a0-08f5-4137-ad79-b1863ccb6f52_IAM_00089333.jpg?auto=compress,format&rect=0,293,4000,1875&w=3200&h=1500',
+                    },
+                    '16:9': {
+                      dimensions: { width: 3200, height: 1800 },
+                      alt: 'Colour photograph of salt deposits in evaporation pools. The image is abstract in appearance with few recognisable reference points. This makes it difficult to gauge the scale of the subject matter. The image itself is made up of blue, green and white tones. Most of the image seems to have a ripple pattern of whites and blues which resemble the surface of water, but which could be solid. Towards the top of the image the ripple disappear to leave a more constant tone of blues and greens, speckled with white specks and shapes.',
+                      copyright:
+                        "Salt deposits in the evaporation pools at the only operating lithium mine in USA. Albemarle's Silver Peak mine, Clayton Valley, Nevada, USA. 2018 | | | | | Matjaž Krivic/INSTITUTE |",
+                      url: 'https://images.prismic.io/wellcomecollection/71f733a0-08f5-4137-ad79-b1863ccb6f52_IAM_00089333.jpg?auto=compress,format&rect=0,244,4000,2250&w=3200&h=1800',
+                    },
+                    square: {
+                      dimensions: { width: 3200, height: 3200 },
+                      alt: 'Colour photograph of salt deposits in evaporation pools. The image is abstract in appearance with few recognisable reference points. This makes it difficult to gauge the scale of the subject matter. The image itself is made up of blue, green and white tones. Most of the image seems to have a ripple pattern of whites and blues which resemble the surface of water, but which could be solid. Towards the top of the image the ripple disappear to leave a more constant tone of blues and greens, speckled with white specks and shapes.',
+                      copyright:
+                        "Salt deposits in the evaporation pools at the only operating lithium mine in USA. Albemarle's Silver Peak mine, Clayton Valley, Nevada, USA. 2018 | | | | | Matjaž Krivic/INSTITUTE |",
+                      url: 'https://images.prismic.io/wellcomecollection/71f733a0-08f5-4137-ad79-b1863ccb6f52_IAM_00089333.jpg?auto=compress,format&rect=477,0,2667,2667&w=3200&h=3200',
+                    },
                   },
                   caption: [
                     {
@@ -80,22 +101,39 @@ describe('transformPrismicResponse', () => {
         firstPublicationDate: new Date('2022-09-08T09:29:27+0000'),
         contributors: ['Willow Wisp'],
         image: {
-          alt: 'Photograph of a a cat in a hat.',
           contentUrl:
-            'https://images.prismic.io/wellcomecollection/8b6b4b4e-4f1c-4f9e-8c1a-1b0c2b0e8b1a_The+cat+in+the+hat.jpg?auto=compress,format&rect=0,0,2000,2000&w=2000&h=2000',
-          height: 2644,
-          richCrops: undefined,
-          simpleCrops: undefined,
-          tasl: {
-            author: 'Wellcome Collection',
-            copyrightHolder: undefined,
-            copyrightLink: undefined,
-            license: undefined,
-            sourceLink: 'CC-BY',
-            sourceName: 'https://wellcomecollection.org/works/g8rvn3y7',
-            title: 'A cat',
-          },
+            'https://images.prismic.io/wellcomecollection/71f733a0-08f5-4137-ad79-b1863ccb6f52_IAM_00089333.jpg?auto=compress,format',
           width: 4000,
+          height: 2667,
+          alt: 'Colour photograph of salt deposits in evaporation pools. The image is abstract in appearance with few recognisable reference points. This makes it difficult to gauge the scale of the subject matter. The image itself is made up of blue, green and white tones. Most of the image seems to have a ripple pattern of whites and blues which resemble the surface of water, but which could be solid. Towards the top of the image the ripple disappear to leave a more constant tone of blues and greens, speckled with white specks and shapes.',
+          tasl: {
+            title:
+              "Salt deposits in the evaporation pools at the only operating lithium mine in USA. Albemarle's Silver Peak mine, Clayton Valley, Nevada, USA. 2018",
+            author: undefined,
+            sourceName: undefined,
+            sourceLink: undefined,
+            license: undefined,
+            copyrightHolder: 'Matjaž Krivic/INSTITUTE',
+            copyrightLink: undefined,
+          },
+          simpleCrops: {
+            '32:15': {
+              contentUrlSuffix: '&rect=0,293,4000,1875&w=3200&h=1500',
+              width: 3200,
+              height: 1500,
+            },
+            '16:9': {
+              contentUrlSuffix: '&rect=0,244,4000,2250&w=3200&h=1800',
+              width: 3200,
+              height: 1800,
+            },
+            square: {
+              contentUrlSuffix: '&rect=477,0,2667,2667&w=3200&h=3200',
+              width: 3200,
+              height: 3200,
+            },
+          },
+          richCrops: undefined,
         },
         label: { text: 'Article' },
         type: ['articles'],
