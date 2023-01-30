@@ -242,7 +242,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           <FilterSection key={f.id}>
             <h3 className="h3">{f.type === 'color' ? 'Colours' : f.label}</h3>
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-              <div className="no-margin no-padding plain-list">
+              <PlainList as="div">
                 <section aria-label={f.label}>
                   {f.type === 'checkbox' && (
                     <CheckboxFilter
@@ -266,7 +266,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                     />
                   )}
                 </section>
-              </div>
+              </PlainList>
             </Space>
           </FilterSection>
         ))}
