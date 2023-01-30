@@ -54,10 +54,14 @@ const Wrapper = styled(Space).attrs<{ isNewStyle?: boolean }>(props => ({
 const FilterDropdownsContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
   className: font('intr', 5),
-})<{ isComponentMounted?: boolean }>`
+})<{ isComponentMounted?: boolean; isNewStyle?: boolean }>`
   display: flex;
-  align-items: center;
-  ${props => !props.isComponentMounted && `flex-wrap: wrap;`}
+  align-items: ${props => (props.isNewStyle ? 'center' : 'stretch')};
+
+  // Wrap if old style or if new style without Javascript
+  ${props =>
+    (!props.isNewStyle || (props.isNewStyle && !props.isComponentMounted)) &&
+    `flex-wrap: wrap;`}
 `;
 
 const CheckboxFilter = ({
@@ -395,7 +399,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           }}
           className="flex flex--h-space-between flex--v-center full-width flex--wrap"
         >
-          <FilterDropdownsContainer isComponentMounted={isComponentMounted}>
+          <FilterDropdownsContainer
+            isNewStyle={isNewStyle}
+            isComponentMounted={isComponentMounted}
+          >
             {isNewStyle && (
               <>
                 {isComponentMounted && (
@@ -449,12 +456,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       key={f.id}
                       h={
                         i + 1 !== arr.length
-                          ? {
-                              size: isNewStyle ? 'm' : 's',
-                              properties: ['margin-right'],
-                            }
+                          ? { size: 's', properties: ['margin-right'] }
                           : undefined
                       }
+                      v={{ size: 'xs', properties: ['margin-bottom'] }}
                     >
                       {f.type === 'checkbox' && (
                         <CheckboxFilter
@@ -487,12 +492,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 })}
 
                 {modalFilters.length > 0 && (
-                  <Space
-                    h={{
-                      size: isNewStyle ? 'm' : 's',
-                      properties: ['margin-left'],
-                    }}
-                  >
+                  <Space h={{ size: 's', properties: ['margin-left'] }}>
                     {isComponentMounted && (
                       <ButtonSolid
                         colors={themeValues.buttonColors.whiteWhiteCharcoal}
