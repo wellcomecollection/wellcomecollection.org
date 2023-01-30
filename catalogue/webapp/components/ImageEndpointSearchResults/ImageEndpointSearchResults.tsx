@@ -88,7 +88,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     () =>
       images.map(image => ({
         ...image,
-        src: convertImageUri(image.locations[0].url, 300),
+        src: image.locations[0].url,
         width: (image.aspectRatio || 1) * 100,
         height: 100,
       })),
@@ -120,7 +120,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                 setExpandedImage(photo);
                 setIsActive(true);
               }}
-              layout="true-raw"
+              layout="raw"
               background={
                 background ||
                 (rgbColor &&
