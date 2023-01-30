@@ -17,15 +17,6 @@ const gaDimensionKeys = {
 // Don't use the next/script `Script` component for these as in
 // Next.js v11 it does not work when inside a `Head` component
 
-export const GoogleDataLayer: FunctionComponent = () => (
-  <script
-    dangerouslySetInnerHTML={{
-      __html: `
-      window.dataLayer = window.dataLayer || [];`,
-    }}
-  />
-);
-
 export const GoogleTagManager: FunctionComponent = () => (
   <script
     dangerouslySetInnerHTML={{
