@@ -87,21 +87,30 @@ const ConceptWorksHeader = styled(Space).attrs({
     theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};};
 `;
 
-const SeeMoreButton = ({
-  text,
-  link,
-  totalResults,
-}: {
+type SeeMoreButtonType = {
   text: string;
   link: LinkProps;
   totalResults: number;
-}) => (
+};
+
+const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
   <MoreLink
-    name={text + ` (${formatNumber(totalResults)})`}
+    name={`${text} (${formatNumber(totalResults)})`}
     url={link}
     colors={theme.buttonColors.yellowYellowBlack}
     hoverUnderline
   />
+);
+
+type TagLabelType = {
+  text: string;
+  totalResults: number;
+};
+
+const TabLabel = ({ text, totalResults }: TagLabelType) => (
+  <>
+    {text} <span className="is-hidden-s">({formatNumber(totalResults)})</span>
+  </>
 );
 
 export const ConceptPage: NextPage<Props> = ({
@@ -169,26 +178,18 @@ export const ConceptPage: NextPage<Props> = ({
                 items={[
                   {
                     id: 'images-about',
-                    text: (
-                      <>
-                        {`About this ${conceptResponse.type.toLowerCase()} `}
-                        <span className="is-hidden-s">{`(${formatNumber(
-                          imagesAbout.totalResults
-                        )})`}</span>
-                      </>
-                    ),
+                    text: TabLabel({
+                      text: `About this ${conceptResponse.type.toLowerCase()}`,
+                      totalResults: imagesAbout.totalResults,
+                    }),
                     selected: selectedImagesTab === 'images-about',
                   },
                   {
                     id: 'images-by',
-                    text: (
-                      <>
-                        {`By this ${conceptResponse.type.toLowerCase()} `}
-                        <span className="is-hidden-s">{`(${formatNumber(
-                          imagesBy.totalResults
-                        )})`}</span>
-                      </>
-                    ),
+                    text: TabLabel({
+                      text: `By this ${conceptResponse.type.toLowerCase()}`,
+                      totalResults: imagesBy.totalResults,
+                    }),
                     selected: selectedImagesTab === 'images-by',
                   },
                 ]}
@@ -258,26 +259,18 @@ export const ConceptPage: NextPage<Props> = ({
                   items={[
                     {
                       id: 'works-about',
-                      text: (
-                        <>
-                          {`About this ${conceptResponse.type.toLowerCase()} `}
-                          <span className="is-hidden-s">{`(${formatNumber(
-                            worksAbout.totalResults
-                          )})`}</span>
-                        </>
-                      ),
+                      text: TabLabel({
+                        text: `About this ${conceptResponse.type.toLowerCase()}`,
+                        totalResults: worksAbout.totalResults,
+                      }),
                       selected: selectedWorksTab === 'works-about',
                     },
                     {
                       id: 'works-by',
-                      text: (
-                        <>
-                          {`By this ${conceptResponse.type.toLowerCase()} `}
-                          <span className="is-hidden-s">{`(${formatNumber(
-                            worksBy.totalResults
-                          )})`}</span>
-                        </>
-                      ),
+                      text: TabLabel({
+                        text: `By this ${conceptResponse.type.toLowerCase()}`,
+                        totalResults: worksBy.totalResults,
+                      }),
                       selected: selectedWorksTab === 'works-by',
                     },
                   ]}
