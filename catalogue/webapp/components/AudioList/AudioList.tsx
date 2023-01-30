@@ -13,7 +13,6 @@ type Props = {
   }[];
   thumbnail?: ContentResource;
   transcript?: ContentResource;
-  audioTitle?: string;
   workTitle: string;
 };
 
