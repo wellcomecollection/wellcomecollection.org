@@ -10,7 +10,6 @@ import { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import * as snippet from '@segment/snippet';
 import {
-  GoogleDataLayer,
   GoogleAnalyticsUA,
   GoogleTagManager,
   GoogleTagManagerNoScript,
