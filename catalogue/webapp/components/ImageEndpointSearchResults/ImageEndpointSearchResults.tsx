@@ -173,7 +173,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                       setIsActive(true);
                     }
                   }}
-                  layout="fill"
+                  layout="true-raw"
                 />
               </Space>
             </li>
