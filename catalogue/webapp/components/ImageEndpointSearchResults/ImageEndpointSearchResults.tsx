@@ -53,6 +53,19 @@ const ImageCardList = styled(PlainList)`
   flex-wrap: wrap;
 `;
 
+const AlbumRow = styled(PlainList)`
+  display: flex;
+  align-items: space-between;
+  margin-bottom: 0;
+`;
+
+const ImageFrame = styled.div`
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
   background,
@@ -82,22 +95,9 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     [images]
   );
 
-  const AlbumRow = styled(PlainList)`
-    display: flex;
-    align-items: space-between;
-    margin-bottom: 0;
-  `;
-
   const renderRowContainer: RenderRowContainer = ({ children }) => {
     return <AlbumRow>{children}</AlbumRow>;
   };
-
-  const ImageFrame = styled.div`
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 100%;
-  `;
 
   const imageRenderer: FunctionComponent<RenderPhotoProps<GalleryImageProps>> =
     // these are values and props that are passed in by the PhotoAlbum component
@@ -120,7 +120,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                 setExpandedImage(photo);
                 setIsActive(true);
               }}
-              layout="fill"
+              layout="true-raw"
               background={
                 background ||
                 (rgbColor &&
@@ -173,7 +173,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                       setIsActive(true);
                     }
                   }}
-                  layout="fill"
+                  layout="true-raw"
                 />
               </Space>
             </li>
