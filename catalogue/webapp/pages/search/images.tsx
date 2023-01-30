@@ -63,9 +63,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
     setLink(link);
   }, [imagesRouteProps]);
 
-  const filters = images
-    ? imagesFilters({ images, props: imagesRouteProps })
-    : [];
+  const filters = imagesFilters({ images, props: imagesRouteProps });
 
   const linkResolver = params => {
     const queryWithSource = propsToQuery(params);
@@ -90,7 +88,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   return (
     <>
       <Head>
-        {images?.prevPage && (
+        {images.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -101,7 +99,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
             )}
           />
         )}
-        {images?.nextPage && (
+        {images.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -137,47 +135,43 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
         />
       </Space>
 
-      {images && (
-        <>
-          {images?.totalResults === 0 ? (
-            <SearchNoResults
-              query={queryString}
-              hasFilters={hasFilters({
-                filters: filters.map(f => f.id),
-                queryParams: Object.keys(query).map(p => p),
-              })}
-            />
-          ) : (
-            <Wrapper>
-              <Space
-                className="container"
-                v={{ size: 'l', properties: ['padding-bottom'] }}
-              >
-                <PaginationWrapper verticalSpacing="l">
-                  <span>{pluralize(images.totalResults, 'result')}</span>
-                  <Pagination
-                    totalPages={images?.totalPages}
-                    ariaLabel="Image search pagination"
-                    hasDarkBg
-                    isHiddenMobile
-                  />
-                </PaginationWrapper>
+      {images.totalResults === 0 ? (
+        <SearchNoResults
+          query={queryString}
+          hasFilters={hasFilters({
+            filters: filters.map(f => f.id),
+            queryParams: Object.keys(query).map(p => p),
+          })}
+        />
+      ) : (
+        <Wrapper>
+          <Space
+            className="container"
+            v={{ size: 'l', properties: ['padding-bottom'] }}
+          >
+            <PaginationWrapper verticalSpacing="l">
+              <span>{pluralize(images.totalResults, 'result')}</span>
+              <Pagination
+                totalPages={images.totalPages}
+                ariaLabel="Image search pagination"
+                hasDarkBg
+                isHiddenMobile
+              />
+            </PaginationWrapper>
 
-                <main>
-                  <ImageEndpointSearchResults images={images.results} />
-                </main>
+            <main>
+              <ImageEndpointSearchResults images={images.results} />
+            </main>
 
-                <PaginationWrapper verticalSpacing="l" alignRight>
-                  <Pagination
-                    totalPages={images?.totalPages}
-                    ariaLabel="Image search pagination"
-                    hasDarkBg
-                  />
-                </PaginationWrapper>
-              </Space>
-            </Wrapper>
-          )}
-        </>
+            <PaginationWrapper verticalSpacing="l" alignRight>
+              <Pagination
+                totalPages={images.totalPages}
+                ariaLabel="Image search pagination"
+                hasDarkBg
+              />
+            </PaginationWrapper>
+          </Space>
+        </Wrapper>
       )}
     </>
   );
@@ -221,7 +215,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       pageSize: 30,
     });
 
-    if (images && images.type === 'Error') {
+    if (images.type === 'Error') {
       return appError(context, images.httpStatus, 'Images API error');
     }
 
