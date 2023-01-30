@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState, ReactElement, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 
@@ -36,10 +36,7 @@ type Props = {
   pageview: Pageview;
 };
 
-const Images: NextPage<Props> = ({
-  images,
-  imagesRouteProps,
-}): ReactElement<Props> => {
+const Images: NextPage<Props> = ({ images, imagesRouteProps }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { query, page, color } = imagesRouteProps;
   useEffect(() => {
