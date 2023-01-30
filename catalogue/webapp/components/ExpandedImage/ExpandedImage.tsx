@@ -72,7 +72,7 @@ const ImageWrapper = styled(Space).attrs({
   ${props => props.theme.media('large')`
     flex: 0 1 auto;
     height: auto;
-    max-height: 350px;
+    max-height: 400px;
     margin-right: 30px;
   `};
 `;
