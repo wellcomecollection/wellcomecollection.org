@@ -5,7 +5,6 @@ import {
   ReactNode,
 } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -19,7 +18,7 @@ import Space, {
 import { Label } from '@weco/common/model/labels';
 import styled from 'styled-components';
 
-type Props = {
+export type Props = {
   url?: string;
   title: string;
   primaryLabels: Label[];
@@ -28,12 +27,10 @@ type Props = {
   urlOverride?: string;
   extraClasses?: string;
   partNumber?: number;
-  partDescription: 'Part' | 'Episode';
+  partDescription?: 'Part' | 'Episode';
   partNumberColor?: ColorSelection;
   Image?: ReactElement<typeof ImageType | typeof ImagePlaceholder>;
-  DateInfo?:
-    | ReactElement<typeof DateRange>
-    | ReactElement<typeof EventDateRange>;
+  DateInfo?: ReactElement<typeof EventDateRange>;
   StatusIndicator?: ReactElement<typeof StatusIndicator>;
   ExtraInfo?: ReactNode;
   xOfY?: { x: number; y: number };
