@@ -88,6 +88,25 @@ function detectNonHttpContributorLinks(doc: any): string[] {
   return [];
 }
 
+// Stories without a Promo image should be rare as they are considered required now
+// But older articles won't necessarily have them.
+//
+// We'll consider a default/fallbak option, but for now we want to find out which ones
+// are causing issue.
+function detectNonPromoImageStories(doc: any): string[] {
+  if (doc.type === 'articles') {
+    if (!doc.data.promo[0]) {
+      return ['This article has an empty promo'];
+    } else if (!doc.data.promo[0].primary?.image?.square) {
+      // getCrop won't work without square/ratioed layouts and therefore won't render an image
+      // on the front end.
+      return ['This article has no square layout'];
+    }
+  }
+
+  return [];
+}
+
 async function run() {
   const snapshotFile = await downloadPrismicSnapshot();
 
@@ -99,6 +118,7 @@ async function run() {
       ...detectEur01Safelinks(doc),
       ...detectBrokenInterpretationTypeLinks(doc),
       ...detectNonHttpContributorLinks(doc),
+      ...detectNonPromoImageStories(doc),
     ];
 
     totalErrors += errors.length;
