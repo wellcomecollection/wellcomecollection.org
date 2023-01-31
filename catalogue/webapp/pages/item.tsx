@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import { Audio, Video } from '../services/iiif/types/manifest/v3';
-import { getDigitalLocationOfType } from '../utils/works';
+import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
+import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
-import { getWork } from '../services/catalogue/works';
-import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
+import { getWork } from '@weco/catalogue/services/catalogue/works';
+import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
-import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
+import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import VideoPlayer from '@weco/catalogue/components/VideoPlayer/VideoPlayer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
@@ -27,22 +27,22 @@ import {
 } from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { getServerData } from '@weco/common/server-data';
-import AudioList from '../components/AudioList/AudioList';
+import AudioList from '@weco/catalogue/components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { looksLikeCanonicalId } from 'services/catalogue';
-import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
-import { transformManifest } from '../services/iiif/transformers/manifest';
-import { fetchCanvasOcr } from '../services/iiif/fetch/canvasOcr';
-import { transformCanvasOcr } from '../services/iiif/transformers/canvasOcr';
+import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
+import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
+import { fetchCanvasOcr } from '@weco/catalogue/services/iiif/fetch/canvasOcr';
+import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/canvasOcr';
 import {
   TransformedCanvas,
   TransformedManifest,
   createDefaultTransformedManifest,
-} from '../types/manifest';
-import WorkHeader from '../components/WorkHeader/WorkHeader';
-import WorkTabbedNav from '../components/WorkTabbedNav/WorkTabbedNav';
-import { Container, Grid } from '../components/Work/Work';
+} from '@weco/catalogue/types/manifest';
+import WorkHeader from '@weco/catalogue/components/WorkHeader/WorkHeader';
+import WorkTabbedNav from '@weco/catalogue/components/WorkTabbedNav/WorkTabbedNav';
+import { Container, Grid } from '@weco/catalogue/components/Work/Work';
 import { useToggles } from '@weco/common/server-data/Context';
 
 const IframeAuthMessage = styled.iframe`

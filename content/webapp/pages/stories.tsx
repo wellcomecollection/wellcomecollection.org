@@ -3,44 +3,44 @@ import styled from 'styled-components';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { ArticleBasic } from '../types/articles';
+import { ArticleBasic } from '@weco/content/types/articles';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import FeaturedText from '../components/FeaturedText/FeaturedText';
-import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
+import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
+import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import StoryPromo from '../components/StoryPromo/StoryPromo';
-import CardGrid from '../components/CardGrid/CardGrid';
-import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
-import { articleLd } from '../services/prismic/transformers/json-ld';
-import { createClient } from '../services/prismic/fetch';
-import { fetchArticles } from '../services/prismic/fetch/articles';
-import { fetchStoriesLanding } from '../services/prismic/fetch/stories-landing';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import { FeaturedCardArticle } from '@weco/content/components/FeaturedCard/FeaturedCard';
+import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
+import { fetchStoriesLanding } from '@weco/content/services/prismic/fetch/stories-landing';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformArticle,
   transformArticleToArticleBasic,
-} from '../services/prismic/transformers/articles';
-import { transformStoriesLanding } from '../services/prismic/transformers/stories-landing';
+} from '@weco/content/services/prismic/transformers/articles';
+import { transformStoriesLanding } from '@weco/content/services/prismic/transformers/stories-landing';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { StoriesLanding } from '../types/stories-landing';
-import { StoriesLandingPrismicDocument } from '../services/prismic/types/stories-landing';
+import { StoriesLanding } from '@weco/content/types/stories-landing';
+import { StoriesLandingPrismicDocument } from '@weco/content/services/prismic/types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { RichTextField } from '@prismicio/types';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
-import { fetchSeries } from '../services/prismic/fetch/series';
+import { fetchSeries } from '@weco/content/services/prismic/fetch/series';
 import {
   transformSeries,
   transformSeriesToSeriesBasic,
-} from '../services/prismic/transformers/series';
-import { SeriesBasic } from '../types/series';
+} from '@weco/content/services/prismic/transformers/series';
+import { SeriesBasic } from '@weco/content/types/series';
 import * as prismic from '@prismicio/client';
 
 type Props = {

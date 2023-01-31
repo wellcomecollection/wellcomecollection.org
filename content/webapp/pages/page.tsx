@@ -6,10 +6,10 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import ImageWithTasl from '../components/ImageWithTasl/ImageWithTasl';
+import ImageWithTasl from '@weco/content/components/ImageWithTasl/ImageWithTasl';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { Page as PageType } from '../types/pages';
-import { SiblingsGroup } from '../types/siblings-group';
+import { Page as PageType } from '@weco/content/types/pages';
+import { SiblingsGroup } from '@weco/content/types/siblings-group';
 import {
   headerBackgroundLs,
   landingHeaderBackgroundLs,
@@ -29,19 +29,19 @@ import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import CardGrid from '../components/CardGrid/CardGrid';
-import Body from '../components/Body/Body';
-import ContentPage from '../components/ContentPage/ContentPage';
-import { contentLd } from '../services/prismic/transformers/json-ld';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import Body from '@weco/content/components/Body/Body';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
 import {
   fetchChildren,
   fetchPage,
   fetchSiblings,
-} from '../services/prismic/fetch/pages';
-import { createClient } from '../services/prismic/fetch';
-import { transformPage } from '../services/prismic/transformers/pages';
+} from '@weco/content/services/prismic/fetch/pages';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
-import { isPicture, isVideoEmbed, BodySlice } from '../types/body';
+import { isPicture, isVideoEmbed, BodySlice } from '@weco/content/types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 

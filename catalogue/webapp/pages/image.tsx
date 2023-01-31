@@ -3,19 +3,19 @@ import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Work, Image } from '@weco/common/model/catalogue';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
-import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
+import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { getWork } from '../services/catalogue/works';
-import { getImage } from '../services/catalogue/images';
+import { getWork } from '@weco/catalogue/services/catalogue/works';
+import { getImage } from '@weco/catalogue/services/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { looksLikeCanonicalId } from 'services/catalogue';
-import { createDefaultTransformedManifest } from '../types/manifest';
+import { looksLikeCanonicalId } from '@weco/catalogue/services/catalogue';
+import { createDefaultTransformedManifest } from '@weco/catalogue/types/manifest';
 
 type Props = {
   image: Image;

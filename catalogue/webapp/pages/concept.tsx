@@ -7,20 +7,20 @@ import Link, { LinkProps } from 'next/link';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { looksLikeCanonicalId } from 'services/catalogue';
-import { getConcept } from 'services/catalogue/concepts';
-import { getWorks } from '../services/catalogue/works';
-import { getImages } from 'services/catalogue/images';
+import { looksLikeCanonicalId } from '@weco/catalogue/services/catalogue';
+import { getConcept } from '@weco/catalogue/services/catalogue/concepts';
+import { getWorks } from '@weco/catalogue/services/catalogue/works';
+import { getImages } from '@weco/catalogue/services/catalogue/images';
 import { toLink as toImagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import { toLink as toWorksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { formatNumber } from '@weco/common/utils/grammar';
 
 // Components
-import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
-import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
-import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
+import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 // Types

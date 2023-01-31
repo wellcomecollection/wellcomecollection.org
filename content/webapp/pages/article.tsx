@@ -6,34 +6,37 @@ import {
   useEffect,
   ReactElement,
 } from 'react';
-import { Article, ArticleBasic } from '../types/articles';
-import { Series } from '../types/series';
+import { Article, ArticleBasic } from '@weco/content/types/articles';
+import { Series } from '@weco/content/types/series';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import PartNumberIndicator from '../components/PartNumberIndicator/PartNumberIndicator';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getFeaturedMedia, getHeroPicture } from '../utils/page-header';
+import {
+  getFeaturedMedia,
+  getHeroPicture,
+} from '@weco/content/utils/page-header';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
-import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
-import Body from '../components/Body/Body';
-import ContentPage from '../components/ContentPage/ContentPage';
-import { createClient } from '../services/prismic/fetch';
+import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
+import Body from '@weco/content/components/Body/Body';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchArticle,
   fetchArticlesClientSide,
-} from '../services/prismic/fetch/articles';
-import { articleLd } from '../services/prismic/transformers/json-ld';
+} from '@weco/content/services/prismic/fetch/articles';
+import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
-import { transformArticle } from '../services/prismic/transformers/articles';
+import { transformArticle } from '@weco/content/services/prismic/transformers/articles';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import styled from 'styled-components';
 import { Pageview } from '@weco/common/services/conversion/track';

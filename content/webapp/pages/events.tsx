@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
-import { orderEventsByNextAvailableDate } from '../services/prismic/events';
+import { orderEventsByNextAvailableDate } from '@weco/content/services/prismic/events';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
+import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { Period } from '../types/periods';
+import { Period } from '@weco/content/types/periods';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -12,17 +12,17 @@ import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { eventLd } from '../services/prismic/transformers/json-ld';
-import { createClient } from '../services/prismic/fetch';
-import { fetchEvents } from '../services/prismic/fetch/events';
-import { getPage } from '../utils/query-params';
+import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
+import { getPage } from '@weco/content/utils/query-params';
 import {
   transformEvent,
   transformEventBasic,
-} from '../services/prismic/transformers/events';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
+} from '@weco/content/services/prismic/transformers/events';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { EventBasic } from '../types/events';
+import { EventBasic } from '@weco/content/types/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
