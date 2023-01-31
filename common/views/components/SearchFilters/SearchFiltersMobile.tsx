@@ -310,35 +310,37 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
             </FiltersHeader>
 
             <FiltersBody>
-              {filters.map(f => {
-                return (
-                  <FilterSection key={f.id}>
-                    {f.type === 'checkbox' && (
-                      <CheckboxFilter
-                        f={f}
-                        changeHandler={changeHandler}
-                        form={searchFormId}
-                      />
-                    )}
+              {filters
+                .filter(f => !f.excludeFromMoreFilters)
+                .map(f => {
+                  return (
+                    <FilterSection key={f.id}>
+                      {f.type === 'checkbox' && (
+                        <CheckboxFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={searchFormId}
+                        />
+                      )}
 
-                    {f.type === 'dateRange' && (
-                      <DateRangeFilter
-                        f={f}
-                        changeHandler={changeHandler}
-                        form={searchFormId}
-                      />
-                    )}
+                      {f.type === 'dateRange' && (
+                        <DateRangeFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={searchFormId}
+                        />
+                      )}
 
-                    {f.type === 'color' && (
-                      <ColorFilter
-                        f={f}
-                        changeHandler={changeHandler}
-                        form={searchFormId}
-                      />
-                    )}
-                  </FilterSection>
-                );
-              })}
+                      {f.type === 'color' && (
+                        <ColorFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={searchFormId}
+                        />
+                      )}
+                    </FilterSection>
+                  );
+                })}
             </FiltersBody>
           </FiltersScrollable>
 

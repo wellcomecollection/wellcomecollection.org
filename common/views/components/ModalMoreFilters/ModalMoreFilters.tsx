@@ -47,6 +47,10 @@ const ModalInner = styled(Space).attrs({
   flex-direction: column;
   min-width: 320px;
   max-width: 650px;
+  ${props =>
+    props.theme.media('medium')(`
+    min-width: ${props.isNewStyle ? '500px' : '320px'};
+  `)}
   ${props => props.theme.media('large')`
     width: 650px;
     top: 10px;
@@ -54,7 +58,7 @@ const ModalInner = styled(Space).attrs({
   position: relative;
   top: ${props => (props.isNewStyle ? '0' : '15px')};
   overflow-y: auto;
-  max-height: 80vh;
+  max-height: ${props => (props.isNewStyle ? 'none' : '80vh')};
 `;
 
 // shared styles
@@ -75,24 +79,26 @@ const List = styled(PlainList)`
 
 const FiltersFooter = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })<{ isNewStyle?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: ${props => props.theme.color('white')};
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  position: ${props => (props.isNewStyle ? 'relative' : 'fixed')};
+  position: ${props => (props.isNewStyle ? 'sticky' : 'fixed')};
   bottom: 0;
   left: 0;
   right: 0;
-  height: 60px;
 `;
 
-const FiltersHeader = styled(Space).attrs({
+const FiltersHeader = styled(Space).attrs<{ isNewStyle?: boolean }>(props => ({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-})<{ isNewStyle?: boolean }>`
+  v: {
+    size: props.isNewStyle ? 's' : 'm',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+}))<{ isNewStyle?: boolean }>`
   position: ${props => (props.isNewStyle ? 'relative' : 'absolute')};
   background-color: ${props => props.theme.color('white')};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
