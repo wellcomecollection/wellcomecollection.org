@@ -38,10 +38,6 @@ const StyledImageContainer = styled.div<{
   }
 `;
 
-const StyledImg = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-`;
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
   return convertImageUri(src, width);
 };
