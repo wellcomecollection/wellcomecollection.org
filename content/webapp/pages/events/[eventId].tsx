@@ -514,10 +514,10 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
   const serverData = await getServerData(context);
-  const { id } = context.query;
+  const { eventId } = context.query;
 
   const client = createClient(context);
-  const eventDocument = await fetchEvent(client, id as string);
+  const eventDocument = await fetchEvent(client, eventId as string);
 
   if (!eventDocument) {
     return {

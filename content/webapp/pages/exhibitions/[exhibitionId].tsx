@@ -40,14 +40,14 @@ const ExhibitionPage: FunctionComponent<Props> = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id } = context.query;
+    const { exhibitionId } = context.query;
 
-    if (!looksLikePrismicId(id)) {
+    if (!looksLikePrismicId(exhibitionId)) {
       return { notFound: true };
     }
 
     const client = createClient(context);
-    const { exhibition, pages } = await fetchExhibition(client, id);
+    const { exhibition, pages } = await fetchExhibition(client, exhibitionId);
 
     if (exhibition) {
       const exhibitionDoc = transformExhibition(exhibition);

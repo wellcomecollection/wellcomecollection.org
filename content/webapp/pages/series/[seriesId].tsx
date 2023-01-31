@@ -45,9 +45,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
 
-    const { id } = context.query;
+    const { seriesId } = context.query;
 
-    if (!looksLikePrismicId(id)) {
+    if (!looksLikePrismicId(seriesId)) {
       return { notFound: true };
     }
 
@@ -64,12 +64,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // We create new webcomics as an article with comic format, and add
     // an article-series to them.
     const seriesField =
-      id === bodySquabblesSeries
+      seriesId === bodySquabblesSeries
         ? 'my.webcomics.series.series'
         : 'my.articles.series.series';
 
     const articlesQuery = await fetchArticles(client, {
-      predicates: [prismic.predicate.at(seriesField, id)],
+      predicates: [prismic.predicate.at(seriesField, seriesId)],
       page,
       pageSize: 20,
       fetchLinks: seasonsFetchLinks,
@@ -81,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // It should never happen for live content so we don't support it;
     // the log is to make it easier to debug if somebody tries it.
     if (articlesQuery.total_results_size === 0) {
-      console.warn(`Series ${id} doesn't contain any articles`);
+      console.warn(`Series ${seriesId} doesn't contain any articles`);
       return { notFound: true };
     }
 
@@ -98,11 +98,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // Note: we may be able to remove this once we refactor transformArticleSeries,
     // see https://github.com/wellcomecollection/wellcomecollection.org/issues/8516
     if (articlesQuery.results_size === 0) {
-      console.debug(`Series ${id} doesn't have any articles on page ${page}`);
+      console.debug(
+        `Series ${seriesId} doesn't have any articles on page ${page}`
+      );
       return { notFound: true };
     }
 
-    const { articles, series } = transformArticleSeries(id, articlesQuery);
+    const { articles, series } = transformArticleSeries(
+      seriesId,
+      articlesQuery
+    );
 
     const paginatedArticles = transformQuery(articlesQuery, article =>
       transformArticleToArticleBasic(transformArticle(article))

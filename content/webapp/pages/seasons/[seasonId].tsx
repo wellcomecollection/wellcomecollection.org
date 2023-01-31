@@ -137,8 +137,8 @@ const SeasonPage = ({
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { id } = context.query;
-    if (!looksLikePrismicId(id)) {
+    const { seasonId } = context.query;
+    if (!looksLikePrismicId(seasonId)) {
       return { notFound: true };
     }
 
@@ -147,30 +147,30 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // TODO: Is there a reason we're hard-coding predicates here, and not
     // using the Prismic library helpers as on the other pages?
     const booksQueryPromise = fetchBooks(client, {
-      predicates: [`[at(my.books.seasons.season, "${id}")]`],
+      predicates: [`[at(my.books.seasons.season, "${seasonId}")]`],
     });
     const articlesQueryPromise = fetchArticles(client, {
-      predicates: [`[at(my.articles.seasons.season, "${id}")]`],
+      predicates: [`[at(my.articles.seasons.season, "${seasonId}")]`],
     });
     const eventsQueryPromise = fetchEvents(client, {
-      predicates: [`[at(my.events.seasons.season, "${id}")]`],
+      predicates: [`[at(my.events.seasons.season, "${seasonId}")]`],
       orderings: ['my.events.times.startDateTime'],
     });
     const exhibitionsQueryPromise = fetchExhibitions(client, {
-      predicates: [`[at(my.exhibitions.seasons.season, "${id}")]`],
+      predicates: [`[at(my.exhibitions.seasons.season, "${seasonId}")]`],
       order: 'desc',
     });
     const pagesQueryPromise = fetchPages(client, {
-      predicates: [`[at(my.pages.seasons.season, "${id}")]`],
+      predicates: [`[at(my.pages.seasons.season, "${seasonId}")]`],
     });
     const projectsQueryPromise = fetchProjects(client, {
-      predicates: [`[at(my.projects.seasons.season, "${id}")]`],
+      predicates: [`[at(my.projects.seasons.season, "${seasonId}")]`],
     });
     const seriesQueryPromise = fetchSeries(client, {
-      predicates: [`[at(my.series.seasons.season, "${id}")]`],
+      predicates: [`[at(my.series.seasons.season, "${seasonId}")]`],
     });
 
-    const seasonDocPromise = fetchSeason(client, id);
+    const seasonDocPromise = fetchSeason(client, seasonId);
 
     const [
       articlesQuery,

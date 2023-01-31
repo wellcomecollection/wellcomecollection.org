@@ -3,7 +3,7 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import * as page from './page';
+import * as page from './pages/[pageId]';
 
 export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps

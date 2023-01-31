@@ -79,12 +79,12 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { id } = context.query;
-    if (!looksLikePrismicId(id)) {
+    const { bookId } = context.query;
+    if (!looksLikePrismicId(bookId)) {
       return { notFound: true };
     }
     const client = createClient(context);
-    const bookDocument = await fetchBook(client, id);
+    const bookDocument = await fetchBook(client, bookId);
 
     if (bookDocument) {
       const serverData = await getServerData(context);
