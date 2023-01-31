@@ -167,7 +167,7 @@ const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
 
 // TODO Is this still considered 'new'? rename otherwise
 const FiltersModalNew = styled(Space).attrs<BaseModalProps>({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  v: { size: 's', properties: ['padding-top'] },
   className: 'shadow',
 })<BaseModalProps>`
   overflow: hidden;
