@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { decodeToken } from '../../src/utility/jwt-codec';
+import { decodeToken } from '@weco/identity/src/utility/jwt-codec';
 import axios from 'axios';
 import getConfig from 'next/config';
-import { authenticatedInstanceFactory } from '../../src/utility/auth';
+import { authenticatedInstanceFactory } from '@weco/identity/src/utility/auth';
 import jwt from 'jsonwebtoken';
 
 const { serverRuntimeConfig: config } = getConfig();

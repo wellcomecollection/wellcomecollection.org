@@ -2,19 +2,19 @@ import {
   ExhibitionGuide,
   ExhibitionGuideType,
   isValidType,
-} from '../../../../types/exhibition-guides';
+} from '@weco/content/types/exhibition-guides';
 import { deleteCookie, getCookie } from 'cookies-next';
 import { FC } from 'react';
-import { createClient } from '../../../../services/prismic/fetch';
-import { fetchExhibitionGuide } from '../../../../services/prismic/fetch/exhibition-guides';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchExhibitionGuide } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import {
   filterExhibitionGuideComponents,
   transformExhibitionGuide,
-} from '../../../../services/prismic/transformers/exhibition-guides';
+} from '@weco/content/services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { exhibitionGuideLd } from '../../../../services/prismic/transformers/json-ld';
+import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -29,8 +29,8 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import cookies from '@weco/common/data/cookies';
-import ExhibitionGuideStops from '../../../../components/ExhibitionGuideStops/ExhibitionGuideStops';
-import { getTypeColor } from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
+import ExhibitionGuideStops from '@weco/content/components/ExhibitionGuideStops/ExhibitionGuideStops';
+import { getTypeColor } from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
 import useHotjar from '@weco/common/hooks/useHotjar';
 
 const ButtonWrapper = styled(Space).attrs({
