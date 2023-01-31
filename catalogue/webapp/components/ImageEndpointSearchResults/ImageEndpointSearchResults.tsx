@@ -5,7 +5,6 @@ import PhotoAlbum, {
 } from 'react-photo-album';
 import styled from 'styled-components';
 
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { hexToRgb } from '@weco/common/utils/convert-colors';
 import { Image } from '@weco/common/model/catalogue';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -88,7 +87,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     () =>
       images.map(image => ({
         ...image,
-        src: convertImageUri(image.locations[0].url, 300),
+        src: image.locations[0].url,
         width: (image.aspectRatio || 1) * 100,
         height: 100,
       })),
@@ -120,7 +119,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                 setExpandedImage(photo);
                 setIsActive(true);
               }}
-              layout="true-raw"
+              layout="fixed"
               background={
                 background ||
                 (rgbColor &&
@@ -162,8 +161,8 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                   workId={result.source.id}
                   image={{
                     contentUrl: result.src,
-                    width: 156,
-                    height: 156,
+                    width: result.width * 1.57,
+                    height: result.height * 1.57,
                     alt: result.source.title,
                   }}
                   onClick={event => {
@@ -173,7 +172,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                       setIsActive(true);
                     }
                   }}
-                  layout="true-raw"
+                  layout="fixed"
                 />
               </Space>
             </li>

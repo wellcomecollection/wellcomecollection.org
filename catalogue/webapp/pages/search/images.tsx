@@ -112,28 +112,27 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      <Space
-        className="container"
-        v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
-      >
-        <SearchFilters
-          query={queryString}
-          linkResolver={linkResolver}
-          searchFormId="searchPageForm"
-          changeHandler={() => {
-            const form = document.getElementById('searchPageForm');
-            form &&
-              form.dispatchEvent(
-                new window.Event('submit', {
-                  cancelable: true,
-                  bubbles: true,
-                })
-              );
-          }}
-          filters={filters}
-          isNewStyle
-        />
-      </Space>
+      <div className="container">
+        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
+          <SearchFilters
+            query={queryString}
+            linkResolver={linkResolver}
+            searchFormId="searchPageForm"
+            changeHandler={() => {
+              const form = document.getElementById('searchPageForm');
+              form &&
+                form.dispatchEvent(
+                  new window.Event('submit', {
+                    cancelable: true,
+                    bubbles: true,
+                  })
+                );
+            }}
+            filters={filters}
+            isNewStyle
+          />
+        </Space>
+      </div>
 
       {images.totalResults === 0 ? (
         <SearchNoResults
