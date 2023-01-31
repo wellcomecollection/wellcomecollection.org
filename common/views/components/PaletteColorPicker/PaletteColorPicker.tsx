@@ -197,7 +197,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
             {palette.map(swatch => (
               <Swatch
                 key={swatch.hexValue}
-                id={`swatch-${swatch.colorName.toLowerCase()}`}
+                data-name={`swatch-${swatch.colorName.toLowerCase()}`}
                 hexColor={swatch.hexValue}
                 ariaPressed={colorState === swatch.hexValue}
                 onClick={() => setColorState(swatch.hexValue)}
