@@ -114,7 +114,6 @@ const Sort: FunctionComponent<Props> = ({
             const { sort, sortOrder } = getUrlQueryFromSortValue(
               e.currentTarget.value
             );
-            console.log('CHange');
             setSortOrder(sortOrder);
             setSortType(sort);
           }}
