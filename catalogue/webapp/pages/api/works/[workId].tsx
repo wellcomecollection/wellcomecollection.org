@@ -1,14 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { CatalogueApiError } from '@weco/common/model/catalogue';
-import hasOwnProperty from '@weco/common/utils/has-own-property';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { getWork } from 'services/catalogue/works';
-
-export function isCatalogueApiError(
-  response: any
-): response is CatalogueApiError {
-  return Boolean(hasOwnProperty(response, 'type') && response.type === 'Error');
-}
 
 const WorksApi = async (
   req: NextApiRequest,
@@ -42,7 +34,7 @@ const WorksApi = async (
     'private, no-cache, no-store, max-age=0, must-revalidate'
   );
 
-  if (isCatalogueApiError(response)) {
+  if (response.type === 'Error') {
     res.status(response.httpStatus);
   } else {
     res.status(200);
