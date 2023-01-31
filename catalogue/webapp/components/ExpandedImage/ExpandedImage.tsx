@@ -283,7 +283,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
             <NextLink {...expandedImageLink} passHref>
               <ImageLink>
                 <IIIFImage
-                  layout="fixed"
+                  layout="raw"
                   image={{
                     contentUrl: iiifImageLocation.url,
                     width: 400,

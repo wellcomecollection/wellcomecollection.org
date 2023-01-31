@@ -21,6 +21,10 @@ const StyledImage = styled(Image)<{ background: string }>`
 const StyledImageContainer = styled.div<{
   background: string;
 }>`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:after {
     content: '';
     position: absolute;
@@ -32,6 +36,11 @@ const StyledImageContainer = styled.div<{
     filter: saturate(50%);
     z-index: -1;
   }
+`;
+
+const StyledImg = styled.img`
+  max-width: 100%;
+  max-height: 100%;
 `;
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
   return convertImageUri(src, width);
