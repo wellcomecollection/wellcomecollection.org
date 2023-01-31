@@ -5,7 +5,6 @@ import {
   ReactNode,
 } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -18,8 +17,9 @@ import Space, {
 } from '@weco/common/views/components/styled/Space';
 import { Label } from '@weco/common/model/labels';
 import styled from 'styled-components';
+import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 
-type Props = {
+export type Props = {
   url?: string;
   title: string;
   primaryLabels: Label[];
@@ -28,12 +28,10 @@ type Props = {
   urlOverride?: string;
   extraClasses?: string;
   partNumber?: number;
-  partDescription: 'Part' | 'Episode';
+  partDescription?: 'Part' | 'Episode';
   partNumberColor?: ColorSelection;
   Image?: ReactElement<typeof ImageType | typeof ImagePlaceholder>;
-  DateInfo?:
-    | ReactElement<typeof DateRange>
-    | ReactElement<typeof EventDateRange>;
+  DateInfo?: ReactElement<typeof EventDateRange>;
   StatusIndicator?: ReactElement<typeof StatusIndicator>;
   ExtraInfo?: ReactNode;
   xOfY?: { x: number; y: number };
@@ -60,16 +58,11 @@ export type HasImageProps = {
 };
 
 // Ability to add custom prop types in TS and styled components
-const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => {
-  if (props.hasImage) {
-    return {
-      className: grid({ s: 9, m: 9, l: 9, xl: 9 }),
-    };
-  }
-  return {
-    className: grid({ s: 12, m: 12, l: 12, xl: 12 }),
-  };
-})<HasImageProps>``;
+const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => ({
+  className: props.hasImage
+    ? grid({ s: 9, m: 9, l: 9, xl: 9 })
+    : grid(gridSize12),
+}))<HasImageProps>``;
 
 type LinkOrDivSpaceAttrs = {
   url?: string;

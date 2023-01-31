@@ -39,7 +39,7 @@ import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { Query } from '@weco/catalogue/types/search';
 
 type Props = {
-  works?: CatalogueResultsList<Work>;
+  works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
   query: Query;
   pageview: Pageview;
@@ -64,7 +64,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     setLink(link);
   }, [worksRouteProps]);
 
-  const filters = works ? worksFilters({ works, props: worksRouteProps }) : [];
+  const filters = worksFilters({ works, props: worksRouteProps });
 
   const linkResolver = params => {
     const queryWithSource = propsToQuery(params);
@@ -89,7 +89,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   return (
     <>
       <Head>
-        {works?.prevPage && (
+        {works.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -100,7 +100,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             )}
           />
         )}
-        {works?.nextPage && (
+        {works.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -137,80 +137,76 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
           />
         </Space>
 
-        {works && (
+        {works.totalResults === 0 ? (
+          <SearchNoResults
+            query={queryString}
+            hasFilters={hasFilters({
+              filters: [
+                ...filters.map(f => f.id),
+                // production.dates is one dropdown but two properties, so we're specifying them in their individual format
+                'production.dates.from',
+                'production.dates.to',
+              ],
+              queryParams: Object.keys(query).map(p => p),
+            })}
+          />
+        ) : (
           <>
-            {works.totalResults === 0 ? (
-              <SearchNoResults
-                query={queryString}
-                hasFilters={hasFilters({
-                  filters: [
-                    ...filters.map(f => f.id),
-                    // production.dates is one dropdown but two properties, so we're specifying them in their individual format
-                    'production.dates.from',
-                    'production.dates.to',
-                  ],
-                  queryParams: Object.keys(query).map(p => p),
-                })}
+            <PaginationWrapper verticalSpacing="l">
+              <span>{pluralize(works.totalResults, 'result')}</span>
+
+              <SortPaginationWrapper>
+                <Sort
+                  formId="searchPageForm"
+                  options={[
+                    // Default value to be left empty so it's not added to the URL query
+                    { value: '', text: 'Relevance' },
+                    {
+                      value: 'production.dates.asc',
+                      text: 'Oldest to newest',
+                    },
+                    {
+                      value: 'production.dates.desc',
+                      text: 'Newest to oldest',
+                    },
+                  ]}
+                  jsLessOptions={{
+                    sort: [
+                      { value: '', text: 'Relevance' },
+                      {
+                        value: 'production.dates',
+                        text: 'Production dates',
+                      },
+                    ],
+                    sortOrder: [
+                      { value: 'asc', text: 'Ascending' },
+                      { value: 'desc', text: 'Descending' },
+                    ],
+                  }}
+                  defaultValues={{
+                    sort: worksRouteProps.sort,
+                    sortOrder: worksRouteProps.sortOrder,
+                  }}
+                />
+
+                <Pagination
+                  totalPages={works.totalPages}
+                  ariaLabel="Catalogue search pagination"
+                  isHiddenMobile
+                />
+              </SortPaginationWrapper>
+            </PaginationWrapper>
+
+            <main>
+              <WorksSearchResults works={works.results} />
+            </main>
+
+            <PaginationWrapper verticalSpacing="l" alignRight>
+              <Pagination
+                totalPages={works.totalPages}
+                ariaLabel="Catalogue search pagination"
               />
-            ) : (
-              <>
-                <PaginationWrapper verticalSpacing="l">
-                  <span>{pluralize(works.totalResults, 'result')}</span>
-
-                  <SortPaginationWrapper>
-                    <Sort
-                      formId="searchPageForm"
-                      options={[
-                        // Default value to be left empty so it's not added to the URL query
-                        { value: '', text: 'Relevance' },
-                        {
-                          value: 'production.dates.asc',
-                          text: 'Oldest to newest',
-                        },
-                        {
-                          value: 'production.dates.desc',
-                          text: 'Newest to oldest',
-                        },
-                      ]}
-                      jsLessOptions={{
-                        sort: [
-                          { value: '', text: 'Relevance' },
-                          {
-                            value: 'production.dates',
-                            text: 'Production dates',
-                          },
-                        ],
-                        sortOrder: [
-                          { value: 'asc', text: 'Ascending' },
-                          { value: 'desc', text: 'Descending' },
-                        ],
-                      }}
-                      defaultValues={{
-                        sort: worksRouteProps.sort,
-                        sortOrder: worksRouteProps.sortOrder,
-                      }}
-                    />
-
-                    <Pagination
-                      totalPages={works?.totalPages}
-                      ariaLabel="Catalogue search pagination"
-                      isHiddenMobile
-                    />
-                  </SortPaginationWrapper>
-                </PaginationWrapper>
-
-                <main>
-                  <WorksSearchResults works={works.results} />
-                </main>
-
-                <PaginationWrapper verticalSpacing="l" alignRight>
-                  <Pagination
-                    totalPages={works?.totalPages}
-                    ariaLabel="Catalogue search pagination"
-                  />
-                </PaginationWrapper>
-              </>
-            )}
+            </PaginationWrapper>
           </>
         )}
       </Space>

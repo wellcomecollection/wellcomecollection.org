@@ -14,9 +14,7 @@ type ContainerProps = {
   children: ReactNode;
 };
 
-const Container: FunctionComponent<ContainerProps> = ({
-  children,
-}: ContainerProps) => (
+const Container: FunctionComponent<ContainerProps> = ({ children }) => (
   <SpacingSection>
     <SpacingComponent>
       <div>

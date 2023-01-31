@@ -153,7 +153,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   return (
     <>
       <Head>
-        <meta charSet="utf-8" />
         <title>{fullTitle}</title>
         <meta name="description" content={description || ''} />
         <link rel="canonical" href={absoluteUrl} />

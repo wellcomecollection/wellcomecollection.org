@@ -13,7 +13,7 @@ type Props = {
   id: string;
   workId: string;
   image: ImageType;
-  layout: 'raw' | 'fill' | 'fixed';
+  layout: 'true-raw' | 'raw' | 'fill' | 'fixed';
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
   background?: string;
 };
@@ -55,7 +55,17 @@ const ImageCard: FunctionComponent<Props> = ({
         width={image.width}
         height={image.height}
       >
-        <IIIFImage image={image} layout={layout} background={background} />
+        <IIIFImage
+          image={{
+            contentUrl: image.contentUrl,
+            width: 400,
+            height: 400,
+            alt: image.alt,
+          }}
+          width={300}
+          layout={layout}
+          background={background}
+        />
       </StyledLink>
     </NextLink>
   );

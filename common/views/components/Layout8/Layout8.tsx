@@ -6,10 +6,7 @@ type Props = {
   shift?: boolean;
 };
 
-const Layout8: FunctionComponent<Props> = ({
-  children,
-  shift = true,
-}: Props) => (
+const Layout8: FunctionComponent<Props> = ({ children, shift = true }) => (
   <Layout
     gridSizes={{
       s: 12,

@@ -44,7 +44,7 @@ export type Props = {
     naturalWidth: number;
     naturalHeight: number;
   }) => void;
-  layout: 'raw' | 'fill' | 'fixed';
+  layout: 'true-raw' | 'raw' | 'fill' | 'fixed';
   priority?: boolean;
   width?: number;
   background?: string;
@@ -66,12 +66,16 @@ const IIIFImage: FunctionComponent<Props> = ({
   // The Nextjs Image component has an experimental 'raw' layout feature
   // which will be rendered as a single image element with no wrappers, sizers or other responsive behavior.
   // We may be able to use this in future but, until then, render our own img element.
-  if (layout === 'raw') {
+  if (layout === 'raw' || layout === 'true-raw') {
     return (
       <img
-        src={iiifImageTemplate(image.contentUrl)({
-          size: `${width},`,
-        })}
+        src={
+          layout === 'true-raw'
+            ? image.contentUrl
+            : iiifImageTemplate(image.contentUrl)({
+                size: `${width},`,
+              })
+        }
         srcSet={''}
         sizes={sizesString}
         alt={image.alt || ''}
