@@ -94,6 +94,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ]);
 
     // The homepage should always exist in Prismic.
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const page = transformPage(pageDocument!);
 
     const articles = transformQuery(articlesQuery, transformArticle);
@@ -186,7 +187,10 @@ const Homepage: FunctionComponent<Props> = ({
           )}
           <SpacingComponent>
             <SimpleCardGrid
-              items={headerList.value.items as any[]}
+              items={
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                headerList.value.items as any[]
+              }
               isFeaturedFirst={true}
             />
           </SpacingComponent>
@@ -216,8 +220,12 @@ const Homepage: FunctionComponent<Props> = ({
           <SpacingComponent>
             <SimpleCardGrid
               items={
-                contentList.value.items.map(item =>
-                  item.type === 'seasons' ? convertItemToCardProps(item) : item
+                contentList.value.items.map(
+                  item =>
+                    item.type === 'seasons'
+                      ? convertItemToCardProps(item)
+                      : item
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ) as any[]
               }
             />
