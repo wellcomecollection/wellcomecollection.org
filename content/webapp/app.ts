@@ -55,7 +55,7 @@ function pageVanityUrl(
     router.redirect(regularPage, url, permanentRedirect);
   }
 
-  route(url, template, router, app, { id: pageId });
+  route(url, template, router, app, { pageId });
 }
 
 // A Prismic ID is an alphanumeric string, plus underscore and hyphen
@@ -100,7 +100,7 @@ const appPromise = nextApp
 
     // We define the vanity URLs as soon as possible, so they can intercept
     // any routes defined further down, e.g. /pages/:id
-    vanityUrls.forEach(({ url, prismicId, template = '/page' }) =>
+    vanityUrls.forEach(({ url, prismicId, template = '/pages/[pageId]' }) =>
       pageVanityUrl(router, nextApp, url, prismicId, template)
     );
 

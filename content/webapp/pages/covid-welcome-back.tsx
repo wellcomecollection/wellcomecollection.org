@@ -10,7 +10,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   return page.getServerSideProps({
     ...context,
-    query: { id: prismicPageIds.covidWelcomeBack },
+    query: { pageId: prismicPageIds.covidWelcomeBack },
   });
 };
 
