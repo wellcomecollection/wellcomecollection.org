@@ -76,11 +76,28 @@ export const Pagination: FunctionComponent<Props> = ({
   isHiddenMobile,
   isLoading,
 }) => {
-  const { pathname, query } = useRouter();
-  const [currentPage, setCurrentPage] = useState(Number(query.page) || 1);
+  const router = useRouter();
+  const { query, pathname } = router;
+
+  const pageNumber = query.page ? Number(query.page) : 1;
+  const [currentPage, setCurrentPage] = useState(pageNumber);
 
   useEffect(() => {
-    setCurrentPage(Number(query.page) || 1);
+    // Only push changes if the page number is a different one than on currently
+    if (currentPage !== pageNumber) {
+      setCurrentPage(pageNumber);
+
+      // Remove page from query if it's the first page
+      // Using router.replace won't add this URL change to the browser history
+      if (pageNumber === 1) {
+        const { page, ...rest } = query;
+        router.replace(
+          { pathname: router.pathname, query: { ...rest } },
+          undefined,
+          { shallow: true }
+        );
+      }
+    }
   }, [query.page]);
 
   const showPrev = currentPage > 1;
