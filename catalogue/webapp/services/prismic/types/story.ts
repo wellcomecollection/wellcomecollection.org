@@ -9,7 +9,7 @@ export type Story = {
   firstPublicationDate: Date;
   contributors: (string | undefined)[];
   type: ContentType[];
-  summary: string;
+  summary?: string;
   label: {
     text: string;
   };
