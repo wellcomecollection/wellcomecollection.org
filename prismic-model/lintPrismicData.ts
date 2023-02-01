@@ -91,7 +91,7 @@ function detectNonHttpContributorLinks(doc: any): string[] {
 // Stories without a Promo image should be rare as they are considered required now
 // But older articles won't necessarily have them.
 //
-// We'll consider a default/fallbak option, but for now we want to find out which ones
+// We'll consider a default/fallback option, but for now we want to find out which ones
 // are causing issue.
 function detectNonPromoImageStories(doc: any): string[] {
   if (doc.type === 'articles') {
