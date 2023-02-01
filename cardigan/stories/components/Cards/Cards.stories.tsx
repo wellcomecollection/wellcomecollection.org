@@ -4,10 +4,8 @@ import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
 import EventPromo from '@weco/content/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
-import { exhibitionBasic } from '../../data/prismic/exhibition';
+import { exhibitionBasic } from '@weco/cardigan/stories/data/prismic/exhibition';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import CompactCardReadme from '@weco/content/components/CompactCard/README.md';
-import { ReadmeDecorator } from '../../../config/decorators';
 import {
   squareImage,
   singleLineOfText,
@@ -15,19 +13,13 @@ import {
   articleBasic,
   image,
   event,
-} from '../../content';
+} from '@weco/cardigan/stories/content';
 
 const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
 const secondaryLabelList = [{ text: 'Speech-to-text' }];
 const imageProps = squareImage();
 
-const CompactCardTemplate = args => (
-  <ReadmeDecorator
-    WrappedComponent={CompactCard}
-    args={args}
-    Readme={CompactCardReadme}
-  />
-);
+const CompactCardTemplate = args => <CompactCard {...args} />;
 
 export const compactCard = CompactCardTemplate.bind({});
 compactCard.args = {
