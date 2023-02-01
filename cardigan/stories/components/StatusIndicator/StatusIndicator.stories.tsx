@@ -1,4 +1,6 @@
 import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
+import Readme from '@weco/content/components/StatusIndicator/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const now = new Date();
 const tomorrow = new Date();
@@ -16,7 +18,13 @@ twoWeeksAgo.setHours(now.getHours() - 336);
 const aWeekAgo = new Date();
 aWeekAgo.setHours(now.getHours() - 168);
 
-const Template = args => <StatusIndicator {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={StatusIndicator}
+    args={args}
+    Readme={Readme}
+  />
+);
 export const comingSoon = Template.bind({});
 comingSoon.args = {
   start: tomorrow,

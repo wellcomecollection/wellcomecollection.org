@@ -1,4 +1,6 @@
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
+import Readme from '@weco/content/components/EventSchedule/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const schedule = [
   {
@@ -147,7 +149,13 @@ const schedule = [
   },
 ];
 
-const Template = args => <EventSchedule {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={EventSchedule}
+    args={args}
+    Readme={Readme}
+  />
+);
 export const basic = Template.bind({});
 basic.args = {
   schedule,

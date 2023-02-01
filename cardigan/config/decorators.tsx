@@ -28,10 +28,11 @@ export const ReadmeDecorator: FunctionComponent<ReadmeDecoratorProps> = ({
   WrappedComponent,
   args,
   Readme,
+  children,
 }) => {
   return (
     <div>
-      <WrappedComponent {...args} />
+      <WrappedComponent {...args}>{children}</WrappedComponent>
       <Space
         v={{
           size: 'xl',

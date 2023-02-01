@@ -14,6 +14,8 @@ import {
   image,
   event,
 } from '@weco/cardigan/stories/content';
+import Readme from '@weco/content/components/FeaturedCard/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
 const secondaryLabelList = [{ text: 'Speech-to-text' }];
@@ -47,14 +49,18 @@ bannerCard.storyName = 'BannerCard';
 
 const FeaturedCardTemplate = args => {
   return (
-    <FeaturedCard
-      id="id"
-      image={{ ...image() }}
-      labels={[{ text: 'Essay' }]}
-      link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
-      background={args.background}
-      textColor={args.textColor}
-      isReversed={args.isReversed}
+    <ReadmeDecorator
+      WrappedComponent={FeaturedCard}
+      args={{
+        id: 'id',
+        image: image(),
+        labels: [{ text: 'Essay' }],
+        link: { url: '#', text: 'Remote diagnosis from wee to the web' },
+        background: args.background,
+        textColor: args.textColor,
+        isReversed: args.isReversed,
+      }}
+      Readme={Readme}
     >
       <h2 className="font-wb font-size-2">
         Remote diagnosis from wee to the Web
@@ -64,7 +70,7 @@ const FeaturedCardTemplate = args => {
         their urine for doctors to taste, but telehealth today keeps up the
         tradition of remote diagnosis – to our possible detriment.
       </p>
-    </FeaturedCard>
+    </ReadmeDecorator>
   );
 };
 export const featuredCard = FeaturedCardTemplate.bind({});

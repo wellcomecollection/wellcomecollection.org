@@ -1,9 +1,17 @@
 import ImageGallery from '@weco/content/components/ImageGallery/ImageGallery';
-import { captionedImage } from '../../content';
+import { captionedImage } from '@weco/cardigan/stories/content';
+import Readme from '@weco/content/components/ImageGallery/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const images = [...new Array(5)].map(() => captionedImage());
 
-const Template = args => <ImageGallery {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={ImageGallery}
+    args={args}
+    Readme={Readme}
+  />
+);
 export const inline = Template.bind({});
 inline.args = {
   items: images,

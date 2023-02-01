@@ -1,4 +1,6 @@
 import TitledTextList from '@weco/content/components/TitledTextList/TitledTextList';
+import Readme from '@weco/content/components/TitledTextList/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const items = [
   {
@@ -33,7 +35,13 @@ const items = [
   },
 ];
 
-const Template = args => <TitledTextList {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={TitledTextList}
+    args={args}
+    Readme={Readme}
+  />
+);
 export const basic = Template.bind({});
 basic.args = {
   items,

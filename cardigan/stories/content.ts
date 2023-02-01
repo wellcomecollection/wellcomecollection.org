@@ -463,7 +463,7 @@ export const event: Event = {
         startDateTime: new Date('2018-10-23T17:00:00.000Z'),
         endDateTime: new Date('2018-10-23T18:30:00.000Z'),
       },
-      isFullyBooked: false,
+      isFullyBooked: { inVenue: false, online: false },
     },
   ],
   displayStart: new Date('2018-10-23T17:00:00.000Z'),
@@ -527,6 +527,12 @@ export function person() {
     description: smallText(),
     image: {
       contentUrl: faker.image.avatar(),
+      width: 120,
+      height: 120,
+      alt: 'Avatar',
+      tasl: {
+        title: 'Avatar',
+      },
     },
     sameAs: sameAs,
   };
@@ -541,6 +547,12 @@ export function organisation() {
     image: {
       contentUrl:
         'https://vignette.wikia.nocookie.net/logopedia/images/4/42/BBC_Worldwide_1995.svg/revision/latest?cb=20180114133014',
+      width: 3200,
+      height: 3200,
+      alt: 'Weewaaz',
+      tasl: {
+        title: 'Weewaaz',
+      },
     },
     sameAs: [],
   };

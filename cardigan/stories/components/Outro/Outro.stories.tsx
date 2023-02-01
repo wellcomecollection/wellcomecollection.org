@@ -1,6 +1,10 @@
 import Outro from '@weco/content/components/Outro/Outro';
+import Readme from '@weco/content/components/Outro/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = args => <Outro {...args} />;
+const Template = args => (
+  <ReadmeDecorator WrappedComponent={Outro} args={args} Readme={Readme} />
+);
 export const basic = Template.bind({});
 basic.args = {
   researchItem: {
