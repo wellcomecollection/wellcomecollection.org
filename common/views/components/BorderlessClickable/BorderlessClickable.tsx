@@ -149,7 +149,7 @@ const ButtonOuter: FunctionComponent<BorderlessButtonProps> = (
   }: BorderlessButtonProps,
   ref
 ) => {
-  function onClick(event) {
+  function onClick(event: SyntheticEvent<HTMLButtonElement>) {
     clickHandler && clickHandler(event);
     trackingEvent && trackGaEvent(trackingEvent);
   }
