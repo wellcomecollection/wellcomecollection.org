@@ -1,4 +1,4 @@
-import { image, singleLineOfText } from '../../content';
+import { image, singleLineOfText } from '@weco/cardigan/stories/content';
 import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 
 const Template = args => <BookPromo {...args} />;
@@ -12,8 +12,8 @@ basic.args = {
       575,
       884
     ),
-    title: singleLineOfText(2, 6),
-    subtitle: singleLineOfText(3, 6),
+    title: singleLineOfText(),
+    subtitle: singleLineOfText(),
   },
 };
 basic.storyName = 'BookPromo';

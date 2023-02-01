@@ -5,7 +5,7 @@ import {
   videoEmbed,
   imageGallery,
   quote,
-} from '../../content';
+} from '@weco/cardigan/stories/content';
 
 const Template = args => <Body {...args} />;
 export const basic = Template.bind({});

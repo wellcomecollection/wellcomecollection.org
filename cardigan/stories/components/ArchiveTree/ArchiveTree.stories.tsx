@@ -1,5 +1,5 @@
 import ArchiveTree from '@weco/catalogue/components/ArchiveTree/ArchiveTree';
-import collectionTree from '../../data/collection-tree';
+import collectionTree from '@weco/cardigan/stories/data/collection-tree';
 
 const Template = args => <ArchiveTree {...args} />;
 
