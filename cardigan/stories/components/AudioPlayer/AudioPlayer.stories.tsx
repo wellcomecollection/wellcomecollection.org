@@ -1,6 +1,10 @@
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
+import Readme from '@weco/common/views/components/AudioPlayer/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = args => <AudioPlayer {...args} />;
+const Template = args => (
+  <ReadmeDecorator WrappedComponent={AudioPlayer} args={args} Readme={Readme} />
+);
 export const basic = Template.bind({});
 basic.args = {
   audioFile:

@@ -1,6 +1,10 @@
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
+import Readme from '@weco/common/views/components/InfoBlock/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = args => <InfoBlock {...args} />;
+const Template = args => (
+  <ReadmeDecorator WrappedComponent={InfoBlock} args={args} Readme={Readme} />
+);
 export const basic = Template.bind({});
 basic.args = {
   title: 'Book your ticket',

@@ -1,7 +1,15 @@
 import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
 import { emptyPopupDialog } from '@weco/common/services/prismic/documents';
+import Readme from '@weco/common/views/components/PopupDialog/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = () => <PopupDialog document={emptyPopupDialog()} />;
+const Template = () => (
+  <ReadmeDecorator
+    WrappedComponent={PopupDialog}
+    args={{ document: emptyPopupDialog() }}
+    Readme={Readme}
+  />
+);
 export const basic = Template.bind({});
 basic.args = {
   openButtonText: 'Got five minutes?',

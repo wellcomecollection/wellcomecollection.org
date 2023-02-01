@@ -1,6 +1,10 @@
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
+import Readme from '@weco/common/views/components/InfoBanner/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = args => <InfoBanner {...args} />;
+const Template = args => (
+  <ReadmeDecorator WrappedComponent={InfoBanner} args={args} Readme={Readme} />
+);
 export const basic = Template.bind({});
 basic.args = {
   document: {
