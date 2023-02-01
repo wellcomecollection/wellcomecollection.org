@@ -57,20 +57,22 @@ function getPastEvents(
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id } = context.query;
+    const { eventSeriesId } = context.query;
 
-    if (!looksLikePrismicId(id)) {
+    if (!looksLikePrismicId(eventSeriesId)) {
       return { notFound: true };
     }
 
     const client = createClient(context);
 
     const eventsQueryPromise = fetchEvents(client, {
-      predicates: [prismic.predicate.at('my.events.series.series', id)],
+      predicates: [
+        prismic.predicate.at('my.events.series.series', eventSeriesId),
+      ],
       pageSize: 100,
     });
 
-    const seriesPromise = fetchEventSeriesById(client, id);
+    const seriesPromise = fetchEventSeriesById(client, eventSeriesId);
 
     const [eventsQuery, seriesDocument] = await Promise.all([
       eventsQueryPromise,

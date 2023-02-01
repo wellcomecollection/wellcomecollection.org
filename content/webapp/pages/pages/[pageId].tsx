@@ -44,6 +44,7 @@ import { getCrop } from '@weco/common/model/image';
 import { isPicture, isVideoEmbed, BodySlice } from '@weco/content/types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 
 export type Props = {
   page: PageType;
@@ -115,15 +116,19 @@ function getFeaturedPictureWithTasl(
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id } = context.query;
+    const { pageId } = context.query;
 
     const client = createClient(context);
 
-    const vanityUrl = isVanityUrl(id as string, context.resolvedUrl)
+    if (!looksLikePrismicId(pageId)) {
+      return { notFound: true };
+    }
+
+    const vanityUrl = isVanityUrl(pageId, context.resolvedUrl)
       ? context.resolvedUrl
       : undefined;
 
-    const pageLookup = await fetchPage(client, id as string);
+    const pageLookup = await fetchPage(client, pageId);
     const page = pageLookup && transformPage(pageLookup);
 
     if (page) {

@@ -61,13 +61,13 @@ function articleHasOutro(article: Article) {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { id } = context.query;
-    if (!looksLikePrismicId(id)) {
+    const { articleId } = context.query;
+    if (!looksLikePrismicId(articleId)) {
       return { notFound: true };
     }
 
     const client = createClient(context);
-    const articleDocument = await fetchArticle(client, id);
+    const articleDocument = await fetchArticle(client, articleId);
     const serverData = await getServerData(context);
 
     if (articleDocument) {

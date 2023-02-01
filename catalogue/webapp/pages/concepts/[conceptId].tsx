@@ -381,14 +381,14 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id } = context.query;
+    const { conceptId } = context.query;
 
-    if (!looksLikeCanonicalId(id)) {
+    if (!looksLikeCanonicalId(conceptId)) {
       return { notFound: true };
     }
 
     const conceptResponse = await getConcept({
-      id,
+      id: conceptId,
       toggles: serverData.toggles,
     });
 
