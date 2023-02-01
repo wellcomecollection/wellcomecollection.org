@@ -1,3 +1,4 @@
+import { LicenseType } from '@weco/common/model/license';
 import { Article } from '@weco/content/types/articles';
 import { Card } from '@weco/content/types/card';
 import { Event } from '@weco/content/types/events';
@@ -131,7 +132,7 @@ export const image = (
       author: 'The author',
       sourceName: 'Wellcome Collection',
       sourceLink: 'https://wellcomecollection.org/works',
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
     },
   };
 };
@@ -152,7 +153,7 @@ export const squareImage = (
       author: 'The author',
       sourceName: 'Wellcome Collection',
       sourceLink: 'https://wellcomecollection.org/works',
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
     },
   };
 };
@@ -169,7 +170,7 @@ export const pictureImages = [
       author: 'Thomas SG Farnetti',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -186,7 +187,7 @@ export const pictureImages = [
       author: 'Thomas SG Farnetti',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -337,7 +338,7 @@ export const event: Event = {
         author: 'Steven Pocock',
         sourceName: 'Wellcome Collection',
         sourceLink: null,
-        license: 'CC-BY-NC',
+        license: 'CC-BY-NC' as LicenseType,
         copyrightHolder: null,
         copyrightLink: null,
       },
@@ -355,7 +356,7 @@ export const event: Event = {
       author: 'Steven Pocock',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -391,7 +392,7 @@ export const event: Event = {
       author: 'Steven Pocock',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -408,7 +409,7 @@ export const event: Event = {
       author: 'Steven Pocock',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },

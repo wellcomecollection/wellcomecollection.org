@@ -1,5 +1,4 @@
 ## Purpose
-
 This component can wrap things that have a loading state, during which time it will render a "skeleton state" placeholder.
 
 

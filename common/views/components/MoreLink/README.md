@@ -1,5 +1,4 @@
 ## Purpose
-
 Used to link to list pages as an onward journey, where the destination = all things of that type.
 
 **Examples**
