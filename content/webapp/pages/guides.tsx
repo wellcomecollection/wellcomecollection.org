@@ -2,26 +2,26 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
+import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { createClient } from '../services/prismic/fetch';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchGuideFormats,
   fetchGuides,
-} from '../services/prismic/fetch/guides';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
+} from '@weco/content/services/prismic/fetch/guides';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformGuide,
   transformGuideFormat,
-} from '../services/prismic/transformers/guides';
+} from '@weco/content/services/prismic/transformers/guides';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
-import { Guide } from '../types/guides';
-import { Format } from '../types/format';
+import { Guide } from '@weco/content/types/guides';
+import { Format } from '@weco/content/types/format';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 
 const displayTitle = 'Guides';

@@ -1,6 +1,6 @@
 import { NextApiHandler } from 'next';
 import getConfig from 'next/config';
-import auth0 from '../../../src/utility/auth0';
+import auth0 from '@weco/identity/src/utility/auth0';
 import axios, { AxiosInstance, Method as AxiosMethod } from 'axios';
 import { AccessTokenError } from '@auth0/nextjs-auth0';
 

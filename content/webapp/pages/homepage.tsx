@@ -5,40 +5,40 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { ArticleBasic } from '../types/articles';
+import { ArticleBasic } from '@weco/content/types/articles';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
-import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
-import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
+import SimpleCardGrid from '@weco/content/components/SimpleCardGrid/SimpleCardGrid';
+import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
-} from '../services/prismic/events';
-import { ExhibitionBasic } from '../types/exhibitions';
-import { EventBasic } from '../types/events';
-import { convertItemToCardProps } from '../types/card';
+} from '@weco/content/services/prismic/events';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { EventBasic } from '@weco/content/types/events';
+import { convertItemToCardProps } from '@weco/content/types/card';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
-import CardGrid from '../components/CardGrid/CardGrid';
-import { articleLd } from '../services/prismic/transformers/json-ld';
-import { createClient } from '../services/prismic/fetch';
-import { fetchArticles } from '../services/prismic/fetch/articles';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformArticle,
   transformArticleToArticleBasic,
-} from '../services/prismic/transformers/articles';
+} from '@weco/content/services/prismic/transformers/articles';
 import { homepageId } from '@weco/common/data/hardcoded-ids';
-import { fetchPage } from '../services/prismic/fetch/pages';
-import { transformPage } from '../services/prismic/transformers/pages';
-import { fetchEvents } from '../services/prismic/fetch/events';
-import { transformEventBasic } from '../services/prismic/transformers/events';
+import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
+import { transformEventBasic } from '@weco/content/services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { BodySlice, isContentList, isStandfirst } from 'types/body';
@@ -94,6 +94,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ]);
 
     // The homepage should always exist in Prismic.
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const page = transformPage(pageDocument!);
 
     const articles = transformQuery(articlesQuery, transformArticle);
@@ -186,7 +187,10 @@ const Homepage: FunctionComponent<Props> = ({
           )}
           <SpacingComponent>
             <SimpleCardGrid
-              items={headerList.value.items as any[]}
+              items={
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                headerList.value.items as any[]
+              }
               isFeaturedFirst={true}
             />
           </SpacingComponent>
@@ -216,8 +220,12 @@ const Homepage: FunctionComponent<Props> = ({
           <SpacingComponent>
             <SimpleCardGrid
               items={
-                contentList.value.items.map(item =>
-                  item.type === 'seasons' ? convertItemToCardProps(item) : item
+                contentList.value.items.map(
+                  item =>
+                    item.type === 'seasons'
+                      ? convertItemToCardProps(item)
+                      : item
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ) as any[]
               }
             />

@@ -1,33 +1,33 @@
 import { GetServerSideProps } from 'next';
-import { EventSeries } from '../types/event-series';
-import { EventBasic } from '../types/events';
+import { EventSeries } from '@weco/content/types/event-series';
+import { EventBasic } from '@weco/content/types/events';
 import { FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getFeaturedMedia } from '../utils/page-header';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import Body from '../components/Body/Body';
-import ContentPage from '../components/ContentPage/ContentPage';
-import SearchResults from '../components/SearchResults/SearchResults';
-import { eventLd } from '../services/prismic/transformers/json-ld';
+import Body from '@weco/content/components/Body/Body';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import SearchResults from '@weco/content/components/SearchResults/SearchResults';
+import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { fetchEvents } from '../services/prismic/fetch/events';
-import { createClient } from '../services/prismic/fetch';
+import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import * as prismic from '@prismicio/client';
-import { fetchEventSeriesById } from '../services/prismic/fetch/event-series';
+import { fetchEventSeriesById } from '@weco/content/services/prismic/fetch/event-series';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { transformEventSeries } from '../services/prismic/transformers/event-series';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformEventSeries } from '@weco/content/services/prismic/transformers/event-series';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformEvent,
   transformEventBasic,
-} from '../services/prismic/transformers/events';
+} from '@weco/content/services/prismic/transformers/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { getUpcomingEvents } from '../utils/event-series';
+import { getUpcomingEvents } from '@weco/content/utils/event-series';
 
 type Props = {
   series: EventSeries;

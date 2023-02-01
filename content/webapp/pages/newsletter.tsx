@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import NewsletterSignup from '../components/NewsletterSignup/NewsletterSignup';
+import NewsletterSignup from '@weco/content/components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
