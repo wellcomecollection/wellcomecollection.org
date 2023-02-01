@@ -104,29 +104,8 @@ const BorderlessClickable = forwardRef<
 >(Button);
 
 type BorderlessLinkProps = Props & ComponentProps<'a'>;
-const Link: FunctionComponent<BorderlessLinkProps> = (
-  {
-    icon,
-    iconLeft,
-    text,
-    isTextHidden,
-    isActive,
-    ...elementProps
-  }: BorderlessLinkProps,
-  ref
-) => {
-  return (
-    <BorderlessClickable
-      as="a"
-      icon={icon}
-      iconLeft={iconLeft}
-      text={text}
-      isTextHidden={isTextHidden}
-      isActive={isActive}
-      ref={ref}
-      {...elementProps}
-    />
-  );
+const Link: FunctionComponent<BorderlessLinkProps> = (props, ref) => {
+  return <BorderlessClickable as="a" ref={ref} {...props} />;
 };
 
 const BorderlessLink = forwardRef<HTMLButtonElement, BorderlessLinkProps>(Link);
@@ -137,16 +116,7 @@ type BorderlessButtonProps = Props &
     clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
   };
 const ButtonOuter: FunctionComponent<BorderlessButtonProps> = (
-  {
-    icon,
-    iconLeft,
-    text,
-    isTextHidden,
-    clickHandler,
-    trackingEvent,
-    isActive,
-    ...elementProps
-  }: BorderlessButtonProps,
+  { clickHandler, trackingEvent, ...elementProps }: BorderlessButtonProps,
   ref
 ) => {
   function onClick(event: SyntheticEvent<HTMLButtonElement>) {
@@ -157,11 +127,6 @@ const ButtonOuter: FunctionComponent<BorderlessButtonProps> = (
   return (
     <BorderlessClickable
       as="button"
-      icon={icon}
-      iconLeft={iconLeft}
-      text={text}
-      isTextHidden={isTextHidden}
-      isActive={isActive}
       onClick={onClick}
       ref={ref}
       {...elementProps}
