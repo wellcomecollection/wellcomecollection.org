@@ -1,10 +1,5 @@
 import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
-import CompactCardReadme from '@weco/content/components/CompactCard/README.md';
-import BannerCardReadme from '@weco/content/components/BannerCard/README.md';
 import FeaturedCardReadme from '@weco/content/components/FeaturedCard/README.md';
-import EventPromoReadme from '@weco/content/components/EventPromo/README.md';
-import ExhibitionPromoReadme from '@weco/content/components/ExhibitionPromo/README.md';
-import StoryPromoReadme from '@weco/content/components/StoryPromo/README.md';
 import * as stories from './Cards.stories.tsx';
 
 <Meta title={`Components/Cards`} />
@@ -13,15 +8,12 @@ import * as stories from './Cards.stories.tsx';
 
 ## `CompactCard`
 
-<CompactCardReadme />
+<Story story={stories.compactCard} />
 
-  <Story story={stories.compactCard} />
 
 ## `BannerCard`
 
-<BannerCardReadme />
-
-  <Story story={stories.bannerCard} />
+<Story story={stories.bannerCard} />
 
 
 ## `FeaturedCard`
@@ -33,21 +25,15 @@ import * as stories from './Cards.stories.tsx';
 
 ## `EventPromo`
 
-<EventPromoReadme />
-
-  <Story story={stories.eventPromo} />
+<Story story={stories.eventPromo} />
 
 
 ## `ExhibitionPromo`
 
-<ExhibitionPromoReadme />
-
-  <Story story={stories.exhibitionPromo} />
+<Story story={stories.exhibitionPromo} />
 
 
 ## `StoryPromo`
 
-<StoryPromoReadme />
-
-  <Story story={stories.storyPromo} />
+<Story story={stories.storyPromo} />
 
