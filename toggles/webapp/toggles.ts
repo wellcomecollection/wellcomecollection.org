@@ -72,16 +72,7 @@ const toggles = {
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
   ] as const,
-  tests: [
-    {
-      id: 'itemWorkLink',
-      title: 'Item page: Work page link',
-      range: [0, 50],
-      when: (request: CloudFrontRequest): boolean => {
-        return Boolean(request.uri.match(/^\/works\/\w*\/items/));
-      },
-    },
-  ] as ABTest[],
+  tests: [] as ABTest[],
 };
 
 export default toggles;
