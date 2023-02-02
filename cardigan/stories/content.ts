@@ -2,7 +2,8 @@ import { LicenseType } from '@weco/common/model/license';
 import { Article } from '@weco/content/types/articles';
 import { Card } from '@weco/content/types/card';
 import { Event } from '@weco/content/types/events';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
+
 export function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * max) + min;
 }
@@ -520,10 +521,11 @@ const sameAs = [
   { link: 'http://things.com', title: 'things.com' },
   { link: 'https://google.com', title: 'This is it!' },
 ];
+
 export function person() {
   return {
-    id: faker.random.uuid(),
-    name: faker.name.findName(),
+    id: faker.datatype.uuid(),
+    name: faker.name.fullName(),
     description: smallText(),
     image: {
       contentUrl: faker.image.avatar(),
@@ -540,8 +542,8 @@ export function person() {
 
 export function organisation() {
   return {
-    id: faker.random.uuid(),
-    name: faker.company.companyName(),
+    id: faker.datatype.uuid(),
+    name: faker.company.name(),
     description: smallText(),
     url: 'https://wellcomecollection.org',
     image: {
