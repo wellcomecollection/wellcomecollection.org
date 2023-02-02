@@ -7,6 +7,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
+import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 
 const ContributorInfoWrapper = styled(Space)`
   color: ${props => props.theme.color('neutral.600')};
@@ -31,7 +32,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
 
   return (
     <div className="grid">
-      <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
+      <div className={`flex ${grid(gridSize12)}`}>
         <Space
           style={{ minWidth: '78px' }}
           h={{ size: 'm', properties: ['margin-right'] }}
