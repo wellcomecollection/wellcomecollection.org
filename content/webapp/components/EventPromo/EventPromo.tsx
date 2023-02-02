@@ -22,7 +22,6 @@ import { PlaceBasic } from '../../types/places';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import DotWrapper from '@weco/common/views/components/Dot/DotWrapper';
 
 type Props = {
   event: EventBasic;
@@ -165,9 +164,7 @@ const EventPromo: FunctionComponent<Props> = ({
               v={{ size: 'm', properties: ['margin-top'] }}
               className={`${font('intr', 5)} flex flex--v-center`}
             >
-              <DotWrapper>
-                <Dot dotColor="validation.red" />
-              </DotWrapper>
+              <Dot dotColor="validation.red" />
               Fully booked
             </Space>
           )}
@@ -178,9 +175,7 @@ const EventPromo: FunctionComponent<Props> = ({
 
           {isPast && !event.availableOnline && (
             <div className={`${font('intr', 5)} flex flex--v-center`}>
-              <DotWrapper>
-                <Dot dotColor="neutral.500" />
-              </DotWrapper>
+              <Dot dotColor="neutral.500" />
               Past
             </div>
           )}

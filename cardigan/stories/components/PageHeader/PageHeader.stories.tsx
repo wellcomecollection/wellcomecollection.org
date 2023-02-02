@@ -5,7 +5,6 @@ import { font } from '@weco/common/utils/classnames';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
 import Dot from '@weco/common/views/components/Dot/Dot';
-import DotWrapper from '@weco/common/views/components/Dot/DotWrapper';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -144,9 +143,7 @@ const EventContentTypeInfo = () => (
     </Space>
     <div className="flex">
       <div className={`${font('intb', 5)} flex flex--v-center`}>
-        <DotWrapper>
-          <Dot dotColor="neutral.500" />
-        </DotWrapper>
+        <Dot dotColor="neutral.500" />
         {'Past'}
       </div>
     </div>
@@ -156,9 +153,7 @@ const EventContentTypeInfo = () => (
 const ExhibitionContentTypeInfo = () => (
   <div className="flex">
     <div className={`${font('intb', 5)} flex flex--v-center`}>
-      <DotWrapper>
-        <Dot dotColor="neutral.500" />
-      </DotWrapper>
+      <Dot dotColor="neutral.500" />
       {'Closed'}
     </div>
   </div>
