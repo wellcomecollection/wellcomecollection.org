@@ -1,11 +1,11 @@
 import { default as React } from 'react';
-import theme from '../../common/views/themes/default';
-import { ContextDecorator } from '../config/decorators';
-import wellcomeTheme from './wellcome-theme';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { DocsContainer } from '@storybook/addon-docs/blocks';
+import theme from '@weco/common/views/themes/default';
+import { ContextDecorator } from '@weco/cardigan/config/decorators';
+import wellcomeTheme from './wellcome-theme';
 import { grid } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
 
 export const decorators = [
   (Story, context) => {

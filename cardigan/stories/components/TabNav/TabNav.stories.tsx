@@ -2,6 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import Space from '@weco/common/views/components/styled/Space';
+import Readme from '@weco/common/views/components/TabNav/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-bottom'] },
@@ -24,13 +26,18 @@ const Template = ({ items, variant, ...rest }) => {
   return (
     <div className="container">
       <Wrapper backgroundColor={variant === 'white' ? 'black' : 'white'}>
-        <TabNav
-          id="story-tabs"
-          items={itemsSelector}
-          selectedTab="all"
-          variant={variant}
-          {...rest}
-          setSelectedTab={setSelectedTab}
+        <ReadmeDecorator
+          WrappedComponent={TabNav}
+          args={{
+            id: 'story-tabs',
+            items: itemsSelector,
+            selectedTab: 'all',
+            variant,
+            setSelectedTab: setSelectedTab,
+            ...rest,
+          }}
+          Readme={Readme}
+          order="readmeFirst"
         />
       </Wrapper>
       <>

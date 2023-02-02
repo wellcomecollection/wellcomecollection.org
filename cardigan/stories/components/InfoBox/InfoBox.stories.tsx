@@ -1,7 +1,11 @@
 import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import { a11Y, a11YVisual, clock, location, ticket } from '@weco/common/icons';
+import Readme from '@weco/content/components/InfoBox/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = args => <InfoBox {...args} />;
+const Template = args => (
+  <ReadmeDecorator WrappedComponent={InfoBox} args={args} Readme={Readme} />
+);
 export const basic = Template.bind({});
 basic.args = {
   title: 'Visit us',

@@ -1,6 +1,10 @@
 import Contact from '@weco/common/views/components/Contact/Contact';
+import Readme from '@weco/common/views/components/Contact/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = args => <Contact {...args} />;
+const Template = args => (
+  <ReadmeDecorator WrappedComponent={Contact} args={args} Readme={Readme} />
+);
 export const basic = Template.bind({});
 basic.args = {
   title: 'Joe Bloggs',

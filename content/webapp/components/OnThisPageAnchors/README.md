@@ -1,5 +1,4 @@
 ## Purpose
-
 Optionally (in Prismic) provides in-page navigation to all sections headed by H2s on any `page`.
 
 ## Usage notes
@@ -13,5 +12,6 @@ Don't use on:
 - `events`
 - `exhibitions`
 
-[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/common/views/components/OnThisPageAnchors/README.md)
+
+[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/content/webapp/components/OnThisPageAnchors/README.md)
 

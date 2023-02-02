@@ -1,4 +1,6 @@
 import EventDateRange from '@weco/content/components/EventDateRange/EventDateRange';
+import Readme from '@weco/content/components/EventDateRange/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const dateString = '2022-03-01T13:15:00Z';
 
@@ -36,7 +38,13 @@ const times = [
   },
 ];
 
-const Template = args => <EventDateRange {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={EventDateRange}
+    args={args}
+    Readme={Readme}
+  />
+);
 export const basic = Template.bind({});
 basic.args = {
   event: { times },

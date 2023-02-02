@@ -1,6 +1,14 @@
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
+import Readme from '@weco/content/components/OnThisPageAnchors/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = args => <OnThisPageAnchors {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={OnThisPageAnchors}
+    args={args}
+    Readme={Readme}
+  />
+);
 export const basic = Template.bind({});
 basic.args = {
   links: [

@@ -1,5 +1,4 @@
 import { create } from '@storybook/theming';
-import { themeValues } from '@weco/common/views/themes/config';
 import logo from '../public/images/favicon.ico';
 
 export default create({

@@ -9,6 +9,9 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import BookImage from '@weco/content/components/BookImage/BookImage';
+import PageHeaderReadme from '@weco/common/views/components/PageHeader/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { LicenseType } from '@weco/common/model/license';
 
 const Date = styled.span.attrs({ className: font('intr', 6) })`
   color: ${props => props.theme.color('neutral.600')};
@@ -65,7 +68,7 @@ const articlePictureImages = [
       author: 'Thomas SG Farnetti',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -83,7 +86,7 @@ const articlePictureImages = [
       author: 'Thomas SG Farnetti',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -104,11 +107,10 @@ const exhibitionPictureImages = [
       author: 'Steven Pocock',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
-    crops: {},
     minWidth: '600px',
   },
   {
@@ -122,11 +124,10 @@ const exhibitionPictureImages = [
       author: 'Steven Pocock',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
-    crops: {},
   },
 ];
 
@@ -178,7 +179,7 @@ const eventImage = {
     author: 'Benjamin Gilbert',
     sourceName: 'Wellcome Collection',
     sourceLink: null,
-    license: 'CC-BY-NC',
+    license: 'CC-BY-NC' as LicenseType,
     copyrightHolder: null,
     copyrightLink: null,
   },
@@ -207,7 +208,13 @@ const EventFeaturedMedia = () => (
   <PrismicImage image={eventImage} quality="low" />
 );
 
-const Template = args => <PageHeader {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={PageHeader}
+    args={args}
+    Readme={PageHeaderReadme}
+  />
+);
 
 export const article = Template.bind({});
 article.args = {
