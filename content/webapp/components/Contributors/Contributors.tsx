@@ -52,7 +52,7 @@ const Contributors: FunctionComponent<Props> = ({
   titlePrefix = 'About the',
   contributors,
   titleOverride,
-}: Props) => {
+}) => {
   // The transformContributors() method will remove contributors that don't
   // have any visible fields.
   //
