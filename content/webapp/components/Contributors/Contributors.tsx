@@ -30,10 +30,7 @@ export function dedupeAndPluraliseRoles(roles: string[]): string[] {
   return pluralised;
 }
 
-export function getContributorsTitle(
-  roles: string[],
-  titlePrefix = 'About the'
-): string {
+function getContributorsTitle(roles: string[], titlePrefix): string {
   const lowerCaseRoles = roles.map(role => role.toLowerCase());
 
   // This is basic, but makes sense
