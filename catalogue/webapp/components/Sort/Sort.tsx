@@ -52,7 +52,7 @@ const Sort: FunctionComponent<Props> = ({
 
   useEffect(() => {
     // Only push changes if the sort order is a new one than currently used
-    if (sortOrder !== currentSortOrder && sortType !== currentSortType) {
+    if (sortOrder !== currentSortOrder || sortType !== currentSortType) {
       const queryParams = { ...router.query, sortOrder, sort: sortType };
       const newQuery = propsToQuery(queryParams);
 
