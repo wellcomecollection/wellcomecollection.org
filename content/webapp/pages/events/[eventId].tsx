@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
-import Dot from '@weco/common/views/components/Dot/Dot';
-import DottedTextWrapper from '@weco/common/views/components/Dot/DottedTextWrapper';
+import TextWithDot from '@weco/common/views/components/Dot/TextWithDot';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
@@ -118,10 +117,7 @@ type EventStatusProps = {
 function EventStatus({ text, color }: EventStatusProps) {
   return (
     <div className="flex">
-      <DottedTextWrapper className={font('intb', 5)} as="div">
-        <Dot dotColor={color} />
-        {text}
-      </DottedTextWrapper>
+      <TextWithDot className={font('intb', 5)} dotColor={color} text={text} />
     </div>
   );
 }

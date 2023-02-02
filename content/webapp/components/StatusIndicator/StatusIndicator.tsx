@@ -1,7 +1,6 @@
 import { font } from '@weco/common/utils/classnames';
-import Dot from '@weco/common/views/components/Dot/Dot';
-import DottedTextWrapper from '@weco/common/views/components/Dot/DottedTextWrapper';
 import { FunctionComponent } from 'react';
+import TextWithDot from '@weco/common/views/components/Dot/TextWithDot';
 import {
   addDays,
   isFuture,
@@ -51,10 +50,7 @@ const StatusIndicator: FunctionComponent<Props> = ({
     : formatDateRangeWithMessage({ start, end });
 
   return (
-    <DottedTextWrapper className={font('intr', 5)}>
-      <Dot dotColor={color} />
-      {text}
-    </DottedTextWrapper>
+    <TextWithDot className={font('intr', 5)} dotColor={color} text={text} />
   );
 };
 
