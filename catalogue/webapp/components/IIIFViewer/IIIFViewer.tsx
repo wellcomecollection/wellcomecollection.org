@@ -274,7 +274,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       .filter(Boolean);
 
   useEffect(() => {
-    let timer;
+    let timer: NodeJS.Timeout;
     let previousActiveIndex;
 
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
