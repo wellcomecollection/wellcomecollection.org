@@ -63,7 +63,7 @@ function toLink(
 
 type Props = LinkFrom<ImageProps> & { source: ImagePropsSource };
 
-const WorksLink: FunctionComponent<Props> = ({
+const ImageLink: FunctionComponent<Props> = ({
   children,
   source,
   ...props
@@ -71,5 +71,5 @@ const WorksLink: FunctionComponent<Props> = ({
   return <NextLink {...toLink(props, source)}>{children}</NextLink>;
 };
 
-export default WorksLink;
+export default ImageLink;
 export { toLink, fromQuery, emptyImageProps };
