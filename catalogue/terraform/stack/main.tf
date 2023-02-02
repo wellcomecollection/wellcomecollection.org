@@ -161,6 +161,7 @@ locals {
     "/_next/data/*/image.json",
     "/_next/data/*/images.json",
     "/_next/data/*/item.json",
+    "/_next/data/*/items.json",
     "/_next/data/*/progress.json",
     "/_next/data/*/work.json",
     "/_next/data/*/works.json",
