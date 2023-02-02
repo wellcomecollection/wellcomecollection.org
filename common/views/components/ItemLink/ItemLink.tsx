@@ -55,7 +55,6 @@ function toLink(
   partialProps: Partial<ItemProps>,
   source: ItemPropsSource
 ): LinkProps {
-  const pathname = '/item';
   const props: ItemProps = {
     ...emptyItemProps,
     ...partialProps,
@@ -64,7 +63,7 @@ function toLink(
 
   return {
     href: {
-      pathname,
+      pathname: '/works/[workId]/items',
       query: { ...query, source },
     },
     as: {
