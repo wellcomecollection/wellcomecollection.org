@@ -20,6 +20,11 @@ export type EditorialContributorRole = PrismicDocument<
   typeof editorialContributorRoleType
 >;
 
+export type SameAsField = {
+  link: KeyTextField;
+  title: RichTextField;
+};
+
 const personType = 'people';
 export type Person = PrismicDocument<
   {
@@ -27,10 +32,7 @@ export type Person = PrismicDocument<
     description: RichTextField;
     pronouns: KeyTextField;
     image: Image;
-    sameAs: GroupField<{
-      link: KeyTextField;
-      title: RichTextField;
-    }>;
+    sameAs: GroupField<SameAsField>;
   },
   typeof personType
 >;
@@ -41,10 +43,7 @@ export type Organisation = PrismicDocument<
     name: RichTextField;
     description: RichTextField;
     image: Image;
-    sameAs: GroupField<{
-      link: KeyTextField;
-      title: KeyTextField;
-    }>;
+    sameAs: GroupField<SameAsField>;
   },
   typeof organisationType
 >;

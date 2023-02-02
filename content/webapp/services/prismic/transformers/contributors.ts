@@ -13,7 +13,7 @@ import { Contributor, ContributorBasic } from '../../../types/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { asRichText, asText } from '.';
 import { ImageType } from '@weco/common/model/image';
-import { Organisation, Person } from '../types/contributors';
+import { Organisation, Person, SameAsField } from '../types/contributors';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 const defaultContributorImage: ImageType = {
@@ -54,7 +54,7 @@ export function transformContributorAgent(
       name: asText(agent.data.name),
       pronouns: asText(agent.data.pronouns),
       sameAs: (agent.data.sameAs ?? [])
-        .map(sameAs => {
+        .map((sameAs: SameAsField) => {
           const link = asText(sameAs.link);
           const title = asText(sameAs.title);
           return title && link ? { title, link } : undefined;
@@ -67,7 +67,7 @@ export function transformContributorAgent(
       type: agent.type,
       name: asText(agent.data.name),
       sameAs: (agent.data.sameAs ?? [])
-        .map(sameAs => {
+        .map((sameAs: SameAsField) => {
           const link = asText(sameAs.link);
           const title = asText(sameAs.title);
           return title && link ? { title, link } : undefined;
