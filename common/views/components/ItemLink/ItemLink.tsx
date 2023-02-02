@@ -76,7 +76,7 @@ function toLink(
 
 type Props = LinkFrom<ItemProps> & { source: ItemPropsSource };
 
-const WorksLink: FunctionComponent<Props> = ({
+const ItemLink: FunctionComponent<Props> = ({
   children,
   source,
   ...props
@@ -84,5 +84,5 @@ const WorksLink: FunctionComponent<Props> = ({
   return <NextLink {...toLink(props, source)}>{children}</NextLink>;
 };
 
-export default WorksLink;
+export default ItemLink;
 export { toLink, fromQuery, emptyItemProps };
