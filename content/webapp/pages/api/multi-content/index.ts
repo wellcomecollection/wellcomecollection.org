@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/array';
-import { createClient } from '../../../services/prismic/fetch';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   parseQuery,
   transformMultiContent,
-} from '../../../services/prismic/transformers/multi-content';
-import { fetchMultiContent } from '../../../services/prismic/fetch/multi-content';
-import { transformQuery } from '../../../services/prismic/transformers/paginated-results';
+} from '@weco/content/services/prismic/transformers/multi-content';
+import { fetchMultiContent } from '@weco/content/services/prismic/fetch/multi-content';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import superjson from 'superjson';
 
 type NotFound = { notFound: true };

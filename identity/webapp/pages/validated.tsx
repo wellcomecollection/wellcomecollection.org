@@ -1,6 +1,9 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { PageWrapper } from '../src/frontend/components/PageWrapper';
-import { Container, Wrapper } from '../src/frontend/components/Layout.style';
+import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
+import {
+  Container,
+  Wrapper,
+} from '@weco/identity/src/frontend/components/Layout.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
@@ -9,8 +12,8 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import auth0 from '../src/utility/auth0';
-import { ValidatedFailedText, ValidatedSuccessText } from '../copy';
+import auth0 from '@weco/identity/src/utility/auth0';
+import { ValidatedFailedText, ValidatedSuccessText } from '@weco/identity/copy';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const { state: userState } = useUser();

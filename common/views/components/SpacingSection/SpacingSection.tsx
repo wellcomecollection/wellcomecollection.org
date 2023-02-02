@@ -5,7 +5,7 @@ type Props = {
   children: ReactNode;
 };
 
-const SpacingSection: FunctionComponent<Props> = ({ children }: Props) => {
+const SpacingSection: FunctionComponent<Props> = ({ children }) => {
   return (
     <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>{children}</Space>
   );

@@ -4,9 +4,9 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getServerData } from '@weco/common/server-data';
-import Work from '../components/Work/Work';
-import { getWork } from '../services/catalogue/works';
-import { looksLikeCanonicalId } from 'services/catalogue';
+import Work from '@weco/catalogue/components/Work/Work';
+import { getWork } from '@weco/catalogue/services/catalogue/works';
+import { looksLikeCanonicalId } from '@weco/catalogue/services/catalogue';
 
 type Props = {
   workResponse: WorkType;
@@ -22,14 +22,14 @@ export const WorkPage: NextPage<Props> = ({ workResponse }) => {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id } = context.query;
+    const { workId } = context.query;
 
-    if (!looksLikeCanonicalId(id)) {
+    if (!looksLikeCanonicalId(workId)) {
       return { notFound: true };
     }
 
     const workResponse = await getWork({
-      id,
+      id: workId,
       toggles: serverData.toggles,
     });
 

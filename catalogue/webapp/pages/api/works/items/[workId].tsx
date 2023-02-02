@@ -5,16 +5,9 @@ import {
   rootUris,
   globalApiOptions,
   GlobalApiOptions,
-} from '../../../../services/catalogue';
-import hasOwnProperty from '@weco/common/utils/has-own-property';
+} from '@weco/catalogue/services/catalogue';
 import { Toggles } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
-
-export function isCatalogueApiError(
-  response: ItemsList | CatalogueApiError
-): response is CatalogueApiError {
-  return Boolean(hasOwnProperty(response, 'type') && response.type === 'Error');
-}
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env]}/v2/works/${workId}/items`;
@@ -82,7 +75,7 @@ const ItemsApi = async (
     'private, no-cache, no-store, max-age=0, must-revalidate'
   );
 
-  if (isCatalogueApiError(response)) {
+  if (response.type === 'Error') {
     res.status(response.httpStatus);
   } else {
     res.status(200);

@@ -1,18 +1,18 @@
-import { Page as PageType } from '../types/pages';
-import Exhibition from '../components/Exhibition/Exhibition';
-import { Exhibition as ExhibitionType } from '../types/exhibitions';
-import Installation from '../components/Installation/Installation';
+import { Page as PageType } from '@weco/content/types/pages';
+import Exhibition from '@weco/content/components/Exhibition/Exhibition';
+import { Exhibition as ExhibitionType } from '@weco/content/types/exhibitions';
+import Installation from '@weco/content/components/Installation/Installation';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { createClient } from '../services/prismic/fetch';
-import { fetchExhibition } from '../services/prismic/fetch/exhibitions';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformPage } from '../services/prismic/transformers/pages';
-import { transformExhibition } from '../services/prismic/transformers/exhibitions';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { exhibitionLd } from 'services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -40,14 +40,14 @@ const ExhibitionPage: FunctionComponent<Props> = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id } = context.query;
+    const { exhibitionId } = context.query;
 
-    if (!looksLikePrismicId(id)) {
+    if (!looksLikePrismicId(exhibitionId)) {
       return { notFound: true };
     }
 
     const client = createClient(context);
-    const { exhibition, pages } = await fetchExhibition(client, id);
+    const { exhibition, pages } = await fetchExhibition(client, exhibitionId);
 
     if (exhibition) {
       const exhibitionDoc = transformExhibition(exhibition);

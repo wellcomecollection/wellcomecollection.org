@@ -1,49 +1,49 @@
 import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
-import { Season } from '../types/seasons';
+import { Season } from '@weco/content/types/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import SeasonsHeader from '../components/SeasonsHeader/SeasonsHeader';
+import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import CardGrid from '../components/CardGrid/CardGrid';
-import Body from '../components/Body/Body';
-import ContentPage from '../components/ContentPage/ContentPage';
-import { contentLd } from '../services/prismic/transformers/json-ld';
-import { fetchArticles } from '../services/prismic/fetch/articles';
-import { fetchBooks } from '../services/prismic/fetch/books';
-import { fetchEvents } from '../services/prismic/fetch/events';
-import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import { fetchPages } from '../services/prismic/fetch/pages';
-import { fetchProjects } from '../services/prismic/fetch/projects';
-import { fetchSeries } from '../services/prismic/fetch/series';
-import { fetchSeason } from '../services/prismic/fetch/seasons';
-import { createClient } from '../services/prismic/fetch';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import Body from '@weco/content/components/Body/Body';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
+import { fetchBooks } from '@weco/content/services/prismic/fetch/books';
+import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
+import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
+import { fetchPages } from '@weco/content/services/prismic/fetch/pages';
+import { fetchProjects } from '@weco/content/services/prismic/fetch/projects';
+import { fetchSeries } from '@weco/content/services/prismic/fetch/series';
+import { fetchSeason } from '@weco/content/services/prismic/fetch/seasons';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformArticle,
   transformArticleToArticleBasic,
-} from '../services/prismic/transformers/articles';
+} from '@weco/content/services/prismic/transformers/articles';
 import {
   transformBook,
   transformBookToBookBasic,
-} from '../services/prismic/transformers/books';
-import { transformEventBasic } from '../services/prismic/transformers/events';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
-import { transformPage } from '../services/prismic/transformers/pages';
-import { transformProject } from '../services/prismic/transformers/projects';
-import { transformSeries } from '../services/prismic/transformers/series';
-import { transformSeason } from '../services/prismic/transformers/seasons';
-import { ArticleBasic } from '../types/articles';
-import { BookBasic } from '../types/books';
-import { EventBasic } from '../types/events';
-import { ExhibitionBasic } from '../types/exhibitions';
-import { Page } from '../types/pages';
-import { Project } from '../types/projects';
-import { Series } from '../types/series';
+} from '@weco/content/services/prismic/transformers/books';
+import { transformEventBasic } from '@weco/content/services/prismic/transformers/events';
+import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { transformProject } from '@weco/content/services/prismic/transformers/projects';
+import { transformSeries } from '@weco/content/services/prismic/transformers/series';
+import { transformSeason } from '@weco/content/services/prismic/transformers/seasons';
+import { ArticleBasic } from '@weco/content/types/articles';
+import { BookBasic } from '@weco/content/types/books';
+import { EventBasic } from '@weco/content/types/events';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { Page } from '@weco/content/types/pages';
+import { Project } from '@weco/content/types/projects';
+import { Series } from '@weco/content/types/series';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { getCrop } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -137,8 +137,8 @@ const SeasonPage = ({
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { id } = context.query;
-    if (!looksLikePrismicId(id)) {
+    const { seasonId } = context.query;
+    if (!looksLikePrismicId(seasonId)) {
       return { notFound: true };
     }
 
@@ -147,30 +147,30 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // TODO: Is there a reason we're hard-coding predicates here, and not
     // using the Prismic library helpers as on the other pages?
     const booksQueryPromise = fetchBooks(client, {
-      predicates: [`[at(my.books.seasons.season, "${id}")]`],
+      predicates: [`[at(my.books.seasons.season, "${seasonId}")]`],
     });
     const articlesQueryPromise = fetchArticles(client, {
-      predicates: [`[at(my.articles.seasons.season, "${id}")]`],
+      predicates: [`[at(my.articles.seasons.season, "${seasonId}")]`],
     });
     const eventsQueryPromise = fetchEvents(client, {
-      predicates: [`[at(my.events.seasons.season, "${id}")]`],
+      predicates: [`[at(my.events.seasons.season, "${seasonId}")]`],
       orderings: ['my.events.times.startDateTime'],
     });
     const exhibitionsQueryPromise = fetchExhibitions(client, {
-      predicates: [`[at(my.exhibitions.seasons.season, "${id}")]`],
+      predicates: [`[at(my.exhibitions.seasons.season, "${seasonId}")]`],
       order: 'desc',
     });
     const pagesQueryPromise = fetchPages(client, {
-      predicates: [`[at(my.pages.seasons.season, "${id}")]`],
+      predicates: [`[at(my.pages.seasons.season, "${seasonId}")]`],
     });
     const projectsQueryPromise = fetchProjects(client, {
-      predicates: [`[at(my.projects.seasons.season, "${id}")]`],
+      predicates: [`[at(my.projects.seasons.season, "${seasonId}")]`],
     });
     const seriesQueryPromise = fetchSeries(client, {
-      predicates: [`[at(my.series.seasons.season, "${id}")]`],
+      predicates: [`[at(my.series.seasons.season, "${seasonId}")]`],
     });
 
-    const seasonDocPromise = fetchSeason(client, id);
+    const seasonDocPromise = fetchSeason(client, seasonId);
 
     const [
       articlesQuery,

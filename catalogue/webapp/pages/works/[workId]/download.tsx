@@ -4,27 +4,27 @@ import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-} from '../utils/works';
+} from '@weco/catalogue/utils/works';
 import {
   getCatalogueLicenseData,
   LicenseData,
 } from '@weco/common/utils/licenses';
-import { TransformedManifest } from '../types/manifest';
-import { getWork } from '../services/catalogue/works';
+import { TransformedManifest } from '@weco/catalogue/types/manifest';
+import { getWork } from '@weco/catalogue/services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
-import WorkDetailsText from '../components/WorkDetailsText/WorkDetailsText';
+import WorkDetailsText from '@weco/catalogue/components/WorkDetailsText/WorkDetailsText';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import { looksLikeCanonicalId } from 'services/catalogue';
-import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
-import { transformManifest } from '../services/iiif/transformers/manifest';
+import { looksLikeCanonicalId } from '@weco/catalogue/services/catalogue';
+import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
+import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
 
 function getCredit(
   workId: string,

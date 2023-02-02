@@ -2,25 +2,25 @@ import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import EventSchedule from '../components/EventSchedule/EventSchedule';
+import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import EventbriteButtons from '../components/EventbriteButtons/EventbriteButtons';
+import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import InfoBox from '../components/InfoBox/InfoBox';
+import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { font } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
-import EventDateRange from '../components/EventDateRange/EventDateRange';
+import EventDateRange from '@weco/content/components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getFeaturedMedia } from '../utils/page-header';
-import { Event, EventBasic, Interpretation } from '../types/events';
-import { upcomingDatesFullyBooked } from '../services/prismic/events';
-import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
+import { Event, EventBasic, Interpretation } from '@weco/content/types/events';
+import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
+import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import { GetServerSideProps, NextPage } from 'next';
@@ -37,21 +37,21 @@ import {
 } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import Body from '../components/Body/Body';
-import ContentPage from '../components/ContentPage/ContentPage';
-import Contributors from '../components/Contributors/Contributors';
-import { eventLd } from '../services/prismic/transformers/json-ld';
+import Body from '@weco/content/components/Body/Body';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import Contributors from '@weco/content/components/Contributors/Contributors';
+import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   fetchEvent,
   fetchEventScheduleItems,
   fetchEventsClientSide,
-} from '../services/prismic/fetch/events';
+} from '@weco/content/services/prismic/fetch/events';
 import {
   getScheduleIds,
   transformEvent,
-} from '../services/prismic/transformers/events';
-import { createClient } from '../services/prismic/fetch';
+} from '@weco/content/services/prismic/transformers/events';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   eventPolicyIds,
   prismicPageIds,
@@ -514,10 +514,10 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
   const serverData = await getServerData(context);
-  const { id } = context.query;
+  const { eventId } = context.query;
 
   const client = createClient(context);
-  const eventDocument = await fetchEvent(client, id as string);
+  const eventDocument = await fetchEvent(client, eventId as string);
 
   if (!eventDocument) {
     return {

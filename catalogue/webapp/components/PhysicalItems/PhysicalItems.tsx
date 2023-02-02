@@ -1,7 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
-import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import {
   useAbortSignalEffect,
@@ -99,7 +98,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       const updateItemsStatus = async () => {
         const items = await getWorkItemsClientSide(work.id, signal);
 
-        if (!isCatalogueApiError(items)) {
+        if (items.type !== 'Error') {
           setPhysicalItems(getItemsWithPhysicalLocation(items.results));
           setItemsState('up-to-date');
         }

@@ -1,23 +1,23 @@
 import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
-} from '../../../../types/exhibition-guides';
+} from '@weco/content/types/exhibition-guides';
 import { FC } from 'react';
-import { createClient } from '../../../../services/prismic/fetch';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchExhibitionGuide,
   fetchExhibitionGuides,
-} from '../../../../services/prismic/fetch/exhibition-guides';
+} from '@weco/content/services/prismic/fetch/exhibition-guides';
 import {
   transformExhibitionGuide,
   transformExhibitionGuideToExhibitionGuideBasic,
-} from '../../../../services/prismic/transformers/exhibition-guides';
-import { transformQuery } from '../../../../services/prismic/transformers/paginated-results';
+} from '@weco/content/services/prismic/transformers/exhibition-guides';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { exhibitionGuideLd } from '../../../../services/prismic/transformers/json-ld';
+import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';

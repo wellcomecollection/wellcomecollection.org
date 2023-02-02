@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { isJson, isString } from '@weco/common/utils/array';
-import { createClient } from '../../../services/prismic/fetch';
-import { fetchExhibitions } from '../../../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '../../../services/prismic/transformers/exhibitions';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
 import superjson from 'superjson';
 
 type NotFound = { notFound: true };

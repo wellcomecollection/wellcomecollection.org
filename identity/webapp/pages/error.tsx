@@ -1,8 +1,11 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { PageWrapper } from '../src/frontend/components/PageWrapper';
+import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import CustomError from '../src/frontend/components/CustomError';
-import { Container, Wrapper } from '../src/frontend/components/Layout.style';
+import CustomError from '@weco/identity/src/frontend/components/CustomError';
+import {
+  Container,
+  Wrapper,
+} from '@weco/identity/src/frontend/components/Layout.style';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';

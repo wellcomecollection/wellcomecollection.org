@@ -22,10 +22,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
   description,
   metaText,
   metaIcon,
-}: FacilityPromoType) => {
-  const uiImageProps = {
-    ...image,
-  };
+}) => {
   return (
     <CardOuter
       data-component="FacilityPromo"
@@ -42,7 +39,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
       <div>
         <ImageWrapper>
           <PrismicImage
-            image={uiImageProps}
+            image={image}
             sizes={{
               xlarge: 1 / 4,
               large: 1 / 3,

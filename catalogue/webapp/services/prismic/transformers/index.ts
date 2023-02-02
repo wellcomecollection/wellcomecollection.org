@@ -17,7 +17,7 @@ export async function transformPrismicResponse(
     const { node } = edge;
     const { title, contributors, promo, _meta, format } = node;
     const { id, firstPublicationDate } = _meta;
-    const { primary: image } = promo[0];
+    const image = promo?.[0]?.primary;
     const isArticle = type.includes('articles');
 
     // in some cases we don't have contributors
@@ -34,12 +34,12 @@ export async function transformPrismicResponse(
     return {
       id,
       title: title[0]?.text,
-      image: transformImage(image.image),
+      image: transformImage(image?.image),
       url: linkResolver({ id, type: type[0] }),
       firstPublicationDate,
       contributors: allContributors,
       type,
-      summary: image.caption[0].text,
+      summary: image?.caption[0].text,
       label:
         isArticle && format?._meta
           ? { text: articleIdToLabel(format._meta.id) }

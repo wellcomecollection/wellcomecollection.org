@@ -172,7 +172,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      {!isEnhanced ? (
+      {!isEnhanced && (
         <input
           form={form}
           type="color"
@@ -185,7 +185,8 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
               : ''
           }
         />
-      ) : (
+      )}
+      {isEnhanced && (
         <>
           <input
             form={form}
@@ -197,7 +198,7 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
             {palette.map(swatch => (
               <Swatch
                 key={swatch.hexValue}
-                id={`swatch-${swatch.colorName.toLowerCase()}`}
+                data-test-id={`swatch-${swatch.colorName.toLowerCase()}`}
                 hexColor={swatch.hexValue}
                 ariaPressed={colorState === swatch.hexValue}
                 onClick={() => setColorState(swatch.hexValue)}

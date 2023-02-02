@@ -37,16 +37,7 @@ const BookImage: FunctionComponent<Props> = ({
     <BookPromoImageContainer>
       {image.contentUrl && (
         <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
-          <PrismicImage
-            image={{
-              contentUrl: image.contentUrl || '',
-              width: image.width,
-              height: image.height,
-              alt: image?.alt,
-            }}
-            sizes={sizes}
-            quality={quality}
-          />
+          <PrismicImage image={image} sizes={sizes} quality={quality} />
         </BookPromoImage>
       )}
     </BookPromoImageContainer>

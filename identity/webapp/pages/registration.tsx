@@ -2,19 +2,22 @@ import { FormEvent } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { PageWrapper } from '../src/frontend/components/PageWrapper';
+import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
 import { font } from '@weco/common/utils/classnames';
 import {
   Checkbox,
   CheckboxLabel,
   FullWidthButton,
   FlexStartCheckbox,
-} from '../src/frontend/Registration/Registration.style';
-import { Container, Wrapper } from '../src/frontend/components/Layout.style';
+} from '@weco/identity/src/frontend/Registration/Registration.style';
+import {
+  Container,
+  Wrapper,
+} from '@weco/identity/src/frontend/components/Layout.style';
 import WellcomeTextInput, {
   TextInputErrorMessage,
 } from '@weco/common/views/components/TextInput/TextInput';
-import { usePageTitle } from '../src/frontend/hooks/usePageTitle';
+import { usePageTitle } from '@weco/identity/src/frontend/hooks/usePageTitle';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
@@ -26,14 +29,17 @@ import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { RegistrationInputs, decodeToken } from '../src/utility/jwt-codec';
+import {
+  RegistrationInputs,
+  decodeToken,
+} from '@weco/identity/src/utility/jwt-codec';
 import { stringFromStringOrStringArray } from '@weco/common/utils/array';
-import RegistrationInformation from '../src/frontend/Registration/RegistrationInformation';
+import RegistrationInformation from '@weco/identity/src/frontend/Registration/RegistrationInformation';
 import getConfig from 'next/config';
 import {
   collectionsResearchAgreementTitle,
   collectionsResearchAgreementLabel,
-} from '../copy';
+} from '@weco/identity/copy';
 import { JwtPayload } from 'jsonwebtoken';
 
 const { serverRuntimeConfig: config } = getConfig();
