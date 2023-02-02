@@ -20,10 +20,7 @@ const ContributorNameWrapper = styled.div`
 const Contributor: FunctionComponent<ContributorType> = ({
   contributor,
   role,
-  description,
 }) => {
-  const descriptionToRender = description || contributor.description;
-
   // Contributor images should always be square.
   //
   // We prefer the explicit square crop if it's available, but we can't rely on it --
@@ -113,7 +110,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
             />
           )}
 
-          {descriptionToRender && (
+          {contributor.description && (
             <Space
               v={{
                 size: 's',
@@ -121,7 +118,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
               }}
               className={`${font('intr', 5)} spaced-text`}
             >
-              <PrismicHtmlBlock html={descriptionToRender} />
+              <PrismicHtmlBlock html={contributor.description} />
             </Space>
           )}
         </div>

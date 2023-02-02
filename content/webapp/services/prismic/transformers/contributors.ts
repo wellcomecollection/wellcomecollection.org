@@ -90,13 +90,10 @@ export function transformContributors(
           }
         : undefined;
 
-      const description = asRichText(contributor.description);
-
       return agent
         ? {
             contributor: agent,
             role,
-            description,
           }
         : undefined;
     })

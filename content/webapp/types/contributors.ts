@@ -34,7 +34,6 @@ type ContributorRole = {
 export type Contributor = {
   contributor: Person | Organisation;
   role?: ContributorRole;
-  description?: prismicT.RichTextField;
 };
 
 export type ContributorBasic = {

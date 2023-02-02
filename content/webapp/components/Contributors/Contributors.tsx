@@ -77,7 +77,7 @@ const Contributors: FunctionComponent<Props> = ({
           : `${getContributorsTitle(roles, titlePrefix)}`}
       </h2>
 
-      {contributors.map(({ contributor, role, description }) => (
+      {contributors.map(({ contributor, role }) => (
         <Space
           v={{ size: 'l', properties: ['margin-bottom'] }}
           key={contributor.id}
@@ -89,7 +89,6 @@ const Contributors: FunctionComponent<Props> = ({
           <Contributor
             contributor={contributor}
             role={roles.length > 1 ? role : undefined}
-            description={description}
           />
         </Space>
       ))}
