@@ -117,7 +117,6 @@ const ContentPage = ({
   postOutroContent,
   seasons = [],
   contributors,
-  contributorTitle,
   hideContributors,
 }: Props): ReactElement => {
   // We don't want to add a spacing unit if there's nothing to render
@@ -173,10 +172,7 @@ const ContentPage = ({
           {!hideContributors && contributors && contributors.length > 0 && (
             <SpacingSection>
               <Layout8>
-                <Contributors
-                  contributors={contributors}
-                  titleOverride={contributorTitle}
-                />
+                <Contributors contributors={contributors} />
               </Layout8>
             </SpacingSection>
           )}
