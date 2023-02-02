@@ -42,22 +42,25 @@ const Sort: FunctionComponent<Props> = ({
   defaultValues,
 }) => {
   const router = useRouter();
+  const { sortOrder: currentSortOrder, sort: currentSortType } = router.query;
 
   const [isComponentMounted, setIsComponentMounted] = useState(false);
   useEffect(() => setIsComponentMounted(true), []);
 
-  const [sortOrder, setSortOrder] = useState(router?.query?.sortOrder);
-  const [sortType, setSortType] = useState(router?.query?.sort);
+  const [sortOrder, setSortOrder] = useState(currentSortOrder);
+  const [sortType, setSortType] = useState(currentSortType);
 
   useEffect(() => {
-    const queryParams = { ...router.query, sortOrder, sort: sortType };
-    const newQuery = propsToQuery(queryParams);
+    // Only push changes if the sort order is a new one than currently used
+    if (sortOrder !== currentSortOrder || sortType !== currentSortType) {
+      const queryParams = { ...router.query, sortOrder, sort: sortType };
+      const newQuery = propsToQuery(queryParams);
 
-    // Reset pagination when we change the sort order
-    // as it's likely the user will want to start from page 1
-    const { page, ...rest } = newQuery;
-
-    router.push({ pathname: router.pathname, query: { ...rest } });
+      // Reset pagination when we change the sort order
+      // as it's likely the user will want to start from page 1
+      const { page, ...rest } = newQuery;
+      router.push({ pathname: router.pathname, query: { ...rest } });
+    }
   }, [sortOrder, sortType]);
 
   return (
