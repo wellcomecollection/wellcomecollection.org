@@ -24,6 +24,7 @@ const config: PlaywrightTestConfig = {
           name: deviceName,
           use: { ...devices[deviceName] },
         })),
+  workers: 1,
 };
 
 export default config;
