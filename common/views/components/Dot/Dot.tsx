@@ -6,8 +6,10 @@ import Space from '../styled/Space';
 const DotWrapper = styled(Space).attrs({
   as: 'span',
   h: { size: 'xs', properties: ['margin-right'] },
-  className: 'flex flex--v-center',
-})``;
+})`
+  display: flex;
+  align-items: center;
+`;
 
 const DotEl = styled.span.attrs({
   'aria-hidden': true,
