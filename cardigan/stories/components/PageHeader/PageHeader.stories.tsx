@@ -5,6 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
 import Dot from '@weco/common/views/components/Dot/Dot';
+import DottedTextWrapper from '@weco/common/views/components/Dot/DottedTextWrapper';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -142,20 +143,20 @@ const EventContentTypeInfo = () => (
       Saturday 8 February 2020, 13:00 – 16:00
     </Space>
     <div className="flex">
-      <div className={`${font('intb', 5)} flex flex--v-center`}>
+      <DottedTextWrapper className={font('intb', 5)}>
         <Dot dotColor="neutral.500" />
-        {'Past'}
-      </div>
+        Past
+      </DottedTextWrapper>
     </div>
   </>
 );
 
 const ExhibitionContentTypeInfo = () => (
   <div className="flex">
-    <div className={`${font('intb', 5)} flex flex--v-center`}>
+    <DottedTextWrapper className={font('intb', 5)}>
       <Dot dotColor="neutral.500" />
-      {'Closed'}
-    </div>
+      Closed
+    </DottedTextWrapper>
   </div>
 );
 

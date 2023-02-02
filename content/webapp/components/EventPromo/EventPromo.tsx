@@ -3,6 +3,7 @@ import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Dot from '@weco/common/views/components/Dot/Dot';
+import DottedTextWrapper from '@weco/common/views/components/Dot/DottedTextWrapper';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { EventBasic } from '../../types/events';
 import { upcomingDatesFullyBooked } from '../../services/prismic/events';
@@ -160,12 +161,11 @@ const EventPromo: FunctionComponent<Props> = ({
           )}
 
           {upcomingDatesFullyBooked(event) && (
-            <Space
-              v={{ size: 'm', properties: ['margin-top'] }}
-              className={`${font('intr', 5)} flex flex--v-center`}
-            >
-              <Dot dotColor="validation.red" />
-              Fully booked
+            <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <DottedTextWrapper className={font('intr', 5)}>
+                <Dot dotColor="validation.red" />
+                Fully booked
+              </DottedTextWrapper>
             </Space>
           )}
 
@@ -174,10 +174,10 @@ const EventPromo: FunctionComponent<Props> = ({
           )}
 
           {isPast && !event.availableOnline && (
-            <div className={`${font('intr', 5)} flex flex--v-center`}>
+            <DottedTextWrapper className={font('intr', 5)} as="div">
               <Dot dotColor="neutral.500" />
               Past
-            </div>
+            </DottedTextWrapper>
           )}
         </div>
       </CardBody>
