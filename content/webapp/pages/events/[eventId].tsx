@@ -4,6 +4,7 @@ import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
+import DotWrapper from '@weco/common/views/components/Dot/DotWrapper';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
@@ -118,13 +119,9 @@ function EventStatus({ text, color }: EventStatusProps) {
   return (
     <div className="flex">
       <div className={`${font('intb', 5)} flex flex--v-center`}>
-        <Space
-          as="span"
-          h={{ size: 'xs', properties: ['margin-right'] }}
-          className="flex flex--v-center"
-        >
+        <DotWrapper>
           <Dot dotColor={color} />
-        </Space>
+        </DotWrapper>
         {text}
       </div>
     </div>

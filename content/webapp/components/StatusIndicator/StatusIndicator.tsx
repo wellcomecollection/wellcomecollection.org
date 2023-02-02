@@ -1,5 +1,4 @@
 import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import { FunctionComponent } from 'react';
 import {
@@ -11,6 +10,7 @@ import {
   today,
 } from '@weco/common/utils/dates';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import DotWrapper from '@weco/common/views/components/Dot/DotWrapper';
 
 type Props = {
   start: Date;
@@ -52,13 +52,9 @@ const StatusIndicator: FunctionComponent<Props> = ({
 
   return (
     <span className={`flex flex--v-center ${font('intr', 5)}`}>
-      <Space
-        as="span"
-        h={{ size: 'xs', properties: ['margin-right'] }}
-        className="flex flex--v-center"
-      >
+      <DotWrapper>
         <Dot dotColor={color} />
-      </Space>
+      </DotWrapper>
       <span>{text}</span>
     </span>
   );
