@@ -4,7 +4,7 @@ import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/
 import { font } from '@weco/common/utils/classnames';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
-import TextWithDot from '@weco/common/views/components/Dot/TextWithDot';
+import TextWithDot from '@weco/common/views/components/TextWithDot';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';

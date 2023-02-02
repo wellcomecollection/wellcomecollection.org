@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import TextWithDot from '@weco/common/views/components/Dot/TextWithDot';
+import TextWithDot from '@weco/common/views/components/TextWithDot';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { EventBasic } from '../../types/events';
 import { upcomingDatesFullyBooked } from '../../services/prismic/events';

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
-import TextWithDot from '@weco/common/views/components/Dot/TextWithDot';
+import TextWithDot from '@weco/common/views/components/TextWithDot';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
