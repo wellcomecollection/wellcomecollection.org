@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import Dot from '@weco/common/views/components/Dot/Dot';
+import TextWithDot from '@weco/common/views/components/TextWithDot';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { EventBasic } from '../../types/events';
 import { upcomingDatesFullyBooked } from '../../services/prismic/events';
@@ -160,18 +160,12 @@ const EventPromo: FunctionComponent<Props> = ({
           )}
 
           {upcomingDatesFullyBooked(event) && (
-            <Space
-              v={{ size: 'm', properties: ['margin-top'] }}
-              className={`${font('intr', 5)} flex flex--v-center`}
-            >
-              <Space
-                as="span"
-                h={{ size: 'xs', properties: ['margin-right'] }}
-                className="flex flex--v-center"
-              >
-                <Dot dotColor="validation.red" />
-              </Space>
-              Fully booked
+            <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <TextWithDot
+                className={font('intr', 5)}
+                dotColor="validation.red"
+                text="Fully booked"
+              />
             </Space>
           )}
 
@@ -180,15 +174,12 @@ const EventPromo: FunctionComponent<Props> = ({
           )}
 
           {isPast && !event.availableOnline && (
-            <div className={`${font('intr', 5)} flex flex--v-center`}>
-              <Space
-                as="span"
-                h={{ size: 'xs', properties: ['margin-right'] }}
-                className="flex flex--v-center"
-              >
-                <Dot dotColor="neutral.500" />
-              </Space>
-              Past
+            <div>
+              <TextWithDot
+                className={font('intr', 5)}
+                dotColor="neutral.500"
+                text="Past"
+              />
             </div>
           )}
         </div>

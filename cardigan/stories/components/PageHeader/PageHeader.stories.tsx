@@ -4,7 +4,7 @@ import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/
 import { font } from '@weco/common/utils/classnames';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
-import Dot from '@weco/common/views/components/Dot/Dot';
+import TextWithDot from '@weco/common/views/components/TextWithDot';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -142,32 +142,22 @@ const EventContentTypeInfo = () => (
       Saturday 8 February 2020, 13:00 – 16:00
     </Space>
     <div className="flex">
-      <div className={`${font('intb', 5)} flex flex--v-center`}>
-        <Space
-          as="span"
-          h={{ size: 'xs', properties: ['margin-right'] }}
-          className="flex flex--v-center"
-        >
-          <Dot dotColor="neutral.500" />
-        </Space>
-        {'Past'}
-      </div>
+      <TextWithDot
+        className={font('intb', 5)}
+        dotColor="neutral.500"
+        text="Past"
+      />
     </div>
   </>
 );
 
 const ExhibitionContentTypeInfo = () => (
   <div className="flex">
-    <div className={`${font('intb', 5)} flex flex--v-center`}>
-      <Space
-        as="span"
-        h={{ size: 'xs', properties: ['margin-right'] }}
-        className="flex flex--v-center"
-      >
-        <Dot dotColor="neutral.500" />
-      </Space>
-      {'Closed'}
-    </div>
+    <TextWithDot
+      className={font('intb', 5)}
+      dotColor="neutral.500"
+      text="Closed"
+    />
   </div>
 );
 
