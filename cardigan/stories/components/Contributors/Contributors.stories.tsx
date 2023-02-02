@@ -1,7 +1,15 @@
 import Contributors from '@weco/content/components/Contributors/Contributors';
-import { organisation, person } from '../../content';
+import Readme from '@weco/content/components/Contributors/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { organisation, person } from '@weco/cardigan/stories/content';
 
-const Template = args => <Contributors {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={Contributors}
+    args={args}
+    Readme={Readme}
+  />
+);
 export const basic = Template.bind({});
 basic.args = {
   contributors: [

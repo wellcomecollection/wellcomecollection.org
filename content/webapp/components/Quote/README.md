@@ -1,5 +1,4 @@
 ## Purpose
-
 Display a block or pull quote.
 
 ## Editorial usage
@@ -29,4 +28,4 @@ she had a thirst for knowledge"
 - Use one at a time
 
 
-[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/common/views/components/Quote/README.md)
+[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/content/webapp/components/Quote/README.md)

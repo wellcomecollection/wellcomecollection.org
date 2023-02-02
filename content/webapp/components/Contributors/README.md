@@ -5,4 +5,5 @@
 - Gives brand recognition to partners, especially in contractual arrangements (e.g. BBC World Service)
 - Enriches our data graph
 
-[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/common/views/components/Contributors/README.md)
+
+[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/content/webapp/components/Contributors/README.md)

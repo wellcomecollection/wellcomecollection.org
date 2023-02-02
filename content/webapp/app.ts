@@ -113,9 +113,13 @@ const appPromise = nextApp
 
     route(`/events/:period(${periodPaths})`, '/events', router, nextApp);
 
-    route(`/projects/:id(${prismicId})`, '/page', router, nextApp);
-
-    route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
+    route(
+      `/projects/:pageId(${prismicId})`,
+      '/pages/[pageId]',
+      router,
+      nextApp
+    );
+    route(`/guides/:pageId(${prismicId})`, '/pages/[pageId]', router, nextApp);
 
     router.redirect(
       `/pages/${prismicPageIds.collections}`,

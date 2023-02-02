@@ -4,10 +4,8 @@ import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
 import EventPromo from '@weco/content/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
-import { exhibitionBasic } from '../../data/prismic/exhibition';
+import { exhibitionBasic } from '@weco/cardigan/stories/data/prismic/exhibition';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import CompactCardReadme from '@weco/content/components/CompactCard/README.md';
-import { ReadmeDecorator } from '../../../config/decorators';
 import {
   squareImage,
   singleLineOfText,
@@ -15,19 +13,15 @@ import {
   articleBasic,
   image,
   event,
-} from '../../content';
+} from '@weco/cardigan/stories/content';
+import Readme from '@weco/content/components/FeaturedCard/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
 const secondaryLabelList = [{ text: 'Speech-to-text' }];
 const imageProps = squareImage();
 
-const CompactCardTemplate = args => (
-  <ReadmeDecorator
-    WrappedComponent={CompactCard}
-    args={args}
-    Readme={CompactCardReadme}
-  />
-);
+const CompactCardTemplate = args => <CompactCard {...args} />;
 
 export const compactCard = CompactCardTemplate.bind({});
 compactCard.args = {
@@ -55,14 +49,18 @@ bannerCard.storyName = 'BannerCard';
 
 const FeaturedCardTemplate = args => {
   return (
-    <FeaturedCard
-      id="id"
-      image={{ ...image() }}
-      labels={[{ text: 'Essay' }]}
-      link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
-      background={args.background}
-      textColor={args.textColor}
-      isReversed={args.isReversed}
+    <ReadmeDecorator
+      WrappedComponent={FeaturedCard}
+      args={{
+        id: 'id',
+        image: image(),
+        labels: [{ text: 'Essay' }],
+        link: { url: '#', text: 'Remote diagnosis from wee to the web' },
+        background: args.background,
+        textColor: args.textColor,
+        isReversed: args.isReversed,
+      }}
+      Readme={Readme}
     >
       <h2 className="font-wb font-size-2">
         Remote diagnosis from wee to the Web
@@ -72,7 +70,7 @@ const FeaturedCardTemplate = args => {
         their urine for doctors to taste, but telehealth today keeps up the
         tradition of remote diagnosis – to our possible detriment.
       </p>
-    </FeaturedCard>
+    </ReadmeDecorator>
   );
 };
 export const featuredCard = FeaturedCardTemplate.bind({});

@@ -1,7 +1,15 @@
 import ExhibitionCaptions from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
-import { text, image } from '../../content';
+import { text, image } from '@weco/cardigan/stories/content';
+import Readme from '@weco/content/components/ExhibitionCaptions/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = args => <ExhibitionCaptions {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={ExhibitionCaptions}
+    args={args}
+    Readme={Readme}
+  />
+);
 export const basic = Template.bind({});
 basic.args = {
   stops: [

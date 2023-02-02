@@ -1,4 +1,6 @@
 import Tags from '@weco/common/views/components/Tags/Tags';
+import Readme from '@weco/common/views/components/Tags/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const nextLink = {
   href: {
@@ -17,7 +19,9 @@ const nextLink = {
   },
 };
 
-const Template = args => <Tags {...args} />;
+const Template = args => (
+  <ReadmeDecorator WrappedComponent={Tags} args={args} Readme={Readme} />
+);
 export const basic = Template.bind({});
 basic.args = {
   isFirstPartBold: false,

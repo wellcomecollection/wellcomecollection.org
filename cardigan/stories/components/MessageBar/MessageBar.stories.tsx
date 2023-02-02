@@ -1,6 +1,10 @@
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
+import Readme from '@weco/common/views/components/MessageBar/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Template = args => <MessageBar {...args} />;
+const Template = args => (
+  <ReadmeDecorator WrappedComponent={MessageBar} args={args} Readme={Readme} />
+);
 export const basic = Template.bind({});
 basic.args = {
   tagText: 'Smoke test',
