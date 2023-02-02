@@ -37,7 +37,7 @@ const Template = ({ items, variant, ...rest }) => {
             ...rest,
           }}
           Readme={Readme}
-          isReadMeBefore={true}
+          order="readmeFirst"
         />
       </Wrapper>
       <>

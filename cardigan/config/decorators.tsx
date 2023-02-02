@@ -60,23 +60,23 @@ type ReadmeDecoratorProps = {
   WrappedComponent: ComponentType;
   args: Record<string, unknown>;
   Readme: ComponentType;
-  isReadMeBefore?: boolean;
+  order?: 'componentFirst' | 'readmeFirst';
 };
 
 export const ReadmeDecorator: FunctionComponent<ReadmeDecoratorProps> = ({
   WrappedComponent,
   args,
   Readme,
-  isReadMeBefore,
+  order = 'componentFirst',
   children,
 }) => {
   return (
     <div>
-      {isReadMeBefore && <ReadMeInfo Readme={Readme} />}
+      {order === 'readmeFirst' && <ReadMeInfo Readme={Readme} />}
 
       <WrappedComponent {...args}>{children}</WrappedComponent>
 
-      {!isReadMeBefore && <ReadMeInfo Readme={Readme} />}
+      {order === 'componentFirst' && <ReadMeInfo Readme={Readme} />}
     </div>
   );
 };
