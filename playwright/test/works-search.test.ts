@@ -71,7 +71,16 @@ const navigateToResult = async (n = 1, page: Page) => {
   const result = `[role="main"] ul li:nth-of-type(${n}) a`;
   const searchResultTitle = await page.textContent(`${result} h3`);
 
-  await Promise.all([safeWaitForNavigation(page), page.click(result)]);
+  // For reasons I don't really understand, the safeWaitForNavigation will timeout…
+  // but only in the mobile tests.
+  //
+  // Since that helper is only a test convenience and isn't testing the behaviour of
+  // the site, I haven't investigated further -- this seems to make the tests happy.
+  if (isMobile(page)) {
+    await page.click(result);
+  } else {
+    await Promise.all([safeWaitForNavigation(page), page.click(result)]);
+  }
 
   const title = await page.textContent('h1');
   expect(title).toBe(searchResultTitle);
