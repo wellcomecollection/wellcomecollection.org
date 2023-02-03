@@ -7,8 +7,12 @@ resource "aws_s3_bucket" "lambdas" {
       bucket_name = "weco-lambdas"
     }
   )
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "lambdas" {
+  bucket = aws_s3_bucket.lambdas.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
