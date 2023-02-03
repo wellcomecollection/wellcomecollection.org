@@ -1,13 +1,5 @@
 resource "aws_s3_bucket" "cloudfront_logs" {
   bucket = "wellcomecollection-experience-cloudfront-logs"
-
-  grant {
-    # Grant CloudFront logs access to your Amazon S3 Bucket
-    # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#AccessLogsBucketAndFileOwnership
-    id          = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
-    permissions = ["FULL_CONTROL"]
-    type        = "CanonicalUser"
-  }
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "expire_logs_after_30_days" {
@@ -19,6 +11,28 @@ resource "aws_s3_bucket_lifecycle_configuration" "expire_logs_after_30_days" {
 
     expiration {
       days = 30
+    }
+  }
+}
+
+data "aws_canonical_user_id" "current" {}
+
+resource "aws_s3_bucket_acl" "allow_cloudfront_access" {
+  bucket = aws_s3_bucket.cloudfront_logs.id
+
+  access_control_policy {
+    owner {
+      id = data.aws_canonical_user_id.current.id
+    }
+
+    grant {
+      # Grant CloudFront logs access to the Amazon S3 Bucket
+      # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#AccessLogsBucketAndFileOwnership
+      grantee {
+        id   = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
+        type = "CanonicalUser"
+      }
+      permission = "FULL_CONTROL"
     }
   }
 }
