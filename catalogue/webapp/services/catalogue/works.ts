@@ -78,14 +78,10 @@ function toIsoDateString(
 ): string | undefined {
   if (s) {
     try {
-      const pad = (value: string): string => {
-        if (value.length === 4) return value;
-        return pad(`0${value}`);
-      };
       const d = new Date(s);
-      let year = d.getUTCFullYear().toString();
+      let year = d.getUTCFullYear().toString().padStart(4, '0');
 
-      return range === 'from' ? `${pad(year)}-01-01` : `${pad(year)}-12-31`;
+      return range === 'from' ? `${year}-01-01` : `${year}-12-31`;
     } catch (e) {
       return undefined;
     }
