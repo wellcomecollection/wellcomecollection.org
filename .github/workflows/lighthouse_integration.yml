@@ -1,6 +1,12 @@
 name: Lighthouse integration
 
-on: deployment_status
+on:
+  deployment_status:
+    paths-ignore:
+      - 'assets/**'
+      - 'cache/**'
+      - 'playwright/**'
+    
 jobs:
   run_lighthouse:
     name: Lighthouse report

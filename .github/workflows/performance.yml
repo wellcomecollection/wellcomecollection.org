@@ -5,6 +5,7 @@ on:
     paths-ignore:
       - 'assets/**'
       - 'cache/**'
+      - 'playwright/**'
 
 jobs:
   bundle_size_diff:
