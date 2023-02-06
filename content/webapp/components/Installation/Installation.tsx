@@ -1,5 +1,4 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '../DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -14,18 +13,12 @@ import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   installation: InstallationType;
-  jsonLd: JsonLdObj;
 };
 
-const Installation: FunctionComponent<Props> = ({
-  installation,
-  jsonLd,
-}: Props) => {
+const Installation: FunctionComponent<Props> = ({ installation }) => {
   const [partOf, setPartOf] = useState<InstallationType>();
   useEffect(() => {
     fetchExhibitExhibition(installation.id).then(exhibition => {
@@ -85,34 +78,21 @@ const Installation: FunctionComponent<Props> = ({
     />
   );
   return (
-    <PageLayout
-      title={installation.title}
-      description={
-        installation.metadataDescription || installation.promo?.caption || ''
-      }
-      url={{ pathname: `/exhibitions/${installation.id}` }}
-      jsonLd={jsonLd}
-      openGraphType="website"
-      siteSection="whats-on"
-      image={installation.image}
-      apiToolbarLinks={[createPrismicLink(installation.id)]}
+    <ContentPage
+      id={installation.id}
+      Header={Header}
+      Body={<Body body={installation.body} pageId={installation.id} />}
+      seasons={installation.seasons}
+      contributors={installation.contributors}
     >
-      <ContentPage
-        id={installation.id}
-        Header={Header}
-        Body={<Body body={installation.body} pageId={installation.id} />}
-        seasons={installation.seasons}
-        contributors={installation.contributors}
-      >
-        {installation.end && !isPast(installation.end) && (
-          <InfoBox title="Visit us" items={getInfoItems(installation)}>
-            <p className={`no-margin ${font('intr', 5)}`}>
-              <a href="/access">All our accessibility services</a>
-            </p>
-          </InfoBox>
-        )}
-      </ContentPage>
-    </PageLayout>
+      {installation.end && !isPast(installation.end) && (
+        <InfoBox title="Visit us" items={getInfoItems(installation)}>
+          <p className={`no-margin ${font('intr', 5)}`}>
+            <a href="/access">All our accessibility services</a>
+          </p>
+        </InfoBox>
+      )}
+    </ContentPage>
   );
 };
 

@@ -17,6 +17,8 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { exhibitionLd } from 'services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   exhibition: ExhibitionType;
@@ -30,12 +32,26 @@ const ExhibitionPage: FunctionComponent<Props> = ({
   exhibition,
   pages,
   jsonLd,
-}) =>
-  exhibition.format && exhibition.format.title === 'Installation' ? (
-    <Installation installation={exhibition} jsonLd={jsonLd} />
-  ) : (
-    <Exhibition exhibition={exhibition} jsonLd={jsonLd} pages={pages} />
-  );
+}) => (
+  <PageLayout
+    title={exhibition.title}
+    description={
+      exhibition.metadataDescription || exhibition.promo?.caption || ''
+    }
+    url={{ pathname: `/exhibitions/${exhibition.id}` }}
+    jsonLd={jsonLd}
+    openGraphType="website"
+    siteSection="whats-on"
+    image={exhibition.image}
+    apiToolbarLinks={[createPrismicLink(exhibition.id)]}
+  >
+    {exhibition.format && exhibition.format.title === 'Installation' ? (
+      <Installation installation={exhibition} />
+    ) : (
+      <Exhibition exhibition={exhibition} pages={pages} />
+    )}
+  </PageLayout>
+);
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
