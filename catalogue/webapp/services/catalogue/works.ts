@@ -79,7 +79,7 @@ function toIsoDateString(
   if (s) {
     try {
       const d = new Date(s);
-      let year = d.getUTCFullYear().toString().padStart(4, '0');
+      const year = d.getUTCFullYear().toString().padStart(4, '0');
 
       return range === 'from' ? `${year}-01-01` : `${year}-12-31`;
     } catch (e) {
@@ -126,7 +126,10 @@ export async function getWorks(
   });
 }
 
-type WorkResponse = Work | CatalogueApiError | CatalogueApiRedirect;
+type WorkResponse =
+  | (Work & { url: string })
+  | CatalogueApiError
+  | CatalogueApiRedirect;
 
 export async function getWork({
   id,
@@ -171,7 +174,8 @@ export async function getWork({
   }
 
   try {
-    return await res.json();
+    const work = await res.json();
+    return { ...work, url };
   } catch (e) {
     return catalogueApiError();
   }

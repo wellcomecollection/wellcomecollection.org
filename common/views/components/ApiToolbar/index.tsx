@@ -1,11 +1,9 @@
-import { FunctionComponent, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
-import { ParsedUrlQuery } from 'querystring';
 import cookies from '@weco/common/data/cookies';
 import { getCookie, setCookie } from 'cookies-next';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
-import { Work, Location, Contributor, License } from '../../../model/catalogue';
+import { Contributor, License } from '../../../model/catalogue';
 
 export type ApiToolbarLink = {
   id: string;
@@ -13,21 +11,6 @@ export type ApiToolbarLink = {
   value?: string;
   link?: string;
 };
-const includes = [
-  'identifiers',
-  'images',
-  'items',
-  'subjects',
-  'genres',
-  'contributors',
-  'production',
-  'notes',
-  'parts',
-  'partOf',
-  'precededBy',
-  'succeededBy',
-  'holdings',
-];
 
 const ToolbarContainer = styled.div<{ mini: boolean }>`
   display: ${props => (props.mini ? 'inline-block' : 'flex')};
@@ -127,72 +110,16 @@ function getAnchorLinkUrls() {
   );
 }
 
-function getRouteProps(path: string) {
-  switch (path) {
-    case '/work':
-      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
-        const { id } = query;
-        const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=${includes}`;
-        const work: Work = await fetch(apiUrl).then(res => res.json());
-
-        const apiLink = {
-          id: 'json',
-          label: 'JSON',
-          link: apiUrl,
-        };
-
-        const iiifItem = work.items
-          ?.reduce((acc, item) => {
-            return acc.concat(item.locations);
-          }, [] as Location[])
-          ?.find(location => location.locationType.id.startsWith('iiif'));
-
-        const iiifLink = iiifItem &&
-          iiifItem.type === 'DigitalLocation' && {
-            id: 'iiif',
-            label: 'IIIF',
-            link: iiifItem.url.replace('/v2/', '/v3/'),
-          };
-
-        const links = [
-          apiLink,
-          iiifLink,
-          ...work.identifiers.map(id => ({
-            id: id.value,
-            label: id.identifierType.label,
-            value: id.value,
-          })),
-        ].filter(Boolean) as ApiToolbarLink[];
-
-        return links;
-      };
-    default:
-      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
-        console.debug(`query = ${query}`);
-        return [];
-      };
-  }
-}
-
 type Props = {
-  extraLinks?: ApiToolbarLink[];
+  links?: ApiToolbarLink[];
 };
 
-const ApiToolbar: FunctionComponent<Props> = ({ extraLinks = [] }) => {
-  const router = useRouter();
-  const [links, setLinks] = useState<ApiToolbarLink[]>([]);
+const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
   const [mini, setMini] = useState<boolean>(false);
 
   useIsomorphicLayoutEffect(() => {
     setMini(getCookie(cookies.apiToolbarMini) === true);
   }, []);
-
-  useEffect(() => {
-    const fn = getRouteProps(router.route);
-    if (fn) {
-      fn(router.query).then(setLinks);
-    }
-  }, [router.route, router.query]);
 
   const propValue = (prop: ApiToolbarLink) => {
     return `${prop.label}${prop.value ? ` : ${prop.value}` : ''}`;
@@ -217,7 +144,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ extraLinks = [] }) => {
               API toolbar
             </span>
             <LinkList>
-              {extraLinks.concat(links).map(prop => (
+              {links.map(prop => (
                 <li
                   key={prop.id}
                   style={{

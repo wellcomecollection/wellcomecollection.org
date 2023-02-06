@@ -277,7 +277,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
 
       <div id="root">
         {apiToolbar && (
-          <ApiToolbar extraLinks={apiToolbarLinks.filter(isNotUndefined)} />
+          <ApiToolbar links={apiToolbarLinks.filter(isNotUndefined)} />
         )}
         <CookieNotice source={url.pathname || ''} />
 
