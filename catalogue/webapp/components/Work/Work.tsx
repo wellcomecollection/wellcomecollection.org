@@ -3,7 +3,7 @@ import {
   Location as LocationType,
   DigitalLocation,
 } from '@weco/common/model/catalogue';
-import { useContext, FunctionComponent, ReactElement } from 'react';
+import { useContext, FunctionComponent } from 'react';
 import { grid } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -115,10 +115,7 @@ type Props = {
   apiUrl: string;
 };
 
-const Work: FunctionComponent<Props> = ({
-  work,
-  apiUrl,
-}: Props): ReactElement<Props> => {
+const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
   const { link: searchLink } = useContext(SearchContext);
   const { worksTabbedNav } = useToggles();
   const transformedIIIFManifest = useTransformedManifest(work);
