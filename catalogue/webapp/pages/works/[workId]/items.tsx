@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import { DigitalLocation, Work } from '@weco/common/model/catalogue';
+import {
+  DigitalLocation,
+  isDigitalLocation,
+  Work,
+} from '@weco/common/model/catalogue';
 import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
@@ -73,19 +77,14 @@ function reloadAuthIframe(document, id: string) {
 
 function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
   // Look at digital item locations only
-  const digitalLocation = work.items
-    ?.map(item =>
-      item.locations.find(location => location.type === 'DigitalLocation')
-    )
+  const digitalLocation: DigitalLocation | undefined = work.items
+    ?.map(item => item.locations.find(isDigitalLocation))
     .find(i => i);
 
   return setTzitzitParams({
     title: work.title,
     sourceLink: `/works/${work.id}/items`,
-    licence:
-      digitalLocation?.type === 'DigitalLocation'
-        ? digitalLocation.license
-        : undefined,
+    licence: digitalLocation?.license,
     contributors: work.contributors,
   });
 }

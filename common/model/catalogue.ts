@@ -145,6 +145,12 @@ export type DigitalLocation = {
   type: 'DigitalLocation';
 };
 
+export function isDigitalLocation(
+  location: Location
+): location is DigitalLocation {
+  return location.type === 'DigitalLocation';
+}
+
 export type PhysicalLocation = {
   locationType: LocationType;
   label: string;
