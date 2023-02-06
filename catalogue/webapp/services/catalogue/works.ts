@@ -79,9 +79,9 @@ function toIsoDateString(
   if (s) {
     try {
       const d = new Date(s);
-      return range === 'from'
-        ? `${d.getUTCFullYear()}-01-01`
-        : `${d.getUTCFullYear()}-12-31`;
+      let year = d.getUTCFullYear().toString().padStart(4, '0');
+
+      return range === 'from' ? `${year}-01-01` : `${year}-12-31`;
     } catch (e) {
       return undefined;
     }
