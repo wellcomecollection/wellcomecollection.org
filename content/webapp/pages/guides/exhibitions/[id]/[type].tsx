@@ -99,6 +99,24 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
      *    - We only redirect users who've expressed an explicit preference for
      *      a non-default guide type
      *
+     * == Historical note ==
+     *
+     * The original implementation of this was more aggressive: in particular,
+     * it would redirect a user who landed on a guide page, even if they didn't
+     * come from scanning a QR code.
+     *
+     * We changed it after discovering it broke the "Back" button:
+     *
+     *    1.  A user goes to an exhibition guide overview page `/guides/exhibitions/[id]`
+     *    2.  They click to select a particular guide, say `/guides/exhibitions/[id]/audio`.
+     *        This sets a preference cookie telling us the user wants audio guides.
+     *    3.  They click the "Back" button in their browser because they want to see the
+     *        page they were just looking at. This takes them to `/guides/exhibitions/[id]`
+     *        … where we redirect them back to the guide they were just looking at.
+     *
+     * We only create QR codes that link to the audio guides, not the overview page, so
+     * this prevents somebody getting stuck in this sort of redirect loop.
+     *
      */
     if (
       usingQRCode &&
