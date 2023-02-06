@@ -28,6 +28,7 @@ import {
 } from '@weco/content/services/prismic/transformers/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { getUpcomingEvents } from '@weco/content/utils/event-series';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   series: EventSeries;
@@ -146,6 +147,7 @@ const EventSeriesPage: FunctionComponent<Props> = ({
       openGraphType="website"
       siteSection="whats-on"
       image={series.image}
+      apiToolbarLinks={[createPrismicLink(series.id)]}
     >
       <ContentPage
         id={series.id}

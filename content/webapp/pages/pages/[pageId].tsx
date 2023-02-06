@@ -45,6 +45,7 @@ import { isPicture, isVideoEmbed, BodySlice } from '@weco/content/types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 export type Props = {
   page: PageType;
@@ -355,6 +356,7 @@ export const Page: FunctionComponent<Props> = ({
       openGraphType="website"
       siteSection={page?.siteSection as SiteSection}
       image={page.image}
+      apiToolbarLinks={[createPrismicLink(page.id)]}
     >
       <ContentPage
         id={page.id}

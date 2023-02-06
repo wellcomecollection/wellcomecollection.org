@@ -32,6 +32,7 @@ import cookies from '@weco/common/data/cookies';
 import ExhibitionGuideStops from '@weco/content/components/ExhibitionGuideStops/ExhibitionGuideStops';
 import { getTypeColor } from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
 import useHotjar from '@weco/common/hooks/useHotjar';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 const ButtonWrapper = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
@@ -181,6 +182,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
       }}
       hideNewsletterPromo={true}
       hideFooter={true}
+      apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       skipToContentLinks={skipToContentLinks}
     >
       <Header backgroundColor={typeColor}>

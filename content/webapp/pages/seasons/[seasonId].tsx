@@ -47,6 +47,7 @@ import { Series } from '@weco/content/types/series';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { getCrop } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   season: Season;
@@ -116,6 +117,7 @@ const SeasonPage = ({
       siteSection="whats-on"
       openGraphType="website"
       image={season.image}
+      apiToolbarLinks={[createPrismicLink(season.id)]}
     >
       <ContentPage
         id={season.id}

@@ -18,7 +18,7 @@ import { wellcomeCollectionGallery } from '../../../data/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
-import ApiToolbar, { ApiToolbarLink } from '../ApiToolbar/ApiToolbar';
+import ApiToolbar, { ApiToolbarLink } from '../ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';

@@ -21,6 +21,7 @@ import { Book } from '@weco/content/types/books';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { Pageview } from '@weco/common/services/conversion/track';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
@@ -161,6 +162,7 @@ const BookPage: FunctionComponent<Props> = props => {
       openGraphType="book"
       siteSection="stories"
       image={book.image}
+      apiToolbarLinks={[createPrismicLink(book.id)]}
     >
       <ContentPage
         id={book.id}

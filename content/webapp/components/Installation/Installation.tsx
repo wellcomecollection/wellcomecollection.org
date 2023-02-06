@@ -15,6 +15,7 @@ import ContentPage from '../ContentPage/ContentPage';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   installation: InstallationType;
@@ -94,6 +95,7 @@ const Installation: FunctionComponent<Props> = ({
       openGraphType="website"
       siteSection="whats-on"
       image={installation.image}
+      apiToolbarLinks={[createPrismicLink(installation.id)]}
     >
       <ContentPage
         id={installation.id}

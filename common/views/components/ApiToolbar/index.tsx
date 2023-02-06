@@ -12,7 +12,6 @@ import {
   Contributor,
   License,
 } from '../../../model/catalogue';
-import { looksLikePrismicId } from '../../../services/prismic';
 
 export type ApiToolbarLink = {
   id: string;
@@ -129,6 +128,14 @@ async function createTzitzitWorkLink(
   });
 }
 
+export function createPrismicLink(prismicId: string): ApiToolbarLink {
+  return {
+    id: 'prismic',
+    label: 'Edit in Prismic',
+    link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${prismicId}/`,
+  };
+}
+
 function getAnchorLinkUrls() {
   // This function currently only extracts the ids from h2, h3, and h4 tags
   const getAllHeadingIds = [...document.querySelectorAll('h2, h3, h4')].map(
@@ -223,26 +230,8 @@ function getRouteProps(path: string) {
       };
     default:
       return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
-        const { id } = query;
-
-        // On some Prismic pages, the ID will be in the query data, e.g. /events/YeViLhAAAJMQM7IY
-        // will have the query {"id": "YeViLhAAAJMQM7IY"}
-        //
-        // If it looks like a Prismic ID, we can guess how to get to the page in Prismic.
-        // This isn't perfect -- there may be cases where the link doesn't work (e.g. if it's
-        // not actually a Prismic ID, or the page is unpublished) -- but hopefully something
-        // that works 95% of the time is still useful.
-        if (looksLikePrismicId(id)) {
-          const prismicLink = {
-            id: 'prismic',
-            label: 'Prismic',
-            link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${id}/`,
-          };
-
-          return [prismicLink];
-        } else {
-          return [];
-        }
+        console.debug(`query = ${query}`);
+        return [];
       };
   }
 }
