@@ -90,7 +90,7 @@ const Installation: FunctionComponent<Props> = ({
       description={
         installation.metadataDescription || installation.promo?.caption || ''
       }
-      url={{ pathname: `/installations/${installation.id}` }}
+      url={{ pathname: `/exhibitions/${installation.id}` }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="whats-on"
