@@ -24,6 +24,7 @@ import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import cookies from '@weco/common/data/cookies';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 export type SiteSection =
   | 'collections'
@@ -58,7 +59,7 @@ export type Props = {
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
   headerProps?: HeaderProps;
-  apiToolbarLinks?: ApiToolbarLink[];
+  apiToolbarLinks?: (ApiToolbarLink | undefined)[];
   skipToContentLinks?: SkipToContentLink[];
 };
 
@@ -275,7 +276,9 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       </Head>
 
       <div id="root">
-        {apiToolbar && <ApiToolbar extraLinks={apiToolbarLinks} />}
+        {apiToolbar && (
+          <ApiToolbar extraLinks={apiToolbarLinks.filter(isNotUndefined)} />
+        )}
         <CookieNotice source={url.pathname || ''} />
 
         {skipToContentLinks.map(({ anchorId, label }) => (

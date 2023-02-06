@@ -59,7 +59,7 @@ const LinkList = styled.ul.attrs({
  *
  */
 
-function setTzitzitParams({
+export function setTzitzitParams({
   title,
   sourceLink,
   licence,
@@ -101,30 +101,6 @@ async function createTzitzitImageLink(
     sourceLink: window.location.toString(),
     licence: image.locations[0].license,
     contributors: image.source.contributors,
-  });
-}
-
-async function createTzitzitWorkLink(
-  workId: string
-): Promise<ApiToolbarLink | undefined> {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=items,contributors`;
-  const work: Work = await fetch(apiUrl).then(res => res.json());
-
-  // Look at digital item locations only
-  const digitalLocation = work.items
-    ?.map(item =>
-      item.locations.find(location => location.type === 'DigitalLocation')
-    )
-    .find(i => i);
-
-  return setTzitzitParams({
-    title: work.title,
-    sourceLink: window.location.toString(),
-    licence:
-      digitalLocation?.type === 'DigitalLocation'
-        ? digitalLocation.license
-        : undefined,
-    contributors: work.contributors,
   });
 }
 
@@ -216,15 +192,6 @@ function getRouteProps(path: string) {
         const { id } = query;
 
         const tzitzitLink = await createTzitzitImageLink(id as string);
-
-        return tzitzitLink ? [tzitzitLink] : [];
-      };
-
-    case '/item':
-      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
-        const { workId } = query;
-
-        const tzitzitLink = await createTzitzitWorkLink(workId as string);
 
         return tzitzitLink ? [tzitzitLink] : [];
       };
