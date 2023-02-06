@@ -5,13 +5,7 @@ import { ParsedUrlQuery } from 'querystring';
 import cookies from '@weco/common/data/cookies';
 import { getCookie, setCookie } from 'cookies-next';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
-import {
-  Work,
-  Location,
-  Image,
-  Contributor,
-  License,
-} from '../../../model/catalogue';
+import { Work, Location, Contributor, License } from '../../../model/catalogue';
 
 export type ApiToolbarLink = {
   id: string;
@@ -88,20 +82,6 @@ export function setTzitzitParams({
     label: 'tzitzit',
     link: `https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?${params.toString()}`,
   };
-}
-
-async function createTzitzitImageLink(
-  imageId: string
-): Promise<ApiToolbarLink | undefined> {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
-  const image: Image = await fetch(apiUrl).then(res => res.json());
-
-  return setTzitzitParams({
-    title: image.source.title,
-    sourceLink: window.location.toString(),
-    licence: image.locations[0].license,
-    contributors: image.source.contributors,
-  });
 }
 
 export function createPrismicLink(prismicId: string): ApiToolbarLink {
@@ -185,15 +165,6 @@ function getRouteProps(path: string) {
         ].filter(Boolean) as ApiToolbarLink[];
 
         return links;
-      };
-
-    case '/image':
-      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
-        const { id } = query;
-
-        const tzitzitLink = await createTzitzitImageLink(id as string);
-
-        return tzitzitLink ? [tzitzitLink] : [];
       };
     default:
       return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {

@@ -16,6 +16,22 @@ import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/catalogue';
 import { createDefaultTransformedManifest } from '@weco/catalogue/types/manifest';
+import {
+  ApiToolbarLink,
+  setTzitzitParams,
+} from '@weco/common/views/components/ApiToolbar';
+
+function createTzitzitImageLink(
+  work: Work,
+  image: Image
+): ApiToolbarLink | undefined {
+  return setTzitzitParams({
+    title: image.source.title,
+    sourceLink: `/works/${work.id}/images`,
+    licence: image.locations[0].license,
+    contributors: image.source.contributors,
+  });
+}
 
 type Props = {
   image: Image;
@@ -77,7 +93,7 @@ const ImagePage: FunctionComponent<Props> = ({
       openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
-      apiToolbarLinks={[apiLink]}
+      apiToolbarLinks={[apiLink, createTzitzitImageLink(sourceWork, image)]}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
