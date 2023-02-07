@@ -40,6 +40,7 @@ import {
 import { EventBasic } from '../../types/events';
 import * as prismicT from '@prismicio/types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -289,6 +290,7 @@ const Exhibition: FunctionComponent<Props> = ({
       openGraphType="website"
       siteSection="whats-on"
       image={exhibition.image}
+      apiToolbarLinks={[createPrismicLink(exhibition.id)]}
     >
       <ContentPage
         id={exhibition.id}

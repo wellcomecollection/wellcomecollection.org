@@ -36,7 +36,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
-import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar/ApiToolbar';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Pageview } from '@weco/common/services/conversion/track';
 import theme from '@weco/common/views/themes/default';
 

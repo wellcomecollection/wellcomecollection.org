@@ -77,6 +77,7 @@ import {
   getTryTheseTooPromos,
 } from '@weco/content/services/prismic/transformers/whats-on';
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 const segmentedControlItems = [
   {
@@ -413,13 +414,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       openGraphType="website"
       siteSection="whats-on"
       image={firstExhibition && firstExhibition.promo?.image}
-      apiToolbarLinks={[
-        {
-          id: 'prismic',
-          label: 'Prismic',
-          link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${prismicPageIds.whatsOn}/`,
-        },
-      ]}
+      apiToolbarLinks={[createPrismicLink(prismicPageIds.whatsOn)]}
     >
       <>
         <Header

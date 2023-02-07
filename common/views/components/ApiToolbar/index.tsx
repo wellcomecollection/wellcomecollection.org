@@ -1,18 +1,9 @@
-import { FunctionComponent, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
-import { ParsedUrlQuery } from 'querystring';
 import cookies from '@weco/common/data/cookies';
 import { getCookie, setCookie } from 'cookies-next';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
-import {
-  Work,
-  Location,
-  Image,
-  Contributor,
-  License,
-} from '../../../model/catalogue';
-import { looksLikePrismicId } from '../../../services/prismic';
+import { Contributor, License } from '../../../model/catalogue';
 
 export type ApiToolbarLink = {
   id: string;
@@ -20,21 +11,6 @@ export type ApiToolbarLink = {
   value?: string;
   link?: string;
 };
-const includes = [
-  'identifiers',
-  'images',
-  'items',
-  'subjects',
-  'genres',
-  'contributors',
-  'production',
-  'notes',
-  'parts',
-  'partOf',
-  'precededBy',
-  'succeededBy',
-  'holdings',
-];
 
 const ToolbarContainer = styled.div<{ mini: boolean }>`
   display: ${props => (props.mini ? 'inline-block' : 'flex')};
@@ -60,7 +36,7 @@ const LinkList = styled.ul.attrs({
  *
  */
 
-function setTzitzitParams({
+export function setTzitzitParams({
   title,
   sourceLink,
   licence,
@@ -91,42 +67,12 @@ function setTzitzitParams({
   };
 }
 
-async function createTzitzitImageLink(
-  imageId: string
-): Promise<ApiToolbarLink | undefined> {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
-  const image: Image = await fetch(apiUrl).then(res => res.json());
-
-  return setTzitzitParams({
-    title: image.source.title,
-    sourceLink: window.location.toString(),
-    licence: image.locations[0].license,
-    contributors: image.source.contributors,
-  });
-}
-
-async function createTzitzitWorkLink(
-  workId: string
-): Promise<ApiToolbarLink | undefined> {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=items,contributors`;
-  const work: Work = await fetch(apiUrl).then(res => res.json());
-
-  // Look at digital item locations only
-  const digitalLocation = work.items
-    ?.map(item =>
-      item.locations.find(location => location.type === 'DigitalLocation')
-    )
-    .find(i => i);
-
-  return setTzitzitParams({
-    title: work.title,
-    sourceLink: window.location.toString(),
-    licence:
-      digitalLocation?.type === 'DigitalLocation'
-        ? digitalLocation.license
-        : undefined,
-    contributors: work.contributors,
-  });
+export function createPrismicLink(prismicId: string): ApiToolbarLink {
+  return {
+    id: 'prismic',
+    label: 'Edit in Prismic',
+    link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${prismicId}/`,
+  };
 }
 
 function getAnchorLinkUrls() {
@@ -164,108 +110,16 @@ function getAnchorLinkUrls() {
   );
 }
 
-function getRouteProps(path: string) {
-  switch (path) {
-    case '/work':
-      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
-        const { id } = query;
-        const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=${includes}`;
-        const work: Work = await fetch(apiUrl).then(res => res.json());
-
-        const apiLink = {
-          id: 'json',
-          label: 'JSON',
-          link: apiUrl,
-        };
-
-        const iiifItem = work.items
-          ?.reduce((acc, item) => {
-            return acc.concat(item.locations);
-          }, [] as Location[])
-          ?.find(location => location.locationType.id.startsWith('iiif'));
-
-        const iiifLink = iiifItem &&
-          iiifItem.type === 'DigitalLocation' && {
-            id: 'iiif',
-            label: 'IIIF',
-            link: iiifItem.url.replace('/v2/', '/v3/'),
-          };
-
-        const links = [
-          apiLink,
-          iiifLink,
-          ...work.identifiers.map(id => ({
-            id: id.value,
-            label: id.identifierType.label,
-            value: id.value,
-          })),
-        ].filter(Boolean) as ApiToolbarLink[];
-
-        return links;
-      };
-
-    case '/image':
-      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
-        const { id } = query;
-
-        const tzitzitLink = await createTzitzitImageLink(id as string);
-
-        return tzitzitLink ? [tzitzitLink] : [];
-      };
-
-    case '/item':
-      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
-        const { workId } = query;
-
-        const tzitzitLink = await createTzitzitWorkLink(workId as string);
-
-        return tzitzitLink ? [tzitzitLink] : [];
-      };
-    default:
-      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
-        const { id } = query;
-
-        // On some Prismic pages, the ID will be in the query data, e.g. /events/YeViLhAAAJMQM7IY
-        // will have the query {"id": "YeViLhAAAJMQM7IY"}
-        //
-        // If it looks like a Prismic ID, we can guess how to get to the page in Prismic.
-        // This isn't perfect -- there may be cases where the link doesn't work (e.g. if it's
-        // not actually a Prismic ID, or the page is unpublished) -- but hopefully something
-        // that works 95% of the time is still useful.
-        if (looksLikePrismicId(id)) {
-          const prismicLink = {
-            id: 'prismic',
-            label: 'Prismic',
-            link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${id}/`,
-          };
-
-          return [prismicLink];
-        } else {
-          return [];
-        }
-      };
-  }
-}
-
 type Props = {
-  extraLinks?: ApiToolbarLink[];
+  links?: ApiToolbarLink[];
 };
 
-const ApiToolbar: FunctionComponent<Props> = ({ extraLinks = [] }) => {
-  const router = useRouter();
-  const [links, setLinks] = useState<ApiToolbarLink[]>([]);
+const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
   const [mini, setMini] = useState<boolean>(false);
 
   useIsomorphicLayoutEffect(() => {
     setMini(getCookie(cookies.apiToolbarMini) === true);
   }, []);
-
-  useEffect(() => {
-    const fn = getRouteProps(router.route);
-    if (fn) {
-      fn(router.query).then(setLinks);
-    }
-  }, [router.route, router.query]);
 
   const propValue = (prop: ApiToolbarLink) => {
     return `${prop.label}${prop.value ? ` : ${prop.value}` : ''}`;
@@ -290,7 +144,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ extraLinks = [] }) => {
               API toolbar
             </span>
             <LinkList>
-              {extraLinks.concat(links).map(prop => (
+              {links.map(prop => (
                 <li
                   key={prop.id}
                   style={{

@@ -40,6 +40,7 @@ import { transformArticle } from '@weco/content/services/prismic/transformers/ar
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import styled from 'styled-components';
 import { Pageview } from '@weco/common/services/conversion/track';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 const ContentTypeWrapper = styled.div`
   display: flex;
@@ -319,6 +320,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
       openGraphType="article"
       siteSection="stories"
       image={article.image}
+      apiToolbarLinks={[createPrismicLink(article.id)]}
     >
       <ContentPage
         id={article.id}

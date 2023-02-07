@@ -41,6 +41,7 @@ import {
 } from '@weco/content/services/prismic/transformers/series';
 import { SeriesBasic } from '@weco/content/types/series';
 import * as prismic from '@prismicio/client';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   articles: ArticleBasic[];
@@ -148,13 +149,7 @@ const StoriesPage: FunctionComponent<Props> = ({
       siteSection="stories"
       image={firstArticle && firstArticle.image}
       rssUrl="https://rss.wellcomecollection.org/stories"
-      apiToolbarLinks={[
-        {
-          id: 'prismic',
-          label: 'Prismic',
-          link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${storiesLanding.id}/`,
-        },
-      ]}
+      apiToolbarLinks={[createPrismicLink(storiesLanding.id)]}
     >
       <PageHeader
         breadcrumbs={{ items: [] }}

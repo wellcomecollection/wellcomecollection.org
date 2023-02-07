@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import { DigitalLocation, Work } from '@weco/common/model/catalogue';
+import {
+  DigitalLocation,
+  isDigitalLocation,
+  Work,
+} from '@weco/common/model/catalogue';
 import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
@@ -44,6 +48,10 @@ import WorkHeader from '@weco/catalogue/components/WorkHeader/WorkHeader';
 import WorkTabbedNav from '@weco/catalogue/components/WorkTabbedNav/WorkTabbedNav';
 import { Container, Grid } from '@weco/catalogue/components/Work/Work';
 import { useToggles } from '@weco/common/server-data/Context';
+import {
+  ApiToolbarLink,
+  setTzitzitParams,
+} from '@weco/common/views/components/ApiToolbar';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -65,6 +73,20 @@ function reloadAuthIframe(document, id: string) {
   // assigning the iframe src to itself reloads the iframe and refires the window.message event
   // eslint-disable-next-line no-self-assign
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
+}
+
+function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
+  // Look at digital item locations only
+  const digitalLocation: DigitalLocation | undefined = work.items
+    ?.map(item => item.locations.find(isDigitalLocation))
+    .find(i => i);
+
+  return setTzitzitParams({
+    title: work.title,
+    sourceLink: `/works/${work.id}/items`,
+    licence: digitalLocation?.license,
+    contributors: work.contributors,
+  });
 }
 
 type Props = {
@@ -190,6 +212,7 @@ const ItemPage: NextPage<Props> = ({
       openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
+      apiToolbarLinks={[createTzitzitWorkLink(work)]}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}

@@ -29,6 +29,7 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import OtherExhibitionGuides from 'components/OtherExhibitionGuides/OtherExhibitionGuides';
 import ExhibitionGuideLinks from 'components/ExhibitionGuideLinks/ExhibitionGuideLinks';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
@@ -112,6 +113,7 @@ const ExhibitionGuidePage: FC<Props> = ({
         customNavLinks: exhibitionGuidesLinks,
         showLibraryLogin: false,
       }}
+      apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       hideNewsletterPromo={true}
       hideFooter={true}
     >

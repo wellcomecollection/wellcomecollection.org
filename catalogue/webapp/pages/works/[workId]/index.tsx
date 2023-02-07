@@ -9,14 +9,15 @@ import { getWork } from '@weco/catalogue/services/catalogue/works';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/catalogue';
 
 type Props = {
-  workResponse: WorkType;
+  work: WorkType;
+  apiUrl: string;
   pageview: Pageview;
 };
 
-export const WorkPage: NextPage<Props> = ({ workResponse }) => {
+export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   // TODO: remove the <Work> component and move the JSX in here.
   // It was abstracted as we did error handling in the page, and it made it a little clearer.
-  return <Work work={workResponse} />;
+  return <Work work={work} apiUrl={apiUrl} />;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -53,9 +54,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       );
     }
 
+    const { url, ...work } = workResponse;
+
     return {
       props: removeUndefinedProps({
-        workResponse,
+        work,
+        apiUrl: url,
         serverData,
         pageview: {
           name: 'work',

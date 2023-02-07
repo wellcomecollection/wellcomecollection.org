@@ -33,6 +33,7 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   series: Series;
@@ -180,6 +181,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
       siteSection="stories"
       openGraphType="website"
       image={series.image}
+      apiToolbarLinks={[createPrismicLink(series.id)]}
     >
       <ContentPage
         id={series.id}

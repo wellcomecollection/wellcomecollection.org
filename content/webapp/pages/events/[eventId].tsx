@@ -64,6 +64,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -306,6 +307,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
       openGraphType="website"
       siteSection="whats-on"
       image={event.image}
+      apiToolbarLinks={[createPrismicLink(event.id)]}
     >
       <ContentPage
         id={event.id}
