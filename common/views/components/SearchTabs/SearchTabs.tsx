@@ -107,13 +107,10 @@ const SearchTabs: FunctionComponent<Props> = ({
                     query,
                   }),
                 }}
+                className="plain-link"
+                aria-current={isActive ? 'page' : undefined}
               >
-                <a
-                  className="plain-link"
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {children}
-                </a>
+                {children}
               </NextLink>
             )}
           >
@@ -198,13 +195,10 @@ const SearchTabs: FunctionComponent<Props> = ({
                     query,
                   }),
                 }}
+                className="plain-link"
+                aria-current={isActive ? 'page' : undefined}
               >
-                <a
-                  className="plain-link"
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {children}
-                </a>
+                {children}
               </NextLink>
             )}
           >

@@ -197,9 +197,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
               <p>
                 <strong>Licence:</strong>{' '}
                 {license.url ? (
-                  <NextLink href={license.url}>
-                    <a>{license.label}</a>
-                  </NextLink>
+                  <NextLink href={license.url}>{license.label}</NextLink>
                 ) : (
                   <span>{license.label}</span>
                 )}
