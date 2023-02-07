@@ -5,6 +5,7 @@ import { toHtmlId } from '../../utils/string';
 import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
 import { isNotUndefined, isString } from '../../utils/array';
+import { formatNumber } from '@weco/common/utils/grammar';
 
 export type DateRangeFilter = {
   type: 'dateRange';
@@ -111,7 +112,7 @@ export const filterLabel = ({
 }: {
   label: string;
   count?: number;
-}): string => (count ? `${label} (${count})` : label);
+}): string => (count ? `${label} (${formatNumber(count)})` : label);
 
 type WorksFilterProps = {
   works: CatalogueResultsList<Work>;
