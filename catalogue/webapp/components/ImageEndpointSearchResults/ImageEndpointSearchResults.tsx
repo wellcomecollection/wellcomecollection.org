@@ -133,7 +133,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
-        <PlainList data-test-id="search-results-container" role="list">
+        <PlainList data-test-id="image-search-results-container" role="list">
           <GalleryContainer>
             <PhotoAlbum
               photos={imagesWithDimensions}

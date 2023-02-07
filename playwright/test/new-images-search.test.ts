@@ -27,8 +27,9 @@ const imagesUrl = `${baseUrl}/search/images`;
 const searchBarInput = `#search-searchbar`;
 const colourSelectorFilterDropDown = `button[aria-controls="images.color"]`;
 const colourSelector = `button[data-test-id="swatch-green"]`;
-const searchResultsContainer = 'ul[data-test-id="search-results-container"]';
-const imagesResultsListItem = `${searchResultsContainer} li[data-test-id="image-search-result"]`;
+const imageSearchResultsContainer =
+  'ul[data-test-id="image-search-results-container"]';
+const imagesResultsListItem = `${imageSearchResultsContainer} li[data-test-id="image-search-result"]`;
 
 const fillActionSearchInput = async (
   value: string,
@@ -78,7 +79,7 @@ test.describe('Image search', () => {
       await selectColourInPicker(page);
       await clickActionColourDropDown(page);
     }
-    await expectItemIsVisible(searchResultsContainer, page);
+    await expectItemIsVisible(imageSearchResultsContainer, page);
     await expectItemsIsVisible(imagesResultsListItem, 1, page);
     await clickActionClickSearchResultItem(1, page);
     await expectItemIsVisible(modalexpandedImageViewMoreButton, page);

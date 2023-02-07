@@ -52,8 +52,9 @@ async function gotoSearchResultPage(
   ]);
 }
 
-const searchResultsContainer = 'ul[data-test-id="search-results-container"]';
-const imagesResultsListItem = `${searchResultsContainer} li[data-test-id="image-search-result"]`;
+const imageSearchResultsContainer =
+  'ul[data-test-id="image-search-results-container"]';
+const imagesResultsListItem = `${imageSearchResultsContainer} li[data-test-id="image-search-result"]`;
 
 const subNavigationContainer = 'div[data-test-id="sub-nav-tab-container"]';
 const catalogueSectionSelector = `${subNavigationContainer} div[data-test-id="works"]`;
@@ -65,7 +66,7 @@ test.describe('New Search Page interactions', () => {
   }) => {
     const query = 'art of science';
     await gotoSearchResultPage({ url: imagesUrl, query }, page);
-    await expectItemIsVisible(searchResultsContainer, page);
+    await expectItemIsVisible(imageSearchResultsContainer, page);
     await expectItemsIsVisible(imagesResultsListItem, 1, page);
 
     if (isMobile(page)) {
@@ -106,8 +107,6 @@ test.describe('New Search Page interactions', () => {
   test('the no results message shows if needed', async ({ page }) => {
     const query = 'gisjdabasdf;o';
     await gotoSearchResultPage({ url: imagesUrl, query }, page);
-    await safeWaitForNavigation(page);
-
     expect(await page.innerText(searchNoResults)).toBe(
       `We couldn’t find anything that matched ${query}. Please try again.`
     );
