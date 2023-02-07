@@ -103,7 +103,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     ({ photo, layout }) => {
       const rgbColor = hexToRgb(photo.averageColor || '');
       return (
-        <li style={{ padding: 12 }}>
+        <li data-test-id="image-search-result" style={{ padding: 12 }}>
           <ImageFrame>
             <ImageCard
               id={photo.id}
@@ -133,7 +133,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
-        <PlainList role="list">
+        <PlainList data-test-id="search-results-container" role="list">
           <GalleryContainer>
             <PhotoAlbum
               photos={imagesWithDimensions}
@@ -149,7 +149,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       )}
 
       {(!isFullSupportBrowser || isSmallGallery) && (
-        <ImageCardList role="list">
+        <ImageCardList data-test-id="search-results-container" role="list">
           {imagesWithDimensions.map((result: GalleryImageProps) => (
             <li key={result.id} role="listitem">
               <Space
