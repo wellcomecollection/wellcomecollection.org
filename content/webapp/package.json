@@ -11,7 +11,7 @@
     "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
   },
   "dependencies": {
-    "@testing-library/react": "^11.2.5",
+    "@testing-library/react": "^13.4.0",
     "@types/jest": "^27.0.2",
     "@types/koa-router": "^7.4.4",
     "@types/styled-components": "^5.1.15",
