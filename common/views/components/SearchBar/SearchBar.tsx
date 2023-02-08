@@ -40,8 +40,10 @@ const SearchBar: FunctionComponent<Props> = ({
   id,
   isGlobalSearch,
 }) => {
-  const { query } = useRouter();
-  const [inputQuery, setInputQuery] = useState((query.query as string) || '');
+  const router = useRouter();
+  const [inputQuery, setInputQuery] = useState(
+    (router?.query?.query as string) || ''
+  );
   const searchInput = useRef<HTMLInputElement>(null);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

@@ -39,7 +39,7 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
 
   useEffect(() => {
     setIsActive(false);
-  }, [router.pathname, router.query]);
+  }, [router?.pathname, router?.query]);
 
   useEffect(() => {
     function handleEscapeKey(event: KeyboardEvent) {
