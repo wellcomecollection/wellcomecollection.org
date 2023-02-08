@@ -91,13 +91,23 @@ export const BurgerTrigger = styled.a<{ burgerMenuisActive: boolean }>`
   }
 `;
 
-export const HeaderBrand = styled.div`
+export const HeaderBrand = styled.div<{ hasSearch: boolean }>`
   display: flex;
   flex: 1;
 
+  ${props =>
+    props.hasSearch
+      ? ``
+      : `
+        // This is to account for the burger as we want it to be dead centre.
+        margin-left: -20px;
+
+        ${props.theme.media('headerMedium')(`
+          margin-left: 0;`)};
+  `}
+
   ${props => `
   ${props.theme.media('headerMedium')(`
-    margin-left: 0;
     flex: 0 0 auto;
     margin-right: 1.5rem;
     padding-right: 1.5rem;

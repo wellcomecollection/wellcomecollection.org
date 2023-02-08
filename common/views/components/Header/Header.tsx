@@ -87,6 +87,8 @@ const Header: FunctionComponent<Props> = ({
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
   const toggles = getActiveToggles(getCookies());
 
+  const hasSearch = toggles?.includes('globalSearchHeader');
+
   useEffect(() => {
     if (document && document.documentElement) {
       if (searchDropdownIsActive || burgerMenuIsActive) {
@@ -127,7 +129,7 @@ const Header: FunctionComponent<Props> = ({
                   <span />
                 </BurgerTrigger>
               </Burger>
-              <HeaderBrand>
+              <HeaderBrand hasSearch={hasSearch}>
                 <a href="/">
                   <WellcomeCollectionBlack />
                 </a>
@@ -157,7 +159,7 @@ const Header: FunctionComponent<Props> = ({
                 </HeaderNav>
 
                 <HeaderActions>
-                  {toggles?.includes('globalSearchHeader') && (
+                  {hasSearch && (
                     <SearchButton
                       text={
                         <Icon icon={searchDropdownIsActive ? cross : search} />
