@@ -1,4 +1,4 @@
-import { forwardRef, RefObject, FunctionComponent } from 'react';
+import { forwardRef, RefObject, FunctionComponent, KeyboardEvent } from 'react';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { check } from '@weco/common/icons';
@@ -148,6 +148,7 @@ type Props = {
   ariaDescribedBy?: string;
   form?: string;
   darkBg?: boolean;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const Input: FunctionComponent<Props> = (
@@ -172,6 +173,7 @@ const Input: FunctionComponent<Props> = (
     form,
     big,
     darkBg,
+    onKeyDown,
   }: Props,
   ref: RefObject<HTMLInputElement>
 ) => {
@@ -224,6 +226,7 @@ const Input: FunctionComponent<Props> = (
           aria-invalid={!!(!isValid && showValidity)}
           aria-errormessage={errorMessage && `${id}-errormessage`}
           form={form}
+          {...(onKeyDown && { onKeyDown })}
         />
         {isValid && showValidity && (
           <TextInputCheckmark>

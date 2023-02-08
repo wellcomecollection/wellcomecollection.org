@@ -1,4 +1,5 @@
-import { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, KeyboardEvent, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -6,9 +7,8 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { themeValues } from '@weco/common/views/themes/config';
-
-import { useRouter } from 'next/router';
-import ClearSearch from '../ClearSearch/ClearSearch';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 
 const Container = styled.div`
   display: flex;
@@ -29,19 +29,32 @@ const SearchInputWrapper = styled.div`
 const SearchButtonWrapper = styled.div`
   flex: 0 1 auto;
 `;
+type Props = {
+  placeholder: string;
+  id?: string;
+  isGlobalSearch?: boolean;
+};
 
-const SearchBar: FunctionComponent<{ placeholder: string }> = ({
+const SearchBar: FunctionComponent<Props> = ({
   placeholder,
+  id,
+  isGlobalSearch,
 }) => {
   const { query } = useRouter();
   const [inputQuery, setInputQuery] = useState((query.query as string) || '');
   const searchInput = useRef<HTMLInputElement>(null);
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      document.getElementById('global-search-submit')?.click();
+    }
+  };
+
   return (
     <Container>
       <SearchInputWrapper>
         <TextInput
-          id="search-searchbar"
+          id={id || 'search-searchbar'}
           label={placeholder}
           name="query"
           type="search"
@@ -50,6 +63,7 @@ const SearchBar: FunctionComponent<{ placeholder: string }> = ({
           ref={searchInput}
           form="searchPageForm"
           big={true}
+          onKeyDown={handleKeyDown}
         />
         {inputQuery && (
           <ClearSearch
@@ -65,13 +79,29 @@ const SearchBar: FunctionComponent<{ placeholder: string }> = ({
         )}
       </SearchInputWrapper>
       <SearchButtonWrapper>
-        <ButtonSolid
-          text="Search"
-          type={ButtonTypes.submit}
-          size="large"
-          form="searchPageForm"
-          colors={themeValues.buttonColors.yellowYellowBlack}
-        />
+        {isGlobalSearch ? (
+          <ButtonSolidLink
+            text="Search"
+            size="large"
+            id="global-search-submit"
+            colors={themeValues.buttonColors.yellowYellowBlack}
+            link={{
+              href: {
+                // TODO if released before the redirect is in placeholder, link to /works instead
+                pathname: '/search',
+                ...(inputQuery && { query: { query: inputQuery } }),
+              },
+            }}
+          />
+        ) : (
+          <ButtonSolid
+            text="Search"
+            type={ButtonTypes.submit}
+            size="large"
+            form="searchPageForm"
+            colors={themeValues.buttonColors.yellowYellowBlack}
+          />
+        )}
       </SearchButtonWrapper>
     </Container>
   );
