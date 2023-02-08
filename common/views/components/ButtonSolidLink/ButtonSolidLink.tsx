@@ -35,6 +35,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   ariaLabel,
   colors,
   isIconAfter,
+  id,
 }) => {
   function handleClick(event: SyntheticEvent<HTMLButtonElement>): void {
     clickHandler && clickHandler(event);
@@ -63,6 +64,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         ariaLabel={ariaLabel}
         colors={colors}
         hoverUnderline={hoverUnderline}
+        {...(id && { id })}
       >
         <BaseButtonInner>
           {isIconAfter && (
