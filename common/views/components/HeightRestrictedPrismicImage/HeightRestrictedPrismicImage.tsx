@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import styled from 'styled-components';
 import { ImageType } from '../../../model/image';
 import {
