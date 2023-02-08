@@ -230,27 +230,25 @@ const BaseControl: FunctionComponent<Props> = (
     }
   }
 
-  return (
-    <>
-      {link ? (
-        <NextLink
-          {...link}
-          scroll={scroll}
-          replace={replace}
-          prefetch={prefetch}
-          passHref
-        >
-          <Wrapper as="a" ref={ref} {...attrs}>
-            <InnerControl text={text} icon={icon} />
-          </Wrapper>
-        </NextLink>
-      ) : (
-        <Wrapper ref={ref} {...attrs}>
+  return <>
+    {link ? (
+      <NextLink
+        {...link}
+        scroll={scroll}
+        replace={replace}
+        prefetch={prefetch}
+        passHref
+        legacyBehavior>
+        <Wrapper as="a" ref={ref} {...attrs}>
           <InnerControl text={text} icon={icon} />
         </Wrapper>
-      )}
-    </>
-  );
+      </NextLink>
+    ) : (
+      <Wrapper ref={ref} {...attrs}>
+        <InnerControl text={text} icon={icon} />
+      </Wrapper>
+    )}
+  </>;
 };
 
 const Control = forwardRef(BaseControl);
