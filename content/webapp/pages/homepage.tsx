@@ -43,6 +43,7 @@ import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { BodySlice, isContentList, isStandfirst } from 'types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -160,6 +161,7 @@ const Homepage: FunctionComponent<Props> = ({
       openGraphType="website"
       siteSection={null}
       image={pageImage}
+      apiToolbarLinks={[createPrismicLink(homepageId)]}
     >
       <Layout10 isCentered={false}>
         <SpacingSection>
