@@ -94,8 +94,6 @@ export const BurgerTrigger = styled.a<{ burgerMenuisActive: boolean }>`
 export const HeaderBrand = styled.div`
   display: flex;
   flex: 1;
-  // This is to account for the burger as we want it to be dead centre.
-  margin-left: -20px;
 
   ${props => `
   ${props.theme.media('headerMedium')(`
@@ -118,7 +116,7 @@ export const HeaderNav = styled.nav<{ burgerMenuisActive: boolean }>`
   display: ${props => (props.burgerMenuisActive ? 'block' : 'none')};
   background: ${props => props.theme.color('white')};
   position: absolute;
-  top: 100%;
+  top: calc(100% + 17px); // Accounts for the set size of the header
   left: 0;
   right: 0;
   padding-left: ${props =>
@@ -131,7 +129,7 @@ export const HeaderNav = styled.nav<{ burgerMenuisActive: boolean }>`
     'headerMedium'
   )(`
     border-top: 1px solid ${props.theme.color('warmNeutral.400')};
-    height: 100vh;
+    height: calc(100vh - 17px); // Accounts for the set size of the header
     overflow: auto;
   `)}
 
