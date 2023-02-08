@@ -63,7 +63,7 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
         <div className="container">
           <SearchBar
             id="global-search-input"
-            placeholder="Search Wellcome"
+            placeholder="Search Wellcome Collection"
             isGlobalSearch
           />
           {/* TODO confirm which copy/link we'd like here */}
