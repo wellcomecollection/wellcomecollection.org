@@ -87,9 +87,7 @@ const Loading = () => (
   </div>
 );
 
-const IIIFSearchWithin: FunctionComponent<Props> = ({
-  mainViewerRef,
-}: Props) => {
+const IIIFSearchWithin: FunctionComponent<Props> = ({ mainViewerRef }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
