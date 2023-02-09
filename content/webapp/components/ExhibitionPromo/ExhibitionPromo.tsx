@@ -13,7 +13,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import styled from 'styled-components';
 
 const DateWrapper = styled(Space).attrs({
@@ -90,9 +90,7 @@ const ExhibitionPromo: FunctionComponent<Props> = ({
 
           {!statusOverride && !isPermanent && start && end && (
             <DateWrapper as="p">
-              <HTMLDate date={start} />
-              {' – '}
-              <HTMLDate date={end} />
+              <DateRange start={start} end={end} />
             </DateWrapper>
           )}
 
