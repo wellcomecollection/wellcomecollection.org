@@ -119,7 +119,6 @@ type CheckboxFilterProps = {
 const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <>
-      <h3 className="h3">{f.label}</h3>
       <PlainList>
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
@@ -158,7 +157,6 @@ const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
 
   return (
     <>
-      <h3 className="h3">{f.label}</h3>
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
         <NumberInput
           name={f.from.id}
@@ -219,6 +217,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   filters,
   activeFiltersCount,
   searchFormId,
+  hasNoResults,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
@@ -313,6 +312,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
               .map(f => {
                 return (
                   <FilterSection key={f.id}>
+                    <h3 className="h3">
+                      {f.type === 'color' ? 'Colours' : f.label}
+                    </h3>
                     {f.type === 'checkbox' && (
                       <CheckboxFilter
                         f={f}
@@ -321,15 +323,16 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       />
                     )}
 
-                    {f.type === 'dateRange' && (
-                      <DateRangeFilter
-                        f={f}
-                        changeHandler={changeHandler}
-                        form={searchFormId}
-                      />
-                    )}
+                    {f.type === 'dateRange' &&
+                      !(hasNoResults && !(f.from.value || f.to.value)) && (
+                        <DateRangeFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={searchFormId}
+                        />
+                      )}
 
-                    {f.type === 'color' && (
+                    {f.type === 'color' && !(hasNoResults && !f.color) && (
                       <ColorFilter
                         f={f}
                         changeHandler={changeHandler}
