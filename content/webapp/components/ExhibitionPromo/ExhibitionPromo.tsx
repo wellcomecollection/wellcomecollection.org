@@ -14,6 +14,14 @@ import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import styled from 'styled-components';
+
+const DateWrapper = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom'] },
+  className: font('intr', 5),
+})`
+  padding: 0;
+`;
 
 type Props = {
   exhibition: ExhibitionBasic;
@@ -81,15 +89,11 @@ const ExhibitionPromo: FunctionComponent<Props> = ({
           </Space>
 
           {!statusOverride && !isPermanent && start && end && (
-            <Space
-              as="p"
-              v={{ size: 'm', properties: ['margin-bottom'] }}
-              className={`${font('intr', 5)} no-padding`}
-            >
+            <DateWrapper as="p">
               <HTMLDate date={start} />
               {' – '}
               <HTMLDate date={end} />
-            </Space>
+            </DateWrapper>
           )}
 
           {!hideStatus && (
