@@ -163,10 +163,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     `}
   }
 
-  .no-padding {
-    padding: 0;
-  }
-
   .promo-link {
     height: 100%;
     color: ${props => props.theme.color('black')};
