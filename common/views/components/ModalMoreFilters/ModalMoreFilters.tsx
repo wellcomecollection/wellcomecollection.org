@@ -1,24 +1,26 @@
 import React, { FunctionComponent, RefObject, useContext } from 'react';
-import Modal from '../../components/Modal/Modal';
-import styled from 'styled-components';
-import Space from '../styled/Space';
-import { searchFilterCheckBox } from '../../../text/aria-labels';
 import NextLink from 'next/link';
-import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import styled from 'styled-components';
+import Modal from '@weco/common/views/components/Modal/Modal';
+import Space from '@weco/common/views/components/styled/Space';
+import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
   filterLabel,
-} from '../../../services/catalogue/filters';
-import { AppContext } from '../AppContext/AppContext';
-import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
-import PlainList from '../styled/PlainList';
-import NumberInput from '../NumberInput/NumberInput';
-import { dateRegex } from '../SearchFilters/SearchFiltersDesktop';
+} from '@weco/common/services/catalogue/filters';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+import { dateRegex } from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import { useControlledState } from '@weco/common/utils/useControlledState';
-import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
+import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
 import { LinkProps } from '@weco/common/model/link-props';
 
 type ModalMoreFiltersProps = {

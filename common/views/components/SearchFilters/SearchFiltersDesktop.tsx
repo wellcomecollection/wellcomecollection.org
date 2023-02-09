@@ -6,30 +6,33 @@ import React, {
   useState,
   useLayoutEffect,
 } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { font } from '../../../utils/classnames';
-import { useControlledState } from '../../../utils/useControlledState';
-import PlainList from '../styled/PlainList';
-import Space from '../styled/Space';
-import Icon from '../Icon/Icon';
+
+import { font } from '@weco/common/utils/classnames';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
+import { useControlledState } from '@weco/common/utils/useControlledState';
+import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters/SearchFilters';
 import {
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
   filterLabel,
   Filter,
-} from '../../../services/catalogue/filters';
-import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
-import { ResetActiveFilters } from './ResetActiveFilters';
-import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+} from '@weco/common/services/catalogue/filters';
+import ModalMoreFilters from '@weco/common/views/components/ModalMoreFilters/ModalMoreFilters';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
-import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
-import { useRouter } from 'next/router';
+import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+import { ResetActiveFilters } from './ResetActiveFilters';
 
 export const dateRegex = /^\d{4}$|^$/;
 

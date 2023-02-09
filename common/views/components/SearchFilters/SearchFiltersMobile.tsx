@@ -4,33 +4,34 @@ import React, {
   FunctionComponent,
   ReactElement,
 } from 'react';
-import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import dynamic from 'next/dynamic';
-import getFocusableElements from '../../../utils/get-focusable-elements';
-import { useControlledState } from '../../../utils/useControlledState';
 import NextLink from 'next/link';
-import { toLink as worksLink } from '../WorksLink/WorksLink';
 import styled from 'styled-components';
-import PlainList from '../styled/PlainList';
-import Space from '../styled/Space';
-import Icon from '../Icon/Icon';
+
+import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
+import getFocusableElements from '@weco/common/utils/get-focusable-elements';
+import { useControlledState } from '@weco/common/utils/useControlledState';
+import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
+import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters/SearchFilters';
 import {
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
   filterLabel,
-} from '../../../services/catalogue/filters';
+} from '@weco/common/services/catalogue/filters';
 import ButtonSolid, {
   ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { searchFilterCheckBox } from '../../../text/aria-labels';
-import { dateRegex } from './SearchFiltersDesktop';
+import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
 import { filter } from '@weco/common/icons';
-import Modal from '../../components/Modal/Modal';
+import Modal from '@weco/common/views/components/Modal/Modal';
+import { dateRegex } from './SearchFiltersDesktop';
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
