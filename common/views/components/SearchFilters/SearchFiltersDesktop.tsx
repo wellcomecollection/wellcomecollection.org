@@ -6,32 +6,32 @@ import React, {
   useState,
   useLayoutEffect,
 } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { font } from '../../../utils/classnames';
-import { useControlledState } from '../../../utils/useControlledState';
-import PlainList from '../styled/PlainList';
-import Space from '../styled/Space';
-import Icon from '../Icon/Icon';
+
+import { font } from '@weco/common/utils/classnames';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
+import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters/SearchFilters';
 import {
   CheckboxFilter as CheckboxFilterType,
-  DateRangeFilter as DateRangeFilterType,
-  ColorFilter as ColorFilterType,
   filterLabel,
   Filter,
-} from '../../../services/catalogue/filters';
-import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
+} from '@weco/common/services/catalogue/filters';
+import ModalMoreFilters from '@weco/common/views/components/ModalMoreFilters/ModalMoreFilters';
 import { ResetActiveFilters } from './ResetActiveFilters';
-import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
-import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
-import { useRouter } from 'next/router';
-
-export const dateRegex = /^\d{4}$|^$/;
+import DateRangeFilter, {
+  DateRangeFilterProps,
+} from './SearchFilters.DateRange';
+import ColorFilter, { ColorFilterProps } from './SearchFilters.Colors';
 
 type CheckboxFilterProps = {
   f: CheckboxFilterType;
@@ -101,24 +101,18 @@ const CheckboxFilter = ({
   );
 };
 
-type DateRangeFilterProps = {
-  f: DateRangeFilterType;
-  changeHandler: () => void;
-  form?: string;
+type DesktopDateRangeFilterProps = DateRangeFilterProps & {
   hasNoOptions?: boolean;
   isNewStyle?: boolean;
 };
 
-const DateRangeFilter = ({
+const DesktopDateRangeFilter = ({
   f,
   changeHandler,
   form,
   hasNoOptions,
   isNewStyle,
-}: DateRangeFilterProps) => {
-  const [from, setFrom] = useControlledState(f.from.value);
-  const [to, setTo] = useControlledState(f.to.value);
-
+}: DesktopDateRangeFilterProps) => {
   return (
     <Space className={font('intr', 5)}>
       <DropdownButton
@@ -129,61 +123,23 @@ const DateRangeFilter = ({
         id={f.id}
         hasNoOptions={hasNoOptions}
       >
-        <>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <NumberInput
-              name={f.from.id}
-              label="From"
-              min="0"
-              max="9999"
-              placeholder="Year"
-              value={from || ''}
-              onChange={event => {
-                const val = `${event.currentTarget.value}`;
-                setFrom(val);
-                if (val.match(dateRegex)) {
-                  changeHandler();
-                }
-              }}
-              form={form}
-            />
-          </Space>
-          <NumberInput
-            name={f.to.id}
-            label="to"
-            min="0"
-            max="9999"
-            placeholder="Year"
-            value={to || ''}
-            onChange={event => {
-              const val = `${event.currentTarget.value}`;
-              setTo(val);
-              if (val.match(dateRegex)) {
-                changeHandler();
-              }
-            }}
-            form={form}
-          />
-        </>
+        <DateRangeFilter f={f} changeHandler={changeHandler} form={form} />
       </DropdownButton>
     </Space>
   );
 };
 
-type ColorFilterProps = {
-  f: ColorFilterType;
-  changeHandler: () => void;
-  form?: string;
+type DesktopColorFilterProps = ColorFilterProps & {
   hasNoOptions?: boolean;
   isNewStyle?: boolean;
 };
-const ColorFilter = ({
+const DesktopColorFilter = ({
   f,
   changeHandler,
   form,
   hasNoOptions,
   isNewStyle,
-}: ColorFilterProps) => {
+}: DesktopColorFilterProps) => {
   return (
     <DropdownButton
       isPill={isNewStyle}
@@ -193,12 +149,7 @@ const ColorFilter = ({
       id="images.color"
       hasNoOptions={hasNoOptions}
     >
-      <PaletteColorPicker
-        name={f.id}
-        color={f.color}
-        onChangeColor={changeHandler}
-        form={form}
-      />
+      <ColorFilter f={f} changeHandler={changeHandler} form={form} />
     </DropdownButton>
   );
 };
@@ -259,7 +210,7 @@ const DynamicFilterArray = ({
         )}
 
         {f.type === 'dateRange' && (
-          <DateRangeFilter
+          <DesktopDateRangeFilter
             {...(!showMoreFiltersModal && { form: searchFormId })}
             f={f}
             changeHandler={changeHandler}
@@ -269,7 +220,7 @@ const DynamicFilterArray = ({
         )}
 
         {f.type === 'color' && (
-          <ColorFilter
+          <DesktopColorFilter
             {...(!showMoreFiltersModal && { form: searchFormId })}
             f={f}
             changeHandler={changeHandler}
@@ -483,7 +434,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       )}
 
                       {f.type === 'dateRange' && (
-                        <DateRangeFilter
+                        <DesktopDateRangeFilter
                           f={f}
                           changeHandler={changeHandler}
                           form={searchFormId}
@@ -492,7 +443,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       )}
 
                       {f.type === 'color' && (
-                        <ColorFilter
+                        <DesktopColorFilter
                           f={f}
                           changeHandler={changeHandler}
                           form={searchFormId}

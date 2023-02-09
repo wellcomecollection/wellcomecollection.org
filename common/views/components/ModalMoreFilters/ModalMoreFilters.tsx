@@ -1,25 +1,23 @@
 import React, { FunctionComponent, RefObject, useContext } from 'react';
-import Modal from '../../components/Modal/Modal';
-import styled from 'styled-components';
-import Space from '../styled/Space';
-import { searchFilterCheckBox } from '../../../text/aria-labels';
 import NextLink from 'next/link';
-import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import styled from 'styled-components';
+import Modal from '@weco/common/views/components/Modal/Modal';
+import Space from '@weco/common/views/components/styled/Space';
+import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
-  DateRangeFilter as DateRangeFilterType,
-  ColorFilter as ColorFilterType,
   filterLabel,
-} from '../../../services/catalogue/filters';
-import { AppContext } from '../AppContext/AppContext';
-import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
-import PlainList from '../styled/PlainList';
-import NumberInput from '../NumberInput/NumberInput';
-import { dateRegex } from '../SearchFilters/SearchFiltersDesktop';
-import { useControlledState } from '@weco/common/utils/useControlledState';
-import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
+} from '@weco/common/services/catalogue/filters';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import { LinkProps } from '@weco/common/model/link-props';
+import DateRangeFilter from '@weco/common/views/components/SearchFilters/SearchFilters.DateRange';
+import ColorFilter from '@weco/common/views/components/SearchFilters/SearchFilters.Colors';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -141,74 +139,6 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
         );
       })}
     </List>
-  );
-};
-
-type DateRangeFilterProps = {
-  f: DateRangeFilterType;
-  changeHandler: () => void;
-  form?: string;
-  isNewStyle?: boolean;
-};
-
-const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
-  const [from, setFrom] = useControlledState(f.from.value);
-  const [to, setTo] = useControlledState(f.to.value);
-
-  return (
-    <>
-      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-        <NumberInput
-          name={f.from.id}
-          label="From"
-          min="0"
-          max="9999"
-          placeholder="Year"
-          value={from || ''}
-          onChange={event => {
-            const val = `${event.currentTarget.value}`;
-            setFrom(val);
-            if (val.match(dateRegex)) {
-              changeHandler();
-            }
-          }}
-          form={form}
-        />
-      </Space>
-      <NumberInput
-        name={f.to.id}
-        label="to"
-        min="0"
-        max="9999"
-        placeholder="Year"
-        value={to || ''}
-        onChange={event => {
-          const val = `${event.currentTarget.value}`;
-          setTo(val);
-          if (val.match(dateRegex)) {
-            changeHandler();
-          }
-        }}
-        form={form}
-      />
-    </>
-  );
-};
-
-type ColorFilterProps = {
-  f: ColorFilterType;
-  changeHandler: () => void;
-  form?: string;
-  isNewStyle?: boolean;
-};
-const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
-  return (
-    <PaletteColorPicker
-      name={f.id}
-      color={f.color}
-      onChangeColor={changeHandler}
-      form={form}
-    />
   );
 };
 
