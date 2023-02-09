@@ -135,6 +135,14 @@ type FeaturedCardExhibitionProps = {
   textColor: PaletteColor;
 };
 
+const DateWrapper = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom'] },
+  className: font('intr', 4),
+})`
+  margin: 0;
+  padding: 0;
+`;
+
 type FeaturedCardExhibitionBodyProps = {
   exhibition: ExhibitionBasic;
 };
@@ -146,17 +154,13 @@ const FeaturedCardExhibitionBody = ({
     <div data-test-id="featured-exhibition">
       <h2 className={font('wb', 2)}>{exhibition.title}</h2>
       {!exhibition.statusOverride && exhibition.start && exhibition.end && (
-        <Space
-          as="p"
-          v={{ size: 'm', properties: ['margin-bottom'] }}
-          className={`${font('intr', 4)} no-margin no-padding`}
-        >
+        <DateWrapper as="p">
           <>
             <HTMLDate date={exhibition.start} />
             {' – '}
             <HTMLDate date={exhibition.end} />
           </>
-        </Space>
+        </DateWrapper>
       )}
       <StatusIndicator
         start={exhibition.start}
