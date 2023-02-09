@@ -14630,6 +14630,11 @@ next-line@^1.1.0:
   resolved "https://registry.yarnpkg.com/next-line/-/next-line-1.1.0.tgz#fcae57853052b6a9bae8208e40dd7d3c2d304603"
   integrity sha1-/K5XhTBStqm66CCOQN19PC0wRgM=
 
+next-router-mock@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/next-router-mock/-/next-router-mock-0.9.1.tgz#28adbda2c1bbd0d0b7567e7f83dcf0e211d9a4ba"
+  integrity sha512-GTrns944dnFNgycpinyRszOiwwk99LUJsvvX0FWRgUFHv6hOuzCns1rmTlzO+DRimYB9/XMA+87X2/dQLzjiUQ==
+
 next-tick@1, next-tick@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
