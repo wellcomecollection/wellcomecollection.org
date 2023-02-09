@@ -179,6 +179,12 @@ const MobileControlsModal = styled(Space).attrs({
   background-color: ${props => props.theme.color('white')};
 `;
 
+const Button = styled.button.attrs({
+  className: 'segmented-control__header plain-button no-margin',
+})`
+  padding: 0;
+`;
+
 type Props = {
   id: string;
   items: { id: string; text: string; url: string }[];
@@ -222,7 +228,7 @@ class SegmentedControl extends Component<Props, State> {
     return (
       <Wrapper className={extraClasses} isActive={isActive}>
         <div className="segmented-control__drawer">
-          <button className="segmented-control__header plain-button no-margin no-padding">
+          <Button>
             {items
               .filter(item => item.id === activeId)
               .map(item => (
@@ -241,7 +247,7 @@ class SegmentedControl extends Component<Props, State> {
                   </span>
                 </Fragment>
               ))}
-          </button>
+          </Button>
           <MobileControlsModal id={id}>
             <Space
               v={{
