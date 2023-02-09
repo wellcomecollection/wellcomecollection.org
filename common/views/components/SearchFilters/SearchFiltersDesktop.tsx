@@ -105,6 +105,7 @@ type DateRangeFilterProps = {
   f: DateRangeFilterType;
   changeHandler: () => void;
   form?: string;
+  hasNoOptions?: boolean;
   isNewStyle?: boolean;
 };
 
@@ -112,6 +113,7 @@ const DateRangeFilter = ({
   f,
   changeHandler,
   form,
+  hasNoOptions,
   isNewStyle,
 }: DateRangeFilterProps) => {
   const [from, setFrom] = useControlledState(f.from.value);
@@ -125,6 +127,7 @@ const DateRangeFilter = ({
         label={f.label}
         buttonType="inline"
         id={f.id}
+        hasNoOptions={hasNoOptions}
       >
         <>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -171,12 +174,14 @@ type ColorFilterProps = {
   f: ColorFilterType;
   changeHandler: () => void;
   form?: string;
+  hasNoOptions?: boolean;
   isNewStyle?: boolean;
 };
 const ColorFilter = ({
   f,
   changeHandler,
   form,
+  hasNoOptions,
   isNewStyle,
 }: ColorFilterProps) => {
   return (
@@ -186,6 +191,7 @@ const ColorFilter = ({
       label="Colours"
       buttonType="inline"
       id="images.color"
+      hasNoOptions={hasNoOptions}
     >
       <PaletteColorPicker
         name={f.id}
@@ -208,6 +214,7 @@ const DynamicFilterArray = ({
   searchFormId,
   filters,
   openMoreFiltersButtonRef,
+  hasNoResults,
 }) => {
   const router = useRouter();
   const [wrapperWidth, setWrapperWidth] = useState<number>(0);
@@ -257,6 +264,7 @@ const DynamicFilterArray = ({
             f={f}
             changeHandler={changeHandler}
             isNewStyle={isNewStyle}
+            hasNoOptions={hasNoResults && !(f.from.value || f.to.value)}
           />
         )}
 
@@ -266,6 +274,7 @@ const DynamicFilterArray = ({
             f={f}
             changeHandler={changeHandler}
             isNewStyle={isNewStyle}
+            hasNoOptions={hasNoResults && !f.color}
           />
         )}
       </Space>
@@ -377,6 +386,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   activeFiltersCount,
   searchFormId,
   isNewStyle,
+  hasNoResults,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -419,6 +429,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     searchFormId={searchFormId}
                     filters={filters}
                     openMoreFiltersButtonRef={openMoreFiltersButtonRef}
+                    hasNoResults={hasNoResults}
                   />
                 )}
                 <ModalMoreFilters

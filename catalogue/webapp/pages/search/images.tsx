@@ -85,6 +85,8 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
     return { href, as };
   };
 
+  const hasNoResults = images.totalResults === 0;
+
   return (
     <>
       <Head>
@@ -129,12 +131,13 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                 );
             }}
             filters={filters}
+            hasNoResults={hasNoResults}
             isNewStyle
           />
         </Space>
       </div>
 
-      {images.totalResults === 0 ? (
+      {hasNoResults ? (
         <SearchNoResults
           query={queryString}
           hasFilters={hasFilters({
