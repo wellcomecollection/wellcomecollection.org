@@ -96,7 +96,10 @@ const AccordionItem = ({
   return (
     <Item data-test-id={testId}>
       <AccordionInner onClick={() => setIsActive(!isActive)}>
-        <AccordionButton>
+        <AccordionButton
+          aria-expanded={isActive ? 'true' : 'false'}
+          aria-controls={toHtmlId(title)}
+        >
           <span>
             <h2 className={`${font('intb', 5)} no-margin`}>{title}</h2>
             <Icon
