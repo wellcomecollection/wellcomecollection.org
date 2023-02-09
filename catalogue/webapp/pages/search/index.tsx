@@ -33,6 +33,7 @@ import {
   stringCodec,
 } from '@weco/common/utils/routes';
 import theme from '@weco/common/views/themes/default';
+import { formatNumber } from '@weco/common/utils/grammar';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -43,11 +44,22 @@ const fromQuery: (params: ParsedUrlQuery) => CodecMapProps = params => {
 };
 
 type Props = {
-  works?: Work[];
-  images?: Image[];
-  stories?: Story[];
+  works?: ResultsProps<Work>;
+  images?: ResultsProps<Image>;
+  stories?: ResultsProps<Story>;
   query: Query;
   pageview: Pageview;
+};
+
+type ResultsProps<T> = {
+  pageResults: T[];
+  totalResults: number;
+};
+
+type SeeMoreButtonProps = {
+  text: string;
+  pathname: string;
+  totalResults: number;
 };
 
 const StoriesSection = styled(Space).attrs({
@@ -86,12 +98,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   const SeeMoreButton = ({
     text,
     pathname,
-  }: {
-    text: string;
-    pathname: string;
-  }) => (
+    totalResults,
+  }: SeeMoreButtonProps) => (
     <MoreLink
-      name={text}
+      name={`${text} (${formatNumber(totalResults, true)})`}
       url={{
         href: {
           pathname,
@@ -118,7 +128,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                   <SectionTitle sectionName="Stories" />
 
                   <StoriesGrid
-                    stories={stories}
+                    stories={stories.pageResults}
                     dynamicImageSizes={{
                       xlarge: 1 / 5,
                       large: 1 / 5,
@@ -131,6 +141,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                     <SeeMoreButton
                       text="All stories"
                       pathname="/search/stories"
+                      totalResults={stories.totalResults}
                     />
                   </Space>
                 </div>
@@ -142,12 +153,13 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 <div className="container">
                   <SectionTitle sectionName="Images" />
 
-                  <ImageEndpointSearchResults images={images} />
+                  <ImageEndpointSearchResults images={images.pageResults} />
 
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text="All images"
                       pathname="/search/images"
+                      totalResults={images.totalResults}
                     />
                   </Space>
                 </div>
@@ -159,10 +171,14 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 <div className="container">
                   <SectionTitle sectionName="Catalogue" />
 
-                  <WorksSearchResults works={works} />
+                  <WorksSearchResults works={works.pageResults} />
 
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton text="Catalogue" pathname="/search/works" />
+                    <SeeMoreButton
+                      text="Catalogue"
+                      pathname="/search/works"
+                      totalResults={works.totalResults}
+                    />
                   </Space>
                 </div>
               </WorksSection>
@@ -250,9 +266,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: {
           ...defaultProps,
-          ...(stories?.length && { stories }),
-          ...(images?.length && { images }),
-          ...(works?.length && { works }),
+          ...(stories?.pageResults.length && { stories }),
+          ...(images?.pageResults.length && { images }),
+          ...(works?.pageResults.length && { works }),
         },
       };
     } catch (error) {
