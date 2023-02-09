@@ -25,7 +25,7 @@ import { EventBasic } from '../../types/events';
 import { Guide } from '../../types/guides';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import DateRange from '@weco/common/views/components/DateRange/DateRange';
 
 type PartialFeaturedCard = {
   id: string;
@@ -155,11 +155,7 @@ const FeaturedCardExhibitionBody = ({
       <h2 className={font('wb', 2)}>{exhibition.title}</h2>
       {!exhibition.statusOverride && exhibition.start && exhibition.end && (
         <DateWrapper as="p">
-          <>
-            <HTMLDate date={exhibition.start} />
-            {' – '}
-            <HTMLDate date={exhibition.end} />
-          </>
+          <DateRange start={exhibition.start} end={exhibition.end} />
         </DateWrapper>
       )}
       <StatusIndicator
