@@ -80,6 +80,12 @@ export const IframeContainer = styled.div.attrs({
   }
 `;
 
+const ButtonWrapper = styled.span.attrs({
+  className: 'trigger plain-button no-visible-focus',
+})`
+  padding: 0;
+`;
+
 export type Props = {
   image: ImageType;
   src: string;
@@ -122,15 +128,12 @@ class Iframe extends Component<Props, State> {
         {image.contentUrl && (
           <Fragment>
             {!this.state.iframeShowing && (
-              <span
-                className="trigger plain-button no-padding no-visible-focus"
-                onClick={this.toggleIframeDisplay}
-              >
+              <ButtonWrapper onClick={this.toggleIframeDisplay}>
                 <span className="overlay" />
                 <span className="launch">
                   <ButtonSolid text="Launch" ariaLive="polite" />
                 </span>
-              </span>
+              </ButtonWrapper>
             )}
             <PrismicImage
               image={imageObject}
