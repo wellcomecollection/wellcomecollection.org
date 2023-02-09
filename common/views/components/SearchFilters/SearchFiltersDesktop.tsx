@@ -22,7 +22,6 @@ import {
   Filter,
 } from '@weco/common/services/catalogue/filters';
 import ModalMoreFilters from '@weco/common/views/components/ModalMoreFilters/ModalMoreFilters';
-import { ResetActiveFilters } from './ResetActiveFilters';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -32,6 +31,7 @@ import DateRangeFilter, {
   DateRangeFilterProps,
 } from './SearchFilters.DateRange';
 import ColorFilter, { ColorFilterProps } from './SearchFilters.Colors';
+import { ResetActiveFilters } from './ResetActiveFilters';
 
 type CheckboxFilterProps = {
   f: CheckboxFilterType;
