@@ -30,6 +30,7 @@ type ModalMoreFiltersProps = {
   resetFilters: LinkProps;
   filters: Filter[];
   form?: string;
+  hasNoResults?: boolean;
   isNewStyle?: boolean;
 };
 
@@ -37,6 +38,7 @@ type MoreFiltersProps = {
   filters: Filter[];
   changeHandler: () => void;
   form?: string;
+  hasNoResults?: boolean;
   isNewStyle?: boolean;
 };
 
@@ -214,6 +216,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   changeHandler,
   filters,
   form,
+  hasNoResults,
   isNewStyle,
 }: MoreFiltersProps) => {
   return (
@@ -257,14 +260,15 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                       form={form}
                     />
                   )}
-                  {f.type === 'dateRange' && (
-                    <DateRangeFilter
-                      f={f}
-                      changeHandler={changeHandler}
-                      form={form}
-                    />
-                  )}
-                  {f.type === 'color' && (
+                  {f.type === 'dateRange' &&
+                    !(hasNoResults && !(f.from.value || f.to.value)) && (
+                      <DateRangeFilter
+                        f={f}
+                        changeHandler={changeHandler}
+                        form={form}
+                      />
+                    )}
+                  {f.type === 'color' && !(hasNoResults && !f.color) && (
                     <ColorFilter
                       f={f}
                       changeHandler={changeHandler}
@@ -289,6 +293,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   resetFilters,
   filters,
   form,
+  hasNoResults,
   isNewStyle,
 }: ModalMoreFiltersProps) => {
   const { isEnhanced } = useContext(AppContext);
@@ -321,6 +326,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
               changeHandler={changeHandler}
               filters={filters}
               form={form}
+              hasNoResults={hasNoResults}
               isNewStyle={isNewStyle}
             />
           )}

@@ -441,6 +441,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   changeHandler={changeHandler}
                   resetFilters={linkResolver({ query })}
                   filters={filters}
+                  hasNoResults={hasNoResults}
                   isNewStyle
                 />
               </>
