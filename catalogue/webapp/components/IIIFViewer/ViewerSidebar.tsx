@@ -77,6 +77,12 @@ const Item = styled.div`
   }
 `;
 
+const AccordionButton = styled.button.attrs({
+  className: 'plain-button no-margin',
+})`
+  padding: 0;
+`;
+
 const AccordionItem = ({
   title,
   children,
@@ -90,11 +96,7 @@ const AccordionItem = ({
   return (
     <Item data-test-id={testId}>
       <AccordionInner onClick={() => setIsActive(!isActive)}>
-        <button
-          className="plain-button no-margin no-padding"
-          aria-expanded={isActive ? 'true' : 'false'}
-          aria-controls={toHtmlId(title)}
-        >
+        <AccordionButton>
           <span>
             <h2 className={`${font('intb', 5)} no-margin`}>{title}</h2>
             <Icon
@@ -103,7 +105,7 @@ const AccordionItem = ({
               rotate={isActive ? undefined : 270}
             />
           </span>
-        </button>
+        </AccordionButton>
       </AccordionInner>
       <AccordionInner
         id={toHtmlId(title)}
