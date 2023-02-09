@@ -14,6 +14,13 @@ const ImageWrapper = styled.div.attrs({
   overflow: hidden;
 `;
 
+const Description = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  margin: 0;
+  padding: 0;
+`;
+
 const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
   id,
   url,
@@ -53,9 +60,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
         <CardBody>
           <div>
             <h2 className={`promo-link__title ${font('wb', 4)}`}>{title}</h2>
-            <p className={`${font('intr', 5)} no-margin no-padding`}>
-              {description}
-            </p>
+            <Description>{description}</Description>
 
             {metaText && (
               <Space v={{ size: 'm', properties: ['margin-top'] }}>
