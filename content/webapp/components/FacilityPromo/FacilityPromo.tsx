@@ -21,6 +21,13 @@ const Description = styled.p.attrs({
   padding: 0;
 `;
 
+const Meta = styled.div.attrs({
+  className: font('intb', 6),
+})`
+  display: flex;
+  align-items: center;
+`;
+
 const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
   id,
   url,
@@ -64,7 +71,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
 
             {metaText && (
               <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                <div className={`${font('intb', 6)} flex flex--v-center`}>
+                <Meta>
                   {metaIcon && (
                     <Space
                       as="span"
@@ -74,7 +81,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
                     </Space>
                   )}
                   <span>{metaText}</span>
-                </div>
+                </Meta>
               </Space>
             )}
           </div>
