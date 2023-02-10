@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { classNames } from '@weco/common/utils/classnames';
@@ -34,7 +34,6 @@ type Props = {
 };
 
 const HeaderSearch = ({ isActive, setIsActive }: Props) => {
-  const nodeRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
         setIsActive(false);
       }}
     >
-      <SearchBarWrapper ref={nodeRef} onClick={e => e.stopPropagation()}>
+      <SearchBarWrapper onClick={e => e.stopPropagation()}>
         <div className="container">
           <SearchBar
             id="global-search-input"
