@@ -1,12 +1,13 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import FocusTrap from 'focus-trap-react';
+import NextLink from 'next/link';
+import { getCookies } from 'cookies-next';
+
 import { font } from '@weco/common/utils/classnames';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
-import DesktopSignIn from './DesktopSignIn';
-import MobileSignIn from './MobileSignIn';
-import HeaderSearch from './HeaderSearch';
 import { search, cross } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import { getActiveToggles } from '@weco/common/utils/cookies';
 import {
   Wrapper,
   GridCell,
@@ -22,8 +23,9 @@ import {
   HeaderNav,
   NavLoginWrapper,
 } from './Header.styles';
-import { getActiveToggles } from '@weco/common/utils/cookies';
-import { getCookies } from 'cookies-next';
+import DesktopSignIn from './DesktopSignIn';
+import MobileSignIn from './MobileSignIn';
+import HeaderSearch from './HeaderSearch';
 
 export type NavLink = {
   href: string;
@@ -87,7 +89,7 @@ const Header: FunctionComponent<Props> = ({
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
   const toggles = getActiveToggles(getCookies());
 
-  const hasSearch = toggles?.includes('globalSearchHeader');
+  const isSearchToggleActive = toggles?.includes('globalSearchHeader');
 
   useEffect(() => {
     if (document && document.documentElement) {
@@ -129,7 +131,7 @@ const Header: FunctionComponent<Props> = ({
                   <span />
                 </BurgerTrigger>
               </Burger>
-              <HeaderBrand hasSearch={hasSearch}>
+              <HeaderBrand isSearchToggleActive={isSearchToggleActive}>
                 <a href="/">
                   <WellcomeCollectionBlack />
                 </a>
@@ -159,22 +161,27 @@ const Header: FunctionComponent<Props> = ({
                 </HeaderNav>
 
                 <HeaderActions>
-                  {hasSearch && (
-                    <SearchButton
-                      text={
-                        <Icon icon={searchDropdownIsActive ? cross : search} />
-                      }
-                      aria-label={
-                        searchDropdownIsActive
-                          ? 'Close search bar'
-                          : 'Open search bar'
-                      }
-                      onClick={() => {
-                        setSearchDropdownIsActive(
-                          currentState => !currentState
-                        );
-                      }}
-                    />
+                  {isSearchToggleActive && (
+                    <NextLink href="/search" passHref>
+                      <SearchButton
+                        text={
+                          <Icon
+                            icon={searchDropdownIsActive ? cross : search}
+                          />
+                        }
+                        aria-label={
+                          searchDropdownIsActive
+                            ? 'Close search bar'
+                            : 'Open search bar'
+                        }
+                        onClick={event => {
+                          event.preventDefault(); // Prevents routing if JS is enabled to use the dropdown instead
+                          setSearchDropdownIsActive(
+                            currentState => !currentState
+                          );
+                        }}
+                      />
+                    </NextLink>
                   )}
 
                   {showLibraryLogin && <DesktopSignIn />}

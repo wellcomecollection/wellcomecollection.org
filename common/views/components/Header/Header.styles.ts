@@ -91,12 +91,12 @@ export const BurgerTrigger = styled.a<{ burgerMenuisActive: boolean }>`
   }
 `;
 
-export const HeaderBrand = styled.div<{ hasSearch: boolean }>`
+export const HeaderBrand = styled.div<{ isSearchToggleActive: boolean }>`
   display: flex;
   flex: 1;
 
   ${props =>
-    props.hasSearch
+    props.isSearchToggleActive
       ? ``
       : `
         // This is to account for the burger as we want it to be dead centre.
