@@ -30,7 +30,7 @@ import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { hasFilters } from '@weco/catalogue/utils/search';
+import { hasFilters } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 

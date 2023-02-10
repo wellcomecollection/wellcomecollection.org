@@ -15,7 +15,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import {
   getUrlQueryFromSortValue,
   getQueryPropertyValue,
-} from '@weco/catalogue/utils/search';
+} from '@weco/common/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
 import { propsToQuery } from '@weco/common/utils/routes';
 

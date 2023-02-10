@@ -18,7 +18,7 @@ import { getServerData } from '@weco/common/server-data';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
-import { getQueryPropertyValue } from '@weco/catalogue/utils/search';
+import { getQueryPropertyValue } from '@weco/common/utils/search';
 
 // Types
 import { Story } from '@weco/catalogue/services/prismic/types/story';

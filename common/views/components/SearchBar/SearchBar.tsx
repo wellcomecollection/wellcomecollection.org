@@ -15,7 +15,7 @@ import ButtonSolid, {
 import { themeValues } from '@weco/common/views/themes/config';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
-import { getQueryPropertyValue } from '@weco/catalogue/utils/search';
+import { getQueryPropertyValue } from '@weco/common/utils/search';
 
 const Container = styled.div`
   display: flex;

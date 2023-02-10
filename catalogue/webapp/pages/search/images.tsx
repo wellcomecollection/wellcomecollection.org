@@ -28,7 +28,7 @@ import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
-import { hasFilters } from '@weco/catalogue/utils/search';
+import { hasFilters } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
