@@ -27,7 +27,7 @@ const SearchBarContainer = styled(Space)`
 
 type PageLayoutMetadata = {
   openGraphType: 'website';
-  siteSection: 'collections';
+  siteSection: null;
   jsonLd: { '@type': 'WebPage' };
   hideNewsletterPromo: true;
   excludeRoleMain: true;
@@ -53,7 +53,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
   const basePageMetadata: PageLayoutMetadata = {
     openGraphType: 'website',
-    siteSection: 'collections',
+    siteSection: null,
     jsonLd: { '@type': 'WebPage' },
     hideNewsletterPromo: true,
     excludeRoleMain: true,
@@ -232,7 +232,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
             {
               id: 'overview',
               url: getURL('/search'),
-              name: 'Overview',
+              name: 'All',
             },
             {
               id: 'stories',

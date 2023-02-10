@@ -1,9 +1,12 @@
 locals {
   // Rate limits cover 5 minute windows
 
-  // This number is based on us seeing significant performance degradation for
-  // random (404ing) requests at about 8-10k transactions per minute.
-  blanket_rate_limit = 5000
+  // We saw significant performance degradation for
+  // random (404ing) requests at about 8-10k transactions per minute,
+  // which led us to set this initially to 5000. We later saw non-random
+  // requests (ie, to non-404ing) URLs that were causing the content application
+  // to struggle at around 800tpm, leading us to halve that number.
+  blanket_rate_limit = 2500
 
   // A more restrictive limit for expensive URLs (eg /works)
   restrictive_rate_limit  = 1000

@@ -56,8 +56,10 @@ const ArticlesContainer = styled.div`
 `;
 
 const StoryPromoContainer = styled.div.attrs({
-  className: 'container container--scroll touch-scroll',
+  className: 'container container--scroll',
 })`
+  -webkit-overflow-scrolling: touch;
+
   &::-webkit-scrollbar {
     background: ${props => props.theme.color('warmNeutral.300')};
   }

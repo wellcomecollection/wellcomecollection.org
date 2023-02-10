@@ -61,10 +61,12 @@ const Item = styled.li.attrs({
 const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
     'is-active': props.isActive,
-    'plain-link segmented-control__link transition-bg no-visible-focus': true,
+    'plain-link segmented-control__link no-visible-focus': true,
   }),
 }))<IsActiveProps>`
   display: block;
+
+  transition: background ${props => props.theme.transitionProperties};
 
   color: ${props => props.theme.color(props.isActive ? 'white' : 'black')};
   background-color: ${props =>
@@ -179,6 +181,12 @@ const MobileControlsModal = styled(Space).attrs({
   background-color: ${props => props.theme.color('white')};
 `;
 
+const Button = styled.button.attrs({
+  className: 'segmented-control__header plain-button no-margin',
+})`
+  padding: 0;
+`;
+
 type Props = {
   id: string;
   items: { id: string; text: string; url: string }[];
@@ -222,7 +230,7 @@ class SegmentedControl extends Component<Props, State> {
     return (
       <Wrapper className={extraClasses} isActive={isActive}>
         <div className="segmented-control__drawer">
-          <button className="segmented-control__header plain-button no-margin no-padding">
+          <Button>
             {items
               .filter(item => item.id === activeId)
               .map(item => (
@@ -241,7 +249,7 @@ class SegmentedControl extends Component<Props, State> {
                   </span>
                 </Fragment>
               ))}
-          </button>
+          </Button>
           <MobileControlsModal id={id}>
             <Space
               v={{
