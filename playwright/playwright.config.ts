@@ -1,7 +1,7 @@
 import { PlaywrightTestConfig, devices } from '@playwright/test';
 
 const chromium = 'chromium' as const;
-const allSupportedBrowsers = [chromium, 'firefox', 'webkit'] as const;
+const allSupportedBrowsers = [chromium, 'firefox'] as const;
 const mobileDeviceNames = ['iPhone 11'] as const;
 const platform = process.env.platform ? process.env.platform : 'desktop';
 const debug = !!process.env.debug;
