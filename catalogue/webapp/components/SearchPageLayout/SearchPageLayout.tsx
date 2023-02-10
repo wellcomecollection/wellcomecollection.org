@@ -44,7 +44,8 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
   hasEventsExhibitions,
 }) => {
   const router = useRouter();
-  const { query: queryString } = router.query;
+  const queryString = getQueryPropertyValue(router?.query?.query);
+  const [inputValue, setInputValue] = useState(queryString || '');
 
   const currentSearchCategory =
     router.pathname === '/search'
@@ -77,6 +78,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
   useEffect(() => {
     const queryStringTitle = queryString ? `${queryString} | ` : '';
+    setInputValue(queryString || ''); // This accounts for queries done from these pages from the global search
 
     switch (currentSearchCategory) {
       case 'overview':
@@ -222,6 +224,8 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
             v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
           >
             <SearchBar
+              inputValue={inputValue}
+              setInputValue={setInputValue}
               placeholder={searchbarPlaceholderText[currentSearchCategory]}
               form="search-page-form"
             />

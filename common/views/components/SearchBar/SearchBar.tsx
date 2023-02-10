@@ -1,11 +1,10 @@
 import {
+  Dispatch,
   FunctionComponent,
   RefObject,
-  useEffect,
+  SetStateAction,
   useRef,
-  useState,
 } from 'react';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -14,7 +13,6 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { themeValues } from '@weco/common/views/themes/config';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
-import { getQueryPropertyValue } from '@weco/common/utils/search';
 
 const Container = styled.div`
   display: flex;
@@ -36,28 +34,21 @@ const SearchButtonWrapper = styled.div`
   flex: 0 1 auto;
 `;
 type Props = {
+  inputValue: string;
+  setInputValue: Dispatch<SetStateAction<string>>;
   placeholder: string;
   form: string;
   inputRef?: RefObject<HTMLInputElement>;
 };
 
 const SearchBar: FunctionComponent<Props> = ({
+  inputValue,
+  setInputValue,
   placeholder,
   form,
   inputRef,
 }) => {
-  const router = useRouter();
-  const routerQuery = getQueryPropertyValue(router?.query?.query);
-  const [inputQuery, setInputQuery] = useState(routerQuery || '');
   const defaultInputRef = useRef<HTMLInputElement>(null);
-
-  // This account for pages that could have multiple versions of the SearchBar
-  // as the global search also displays on search pages.
-  useEffect(() => {
-    if (routerQuery && routerQuery !== inputQuery) {
-      setInputQuery(routerQuery);
-    }
-  }, [routerQuery]);
 
   return (
     <Container>
@@ -67,16 +58,16 @@ const SearchBar: FunctionComponent<Props> = ({
           label={placeholder}
           name="query"
           type="search"
-          value={inputQuery}
-          setValue={setInputQuery}
+          value={inputValue}
+          setValue={setInputValue}
           ref={inputRef || defaultInputRef}
           form={form}
           big={true}
         />
-        {inputQuery && (
+        {inputValue && (
           <ClearSearch
             inputRef={inputRef || defaultInputRef}
-            setValue={setInputQuery}
+            setValue={setInputValue}
             gaEvent={{
               category: 'SearchForm',
               action: 'clear search',

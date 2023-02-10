@@ -1,9 +1,10 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { classNames } from '@weco/common/utils/classnames';
 import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
+import { getQueryPropertyValue } from '@weco/common/utils/search';
 
 const Overlay = styled.div.attrs<{ isActive: boolean }>(props => ({
   className: classNames({
@@ -33,11 +34,20 @@ type Props = {
 
 const HeaderSearch = ({ isActive, setIsActive }: Props) => {
   const router = useRouter();
+  const routerQuery = getQueryPropertyValue(router?.query?.query);
+  const [inputValue, setInputValue] = useState(routerQuery || '');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setIsActive(false);
+    setInputValue('');
   }, [router?.pathname, router?.query]);
+
+  useEffect(() => {
+    if (isActive) {
+      inputRef?.current?.focus();
+    }
+  }, [isActive]);
 
   useEffect(() => {
     function handleEscapeKey(event: KeyboardEvent) {
@@ -71,6 +81,8 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
           }}
         >
           <SearchBar
+            inputValue={inputValue}
+            setInputValue={setInputValue}
             form="global-search-form"
             placeholder="Search Wellcome Collection"
             inputRef={inputRef}
