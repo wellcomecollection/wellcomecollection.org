@@ -61,10 +61,12 @@ const Item = styled.li.attrs({
 const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
     'is-active': props.isActive,
-    'plain-link segmented-control__link transition-bg no-visible-focus': true,
+    'plain-link segmented-control__link no-visible-focus': true,
   }),
 }))<IsActiveProps>`
   display: block;
+
+  transition: background ${props => props.theme.transitionProperties};
 
   color: ${props => props.theme.color(props.isActive ? 'white' : 'black')};
   background-color: ${props =>
