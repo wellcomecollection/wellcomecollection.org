@@ -2,10 +2,6 @@ import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
 
 export const utilityClasses = css<GlobalStyleProps>`
-  .transition-bg {
-    transition: background ${props => props.theme.transitionProperties};
-  }
-
   .is-hidden {
     display: none !important;
   }
