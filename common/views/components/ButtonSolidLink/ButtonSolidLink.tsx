@@ -64,7 +64,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         ariaLabel={ariaLabel}
         colors={colors}
         hoverUnderline={hoverUnderline}
-        {...(id && { id })}
+        id={id}
       >
         <BaseButtonInner>
           {isIconAfter && (

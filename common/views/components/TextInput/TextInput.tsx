@@ -226,7 +226,7 @@ const Input: FunctionComponent<Props> = (
           aria-invalid={!!(!isValid && showValidity)}
           aria-errormessage={errorMessage && `${id}-errormessage`}
           form={form}
-          {...(onKeyDown && { onKeyDown })}
+          onKeyDown={onKeyDown}
         />
         {isValid && showValidity && (
           <TextInputCheckmark>

@@ -245,7 +245,7 @@ const Button: FunctionComponent<ButtonSolidProps> = (
       isPill={isPill}
       hasIcon={!!icon}
       isIconAfter={isIconAfter}
-      {...(id && { id })}
+      id={id}
     >
       <BaseButtonInner isInline={size === 'small'} isPill={isPill}>
         {isIconAfter && (
