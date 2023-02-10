@@ -121,9 +121,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
           <SearchFilters
             query={queryString}
             linkResolver={linkResolver}
-            searchFormId="searchPageForm"
+            searchFormId="search-page-form"
             changeHandler={() => {
-              const form = document.getElementById('searchPageForm');
+              const form = document.getElementById('search-page-form');
               form &&
                 form.dispatchEvent(
                   new window.Event('submit', {
@@ -157,7 +157,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
               <SortPaginationWrapper>
                 <Sort
-                  formId="searchPageForm"
+                  formId="search-page-form"
                   options={[
                     // Default value to be left empty so it's not added to the URL query
                     { value: '', text: 'Relevance' },

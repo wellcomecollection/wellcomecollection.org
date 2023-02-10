@@ -75,7 +75,7 @@ const SearchBar: FunctionComponent<Props> = ({
           value={inputQuery}
           setValue={setInputQuery}
           ref={searchInput}
-          form="searchPageForm"
+          form="search-page-form"
           big={true}
           onKeyDown={handleKeyDown}
         />
@@ -112,7 +112,7 @@ const SearchBar: FunctionComponent<Props> = ({
             text="Search"
             type={ButtonTypes.submit}
             size="large"
-            form="searchPageForm"
+            form="search-page-form"
             colors={themeValues.buttonColors.yellowYellowBlack}
           />
         )}

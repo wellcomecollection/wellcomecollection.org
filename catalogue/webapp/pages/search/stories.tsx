@@ -66,7 +66,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
             <SortPaginationWrapper>
               <Sort
-                formId="searchPageForm"
+                formId="search-page-form"
                 options={[
                   // Default value to be left empty as to not be reflected in URL query
                   { value: '', text: 'Newest to oldest' },

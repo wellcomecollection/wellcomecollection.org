@@ -200,7 +200,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
       <div className="container">
         <form
           role="search"
-          id="searchPageForm"
+          id="search-page-form"
           onSubmit={event => {
             event.preventDefault();
 

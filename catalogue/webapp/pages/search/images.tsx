@@ -117,9 +117,9 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           <SearchFilters
             query={queryString}
             linkResolver={linkResolver}
-            searchFormId="searchPageForm"
+            searchFormId="search-page-form"
             changeHandler={() => {
-              const form = document.getElementById('searchPageForm');
+              const form = document.getElementById('search-page-form');
               form &&
                 form.dispatchEvent(
                   new window.Event('submit', {
