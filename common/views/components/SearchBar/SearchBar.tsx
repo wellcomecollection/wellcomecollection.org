@@ -1,6 +1,6 @@
 import {
   FunctionComponent,
-  KeyboardEvent,
+  RefObject,
   useEffect,
   useRef,
   useState,
@@ -13,7 +13,6 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { themeValues } from '@weco/common/views/themes/config';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 
@@ -38,26 +37,22 @@ const SearchButtonWrapper = styled.div`
 `;
 type Props = {
   placeholder: string;
-  id?: string;
-  isGlobalSearch?: boolean;
+  form: string;
+  inputRef?: RefObject<HTMLInputElement>;
 };
 
 const SearchBar: FunctionComponent<Props> = ({
   placeholder,
-  id,
-  isGlobalSearch,
+  form,
+  inputRef,
 }) => {
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
-  const [inputQuery, setInputQuery] = useState((routerQuery as string) || '');
-  const searchInput = useRef<HTMLInputElement>(null);
+  const [inputQuery, setInputQuery] = useState(routerQuery || '');
+  const defaultInputRef = useRef<HTMLInputElement>(null);
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      document.getElementById('global-search-submit')?.click();
-    }
-  };
-
+  // This account for pages that could have multiple versions of the SearchBar
+  // as the global search also displays on search pages.
   useEffect(() => {
     if (routerQuery && routerQuery !== inputQuery) {
       setInputQuery(routerQuery);
@@ -68,20 +63,19 @@ const SearchBar: FunctionComponent<Props> = ({
     <Container>
       <SearchInputWrapper>
         <TextInput
-          id={id || 'search-searchbar'}
+          id="search-searchbar"
           label={placeholder}
           name="query"
           type="search"
           value={inputQuery}
           setValue={setInputQuery}
-          ref={searchInput}
-          form="search-page-form"
+          ref={inputRef || defaultInputRef}
+          form={form}
           big={true}
-          onKeyDown={handleKeyDown}
         />
         {inputQuery && (
           <ClearSearch
-            inputRef={searchInput}
+            inputRef={inputRef || defaultInputRef}
             setValue={setInputQuery}
             gaEvent={{
               category: 'SearchForm',
@@ -93,29 +87,13 @@ const SearchBar: FunctionComponent<Props> = ({
         )}
       </SearchInputWrapper>
       <SearchButtonWrapper>
-        {isGlobalSearch ? (
-          <ButtonSolidLink
-            text="Search"
-            size="large"
-            id="global-search-submit"
-            colors={themeValues.buttonColors.yellowYellowBlack}
-            link={{
-              href: {
-                // TODO if released before the redirect is in placeholder, link to /works instead
-                pathname: '/search',
-                ...(inputQuery && { query: { query: inputQuery } }),
-              },
-            }}
-          />
-        ) : (
-          <ButtonSolid
-            text="Search"
-            type={ButtonTypes.submit}
-            size="large"
-            form="search-page-form"
-            colors={themeValues.buttonColors.yellowYellowBlack}
-          />
-        )}
+        <ButtonSolid
+          text="Search"
+          type={ButtonTypes.submit}
+          size="large"
+          form={form}
+          colors={themeValues.buttonColors.yellowYellowBlack}
+        />
       </SearchButtonWrapper>
     </Container>
   );

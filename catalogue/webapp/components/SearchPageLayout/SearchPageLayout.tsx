@@ -223,6 +223,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           >
             <SearchBar
               placeholder={searchbarPlaceholderText[currentSearchCategory]}
+              form="search-page-form"
             />
           </SearchBarContainer>
         </form>

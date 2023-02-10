@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { classNames } from '@weco/common/utils/classnames';
@@ -33,6 +33,7 @@ type Props = {
 
 const HeaderSearch = ({ isActive, setIsActive }: Props) => {
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setIsActive(false);
@@ -57,13 +58,24 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
       }}
     >
       <SearchBarWrapper onClick={e => e.stopPropagation()}>
-        <div className="container">
+        <form
+          className="container"
+          id="global-search-form"
+          onSubmit={event => {
+            event.preventDefault();
+            const headerInputValue = inputRef?.current?.value;
+            // TODO if released before the redirect is in placeholder, link to /works instead
+            router.push(
+              `/search${headerInputValue ? `?query=${headerInputValue}` : ''}`
+            );
+          }}
+        >
           <SearchBar
-            id="global-search-input"
+            form="global-search-form"
             placeholder="Search Wellcome Collection"
-            isGlobalSearch
+            inputRef={inputRef}
           />
-        </div>
+        </form>
       </SearchBarWrapper>
     </Overlay>
   );

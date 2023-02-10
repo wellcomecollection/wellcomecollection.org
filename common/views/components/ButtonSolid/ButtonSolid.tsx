@@ -118,7 +118,6 @@ export type ButtonSolidBaseProps = {
   hoverUnderline?: boolean;
   form?: string;
   isPill?: boolean;
-  id?: string;
 };
 
 type ButtonSolidProps = ButtonSolidBaseProps & {
@@ -220,7 +219,6 @@ const Button: FunctionComponent<ButtonSolidProps> = (
     hoverUnderline,
     form,
     isPill,
-    id,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -245,7 +243,6 @@ const Button: FunctionComponent<ButtonSolidProps> = (
       isPill={isPill}
       hasIcon={!!icon}
       isIconAfter={isIconAfter}
-      id={id}
     >
       <BaseButtonInner isInline={size === 'small'} isPill={isPill}>
         {isIconAfter && (
