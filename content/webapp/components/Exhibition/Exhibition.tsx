@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
@@ -39,8 +38,6 @@ import {
 
 import { EventBasic } from '../../types/events';
 import * as prismicT from '@prismicio/types';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -200,15 +197,10 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
 
 type Props = {
   exhibition: ExhibitionType;
-  jsonLd: JsonLdObj;
   pages: PageType[];
 };
 
-const Exhibition: FunctionComponent<Props> = ({
-  exhibition,
-  jsonLd,
-  pages,
-}) => {
+const Exhibition: FunctionComponent<Props> = ({ exhibition, pages }) => {
   type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
@@ -280,54 +272,38 @@ const Exhibition: FunctionComponent<Props> = ({
   );
 
   return (
-    <PageLayout
-      title={exhibition.title}
-      description={
-        exhibition.metadataDescription || exhibition.promo?.caption || ''
-      }
-      url={{ pathname: `/exhibitions/${exhibition.id}` }}
-      jsonLd={jsonLd}
-      openGraphType="website"
-      siteSection="whats-on"
-      image={exhibition.image}
-      apiToolbarLinks={[createPrismicLink(exhibition.id)]}
+    <ContentPage
+      id={exhibition.id}
+      Header={Header}
+      Body={<Body body={exhibition.body} pageId={exhibition.id} />}
+      seasons={exhibition.seasons}
+      // We hide contributors as we show them further up the page
+      hideContributors={true}
     >
-      <ContentPage
-        id={exhibition.id}
-        Header={Header}
-        Body={<Body body={exhibition.body} pageId={exhibition.id} />}
-        seasons={exhibition.seasons}
-        // We hide contributors as we show them further up the page
-        hideContributors={true}
-      >
-        {exhibition.contributors.length > 0 && (
-          <Contributors contributors={exhibition.contributors} />
-        )}
+      {exhibition.contributors.length > 0 && (
+        <Contributors contributors={exhibition.contributors} />
+      )}
 
-        {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's
+      {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's
         a reasonable starting place. Update this once the UX has shaken out. */}
-        {(exhibitionOfs.length > 0 || pages.length > 0) && (
-          <SearchResults
-            items={[...exhibitionOfs, ...pages]}
-            title="In this exhibition"
-          />
-        )}
+      {(exhibitionOfs.length > 0 || pages.length > 0) && (
+        <SearchResults
+          items={[...exhibitionOfs, ...pages]}
+          title="In this exhibition"
+        />
+      )}
 
-        {exhibition.end && !isPast(exhibition.end) && (
-          <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-            <p className={`no-margin ${font('intr', 5)}`}>
-              <a href="/access">All our accessibility services</a>
-            </p>
-          </InfoBox>
-        )}
-        {exhibitionAbouts.length > 0 && (
-          <SearchResults
-            items={exhibitionAbouts}
-            title="About this exhibition"
-          />
-        )}
-      </ContentPage>
-    </PageLayout>
+      {exhibition.end && !isPast(exhibition.end) && (
+        <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
+          <p className={`no-margin ${font('intr', 5)}`}>
+            <a href="/access">All our accessibility services</a>
+          </p>
+        </InfoBox>
+      )}
+      {exhibitionAbouts.length > 0 && (
+        <SearchResults items={exhibitionAbouts} title="About this exhibition" />
+      )}
+    </ContentPage>
   );
 };
 export default Exhibition;
