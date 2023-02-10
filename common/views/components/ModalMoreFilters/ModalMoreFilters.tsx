@@ -302,6 +302,9 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
             filters={filters}
             form={form}
           />
+          <button type={ButtonTypes.submit} form={form}>
+            Submit
+          </button>
         </>
       </noscript>
       <Modal

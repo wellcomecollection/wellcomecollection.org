@@ -10,6 +10,7 @@ import {
   getUrlQueryFromSortValue,
 } from '@weco/catalogue/utils/search';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { ButtonTypes } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },
@@ -96,7 +97,7 @@ const Sort: FunctionComponent<Props> = ({
               </option>
             ))}
           </select>
-          <button type="submit" form={formId}>
+          <button type={ButtonTypes.submit} form={formId}>
             Submit
           </button>
         </fieldset>
