@@ -1,4 +1,10 @@
-import { FunctionComponent, KeyboardEvent, useRef, useState } from 'react';
+import {
+  FunctionComponent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -9,6 +15,7 @@ import ButtonSolid, {
 import { themeValues } from '@weco/common/views/themes/config';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
+import { getQueryPropertyValue } from '@weco/catalogue/utils/search';
 
 const Container = styled.div`
   display: flex;
@@ -41,9 +48,8 @@ const SearchBar: FunctionComponent<Props> = ({
   isGlobalSearch,
 }) => {
   const router = useRouter();
-  const [inputQuery, setInputQuery] = useState(
-    (router?.query?.query as string) || ''
-  );
+  const routerQuery = getQueryPropertyValue(router?.query?.query);
+  const [inputQuery, setInputQuery] = useState((routerQuery as string) || '');
   const searchInput = useRef<HTMLInputElement>(null);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -51,6 +57,12 @@ const SearchBar: FunctionComponent<Props> = ({
       document.getElementById('global-search-submit')?.click();
     }
   };
+
+  useEffect(() => {
+    if (routerQuery && routerQuery !== inputQuery) {
+      setInputQuery(routerQuery);
+    }
+  }, [routerQuery]);
 
   return (
     <Container>
