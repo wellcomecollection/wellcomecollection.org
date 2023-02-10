@@ -74,6 +74,10 @@ const HitData = styled(Space).attrs({
   padding: ${props => `0 ${props.theme.spacingUnit}px`};
 `;
 
+const ResultsList = styled.ul`
+  padding: 0;
+`;
+
 const Loading = () => (
   <div
     style={{
@@ -87,9 +91,7 @@ const Loading = () => (
   </div>
 );
 
-const IIIFSearchWithin: FunctionComponent<Props> = ({
-  mainViewerRef,
-}: Props) => {
+const IIIFSearchWithin: FunctionComponent<Props> = ({ mainViewerRef }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -164,7 +166,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
             {searchResults.within.total === 1 ? 'result' : 'results'}
           </ResultsHeader>
         )}
-        <ul className="no-padding">
+        <ResultsList>
           {searchResults.hits.map((hit, i) => {
             // We need the matching resource for each hit to get the canvas it appears on
             const matchingResources = hit.annotations
@@ -223,7 +225,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
               </ListItem>
             );
           })}
-        </ul>
+        </ResultsList>
       </div>
     </>
   );

@@ -30,7 +30,6 @@ import ButtonSolid, {
 import { searchFilterCheckBox } from '../../../text/aria-labels';
 import { dateRegex } from './SearchFiltersDesktop';
 import { filter } from '@weco/common/icons';
-import FocusTrap from 'focus-trap-react';
 import Modal from '../../components/Modal/Modal';
 
 const PaletteColorPicker = dynamic(
@@ -296,21 +295,22 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           )}
         </SolidButton>
       </ShameButtonWrap>
-      <FocusTrap active={isActive}>
-        <Modal
-          id="mobile-filters-modal"
-          isActive={isActive}
-          setIsActive={setIsActive}
-          openButtonRef={openFiltersButtonRef}
-          modalStyle="filters"
-        >
-          <FiltersScrollable>
-            <FiltersHeader>
-              <h2 className="h2">Filters</h2>
-            </FiltersHeader>
+      <Modal
+        id="mobile-filters-modal"
+        isActive={isActive}
+        setIsActive={setIsActive}
+        openButtonRef={openFiltersButtonRef}
+        modalStyle="filters"
+      >
+        <FiltersScrollable>
+          <FiltersHeader>
+            <h2 className="h2">Filters</h2>
+          </FiltersHeader>
 
-            <FiltersBody>
-              {filters.map(f => {
+          <FiltersBody>
+            {filters
+              .filter(f => !f.excludeFromMoreFilters)
+              .map(f => {
                 return (
                   <FilterSection key={f.id}>
                     {f.type === 'checkbox' && (
@@ -339,31 +339,30 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                   </FilterSection>
                 );
               })}
-            </FiltersBody>
-          </FiltersScrollable>
+          </FiltersBody>
+        </FiltersScrollable>
 
-          <FiltersFooter>
-            <NextLink
-              passHref
-              {...worksLink(
-                {
-                  ...(query && { query }),
-                },
-                'cancel_filter/all'
-              )}
-            >
-              <a>Reset filters</a>
-            </NextLink>
+        <FiltersFooter>
+          <NextLink
+            passHref
+            {...worksLink(
+              {
+                ...(query && { query }),
+              },
+              'cancel_filter/all'
+            )}
+          >
+            <a>Reset filters</a>
+          </NextLink>
 
-            <ButtonSolid
-              ref={okFiltersButtonRef}
-              type={ButtonTypes.button}
-              clickHandler={handleOkFiltersButtonClick}
-              text="Show results"
-            />
-          </FiltersFooter>
-        </Modal>
-      </FocusTrap>
+          <ButtonSolid
+            ref={okFiltersButtonRef}
+            type={ButtonTypes.button}
+            clickHandler={handleOkFiltersButtonClick}
+            text="Show results"
+          />
+        </FiltersFooter>
+      </Modal>
     </SearchFiltersContainer>
   );
 };

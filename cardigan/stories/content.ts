@@ -1,7 +1,9 @@
+import { LicenseType } from '@weco/common/model/license';
 import { Article } from '@weco/content/types/articles';
 import { Card } from '@weco/content/types/card';
 import { Event } from '@weco/content/types/events';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
+
 export function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * max) + min;
 }
@@ -131,7 +133,7 @@ export const image = (
       author: 'The author',
       sourceName: 'Wellcome Collection',
       sourceLink: 'https://wellcomecollection.org/works',
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
     },
   };
 };
@@ -152,7 +154,7 @@ export const squareImage = (
       author: 'The author',
       sourceName: 'Wellcome Collection',
       sourceLink: 'https://wellcomecollection.org/works',
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
     },
   };
 };
@@ -169,7 +171,7 @@ export const pictureImages = [
       author: 'Thomas SG Farnetti',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -186,7 +188,7 @@ export const pictureImages = [
       author: 'Thomas SG Farnetti',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -337,7 +339,7 @@ export const event: Event = {
         author: 'Steven Pocock',
         sourceName: 'Wellcome Collection',
         sourceLink: null,
-        license: 'CC-BY-NC',
+        license: 'CC-BY-NC' as LicenseType,
         copyrightHolder: null,
         copyrightLink: null,
       },
@@ -355,7 +357,7 @@ export const event: Event = {
       author: 'Steven Pocock',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -391,7 +393,7 @@ export const event: Event = {
       author: 'Steven Pocock',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -408,7 +410,7 @@ export const event: Event = {
       author: 'Steven Pocock',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
-      license: 'CC-BY-NC',
+      license: 'CC-BY-NC' as LicenseType,
       copyrightHolder: null,
       copyrightLink: null,
     },
@@ -462,7 +464,7 @@ export const event: Event = {
         startDateTime: new Date('2018-10-23T17:00:00.000Z'),
         endDateTime: new Date('2018-10-23T18:30:00.000Z'),
       },
-      isFullyBooked: false,
+      isFullyBooked: { inVenue: false, online: false },
     },
   ],
   displayStart: new Date('2018-10-23T17:00:00.000Z'),
@@ -519,13 +521,20 @@ const sameAs = [
   { link: 'http://things.com', title: 'things.com' },
   { link: 'https://google.com', title: 'This is it!' },
 ];
+
 export function person() {
   return {
-    id: faker.random.uuid(),
-    name: faker.name.findName(),
+    id: faker.datatype.uuid(),
+    name: faker.name.fullName(),
     description: smallText(),
     image: {
       contentUrl: faker.image.avatar(),
+      width: 120,
+      height: 120,
+      alt: 'Avatar',
+      tasl: {
+        title: 'Avatar',
+      },
     },
     sameAs: sameAs,
   };
@@ -533,13 +542,19 @@ export function person() {
 
 export function organisation() {
   return {
-    id: faker.random.uuid(),
-    name: faker.company.companyName(),
+    id: faker.datatype.uuid(),
+    name: faker.company.name(),
     description: smallText(),
     url: 'https://wellcomecollection.org',
     image: {
       contentUrl:
         'https://vignette.wikia.nocookie.net/logopedia/images/4/42/BBC_Worldwide_1995.svg/revision/latest?cb=20180114133014',
+      width: 3200,
+      height: 3200,
+      alt: 'Weewaaz',
+      tasl: {
+        title: 'Weewaaz',
+      },
     },
     sameAs: [],
   };

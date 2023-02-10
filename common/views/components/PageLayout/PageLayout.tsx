@@ -18,12 +18,13 @@ import { wellcomeCollectionGallery } from '../../../data/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
-import ApiToolbar, { ApiToolbarLink } from '../ApiToolbar/ApiToolbar';
+import ApiToolbar, { ApiToolbarLink } from '../ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import cookies from '@weco/common/data/cookies';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 export type SiteSection =
   | 'collections'
@@ -58,7 +59,7 @@ export type Props = {
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
   headerProps?: HeaderProps;
-  apiToolbarLinks?: ApiToolbarLink[];
+  apiToolbarLinks?: (ApiToolbarLink | undefined)[];
   skipToContentLinks?: SkipToContentLink[];
 };
 
@@ -153,7 +154,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   return (
     <>
       <Head>
-        <meta charSet="utf-8" />
         <title>{fullTitle}</title>
         <meta name="description" content={description || ''} />
         <link rel="canonical" href={absoluteUrl} />
@@ -276,7 +276,9 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       </Head>
 
       <div id="root">
-        {apiToolbar && <ApiToolbar extraLinks={apiToolbarLinks} />}
+        {apiToolbar && (
+          <ApiToolbar links={apiToolbarLinks.filter(isNotUndefined)} />
+        )}
         <CookieNotice source={url.pathname || ''} />
 
         {skipToContentLinks.map(({ anchorId, label }) => (

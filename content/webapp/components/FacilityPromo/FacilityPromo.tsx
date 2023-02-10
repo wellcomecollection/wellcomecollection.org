@@ -14,6 +14,20 @@ const ImageWrapper = styled.div.attrs({
   overflow: hidden;
 `;
 
+const Description = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  margin: 0;
+  padding: 0;
+`;
+
+const Meta = styled.div.attrs({
+  className: font('intb', 6),
+})`
+  display: flex;
+  align-items: center;
+`;
+
 const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
   id,
   url,
@@ -22,10 +36,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
   description,
   metaText,
   metaIcon,
-}: FacilityPromoType) => {
-  const uiImageProps = {
-    ...image,
-  };
+}) => {
   return (
     <CardOuter
       data-component="FacilityPromo"
@@ -42,7 +53,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
       <div>
         <ImageWrapper>
           <PrismicImage
-            image={uiImageProps}
+            image={image}
             sizes={{
               xlarge: 1 / 4,
               large: 1 / 3,
@@ -56,13 +67,11 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
         <CardBody>
           <div>
             <h2 className={`promo-link__title ${font('wb', 4)}`}>{title}</h2>
-            <p className={`${font('intr', 5)} no-margin no-padding`}>
-              {description}
-            </p>
+            <Description>{description}</Description>
 
             {metaText && (
               <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                <div className={`${font('intb', 6)} flex flex--v-center`}>
+                <Meta>
                   {metaIcon && (
                     <Space
                       as="span"
@@ -72,7 +81,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
                     </Space>
                   )}
                   <span>{metaText}</span>
-                </div>
+                </Meta>
               </Space>
             )}
           </div>

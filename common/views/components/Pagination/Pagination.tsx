@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { font } from '@weco/common/utils/classnames';
+import { formatNumber } from '@weco/common/utils/grammar';
 
 export type Props = {
   totalPages: number;
@@ -75,11 +76,28 @@ export const Pagination: FunctionComponent<Props> = ({
   isHiddenMobile,
   isLoading,
 }) => {
-  const { pathname, query } = useRouter();
-  const [currentPage, setCurrentPage] = useState(Number(query.page) || 1);
+  const router = useRouter();
+  const { query, pathname } = router;
+
+  const pageNumber = query.page ? Number(query.page) : 1;
+  const [currentPage, setCurrentPage] = useState(pageNumber);
 
   useEffect(() => {
-    setCurrentPage(Number(query.page) || 1);
+    // Only push changes if the page number is a different one than on currently
+    if (currentPage !== pageNumber) {
+      setCurrentPage(pageNumber);
+
+      // Remove page from query if it's the first page
+      // Using router.replace won't add this URL change to the browser history
+      if (pageNumber === 1) {
+        const { page, ...rest } = query;
+        router.replace(
+          { pathname: router.pathname, query: { ...rest } },
+          undefined,
+          { shallow: true }
+        );
+      }
+    }
   }, [query.page]);
 
   const showPrev = currentPage > 1;
@@ -106,7 +124,7 @@ export const Pagination: FunctionComponent<Props> = ({
       )}
 
       <span>
-        Page <strong>{currentPage}</strong> of {totalPages}
+        Page <strong>{currentPage}</strong> of {formatNumber(totalPages)}
       </span>
 
       {showNext && (

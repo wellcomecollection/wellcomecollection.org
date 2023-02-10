@@ -1,7 +1,6 @@
 import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import Dot from '@weco/common/views/components/Dot/Dot';
 import { FunctionComponent } from 'react';
+import TextWithDot from '@weco/common/views/components/TextWithDot';
 import {
   addDays,
   isFuture,
@@ -51,16 +50,7 @@ const StatusIndicator: FunctionComponent<Props> = ({
     : formatDateRangeWithMessage({ start, end });
 
   return (
-    <span className={`flex flex--v-center ${font('intr', 5)}`}>
-      <Space
-        as="span"
-        h={{ size: 'xs', properties: ['margin-right'] }}
-        className="flex flex--v-center"
-      >
-        <Dot dotColor={color} />
-      </Space>
-      <span>{text}</span>
-    </span>
+    <TextWithDot className={font('intr', 5)} dotColor={color} text={text} />
   );
 };
 

@@ -16,22 +16,6 @@ import {
   gridView,
   singlePage,
 } from '@weco/common/icons';
-import { useToggles } from '@weco/common/server-data/Context';
-import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-
-export const WorkLinkAnchor = styled.a`
-  line-height: 1;
-  padding: 8px 12px;
-  background: transparent;
-  color: ${props => props.theme.color('white')};
-  border: 2px solid ${props => props.theme.color('white')};
-  text-decoration: none;
-  cursor: pointer;
-  &:hover,
-  &:focus {
-    text-decoration: underline;
-  }
-`;
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -147,18 +131,17 @@ const TopBar = styled.div<{
 
 const Sidebar = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})<{ isZooming: boolean; itemWorkLink: boolean }>`
+  h: { size: 's', properties: ['padding-left', 'padding-right'] },
+})<{ isZooming: boolean }>`
   grid-column-start: left-edge;
   grid-column-end: desktop-sidebar-end;
   display: flex;
-  justify-content: ${props =>
-    props.itemWorkLink ? 'space-between' : 'flex-start'};
+  justify-content: flex-start;
   align-items: center;
 
   ${props =>
     props.theme.media('medium')(`
-    justify-content: ${props.itemWorkLink ? 'space-between' : 'flex-end'};
+    justify-content: flex-end;
   `)}
 
   ${props =>
@@ -222,49 +205,38 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     isResizing,
     transformedManifest,
   } = useContext(ItemViewerContext);
-  const { itemWorkLink } = useToggles();
   const { canvases } = transformedManifest;
   return (
     <TopBar
       isZooming={showZoomed}
       isDesktopSidebarActive={isDesktopSidebarActive}
     >
-      <Sidebar isZooming={showZoomed} itemWorkLink={itemWorkLink}>
-        {itemWorkLink && (
-          <div className="viewer-desktop">
-            <WorkLink id={work.id} source="button_back_link" passHref>
-              <WorkLinkAnchor className={font('intr', 5)}>
-                More about this item
-              </WorkLinkAnchor>
-            </WorkLink>
-          </div>
-        )}
+      <Sidebar isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            {!itemWorkLink && (
-              <ShameButton
-                data-test-id="toggle-info-desktop"
-                className="viewer-desktop"
-                isDark
-                onClick={() => {
-                  setIsDesktopSidebarActive(!isDesktopSidebarActive);
-                  trackGaEvent({
-                    category: 'Control',
-                    action: 'Toggle item viewer sidebar',
-                    label: `${work.id}`,
-                  });
-                }}
-              >
-                <Icon
-                  icon={chevrons}
-                  iconColor="white"
-                  rotate={isDesktopSidebarActive ? undefined : 180}
-                />
-                <span className="visually-hidden">
-                  {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
-                </span>
-              </ShameButton>
-            )}
+            <ShameButton
+              data-test-id="toggle-info-desktop"
+              className="viewer-desktop"
+              isDark
+              onClick={() => {
+                setIsDesktopSidebarActive(!isDesktopSidebarActive);
+                trackGaEvent({
+                  category: 'Control',
+                  action: 'Toggle item viewer sidebar',
+                  label: `${work.id}`,
+                });
+              }}
+            >
+              <Icon
+                icon={chevrons}
+                iconColor="white"
+                rotate={isDesktopSidebarActive ? undefined : 180}
+              />
+              <span className="visually-hidden">
+                {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
+              </span>
+            </ShameButton>
+
             <ShameButton
               data-test-id="toggle-info-mobile"
               className="viewer-mobile"

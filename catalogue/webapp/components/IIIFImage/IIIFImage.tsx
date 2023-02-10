@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
 import {
-  iiifImageTemplate,
   convertImageUri,
+  convertIiifImageUri,
 } from '@weco/common/utils/convert-image-uri';
 import {
   convertBreakpointSizesToSizes,
@@ -21,6 +21,10 @@ const StyledImage = styled(Image)<{ background: string }>`
 const StyledImageContainer = styled.div<{
   background: string;
 }>`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:after {
     content: '';
     position: absolute;
@@ -33,6 +37,7 @@ const StyledImageContainer = styled.div<{
     z-index: -1;
   }
 `;
+
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
   return convertImageUri(src, width);
 };
@@ -68,20 +73,23 @@ const IIIFImage: FunctionComponent<Props> = ({
   // We may be able to use this in future but, until then, render our own img element.
   if (layout === 'raw') {
     return (
-      <img
-        src={iiifImageTemplate(image.contentUrl)({
-          size: `${width},`,
-        })}
-        srcSet={''}
-        sizes={sizesString}
-        alt={image.alt || ''}
-      />
+      <StyledImageContainer background={background}>
+        <img
+          src={convertIiifImageUri(image.contentUrl, width)}
+          srcSet={''}
+          sizes={sizesString}
+          alt={image.alt || ''}
+        />
+      </StyledImageContainer>
     );
   }
 
   if (layout === 'fixed') {
     return (
-      <StyledImageContainer background={background}>
+      <StyledImageContainer
+        background={background}
+        style={{ height: image.height }} // to not have styledComponents generate too many classes
+      >
         <StyledImage
           layout={layout}
           sizes={sizesString}

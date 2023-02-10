@@ -22,7 +22,6 @@ import useMaintainPageHeight from '../../services/app/useMaintainPageHeight';
 import {
   GaDimensions,
   useGoogleAnalyticsUA,
-  useGoogleAnalyticsV4,
 } from '../../services/app/google-analytics';
 import { useOnPageLoad } from '../../services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
@@ -90,7 +89,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     document.documentElement.classList.add('enhanced');
   }, []);
 
-  useGoogleAnalyticsV4();
   useGoogleAnalyticsUA({
     toggles: serverData.toggles,
     gaDimensions: pageProps.gaDimensions,

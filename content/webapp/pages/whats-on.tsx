@@ -1,17 +1,17 @@
 import { FunctionComponent } from 'react';
 import NextLink from 'next/link';
-import { ExhibitionBasic } from '../types/exhibitions';
-import { EventBasic } from '../types/events';
-import { Period } from '../types/periods';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { EventBasic } from '@weco/content/types/events';
+import { Period } from '@weco/content/types/periods';
 import { font, grid, cssGrid } from '@weco/common/utils/classnames';
 import {
   getPageFeaturedText,
   transformPage,
-} from '../services/prismic/transformers/pages';
+} from '@weco/content/services/prismic/transformers/pages';
 import {
   filterEventsForToday,
   filterEventsForWeekend,
-} from '../services/prismic/events';
+} from '@weco/content/services/prismic/events';
 import { formatDayName, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
 import {
@@ -21,12 +21,12 @@ import {
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import EventsByMonth from '../components/EventsByMonth/EventsByMonth';
+import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import FacilityPromo from '../components/FacilityPromo/FacilityPromo';
+import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
@@ -38,9 +38,9 @@ import {
   collectionVenueId,
   prismicPageIds,
 } from '@weco/common/data/hardcoded-ids';
-import FeaturedText from '../components/FeaturedText/FeaturedText';
-import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
-import { FeaturedText as FeaturedTextType } from '../types/text';
+import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
+import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
+import { FeaturedText as FeaturedTextType } from '@weco/content/types/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { GetServerSideProps } from 'next';
@@ -51,21 +51,21 @@ import { usePrismicData } from '@weco/common/server-data/Context';
 import {
   exhibitionLd,
   eventLd,
-} from '../services/prismic/transformers/json-ld';
-import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
-import CardGrid from '../components/CardGrid/CardGrid';
-import { FeaturedCardExhibition } from '../components/FeaturedCard/FeaturedCard';
-import { fetchPage } from '../services/prismic/fetch/pages';
-import { createClient } from '../services/prismic/fetch';
-import { fetchEvents } from '../services/prismic/fetch/events';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
+} from '@weco/content/services/prismic/transformers/json-ld';
+import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import { FeaturedCardExhibition } from '@weco/content/components/FeaturedCard/FeaturedCard';
+import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformEvent,
   transformEventBasic,
-} from '../services/prismic/transformers/events';
+} from '@weco/content/services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
 import {
   endOfDay,
   getNextWeekendDateRange,
@@ -75,8 +75,9 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import {
   enrichTryTheseTooPromos,
   getTryTheseTooPromos,
-} from '../services/prismic/transformers/whats-on';
-import { FacilityPromo as FacilityPromoType } from '../types/facility-promo';
+} from '@weco/content/services/prismic/transformers/whats-on';
+import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 const segmentedControlItems = [
   {
@@ -413,13 +414,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       openGraphType="website"
       siteSection="whats-on"
       image={firstExhibition && firstExhibition.promo?.image}
-      apiToolbarLinks={[
-        {
-          id: 'prismic',
-          label: 'Prismic',
-          link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${prismicPageIds.whatsOn}/`,
-        },
-      ]}
+      apiToolbarLinks={[createPrismicLink(prismicPageIds.whatsOn)]}
     >
       <>
         <Header

@@ -6,9 +6,11 @@ import React, {
 } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { GetServerSideProps, NextPage } from 'next';
-import auth0, { withPageAuthRequiredSSR } from '../src/utility/auth0';
-import { ChangeDetailsModal } from '../src/frontend/MyAccount/ChangeDetailsModal';
-import { PageWrapper } from '../src/frontend/components/PageWrapper';
+import auth0, {
+  withPageAuthRequiredSSR,
+} from '@weco/identity/src/utility/auth0';
+import { ChangeDetailsModal } from '@weco/identity/src/frontend/MyAccount/ChangeDetailsModal';
+import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
 import {
   Wrapper,
   Container,

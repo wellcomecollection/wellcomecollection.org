@@ -24,4 +24,4 @@ _B:_ People visiting articles with an outro, when it is turned on
 | Exit rate | 84.51%      | 83.87%      |
 
 
-[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/common/views/components/Outro/README.md)
+[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/content/webapp/components/Outro/README.md)

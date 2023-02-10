@@ -27,7 +27,7 @@ const SearchBarContainer = styled(Space)`
 
 type PageLayoutMetadata = {
   openGraphType: 'website';
-  siteSection: 'collections';
+  siteSection: null;
   jsonLd: { '@type': 'WebPage' };
   hideNewsletterPromo: true;
   excludeRoleMain: true;
@@ -53,7 +53,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
   const basePageMetadata: PageLayoutMetadata = {
     openGraphType: 'website',
-    siteSection: 'collections',
+    siteSection: null,
     jsonLd: { '@type': 'WebPage' },
     hideNewsletterPromo: true,
     excludeRoleMain: true,
@@ -213,26 +213,26 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
             updateUrl(event.currentTarget);
             return false;
           }}
-        />
-        <h1 className="visually-hidden">
-          {`${capitalize(currentSearchCategory)} search page`}
-        </h1>
-
-        <SearchBarContainer
-          v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
         >
-          <SearchBar
-            placeholder={searchbarPlaceholderText[currentSearchCategory]}
-          />
-        </SearchBarContainer>
+          <h1 className="visually-hidden">
+            {`${capitalize(currentSearchCategory)} search page`}
+          </h1>
 
+          <SearchBarContainer
+            v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+          >
+            <SearchBar
+              placeholder={searchbarPlaceholderText[currentSearchCategory]}
+            />
+          </SearchBarContainer>
+        </form>
         <SubNavigation
           label="Search Categories"
           items={[
             {
               id: 'overview',
               url: getURL('/search'),
-              name: 'Overview',
+              name: 'All',
             },
             {
               id: 'stories',

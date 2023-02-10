@@ -1,4 +1,6 @@
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
+import Readme from '@weco/common/views/components/BackToResults/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const nextLink = {
   href: {
@@ -17,7 +19,13 @@ const nextLink = {
   },
 };
 
-const Template = args => <BackToResults {...args} />;
+const Template = args => (
+  <ReadmeDecorator
+    WrappedComponent={BackToResults}
+    args={args}
+    Readme={Readme}
+  />
+);
 export const basic = Template.bind({});
 basic.args = {
   nextLink,

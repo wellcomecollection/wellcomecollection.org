@@ -55,7 +55,7 @@ function pageVanityUrl(
     router.redirect(regularPage, url, permanentRedirect);
   }
 
-  route(url, template, router, app, { id: pageId });
+  route(url, template, router, app, { pageId });
 }
 
 // A Prismic ID is an alphanumeric string, plus underscore and hyphen
@@ -95,65 +95,43 @@ const appPromise = nextApp
     koaApp.use(bodyParser());
 
     pageVanityUrl(router, nextApp, '/', homepageId, '/homepage');
-    route('/whats-on', '/whats-on', router, nextApp);
+
     route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, nextApp);
 
     // We define the vanity URLs as soon as possible, so they can intercept
     // any routes defined further down, e.g. /pages/:id
-    vanityUrls.forEach(({ url, prismicId, template = '/page' }) =>
+    vanityUrls.forEach(({ url, prismicId, template = '/pages/[pageId]' }) =>
       pageVanityUrl(router, nextApp, url, prismicId, template)
     );
 
-    route('/exhibitions', '/exhibitions', router, nextApp);
     route(
       `/exhibitions/:period(${periodPaths})`,
       '/exhibitions',
       router,
       nextApp
     );
-    route('/exhibitions/:id', '/exhibition', router, nextApp);
 
-    route('/events', '/events', router, nextApp);
     route(`/events/:period(${periodPaths})`, '/events', router, nextApp);
-    route(`/events/:id(${prismicId})`, '/event', router, nextApp);
-    route(`/event-series/:id(${prismicId})`, '/event-series', router, nextApp);
 
-    route(`/stories/:contentType`, '/article-series-many', router, nextApp);
-
-    route('/articles', '/articles', router, nextApp);
-    route(`/articles/:id(${prismicId})`, '/article', router, nextApp);
-    route(`/series/:id(${prismicId})`, '/article-series', router, nextApp);
-    route(`/projects/:id(${prismicId})`, '/page', router, nextApp);
-
-    route('/books', '/books', router, nextApp);
-    route(`/books/:id(${prismicId})`, '/book', router, nextApp);
-
-    route(`/places/:id(${prismicId})`, '/place', router, nextApp);
-    route(`/seasons/:id(${prismicId})`, '/season', router, nextApp);
-
-    route('/newsletter', '/newsletter', router, nextApp);
-
-    route('/guides', '/guides', router, nextApp);
-    route('/guides/exhibitions', '/guides/exhibitions', router, nextApp);
-    route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
-
-    route('/stories', '/stories', router, nextApp);
+    route(
+      `/projects/:pageId(${prismicId})`,
+      '/pages/[pageId]',
+      router,
+      nextApp
+    );
+    route(`/guides/:pageId(${prismicId})`, '/pages/[pageId]', router, nextApp);
 
     router.redirect(
       `/pages/${prismicPageIds.collections}`,
       '/collections',
       permanentRedirect
     );
-    route('/collections', '/collections', router, nextApp);
 
     router.redirect(
       `/pages/${prismicPageIds.visitUs}`,
       '/visit-us',
       permanentRedirect
     );
-    route('/visit-us', '/visit-us', router, nextApp);
-
-    route(`/pages/:id(${prismicId})`, '/page', router, nextApp);
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 

@@ -2,7 +2,6 @@ import { FunctionComponent, useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { Toggles } from '@weco/toggles';
 
-export const GOOGLE_ANALYTICS_V4_ID = 'G-206J7SLYFC';
 export const GOOGLE_ANALYTICS_UA_ID = 'UA-55614-6';
 
 const gaCookieFlags = 'SameSite=None;secure';
@@ -17,12 +16,29 @@ const gaDimensionKeys = {
 
 // Don't use the next/script `Script` component for these as in
 // Next.js v11 it does not work when inside a `Head` component
-export const GoogleAnalyticsV4: FunctionComponent = () => (
+
+export const GoogleTagManager: FunctionComponent = () => (
   <script
-    id="google-analytics-v4"
-    src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_V4_ID}`}
-    async={true}
+    dangerouslySetInnerHTML={{
+      __html: `
+          (function(w,d,s,l,i){w[l] = w[l] || [];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-53DFWQD');`,
+    }}
   />
+);
+
+export const GoogleTagManagerNoScript: FunctionComponent = () => (
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-53DFWQD"
+      height="0"
+      width="0"
+      style={{ display: 'none', visibility: 'hidden' }}
+    ></iframe>
+  </noscript>
 );
 
 export const GoogleAnalyticsUA: FunctionComponent = () => (
@@ -32,23 +48,11 @@ export const GoogleAnalyticsUA: FunctionComponent = () => (
       // we don't initialize analytics here, as that is done by ReactGA
       // See `useGoogleAnalyticsUA`
       __html: `
-          window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());`,
     }}
   />
 );
-
-export const useGoogleAnalyticsV4 = (): void =>
-  useEffect(() => {
-    if (window?.gtag) {
-      const path = window.location.pathname + window.location.search;
-      window.gtag('config', GOOGLE_ANALYTICS_V4_ID, {
-        page_path: path,
-        cookie_flags: gaCookieFlags,
-      });
-    }
-  }, []);
 
 export const useGoogleAnalyticsUA = ({
   toggles,

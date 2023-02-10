@@ -18,15 +18,9 @@ type Props = {
   background?: string;
 };
 
-const StyledLink = styled.a<{
-  width: number;
-  height: number;
-}>`
+const StyledLink = styled.a`
   position: relative;
   display: block;
-
-  width: ${props => props.width}px;
-  height: ${props => props.height}px;
 `;
 
 const ImageCard: FunctionComponent<Props> = ({
@@ -42,6 +36,7 @@ const ImageCard: FunctionComponent<Props> = ({
   return (
     <NextLink {...imageLink({ id, workId }, 'images_search_result')} passHref>
       <StyledLink
+        style={{ width: image.width }} // this is here to prevent the generation of multiple styles
         onClick={event => {
           trackGaEvent({
             category: 'ImageCard',
@@ -52,10 +47,18 @@ const ImageCard: FunctionComponent<Props> = ({
         }}
         id={id}
         title={isEnhanced ? 'Open modal window' : undefined}
-        width={image.width}
-        height={image.height}
       >
-        <IIIFImage image={image} layout={layout} background={background} />
+        <IIIFImage
+          image={{
+            contentUrl: image.contentUrl,
+            width: image.width,
+            height: image.height,
+            alt: image.alt,
+          }}
+          width={300}
+          layout={layout}
+          background={background}
+        />
       </StyledLink>
     </NextLink>
   );

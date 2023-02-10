@@ -170,8 +170,8 @@ export const WorkRoute: NextRoute<WorkRouteProps> = {
     const { id } = params;
     return {
       href: {
-        pathname: '/work',
-        query: { id },
+        pathname: '/works/[workId]',
+        query: { workId: id },
       },
       as: {
         pathname: `/works/${id}`,
@@ -225,7 +225,7 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
     const { workId } = params;
     return {
       href: {
-        pathname: '/item',
+        pathname: '/works/[workId]/items',
         query: ItemRoute.toQuery(params),
       },
       as: {
@@ -258,7 +258,7 @@ export const ImageRoute: NextRoute<ImageRouteProps> = {
     const { workId } = params;
     return {
       href: {
-        pathname: '/image',
+        pathname: '/works/[workId]/images',
         query: ImageRoute.toQuery(params),
       },
       as: {

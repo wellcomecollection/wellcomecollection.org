@@ -83,7 +83,7 @@ data "terraform_remote_state" "platform_account" {
 }
 
 output "s3_edge_lambda_origin_version_id" {
-  value = data.aws_s3_bucket_object.edge_lambda_origin.version_id
+  value = data.aws_s3_object.edge_lambda_origin.version_id
 }
 
 output "latest_edge_lambda_origin_request_version" {

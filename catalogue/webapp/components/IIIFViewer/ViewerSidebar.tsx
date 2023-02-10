@@ -26,8 +26,6 @@ import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
-import { WorkLinkAnchor } from './ViewerTopBar';
-import { useToggles } from '@weco/common/server-data/Context';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -79,6 +77,12 @@ const Item = styled.div`
   }
 `;
 
+const AccordionButton = styled.button.attrs({
+  className: 'plain-button no-margin',
+})`
+  padding: 0;
+`;
+
 const AccordionItem = ({
   title,
   children,
@@ -92,8 +96,7 @@ const AccordionItem = ({
   return (
     <Item data-test-id={testId}>
       <AccordionInner onClick={() => setIsActive(!isActive)}>
-        <button
-          className="plain-button no-margin no-padding"
+        <AccordionButton
           aria-expanded={isActive ? 'true' : 'false'}
           aria-controls={toHtmlId(title)}
         >
@@ -105,7 +108,7 @@ const AccordionItem = ({
               rotate={isActive ? undefined : 270}
             />
           </span>
-        </button>
+        </AccordionButton>
       </AccordionInner>
       <AccordionInner
         id={toHtmlId(title)}
@@ -123,7 +126,6 @@ type Props = {
 };
 
 const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
-  const { itemWorkLink } = useToggles();
   const { work, transformedManifest, parentManifest, currentManifestLabel } =
     useContext(ItemViewerContext);
   const { iiifCredit, structures, searchService } = transformedManifest;
@@ -146,20 +148,6 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
   return (
     <>
       <Inner className={font('intb', 5)}>
-        {itemWorkLink && (
-          <div className="viewer-mobile">
-            <Space
-              v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <WorkLink id={work.id} source="button_back_link" passHref>
-                <WorkLinkAnchor className={font('intr', 5)}>
-                  More about this item
-                </WorkLinkAnchor>
-              </WorkLink>
-            </Space>
-          </div>
-        )}
-
         {currentManifestLabel && (
           <span data-test-id="current-manifest" className={font('intr', 5)}>
             {currentManifestLabel}
@@ -193,21 +181,19 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </div>
         )}
 
-        {!itemWorkLink && (
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
-            <WorkLink id={work.id} source="viewer_back_link">
-              <a className={`${font('intr', 5)} flex flex--v-center`}>
-                Catalogue details
-                <Space
-                  h={{ size: 's', properties: ['margin-left'] }}
-                  className="flex flex--v-center"
-                >
-                  <Icon icon={arrow} matchText={true} iconColor="white" />
-                </Space>
-              </a>
-            </WorkLink>
-          </Space>
-        )}
+        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <WorkLink id={work.id} source="viewer_back_link">
+            <a className={`${font('intr', 5)} flex flex--v-center`}>
+              Catalogue details
+              <Space
+                h={{ size: 's', properties: ['margin-left'] }}
+                className="flex flex--v-center"
+              >
+                <Icon icon={arrow} matchText={true} iconColor="white" />
+              </Space>
+            </a>
+          </WorkLink>
+        </Space>
       </Inner>
       <Inner>
         <AccordionItem title="Licence and credit" testId="license-and-credit">

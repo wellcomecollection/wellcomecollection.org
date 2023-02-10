@@ -1,6 +1,6 @@
 import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { image as contentImage } from '../../content';
+import { image as contentImage } from '@weco/cardigan/stories/content';
 
 const Template = args => <WobblyBottom {...args} />;
 export const image = Template.bind({});

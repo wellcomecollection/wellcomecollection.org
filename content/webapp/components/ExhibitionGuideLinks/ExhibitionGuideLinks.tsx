@@ -48,6 +48,7 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
           title="Listen to audio"
           text="Find out more about the exhibition with short audio tracks."
           backgroundColor="accent.lightSalmon"
+          icon={audioDescribed}
           onClick={() => {
             cookieHandler(
               cookies.exhibitionGuideType,

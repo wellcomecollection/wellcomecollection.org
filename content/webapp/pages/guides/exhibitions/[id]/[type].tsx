@@ -2,19 +2,19 @@ import {
   ExhibitionGuide,
   ExhibitionGuideType,
   isValidType,
-} from '../../../../types/exhibition-guides';
+} from '@weco/content/types/exhibition-guides';
 import { deleteCookie, getCookie } from 'cookies-next';
 import { FC } from 'react';
-import { createClient } from '../../../../services/prismic/fetch';
-import { fetchExhibitionGuide } from '../../../../services/prismic/fetch/exhibition-guides';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchExhibitionGuide } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import {
   filterExhibitionGuideComponents,
   transformExhibitionGuide,
-} from '../../../../services/prismic/transformers/exhibition-guides';
+} from '@weco/content/services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { exhibitionGuideLd } from '../../../../services/prismic/transformers/json-ld';
+import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -29,9 +29,10 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import cookies from '@weco/common/data/cookies';
-import ExhibitionGuideStops from '../../../../components/ExhibitionGuideStops/ExhibitionGuideStops';
-import { getTypeColor } from '../../../../components/ExhibitionCaptions/ExhibitionCaptions';
+import ExhibitionGuideStops from '@weco/content/components/ExhibitionGuideStops/ExhibitionGuideStops';
+import { getTypeColor } from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
 import useHotjar from '@weco/common/hooks/useHotjar';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
 const ButtonWrapper = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
@@ -98,6 +99,24 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
      *    - We only redirect users who've scanned a QR code in the gallery
      *    - We only redirect users who've expressed an explicit preference for
      *      a non-default guide type
+     *
+     * == Historical note ==
+     *
+     * The original implementation of this was more aggressive: in particular,
+     * it would redirect a user who landed on a guide page, even if they didn't
+     * come from scanning a QR code.
+     *
+     * We changed it after discovering it broke the "Back" button:
+     *
+     *    1.  A user goes to an exhibition guide overview page `/guides/exhibitions/[id]`
+     *    2.  They click to select a particular guide, say `/guides/exhibitions/[id]/audio`.
+     *        This sets a preference cookie telling us the user wants audio guides.
+     *    3.  They click the "Back" button in their browser because they want to see the
+     *        page they were just looking at. This takes them to `/guides/exhibitions/[id]`
+     *        … where we redirect them back to the guide they were just looking at.
+     *
+     * We only create QR codes that link to the audio guides, not the overview page, so
+     * this prevents somebody getting stuck in this sort of redirect loop.
      *
      */
     if (
@@ -181,6 +200,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
       }}
       hideNewsletterPromo={true}
       hideFooter={true}
+      apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       skipToContentLinks={skipToContentLinks}
     >
       <Header backgroundColor={typeColor}>

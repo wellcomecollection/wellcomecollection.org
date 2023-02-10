@@ -35,6 +35,7 @@ import {
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
 import { Page } from 'playwright';
+import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
 const domain = new URL(baseUrl).host;
 
@@ -59,6 +60,7 @@ test.describe.configure({ mode: 'parallel' });
 test.describe('Scenario 1: A user wants a large-scale view of an item', () => {
   test('the images are scalable', async ({ page, context }) => {
     await multiVolumeItem(context, page);
+
     if (!isMobile(page)) {
       // TODO work out why this is causing issues on mobile
       await page.click(fullscreenButton);
@@ -311,11 +313,25 @@ test.describe(
     test('the main viewer can be scrolled', async ({ page, context }) => {
       await itemWithSearchAndStructures(context, page);
       await scrollToBottom(mainViewer, page);
-      if (!isMobile(page)) {
-        await page.waitForSelector(
-          `css=[data-test-id=active-index] >> text="68"`
-        );
-      }
+
+      // In this test, we're loading an item with 68 pages, scrolling to the
+      // bottom, then looking for the "68/68" text on the page.
+      //
+      // This text is hidden whenever the window is being scrolled, zoomed,
+      // or resized, because that might affect what the "current" page is.
+      //
+      // We've had issues with this test being flaky, because we don't wait
+      // long enough after we finish scrolling to look for this "68/68" --
+      // tossing in this wait seems to fix that.
+      await safeWaitForNavigation(page);
+
+      await page.waitForSelector(
+        `css=[data-test-id=active-index] >> text="68"`,
+
+        // The "68/68" label isn't visible on small screens, but the element
+        // will still be on the page.
+        { state: isMobile(page) ? 'attached' : 'visible' }
+      );
     });
   }
 );

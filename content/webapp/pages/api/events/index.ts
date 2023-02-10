@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isJson, isString } from '@weco/common/utils/array';
-import { createClient } from '../../../services/prismic/fetch';
-import { fetchEvents } from '../../../services/prismic/fetch/events';
-import { transformEvent } from '../../../services/prismic/transformers/events';
-import { transformQuery } from '../../../services/prismic/transformers/paginated-results';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
+import { transformEventBasic } from '@weco/content/services/prismic/transformers/events';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import superjson from 'superjson';
 
 type NotFound = { notFound: true };
@@ -25,7 +25,7 @@ export default async (
   const query = await fetchEvents(client, parsedParams);
 
   if (query) {
-    const events = transformQuery(query, transformEvent);
+    const events = transformQuery(query, transformEventBasic);
     return res.status(200).json(superjson.stringify(events));
   }
 };

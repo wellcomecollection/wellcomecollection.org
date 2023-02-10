@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import Readme from '@weco/common/views/components/Divider/README.md';
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Container = styled.div<{ backgroundColor: 'white' | 'black' }>`
   padding: 2rem 0;
@@ -17,7 +19,11 @@ const Template = args => {
   return (
     <Container backgroundColor={backgroundColor}>
       <Wrapper>
-        <Divider {...rest} />
+        <ReadmeDecorator
+          WrappedComponent={Divider}
+          args={rest}
+          Readme={Readme}
+        />
       </Wrapper>
     </Container>
   );

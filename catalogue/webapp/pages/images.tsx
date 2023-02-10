@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState, ReactElement, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 
@@ -31,15 +31,12 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 
 type Props = {
-  images?: CatalogueResultsList<Image>;
+  images: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
   pageview: Pageview;
 };
 
-const Images: NextPage<Props> = ({
-  images,
-  imagesRouteProps,
-}): ReactElement<Props> => {
+const Images: NextPage<Props> = ({ images, imagesRouteProps }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { query, page, color } = imagesRouteProps;
   useEffect(() => {
@@ -58,9 +55,7 @@ const Images: NextPage<Props> = ({
     };
   }, []);
 
-  const filters = images
-    ? imagesFilters({ images, props: imagesRouteProps })
-    : [];
+  const filters = imagesFilters({ images, props: imagesRouteProps });
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -71,7 +66,7 @@ const Images: NextPage<Props> = ({
   return (
     <>
       <Head>
-        {images?.prevPage && (
+        {images.prevPage && (
           <link
             rel="prev"
             href={convertUrlToString(
@@ -80,7 +75,7 @@ const Images: NextPage<Props> = ({
             )}
           />
         )}
-        {images?.nextPage && (
+        {images.nextPage && (
           <link
             rel="next"
             href={convertUrlToString(
@@ -99,17 +94,13 @@ const Images: NextPage<Props> = ({
         jsonLd={{ '@type': 'WebPage' }}
         siteSection="collections"
         image={undefined}
-        apiToolbarLinks={
-          images
-            ? [
-                {
-                  id: 'catalogue-api-query',
-                  label: 'Catalogue API query',
-                  link: images._requestUrl,
-                },
-              ]
-            : []
-        }
+        apiToolbarLinks={[
+          {
+            id: 'catalogue-api-query',
+            label: 'Catalogue API query',
+            link: images._requestUrl,
+          },
+        ]}
       >
         <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
           <div className="container">
@@ -135,7 +126,7 @@ const Images: NextPage<Props> = ({
           </div>
         </Space>
 
-        {images?.results && images.results.length > 0 && (
+        {images.results.length > 0 ? (
           <>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
@@ -171,9 +162,7 @@ const Images: NextPage<Props> = ({
               </Space>
             </Space>
           </>
-        )}
-
-        {images?.results.length === 0 && (
+        ) : (
           <SearchNoResults query={query} hasFilters={!!color} />
         )}
       </CataloguePageLayout>
@@ -210,8 +199,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       pageSize: 30,
     });
 
-    if (images && images.type === 'Error') {
-      return appError(context, images.httpStatus, 'Images API error');
+    if (images.type === 'Error') {
+      return appError(
+        context,
+        images.httpStatus,
+        images.description || images.label || 'Images API error'
+      );
     }
 
     return {
@@ -221,11 +214,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         imagesRouteProps: params,
         pageview: {
           name: 'images',
-          properties: images
-            ? {
-                totalResults: images.totalResults,
-              }
-            : {},
+          properties: images ? { totalResults: images.totalResults } : {},
         },
       }),
     };

@@ -32,6 +32,19 @@ export function dasherizeShorten(words: string): string {
     .replace(/\W/g, '-');
 }
 
+/** Formats a number with commas for readability, e.g.
+ *
+ *            1 =>         1
+ *           10 =>        10
+ *         1942 =>     1,942
+ *      1234567 => 1,234,567
+ */
+export function formatNumber(n: number): string {
+  const format = new Intl.NumberFormat('en-GB');
+
+  return format.format(n);
+}
+
 /** Formats a string to describe a list of results, e.g.
  *
  *      1 work
@@ -40,9 +53,7 @@ export function dasherizeShorten(words: string): string {
  *
  */
 export function pluralize(count: number, noun: string, suffix = 's'): string {
-  const format = new Intl.NumberFormat('en-GB');
-
-  return `${format.format(count)} ${noun}${count !== 1 ? suffix : ''}`;
+  return `${formatNumber(count)} ${noun}${count !== 1 ? suffix : ''}`;
 }
 
 export function unCamelCase(words: string): string {

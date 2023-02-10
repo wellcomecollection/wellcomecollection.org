@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import Dot from '@weco/common/views/components/Dot/Dot';
+import TextWithDot from '@weco/common/views/components/TextWithDot';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { EventBasic } from '../../types/events';
 import { upcomingDatesFullyBooked } from '../../services/prismic/events';
@@ -22,6 +22,7 @@ import { PlaceBasic } from '../../types/places';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import styled from 'styled-components';
 
 type Props = {
   event: EventBasic;
@@ -57,6 +58,13 @@ export function getLocationText(
     isNotUndefined(places) && places.length > 0 ? ` | ${inOurBuilding}` : ''
   }`;
 }
+
+const DateInfo = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  padding: 0;
+  margin: 0;
+`;
 
 const EventPromo: FunctionComponent<Props> = ({
   event,
@@ -137,41 +145,26 @@ const EventPromo: FunctionComponent<Props> = ({
 
           {!isPast && (
             <>
-              <p className={`${font('intr', 5)} no-padding no-margin`}>
+              <DateInfo>
                 <EventDateRange
                   event={event}
                   splitTime={true}
                   fromDate={fromDate}
                 />
-              </p>
+              </DateInfo>
 
-              {dateString && (
-                <p className={`${font('intr', 5)} no-padding no-margin`}>
-                  {dateString}
-                </p>
-              )}
-
-              {timeString && (
-                <p className={`${font('intr', 5)} no-padding no-margin`}>
-                  {timeString}
-                </p>
-              )}
+              {dateString && <DateInfo>{dateString}</DateInfo>}
+              {timeString && <DateInfo>{timeString}</DateInfo>}
             </>
           )}
 
           {upcomingDatesFullyBooked(event) && (
-            <Space
-              v={{ size: 'm', properties: ['margin-top'] }}
-              className={`${font('intr', 5)} flex flex--v-center`}
-            >
-              <Space
-                as="span"
-                h={{ size: 'xs', properties: ['margin-right'] }}
-                className="flex flex--v-center"
-              >
-                <Dot dotColor="validation.red" />
-              </Space>
-              Fully booked
+            <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <TextWithDot
+                className={font('intr', 5)}
+                dotColor="validation.red"
+                text="Fully booked"
+              />
             </Space>
           )}
 
@@ -180,15 +173,12 @@ const EventPromo: FunctionComponent<Props> = ({
           )}
 
           {isPast && !event.availableOnline && (
-            <div className={`${font('intr', 5)} flex flex--v-center`}>
-              <Space
-                as="span"
-                h={{ size: 'xs', properties: ['margin-right'] }}
-                className="flex flex--v-center"
-              >
-                <Dot dotColor="neutral.500" />
-              </Space>
-              Past
+            <div>
+              <TextWithDot
+                className={font('intr', 5)}
+                dotColor="neutral.500"
+                text="Past"
+              />
             </div>
           )}
         </div>

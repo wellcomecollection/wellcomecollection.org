@@ -5,7 +5,6 @@ import PhotoAlbum, {
 } from 'react-photo-album';
 import styled from 'styled-components';
 
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { hexToRgb } from '@weco/common/utils/convert-colors';
 import { Image } from '@weco/common/model/catalogue';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -53,6 +52,19 @@ const ImageCardList = styled(PlainList)`
   flex-wrap: wrap;
 `;
 
+const AlbumRow = styled(PlainList)`
+  display: flex;
+  align-items: space-between;
+  margin-bottom: 0;
+`;
+
+const ImageFrame = styled.div`
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
   background,
@@ -75,36 +87,23 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     () =>
       images.map(image => ({
         ...image,
-        src: convertImageUri(image.locations[0].url, 300),
+        src: image.locations[0].url,
         width: (image.aspectRatio || 1) * 100,
         height: 100,
       })),
     [images]
   );
 
-  const AlbumRow = styled(PlainList)`
-    display: flex;
-    align-items: space-between;
-    margin-bottom: 0;
-  `;
-
   const renderRowContainer: RenderRowContainer = ({ children }) => {
     return <AlbumRow>{children}</AlbumRow>;
   };
-
-  const ImageFrame = styled.div`
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 100%;
-  `;
 
   const imageRenderer: FunctionComponent<RenderPhotoProps<GalleryImageProps>> =
     // these are values and props that are passed in by the PhotoAlbum component
     ({ photo, layout }) => {
       const rgbColor = hexToRgb(photo.averageColor || '');
       return (
-        <li style={{ padding: 12 }}>
+        <li data-test-id="image-search-result" style={{ padding: 12 }}>
           <ImageFrame>
             <ImageCard
               id={photo.id}
@@ -120,7 +119,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                 setExpandedImage(photo);
                 setIsActive(true);
               }}
-              layout="fill"
+              layout="fixed"
               background={
                 background ||
                 (rgbColor &&
@@ -131,11 +130,10 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
         </li>
       );
     };
-
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
-        <PlainList role="list">
+        <PlainList data-test-id="image-search-results-container" role="list">
           <GalleryContainer>
             <PhotoAlbum
               photos={imagesWithDimensions}
@@ -151,7 +149,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       )}
 
       {(!isFullSupportBrowser || isSmallGallery) && (
-        <ImageCardList role="list">
+        <ImageCardList data-test-id="search-results-container" role="list">
           {imagesWithDimensions.map((result: GalleryImageProps) => (
             <li key={result.id} role="listitem">
               <Space
@@ -163,8 +161,8 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                   workId={result.source.id}
                   image={{
                     contentUrl: result.src,
-                    width: 156,
-                    height: 156,
+                    width: result.width * 1.57,
+                    height: result.height * 1.57,
                     alt: result.source.title,
                   }}
                   onClick={event => {
@@ -174,7 +172,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                       setIsActive(true);
                     }
                   }}
-                  layout="fill"
+                  layout="fixed"
                 />
               </Space>
             </li>

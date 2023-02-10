@@ -22,7 +22,7 @@ resource "aws_iam_role" "edge_lambda_role" {
   ]
 }
 
-data "aws_s3_bucket_object" "edge_lambda_origin" {
+data "aws_s3_object" "edge_lambda_origin" {
   bucket = "weco-lambdas"
   key    = "edge_lambda_origin.zip"
 }
@@ -34,7 +34,7 @@ resource "aws_lambda_function" "edge_lambda_request" {
   handler           = "origin.request"
   s3_bucket         = "weco-lambdas"
   s3_key            = "edge_lambda_origin.zip"
-  s3_object_version = data.aws_s3_bucket_object.edge_lambda_origin.version_id
+  s3_object_version = data.aws_s3_object.edge_lambda_origin.version_id
   publish           = true
 }
 
@@ -45,7 +45,7 @@ resource "aws_lambda_function" "edge_lambda_response" {
   handler           = "origin.response"
   s3_bucket         = "weco-lambdas"
   s3_key            = "edge_lambda_origin.zip"
-  s3_object_version = data.aws_s3_bucket_object.edge_lambda_origin.version_id
+  s3_object_version = data.aws_s3_object.edge_lambda_origin.version_id
   publish           = true
 }
 

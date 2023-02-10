@@ -1,8 +1,9 @@
 import {
   Work as WorkType,
+  Location as LocationType,
   DigitalLocation,
 } from '@weco/common/model/catalogue';
-import { useContext, FunctionComponent, ReactElement } from 'react';
+import { useContext, FunctionComponent } from 'react';
 import { grid } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -27,6 +28,7 @@ import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import { useToggles } from '@weco/common/server-data/Context';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import { Audio, Video } from 'services/iiif/types/manifest/v3';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -72,13 +74,48 @@ function showItemLink({
   }
 }
 
+function createApiToolbarLinks(
+  work: WorkType,
+  apiUrl: string
+): ApiToolbarLink[] {
+  const apiLink = {
+    id: 'json',
+    label: 'JSON',
+    link: apiUrl,
+  };
+
+  const iiifItem = work.items
+    ?.reduce((acc, item) => {
+      return acc.concat(item.locations);
+    }, [] as LocationType[])
+    ?.find(location => location.locationType.id.startsWith('iiif'));
+
+  const iiifLink = iiifItem &&
+    iiifItem.type === 'DigitalLocation' && {
+      id: 'iiif',
+      label: 'IIIF',
+      link: iiifItem.url.replace('/v2/', '/v3/'),
+    };
+
+  const links = [
+    apiLink,
+    iiifLink,
+    ...work.identifiers.map(id => ({
+      id: id.value,
+      label: id.identifierType.label,
+      value: id.value,
+    })),
+  ].filter(Boolean) as ApiToolbarLink[];
+
+  return links;
+}
+
 type Props = {
   work: WorkType;
+  apiUrl: string;
 };
 
-const Work: FunctionComponent<Props> = ({
-  work,
-}: Props): ReactElement<Props> => {
+const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
   const { link: searchLink } = useContext(SearchContext);
   const { worksTabbedNav } = useToggles();
   const transformedIIIFManifest = useTransformedManifest(work);
@@ -139,6 +176,7 @@ const Work: FunctionComponent<Props> = ({
         jsonLd={workLd(work)}
         siteSection="collections"
         image={image}
+        apiToolbarLinks={createApiToolbarLinks(work, apiUrl)}
         hideNewsletterPromo={true}
       >
         <Container>

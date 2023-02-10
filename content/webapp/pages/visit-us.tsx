@@ -1,16 +1,16 @@
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { AppErrorProps } from '@weco/common/services/app';
-import VisitUsStaticContent from 'components/Body/VisitUsStaticContent';
+import VisitUsStaticContent from '@weco/content/components/Body/VisitUsStaticContent';
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import * as page from './page';
+import * as page from './pages/[pageId]';
 
 export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps
 > = async context => {
   return page.getServerSideProps({
     ...context,
-    query: { id: prismicPageIds.visitUs },
+    query: { pageId: prismicPageIds.visitUs },
   });
 };
 

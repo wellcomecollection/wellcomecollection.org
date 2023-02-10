@@ -2,10 +2,6 @@ import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
 
 export const utilityClasses = css<GlobalStyleProps>`
-  .transition-bg {
-    transition: background ${props => props.theme.transitionProperties};
-  }
-
   .is-hidden {
     display: none !important;
   }
@@ -44,10 +40,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     ${props => props.theme.media('xlarge')`
       display: none !important;
     `}
-  }
-
-  .touch-scroll {
-    -webkit-overflow-scrolling: touch;
   }
 
   .flex {
@@ -107,10 +99,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .plain-list {
-    list-style: none;
-  }
-
   .block {
     display: block;
   }
@@ -165,10 +153,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     ${props => props.theme.media('large')`
       margin: 0;
     `}
-  }
-
-  .no-padding {
-    padding: 0;
   }
 
   .promo-link {
