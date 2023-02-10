@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
   useLayoutEffect,
+  useContext,
 } from 'react';
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
@@ -30,6 +31,7 @@ import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
 import { useRouter } from 'next/router';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 export const dateRegex = /^\d{4}$|^$/;
 
@@ -54,13 +56,13 @@ const Wrapper = styled(Space).attrs<{ isNewStyle?: boolean }>(props => ({
 const FilterDropdownsContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
   className: font('intr', 5),
-})<{ isComponentMounted?: boolean; isNewStyle?: boolean }>`
+})<{ isEnhanced?: boolean; isNewStyle?: boolean }>`
   display: flex;
   align-items: ${props => (props.isNewStyle ? 'center' : 'stretch')};
 
   // Wrap if old style or if new style without Javascript
   ${props =>
-    (!props.isNewStyle || (props.isNewStyle && !props.isComponentMounted)) &&
+    (!props.isNewStyle || (props.isNewStyle && !props.isEnhanced)) &&
     `flex-wrap: wrap;`}
 `;
 
@@ -378,10 +380,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   searchFormId,
   isNewStyle,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
+  const { isEnhanced } = useContext(AppContext);
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [isComponentMounted, setIsComponentMounted] = useState(false);
-  useEffect(() => setIsComponentMounted(true), []);
   const openMoreFiltersButtonRef = useRef(null);
 
   const visibleFilters = filters.slice(0, nVisibleFilters);
@@ -401,11 +402,11 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         >
           <FilterDropdownsContainer
             isNewStyle={isNewStyle}
-            isComponentMounted={isComponentMounted}
+            isEnhanced={isEnhanced}
           >
             {isNewStyle && (
               <>
-                {isComponentMounted && (
+                {isEnhanced && (
                   /**
                    * I had to extract this component so that useLayoutEffect
                    * didn't try to run before it could/cause syncing issues
@@ -422,7 +423,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   />
                 )}
                 <ModalMoreFilters
-                  {...(showMoreFiltersModal && { form: searchFormId })}
+                  {...((showMoreFiltersModal || !isEnhanced) && {
+                    form: searchFormId,
+                  })}
                   id="moreFilters"
                   isActive={showMoreFiltersModal}
                   setIsActive={setShowMoreFiltersModal}
@@ -493,7 +496,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
                 {modalFilters.length > 0 && (
                   <Space h={{ size: 's', properties: ['margin-left'] }}>
-                    {isComponentMounted && (
+                    {isEnhanced && (
                       <ButtonSolid
                         colors={themeValues.buttonColors.whiteWhiteCharcoal}
                         hoverUnderline={true}

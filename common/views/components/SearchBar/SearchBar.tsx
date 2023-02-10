@@ -1,4 +1,5 @@
-import { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, useContext, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -7,8 +8,8 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { themeValues } from '@weco/common/views/themes/config';
 
-import { useRouter } from 'next/router';
-import ClearSearch from '../ClearSearch/ClearSearch';
+import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 const Container = styled.div`
   display: flex;
@@ -34,6 +35,7 @@ const SearchBar: FunctionComponent<{ placeholder: string }> = ({
   placeholder,
 }) => {
   const { query } = useRouter();
+  const { isEnhanced } = useContext(AppContext);
   const [inputQuery, setInputQuery] = useState((query.query as string) || '');
   const searchInput = useRef<HTMLInputElement>(null);
 
@@ -51,7 +53,7 @@ const SearchBar: FunctionComponent<{ placeholder: string }> = ({
           form="searchPageForm"
           big={true}
         />
-        {inputQuery && (
+        {inputQuery && isEnhanced && (
           <ClearSearch
             inputRef={searchInput}
             setValue={setInputQuery}
