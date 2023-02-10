@@ -65,14 +65,6 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
             placeholder="Search Wellcome Collection"
             isGlobalSearch
           />
-          {/* TODO confirm which copy/link we'd like here */}
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
-            <p className="no-margin">
-              Looking to search our Collections?{' '}
-              <a href="/search">Go to our Collections Search</a>{' '}
-              <Icon icon={arrowSmall} matchText />
-            </p>
-          </Space>
         </div>
       </SearchBarWrapper>
     </Overlay>
