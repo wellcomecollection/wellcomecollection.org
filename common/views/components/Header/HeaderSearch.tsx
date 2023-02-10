@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 import { classNames } from '@weco/common/utils/classnames';
 import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { arrowSmall } from '@weco/common/icons';
 
 const Overlay = styled.div.attrs<{ isActive: boolean }>(props => ({
   className: classNames({
