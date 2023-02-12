@@ -480,7 +480,6 @@ export function groupStructures(
   structures: Range[]
 ): Range[] {
   const clonedStructures: Range[] = cloneDeep(structures);
-  // todo fix here
   return clonedStructures.reduce(
     (acc, structure) => {
       if (!structure.items) return acc;
