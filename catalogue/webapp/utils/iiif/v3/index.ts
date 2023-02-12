@@ -66,8 +66,7 @@ export function transformLabel(
   return getEnFromInternationalString(label);
 }
 
-export function getAudio(manifest: Manifest | undefined): Audio | undefined {
-  if (!manifest) return;
+export function getAudio(manifest: Manifest): Audio {
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
   const firstEnCanvas = canvases.find(c => c?.label?.en);
   const title = firstEnCanvas?.label
@@ -113,11 +112,11 @@ type Rendering = {
 };
 
 export function getDownloadOptionsFromManifest(
-  iiifManifest: Manifest | undefined
+  iiifManifest: Manifest
 ): DownloadOption[] {
   // The ContentResource type on the Manifest, which applies to the iiifManifest.rendering seems incorrect
   // Temporarily adding this until it is fixed.
-  const rendering = (iiifManifest?.rendering as Rendering[]) || [];
+  const rendering = (iiifManifest.rendering as Rendering[]) || [];
   return rendering
     .filter(({ id, format }) => {
       // I'm removing application/zip (for now?) as we haven't had these before
@@ -138,10 +137,8 @@ export function getDownloadOptionsFromManifest(
     });
 }
 
-export function getPdf(
-  iiifManifest: Manifest | undefined
-): DownloadOption | undefined {
-  const allAnnotations = iiifManifest?.items
+export function getPdf(iiifManifest: Manifest): DownloadOption | undefined {
+  const allAnnotations = iiifManifest.items
     ?.map(item => item.annotations)
     ?.flat();
   const allItems = allAnnotations?.map(annotation => annotation?.items).flat();
@@ -174,16 +171,13 @@ export function getTitle(
 }
 
 export function getTransformedCanvases(
-  iiifManifest: Manifest | undefined
+  iiifManifest: Manifest
 ): TransformedCanvas[] {
-  if (iiifManifest) {
-    const canvases = iiifManifest.items?.filter(
-      canvas => canvas.type === 'Canvas'
-    );
-    return transformCanvases(canvases) || [];
-  } else {
-    return [];
-  }
+  const canvases = iiifManifest.items?.filter(
+    canvas => canvas.type === 'Canvas'
+  );
+
+  return transformCanvases(canvases) || [];
 }
 
 function getLabelString(
@@ -299,11 +293,9 @@ function getImageAuthCookieService(
 // This allows us to determine whether or not to show the viewer at all.
 // N.B. the individual items within the viewer won't display if they are restricted.
 export function checkIsAnyImageOpen(
-  transformedCanvases: TransformedCanvas[] | undefined
+  transformedCanvases: TransformedCanvas[]
 ): boolean {
-  return Boolean(
-    transformedCanvases?.some(canvas => !canvas.hasRestrictedImage)
-  );
+  return transformedCanvases.some(canvas => !canvas.hasRestrictedImage);
 }
 
 export function getIIIFMetadata(
@@ -316,9 +308,8 @@ export function getIIIFMetadata(
 }
 
 export function getIIIFPresentationCredit(
-  manifest: Manifest | undefined
+  manifest: Manifest
 ): string | undefined {
-  if (!manifest) return;
   const attribution = getIIIFMetadata(manifest, 'Attribution and usage');
   const maybeValueWithBrTags =
     attribution?.value && getEnFromInternationalString(attribution.value);
@@ -348,8 +339,7 @@ function getExternalWebResourceBody(
   return isExternalWebResource ? body : undefined;
 }
 
-export function getVideo(manifest: Manifest | undefined): Video | undefined {
-  if (!manifest) return;
+export function getVideo(manifest: Manifest): Video | undefined {
   const videoChoiceBody = getChoiceBody(
     manifest.items?.[0]?.items?.[0]?.items?.[0]?.body
   );
@@ -366,13 +356,10 @@ export function getVideo(manifest: Manifest | undefined): Video | undefined {
     : undefined;
 }
 
-export function getSearchService(
-  manifest: Manifest | undefined
-): Service | undefined {
-  const searchService = manifest?.service?.find(
+export function getSearchService(manifest: Manifest): Service | undefined {
+  return manifest.service?.find(
     service => service?.['@type'] === 'SearchService1'
   );
-  return searchService || undefined;
 }
 
 export function getFirstCollectionManifestLocation(
@@ -395,9 +382,9 @@ export function hasPdfDownload(manifest: Manifest): boolean {
 }
 
 export function getClickThroughService(
-  manifest: Manifest | undefined
+  manifest: Manifest
 ): AuthClickThroughServiceWithPossibleServiceArray | undefined {
-  return manifest?.services?.find(
+  return manifest.services?.find(
     s => s.profile === 'http://iiif.io/api/auth/1/clickthrough'
   ) as AuthClickThroughServiceWithPossibleServiceArray | undefined;
 }
@@ -416,10 +403,9 @@ function isImageRestricted(canvas: Canvas): boolean {
 }
 
 export function getRestrictedLoginService(
-  manifest: Manifest | undefined
-): AuthExternalService | undefined {
-  if (!manifest) return;
-  return manifest?.services?.find(service => {
+  manifest: Manifest
+): AuthExternalService {
+  return manifest.services?.find(service => {
     const typedService = service as AuthExternalService;
     return typedService['@id'] === restrictedAuthServiceUrl;
   }) as AuthExternalService;
@@ -494,6 +480,7 @@ export function groupStructures(
   structures: Range[]
 ): Range[] {
   const clonedStructures = cloneDeep(structures);
+  // todo fix here
   return clonedStructures.reduce(
     (acc, structure) => {
       if (!structure.items) return acc;
