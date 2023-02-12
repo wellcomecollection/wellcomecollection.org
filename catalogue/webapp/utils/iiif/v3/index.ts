@@ -468,6 +468,9 @@ export function groupStructures(
   items: TransformedCanvas[],
   structures: Range[]
 ): Range[] {
+  // TODO: Do we actually need to clone the `structures` array here?
+  // It doesn't look like it's being mutated anywhere, so can't we just
+  // pass it directly to `reduce`?
   const clonedStructures: Range[] = cloneDeep(structures);
   return clonedStructures.reduce(
     (acc, structure) => {
