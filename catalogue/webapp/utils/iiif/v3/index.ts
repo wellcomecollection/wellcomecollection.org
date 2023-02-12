@@ -177,7 +177,7 @@ export function getTransformedCanvases(
     canvas => canvas.type === 'Canvas'
   );
 
-  return transformCanvases(canvases) || [];
+  return transformCanvases(canvases);
 }
 
 function getLabelString(
