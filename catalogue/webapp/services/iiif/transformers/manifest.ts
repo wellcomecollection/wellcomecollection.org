@@ -1,7 +1,5 @@
 import { TransformedManifest, DownloadOption } from '../../../types/manifest';
 import { Manifest } from '@iiif/presentation-3';
-// TODO move each of these util functions from v2 to v3
-
 import {
   getAudio,
   getDownloadOptionsFromManifest,
