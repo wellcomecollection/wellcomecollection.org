@@ -177,7 +177,7 @@ export function getTransformedCanvases(
     canvas => canvas.type === 'Canvas'
   );
 
-  return transformCanvases(canvases);
+  return canvases.map(transformCanvas);
 }
 
 function getLabelString(
@@ -469,10 +469,6 @@ function transformCanvas(canvas: Canvas): TransformedCanvas {
     textServiceId,
     thumbnailImage,
   };
-}
-
-function transformCanvases(canvases: Canvas[]): TransformedCanvas[] {
-  return canvases.map(canvas => transformCanvas(canvas));
 }
 
 export function groupStructures(
