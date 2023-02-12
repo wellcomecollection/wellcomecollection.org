@@ -277,12 +277,11 @@ function getImageServiceId(
 function getImageAuthCookieService(
   imageService: BodyService | undefined
 ): Service | undefined {
-  const imageCookieService = Array.isArray(imageService?.service)
+  return Array.isArray(imageService?.service)
     ? imageService?.service?.find(s => s['@type'] === 'AuthCookieService1')
     : imageService?.service?.['@type'] === 'AuthCookieService1'
     ? imageService?.service
     : undefined;
-  return imageCookieService;
 }
 
 // We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
