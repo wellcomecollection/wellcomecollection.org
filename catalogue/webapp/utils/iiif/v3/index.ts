@@ -15,7 +15,7 @@ import {
   Range,
 } from '@iiif/presentation-3';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import {
   DownloadOption,
   TransformedCanvas,
@@ -479,7 +479,7 @@ export function groupStructures(
   items: TransformedCanvas[],
   structures: Range[]
 ): Range[] {
-  const clonedStructures = cloneDeep(structures);
+  const clonedStructures: Range[] = cloneDeep(structures);
   // todo fix here
   return clonedStructures.reduce(
     (acc, structure) => {
@@ -488,15 +488,20 @@ export function groupStructures(
       const [lastCanvasInRange] = structure.items.slice(-1);
       const [firstCanvasInRange] = structure.items;
       const firstCanvasIndex = items.findIndex(
-        canvas => canvas.id === firstCanvasInRange.id
+        canvas =>
+          !isString(firstCanvasInRange) && canvas.id === firstCanvasInRange.id
       );
 
       if (
         getEnFromInternationalString(acc.previousLabel) ===
           getEnFromInternationalString(structure.label) &&
+        acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
-        acc.groupedArray[acc.groupedArray.length - 1].items.push(
+        // We know this is okay because we'll only enter this branch if
+        // `previousLastCanvasIndex` is defined
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        acc.groupedArray[acc.groupedArray.length - 1].items!.push(
           lastCanvasInRange
         );
       } else if (structure.items.length > 0) {
@@ -504,14 +509,19 @@ export function groupStructures(
       }
       acc.previousLabel = structure.label;
       acc.previousLastCanvasIndex = items.findIndex(
-        canvas => canvas.id === lastCanvasInRange.id
+        canvas =>
+          !isString(lastCanvasInRange) && canvas.id === lastCanvasInRange.id
       );
       return acc;
     },
     {
       previousLastCanvasIndex: null,
-      previousLabel: { none: '' },
+      previousLabel: { none: [''] },
       groupedArray: [],
+    } as {
+      previousLastCanvasIndex: number | null;
+      previousLabel: InternationalString;
+      groupedArray: Range[];
     }
   ).groupedArray;
 }
