@@ -415,9 +415,8 @@ export function getTokenService(
   clickThroughService:
     | AuthClickThroughServiceWithPossibleServiceArray
     | AuthExternalService
-    | undefined
 ): AuthAccessTokenService | undefined {
-  if (!clickThroughService?.service) return;
+  if (!clickThroughService.service) return;
   return Array.isArray(clickThroughService?.service)
     ? clickThroughService?.service.find(
         s => s?.profile === 'http://iiif.io/api/auth/1/token'
