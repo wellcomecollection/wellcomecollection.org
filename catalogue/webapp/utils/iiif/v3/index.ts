@@ -471,7 +471,7 @@ function transformCanvas(canvas: Canvas): TransformedCanvas {
   };
 }
 
-export function transformCanvases(canvases: Canvas[]): TransformedCanvas[] {
+function transformCanvases(canvases: Canvas[]): TransformedCanvas[] {
   return canvases.map(canvas => transformCanvas(canvas));
 }
 
