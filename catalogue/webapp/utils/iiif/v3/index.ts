@@ -34,8 +34,12 @@ export function getMultiVolumeLabel(
   internationalString: InternationalString,
   itemTitle: string
 ): string {
-  const stringAtIndex1 = getEnFromInternationalString(internationalString, 1);
-  const stringAtIndex0 = getEnFromInternationalString(internationalString, 0);
+  const stringAtIndex1 = getEnFromInternationalString(internationalString, {
+    index: 1,
+  });
+  const stringAtIndex0 = getEnFromInternationalString(internationalString, {
+    index: 0,
+  });
 
   return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
 }
@@ -44,8 +48,9 @@ export function getMultiVolumeLabel(
 // can be either 'en' or 'none'
 export function getEnFromInternationalString(
   internationalString: InternationalString,
-  index = 0
+  indexProps?: { index: number }
 ): string {
+  const index = indexProps?.index || 0;
   return (
     internationalString?.['en']?.[index] ||
     internationalString?.['none']?.[index] ||
