@@ -229,8 +229,7 @@ function getThumbnailImage(canvas: Canvas):
   const thumbnailService = Array.isArray(thumbnail.service)
     ? thumbnail.service[0]
     : thumbnail.service;
-  const urlTemplate =
-    thumbnailService && iiifImageTemplate(thumbnailService['@id']);
+  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   const preferredMinThumbnailHeight = 400;
   const preferredThumbnail = thumbnailService?.sizes
     ?.sort((a, b) => a.height - b.height)
