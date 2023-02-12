@@ -395,11 +395,7 @@ const restrictedAuthServiceUrl =
 function isImageRestricted(canvas: Canvas): boolean {
   const imageService = getImageService(canvas);
   const imageAuthCookieService = getImageAuthCookieService(imageService);
-  if (imageAuthCookieService?.['@id'] === restrictedAuthServiceUrl) {
-    return true;
-  } else {
-    return false;
-  }
+  return imageAuthCookieService?.['@id'] === restrictedAuthServiceUrl;
 }
 
 export function getRestrictedLoginService(
