@@ -19,6 +19,13 @@ const LinkOrSpanSpace = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   display: block;
 `;
 
+const Subtitle = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-top'] },
+  className: font('intb', 5),
+})`
+  margin: 0;
+`;
+
 type Props = {
   book: BookBasic;
 };
@@ -89,15 +96,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
             </h3>
           )}
 
-          {subtitle && (
-            <Space
-              as="h4"
-              v={{ size: 's', properties: ['margin-top'] }}
-              className={`no-margin ${font('intb', 5)}`}
-            >
-              {subtitle}
-            </Space>
-          )}
+          {subtitle && <Subtitle as="h4">{subtitle}</Subtitle>}
 
           {promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
