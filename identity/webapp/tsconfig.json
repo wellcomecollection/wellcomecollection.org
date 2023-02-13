@@ -23,7 +23,8 @@
     "noFallthroughCasesInSwitch": true,
     "allowJs": false,
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",

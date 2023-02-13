@@ -1,4 +1,9 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -8,7 +13,9 @@ import { propsToQuery } from '@weco/common/utils/routes';
 import {
   DefaultSortValuesType,
   getUrlQueryFromSortValue,
-} from '@weco/catalogue/utils/search';
+} from '@weco/common/utils/search';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { ButtonTypes } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },
@@ -42,10 +49,8 @@ const Sort: FunctionComponent<Props> = ({
   defaultValues,
 }) => {
   const router = useRouter();
+  const { isEnhanced } = useContext(AppContext);
   const { sortOrder: currentSortOrder, sort: currentSortType } = router.query;
-
-  const [isComponentMounted, setIsComponentMounted] = useState(false);
-  useEffect(() => setIsComponentMounted(true), []);
 
   const [sortOrder, setSortOrder] = useState(currentSortOrder);
   const [sortType, setSortType] = useState(currentSortType);
@@ -97,14 +102,14 @@ const Sort: FunctionComponent<Props> = ({
               </option>
             ))}
           </select>
-          <button type="submit" form={formId}>
+          <button type={ButtonTypes.submit} form={formId}>
             Submit
           </button>
         </fieldset>
       </noscript>
 
       {/* If the user has JavaScript enabled, we can use a sole select input and deal with the logic with JS */}
-      {isComponentMounted && (
+      {isEnhanced && (
         <Select
           value={sortType + '.' + sortOrder || ''}
           form={formId}

@@ -4,7 +4,7 @@ import { PrismicApiError } from '../types';
 import { unCamelCase } from '@weco/common/utils/grammar';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { Query } from '@weco/catalogue/types/search';
-import { getPrismicSortValue } from '@weco/catalogue/utils/search';
+import { getPrismicSortValue } from '@weco/common/utils/search';
 import { storiesQuery } from './articles';
 import { eventsQuery } from './events';
 import { exhibitionsQuery } from './exhibitions';

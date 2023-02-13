@@ -1,14 +1,14 @@
 import { Page, test, expect } from '@playwright/test';
 import { gotoWithoutCache, isMobile } from './contexts';
-import {
-  clickActionCloseModalFilterButton,
-  clickActionModalFilterButton,
-} from './actions/search';
 
 import { elementIsVisible, fillInputAction } from './actions/common';
 import { expectItemsIsVisible, expectItemIsVisible } from './asserts/common';
-import { mobileModalImageSearch } from './selectors/images';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
+import {
+  formatFilterMobileButton,
+  mobileModal,
+  mobileModalCloseButton,
+} from './selectors/search';
 
 const baseUrl = process.env.PLAYWRIGHT_BASE_URL
   ? process.env.PLAYWRIGHT_BASE_URL
@@ -28,13 +28,6 @@ const fillActionSearchInput = async (
   const selector = `${searchBarInput}`;
   await fillInputAction(selector, value, page);
 };
-const pressActionEnterSearchInput = async (page: Page): Promise<void> => {
-  const selector = `${searchBarInput}`;
-  await page.press(selector, 'Enter');
-};
-const clickActionColourDropDown = async (page: Page): Promise<void> => {
-  await page.click(colourSelectorFilterDropDown);
-};
 
 const selectColourInPicker = async (page: Page): Promise<void> => {
   await Promise.all([safeWaitForNavigation(page), page.click(colourSelector)]);
@@ -48,7 +41,7 @@ async function gotoSearchResultPage(
   await fillActionSearchInput(query, page);
   await Promise.all([
     safeWaitForNavigation(page),
-    pressActionEnterSearchInput(page),
+    page.press(searchBarInput, 'Enter'),
   ]);
 }
 
@@ -70,14 +63,14 @@ test.describe('New Search Page interactions', () => {
     await expectItemsIsVisible(imagesResultsListItem, 1, page);
 
     if (isMobile(page)) {
-      await clickActionModalFilterButton(page);
-      await elementIsVisible(mobileModalImageSearch, page);
+      await page.click(formatFilterMobileButton);
+      await elementIsVisible(mobileModal, page);
       await selectColourInPicker(page);
-      await clickActionCloseModalFilterButton(page);
+      await page.click(mobileModalCloseButton);
     } else {
-      await clickActionColourDropDown(page);
+      await page.click(colourSelectorFilterDropDown);
       await selectColourInPicker(page);
-      await clickActionColourDropDown(page);
+      await page.click(colourSelectorFilterDropDown);
     }
 
     await page.click(catalogueSectionSelector);

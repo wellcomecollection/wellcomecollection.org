@@ -15,7 +15,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import {
   getUrlQueryFromSortValue,
   getQueryPropertyValue,
-} from '@weco/catalogue/utils/search';
+} from '@weco/common/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
 import { propsToQuery } from '@weco/common/utils/routes';
 
@@ -44,7 +44,8 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
   hasEventsExhibitions,
 }) => {
   const router = useRouter();
-  const { query: queryString } = router.query;
+  const queryString = getQueryPropertyValue(router?.query?.query);
+  const [inputValue, setInputValue] = useState(queryString || '');
 
   const currentSearchCategory =
     router.pathname === '/search'
@@ -77,6 +78,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 
   useEffect(() => {
     const queryStringTitle = queryString ? `${queryString} | ` : '';
+    setInputValue(queryString || ''); // This accounts for queries done from these pages from the global search
 
     switch (currentSearchCategory) {
       case 'overview':
@@ -200,7 +202,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
       <div className="container">
         <form
           role="search"
-          id="searchPageForm"
+          id="search-page-form"
           onSubmit={event => {
             event.preventDefault();
 
@@ -222,7 +224,10 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
             v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
           >
             <SearchBar
+              inputValue={inputValue}
+              setInputValue={setInputValue}
               placeholder={searchbarPlaceholderText[currentSearchCategory]}
+              form="search-page-form"
             />
           </SearchBarContainer>
         </form>

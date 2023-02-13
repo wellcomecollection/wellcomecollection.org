@@ -28,7 +28,7 @@ import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
-import { hasFilters } from '@weco/catalogue/utils/search';
+import { hasFilters } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
@@ -119,9 +119,9 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           <SearchFilters
             query={queryString}
             linkResolver={linkResolver}
-            searchFormId="searchPageForm"
+            searchFormId="search-page-form"
             changeHandler={() => {
-              const form = document.getElementById('searchPageForm');
+              const form = document.getElementById('search-page-form');
               form &&
                 form.dispatchEvent(
                   new window.Event('submit', {
