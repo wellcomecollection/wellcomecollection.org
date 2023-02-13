@@ -82,7 +82,7 @@ const PaginatorWrapper = styled.div`
 `;
 
 /* eslint-disable react/display-name */
-export const PaginatorButtons = (
+const PaginatorButtons = (
   isTabbable: boolean,
   workId: string
 ): FunctionComponent<PaginatorRenderFunctionProps> => {
