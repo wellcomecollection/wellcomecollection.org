@@ -83,8 +83,7 @@ const PaginatorWrapper = styled.div`
 
 /* eslint-disable react/display-name */
 const PaginatorButtons = (
-  workId: string,
-  { isTabbable }: { isTabbable: boolean }
+  workId: string
 ): FunctionComponent<PaginatorRenderFunctionProps> => {
   return ({
     currentPage,
@@ -103,7 +102,7 @@ const PaginatorButtons = (
                 colorScheme="light"
                 icon={arrow}
                 text="Previous page"
-                tabIndex={isTabbable ? 0 : -1}
+                tabIndex={0}
                 clickHandler={() => {
                   trackGaEvent({
                     category: 'Control',
@@ -125,7 +124,7 @@ const PaginatorButtons = (
                 colorScheme="light"
                 icon={arrow}
                 text="Next page"
-                tabIndex={isTabbable ? 0 : -1}
+                tabIndex={0}
                 clickHandler={() => {
                   trackGaEvent({
                     category: 'Control',
@@ -226,7 +225,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
         <NoScriptViewerPaginatorButtons>
           <RenderlessPaginator
             {...mainPaginatorProps}
-            render={PaginatorButtons(workId, { isTabbable: true })}
+            render={PaginatorButtons(workId)}
           />
         </NoScriptViewerPaginatorButtons>
       </NoScriptViewerMain>
@@ -269,7 +268,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
           <NoScriptViewerPaginatorButtons>
             <RenderlessPaginator
               {...thumbsPaginatorProps}
-              render={PaginatorButtons(workId, { isTabbable: true })}
+              render={PaginatorButtons(workId)}
             />
           </NoScriptViewerPaginatorButtons>
         </StaticThumbnailsContainer>
