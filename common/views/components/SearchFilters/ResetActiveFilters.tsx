@@ -151,9 +151,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                         source: `cancel_filter/${f.id}`,
                       })}
                     >
-                      <a>
-                        <CancelFilter text={option.label} />
-                      </a>
+                      <CancelFilter text={option.label} />
                     </NextLink>
                   );
                 });
@@ -173,9 +171,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                         source: `cancel_filter/${f.from.id}`,
                       })}
                     >
-                      <a>
-                        <CancelFilter text={`From ${f.from.value}`} />
-                      </a>
+                      <CancelFilter text={`From ${f.from.value}`} />
                     </NextLink>
                   )}
 
@@ -190,9 +186,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                         source: `cancel_filter/${f.to.id}`,
                       })}
                     >
-                      <a>
-                        <CancelFilter text={`To ${f.to.value}`} />
-                      </a>
+                      <CancelFilter text={`To ${f.to.value}`} />
                     </NextLink>
                   )}
                 </Fragment>
@@ -211,16 +205,14 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                       source: `cancel_filter/${f.id}`,
                     })}
                   >
-                    <a>
-                      <CancelFilter>
-                        {f.label}
-                        <ColorSwatch hexColor={`#${f.color}`}>
-                          <span className="visually-hidden">
-                            {getColorDisplayName(f.color)}
-                          </span>
-                        </ColorSwatch>
-                      </CancelFilter>
-                    </a>
+                    <CancelFilter>
+                      {f.label}
+                      <ColorSwatch hexColor={`#${f.color}`}>
+                        <span className="visually-hidden">
+                          {getColorDisplayName(f.color)}
+                        </span>
+                      </ColorSwatch>
+                    </CancelFilter>
                   </NextLink>
                 </Fragment>
               );
@@ -228,9 +220,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
           })}
 
           <NextLink passHref {...resetFilters}>
-            <a>
-              <CancelFilter text="Reset filters" />
-            </a>
+            <CancelFilter text="Reset filters" />
           </NextLink>
         </div>
       </div>
