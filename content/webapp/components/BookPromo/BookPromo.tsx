@@ -101,7 +101,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
 
           {promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
-              <p className={`${font('intr', 5)} no-margin`}>{promo?.caption}</p>
+              <p className={`${font('intr', 5)} no-margin`}>{promo.caption}</p>
             </Space>
           )}
         </Space>
