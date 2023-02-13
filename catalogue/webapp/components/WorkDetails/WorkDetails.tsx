@@ -311,18 +311,18 @@ const WorkDetails: FunctionComponent<Props> = ({
                       condition={Boolean(itemUrl)}
                       wrapper={children =>
                         itemUrl && (
-                          <NextLink href={itemUrl.href} as={itemUrl.as}>
-                            <a
-                              onClick={() =>
-                                trackGaEvent({
-                                  category: 'WorkDetails',
-                                  action: 'follow image link',
-                                  label: work.id,
-                                })
-                              }
-                            >
-                              {children}
-                            </a>
+                          <NextLink
+                            href={itemUrl.href}
+                            as={itemUrl.as}
+                            onClick={() =>
+                              trackGaEvent({
+                                category: 'WorkDetails',
+                                action: 'follow image link',
+                                label: work.id,
+                              })
+                            }
+                          >
+                            {children}
                           </NextLink>
                         )
                       }
