@@ -18,9 +18,9 @@ const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
           id: 'catalogueDetails',
           url: {
             href: {
-              pathname: '/work',
+              pathname: '/works/[workId]',
               query: {
-                id: work.id,
+                workId: work.id,
               },
             },
             as: {
