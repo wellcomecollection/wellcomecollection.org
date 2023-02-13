@@ -40,7 +40,6 @@ function toLink(
   partialProps: Partial<ImageProps>,
   source: ImagePropsSource
 ): LinkProps {
-  const pathname = '/image';
   const props: ImageProps = {
     ...emptyImageProps,
     ...partialProps,
@@ -49,8 +48,12 @@ function toLink(
 
   return {
     href: {
-      pathname,
-      query: { ...query, source },
+      pathname: `/works/[workId]/images`,
+      query: {
+        workId: props.workId,
+        ...query,
+        source,
+      },
     },
     as: {
       pathname: `/works/${props.workId}/images`,
@@ -68,7 +71,11 @@ const ImageLink: FunctionComponent<Props> = ({
   source,
   ...props
 }: Props) => {
-  return <NextLink {...toLink(props, source)} legacyBehavior>{children}</NextLink>;
+  return (
+    <NextLink {...toLink(props, source)} legacyBehavior>
+      {children}
+    </NextLink>
+  );
 };
 
 export default ImageLink;
