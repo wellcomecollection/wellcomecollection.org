@@ -15,8 +15,8 @@ export const layout = `
   overflow: hidden;
 }
 
-@supports selector(:has(a, b)) {
-  :has(dialog[open]) {
+@supports selector(:has(a)) {
+  body:has(dialog[open]) {
     margin: 0;
     height: 100vh;
     overflow: hidden;
