@@ -398,7 +398,7 @@ function isImageRestricted(canvas: Canvas): boolean {
 
 export function getRestrictedLoginService(
   manifest: Manifest
-): AuthExternalService {
+): AuthExternalService | undefined {
   return manifest.services?.find(service => {
     const typedService = service as AuthExternalService;
     return typedService['@id'] === restrictedAuthServiceUrl;
@@ -409,8 +409,9 @@ export function getTokenService(
   clickThroughService:
     | AuthClickThroughServiceWithPossibleServiceArray
     | AuthExternalService
+    | undefined
 ): AuthAccessTokenService | undefined {
-  if (!clickThroughService.service) return;
+  if (!clickThroughService?.service) return;
   return Array.isArray(clickThroughService?.service)
     ? clickThroughService?.service.find(
         s => s?.profile === 'http://iiif.io/api/auth/1/token'
