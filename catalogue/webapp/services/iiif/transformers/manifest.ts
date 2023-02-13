@@ -1,7 +1,5 @@
 import { TransformedManifest, DownloadOption } from '../../../types/manifest';
 import { Manifest } from '@iiif/presentation-3';
-// TODO move each of these util functions from v2 to v3
-
 import {
   getAudio,
   getDownloadOptionsFromManifest,
@@ -22,16 +20,16 @@ import {
 } from '../../../utils/iiif/v3';
 
 export function transformManifest(manifestV3: Manifest): TransformedManifest {
-  const title = getTitle(manifestV3?.label);
+  const title = getTitle(manifestV3.label);
   const audio = getAudio(manifestV3);
-  const services = manifestV3?.services || [];
+  const services = manifestV3.services || [];
   const iiifCredit = getIIIFPresentationCredit(manifestV3);
   const video = getVideo(manifestV3);
   const downloadOptions = getDownloadOptionsFromManifest(manifestV3);
   const pdf = getPdf(manifestV3);
-  const id = manifestV3?.id || '';
-  const parentManifestUrl = manifestV3?.partOf?.[0].id;
-  const manifests = manifestV3?.items?.filter(c => c.type === 'Manifest') || [];
+  const id = manifestV3.id || '';
+  const parentManifestUrl = manifestV3.partOf?.[0].id;
+  const manifests = manifestV3.items.filter(c => c.type === 'Manifest') || [];
   const collectionManifestsCount = manifests.length;
   const transformedCanvases = getTransformedCanvases(manifestV3);
   const canvasCount = transformedCanvases.length;
@@ -42,7 +40,7 @@ export function transformManifest(manifestV3: Manifest): TransformedManifest {
     clickThroughService || restrictedService
   );
   const firstCollectionManifestLocation =
-    manifestV3 && getFirstCollectionManifestLocation(manifestV3);
+    getFirstCollectionManifestLocation(manifestV3);
   const isTotallyRestricted = checkIsTotallyRestricted(
     restrictedService,
     isAnyImageOpen
@@ -53,9 +51,9 @@ export function transformManifest(manifestV3: Manifest): TransformedManifest {
     isAnyImageOpen,
   });
   const searchService = getSearchService(manifestV3);
-  const structures = manifestV3?.structures || [];
-  const isCollectionManifest = Boolean(manifestV3?.type === 'Collection');
-  const downloadEnabled = manifestV3 ? hasPdfDownload(manifestV3) : false;
+  const structures = manifestV3.structures || [];
+  const isCollectionManifest = manifestV3.type === 'Collection';
+  const downloadEnabled = hasPdfDownload(manifestV3);
 
   return {
     id,
