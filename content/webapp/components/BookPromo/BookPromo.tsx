@@ -32,6 +32,12 @@ const Subtitle = styled(Space).attrs({
   margin: 0;
 `;
 
+const Caption = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  margin: 0;
+`;
+
 type Props = {
   book: BookBasic;
 };
@@ -102,7 +108,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
 
           {promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
-              <p className={`${font('intr', 5)} no-margin`}>{promo.caption}</p>
+              <Caption>{promo.caption}</Caption>
             </Space>
           )}
         </Space>
