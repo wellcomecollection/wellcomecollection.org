@@ -86,6 +86,8 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     return { href, as };
   };
 
+  const hasNoResults = works.totalResults === 0;
+
   return (
     <>
       <Head>
@@ -133,11 +135,12 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 );
             }}
             filters={filters}
+            hasNoResults={hasNoResults}
             isNewStyle
           />
         </Space>
 
-        {works.totalResults === 0 ? (
+        {hasNoResults ? (
           <SearchNoResults
             query={queryString}
             hasFilters={hasFilters({

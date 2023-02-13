@@ -40,19 +40,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     );
 
     const serverData = await getServerData(context);
-    if (books) {
-      return {
-        props: removeUndefinedProps({
-          books,
-          serverData,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
+
+    return {
+      props: removeUndefinedProps({
+        books,
+        serverData,
+      }),
+    };
   };
-const BooksPage: FunctionComponent<Props> = props => {
-  const { books } = props;
+
+const BooksPage: FunctionComponent<Props> = ({ books }) => {
   const firstBook = books.results[0];
 
   return (
@@ -70,6 +67,14 @@ const BooksPage: FunctionComponent<Props> = props => {
           title="Books"
           description={pageDescriptions.books}
           paginatedResults={books}
+          breadcrumbs={{
+            items: [
+              {
+                text: 'Stories',
+                url: '/stories/',
+              },
+            ],
+          }}
         />
       </SpacingSection>
     </PageLayout>

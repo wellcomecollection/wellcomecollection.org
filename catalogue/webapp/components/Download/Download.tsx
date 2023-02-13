@@ -39,6 +39,13 @@ function getFormatString(format: string): DownloadFormat | undefined {
   }
 }
 
+const Wrapper = styled.div.attrs({
+  className: font('intr', 5),
+})<{ isEnhanced: boolean }>`
+  position: relative;
+  ${props => (props.isEnhanced ? 'display: inline-block;' : '')}
+`;
+
 type Props = {
   ariaControlsId: string;
   workId: string;
@@ -58,14 +65,7 @@ const Download: NextPage<Props> = ({
   const { isEnhanced } = useContext(AppContext);
 
   return (
-    <div
-      className={classNames({
-        [font('intr', 5)]: true,
-        'inline-block': isEnhanced,
-        relative: true,
-      })}
-      ref={downloadsContainer}
-    >
+    <Wrapper isEnhanced={isEnhanced} ref={downloadsContainer}>
       {downloadOptions.length > 0 && (
         <>
           <DropdownButton
@@ -112,7 +112,7 @@ const Download: NextPage<Props> = ({
           </DropdownButton>
         </>
       )}
-    </div>
+    </Wrapper>
   );
 };
 

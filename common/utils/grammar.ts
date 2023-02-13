@@ -38,9 +38,21 @@ export function dasherizeShorten(words: string): string {
  *           10 =>        10
  *         1942 =>     1,942
  *      1234567 => 1,234,567
+ *
+ * If isCompact is set to true, it sets it to a compact format by rounding it up, e.g.
+ *
+ *         1942 =>     1.9K
+ *      1194567 =>     1.2M
  */
-export function formatNumber(n: number): string {
-  const format = new Intl.NumberFormat('en-GB');
+export function formatNumber(
+  n: number,
+  options?: { isCompact: boolean }
+): string {
+  const format = options?.isCompact
+    ? new Intl.NumberFormat('en-GB', {
+        notation: 'compact',
+      })
+    : new Intl.NumberFormat('en-GB');
 
   return format.format(n);
 }
