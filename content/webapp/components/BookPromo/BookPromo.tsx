@@ -19,6 +19,12 @@ const LinkOrSpanSpace = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   display: block;
 `;
 
+const Title = styled.h3.attrs({
+  className: `promo-link__title ${font('wb', 4)}`,
+})`
+  margin: 0;
+`;
+
 const Subtitle = styled(Space).attrs({
   v: { size: 's', properties: ['margin-top'] },
   className: font('intb', 5),
@@ -90,11 +96,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
               <LabelsList labels={[{ text: 'Book' }]} />
             </Space>
           </Space>
-          {title && (
-            <h3 className={`no-margin promo-link__title ${font('wb', 4)}`}>
-              {title}
-            </h3>
-          )}
+          {title && <Title>{title}</Title>}
 
           {subtitle && <Subtitle as="h4">{subtitle}</Subtitle>}
 
