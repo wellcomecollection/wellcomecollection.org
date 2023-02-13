@@ -46,6 +46,13 @@ const PickUpDateInputWrapper = styled.div`
   flex-grow: 1;
 `;
 
+const ConfirmRequestButtonWrapper = styled(Space).attrs({
+  h: { size: 'l', properties: ['margin-right'] },
+  v: { size: 's', properties: ['margin-bottom'] },
+})`
+  display: inline-block;
+`;
+
 const Request = styled.form``;
 
 type RequestDialogProps = {
@@ -144,13 +151,9 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
       </Space>
 
       <CTAs>
-        <Space
-          h={{ size: 'l', properties: ['margin-right'] }}
-          v={{ size: 's', properties: ['margin-bottom'] }}
-          className="inline-block"
-        >
+        <ConfirmRequestButtonWrapper>
           <ButtonSolid text="Confirm request" />
-        </Space>
+        </ConfirmRequestButtonWrapper>
         <ButtonSolid
           colors={themeValues.buttonColors.greenTransparentGreen}
           type={ButtonTypes.button}

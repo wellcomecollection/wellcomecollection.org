@@ -7,7 +7,7 @@ type Props = {
   media: Video;
 };
 
-function getMediaFormatString(format) {
+function getMediaFormatString(format: string | undefined) {
   switch (format) {
     case 'audio/mp3':
       return ' audio';

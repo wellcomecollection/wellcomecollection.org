@@ -7,31 +7,34 @@ import React, {
   useLayoutEffect,
   useContext,
 } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { font } from '../../../utils/classnames';
-import { useControlledState } from '../../../utils/useControlledState';
-import PlainList from '../styled/PlainList';
-import Space from '../styled/Space';
-import Icon from '../Icon/Icon';
+
+import { font } from '@weco/common/utils/classnames';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
+import { useControlledState } from '@weco/common/utils/useControlledState';
+import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters/SearchFilters';
 import {
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
   filterLabel,
   Filter,
-} from '../../../services/catalogue/filters';
-import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
-import { ResetActiveFilters } from './ResetActiveFilters';
-import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+} from '@weco/common/services/catalogue/filters';
+import ModalMoreFilters from '@weco/common/views/components/ModalMoreFilters/ModalMoreFilters';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
-import PaletteColorPicker from '../PaletteColorPicker/PaletteColorPicker';
-import { useRouter } from 'next/router';
+import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { ResetActiveFilters } from './ResetActiveFilters';
 
 export const dateRegex = /^\d{4}$|^$/;
 
@@ -107,6 +110,7 @@ type DateRangeFilterProps = {
   f: DateRangeFilterType;
   changeHandler: () => void;
   form?: string;
+  hasNoOptions?: boolean;
   isNewStyle?: boolean;
 };
 
@@ -114,6 +118,7 @@ const DateRangeFilter = ({
   f,
   changeHandler,
   form,
+  hasNoOptions,
   isNewStyle,
 }: DateRangeFilterProps) => {
   const [from, setFrom] = useControlledState(f.from.value);
@@ -127,6 +132,7 @@ const DateRangeFilter = ({
         label={f.label}
         buttonType="inline"
         id={f.id}
+        hasNoOptions={hasNoOptions}
       >
         <>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -173,12 +179,14 @@ type ColorFilterProps = {
   f: ColorFilterType;
   changeHandler: () => void;
   form?: string;
+  hasNoOptions?: boolean;
   isNewStyle?: boolean;
 };
 const ColorFilter = ({
   f,
   changeHandler,
   form,
+  hasNoOptions,
   isNewStyle,
 }: ColorFilterProps) => {
   return (
@@ -188,6 +196,7 @@ const ColorFilter = ({
       label="Colours"
       buttonType="inline"
       id="images.color"
+      hasNoOptions={hasNoOptions}
     >
       <PaletteColorPicker
         name={f.id}
@@ -210,6 +219,7 @@ const DynamicFilterArray = ({
   searchFormId,
   filters,
   openMoreFiltersButtonRef,
+  hasNoResults,
 }) => {
   const router = useRouter();
   const [wrapperWidth, setWrapperWidth] = useState<number>(0);
@@ -259,6 +269,7 @@ const DynamicFilterArray = ({
             f={f}
             changeHandler={changeHandler}
             isNewStyle={isNewStyle}
+            hasNoOptions={hasNoResults && !(f.from.value || f.to.value)}
           />
         )}
 
@@ -268,6 +279,7 @@ const DynamicFilterArray = ({
             f={f}
             changeHandler={changeHandler}
             isNewStyle={isNewStyle}
+            hasNoOptions={hasNoResults && !f.color}
           />
         )}
       </Space>
@@ -379,6 +391,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   activeFiltersCount,
   searchFormId,
   isNewStyle,
+  hasNoResults,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const { isEnhanced } = useContext(AppContext);
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
@@ -420,6 +433,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                     searchFormId={searchFormId}
                     filters={filters}
                     openMoreFiltersButtonRef={openMoreFiltersButtonRef}
+                    hasNoResults={hasNoResults}
                   />
                 )}
                 <ModalMoreFilters
@@ -433,6 +447,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   changeHandler={changeHandler}
                   resetFilters={linkResolver({ query })}
                   filters={filters}
+                  hasNoResults={hasNoResults}
                   isNewStyle
                 />
               </>

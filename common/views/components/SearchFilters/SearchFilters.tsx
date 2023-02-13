@@ -1,11 +1,13 @@
 import { FunctionComponent, ReactElement, useContext, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
+
+import { LinkProps } from '@weco/common/model/link-props';
+import { Filter } from '@weco/common/services/catalogue/filters';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
+
 import SearchFiltersDesktop from './SearchFiltersDesktop';
 import SearchFiltersMobile from './SearchFiltersMobile';
-import { LinkProps } from '../../../model/link-props';
-import { Filter } from '../../../services/catalogue/filters';
-import { AppContext } from '../AppContext/AppContext';
-import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
 
 type Props = {
   query?: string;
@@ -13,6 +15,7 @@ type Props = {
   changeHandler: () => void;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
+  hasNoResults?: boolean;
   isNewStyle?: boolean;
 };
 
@@ -24,6 +27,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   changeHandler,
   filters,
   linkResolver,
+  hasNoResults,
   isNewStyle,
 }: Props): ReactElement<Props> => {
   const { windowSize } = useContext(AppContext);
@@ -59,6 +63,7 @@ const SearchFilters: FunctionComponent<Props> = ({
     filters,
     linkResolver,
     activeFiltersCount,
+    hasNoResults,
     isNewStyle,
   };
 

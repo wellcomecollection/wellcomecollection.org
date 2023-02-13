@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { ComponentProps, FunctionComponent, ReactElement } from 'react';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -17,6 +17,7 @@ import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import { pluralize } from '@weco/common/utils/grammar';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
@@ -32,6 +33,7 @@ type Props = {
   description?: string;
   paginatedResults: PaginatedResultsTypes;
   children?: ReactElement;
+  breadcrumbs?: ComponentProps<typeof Breadcrumb>;
 };
 
 const LayoutPaginatedResults: FunctionComponent<Props> = ({
@@ -39,10 +41,11 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
   description,
   paginatedResults,
   children,
+  breadcrumbs = { items: [] },
 }) => (
   <>
     <PageHeader
-      breadcrumbs={{ items: [] }}
+      breadcrumbs={breadcrumbs}
       labels={undefined}
       title={title}
       ContentTypeInfo={

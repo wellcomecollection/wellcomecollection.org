@@ -91,7 +91,7 @@ test.describe('New Search Page interactions', () => {
   }) => {
     const query = 'art of science';
     await gotoSearchResultPage({ url: overviewUrl, query }, page);
-    await page.click('"All stories"');
+    await page.click('text=All stories');
     await safeWaitForNavigation(page);
     expect(page.url()).toBe(`${baseUrl}/search/stories?query=art+of+science`);
   });
@@ -100,7 +100,7 @@ test.describe('New Search Page interactions', () => {
   }) => {
     const query = 'art of science';
     await gotoSearchResultPage({ url: overviewUrl, query }, page);
-    await page.click('"All images"');
+    await page.click('text=All images');
     await safeWaitForNavigation(page);
     expect(page.url()).toBe(`${baseUrl}/search/images?query=art+of+science`);
   });

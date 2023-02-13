@@ -4,33 +4,34 @@ import React, {
   FunctionComponent,
   ReactElement,
 } from 'react';
-import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import dynamic from 'next/dynamic';
-import getFocusableElements from '../../../utils/get-focusable-elements';
-import { useControlledState } from '../../../utils/useControlledState';
 import NextLink from 'next/link';
-import { toLink as worksLink } from '../WorksLink/WorksLink';
 import styled from 'styled-components';
-import PlainList from '../styled/PlainList';
-import Space from '../styled/Space';
-import Icon from '../Icon/Icon';
+
+import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
+import getFocusableElements from '@weco/common/utils/get-focusable-elements';
+import { useControlledState } from '@weco/common/utils/useControlledState';
+import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { SearchFiltersSharedProps } from '../SearchFilters/SearchFilters';
+import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters/SearchFilters';
 import {
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
   filterLabel,
-} from '../../../services/catalogue/filters';
+} from '@weco/common/services/catalogue/filters';
 import ButtonSolid, {
   ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { searchFilterCheckBox } from '../../../text/aria-labels';
-import { dateRegex } from './SearchFiltersDesktop';
+import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
 import { filter } from '@weco/common/icons';
-import Modal from '../../components/Modal/Modal';
+import Modal from '@weco/common/views/components/Modal/Modal';
+import { dateRegex } from './SearchFiltersDesktop';
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
@@ -119,7 +120,6 @@ type CheckboxFilterProps = {
 const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <>
-      <h3 className="h3">{f.label}</h3>
       <PlainList>
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
@@ -158,7 +158,6 @@ const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
 
   return (
     <>
-      <h3 className="h3">{f.label}</h3>
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
         <NumberInput
           name={f.from.id}
@@ -219,6 +218,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   filters,
   activeFiltersCount,
   searchFormId,
+  hasNoResults,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const openFiltersButtonRef = useRef<HTMLButtonElement>(null);
   const closeFiltersButtonRef = useRef<HTMLDivElement>(null);
@@ -313,6 +313,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
               .map(f => {
                 return (
                   <FilterSection key={f.id}>
+                    <h3 className="h3">
+                      {f.type === 'color' ? 'Colours' : f.label}
+                    </h3>
                     {f.type === 'checkbox' && (
                       <CheckboxFilter
                         f={f}
@@ -321,15 +324,16 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       />
                     )}
 
-                    {f.type === 'dateRange' && (
-                      <DateRangeFilter
-                        f={f}
-                        changeHandler={changeHandler}
-                        form={searchFormId}
-                      />
-                    )}
+                    {f.type === 'dateRange' &&
+                      !(hasNoResults && !(f.from.value || f.to.value)) && (
+                        <DateRangeFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={searchFormId}
+                        />
+                      )}
 
-                    {f.type === 'color' && (
+                    {f.type === 'color' && !(hasNoResults && !f.color) && (
                       <ColorFilter
                         f={f}
                         changeHandler={changeHandler}

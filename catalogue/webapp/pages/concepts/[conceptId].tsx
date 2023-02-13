@@ -95,7 +95,9 @@ type SeeMoreButtonType = {
 
 const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
   <MoreLink
-    name={`${text} (${formatNumber(totalResults)})`}
+    name={`${text} (${formatNumber(totalResults, {
+      isCompact: true,
+    })})`}
     url={link}
     colors={theme.buttonColors.yellowYellowBlack}
     hoverUnderline
