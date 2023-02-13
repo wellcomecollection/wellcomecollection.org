@@ -71,14 +71,8 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
         <form
           className="container"
           id="global-search-form"
-          onSubmit={event => {
-            event.preventDefault();
-            const headerInputValue = inputRef?.current?.value;
-            // TODO if released before the redirect is in placeholder, link to /works instead
-            router.push(
-              `/search${headerInputValue ? `?query=${headerInputValue}` : ''}`
-            );
-          }}
+          // TODO if released before the redirect is in placeholder, link to /works instead
+          action="/search"
         >
           <SearchBar
             inputValue={inputValue}
