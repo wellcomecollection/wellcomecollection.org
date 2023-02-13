@@ -1,10 +1,6 @@
 import { Page, test } from '@playwright/test';
 import { gotoWithoutCache, isMobile } from './contexts';
-import {
-  clickActionModalFilterButton,
-  clickActionCloseModalFilterButton,
-  clickActionClickSearchResultItem,
-} from './actions/search';
+import { clickActionClickSearchResultItem } from './actions/search';
 
 import { clickActionClickViewExpandedImage } from './actions/images';
 
@@ -14,14 +10,16 @@ import {
   expectItemIsVisible,
   expectUrlToMatch,
 } from './asserts/common';
-import {
-  mobileModalImageSearch,
-  modalexpandedImageViewMoreButton,
-} from './selectors/images';
+import { modalexpandedImageViewMoreButton } from './selectors/images';
 
 import { regexImageGalleryUrl } from './helpers/regex';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 import { baseUrl } from './helpers/urls';
+import {
+  formatFilterMobileButton,
+  mobileModal,
+  mobileModalCloseButton,
+} from './selectors/search';
 
 const imagesUrl = `${baseUrl}/search/images`;
 const searchBarInput = `#search-searchbar`;
@@ -38,13 +36,6 @@ const fillActionSearchInput = async (
   const selector = `${searchBarInput}`;
   await fillInputAction(selector, value, page);
 };
-const pressActionEnterSearchInput = async (page: Page): Promise<void> => {
-  const selector = `${searchBarInput}`;
-  await page.press(selector, 'Enter');
-};
-const clickActionColourDropDown = async (page: Page): Promise<void> => {
-  await page.click(colourSelectorFilterDropDown);
-};
 
 const selectColourInPicker = async (page: Page): Promise<void> => {
   await Promise.all([safeWaitForNavigation(page), page.click(colourSelector)]);
@@ -58,7 +49,7 @@ async function gotoSearchResultPage(
   await fillActionSearchInput(query, page);
   await Promise.all([
     safeWaitForNavigation(page),
-    pressActionEnterSearchInput(page),
+    page.press(searchBarInput, 'Enter'),
   ]);
 }
 
@@ -70,14 +61,14 @@ test.describe('Image search', () => {
     await gotoSearchResultPage({ url: imagesUrl, query }, page);
 
     if (isMobile(page)) {
-      await clickActionModalFilterButton(page);
-      await elementIsVisible(mobileModalImageSearch, page);
+      await page.click(formatFilterMobileButton);
+      await elementIsVisible(mobileModal, page);
       await selectColourInPicker(page);
-      await clickActionCloseModalFilterButton(page);
+      await page.click(mobileModalCloseButton);
     } else {
-      await clickActionColourDropDown(page);
+      await page.click(colourSelectorFilterDropDown);
       await selectColourInPicker(page);
-      await clickActionColourDropDown(page);
+      await page.click(colourSelectorFilterDropDown);
     }
     await expectItemIsVisible(imageSearchResultsContainer, page);
     await expectItemsIsVisible(imagesResultsListItem, 1, page);
