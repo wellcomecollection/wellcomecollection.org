@@ -231,13 +231,12 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   return (
     <>
       <noscript>
-        <>
-          <MoreFilters
-            changeHandler={changeHandler}
-            filters={filters}
-            form={form}
-          />
-        </>
+        <MoreFilters
+          changeHandler={changeHandler}
+          filters={filters}
+          hasNoResults={hasNoResults}
+          form={form}
+        />
       </noscript>
       <Modal
         id={id}

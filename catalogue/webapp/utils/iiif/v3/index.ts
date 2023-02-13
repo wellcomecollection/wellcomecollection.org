@@ -15,7 +15,7 @@ import {
   Range,
 } from '@iiif/presentation-3';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import {
   DownloadOption,
   TransformedCanvas,
@@ -34,8 +34,12 @@ export function getMultiVolumeLabel(
   internationalString: InternationalString,
   itemTitle: string
 ): string {
-  const stringAtIndex1 = getEnFromInternationalString(internationalString, 1);
-  const stringAtIndex0 = getEnFromInternationalString(internationalString, 0);
+  const stringAtIndex1 = getEnFromInternationalString(internationalString, {
+    index: 1,
+  });
+  const stringAtIndex0 = getEnFromInternationalString(internationalString, {
+    index: 0,
+  });
 
   return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
 }
@@ -44,8 +48,9 @@ export function getMultiVolumeLabel(
 // can be either 'en' or 'none'
 export function getEnFromInternationalString(
   internationalString: InternationalString,
-  index = 0
+  indexProps?: { index: number }
 ): string {
+  const index = indexProps?.index || 0;
   return (
     internationalString?.['en']?.[index] ||
     internationalString?.['none']?.[index] ||
@@ -61,8 +66,7 @@ export function transformLabel(
   return getEnFromInternationalString(label);
 }
 
-export function getAudio(manifest: Manifest | undefined): Audio | undefined {
-  if (!manifest) return;
+export function getAudio(manifest: Manifest): Audio {
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
   const firstEnCanvas = canvases.find(c => c?.label?.en);
   const title = firstEnCanvas?.label
@@ -108,11 +112,11 @@ type Rendering = {
 };
 
 export function getDownloadOptionsFromManifest(
-  iiifManifest: Manifest | undefined
+  iiifManifest: Manifest
 ): DownloadOption[] {
   // The ContentResource type on the Manifest, which applies to the iiifManifest.rendering seems incorrect
   // Temporarily adding this until it is fixed.
-  const rendering = (iiifManifest?.rendering as Rendering[]) || [];
+  const rendering = (iiifManifest.rendering as Rendering[]) || [];
   return rendering
     .filter(({ id, format }) => {
       // I'm removing application/zip (for now?) as we haven't had these before
@@ -133,10 +137,8 @@ export function getDownloadOptionsFromManifest(
     });
 }
 
-export function getPdf(
-  iiifManifest: Manifest | undefined
-): DownloadOption | undefined {
-  const allAnnotations = iiifManifest?.items
+export function getPdf(iiifManifest: Manifest): DownloadOption | undefined {
+  const allAnnotations = iiifManifest.items
     ?.map(item => item.annotations)
     ?.flat();
   const allItems = allAnnotations?.map(annotation => annotation?.items).flat();
@@ -169,16 +171,13 @@ export function getTitle(
 }
 
 export function getTransformedCanvases(
-  iiifManifest: Manifest | undefined
+  iiifManifest: Manifest
 ): TransformedCanvas[] {
-  if (iiifManifest) {
-    const canvases = iiifManifest.items?.filter(
-      canvas => canvas.type === 'Canvas'
-    );
-    return transformCanvases(canvases) || [];
-  } else {
-    return [];
-  }
+  const canvases = iiifManifest.items?.filter(
+    canvas => canvas.type === 'Canvas'
+  );
+
+  return canvases.map(transformCanvas);
 }
 
 function getLabelString(
@@ -230,8 +229,7 @@ function getThumbnailImage(canvas: Canvas):
   const thumbnailService = Array.isArray(thumbnail.service)
     ? thumbnail.service[0]
     : thumbnail.service;
-  const urlTemplate =
-    thumbnailService && iiifImageTemplate(thumbnailService['@id']);
+  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   const preferredMinThumbnailHeight = 400;
   const preferredThumbnail = thumbnailService?.sizes
     ?.sort((a, b) => a.height - b.height)
@@ -278,12 +276,11 @@ function getImageServiceId(
 function getImageAuthCookieService(
   imageService: BodyService | undefined
 ): Service | undefined {
-  const imageCookieService = Array.isArray(imageService?.service)
+  return Array.isArray(imageService?.service)
     ? imageService?.service?.find(s => s['@type'] === 'AuthCookieService1')
     : imageService?.service?.['@type'] === 'AuthCookieService1'
     ? imageService?.service
     : undefined;
-  return imageCookieService;
 }
 
 // We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
@@ -294,11 +291,9 @@ function getImageAuthCookieService(
 // This allows us to determine whether or not to show the viewer at all.
 // N.B. the individual items within the viewer won't display if they are restricted.
 export function checkIsAnyImageOpen(
-  transformedCanvases: TransformedCanvas[] | undefined
+  transformedCanvases: TransformedCanvas[]
 ): boolean {
-  return Boolean(
-    transformedCanvases?.some(canvas => !canvas.hasRestrictedImage)
-  );
+  return transformedCanvases.some(canvas => !canvas.hasRestrictedImage);
 }
 
 export function getIIIFMetadata(
@@ -311,9 +306,8 @@ export function getIIIFMetadata(
 }
 
 export function getIIIFPresentationCredit(
-  manifest: Manifest | undefined
+  manifest: Manifest
 ): string | undefined {
-  if (!manifest) return;
   const attribution = getIIIFMetadata(manifest, 'Attribution and usage');
   const maybeValueWithBrTags =
     attribution?.value && getEnFromInternationalString(attribution.value);
@@ -343,8 +337,7 @@ function getExternalWebResourceBody(
   return isExternalWebResource ? body : undefined;
 }
 
-export function getVideo(manifest: Manifest | undefined): Video | undefined {
-  if (!manifest) return;
+export function getVideo(manifest: Manifest): Video | undefined {
   const videoChoiceBody = getChoiceBody(
     manifest.items?.[0]?.items?.[0]?.items?.[0]?.body
   );
@@ -361,13 +354,10 @@ export function getVideo(manifest: Manifest | undefined): Video | undefined {
     : undefined;
 }
 
-export function getSearchService(
-  manifest: Manifest | undefined
-): Service | undefined {
-  const searchService = manifest?.service?.find(
+export function getSearchService(manifest: Manifest): Service | undefined {
+  return manifest.service?.find(
     service => service?.['@type'] === 'SearchService1'
   );
-  return searchService || undefined;
 }
 
 export function getFirstCollectionManifestLocation(
@@ -390,9 +380,9 @@ export function hasPdfDownload(manifest: Manifest): boolean {
 }
 
 export function getClickThroughService(
-  manifest: Manifest | undefined
+  manifest: Manifest
 ): AuthClickThroughServiceWithPossibleServiceArray | undefined {
-  return manifest?.services?.find(
+  return manifest.services?.find(
     s => s.profile === 'http://iiif.io/api/auth/1/clickthrough'
   ) as AuthClickThroughServiceWithPossibleServiceArray | undefined;
 }
@@ -403,18 +393,13 @@ const restrictedAuthServiceUrl =
 function isImageRestricted(canvas: Canvas): boolean {
   const imageService = getImageService(canvas);
   const imageAuthCookieService = getImageAuthCookieService(imageService);
-  if (imageAuthCookieService?.['@id'] === restrictedAuthServiceUrl) {
-    return true;
-  } else {
-    return false;
-  }
+  return imageAuthCookieService?.['@id'] === restrictedAuthServiceUrl;
 }
 
 export function getRestrictedLoginService(
-  manifest: Manifest | undefined
+  manifest: Manifest
 ): AuthExternalService | undefined {
-  if (!manifest) return;
-  return manifest?.services?.find(service => {
+  return manifest.services?.find(service => {
     const typedService = service as AuthExternalService;
     return typedService['@id'] === restrictedAuthServiceUrl;
   }) as AuthExternalService;
@@ -480,15 +465,14 @@ function transformCanvas(canvas: Canvas): TransformedCanvas {
   };
 }
 
-export function transformCanvases(canvases: Canvas[]): TransformedCanvas[] {
-  return canvases.map(canvas => transformCanvas(canvas));
-}
-
 export function groupStructures(
   items: TransformedCanvas[],
   structures: Range[]
 ): Range[] {
-  const clonedStructures = cloneDeep(structures);
+  // TODO: Do we actually need to clone the `structures` array here?
+  // It doesn't look like it's being mutated anywhere, so can't we just
+  // pass it directly to `reduce`?
+  const clonedStructures: Range[] = cloneDeep(structures);
   return clonedStructures.reduce(
     (acc, structure) => {
       if (!structure.items) return acc;
@@ -496,15 +480,20 @@ export function groupStructures(
       const [lastCanvasInRange] = structure.items.slice(-1);
       const [firstCanvasInRange] = structure.items;
       const firstCanvasIndex = items.findIndex(
-        canvas => canvas.id === firstCanvasInRange.id
+        canvas =>
+          !isString(firstCanvasInRange) && canvas.id === firstCanvasInRange.id
       );
 
       if (
         getEnFromInternationalString(acc.previousLabel) ===
           getEnFromInternationalString(structure.label) &&
+        acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
-        acc.groupedArray[acc.groupedArray.length - 1].items.push(
+        // We know this is okay because we'll only enter this branch if
+        // `previousLastCanvasIndex` is defined
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        acc.groupedArray[acc.groupedArray.length - 1].items!.push(
           lastCanvasInRange
         );
       } else if (structure.items.length > 0) {
@@ -512,14 +501,19 @@ export function groupStructures(
       }
       acc.previousLabel = structure.label;
       acc.previousLastCanvasIndex = items.findIndex(
-        canvas => canvas.id === lastCanvasInRange.id
+        canvas =>
+          !isString(lastCanvasInRange) && canvas.id === lastCanvasInRange.id
       );
       return acc;
     },
     {
       previousLastCanvasIndex: null,
-      previousLabel: { none: '' },
+      previousLabel: { none: [''] },
       groupedArray: [],
+    } as {
+      previousLastCanvasIndex: number | null;
+      previousLabel: InternationalString;
+      groupedArray: Range[];
     }
   ).groupedArray;
 }

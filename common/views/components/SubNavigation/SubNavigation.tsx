@@ -47,11 +47,11 @@ const SubNavigation: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <Wrapper aria-label={label}>
-      <TabsContainer>
+      <TabsContainer data-test-id="sub-nav-tab-container">
         {items.map(item => {
           const isSelected = currentSection === item.id;
           return (
-            <Tab key={item.id}>
+            <Tab data-test-id={item.id} key={item.id}>
               <Link
                 scroll={false}
                 passHref

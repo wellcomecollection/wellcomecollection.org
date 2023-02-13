@@ -112,6 +112,12 @@ const InfoWrapper = styled.div`
   `}
 `;
 
+const ViewImageButtonWrapper = styled(Space).attrs({
+  h: { size: 'm', properties: ['margin-right'] },
+})`
+  display: inline-block;
+`;
+
 const trackingSource = 'images_search_result';
 
 const ExpandedImage: FunctionComponent<Props> = ({
@@ -330,17 +336,14 @@ const ExpandedImage: FunctionComponent<Props> = ({
 
           {expandedImageLink && (
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <Space
-                h={{ size: 'm', properties: ['margin-right'] }}
-                className="inline-block"
-              >
+              <ViewImageButtonWrapper>
                 <ButtonSolidLink
                   text="View image"
                   icon={eye}
                   link={expandedImageLink}
                   ariaLabel={expandedViewImageButton}
                 />
-              </Space>
+              </ViewImageButtonWrapper>
             </Space>
           )}
         </InfoWrapper>

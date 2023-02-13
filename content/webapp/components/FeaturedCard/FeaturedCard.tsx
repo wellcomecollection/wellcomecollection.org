@@ -25,7 +25,7 @@ import { EventBasic } from '../../types/events';
 import { Guide } from '../../types/guides';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import DateRange from '@weco/common/views/components/DateRange/DateRange';
 
 type PartialFeaturedCard = {
   id: string;
@@ -135,6 +135,14 @@ type FeaturedCardExhibitionProps = {
   textColor: PaletteColor;
 };
 
+const DateWrapper = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom'] },
+  className: font('intr', 4),
+})`
+  margin: 0;
+  padding: 0;
+`;
+
 type FeaturedCardExhibitionBodyProps = {
   exhibition: ExhibitionBasic;
 };
@@ -146,17 +154,9 @@ const FeaturedCardExhibitionBody = ({
     <div data-test-id="featured-exhibition">
       <h2 className={font('wb', 2)}>{exhibition.title}</h2>
       {!exhibition.statusOverride && exhibition.start && exhibition.end && (
-        <Space
-          as="p"
-          v={{ size: 'm', properties: ['margin-bottom'] }}
-          className={`${font('intr', 4)} no-margin no-padding`}
-        >
-          <>
-            <HTMLDate date={exhibition.start} />
-            {' – '}
-            <HTMLDate date={exhibition.end} />
-          </>
-        </Space>
+        <DateWrapper as="p">
+          <DateRange start={exhibition.start} end={exhibition.end} />
+        </DateWrapper>
       )}
       <StatusIndicator
         start={exhibition.start}

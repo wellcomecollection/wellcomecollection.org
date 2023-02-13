@@ -33,7 +33,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
     >
       <div className="grid">
         <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-          <Copy textColor={textColor}>
+          <Copy data-test-id="search-no-results" textColor={textColor}>
             We couldn&rsquo;t find anything that matched{' '}
             {query ? <QuerySpan>{query}</QuerySpan> : 'your search'}
             {hasFilters ? ' with the filters you have selected.' : '.'} Please

@@ -114,6 +114,13 @@ export const CardLabels: FunctionComponent<{ labels: LabelType[] }> = ({
   </LabelsWrapper>
 );
 
+const Description = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  padding: 0;
+  margin: 0;
+`;
+
 const Card: FunctionComponent<Props> = ({ item }: Props) => {
   const image = getCrop(item.image, '16:9');
 
@@ -162,11 +169,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
               {item.title}
             </Space>
           )}
-          {item.description && (
-            <p className={`${font('intr', 5)} no-padding no-margin`}>
-              {item.description}
-            </p>
-          )}
+          {item.description && <Description>{item.description}</Description>}
         </div>
       </CardBody>
     </CardOuter>

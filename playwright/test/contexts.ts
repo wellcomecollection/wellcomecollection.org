@@ -177,6 +177,14 @@ const worksSearch = async (
   await gotoWithoutCache(`${baseUrl}/works`, page);
 };
 
+const newWorksSearch = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/search/works`, page);
+};
+
 const article = async (
   id: string,
   context: BrowserContext,
@@ -227,6 +235,7 @@ export {
   multiVolumeItem2,
   itemWithAltText,
   worksSearch,
+  newWorksSearch,
   itemWithSearchAndStructures,
   itemWithReferenceNumber,
   workWithPhysicalLocationOnly,

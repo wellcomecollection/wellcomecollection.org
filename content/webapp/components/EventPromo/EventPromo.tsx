@@ -22,6 +22,7 @@ import { PlaceBasic } from '../../types/places';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import styled from 'styled-components';
 
 type Props = {
   event: EventBasic;
@@ -57,6 +58,13 @@ export function getLocationText(
     isNotUndefined(places) && places.length > 0 ? ` | ${inOurBuilding}` : ''
   }`;
 }
+
+const DateInfo = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  padding: 0;
+  margin: 0;
+`;
 
 const EventPromo: FunctionComponent<Props> = ({
   event,
@@ -137,25 +145,16 @@ const EventPromo: FunctionComponent<Props> = ({
 
           {!isPast && (
             <>
-              <p className={`${font('intr', 5)} no-padding no-margin`}>
+              <DateInfo>
                 <EventDateRange
                   event={event}
                   splitTime={true}
                   fromDate={fromDate}
                 />
-              </p>
+              </DateInfo>
 
-              {dateString && (
-                <p className={`${font('intr', 5)} no-padding no-margin`}>
-                  {dateString}
-                </p>
-              )}
-
-              {timeString && (
-                <p className={`${font('intr', 5)} no-padding no-margin`}>
-                  {timeString}
-                </p>
-              )}
+              {dateString && <DateInfo>{dateString}</DateInfo>}
+              {timeString && <DateInfo>{timeString}</DateInfo>}
             </>
           )}
 
