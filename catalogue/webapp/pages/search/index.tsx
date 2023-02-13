@@ -26,7 +26,7 @@ import { Image, Work } from '@weco/common/model/catalogue';
 import {
   getQueryResults,
   getQueryPropertyValue,
-} from '@weco/catalogue/utils/search';
+} from '@weco/common/utils/search';
 import {
   decodeQuery,
   FromCodecMap,

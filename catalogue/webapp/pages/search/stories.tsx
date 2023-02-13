@@ -18,7 +18,7 @@ import { getServerData } from '@weco/common/server-data';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
-import { getQueryPropertyValue } from '@weco/catalogue/utils/search';
+import { getQueryPropertyValue } from '@weco/common/utils/search';
 
 // Types
 import { Story } from '@weco/catalogue/services/prismic/types/story';
@@ -66,7 +66,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
             <SortPaginationWrapper>
               <Sort
-                formId="searchPageForm"
+                formId="search-page-form"
                 options={[
                   // Default value to be left empty as to not be reflected in URL query
                   { value: '', text: 'Newest to oldest' },

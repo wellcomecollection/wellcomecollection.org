@@ -1,6 +1,6 @@
-import Space from '../styled/Space';
-import styled from 'styled-components';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+import Space from '@weco/common/views/components/styled/Space';
 
 const Heading = styled(Space)`
   display: block;

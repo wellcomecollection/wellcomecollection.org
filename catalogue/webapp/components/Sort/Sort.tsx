@@ -8,7 +8,7 @@ import { propsToQuery } from '@weco/common/utils/routes';
 import {
   DefaultSortValuesType,
   getUrlQueryFromSortValue,
-} from '@weco/catalogue/utils/search';
+} from '@weco/common/utils/search';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },

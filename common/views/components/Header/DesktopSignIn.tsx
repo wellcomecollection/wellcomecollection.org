@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { font } from '../../../utils/classnames';
-import { useUser } from '../UserProvider/UserProvider';
-import DropdownButton from '../DropdownButton/DropdownButton';
-import Space from '../styled/Space';
-import { BorderlessLink } from '../BorderlessClickable/BorderlessClickable';
-import { user as userIcon } from '../../../icons';
-import { trackGaEvent } from '../../../utils/ga';
+import { font } from '@weco/common/utils/classnames';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
+import Space from '@weco/common/views/components/styled/Space';
+import { BorderlessLink } from '@weco/common/views/components/BorderlessClickable/BorderlessClickable';
+import { user as userIcon } from '@weco/common/icons';
+import { trackGaEvent } from '@weco/common/utils/ga';
 
 type AccountAProps = {
   last?: true;
@@ -36,40 +36,22 @@ const DesktopSignIn: FunctionComponent = () => {
   ) : (
     <>
       {state === 'signedout' && (
-        <>
-          <span className="display-none headerLarge-display-block">
-            <BorderlessLink
-              iconLeft={userIcon}
-              text={<span className={font('intr', 6)}>Library sign in</span>}
-              href="/account/api/auth/login"
-              onClick={() => {
-                trackGaEvent({
-                  category: 'library_account',
-                  action: 'login',
-                  label: window.location.pathname,
-                });
-              }}
-            />
-          </span>
-          <span
-            className={
-              'display-none headerMedium-display-block headerLarge-display-none' +
-              ' ' +
-              font('intr', 6)
-            }
+        <span
+          className={
+            'display-none headerMedium-display-block' + ' ' + font('intr', 6)
+          }
+        >
+          <DropdownButton
+            label=""
+            iconLeft={userIcon}
+            id="signedin-dropdown"
+            buttonType="borderless"
           >
-            <DropdownButton
-              label=""
-              iconLeft={userIcon}
-              id="signedin-dropdown"
-              buttonType="borderless"
-            >
-              <a href="/account/api/auth/login">
-                Sign in to your library account
-              </a>
-            </DropdownButton>
-          </span>
-        </>
+            <a href="/account/api/auth/login">
+              Sign in to your library account
+            </a>
+          </DropdownButton>
+        </span>
       )}
       {state === 'signedin' && user && (
         <span className="display-none headerMedium-display-block">

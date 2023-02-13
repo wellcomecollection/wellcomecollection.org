@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import Space from '../styled/Space';
-import Icon from '../Icon/Icon';
-import { useUser } from '../UserProvider/UserProvider';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { user as userIcon } from '@weco/common/icons';
 import { trackGaEvent } from '@weco/common/utils/ga';
 

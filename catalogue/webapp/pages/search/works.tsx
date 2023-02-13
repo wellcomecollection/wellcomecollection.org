@@ -30,7 +30,7 @@ import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { propsToQuery } from '@weco/common/utils/routes';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { hasFilters } from '@weco/catalogue/utils/search';
+import { hasFilters } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 
@@ -123,9 +123,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
           <SearchFilters
             query={queryString}
             linkResolver={linkResolver}
-            searchFormId="searchPageForm"
+            searchFormId="search-page-form"
             changeHandler={() => {
-              const form = document.getElementById('searchPageForm');
+              const form = document.getElementById('search-page-form');
               form &&
                 form.dispatchEvent(
                   new window.Event('submit', {
@@ -160,7 +160,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
               <SortPaginationWrapper>
                 <Sort
-                  formId="searchPageForm"
+                  formId="search-page-form"
                   options={[
                     // Default value to be left empty so it's not added to the URL query
                     { value: '', text: 'Relevance' },
