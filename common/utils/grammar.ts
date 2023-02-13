@@ -39,19 +39,25 @@ export function dasherizeShorten(words: string): string {
  *         1942 =>     1,942
  *      1234567 => 1,234,567
  *
- * If isCompact is set to true, it sets it to a compact format, e.g.
+ * If isCompact is set to true, it sets it to a compact format by rounding it up, e.g.
  *
  *         1942 =>     1.9K
- *      1234567 =>     1.2M
+ *      1194567 =>     1.2M
  */
-export function formatNumber(n: number, isCompact?: boolean): string {
+export function formatNumber({
+  number,
+  isCompact,
+}: {
+  number: number;
+  isCompact?: boolean;
+}): string {
   const format = isCompact
     ? new Intl.NumberFormat('en-GB', {
         notation: 'compact',
       })
     : new Intl.NumberFormat('en-GB');
 
-  return format.format(n);
+  return format.format(number);
 }
 
 /** Formats a string to describe a list of results, e.g.
@@ -62,7 +68,9 @@ export function formatNumber(n: number, isCompact?: boolean): string {
  *
  */
 export function pluralize(count: number, noun: string, suffix = 's'): string {
-  return `${formatNumber(count)} ${noun}${count !== 1 ? suffix : ''}`;
+  return `${formatNumber({ number: count })} ${noun}${
+    count !== 1 ? suffix : ''
+  }`;
 }
 
 export function unCamelCase(words: string): string {

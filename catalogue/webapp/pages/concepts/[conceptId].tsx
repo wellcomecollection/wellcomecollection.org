@@ -95,7 +95,10 @@ type SeeMoreButtonType = {
 
 const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
   <MoreLink
-    name={`${text} (${formatNumber(totalResults, true)})`}
+    name={`${text} (${formatNumber({
+      number: totalResults,
+      isCompact: true,
+    })})`}
     url={link}
     colors={theme.buttonColors.yellowYellowBlack}
     hoverUnderline
@@ -109,7 +112,10 @@ type TagLabelType = {
 
 const TabLabel = ({ text, totalResults }: TagLabelType) => (
   <>
-    {text} <span className="is-hidden-s">({formatNumber(totalResults)})</span>
+    {text}{' '}
+    <span className="is-hidden-s">
+      ({formatNumber({ number: totalResults })})
+    </span>
   </>
 );
 
