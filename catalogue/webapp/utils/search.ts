@@ -5,12 +5,18 @@ export type DefaultSortValuesType = {
 
 type ResultsList<T> = {
   results: T[];
+  totalResults: number;
   type: 'ResultList';
 };
 
 type ApiError = {
   type: 'Error';
   label: string;
+};
+
+type ReturnedResults<T> = {
+  pageResults: T[];
+  totalResults: number;
 };
 
 /**
@@ -24,12 +30,15 @@ export function getQueryResults<T>({
 }: {
   categoryName: string;
   queryResults: ResultsList<T> | ApiError;
-}): T[] | undefined {
+}): ReturnedResults<T> | undefined {
   // An error shouldn't stop the other results from displaying
   if (queryResults.type === 'Error') {
     console.error(queryResults.label + ': Error fetching ' + categoryName);
   } else {
-    return queryResults.results;
+    return {
+      pageResults: queryResults.results,
+      totalResults: queryResults.totalResults,
+    };
   }
 }
 
