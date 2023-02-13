@@ -83,8 +83,8 @@ const PaginatorWrapper = styled.div`
 
 /* eslint-disable react/display-name */
 const PaginatorButtons = (
-  isTabbable: boolean,
-  workId: string
+  workId: string,
+  { isTabbable }: { isTabbable: boolean }
 ): FunctionComponent<PaginatorRenderFunctionProps> => {
   return ({
     currentPage,
@@ -226,7 +226,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
         <NoScriptViewerPaginatorButtons>
           <RenderlessPaginator
             {...mainPaginatorProps}
-            render={PaginatorButtons(true, workId)}
+            render={PaginatorButtons(workId, { isTabbable: true })}
           />
         </NoScriptViewerPaginatorButtons>
       </NoScriptViewerMain>
@@ -269,7 +269,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
           <NoScriptViewerPaginatorButtons>
             <RenderlessPaginator
               {...thumbsPaginatorProps}
-              render={PaginatorButtons(true, workId)}
+              render={PaginatorButtons(workId, { isTabbable: true })}
             />
           </NoScriptViewerPaginatorButtons>
         </StaticThumbnailsContainer>
