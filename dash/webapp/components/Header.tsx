@@ -60,16 +60,15 @@ const Header: FunctionComponent<Props> = ({ title }) => {
               marginRight: '18px',
             }}
           >
-            <Link href="/pa11y/">
-              <a
-                style={{
-                  color: '#323232',
-                  textDecoration: 'none',
-                  fontWeight: 'bold',
-                }}
-              >
-                Pa11y
-              </a>
+            <Link
+              href="/pa11y/"
+              style={{
+                color: '#323232',
+                textDecoration: 'none',
+                fontWeight: 'bold',
+              }}
+            >
+              Pa11y
             </Link>
           </li>
           <li
@@ -77,16 +76,15 @@ const Header: FunctionComponent<Props> = ({ title }) => {
               marginRight: '18px',
             }}
           >
-            <Link href="/toggles/">
-              <a
-                style={{
-                  color: '#323232',
-                  textDecoration: 'none',
-                  fontWeight: 'bold',
-                }}
-              >
-                Toggles
-              </a>
+            <Link
+              href="/toggles/"
+              style={{
+                color: '#323232',
+                textDecoration: 'none',
+                fontWeight: 'bold',
+              }}
+            >
+              Toggles
             </Link>
           </li>
         </ul>

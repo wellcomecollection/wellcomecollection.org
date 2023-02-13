@@ -1,4 +1,9 @@
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -8,7 +13,7 @@ import { propsToQuery } from '@weco/common/utils/routes';
 import {
   DefaultSortValuesType,
   getUrlQueryFromSortValue,
-} from '@weco/catalogue/utils/search';
+} from '@weco/common/utils/search';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { ButtonTypes } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 

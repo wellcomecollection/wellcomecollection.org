@@ -2,6 +2,7 @@ import React, { useContext, FunctionComponent, ReactNode } from 'react';
 import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
+import Script from 'next/script';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import Header, { NavLink } from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
@@ -202,7 +203,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <meta key="twitter:image" name="twitter:image" content={imageUrl} />
         <meta name="twitter:image:alt" content={imageAltText} />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <script
+        <Script
           src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
             ','
           )}`}
@@ -239,12 +240,12 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           href="https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg"
           color="#000000"
         />
-        <script
+        <Script
           src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
           async
         />
 
-        <script
+        <Script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(jsonLd),
@@ -259,7 +260,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             type="application/rss+xml"
           />
         )}
-        <script
+        <Script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(
@@ -267,7 +268,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             ),
           }}
         />
-        <script
+        <Script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),

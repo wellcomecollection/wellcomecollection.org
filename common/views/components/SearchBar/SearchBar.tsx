@@ -1,5 +1,11 @@
-import { FunctionComponent, useContext, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
+import {
+  Dispatch,
+  FunctionComponent,
+  RefObject,
+  SetStateAction,
+  useContext,
+  useRef,
+} from 'react';
 import styled from 'styled-components';
 
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -30,14 +36,23 @@ const SearchInputWrapper = styled.div`
 const SearchButtonWrapper = styled.div`
   flex: 0 1 auto;
 `;
+type Props = {
+  inputValue: string;
+  setInputValue: Dispatch<SetStateAction<string>>;
+  placeholder: string;
+  form: string;
+  inputRef?: RefObject<HTMLInputElement>;
+};
 
-const SearchBar: FunctionComponent<{ placeholder: string }> = ({
+const SearchBar: FunctionComponent<Props> = ({
+  inputValue,
+  setInputValue,
   placeholder,
+  form,
+  inputRef,
 }) => {
-  const { query } = useRouter();
   const { isEnhanced } = useContext(AppContext);
-  const [inputQuery, setInputQuery] = useState((query.query as string) || '');
-  const searchInput = useRef<HTMLInputElement>(null);
+  const defaultInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <Container>
@@ -47,16 +62,16 @@ const SearchBar: FunctionComponent<{ placeholder: string }> = ({
           label={placeholder}
           name="query"
           type="search"
-          value={inputQuery}
-          setValue={setInputQuery}
-          ref={searchInput}
-          form="searchPageForm"
+          value={inputValue}
+          setValue={setInputValue}
+          ref={inputRef || defaultInputRef}
+          form={form}
           big={true}
         />
-        {inputQuery && isEnhanced && (
+        {inputValue && isEnhanced && (
           <ClearSearch
-            inputRef={searchInput}
-            setValue={setInputQuery}
+            inputRef={inputRef || defaultInputRef}
+            setValue={setInputValue}
             gaEvent={{
               category: 'SearchForm',
               action: 'clear search',
@@ -71,7 +86,7 @@ const SearchBar: FunctionComponent<{ placeholder: string }> = ({
           text="Search"
           type={ButtonTypes.submit}
           size="large"
-          form="searchPageForm"
+          form={form}
           colors={themeValues.buttonColors.yellowYellowBlack}
         />
       </SearchButtonWrapper>

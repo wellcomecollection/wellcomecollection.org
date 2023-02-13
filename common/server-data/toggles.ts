@@ -20,9 +20,9 @@ const togglesHandler: Handler<TogglesResp, TogglesResp> = {
 
 type Context = {
   req: IncomingMessage & {
-    cookies: {
+    cookies: Partial<{
       [key: string]: string;
-    };
+    }>;
   };
 };
 

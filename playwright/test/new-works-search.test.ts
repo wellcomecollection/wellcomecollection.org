@@ -211,14 +211,16 @@ test.describe(
 
       await Promise.all([
         page
-          .locator('input[form="searchPageForm"][name="production.dates.from"]')
+          .locator(
+            'input[form="search-page-form"][name="production.dates.from"]'
+          )
           .fill('1939'),
         safeWaitForNavigation(page),
       ]);
 
       await Promise.all([
         page
-          .locator('input[form="searchPageForm"][name="production.dates.to"]')
+          .locator('input[form="search-page-form"][name="production.dates.to"]')
           .fill('2001'),
         safeWaitForNavigation(page),
       ]);

@@ -356,7 +356,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
               'cancel_filter/all'
             )}
           >
-            <a>Reset filters</a>
+            Reset filters
           </NextLink>
 
           <ButtonSolid
