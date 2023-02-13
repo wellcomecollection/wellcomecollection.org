@@ -1,10 +1,6 @@
 import { Page, test } from '@playwright/test';
 import { gotoWithoutCache, isMobile } from './contexts';
-import {
-  clickActionModalFilterButton,
-  clickActionCloseModalFilterButton,
-  clickActionClickSearchResultItem,
-} from './actions/search';
+import { clickActionClickSearchResultItem } from './actions/search';
 
 import { clickActionClickViewExpandedImage } from './actions/images';
 
@@ -14,14 +10,16 @@ import {
   expectItemIsVisible,
   expectUrlToMatch,
 } from './asserts/common';
-import {
-  mobileModalImageSearch,
-  modalexpandedImageViewMoreButton,
-} from './selectors/images';
+import { modalexpandedImageViewMoreButton } from './selectors/images';
 
 import { regexImageGalleryUrl } from './helpers/regex';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 import { baseUrl } from './helpers/urls';
+import {
+  formatFilterMobileButton,
+  mobileModal,
+  mobileModalCloseButton,
+} from './selectors/search';
 
 const imagesUrl = `${baseUrl}/search/images`;
 const searchBarInput = `#search-searchbar`;
@@ -30,6 +28,7 @@ const colourSelector = `button[data-test-id="swatch-green"]`;
 const imageSearchResultsContainer =
   'ul[data-test-id="image-search-results-container"]';
 const imagesResultsListItem = `${imageSearchResultsContainer} li[data-test-id="image-search-result"]`;
+const mobileModalImageSearch = `${mobileModal}`;
 
 const fillActionSearchInput = async (
   value: string,
@@ -48,6 +47,17 @@ const clickActionColourDropDown = async (page: Page): Promise<void> => {
 
 const selectColourInPicker = async (page: Page): Promise<void> => {
   await Promise.all([safeWaitForNavigation(page), page.click(colourSelector)]);
+};
+
+const clickActionModalFilterButton = async (page: Page): Promise<void> => {
+  const selector = `${formatFilterMobileButton}`;
+  await page.click(selector);
+};
+export const clickActionCloseModalFilterButton = async (
+  page: Page
+): Promise<void> => {
+  const selector = `${mobileModalCloseButton}`;
+  await page.click(selector);
 };
 
 async function gotoSearchResultPage(

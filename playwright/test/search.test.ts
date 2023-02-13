@@ -1,14 +1,14 @@
 import { Page, test, expect } from '@playwright/test';
 import { gotoWithoutCache, isMobile } from './contexts';
-import {
-  clickActionCloseModalFilterButton,
-  clickActionModalFilterButton,
-} from './actions/search';
 
 import { elementIsVisible, fillInputAction } from './actions/common';
 import { expectItemsIsVisible, expectItemIsVisible } from './asserts/common';
-import { mobileModalImageSearch } from './selectors/images';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
+import {
+  formatFilterMobileButton,
+  mobileModal,
+  mobileModalCloseButton,
+} from './selectors/search';
 
 const baseUrl = process.env.PLAYWRIGHT_BASE_URL
   ? process.env.PLAYWRIGHT_BASE_URL
@@ -52,6 +52,15 @@ async function gotoSearchResultPage(
   ]);
 }
 
+const clickActionModalFilterButton = async (page: Page): Promise<void> => {
+  const selector = `${formatFilterMobileButton}`;
+  await page.click(selector);
+};
+const clickActionCloseModalFilterButton = async (page: Page): Promise<void> => {
+  const selector = `${mobileModalCloseButton}`;
+  await page.click(selector);
+};
+
 const imageSearchResultsContainer =
   'ul[data-test-id="image-search-results-container"]';
 const imagesResultsListItem = `${imageSearchResultsContainer} li[data-test-id="image-search-result"]`;
@@ -59,6 +68,8 @@ const imagesResultsListItem = `${imageSearchResultsContainer} li[data-test-id="i
 const subNavigationContainer = 'div[data-test-id="sub-nav-tab-container"]';
 const catalogueSectionSelector = `${subNavigationContainer} div[data-test-id="works"]`;
 const searchNoResults = 'p[data-test-id="search-no-results"]';
+
+const mobileModalImageSearch = `${mobileModal}`;
 
 test.describe('New Search Page interactions', () => {
   test('the query (but not the filters) are maintained when switching through tabs', async ({
