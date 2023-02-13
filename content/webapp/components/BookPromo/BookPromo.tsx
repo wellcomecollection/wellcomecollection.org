@@ -9,11 +9,10 @@ import BookImage from '../../components/BookImage/BookImage';
 
 type LinkOrSpanSpaceAttrs = {
   url?: string;
-  elem?: string;
 };
 
 const LinkOrSpanSpace = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
-  as: props.url ? 'a' : props.elem || 'div',
+  as: props.url ? 'a' : 'div',
   href: props.url || undefined,
   className: 'promo-link plain-link',
   v: {
