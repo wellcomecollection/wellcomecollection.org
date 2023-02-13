@@ -67,6 +67,14 @@ const BooksPage: FunctionComponent<Props> = ({ books }) => {
           title="Books"
           description={pageDescriptions.books}
           paginatedResults={books}
+          breadcrumbs={{
+            items: [
+              {
+                text: 'Stories',
+                url: '/stories/',
+              },
+            ],
+          }}
         />
       </SpacingSection>
     </PageLayout>
