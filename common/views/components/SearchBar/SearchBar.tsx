@@ -3,6 +3,7 @@ import {
   FunctionComponent,
   RefObject,
   SetStateAction,
+  useContext,
   useRef,
 } from 'react';
 import styled from 'styled-components';
@@ -12,7 +13,9 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { themeValues } from '@weco/common/views/themes/config';
+
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 const Container = styled.div`
   display: flex;
@@ -48,6 +51,7 @@ const SearchBar: FunctionComponent<Props> = ({
   form,
   inputRef,
 }) => {
+  const { isEnhanced } = useContext(AppContext);
   const defaultInputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -64,7 +68,7 @@ const SearchBar: FunctionComponent<Props> = ({
           form={form}
           big={true}
         />
-        {inputValue && (
+        {inputValue && isEnhanced && (
           <ClearSearch
             inputRef={inputRef || defaultInputRef}
             setValue={setInputValue}
