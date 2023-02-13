@@ -15,7 +15,9 @@ type LinkOrSpanSpaceAttrs = {
 const LinkOrSpanSpace = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   as: props.url ? 'a' : props.elem || 'div',
   href: props.url || undefined,
-}))<LinkOrSpanSpaceAttrs>``;
+}))<LinkOrSpanSpaceAttrs>`
+  display: block;
+`;
 
 type Props = {
   book: BookBasic;
@@ -31,7 +33,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
       }}
       h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       url={`/books/${id}`}
-      className="block promo-link plain-link"
+      className="promo-link plain-link"
       onClick={() => {
         trackGaEvent({
           category: 'BookPromo',
