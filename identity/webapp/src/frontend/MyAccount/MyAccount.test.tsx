@@ -41,6 +41,8 @@ jest.mock('next/config', () => () => ({
   },
 }));
 
+jest.mock('next/router', () => require('next-router-mock'));
+
 const renderComponent = (user = mockAuth0Profile) =>
   render(
     <ThemeProvider theme={theme}>
@@ -165,13 +167,13 @@ describe('MyAccount', () => {
     const changeEmailButton = await screen.findByRole('button', {
       name: /change email/i,
     });
-    userEvent.click(changeEmailButton);
+    await userEvent.click(changeEmailButton);
 
     const emailInput = await screen.findByLabelText(/email address/i);
     const passwordConfirmInput = screen.getByLabelText(/confirm password/i);
-    userEvent.clear(emailInput);
-    userEvent.type(emailInput, 'clarkkent@dailybugle.com');
-    userEvent.type(passwordConfirmInput, 'Superman1938');
+    await userEvent.clear(emailInput);
+    await userEvent.type(emailInput, 'clarkkent@dailybugle.com');
+    await userEvent.type(passwordConfirmInput, 'Superman1938');
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -180,7 +182,7 @@ describe('MyAccount', () => {
     const updateEmailButton = screen.getByRole('button', {
       name: /update email/i,
     });
-    userEvent.click(updateEmailButton);
+    await userEvent.click(updateEmailButton);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /email updated/i
@@ -193,16 +195,16 @@ describe('MyAccount', () => {
     const changePasswordButton = await screen.findByRole('button', {
       name: /Change password/,
     });
-    userEvent.click(changePasswordButton);
+    await userEvent.click(changePasswordButton);
 
     const currentPasswordInput = screen.getByLabelText(/current password/i);
     const newPasswordInput = screen.getByLabelText(/^create new password/i);
     const confirmPasswordInput = screen.getByLabelText(
       /re-enter new password/i
     );
-    userEvent.type(currentPasswordInput, 'hunter2');
-    userEvent.type(newPasswordInput, 'Superman1938');
-    userEvent.type(confirmPasswordInput, 'Superman1938');
+    await userEvent.type(currentPasswordInput, 'hunter2');
+    await userEvent.type(newPasswordInput, 'Superman1938');
+    await userEvent.type(confirmPasswordInput, 'Superman1938');
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -211,7 +213,7 @@ describe('MyAccount', () => {
     const updatePasswordButton = screen.getByRole('button', {
       name: /update password/i,
     });
-    userEvent.click(updatePasswordButton);
+    await userEvent.click(updatePasswordButton);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /password updated/i
@@ -228,14 +230,14 @@ describe('MyAccount', () => {
     const requestDeletionButton = await screen.findByRole('button', {
       name: /cancel your membership/i,
     });
-    userEvent.click(requestDeletionButton);
+    await userEvent.click(requestDeletionButton);
 
     expect(
       await screen.findByRole('button', { name: /yes, delete my account/i })
     ).toBeInTheDocument();
 
     const closeButton = screen.getByRole('button', { name: /close/i });
-    userEvent.click(closeButton);
+    await userEvent.click(closeButton);
 
     await waitFor(() => {
       expect(

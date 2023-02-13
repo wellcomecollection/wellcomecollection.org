@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import Image, { ImageLoaderProps } from 'next/image';
+import Image, { ImageLoaderProps } from 'next/legacy/image';
 import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
