@@ -28,7 +28,6 @@ const colourSelector = `button[data-test-id="swatch-green"]`;
 const imageSearchResultsContainer =
   'ul[data-test-id="image-search-results-container"]';
 const imagesResultsListItem = `${imageSearchResultsContainer} li[data-test-id="image-search-result"]`;
-const mobileModalImageSearch = `${mobileModal}`;
 
 const fillActionSearchInput = async (
   value: string,
@@ -37,27 +36,9 @@ const fillActionSearchInput = async (
   const selector = `${searchBarInput}`;
   await fillInputAction(selector, value, page);
 };
-const pressActionEnterSearchInput = async (page: Page): Promise<void> => {
-  const selector = `${searchBarInput}`;
-  await page.press(selector, 'Enter');
-};
-const clickActionColourDropDown = async (page: Page): Promise<void> => {
-  await page.click(colourSelectorFilterDropDown);
-};
 
 const selectColourInPicker = async (page: Page): Promise<void> => {
   await Promise.all([safeWaitForNavigation(page), page.click(colourSelector)]);
-};
-
-const clickActionModalFilterButton = async (page: Page): Promise<void> => {
-  const selector = `${formatFilterMobileButton}`;
-  await page.click(selector);
-};
-export const clickActionCloseModalFilterButton = async (
-  page: Page
-): Promise<void> => {
-  const selector = `${mobileModalCloseButton}`;
-  await page.click(selector);
 };
 
 async function gotoSearchResultPage(
@@ -68,7 +49,7 @@ async function gotoSearchResultPage(
   await fillActionSearchInput(query, page);
   await Promise.all([
     safeWaitForNavigation(page),
-    pressActionEnterSearchInput(page),
+    page.press(searchBarInput, 'Enter'),
   ]);
 }
 
@@ -80,14 +61,14 @@ test.describe('Image search', () => {
     await gotoSearchResultPage({ url: imagesUrl, query }, page);
 
     if (isMobile(page)) {
-      await clickActionModalFilterButton(page);
-      await elementIsVisible(mobileModalImageSearch, page);
+      await page.click(formatFilterMobileButton);
+      await elementIsVisible(mobileModal, page);
       await selectColourInPicker(page);
-      await clickActionCloseModalFilterButton(page);
+      await page.click(mobileModalCloseButton);
     } else {
-      await clickActionColourDropDown(page);
+      await page.click(colourSelectorFilterDropDown);
       await selectColourInPicker(page);
-      await clickActionColourDropDown(page);
+      await page.click(colourSelectorFilterDropDown);
     }
     await expectItemIsVisible(imageSearchResultsContainer, page);
     await expectItemsIsVisible(imagesResultsListItem, 1, page);

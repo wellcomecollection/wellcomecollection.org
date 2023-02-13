@@ -28,13 +28,6 @@ const fillActionSearchInput = async (
   const selector = `${searchBarInput}`;
   await fillInputAction(selector, value, page);
 };
-const pressActionEnterSearchInput = async (page: Page): Promise<void> => {
-  const selector = `${searchBarInput}`;
-  await page.press(selector, 'Enter');
-};
-const clickActionColourDropDown = async (page: Page): Promise<void> => {
-  await page.click(colourSelectorFilterDropDown);
-};
 
 const selectColourInPicker = async (page: Page): Promise<void> => {
   await Promise.all([safeWaitForNavigation(page), page.click(colourSelector)]);
@@ -48,18 +41,9 @@ async function gotoSearchResultPage(
   await fillActionSearchInput(query, page);
   await Promise.all([
     safeWaitForNavigation(page),
-    pressActionEnterSearchInput(page),
+    page.press(searchBarInput, 'Enter'),
   ]);
 }
-
-const clickActionModalFilterButton = async (page: Page): Promise<void> => {
-  const selector = `${formatFilterMobileButton}`;
-  await page.click(selector);
-};
-const clickActionCloseModalFilterButton = async (page: Page): Promise<void> => {
-  const selector = `${mobileModalCloseButton}`;
-  await page.click(selector);
-};
 
 const imageSearchResultsContainer =
   'ul[data-test-id="image-search-results-container"]';
@@ -68,8 +52,6 @@ const imagesResultsListItem = `${imageSearchResultsContainer} li[data-test-id="i
 const subNavigationContainer = 'div[data-test-id="sub-nav-tab-container"]';
 const catalogueSectionSelector = `${subNavigationContainer} div[data-test-id="works"]`;
 const searchNoResults = 'p[data-test-id="search-no-results"]';
-
-const mobileModalImageSearch = `${mobileModal}`;
 
 test.describe('New Search Page interactions', () => {
   test('the query (but not the filters) are maintained when switching through tabs', async ({
@@ -81,14 +63,14 @@ test.describe('New Search Page interactions', () => {
     await expectItemsIsVisible(imagesResultsListItem, 1, page);
 
     if (isMobile(page)) {
-      await clickActionModalFilterButton(page);
-      await elementIsVisible(mobileModalImageSearch, page);
+      await page.click(formatFilterMobileButton);
+      await elementIsVisible(mobileModal, page);
       await selectColourInPicker(page);
-      await clickActionCloseModalFilterButton(page);
+      await page.click(mobileModalCloseButton);
     } else {
-      await clickActionColourDropDown(page);
+      await page.click(colourSelectorFilterDropDown);
       await selectColourInPicker(page);
-      await clickActionColourDropDown(page);
+      await page.click(colourSelectorFilterDropDown);
     }
 
     await page.click(catalogueSectionSelector);
