@@ -43,7 +43,7 @@ describe('Modal', () => {
     const openButton = screen.getByText(/^Open modal window$/i);
     await userEvent.click(openButton);
     const closeButton = screen.getByTestId('close-modal-button');
-    await waitFor(() => expect(document.activeElement).toEqual(closeButton));
+    await expect(document.activeElement).toEqual(closeButton);
   });
 
   it('should focus the open button when closed', async () => {
@@ -52,6 +52,6 @@ describe('Modal', () => {
     await userEvent.click(openButton);
     const closeButton = screen.getByTestId('close-modal-button');
     await userEvent.click(closeButton);
-    await waitFor(() => expect(document.activeElement).toEqual(openButton));
+    await expect(document.activeElement).toEqual(openButton);
   });
 });

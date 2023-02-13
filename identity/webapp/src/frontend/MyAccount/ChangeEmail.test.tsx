@@ -105,7 +105,7 @@ describe('ChangeEmail', () => {
         </UserProvider>
       </ThemeProvider>
     );
-    await waitFor(() => expect(emailAddressInput).toHaveValue(''));
+    await expect(emailAddressInput).toHaveValue('');
   });
 
   describe('shows an error on submission', () => {
