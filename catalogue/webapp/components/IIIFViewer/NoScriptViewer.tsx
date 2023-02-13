@@ -102,7 +102,6 @@ const PaginatorButtons = (
                 colorScheme="light"
                 icon={arrow}
                 text="Previous page"
-                tabIndex={0}
                 clickHandler={() => {
                   trackGaEvent({
                     category: 'Control',
@@ -124,7 +123,6 @@ const PaginatorButtons = (
                 colorScheme="light"
                 icon={arrow}
                 text="Next page"
-                tabIndex={0}
                 clickHandler={() => {
                   trackGaEvent({
                     category: 'Control',
