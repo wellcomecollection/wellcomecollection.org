@@ -51,8 +51,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
   };
-const BooksPage: FunctionComponent<Props> = props => {
-  const { books } = props;
+
+const BooksPage: FunctionComponent<Props> = ({ books }) => {
   const firstBook = books.results[0];
 
   return (
