@@ -5,6 +5,7 @@ import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 import WhatsOnPage from '../../pages/whats-on';
 
 jest.mock('@weco/common/server-data');
+jest.mock('next/router', () => require('next-router-mock'));
 
 const featuredExhibitionSelector = '[data-test-id="featured-exhibition"]';
 const noExhibitionsSelector = '[data-test-id="no-exhibitions"]';
