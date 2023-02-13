@@ -184,9 +184,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   const srcSet =
     urlTemplate &&
     imageSizes(2048)
-      .map(width => {
-        return `${urlTemplate({ size: `${width},` })} ${width}w`;
-      })
+      .map(width => `${urlTemplate({ size: `${width},` })} ${width}w`)
       .join(',');
 
   return (
