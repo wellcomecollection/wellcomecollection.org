@@ -112,7 +112,7 @@ export const filterLabel = ({
 }: {
   label: string;
   count?: number;
-}): string => (count ? `${label} (${formatNumber({ number: count })})` : label);
+}): string => (count ? `${label} (${formatNumber(count)})` : label);
 
 type WorksFilterProps = {
   works: CatalogueResultsList<Work>;

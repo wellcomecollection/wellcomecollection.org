@@ -101,8 +101,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     totalResults,
   }: SeeMoreButtonProps) => (
     <MoreLink
-      name={`${text} (${formatNumber({
-        number: totalResults,
+      name={`${text} (${formatNumber(totalResults, {
         isCompact: true,
       })})`}
       url={{

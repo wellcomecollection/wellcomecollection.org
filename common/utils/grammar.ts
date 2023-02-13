@@ -44,20 +44,17 @@ export function dasherizeShorten(words: string): string {
  *         1942 =>     1.9K
  *      1194567 =>     1.2M
  */
-export function formatNumber({
-  number,
-  isCompact,
-}: {
-  number: number;
-  isCompact?: boolean;
-}): string {
-  const format = isCompact
+export function formatNumber(
+  n: number,
+  options?: { isCompact: boolean }
+): string {
+  const format = options?.isCompact
     ? new Intl.NumberFormat('en-GB', {
         notation: 'compact',
       })
     : new Intl.NumberFormat('en-GB');
 
-  return format.format(number);
+  return format.format(n);
 }
 
 /** Formats a string to describe a list of results, e.g.
@@ -68,9 +65,7 @@ export function formatNumber({
  *
  */
 export function pluralize(count: number, noun: string, suffix = 's'): string {
-  return `${formatNumber({ number: count })} ${noun}${
-    count !== 1 ? suffix : ''
-  }`;
+  return `${formatNumber(count)} ${noun}${count !== 1 ? suffix : ''}`;
 }
 
 export function unCamelCase(words: string): string {

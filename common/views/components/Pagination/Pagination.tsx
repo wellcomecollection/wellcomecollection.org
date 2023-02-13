@@ -124,8 +124,7 @@ export const Pagination: FunctionComponent<Props> = ({
       )}
 
       <span>
-        Page <strong>{currentPage}</strong> of{' '}
-        {formatNumber({ number: totalPages })}
+        Page <strong>{currentPage}</strong> of {formatNumber(totalPages)}
       </span>
 
       {showNext && (

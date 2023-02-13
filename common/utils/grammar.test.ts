@@ -6,13 +6,15 @@ describe('formatNumber', () => {
     { n: 5, output: '5' },
     { n: 100, output: '100' },
     { n: 1156915, output: '1,156,915' },
-    { n: 19, isCompact: true, output: '19' },
-    { n: 198, isCompact: true, output: '198' },
-    { n: 1942, isCompact: true, output: '1.9K' },
-    { n: 1962, isCompact: true, output: '2K' },
-    { n: 1194567, isCompact: true, output: '1.2M' },
-  ])('$n is formatted as $output', ({ n, isCompact, output }) => {
-    expect(formatNumber({ number: n, isCompact })).toStrictEqual(output);
+    { n: 19, options: { isCompact: true }, output: '19' },
+    { n: 198, options: { isCompact: true }, output: '198' },
+    { n: 1942, options: { isCompact: true }, output: '1.9K' },
+    { n: 1962, options: { isCompact: true }, output: '2K' },
+    { n: 1194567, options: { isCompact: true }, output: '1.2M' },
+  ])('$n is formatted as $output', ({ n, options, output }) => {
+    expect(formatNumber(n, { isCompact: !!options?.isCompact })).toStrictEqual(
+      output
+    );
   });
 });
 
