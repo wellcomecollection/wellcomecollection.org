@@ -37,7 +37,8 @@ const ImageCard: FunctionComponent<Props> = ({
     <NextLink
       {...imageLink({ id, workId }, 'images_search_result')}
       passHref
-      legacyBehavior>
+      legacyBehavior
+    >
       <StyledLink
         style={{ width: image.width }} // this is here to prevent the generation of multiple styles
         onClick={event => {

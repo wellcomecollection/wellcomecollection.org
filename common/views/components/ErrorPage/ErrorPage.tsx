@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { Fragment, FunctionComponent } from 'react';
 
 // Helpers/Utils
 import { isNotUndefined } from '../../../utils/array';
@@ -73,10 +73,10 @@ const TogglesMessage: FunctionComponent = () => {
           <a href="https://dash.wellcomecollection.org/toggles">toggles</a>{' '}
           enabled:{' '}
           {toggles.map((t, i) => (
-            <>
-              <strong key={t}>{t}</strong>
+            <Fragment key={t}>
+              <strong>{t}</strong>
               {i !== toggles.length - 1 && <>, </>}
-            </>
+            </Fragment>
           ))}
         </Space>
       </ToggleMessageBar>

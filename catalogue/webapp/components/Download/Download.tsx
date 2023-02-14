@@ -2,7 +2,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { DownloadOption } from '../../types/manifest';
 import { useContext, useRef } from 'react';
 import styled from 'styled-components';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import DownloadLink, {
   DownloadFormat,
 } from '@weco/common/views/components/DownloadLink/DownloadLink';

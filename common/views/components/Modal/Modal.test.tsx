@@ -1,6 +1,6 @@
 import Modal from '@weco/common/views/components/Modal/Modal';
 import { useState, useRef } from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import userEvent from '@testing-library/user-event';

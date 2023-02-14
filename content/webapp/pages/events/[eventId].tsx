@@ -393,7 +393,8 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
                   href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   as={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   passHref
-                  legacyBehavior>
+                  legacyBehavior
+                >
                   <EmailTeamCopy as="a">
                     <span>{event.bookingEnquiryTeam.email}</span>
                   </EmailTeamCopy>
