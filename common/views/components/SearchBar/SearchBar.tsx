@@ -42,7 +42,10 @@ type Props = {
   placeholder: string;
   form: string;
   inputRef?: RefObject<HTMLInputElement>;
+  location: ValidLocations;
 };
+
+type ValidLocations = 'header' | 'search';
 
 const SearchBar: FunctionComponent<Props> = ({
   inputValue,
@@ -50,6 +53,7 @@ const SearchBar: FunctionComponent<Props> = ({
   placeholder,
   form,
   inputRef,
+  location,
 }) => {
   const { isEnhanced } = useContext(AppContext);
   const defaultInputRef = useRef<HTMLInputElement>(null);
@@ -58,7 +62,7 @@ const SearchBar: FunctionComponent<Props> = ({
     <Container>
       <SearchInputWrapper>
         <TextInput
-          id="search-searchbar"
+          id={`${location}-searchbar`}
           label={placeholder}
           name="query"
           type="search"
