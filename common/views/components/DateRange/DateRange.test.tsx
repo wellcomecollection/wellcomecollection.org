@@ -33,7 +33,7 @@ describe('DateRange', () => {
     );
     expect(component.html()).toEqual(
       '<time datetime="2022-09-18T11:00:00.000Z">Sunday 18 September 2022</time>' +
-        '<span class="block"><time datetime="2022-09-18T11:00:00.000Z">12:00</time> – <time datetime="2022-09-18T13:30:00.000Z">14:30</time></span>'
+        '<span style="display: block;"><time datetime="2022-09-18T11:00:00.000Z">12:00</time> – <time datetime="2022-09-18T13:30:00.000Z">14:30</time></span>'
     );
   });
 

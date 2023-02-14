@@ -67,11 +67,7 @@ class EventsByMonth extends Component<Props, State> {
             key={g.id}
             className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}
             style={{
-              display: !activeId
-                ? 'block'
-                : activeId === g.id
-                ? 'block'
-                : 'none',
+              display: !activeId || activeId === g.id ? 'block' : 'none',
             }}
           >
             <h2

@@ -36,7 +36,7 @@ const DateRange: FunctionComponent<Props> = ({ start, end, splitTime }) => {
     <>
       <HTMLDayDate date={start} />
       {!splitTime && ', '}
-      <span className={splitTime ? 'block' : undefined}>
+      <span style={splitTime ? { display: 'block' } : undefined}>
         <TimeRange start={start} end={end} />
       </span>
     </>

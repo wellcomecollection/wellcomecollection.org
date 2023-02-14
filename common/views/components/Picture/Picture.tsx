@@ -10,6 +10,10 @@ const Figure = styled.figure`
   margin: 0;
 `;
 
+const Img = styled.img.attrs({ className: 'image' })`
+  display: block;
+`;
+
 type Props = {
   images: PictureProps[];
   isFull: boolean;
@@ -47,8 +51,7 @@ export const Picture: FunctionComponent<Props> = ({
         })}
 
         {lastImage && lastImage.contentUrl && (
-          <img
-            className="image block"
+          <Img
             src={convertImageUri(lastImage.contentUrl, 1200)}
             alt={lastImage.alt || ''}
           />
