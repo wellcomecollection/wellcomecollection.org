@@ -60,6 +60,9 @@
 /seasons/YEY3ZBAAACEASBjA
 /series/X8YMWBIAACUAhwAx
 
+# We should test the root exhibition guide page
+/guides/exhibitions
+
 # We should test one example of each exhibition guide format
 /guides/exhibitions/YzwsAREAAHylrxau/audio-without-descriptions
 /guides/exhibitions/YzwsAREAAHylrxau/captions-and-transcripts
