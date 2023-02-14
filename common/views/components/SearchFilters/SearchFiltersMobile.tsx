@@ -25,8 +25,8 @@ import ButtonSolid, {
 import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
 import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
+import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
 import DateRangeFilter from './SearchFilters.DateRange';
-import ColorFilter from './SearchFilters.Colors';
 
 const SearchFiltersContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -261,9 +261,10 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       )}
 
                     {f.type === 'color' && !(hasNoResults && !f.color) && (
-                      <ColorFilter
-                        f={f}
-                        changeHandler={changeHandler}
+                      <PaletteColorPicker
+                        name={f.id}
+                        color={f.color}
+                        onChangeColor={changeHandler}
                         form={searchFormId}
                       />
                     )}

@@ -17,7 +17,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { LinkProps } from '@weco/common/model/link-props';
 import DateRangeFilter from '@weco/common/views/components/SearchFilters/SearchFilters.DateRange';
-import ColorFilter from '@weco/common/views/components/SearchFilters/SearchFilters.Colors';
+import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -171,7 +171,12 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                 />
               )}
               {f.type === 'color' && (
-                <ColorFilter f={f} changeHandler={changeHandler} form={form} />
+                <PaletteColorPicker
+                  name={f.id}
+                  color={f.color}
+                  onChangeColor={changeHandler}
+                  form={form}
+                />
               )}
             </div>
           ))}
@@ -199,9 +204,10 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                       />
                     )}
                   {f.type === 'color' && !(hasNoResults && !f.color) && (
-                    <ColorFilter
-                      f={f}
-                      changeHandler={changeHandler}
+                    <PaletteColorPicker
+                      name={f.id}
+                      color={f.color}
+                      onChangeColor={changeHandler}
                       form={form}
                     />
                   )}

@@ -29,11 +29,13 @@ import ButtonSolid, {
 import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import PaletteColorPicker, {
+  PaletteColorPickerProps,
+} from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
 import { ResetActiveFilters } from './ResetActiveFilters';
 import DateRangeFilter, {
   DateRangeFilterProps,
 } from './SearchFilters.DateRange';
-import ColorFilter, { ColorFilterProps } from './SearchFilters.Colors';
 
 type CheckboxFilterProps = {
   f: CheckboxFilterType;
@@ -131,13 +133,14 @@ const DesktopDateRangeFilter = ({
   );
 };
 
-type DesktopColorFilterProps = ColorFilterProps & {
+type DesktopColorFilterProps = PaletteColorPickerProps & {
   hasNoOptions?: boolean;
   isNewStyle?: boolean;
 };
 const DesktopColorFilter = ({
-  f,
-  changeHandler,
+  name,
+  color,
+  onChangeColor,
   form,
   hasNoOptions,
   isNewStyle,
@@ -151,7 +154,12 @@ const DesktopColorFilter = ({
       id="images.color"
       hasNoOptions={hasNoOptions}
     >
-      <ColorFilter f={f} changeHandler={changeHandler} form={form} />
+      <PaletteColorPicker
+        name={name}
+        color={color}
+        onChangeColor={onChangeColor}
+        form={form}
+      />
     </DropdownButton>
   );
 };
@@ -224,8 +232,9 @@ const DynamicFilterArray = ({
         {f.type === 'color' && (
           <DesktopColorFilter
             {...(!showMoreFiltersModal && { form: searchFormId })}
-            f={f}
-            changeHandler={changeHandler}
+            name={f.id}
+            color={f.color}
+            onChangeColor={changeHandler}
             isNewStyle={isNewStyle}
             hasNoOptions={hasNoResults && !f.color}
           />
@@ -447,8 +456,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
                       {f.type === 'color' && (
                         <DesktopColorFilter
-                          f={f}
-                          changeHandler={changeHandler}
+                          name={f.id}
+                          color={f.color}
+                          onChangeColor={changeHandler}
                           form={searchFormId}
                           isNewStyle={isNewStyle}
                         />
