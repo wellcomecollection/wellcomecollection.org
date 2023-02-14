@@ -6,7 +6,17 @@ labels: feature
 assignees: ''
 
 ---
-# What is it and who's it for?
+# What?
+
+# Why? 
+
+# Background  
+
+# Done when
+-  [ ] 
+-  [ ] 
+
+<---Edit/delete as needed--->
 
 # User story
 As a _(who? user/persona)_
@@ -15,18 +25,14 @@ I need/want/expect _(what? to do this thing)_
 
 So that _(why? accomplish a goal/get a benefit)_
 
-# Implementation 
-
-## Acceptance criteria
+# Hypothesis
+If we do X
+Then Y will happen
+Because of Z
 
 ## Testing and tracking
-- Setting up additional tracking and monitoring - talk to Tacey
-- Qual and/or Quant test plan - Alice and Tacey
+- Do we need to set up additional tracking and monitoring?
+- Do we need to do any qual or quant testing? 
 
-## Measurement
+## What does success look like?
 - Related KPIs (e.g. breadth of collection accessed, reading time, etc.)
-
-## Other considerations 
-<---Delete as appropriate--->
-- Impact on URL design
-- Cardigan documentation
