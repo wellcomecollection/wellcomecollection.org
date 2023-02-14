@@ -31,11 +31,7 @@ type Props = {
  * time is shown on a separate line.
  *
  */
-const DateRange: FunctionComponent<Props> = ({
-  start,
-  end,
-  splitTime,
-}: Props) => {
+const DateRange: FunctionComponent<Props> = ({ start, end, splitTime }) => {
   return isSameDay(start, end, 'London') ? (
     <>
       <HTMLDayDate date={start} />
