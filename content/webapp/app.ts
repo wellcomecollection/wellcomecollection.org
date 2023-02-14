@@ -100,8 +100,8 @@ const appPromise = nextApp
 
     // We define the vanity URLs as soon as possible, so they can intercept
     // any routes defined further down, e.g. /pages/:id
-    vanityUrls.forEach(({ url, prismicId, template = '/pages/[pageId]' }) =>
-      pageVanityUrl(router, nextApp, url, prismicId, template)
+    vanityUrls.forEach(({ url, prismicId }) =>
+      pageVanityUrl(router, nextApp, url, prismicId, `/pages/${prismicId}`)
     );
 
     route(
@@ -112,14 +112,6 @@ const appPromise = nextApp
     );
 
     route(`/events/:period(${periodPaths})`, '/events', router, nextApp);
-
-    route(
-      `/projects/:pageId(${prismicId})`,
-      '/pages/[pageId]',
-      router,
-      nextApp
-    );
-    route(`/guides/:pageId(${prismicId})`, '/pages/[pageId]', router, nextApp);
 
     router.redirect(
       `/pages/${prismicPageIds.collections}`,
