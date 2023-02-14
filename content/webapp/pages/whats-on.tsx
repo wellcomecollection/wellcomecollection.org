@@ -248,12 +248,8 @@ const Header: FunctionComponent<HeaderProps> = ({
                     )}
                   </div>
                 )}
-                <NextLink
-                  href="/opening-times"
-                  as="/opening-times"
-                  className={font('intb', 5)}
-                >
-                  Full opening times
+                <NextLink href="/opening-times" as="/opening-times">
+                  <a className={font('intb', 5)}>Full opening times</a>
                 </NextLink>
               </div>
             </div>

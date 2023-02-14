@@ -39,24 +39,20 @@ describe('PasswordInput', () => {
     expect(listItems).not.toBeInTheDocument();
   });
 
-  it('lets a user enter a password', async () => {
+  it('lets a user enter a password', () => {
     renderComponent();
     const input = screen.getByLabelText(/^password$/i);
-    await userEvent.type(input, 'hunter2');
+    userEvent.type(input, 'hunter2');
     expect(input).toHaveValue('hunter2');
   });
 
-  it('hides the password by default, and can reveal the characters', async () => {
+  it('hides the password by default, and can reveal the characters', () => {
     renderComponent();
     const input = screen.getByLabelText(/^password$/i);
     expect(input).toHaveAttribute('type', 'password');
-    await userEvent.click(
-      screen.getByRole('button', { name: /show password/i })
-    );
+    userEvent.click(screen.getByRole('button', { name: /show password/i }));
     expect(input).toHaveAttribute('type', 'text');
-    await userEvent.click(
-      screen.getByRole('button', { name: /hide password/i })
-    );
+    userEvent.click(screen.getByRole('button', { name: /hide password/i }));
     expect(input).toHaveAttribute('type', 'password');
   });
 });

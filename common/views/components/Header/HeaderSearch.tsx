@@ -80,6 +80,7 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
             form="global-search-form"
             placeholder="Search Wellcome Collection"
             inputRef={inputRef}
+            location="header"
           />
         </form>
       </SearchBarWrapper>

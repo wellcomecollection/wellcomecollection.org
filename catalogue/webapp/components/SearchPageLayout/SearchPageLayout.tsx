@@ -228,6 +228,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
               setInputValue={setInputValue}
               placeholder={searchbarPlaceholderText[currentSearchCategory]}
               form="search-page-form"
+              location="search"
             />
           </SearchBarContainer>
         </form>
