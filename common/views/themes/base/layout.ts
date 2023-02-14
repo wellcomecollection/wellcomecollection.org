@@ -9,12 +9,20 @@ export const layout = `
   }
 }
 
-body:has(dialog[open]),
 .is-scroll-locked {
   margin: 0;
   height: 100vh;
   overflow: hidden;
 }
+
+@supports selector(:has(a)) {
+  body:has(dialog[open]) {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
 
 
 .is-scroll-locked--to-medium {
