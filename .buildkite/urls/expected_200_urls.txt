@@ -89,3 +89,7 @@
 /search/stories?query=human
 /search/images?query=human
 /search/works?query=human
+
+# Vanity URLs in the content app
+/about-us
+/collections
