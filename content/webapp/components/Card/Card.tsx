@@ -39,6 +39,11 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
   .card-theme.bg-dark & {
     color: ${props => props.theme.color('white')};
   }
+
+  .card-theme.bg-dark &:hover .promo-link__title,
+  .card-theme.bg-dark &:focus .promo-link__title {
+    text-decoration-color: ${props => props.theme.color('white')};
+  }
 `;
 
 export const CardPostBody = styled(Space).attrs({
