@@ -7,20 +7,20 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { FunctionComponent } from 'react';
 import BookImage from '../../components/BookImage/BookImage';
 
-type LinkOrSpanSpaceAttrs = {
-  url?: string;
+type LinkSpaceAttrs = {
+  url: string;
 };
 
-const LinkOrSpanSpace = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
-  as: props.url ? 'a' : 'div',
-  href: props.url || undefined,
+const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
+  as: 'a',
+  href: props.url,
   className: 'promo-link plain-link',
   v: {
     size: 'xl',
     properties: ['padding-top'],
   },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-}))<LinkOrSpanSpaceAttrs>`
+}))<LinkSpaceAttrs>`
   display: block;
 `;
 
@@ -50,7 +50,7 @@ type Props = {
 const BookPromo: FunctionComponent<Props> = ({ book }) => {
   const { id, title, subtitle, promo, cover } = book;
   return (
-    <LinkOrSpanSpace
+    <LinkSpace
       url={`/books/${id}`}
       onClick={() => {
         trackGaEvent({
@@ -112,7 +112,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
           )}
         </Space>
       </Space>
-    </LinkOrSpanSpace>
+    </LinkSpace>
   );
 };
 
