@@ -27,7 +27,7 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
                 canvas: 1,
               })}
               passHref={true}
-              legacyBehavior>
+            >
               <Anchor
                 isManifestIndex={i === manifestIndex}
                 aria-current={i === manifestIndex ? 'page' : undefined}

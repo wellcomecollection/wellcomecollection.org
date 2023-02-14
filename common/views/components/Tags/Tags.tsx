@@ -63,7 +63,7 @@ const Tags: FunctionComponent<Props> = ({
         {tags.map(({ textParts, linkAttributes }, i) => {
           return (
             <LinkWrapper as="li" key={i}>
-              <NextLink {...linkAttributes} passHref legacyBehavior>
+              <NextLink {...linkAttributes} passHref>
                 <SolidButton
                   size="small"
                   colors={themeValues.buttonColors.pumiceTransparentCharcoal}

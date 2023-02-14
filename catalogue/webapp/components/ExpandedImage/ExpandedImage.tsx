@@ -286,7 +286,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
       <ImageInfoWrapper>
         {iiifImageLocation && expandedImageLink && (
           <ImageWrapper>
-            <NextLink {...expandedImageLink} passHref legacyBehavior>
+            <NextLink {...expandedImageLink} passHref>
               <ImageLink>
                 <IIIFImage
                   layout="raw"
