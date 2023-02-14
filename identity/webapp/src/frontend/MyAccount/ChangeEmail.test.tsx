@@ -67,15 +67,10 @@ describe('ChangeEmail', () => {
     const onComplete = jest.fn();
     renderComponent({ onComplete });
     const emailAddressInput = await screen.findByLabelText(/email address/i);
-    await userEvent.clear(emailAddressInput);
-    await userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-    await userEvent.type(
-      screen.getByLabelText(/confirm password/i),
-      'Superman1938'
-    );
-    await userEvent.click(
-      screen.getByRole('button', { name: /update email/i })
-    );
+    userEvent.clear(emailAddressInput);
+    userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+    userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+    userEvent.click(screen.getByRole('button', { name: /update email/i }));
     await waitFor(() =>
       expect(onComplete).toBeCalledWith(
         expect.objectContaining({
@@ -105,23 +100,21 @@ describe('ChangeEmail', () => {
         </UserProvider>
       </ThemeProvider>
     );
-    await expect(emailAddressInput).toHaveValue('');
+    await waitFor(() => expect(emailAddressInput).toHaveValue(''));
   });
 
   describe('shows an error on submission', () => {
     it('with an empty email field', async () => {
       renderComponent();
-      await userEvent.clear(await screen.findByLabelText(/email address/i));
+      userEvent.clear(await screen.findByLabelText(/email address/i));
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.type(
+      userEvent.type(
         screen.getByLabelText(/confirm password/i),
         'Superman1938'
       );
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter a valid email address/i
+        /enter an email address/i
       );
     });
 
@@ -129,15 +122,13 @@ describe('ChangeEmail', () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.clear(emailAddressInput);
-      await userEvent.type(emailAddressInput, 'clarkkent.com'); // no @
-      await userEvent.type(
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, 'clarkkent.com'); // no @
+      userEvent.type(
         screen.getByLabelText(/confirm password/i),
         'Superman1938'
       );
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /enter a valid email address/i
       );
@@ -147,15 +138,13 @@ describe('ChangeEmail', () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.clear(emailAddressInput);
-      await userEvent.type(emailAddressInput, 'clarkkent@dailybugle'); // no dot
-      await userEvent.type(
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, 'clarkkent@dailybugle'); // no dot
+      userEvent.type(
         screen.getByLabelText(/confirm password/i),
         'Superman1938'
       );
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /enter a valid email address/i
       );
@@ -164,15 +153,13 @@ describe('ChangeEmail', () => {
     it("when the email hasn't changed", async () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
-      await userEvent.type(emailAddressInput, mockUser.email);
-      await userEvent.type(
+      userEvent.type(emailAddressInput, mockUser.email);
+      userEvent.type(
         await screen.findByLabelText(/confirm password/i),
         'Superman1938'
       );
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /you must enter a new email address to update your library account/i
       );
@@ -182,15 +169,13 @@ describe('ChangeEmail', () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.clear(emailAddressInput);
-      await userEvent.type(emailAddressInput, mockUser.email);
-      await userEvent.type(
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, mockUser.email);
+      userEvent.type(
         screen.getByLabelText(/confirm password/i),
         'Superman1938'
       );
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /you must enter a new email address to update your library account/i
       );
@@ -200,11 +185,9 @@ describe('ChangeEmail', () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.clear(emailAddressInput);
-      await userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /enter your password/i
       );
@@ -221,15 +204,13 @@ describe('ChangeEmail', () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.clear(emailAddressInput);
-      await userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-      await userEvent.type(
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+      userEvent.type(
         screen.getByLabelText(/confirm password/i),
         'Superman1938'
       );
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /incorrect password/i
       );
@@ -244,15 +225,13 @@ describe('ChangeEmail', () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.clear(emailAddressInput);
-      await userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-      await userEvent.type(
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+      userEvent.type(
         screen.getByLabelText(/confirm password/i),
         'Superman1938'
       );
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /your account has been blocked/i
       );
@@ -267,15 +246,13 @@ describe('ChangeEmail', () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.clear(emailAddressInput);
-      await userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-      await userEvent.type(
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+      userEvent.type(
         screen.getByLabelText(/confirm password/i),
         'Superman1938'
       );
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /email address already in use/i
       );
@@ -290,15 +267,13 @@ describe('ChangeEmail', () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.clear(emailAddressInput);
-      await userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-      await userEvent.type(
+      userEvent.clear(emailAddressInput);
+      userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+      userEvent.type(
         screen.getByLabelText(/confirm password/i),
         'Superman1938'
       );
-      await userEvent.click(
-        screen.getByRole('button', { name: /update email/i })
-      );
+      userEvent.click(screen.getByRole('button', { name: /update email/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /an unknown error occurred/i
       );

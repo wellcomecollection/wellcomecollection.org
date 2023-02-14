@@ -25,7 +25,7 @@ describe('Pagination', () => {
     );
 
     expect(component.html().includes('Previous')).toBe(true);
-    expect(component.html().includes('href="?page=4"')).toBe(true);
+    expect(component.html().includes('href="/?page=4"')).toBe(true);
   });
 
   it('omits the "Next" button if we’re on the last page', () => {
@@ -46,7 +46,7 @@ describe('Pagination', () => {
     );
 
     expect(component.html().includes('Next')).toBe(true);
-    expect(component.html().includes('href="?page=6"')).toBe(true);
+    expect(component.html().includes('href="/?page=6"')).toBe(true);
   });
 
   it('includes the pathname and query parameters when linking to the next/previous pages', () => {

@@ -339,7 +339,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         </ModalInner>
         <FiltersFooter isNewStyle={isNewStyle}>
           <NextLink passHref {...resetFilters}>
-            Reset filters
+            <a>Reset filters</a>
           </NextLink>
 
           <ButtonSolid

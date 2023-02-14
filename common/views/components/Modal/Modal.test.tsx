@@ -1,6 +1,6 @@
 import Modal from '@weco/common/views/components/Modal/Modal';
 import { useState, useRef } from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import userEvent from '@testing-library/user-event';
@@ -38,20 +38,20 @@ describe('Modal', () => {
     expect(document.activeElement).not.toEqual(openButton);
   });
 
-  it('should focus the close button when opened', async () => {
+  it('should focus the close button when opened', () => {
     renderComponent();
     const openButton = screen.getByText(/^Open modal window$/i);
-    await userEvent.click(openButton);
+    userEvent.click(openButton);
     const closeButton = screen.getByTestId('close-modal-button');
-    await expect(document.activeElement).toEqual(closeButton);
+    expect(document.activeElement).toEqual(closeButton);
   });
 
-  it('should focus the open button when closed', async () => {
+  it('should focus the open button when closed', () => {
     renderComponent();
     const openButton = screen.getByText(/^Open modal window$/i);
-    await userEvent.click(openButton);
+    userEvent.click(openButton);
     const closeButton = screen.getByTestId('close-modal-button');
-    await userEvent.click(closeButton);
-    await expect(document.activeElement).toEqual(openButton);
+    userEvent.click(closeButton);
+    expect(document.activeElement).toEqual(openButton);
   });
 });
