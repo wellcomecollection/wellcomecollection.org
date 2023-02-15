@@ -26,7 +26,7 @@ const ClearSearch: FunctionComponent<Props> = ({
   setValue,
   gaEvent,
   right,
-}: Props) => {
+}) => {
   return (
     <Button
       style={right ? { right: `${right}px` } : undefined}
