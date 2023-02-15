@@ -46,7 +46,6 @@ type Props = {
   rotate?: number;
   iconColor?: PaletteColor;
   matchText?: boolean;
-  title?: string;
   attrs?: { [key: string]: [string] };
 };
 
@@ -55,23 +54,10 @@ const Icon: FunctionComponent<Props> = ({
   rotate,
   iconColor,
   matchText,
-  title,
   attrs = {},
 }) => (
-  <Wrapper
-    rotate={rotate}
-    iconColor={iconColor}
-    matchText={matchText}
-    aria-hidden={title ? true : undefined}
-  >
-    <svg
-      className="icon__svg"
-      {...(title
-        ? { role: 'img', 'aria-labelledby': `icon-${title}-title` }
-        : { 'aria-hidden': true })}
-      {...attrs}
-    >
-      {title && <title id={`icon-${title}-title`}>{title}</title>}
+  <Wrapper rotate={rotate} iconColor={iconColor} matchText={matchText}>
+    <svg className="icon__svg" aria-hidden="true" {...attrs}>
       {/* This type guard is here just in case a string icon makes its way */}
       {/* in via Prismic etc - that shouldn't happen but better safe than sorry. */}
       {typeof icon === 'function' && icon({})}
