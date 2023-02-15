@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import TextInput from '../TextInput/TextInput';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { trackGaEvent } from '../../../utils/ga';
-import SearchFilters from '../SearchFilters/SearchFilters';
+import SearchFilters from '../SearchFilters';
 import Select from '../Select/Select';
 import Space from '../styled/Space';
 import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
