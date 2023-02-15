@@ -9,7 +9,10 @@ import Document, {
 import { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import * as snippet from '@segment/snippet';
+import { getServerData } from '@weco/common/server-data';
+import { Toggles } from '@weco/toggles';
 import {
+  DataLayer,
   GoogleAnalyticsUA,
   GoogleTagManager,
   GoogleTagManagerNoScript,
@@ -33,10 +36,14 @@ function renderSegmentSnippet() {
   return snippet.min(opts);
 }
 
-class WecoDoc extends Document {
+type DocumentInitialPropsWithToggles = DocumentInitialProps & {
+  toggles: Toggles;
+};
+class WecoDoc extends Document<DocumentInitialPropsWithToggles> {
   static async getInitialProps(
     ctx: DocumentContext
-  ): Promise<DocumentInitialProps> {
+  ): Promise<DocumentInitialPropsWithToggles> {
+    const serverData = await getServerData(ctx);
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
 
@@ -47,8 +54,10 @@ class WecoDoc extends Document {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
+
       return {
         ...initialProps,
+        toggles: serverData.toggles,
         styles: (
           <>
             {initialProps.styles}
@@ -69,6 +78,8 @@ class WecoDoc extends Document {
           must be serialized completely within the first 1024 bytes of the document.
           It has to be declared here as Next dynamically adds other elements to the Head */}
           <meta charSet="utf-8" />
+          {/* Adding toggles to the datalayer so it is available to events in Google Tag Manager */}
+          <DataLayer data={{ toggles: this.props.toggles }} />
           <GoogleTagManager />
           <GoogleAnalyticsUA />
           <script
