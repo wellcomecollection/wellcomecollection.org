@@ -46,7 +46,7 @@ test.describe('concepts', () => {
       context,
       page
     );
-    await page.waitForSelector('h2 >> text="Works"');
+    await page.waitForSelector('h2 >> text="Catalogue"');
   });
 
   test('concept pages link to a filtered search for works about this subject/person', async ({
