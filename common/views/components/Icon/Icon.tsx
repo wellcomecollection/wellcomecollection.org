@@ -57,7 +57,7 @@ const Icon: FunctionComponent<Props> = ({
   matchText,
   title,
   attrs = {},
-}: Props) => (
+}) => (
   <Wrapper
     rotate={rotate}
     iconColor={iconColor}
