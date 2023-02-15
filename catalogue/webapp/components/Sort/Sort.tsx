@@ -111,7 +111,7 @@ const Sort: FunctionComponent<Props> = ({
       {/* If the user has JavaScript enabled, we can use a sole select input and deal with the logic with JS */}
       {isEnhanced && (
         <Select
-          value={sortType + '.' + sortOrder || ''}
+          value={sortType ? sortType + '.' + sortOrder : ''}
           form={formId}
           name="sortOrder"
           label="sort results by:"
