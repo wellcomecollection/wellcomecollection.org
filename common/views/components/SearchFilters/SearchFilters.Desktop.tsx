@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters/SearchFilters';
+import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters';
 
 import ModalMoreFilters from '@weco/common/views/components/ModalMoreFilters/ModalMoreFilters';
 import ButtonSolid, {
