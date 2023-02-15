@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { useControlledState } from '@weco/common/utils/useControlledState';
-import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -215,6 +214,7 @@ const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
 const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   query,
   changeHandler,
+  linkResolver,
   filters,
   activeFiltersCount,
   searchFormId,
@@ -347,16 +347,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
         </FiltersScrollable>
 
         <FiltersFooter>
-          <NextLink
-            passHref
-            {...worksLink(
-              {
-                ...(query && { query }),
-              },
-              'cancel_filter/all'
-            )}
-          >
-            <a>Reset filters</a>
+          <NextLink passHref {...linkResolver({ query })}>
+            Reset filters
           </NextLink>
 
           <ButtonSolid
