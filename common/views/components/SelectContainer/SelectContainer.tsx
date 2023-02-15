@@ -22,8 +22,8 @@ const StyledSelect = styled.div.attrs({
   .icon {
     position: absolute;
     pointer-events: none;
-    top: 6px;
-    right: 6px;
+    ${props =>
+      props.isPill ? 'top: 4px; right: 10px;' : 'top: 6px; right: 6px;'};
   }
 
   select {
@@ -41,6 +41,7 @@ const StyledSelect = styled.div.attrs({
     color: ${props =>
       props.theme.color('black')}; // This avoids the default blue links on iOS
     width: 100%;
+    ${props => (props.isPill ? 'line-height: 1;' : '')}
 
     &::-ms-expand {
       display: none;
