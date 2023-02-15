@@ -11,7 +11,7 @@ import { hexToHsv, hsvToHex } from '@weco/common/utils/convert-colors';
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
-type Props = {
+export type PaletteColorPickerProps = {
   name: string;
   color?: string;
   onChangeColor: (color?: string) => void;
@@ -147,7 +147,7 @@ export function getColorDisplayName(color: string | null): string | null {
   }
 }
 
-const PaletteColorPicker: FunctionComponent<Props> = ({
+const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
   name,
   color,
   onChangeColor,
