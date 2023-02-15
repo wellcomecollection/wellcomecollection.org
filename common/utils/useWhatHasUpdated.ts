@@ -1,14 +1,20 @@
+/**
+ * Portions of the helper funtion have been copied from
+ * https://github.com/simbathesailor/use-what-changed
+ * and is copyrighted by simbathesailor under the terms of the MIT license.
+ */
+
 import React from 'react';
 
-let what_debug_changed = 0;
+let whatDebugChanged = 0;
 
 /**
  * stackoverflow random color logic
  */
 const getRandomColor = () => {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
@@ -18,10 +24,10 @@ const getRandomColor = () => {
  *
  * Check whether the dependency item is an object.
  */
-const isObject = (t: any) =>
+const isObject = (t: unknown) =>
   Object.prototype.toString.call(t) === '[object Object]';
 
-const getPrintableInfo = (dependencyItem: any) => {
+const getPrintableInfo = (dependencyItem: unknown) => {
   /**
    * Printing the info into viewable format
    */
@@ -38,7 +44,7 @@ const getPrintableInfo = (dependencyItem: any) => {
   return dependencyItem;
 };
 
-const useHotRefs = (value: any) => {
+const useHotRefs = <T>(value: T): React.MutableRefObject<T> => {
   const fnRef = React.useRef(value);
   React.useEffect(() => {
     fnRef.current = value;
@@ -76,18 +82,13 @@ const useHotRefs = (value: any) => {
  * }, [count, current]);
  */
 export const useWhatHasUpdated = (
-  dependency: any[],
+  dependency: unknown[],
   dependencyNames?: string,
   isUseLayoutEffect?: boolean
 ) => {
-  // It's a fair assumption the hooks type will not change for a component during
-  // its life time
-  const hookNameFinal = React.useMemo(() => {
-    if (isUseLayoutEffect) {
-      return 'useLayoutEffect';
-    }
-    return 'useEffect';
-  }, []);
+  // It's a fair assumption the hooks type will not change for a component during its life time
+  const useEffect = isUseLayoutEffect ? React.useLayoutEffect : React.useEffect;
+
   // This ref is responsible for book keeping of the old value
   const dependencyRef = React.useRef(dependency);
 
@@ -97,13 +98,13 @@ export const useWhatHasUpdated = (
   // For assigning color for easy debugging
   const backgroundColorRef = React.useRef('');
 
-  let isDependencyArr = Array.isArray(dependencyRef.current);
+  const isDependencyArr = Array.isArray(dependencyRef.current);
 
-  React[hookNameFinal](() => {
+  useEffect(() => {
     if (dependencyRef.current && isDependencyArr) {
-      what_debug_changed++;
+      whatDebugChanged++;
 
-      whatChangedHookCountRef.current = what_debug_changed;
+      whatChangedHookCountRef.current = whatDebugChanged;
       backgroundColorRef.current = getRandomColor();
     }
 
@@ -150,7 +151,7 @@ export const useWhatHasUpdated = (
 
   const longBannersRef = useHotRefs(logBanners);
 
-  React[hookNameFinal](() => {
+  useEffect(() => {
     if (!(dependencyRef.current && isDependencyArr)) {
       return;
     }
