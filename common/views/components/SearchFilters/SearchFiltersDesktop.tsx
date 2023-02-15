@@ -84,9 +84,12 @@ const CheckboxFilter = ({
       hasNoOptions={f.options.length === 0}
     >
       <PlainList className={font('intr', 5)}>
-        {f.options.map(({ id, label, value, count, selected }) => {
+        {f.options.map(({ id, label, value, count, selected }, i) => {
           return (
-            <li key={`${f.id}-${id}`}>
+            // TODO remove index from key once we resolve the doubled IDs issue
+            // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
+            // as we now sometimes get "Warning: Encountered two children with the same key" console errors
+            <li key={`${id}-${i}`}>
               <CheckboxRadio
                 id={id}
                 type="checkbox"
@@ -198,8 +201,11 @@ const DynamicFilterArray = ({
   const filterClassname = 'superUniqueDropdownFilterButtonClass';
   const renderDynamicFilter = (f: Filter, i: number, arr: Filter[]) => {
     return (
+      // TODO remove index from key once we resolve the doubled IDs issue
+      // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
+      // as we now sometimes get "Warning: Encountered two children with the same key" console errors
       <Space
-        key={f.id}
+        key={`${f.id}-${i}`}
         className={filterClassname}
         h={
           i + 1 !== arr.length
@@ -428,7 +434,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 {visibleFilters.map((f, i, arr) => {
                   return (
                     <Space
-                      key={f.id}
+                      // TODO remove index from key once we resolve the doubled IDs issue
+                      // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
+                      // as we now sometimes get "Warning: Encountered two children with the same key" console errors
+                      key={`${f.id}-${i}`}
                       h={
                         i + 1 !== arr.length
                           ? { size: 's', properties: ['margin-right'] }
