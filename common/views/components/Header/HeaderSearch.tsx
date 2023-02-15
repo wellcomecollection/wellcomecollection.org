@@ -78,7 +78,7 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
             inputValue={inputValue}
             setInputValue={setInputValue}
             form="global-search-form"
-            placeholder="Search Wellcome Collection"
+            placeholder="Search our stories, images and catalogue"
             inputRef={inputRef}
             location="header"
           />

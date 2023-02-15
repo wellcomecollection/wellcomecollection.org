@@ -177,7 +177,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
-                      text="Catalogue"
+                      text="All works"
                       pathname="/search/works"
                       totalResults={works.totalResults}
                     />

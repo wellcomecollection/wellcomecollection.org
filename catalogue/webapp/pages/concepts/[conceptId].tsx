@@ -253,7 +253,7 @@ export const ConceptPage: NextPage<Props> = ({
         <>
           <ConceptWorksHeader hasWorksTabs={hasWorksTabs}>
             <div className="container">
-              <h2 className="h2">Works</h2>
+              <h2 className="h2">Catalogue</h2>
               {hasWorksTabs && (
                 <TabNav
                   id="works"
