@@ -22,6 +22,9 @@ terraform.plan
 .env
 .env.local
 
+# Next exclusive
+next-env.d.ts
+
 # Next export
 out/
 
