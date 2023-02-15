@@ -266,7 +266,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         modalStyle={isNewStyle ? 'filters-new' : 'filters'}
       >
         <FiltersHeader isNewStyle={isNewStyle}>
-          <h3 className="h3">{isNewStyle ? 'All Filters' : 'More filters'}</h3>
+          <h3 className="h3">{isNewStyle ? 'All filters' : 'More filters'}</h3>
         </FiltersHeader>
 
         <ModalInner isNewStyle={isNewStyle}>

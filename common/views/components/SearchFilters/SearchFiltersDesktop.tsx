@@ -332,7 +332,7 @@ const DynamicFilterArray = ({
             hoverUnderline={true}
             size="small"
             type={ButtonTypes.button}
-            text="All Filters"
+            text="All filters"
             clickHandler={event => {
               event.preventDefault();
               setShowMoreFiltersModal(true);
