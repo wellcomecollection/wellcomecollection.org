@@ -82,8 +82,7 @@ const PaginatorWrapper = styled.div`
 `;
 
 /* eslint-disable react/display-name */
-export const PaginatorButtons = (
-  isTabbable: boolean,
+const PaginatorButtons = (
   workId: string
 ): FunctionComponent<PaginatorRenderFunctionProps> => {
   return ({
@@ -103,7 +102,6 @@ export const PaginatorButtons = (
                 colorScheme="light"
                 icon={arrow}
                 text="Previous page"
-                tabIndex={isTabbable ? 0 : -1}
                 clickHandler={() => {
                   trackGaEvent({
                     category: 'Control',
@@ -125,7 +123,6 @@ export const PaginatorButtons = (
                 colorScheme="light"
                 icon={arrow}
                 text="Next page"
-                tabIndex={isTabbable ? 0 : -1}
                 clickHandler={() => {
                   trackGaEvent({
                     category: 'Control',
@@ -187,9 +184,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   const srcSet =
     urlTemplate &&
     imageSizes(2048)
-      .map(width => {
-        return `${urlTemplate({ size: `${width},` })} ${width}w`;
-      })
+      .map(width => `${urlTemplate({ size: `${width},` })} ${width}w`)
       .join(',');
 
   return (
@@ -226,7 +221,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
         <NoScriptViewerPaginatorButtons>
           <RenderlessPaginator
             {...mainPaginatorProps}
-            render={PaginatorButtons(true, workId)}
+            render={PaginatorButtons(workId)}
           />
         </NoScriptViewerPaginatorButtons>
       </NoScriptViewerMain>
@@ -269,7 +264,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
           <NoScriptViewerPaginatorButtons>
             <RenderlessPaginator
               {...thumbsPaginatorProps}
-              render={PaginatorButtons(true, workId)}
+              render={PaginatorButtons(workId)}
             />
           </NoScriptViewerPaginatorButtons>
         </StaticThumbnailsContainer>
