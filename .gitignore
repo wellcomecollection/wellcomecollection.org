@@ -22,6 +22,9 @@ terraform.plan
 .env
 .env.local
 
+# Next exclusive see - https://nextjs.org/docs/basic-features/typescript
+next-env.d.ts
+
 # Next export
 out/
 
