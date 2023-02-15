@@ -150,7 +150,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
   }, [currentSearchCategory, queryString]);
 
   const searchbarPlaceholderText = {
-    overview: 'Search Wellcome Collection',
+    overview: 'Search our stories, images and catalogue',
     stories: 'Search for stories',
     images: 'Search for images',
     works: 'Search the catalogue',
