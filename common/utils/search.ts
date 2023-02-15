@@ -93,8 +93,6 @@ export const getPrismicSortValue = ({
     switch (sort) {
       case 'publication.dates':
         return 'meta_firstPublicationDate_' + sortOrder.toUpperCase();
-      case 'alphabetical':
-        return 'title_' + sortOrder.toUpperCase();
       default:
         // TODO change to adapt to events/exhibitions/etc;
         // this is currently what we set as default for Stories

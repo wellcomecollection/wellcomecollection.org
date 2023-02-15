@@ -69,16 +69,11 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 formId="search-page-form"
                 options={[
                   // Default value to be left empty as to not be reflected in URL query
-                  { value: '', text: 'Newest to oldest' },
                   { value: 'publication.dates.asc', text: 'Oldest to newest' },
-                  { value: 'alphabetical.asc', text: 'A-Z' },
-                  { value: 'alphabetical.desc', text: 'Z-A' },
+                  { value: '', text: 'Newest to oldest' },
                 ]}
                 jsLessOptions={{
-                  sort: [
-                    { value: '', text: 'Publication dates' },
-                    { value: 'alphabetical', text: 'Alphabetical' },
-                  ],
+                  sort: [{ value: '', text: 'Publication dates' }],
                   sortOrder: [
                     { value: 'asc', text: 'Ascending' },
                     { value: 'desc', text: 'Descending' },
