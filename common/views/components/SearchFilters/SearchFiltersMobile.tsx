@@ -112,12 +112,15 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <>
       <PlainList>
-        {f.options.map(({ id, label, value, count, selected }) => {
+        {f.options.map(({ id, label, value, count, selected }, i) => {
           return (
             <Space
               as="li"
               v={{ size: 'l', properties: ['margin-bottom'] }}
-              key={`mobile-${id}`}
+              // TODO remove index from key once we resolve the doubled IDs issue
+              // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
+              // as we now sometimes get "Warning: Encountered two children with the same key" console errors
+              key={`mobile-${id}-${i}`}
             >
               <CheckboxRadio
                 id={`mobile-${id}`}
@@ -237,9 +240,12 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           <FiltersBody>
             {filters
               .filter(f => !f.excludeFromMoreFilters)
-              .map(f => {
+              .map((f, i) => {
                 return (
-                  <FilterSection key={f.id}>
+                  // TODO remove index from key once we resolve the doubled IDs issue
+                  // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
+                  // as we now sometimes get "Warning: Encountered two children with the same key" console errors
+                  <FilterSection key={`${f.id}-${i}`}>
                     <h3 className="h3">
                       {f.type === 'color' ? 'Colours' : f.label}
                     </h3>

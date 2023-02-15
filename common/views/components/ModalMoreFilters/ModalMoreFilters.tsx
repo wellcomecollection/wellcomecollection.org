@@ -116,13 +116,16 @@ type CheckboxFilterProps = {
 const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <List>
-      {f.options.map(({ id, label, value, count, selected }) => {
+      {f.options.map(({ id, label, value, count, selected }, i) => {
         return (
           <Space
             as="li"
             v={{ size: 'm', properties: ['margin-bottom'] }}
             h={{ size: 'l', properties: ['margin-right'] }}
-            key={`desktop-${id}`}
+            // TODO remove index from key once we resolve the doubled IDs issue
+            // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
+            // as we now sometimes get "Warning: Encountered two children with the same key" console errors
+            key={`desktop-${f.id}-${i}`}
           >
             <CheckboxRadio
               id={`desktop-${id}`}
@@ -154,8 +157,11 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
       {!isNewStyle &&
         filters
           .filter(f => f.excludeFromMoreFilters)
-          .map(f => (
-            <div key={f.id} style={{ display: 'none' }}>
+          .map((f, i) => (
+            // TODO remove index from key once we resolve the doubled IDs issue
+            // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
+            // as we now sometimes get "Warning: Encountered two children with the same key" console errors
+            <div key={`${f.id}-${i}`} style={{ display: 'none' }}>
               {f.type === 'checkbox' && (
                 <CheckboxFilter
                   f={f}
@@ -182,8 +188,11 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           ))}
       {filters
         .filter(f => !f.excludeFromMoreFilters)
-        .map(f => (
-          <FilterSection key={f.id}>
+        .map((f, i) => (
+          // TODO remove index from key once we resolve the doubled IDs issue
+          // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
+          // as we now sometimes get "Warning: Encountered two children with the same key" console errors
+          <FilterSection key={`${f.id}-${i}`}>
             <h3 className="h3">{f.type === 'color' ? 'Colours' : f.label}</h3>
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <PlainList as="div">
