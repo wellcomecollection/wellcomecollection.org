@@ -38,7 +38,7 @@ const ClearSearch: FunctionComponent<Props> = ({
       type="button"
       aria-label="clear"
     >
-      <Icon iconColor="black" icon={clear} title="Clear" />
+      <Icon iconColor="black" icon={clear} />
     </Button>
   );
 };
