@@ -6,8 +6,8 @@ import { Filter } from '@weco/common/services/catalogue/filters';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 
-import SearchFiltersDesktop from './SearchFiltersDesktop';
-import SearchFiltersMobile from './SearchFiltersMobile';
+import SearchFiltersDesktop from './SearchFilters.Desktop';
+import SearchFiltersMobile from './SearchFilters.Mobile';
 
 type Props = {
   query?: string;

@@ -26,7 +26,7 @@ import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
 import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
-import DateRangeFilter from './SearchFilters.DateRange';
+import DateRangeFilter from './SearchFilters.DateRangeFilter';
 
 const SearchFiltersContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
