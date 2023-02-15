@@ -187,6 +187,22 @@ const Button = styled.button.attrs({
   padding: 0;
 `;
 
+const PlainLink = styled.a.attrs({
+  className: 'segmented-control__drawer-link plain-link',
+})`
+  display: block;
+`;
+
+const Label = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['margin-bottom'],
+  },
+  className: 'segmented-control__label',
+})`
+  display: block;
+`;
+
 type Props = {
   id: string;
   items: { id: string; text: string; url: string }[];
@@ -251,19 +267,11 @@ class SegmentedControl extends Component<Props, State> {
               ))}
           </Button>
           <MobileControlsModal id={id}>
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-bottom'],
-              }}
-              className="segmented-control__label block"
-            >
-              See:
-            </Space>
+            <Label>See:</Label>
             <PlainList className="segmented-control__drawer-list">
               {items.map((item, i) => (
                 <DrawerItem isFirst={i === 0} key={item.id}>
-                  <a
+                  <PlainLink
                     onClick={e => {
                       const url = e.currentTarget.href;
                       const isHash = url.startsWith('#');
@@ -286,10 +294,9 @@ class SegmentedControl extends Component<Props, State> {
                       }
                     }}
                     href={item.url}
-                    className="segmented-control__drawer-link block plain-link"
                   >
                     {item.text}
-                  </a>
+                  </PlainLink>
                 </DrawerItem>
               ))}
             </PlainList>

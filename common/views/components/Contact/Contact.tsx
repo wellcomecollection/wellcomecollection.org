@@ -11,6 +11,22 @@ const Wrapper = styled(Space).attrs({
   border-left: 5px solid ${props => props.theme.color('accent.turquoise')};
 `;
 
+const TitleWrapper = styled.span`
+  display: block;
+`;
+
+const Title = styled.span.attrs({ className: font('intb', 4) })``;
+
+const Subtitle = styled(Space).attrs({
+  as: 'span',
+  h: { size: 's', properties: ['margin-left'] },
+  className: font('intr', 4),
+})``;
+
+const PhoneNumber = styled.span.attrs({ className: font('intr', 4) })`
+  display: block;
+`;
+
 export type Props = {
   title: string;
   subtitle: string | null;
@@ -26,26 +42,16 @@ const Contact: FunctionComponent<Props> = ({
 }: Props): ReactElement => {
   return (
     <Wrapper>
-      <span className="block">
-        <span className={font('intb', 4)}>{title}</span>
-        {subtitle && (
-          <Space
-            as="span"
-            h={{ size: 's', properties: ['margin-left'] }}
-            className={font('intr', 4)}
-          >
-            {subtitle}
-          </Space>
-        )}
-      </span>
+      <TitleWrapper>
+        <Title>{title}</Title>
+        {subtitle && <Subtitle>{subtitle}</Subtitle>}
+      </TitleWrapper>
       {phone && (
         <>
           <span className="visually-hidden">
             {createScreenreaderLabel(phone)}
           </span>
-          <span className={`${font('intr', 4)} block`} aria-hidden="true">
-            {phone}
-          </span>
+          <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
         </>
       )}
       {email && (

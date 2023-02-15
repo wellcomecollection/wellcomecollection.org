@@ -55,6 +55,10 @@ const ConfirmRequestButtonWrapper = styled(Space).attrs({
 
 const Request = styled.form``;
 
+const WorkTitle = styled.span`
+  display: block;
+`;
+
 type RequestDialogProps = {
   work: Work;
   item: PhysicalItem;
@@ -119,7 +123,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
       </p>
       <Space v={{ size: 's', properties: ['margin-bottom'] }}>
         <p className="no-margin">
-          {work.title && <span className="block">{work.title}</span>}
+          {work.title && <WorkTitle>{work.title}</WorkTitle>}
           {item.title && <span>{item.title}</span>}
         </p>
       </Space>
