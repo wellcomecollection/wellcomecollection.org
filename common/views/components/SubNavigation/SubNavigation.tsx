@@ -57,7 +57,6 @@ const SubNavigation: FunctionComponent<Props> = ({
                 passHref
                 href={typeof item.url === 'string' ? item.url : item.url.href}
                 as={typeof item.url === 'string' ? undefined : item.url.as}
-                legacyBehavior
               >
                 <NavItemInner
                   variant={variant}

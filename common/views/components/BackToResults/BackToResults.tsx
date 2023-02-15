@@ -10,18 +10,19 @@ const BackToResults: FunctionComponent = () => {
   const page = link.href?.query?.page;
 
   return (
-    <NextLink
-      {...link}
-      onClick={() => {
-        trackGaEvent({
-          category: 'BackToResults',
-          action: 'follow link',
-          label: `${query} | page: ${page || 1}`,
-        });
-      }}
-      className={font('intr', 5)}
-    >
-      <span>{`Back to search${query ? ' results' : ''}`}</span>
+    <NextLink {...link}>
+      <a
+        onClick={() => {
+          trackGaEvent({
+            category: 'BackToResults',
+            action: 'follow link',
+            label: `${query} | page: ${page || 1}`,
+          });
+        }}
+        className={font('intr', 5)}
+      >
+        <span>{`Back to search${query ? ' results' : ''}`}</span>
+      </a>
     </NextLink>
   );
 };

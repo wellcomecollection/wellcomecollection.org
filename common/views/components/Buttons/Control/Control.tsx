@@ -239,7 +239,6 @@ const BaseControl: FunctionComponent<Props> = (
           replace={replace}
           prefetch={prefetch}
           passHref
-          legacyBehavior
         >
           <Wrapper as="a" ref={ref} {...attrs}>
             <InnerControl text={text} icon={icon} />

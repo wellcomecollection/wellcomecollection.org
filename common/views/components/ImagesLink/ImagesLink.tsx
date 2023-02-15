@@ -84,11 +84,7 @@ const ImagesLink: FunctionComponent<Props> = ({
   source,
   ...props
 }: Props) => {
-  return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
+  return <NextLink {...toLink(props, source)}>{children}</NextLink>;
 };
 
 export default ImagesLink;

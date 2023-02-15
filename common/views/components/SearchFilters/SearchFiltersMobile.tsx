@@ -4,24 +4,18 @@ import React, {
   FunctionComponent,
   ReactElement,
 } from 'react';
-import dynamic from 'next/dynamic';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
-import { useControlledState } from '@weco/common/utils/useControlledState';
-import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters/SearchFilters';
 import {
   CheckboxFilter as CheckboxFilterType,
-  DateRangeFilter as DateRangeFilterType,
-  ColorFilter as ColorFilterType,
   filterLabel,
 } from '@weco/common/services/catalogue/filters';
 import ButtonSolid, {
@@ -31,11 +25,8 @@ import ButtonSolid, {
 import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
 import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import { dateRegex } from './SearchFiltersDesktop';
-
-const PaletteColorPicker = dynamic(
-  import('../PaletteColorPicker/PaletteColorPicker')
-);
+import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+import DateRangeFilter from './SearchFilters.DateRange';
 
 const SearchFiltersContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -147,74 +138,10 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   );
 };
 
-type DateRangeFilterProps = {
-  f: DateRangeFilterType;
-  changeHandler: () => void;
-  form?: string;
-};
-const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
-  const [from, setFrom] = useControlledState(f.from.value);
-  const [to, setTo] = useControlledState(f.to.value);
-
-  return (
-    <>
-      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-        <NumberInput
-          name={f.from.id}
-          label="From"
-          min="0"
-          max="9999"
-          placeholder="Year"
-          value={from || ''}
-          onChange={event => {
-            const val = `${event.currentTarget.value}`;
-            setFrom(val);
-            if (val.match(dateRegex)) {
-              changeHandler();
-            }
-          }}
-          form={form}
-        />
-      </Space>
-      <NumberInput
-        name={f.to.id}
-        label="to"
-        min="0"
-        max="9999"
-        placeholder="Year"
-        value={to || ''}
-        onChange={event => {
-          const val = `${event.currentTarget.value}`;
-          setTo(val);
-          if (val.match(dateRegex)) {
-            changeHandler();
-          }
-        }}
-        form={form}
-      />
-    </>
-  );
-};
-
-type ColorFilterProps = {
-  f: ColorFilterType;
-  changeHandler: () => void;
-  form?: string;
-};
-const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
-  return (
-    <PaletteColorPicker
-      color={f.color}
-      name={f.id}
-      onChangeColor={changeHandler}
-      form={form}
-    />
-  );
-};
-
 const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   query,
   changeHandler,
+  linkResolver,
   filters,
   activeFiltersCount,
   searchFormId,
@@ -334,9 +261,10 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       )}
 
                     {f.type === 'color' && !(hasNoResults && !f.color) && (
-                      <ColorFilter
-                        f={f}
-                        changeHandler={changeHandler}
+                      <PaletteColorPicker
+                        name={f.id}
+                        color={f.color}
+                        onChangeColor={changeHandler}
                         form={searchFormId}
                       />
                     )}
@@ -347,15 +275,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
         </FiltersScrollable>
 
         <FiltersFooter>
-          <NextLink
-            passHref
-            {...worksLink(
-              {
-                ...(query && { query }),
-              },
-              'cancel_filter/all'
-            )}
-          >
+          <NextLink passHref {...linkResolver({ query })}>
             Reset filters
           </NextLink>
 

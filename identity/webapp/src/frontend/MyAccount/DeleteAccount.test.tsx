@@ -30,27 +30,27 @@ describe('DeleteAccount', () => {
     ).toBeInTheDocument();
   });
 
-  it('allows the user to enter their password', async () => {
+  it('allows the user to enter their password', () => {
     renderComponent();
     const currentPasswordInput = screen.getByLabelText(/^password$/i);
-    await userEvent.type(currentPasswordInput, 'hunter2');
+    userEvent.type(currentPasswordInput, 'hunter2');
     expect(currentPasswordInput).toHaveValue('hunter2');
   });
 
   it('allows the user to request account deletion after confirming their password', async () => {
     const onComplete = jest.fn();
     renderComponent({ onComplete });
-    await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-    await userEvent.click(
+    userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+    userEvent.click(
       screen.getByRole('button', { name: /yes, delete my account/i })
     );
     await waitFor(() => expect(onComplete).toBeCalled());
   });
 
-  it('allows the user to cancel the operation', async () => {
+  it('allows the user to cancel the operation', () => {
     const onCancel = jest.fn();
     renderComponent({ onCancel });
-    await userEvent.click(
+    userEvent.click(
       screen.getByRole('link', { name: /no, go back to my account/i })
     );
     expect(onCancel).toHaveBeenCalled();
@@ -59,7 +59,7 @@ describe('DeleteAccount', () => {
   it('resets when modal closes', async () => {
     const { rerender } = renderComponent();
     const passwordInput = screen.getByLabelText(/^password$/i);
-    await userEvent.type(passwordInput, 'hunter2');
+    userEvent.type(passwordInput, 'hunter2');
     rerender(
       <ThemeProvider theme={theme}>
         <DeleteAccount {...defaultProps} isActive={false} />
@@ -77,7 +77,7 @@ describe('DeleteAccount', () => {
     it('with an empty current password field', async () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.click(
+      userEvent.click(
         screen.getByRole('button', { name: /yes, delete my account/i })
       );
       expect(await screen.findByRole('alert')).toHaveTextContent(
@@ -95,8 +95,8 @@ describe('DeleteAccount', () => {
       );
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-      await userEvent.click(
+      userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+      userEvent.click(
         screen.getByRole('button', { name: /yes, delete my account/i })
       );
       expect(await screen.findByRole('alert')).toHaveTextContent(
@@ -112,8 +112,8 @@ describe('DeleteAccount', () => {
       );
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-      await userEvent.click(
+      userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+      userEvent.click(
         screen.getByRole('button', { name: /yes, delete my account/i })
       );
       expect(await screen.findByRole('alert')).toHaveTextContent(
@@ -129,8 +129,8 @@ describe('DeleteAccount', () => {
       );
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-      await userEvent.click(
+      userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+      userEvent.click(
         screen.getByRole('button', { name: /yes, delete my account/i })
       );
       expect(await screen.findByRole('alert')).toHaveTextContent(

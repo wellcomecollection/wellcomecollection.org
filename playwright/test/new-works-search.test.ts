@@ -78,6 +78,7 @@ const navigateToResult = async (n = 1, page: Page) => {
   // the site, I haven't investigated further -- this seems to make the tests happy.
   if (isMobile(page)) {
     await page.click(result);
+    await safeWaitForNavigation(page);
   } else {
     await Promise.all([safeWaitForNavigation(page), page.click(result)]);
   }

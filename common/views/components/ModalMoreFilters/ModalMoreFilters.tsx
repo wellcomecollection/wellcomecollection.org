@@ -10,18 +10,14 @@ import ButtonSolid, {
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
-  DateRangeFilter as DateRangeFilterType,
-  ColorFilter as ColorFilterType,
   filterLabel,
 } from '@weco/common/services/catalogue/filters';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import PlainList from '@weco/common/views/components/styled/PlainList';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import { dateRegex } from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
-import { useControlledState } from '@weco/common/utils/useControlledState';
-import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
 import { LinkProps } from '@weco/common/model/link-props';
+import DateRangeFilter from '@weco/common/views/components/SearchFilters/SearchFilters.DateRange';
+import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -146,74 +142,6 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   );
 };
 
-type DateRangeFilterProps = {
-  f: DateRangeFilterType;
-  changeHandler: () => void;
-  form?: string;
-  isNewStyle?: boolean;
-};
-
-const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
-  const [from, setFrom] = useControlledState(f.from.value);
-  const [to, setTo] = useControlledState(f.to.value);
-
-  return (
-    <>
-      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-        <NumberInput
-          name={f.from.id}
-          label="From"
-          min="0"
-          max="9999"
-          placeholder="Year"
-          value={from || ''}
-          onChange={event => {
-            const val = `${event.currentTarget.value}`;
-            setFrom(val);
-            if (val.match(dateRegex)) {
-              changeHandler();
-            }
-          }}
-          form={form}
-        />
-      </Space>
-      <NumberInput
-        name={f.to.id}
-        label="to"
-        min="0"
-        max="9999"
-        placeholder="Year"
-        value={to || ''}
-        onChange={event => {
-          const val = `${event.currentTarget.value}`;
-          setTo(val);
-          if (val.match(dateRegex)) {
-            changeHandler();
-          }
-        }}
-        form={form}
-      />
-    </>
-  );
-};
-
-type ColorFilterProps = {
-  f: ColorFilterType;
-  changeHandler: () => void;
-  form?: string;
-  isNewStyle?: boolean;
-};
-const ColorFilter = ({ f, changeHandler, form }: ColorFilterProps) => {
-  return (
-    <PaletteColorPicker
-      name={f.id}
-      color={f.color}
-      onChangeColor={changeHandler}
-      form={form}
-    />
-  );
-};
-
 const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   changeHandler,
   filters,
@@ -243,7 +171,12 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                 />
               )}
               {f.type === 'color' && (
-                <ColorFilter f={f} changeHandler={changeHandler} form={form} />
+                <PaletteColorPicker
+                  name={f.id}
+                  color={f.color}
+                  onChangeColor={changeHandler}
+                  form={form}
+                />
               )}
             </div>
           ))}
@@ -271,9 +204,10 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                       />
                     )}
                   {f.type === 'color' && !(hasNoResults && !f.color) && (
-                    <ColorFilter
-                      f={f}
-                      changeHandler={changeHandler}
+                    <PaletteColorPicker
+                      name={f.id}
+                      color={f.color}
+                      onChangeColor={changeHandler}
                       form={form}
                     />
                   )}
@@ -339,7 +273,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         </ModalInner>
         <FiltersFooter isNewStyle={isNewStyle}>
           <NextLink passHref {...resetFilters}>
-            Reset filters
+            <a>Reset filters</a>
           </NextLink>
 
           <ButtonSolid

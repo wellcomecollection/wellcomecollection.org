@@ -8,7 +8,6 @@ import {
 } from '@weco/catalogue/services/catalogue';
 import { Toggles } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
-import { isString } from '@weco/common/utils/array';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env]}/v2/works/${workId}/items`;
@@ -64,13 +63,10 @@ const ItemsApi = async (
   };
   const toggles = getTogglesFromContext(togglesResp, { req });
   const { workId } = req.query;
-  if (!isString(workId)) {
-    res.status(404);
-    return;
-  }
+  const id = Array.isArray(workId) ? workId[0] : workId;
   const response = await fetchWorkItems({
     toggles,
-    workId,
+    workId: id,
   });
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');

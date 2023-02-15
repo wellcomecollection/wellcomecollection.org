@@ -16,12 +16,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { useControlledState } from '@weco/common/utils/useControlledState';
 import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters/SearchFilters';
 import {
   CheckboxFilter as CheckboxFilterType,
-  DateRangeFilter as DateRangeFilterType,
-  ColorFilter as ColorFilterType,
   filterLabel,
   Filter,
 } from '@weco/common/services/catalogue/filters';
@@ -31,12 +28,14 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { filter } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
-import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import PaletteColorPicker, {
+  PaletteColorPickerProps,
+} from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
 import { ResetActiveFilters } from './ResetActiveFilters';
-
-export const dateRegex = /^\d{4}$|^$/;
+import DateRangeFilter, {
+  DateRangeFilterProps,
+} from './SearchFilters.DateRange';
 
 type CheckboxFilterProps = {
   f: CheckboxFilterType;
@@ -106,24 +105,18 @@ const CheckboxFilter = ({
   );
 };
 
-type DateRangeFilterProps = {
-  f: DateRangeFilterType;
-  changeHandler: () => void;
-  form?: string;
+type DesktopDateRangeFilterProps = DateRangeFilterProps & {
   hasNoOptions?: boolean;
   isNewStyle?: boolean;
 };
 
-const DateRangeFilter = ({
+const DesktopDateRangeFilter = ({
   f,
   changeHandler,
   form,
   hasNoOptions,
   isNewStyle,
-}: DateRangeFilterProps) => {
-  const [from, setFrom] = useControlledState(f.from.value);
-  const [to, setTo] = useControlledState(f.to.value);
-
+}: DesktopDateRangeFilterProps) => {
   return (
     <Space className={font('intr', 5)}>
       <DropdownButton
@@ -134,61 +127,24 @@ const DateRangeFilter = ({
         id={f.id}
         hasNoOptions={hasNoOptions}
       >
-        <>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <NumberInput
-              name={f.from.id}
-              label="From"
-              min="0"
-              max="9999"
-              placeholder="Year"
-              value={from || ''}
-              onChange={event => {
-                const val = `${event.currentTarget.value}`;
-                setFrom(val);
-                if (val.match(dateRegex)) {
-                  changeHandler();
-                }
-              }}
-              form={form}
-            />
-          </Space>
-          <NumberInput
-            name={f.to.id}
-            label="to"
-            min="0"
-            max="9999"
-            placeholder="Year"
-            value={to || ''}
-            onChange={event => {
-              const val = `${event.currentTarget.value}`;
-              setTo(val);
-              if (val.match(dateRegex)) {
-                changeHandler();
-              }
-            }}
-            form={form}
-          />
-        </>
+        <DateRangeFilter f={f} changeHandler={changeHandler} form={form} />
       </DropdownButton>
     </Space>
   );
 };
 
-type ColorFilterProps = {
-  f: ColorFilterType;
-  changeHandler: () => void;
-  form?: string;
+type DesktopColorFilterProps = PaletteColorPickerProps & {
   hasNoOptions?: boolean;
   isNewStyle?: boolean;
 };
-const ColorFilter = ({
-  f,
-  changeHandler,
+const DesktopColorFilter = ({
+  name,
+  color,
+  onChangeColor,
   form,
   hasNoOptions,
   isNewStyle,
-}: ColorFilterProps) => {
+}: DesktopColorFilterProps) => {
   return (
     <DropdownButton
       isPill={isNewStyle}
@@ -199,9 +155,9 @@ const ColorFilter = ({
       hasNoOptions={hasNoOptions}
     >
       <PaletteColorPicker
-        name={f.id}
-        color={f.color}
-        onChangeColor={changeHandler}
+        name={name}
+        color={color}
+        onChangeColor={onChangeColor}
         form={form}
       />
     </DropdownButton>
@@ -264,7 +220,7 @@ const DynamicFilterArray = ({
         )}
 
         {f.type === 'dateRange' && (
-          <DateRangeFilter
+          <DesktopDateRangeFilter
             {...(!showMoreFiltersModal && { form: searchFormId })}
             f={f}
             changeHandler={changeHandler}
@@ -274,10 +230,11 @@ const DynamicFilterArray = ({
         )}
 
         {f.type === 'color' && (
-          <ColorFilter
+          <DesktopColorFilter
             {...(!showMoreFiltersModal && { form: searchFormId })}
-            f={f}
-            changeHandler={changeHandler}
+            name={f.id}
+            color={f.color}
+            onChangeColor={changeHandler}
             isNewStyle={isNewStyle}
             hasNoOptions={hasNoResults && !f.color}
           />
@@ -489,7 +446,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       )}
 
                       {f.type === 'dateRange' && (
-                        <DateRangeFilter
+                        <DesktopDateRangeFilter
                           f={f}
                           changeHandler={changeHandler}
                           form={searchFormId}
@@ -498,9 +455,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                       )}
 
                       {f.type === 'color' && (
-                        <ColorFilter
-                          f={f}
-                          changeHandler={changeHandler}
+                        <DesktopColorFilter
+                          name={f.id}
+                          color={f.color}
+                          onChangeColor={changeHandler}
                           form={searchFormId}
                           isNewStyle={isNewStyle}
                         />

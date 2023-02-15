@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import Image, { ImageLoaderProps } from 'next/legacy/image';
+import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
 import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
 import { ImageType } from '../../../model/image';

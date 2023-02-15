@@ -34,11 +34,7 @@ const ImageCard: FunctionComponent<Props> = ({
   const { isEnhanced } = useContext(AppContext);
 
   return (
-    <NextLink
-      {...imageLink({ id, workId }, 'images_search_result')}
-      passHref
-      legacyBehavior
-    >
+    <NextLink {...imageLink({ id, workId }, 'images_search_result')} passHref>
       <StyledLink
         style={{ width: image.width }} // this is here to prevent the generation of multiple styles
         onClick={event => {

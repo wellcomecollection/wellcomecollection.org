@@ -113,7 +113,6 @@ export const Pagination: FunctionComponent<Props> = ({
         <Link
           passHref
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
-          legacyBehavior
         >
           <ChevronWrapper hasDarkBg={hasDarkBg} prev disabled={isLoading}>
             <Icon icon={chevron} />
@@ -132,7 +131,6 @@ export const Pagination: FunctionComponent<Props> = ({
         <Link
           passHref
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
-          legacyBehavior
         >
           <ChevronWrapper hasDarkBg={hasDarkBg} disabled={isLoading}>
             <Icon icon={chevron} />

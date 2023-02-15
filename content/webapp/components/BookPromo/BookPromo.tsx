@@ -7,15 +7,41 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { FunctionComponent } from 'react';
 import BookImage from '../../components/BookImage/BookImage';
 
-type LinkOrSpanSpaceAttrs = {
-  url?: string;
-  elem?: string;
+type LinkSpaceAttrs = {
+  url: string;
 };
 
-const LinkOrSpanSpace = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
-  as: props.url ? 'a' : props.elem || 'div',
-  href: props.url || undefined,
-}))<LinkOrSpanSpaceAttrs>``;
+const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
+  as: 'a',
+  href: props.url,
+  className: 'promo-link plain-link',
+  v: {
+    size: 'xl',
+    properties: ['padding-top'],
+  },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+}))<LinkSpaceAttrs>`
+  display: block;
+`;
+
+const Title = styled.h3.attrs({
+  className: `promo-link__title ${font('wb', 4)}`,
+})`
+  margin: 0;
+`;
+
+const Subtitle = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-top'] },
+  className: font('intb', 5),
+})`
+  margin: 0;
+`;
+
+const Caption = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  margin: 0;
+`;
 
 type Props = {
   book: BookBasic;
@@ -24,14 +50,8 @@ type Props = {
 const BookPromo: FunctionComponent<Props> = ({ book }) => {
   const { id, title, subtitle, promo, cover } = book;
   return (
-    <LinkOrSpanSpace
-      v={{
-        size: 'xl',
-        properties: ['padding-top'],
-      }}
-      h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+    <LinkSpace
       url={`/books/${id}`}
-      className="block promo-link plain-link"
       onClick={() => {
         trackGaEvent({
           category: 'BookPromo',
@@ -81,30 +101,18 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
               <LabelsList labels={[{ text: 'Book' }]} />
             </Space>
           </Space>
-          {title && (
-            <h3 className={`no-margin promo-link__title ${font('wb', 4)}`}>
-              {title}
-            </h3>
-          )}
+          {title && <Title>{title}</Title>}
 
-          {subtitle && (
-            <Space
-              as="h4"
-              v={{ size: 's', properties: ['margin-top'] }}
-              className={`no-margin ${font('intb', 5)}`}
-            >
-              {subtitle}
-            </Space>
-          )}
+          {subtitle && <Subtitle as="h4">{subtitle}</Subtitle>}
 
           {promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
-              <p className={`${font('intr', 5)} no-margin`}>{promo?.caption}</p>
+              <Caption>{promo.caption}</Caption>
             </Space>
           )}
         </Space>
       </Space>
-    </LinkOrSpanSpace>
+    </LinkSpace>
   );
 };
 
