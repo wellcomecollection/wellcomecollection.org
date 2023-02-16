@@ -36,13 +36,7 @@ const DynamicFilterArray = ({
       setWrapperWidth(left + width);
     }
   };
-  useEffect(() => {
-    window.addEventListener('resize', updateWrapperWidth);
-    updateWrapperWidth();
-    return () => window.removeEventListener('resize', updateWrapperWidth);
-  }, []);
 
-  const filterClassname = 'superUniqueDropdownFilterButtonClass';
   const renderDynamicFilter = (f: Filter, i: number, arr: Filter[]) => {
     return (
       // TODO remove index from key once we resolve the doubled IDs issue
@@ -50,13 +44,10 @@ const DynamicFilterArray = ({
       // as we now sometimes get "Warning: Encountered two children with the same key" console errors
       <Space
         key={`${f.id}-${i}`}
-        className={filterClassname}
+        data-is-filter // Needed in useLayoutEffect
         h={
           i + 1 !== arr.length
-            ? {
-                size: 'm',
-                properties: ['margin-right'],
-              }
+            ? { size: 'm', properties: ['margin-right'] }
             : undefined
         }
       >
@@ -110,16 +101,24 @@ const DynamicFilterArray = ({
   useEffect(() => {
     setHasCalculatedFilters(false);
   }, [router.query]);
+
+  useEffect(() => {
+    console.log('hee');
+    window.addEventListener('resize', updateWrapperWidth);
+    updateWrapperWidth();
+    return () => window.removeEventListener('resize', updateWrapperWidth);
+  }, []);
+
   useLayoutEffect(() => {
     if (isNewStyle && !hasCalculatedFilters) {
-      const arrOfDropdownButtonNodes = document.querySelectorAll(
-        `.${filterClassname}`
-      );
+      const arrOfDropdownButtonNodes =
+        document.querySelectorAll('[data-is-filter]');
 
       const showAllFiltersModalButtonWidthInPixels = 150;
       const availableSpace =
         wrapperWidth - showAllFiltersModalButtonWidthInPixels;
       let dynamicFilterArray: Filter[] = [];
+
       /**
        * running a for loop in reverse, so that we start at the last item
        * and go backwards until one of the nodes fit, then all nodes
@@ -129,6 +128,7 @@ const DynamicFilterArray = ({
         const dropdownButtonNode = arrOfDropdownButtonNodes[i];
         const { width, left } = dropdownButtonNode.getBoundingClientRect();
         const rightmostEdge = width + left;
+
         if (i === arrOfDropdownButtonNodes.length - 1) {
           if (rightmostEdge < wrapperWidth) {
             /**
@@ -163,12 +163,7 @@ const DynamicFilterArray = ({
     <>
       {hasCalculatedFilters ? dynamicFiltersCalculated : dynamicFiltersSource}
       {dynamicFilters.length < filters.length && (
-        <Space
-          h={{
-            size: 'm',
-            properties: ['padding-left', 'padding-right'],
-          }}
-        >
+        <Space h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}>
           <ButtonSolid
             colors={themeValues.buttonColors.marbleWhiteCharcoal}
             icon={filter}
