@@ -44,6 +44,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { BodySlice, isContentList, isStandfirst } from 'types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import Head from 'next/head';
 
 const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -153,102 +154,126 @@ const Homepage: FunctionComponent<Props> = ({
   contentList,
 }) => {
   return (
-    <PageLayout
-      title=""
-      description={pageDescriptions.homepage}
-      url={{ pathname: '/' }}
-      jsonLd={jsonLd}
-      openGraphType="website"
-      siteSection={null}
-      image={pageImage}
-      apiToolbarLinks={[createPrismicLink(homepageId)]}
-    >
-      <Layout10 isCentered={false}>
-        <SpacingSection>
-          <Space
-            v={{ size: 'l', properties: ['margin-top'] }}
-            className={font('wb', 1)}
-          >
-            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <h1 className="no-margin">{homepageHeading}</h1>
+    <>
+      <Head>
+        {/*
+          Verify our domain name for Meta/Facebook ads.
+          
+          This is necessary for brand safety.  Without domain verification, any advertiser
+          could run ads that point to our website, and we wouldn't be able to control the
+          copy or content of the ad.  Once the domain is verified, only approved partners
+          can run ads that point to the Wellcome Collection website.
+          
+          Additionally, if we choose to use remarketing at any point, this verification
+          will improve the accuracy of our tracking.
+          
+          See https://www.facebook.com/business/help/286768115176155?id=199156230960298
+          See https://github.com/wellcomecollection/wellcomecollection.org/issues/9289
+        */}
+        <meta
+          name="facebook-domain-verification"
+          content="gl52uu0zshpy3yqv1ohxo3zq39mb0w"
+        />
+      </Head>
+      <PageLayout
+        title=""
+        description={pageDescriptions.homepage}
+        url={{ pathname: '/' }}
+        jsonLd={jsonLd}
+        openGraphType="website"
+        siteSection={null}
+        image={pageImage}
+        apiToolbarLinks={[createPrismicLink(homepageId)]}
+      >
+        <Layout10 isCentered={false}>
+          <SpacingSection>
+            <Space
+              v={{ size: 'l', properties: ['margin-top'] }}
+              className={font('wb', 1)}
+            >
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <h1 className="no-margin">{homepageHeading}</h1>
+              </Space>
             </Space>
-          </Space>
-          {standfirst && (
-            <CreamBox>
-              <PageHeaderStandfirst html={standfirst.value} />
-            </CreamBox>
-          )}
-        </SpacingSection>
-      </Layout10>
-      {headerList && (
-        <SpacingSection>
-          {headerList.value.title && (
+            {standfirst && (
+              <CreamBox>
+                <PageHeaderStandfirst html={standfirst.value} />
+              </CreamBox>
+            )}
+          </SpacingSection>
+        </Layout10>
+        {headerList && (
+          <SpacingSection>
+            {headerList.value.title && (
+              <SpacingComponent>
+                <SectionHeader title={headerList.value.title} />
+              </SpacingComponent>
+            )}
             <SpacingComponent>
-              <SectionHeader title={headerList.value.title} />
-            </SpacingComponent>
-          )}
-          <SpacingComponent>
-            <SimpleCardGrid
-              items={
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                headerList.value.items as any[]
-              }
-              isFeaturedFirst={true}
-            />
-          </SpacingComponent>
-        </SpacingSection>
-      )}
-
-      {nextSevenDaysEvents.length + exhibitions.length > 2 && (
-        <SpacingSection>
-          <SpacingComponent>
-            <SectionHeader title="This week" />
-          </SpacingComponent>
-          <SpacingComponent>
-            <ExhibitionsAndEvents
-              exhibitions={exhibitions}
-              events={nextSevenDaysEvents}
-              links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
-            />
-          </SpacingComponent>
-        </SpacingSection>
-      )}
-
-      {contentList && (
-        <SpacingSection>
-          <SpacingComponent>
-            <SectionHeader title={contentList.value.title || ''} />
-          </SpacingComponent>
-          <SpacingComponent>
-            <SimpleCardGrid
-              items={
-                contentList.value.items.map(
-                  item =>
-                    item.type === 'seasons'
-                      ? convertItemToCardProps(item)
-                      : item
+              <SimpleCardGrid
+                items={
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                ) as any[]
-              }
+                  headerList.value.items as any[]
+                }
+                isFeaturedFirst={true}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
+
+        {nextSevenDaysEvents.length + exhibitions.length > 2 && (
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title="This week" />
+            </SpacingComponent>
+            <SpacingComponent>
+              <ExhibitionsAndEvents
+                exhibitions={exhibitions}
+                events={nextSevenDaysEvents}
+                links={[
+                  { text: 'All exhibitions and events', url: '/whats-on' },
+                ]}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
+
+        {contentList && (
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title={contentList.value.title || ''} />
+            </SpacingComponent>
+            <SpacingComponent>
+              <SimpleCardGrid
+                items={
+                  contentList.value.items.map(
+                    item =>
+                      item.type === 'seasons'
+                        ? convertItemToCardProps(item)
+                        : item
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  ) as any[]
+                }
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        )}
+
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title="Latest stories" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid
+              items={articles}
+              itemsPerRow={4}
+              itemsHaveTransparentBackground={true}
+              links={[{ text: 'All stories', url: '/stories' }]}
             />
           </SpacingComponent>
         </SpacingSection>
-      )}
-
-      <SpacingSection>
-        <SpacingComponent>
-          <SectionHeader title="Latest stories" />
-        </SpacingComponent>
-        <SpacingComponent>
-          <CardGrid
-            items={articles}
-            itemsPerRow={4}
-            itemsHaveTransparentBackground={true}
-            links={[{ text: 'All stories', url: '/stories' }]}
-          />
-        </SpacingComponent>
-      </SpacingSection>
-    </PageLayout>
+      </PageLayout>
+    </>
   );
 };
 
