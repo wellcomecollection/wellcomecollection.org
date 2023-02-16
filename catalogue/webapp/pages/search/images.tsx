@@ -10,7 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import SearchFilters from '@weco/common/views/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 
 // Utils & Helpers

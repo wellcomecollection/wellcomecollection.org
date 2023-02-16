@@ -1,14 +1,15 @@
 import React, { Fragment, FunctionComponent, ReactNode } from 'react';
-import { ParsedUrlQuery } from 'querystring';
-import styled from 'styled-components';
-import { LinkProps } from '@weco/common/model/link-props';
-import Icon from '../Icon/Icon';
-import Space from '../styled/Space';
 import NextLink from 'next/link';
-import { font } from '../../../utils/classnames';
-import { Filter } from '../../../services/catalogue/filters';
-import { getColorDisplayName } from '../../components/PaletteColorPicker/PaletteColorPicker';
+import styled from 'styled-components';
+import { ParsedUrlQuery } from 'querystring';
+
+import { LinkProps } from '@weco/common/model/link-props';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import { cross } from '@weco/common/icons';
+import Space from '@weco/common/views/components/styled/Space';
+import { font } from '@weco/common/utils/classnames';
+import { Filter } from '@weco/common/services/catalogue/filters';
+import { getColorDisplayName } from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
 
 type ResetActiveFilters = {
   query?: string;
