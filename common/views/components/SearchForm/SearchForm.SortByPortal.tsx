@@ -6,7 +6,7 @@ type Props = {
   children: ReactElement;
 };
 
-const SearchFormSortByPortal: FunctionComponent<Props> = ({
+const SortByPortal: FunctionComponent<Props> = ({
   id,
   children,
 }: Props): ReactElement<Props> => {
@@ -23,4 +23,4 @@ const SearchFormSortByPortal: FunctionComponent<Props> = ({
   return createPortal(children, element);
 };
 
-export default SearchFormSortByPortal;
+export default SortByPortal;
