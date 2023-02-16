@@ -8,6 +8,7 @@ import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEff
 
 import SearchFiltersDesktop from './SearchFilters.Desktop';
 import SearchFiltersMobile from './SearchFilters.Mobile';
+import DateRangeFilter from './SearchFilters.DateRangeFilter';
 
 type Props = {
   query?: string;
@@ -77,4 +78,4 @@ const SearchFilters: FunctionComponent<Props> = ({
   );
 };
 
-export default SearchFilters;
+export { SearchFilters as default, DateRangeFilter };
