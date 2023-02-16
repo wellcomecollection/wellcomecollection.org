@@ -1,5 +1,5 @@
 module "cloudfront" {
-  source = "./modules/wc_org_cloudfront"
+  source = "./modules/ephemeral_cloudfront"
 
   namespace = "next13"
   aliases = [
