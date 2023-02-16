@@ -14,6 +14,7 @@ import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import SearchFilters from '@weco/common/views/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import {
   fromQuery,
@@ -49,6 +50,26 @@ const SortPaginationWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+`;
+
+const DividerWrapper = styled.div`
+  ${props =>
+    `
+      margin: 0 -${props.theme.containerPadding.small}px; 
+      transition: margin ${props => props.theme.transitionProperties};
+
+    ${props.theme.media('medium')(`
+        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem); 
+    `)}
+
+    ${props.theme.media('large')(`
+        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem);
+    `)}
+
+    ${props.theme.media('xlarge')(`
+        margin-right: 0; 
+    `)}
+  `}
 `;
 
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
@@ -119,7 +140,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         className="container"
         v={{ size: 'l', properties: ['padding-bottom'] }}
       >
-        <Space v={{ size: 'l', properties: ['padding-top'] }}>
+        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
           <SearchFilters
             query={queryString}
             linkResolver={linkResolver}
@@ -139,6 +160,10 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             isNewStyle
           />
         </Space>
+
+        <DividerWrapper>
+          <Divider lineColor="neutral.300" />
+        </DividerWrapper>
 
         {hasNoResults ? (
           <SearchNoResults

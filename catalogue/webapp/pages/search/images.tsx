@@ -43,11 +43,16 @@ type Props = {
   pageview: Pageview;
 };
 
-const Wrapper = styled(Space).attrs({
+const Wrapper = styled(Space).attrs<{ hasNoResults: boolean }>({
   v: { size: 'xl', properties: ['margin-bottom'] },
-})`
-  background-color: ${props => props.theme.color('black')};
-  color: ${props => props.theme.color('white')};
+})<{ hasNoResults: boolean }>`
+  ${props =>
+    props.hasNoResults
+      ? ``
+      : `
+        background-color: ${props.theme.color('black')};
+        color: ${props.theme.color('white')};
+        `}
 `;
 
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
@@ -137,44 +142,46 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
         </Space>
       </div>
 
-      {hasNoResults ? (
-        <SearchNoResults
-          query={queryString}
-          hasFilters={hasFilters({
-            filters: filters.map(f => f.id),
-            queryParams: Object.keys(query).map(p => p),
-          })}
-        />
-      ) : (
-        <Wrapper>
-          <Space
-            className="container"
-            v={{ size: 'l', properties: ['padding-bottom'] }}
-          >
-            <PaginationWrapper verticalSpacing="l">
-              <span>{pluralize(images.totalResults, 'result')}</span>
-              <Pagination
-                totalPages={images.totalPages}
-                ariaLabel="Image search pagination"
-                hasDarkBg
-                isHiddenMobile
-              />
-            </PaginationWrapper>
+      <Wrapper hasNoResults={hasNoResults}>
+        <Space
+          className="container"
+          v={{ size: 'l', properties: ['padding-bottom'] }}
+        >
+          {hasNoResults ? (
+            <SearchNoResults
+              query={queryString}
+              hasFilters={hasFilters({
+                filters: filters.map(f => f.id),
+                queryParams: Object.keys(query).map(p => p),
+              })}
+            />
+          ) : (
+            <>
+              <PaginationWrapper verticalSpacing="l">
+                <span>{pluralize(images.totalResults, 'result')}</span>
+                <Pagination
+                  totalPages={images.totalPages}
+                  ariaLabel="Image search pagination"
+                  hasDarkBg
+                  isHiddenMobile
+                />
+              </PaginationWrapper>
 
-            <main>
-              <ImageEndpointSearchResults images={images.results} />
-            </main>
+              <main>
+                <ImageEndpointSearchResults images={images.results} />
+              </main>
 
-            <PaginationWrapper verticalSpacing="l" alignRight>
-              <Pagination
-                totalPages={images.totalPages}
-                ariaLabel="Image search pagination"
-                hasDarkBg
-              />
-            </PaginationWrapper>
-          </Space>
-        </Wrapper>
-      )}
+              <PaginationWrapper verticalSpacing="l" alignRight>
+                <Pagination
+                  totalPages={images.totalPages}
+                  ariaLabel="Image search pagination"
+                  hasDarkBg
+                />
+              </PaginationWrapper>
+            </>
+          )}
+        </Space>
+      </Wrapper>
     </>
   );
 };
