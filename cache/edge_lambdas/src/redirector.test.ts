@@ -100,9 +100,9 @@ describe('Query string redirects', () => {
     },
     {
       description:
-        'Image search within works should redirect to Image search hub page',
+        'Image search within works should redirect to Image search hub page and change the legacy param key',
       from: '/works?search=images&images.color=red', // Test legacy color param
-      to: '/search/images?images.color=red',
+      to: '/search/images?color=red',
     },
     {
       description:

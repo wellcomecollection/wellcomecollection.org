@@ -38,14 +38,30 @@ const paramsAreSubset = (
 
 const filterParams = (
   params: URLSearchParams,
-  allow: Set<string>
+  allow: Set<string>,
+  modify?: {
+    [oldParamName: string]: string;
+  }[]
 ): URLSearchParams => {
   const filtered = new URLSearchParams();
+
   params.forEach((value, key) => {
+    // Check if param is in the forwardParams list
     if (allow.has(key)) {
-      filtered.append(key, value);
+      if (modify) {
+        // Check if param is also in the modifiedParams list
+        // If the params match, append the new param name to filtered
+        modify.find(modifiedParam => {
+          if (Object.keys(modifiedParam).find(k => k === key)) {
+            filtered.append(modifiedParam[key], value);
+          }
+        });
+      } else {
+        filtered.append(key, value);
+      }
     }
   });
+
   return filtered;
 };
 
@@ -85,7 +101,8 @@ export const getRedirect = (
       // Only forward params that are in `forwardParams`
       const newParams = filterParams(
         requestParams,
-        potentialRedirect.forwardParams
+        potentialRedirect.forwardParams,
+        potentialRedirect.modifiedParams
       );
       const requestParamsString = newParams.toString();
 
