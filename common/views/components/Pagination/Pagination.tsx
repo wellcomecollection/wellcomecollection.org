@@ -44,6 +44,13 @@ const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
   transition: background ${props => props.theme.transitionProperties};
   background-color: transparent;
 
+  // This is required to make the icon be the right size on iOS.  If this class
+  // has 'position: relative', then iOS will give it an incorrect height and
+  // it will appear super small.  Illegible!
+  .icon {
+    position: absolute;
+  }
+
   &[disabled] {
     pointer-events: none;
     color: ${props =>
