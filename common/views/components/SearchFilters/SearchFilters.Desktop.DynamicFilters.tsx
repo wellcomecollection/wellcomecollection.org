@@ -103,7 +103,6 @@ const DynamicFilterArray = ({
   }, [router.query]);
 
   useEffect(() => {
-    console.log('hee');
     window.addEventListener('resize', updateWrapperWidth);
     updateWrapperWidth();
     return () => window.removeEventListener('resize', updateWrapperWidth);
