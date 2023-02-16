@@ -229,24 +229,61 @@ export const literalRedirects = { ...contentRedirects, ...vanityUrls };
 //   }
 // }
 type QueryRedirect = {
-  matchParams: URLSearchParams;
-  forwardParams: Set<string>;
+  matchParams?: URLSearchParams;
   redirectPath: string;
+  forwardParams: Set<string>;
 };
-export const queryRedirects: Record<string, QueryRedirect> = {
-  '/works': {
-    matchParams: new URLSearchParams({
-      search: 'images',
-    }),
-    forwardParams: new Set([
-      'query',
-      'images.color',
-      'locations.license',
-      'source.genres.label',
-      'source.subjects.label',
-      'source.contributors.agent.label',
-      'page',
-    ]),
-    redirectPath: '/images',
-  },
+
+// When adding a new rule, add it to redirect.tests.ts
+// As we can't test the actual redirection locally
+export const queryRedirects: Record<string, QueryRedirect[]> = {
+  // Search hub redirections
+  '/works': [
+    {
+      matchParams: new URLSearchParams({
+        search: 'images', // From before image search, around 2020.
+      }),
+      redirectPath: '/search/images',
+      forwardParams: new Set([
+        'query',
+        'images.color',
+        'locations.license',
+        'source.genres.label',
+        'source.subjects.label',
+        'source.contributors.agent.label',
+        'page',
+      ]),
+    },
+    {
+      redirectPath: '/search/works',
+      forwardParams: new Set([
+        'query',
+        'sort',
+        'sortOrder',
+        'workType', // Formats
+        'production.dates.from',
+        'production.dates.to',
+        'availabilities', // Locations
+        'subjects.label', // Subjects
+        'genres.label', // Types/Techniques
+        'contributors.agent.label', // Contributors
+        'languages',
+        'page',
+      ]),
+    },
+  ],
+  '/images': [
+    {
+      redirectPath: '/search/images',
+      forwardParams: new Set([
+        'query',
+        'images.color', // Color filter
+        'locations.license', // Licences filter
+        'source.genres.label', // Types/techniques filter
+        'source.subjects.label', // Subjects filter
+        'source.contributors.agent.label', // Contributors filter
+        'page',
+      ]),
+    },
+  ],
 };

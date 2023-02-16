@@ -70,18 +70,25 @@ export const getRedirect = (
     return redirect301(host, literalRedirects[uriSansSlash]);
   }
 
-  if (request.querystring && queryRedirects[uriSansSlash]) {
-    const potentialRedirect = queryRedirects[uriSansSlash];
+  if (queryRedirects[uriSansSlash]) {
     const requestParams = new URLSearchParams(request.querystring);
-    // A redirect occurs if all of the params in the redirect rule are contained
-    // within the request
-    if (paramsAreSubset(requestParams, potentialRedirect.matchParams)) {
+
+    // If the redirect has matchParams, pick the relevant one from the list
+    // Otherwise return the one that has none if it exists
+    const potentialRedirect = queryRedirects[uriSansSlash].find(q =>
+      q.matchParams
+        ? paramsAreSubset(requestParams, q.matchParams)
+        : !q.matchParams
+    );
+
+    if (potentialRedirect) {
       // Only forward params that are in `forwardParams`
       const newParams = filterParams(
         requestParams,
         potentialRedirect.forwardParams
       );
       const requestParamsString = newParams.toString();
+
       return redirect301(
         host,
         requestParamsString
