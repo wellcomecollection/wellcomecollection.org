@@ -15,9 +15,7 @@ import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 import VideoPlayer from '@weco/catalogue/components/VideoPlayer/VideoPlayer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
-import Space, {
-  SpaceComponentProps,
-} from '@weco/common/views/components/styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { font } from '@weco/common/utils/classnames';
@@ -57,14 +55,14 @@ const IframeAuthMessage = styled.iframe`
   display: none;
 `;
 
-const IframePdfViewer = styled(Space).attrs({
-  className: 'h-center',
-})<SpaceComponentProps>`
+const IframePdfViewer = styled(Space)`
   width: 90vw;
   height: 90vh;
   display: block;
   border: 0;
   margin-top: 98px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const iframeId = 'authMessage';

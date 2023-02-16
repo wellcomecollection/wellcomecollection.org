@@ -22,6 +22,19 @@ const CaptionWrapper = styled.div`
   margin: 0 auto;
 `;
 
+const Wrapper = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['margin-top'],
+  },
+  className: `${font('lr', 6)} caption`,
+})<{ width?: number }>`
+  ${props => (props.width ? `width: ${props.width}px;` : '')}
+
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 type Props = {
   caption: prismicT.RichTextField;
   preCaptionNode?: ReactNode;
@@ -36,15 +49,11 @@ const Caption: FunctionComponent<Props> = ({
   isFigcaption = true,
 }: Props) => {
   return (
-    <Space
-      v={{
-        size: 'm',
-        properties: ['margin-top'],
-      }}
+    <Wrapper
+      width={width}
       as={isFigcaption ? 'figcaption' : undefined}
       aria-hidden={isFigcaption ? undefined : 'true'}
       style={width ? { width: `${width}px` } : undefined}
-      className={`${font('lr', 6)} caption h-center`}
     >
       <CaptionWrapper>
         {preCaptionNode}
@@ -52,7 +61,7 @@ const Caption: FunctionComponent<Props> = ({
           <PrismicHtmlBlock html={caption} />
         </CaptionText>
       </CaptionWrapper>
-    </Space>
+    </Wrapper>
   );
 };
 
