@@ -15,7 +15,6 @@ declare global {
 
 type Page = {
   path: string;
-  pathname: string;
   name: string;
   query: ParsedUrlQuery;
 };
@@ -96,7 +95,6 @@ function trackPageview({
     eventGroup,
     page: {
       path: Router.asPath,
-      pathname: Router.pathname,
       name,
       query,
     },
@@ -116,7 +114,6 @@ function trackSegmentEvent({
     eventGroup,
     page: {
       path: Router.asPath,
-      pathname: Router.pathname,
       name: pageName,
       query: Router.query,
     },
