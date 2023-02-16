@@ -173,6 +173,9 @@ const contentRedirects: Record<string, string> = {
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1656920569188629
   '/events/YrCXAREAACEAFSTW': '/events/Yqcv7xEAACEA61Co',
 
+  // See https://wellcome.slack.com/archives/C8X9YKM5X/p1676549408691429
+  'exhibitions/Yo39QREAACMAet6p': 'exhibitions/Y3zI8hAAAGXXcMua',
+
   // This is the "nice" URL for new memberships.
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8167
   '/signup': '/account/api/auth/signup',
