@@ -43,8 +43,27 @@ type EventProps = {
   eventGroup?: EventGroup;
 };
 
+// The pageview values are used for monthly/quarterly reporting.
+//
+// This type is an attempt to describe the expectations of those reporting tools;
+// to enforce our "analytics contract" in code.  It isn't set in stone, but it's
+// meant to flag to developers if they make unplanned or unexpected changes --
+// hopefully this will lead to more intentional changes.
+//
+// If you want to change this type, check with our digital analyst (currently Tacey)
+// before you do -- so the change can be coordinated with their reports.
 export type Pageview = {
-  name: string;
+  name:
+    | 'concept'
+    | 'event'
+    | 'exhibition'
+    | 'image'
+    | 'images'
+    | 'item'
+    | 'search'
+    | 'story'
+    | 'work'
+    | 'works';
   properties: Record<string, string[] | number[] | string | number | undefined>;
   eventGroup?: EventGroup;
 };

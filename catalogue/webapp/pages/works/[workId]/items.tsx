@@ -382,7 +382,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    const pageview = {
+    const pageview: Pageview = {
       name: 'item',
       properties: {},
     };
