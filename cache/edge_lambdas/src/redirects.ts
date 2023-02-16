@@ -244,6 +244,8 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
         search: 'images', // From before image search, around 2020.
       }),
       redirectPath: '/search/images',
+      // This matches the order in the CloudFront cache policy in terraform
+      // cache/modules/cloudfront_policies/locals.tf
       forwardParams: new Set([
         'query',
         'images.color',
@@ -256,6 +258,8 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
     },
     {
       redirectPath: '/search/works',
+      // This matches the order in the CloudFront cache policy in terraform
+      // cache/modules/cloudfront_policies/locals.tf
       forwardParams: new Set([
         'query',
         'sort',
@@ -275,9 +279,11 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
   '/images': [
     {
       redirectPath: '/search/images',
+      // This matches the order in the CloudFront cache policy in terraform
+      // cache/modules/cloudfront_policies/locals.tf
       forwardParams: new Set([
         'query',
-        'images.color', // Color filter
+        'color', // Color filter
         'locations.license', // Licences filter
         'source.genres.label', // Types/techniques filter
         'source.subjects.label', // Subjects filter
