@@ -166,6 +166,11 @@ const Homepage: FunctionComponent<Props> = ({
           
           Additionally, if we choose to use remarketing at any point, this verification
           will improve the accuracy of our tracking.
+
+          Note: there are two other approaches for domain verification (uploading a file
+          to our root domain, or creating a DNS TXT record), but I'm doing it this way
+          because modifying HTML is something we do plenty of already, so we're more likely
+          to get it right and/or notice if the mechanism has stopped working.
           
           See https://www.facebook.com/business/help/286768115176155?id=199156230960298
           See https://github.com/wellcomecollection/wellcomecollection.org/issues/9289
