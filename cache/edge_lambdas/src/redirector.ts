@@ -48,13 +48,11 @@ const filterParams = (
   params.forEach((value, key) => {
     // Check if param is in the forwardParams list
     if (allow.has(key)) {
-      modify
-        ? // Check if param is also in the modifiedParams list
-          // If the params match, append the new param name to filtered
-          Object.keys(modify).forEach(k => {
-            if (k === key) filtered.append(modify[k], value);
-          })
-        : filtered.append(key, value);
+      if (modify && key in modify) {
+        filtered.append(modify[key], value);
+      } else {
+        filtered.append(key, value);
+      }
     }
   });
 
