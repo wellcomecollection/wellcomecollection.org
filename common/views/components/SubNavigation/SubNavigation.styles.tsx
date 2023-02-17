@@ -42,7 +42,7 @@ export const TabsContainer = styled.div`
 export const Tab = styled.div.attrs({
   className: font('intb', 5),
 })`
-  padding: 24px 28px 0 0;
+  padding: 24px 8px 0 0;
   flex-shrink: 0;
   transition: padding ${props => props.theme.transitionProperties};
 
