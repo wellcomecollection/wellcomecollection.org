@@ -249,7 +249,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         serverData,
         pageview: {
           name: 'works',
-          properties: works ? { totalResults: works.totalResults } : {},
+          properties: { totalResults: works.totalResults },
         },
       }),
     };
