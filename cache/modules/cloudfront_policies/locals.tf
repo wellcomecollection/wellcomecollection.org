@@ -20,34 +20,58 @@ locals {
   ]
 
   works_query_params = [
-    "_queryType",
-    "availabilities",
-    "canvas",
-    "current",
-    "genres.label",
-    "items.locations.locationType",
-    "languages",
-    "manifest",
-    "page",
+    # From /works -> /search/works.
+    # This matches the order in redirects.ts
     "query",
-    "source",
+    "sort",
+    "sortOrder",
+    "workType",
+    "production.dates.from",
+    "production.dates.to",
+    "availabilities",
     "subjects.label",
+    "genres.label",
     "contributors.agent.label",
+    "languages",
+    "page",
+
+    # From /works?search=images -> /search/images,
+    # previously /works?search=images -> /images.
+    # This matches the order in redirects.ts
+    "search",
+    "images.color",
+    "locations.license",
+    "source.genres.label",
+    "source.subjects.label",
+    "source.contributors.agent.label",
+
+    # Individual work page
+    "canvas",
+    "manifest",
+
+    # All other parameters
+    "_queryType",
+    "current",
+    "items.locations.locationType",
+    "source",
     "toggle",
     "cachebust",
-    "workType",
   ]
 
   images_query_params = [
-    "cachebust",
+    # From /images -> /search/images.
+    # This matches the order in redirects.ts
+    "query",
     "color",
     "locations.license",
-    "page",
-    "query",
-    "source",
-    "source.contributors.agent.label",
     "source.genres.label",
     "source.subjects.label",
+    "source.contributors.agent.label",
+    "page",
+
+    # All other parameters
+    "cachebust",
+    "source",
     "toggle",
   ]
 

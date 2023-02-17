@@ -39,23 +39,31 @@ const identityApiClient = authenticatedInstanceFactory(
   })
 );
 
-/** Extracts the user ID from a session token, or throws if the user ID
+/** Extracts the user ID and issuer from a session token, or throws if they
  * can't be retrieved.
  */
-export function getUserIdFromToken(
+type TokenData = {
+  userId: string;
+  issuer: string;
+};
+
+export function getDataFromToken(
   sessionToken: string,
   secret: string
-): string {
+): TokenData {
   const token = decodeToken(sessionToken, secret);
 
   if (typeof token === 'string') {
     throw new Error('Cannot get user ID from a token with a string payload');
   }
 
-  const { sub } = token;
+  const { sub, iss } = token;
 
   if (typeof sub !== 'string') {
     throw new Error('Cannot get user ID from payload');
+  }
+  if (typeof iss !== 'string') {
+    throw new Error('Cannot get issuer from payload');
   }
 
   // This is possibly over-defensive, but it's hard to imagine when we'd get
@@ -66,7 +74,8 @@ export function getUserIdFromToken(
     throw new Error('Cannot get user ID from payload');
   }
 
-  return sub.replace(userIdPrefix, '');
+  const userId = sub.replace(userIdPrefix, '');
+  return { userId, issuer: iss };
 }
 
 export default async (
@@ -96,9 +105,8 @@ export default async (
   }
 
   const secret = config.auth0.actionSecret;
-  const userId = getUserIdFromToken(sessionToken, secret);
-
-  const redirectUri = `https://${config.auth0.domain}/continue?state=${state}`;
+  const { userId, issuer } = getDataFromToken(sessionToken, secret);
+  const redirectUri = `https://${issuer}/continue?state=${state}`;
 
   try {
     const axios = await identityApiClient();

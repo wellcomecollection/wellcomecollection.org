@@ -70,13 +70,13 @@ test.describe('Top-level landing pages', () => {
     await gotoWithoutCache(worksUrl, page);
     const content = await page.textContent('h1');
 
-    expect(content).toBe('Search the collections');
+    expect(content).toBe('Works search');
   });
 
   test('the images page renders with an accessible title', async ({ page }) => {
     await gotoWithoutCache(imagesUrl, page);
     const content = await page.textContent('h1');
 
-    expect(content).toBe('Search the collections');
+    expect(content).toBe('Images search');
   });
 });

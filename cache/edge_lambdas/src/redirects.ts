@@ -173,6 +173,9 @@ const contentRedirects: Record<string, string> = {
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1656920569188629
   '/events/YrCXAREAACEAFSTW': '/events/Yqcv7xEAACEA61Co',
 
+  // See https://wellcome.slack.com/archives/C8X9YKM5X/p1676549408691429
+  'exhibitions/Yo39QREAACMAet6p': 'exhibitions/Y3zI8hAAAGXXcMua',
+
   // This is the "nice" URL for new memberships.
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8167
   '/signup': '/account/api/auth/signup',
@@ -226,12 +229,16 @@ export const literalRedirects = { ...contentRedirects, ...vanityUrls };
 //     matchParams: [URLSearchParams to match]
 //     forwardParams: [param keys to forward if present]
 //     redirectPath: [path to redirect to]
+//     modifiedParams: [{ [oldParamName]: [newParamName] }]
 //   }
 // }
 type QueryRedirect = {
   matchParams?: URLSearchParams;
   redirectPath: string;
   forwardParams: Set<string>;
+  modifiedParams?: {
+    [oldParamName: string]: string;
+  };
 };
 
 // When adding a new rule, add it to redirect.tests.ts
@@ -244,6 +251,8 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
         search: 'images', // From before image search, around 2020.
       }),
       redirectPath: '/search/images',
+      // This matches the order in the CloudFront cache policy in terraform
+      // cache/modules/cloudfront_policies/locals.tf
       forwardParams: new Set([
         'query',
         'images.color',
@@ -253,9 +262,12 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
         'source.contributors.agent.label',
         'page',
       ]),
+      modifiedParams: { 'images.color': 'color' },
     },
     {
       redirectPath: '/search/works',
+      // This matches the order in the CloudFront cache policy in terraform
+      // cache/modules/cloudfront_policies/locals.tf
       forwardParams: new Set([
         'query',
         'sort',
@@ -275,9 +287,11 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
   '/images': [
     {
       redirectPath: '/search/images',
+      // This matches the order in the CloudFront cache policy in terraform
+      // cache/modules/cloudfront_policies/locals.tf
       forwardParams: new Set([
         'query',
-        'images.color', // Color filter
+        'color', // Color filter
         'locations.license', // Licences filter
         'source.genres.label', // Types/techniques filter
         'source.subjects.label', // Subjects filter

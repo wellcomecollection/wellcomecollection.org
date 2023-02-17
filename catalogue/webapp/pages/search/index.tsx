@@ -205,13 +205,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const query = context.query;
     const params = fromQuery(query);
 
+    const pageview: Pageview = {
+      name: 'search',
+      properties: {},
+    };
+
     const defaultProps = removeUndefinedProps({
       serverData,
       query,
-      pageview: {
-        name: 'search',
-        properties: {},
-      },
+      pageview,
     });
 
     try {

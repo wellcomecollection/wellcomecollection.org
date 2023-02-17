@@ -6,10 +6,11 @@ import {
   ReactNode,
 } from 'react';
 import styled from 'styled-components';
-import { classNames, font } from '../../../utils/classnames';
-import { trackGaEvent, GaEvent } from '../../../utils/ga';
-import Icon from '../Icon/Icon';
-import Space from '../styled/Space';
+
+import { classNames, font } from '@weco/common/utils/classnames';
+import { trackGaEvent, GaEvent } from '@weco/common/utils/ga';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 import { IconSvg } from '@weco/common/icons';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -47,9 +48,9 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
 
   &[disabled],
   &.disabled {
-    background: ${props => props.theme.color('neutral.600')};
-    border-color: ${props => props.theme.color('neutral.600')};
-    color: ${props => props.theme.color('white')};
+    background: ${props => props.theme.color('neutral.300')};
+    border-color: ${props => props.theme.color('neutral.300')};
+    color: ${props => props.theme.color('neutral.600')};
     cursor: not-allowed;
 
     &:hover {
@@ -181,9 +182,10 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
             : '8px 16px'
         };
 
-        &:hover {
+        &:not([disabled]):hover {
           box-shadow: ${props.theme.focusBoxShadow};
         }
+
         &:focus {
           outline: 0;
         }
