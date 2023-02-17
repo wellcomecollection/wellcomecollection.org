@@ -63,7 +63,7 @@ export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
 })<NavItemInnerProps>`
   display: block;
   position: relative;
-  padding: 0 10px 24px;
+  padding: 0 10px 24px; // Deliberately offset from the left-hand side to make the buttons bigger for a11y
   cursor: pointer;
   color: ${props =>
     props.theme.color(
