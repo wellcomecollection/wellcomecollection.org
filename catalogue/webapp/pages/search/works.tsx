@@ -52,18 +52,20 @@ const SortPaginationWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
+// -1px is to make up for the extra pixel applied by the Divider
+// The goal being to align it perfectly with search/images
 const DividerWrapper = styled.div`
   ${props =>
     `
-      margin: 0 -${props.theme.containerPadding.small}px; 
+      margin: 0 -${props.theme.containerPadding.small}px -1px; 
       transition: margin ${props => props.theme.transitionProperties};
 
     ${props.theme.media('medium')(`
-        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem); 
+        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem) -1px ;
     `)}
 
     ${props.theme.media('large')(`
-        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem);
+        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem) -1px ;
     `)}
 
     ${props.theme.media('xlarge')(`
