@@ -236,11 +236,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         query,
         pageview: {
           name: 'images',
-          properties: images
-            ? {
-                totalResults: images.totalResults,
-              }
-            : {},
+          properties: { totalResults: images.totalResults },
         },
       }),
     };

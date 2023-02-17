@@ -100,6 +100,12 @@ describe('Query string redirects', () => {
     },
     {
       description:
+        'Image search within works should redirect to Image search hub page and change the legacy param key',
+      from: '/works?search=images&images.color=red', // Test legacy color param
+      to: '/search/images?color=red',
+    },
+    {
+      description:
         'Works should redirect to Catalogue search hub page, with specified forwardParams§',
       from: '/works?query=beep&workType=v&beep=boop',
       to: '/search/works?query=beep&workType=v',
@@ -107,8 +113,8 @@ describe('Query string redirects', () => {
     {
       description:
         'Image should redirect to Image search hub page, with specified forwardParams§',
-      from: '/images?images.color=blue&hello=world',
-      to: '/search/images?images.color=blue',
+      from: '/images?color=blue&hello=world',
+      to: '/search/images?color=blue',
     },
     // Extra testing cases
     {
