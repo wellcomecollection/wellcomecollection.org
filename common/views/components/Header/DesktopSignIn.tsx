@@ -21,6 +21,15 @@ const AccountA = styled(Space).attrs<AccountAProps>(props => ({
   }
 `;
 
+const SignedOutWrapper = styled.span.attrs({
+  className: 'display-none headerMedium-display-block' + ' ' + font('intr', 6),
+})`
+  // Hack to minimise the margins between both icons when signed out
+  button span span:first-child {
+    margin-right: 0;
+  }
+`;
+
 const DesktopSignIn: FunctionComponent = () => {
   const { state, user } = useUser();
 
@@ -36,11 +45,7 @@ const DesktopSignIn: FunctionComponent = () => {
   ) : (
     <>
       {state === 'signedout' && (
-        <span
-          className={
-            'display-none headerMedium-display-block' + ' ' + font('intr', 6)
-          }
-        >
+        <SignedOutWrapper>
           <DropdownButton
             label=""
             iconLeft={userIcon}
@@ -51,7 +56,7 @@ const DesktopSignIn: FunctionComponent = () => {
               Sign in to your library account
             </a>
           </DropdownButton>
-        </span>
+        </SignedOutWrapper>
       )}
       {state === 'signedin' && user && (
         <span className="display-none headerMedium-display-block">
