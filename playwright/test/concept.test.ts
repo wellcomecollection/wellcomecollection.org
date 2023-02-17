@@ -67,7 +67,7 @@ test.describe('concepts', () => {
 
     expect(content?.startsWith('All works')).toBe(true);
     expect(await aboutThisPerson.getAttribute('href')).toBe(
-      '/works?subjects.label=%22Stephens%2C+Joanna%22'
+      '/search/works?subjects.label=%22Stephens%2C+Joanna%22'
     );
   });
 
@@ -91,7 +91,7 @@ test.describe('concepts', () => {
 
     expect(content?.startsWith('All works')).toBe(true);
     expect(await byThisPerson.getAttribute('href')).toBe(
-      '/works?contributors.agent.label=%22Stephens%2C+Joanna%22'
+      '/search/works?contributors.agent.label=%22Stephens%2C+Joanna%22'
     );
   });
 
@@ -123,7 +123,7 @@ test.describe('concepts', () => {
 
     expect(content?.startsWith('All images')).toBe(true);
     expect(await aboutThisPerson.getAttribute('href')).toBe(
-      '/images?source.subjects.label=%22Darwin%2C+Charles%2C+1809-1882%22'
+      '/search/images?source.subjects.label=%22Darwin%2C+Charles%2C+1809-1882%22'
     );
   });
 
@@ -147,7 +147,7 @@ test.describe('concepts', () => {
 
     expect(content?.startsWith('All images')).toBe(true);
     expect(await byThisPerson.getAttribute('href')).toBe(
-      '/images?source.contributors.agent.label=%22Darwin%2C+Charles%2C+1809-1882%22'
+      '/search/images?source.contributors.agent.label=%22Darwin%2C+Charles%2C+1809-1882%22'
     );
   });
 });
