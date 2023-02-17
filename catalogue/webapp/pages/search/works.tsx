@@ -177,7 +177,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 'production.dates.from',
                 'production.dates.to',
               ],
-              queryParams: Object.keys(query).map(p => p),
+              queryParams: Object.keys(query),
             })}
           />
         ) : (

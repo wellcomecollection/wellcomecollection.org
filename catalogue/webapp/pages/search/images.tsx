@@ -152,7 +152,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               query={queryString}
               hasFilters={hasFilters({
                 filters: filters.map(f => f.id),
-                queryParams: Object.keys(query).map(p => p),
+                queryParams: Object.keys(query),
               })}
             />
           ) : (
