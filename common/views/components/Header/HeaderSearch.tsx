@@ -38,6 +38,8 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
   const [inputValue, setInputValue] = useState(routerQuery || '');
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const handleClick = () => setIsActive(false);
+
   useEffect(() => {
     setIsActive(false);
     setInputValue('');
@@ -46,6 +48,11 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
   useEffect(() => {
     if (isActive) {
       inputRef?.current?.focus();
+
+      document.addEventListener('click', handleClick);
+      return () => {
+        document.removeEventListener('click', handleClick);
+      };
     }
   }, [isActive]);
 
@@ -61,12 +68,7 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
   }, []);
 
   return (
-    <Overlay
-      isActive={isActive}
-      onClick={() => {
-        setIsActive(false);
-      }}
-    >
+    <Overlay isActive={isActive}>
       <SearchBarWrapper onClick={e => e.stopPropagation()}>
         <form
           className="container"
