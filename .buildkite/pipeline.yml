@@ -129,7 +129,7 @@
 - wait
 
 - label: "deploy catalogue (ecr image)"
-  branches: "main"
+  branches: "next-13"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -138,25 +138,25 @@
     - docker-compose#v3.5.0:
         push:
           - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:ref.${BUILDKITE_COMMIT}
-          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
+          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:next13
 
-- label: "deploy catalogue (bundle analysis)"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: catalogue
-        command: [ "yarn", "deployBundleAnalysis" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
+# - label: "deploy catalogue (bundle analysis)"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: catalogue
+#         command: [ "yarn", "deployBundleAnalysis" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
 
 - label: "deploy content (ecr image)"
-  branches: "main"
+  branches: "next-13"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -165,25 +165,25 @@
     - docker-compose#v3.5.0:
         push:
           - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:ref.${BUILDKITE_COMMIT}
-          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
+          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:next13
 
-- label: "deploy content (bundle analysis)"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: content
-        command: [ "yarn", "deployBundleAnalysis" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
+# - label: "deploy content (bundle analysis)"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: content
+#         command: [ "yarn", "deployBundleAnalysis" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
 
 - label: "deploy identity (ecr image)"
-  branches: "main"
+  branches: "next-13"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -192,7 +192,7 @@
     - docker-compose#v3.5.0:
         push:
           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:ref.${BUILDKITE_COMMIT}
-          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
+          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:next13
 
 # - label: "deploy identity (bundle analysis)"
 #   branches: "main"
@@ -209,66 +209,100 @@
 #           - AWS_SECRET_ACCESS_KEY
 #           - AWS_SESSION_TOKEN
 
-- label: "deploy dash"
-  branches: "main"
+# - label: "deploy dash"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: dash
+#         command: [ "yarn", "deploy" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+
+# - label: "deploy edge_lambdas"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: edge_lambdas
+#         command: [ "yarn", "deploy" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+#
+# - label: "deploy updown"
+#   branches: "main"
+#   skip: "To avoid overriding manual work that is occuring"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: updown
+#         command: [ "yarn", "checks" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+
+# - label: "deploy assets"
+#   branches: "main"
+#   commands: ./assets/deploy_assets.sh
+#   agents:
+#     queue: nano
+
+- wait
+
+# - label: "Trigger stage deployment"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/github-deployments#v0.3.0:
+#         assume_role: "arn:aws:iam::130871440101:role/experience-ci"
+#         environment: stage
+#         ref: "${BUILDKITE_COMMIT}"
+#   agents:
+#     queue: nano
+
+- label: "Deploy to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+  if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
+  concurrency: 1
+  concurrency_group: "experience-deploy"
+  command: |
+    ENV_TAG="env.$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" .buildkite/scripts/update_ecr_image_tag.sh \
+      uk.ac.wellcome/content_webapp \
+      uk.ac.wellcome/catalogue_webapp \
+      uk.ac.wellcome/identity_webapp
+
+    CLUSTER="experience-frontend-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" .buildkite/scripts/deploy_ecs_services.sh \
+      "content-17092020-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
+      "catalogue-17092020-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
+      "identity-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: dash
-        command: [ "yarn", "deploy" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
 
-- label: "deploy edge_lambdas"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: edge_lambdas
-        command: [ "yarn", "deploy" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: "deploy updown"
-  branches: "main"
-  skip: "To avoid overriding manual work that is occuring"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: updown
-        command: [ "yarn", "checks" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: "deploy assets"
-  branches: "main"
-  commands: ./assets/deploy_assets.sh
   agents:
     queue: nano
 
 - wait
 
-- label: "Trigger stage deployment"
-  branches: "main"
-  plugins:
-    - wellcomecollection/github-deployments#v0.3.0:
-        assume_role: "arn:aws:iam::130871440101:role/experience-ci"
-        environment: stage
-        ref: "${BUILDKITE_COMMIT}"
+- label: "Trigger e2e tests"
+  if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
+  command: ".buildkite/scripts/trigger-e2e.sh"
   agents:
     queue: nano
+
+  soft_fail:
+    - exit_status: 1
+
