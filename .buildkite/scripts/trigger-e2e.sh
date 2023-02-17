@@ -3,11 +3,11 @@ set -eo pipefail
 
 ENVIRONMENT_URL=
 
-if [[ "${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}" == "prod" ]]; then
-   ENVIRONMENT_URL="https://wellcomecollection.org"
-elif [[ "${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}" == "stage" ]]; then
-   ENVIRONMENT_URL="https://www-stage.wellcomecollection.org"
-fi
+# if [[ "${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}" == "prod" ]]; then
+#    ENVIRONMENT_URL="https://wellcomecollection.org"
+# elif [[ "${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}" == "stage" ]]; then
+ENVIRONMENT_URL="https://www-stage.wellcomecollection.org"
+# fi
 
 buildkite-agent meta-data set "github_deployment_status:environment_url" $ENVIRONMENT_URL
 
@@ -16,10 +16,10 @@ TRIGGER_STEP="steps:
   - trigger: \"experience-e2e\"
     label: \"e2e test\"
     build:
-      message: \"Deployment to ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}\"
+      message: \"Deployment to stage\"
       commit: ${BUILDKITE_COMMIT}
       env:
-        DEPLOYMENT_ENVIRONMENT: ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}
+        DEPLOYMENT_ENVIRONMENT: stage
         PLAYWRIGHT_BASE_URL: ${ENVIRONMENT_URL}
 "
 
