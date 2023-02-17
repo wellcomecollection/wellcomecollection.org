@@ -238,7 +238,7 @@ type QueryRedirect = {
   forwardParams: Set<string>;
   modifiedParams?: {
     [oldParamName: string]: string;
-  }[];
+  };
 };
 
 // When adding a new rule, add it to redirect.tests.ts
@@ -262,7 +262,7 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
         'source.contributors.agent.label',
         'page',
       ]),
-      modifiedParams: [{ 'images.color': 'color' }],
+      modifiedParams: { 'images.color': 'color' },
     },
     {
       redirectPath: '/search/works',

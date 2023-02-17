@@ -41,24 +41,20 @@ const filterParams = (
   allow: Set<string>,
   modify?: {
     [oldParamName: string]: string;
-  }[]
+  }
 ): URLSearchParams => {
   const filtered = new URLSearchParams();
 
   params.forEach((value, key) => {
     // Check if param is in the forwardParams list
     if (allow.has(key)) {
-      if (modify) {
-        // Check if param is also in the modifiedParams list
-        // If the params match, append the new param name to filtered
-        modify.find(modifiedParam => {
-          if (Object.keys(modifiedParam).find(k => k === key)) {
-            filtered.append(modifiedParam[key], value);
-          }
-        });
-      } else {
-        filtered.append(key, value);
-      }
+      modify
+        ? // Check if param is also in the modifiedParams list
+          // If the params match, append the new param name to filtered
+          Object.keys(modify).forEach(k => {
+            if (k === key) filtered.append(modify[k], value);
+          })
+        : filtered.append(key, value);
     }
   });
 
