@@ -112,11 +112,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: inline;
   }
 
-  .h-center {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .no-margin {
     margin: 0 !important;
   }
