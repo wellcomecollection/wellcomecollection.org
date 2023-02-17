@@ -60,6 +60,14 @@ const worksChecks = [
     url: '/works/pbxd2mgd/images?id=q6h754ua',
     alias: 'Experience: Works: Image',
   },
+  {
+    url: '/search/images?query=skeletons',
+    alias: 'Experience: Works: Images search',
+  },
+  {
+    url: '/search/works/pbxd2mgd/images?id=q6h754ua',
+    alias: 'Experience: Works: Image',
+  },
 ].flatMap(withOriginPrefix('works'));
 
 const apiChecks = [

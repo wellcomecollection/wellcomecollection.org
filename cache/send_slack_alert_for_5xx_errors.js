@@ -38,7 +38,7 @@ const zlib = require('zlib');
  * This function emits objects so that downstream callers don't need
  * to know about the structure of this file, e.g.
  *
- *      { date: '2022-05-18', time: '14:11:10', cs-uri-stem: '/works' }
+ *      { date: '2022-05-18', time: '14:11:10', cs-uri-stem: '/search/works' }
  *      { date: '2022-05-18', time: '14:11:09', cs-uri-stem: '/works/atry66dj/items' }
  *
  */

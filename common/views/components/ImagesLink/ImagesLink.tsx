@@ -59,7 +59,7 @@ function toLink(
   partialProps: Partial<ImagesProps>,
   source: ImagesPropsSource
 ): LinkProps {
-  const pathname = '/images';
+  const pathname = '/search/images';
   const props: ImagesProps = {
     ...emptyImagesProps,
     ...partialProps,

@@ -162,7 +162,7 @@ const SearchForm = forwardRef(
         role="search"
         ref={searchForm}
         className="relative"
-        action={isImageSearch ? '/images' : '/works'}
+        action={isImageSearch ? '/search/images' : '/search/works'}
         aria-describedby={ariaDescribedBy}
         onSubmit={event => {
           event.preventDefault();
