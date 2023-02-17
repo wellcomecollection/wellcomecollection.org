@@ -4,14 +4,14 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const nextLink = {
   href: {
-    pathname: '/search/works',
+    pathname: '/works',
     query: {
       query: 'sun',
       page: 2,
     },
   },
   as: {
-    pathname: '/search/works',
+    pathname: '/works',
     query: {
       query: 'sun',
       page: 2,

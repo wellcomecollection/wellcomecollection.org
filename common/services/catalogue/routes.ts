@@ -1,6 +1,6 @@
 import { NextLinkType } from '@weco/common/model/next-link-type';
 import { parseCsv } from '@weco/common/utils/csv';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '../../utils/array';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Params = { [key: string]: any };
@@ -120,7 +120,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
   },
 
   toLink(params: WorksRouteProps) {
-    const pathname = '/search/works';
+    const pathname = '/works';
     const { source, ...paramsWithoutSource } = params;
 
     return {

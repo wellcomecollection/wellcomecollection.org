@@ -3,7 +3,7 @@ import {
   WorksRoute,
   WorkRoute,
   ItemRoute,
-} from '@weco/common/services/catalogue/routes';
+} from '../../../services/catalogue/routes';
 
 test('it serialises URLs in a weco fashion', () => {
   const query = {
@@ -31,8 +31,8 @@ test('it serialises URLs in a weco fashion', () => {
   });
 });
 
-// route: /search/works
-test('/search/works: with no values', () => {
+// route: /works
+test('/works: with no values', () => {
   const query = {};
   const worksRouteState = WorksRoute.fromQuery(query);
 
@@ -56,7 +56,7 @@ test('/search/works: with no values', () => {
   });
 });
 
-test('/search/works: with values', () => {
+test('/works: with values', () => {
   const query = {
     query: 'gargoyles',
     page: '3',
