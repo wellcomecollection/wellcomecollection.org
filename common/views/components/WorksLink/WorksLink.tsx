@@ -82,7 +82,7 @@ function toLink(
   partialProps: Partial<WorksProps>,
   source: WorksPropsSource
 ): LinkProps {
-  const pathname = '/search/works';
+  const pathname = '/works';
   const props: WorksProps = {
     ...emptyWorksProps,
     ...partialProps,
