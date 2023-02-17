@@ -77,6 +77,6 @@ test.describe('Top-level landing pages', () => {
     await gotoWithoutCache(imagesUrl, page);
     const content = await page.textContent('h1');
 
-    expect(content).toBe('Works search');
+    expect(content).toBe('Images search');
   });
 });
