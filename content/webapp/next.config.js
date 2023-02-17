@@ -3,7 +3,6 @@ const { createConfig } = require('@weco/common/next/next.config');
 const CATALOGUE_URL = 'http://localhost:3001/catalogue';
 const localConcurrentDevelopment =
   process.env.LOCAL_CONCURRENT_DEV_ENV === 'true';
-
 const rewriteEntries = localConcurrentDevelopment
   ? [
       {
@@ -11,12 +10,16 @@ const rewriteEntries = localConcurrentDevelopment
         destination: `/:path*`,
       },
       {
+        source: '/catalogue/_next/:path*',
+        destination: `${CATALOGUE_URL}/catalogue/_next/:path*`,
+      },
+      {
         source: '/catalogue/:path*',
         destination: `${CATALOGUE_URL}/:path*`,
       },
       {
-        source: '/concept',
-        destination: `${CATALOGUE_URL}/concept`,
+        source: '/concepts/:path*',
+        destination: `${CATALOGUE_URL}/concepts/:path*`,
       },
       {
         source: '/download',
@@ -41,6 +44,10 @@ const rewriteEntries = localConcurrentDevelopment
       {
         source: '/works',
         destination: `${CATALOGUE_URL}/works`,
+      },
+      {
+        source: '/works/:path*',
+        destination: `${CATALOGUE_URL}/works/:path*`,
       },
       {
         source: '/item',
