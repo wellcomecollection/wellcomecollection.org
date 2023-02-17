@@ -27,10 +27,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
   textColor,
 }: Props) => {
   return (
-    <Space
-      className="container"
-      v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-    >
+    <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <div className="grid">
         <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
           <Copy data-test-id="search-no-results" textColor={textColor}>

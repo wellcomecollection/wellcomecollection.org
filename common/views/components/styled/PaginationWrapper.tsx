@@ -18,6 +18,7 @@ const PaginationWrapper = styled(Space).attrs<{ verticalSpacing?: 'l' | 'm' }>(
     props.alignRight ? 'flex-end' : 'space-between'};
   align-items: center;
   flex-wrap: wrap;
+  min-height: 32px; // Ensures pages without Sort component still have a similar height
 `;
 
 export default PaginationWrapper;

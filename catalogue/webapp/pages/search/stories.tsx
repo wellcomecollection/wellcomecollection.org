@@ -58,7 +58,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   return (
     <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
       {storyResponseList.totalResults === 0 ? (
-        <SearchNoResults query={queryString} />
+        <div className="container">
+          <SearchNoResults query={queryString} />
+        </div>
       ) : (
         <div className="container">
           <PaginationWrapper verticalSpacing="l">

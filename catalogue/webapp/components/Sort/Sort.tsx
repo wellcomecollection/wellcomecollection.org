@@ -17,9 +17,7 @@ import {
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { ButtonTypes } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
-const Wrapper = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },
-})`
+const Wrapper = styled(Space)`
   ${props => props.theme.media('medium')`
     margin-right: 2rem;
   `}
