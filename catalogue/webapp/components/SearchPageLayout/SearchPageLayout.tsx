@@ -217,7 +217,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
           }}
         >
           <h1 className="visually-hidden">
-            {`${capitalize(currentSearchCategory)} search`}
+            {`${capitalize(currentSearchCategory)} search page`}
           </h1>
 
           <SearchBarContainer
