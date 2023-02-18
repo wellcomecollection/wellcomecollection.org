@@ -31,11 +31,9 @@ type Props = {
 const BookImage: FunctionComponent<Props> = ({ image, sizes, quality }) => {
   return (
     <BookPromoImageContainer>
-      {image.contentUrl && (
-        <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
-          <PrismicImage image={image} sizes={sizes} quality={quality} />
-        </BookPromoImage>
-      )}
+      <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
+        <PrismicImage image={image} sizes={sizes} quality={quality} />
+      </BookPromoImage>
     </BookPromoImageContainer>
   );
 };
