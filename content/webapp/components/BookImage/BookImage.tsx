@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import PrismicImage, {
   BreakpointSizes,
   ImageQuality,
@@ -28,11 +28,7 @@ type Props = {
   quality: ImageQuality;
 };
 
-const BookImage: FunctionComponent<Props> = ({
-  image,
-  sizes,
-  quality,
-}: Props): ReactElement<Props> => {
+const BookImage: FunctionComponent<Props> = ({ image, sizes, quality }) => {
   return (
     <BookPromoImageContainer>
       {image.contentUrl && (
