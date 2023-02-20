@@ -13,11 +13,12 @@ Used to release a feature early, generally internally. We then develop the featu
 we are happy for it to be released to the public. These should expire over time.
 
 * create new toggle with `initialValue: false`
+* run `yarn deploy` and merge your code in `main`
 * let internal users know they can turn this feature on via the [toggles dashboard][toggles-dashboard]
 * iterate!
-* set `defaultValue: true` once you're happy with releasing the feature publicly
+* once you're happy with releasing the feature publicly, run `yarn setDefaultValueFor --{toggle_id}=true`
 * if anything goes wrong, you can run `yarn setDefaultValueFor --{toggle_id}=false`
-* once you're happy, remove the toggle from the code
+* once you're completely happy with it, remove the toggle from the code
 
 ### 2. Feature toggle
 
