@@ -52,13 +52,6 @@ const toggles = {
         'Takes the comics out of the general set of stories, and moves them to their own page section, grouped by series.',
     },
     {
-      id: 'searchPage',
-      title: 'Search page',
-      initialValue: true,
-      description:
-        'New search page to help develop new components and functionalities',
-    },
-    {
       id: 'searchPageEventsExhibitions',
       title: 'Search page: Events & Exhibitions',
       initialValue: false,

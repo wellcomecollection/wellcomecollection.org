@@ -39,7 +39,7 @@ const ToggleMessageBar = styled(Space).attrs({
 
 /** This shows the user a list of toggles they currently have enabled, e.g.
  *
- *      You have the following toggles enabled: apiToolbar, searchPage
+ *      You have the following toggles enabled: apiToolbar, stagingApi
  *
  * Sometimes toggles may cause errors on the site which aren't visible to
  * the public (e.g. the staging API toggle).
