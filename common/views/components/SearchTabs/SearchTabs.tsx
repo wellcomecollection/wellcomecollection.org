@@ -1,5 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
-import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
+import BaseTabs, { TabType } from './SearchTabs.BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
