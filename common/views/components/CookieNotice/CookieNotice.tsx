@@ -32,6 +32,30 @@ const CloseCookieNotice = styled.button`
   border: 0;
 `;
 
+const CookieMessage = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const CookieNoticeWrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
+})`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Text = styled.h2`
+  margin: 0;
+  display: inline;
+`;
+
+const CookieMessageText = styled(Space).attrs({
+  h: {
+    size: 's',
+    properties: ['margin-left', 'margin-right'],
+  },
+})``;
+
 type Props = {
   source: string;
 };
@@ -61,28 +85,21 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
   return shouldRender ? (
     <CookieNoticeStyle data-test-id="cookie-notice">
       <Layout12>
-        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          <div className="flex flex--h-space-between">
-            <div className="flex flex--v-center">
-              <Icon icon={cookiesIcon} iconColor="white" />
-              <Space
-                h={{
-                  size: 's',
-                  properties: ['margin-left', 'margin-right'],
-                }}
-              >
-                <h2 className="no-margin inline">Wellcome uses cookies.</h2>
-              </Space>
-              <a href="https://wellcome.org/who-we-are/privacy-and-terms#cookies">
-                Read our policy
-              </a>
-            </div>
-            <CloseCookieNotice onClick={hideCookieNotice}>
-              <Icon icon={clear} iconColor="white" />
-              <span className="visually-hidden">Close cookie notification</span>
-            </CloseCookieNotice>
-          </div>
-        </Space>
+        <CookieNoticeWrapper>
+          <CookieMessage>
+            <Icon icon={cookiesIcon} iconColor="white" />
+            <CookieMessageText>
+              <Text>Wellcome uses cookies.</Text>
+            </CookieMessageText>
+            <a href="https://wellcome.org/who-we-are/privacy-and-terms#cookies">
+              Read our policy
+            </a>
+          </CookieMessage>
+          <CloseCookieNotice onClick={hideCookieNotice}>
+            <Icon icon={clear} iconColor="white" />
+            <span className="visually-hidden">Close cookie notification</span>
+          </CloseCookieNotice>
+        </CookieNoticeWrapper>
       </Layout12>
     </CookieNoticeStyle>
   ) : null;
