@@ -1,13 +1,11 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import FocusTrap from 'focus-trap-react';
 import NextLink from 'next/link';
-import { getCookies } from 'cookies-next';
 
 import { font } from '@weco/common/utils/classnames';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
 import { search, cross } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { getActiveToggles } from '@weco/common/utils/cookies';
 import {
   Wrapper,
   GridCell,
@@ -26,6 +24,7 @@ import {
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
+import { useToggles } from '@weco/common/server-data/Context';
 
 export type NavLink = {
   href: string;
@@ -87,9 +86,7 @@ const Header: FunctionComponent<Props> = ({
 }) => {
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
-  const toggles = getActiveToggles(getCookies());
-
-  const isSearchToggleActive = toggles?.includes('globalSearchHeader');
+  const { globalSearchHeader } = useToggles();
 
   useEffect(() => {
     if (document && document.documentElement) {
@@ -131,7 +128,7 @@ const Header: FunctionComponent<Props> = ({
                   <span />
                 </BurgerTrigger>
               </Burger>
-              <HeaderBrand isSearchToggleActive={isSearchToggleActive}>
+              <HeaderBrand isSearchToggleActive={globalSearchHeader}>
                 <a href="/">
                   <WellcomeCollectionBlack />
                 </a>
@@ -161,7 +158,7 @@ const Header: FunctionComponent<Props> = ({
                 </HeaderNav>
 
                 <HeaderActions>
-                  {isSearchToggleActive && (
+                  {globalSearchHeader && (
                     <NextLink href="/search" passHref>
                       <SearchButton
                         text={
