@@ -87,7 +87,7 @@ const SearchTabs: FunctionComponent<Props> = ({
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
-      tab: function TabWithDisplayName(isFocused) {
+      tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <ConditionalWrapper
             condition={!isEnhanced}
@@ -175,7 +175,7 @@ const SearchTabs: FunctionComponent<Props> = ({
     },
     {
       id: 'tab-images',
-      tab: function TabWithDisplayName(isFocused) {
+      tab: function TabWithDisplayName(isActive, isFocused) {
         return (
           <ConditionalWrapper
             condition={!isEnhanced}
