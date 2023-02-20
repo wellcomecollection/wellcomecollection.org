@@ -20,10 +20,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import {
-  searchFormInputCatalogue,
-  searchFormInputImage,
-} from '@weco/common/text/aria-labels';
+import { searchFormInputCatalogue } from '@weco/common/text/aria-labels';
 import { LinkProps } from '@weco/common/model/link-props';
 import { Filter } from '@weco/common/services/catalogue/filters';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
@@ -162,7 +159,7 @@ const SearchForm = forwardRef(
         role="search"
         ref={searchForm}
         className="relative"
-        action={isImageSearch ? '/search/images' : '/search/works'}
+        action="/search/works"
         aria-describedby={ariaDescribedBy}
         onSubmit={event => {
           event.preventDefault();
@@ -180,18 +177,14 @@ const SearchForm = forwardRef(
         <Wrapper>
           <SearchInputWrapper>
             <TextInput
-              id={`${isImageSearch ? 'images' : 'works'}-search-input`}
-              label={
-                isImageSearch ? 'Search for images' : 'Search the catalogue'
-              }
+              id="works-search-input"
+              label="Search the catalogue"
               name="query"
               value={inputQuery}
               setValue={setInputQuery}
               ref={searchInput}
               big={true}
-              ariaLabel={
-                isImageSearch ? searchFormInputImage : searchFormInputCatalogue
-              }
+              ariaLabel={searchFormInputCatalogue}
             />
 
             {inputQuery && (

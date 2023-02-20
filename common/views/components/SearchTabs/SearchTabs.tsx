@@ -87,7 +87,7 @@ const SearchTabs: FunctionComponent<Props> = ({
   const tabs: TabType[] = [
     {
       id: 'tab-library-catalogue',
-      tab: function TabWithDisplayName(isActive, isFocused) {
+      tab: function TabWithDisplayName(isFocused) {
         return (
           <ConditionalWrapper
             condition={!isEnhanced}
@@ -108,17 +108,14 @@ const SearchTabs: FunctionComponent<Props> = ({
                   }),
                 }}
               >
-                <a
-                  className="plain-link"
-                  aria-current={isActive ? 'page' : undefined}
-                >
+                <a className="plain-link" aria-current="page">
                   {children}
                 </a>
               </NextLink>
             )}
           >
             <Tab
-              isActive={isActive}
+              isActive={true}
               isFocused={isFocused}
               isKeyboard={isKeyboard}
               isLast={false}
@@ -178,7 +175,7 @@ const SearchTabs: FunctionComponent<Props> = ({
     },
     {
       id: 'tab-images',
-      tab: function TabWithDisplayName(isActive, isFocused) {
+      tab: function TabWithDisplayName(isFocused) {
         return (
           <ConditionalWrapper
             condition={!isEnhanced}
@@ -199,17 +196,12 @@ const SearchTabs: FunctionComponent<Props> = ({
                   }),
                 }}
               >
-                <a
-                  className="plain-link"
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {children}
-                </a>
+                <a className="plain-link">{children}</a>
               </NextLink>
             )}
           >
             <Tab
-              isActive={isActive}
+              isActive={false}
               isFocused={isFocused}
               isKeyboard={isKeyboard}
               isLast={true}
