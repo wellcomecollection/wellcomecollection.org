@@ -3,7 +3,7 @@
 // output is useful for display purposes (to show someone what they have turned
 // on) as well as for including alongside tracking data, in order to determine
 // e.g. what condition a user was in when performing a task on the site.
-export function getActiveToggles(
+export function dangerouslyGetEnabledToggles(
   cookies: Partial<{ [key: string]: string }>
 ): string[] {
   return Object.entries(cookies)
