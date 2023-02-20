@@ -35,7 +35,6 @@ const TabNav: FunctionComponent<Props> = ({
 }: Props) => {
   const tabListRef = useRef<HTMLDivElement>(null);
 
-  // TODO stole this from BaseTabs. Get together once we get rid of SearchTabs?
   function focusTabAtIndex(index: number): void {
     const element = tabListRef?.current?.querySelector(
       `#tab-${items[index].id}`
@@ -52,7 +51,6 @@ const TabNav: FunctionComponent<Props> = ({
     });
   };
 
-  // TODO stole this from BaseTabs. Get together once we get rid of SearchTabs?
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     const LEFT = [37, 'ArrowLeft'];
     const RIGHT = [39, 'ArrowRight'];

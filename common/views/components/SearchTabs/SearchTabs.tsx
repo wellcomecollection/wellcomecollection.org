@@ -1,5 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
-import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
+import BaseTabs, { TabType } from './SearchTabs.BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
@@ -108,17 +108,14 @@ const SearchTabs: FunctionComponent<Props> = ({
                   }),
                 }}
               >
-                <a
-                  className="plain-link"
-                  aria-current={isActive ? 'page' : undefined}
-                >
+                <a className="plain-link" aria-current="page">
                   {children}
                 </a>
               </NextLink>
             )}
           >
             <Tab
-              isActive={isActive}
+              isActive={true}
               isFocused={isFocused}
               isKeyboard={isKeyboard}
               isLast={false}
@@ -199,17 +196,12 @@ const SearchTabs: FunctionComponent<Props> = ({
                   }),
                 }}
               >
-                <a
-                  className="plain-link"
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {children}
-                </a>
+                <a className="plain-link">{children}</a>
               </NextLink>
             )}
           >
             <Tab
-              isActive={isActive}
+              isActive={false}
               isFocused={isFocused}
               isKeyboard={isKeyboard}
               isLast={true}
