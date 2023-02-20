@@ -142,31 +142,6 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         className="container"
         v={{ size: 'l', properties: ['padding-bottom'] }}
       >
-        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
-          <SearchFilters
-            query={queryString}
-            linkResolver={linkResolver}
-            searchFormId="search-page-form"
-            changeHandler={() => {
-              const form = document.getElementById('search-page-form');
-              form &&
-                form.dispatchEvent(
-                  new window.Event('submit', {
-                    cancelable: true,
-                    bubbles: true,
-                  })
-                );
-            }}
-            filters={filters}
-            hasNoResults={hasNoResults}
-            isNewStyle
-          />
-        </Space>
-
-        <DividerWrapper>
-          <Divider lineColor="neutral.300" />
-        </DividerWrapper>
-
         {hasNoResults ? (
           <SearchNoResults
             query={queryString}
@@ -182,6 +157,33 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
           />
         ) : (
           <>
+            <Space
+              v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            >
+              <SearchFilters
+                query={queryString}
+                linkResolver={linkResolver}
+                searchFormId="search-page-form"
+                changeHandler={() => {
+                  const form = document.getElementById('search-page-form');
+                  form &&
+                    form.dispatchEvent(
+                      new window.Event('submit', {
+                        cancelable: true,
+                        bubbles: true,
+                      })
+                    );
+                }}
+                filters={filters}
+                hasNoResults={hasNoResults}
+                isNewStyle
+              />
+            </Space>
+
+            <DividerWrapper>
+              <Divider lineColor="neutral.300" />
+            </DividerWrapper>
+
             <PaginationWrapper verticalSpacing="l">
               <span>{pluralize(works.totalResults, 'result')}</span>
 
