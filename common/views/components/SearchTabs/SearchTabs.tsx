@@ -95,14 +95,14 @@ const SearchTabs: FunctionComponent<Props> = ({
               <NextLink
                 scroll={false}
                 href={{
-                  pathname: '/works',
+                  pathname: '/search/works',
                   query: removeEmptyProps({
                     source: 'search_tabs',
                     query,
                   }),
                 }}
                 as={{
-                  pathname: '/works',
+                  pathname: '/search/works',
                   query: removeEmptyProps({
                     query,
                   }),
@@ -156,12 +156,12 @@ const SearchTabs: FunctionComponent<Props> = ({
               };
 
               const as = {
-                pathname: '/works',
+                pathname: '/search/works',
                 query: queryWithoutSource as ParsedUrlQuery,
               };
 
               const href = {
-                pathname: '/works',
+                pathname: '/search/works',
                 query: queryWithSource,
               };
 
@@ -186,14 +186,14 @@ const SearchTabs: FunctionComponent<Props> = ({
               <NextLink
                 scroll={false}
                 href={{
-                  pathname: '/images',
+                  pathname: '/search/images',
                   query: removeEmptyProps({
                     source: 'search_tabs',
                     query,
                   }),
                 }}
                 as={{
-                  pathname: '/images',
+                  pathname: '/search/images',
                   query: removeEmptyProps({
                     query,
                   }),
@@ -247,12 +247,12 @@ const SearchTabs: FunctionComponent<Props> = ({
               };
 
               const as = {
-                pathname: '/images',
+                pathname: '/search/images',
                 query: queryWithoutSource as ParsedUrlQuery,
               };
 
               const href = {
-                pathname: '/images',
+                pathname: '/search/images',
                 query: queryWithSource,
               };
 

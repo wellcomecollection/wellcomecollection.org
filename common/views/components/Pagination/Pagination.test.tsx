@@ -51,7 +51,7 @@ describe('Pagination', () => {
 
   it('includes the pathname and query parameters when linking to the next/previous pages', () => {
     useRouter.mockImplementationOnce(() => ({
-      pathname: '/works',
+      pathname: '/search/works',
       query: { page: '5', locations: 'available-online' },
     }));
 
@@ -62,12 +62,12 @@ describe('Pagination', () => {
     expect(
       component
         .html()
-        .includes('href="/works?page=6&amp;locations=available-online"')
+        .includes('href="/search/works?page=6&amp;locations=available-online"')
     ).toBe(true);
     expect(
       component
         .html()
-        .includes('href="/works?page=4&amp;locations=available-online"')
+        .includes('href="/search/works?page=4&amp;locations=available-online"')
     ).toBe(true);
   });
 
