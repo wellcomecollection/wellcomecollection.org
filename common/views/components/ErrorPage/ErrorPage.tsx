@@ -22,7 +22,7 @@ import PageLayout from '../PageLayout/PageLayout';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Space from '../styled/Space';
-import { getActiveToggles } from '@weco/common/utils/cookies';
+import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
 const ToggleMessageBar = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
@@ -39,7 +39,7 @@ const ToggleMessageBar = styled(Space).attrs({
 
 /** This shows the user a list of toggles they currently have enabled, e.g.
  *
- *      You have the following toggles enabled: apiToolbar, searchPage
+ *      You have the following toggles enabled: apiToolbar, stagingApi
  *
  * Sometimes toggles may cause errors on the site which aren't visible to
  * the public (e.g. the staging API toggle).
@@ -60,7 +60,7 @@ const TogglesMessage: FunctionComponent = () => {
   // useToggles() because we don't have access to the server data context
   // here -- we can't use getServerSideProps on an error page.
   // See https://nextjs.org/docs/messages/404-get-initial-props
-  const toggles = getActiveToggles(getCookies());
+  const toggles = dangerouslyGetEnabledToggles(getCookies());
 
   return toggles.length > 0 ? (
     <Layout8>
