@@ -19,18 +19,22 @@ const gaDimensionKeys = {
 type Props = {
   data: {
     toggles: Toggles;
+    gaDimensions?: GaDimensions;
   };
 };
 
-export const DataLayer: FunctionComponent<Props> = ({ data }) => {
+export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
+  const partOf = data.gaDimensions?.partOf?.length
+    ? data.gaDimensions.partOf.join(',')
+    : null;
   return (
     <script
       dangerouslySetInnerHTML={{
         __html: `
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-          'toggles': '${JSON.stringify(data.toggles)}'
-        });`,
+          'toggles': '${JSON.stringify(data.toggles)}',
+          ${partOf ? `'partOf': '${partOf}'` : ''});`,
       }}
     />
   );
