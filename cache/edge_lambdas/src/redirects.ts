@@ -173,6 +173,9 @@ const contentRedirects: Record<string, string> = {
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1656920569188629
   '/events/YrCXAREAACEAFSTW': '/events/Yqcv7xEAACEA61Co',
 
+  // See https://wellcome.slack.com/archives/C8X9YKM5X/p1676549408691429
+  '/exhibitions/Yo39QREAACMAet6p': '/exhibitions/Y3zI8hAAAGXXcMua',
+
   // This is the "nice" URL for new memberships.
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8167
   '/signup': '/account/api/auth/signup',
@@ -226,27 +229,75 @@ export const literalRedirects = { ...contentRedirects, ...vanityUrls };
 //     matchParams: [URLSearchParams to match]
 //     forwardParams: [param keys to forward if present]
 //     redirectPath: [path to redirect to]
+//     modifiedParams: [{ [oldParamName]: [newParamName] }]
 //   }
 // }
 type QueryRedirect = {
-  matchParams: URLSearchParams;
-  forwardParams: Set<string>;
+  matchParams?: URLSearchParams;
   redirectPath: string;
+  forwardParams: Set<string>;
+  modifiedParams?: {
+    [oldParamName: string]: string;
+  };
 };
-export const queryRedirects: Record<string, QueryRedirect> = {
-  '/works': {
-    matchParams: new URLSearchParams({
-      search: 'images',
-    }),
-    forwardParams: new Set([
-      'query',
-      'images.color',
-      'locations.license',
-      'source.genres.label',
-      'source.subjects.label',
-      'source.contributors.agent.label',
-      'page',
-    ]),
-    redirectPath: '/images',
-  },
+
+// When adding a new rule, add it to redirect.tests.ts
+// As we can't test the actual redirection locally
+export const queryRedirects: Record<string, QueryRedirect[]> = {
+  // Search hub redirections
+  '/works': [
+    {
+      matchParams: new URLSearchParams({
+        search: 'images', // From before image search, around 2020.
+      }),
+      redirectPath: '/search/images',
+      // This matches the order in the CloudFront cache policy in terraform
+      // cache/modules/cloudfront_policies/locals.tf
+      forwardParams: new Set([
+        'query',
+        'images.color',
+        'locations.license',
+        'source.genres.label',
+        'source.subjects.label',
+        'source.contributors.agent.label',
+        'page',
+      ]),
+      modifiedParams: { 'images.color': 'color' },
+    },
+    {
+      redirectPath: '/search/works',
+      // This matches the order in the CloudFront cache policy in terraform
+      // cache/modules/cloudfront_policies/locals.tf
+      forwardParams: new Set([
+        'query',
+        'sort',
+        'sortOrder',
+        'workType', // Formats
+        'production.dates.from',
+        'production.dates.to',
+        'availabilities', // Locations
+        'subjects.label', // Subjects
+        'genres.label', // Types/Techniques
+        'contributors.agent.label', // Contributors
+        'languages',
+        'page',
+      ]),
+    },
+  ],
+  '/images': [
+    {
+      redirectPath: '/search/images',
+      // This matches the order in the CloudFront cache policy in terraform
+      // cache/modules/cloudfront_policies/locals.tf
+      forwardParams: new Set([
+        'query',
+        'color', // Color filter
+        'locations.license', // Licences filter
+        'source.genres.label', // Types/techniques filter
+        'source.subjects.label', // Subjects filter
+        'source.contributors.agent.label', // Contributors filter
+        'page',
+      ]),
+    },
+  ],
 };

@@ -38,14 +38,24 @@ const paramsAreSubset = (
 
 const filterParams = (
   params: URLSearchParams,
-  allow: Set<string>
+  allow: Set<string>,
+  modify?: {
+    [oldParamName: string]: string;
+  }
 ): URLSearchParams => {
   const filtered = new URLSearchParams();
+
   params.forEach((value, key) => {
+    // Check if param is in the forwardParams list
     if (allow.has(key)) {
-      filtered.append(key, value);
+      if (modify && key in modify) {
+        filtered.append(modify[key], value);
+      } else {
+        filtered.append(key, value);
+      }
     }
   });
+
   return filtered;
 };
 
@@ -70,18 +80,26 @@ export const getRedirect = (
     return redirect301(host, literalRedirects[uriSansSlash]);
   }
 
-  if (request.querystring && queryRedirects[uriSansSlash]) {
-    const potentialRedirect = queryRedirects[uriSansSlash];
+  if (queryRedirects[uriSansSlash]) {
     const requestParams = new URLSearchParams(request.querystring);
-    // A redirect occurs if all of the params in the redirect rule are contained
-    // within the request
-    if (paramsAreSubset(requestParams, potentialRedirect.matchParams)) {
+
+    // If the redirect has matchParams, pick the relevant one from the list
+    // Otherwise return the one that has none if it exists
+    const potentialRedirect = queryRedirects[uriSansSlash].find(q =>
+      q.matchParams
+        ? paramsAreSubset(requestParams, q.matchParams)
+        : !q.matchParams
+    );
+
+    if (potentialRedirect) {
       // Only forward params that are in `forwardParams`
       const newParams = filterParams(
         requestParams,
-        potentialRedirect.forwardParams
+        potentialRedirect.forwardParams,
+        potentialRedirect.modifiedParams
       );
       const requestParamsString = newParams.toString();
+
       return redirect301(
         host,
         requestParamsString

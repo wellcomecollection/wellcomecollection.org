@@ -10,7 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import SearchFilters from '@weco/common/views/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 
 // Utils & Helpers
@@ -43,11 +43,16 @@ type Props = {
   pageview: Pageview;
 };
 
-const Wrapper = styled(Space).attrs({
+const Wrapper = styled(Space).attrs<{ hasNoResults: boolean }>({
   v: { size: 'xl', properties: ['margin-bottom'] },
-})`
-  background-color: ${props => props.theme.color('black')};
-  color: ${props => props.theme.color('white')};
+})<{ hasNoResults: boolean }>`
+  ${props =>
+    props.hasNoResults
+      ? ``
+      : `
+        background-color: ${props.theme.color('black')};
+        color: ${props.theme.color('white')};
+        `}
 `;
 
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
@@ -137,44 +142,46 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
         </Space>
       </div>
 
-      {hasNoResults ? (
-        <SearchNoResults
-          query={queryString}
-          hasFilters={hasFilters({
-            filters: filters.map(f => f.id),
-            queryParams: Object.keys(query).map(p => p),
-          })}
-        />
-      ) : (
-        <Wrapper>
-          <Space
-            className="container"
-            v={{ size: 'l', properties: ['padding-bottom'] }}
-          >
-            <PaginationWrapper verticalSpacing="l">
-              <span>{pluralize(images.totalResults, 'result')}</span>
-              <Pagination
-                totalPages={images.totalPages}
-                ariaLabel="Image search pagination"
-                hasDarkBg
-                isHiddenMobile
-              />
-            </PaginationWrapper>
+      <Wrapper hasNoResults={hasNoResults}>
+        <Space
+          className="container"
+          v={{ size: 'l', properties: ['padding-bottom'] }}
+        >
+          {hasNoResults ? (
+            <SearchNoResults
+              query={queryString}
+              hasFilters={hasFilters({
+                filters: filters.map(f => f.id),
+                queryParams: Object.keys(query),
+              })}
+            />
+          ) : (
+            <>
+              <PaginationWrapper verticalSpacing="l">
+                <span>{pluralize(images.totalResults, 'result')}</span>
+                <Pagination
+                  totalPages={images.totalPages}
+                  ariaLabel="Image search pagination"
+                  hasDarkBg
+                  isHiddenMobile
+                />
+              </PaginationWrapper>
 
-            <main>
-              <ImageEndpointSearchResults images={images.results} />
-            </main>
+              <main>
+                <ImageEndpointSearchResults images={images.results} />
+              </main>
 
-            <PaginationWrapper verticalSpacing="l" alignRight>
-              <Pagination
-                totalPages={images.totalPages}
-                ariaLabel="Image search pagination"
-                hasDarkBg
-              />
-            </PaginationWrapper>
-          </Space>
-        </Wrapper>
-      )}
+              <PaginationWrapper verticalSpacing="l" alignRight>
+                <Pagination
+                  totalPages={images.totalPages}
+                  ariaLabel="Image search pagination"
+                  hasDarkBg
+                />
+              </PaginationWrapper>
+            </>
+          )}
+        </Space>
+      </Wrapper>
     </>
   );
 };
@@ -184,11 +191,6 @@ ImagesSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-
-    if (!serverData.toggles.searchPage) {
-      return { notFound: true };
-    }
-
     const query = context.query;
     const params = fromQuery(query);
 
@@ -229,11 +231,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         query,
         pageview: {
           name: 'images',
-          properties: images
-            ? {
-                totalResults: images.totalResults,
-              }
-            : {},
+          properties: { totalResults: images.totalResults },
         },
       }),
     };

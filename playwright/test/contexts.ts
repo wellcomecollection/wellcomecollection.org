@@ -169,14 +169,6 @@ const itemWithReferenceNumber = async (
   await gotoWithoutCache(`${baseUrl}/works/qqra7v28/items`, page);
 };
 
-const worksSearch = async (
-  context: BrowserContext,
-  page: Page
-): Promise<void> => {
-  await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works`, page);
-};
-
 const newWorksSearch = async (
   context: BrowserContext,
   page: Page
@@ -205,7 +197,7 @@ const concept = async (
 
 const articleWithMockSiblings = async (
   id: string,
-  response: Record<string, any>,
+  response: Record<string, unknown>,
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
@@ -234,7 +226,6 @@ export {
   multiVolumeItem,
   multiVolumeItem2,
   itemWithAltText,
-  worksSearch,
   newWorksSearch,
   itemWithSearchAndStructures,
   itemWithReferenceNumber,

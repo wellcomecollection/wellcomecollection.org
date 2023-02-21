@@ -8,11 +8,11 @@ export const Wrapper = styled.div`
       transition: margin ${props => props.theme.transitionProperties};
 
     ${props.theme.media('medium')(`
-        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem); 
+        margin: 0 calc(-${props.theme.containerPadding.medium}px + 16px); 
     `)}
 
     ${props.theme.media('large')(`
-        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem);
+        margin: 0 calc(-${props.theme.containerPadding.large}px + 16px);
     `)}
 
     ${props.theme.media('xlarge')(`
@@ -30,11 +30,11 @@ export const TabsContainer = styled.div`
 
   ${props => `
     ${props.theme.media('medium')(`
-      padding-left: calc(${props.theme.containerPadding.medium}px - 1rem);
+      padding-left: calc(${props.theme.containerPadding.medium}px - 16px);
   `)}
 
   ${props.theme.media('large')(`
-    padding-left: calc(${props.theme.containerPadding.large}px - 1rem);
+    padding-left: calc(${props.theme.containerPadding.large}px - 16px);
   `)}
   `}
 `;
@@ -42,13 +42,13 @@ export const TabsContainer = styled.div`
 export const Tab = styled.div.attrs({
   className: font('intb', 5),
 })`
-  padding: 1.5rem 2rem 0 0;
+  padding: 24px 8px 0 0;
   flex-shrink: 0;
   transition: padding ${props => props.theme.transitionProperties};
 
   ${props =>
     props.theme.media('medium')(`
-      padding-right: 3rem;
+      padding-right: 28px;
   `)}
 `;
 
@@ -63,7 +63,7 @@ export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
 })<NavItemInnerProps>`
   display: block;
   position: relative;
-  padding-bottom: 1.5rem;
+  padding: 0 10px 24px; // Deliberately offset from the left-hand side to make the buttons bigger for a11y
   cursor: pointer;
   color: ${props =>
     props.theme.color(

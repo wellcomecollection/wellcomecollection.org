@@ -72,50 +72,99 @@ jest.mock('./redirects', () => {
     ...defaultRedirects,
     queryRedirects: {
       ...defaultRedirects.queryRedirects,
-      '/test': {
-        matchParams: new URLSearchParams({
-          beep: 'boop',
-          bing: 'bong',
-          fizz: 'buzz',
-        }),
-        forwardParams: new Set(),
-        redirectPath: '/test-destination',
-      },
+      '/test': [
+        {
+          matchParams: new URLSearchParams({
+            beep: 'boop',
+            bing: 'bong',
+            fizz: 'buzz',
+          }),
+          forwardParams: new Set(),
+          redirectPath: '/test-destination',
+        },
+      ],
     },
   };
 });
 
 describe('Query string redirects', () => {
-  test('Occur when all the params in the definition are in the request', () => {
-    const redirectedResponse = getRedirect(
-      request({ uri: '/works', querystring: 'search=images' })
-    );
+  test.each([
+    // Offically active cases
+    // listed in redirect.ts rules
+    // as we can't have them work locally, we test them here
+    {
+      description:
+        'Image search within works should redirect to Image search hub page',
+      from: '/works?search=images',
+      to: '/search/images',
+    },
+    {
+      description:
+        'Image search within works should redirect to Image search hub page and change the legacy param key',
+      from: '/works?search=images&images.color=red', // Test legacy color param
+      to: '/search/images?color=red',
+    },
+    {
+      description:
+        'Works should redirect to Catalogue search hub page, with specified forwardParams§',
+      from: '/works?query=beep&workType=v&beep=boop',
+      to: '/search/works?query=beep&workType=v',
+    },
+    {
+      description:
+        'Image should redirect to Image search hub page, with specified forwardParams§',
+      from: '/images?color=blue&hello=world',
+      to: '/search/images?color=blue',
+    },
+    // Extra testing cases
+    {
+      description: 'Only forward the specified forwardParams',
+      from: '/images?beep=boop',
+      to: '/search/images',
+    },
+    {
+      description: 'Do not occur if the uri is not an exact match',
+      from: '/work',
+      to: 'redirectionShouldFail',
+    },
+    {
+      description: 'Do not occur if the uri is not an exact match',
+      from: '/test?query=beep',
+      to: 'redirectionShouldFail',
+    },
+    {
+      description: 'Do not occur if the uri is not an exact match',
+      from: '/test/works',
+      to: 'redirectionShouldFail',
+    },
+  ])(`$description`, ({ from, to }) => {
+    const origin = 'https://wellcomecollection.org';
 
-    expect(redirectedResponse?.status).toEqual('301');
-    expect(redirectedResponse?.headers.location[0]).toEqual({
-      key: 'Location',
-      value: 'https://wellcomecollection.org/images',
-    });
-  });
+    const fromUrl = new URL(origin + from);
+    fromUrl.searchParams.sort(); // strictly, we're not testing whether it maintains query string order
+    const fromRequestObject = {
+      uri: fromUrl.pathname,
+      querystring: fromUrl.searchParams.toString(),
+    };
 
-  test('Do not occur if all of the params in the definition are not matched', () => {
-    const nonRedirectedResponse = getRedirect(
-      request({ uri: '/test', querystring: 'bing=bong' })
-    );
-    expect(nonRedirectedResponse).toBeUndefined();
-  });
+    const redirectedResponse = getRedirect(request(fromRequestObject));
 
-  test('Only forwards params that are contained within forwardParams', () => {
-    const redirectedResponse = getRedirect(
-      request({
-        uri: '/works',
-        querystring: 'search=images&query=beep&something=else',
-      })
-    );
-    expect(redirectedResponse?.status).toEqual('301');
-    expect(redirectedResponse?.headers.location[0]).toEqual({
-      key: 'Location',
-      value: 'https://wellcomecollection.org/images?query=beep',
-    });
+    if (to === 'redirectionShouldFail') {
+      expect(redirectedResponse).toBeUndefined();
+    } else {
+      const redirectLocationUrl = new URL(
+        redirectedResponse?.headers.location[0]?.value || ''
+      );
+      redirectLocationUrl.searchParams.sort(); // as above
+
+      const toUrl = new URL(origin + to);
+      toUrl.searchParams.sort();
+
+      expect(redirectedResponse?.status).toEqual('301');
+      expect(redirectLocationUrl.pathname).toEqual(toUrl.pathname);
+      expect(redirectLocationUrl.searchParams.toString()).toEqual(
+        toUrl.searchParams.toString()
+      );
+    }
   });
 });

@@ -58,7 +58,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   return (
     <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
       {storyResponseList.totalResults === 0 ? (
-        <SearchNoResults query={queryString} />
+        <div className="container">
+          <SearchNoResults query={queryString} />
+        </div>
       ) : (
         <div className="container">
           <PaginationWrapper verticalSpacing="l">
@@ -120,13 +122,7 @@ export const getServerSideProps: GetServerSideProps<
   Record<string, unknown> | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
-
-  if (!serverData.toggles.searchPage) {
-    return { notFound: true };
-  }
-
   const query = context.query;
-
   const defaultProps = removeUndefinedProps({
     serverData,
     storyResponseList: { totalResults: 0 },

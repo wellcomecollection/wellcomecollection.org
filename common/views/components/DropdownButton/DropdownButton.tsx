@@ -14,22 +14,12 @@ import Space from '../styled/Space';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
-import { chevron, unavailable, IconSvg } from '@weco/common/icons';
+import { chevron, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 
-const DropdownWrapper = styled.div<{ hasNoOptions?: boolean }>`
+const DropdownWrapper = styled.div`
   display: inline-flex;
   position: relative;
-
-  ${props =>
-    props.hasNoOptions &&
-    `
-    .icon__svg {
-      width: 18px;
-      left: 2px;
-      top: 1px;
-    }
-  `}
 `;
 
 type DropdownProps = {
@@ -166,7 +156,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   const buttonProps = {
     isActive: isActive,
     clickHandler: () => setIsActive(!isActive),
-    icon: hasNoOptions ? unavailable : chevron,
+    icon: chevron,
     isIconAfter: true,
     text: label,
     type: ButtonTypes.button,
@@ -177,7 +167,7 @@ const DropdownButton: FunctionComponent<Props> = ({
   };
 
   return (
-    <DropdownWrapper ref={dropdownWrapperRef} hasNoOptions={hasNoOptions}>
+    <DropdownWrapper ref={dropdownWrapperRef}>
       {buttonType === 'inline' && (
         <ButtonSolid
           {...buttonProps}

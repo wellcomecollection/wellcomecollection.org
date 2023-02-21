@@ -15,9 +15,7 @@ import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 import VideoPlayer from '@weco/catalogue/components/VideoPlayer/VideoPlayer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
-import Space, {
-  SpaceComponentProps,
-} from '@weco/common/views/components/styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { font } from '@weco/common/utils/classnames';
@@ -57,19 +55,19 @@ const IframeAuthMessage = styled.iframe`
   display: none;
 `;
 
-const IframePdfViewer = styled(Space).attrs({
-  className: 'h-center',
-})<SpaceComponentProps>`
+const IframePdfViewer = styled(Space)`
   width: 90vw;
   height: 90vh;
   display: block;
   border: 0;
   margin-top: 98px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const iframeId = 'authMessage';
-function reloadAuthIframe(document, id: string) {
-  const authMessageIframe: HTMLIFrameElement = document.getElementById(id);
+function reloadAuthIframe(document: Document, id: string) {
+  const authMessageIframe = document.getElementById(id) as HTMLIFrameElement;
   // assigning the iframe src to itself reloads the iframe and refires the window.message event
   // eslint-disable-next-line no-self-assign
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
@@ -122,7 +120,6 @@ const ItemPage: NextPage<Props> = ({
   const { worksTabbedNav } = useToggles();
   const {
     title,
-    downloadEnabled,
     video,
     canvases,
     needsModal,
@@ -252,7 +249,14 @@ const ItemPage: NextPage<Props> = ({
           <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
             <VideoPlayer
               video={video}
-              showDownloadOptions={downloadEnabled || true}
+              // Note: because we can't prevent people from downloading videos if
+              // they're available online, any videos where we want to prevent
+              // download are restricted in Sierra.
+              //
+              // This means that any videos which can be viewed can also be downloaded.
+              //
+              // See discussion in https://wellcome.slack.com/archives/C8X9YKM5X/p1641833044030400
+              showDownloadOptions={true}
             />
           </Space>
         </Layout12>
@@ -382,7 +386,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    const pageview = {
+    const pageview: Pageview = {
       name: 'item',
       properties: {},
     };

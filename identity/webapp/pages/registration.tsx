@@ -26,7 +26,7 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { getServerData } from '@weco/common/server-data';
-import { appError, AppErrorProps } from '@weco/common/services/app';
+import { AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import {
@@ -67,7 +67,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     try {
       token = decodeToken(sessionToken, config.auth0.actionSecret);
     } catch (error) {
-      return appError(context, 400, 'Invalid session_token query parameter');
+      // There are non-nefarious reasons this might happen (eg expiry), so we redirect
+      // to login as logging in will give the user a new token.
+      console.error('Error decoding/validating session token', error);
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/api/auth/login',
+        },
+      };
     }
 
     if (typeof token !== 'string') {

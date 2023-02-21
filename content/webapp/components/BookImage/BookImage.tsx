@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, ReactElement } from 'react';
-import PrismicImage, {
-  BreakpointSizes,
-  ImageQuality,
-} from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { ImageType } from '@weco/common/model/image';
+import { ComponentProps, FunctionComponent } from 'react';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 const BookPromoImageContainer = styled.div`
   position: relative;
@@ -22,24 +18,14 @@ const BookPromoImage = styled(Space)`
   transform: translateX(-50%) rotate(2deg);
 `;
 
-type Props = {
-  image: ImageType;
-  sizes: BreakpointSizes;
-  quality: ImageQuality;
-};
+type Props = ComponentProps<typeof PrismicImage>;
 
-const BookImage: FunctionComponent<Props> = ({
-  image,
-  sizes,
-  quality,
-}: Props): ReactElement<Props> => {
+const BookImage: FunctionComponent<Props> = props => {
   return (
     <BookPromoImageContainer>
-      {image.contentUrl && (
-        <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
-          <PrismicImage image={image} sizes={sizes} quality={quality} />
-        </BookPromoImage>
-      )}
+      <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
+        <PrismicImage {...props} />
+      </BookPromoImage>
     </BookPromoImageContainer>
   );
 };

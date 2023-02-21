@@ -9,24 +9,22 @@ import {
 } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import TextInput from '../TextInput/TextInput';
-import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import { trackGaEvent } from '../../../utils/ga';
-import SearchFilters from '../SearchFilters/SearchFilters';
-import Select from '../Select/Select';
-import Space from '../styled/Space';
-import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
-import SearchFormSortByPortal from './SearchFormSortByPortal';
-import ClearSearch from '../ClearSearch/ClearSearch';
-import { AppContext } from '../AppContext/AppContext';
-import {
-  searchFormInputCatalogue,
-  searchFormInputImage,
-} from '../../../text/aria-labels';
 import { ParsedUrlQuery } from 'querystring';
-import { LinkProps } from '../../../model/link-props';
-import { Filter } from '../../../services/catalogue/filters';
-import { formDataAsUrlQuery } from '../../../utils/forms';
+
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { trackGaEvent } from '@weco/common/utils/ga';
+import SearchFilters from '@weco/common/views/components/SearchFilters';
+import Select from '@weco/common/views/components/Select/Select';
+import Space from '@weco/common/views/components/styled/Space';
+import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
+import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { searchFormInputCatalogue } from '@weco/common/text/aria-labels';
+import { LinkProps } from '@weco/common/model/link-props';
+import { Filter } from '@weco/common/services/catalogue/filters';
+import { formDataAsUrlQuery } from '@weco/common/utils/forms';
+import SortByPortal from './SearchForm.SortByPortal';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -161,7 +159,7 @@ const SearchForm = forwardRef(
         role="search"
         ref={searchForm}
         className="relative"
-        action={isImageSearch ? '/images' : '/works'}
+        action="/search/works"
         aria-describedby={ariaDescribedBy}
         onSubmit={event => {
           event.preventDefault();
@@ -179,18 +177,14 @@ const SearchForm = forwardRef(
         <Wrapper>
           <SearchInputWrapper>
             <TextInput
-              id={`${isImageSearch ? 'images' : 'works'}-search-input`}
-              label={
-                isImageSearch ? 'Search for images' : 'Search the catalogue'
-              }
+              id="works-search-input"
+              label="Search the catalogue"
               name="query"
               value={inputQuery}
               setValue={setInputQuery}
               ref={searchInput}
               big={true}
-              ariaLabel={
-                isImageSearch ? searchFormInputImage : searchFormInputCatalogue
-              }
+              ariaLabel={searchFormInputCatalogue}
             />
 
             {inputQuery && (
@@ -219,7 +213,7 @@ const SearchForm = forwardRef(
           />
         )}
         {!isImageSearch && isEnhanced && (
-          <SearchFormSortByPortal id="sort-select-portal">
+          <SortByPortal id="sort-select-portal">
             <SearchSortOrderWrapper>
               <Select
                 name="portalSortOrder"
@@ -235,7 +229,7 @@ const SearchForm = forwardRef(
                 }}
               />
             </SearchSortOrderWrapper>
-          </SearchFormSortByPortal>
+          </SortByPortal>
         )}
         <noscript>
           {!isImageSearch && showSortBy && (

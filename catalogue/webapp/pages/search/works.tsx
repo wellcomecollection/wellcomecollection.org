@@ -12,8 +12,9 @@ import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNo
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import Sort from '@weco/catalogue/components/Sort/Sort';
-import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
+import SearchFilters from '@weco/common/views/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import {
   fromQuery,
@@ -49,6 +50,28 @@ const SortPaginationWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+`;
+
+// -1px is to make up for the extra pixel applied by the Divider
+// The goal being to align it perfectly with search/images
+const DividerWrapper = styled.div`
+  ${props =>
+    `
+      margin: 0 -${props.theme.containerPadding.small}px -1px; 
+      transition: margin ${props => props.theme.transitionProperties};
+
+    ${props.theme.media('medium')(`
+        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem) -1px ;
+    `)}
+
+    ${props.theme.media('large')(`
+        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem) -1px ;
+    `)}
+
+    ${props.theme.media('xlarge')(`
+        margin-right: 0; 
+    `)}
+  `}
 `;
 
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
@@ -119,7 +142,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         className="container"
         v={{ size: 'l', properties: ['padding-bottom'] }}
       >
-        <Space v={{ size: 'l', properties: ['padding-top'] }}>
+        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
           <SearchFilters
             query={queryString}
             linkResolver={linkResolver}
@@ -140,6 +163,10 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
           />
         </Space>
 
+        <DividerWrapper>
+          <Divider lineColor="neutral.300" />
+        </DividerWrapper>
+
         {hasNoResults ? (
           <SearchNoResults
             query={queryString}
@@ -150,7 +177,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 'production.dates.from',
                 'production.dates.to',
               ],
-              queryParams: Object.keys(query).map(p => p),
+              queryParams: Object.keys(query),
             })}
           />
         ) : (
@@ -222,11 +249,6 @@ CatalogueSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-
-    if (!serverData.toggles.searchPage) {
-      return { notFound: true };
-    }
-
     const query = context.query;
     const params = fromQuery(query);
 
@@ -269,7 +291,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         query,
         pageview: {
           name: 'works',
-          properties: works ? { totalResults: works.totalResults } : {},
+          properties: { totalResults: works.totalResults },
         },
       }),
     };

@@ -3,10 +3,10 @@ import { LinkProps } from '../../../model/link-props';
 
 const defaultLink = {
   href: {
-    pathname: '/works',
+    pathname: '/search/works',
   },
   as: {
-    pathname: '/works',
+    pathname: '/search/works',
   },
 };
 

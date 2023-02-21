@@ -1,5 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
-import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
+import BaseTabs, { TabType } from './SearchTabs.BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
@@ -95,30 +95,27 @@ const SearchTabs: FunctionComponent<Props> = ({
               <NextLink
                 scroll={false}
                 href={{
-                  pathname: '/works',
+                  pathname: '/search/works',
                   query: removeEmptyProps({
                     source: 'search_tabs',
                     query,
                   }),
                 }}
                 as={{
-                  pathname: '/works',
+                  pathname: '/search/works',
                   query: removeEmptyProps({
                     query,
                   }),
                 }}
               >
-                <a
-                  className="plain-link"
-                  aria-current={isActive ? 'page' : undefined}
-                >
+                <a className="plain-link" aria-current="page">
                   {children}
                 </a>
               </NextLink>
             )}
           >
             <Tab
-              isActive={isActive}
+              isActive={true}
               isFocused={isFocused}
               isKeyboard={isKeyboard}
               isLast={false}
@@ -156,12 +153,12 @@ const SearchTabs: FunctionComponent<Props> = ({
               };
 
               const as = {
-                pathname: '/works',
+                pathname: '/search/works',
                 query: queryWithoutSource as ParsedUrlQuery,
               };
 
               const href = {
-                pathname: '/works',
+                pathname: '/search/works',
                 query: queryWithSource,
               };
 
@@ -186,30 +183,25 @@ const SearchTabs: FunctionComponent<Props> = ({
               <NextLink
                 scroll={false}
                 href={{
-                  pathname: '/images',
+                  pathname: '/search/images',
                   query: removeEmptyProps({
                     source: 'search_tabs',
                     query,
                   }),
                 }}
                 as={{
-                  pathname: '/images',
+                  pathname: '/search/images',
                   query: removeEmptyProps({
                     query,
                   }),
                 }}
               >
-                <a
-                  className="plain-link"
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {children}
-                </a>
+                <a className="plain-link">{children}</a>
               </NextLink>
             )}
           >
             <Tab
-              isActive={isActive}
+              isActive={false}
               isFocused={isFocused}
               isKeyboard={isKeyboard}
               isLast={true}
@@ -247,12 +239,12 @@ const SearchTabs: FunctionComponent<Props> = ({
               };
 
               const as = {
-                pathname: '/images',
+                pathname: '/search/images',
                 query: queryWithoutSource as ParsedUrlQuery,
               };
 
               const href = {
-                pathname: '/images',
+                pathname: '/search/images',
                 query: queryWithSource,
               };
 

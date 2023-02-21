@@ -3,7 +3,7 @@ import cookies from '@weco/common/data/cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
-import { getActiveToggles } from '@weco/common/utils/cookies';
+import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
 declare global {
   interface Window {
     // Segment.io requires `analytics: any;`
@@ -15,7 +15,6 @@ declare global {
 
 type Page = {
   path: string;
-  pathname: string;
   name: string;
   query: ParsedUrlQuery;
 };
@@ -44,8 +43,27 @@ type EventProps = {
   eventGroup?: EventGroup;
 };
 
+// The pageview values are used for monthly/quarterly reporting.
+//
+// This type is an attempt to describe the expectations of those reporting tools;
+// to enforce our "analytics contract" in code.  It isn't set in stone, but it's
+// meant to flag to developers if they make unplanned or unexpected changes --
+// hopefully this will lead to more intentional changes.
+//
+// If you want to change this type, check with our digital analyst (currently Tacey)
+// before you do -- so the change can be coordinated with their reports.
 export type Pageview = {
-  name: string;
+  name:
+    | 'concept'
+    | 'event'
+    | 'exhibition'
+    | 'image'
+    | 'images'
+    | 'item'
+    | 'search'
+    | 'story'
+    | 'work'
+    | 'works';
   properties: Record<string, string[] | number[] | string | number | undefined>;
   eventGroup?: EventGroup;
 };
@@ -96,7 +114,6 @@ function trackPageview({
     eventGroup,
     page: {
       path: Router.asPath,
-      pathname: Router.pathname,
       name,
       query,
     },
@@ -116,7 +133,6 @@ function trackSegmentEvent({
     eventGroup,
     page: {
       path: Router.asPath,
-      pathname: Router.pathname,
       name: pageName,
       query: Router.query,
     },
@@ -127,7 +143,7 @@ function trackSegmentEvent({
 function track(conversion: Conversion) {
   const debug = getCookie(cookies.analyticsDebug) === true;
   // We're not in React land here, so we can't use `useToggles`
-  const toggles = getActiveToggles(getCookies());
+  const toggles = dangerouslyGetEnabledToggles(getCookies());
   const sessionId = getSessionId();
   const session: Session = {
     id: sessionId,

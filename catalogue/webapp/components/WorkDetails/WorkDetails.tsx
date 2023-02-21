@@ -277,7 +277,14 @@ const WorkDetails: FunctionComponent<Props> = ({
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <VideoPlayer
                   video={video}
-                  showDownloadOptions={showDownloadOptions}
+                  // Note: because we can't prevent people from downloading videos if
+                  // they're available online, any videos where we want to prevent
+                  // download are restricted in Sierra.
+                  //
+                  // This means that any videos which can be viewed can also be downloaded.
+                  //
+                  // See discussion in https://wellcome.slack.com/archives/C8X9YKM5X/p1641833044030400
+                  showDownloadOptions={true}
                 />
               </Space>
             )}
@@ -332,6 +339,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                   </Space>
                 )}
 
+                {/* Note: there is no class flex-h-center, but there is flex--h-center
+                    Is that what's meant here? */}
                 <div className="flex flex-h-center">
                   {itemUrl && (
                     <Space
