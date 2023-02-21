@@ -197,7 +197,7 @@ const concept = async (
 
 const articleWithMockSiblings = async (
   id: string,
-  response: Record<string, any>,
+  response: Record<string, unknown>,
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
