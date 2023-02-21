@@ -9,13 +9,13 @@ import Document, {
 import { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import * as snippet from '@segment/snippet';
-import { getServerData } from '@weco/common/server-data';
 import { Toggles } from '@weco/toggles';
 import {
-  DataLayer,
+  Ga4DataLayer,
   GoogleAnalyticsUA,
   GoogleTagManager,
   GoogleTagManagerNoScript,
+  GaDimensions,
 } from '../../services/app/google-analytics';
 
 const {
@@ -36,28 +36,32 @@ function renderSegmentSnippet() {
   return snippet.min(opts);
 }
 
-type DocumentInitialPropsWithToggles = DocumentInitialProps & {
+type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
+  gaDimensions?: GaDimensions;
 };
-class WecoDoc extends Document<DocumentInitialPropsWithToggles> {
+class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   static async getInitialProps(
     ctx: DocumentContext
-  ): Promise<DocumentInitialPropsWithToggles> {
-    const serverData = await getServerData(ctx);
+  ): Promise<DocumentInitialPropsWithTogglesAndGa> {
     const sheet = new ServerStyleSheet();
+    let pageProps;
     const originalRenderPage = ctx.renderPage;
-
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
+          enhanceApp: App => props => {
+            pageProps = props.pageProps;
+            return sheet.collectStyles(<App {...props} />);
+          },
         });
 
       const initialProps = await Document.getInitialProps(ctx);
 
       return {
         ...initialProps,
-        toggles: serverData.toggles,
+        toggles: pageProps.serverData.toggles,
+        gaDimensions: pageProps.gaDimensions,
         styles: (
           <>
             {initialProps.styles}
@@ -78,8 +82,13 @@ class WecoDoc extends Document<DocumentInitialPropsWithToggles> {
           must be serialized completely within the first 1024 bytes of the document.
           It has to be declared here as Next dynamically adds other elements to the Head */}
           <meta charSet="utf-8" />
-          {/* Adding toggles to the datalayer so it is available to events in Google Tag Manager */}
-          <DataLayer data={{ toggles: this.props.toggles }} />
+          {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
+          <Ga4DataLayer
+            data={{
+              toggles: this.props.toggles,
+              gaDimensions: this.props.gaDimensions,
+            }}
+          />
           <GoogleTagManager />
           <GoogleAnalyticsUA />
           <script
