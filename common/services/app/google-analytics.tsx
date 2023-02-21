@@ -16,6 +16,29 @@ const gaDimensionKeys = {
 
 // Don't use the next/script `Script` component for these as in
 // Next.js v11 it does not work when inside a `Head` component
+type Props = {
+  data: {
+    toggles: Toggles;
+    gaDimensions?: GaDimensions;
+  };
+};
+
+export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
+  const partOf = data.gaDimensions?.partOf?.length
+    ? data.gaDimensions.partOf.join(',')
+    : null;
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'toggles': '${JSON.stringify(data.toggles)}',
+          ${partOf ? `'partOf': '${partOf}'` : ''}});`,
+      }}
+    />
+  );
+};
 
 export const GoogleTagManager: FunctionComponent = () => (
   <script
