@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import Caption from '../Caption/Caption';
 import { IframeContainer } from '../Iframe/Iframe';
 import * as prismicT from '@prismicio/types';
@@ -49,6 +49,27 @@ const VideoTrigger = styled.button.attrs({
 const VideoEmbed: FunctionComponent<Props> = ({ embedUrl, caption }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const id = embedUrl.match(/embed\/(.*)\?/)?.[1];
+
+  useEffect(() => {
+    // GA4 automatically tracks youtube engagment, but requires the iframe api
+    // script to have been loaded on the page. Since we're lazyloading youtube
+    // videos, we have to add the script ourselves (and check that we haven't
+    // done so already). The following is a version of 'option 3' from this article:
+    // https://www.analyticsmania.com/post/youtube-tracking-google-tag-manager-solved/
+    const scriptId = 'youtube-iframe-api';
+    const youtubeIframeApi = document.getElementById(scriptId);
+
+    if (youtubeIframeApi) return;
+
+    const s = document.createElement('script');
+    s.id = scriptId;
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = '//www.youtube.com/iframe_api';
+
+    const firstScript = document.getElementsByTagName('script')[0];
+    firstScript.parentNode?.insertBefore(s, firstScript);
+  }, []);
 
   return (
     <figure className="no-margin">
