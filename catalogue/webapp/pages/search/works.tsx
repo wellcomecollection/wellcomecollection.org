@@ -110,6 +110,15 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   };
 
   const hasNoResults = works.totalResults === 0;
+  const hasActiveFilters = hasFilters({
+    filters: [
+      ...filters.map(f => f.id),
+      // production.dates is one dropdown but two properties, so we're specifying them in their individual format
+      'production.dates.from',
+      'production.dates.to',
+    ],
+    queryParams: Object.keys(query),
+  });
 
   return (
     <>
@@ -142,20 +151,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         className="container"
         v={{ size: 'l', properties: ['padding-bottom'] }}
       >
-        {hasNoResults ? (
-          <SearchNoResults
-            query={queryString}
-            hasFilters={hasFilters({
-              filters: [
-                ...filters.map(f => f.id),
-                // production.dates is one dropdown but two properties, so we're specifying them in their individual format
-                'production.dates.from',
-                'production.dates.to',
-              ],
-              queryParams: Object.keys(query),
-            })}
-          />
-        ) : (
+        {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
           <>
             <Space
               v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
@@ -183,7 +179,13 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             <DividerWrapper>
               <Divider lineColor="neutral.300" />
             </DividerWrapper>
+          </>
+        )}
 
+        {hasNoResults ? (
+          <SearchNoResults query={queryString} hasFilters={hasActiveFilters} />
+        ) : (
+          <>
             <PaginationWrapper verticalSpacing="l">
               <span>{pluralize(works.totalResults, 'result')}</span>
 

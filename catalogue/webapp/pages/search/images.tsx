@@ -61,8 +61,8 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   query,
 }) => {
   const { query: queryString } = query;
-
   const { setLink } = useContext(SearchContext);
+
   useEffect(() => {
     const link = toLink({ ...imagesRouteProps }, 'images_search_context');
     setLink(link);
@@ -91,6 +91,10 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   };
 
   const hasNoResults = images.totalResults === 0;
+  const hasActiveFilters = hasFilters({
+    filters: filters.map(f => f.id),
+    queryParams: Object.keys(query),
+  });
 
   return (
     <>
@@ -119,7 +123,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      {!hasNoResults && (
+      {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
         <div className="container">
           <Space
             v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
@@ -154,10 +158,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           {hasNoResults ? (
             <SearchNoResults
               query={queryString}
-              hasFilters={hasFilters({
-                filters: filters.map(f => f.id),
-                queryParams: Object.keys(query),
-              })}
+              hasFilters={hasActiveFilters}
             />
           ) : (
             <>
