@@ -34,7 +34,7 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           'toggles': '${JSON.stringify(data.toggles)}',
-          ${partOf ? `'partOf': '${partOf}'` : ''});`,
+          ${partOf ? `'partOf': '${partOf}'` : ''}});`,
       }}
     />
   );

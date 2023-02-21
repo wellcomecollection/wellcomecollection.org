@@ -60,7 +60,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
 
       return {
         ...initialProps,
-        toggles: pageProps.serverData.toggles,
+        toggles: pageProps.serverData?.toggles,
         gaDimensions: pageProps.gaDimensions,
         styles: (
           <>
