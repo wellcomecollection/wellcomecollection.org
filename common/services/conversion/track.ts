@@ -3,7 +3,7 @@ import cookies from '@weco/common/data/cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
-import { getActiveToggles } from '@weco/common/utils/cookies';
+import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
 declare global {
   interface Window {
     // Segment.io requires `analytics: any;`
@@ -143,7 +143,7 @@ function trackSegmentEvent({
 function track(conversion: Conversion) {
   const debug = getCookie(cookies.analyticsDebug) === true;
   // We're not in React land here, so we can't use `useToggles`
-  const toggles = getActiveToggles(getCookies());
+  const toggles = dangerouslyGetEnabledToggles(getCookies());
   const sessionId = getSessionId();
   const session: Session = {
     id: sessionId,

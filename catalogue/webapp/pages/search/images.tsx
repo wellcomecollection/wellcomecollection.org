@@ -191,11 +191,6 @@ ImagesSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-
-    if (!serverData.toggles.searchPage) {
-      return { notFound: true };
-    }
-
     const query = context.query;
     const params = fromQuery(query);
 
