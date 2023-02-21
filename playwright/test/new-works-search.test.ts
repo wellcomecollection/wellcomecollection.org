@@ -52,6 +52,7 @@ const selectCheckbox = async (label: string, page: Page) => {
     safeWaitForNavigation(page),
     page.click(`label :text("${label}")`),
   ]);
+  await page.waitForTimeout(1000);
 
   if (isMobile(page)) {
     await page.click(`"Show results"`);
@@ -61,6 +62,8 @@ const selectCheckbox = async (label: string, page: Page) => {
 const navigateToNextPage = async (page: Page) => {
   // data-test-id is only set on Pagination components that aren't hidden on mobile
   // in `common/views/components/Pagination/Pagination.tsx`
+  await page.waitForTimeout(2000);
+
   await Promise.all([
     safeWaitForNavigation(page),
     page.click('[data-test-id="pagination"] button'),
@@ -69,6 +72,7 @@ const navigateToNextPage = async (page: Page) => {
 
 const navigateToResult = async (n = 1, page: Page) => {
   const result = `main ul li:nth-of-type(${n}) a`;
+  await page.waitForTimeout(1000);
   const searchResultTitle = await page.textContent(`${result} h3`);
 
   // For reasons I don't really understand, the safeWaitForNavigation will timeout…
@@ -83,6 +87,7 @@ const navigateToResult = async (n = 1, page: Page) => {
     await Promise.all([safeWaitForNavigation(page), page.click(result)]);
   }
 
+  await page.waitForTimeout(1000);
   const title = await page.textContent('h1');
   expect(title).toBe(searchResultTitle);
 };
