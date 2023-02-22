@@ -129,7 +129,7 @@
 - wait
 
 - label: 'deploy catalogue (ecr image)'
-  branches: 'main'
+  branches: 'next-13'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -156,7 +156,7 @@
           - AWS_SESSION_TOKEN
 
 - label: 'deploy content (ecr image)'
-  branches: 'main'
+  branches: 'next-13'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -183,7 +183,7 @@
           - AWS_SESSION_TOKEN
 
 - label: 'deploy identity (ecr image)'
-  branches: 'main'
+  branches: 'next-13'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
