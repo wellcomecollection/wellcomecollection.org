@@ -110,6 +110,15 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   };
 
   const hasNoResults = works.totalResults === 0;
+  const hasActiveFilters = hasFilters({
+    filters: [
+      ...filters.map(f => f.id),
+      // production.dates is one dropdown but two properties, so we're specifying them in their individual format
+      'production.dates.from',
+      'production.dates.to',
+    ],
+    queryParams: Object.keys(query),
+  });
 
   return (
     <>
@@ -142,44 +151,39 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         className="container"
         v={{ size: 'l', properties: ['padding-bottom'] }}
       >
-        <Space v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}>
-          <SearchFilters
-            query={queryString}
-            linkResolver={linkResolver}
-            searchFormId="search-page-form"
-            changeHandler={() => {
-              const form = document.getElementById('search-page-form');
-              form &&
-                form.dispatchEvent(
-                  new window.Event('submit', {
-                    cancelable: true,
-                    bubbles: true,
-                  })
-                );
-            }}
-            filters={filters}
-            hasNoResults={hasNoResults}
-            isNewStyle
-          />
-        </Space>
+        {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
+          <>
+            <Space
+              v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            >
+              <SearchFilters
+                query={queryString}
+                linkResolver={linkResolver}
+                searchFormId="search-page-form"
+                changeHandler={() => {
+                  const form = document.getElementById('search-page-form');
+                  form &&
+                    form.dispatchEvent(
+                      new window.Event('submit', {
+                        cancelable: true,
+                        bubbles: true,
+                      })
+                    );
+                }}
+                filters={filters}
+                hasNoResults={hasNoResults}
+                isNewStyle
+              />
+            </Space>
 
-        <DividerWrapper>
-          <Divider lineColor="neutral.300" />
-        </DividerWrapper>
+            <DividerWrapper>
+              <Divider lineColor="neutral.300" />
+            </DividerWrapper>
+          </>
+        )}
 
         {hasNoResults ? (
-          <SearchNoResults
-            query={queryString}
-            hasFilters={hasFilters({
-              filters: [
-                ...filters.map(f => f.id),
-                // production.dates is one dropdown but two properties, so we're specifying them in their individual format
-                'production.dates.from',
-                'production.dates.to',
-              ],
-              queryParams: Object.keys(query),
-            })}
-          />
+          <SearchNoResults query={queryString} hasFilters={hasActiveFilters} />
         ) : (
           <>
             <PaginationWrapper verticalSpacing="l">
