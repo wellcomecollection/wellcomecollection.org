@@ -10,10 +10,6 @@ const rewriteEntries = localConcurrentDevelopment
         destination: `/:path*`,
       },
       {
-        source: '/catalogue/_next/:path*',
-        destination: `${CATALOGUE_URL}/catalogue/_next/:path*`,
-      },
-      {
         source: '/catalogue/:path*',
         destination: `${CATALOGUE_URL}/:path*`,
       },
