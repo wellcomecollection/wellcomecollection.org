@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import Image, { ImageLoaderProps } from 'next/legacy/image';
+import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
@@ -13,10 +13,12 @@ import {
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 // Not typed as PaletteColor as we want the averageColor of each image
-// const StyledImage = styled(Image)<{ background: string }>`
-//   background-color: ${props => props.background};
-//   color: ${props => props.theme.color('neutral.700')};
-// `;
+const StyledImage = styled(Image)<{ background: string }>`
+  background-color: ${props => props.background};
+  color: ${props => props.theme.color('neutral.700')};
+  maxwidth: 100%;
+  height: auto;
+`;
 
 const StyledImageContainer = styled.div<{
   background: string;
@@ -90,9 +92,7 @@ const IIIFImage: FunctionComponent<Props> = ({
         background={background}
         style={{ height: image.height }} // to not have styledComponents generate too many classes
       >
-        <Image
-          layout={layout}
-          sizes={sizesString}
+        <StyledImage
           src={image.contentUrl}
           alt={image.alt || ''}
           loader={IIIFLoader}
@@ -101,22 +101,26 @@ const IIIFImage: FunctionComponent<Props> = ({
           height={image.height}
           priority={priority}
           background="transparent"
+          sizes={sizesString}
         />
       </StyledImageContainer>
     );
   }
 
   return (
-    <Image
-      layout={layout}
-      sizes={sizesString}
+    <StyledImage
       src={image.contentUrl}
       alt={image.alt || ''}
       loader={IIIFLoader}
       onLoadingComplete={onLoadingComplete}
-      objectFit="contain"
       priority={priority}
       background={background}
+      sizes={sizesString}
+      style={{
+        maxWidth: '100%',
+        height: 'auto',
+        objectFit: 'contain',
+      }}
     />
   );
 };

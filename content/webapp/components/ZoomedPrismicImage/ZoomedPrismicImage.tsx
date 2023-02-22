@@ -10,7 +10,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { expand, cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import LL from '@weco/common/views/components/styled/LL';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { trackGaEvent } from '@weco/common/utils/ga';
 
@@ -141,12 +141,15 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
             <Image
               width={image.width}
               height={image.height}
-              layout="intrinsic"
               src={image.contentUrl}
               alt={image.alt || ''}
-              objectFit="contain"
               loader={createPrismicLoader(imageWidth, 'high')}
               onLoadingComplete={() => setIsLoaded(true)}
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+                objectFit: 'contain',
+              }}
             />
           </>
         )}

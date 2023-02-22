@@ -1,14 +1,16 @@
 import { FunctionComponent } from 'react';
-import Image, { ImageLoaderProps } from 'next/legacy/image';
-// import styled from 'styled-components';
+import Image, { ImageLoaderProps } from 'next/image';
+import styled from 'styled-components';
 import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
 import { ImageType } from '../../../model/image';
 
-// const StyledImage = styled(Image)<{ $desaturate: boolean }>`
-//   color: ${props => props.theme.color('white')};
-//   background-color: ${props => props.theme.color('neutral.700')};
-//   filter: ${props => (props.$desaturate ? 'saturate(0%)' : undefined)};
-// `;
+const StyledImage = styled(Image)<{ $desaturate: boolean }>`
+  color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.color('neutral.700')};
+  filter: ${props => (props.$desaturate ? 'saturate(0%)' : undefined)};
+  width: 100%;
+  height: auto;
+`;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
 export type Props = {
@@ -96,7 +98,7 @@ const PrismicImage: FunctionComponent<Props> = ({
   imgSizes,
   maxWidth,
   quality,
-  // desaturate = false,
+  desaturate = false,
 }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
@@ -109,15 +111,15 @@ const PrismicImage: FunctionComponent<Props> = ({
     : image.width;
 
   return (
-    <Image
+    <StyledImage
       width={image.width}
       height={image.height}
-      layout="responsive"
-      sizes={imgSizes || sizesString}
       src={image.contentUrl}
       alt={image.alt || ''}
+      $desaturate={desaturate}
       loader={createPrismicLoader(maxLoaderWidth, quality)}
-      // $desaturate={desaturate}
+      sizes={imgSizes || sizesString}
+      style={{}}
     />
   );
 };
