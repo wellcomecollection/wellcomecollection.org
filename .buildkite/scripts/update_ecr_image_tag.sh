@@ -75,7 +75,7 @@ do
   LATEST_MANIFEST=$(
     aws ecr batch-get-image \
       --repository-name "$repositoryName" \
-      --image-ids imageTag=next13 --output json \
+      --image-ids imageTag=latest --output json \
       | jq --raw-output --join-output '.images[0].imageManifest'
   )
 
