@@ -13,10 +13,10 @@ import {
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 // Not typed as PaletteColor as we want the averageColor of each image
-const StyledImage = styled(Image)<{ background: string }>`
-  background-color: ${props => props.background};
-  color: ${props => props.theme.color('neutral.700')};
-`;
+// const StyledImage = styled(Image)<{ background: string }>`
+//   background-color: ${props => props.background};
+//   color: ${props => props.theme.color('neutral.700')};
+// `;
 
 const StyledImageContainer = styled.div<{
   background: string;
@@ -90,7 +90,7 @@ const IIIFImage: FunctionComponent<Props> = ({
         background={background}
         style={{ height: image.height }} // to not have styledComponents generate too many classes
       >
-        <StyledImage
+        <Image
           layout={layout}
           sizes={sizesString}
           src={image.contentUrl}
@@ -107,7 +107,7 @@ const IIIFImage: FunctionComponent<Props> = ({
   }
 
   return (
-    <StyledImage
+    <Image
       layout={layout}
       sizes={sizesString}
       src={image.contentUrl}
