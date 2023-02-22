@@ -44,6 +44,9 @@ const FindUs: FunctionComponent = () => (
     <p>
       <a href={`/pages/${prismicPageIds.gettingHere}`}>Getting here</a>
     </p>
+    <p>
+      <a href={`/pages/${prismicPageIds.access}`}>Accessibility</a>
+    </p>
   </>
 );
 
