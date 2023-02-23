@@ -1,3 +1,6 @@
+import { propsToQuery } from './routes';
+import { ParsedUrlQuery } from 'querystring';
+
 export type DefaultSortValuesType = {
   sort: string | undefined;
   sortOrder: string | undefined;
@@ -120,4 +123,39 @@ export const hasFilters = ({
   queryParams: string[];
 }): boolean => {
   return !!filters.filter(element => queryParams.includes(element)).length;
+};
+
+// ROUTING
+/**
+ * Cleans up the URL for form submissions in order to avoid unwanted query parameters
+ * @param {Record<string, string | string[] | number | undefined>} params - Form values
+ * @param {string} pathname - Destination pathname, e.g. "/search/images"
+ */
+export const linkResolver = ({
+  params,
+  pathname,
+}: {
+  params: Record<string, string | string[] | number | undefined>;
+  pathname: string;
+}) => {
+  const queryWithSource = propsToQuery(params);
+
+  // `source` is used in Segment to show how a person got to the page
+  // but we don't want it to display in the URL
+  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+  const { source = undefined, ...queryWithoutSource } = {
+    ...queryWithSource,
+  };
+
+  const as = {
+    pathname,
+    query: queryWithoutSource as ParsedUrlQuery,
+  };
+
+  const href = {
+    pathname,
+    query: queryWithSource,
+  };
+
+  return { href, as };
 };

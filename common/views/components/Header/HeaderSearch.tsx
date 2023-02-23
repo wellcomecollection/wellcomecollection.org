@@ -4,7 +4,8 @@ import { useRouter } from 'next/router';
 import { classNames } from '@weco/common/utils/classnames';
 import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
-import { getQueryPropertyValue } from '@weco/common/utils/search';
+import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
+import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 
 const Overlay = styled.div.attrs<{ isActive: boolean }>(props => ({
   className: classNames({
@@ -67,14 +68,27 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
     return () => document.removeEventListener('keydown', handleEscapeKey);
   }, []);
 
+  const updateUrl = (form: HTMLFormElement) => {
+    const formValues = formDataAsUrlQuery(form);
+
+    const link = linkResolver({ params: formValues, pathname: '/search' });
+
+    return router.push(link.href, link.as);
+  };
+
   return (
     <Overlay isActive={isActive}>
       <SearchBarWrapper onClick={e => e.stopPropagation()}>
         <form
           className="container"
           id="global-search-form"
-          // TODO if released before the redirect is in placeholder, link to /works instead
-          action="/search"
+          onSubmit={event => {
+            event.preventDefault();
+
+            updateUrl(event.currentTarget);
+
+            return false;
+          }}
         >
           <SearchBar
             inputValue={inputValue}

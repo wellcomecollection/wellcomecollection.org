@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react';
-import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { getCookie } from 'cookies-next';
@@ -29,9 +28,8 @@ import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
-import { propsToQuery } from '@weco/common/utils/routes';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { hasFilters } from '@weco/common/utils/search';
+import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 
@@ -89,26 +87,6 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
   const filters = worksFilters({ works, props: worksRouteProps });
 
-  const linkResolver = params => {
-    const queryWithSource = propsToQuery(params);
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    const { source = undefined, ...queryWithoutSource } = {
-      ...queryWithSource,
-    };
-
-    const as = {
-      pathname: '/search/works',
-      query: queryWithoutSource as ParsedUrlQuery,
-    };
-
-    const href = {
-      pathname: '/search/works',
-      query: queryWithSource,
-    };
-
-    return { href, as };
-  };
-
   const hasNoResults = works.totalResults === 0;
   const hasActiveFilters = hasFilters({
     filters: [
@@ -158,7 +136,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             >
               <SearchFilters
                 query={queryString}
-                linkResolver={linkResolver}
+                linkResolver={params =>
+                  linkResolver({ params, pathname: '/search/works' })
+                }
                 searchFormId="search-page-form"
                 changeHandler={() => {
                   const form = document.getElementById('search-page-form');
