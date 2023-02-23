@@ -149,7 +149,10 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       )}
 
       {(!isFullSupportBrowser || isSmallGallery) && (
-        <ImageCardList data-test-id="search-results-container" role="list">
+        <ImageCardList
+          data-test-id="image-search-results-container"
+          role="list"
+        >
           {imagesWithDimensions.map((result: GalleryImageProps) => (
             <li key={result.id} role="listitem">
               <Space
