@@ -36,10 +36,9 @@ export const exhibitionsQuery = gql`
             firstPublicationDate
           }
           format {
-            __typename
-          }
-          format {
             ... on ExhibitionFormats {
+              __typename
+              title
               _meta {
                 id
               }
@@ -87,8 +86,11 @@ export async function getExhibitions({
   PrismicResultsList<Exhibition> | PrismicApiError
 > {
   try {
-    const res = await prismicGraphQLClient('exhibitions', query, pageSize);
-    const { allExhibitionss } = await res;
+    const { allExhibitionss } = await prismicGraphQLClient(
+      'exhibitions',
+      query,
+      pageSize
+    );
     const { edges } = allExhibitionss;
     const exhibitions = await transformPrismicResponse(['exhibitions'], edges);
     return {

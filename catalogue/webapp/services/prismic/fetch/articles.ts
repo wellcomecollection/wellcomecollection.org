@@ -36,10 +36,9 @@ export const storiesQuery = gql`
             firstPublicationDate
           }
           format {
-            __typename
-          }
-          format {
             ... on ArticleFormats {
+              __typename
+              title
               _meta {
                 id
               }
@@ -142,14 +141,13 @@ export async function getStories({
       pageSize: number,
       cursor?: string
     ): Promise<PrismicResultsList<Story> | PrismicApiError> => {
-      const res = await prismicGraphQLClient(
+      const { allArticless } = await prismicGraphQLClient(
         'articles',
         query,
         pageSize,
         cursor
       );
 
-      const { allArticless } = await res;
       const { edges } = allArticless;
 
       const stories = await transformPrismicResponse(['articles'], edges);

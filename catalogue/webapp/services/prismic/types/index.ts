@@ -62,6 +62,10 @@ type Promo = {
 
 type Format = {
   __typename: string;
+  title: {
+    type: string;
+    text: string;
+  };
   _meta?: {
     id: string;
   };

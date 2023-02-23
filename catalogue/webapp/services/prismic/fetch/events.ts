@@ -36,10 +36,9 @@ export const eventsQuery = gql`
             firstPublicationDate
           }
           format {
-            __typename
-          }
-          format {
             ... on EventFormats {
+              __typename
+              title
               _meta {
                 id
               }
@@ -85,8 +84,11 @@ export async function getEvents({
   pageSize,
 }: PrismicQueryProps): Promise<PrismicResultsList<Event> | PrismicApiError> {
   try {
-    const res = await prismicGraphQLClient('events', query, pageSize);
-    const { allEventss } = await res;
+    const { allEventss } = await prismicGraphQLClient(
+      'events',
+      query,
+      pageSize
+    );
     const { edges } = allEventss;
     const events = await transformPrismicResponse(['events'], edges);
     return {

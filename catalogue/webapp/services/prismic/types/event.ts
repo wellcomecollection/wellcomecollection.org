@@ -9,8 +9,6 @@ export type Event = {
   firstPublicationDate: Date;
   contributors: (string | undefined)[];
   type: ContentType[];
+  format: string;
   summary?: string;
-  label: {
-    text: string;
-  };
 };
