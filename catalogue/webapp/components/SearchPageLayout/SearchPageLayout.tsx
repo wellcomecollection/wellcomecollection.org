@@ -195,7 +195,6 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
             });
 
             updateUrl(event.currentTarget);
-            return false;
           }}
         >
           <h1 className="visually-hidden">

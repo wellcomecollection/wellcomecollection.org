@@ -70,7 +70,6 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
 
   const updateUrl = (form: HTMLFormElement) => {
     const formValues = formDataAsUrlQuery(form);
-
     const link = linkResolver({ params: formValues, pathname: '/search' });
 
     return router.push(link.href, link.as);
@@ -84,10 +83,7 @@ const HeaderSearch = ({ isActive, setIsActive }: Props) => {
           id="global-search-form"
           onSubmit={event => {
             event.preventDefault();
-
             updateUrl(event.currentTarget);
-
-            return false;
           }}
         >
           <SearchBar
