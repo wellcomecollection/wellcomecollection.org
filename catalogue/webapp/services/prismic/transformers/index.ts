@@ -33,7 +33,7 @@ export async function transformPrismicResponse(
       firstPublicationDate,
       contributors: allContributors,
       type,
-      summary: image.caption?.[0].text,
+      summary: image?.caption?.[0].text,
       label: format?._meta
         ? { text: articleIdToLabel(format._meta.id) }
         : { text: 'Article' },
