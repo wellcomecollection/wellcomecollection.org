@@ -5,7 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { font, grid } from '@weco/common/utils/classnames';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import { Story } from '@weco/catalogue/services/prismic/types/story';
+import { Story } from '@weco/catalogue/services/prismic/types';
 import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';

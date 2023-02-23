@@ -47,7 +47,7 @@ async function gotoSearchResultPage(
 
 const imageSearchResultsContainer =
   'ul[data-test-id="image-search-results-container"]';
-const imagesResultsListItem = `${imageSearchResultsContainer} li[data-test-id="image-search-result"]`;
+const imagesResultsListItem = `${imageSearchResultsContainer} li`;
 
 const subNavigationContainer = 'div[data-test-id="sub-nav-tab-container"]';
 const catalogueSectionSelector = `${subNavigationContainer} div[data-test-id="works"]`;
