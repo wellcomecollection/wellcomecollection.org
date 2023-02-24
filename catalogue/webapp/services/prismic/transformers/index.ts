@@ -5,8 +5,7 @@ import { transformImage } from '@weco/common/services/prismic/transformers/image
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 export async function transformPrismicResponse(
-  edges: PrismicResponse[],
-  type: 'articles' = 'articles'
+  edges: PrismicResponse[]
 ): Promise<Story[]> {
   const results = edges.map(edge => {
     const { node } = edge;
@@ -29,10 +28,10 @@ export async function transformPrismicResponse(
       id,
       title: title[0]?.text,
       image: transformImage(image?.image),
-      url: linkResolver({ id, type }),
+      url: linkResolver({ id, type: 'articles' }),
       firstPublicationDate,
       contributors: allContributors,
-      type,
+      type: 'articles' as const,
       summary: image?.caption?.[0].text,
       label: format?._meta
         ? { text: articleIdToLabel(format._meta.id) }
