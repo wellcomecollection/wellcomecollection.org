@@ -81,7 +81,7 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
 
   return setTzitzitParams({
     title: work.title,
-    sourceLink: `/works/${work.id}/items`,
+    sourceLink: `https://wellcomecollection.org/works/${work.id}/items`,
     licence: digitalLocation?.license,
     contributors: work.contributors,
   });

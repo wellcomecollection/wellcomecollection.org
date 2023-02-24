@@ -27,9 +27,9 @@ function createTzitzitImageLink(
 ): ApiToolbarLink | undefined {
   return setTzitzitParams({
     title: image.source.title,
-    sourceLink: `/works/${work.id}/images`,
+    sourceLink: `https://wellcomecollection.org/works/${work.id}/images?id=${image.id}`,
     licence: image.locations[0].license,
-    contributors: image.source.contributors,
+    contributors: work.contributors,
   });
 }
 
