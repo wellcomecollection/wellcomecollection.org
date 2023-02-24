@@ -1,24 +1,17 @@
-import {
-  PrismicResponse,
-  TransformedResponse,
-  ContentType,
-  Contributor,
-} from '../types';
+import { PrismicResponse, Story, Contributor } from '../types';
 import { articleIdToLabel } from '../fetch';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 export async function transformPrismicResponse(
-  type: ContentType[],
   edges: PrismicResponse[]
-): Promise<TransformedResponse[]> {
+): Promise<Story[]> {
   const results = edges.map(edge => {
     const { node } = edge;
     const { title, contributors, promo, _meta, format } = node;
     const { id, firstPublicationDate } = _meta;
     const image = promo?.[0]?.primary;
-    const isArticle = type.includes('articles');
 
     // in some cases we don't have contributors
     const allContributors = contributors
@@ -35,15 +28,14 @@ export async function transformPrismicResponse(
       id,
       title: title[0]?.text,
       image: transformImage(image?.image),
-      url: linkResolver({ id, type: type[0] }),
+      url: linkResolver({ id, type: 'articles' }),
       firstPublicationDate,
       contributors: allContributors,
-      type,
+      type: 'articles' as const,
       summary: image?.caption?.[0].text,
-      label:
-        isArticle && format?._meta
-          ? { text: articleIdToLabel(format._meta.id) }
-          : { text: 'Article' },
+      label: format?._meta
+        ? { text: articleIdToLabel(format._meta.id) }
+        : { text: 'Article' },
     };
   });
 

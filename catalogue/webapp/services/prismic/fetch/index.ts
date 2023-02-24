@@ -6,8 +6,6 @@ import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { Query } from '@weco/catalogue/types/search';
 import { getPrismicSortValue } from '@weco/common/utils/search';
 import { storiesQuery } from './articles';
-import { eventsQuery } from './events';
-import { exhibitionsQuery } from './exhibitions';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 
 export const articleIdToLabel = (id: string): string => {
@@ -23,7 +21,6 @@ export const articleIdToLabel = (id: string): string => {
 const client = createPrismicClient();
 
 export async function prismicGraphQLClient(
-  type: string,
   query: Query,
   pageSize: number,
   cursor?: string
@@ -44,13 +41,7 @@ export async function prismicGraphQLClient(
     ? { queryString, sortBy, pageSize, cursor }
     : { queryString, sortBy, pageSize };
 
-  const graphQLQueries = {
-    articles: storiesQuery,
-    events: eventsQuery,
-    exhibitions: exhibitionsQuery,
-  };
-
-  return graphqlClient.request(graphQLQueries[type], variables);
+  return graphqlClient.request(storiesQuery, variables);
 }
 
 export const prismicApiError = (): PrismicApiError => ({

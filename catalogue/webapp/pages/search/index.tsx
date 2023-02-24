@@ -17,7 +17,7 @@ import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
-import { Story } from '@weco/catalogue/services/prismic/types/story';
+import { Story } from '@weco/catalogue/services/prismic/types';
 import { font } from '@weco/common/utils/classnames';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';

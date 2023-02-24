@@ -1,36 +1,4 @@
-import { Story } from './story';
-import { Event } from './event';
-import { Exhibition } from './exhibition';
-import { ImageDimensions } from '@weco/common/model/image';
-
-const contentTypes = [
-  'articles',
-  'books',
-  'event-series',
-  'events',
-  'exhibitions',
-  'guides',
-  'pages',
-  'projects',
-  'seasons',
-  'series',
-  'webcomics',
-  'guide-formats',
-  'exhibition-guides',
-  'stories-landing',
-] as const;
-
-export type ContentType = typeof contentTypes[number];
-
-const querySchemaTypes = [
-  'allEventss',
-  'allExhibitionss',
-  'allArticless',
-  'allSeriess',
-  'allWebcomicss',
-] as const;
-
-export type QuerySchemaType = typeof querySchemaTypes[number];
+import { ImageDimensions, ImageType } from '@weco/common/model/image';
 
 type BodyCopy = {
   [id: string]: {
@@ -106,4 +74,16 @@ export type PrismicApiError = {
   type: 'Error';
 };
 
-export type TransformedResponse = Story | Event | Exhibition;
+export type Story = {
+  type: 'articles';
+  id: string;
+  title: string;
+  image?: ImageType;
+  url: string;
+  firstPublicationDate: Date;
+  contributors: (string | undefined)[];
+  summary?: string;
+  label: {
+    text: string;
+  };
+};

@@ -21,10 +21,10 @@ import { pluralize } from '@weco/common/utils/grammar';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 
 // Types
-import { Story } from '@weco/catalogue/services/prismic/types/story';
 import {
   PrismicApiError,
   PrismicResultsList,
+  Story,
 } from '@weco/catalogue/services/prismic/types';
 import { Query } from '@weco/catalogue/types/search';
 
