@@ -87,10 +87,7 @@ describe('transformPrismicResponse', () => {
 
     const { edges } = samplePrismicResponse;
 
-    const transformResponse = await transformPrismicResponse(
-      ['articles'],
-      edges
-    );
+    const transformResponse = await transformPrismicResponse(edges);
 
     expect(transformResponse).toStrictEqual([
       {
@@ -135,8 +132,10 @@ describe('transformPrismicResponse', () => {
           },
           richCrops: undefined,
         },
-        label: { text: 'Article' },
-        type: ['articles'],
+        label: {
+          text: 'Article',
+        },
+        type: 'articles',
       },
     ]);
   });

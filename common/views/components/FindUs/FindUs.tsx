@@ -7,6 +7,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { createScreenreaderLabel } from '../../../utils/telephone-numbers';
+import PlainList from '../styled/PlainList';
 
 const PlainLink = styled.a.attrs({ className: 'plain-link' })`
   transition: color 200ms ease;
@@ -41,12 +42,17 @@ const FindUs: FunctionComponent = () => (
         info@wellcomecollection.org
       </a>
     </p>
-    <p>
-      <a href={`/pages/${prismicPageIds.gettingHere}`}>Getting here</a>
-    </p>
-    <p>
-      <a href={`/pages/${prismicPageIds.access}`}>Accessibility</a>
-    </p>
+    <PlainList>
+      <Space as="li" v={{ size: 's', properties: ['padding-bottom'] }}>
+        <a href={`/pages/${prismicPageIds.gettingHere}`}>Getting here</a>
+      </Space>
+      <Space
+        as="li"
+        v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+      >
+        <a href={`/pages/${prismicPageIds.access}`}>Accessibility</a>
+      </Space>
+    </PlainList>
   </>
 );
 

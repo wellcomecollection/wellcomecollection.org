@@ -1,5 +1,4 @@
-import { Story } from '../types/story';
-import { PrismicResultsList, PrismicApiError } from '../types';
+import { Story, PrismicResultsList, PrismicApiError } from '../types';
 import { Query } from '@weco/catalogue/types/search';
 import { prismicGraphQLClient, prismicApiError } from '.';
 import { transformPrismicResponse } from '../transformers';
@@ -87,12 +86,8 @@ export async function getStories({
   try {
     // Create a map of all cursors to their respective page number by pageSize
     // A cursor is a pointer to a node within the returned list of results from a graphql query
-    const fetchAllCursors = async (
-      type: string,
-      query: Query,
-      pageSize: number
-    ) => {
-      const results = await prismicGraphQLClient(type, query, 100);
+    const fetchAllCursors = async (query: Query, pageSize: number) => {
+      const results = await prismicGraphQLClient(query, 100);
       const { allArticless } = await results;
       const { edges } = allArticless;
       const getStoriesCursors = edges.map(edge => {
@@ -116,12 +111,8 @@ export async function getStories({
     };
 
     // Get the relevant cursor for the page number
-    const currentPageCursor = async (
-      type: string,
-      query: Query,
-      pageSize: number
-    ) => {
-      const allCursors = await fetchAllCursors('articles', query, pageSize);
+    const currentPageCursor = async (query: Query, pageSize: number) => {
+      const allCursors = await fetchAllCursors(query, pageSize);
       const currentPage = query.page ? query.page : 1;
 
       const getCurrentPageCursor = allCursors.find(
@@ -135,24 +126,16 @@ export async function getStories({
     // If the query contains a page number, it will query the prismicGraphQLClient function with the cursor
     // and get the next nth number of stories by pageSize
     const fetchStories = async (
-      // We use type here because we have a GraphQL query for each type, so we can use the type to determine which query to us
-      // Type is used on events and exhibitions too, when they are updated/refactored we can remove 'type' from all three
-      type: string,
       query: Query,
       pageSize: number,
       cursor?: string
     ): Promise<PrismicResultsList<Story> | PrismicApiError> => {
-      const res = await prismicGraphQLClient(
-        'articles',
-        query,
-        pageSize,
-        cursor
-      );
+      const res = await prismicGraphQLClient(query, pageSize, cursor);
 
       const { allArticless } = await res;
       const { edges } = allArticless;
 
-      const stories = await transformPrismicResponse(['articles'], edges);
+      const stories = await transformPrismicResponse(edges);
 
       return {
         type: 'ResultList',
@@ -168,10 +151,10 @@ export async function getStories({
     // To work with existing pagination component we paginate with query.page
     // If we have query.page, we will use current page number to get the relevant cursor
     if (query.page) {
-      const cursor = await currentPageCursor('articles', query, pageSize);
-      return fetchStories('articles', query, pageSize, cursor);
+      const cursor = await currentPageCursor(query, pageSize);
+      return fetchStories(query, pageSize, cursor);
     }
-    return fetchStories('articles', query, pageSize);
+    return fetchStories(query, pageSize);
   } catch (error) {
     console.log(error);
     return prismicApiError();
