@@ -51,7 +51,7 @@ export type Props = {
     naturalWidth: number;
     naturalHeight: number;
   }) => void;
-  layout: 'raw' | 'fill' | 'fixed';
+  layout: 'raw' | 'fixed';
   priority?: boolean;
   width?: number;
   background?: string;
@@ -86,42 +86,23 @@ const IIIFImage: FunctionComponent<Props> = ({
     );
   }
 
-  if (layout === 'fixed') {
-    return (
-      <StyledImageContainer
-        background={background}
-        style={{ height: image.height }} // to not have styledComponents generate too many classes
-      >
-        <StyledImage
-          src={image.contentUrl}
-          alt={image.alt || ''}
-          loader={IIIFLoader}
-          onLoadingComplete={onLoadingComplete}
-          width={image.width}
-          height={image.height}
-          priority={priority}
-          background="transparent"
-          sizes={sizesString}
-        />
-      </StyledImageContainer>
-    );
-  }
-
   return (
-    <StyledImage
-      src={image.contentUrl}
-      alt={image.alt || ''}
-      loader={IIIFLoader}
-      onLoadingComplete={onLoadingComplete}
-      priority={priority}
+    <StyledImageContainer
       background={background}
-      sizes={sizesString}
-      style={{
-        maxWidth: '100%',
-        height: 'auto',
-        objectFit: 'contain',
-      }}
-    />
+      style={{ height: image.height }} // to not have styledComponents generate too many classes
+    >
+      <StyledImage
+        src={image.contentUrl}
+        alt={image.alt || ''}
+        loader={IIIFLoader}
+        onLoadingComplete={onLoadingComplete}
+        width={image.width}
+        height={image.height}
+        priority={priority}
+        background="transparent"
+        sizes={sizesString}
+      />
+    </StyledImageContainer>
   );
 };
 
