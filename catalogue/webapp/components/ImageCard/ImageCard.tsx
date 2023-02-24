@@ -13,7 +13,7 @@ type Props = {
   id: string;
   workId: string;
   image: ImageType;
-  layout: 'raw' | 'fill' | 'fixed';
+  layout: 'raw' | 'fixed';
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
   background?: string;
 };
