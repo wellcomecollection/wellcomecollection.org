@@ -1,5 +1,4 @@
 import { PrismicResponse, Story, Contributor } from '../types';
-// import { articleIdToLabel } from '../fetch';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -35,9 +34,6 @@ export async function transformPrismicResponse(
       type,
       summary: image?.caption?.[0].text,
       format: format?.title?.[0].text || 'Article',
-      //  isArticle && format?._meta
-      // ? { text: articleIdToLabel(format._meta.id) }
-      // : { text: 'Article' },
     };
   });
 

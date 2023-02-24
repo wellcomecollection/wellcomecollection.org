@@ -1,22 +1,10 @@
 import * as prismic from '@prismicio/client';
 import { GraphQLClient } from 'graphql-request';
 import { PrismicApiError } from '../types';
-import { unCamelCase } from '@weco/common/utils/grammar';
-import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { Query } from '@weco/catalogue/types/search';
 import { getPrismicSortValue } from '@weco/common/utils/search';
 import { storiesQuery } from './articles';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
-
-export const articleIdToLabel = (id: string): string => {
-  const label = Object.keys(ArticleFormatIds).find(
-    key => ArticleFormatIds[key] === id
-  );
-  const formattedLabel = label ? unCamelCase(label) : 'Article';
-  // TODO: Essay seems to indicate articles that are part of a series
-  // More work to do here to make this label Serial with 'Part of' in the title
-  return formattedLabel === 'Essay' ? 'Article' : formattedLabel;
-};
 
 const client = createPrismicClient();
 

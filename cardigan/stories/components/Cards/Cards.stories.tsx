@@ -54,7 +54,7 @@ const FeaturedCardTemplate = args => {
       args={{
         id: 'id',
         image: image(),
-        labels: [{ text: 'Essay' }],
+        labels: [{ text: 'Article' }],
         link: { url: '#', text: 'Remote diagnosis from wee to the web' },
         background: args.background,
         textColor: args.textColor,
