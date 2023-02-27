@@ -180,7 +180,15 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
   const dialogWindowRef = useRef<HTMLDivElement>(null);
   const { isKeyboard } = useContext(AppContext);
 
+  function hasPersistentState() {
+    const cardiganHosts = ['localhost:9001', 'cardigan.wellcomecollection.org'];
+
+    return cardiganHosts.includes(window.location.host);
+  }
+
   function hidePopupDialog() {
+    if (hasPersistentState()) return;
+
     setCookie(cookies.popupDialog, 'true', {
       path: '/',
       expires: undefined,
@@ -190,7 +198,9 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
   }
 
   useEffect(() => {
-    setShouldRender(!hasCookie(cookies.popupDialog));
+    setShouldRender(
+      hasPersistentState() ? true : !hasCookie(cookies.popupDialog)
+    );
 
     const timer = setTimeout(() => {
       setShouldStartAnimation(true);
