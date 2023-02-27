@@ -134,15 +134,15 @@ const StoriesGrid: FunctionComponent<Props> = ({
 
                 {story.type && (
                   <MobileLabel>
-                    <LabelsList labels={[story.label]} />
+                    <LabelsList labels={[{ text: story.format }]} />
                   </MobileLabel>
                 )}
               </ImageWrapper>
             )}
             <Details isDetailed={isDetailed}>
-              {story.label && (
+              {story.format && (
                 <DesktopLabel>
-                  <LabelsList labels={[story.label]} />
+                  <LabelsList labels={[{ text: story.format }]} />
                 </DesktopLabel>
               )}
               <h3 className={font('wb', 4)}>{story.title}</h3>

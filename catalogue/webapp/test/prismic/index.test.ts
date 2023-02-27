@@ -132,9 +132,7 @@ describe('transformPrismicResponse', () => {
           },
           richCrops: undefined,
         },
-        label: {
-          text: 'Article',
-        },
+        format: 'Article',
         type: 'articles',
       },
     ]);
