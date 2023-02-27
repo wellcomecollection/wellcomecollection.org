@@ -160,7 +160,7 @@ export async function getStories({
     }
     return fetchStories(query, pageSize);
   } catch (error) {
-    console.log({ error });
+    console.log(error);
     return prismicApiError();
   }
 }
