@@ -151,6 +151,29 @@ export const getServerSideProps: GetServerSideProps<
       pageSize: 6,
     });
 
+  if (storyResponseList.type === 'Error') {
+    // Prismic returns Internal Server Errors without much details for certain queries, such as query=t:"PP.PRE.D.1.1"
+    // As this is a temporary search tool until we replace it with our own API, we'll just return No Result should it happen
+    return {
+      props: removeUndefinedProps({
+        ...defaultProps,
+        storyResponseList: {
+          type: 'ResultList',
+          totalResults: 0,
+          totalPages: 0,
+          results: [],
+          pageSize: 6,
+        },
+        pageview: {
+          name: 'stories',
+          properties: {
+            totalResults: 0,
+          },
+        },
+      }),
+    };
+  }
+
   return {
     props: removeUndefinedProps({
       ...defaultProps,
