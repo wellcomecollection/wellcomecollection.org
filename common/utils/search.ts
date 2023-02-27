@@ -126,6 +126,9 @@ export const hasFilters = ({
 };
 
 // ROUTING
+// TODO review if the removal of `source` is still necessary. At the time of writing, we couldn't find a working example
+// and are waiting to see if it's still needed after moving to NextLinks which remove it themselves.
+// https://wellcome.slack.com/archives/C3TQSF63C/p1677248039025289
 /**
  * Cleans up the URL for form submissions in order to avoid unwanted query parameters
  * @param {Record<string, string | string[] | number | undefined>} params - Form values
