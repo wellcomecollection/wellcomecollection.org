@@ -1,4 +1,3 @@
-import { ParsedUrlQuery } from 'querystring';
 import { useEffect, useContext } from 'react';
 import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
@@ -27,8 +26,7 @@ import {
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
-import { propsToQuery } from '@weco/common/utils/routes';
-import { hasFilters } from '@weco/common/utils/search';
+import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
@@ -70,26 +68,6 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
 
   const filters = imagesFilters({ images, props: imagesRouteProps });
 
-  const linkResolver = params => {
-    const queryWithSource = propsToQuery(params);
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    const { source = undefined, ...queryWithoutSource } = {
-      ...queryWithSource,
-    };
-
-    const as = {
-      pathname: '/search/images',
-      query: queryWithoutSource as ParsedUrlQuery,
-    };
-
-    const href = {
-      pathname: '/search/images',
-      query: queryWithSource,
-    };
-
-    return { href, as };
-  };
-
   const hasNoResults = images.totalResults === 0;
   const hasActiveFilters = hasFilters({
     filters: filters.map(f => f.id),
@@ -130,7 +108,9 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
           >
             <SearchFilters
               query={queryString}
-              linkResolver={linkResolver}
+              linkResolver={params =>
+                linkResolver({ params, pathname: '/search/images' })
+              }
               searchFormId="search-page-form"
               changeHandler={() => {
                 const form = document.getElementById('search-page-form');

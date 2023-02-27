@@ -1,4 +1,3 @@
-import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from 'next/router';
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -15,9 +14,9 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import {
   getUrlQueryFromSortValue,
   getQueryPropertyValue,
+  linkResolver,
 } from '@weco/common/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
-import { propsToQuery } from '@weco/common/utils/routes';
 
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`
@@ -158,26 +157,6 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
     events: 'Search for events',
   };
 
-  const linkResolver = params => {
-    const queryWithSource = propsToQuery(params);
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    const { source = undefined, ...queryWithoutSource } = {
-      ...queryWithSource,
-    };
-
-    const as = {
-      pathname: pageLayoutMetadata.url.pathname,
-      query: queryWithoutSource as ParsedUrlQuery,
-    };
-
-    const href = {
-      pathname: pageLayoutMetadata.url.pathname,
-      query: queryWithSource,
-    };
-
-    return { href, as };
-  };
-
   const updateUrl = (form: HTMLFormElement) => {
     const formValues = formDataAsUrlQuery(form);
 
@@ -187,11 +166,14 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
       : undefined;
 
     const link = linkResolver({
-      ...formValues,
-      ...(urlFormattedSort && {
-        sort: urlFormattedSort.sort,
-        sortOrder: urlFormattedSort.sortOrder,
-      }),
+      params: {
+        ...formValues,
+        ...(urlFormattedSort && {
+          sort: urlFormattedSort.sort,
+          sortOrder: urlFormattedSort.sortOrder,
+        }),
+      },
+      pathname: pageLayoutMetadata.url.pathname,
     });
 
     return router.push(link.href, link.as);
@@ -213,7 +195,6 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
             });
 
             updateUrl(event.currentTarget);
-            return false;
           }}
         >
           <h1 className="visually-hidden">
