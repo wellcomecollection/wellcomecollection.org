@@ -8,6 +8,9 @@ const StyledImage = styled(Image)<{ $desaturate: boolean }>`
   color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('neutral.700')};
   filter: ${props => (props.$desaturate ? 'saturate(0%)' : undefined)};
+  width: 100%;
+  height: auto;
+  margin-bottom: -7.7px;
 `;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
@@ -112,12 +115,12 @@ const PrismicImage: FunctionComponent<Props> = ({
     <StyledImage
       width={image.width}
       height={image.height}
-      layout="responsive"
-      sizes={imgSizes || sizesString}
       src={image.contentUrl}
       alt={image.alt || ''}
-      loader={createPrismicLoader(maxLoaderWidth, quality)}
       $desaturate={desaturate}
+      loader={createPrismicLoader(maxLoaderWidth, quality)}
+      sizes={imgSizes || sizesString}
+      style={{}}
     />
   );
 };

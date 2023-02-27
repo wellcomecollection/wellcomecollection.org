@@ -20,7 +20,8 @@
     "strictNullChecks": true,
     "downlevelIteration": true,
     "paths": {},
-    "noEmit": true
+    "noEmit": true,
+    "incremental": true
   },
   "exclude": [
     "node_modules",

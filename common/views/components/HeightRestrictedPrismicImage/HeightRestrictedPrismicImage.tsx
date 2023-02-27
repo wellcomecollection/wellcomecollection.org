@@ -81,11 +81,14 @@ const HeightRestrictedPrismicImage: FunctionComponent<Props> = ({
     <PrismicImage
       width={image.width}
       height={image.height}
-      layout="responsive"
-      sizes={`${vSizesString}, calc(100vw - 84px)`}
       src={image.contentUrl}
       alt={image.alt || ''}
       loader={createPrismicLoader(maxLoaderWidth, quality)}
+      sizes={`${vSizesString}, calc(100vw - 84px)`}
+      style={{
+        width: '100%',
+        height: 'auto',
+      }}
     />
   );
 };

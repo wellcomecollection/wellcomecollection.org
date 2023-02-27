@@ -16,6 +16,8 @@ import {
 const StyledImage = styled(Image)<{ background: string }>`
   background-color: ${props => props.background};
   color: ${props => props.theme.color('neutral.700')};
+  maxwidth: 100%;
+  height: auto;
 `;
 
 const StyledImageContainer = styled.div<{
@@ -49,7 +51,7 @@ export type Props = {
     naturalWidth: number;
     naturalHeight: number;
   }) => void;
-  layout: 'raw' | 'fill' | 'fixed';
+  layout: 'raw' | 'fixed';
   priority?: boolean;
   width?: number;
   background?: string;
@@ -84,40 +86,23 @@ const IIIFImage: FunctionComponent<Props> = ({
     );
   }
 
-  if (layout === 'fixed') {
-    return (
-      <StyledImageContainer
-        background={background}
-        style={{ height: image.height }} // to not have styledComponents generate too many classes
-      >
-        <StyledImage
-          layout={layout}
-          sizes={sizesString}
-          src={image.contentUrl}
-          alt={image.alt || ''}
-          loader={IIIFLoader}
-          onLoadingComplete={onLoadingComplete}
-          width={image.width}
-          height={image.height}
-          priority={priority}
-          background="transparent"
-        />
-      </StyledImageContainer>
-    );
-  }
-
   return (
-    <StyledImage
-      layout={layout}
-      sizes={sizesString}
-      src={image.contentUrl}
-      alt={image.alt || ''}
-      loader={IIIFLoader}
-      onLoadingComplete={onLoadingComplete}
-      objectFit="contain"
-      priority={priority}
+    <StyledImageContainer
       background={background}
-    />
+      style={{ height: image.height }} // to not have styledComponents generate too many classes
+    >
+      <StyledImage
+        src={image.contentUrl}
+        alt={image.alt || ''}
+        loader={IIIFLoader}
+        onLoadingComplete={onLoadingComplete}
+        width={image.width}
+        height={image.height}
+        priority={priority}
+        background="transparent"
+        sizes={sizesString}
+      />
+    </StyledImageContainer>
   );
 };
 

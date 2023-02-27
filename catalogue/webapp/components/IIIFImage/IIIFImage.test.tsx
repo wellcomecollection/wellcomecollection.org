@@ -12,14 +12,13 @@ describe('IIIFImage', () => {
 
   it('renders a IIIF image URL', () => {
     const component = mountWithTheme(
-      <IIIFImage image={props} priority={true} layout="fill" />
+      <IIIFImage image={props} priority={true} layout="fixed" />
     );
-
     expect(
       component
         .html()
         .includes(
-          'https://iiif.wellcomecollection.org/image/V0043039/full/3840%2C/0/default.jpg'
+          'https://iiif.wellcomecollection.org/image/V0043039/full/384%2C/0/default.jpg'
         )
     ).toBeTruthy();
   });

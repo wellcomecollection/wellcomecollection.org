@@ -141,12 +141,15 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
             <Image
               width={image.width}
               height={image.height}
-              layout="intrinsic"
               src={image.contentUrl}
               alt={image.alt || ''}
-              objectFit="contain"
               loader={createPrismicLoader(imageWidth, 'high')}
               onLoadingComplete={() => setIsLoaded(true)}
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+                objectFit: 'contain',
+              }}
             />
           </>
         )}

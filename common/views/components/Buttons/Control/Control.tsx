@@ -206,7 +206,7 @@ const BaseControl: FunctionComponent<Props> = (
     ariaExpanded,
     ariaPressed,
   }: Props,
-  ref: any
+  ref: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ) => {
   const attrs = {
     ariaControls,
@@ -239,6 +239,7 @@ const BaseControl: FunctionComponent<Props> = (
           replace={replace}
           prefetch={prefetch}
           passHref
+          legacyBehavior
         >
           <Wrapper as="a" ref={ref} {...attrs}>
             <InnerControl text={text} icon={icon} />

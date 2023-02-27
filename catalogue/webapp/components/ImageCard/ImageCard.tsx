@@ -13,7 +13,7 @@ type Props = {
   id: string;
   workId: string;
   image: ImageType;
-  layout: 'raw' | 'fill' | 'fixed';
+  layout: 'raw' | 'fixed';
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
   background?: string;
 };
@@ -34,7 +34,11 @@ const ImageCard: FunctionComponent<Props> = ({
   const { isEnhanced } = useContext(AppContext);
 
   return (
-    <NextLink {...imageLink({ id, workId }, 'images_search_result')} passHref>
+    <NextLink
+      {...imageLink({ id, workId }, 'images_search_result')}
+      passHref
+      legacyBehavior
+    >
       <StyledLink
         style={{ width: image.width }} // this is here to prevent the generation of multiple styles
         onClick={event => {

@@ -1,4 +1,3 @@
-const withTM = require('next-transpile-modules')(['@weco/common']);
 const apmConfig = require('@weco/common/services/apm/apmConfig');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const { getConfig } = require('./config');
@@ -30,7 +29,7 @@ const config = function () {
     },
   });
 
-  return withTM({
+  return {
     // We handle compression in the nginx sidecar
     // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
     compress: false,
@@ -41,8 +40,9 @@ const config = function () {
     basePath,
     publicRuntimeConfig: { apmConfig: apmConfig.client('identity-webapp') },
     serverRuntimeConfig: getConfig(),
+    transpilePackages: ['@weco/common'],
     ...withBundleAnalyzerConfig,
-  });
+  };
 };
 
 module.exports = config();

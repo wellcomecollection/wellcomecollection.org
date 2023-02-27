@@ -248,6 +248,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                       scroll={false}
                       replace
                       passHref
+                      legacyBehavior
                     >
                       <ThumbnailLink>
                         <IIIFCanvasThumbnail
