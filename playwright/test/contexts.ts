@@ -6,7 +6,14 @@ export const gotoWithoutCache = async (
   url: string,
   page: Page
 ): Promise<void> => {
-  const requestUrl = `${url}?cachebust=${Date.now()}`;
+  // Check if the URL already has query parameters before adding a cachebust.
+  // We could make this more robust (e.g. checking for fragments), but this is
+  // good enough for now.
+  const requestUrl =
+    url.indexOf('?') === -1
+      ? `${url}?cachebust=${Date.now()}`
+      : `${url}&cachebust=${Date.now()}`;
+
   /*
    * What's going on here?
    * @jamieparkinson 23/06/2022
