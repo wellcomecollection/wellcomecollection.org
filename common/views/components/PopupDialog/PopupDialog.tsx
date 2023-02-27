@@ -174,20 +174,21 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);
   const [shouldStartAnimation, setShouldStartAnimation] = useState(false);
+  const [hasPersistentState, setHasPersistentState] = useState(true);
   const openDialogRef = useRef<HTMLDivElement>(null);
   const closeDialogRef = useRef<HTMLButtonElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const dialogWindowRef = useRef<HTMLDivElement>(null);
   const { isKeyboard } = useContext(AppContext);
 
-  function hasPersistentState() {
+  useEffect(() => {
     const cardiganHosts = ['localhost:9001', 'cardigan.wellcomecollection.org'];
 
-    return cardiganHosts.includes(window.location.host);
-  }
+    setHasPersistentState(cardiganHosts.includes(window.location.host));
+  }, []);
 
   function hidePopupDialog() {
-    if (hasPersistentState()) return;
+    if (hasPersistentState) return;
 
     setCookie(cookies.popupDialog, 'true', {
       path: '/',
@@ -199,7 +200,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
 
   useEffect(() => {
     setShouldRender(
-      hasPersistentState() ? true : !hasCookie(cookies.popupDialog)
+      hasPersistentState ? true : !hasCookie(cookies.popupDialog)
     );
 
     const timer = setTimeout(() => {
@@ -209,7 +210,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [hasPersistentState]);
 
   useEffect(() => {
     isActiveRef.current = isActive;
