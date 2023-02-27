@@ -275,9 +275,8 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
     ? getFeaturedMedia(article)
     : undefined;
   const isComicFormat = article.format?.id === ArticleFormatIds.Comic;
-  const isImageGalleryFormat =
-    article.format?.id === ArticleFormatIds.ImageGallery;
-  const isImageGallery = isImageGalleryFormat || isComicFormat;
+  const isInPicturesFormat = article.format?.id === ArticleFormatIds.InPictures;
+  const isImageGallery = isInPicturesFormat || isComicFormat;
 
   const Header = (
     <PageHeader

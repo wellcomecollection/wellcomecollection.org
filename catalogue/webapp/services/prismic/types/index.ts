@@ -30,6 +30,10 @@ type Promo = {
 
 type Format = {
   __typename: string;
+  title: {
+    type: string;
+    text: string;
+  };
   _meta?: {
     id: string;
   };
@@ -82,8 +86,6 @@ export type Story = {
   url: string;
   firstPublicationDate: Date;
   contributors: (string | undefined)[];
+  format: string;
   summary?: string;
-  label: {
-    text: string;
-  };
 };
