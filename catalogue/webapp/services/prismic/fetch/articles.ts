@@ -130,22 +130,26 @@ export async function getStories({
       pageSize: number,
       cursor?: string
     ): Promise<PrismicResultsList<Story> | PrismicApiError> => {
-      const res = await prismicGraphQLClient(query, pageSize, cursor);
+      try {
+        const res = await prismicGraphQLClient(query, pageSize, cursor);
+        const { allArticless } = await res;
+        const { edges } = allArticless;
 
-      const { allArticless } = await res;
-      const { edges } = allArticless;
+        const stories = await transformPrismicResponse(edges);
 
-      const stories = await transformPrismicResponse(edges);
-
-      return {
-        type: 'ResultList',
-        totalResults: allArticless.totalCount,
-        totalPages: Math.ceil(allArticless.totalCount / pageSize),
-        results: stories,
-        pageSize: pageSize,
-        prevPage: null,
-        nextPage: null,
-      };
+        return {
+          type: 'ResultList',
+          totalResults: allArticless.totalCount,
+          totalPages: Math.ceil(allArticless.totalCount / pageSize),
+          results: stories,
+          pageSize: pageSize,
+          prevPage: null,
+          nextPage: null,
+        };
+      } catch (error) {
+        console.log(error.response.errors);
+        return prismicApiError();
+      }
     };
 
     // To work with existing pagination component we paginate with query.page
