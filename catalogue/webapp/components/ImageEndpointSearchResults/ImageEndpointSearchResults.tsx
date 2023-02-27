@@ -133,7 +133,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
-        <PlainList data-test-id="image-search-results-container" role="list">
+        <PlainList data-test-id="image-search-results-container">
           <GalleryContainer>
             <PhotoAlbum
               photos={imagesWithDimensions}
@@ -149,12 +149,9 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       )}
 
       {(!isFullSupportBrowser || isSmallGallery) && (
-        <ImageCardList
-          data-test-id="image-search-results-container"
-          role="list"
-        >
+        <ImageCardList data-test-id="image-search-results-container">
           {imagesWithDimensions.map((result: GalleryImageProps) => (
-            <li key={result.id} role="listitem">
+            <li key={result.id}>
               <Space
                 h={{ size: 'l', properties: ['margin-right'] }}
                 v={{ size: 'l', properties: ['margin-bottom'] }}

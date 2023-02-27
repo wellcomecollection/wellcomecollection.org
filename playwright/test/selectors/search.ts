@@ -19,4 +19,5 @@ export const formatFilterDropDownButton = 'button[aria-controls="workType"]';
 
 // result list
 
-export const searchResultsContainer = 'ul[role="list"]';
+export const searchResultsContainer =
+  '[data-test-id="image-search-results-container"]';
