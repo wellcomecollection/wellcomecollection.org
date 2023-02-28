@@ -34,11 +34,7 @@ import { StoriesLandingPrismicDocument } from '@weco/content/services/prismic/ty
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
-import { fetchSeries } from '@weco/content/services/prismic/fetch/series';
-import {
-  transformSeries,
-  transformSeriesToSeriesBasic,
-} from '@weco/content/services/prismic/transformers/series';
+import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/transformers/series';
 import { SeriesBasic } from '@weco/content/types/series';
 import * as prismic from '@prismicio/client';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -80,35 +76,49 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         : undefined,
     });
 
-    const storiesLandingPromise = fetchStoriesLanding(client);
-
-    const comicSeriesPromise = fetchSeries(client, {
+    const comicsQueryPromise = fetchArticles(client, {
+      pageSize: 100, // we need enough comics to make sure we have at least one from three different series
       predicates: prismic.predicate.at(
-        'my.series.format',
+        'my.articles.format',
         ArticleFormatIds.Comic
       ),
-      pageSize: 3,
-      orderings: {
-        field: 'document.first_publication_date',
-        direction: 'desc',
-      },
     });
 
-    const [articlesQuery, storiesLandingDoc, comicSeriesQuery] =
-      await Promise.all([
-        articlesQueryPromise,
-        storiesLandingPromise,
-        comicSeriesPromise,
-      ]);
+    const storiesLandingPromise = fetchStoriesLanding(client);
+
+    const [articlesQuery, storiesLandingDoc, comicsQuery] = await Promise.all([
+      articlesQueryPromise,
+      storiesLandingPromise,
+      comicsQueryPromise,
+    ]);
 
     const articles = transformQuery(articlesQuery, transformArticle);
+
+    // In order to avoid the case where we end up with an empty comic series,
+    // rather than querying for the series itself we query for the individual
+    // comics, then group them by series and stop once we've got to three. That
+    // way we can be confident each of the three series that we have contains at
+    // least one comic.
+    const comics = transformQuery(comicsQuery, transformArticle);
+    const comicSeriesIds = new Set();
+    const comicSeriesSet = new Set();
+
+    comics.results.forEach(item => {
+      const id = item.series[0].id;
+
+      if (comicSeriesSet.size === 3) return;
+
+      if (!comicSeriesIds.has(id)) {
+        comicSeriesIds.add(id);
+        comicSeriesSet.add(item.series[0]);
+      }
+    });
+
+    const comicSeries = Array.from(comicSeriesSet);
+    const basicComicSeries = comicSeries.map(transformSeriesToSeriesBasic);
+
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
-    const comicSeries = transformQuery(comicSeriesQuery, transformSeries);
-    const basicComicSeries = comicSeries.results.map(
-      transformSeriesToSeriesBasic
-    );
-
     const storiesLanding =
       storiesLandingDoc &&
       transformStoriesLanding(
