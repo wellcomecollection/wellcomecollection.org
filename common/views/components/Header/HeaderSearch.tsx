@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { classNames } from '@weco/common/utils/classnames';
@@ -31,13 +31,44 @@ const SearchBarWrapper = styled(Space).attrs({
 type Props = {
   isActive: boolean;
   handleCloseModal: () => void;
+  searchButtonRef: RefObject<HTMLButtonElement>;
 };
 
-const HeaderSearch = ({ isActive, handleCloseModal }: Props) => {
+const HeaderSearch = ({
+  isActive,
+  handleCloseModal,
+  searchButtonRef,
+}: Props) => {
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
   const [inputValue, setInputValue] = useState(routerQuery || '');
   const inputRef = useRef<HTMLInputElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleEscapeKey(event: KeyboardEvent) {
+      if (event.code === 'Escape') {
+        handleCloseModal();
+      }
+    }
+
+    function hideDropdownOnDocClick(event: MouseEvent) {
+      if (wrapperRef.current) {
+        if (
+          !searchButtonRef.current?.contains(event.target as HTMLDivElement)
+        ) {
+          handleCloseModal();
+        }
+      }
+    }
+
+    document.addEventListener('click', hideDropdownOnDocClick);
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+      document.removeEventListener('click', hideDropdownOnDocClick);
+    };
+  }, []);
 
   useEffect(() => {
     handleCloseModal();
@@ -50,17 +81,6 @@ const HeaderSearch = ({ isActive, handleCloseModal }: Props) => {
     }
   }, [isActive]);
 
-  useEffect(() => {
-    function handleEscapeKey(event: KeyboardEvent) {
-      if (event.code === 'Escape') {
-        handleCloseModal();
-      }
-    }
-
-    document.addEventListener('keydown', handleEscapeKey);
-    return () => document.removeEventListener('keydown', handleEscapeKey);
-  }, []);
-
   const updateUrl = (form: HTMLFormElement) => {
     const formValues = formDataAsUrlQuery(form);
     const link = linkResolver({ params: formValues, pathname: '/search' });
@@ -70,7 +90,10 @@ const HeaderSearch = ({ isActive, handleCloseModal }: Props) => {
 
   return (
     <Overlay isActive={isActive}>
-      <SearchBarWrapper onClick={e => e.stopPropagation()}>
+      <SearchBarWrapper
+        ref={isActive ? wrapperRef : undefined}
+        onClick={e => e.stopPropagation()}
+      >
         <form
           className="container"
           id="global-search-form"
