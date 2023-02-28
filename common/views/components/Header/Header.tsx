@@ -190,7 +190,7 @@ const Header: FunctionComponent<Props> = ({
 
         <HeaderSearch
           isActive={searchDropdownIsActive}
-          setIsActive={setSearchDropdownIsActive}
+          handleCloseModal={() => setSearchDropdownIsActive(false)}
         />
       </div>
     </FocusTrap>

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { classNames } from '@weco/common/utils/classnames';
@@ -30,37 +30,30 @@ const SearchBarWrapper = styled(Space).attrs({
 
 type Props = {
   isActive: boolean;
-  setIsActive: Dispatch<SetStateAction<boolean>>;
+  handleCloseModal: () => void;
 };
 
-const HeaderSearch = ({ isActive, setIsActive }: Props) => {
+const HeaderSearch = ({ isActive, handleCloseModal }: Props) => {
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
   const [inputValue, setInputValue] = useState(routerQuery || '');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleClick = () => setIsActive(false);
-
   useEffect(() => {
-    setIsActive(false);
+    handleCloseModal();
     setInputValue('');
   }, [router?.pathname, router?.query]);
 
   useEffect(() => {
     if (isActive) {
       inputRef?.current?.focus();
-
-      document.addEventListener('click', handleClick);
-      return () => {
-        document.removeEventListener('click', handleClick);
-      };
     }
   }, [isActive]);
 
   useEffect(() => {
     function handleEscapeKey(event: KeyboardEvent) {
       if (event.code === 'Escape') {
-        setIsActive(false);
+        handleCloseModal();
       }
     }
 
