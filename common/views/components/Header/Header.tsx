@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import FocusTrap from 'focus-trap-react';
 import NextLink from 'next/link';
 
@@ -87,6 +87,7 @@ const Header: FunctionComponent<Props> = ({
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
   const { globalSearchHeader } = useToggles();
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (document && document.documentElement) {
@@ -177,6 +178,7 @@ const Header: FunctionComponent<Props> = ({
                             currentState => !currentState
                           );
                         }}
+                        ref={searchButtonRef}
                       />
                     </NextLink>
                   )}
@@ -190,7 +192,8 @@ const Header: FunctionComponent<Props> = ({
 
         <HeaderSearch
           isActive={searchDropdownIsActive}
-          setIsActive={setSearchDropdownIsActive}
+          handleCloseModal={() => setSearchDropdownIsActive(false)}
+          searchButtonRef={searchButtonRef}
         />
       </div>
     </FocusTrap>
