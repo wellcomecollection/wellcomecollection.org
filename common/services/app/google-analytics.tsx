@@ -23,6 +23,8 @@ type Props = {
   };
 };
 
+const togglesGaCanIgnore = ['stagingApi', 'apiToolbar', 'disableRequesting'];
+
 export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
   const partOf = data.gaDimensions?.partOf?.length
     ? data.gaDimensions.partOf.join(',')
@@ -31,10 +33,12 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
   // We send toggles as an event parameter to GA4 so we can determine the condition in which a particular event took place.
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en,
   // so instead of sending the whole toggles JSON blob we send a concatenated string of only the toggles that are turned on. We also remove toggles we know we don't care about.
-  const togglesToIgnore = ['stagingApi', 'apiToolbar', 'disableRequesting'];
+
   const toggles = Object.keys(data.toggles)
     .filter(toggle => {
-      return Boolean(data.toggles[toggle]) && !togglesToIgnore.includes(toggle);
+      return (
+        Boolean(data.toggles[toggle]) && !togglesGaCanIgnore.includes(toggle)
+      );
     })
     .join(',');
 
