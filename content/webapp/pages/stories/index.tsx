@@ -35,7 +35,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/transformers/series';
-import { SeriesBasic } from '@weco/content/types/series';
+import { Series, SeriesBasic } from '@weco/content/types/series';
 import * as prismic from '@prismicio/client';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
@@ -100,21 +100,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // way we can be confident each of the three series that we have contains at
     // least one comic.
     const comics = transformQuery(comicsQuery, transformArticle);
-    const comicSeriesIds = new Set();
-    const comicSeriesSet = new Set();
 
-    comics.results.forEach(item => {
-      const id = item.series[0].id;
+    const comicSeriesIds = [
+      ...new Set(comics.results.map(item => item.series[0].id)),
+    ].slice(0, 3); // Set limits to unique values, of which we want the first three
 
-      if (comicSeriesSet.size === 3) return;
+    const comicSeries = comicSeriesIds.map(
+      id => comics.results.find(item => item.series[0].id === id)?.series[0]
+    ) as Series[];
 
-      if (!comicSeriesIds.has(id)) {
-        comicSeriesIds.add(id);
-        comicSeriesSet.add(item.series[0]);
-      }
-    });
-
-    const comicSeries = Array.from(comicSeriesSet);
     const basicComicSeries = comicSeries.map(transformSeriesToSeriesBasic);
 
     const jsonLd = articles.results.map(articleLd);
