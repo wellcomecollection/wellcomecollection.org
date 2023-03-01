@@ -4,6 +4,8 @@ import { TogglesResp } from '.';
 import { getTogglesObject, putTogglesObject } from './s3-utils';
 import localToggles, { PublishedToggle, ToggleDefinition } from './toggles';
 
+const togglesGaCanIgnore = ['stagingApi', 'apiToolbar', 'disableRequesting'];
+
 export const withDefaultValuesUnmodified = (
   publishedToggles: PublishedToggle[],
   definitions: ToggleDefinition[]
@@ -60,6 +62,26 @@ export async function deploy(client: S3Client): Promise<void> {
     toggles: togglesToDeploy,
     tests: localToggles.tests,
   };
+
+  // N.B. we send toggles as an event parameter to GA4 so we can determine the condition in which a particular event took place.
+  // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en,
+  // so instead of sending the whole toggles JSON blob we send a string of comma separated toggle ids,
+  // for toggles we care about that have a value of true. See /common/services/app/google-analytics.tsx.
+  // We throw an error here if this string could exceed 100 characters, i.e. if all toggle values were true.
+  // This is a bit of a hack, limiting the amount of toggles due to GA constraints.
+  // If it turns into a problem we may need to revisit, but I'm hoping this is a practical solution.
+  const toggleString = togglesToDeploy
+    .filter(toggle => !togglesGaCanIgnore.includes(toggle.id))
+    .map(toggle => toggle.id)
+    .join(',');
+
+  if (toggleString.length > 100) {
+    throw new Error(
+      `The combined toggle ids have too many characters to be sent to Google Analytics.\n
+      The maximum is 100 characters, we could potentially send ${toggleString.length} at present.\n
+      Check if any toggles are no longer required and can be removed and/or shorten the new id.\n`
+    );
+  }
 
   const { $metadata: putObjectResponseMetadata } = await putTogglesObject(
     client,
