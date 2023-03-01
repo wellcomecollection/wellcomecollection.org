@@ -92,9 +92,9 @@ const createConfig =
     return nextConfig;
   };
 
+// TODO: check the build output without this function whenever next has an update
 /**
- * this will only be neccessary until the default config is updated OR the config validator is updated
- * https://github.com/vercel/next.js/blob/canary/packages/next/src/server/config-shared.ts#L569
+ * this will only be neccessary until the default config is updated OR the config validator is updated.
  * how I check this? I don't know besides doing it manually
  */
 const cleanInvalidValues = defaultConfig => {
