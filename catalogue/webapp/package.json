@@ -33,7 +33,7 @@
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "lodash.clonedeep": "^4.5.0",
-    "next": "^13.1.6",
+    "next": "^13.2.3",
     "nodemon": "^1.17.5",
     "react": "^18.2.0",
     "react-photo-album": "^2.0.0",
