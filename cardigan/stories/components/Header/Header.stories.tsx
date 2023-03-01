@@ -14,5 +14,6 @@ export const exhibitionGuides = Template.bind({});
 exhibitionGuides.args = {
   customNavLinks: exhibitionGuidesLinks,
   showLibraryLogin: false,
+  showHeaderSearch: false,
 };
 exhibitionGuides.storyName = 'Exhibition guides';
