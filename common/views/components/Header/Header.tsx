@@ -36,6 +36,7 @@ type Props = {
   siteSection: string | null;
   customNavLinks?: NavLink[];
   showLibraryLogin?: boolean;
+  showHeaderSearch?: boolean;
 };
 
 export const links: NavLink[] = [
@@ -82,7 +83,9 @@ export const exhibitionGuidesLinks: NavLink[] = [
 const Header: FunctionComponent<Props> = ({
   siteSection,
   customNavLinks,
+  // We don't display login and search on certain pages, e.g. exhibition guides
   showLibraryLogin = true,
+  showHeaderSearch = true,
 }) => {
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
@@ -129,7 +132,9 @@ const Header: FunctionComponent<Props> = ({
                   <span />
                 </BurgerTrigger>
               </Burger>
-              <HeaderBrand isSearchToggleActive={globalSearchHeader}>
+              <HeaderBrand
+                isSearchToggleActive={globalSearchHeader && showHeaderSearch}
+              >
                 <a href="/">
                   <WellcomeCollectionBlack />
                 </a>
@@ -159,7 +164,7 @@ const Header: FunctionComponent<Props> = ({
                 </HeaderNav>
 
                 <HeaderActions>
-                  {globalSearchHeader && (
+                  {globalSearchHeader && showHeaderSearch && (
                     <NextLink href="/search" passHref>
                       <SearchButton
                         text={
@@ -189,12 +194,13 @@ const Header: FunctionComponent<Props> = ({
             </Container>
           </GridCell>
         </Wrapper>
-
-        <HeaderSearch
-          isActive={searchDropdownIsActive}
-          handleCloseModal={() => setSearchDropdownIsActive(false)}
-          searchButtonRef={searchButtonRef}
-        />
+        {showHeaderSearch && (
+          <HeaderSearch
+            isActive={searchDropdownIsActive}
+            handleCloseModal={() => setSearchDropdownIsActive(false)}
+            searchButtonRef={searchButtonRef}
+          />
+        )}
       </div>
     </FocusTrap>
   );
