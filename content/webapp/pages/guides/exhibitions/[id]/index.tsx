@@ -112,6 +112,7 @@ const ExhibitionGuidePage: FC<Props> = ({
       headerProps={{
         customNavLinks: exhibitionGuidesLinks,
         showLibraryLogin: false,
+        showHeaderSearch: false,
       }}
       apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       hideNewsletterPromo={true}

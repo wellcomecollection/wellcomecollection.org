@@ -197,6 +197,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
       headerProps={{
         customNavLinks: exhibitionGuidesLinks,
         showLibraryLogin: false,
+        showHeaderSearch: false,
       }}
       hideNewsletterPromo={true}
       hideFooter={true}
