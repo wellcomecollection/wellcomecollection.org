@@ -36,7 +36,7 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
     .filter(toggle => {
       return Boolean(data.toggles[toggle]) && !togglesToIgnore.includes(toggle);
     })
-    .join('');
+    .join(',');
 
   return (
     <script
