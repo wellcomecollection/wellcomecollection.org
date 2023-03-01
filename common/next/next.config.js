@@ -14,6 +14,9 @@ const defaultConfigOptions = {
 const createConfig =
   (options = defaultConfigOptions) =>
   (phase, { defaultConfig }) => {
+    /** it would appear that defaultConfig includes some invalid property types, so this will remove them */
+    const validDefaultConfig = cleanInvalidValues(defaultConfig);
+
     const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
     const buildHash = process.env.BUILD_HASH || 'test';
     const isProd = process.env.NODE_ENV === 'production';
@@ -23,7 +26,7 @@ const createConfig =
     const rewriteEntries = options.rewriteEntries || [];
 
     const nextConfig = withMDX({
-      ...defaultConfig,
+      ...validDefaultConfig,
       // We handle compression in the nginx sidecar
       // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
       compress: false,
@@ -75,11 +78,43 @@ const createConfig =
         return config;
       },
       eslint: {
+        ...validDefaultConfig.eslint,
         ignoreDuringBuilds: !options.lintBuilds,
       },
       transpilePackages: ['@weco/common'],
+      experimental: {
+        ...validDefaultConfig.experimental,
+        mdxRs: true,
+        outputFileTracingRoot: path.join(__dirname, '../../'),
+      },
+      reactStrictMode: true,
     });
     return nextConfig;
   };
+
+/**
+ * this will only be neccessary until the default config is updated OR the config validator is updated
+ * https://github.com/vercel/next.js/blob/canary/packages/next/src/server/config-shared.ts#L569
+ * how I check this? I don't know besides doing it manually
+ */
+const cleanInvalidValues = defaultConfig => {
+  const config = { ...defaultConfig };
+
+  const invalidProperties = [
+    'webpackDevMiddleware',
+    'configOrigin',
+    'target',
+    'assetPrefix',
+    'i18n',
+  ];
+  for (let index = 0; index < invalidProperties.length; index++) {
+    const property = invalidProperties[index];
+    delete config[property];
+  }
+
+  config.amp.canonicalBase = '.';
+
+  return config;
+};
 
 module.exports = { createConfig };
