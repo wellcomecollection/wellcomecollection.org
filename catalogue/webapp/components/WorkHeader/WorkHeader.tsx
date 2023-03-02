@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import { font, grid } from '@weco/common/utils/classnames';
 import {
@@ -14,6 +14,8 @@ import styled from 'styled-components';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 
 const WorkHeaderContainer = styled.div`
   display: flex;
@@ -31,6 +33,7 @@ type Props = {
 };
 
 const WorkHeader: FunctionComponent<Props> = ({ work }) => {
+  const isArchive = useContext(IsArchiveContext);
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
@@ -42,78 +45,98 @@ const WorkHeader: FunctionComponent<Props> = ({ work }) => {
   )?.agent.label;
 
   return (
-    <WorkHeaderContainer>
-      <Space
-        v={{
-          size: 'm',
-          properties: ['margin-bottom'],
-        }}
-        className={grid({ s: 12, m: 12, l: 10, xl: 10 })}
-      >
-        <SpacingComponent>
-          <WorkTitleWrapper
-            aria-live="polite"
-            id="work-info"
-            // We only send a lang if it's unambiguous -- better to send
-            // no language than the wrong one.
-            lang={
-              work?.languages?.length === 1 ? work?.languages[0]?.id : undefined
-            }
-          >
-            <WorkTitle title={work.title} />
-          </WorkTitleWrapper>
+    <>
+      <WorkHeaderContainer>
+        <Space
+          v={{
+            size: 'm',
+            properties: ['margin-bottom'],
+          }}
+          className={grid({ s: 12, m: 12, l: 10, xl: 10 })}
+        >
+          <SpacingComponent>
+            <WorkTitleWrapper
+              aria-live="polite"
+              id="work-info"
+              // We only send a lang if it's unambiguous -- better to send
+              // no language than the wrong one.
+              lang={
+                work?.languages?.length === 1
+                  ? work?.languages[0]?.id
+                  : undefined
+              }
+            >
+              <WorkTitle title={work.title} />
+            </WorkTitleWrapper>
 
-          {primaryContributorLabel && (
-            <Space h={{ size: 'm', properties: ['margin-right'] }}>
-              <LinkLabels items={[{ text: primaryContributorLabel }]} />
+            {primaryContributorLabel && (
+              <Space h={{ size: 'm', properties: ['margin-right'] }}>
+                <LinkLabels items={[{ text: primaryContributorLabel }]} />
+              </Space>
+            )}
+
+            {productionDates.length > 0 && (
+              <LinkLabels
+                heading="Date"
+                items={[{ text: productionDates[0] }]}
+              />
+            )}
+
+            {work.referenceNumber && (
+              <LinkLabels
+                heading="Reference"
+                items={[{ text: work.referenceNumber }]}
+              />
+            )}
+
+            {archiveLabels?.partOf && (
+              <LinkLabels
+                heading="Part of"
+                items={[{ text: archiveLabels.partOf }]}
+              />
+            )}
+
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-top'],
+              }}
+            >
+              <LabelsList
+                labels={cardLabels}
+                defaultLabelColor="warmNeutral.300"
+              />
             </Space>
-          )}
 
-          {productionDates.length > 0 && (
-            <LinkLabels heading="Date" items={[{ text: productionDates[0] }]} />
-          )}
-
-          {work.referenceNumber && (
-            <LinkLabels
-              heading="Reference"
-              items={[{ text: work.referenceNumber }]}
-            />
-          )}
-
-          {archiveLabels?.partOf && (
-            <LinkLabels
-              heading="Part of"
-              items={[{ text: archiveLabels.partOf }]}
-            />
-          )}
-
+            {collectionManifestsCount > 0 && (
+              <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                <p className={`${font('intb', 5)} no-margin`}>
+                  <Number
+                    backgroundColor="yellow"
+                    number={collectionManifestsCount}
+                  />
+                  {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
+                  online
+                </p>
+              </Space>
+            )}
+          </SpacingComponent>
+        </Space>
+      </WorkHeaderContainer>
+      {!isArchive && (
+        <WorkHeaderContainer>
           <Space
             v={{
               size: 'm',
-              properties: ['margin-top'],
+              properties: ['margin-bottom'],
             }}
+            className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
           >
-            <LabelsList
-              labels={cardLabels}
-              defaultLabelColor="warmNeutral.300"
-            />
+            <Divider lineColor="neutral.400" />
           </Space>
-
-          {collectionManifestsCount > 0 && (
-            <Space v={{ size: 'm', properties: ['margin-top'] }}>
-              <p className={`${font('intb', 5)} no-margin`}>
-                <Number
-                  backgroundColor="yellow"
-                  number={collectionManifestsCount}
-                />
-                {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
-                online
-              </p>
-            </Space>
-          )}
-        </SpacingComponent>
-      </Space>
-    </WorkHeaderContainer>
+        </WorkHeaderContainer>
+      )}
+    </>
   );
 };
 export default WorkHeader;
