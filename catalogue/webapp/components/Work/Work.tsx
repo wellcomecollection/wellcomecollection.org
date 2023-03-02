@@ -185,13 +185,10 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
               <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 <SearchTabs
                   query={searchLink.as.query?.query?.toString() || ''}
-                  sort={searchLink.as.query?.sort?.toString()}
-                  sortOrder={searchLink.as.query?.sortOrder?.toString()}
                   worksFilters={[]}
                   imagesFilters={[]}
                   shouldShowDescription={false}
                   shouldShowFilters={false}
-                  showSortBy={false}
                 />
               </Space>
             </div>

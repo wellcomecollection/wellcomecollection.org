@@ -2,7 +2,6 @@ import {
   useRef,
   useState,
   useEffect,
-  useContext,
   ReactElement,
   forwardRef,
   useImperativeHandle,
@@ -15,16 +14,12 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import SearchFilters from '@weco/common/views/components/SearchFilters';
-import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
-import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { searchFormInputCatalogue } from '@weco/common/text/aria-labels';
 import { LinkProps } from '@weco/common/model/link-props';
 import { Filter } from '@weco/common/services/catalogue/filters';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
-import SortByPortal from './SearchForm.SortByPortal';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -49,47 +44,26 @@ const SearchButtonWrapper = styled.div`
   }
 `;
 
-const SearchSortOrderWrapper = styled(Space).attrs({
-  h: { size: 'm', properties: ['margin-right'] },
-})`
-  color: ${props => props.theme.color('black')};
-`;
-
 type Props = {
   query: string;
-  sort?: string;
-  sortOrder?: string;
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
   ariaDescribedBy: string;
   isImageSearch: boolean;
   shouldShowFilters: boolean;
-  showSortBy: boolean;
   filters: Filter[];
 };
 
 const SearchForm = forwardRef(
   (
-    {
-      query,
-      sort,
-      sortOrder,
-      linkResolver,
-      ariaDescribedBy,
-      isImageSearch,
-      shouldShowFilters,
-      showSortBy,
-      filters,
-    }: Props,
+    { query, linkResolver, ariaDescribedBy, shouldShowFilters, filters }: Props,
     ref
   ): ReactElement<Props> => {
-    const { isEnhanced } = useContext(AppContext);
     const searchForm = useRef<HTMLFormElement>(null);
     // This is the query used by the input, that is then eventually passed to the
     // Router
     const [inputQuery, setInputQuery] = useState(query);
     const searchInput = useRef<HTMLInputElement>(null);
     const [forceState, setForceState] = useState(false);
-    const [portalSortOrder, setPortalSortOrder] = useState(sortOrder);
 
     function submit() {
       // As of React 17, we need to make the event bubble to ensure the onSubmit of the form gets called
@@ -128,27 +102,11 @@ const SearchForm = forwardRef(
       }
     }, [query]);
 
-    useEffect(() => {
-      if (portalSortOrder !== sortOrder) {
-        submit();
-      }
-    }, [portalSortOrder]);
-
     function updateUrl(form: HTMLFormElement) {
       const urlQuery = formDataAsUrlQuery(form);
 
-      // TODO: remove sortOrder
-      // We do this as the JS form uses a portal, due to the control being
-      // outside of the for to obtain this value.
-      const sort =
-        portalSortOrder === 'asc' || portalSortOrder === 'desc'
-          ? 'production.dates'
-          : undefined;
-
       const link = linkResolver({
         ...urlQuery,
-        sortOrder: portalSortOrder,
-        sort,
       });
 
       return Router.push(link.href, link.as);
@@ -212,51 +170,6 @@ const SearchForm = forwardRef(
             filters={filters}
           />
         )}
-        {!isImageSearch && isEnhanced && (
-          <SortByPortal id="sort-select-portal">
-            <SearchSortOrderWrapper>
-              <Select
-                name="portalSortOrder"
-                label="Sort by:"
-                value={portalSortOrder || ''}
-                options={[
-                  { value: '', text: 'Relevance' },
-                  { value: 'asc', text: 'Oldest to newest' },
-                  { value: 'desc', text: 'Newest to oldest' },
-                ]}
-                onChange={event => {
-                  setPortalSortOrder(event.currentTarget.value);
-                }}
-              />
-            </SearchSortOrderWrapper>
-          </SortByPortal>
-        )}
-        <noscript>
-          {!isImageSearch && showSortBy && (
-            <>
-              <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                <SelectUncontrolled
-                  name="sort"
-                  label="Sort by"
-                  defaultValue={sort || ''}
-                  options={[
-                    { value: '', text: 'Relevance' },
-                    { value: 'production.dates', text: 'Production dates' },
-                  ]}
-                />
-              </Space>
-              <SelectUncontrolled
-                name="sortOrder"
-                label="Sort order"
-                defaultValue={sortOrder || ''}
-                options={[
-                  { value: 'asc', text: 'Ascending' },
-                  { value: 'desc', text: 'Descending' },
-                ]}
-              />
-            </>
-          )}
-        </noscript>
       </form>
     );
   }

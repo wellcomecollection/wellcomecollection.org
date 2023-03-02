@@ -59,24 +59,18 @@ const TabPanel = styled(Space)`
 
 type Props = {
   query: string;
-  sort?: string;
-  sortOrder?: string;
   shouldShowDescription: boolean;
   activeTabIndex?: number;
   shouldShowFilters: boolean;
-  showSortBy: boolean;
   worksFilters: Filter[];
   imagesFilters: Filter[];
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
   query,
-  sort,
-  sortOrder,
   shouldShowDescription,
   activeTabIndex,
   shouldShowFilters,
-  showSortBy,
   worksFilters,
   imagesFilters,
 }: Props): ReactElement<Props> => {
@@ -143,8 +137,6 @@ const SearchTabs: FunctionComponent<Props> = ({
           <SearchForm
             ref={searchWorksFormRef}
             query={query}
-            sort={sort}
-            sortOrder={sortOrder}
             linkResolver={params => {
               const queryWithSource = propsToQuery(params);
               /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -167,7 +159,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             ariaDescribedBy="library-catalogue-form-description"
             isImageSearch={false}
             shouldShowFilters={shouldShowFilters}
-            showSortBy={showSortBy}
             filters={worksFilters}
           />
         </TabPanel>
@@ -231,8 +222,6 @@ const SearchTabs: FunctionComponent<Props> = ({
           <SearchForm
             ref={searchImagesFormRef}
             query={query}
-            sort={undefined}
-            sortOrder={undefined}
             linkResolver={params => {
               const queryWithSource = propsToQuery(params);
               /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -255,7 +244,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             ariaDescribedBy="images-form-description"
             isImageSearch={true}
             shouldShowFilters={shouldShowFilters}
-            showSortBy={showSortBy}
             filters={imagesFilters}
           />
         </TabPanel>
