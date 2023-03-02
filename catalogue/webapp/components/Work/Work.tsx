@@ -185,7 +185,6 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
               <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 <SearchTabs
                   query={searchLink.as.query?.query?.toString() || ''}
-                  shouldShowDescription={false}
                 />
               </Space>
             </div>

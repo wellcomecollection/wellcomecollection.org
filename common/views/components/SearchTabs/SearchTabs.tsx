@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 import BaseTabs, { TabType } from './SearchTabs.BaseTabs';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import { useContext, FunctionComponent, ReactElement, useRef } from 'react';
@@ -58,13 +58,11 @@ const TabPanel = styled(Space)`
 
 type Props = {
   query: string;
-  shouldShowDescription: boolean;
   activeTabIndex?: number;
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
   query,
-  shouldShowDescription,
   activeTabIndex,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
@@ -117,10 +115,7 @@ const SearchTabs: FunctionComponent<Props> = ({
           <Space
             v={{ size: 'm', properties: ['padding-top'] }}
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            className={classNames({
-              'visually-hidden': !shouldShowDescription,
-              [font('intr', 5)]: true,
-            })}
+            className="visually-hidden"
             id="library-catalogue-form-description"
           >
             Find thousands of books, manuscripts, visual materials and
@@ -200,10 +195,7 @@ const SearchTabs: FunctionComponent<Props> = ({
           <Space
             v={{ size: 'm', properties: ['padding-top'] }}
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            className={classNames({
-              'visually-hidden': !shouldShowDescription,
-              [font('intr', 5)]: true,
-            })}
+            className="visually-hidden"
             id="images-form-description"
           >
             Search for free, downloadable images taken from our library and

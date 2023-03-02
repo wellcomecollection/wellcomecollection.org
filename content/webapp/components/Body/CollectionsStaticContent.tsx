@@ -10,7 +10,7 @@ const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
     <>
       <Layout12>
         <SpacingSection>
-          <SearchTabs query={query} shouldShowDescription={false} />
+          <SearchTabs query={query} />
         </SpacingSection>
       </Layout12>
     </>
