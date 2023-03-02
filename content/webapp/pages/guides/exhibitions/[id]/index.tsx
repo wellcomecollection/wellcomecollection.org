@@ -111,7 +111,7 @@ const ExhibitionGuidePage: FC<Props> = ({
       image={exhibitionGuide.image}
       headerProps={{
         customNavLinks: exhibitionGuidesLinks,
-        showLibraryLogin: false,
+        isMinimalHeader: true,
       }}
       apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       hideNewsletterPromo={true}
