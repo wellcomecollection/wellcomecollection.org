@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent } from 'react';
+import { Fragment, FunctionComponent, useState, useEffect } from 'react';
 
 // Helpers/Utils
 import { isNotUndefined } from '../../../utils/array';
@@ -60,7 +60,11 @@ const TogglesMessage: FunctionComponent = () => {
   // useToggles() because we don't have access to the server data context
   // here -- we can't use getServerSideProps on an error page.
   // See https://nextjs.org/docs/messages/404-get-initial-props
-  const toggles = dangerouslyGetEnabledToggles(getCookies());
+  const [toggles, setToggles] = useState<string[]>([]);
+
+  useEffect(() => {
+    setToggles(dangerouslyGetEnabledToggles(getCookies()));
+  }, []);
 
   return toggles.length > 0 ? (
     <Layout8>
