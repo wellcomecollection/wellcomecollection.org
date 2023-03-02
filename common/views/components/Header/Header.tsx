@@ -34,7 +34,7 @@ export type NavLink = {
 type Props = {
   siteSection: string | null;
   customNavLinks?: NavLink[];
-  showLibraryLogin?: boolean;
+  isMinimalHeader?: boolean;
 };
 
 export const links: NavLink[] = [
@@ -81,7 +81,8 @@ export const exhibitionGuidesLinks: NavLink[] = [
 const Header: FunctionComponent<Props> = ({
   siteSection,
   customNavLinks,
-  showLibraryLogin = true,
+  // We don't display login and search on certain pages, e.g. exhibition guides
+  isMinimalHeader = false,
 }) => {
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
@@ -127,7 +128,7 @@ const Header: FunctionComponent<Props> = ({
                   <span />
                 </BurgerTrigger>
               </Burger>
-              <HeaderBrand>
+              <HeaderBrand isMinimalHeader={isMinimalHeader}>
                 <a href="/">
                   <WellcomeCollectionBlack />
                 </a>
@@ -153,42 +154,47 @@ const Header: FunctionComponent<Props> = ({
                       </HeaderItem>
                     ))}
                   </HeaderList>
-                  {showLibraryLogin && <MobileSignIn />}
+                  {!isMinimalHeader && <MobileSignIn />}
                 </HeaderNav>
 
                 <HeaderActions>
-                  <NextLink href="/search" passHref>
-                    <SearchButton
-                      text={
-                        <Icon icon={searchDropdownIsActive ? cross : search} />
-                      }
-                      aria-label={
-                        searchDropdownIsActive
-                          ? 'Close search bar'
-                          : 'Open search bar'
-                      }
-                      onClick={event => {
-                        event.preventDefault(); // Prevents routing if JS is enabled to use the dropdown instead
-                        setSearchDropdownIsActive(
-                          currentState => !currentState
-                        );
-                      }}
-                      ref={searchButtonRef}
-                    />
-                  </NextLink>
+                  {!isMinimalHeader && (
+                    <NextLink href="/search" passHref>
+                      <SearchButton
+                        text={
+                          <Icon
+                            icon={searchDropdownIsActive ? cross : search}
+                          />
+                        }
+                        aria-label={
+                          searchDropdownIsActive
+                            ? 'Close search bar'
+                            : 'Open search bar'
+                        }
+                        onClick={event => {
+                          event.preventDefault(); // Prevents routing if JS is enabled to use the dropdown instead
+                          setSearchDropdownIsActive(
+                            currentState => !currentState
+                          );
+                        }}
+                        ref={searchButtonRef}
+                      />
+                    </NextLink>
+                  )}
 
-                  {showLibraryLogin && <DesktopSignIn />}
+                  {!isMinimalHeader && <DesktopSignIn />}
                 </HeaderActions>
               </NavLoginWrapper>
             </Container>
           </GridCell>
         </Wrapper>
-
-        <HeaderSearch
-          isActive={searchDropdownIsActive}
-          handleCloseModal={() => setSearchDropdownIsActive(false)}
-          searchButtonRef={searchButtonRef}
-        />
+        {!isMinimalHeader && (
+          <HeaderSearch
+            isActive={searchDropdownIsActive}
+            handleCloseModal={() => setSearchDropdownIsActive(false)}
+            searchButtonRef={searchButtonRef}
+          />
+        )}
       </div>
     </FocusTrap>
   );

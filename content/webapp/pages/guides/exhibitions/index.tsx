@@ -76,7 +76,7 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       image={image}
       headerProps={{
         customNavLinks: exhibitionGuidesLinks,
-        showLibraryLogin: false,
+        isMinimalHeader: true,
       }}
       hideNewsletterPromo={true}
       hideFooter={true}
