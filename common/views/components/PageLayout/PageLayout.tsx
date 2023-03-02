@@ -38,7 +38,7 @@ export type SiteSection =
 
 type HeaderProps = {
   customNavLinks: NavLink[];
-  showLibraryLogin?: boolean;
+  isMinimalHeader?: boolean;
 };
 
 type SkipToContentLink = {

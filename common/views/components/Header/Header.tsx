@@ -24,7 +24,6 @@ import {
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
-import { useToggles } from '@weco/common/server-data/Context';
 
 export type NavLink = {
   href: string;
@@ -35,7 +34,7 @@ export type NavLink = {
 type Props = {
   siteSection: string | null;
   customNavLinks?: NavLink[];
-  showLibraryLogin?: boolean;
+  isMinimalHeader?: boolean;
 };
 
 export const links: NavLink[] = [
@@ -82,11 +81,11 @@ export const exhibitionGuidesLinks: NavLink[] = [
 const Header: FunctionComponent<Props> = ({
   siteSection,
   customNavLinks,
-  showLibraryLogin = true,
+  // We don't display login and search on certain pages, e.g. exhibition guides
+  isMinimalHeader = false,
 }) => {
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
-  const { globalSearchHeader } = useToggles();
   const searchButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -129,7 +128,7 @@ const Header: FunctionComponent<Props> = ({
                   <span />
                 </BurgerTrigger>
               </Burger>
-              <HeaderBrand isSearchToggleActive={globalSearchHeader}>
+              <HeaderBrand isMinimalHeader={isMinimalHeader}>
                 <a href="/">
                   <WellcomeCollectionBlack />
                 </a>
@@ -155,11 +154,11 @@ const Header: FunctionComponent<Props> = ({
                       </HeaderItem>
                     ))}
                   </HeaderList>
-                  {showLibraryLogin && <MobileSignIn />}
+                  {!isMinimalHeader && <MobileSignIn />}
                 </HeaderNav>
 
                 <HeaderActions>
-                  {globalSearchHeader && (
+                  {!isMinimalHeader && (
                     <NextLink href="/search" passHref>
                       <SearchButton
                         text={
@@ -183,18 +182,19 @@ const Header: FunctionComponent<Props> = ({
                     </NextLink>
                   )}
 
-                  {showLibraryLogin && <DesktopSignIn />}
+                  {!isMinimalHeader && <DesktopSignIn />}
                 </HeaderActions>
               </NavLoginWrapper>
             </Container>
           </GridCell>
         </Wrapper>
-
-        <HeaderSearch
-          isActive={searchDropdownIsActive}
-          handleCloseModal={() => setSearchDropdownIsActive(false)}
-          searchButtonRef={searchButtonRef}
-        />
+        {!isMinimalHeader && (
+          <HeaderSearch
+            isActive={searchDropdownIsActive}
+            handleCloseModal={() => setSearchDropdownIsActive(false)}
+            searchButtonRef={searchButtonRef}
+          />
+        )}
       </div>
     </FocusTrap>
   );

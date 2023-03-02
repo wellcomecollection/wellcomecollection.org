@@ -58,12 +58,6 @@ const toggles = {
       description: 'Include events and exhibitions on the new search page',
     },
     {
-      id: 'globalSearchHeader',
-      title: 'Global search in header',
-      initialValue: false,
-      description: 'Add global search in the header',
-    },
-    {
       id: 'worksTabbedNav',
       title: 'Works page: Tabbed navigation',
       initialValue: false,
