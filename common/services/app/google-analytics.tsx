@@ -33,25 +33,29 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
   // We send toggles as an event parameter to GA4 so we can determine the condition in which a particular event took place.
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en,
   // so instead of sending the whole toggles JSON blob we send a concatenated string of only the toggles that are turned on. We also remove toggles we know we don't care about.
-
-  const toggles = Object.keys(data.toggles)
-    .filter(toggle => {
-      return (
-        Boolean(data.toggles[toggle]) && !togglesGaCanIgnore.includes(toggle)
-      );
-    })
-    .join(',');
-
+  const toggles = data?.toggles
+    ? Object.keys(data.toggles)
+        .filter(toggle => {
+          return (
+            Boolean(data.toggles[toggle]) &&
+            !togglesGaCanIgnore.includes(toggle)
+          );
+        })
+        .join(',')
+    : null;
   return (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
+    (toggles || partOf) && (
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-          'toggles': '${toggles}',
-          ${partOf ? `'partOf': '${partOf}'` : ''}});`,
-      }}
-    />
+          ${toggles ? `'toggles': '${toggles}',` : ''}
+          ${partOf ? `'partOf': '${partOf}'` : ''}});
+        `,
+        }}
+      />
+    )
   );
 };
 
