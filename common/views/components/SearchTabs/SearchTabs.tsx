@@ -10,7 +10,6 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
-import { Filter } from '../../../services/catalogue/filters';
 import { propsToQuery } from '../../../utils/routes';
 
 type TabProps = {
@@ -61,18 +60,12 @@ type Props = {
   query: string;
   shouldShowDescription: boolean;
   activeTabIndex?: number;
-  shouldShowFilters: boolean;
-  worksFilters: Filter[];
-  imagesFilters: Filter[];
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
   query,
   shouldShowDescription,
   activeTabIndex,
-  shouldShowFilters,
-  worksFilters,
-  imagesFilters,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const searchImagesFormRef = useRef<HTMLFormElement>();
@@ -158,8 +151,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             }}
             ariaDescribedBy="library-catalogue-form-description"
             isImageSearch={false}
-            shouldShowFilters={shouldShowFilters}
-            filters={worksFilters}
           />
         </TabPanel>
       ),
@@ -243,8 +234,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             }}
             ariaDescribedBy="images-form-description"
             isImageSearch={true}
-            shouldShowFilters={shouldShowFilters}
-            filters={imagesFilters}
           />
         </TabPanel>
       ),
