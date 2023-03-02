@@ -13,12 +13,10 @@ import { ParsedUrlQuery } from 'querystring';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import SearchFilters from '@weco/common/views/components/SearchFilters';
 import Space from '@weco/common/views/components/styled/Space';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { searchFormInputCatalogue } from '@weco/common/text/aria-labels';
 import { LinkProps } from '@weco/common/model/link-props';
-import { Filter } from '@weco/common/services/catalogue/filters';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 
 const Wrapper = styled(Space).attrs({
@@ -49,13 +47,11 @@ type Props = {
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
   ariaDescribedBy: string;
   isImageSearch: boolean;
-  shouldShowFilters: boolean;
-  filters: Filter[];
 };
 
 const SearchForm = forwardRef(
   (
-    { query, linkResolver, ariaDescribedBy, shouldShowFilters, filters }: Props,
+    { query, linkResolver, ariaDescribedBy }: Props,
     ref
   ): ReactElement<Props> => {
     const searchForm = useRef<HTMLFormElement>(null);
@@ -162,14 +158,6 @@ const SearchForm = forwardRef(
             <ButtonSolid text="Search" />
           </SearchButtonWrapper>
         </Wrapper>
-        {shouldShowFilters && (
-          <SearchFilters
-            query={query}
-            linkResolver={linkResolver}
-            changeHandler={submit}
-            filters={filters}
-          />
-        )}
       </form>
     );
   }
