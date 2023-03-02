@@ -24,7 +24,6 @@ import {
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
-import { useToggles } from '@weco/common/server-data/Context';
 
 export type NavLink = {
   href: string;
@@ -87,7 +86,6 @@ const Header: FunctionComponent<Props> = ({
 }) => {
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
-  const { globalSearchHeader } = useToggles();
   const searchButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -130,9 +128,7 @@ const Header: FunctionComponent<Props> = ({
                   <span />
                 </BurgerTrigger>
               </Burger>
-              <HeaderBrand
-                isSearchToggleActive={globalSearchHeader && !isMinimalHeader}
-              >
+              <HeaderBrand isMinimalHeader={isMinimalHeader}>
                 <a href="/">
                   <WellcomeCollectionBlack />
                 </a>
@@ -162,7 +158,7 @@ const Header: FunctionComponent<Props> = ({
                 </HeaderNav>
 
                 <HeaderActions>
-                  {globalSearchHeader && !isMinimalHeader && (
+                  {!isMinimalHeader && (
                     <NextLink href="/search" passHref>
                       <SearchButton
                         text={
