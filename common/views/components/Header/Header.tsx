@@ -35,8 +35,7 @@ export type NavLink = {
 type Props = {
   siteSection: string | null;
   customNavLinks?: NavLink[];
-  showLibraryLogin?: boolean;
-  showHeaderSearch?: boolean;
+  isMinimalHeader?: boolean;
 };
 
 export const links: NavLink[] = [
@@ -84,8 +83,7 @@ const Header: FunctionComponent<Props> = ({
   siteSection,
   customNavLinks,
   // We don't display login and search on certain pages, e.g. exhibition guides
-  showLibraryLogin = true,
-  showHeaderSearch = true,
+  isMinimalHeader = false,
 }) => {
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
@@ -133,7 +131,7 @@ const Header: FunctionComponent<Props> = ({
                 </BurgerTrigger>
               </Burger>
               <HeaderBrand
-                isSearchToggleActive={globalSearchHeader && showHeaderSearch}
+                isSearchToggleActive={globalSearchHeader && !isMinimalHeader}
               >
                 <a href="/">
                   <WellcomeCollectionBlack />
@@ -160,11 +158,11 @@ const Header: FunctionComponent<Props> = ({
                       </HeaderItem>
                     ))}
                   </HeaderList>
-                  {showLibraryLogin && <MobileSignIn />}
+                  {!isMinimalHeader && <MobileSignIn />}
                 </HeaderNav>
 
                 <HeaderActions>
-                  {globalSearchHeader && showHeaderSearch && (
+                  {globalSearchHeader && !isMinimalHeader && (
                     <NextLink href="/search" passHref>
                       <SearchButton
                         text={
@@ -188,13 +186,13 @@ const Header: FunctionComponent<Props> = ({
                     </NextLink>
                   )}
 
-                  {showLibraryLogin && <DesktopSignIn />}
+                  {!isMinimalHeader && <DesktopSignIn />}
                 </HeaderActions>
               </NavLoginWrapper>
             </Container>
           </GridCell>
         </Wrapper>
-        {showHeaderSearch && (
+        {!isMinimalHeader && (
           <HeaderSearch
             isActive={searchDropdownIsActive}
             handleCloseModal={() => setSearchDropdownIsActive(false)}
