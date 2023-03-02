@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { newWorksSearch } from './contexts';
-import { searchFor, worksSearchForm } from './new-works-search.test';
+import { searchFor, worksSearchForm } from './search-works.test';
 
 test('stays focussed on the query input when submitted', async ({
   context,

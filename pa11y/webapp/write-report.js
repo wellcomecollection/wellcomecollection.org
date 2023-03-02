@@ -23,8 +23,6 @@ const urls = [
   '/stories',
   '/articles/WyjHUicAACvGnmJI',
   '/articles/W8ivQRAAAJFijw1h',
-  '/works',
-  '/works?query=health',
   '/works/cjwep3ze?query=health&page=1',
   '/works/e7vav3ss/items?page=1&canvas=1&sierraId=b28136615&langCode=eng',
   '/works/d2mach47',
