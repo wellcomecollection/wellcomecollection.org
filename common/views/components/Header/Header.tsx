@@ -12,6 +12,8 @@ import { font } from '@weco/common/utils/classnames';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
 import { search, cross } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import {
   Wrapper,
   GridCell,
@@ -30,8 +32,6 @@ import {
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-
 export type NavLink = {
   href: string;
   title: string;
@@ -169,7 +169,19 @@ const Header: FunctionComponent<Props> = ({
 
                 <HeaderActions>
                   {!isMinimalHeader && (
-                    <NextLink href="/search" passHref>
+                    <ConditionalWrapper
+                      condition={!isEnhanced}
+                      wrapper={children => (
+                        <noscript>
+                          <NextLink href="/search" passHref>
+                            {children}
+                            <span className="visually-hidden">
+                              Search our stories, images and catalogue
+                            </span>
+                          </NextLink>
+                        </noscript>
+                      )}
+                    >
                       <SearchButton
                         text={
                           <Icon
@@ -189,7 +201,7 @@ const Header: FunctionComponent<Props> = ({
                         }}
                         ref={searchButtonRef}
                       />
-                    </NextLink>
+                    </ConditionalWrapper>
                   )}
 
                   {!isMinimalHeader && <DesktopSignIn />}
