@@ -26,6 +26,7 @@ import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import cookies from '@weco/common/data/cookies';
 import { isNotUndefined } from '@weco/common/utils/array';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 export type SiteSection =
   | 'collections'
@@ -333,7 +334,12 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             <NewsletterPromo />
           </Space>
         )}
-        {!hideFooter && <Footer venues={venues} />}
+        <ConditionalWrapper
+          condition={Boolean(hideFooter)}
+          wrapper={children => <noscript>{children}</noscript>}
+        >
+          <Footer venues={venues} />
+        </ConditionalWrapper>
       </div>
     </>
   );
