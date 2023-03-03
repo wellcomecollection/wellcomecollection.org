@@ -123,6 +123,8 @@ const Header: FunctionComponent<Props> = ({
               <Burger>
                 <BurgerTrigger
                   burgerMenuisActive={burgerMenuIsActive}
+                  // We only add the link to the footer nav when javascript is not available
+                  // The footer nav is always available in that scenario, but not necessarily when javascript is enabled
                   href={isEnhanced ? '/' : '#footer-nav-1'}
                   id="header-burger-trigger"
                   aria-label="menu"

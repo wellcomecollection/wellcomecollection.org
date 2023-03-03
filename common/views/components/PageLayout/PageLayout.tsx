@@ -334,6 +334,11 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             <NewsletterPromo />
           </Space>
         )}
+        {/* The no javascript version of the burger menu relies on the footer being present on the page,
+        as we then use an anchor link to take people to the navigation links in the footer.
+        Instead of completely removing the footer when we don't want it, we wrap it in a noscript tag,
+        so teh degraded experience still works.
+        */}
         <ConditionalWrapper
           condition={Boolean(hideFooter)}
           wrapper={children => <noscript>{children}</noscript>}
