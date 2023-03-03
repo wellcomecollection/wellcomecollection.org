@@ -1,4 +1,10 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import {
+  FunctionComponent,
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+} from 'react';
 import FocusTrap from 'focus-trap-react';
 import NextLink from 'next/link';
 
@@ -24,6 +30,7 @@ import {
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 export type NavLink = {
   href: string;
@@ -87,6 +94,7 @@ const Header: FunctionComponent<Props> = ({
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
+  const { isEnhanced } = useContext(AppContext);
 
   useEffect(() => {
     if (document && document.documentElement) {
@@ -115,7 +123,9 @@ const Header: FunctionComponent<Props> = ({
               <Burger>
                 <BurgerTrigger
                   burgerMenuisActive={burgerMenuIsActive}
-                  href="#footer-nav-1"
+                  // We only add the link to the footer nav when javascript is not available
+                  // The footer nav is always available in that scenario, but not necessarily when javascript is enabled
+                  href={isEnhanced ? '/' : '#footer-nav-1'}
                   id="header-burger-trigger"
                   aria-label="menu"
                   onClick={event => {
