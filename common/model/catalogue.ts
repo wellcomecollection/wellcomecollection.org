@@ -319,7 +319,7 @@ export type CatalogueAggregationNoId = {
   type: 'Aggregation';
 };
 
-export type WorkAggregations = {
+type WorkAggregations = {
   workType: CatalogueAggregation;
   availabilities: CatalogueAggregation;
   languages?: CatalogueAggregation;
@@ -329,7 +329,7 @@ export type WorkAggregations = {
   type: 'Aggregations';
 };
 
-export type ImageAggregations = {
+type ImageAggregations = {
   license?: CatalogueAggregation;
   'source.genres.label'?: CatalogueAggregation;
   'source.subjects.label'?: CatalogueAggregation;
