@@ -17,7 +17,6 @@ const DynamicFilterArray = ({
   showMoreFiltersModal,
   setShowMoreFiltersModal,
   wrapperRef,
-  isNewStyle,
   changeHandler,
   searchFormId,
   filters,
@@ -56,7 +55,6 @@ const DynamicFilterArray = ({
             {...(!showMoreFiltersModal && { form: searchFormId })}
             f={f}
             changeHandler={changeHandler}
-            isNewStyle={isNewStyle}
           />
         )}
 
@@ -65,7 +63,6 @@ const DynamicFilterArray = ({
             {...(!showMoreFiltersModal && { form: searchFormId })}
             f={f}
             changeHandler={changeHandler}
-            isNewStyle={isNewStyle}
             hasNoOptions={hasNoResults && !(f.from.value || f.to.value)}
           />
         )}
@@ -76,7 +73,6 @@ const DynamicFilterArray = ({
             name={f.id}
             color={f.color}
             onChangeColor={changeHandler}
-            isNewStyle={isNewStyle}
             hasNoOptions={hasNoResults && !f.color}
           />
         )}
@@ -109,7 +105,7 @@ const DynamicFilterArray = ({
   }, []);
 
   useLayoutEffect(() => {
-    if (isNewStyle && !hasCalculatedFilters) {
+    if (!hasCalculatedFilters) {
       const arrOfDropdownButtonNodes =
         document.querySelectorAll('[data-is-filter]');
 

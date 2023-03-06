@@ -152,7 +152,6 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 }}
                 filters={filters}
                 hasNoResults={hasNoResults}
-                isNewStyle
               />
             </Space>
 

@@ -124,7 +124,6 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               }}
               filters={filters}
               hasNoResults={hasNoResults}
-              isNewStyle
             />
           </Space>
         </div>

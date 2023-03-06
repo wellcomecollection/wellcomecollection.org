@@ -5,7 +5,6 @@ import PaletteColorPicker, {
 
 type DesktopColorFilterProps = PaletteColorPickerProps & {
   hasNoOptions?: boolean;
-  isNewStyle?: boolean;
 };
 const DesktopColorFilter = ({
   name,
@@ -13,11 +12,10 @@ const DesktopColorFilter = ({
   onChangeColor,
   form,
   hasNoOptions,
-  isNewStyle,
 }: DesktopColorFilterProps) => {
   return (
     <DropdownButton
-      isPill={isNewStyle}
+      isPill
       isFilter
       label="Colours"
       buttonType="inline"
