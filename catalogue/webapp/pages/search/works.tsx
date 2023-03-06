@@ -34,7 +34,7 @@ import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
-import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
+import { CatalogueResultsList, Work } from '@weco/catalogue/services/catalogue/types';
 import { Query } from '@weco/catalogue/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 

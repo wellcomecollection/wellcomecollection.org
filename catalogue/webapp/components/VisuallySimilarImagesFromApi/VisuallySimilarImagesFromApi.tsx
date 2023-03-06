@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { Image as ImageType } from '@weco/common/model/catalogue';
+import { Image as ImageType } from '@weco/catalogue/services/catalogue/types';
 import { getImage } from '@weco/catalogue/services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';

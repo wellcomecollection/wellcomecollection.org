@@ -30,7 +30,7 @@ import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
-import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
+import { CatalogueResultsList, Image } from '@weco/catalogue/services/catalogue/types';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Query } from '@weco/catalogue/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';

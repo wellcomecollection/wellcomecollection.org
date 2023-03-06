@@ -24,13 +24,13 @@ import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpoint
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 // Types
+import { IdentifierType } from '@weco/common/model/catalogue';
 import {
   CatalogueResultsList,
   Concept as ConceptType,
-  IdentifierType,
   Image as ImageType,
   Work as WorkType,
-} from '@weco/common/model/catalogue';
+} from '@weco/catalogue/services/catalogue/types';
 
 // Styles
 import Space from '@weco/common/views/components/styled/Space';

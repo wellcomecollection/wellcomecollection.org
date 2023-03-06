@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { Work } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import { font, grid } from '@weco/common/utils/classnames';
 import {
   getProductionDates,

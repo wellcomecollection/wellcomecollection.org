@@ -2,7 +2,7 @@ import {
   CatalogueApiError,
   CatalogueResultsList,
   Concept,
-} from '@weco/common/model/catalogue';
+} from '@weco/catalogue/services/catalogue/types';
 import { CatalogueConceptsApiProps } from '@weco/common/services/catalogue/api';
 import { Toggles } from '@weco/toggles';
 import {

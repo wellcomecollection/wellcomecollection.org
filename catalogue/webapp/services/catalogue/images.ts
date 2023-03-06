@@ -2,7 +2,7 @@ import {
   CatalogueApiError,
   CatalogueResultsList,
   Image,
-} from '@weco/common/model/catalogue';
+} from '@weco/catalogue/services/catalogue/types';
 import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/api';
 import {
   rootUris,

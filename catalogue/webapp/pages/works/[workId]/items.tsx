@@ -3,8 +3,8 @@ import { GetServerSideProps, NextPage } from 'next';
 import {
   DigitalLocation,
   isDigitalLocation,
-  Work,
 } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
@@ -435,7 +435,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       iiifPresentationLocation &&
       (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
 
-    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+    const transformedManifest: TransformedManifest | undefined =
+      iiifManifest && transformManifest(iiifManifest);
 
     const { isCollectionManifest, manifests } = { ...transformedManifest };
     // If the manifest is actually a Collection, .i.e. a manifest of manifests,

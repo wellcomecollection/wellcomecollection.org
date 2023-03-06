@@ -2,7 +2,8 @@ import { useEffect, useState, useRef, FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { getItemsByLocationType } from '../../utils/works';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
-import { DigitalLocation, Work } from '@weco/common/model/catalogue';
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import styled from 'styled-components';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 

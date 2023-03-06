@@ -4,7 +4,7 @@ import {
   CatalogueResultsList,
   ItemsList,
   Work,
-} from '@weco/common/model/catalogue';
+} from '@weco/catalogue/services/catalogue/types';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
 import {
   catalogueApiError,

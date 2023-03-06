@@ -1,4 +1,7 @@
-import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
+import {
+  CatalogueResultsList,
+  Image,
+} from '@weco/catalogue/services/catalogue/types';
 
 const aggregations: CatalogueResultsList<Image> = {
   type: 'ResultList',
