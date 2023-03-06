@@ -55,7 +55,7 @@ const toggles = {
       id: 'searchPageEventsExhibitions',
       title: 'Search page: Events & Exhibitions',
       initialValue: false,
-      description: 'Include events and exhibitions on the new search page',
+      description: 'Include events and exhibitions on the search page',
     },
     {
       id: 'worksTabbedNav',

@@ -53,7 +53,7 @@ const subNavigationContainer = 'div[data-test-id="sub-nav-tab-container"]';
 const catalogueSectionSelector = `${subNavigationContainer} div[data-test-id="works"]`;
 const searchNoResults = 'p[data-test-id="search-no-results"]';
 
-test.describe('New Search Page interactions', () => {
+test.describe('Search page interactions', () => {
   test('the query (but not the filters) are maintained when switching through tabs', async ({
     page,
   }) => {

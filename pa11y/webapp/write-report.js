@@ -43,7 +43,7 @@ const urls = [
   '/guides/exhibitions/YzwsAREAAHylrxau/captions-and-transcripts',
   '/guides/exhibitions/YzwsAREAAHylrxau/bsl',
 
-  // These are the new search pages
+  // Search pages, overview + with one of each
   '/search?query=human',
   '/search/stories?query=human',
   '/search/images?query=human',
