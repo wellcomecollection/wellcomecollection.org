@@ -101,11 +101,18 @@ const PhysicalItems: FunctionComponent<Props> = ({
         if (items.type !== 'Error') {
           setPhysicalItems(getItemsWithPhysicalLocation(items.results));
           setItemsState('up-to-date');
+        } else {
+          // If we come down this branch, we'll never update the loading state
+          // on the items.
+          //
+          // We should reconsider thee behaviour here, e.g. providing an error
+          // message or asking the user to reload the page; in the meantime at
+          // least log so we know what's up.
+          //
+          // tell the user something about not being able to retrieve the status of the item(s)
+          // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
+          console.warn(`Unable to get up-to-date status of items: ${items}`);
         }
-        // else {
-        // tell the user something about not being able to retrieve the status of the item(s)
-        // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
-        // }
       };
 
       if (itemsState === 'stale') {
