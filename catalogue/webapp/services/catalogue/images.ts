@@ -1,9 +1,9 @@
 import {
   CatalogueApiError,
+  CatalogueImagesApiProps,
   CatalogueResultsList,
   Image,
-} from '@weco/catalogue/services/catalogue/types';
-import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/api';
+} from './types';
 import {
   rootUris,
   globalApiOptions,

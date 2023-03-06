@@ -2,10 +2,10 @@ import {
   CatalogueApiError,
   CatalogueApiRedirect,
   CatalogueResultsList,
+  CatalogueWorksApiProps,
   ItemsList,
   Work,
-} from '@weco/catalogue/services/catalogue/types';
-import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
+} from './types';
 import {
   catalogueApiError,
   globalApiOptions,

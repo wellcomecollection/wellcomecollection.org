@@ -1,9 +1,9 @@
 import {
   CatalogueApiError,
+  CatalogueConceptsApiProps,
   CatalogueResultsList,
   Concept,
-} from '@weco/catalogue/services/catalogue/types';
-import { CatalogueConceptsApiProps } from '@weco/common/services/catalogue/api';
+} from './types';
 import { Toggles } from '@weco/toggles';
 import {
   catalogueApiError,
