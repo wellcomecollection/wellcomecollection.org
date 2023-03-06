@@ -5,12 +5,9 @@ import { fetchExhibitionRelatedContent } from '@weco/content/services/prismic/fe
 import { transformExhibitionRelatedContent } from '@weco/content/services/prismic/transformers/exhibitions';
 import superjson from 'superjson';
 
-type NotFound = { notFound: true };
-type UserError = { description: string };
-
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<string | NotFound | UserError>
+  res: NextApiResponse
 ): Promise<void> => {
   const { params } = req.query;
 
@@ -24,7 +21,7 @@ export default async (
 
   if (parsedParams.length === 0) {
     return res.status(200).json(
-      superjson.stringify({
+      superjson.serialize({
         exhibitionOfs: [],
         exhibitionAbouts: [],
       })
@@ -35,7 +32,7 @@ export default async (
 
   if (query) {
     const exhibitions = transformExhibitionRelatedContent(query);
-    return res.status(200).json(superjson.stringify(exhibitions));
+    return res.status(200).json(superjson.serialize(exhibitions));
   }
 
   return res.status(404).json({ notFound: true });

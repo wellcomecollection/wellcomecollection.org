@@ -6,11 +6,9 @@ import { transformEventBasic } from '@weco/content/services/prismic/transformers
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import superjson from 'superjson';
 
-type NotFound = { notFound: true };
-
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<string | NotFound>
+  res: NextApiResponse
 ): Promise<void> => {
   const { params } = req.query;
 
@@ -26,6 +24,6 @@ export default async (
 
   if (query) {
     const events = transformQuery(query, transformEventBasic);
-    return res.status(200).json(superjson.stringify(events));
+    return res.status(200).json(superjson.serialize(events));
   }
 };
