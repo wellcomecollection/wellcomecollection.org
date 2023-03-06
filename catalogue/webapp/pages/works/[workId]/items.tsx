@@ -435,8 +435,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       iiifPresentationLocation &&
       (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
 
-    const transformedManifest: TransformedManifest | undefined =
-      iiifManifest && transformManifest(iiifManifest);
+    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
     const { isCollectionManifest, manifests } = { ...transformedManifest };
     // If the manifest is actually a Collection, .i.e. a manifest of manifests,
