@@ -96,6 +96,7 @@ const createConfig =
 /**
  * this will only be neccessary until the default config is updated OR the config validator is updated.
  * how I check this? I don't know besides doing it manually
+ * https://github.com/cyrilwanner/next-compose-plugins/issues/59
  */
 const cleanInvalidValues = defaultConfig => {
   const config = { ...defaultConfig };
@@ -111,8 +112,8 @@ const cleanInvalidValues = defaultConfig => {
     const property = invalidProperties[index];
     delete config[property];
   }
-
-  config.amp.canonicalBase = '.';
+  delete config.amp.canonicalBase;
+  delete config.experimental.outputFileTracingRoot;
 
   return config;
 };
