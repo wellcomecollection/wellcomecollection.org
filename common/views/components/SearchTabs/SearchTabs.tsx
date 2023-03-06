@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 import BaseTabs, { TabType } from './SearchTabs.BaseTabs';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import { useContext, FunctionComponent, ReactElement, useRef } from 'react';
@@ -10,7 +10,6 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import NextLink from 'next/link';
 import { removeEmptyProps } from '../../../utils/json';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
-import { Filter } from '../../../services/catalogue/filters';
 import { propsToQuery } from '../../../utils/routes';
 
 type TabProps = {
@@ -59,26 +58,12 @@ const TabPanel = styled(Space)`
 
 type Props = {
   query: string;
-  sort?: string;
-  sortOrder?: string;
-  shouldShowDescription: boolean;
   activeTabIndex?: number;
-  shouldShowFilters: boolean;
-  showSortBy: boolean;
-  worksFilters: Filter[];
-  imagesFilters: Filter[];
 };
 
 const SearchTabs: FunctionComponent<Props> = ({
   query,
-  sort,
-  sortOrder,
-  shouldShowDescription,
   activeTabIndex,
-  shouldShowFilters,
-  showSortBy,
-  worksFilters,
-  imagesFilters,
 }: Props): ReactElement<Props> => {
   const { isKeyboard, isEnhanced } = useContext(AppContext);
   const searchImagesFormRef = useRef<HTMLFormElement>();
@@ -130,10 +115,7 @@ const SearchTabs: FunctionComponent<Props> = ({
           <Space
             v={{ size: 'm', properties: ['padding-top'] }}
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            className={classNames({
-              'visually-hidden': !shouldShowDescription,
-              [font('intr', 5)]: true,
-            })}
+            className="visually-hidden"
             id="library-catalogue-form-description"
           >
             Find thousands of books, manuscripts, visual materials and
@@ -143,8 +125,6 @@ const SearchTabs: FunctionComponent<Props> = ({
           <SearchForm
             ref={searchWorksFormRef}
             query={query}
-            sort={sort}
-            sortOrder={sortOrder}
             linkResolver={params => {
               const queryWithSource = propsToQuery(params);
               /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -166,9 +146,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             }}
             ariaDescribedBy="library-catalogue-form-description"
             isImageSearch={false}
-            shouldShowFilters={shouldShowFilters}
-            showSortBy={showSortBy}
-            filters={worksFilters}
           />
         </TabPanel>
       ),
@@ -218,10 +195,7 @@ const SearchTabs: FunctionComponent<Props> = ({
           <Space
             v={{ size: 'm', properties: ['padding-top'] }}
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            className={classNames({
-              'visually-hidden': !shouldShowDescription,
-              [font('intr', 5)]: true,
-            })}
+            className="visually-hidden"
             id="images-form-description"
           >
             Search for free, downloadable images taken from our library and
@@ -231,8 +205,6 @@ const SearchTabs: FunctionComponent<Props> = ({
           <SearchForm
             ref={searchImagesFormRef}
             query={query}
-            sort={undefined}
-            sortOrder={undefined}
             linkResolver={params => {
               const queryWithSource = propsToQuery(params);
               /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -254,9 +226,6 @@ const SearchTabs: FunctionComponent<Props> = ({
             }}
             ariaDescribedBy="images-form-description"
             isImageSearch={true}
-            shouldShowFilters={shouldShowFilters}
-            showSortBy={showSortBy}
-            filters={imagesFilters}
           />
         </TabPanel>
       ),
