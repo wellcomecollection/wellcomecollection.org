@@ -22,8 +22,8 @@ const RequestingDayPicker: FunctionComponent<Props> = ({
   return (
     <div style={{ position: 'relative' }}>
       <CalendarSelect
-        min={startDate}
-        max={endDate}
+        startDate={startDate}
+        endDate={endDate}
         excludedDates={exceptionalClosedDates}
         excludedDays={regularClosedDays}
         chosenDate={pickUpDate}

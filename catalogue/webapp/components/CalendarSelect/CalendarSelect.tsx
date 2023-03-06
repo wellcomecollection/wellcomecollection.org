@@ -12,8 +12,8 @@ import {
 } from '@weco/common/utils/format-date';
 
 type Props = {
-  min?: Date;
-  max?: Date;
+  startDate?: Date;
+  endDate?: Date;
   excludedDates: Date[];
   excludedDays: DayOfWeek[];
   chosenDate?: string;
@@ -45,16 +45,17 @@ function getAvailableDates(
 }
 
 const CalendarSelect: FunctionComponent<Props> = ({
-  min,
-  max,
+  startDate,
+  endDate,
   excludedDates,
   excludedDays,
   chosenDate,
   setChosenDate,
 }) => {
-  const canGetDates = min && max;
+  const canGetDates = startDate && endDate;
   const availableDates =
-    canGetDates && getAvailableDates(min, max, excludedDates, excludedDays);
+    canGetDates &&
+    getAvailableDates(startDate, endDate, excludedDates, excludedDays);
 
   return availableDates ? (
     <Select
