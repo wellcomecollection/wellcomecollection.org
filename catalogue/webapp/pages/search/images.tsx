@@ -25,7 +25,7 @@ import {
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
-import { imagesFilters } from '@weco/common/services/catalogue/filters';
+import { imagesFilters } from '@weco/catalogue/services/catalogue/filters';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 

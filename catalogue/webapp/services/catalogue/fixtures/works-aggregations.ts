@@ -1,4 +1,4 @@
-import { CatalogueResultsList, Work } from '../../../model/catalogue';
+import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 
 const aggregations: CatalogueResultsList<Work> = {
   type: 'ResultList',
@@ -2501,6 +2501,7 @@ const aggregations: CatalogueResultsList<Work> = {
     },
     type: 'Aggregations',
   },
+  _requestUrl: 'https://api.wellcomecollection.org/catalogue/v2/works',
 };
 
 export default aggregations;

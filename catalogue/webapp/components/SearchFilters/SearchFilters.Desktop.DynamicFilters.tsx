@@ -5,7 +5,7 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { themeValues } from '@weco/common/views/themes/config';
-import { Filter } from '@weco/common/services/catalogue/filters';
+import { Filter } from '@weco/catalogue/services/catalogue/filters';
 import Space from '@weco/common/views/components/styled/Space';
 import { filter } from '@weco/common/icons';
 

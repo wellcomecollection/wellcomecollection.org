@@ -17,7 +17,7 @@ import { SearchFiltersSharedProps } from '.';
 import {
   CheckboxFilter as CheckboxFilterType,
   filterLabel,
-} from '@weco/common/services/catalogue/filters';
+} from '@weco/catalogue/services/catalogue/filters';
 import ButtonSolid, {
   ButtonTypes,
   SolidButton,
