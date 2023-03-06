@@ -33,12 +33,14 @@ import { pluralize } from '@weco/common/utils/grammar';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Query } from '@weco/catalogue/types/search';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   images: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
   query: Query;
   pageview: Pageview;
+  apiToolbarLinks: ApiToolbarLink[];
 };
 
 const Wrapper = styled(Space).attrs<{ hasNoResults: boolean }>(props => ({
@@ -218,6 +220,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           name: 'images',
           properties: { totalResults: images.totalResults },
         },
+        apiToolbarLinks: [
+          {
+            id: 'catalogue-api',
+            label: 'Catalogue API query',
+            link: images._requestUrl,
+          },
+        ],
       }),
     };
   };
