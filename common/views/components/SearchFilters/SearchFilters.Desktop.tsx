@@ -85,7 +85,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             resetFilters={linkResolver({ query })}
             filters={filters}
             hasNoResults={hasNoResults}
-            isNewStyle
           />
         </FilterDropdownsContainer>
       </Wrapper>

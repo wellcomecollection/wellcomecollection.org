@@ -29,7 +29,6 @@ type ModalMoreFiltersProps = {
   filters: Filter[];
   form?: string;
   hasNoResults?: boolean;
-  isNewStyle?: boolean;
 };
 
 type MoreFiltersProps = {
@@ -37,28 +36,30 @@ type MoreFiltersProps = {
   changeHandler: () => void;
   form?: string;
   hasNoResults?: boolean;
-  isNewStyle?: boolean;
 };
 
 const ModalInner = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-bottom'] },
-})<{ isNewStyle?: boolean }>`
+})`
+  position: relative;
+  top: 15px;
+  overflow-y: auto;
+  max-height: 80vh;
+
   display: flex;
   flex-direction: column;
   min-width: 320px;
   max-width: 650px;
+
   ${props =>
     props.theme.media('medium')(`
-    min-width: ${props.isNewStyle ? '500px' : '320px'};
+      min-width: 420px;
   `)}
+
   ${props => props.theme.media('large')`
     width: 650px;
     top: 10px;
   `}
-  position: relative;
-  top: ${props => (props.isNewStyle ? '0' : '15px')};
-  overflow-y: auto;
-  max-height: ${props => (props.isNewStyle ? 'none' : '80vh')};
 `;
 
 // shared styles
@@ -80,26 +81,26 @@ const List = styled(PlainList)`
 const FiltersFooter = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-})<{ isNewStyle?: boolean }>`
+})`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: ${props => props.theme.color('white')};
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  position: ${props => (props.isNewStyle ? 'sticky' : 'fixed')};
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
 `;
 
-const FiltersHeader = styled(Space).attrs<{ isNewStyle?: boolean }>(props => ({
+const FiltersHeader = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: {
-    size: props.isNewStyle ? 's' : 'm',
+    size: 'm',
     properties: ['padding-top', 'padding-bottom'],
   },
-}))<{ isNewStyle?: boolean }>`
-  position: ${props => (props.isNewStyle ? 'relative' : 'absolute')};
+})`
+  position: absolute;
   background-color: ${props => props.theme.color('white')};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   text-align: center;
@@ -150,42 +151,9 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   filters,
   form,
   hasNoResults,
-  isNewStyle,
 }: MoreFiltersProps) => {
   return (
     <>
-      {!isNewStyle &&
-        filters
-          .filter(f => f.excludeFromMoreFilters)
-          .map((f, i) => (
-            // TODO remove index from key once we resolve the doubled IDs issue
-            // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
-            // as we now sometimes get "Warning: Encountered two children with the same key" console errors
-            <div key={`${f.id}-${i}`} style={{ display: 'none' }}>
-              {f.type === 'checkbox' && (
-                <CheckboxFilter
-                  f={f}
-                  changeHandler={changeHandler}
-                  form={form}
-                />
-              )}
-              {f.type === 'dateRange' && (
-                <DateRangeFilter
-                  f={f}
-                  changeHandler={changeHandler}
-                  form={form}
-                />
-              )}
-              {f.type === 'color' && (
-                <PaletteColorPicker
-                  name={f.id}
-                  color={f.color}
-                  onChangeColor={changeHandler}
-                  form={form}
-                />
-              )}
-            </div>
-          ))}
       {filters
         .filter(f => !f.excludeFromMoreFilters)
         .map((f, i) => (
@@ -239,7 +207,6 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
   filters,
   form,
   hasNoResults,
-  isNewStyle,
 }: ModalMoreFiltersProps) => {
   const { isEnhanced } = useContext(AppContext);
 
@@ -263,24 +230,23 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         isActive={isActive}
         setIsActive={setIsActive}
         openButtonRef={openMoreFiltersButtonRef}
-        modalStyle={isNewStyle ? 'filters-new' : 'filters'}
+        modalStyle="filters"
       >
-        <FiltersHeader isNewStyle={isNewStyle}>
-          <h3 className="h3">{isNewStyle ? 'All filters' : 'More filters'}</h3>
+        <FiltersHeader>
+          <h3 className="h3 no-margin">All filters</h3>
         </FiltersHeader>
 
-        <ModalInner isNewStyle={isNewStyle}>
+        <ModalInner>
           {isEnhanced && (
             <MoreFilters
               changeHandler={changeHandler}
               filters={filters}
               form={form}
               hasNoResults={hasNoResults}
-              isNewStyle={isNewStyle}
             />
           )}
         </ModalInner>
-        <FiltersFooter isNewStyle={isNewStyle}>
+        <FiltersFooter>
           <NextLink passHref {...resetFilters}>
             Reset filters
           </NextLink>
