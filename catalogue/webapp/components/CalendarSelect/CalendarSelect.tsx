@@ -26,9 +26,7 @@ function getAvailableDates(
   excludedDates: Date[],
   excludedDays: DayOfWeek[]
 ): SelectOption[] {
-  const days = getDatesBetween({ startDate, endDate });
-
-  return days
+  return getDatesBetween({ startDate, endDate })
     .filter(date =>
       isRequestableDate({
         date,
