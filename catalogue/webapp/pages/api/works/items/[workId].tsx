@@ -8,18 +8,23 @@ import {
 } from '@weco/catalogue/services/catalogue';
 import { Toggles } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
-import { isString } from '@weco/common/utils/array';
+import { isString, isUndefined } from '@weco/common/utils/array';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env]}/v2/works/${workId}/items`;
 }
 
 function getApiKey(apiOptions: GlobalApiOptions): string {
-  if (apiOptions.env === 'stage') {
-    return process.env.items_api_key_stage;
-  } else {
-    return process.env.items_api_key_prod;
+  const key =
+    apiOptions.env === 'stage'
+      ? process.env.items_api_key_stage
+      : process.env.items_api_key_prod;
+
+  if (isUndefined(key)) {
+    console.warn('No API key provided for items API!');
   }
+
+  return key;
 }
 
 async function fetchWorkItems({
