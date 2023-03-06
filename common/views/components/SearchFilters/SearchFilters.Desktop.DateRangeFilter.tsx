@@ -18,7 +18,6 @@ const DesktopDateRangeFilter = ({
   return (
     <Space className={font('intr', 5)}>
       <DropdownButton
-        isFilter
         isPill
         label={f.label}
         buttonType="inline"

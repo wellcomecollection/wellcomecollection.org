@@ -18,7 +18,6 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <DropdownButton
       isPill
-      isFilter
       label={f.label}
       buttonType="inline"
       id={f.id}
