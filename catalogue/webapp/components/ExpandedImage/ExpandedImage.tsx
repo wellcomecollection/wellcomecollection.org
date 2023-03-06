@@ -7,7 +7,10 @@ import {
   getProductionDates,
 } from '@weco/catalogue/utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
-import { Image as ImageType, Work } from '@weco/catalogue/services/catalogue/types';
+import {
+  Image as ImageType,
+  Work,
+} from '@weco/catalogue/services/catalogue/types';
 import { getWorkClientSide } from '@weco/catalogue/services/catalogue/works';
 import { expandedViewImageButton } from '@weco/common/text/aria-labels';
 import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
@@ -19,8 +22,8 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import VisuallySimilarImagesFromApi from '@weco/catalogue/components/VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import IIIFImage from '@weco/catalogue/components/IIIFImage/IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
-import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
-import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
+import { toLink as itemLink } from '../ItemLink';
+import { toLink as imageLink } from '../ImageLink';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 
 type Props = {

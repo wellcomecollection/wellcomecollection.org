@@ -19,7 +19,7 @@ import {
   fromQuery,
   toLink,
   WorksProps as WorksRouteProps,
-} from '@weco/common/views/components/WorksLink/WorksLink';
+} from '@weco/catalogue/components/WorksLink';
 
 // Utils & Helpers
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -34,7 +34,10 @@ import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
-import { CatalogueResultsList, Work } from '@weco/catalogue/services/catalogue/types';
+import {
+  CatalogueResultsList,
+  Work,
+} from '@weco/catalogue/services/catalogue/types';
 import { Query } from '@weco/catalogue/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 

@@ -6,8 +6,8 @@ import {
 } from '@weco/catalogue/services/catalogue/types';
 import { quoteVal } from '@weco/common/utils/csv';
 import { toHtmlId } from '@weco/common/utils/string';
-import { ImagesProps } from '@weco/common/views/components/ImagesLink/ImagesLink';
-import { WorksProps } from '@weco/common/views/components/WorksLink/WorksLink';
+import { ImagesProps } from '@weco/catalogue/components/ImagesLink';
+import { WorksProps } from '@weco/catalogue/components/WorksLink';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { formatNumber } from '@weco/common/utils/grammar';
 

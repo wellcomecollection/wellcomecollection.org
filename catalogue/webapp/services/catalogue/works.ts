@@ -22,7 +22,7 @@ import {
   emptyWorksProps,
   toQuery,
   WorksProps,
-} from '@weco/common/views/components/WorksLink/WorksLink';
+} from '@weco/catalogue/components/WorksLink';
 
 type GetWorkProps = {
   id: string;

@@ -9,7 +9,7 @@ import {
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWorkClientSide } from '../../services/catalogue/works';
-import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import WorkLink from '../WorkLink';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkTitle from '../WorkTitle/WorkTitle';

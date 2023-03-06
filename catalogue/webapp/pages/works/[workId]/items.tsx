@@ -26,8 +26,8 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import {
   toLink as itemLink,
   fromQuery,
-} from '@weco/common/views/components/ItemLink/ItemLink';
-import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+} from '@weco/catalogue/components/ItemLink';
+import WorkLink from '@weco/catalogue/components/WorkLink';
 import { getServerData } from '@weco/common/server-data';
 import AudioList from '@weco/catalogue/components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/array';

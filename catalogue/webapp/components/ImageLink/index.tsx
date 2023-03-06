@@ -8,8 +8,8 @@ import {
   LinkFrom,
   maybeNumberCodec,
   stringCodec,
-} from '../../../utils/routes';
-import { LinkProps } from '../../../model/link-props';
+} from '@weco/common/utils/routes';
+import { LinkProps } from '@weco/common/model/link-props';
 
 const imagePropsSources = ['images_search_result', 'viewer/paginator'] as const;
 type ImagePropsSource = typeof imagePropsSources[number];

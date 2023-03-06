@@ -22,7 +22,7 @@ import {
   fromQuery,
   ImagesProps,
   toLink,
-} from '@weco/common/views/components/ImagesLink/ImagesLink';
+} from '@weco/catalogue/components/ImagesLink';
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/catalogue/services/catalogue/filters';
@@ -30,7 +30,10 @@ import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
-import { CatalogueResultsList, Image } from '@weco/catalogue/services/catalogue/types';
+import {
+  CatalogueResultsList,
+  Image,
+} from '@weco/catalogue/services/catalogue/types';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Query } from '@weco/catalogue/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';

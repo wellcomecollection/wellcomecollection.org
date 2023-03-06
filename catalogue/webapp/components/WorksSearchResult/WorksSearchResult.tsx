@@ -15,7 +15,7 @@ import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 // Components
 import Space from '@weco/common/views/components/styled/Space';
 import WorkTitle from '../WorkTitle/WorkTitle';
-import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import WorkLink from '../WorkLink';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import {
   Container,
