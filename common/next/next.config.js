@@ -94,7 +94,7 @@ const createConfig =
 
 // TODO: check the build output without this function whenever next has an update
 /**
- * this will only be neccessary until the default config is updated OR the config validator is updated.
+ * this will only be necessary until the default config is updated OR the config validator is updated.
  * how I check this? I don't know besides doing it manually
  * https://github.com/cyrilwanner/next-compose-plugins/issues/59
  */
