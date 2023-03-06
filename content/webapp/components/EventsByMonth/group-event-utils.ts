@@ -40,20 +40,20 @@ const utcMonthNames = {
  *
  */
 export function getMonthsInDateRange({
-  start,
-  end,
+  startDate,
+  endDate,
 }: {
-  start: Date;
-  end: Date;
+  startDate: Date;
+  endDate: Date;
 }): YearMonth[] {
   console.assert(
-    start <= end,
-    `Asked to find months in date range start=${start}, end=${end}`
+    startDate <= endDate,
+    `Asked to find months in date range start=${startDate}, end=${endDate}`
   );
 
   const result: YearMonth[] = [];
 
-  getDatesBetween({ startDate: start, endDate: end }).forEach(d => {
+  getDatesBetween({ startDate, endDate }).forEach(d => {
     const m = {
       year: d.getUTCFullYear(),
       month: utcMonthNames[d.getUTCMonth()],
@@ -117,8 +117,8 @@ export function groupEventsByMonth<T extends HasTimeRanges>(
   // This gives us the list of months that will appear in the segmented control
   // on the "What's on" page
   const monthSpan = getMonthsInDateRange({
-    start: earliestStartTime,
-    end: latestStartTime,
+    startDate: earliestStartTime,
+    endDate: latestStartTime,
   });
 
   // For each month, work out (a) what events should be included and
