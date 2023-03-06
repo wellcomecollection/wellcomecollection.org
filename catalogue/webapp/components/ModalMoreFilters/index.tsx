@@ -17,7 +17,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { LinkProps } from '@weco/common/model/link-props';
 import { DateRangeFilter } from '../SearchFilters';
-import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+import PaletteColorPicker from '../PaletteColorPicker';
 
 type ModalMoreFiltersProps = {
   id: string;

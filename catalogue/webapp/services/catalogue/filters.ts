@@ -1,4 +1,4 @@
-import { palette } from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+import { palette } from '@weco/catalogue/components/PaletteColorPicker';
 import {
   CatalogueResultsList,
   Work,

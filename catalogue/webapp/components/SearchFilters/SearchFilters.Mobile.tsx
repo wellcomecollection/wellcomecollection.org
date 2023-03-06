@@ -25,7 +25,7 @@ import ButtonSolid, {
 import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
 import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+import PaletteColorPicker from '@weco/catalogue/components/PaletteColorPicker';
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
 
 const SearchFiltersContainer = styled(Space).attrs({
