@@ -5,13 +5,11 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 
 const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
   return (
-    <>
-      <Layout12>
-        <SpacingSection>
-          <SearchTabs query="" />
-        </SpacingSection>
-      </Layout12>
-    </>
+    <Layout12>
+      <SpacingSection>
+        <SearchTabs query="" />
+      </SpacingSection>
+    </Layout12>
   );
 };
 
