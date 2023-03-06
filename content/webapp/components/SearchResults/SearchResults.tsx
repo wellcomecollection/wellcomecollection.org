@@ -49,7 +49,10 @@ const SearchResults: FunctionComponent<Props> = ({
     {items.map(
       (item, index) =>
         item.type !== 'card' && (
-          <Result key={item.id}>
+          <Result
+            key={item.id}
+            data-testid={index === 0 ? 'search-result' : undefined}
+          >
             {item.type === 'pages' && (
               <CompactCard
                 url={`/pages/${item.id}`}
