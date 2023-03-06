@@ -24,7 +24,6 @@ const CheckboxFilter = ({
   return (
     <DropdownButton
       isPill={isNewStyle}
-      isFilter
       label={f.label}
       buttonType="inline"
       id={f.id}
