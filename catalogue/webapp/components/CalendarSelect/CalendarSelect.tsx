@@ -3,7 +3,6 @@ import Select, {
   SelectOption,
 } from '@weco/common/views/components/Select/Select';
 import { isRequestableDate } from '../../utils/dates';
-import { isTruthy } from '@weco/common/utils/array';
 import { getDatesBetween } from '@weco/common/utils/dates';
 import { dateAsValue } from '../ItemRequestModal/format-date';
 import {
@@ -30,21 +29,19 @@ function getAvailableDates(
   const days = getDatesBetween({ start: min, end: max });
 
   return days
-    .map(date => {
-      return (
-        isRequestableDate({
-          date,
-          startDate: min,
-          endDate: max,
-          excludedDates,
-          excludedDays,
-        }) && {
-          value: dateAsValue(date),
-          text: `${formatDayName(date)} ${formatDayMonth(date)}`,
-        }
-      );
-    })
-    .filter(isTruthy);
+    .filter(date =>
+      isRequestableDate({
+        date,
+        startDate: min,
+        endDate: max,
+        excludedDates,
+        excludedDays,
+      })
+    )
+    .map(date => ({
+      value: dateAsValue(date),
+      text: `${formatDayName(date)} ${formatDayMonth(date)}`,
+    }));
 }
 
 const CalendarSelect: FunctionComponent<Props> = ({
