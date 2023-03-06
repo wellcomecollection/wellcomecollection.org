@@ -52,9 +52,9 @@ const CalendarSelect: FunctionComponent<Props> = ({
   chosenDate,
   setChosenDate,
 }) => {
-  const canGetDates = startDate && endDate;
   const availableDates =
-    canGetDates &&
+    startDate &&
+    endDate &&
     getAvailableDates(startDate, endDate, excludedDates, excludedDays);
 
   return availableDates ? (
