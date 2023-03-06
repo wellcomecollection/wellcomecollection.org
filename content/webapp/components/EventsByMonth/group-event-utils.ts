@@ -53,7 +53,7 @@ export function getMonthsInDateRange({
 
   const result: YearMonth[] = [];
 
-  getDatesBetween({ start, end }).forEach(d => {
+  getDatesBetween({ startDate: start, endDate: end }).forEach(d => {
     const m = {
       year: d.getUTCFullYear(),
       month: utcMonthNames[d.getUTCMonth()],
