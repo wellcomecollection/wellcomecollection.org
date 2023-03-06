@@ -17,6 +17,7 @@ import {
   linkResolver,
 } from '@weco/common/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`
@@ -36,12 +37,13 @@ type PageLayoutMetadata = {
     pathname: string;
     query: Record<string, string | string[] | undefined>;
   };
+  apiToolbarLinks?: ApiToolbarLink[];
 };
 
-const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
-  children,
-  hasEventsExhibitions,
-}) => {
+const SearchLayout: FunctionComponent<{
+  hasEventsExhibitions: boolean;
+  apiToolbarLinks: ApiToolbarLink[];
+}> = ({ children, hasEventsExhibitions, apiToolbarLinks }) => {
   const router = useRouter();
   const queryString = getQueryPropertyValue(router?.query?.query);
   const [inputValue, setInputValue] = useState(queryString || '');
@@ -52,6 +54,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
       : router.pathname.slice(router.pathname.lastIndexOf('/') + 1);
 
   const basePageMetadata: PageLayoutMetadata = {
+    apiToolbarLinks,
     openGraphType: 'website',
     siteSection: null,
     jsonLd: { '@type': 'WebPage' },
@@ -264,8 +267,13 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
 export const getSearchLayout = (page: ReactElement): JSX.Element => {
   const { searchPageEventsExhibitions } = page.props.serverData.toggles;
 
+  console.log(page.props.apiToolbarLinks);
+
   return (
-    <SearchLayout hasEventsExhibitions={searchPageEventsExhibitions}>
+    <SearchLayout
+      hasEventsExhibitions={searchPageEventsExhibitions}
+      apiToolbarLinks={page.props.apiToolbarLinks}
+    >
       {page}
     </SearchLayout>
   );

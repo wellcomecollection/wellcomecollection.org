@@ -36,12 +36,14 @@ import { pluralize } from '@weco/common/utils/grammar';
 // Types
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { Query } from '@weco/catalogue/types/search';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
   query: Query;
   pageview: Pageview;
+  apiToolbarLinks: ApiToolbarLink[];
 };
 
 const SortPaginationWrapper = styled.div`
@@ -277,6 +279,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           name: 'works',
           properties: { totalResults: works.totalResults },
         },
+        apiToolbarLinks: [
+          {
+            id: 'catalogue-api',
+            label: 'Catalogue API query',
+            link: works._requestUrl,
+          },
+        ],
       }),
     };
   };
