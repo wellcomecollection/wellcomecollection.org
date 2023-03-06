@@ -290,7 +290,7 @@ export type Image = {
   aspectRatio?: number;
 };
 
-export type CatalogueAggregationBucket = {
+type CatalogueAggregationBucket = {
   count: number;
   data: {
     id: string;
@@ -300,7 +300,7 @@ export type CatalogueAggregationBucket = {
   type: 'AggregationBucket';
 };
 
-export type CatalogueAggregationBucketNoId = {
+type CatalogueAggregationBucketNoId = {
   count: number;
   data: {
     label: string;
@@ -309,12 +309,12 @@ export type CatalogueAggregationBucketNoId = {
   type: 'AggregationBucket';
 };
 
-export type CatalogueAggregation = {
+type CatalogueAggregation = {
   buckets: CatalogueAggregationBucket[];
   type: 'Aggregation';
 };
 
-export type CatalogueAggregationNoId = {
+type CatalogueAggregationNoId = {
   buckets: CatalogueAggregationBucketNoId[];
   type: 'Aggregation';
 };
