@@ -445,8 +445,8 @@ export function transformEventBasicTimes(
   //
   // This tells us if the scheduled items are a continuous block.
   const daysInScheduleRange = getDatesBetween({
-    start: scheduleStart,
-    end: scheduleEnd,
+    startDate: scheduleStart,
+    endDate: scheduleEnd,
   });
 
   const everyDayHasSomething = daysInScheduleRange.every(d =>
