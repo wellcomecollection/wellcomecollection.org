@@ -17,10 +17,9 @@
 /search/images?query=human
 /search/works?query=human
 /concepts/n4fvtc49
-
-# Old catalogue URLs
-/works
-/images
+# A works search page where some results contain thumbnails
+# https://wellcome.slack.com/archives/C8X9YKM5X/p1657191146272169
+/search/works?subjects.label=Liliaceae
 
 # A book
 /works/efprdfhc
@@ -32,9 +31,6 @@
 /works/ng6jw4nx/items
 # An items page with a IIIF manifest
 /works/pxv98cnk/items
-# A works search page where some results contain thumbnails
-# https://wellcome.slack.com/archives/C8X9YKM5X/p1657191146272169
-/works?subjects.label=Liliaceae
 # A works page with a content warning
 /works/d2mach47
 

@@ -26,20 +26,12 @@ const rewriteEntries = localConcurrentDevelopment
         destination: `${CATALOGUE_URL}/image`,
       },
       {
-        source: '/images',
-        destination: `${CATALOGUE_URL}/images`,
-      },
-      {
         source: '/item',
         destination: `${CATALOGUE_URL}/item`,
       },
       {
         source: '/work',
         destination: `${CATALOGUE_URL}/work`,
-      },
-      {
-        source: '/works',
-        destination: `${CATALOGUE_URL}/works`,
       },
       {
         source: '/works/:path*',
