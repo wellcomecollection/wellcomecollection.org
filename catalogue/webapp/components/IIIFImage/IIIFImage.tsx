@@ -16,8 +16,6 @@ import {
 const StyledImage = styled(Image)<{ background: string }>`
   background-color: ${props => props.background};
   color: ${props => props.theme.color('neutral.700')};
-  maxwidth: 100%;
-  height: auto;
 `;
 
 const StyledImageContainer = styled.div<{
