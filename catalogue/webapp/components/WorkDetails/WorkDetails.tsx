@@ -163,7 +163,8 @@ const WorkDetails: FunctionComponent<Props> = ({
   const holdings = getHoldings(work);
 
   const showAvailableOnlineSection =
-    digitalLocation && (shouldShowItemLink || audio || video);
+    digitalLocation &&
+    (shouldShowItemLink || (audio?.sounds || []).length > 0 || video);
 
   const renderWhereToFindIt = () => {
     return (
