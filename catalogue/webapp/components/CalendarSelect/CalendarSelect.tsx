@@ -21,19 +21,19 @@ type Props = {
 };
 
 function getAvailableDates(
-  min: Date,
-  max: Date,
+  startDate: Date,
+  endDate: Date,
   excludedDates: Date[],
   excludedDays: DayOfWeek[]
 ): SelectOption[] {
-  const days = getDatesBetween({ startDate: min, endDate: max });
+  const days = getDatesBetween({ startDate, endDate });
 
   return days
     .filter(date =>
       isRequestableDate({
         date,
-        startDate: min,
-        endDate: max,
+        startDate,
+        endDate,
         excludedDates,
         excludedDays,
       })
