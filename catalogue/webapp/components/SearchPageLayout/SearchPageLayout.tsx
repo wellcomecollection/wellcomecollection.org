@@ -68,7 +68,7 @@ const SearchLayout: FunctionComponent<{ hasEventsExhibitions: boolean }> = ({
   const [pageLayoutMetadata, setPageLayoutMetadata] =
     useState<PageLayoutMetadata>(basePageMetadata);
 
-  const getURL = pathname => {
+  const getURL = (pathname: string) => {
     return convertUrlToString({
       pathname,
       query: { query: queryString },
