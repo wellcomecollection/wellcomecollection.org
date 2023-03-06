@@ -7,11 +7,13 @@ import {
 } from 'react';
 import FocusTrap from 'focus-trap-react';
 import NextLink from 'next/link';
+import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
 import { search, cross } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import {
   Wrapper,
   GridCell,
@@ -30,7 +32,11 @@ import {
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+
+const NoJSIconWrapper = styled.div`
+  padding: 5px 8px 0;
+  margin-right: 10px;
+`;
 
 export type NavLink = {
   href: string;
@@ -169,27 +175,39 @@ const Header: FunctionComponent<Props> = ({
 
                 <HeaderActions>
                   {!isMinimalHeader && (
-                    <NextLink href="/search" passHref>
-                      <SearchButton
-                        text={
-                          <Icon
-                            icon={searchDropdownIsActive ? cross : search}
-                          />
-                        }
-                        aria-label={
-                          searchDropdownIsActive
-                            ? 'Close search bar'
-                            : 'Open search bar'
-                        }
-                        onClick={event => {
-                          event.preventDefault(); // Prevents routing if JS is enabled to use the dropdown instead
-                          setSearchDropdownIsActive(
-                            currentState => !currentState
-                          );
-                        }}
-                        ref={searchButtonRef}
-                      />
-                    </NextLink>
+                    <>
+                      {!isEnhanced ? (
+                        <NextLink href="/search" passHref>
+                          <NoJSIconWrapper>
+                            <Icon
+                              icon={searchDropdownIsActive ? cross : search}
+                            />
+                            <span className="visually-hidden">
+                              Search our stories, images and catalogue
+                            </span>
+                          </NoJSIconWrapper>
+                        </NextLink>
+                      ) : (
+                        <SearchButton
+                          text={
+                            <Icon
+                              icon={searchDropdownIsActive ? cross : search}
+                            />
+                          }
+                          aria-label={
+                            searchDropdownIsActive
+                              ? 'Close search bar'
+                              : 'Open search bar'
+                          }
+                          onClick={() => {
+                            setSearchDropdownIsActive(
+                              currentState => !currentState
+                            );
+                          }}
+                          ref={searchButtonRef}
+                        />
+                      )}
+                    </>
                   )}
 
                   {!isMinimalHeader && <DesktopSignIn />}
@@ -198,6 +216,7 @@ const Header: FunctionComponent<Props> = ({
             </Container>
           </GridCell>
         </Wrapper>
+
         {!isMinimalHeader && (
           <HeaderSearch
             isActive={searchDropdownIsActive}
