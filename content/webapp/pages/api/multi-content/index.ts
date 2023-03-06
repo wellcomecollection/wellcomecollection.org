@@ -9,11 +9,9 @@ import { fetchMultiContent } from '@weco/content/services/prismic/fetch/multi-co
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import superjson from 'superjson';
 
-type NotFound = { notFound: true };
-
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<string | NotFound>
+  res: NextApiResponse
 ): Promise<void> => {
   const { params } = req.query;
 
@@ -29,6 +27,6 @@ export default async (
 
   if (query) {
     const multiContent = transformQuery(query, transformMultiContent);
-    return res.status(200).json(superjson.stringify(multiContent));
+    return res.status(200).json(superjson.serialize(multiContent));
   }
 };
