@@ -27,8 +27,6 @@ export default async (
 
   if (query) {
     const multiContent = transformQuery(query, transformMultiContent);
-
-    console.log(superjson.serialize(multiContent));
     return res.status(200).json(superjson.serialize(multiContent));
   }
 };
