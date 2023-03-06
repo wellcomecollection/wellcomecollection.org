@@ -11,7 +11,7 @@ import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNo
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import Sort from '@weco/catalogue/components/Sort/Sort';
-import SearchFilters from '@weco/common/views/components/SearchFilters';
+import SearchFilters from '@weco/catalogue/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
