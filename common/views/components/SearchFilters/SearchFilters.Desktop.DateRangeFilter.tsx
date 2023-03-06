@@ -21,7 +21,6 @@ const DesktopDateRangeFilter = ({
     <Space className={font('intr', 5)}>
       <DropdownButton
         isPill={isNewStyle}
-        isFilter
         label={f.label}
         buttonType="inline"
         id={f.id}
