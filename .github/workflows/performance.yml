@@ -5,6 +5,7 @@ on:
     paths-ignore:
       - 'assets/**'
       - 'cache/**'
+      - 'cardigan/**'
       - 'playwright/**'
 
 jobs:

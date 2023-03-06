@@ -14,6 +14,9 @@ const defaultConfigOptions = {
 const createConfig =
   (options = defaultConfigOptions) =>
   (phase, { defaultConfig }) => {
+    /** it would appear that defaultConfig includes some invalid property types, so this will remove them */
+    const validDefaultConfig = cleanInvalidValues(defaultConfig);
+
     const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
     const buildHash = process.env.BUILD_HASH || 'test';
     const isProd = process.env.NODE_ENV === 'production';
@@ -23,7 +26,7 @@ const createConfig =
     const rewriteEntries = options.rewriteEntries || [];
 
     const nextConfig = withMDX({
-      ...defaultConfig,
+      ...validDefaultConfig,
       // We handle compression in the nginx sidecar
       // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
       compress: false,
@@ -75,11 +78,44 @@ const createConfig =
         return config;
       },
       eslint: {
+        ...validDefaultConfig.eslint,
         ignoreDuringBuilds: !options.lintBuilds,
       },
       transpilePackages: ['@weco/common'],
+      experimental: {
+        ...validDefaultConfig.experimental,
+        mdxRs: true,
+        outputFileTracingRoot: path.join(__dirname, '../../'),
+      },
+      reactStrictMode: true,
     });
     return nextConfig;
   };
+
+// TODO: check the build output without this function whenever next has an update
+/**
+ * this will only be necessary until the default config is updated OR the config validator is updated.
+ * how I check this? I don't know besides doing it manually
+ * https://github.com/cyrilwanner/next-compose-plugins/issues/59
+ */
+const cleanInvalidValues = defaultConfig => {
+  const config = { ...defaultConfig };
+
+  const invalidProperties = [
+    'webpackDevMiddleware',
+    'configOrigin',
+    'target',
+    'assetPrefix',
+    'i18n',
+  ];
+  for (let index = 0; index < invalidProperties.length; index++) {
+    const property = invalidProperties[index];
+    delete config[property];
+  }
+  delete config.amp.canonicalBase;
+  delete config.experimental.outputFileTracingRoot;
+
+  return config;
+};
 
 module.exports = { createConfig };

@@ -18,7 +18,6 @@ const DesktopColorFilter = ({
   return (
     <DropdownButton
       isPill={isNewStyle}
-      isFilter
       label="Colours"
       buttonType="inline"
       id="images.color"
