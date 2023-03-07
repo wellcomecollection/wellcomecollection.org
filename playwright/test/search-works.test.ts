@@ -45,16 +45,13 @@ const expectSearchParam = (
 const openDropdown = async (label: string, page: Page) => {
   console.info('openDropdown', label);
   if (isMobile(page)) {
+    await page.click(formatFilterMobileButton);
   } else {
     await page.click(`button :text("${label}")`);
   }
 };
 
 const selectCheckbox = async (label: string, page: Page) => {
-  if (isMobile(page)) {
-    await page.click(formatFilterMobileButton);
-  }
-
   await Promise.all([
     safeWaitForNavigation(page),
     page.click(`label :text("${label}")`),
@@ -205,15 +202,6 @@ test.describe(
       page,
       context,
     }) => {
-      // TODO: For some reason `"Filters"` isn't working on mobile.  The original
-      // purpose of this test was to check the logic behind the filters, not the UI.
-      // See https://wellcome.slack.com/archives/C8X9YKM5X/p1663763975934799
-      //
-      // Ideally we'd also be able to test mobile in this test, but it's not critical.
-      if (isMobile(page)) {
-        return;
-      }
-
       await newWorksSearch(context, page);
       await searchFor('brain', page);
       await openDropdown('Dates', page);
@@ -237,6 +225,10 @@ test.describe(
           .fill('2001'),
         safeWaitForNavigation(page),
       ]);
+
+      if (isMobile(page)) {
+        await page.click(`"Show results"`);
+      }
 
       expectSearchParam('production.dates.from', '1939', page);
       expectSearchParam('production.dates.to', '2001', page);
