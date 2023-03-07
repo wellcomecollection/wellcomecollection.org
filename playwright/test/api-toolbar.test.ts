@@ -14,10 +14,6 @@ const test = base.extend({
   },
 });
 
-test('we can know truth', () => {
-  expect(true).toBe(false);
-});
-
 test.describe('tzitzit links', () => {
   test('does not create a tzitzit link for images in copyright', async ({
     page,
