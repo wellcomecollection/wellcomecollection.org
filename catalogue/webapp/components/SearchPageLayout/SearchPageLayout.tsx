@@ -264,13 +264,17 @@ const SearchLayout: FunctionComponent<{
   );
 };
 
-export const getSearchLayout = (page: ReactElement): JSX.Element => (
-  <SearchLayout
-    hasEventsExhibitions={page.props.serverData.toggles.hasEventsExhibitions}
-    apiToolbarLinks={page.props.apiToolbarLinks}
-  >
-    {page}
-  </SearchLayout>
-);
+export const getSearchLayout = (page: ReactElement): JSX.Element => {
+  const { searchPageEventsExhibitions } = page.props.serverData.toggles;
+
+  return (
+    <SearchLayout
+      hasEventsExhibitions={searchPageEventsExhibitions}
+      apiToolbarLinks={page.props.apiToolbarLinks}
+    >
+      {page}
+    </SearchLayout>
+  );
+};
 
 export default SearchLayout;
