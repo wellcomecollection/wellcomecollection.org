@@ -1,4 +1,10 @@
-import { forwardRef, RefObject, FunctionComponent } from 'react';
+import {
+  forwardRef,
+  RefObject,
+  FunctionComponent,
+  ChangeEvent,
+  FocusEvent,
+} from 'react';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { check } from '@weco/common/icons';
@@ -175,7 +181,7 @@ const Input: FunctionComponent<Props> = (
   }: Props,
   ref: RefObject<HTMLInputElement>
 ) => {
-  function onChange(event) {
+  function onChange(event: ChangeEvent<HTMLInputElement>) {
     const isValueValid = event.currentTarget.validity.valid;
 
     setValue(event.currentTarget.value);
@@ -191,7 +197,7 @@ const Input: FunctionComponent<Props> = (
     }
   }
 
-  function onBlur(event) {
+  function onBlur(event: FocusEvent<HTMLInputElement>) {
     setIsValid && setIsValid(event.currentTarget.validity.valid);
     setShowValidity && setShowValidity(!!value && true);
   }

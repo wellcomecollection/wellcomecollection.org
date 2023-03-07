@@ -157,7 +157,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   const [isActive, setIsActive] = useState(false);
 
   useSkipInitialEffect(() => {
-    function setPageScrollLock(value) {
+    function setPageScrollLock(value: boolean) {
       if (document.documentElement) {
         if (value) {
           document.documentElement.classList.add('is-scroll-locked--to-medium');
