@@ -118,7 +118,7 @@ export function includedRegularClosedDays(params: {
 }): number {
   const { startDate, endDate, regularClosedDays } = params;
 
-  const dayArray = getDatesBetween({ start: startDate, end: endDate }).map(d =>
+  const dayArray = getDatesBetween({ startDate, endDate }).map(d =>
     formatDayName(d)
   );
 

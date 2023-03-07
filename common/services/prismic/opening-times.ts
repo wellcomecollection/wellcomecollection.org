@@ -161,12 +161,9 @@ export function completeDateRangeForExceptionalPeriods(
 ): ExceptionalPeriod[] {
   return exceptionalOpeningPeriods.map(period => {
     const startDate = period.dates[0];
-    const lastDate = period.dates[period.dates.length - 1];
+    const endDate = period.dates[period.dates.length - 1];
 
-    const completeDateArray = getDatesBetween({
-      start: startDate,
-      end: lastDate,
-    });
+    const completeDateArray = getDatesBetween({ startDate, endDate });
 
     return {
       type: period.type,

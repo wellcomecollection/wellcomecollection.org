@@ -265,8 +265,8 @@ describe('getNextWeekendDateRange', () => {
 describe('getDatesBetween', () => {
   it('finds the dates between two other dates', () => {
     const result = getDatesBetween({
-      start: new Date('2001-01-01T00:00:00Z'),
-      end: new Date('2001-01-04T00:00:00Z'),
+      startDate: new Date('2001-01-01T00:00:00Z'),
+      endDate: new Date('2001-01-04T00:00:00Z'),
     });
 
     expect(result).toStrictEqual([

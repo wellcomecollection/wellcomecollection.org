@@ -4,16 +4,16 @@ import { getMonthsInDateRange, groupEventsByMonth } from './group-event-utils';
 describe('getMonthsInDateRange', () => {
   it('finds a single month', () => {
     const result = getMonthsInDateRange({
-      start: new Date('2001-01-01'),
-      end: new Date('2001-01-05'),
+      startDate: new Date('2001-01-01'),
+      endDate: new Date('2001-01-05'),
     });
     expect(result).toEqual([{ year: 2001, month: 'January' }]);
   });
 
   it('finds multiple months', () => {
     const result = getMonthsInDateRange({
-      start: new Date('2001-01-01'),
-      end: new Date('2001-03-06'),
+      startDate: new Date('2001-01-01'),
+      endDate: new Date('2001-03-06'),
     });
     expect(result).toEqual([
       { year: 2001, month: 'January' },
@@ -24,8 +24,8 @@ describe('getMonthsInDateRange', () => {
 
   it('finds months across a year boundary', () => {
     const result = getMonthsInDateRange({
-      start: new Date('2001-12-01'),
-      end: new Date('2002-02-07'),
+      startDate: new Date('2001-12-01'),
+      endDate: new Date('2002-02-07'),
     });
     expect(result).toEqual([
       { year: 2001, month: 'December' },

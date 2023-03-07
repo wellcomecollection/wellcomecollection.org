@@ -3,7 +3,6 @@ import Select, {
   SelectOption,
 } from '@weco/common/views/components/Select/Select';
 import { isRequestableDate } from '../../utils/dates';
-import { isTruthy } from '@weco/common/utils/array';
 import { getDatesBetween } from '@weco/common/utils/dates';
 import { dateAsValue } from '../ItemRequestModal/format-date';
 import {
@@ -13,8 +12,8 @@ import {
 } from '@weco/common/utils/format-date';
 
 type Props = {
-  min?: Date;
-  max?: Date;
+  startDate?: Date;
+  endDate?: Date;
   excludedDates: Date[];
   excludedDays: DayOfWeek[];
   chosenDate?: string;
@@ -22,42 +21,39 @@ type Props = {
 };
 
 function getAvailableDates(
-  min: Date,
-  max: Date,
+  startDate: Date,
+  endDate: Date,
   excludedDates: Date[],
   excludedDays: DayOfWeek[]
 ): SelectOption[] {
-  const days = getDatesBetween({ start: min, end: max });
-
-  return days
-    .map(date => {
-      return (
-        isRequestableDate({
-          date,
-          startDate: min,
-          endDate: max,
-          excludedDates,
-          excludedDays,
-        }) && {
-          value: dateAsValue(date),
-          text: `${formatDayName(date)} ${formatDayMonth(date)}`,
-        }
-      );
-    })
-    .filter(isTruthy);
+  return getDatesBetween({ startDate, endDate })
+    .filter(date =>
+      isRequestableDate({
+        date,
+        startDate,
+        endDate,
+        excludedDates,
+        excludedDays,
+      })
+    )
+    .map(date => ({
+      value: dateAsValue(date),
+      text: `${formatDayName(date)} ${formatDayMonth(date)}`,
+    }));
 }
 
 const CalendarSelect: FunctionComponent<Props> = ({
-  min,
-  max,
+  startDate,
+  endDate,
   excludedDates,
   excludedDays,
   chosenDate,
   setChosenDate,
 }) => {
-  const canGetDates = min && max;
   const availableDates =
-    canGetDates && getAvailableDates(min, max, excludedDates, excludedDays);
+    startDate &&
+    endDate &&
+    getAvailableDates(startDate, endDate, excludedDates, excludedDays);
 
   return availableDates ? (
     <Select

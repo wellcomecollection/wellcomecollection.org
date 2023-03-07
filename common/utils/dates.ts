@@ -148,15 +148,15 @@ export function getNextWeekendDateRange(date: Date): DateRange {
  *
  */
 export function getDatesBetween({
-  start,
-  end,
+  startDate,
+  endDate,
 }: {
-  start: Date;
-  end: Date;
+  startDate: Date;
+  endDate: Date;
 }): Date[] {
   const dateArray: Date[] = [];
-  let currentDate = start;
-  while (currentDate <= end) {
+  let currentDate = startDate;
+  while (currentDate <= endDate) {
     dateArray.push(currentDate);
     currentDate = addDays(currentDate, 1);
   }
