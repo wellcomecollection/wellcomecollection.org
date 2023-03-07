@@ -12,18 +12,12 @@ type CheckboxFilterProps = {
   f: CheckboxFilterType;
   changeHandler: () => void;
   form?: string;
-  isNewStyle?: boolean;
 };
 
-const CheckboxFilter = ({
-  f,
-  changeHandler,
-  form,
-  isNewStyle,
-}: CheckboxFilterProps) => {
+const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <DropdownButton
-      isPill={isNewStyle}
+      isPill
       label={f.label}
       buttonType="inline"
       id={f.id}

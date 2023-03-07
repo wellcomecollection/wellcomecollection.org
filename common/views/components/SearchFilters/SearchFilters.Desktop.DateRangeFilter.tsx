@@ -7,7 +7,6 @@ import DateRangeFilter, {
 
 type DesktopDateRangeFilterProps = DateRangeFilterProps & {
   hasNoOptions?: boolean;
-  isNewStyle?: boolean;
 };
 
 const DesktopDateRangeFilter = ({
@@ -15,12 +14,11 @@ const DesktopDateRangeFilter = ({
   changeHandler,
   form,
   hasNoOptions,
-  isNewStyle,
 }: DesktopDateRangeFilterProps) => {
   return (
     <Space className={font('intr', 5)}>
       <DropdownButton
-        isPill={isNewStyle}
+        isPill
         label={f.label}
         buttonType="inline"
         id={f.id}
