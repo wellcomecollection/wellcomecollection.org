@@ -44,6 +44,12 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
+import styled from 'styled-components';
+
+const DigitisedPreview = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 type Props = {
   work: Work;
@@ -258,7 +264,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const renderContent = () => (
     <>
       {showAvailableOnlineSection && (
-        <WorkDetailsSection headingText="Available online">
+        <>
           <ConditionalWrapper
             condition={Boolean(tokenService && !shouldShowItemLink)}
             wrapper={children =>
@@ -299,119 +305,108 @@ const WorkDetails: FunctionComponent<Props> = ({
             )}
 
             {shouldShowItemLink && (
-              <>
-                {work.thumbnail && (
-                  <Space
-                    v={{
-                      size: 's',
-                      properties: ['margin-bottom'],
-                    }}
-                  >
-                    <ConditionalWrapper
-                      condition={Boolean(itemUrl)}
-                      wrapper={children =>
-                        itemUrl && (
-                          <NextLink
-                            href={itemUrl.href}
-                            as={itemUrl.as}
-                            onClick={() =>
-                              trackGaEvent({
-                                category: 'WorkDetails',
-                                action: 'follow image link',
-                                label: work.id,
-                              })
-                            }
-                          >
-                            {children}
-                          </NextLink>
-                        )
-                      }
-                    >
-                      <img
-                        style={{
-                          width: 'auto',
-                          height: 'auto',
-                        }}
-                        alt={`view ${work.title}`}
-                        src={work.thumbnail.url}
-                      />
-                    </ConditionalWrapper>
-                  </Space>
-                )}
-
-                {/* Note: there is no class flex-h-center, but there is flex--h-center
-                    Is that what's meant here? */}
-                <div className="flex flex-h-center">
-                  {itemUrl && (
+              <DigitisedPreview>
+                <div>
+                  {work.thumbnail && (
                     <Space
-                      as="span"
-                      h={{
-                        size: 'm',
-                        properties: ['margin-right'],
+                      v={{
+                        size: 's',
+                        properties: ['margin-bottom'],
                       }}
                     >
-                      <ButtonSolidLink
-                        icon={eye}
-                        text="View"
-                        trackingEvent={{
-                          category: 'WorkDetails',
-                          action: 'follow view link',
-                          label: itemUrl?.href?.query?.workId?.toString(),
-                        }}
-                        link={{ ...itemUrl }}
-                      />
+                      <ConditionalWrapper
+                        condition={Boolean(itemUrl)}
+                        wrapper={children =>
+                          itemUrl && (
+                            <NextLink
+                              href={itemUrl.href}
+                              as={itemUrl.as}
+                              onClick={() =>
+                                trackGaEvent({
+                                  category: 'WorkDetails',
+                                  action: 'follow image link',
+                                  label: work.id,
+                                })
+                              }
+                            >
+                              {children}
+                            </NextLink>
+                          )
+                        }
+                      >
+                        <img
+                          style={{
+                            width: 'auto',
+                            height: 'auto',
+                          }}
+                          alt={`view ${work.title}`}
+                          src={work.thumbnail.url}
+                        />
+                      </ConditionalWrapper>
                     </Space>
                   )}
+                  {/* Note: there is no class flex-h-center, but there is flex--h-center
+                    Is that what's meant here? */}
+                  <div className="flex flex-h-center">
+                    {itemUrl && (
+                      <Space
+                        as="span"
+                        h={{
+                          size: 'm',
+                          properties: ['margin-right'],
+                        }}
+                      >
+                        <ButtonSolidLink
+                          icon={eye}
+                          text="View"
+                          trackingEvent={{
+                            category: 'WorkDetails',
+                            action: 'follow view link',
+                            label: itemUrl?.href?.query?.workId?.toString(),
+                          }}
+                          link={{ ...itemUrl }}
+                        />
+                      </Space>
+                    )}
 
-                  {showDownloadOptions && (
-                    <Download
-                      ariaControlsId="itemDownloads"
-                      workId={work.id}
-                      downloadOptions={downloadOptions}
-                    />
+                    {showDownloadOptions && (
+                      <Download
+                        ariaControlsId="itemDownloads"
+                        workId={work.id}
+                        downloadOptions={downloadOptions}
+                      />
+                    )}
+                  </div>
+                  {(collectionManifestsCount > 0 || canvasCount > 0) && (
+                    <Space
+                      v={{
+                        size: 'm',
+                        properties: ['margin-top'],
+                      }}
+                    >
+                      <p className={`no-margin ${font('lr', 6)}`}>
+                        Contains:{' '}
+                        {collectionManifestsCount > 0
+                          ? `${collectionManifestsCount} ${
+                              collectionManifestsCount === 1
+                                ? 'volume'
+                                : 'volumes'
+                            }`
+                          : canvasCount > 0
+                          ? `${canvasCount} ${
+                              canvasCount === 1 ? 'image' : 'images'
+                            }`
+                          : ''}
+                      </p>
+                    </Space>
                   )}
                 </div>
-                {(collectionManifestsCount > 0 || canvasCount > 0) && (
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['margin-top'],
-                    }}
-                  >
-                    <p className={`no-margin ${font('lr', 6)}`}>
-                      Contains:{' '}
-                      {collectionManifestsCount > 0
-                        ? `${collectionManifestsCount} ${
-                            collectionManifestsCount === 1
-                              ? 'volume'
-                              : 'volumes'
-                          }`
-                        : canvasCount > 0
-                        ? `${canvasCount} ${
-                            canvasCount === 1 ? 'image' : 'images'
-                          }`
-                        : ''}
-                    </p>
-                  </Space>
-                )}
-              </>
+              </DigitisedPreview>
             )}
           </ConditionalWrapper>
-
-          {digitalLocationInfo?.license && (
-            <>
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top'],
-                }}
-              >
-                <WorkDetailsText
-                  title="Licence"
-                  text={[digitalLocationInfo.license.label]}
-                />
-              </Space>
-              {digitalLocation?.accessConditions[0]?.terms && (
+          <WorkDetailsSection headingText="Available online">
+            {digitalLocationInfo?.license && (
+              <>
                 <Space
                   v={{
                     size: 'l',
@@ -419,59 +414,74 @@ const WorkDetails: FunctionComponent<Props> = ({
                   }}
                 >
                   <WorkDetailsText
-                    title="Access conditions"
-                    noSpacing={true}
-                    text={digitalLocation?.accessConditions[0]?.terms}
+                    title="Licence"
+                    text={[digitalLocationInfo.license.label]}
                   />
                 </Space>
-              )}
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top'],
-                }}
-              >
-                <ExplanatoryText
-                  id="licenseDetail"
-                  controlText="Can I use this?"
-                >
-                  <>
-                    {digitalLocationInfo.license.humanReadableText && (
-                      <WorkDetailsText
-                        contents={digitalLocationInfo.license.humanReadableText}
-                      />
-                    )}
+                {digitalLocation?.accessConditions[0]?.terms && (
+                  <Space
+                    v={{
+                      size: 'l',
+                      properties: ['margin-top'],
+                    }}
+                  >
                     <WorkDetailsText
-                      contents={
-                        <>
-                          Credit: {work.title.replace(/\.$/g, '')}.
-                          {credit && (
-                            <>
-                              {' '}
-                              <a
-                                href={`https://wellcomecollection.org/works/${work.id}`}
-                              >
-                                {credit}
-                              </a>
-                              .
-                            </>
-                          )}{' '}
-                          {digitalLocationInfo.license.url ? (
-                            <a href={digitalLocationInfo.license.url}>
-                              {digitalLocationInfo.license.label}
-                            </a>
-                          ) : (
-                            digitalLocationInfo.license.label
-                          )}
-                        </>
-                      }
+                      title="Access conditions"
+                      noSpacing={true}
+                      text={digitalLocation?.accessConditions[0]?.terms}
                     />
-                  </>
-                </ExplanatoryText>
-              </Space>
-            </>
-          )}
-        </WorkDetailsSection>
+                  </Space>
+                )}
+                <Space
+                  v={{
+                    size: 'l',
+                    properties: ['margin-top'],
+                  }}
+                >
+                  <ExplanatoryText
+                    id="licenseDetail"
+                    controlText="Can I use this?"
+                  >
+                    <>
+                      {digitalLocationInfo.license.humanReadableText && (
+                        <WorkDetailsText
+                          contents={
+                            digitalLocationInfo.license.humanReadableText
+                          }
+                        />
+                      )}
+                      <WorkDetailsText
+                        contents={
+                          <>
+                            Credit: {work.title.replace(/\.$/g, '')}.
+                            {credit && (
+                              <>
+                                {' '}
+                                <a
+                                  href={`https://wellcomecollection.org/works/${work.id}`}
+                                >
+                                  {credit}
+                                </a>
+                                .
+                              </>
+                            )}{' '}
+                            {digitalLocationInfo.license.url ? (
+                              <a href={digitalLocationInfo.license.url}>
+                                {digitalLocationInfo.license.label}
+                              </a>
+                            ) : (
+                              digitalLocationInfo.license.label
+                            )}
+                          </>
+                        }
+                      />
+                    </>
+                  </ExplanatoryText>
+                </Space>
+              </>
+            )}
+          </WorkDetailsSection>
+        </>
       )}
 
       <OnlineResources work={work} />
