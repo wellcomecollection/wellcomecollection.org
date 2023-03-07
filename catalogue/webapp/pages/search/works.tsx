@@ -14,6 +14,7 @@ import Sort from '@weco/catalogue/components/Sort/Sort';
 import SearchFilters from '@weco/common/views/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import { DividerWrapper } from '@weco/common/views/components/SubNavigation/SubNavigation.styles';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import {
   fromQuery,
@@ -51,29 +52,6 @@ const SortPaginationWrapper = styled.div`
   align-items: center;
   flex-wrap: wrap;
 `;
-
-// -1px is to make up for the extra pixel applied by the Divider
-// The goal being to align it perfectly with search/images
-const DividerWrapper = styled.div`
-  ${props =>
-    `
-      margin: 0 -${props.theme.containerPadding.small}px -1px; 
-      transition: margin ${props => props.theme.transitionProperties};
-
-    ${props.theme.media('medium')(`
-        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem) -1px ;
-    `)}
-
-    ${props.theme.media('large')(`
-        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem) -1px ;
-    `)}
-
-    ${props.theme.media('xlarge')(`
-        margin-right: 0; 
-    `)}
-  `}
-`;
-
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   works,
   worksRouteProps,
