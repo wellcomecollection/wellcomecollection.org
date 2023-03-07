@@ -28,7 +28,7 @@ import ExplanatoryText from './ExplanatoryText';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
@@ -740,7 +740,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       {renderContent()}
     </Space>
   ) : (
-    <Layout12>{renderContent()}</Layout12>
+    <Layout10>{renderContent()}</Layout10>
   );
 };
 

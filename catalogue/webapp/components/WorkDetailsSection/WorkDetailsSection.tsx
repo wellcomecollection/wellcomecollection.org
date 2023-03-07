@@ -1,13 +1,28 @@
-import Divider from '@weco/common/views/components/Divider/Divider';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import { classNames, grid, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent, PropsWithChildren, useContext } from 'react';
+import styled from 'styled-components';
+import Space from '@weco/common/views/components/styled/Space';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 
 type Props = PropsWithChildren<{
   headingText?: string;
 }>;
+
+const SectionWithDivider = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top'] },
+})<{ isArchive: boolean }>`
+  ${props =>
+    props.isArchive &&
+    `
+    &:nth-child(1) {
+      padding-top: 0;
+    }
+  `}
+  & + & {
+    border-top: 1px solid ${props => props.theme.color('neutral.400')};
+  }
+`;
 
 const WorkDetailsSection: FunctionComponent<Props> = ({
   headingText,
@@ -16,51 +31,17 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
   const isArchive = useContext(IsArchiveContext);
 
   return (
-    <>
-      {!isArchive && (
-        <>
-          <Divider />
-          <SpacingComponent />
-        </>
-      )}
+    <SectionWithDivider isArchive={isArchive}>
       <SpacingSection>
-        <div
-          className={classNames({
-            grid: !isArchive,
-          })}
-        >
-          <div
-            className={classNames({
-              [grid({
-                s: 12,
-                m: 12,
-                l: 4,
-                xl: 4,
-              })]: !isArchive,
-            })}
-          >
-            {headingText && (
-              <h2 className={`${font('wb', 4)} work-details-heading`}>
-                {headingText}
-              </h2>
-            )}
-          </div>
+        {headingText && (
+          <h2 className={`${font('wb', 4)} work-details-heading`}>
+            {headingText}
+          </h2>
+        )}
 
-          <div
-            className={classNames({
-              [grid({
-                s: 12,
-                m: 12,
-                l: 8,
-                xl: 7,
-              })]: !isArchive,
-            })}
-          >
-            {children}
-          </div>
-        </div>
+        {children}
       </SpacingSection>
-    </>
+    </SectionWithDivider>
   );
 };
 
