@@ -11,7 +11,7 @@ const useShowClickthrough = (
   const [showClickthrough, setShowClickthrough] = useState(false);
 
   useEffect(() => {
-    function receiveMessage(event) {
+    function receiveMessage(event: MessageEvent) {
       const data = event.data;
       const serviceOrigin = tokenService && new URL(tokenService['@id']);
       if (

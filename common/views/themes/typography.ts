@@ -348,7 +348,7 @@ export function makeFontSizeClasses(): string {
     .join(' ');
 }
 
-function overridesAtBreakpoint(bp) {
+function overridesAtBreakpoint(bp: string) {
   return Object.entries(fontSizeUnits)
     .map(([key, value]) => {
       return `.font-size-override-${bp}-${key} {font-size: ${value}rem}`;

@@ -1,4 +1,10 @@
-import { FunctionComponent, ReactElement, useContext, useState } from 'react';
+import {
+  FunctionComponent,
+  MouseEvent,
+  ReactElement,
+  useContext,
+  useState,
+} from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { getPrismicLicenseData } from '../../../utils/licenses';
 import { trackGaEvent } from '../../../utils/ga';
@@ -196,7 +202,7 @@ const Tasl: FunctionComponent<Props> = ({
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(false);
-  function toggleWithAnalytics(event) {
+  function toggleWithAnalytics(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     trackGaEvent({
       category: 'Tasl',

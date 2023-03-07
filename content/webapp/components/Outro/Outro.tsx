@@ -25,7 +25,7 @@ const Outro: FunctionComponent<Props> = ({
   visitLinkText,
   visitItem,
 }) => {
-  function getItemInfo(item) {
+  function getItemInfo(item: MultiContent) {
     switch (item) {
       case researchItem:
         return {

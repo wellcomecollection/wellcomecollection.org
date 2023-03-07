@@ -18,7 +18,7 @@ const PrismicImage = styled(Image)`
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 
-function determineSize(viewPortImageDifference): string {
+function determineSize(viewPortImageDifference: number): string {
   // the further from 0 the more extreme the difference
   if (viewPortImageDifference < 0) {
     // - value means image is more landscape than the aspect ratio of the viewport,
