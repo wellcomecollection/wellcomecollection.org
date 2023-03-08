@@ -54,7 +54,7 @@ const SearchLayout: FunctionComponent<{ apiToolbarLinks: ApiToolbarLink[] }> =
     const basePageMetadata: PageLayoutMetadata = {
       apiToolbarLinks,
       openGraphType: 'website',
-      siteSection: null,
+      siteSection: null, // We don't want search to display under any menu section
       jsonLd: { '@type': 'WebPage' },
       hideNewsletterPromo: true,
       excludeRoleMain: true,
@@ -78,7 +78,7 @@ const SearchLayout: FunctionComponent<{ apiToolbarLinks: ApiToolbarLink[] }> =
 
     useEffect(() => {
       const queryStringTitle = queryString ? `${queryString} | ` : '';
-      setInputValue(queryString || ''); // This accounts for queries done from these pages from the global search
+      setInputValue(queryString || ''); // This accounts for queries done on these pages, but from the global search
 
       switch (currentSearchCategory) {
         case 'overview':
@@ -149,7 +149,7 @@ const SearchLayout: FunctionComponent<{ apiToolbarLinks: ApiToolbarLink[] }> =
             sortOrder: urlFormattedSort.sortOrder,
           }),
         },
-        pathname: pageLayoutMetadata.url.pathname,
+        pathname: router.pathname,
       });
 
       return router.push(link.href, link.as);
