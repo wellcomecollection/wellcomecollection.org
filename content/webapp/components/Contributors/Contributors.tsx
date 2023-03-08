@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { isNotUndefined } from '@weco/common/utils/array';
 import Space from '@weco/common/views/components/styled/Space';
 import Contributor from './Contributor';
@@ -70,11 +70,11 @@ const Contributors: FunctionComponent<Props> = ({
   );
 
   return (
-    <Fragment>
+    <>
       <h2 className="h2">
         {isNotUndefined(titleOverride)
           ? titleOverride
-          : `${getContributorsTitle(roles, titlePrefix)}`}
+          : getContributorsTitle(roles, titlePrefix)}
       </h2>
 
       {contributors.map(({ contributor, role, description }) => (
@@ -93,7 +93,7 @@ const Contributors: FunctionComponent<Props> = ({
           />
         </Space>
       ))}
-    </Fragment>
+    </>
   );
 };
 
