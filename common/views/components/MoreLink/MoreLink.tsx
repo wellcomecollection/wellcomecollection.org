@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import { LinkProps } from 'next/link';
 import { trackGaEvent, GaEvent } from '../../../utils/ga';
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
@@ -20,7 +20,7 @@ const MoreLink: FunctionComponent<Props> = ({
   colors,
   hoverUnderline,
   trackingEvent,
-}: Props): ReactElement<Props> => {
+}) => {
   function handleClick() {
     if (trackingEvent) {
       trackGaEvent({

@@ -41,9 +41,6 @@ const SeriesNavigation: FunctionComponent<Props> = ({
                 pathname: '/series/[seriesId]',
                 query: { seriesId: series.id },
               },
-              as: {
-                pathname: `/series/${series.id}`,
-              },
             }}
           />
         </Space>
