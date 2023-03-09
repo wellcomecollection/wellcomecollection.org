@@ -1,5 +1,4 @@
 import { NextLinkType } from '@weco/common/model/next-link-type';
-import { parseCsv } from '@weco/common/utils/csv';
 import { isNotUndefined } from '@weco/common/utils/array';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -49,10 +48,6 @@ export function serialiseUrl(params: Params): UrlParams {
   }, {});
 }
 
-function stringToCsv(s: string | undefined): string[] {
-  return s ? s.split(',') : [];
-}
-
 function maybeString(s: string | undefined): string | undefined {
   return s || undefined;
 }
@@ -63,10 +58,6 @@ function defaultTo1(v: string | number | undefined): number {
 
 function defaultToEmptyString(s: string | undefined): string {
   return s || '';
-}
-
-function quotedCsv(v: string | null) {
-  return v ? parseCsv(v) : [];
 }
 
 type NextRoute<T> = {
@@ -93,65 +84,6 @@ export type WorksRouteProps = {
   subjectsLabel?: string[];
   genresLabel?: string[];
   contributorsAgentLabel?: string[];
-};
-
-export const WorksRoute: NextRoute<WorksRouteProps> = {
-  fromQuery(q) {
-    return {
-      query: defaultToEmptyString(q.query),
-      page: defaultTo1(q.page),
-      workType: stringToCsv(q.workType),
-      itemsLocationsLocationType: stringToCsv(
-        q['items.locations.locationType']
-      ),
-      availabilities: stringToCsv(q['availabilities']),
-      sort: maybeString(q.sort),
-      sortOrder: maybeString(q.sortOrder),
-      productionDatesFrom: maybeString(q['production.dates.from']),
-      productionDatesTo: maybeString(q['production.dates.to']),
-      imagesColor: maybeString(q['images.color']),
-      search: maybeString(q.search),
-      source: maybeString(q.source),
-      languages: stringToCsv(q.languages),
-      subjectsLabel: quotedCsv(q['subjects.label']),
-      genresLabel: quotedCsv(q['genres.label']),
-      contributorsAgentLabel: quotedCsv(q['contributors.agent.label']),
-    };
-  },
-
-  toLink(params: WorksRouteProps) {
-    const pathname = '/search/works';
-    const { source, ...paramsWithoutSource } = params;
-
-    return {
-      href: {
-        pathname,
-        query: WorksRoute.toQuery(params),
-      },
-      as: {
-        pathname,
-        query: WorksRoute.toQuery(paramsWithoutSource),
-      },
-    };
-  },
-
-  toQuery(params: WorksRouteProps) {
-    return serialiseUrl({
-      query: params.query,
-      page: params.page,
-      workType: params.workType,
-      'items.locations.locationType': params.itemsLocationsLocationType,
-      availabilities: params.availabilities,
-      sort: params.sort,
-      sortOrder: params.sortOrder,
-      'production.dates.from': params.productionDatesFrom,
-      'production.dates.to': params.productionDatesTo,
-      'images.color': params.imagesColor,
-      search: params.search,
-      source: params.source,
-      'contributors.agent.label': params.contributorsAgentLabel,
-    });
-  },
 };
 
 // route: /works/{id}
