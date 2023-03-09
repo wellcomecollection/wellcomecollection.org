@@ -22,7 +22,7 @@
     "@types/node": "^18.14.6",
     "@types/react": "^16.9.35",
     "@types/react-window": "^1.8.2",
-    "@types/styled-components": "^5.1.15",
+    "@types/styled-components": "^5.1.26",
     "@types/supertest": "^2.0.11",
     "@weco/common": "1.0.0",
     "@weco/toggles": "1.0.0",
