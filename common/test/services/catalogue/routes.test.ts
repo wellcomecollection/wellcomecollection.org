@@ -1,6 +1,5 @@
 import {
   serialiseUrl,
-  WorkRoute,
   ItemRoute,
 } from '@weco/common/services/catalogue/routes';
 
@@ -27,26 +26,6 @@ test('it serialises URLs in a weco fashion', () => {
     arrayProp: 'a,b',
     // nullProp: undefined,
     // undefinedProp: undefined,
-  });
-});
-
-// route: /works/{id}
-test('/works/{id}: with no values', () => {
-  const query = {};
-  const worksRouteState = WorkRoute.fromQuery(query);
-
-  expect(worksRouteState).toEqual({ id: '' });
-});
-
-test('/works/{id}: with values', () => {
-  const query = {
-    id: 'm4b34tup',
-    notValid: '( ͡° ͜ʖ ͡°)',
-  };
-  const workRoute = WorkRoute.fromQuery(query);
-
-  expect(workRoute).toEqual({
-    id: 'm4b34tup',
   });
 });
 

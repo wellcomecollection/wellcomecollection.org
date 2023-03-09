@@ -91,32 +91,6 @@ export type WorkRouteProps = {
   id: string;
 };
 
-export const WorkRoute: NextRoute<WorkRouteProps> = {
-  fromQuery(q) {
-    return {
-      id: defaultToEmptyString(q.id),
-    };
-  },
-
-  toLink(params) {
-    const { id } = params;
-    return {
-      href: {
-        pathname: '/works/[workId]',
-        query: { workId: id },
-      },
-      as: {
-        pathname: `/works/${id}`,
-        query: {},
-      },
-    };
-  },
-
-  toQuery(params) {
-    return serialiseUrl({ id: params.id });
-  },
-};
-
 // route: /works/{id}/items
 // /works/{id}/items
 export type ItemRouteProps = {
