@@ -1,6 +1,5 @@
 import {
   serialiseUrl,
-  WorksRoute,
   WorkRoute,
   ItemRoute,
 } from '@weco/common/services/catalogue/routes';
@@ -28,62 +27,6 @@ test('it serialises URLs in a weco fashion', () => {
     arrayProp: 'a,b',
     // nullProp: undefined,
     // undefinedProp: undefined,
-  });
-});
-
-// route: /search/works
-test('/search/works: with no values', () => {
-  const query = {};
-  const worksRouteState = WorksRoute.fromQuery(query);
-
-  expect(worksRouteState).toEqual({
-    query: '',
-    page: 1,
-    workType: [],
-    itemsLocationsLocationType: [],
-    availabilities: [],
-    sort: undefined,
-    sortOrder: undefined,
-    productionDatesFrom: undefined,
-    productionDatesTo: undefined,
-    search: undefined,
-    source: undefined,
-    imagesColor: undefined,
-    genresLabel: [],
-    subjectsLabel: [],
-    languages: [],
-    contributorsAgentLabel: [],
-  });
-});
-
-test('/search/works: with values', () => {
-  const query = {
-    query: 'gargoyles',
-    page: '3',
-    workType: 'a,b,c',
-    'production.dates.from': '1500',
-    'production.dates.to': '1900',
-    notValid: '( ͡° ͜ʖ ͡°)',
-  };
-  const worksRouteState = WorksRoute.fromQuery(query);
-
-  expect(worksRouteState).toEqual({
-    query: 'gargoyles',
-    page: 3,
-    workType: ['a', 'b', 'c'],
-    itemsLocationsLocationType: [],
-    availabilities: [],
-    sort: undefined,
-    sortOrder: undefined,
-    productionDatesFrom: '1500',
-    productionDatesTo: '1900',
-    search: undefined,
-    source: undefined,
-    imagesColor: undefined,
-    genresLabel: [],
-    subjectsLabel: [],
-    languages: [],
-    contributorsAgentLabel: [],
   });
 });
 
