@@ -26,14 +26,12 @@ export const pageDescriptions = {
   guides: 'Guides intro text...',
   homepage:
     'Visit our free museum and library in central London connecting science, medicine, life and art. Explore our exhibitions, live events, gallery tours and café. Fully accessible.',
-  images: 'Search Wellcome Collection images',
   stories:
     'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.',
   userPanel:
     'Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more.',
   whatsOn:
     'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.',
-  works: 'Search the Wellcome Collection catalogue',
   comic:
     'Explore new perspectives on bodies, brains and health with our guest comic artists.',
   search: {
@@ -45,8 +43,6 @@ export const pageDescriptions = {
       'Search for images about health and human experience. Our collections include paintings, photogrpahs, engravings, etchings, illustrations and more.',
     works:
       'Search our collections about health and human experience. Our collections include books, manuscripts, visual materials, journals and unpublished archives.',
-    exhibitions: 'copy pending',
-    events: 'copy pending',
   },
 };
 

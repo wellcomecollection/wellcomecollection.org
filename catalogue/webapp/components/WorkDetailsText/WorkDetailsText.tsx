@@ -1,6 +1,13 @@
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
 import { FunctionComponent, ReactElement } from 'react';
 import { isString } from '@weco/common/utils/array';
+import styled from 'styled-components';
+
+const LimitWidth = styled.div.attrs({
+  className: 'spaced-text',
+})`
+  max-width: 45em;
+`;
 
 type BaseProps = {
   title?: string;
@@ -37,7 +44,7 @@ const WorkDetailsText: FunctionComponent<Props> = props => {
       inlineHeading={inlineHeading}
       noSpacing={noSpacing}
     >
-      <div className="spaced-text">
+      <LimitWidth>
         {'contents' in props && props.contents}
         {'text' in props &&
           (isString(props.text) ? (
@@ -53,7 +60,7 @@ const WorkDetailsText: FunctionComponent<Props> = props => {
               <div key={i} dangerouslySetInnerHTML={{ __html: para }} />
             ))
           ))}
-      </div>
+      </LimitWidth>
     </WorkDetailsProperty>
   );
 };

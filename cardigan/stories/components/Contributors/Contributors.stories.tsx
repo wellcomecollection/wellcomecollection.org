@@ -38,6 +38,5 @@ basic.args = {
       description: null,
     },
   ],
-  titleOverride: '',
 };
 basic.storyName = 'Contributors';
