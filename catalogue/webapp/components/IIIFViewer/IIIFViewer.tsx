@@ -5,7 +5,7 @@ import {
   useEffect,
   useContext,
 } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { Work } from '@weco/catalogue/services/catalogue/types';
@@ -37,6 +37,26 @@ import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
 import { TransformedCanvas, TransformedManifest } from '../../types/manifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
+
+const show = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+// The <NoScriptViewer /> will display before the enhanced viewer takes it's place.
+// This is necessary for it to be available to visitors without javascript,
+// but would normally result in a large and noticeable change to the page which is jarring.
+// In order to prevent that, we wrap the <NoScriptViewer /> in a DelayVisibility styled component.
+// This delays the visibility of the <NoScriptViewer /> long enough
+// that the enhanced viewer will usually have replaced it, if javascript is available, and so it will never be seen.
+// The trade off is that if javascript isn't available there will be a slight delay before seeing the <NoScriptViewer />.
+const DelayVisibility = styled.div`
+  opacity: 0;
+  animation: 0.5s ${show} 2s forwards;
+`;
 
 type IIIFViewerProps = {
   title: string;
@@ -538,21 +558,23 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       </Grid>
     </ItemViewerContext.Provider>
   ) : (
-    <NoScriptViewer
-      thumbnailsRequired={Boolean(navigationCanvases?.length)}
-      imageUrl={imageUrl}
-      iiifImageLocation={iiifImageLocation}
-      currentCanvas={currentCanvas}
-      canvasOcr={canvasOcr}
-      lang={lang}
-      mainPaginatorProps={mainPaginatorProps}
-      thumbsPaginatorProps={thumbsPaginatorProps}
-      workId={work.id}
-      canvases={canvases || []}
-      canvasIndex={canvasIndex}
-      pageIndex={pageIndex}
-      pageSize={pageSize}
-    />
+    <DelayVisibility>
+      <NoScriptViewer
+        thumbnailsRequired={Boolean(navigationCanvases?.length)}
+        imageUrl={imageUrl}
+        iiifImageLocation={iiifImageLocation}
+        currentCanvas={currentCanvas}
+        canvasOcr={canvasOcr}
+        lang={lang}
+        mainPaginatorProps={mainPaginatorProps}
+        thumbsPaginatorProps={thumbsPaginatorProps}
+        workId={work.id}
+        canvases={canvases || []}
+        canvasIndex={canvasIndex}
+        pageIndex={pageIndex}
+        pageSize={pageSize}
+      />
+    </DelayVisibility>
   );
 };
 
