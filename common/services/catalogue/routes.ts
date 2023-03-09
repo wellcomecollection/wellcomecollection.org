@@ -239,42 +239,8 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
   },
 };
 
-export type ImageRouteProps = {
-  id: string;
-  workId: string;
-  langCode: string;
-};
-
-export const ImageRoute: NextRoute<ImageRouteProps> = {
-  fromQuery(q: UrlParams) {
-    const { workId, langCode = 'eng', id } = q;
-    return {
-      workId: defaultToEmptyString(workId),
-      langCode,
-      id: defaultToEmptyString(id),
-    };
-  },
-  toLink(params: ImageRouteProps) {
-    const { workId } = params;
-    return {
-      href: {
-        pathname: '/works/[workId]/images',
-        query: ImageRoute.toQuery(params),
-      },
-      as: {
-        pathname: `/works/${workId}/images`,
-        query: ImageRoute.toQuery(params),
-      },
-    };
-  },
-  toQuery(params: ImageRouteProps) {
-    return serialiseUrl(params);
-  },
-};
-
 export const worksLink = (
   params: WorksRouteProps,
   source: string
 ): NextLinkType => WorksRoute.toLink({ ...params, source });
 export const itemLink = ItemRoute.toLink;
-export const imageLink = ImageRoute.toLink;
