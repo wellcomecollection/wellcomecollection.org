@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useContext, FunctionComponent } from 'react';
 import NextLink from 'next/link';
-import { itemLink } from '@weco/common/services/catalogue/routes';
+import { toLink as itemLink } from '../ItemLink';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
 import { getMultiVolumeLabel } from '../../utils/iiif/v3';
@@ -20,12 +20,15 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
         {parentManifest?.items.map((manifest, i) => (
           <li key={manifest.id}>
             <NextLink
-              {...itemLink({
-                workId: work.id,
-                langCode: lang,
-                manifest: i + 1,
-                canvas: 1,
-              })}
+              {...itemLink(
+                {
+                  workId: work.id,
+                  langCode: lang,
+                  manifest: i + 1,
+                  canvas: 1,
+                },
+                'manifests_navigation'
+              )}
               passHref={true}
               legacyBehavior
             >
