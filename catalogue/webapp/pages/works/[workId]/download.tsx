@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Work } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,

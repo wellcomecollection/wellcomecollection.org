@@ -11,13 +11,13 @@ import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
   filterLabel,
-} from '@weco/common/services/catalogue/filters';
+} from '@weco/catalogue/services/catalogue/filters';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { LinkProps } from '@weco/common/model/link-props';
-import { DateRangeFilter } from '@weco/common/views/components/SearchFilters';
-import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+import { DateRangeFilter } from '../SearchFilters';
+import PaletteColorPicker from '../PaletteColorPicker';
 
 type ModalMoreFiltersProps = {
   id: string;

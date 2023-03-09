@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Work as WorkType } from '@weco/common/model/catalogue';
+import { Work as WorkType } from '@weco/catalogue/services/catalogue/types';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';

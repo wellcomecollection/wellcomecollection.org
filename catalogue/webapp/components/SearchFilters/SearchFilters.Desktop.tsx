@@ -9,9 +9,9 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters';
+import { SearchFiltersSharedProps } from '.';
 
-import ModalMoreFilters from '@weco/common/views/components/ModalMoreFilters/ModalMoreFilters';
+import ModalMoreFilters from '../ModalMoreFilters';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 import { ResetActiveFilters } from './ResetActiveFilters';

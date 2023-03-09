@@ -13,11 +13,11 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { SearchFiltersSharedProps } from '@weco/common/views/components/SearchFilters';
+import { SearchFiltersSharedProps } from '.';
 import {
   CheckboxFilter as CheckboxFilterType,
   filterLabel,
-} from '@weco/common/services/catalogue/filters';
+} from '@weco/catalogue/services/catalogue/filters';
 import ButtonSolid, {
   ButtonTypes,
   SolidButton,
@@ -25,7 +25,7 @@ import ButtonSolid, {
 import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
 import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import PaletteColorPicker from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+import PaletteColorPicker from '@weco/catalogue/components/PaletteColorPicker';
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
 
 const SearchFiltersContainer = styled(Space).attrs({

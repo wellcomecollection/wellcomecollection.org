@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { Work, Image } from '@weco/common/model/catalogue';
-import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
+import { Work, Image } from '@weco/catalogue/services/catalogue/types';
+import { toLink as imageLink } from '@weco/catalogue/components/ImageLink';
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';

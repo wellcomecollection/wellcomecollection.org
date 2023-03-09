@@ -1,8 +1,8 @@
 import NextLink from 'next/link';
 import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
-import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
+import { toLink as worksLink } from '../WorksLink';
+import { toLink as imagesLink } from '../ImagesLink';
 import {
   getDigitalLocationInfo,
   getDigitalLocationOfType,
@@ -25,11 +25,12 @@ import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ExplanatoryText from './ExplanatoryText';
-import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
+import { toLink as itemLink } from '../ItemLink';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
-import { DigitalLocation, Work } from '@weco/common/model/catalogue';
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';

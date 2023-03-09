@@ -7,7 +7,7 @@ import { ImageType } from '@weco/common/model/image';
 
 import IIIFImage from '../IIIFImage/IIIFImage';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
+import { toLink as imageLink } from '../ImageLink';
 
 type Props = {
   id: string;

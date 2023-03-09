@@ -22,7 +22,7 @@ import { font } from '@weco/common/utils/classnames';
 import { getWorks } from '@weco/catalogue/services/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
 import { getImages } from '@weco/catalogue/services/catalogue/images';
-import { Image, Work } from '@weco/common/model/catalogue';
+import { Image, Work } from '@weco/catalogue/services/catalogue/types';
 import {
   getQueryResults,
   getQueryPropertyValue,

@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 import NextLink from 'next/link';
-import { LinkProps } from '../../../model/link-props';
+import { LinkProps } from '@weco/common/model/link-props';
 import { FunctionComponent } from 'react';
 import {
   LinkFrom,
@@ -12,7 +12,7 @@ import {
   encodeQuery,
   decodeQuery,
   quotedCsvCodec,
-} from '../../../utils/routes';
+} from '@weco/common/utils/routes';
 
 const imagesPropsSources = [
   'search/paginator',

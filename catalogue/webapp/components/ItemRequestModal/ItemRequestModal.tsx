@@ -9,7 +9,7 @@ import {
   PhysicalItem,
   Work,
   CatalogueApiError,
-} from '@weco/common/model/catalogue';
+} from '@weco/catalogue/services/catalogue/types';
 import LL from '@weco/common/views/components/styled/LL';
 import RequestDialog from './RequestDialog';
 import ConfirmedDialog from './ConfirmedDialog';

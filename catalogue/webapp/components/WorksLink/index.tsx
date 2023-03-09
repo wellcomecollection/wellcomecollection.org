@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 import NextLink from 'next/link';
-import { LinkProps } from '../../../model/link-props';
+import { LinkProps } from '@weco/common/model/link-props';
 import { FunctionComponent } from 'react';
 import {
   LinkFrom,
@@ -12,8 +12,8 @@ import {
   FromCodecMap,
   decodeQuery,
   encodeQuery,
-} from '../../../utils/routes';
-import { Prefix } from '../../../utils/utility-types';
+} from '@weco/common/utils/routes';
+import { Prefix } from '@weco/common/utils/utility-types';
 
 const worksPropsSources = [
   'search_form',

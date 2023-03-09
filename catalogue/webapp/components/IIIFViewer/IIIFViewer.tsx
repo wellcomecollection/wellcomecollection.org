@@ -7,7 +7,8 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
-import { DigitalLocation, Work } from '@weco/common/model/catalogue';
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,

@@ -1,10 +1,14 @@
-import { palette } from '../../views/components/PaletteColorPicker/PaletteColorPicker';
-import { CatalogueResultsList, Work, Image } from '../../model/catalogue';
-import { quoteVal } from '../../utils/csv';
-import { toHtmlId } from '../../utils/string';
-import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
-import { WorksProps } from '../../views/components/WorksLink/WorksLink';
-import { isNotUndefined, isString } from '../../utils/array';
+import { palette } from '@weco/catalogue/components/PaletteColorPicker';
+import {
+  CatalogueResultsList,
+  Work,
+  Image,
+} from '@weco/catalogue/services/catalogue/types';
+import { quoteVal } from '@weco/common/utils/csv';
+import { toHtmlId } from '@weco/common/utils/string';
+import { ImagesProps } from '@weco/catalogue/components/ImagesLink';
+import { WorksProps } from '@weco/catalogue/components/WorksLink';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { formatNumber } from '@weco/common/utils/grammar';
 
 export type DateRangeFilter = {

@@ -8,8 +8,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { cross } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
-import { Filter } from '@weco/common/services/catalogue/filters';
-import { getColorDisplayName } from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+import { Filter } from '@weco/catalogue/services/catalogue/filters';
+import { getColorDisplayName } from '@weco/catalogue/components/PaletteColorPicker';
 
 type ResetActiveFilters = {
   query?: string;
