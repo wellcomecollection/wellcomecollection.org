@@ -116,7 +116,7 @@ const ItemPage: NextPage<Props> = ({
   const workId = work.id;
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
-  const [showViewer, setShowViewer] = useState(false);
+  const [showViewer, setShowViewer] = useState(true);
   const { worksTabbedNav } = useToggles();
   const {
     title,
