@@ -36,7 +36,15 @@ const SeriesNavigation: FunctionComponent<Props> = ({
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <MoreLink
             name={`More from ${series.title}`}
-            url={`/${series.type}/${series.id}`}
+            url={{
+              href: {
+                pathname: '/series/[seriesId]',
+                query: { seriesId: series.id },
+              },
+              as: {
+                pathname: `/series/${series.id}`,
+              },
+            }}
           />
         </Space>
       </Layout8>
