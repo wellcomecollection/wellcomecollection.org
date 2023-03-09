@@ -12,8 +12,7 @@ const Anchor = styled.a<{ isManifestIndex: boolean }>`
 `;
 
 const MultipleManifestListPrototype: FunctionComponent = () => {
-  const { parentManifest, work, lang, manifestIndex } =
-    useContext(ItemViewerContext);
+  const { parentManifest, work, manifestIndex } = useContext(ItemViewerContext);
   return (
     <nav>
       <PlainList aria-label={volumesNavigationLabel}>
@@ -23,7 +22,6 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
               {...itemLink(
                 {
                   workId: work.id,
-                  langCode: lang,
                   manifest: i + 1,
                   canvas: 1,
                 },
