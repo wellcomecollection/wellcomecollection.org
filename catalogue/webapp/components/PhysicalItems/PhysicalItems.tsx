@@ -55,7 +55,7 @@ const useItemsState = (
 
   useEffect(() => {
     setItemsState(getItemsState(items));
-  }, [items]);
+  }, []);
 
   return [itemsState, setItemsState];
 };
