@@ -6,7 +6,11 @@ import {
   useEffect,
   ReactElement,
 } from 'react';
-import { Article, ArticleBasic } from '@weco/content/types/articles';
+import {
+  Article,
+  ArticleBasic,
+  getPartNumberInSeries,
+} from '@weco/content/types/articles';
 import { Series } from '@weco/content/types/series';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -206,9 +210,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
 
   // Check if the article is in a serial, and where
   const serial = article.series.find(series => series.schedule.length > 0);
-  const titlesInSerial = serial && serial.schedule.map(item => item.title);
-  const positionInSerial =
-    titlesInSerial && titlesInSerial.indexOf(article.title) + 1;
+  const positionInSerial = getPartNumberInSeries(article);
 
   // We can abstract this out as a component if we see it elsewhere.
   // Not too confident it's going to be used like this for long.

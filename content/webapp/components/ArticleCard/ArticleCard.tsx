@@ -4,11 +4,12 @@ import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isUndefined } from '@weco/common/utils/array';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { getCrop } from '@weco/common/model/image';
+import { getPartNumberInSeries } from '@weco/content/types/articles';
 
 type Props = {
   article: ArticleBasic;
@@ -31,18 +32,7 @@ const ArticleCard: FunctionComponent<Props> = ({
     series => series.schedule.length > 0
   );
 
-  const indexInSeriesSchedule = article.promo?.caption
-    ? seriesWithSchedule?.schedule
-        ?.map(scheduleItem => scheduleItem.title)
-        .indexOf(article.promo?.caption)
-    : undefined;
-
   const seriesColor = seriesWithSchedule?.color ?? undefined;
-
-  const positionInSeriesSchedule =
-    isNotUndefined(indexInSeriesSchedule) && indexInSeriesSchedule !== -1
-      ? indexInSeriesSchedule + 1
-      : undefined;
 
   const isSerial = Boolean(seriesWithSchedule);
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
@@ -53,14 +43,16 @@ const ArticleCard: FunctionComponent<Props> = ({
 
   const publicationDate = article.datePublished;
 
+  const partNumber = showPosition ? getPartNumberInSeries(article) : undefined;
+
   return (
     <CompactCard
       url={url}
       title={article.title}
-      partNumber={showPosition ? positionInSeriesSchedule : undefined}
+      partNumber={partNumber}
       partDescription={isPodcast ? 'Episode' : 'Part'}
       partNumberColor={seriesColor}
-      primaryLabels={!isPodcast ? labels : []}
+      primaryLabels={!isPodcast && isUndefined(partNumber) ? labels : []}
       secondaryLabels={[]}
       description={!isPodcast ? article.promo?.caption ?? undefined : undefined}
       Image={
