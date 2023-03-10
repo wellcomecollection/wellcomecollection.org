@@ -34,9 +34,7 @@ const PartOf = styled.div.attrs({
 `;
 
 type Props = {
-  article: ArticleBasic & {
-    series: { id: string; title: string }[];
-  };
+  article: ArticleBasic;
   position: number;
   hidePromoText?: boolean;
   sizesQueries?: string;
