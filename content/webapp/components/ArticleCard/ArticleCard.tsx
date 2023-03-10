@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/array';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { ArticleBasic } from '../../types/articles';
+import { ArticleBasic, getArticleColor } from '../../types/articles';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { getCrop } from '@weco/common/model/image';
 import { getPartNumberInSeries } from '@weco/content/types/articles';
@@ -28,13 +28,7 @@ const ArticleCard: FunctionComponent<Props> = ({
   const url = linkResolver(article);
   const image = getCrop(article.image, 'square');
 
-  const seriesWithSchedule = article.series.find(
-    series => series.schedule.length > 0
-  );
-
-  const seriesColor = seriesWithSchedule?.color ?? undefined;
-
-  const isSerial = Boolean(seriesWithSchedule);
+  const isSerial = article.series.some(series => series.schedule.length > 0);
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 
   const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
@@ -51,7 +45,7 @@ const ArticleCard: FunctionComponent<Props> = ({
       title={article.title}
       partNumber={partNumber}
       partDescription={isPodcast ? 'Episode' : 'Part'}
-      partNumberColor={seriesColor}
+      partNumberColor={getArticleColor(article)}
       primaryLabels={!isPodcast && isUndefined(partNumber) ? labels : []}
       secondaryLabels={[]}
       description={!isPodcast ? article.promo?.caption ?? undefined : undefined}
