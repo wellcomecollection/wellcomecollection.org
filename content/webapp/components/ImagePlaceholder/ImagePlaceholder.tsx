@@ -12,7 +12,7 @@ const Wrapper = styled.div<{
 
 const Pattern = styled.div`
   position: absolute;
-  background-image: ${`url('${repeatingLs}')`};
+  background-image: url('${repeatingLs}');
   background-size: cover;
   width: 100%;
   height: 100%;
