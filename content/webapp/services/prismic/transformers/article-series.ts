@@ -1,6 +1,11 @@
-import { SeriesBasic } from '@weco/content/types/series';
-import { ArticleBasic } from '@weco/content/types/articles';
+import { Series } from '@weco/content/types/series';
+import { Article } from '@weco/content/types/articles';
 import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
+
+type ArticleSeriesProps = {
+  series: Series;
+  articles: Article[];
+};
 
 /** Get a list of all the scheduled items in this series that haven't
  * been published yet.
@@ -13,10 +18,7 @@ import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items'
 export function getScheduledItems({
   series,
   articles,
-}: {
-  series: SeriesBasic;
-  articles: ArticleBasic[];
-}): ArticleScheduleItem[] {
+}: ArticleSeriesProps): ArticleScheduleItem[] {
   // Get a list of titles that have already been published in this series.
   //
   // This may cause issues with extremely long serials, if a single page
@@ -26,4 +28,31 @@ export function getScheduledItems({
   const publishedTitles = articles.map(art => art.title);
 
   return series.schedule.filter(item => !publishedTitles.includes(item.title));
+}
+
+/** Given a list of articles in a series, put them in the right order.
+ *
+ *    - If this is part of a serial (e.g. Finding Audrey Amiss), then they go
+ *      in ascending schedule order -- from earliest published to latest published.
+ *
+ *    - If this is part of an ongoing series (e.g. Inside Our Collections), then they
+ *      go in descending publication order.
+ *
+ */
+export function sortSeriesItems({
+  series,
+  articles,
+}: ArticleSeriesProps): Article[] {
+  if (series.schedule.length > 0) {
+    const scheduleTitles = series.schedule.map(item => item.title);
+
+    return articles.sort(
+      (a, b) =>
+        scheduleTitles.indexOf(a.title) - scheduleTitles.indexOf(b.title)
+    );
+  } else {
+    return articles.sort(
+      (a, b) => a.datePublished.valueOf() - b.datePublished.valueOf()
+    );
+  }
 }

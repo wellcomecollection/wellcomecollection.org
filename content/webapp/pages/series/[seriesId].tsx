@@ -16,13 +16,15 @@ import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '@weco/content/components/Body/Body';
-import SearchResults from '@weco/content/components/SearchResults/SearchResults';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
-import { getScheduledItems } from '@weco/content/services/prismic/transformers/article-series';
+import {
+  getScheduledItems,
+  sortSeriesItems,
+} from '@weco/content/services/prismic/transformers/article-series';
 import { getPage } from '@weco/content/utils/query-params';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import {
@@ -35,6 +37,15 @@ import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
+import styled from 'styled-components';
+import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
+import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
+
+const SeriesItem = styled.div<{ isFirst: boolean }>`
+  border-top-width: ${props => (props.isFirst ? '0' : '1px')};
+  border-top-style: solid;
+  border-top-color: ${props => props.theme.color('warmNeutral.400')};
+`;
 
 type Props = {
   series: Series;
@@ -126,7 +137,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         series,
         articles: {
           ...articles,
-          results: articles.results.map(transformArticleToArticleBasic),
+          results: sortSeriesItems({ series, articles: articles.results }).map(
+            transformArticleToArticleBasic
+          ),
         },
         scheduledItems,
         serverData,
@@ -198,8 +211,31 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
         contributors={series.contributors}
         seasons={series.seasons}
       >
-        <SearchResults items={articles.results} showPosition={true} />
-        <SearchResults items={scheduledItems} showPosition={true} />
+        <>
+          {articles.results.map((article, index) => (
+            <SeriesItem key={index} isFirst={index === 0}>
+              <ArticleCard
+                article={article}
+                showPosition={true}
+                xOfY={{
+                  x: index + 1,
+                  y: articles.results.length + scheduledItems.length,
+                }}
+              />
+            </SeriesItem>
+          ))}
+          {scheduledItems.map((item, index) => (
+            <SeriesItem key={index} isFirst={false}>
+              <ArticleScheduleItemCard
+                item={item}
+                xOfY={{
+                  x: articles.results.length + index + 1,
+                  y: articles.results.length + scheduledItems.length,
+                }}
+              />
+            </SeriesItem>
+          ))}
+        </>
         {articles.totalPages > 1 && (
           <PaginationWrapper verticalSpacing="m" alignRight>
             <Pagination
