@@ -53,6 +53,19 @@ export function getPositionInSeries(article: ArticleBasic): number | undefined {
   }
 }
 
+/** Given an article in a serial, return its part number.
+ *
+ * e.g. "Cataloguing Audrey" is the second article in the "Finding Audrey Amiss" serial,
+ * so it has a part number of 2.
+ */
+export function getPartNumberInSeries(
+  article: ArticleBasic
+): number | undefined {
+  return article.series
+    .flatMap(series => series.schedule)
+    .find(scheduleItem => scheduleItem.title === article.title)?.partNumber;
+}
+
 export function getArticleColor(article: ArticleBasic): ColorSelection {
   return (
     article.series.map(series => series.color).find(Boolean) || 'accent.purple'
