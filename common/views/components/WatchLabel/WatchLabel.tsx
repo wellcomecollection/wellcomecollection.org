@@ -27,7 +27,7 @@ const WatchText = styled(Space).attrs({
 `;
 
 type Props = {
-  text?: string | ReactElement;
+  text: string | ReactElement;
 };
 
 const WatchLabel: FunctionComponent<Props> = ({ text }: Props) => (
@@ -35,7 +35,7 @@ const WatchLabel: FunctionComponent<Props> = ({ text }: Props) => (
     <WatchIconWrapper>
       <Icon icon={play} matchText={true} />
     </WatchIconWrapper>
-    {text && <WatchText>{text}</WatchText>}
+    <WatchText>{text}</WatchText>
   </div>
 );
 export default WatchLabel;
