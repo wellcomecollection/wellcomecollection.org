@@ -24,7 +24,7 @@ const ArticleCard: FunctionComponent<Props> = ({
   article,
   showPosition,
   xOfY,
-}: Props) => {
+}) => {
   const url = linkResolver(article);
   const image = getCrop(article.image, 'square');
 
