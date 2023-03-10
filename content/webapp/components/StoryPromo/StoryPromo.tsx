@@ -44,7 +44,7 @@ const StoryPromo: FunctionComponent<Props> = ({
   article,
   position,
   hidePromoText = false,
-}: Props) => {
+}) => {
   const image = article.promo?.image;
   const url = linkResolver(article);
 
