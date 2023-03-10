@@ -28,7 +28,7 @@ const ArticleCard: FunctionComponent<Props> = ({
   const image = getCrop(article.image, 'square');
 
   const seriesWithSchedule = article.series.find(
-    series => (series.schedule ?? []).length > 0
+    series => series.schedule.length > 0
   );
 
   const indexInSeriesSchedule = article.promo?.caption
