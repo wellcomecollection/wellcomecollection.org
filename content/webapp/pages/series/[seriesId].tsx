@@ -137,9 +137,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         series,
         articles: {
           ...articles,
-          results: sortSeriesItems({ series, articles: articles.results }).map(
-            transformArticleToArticleBasic
-          ),
+          results: sortSeriesItems({
+            series,
+            articles: articles.results.map(transformArticleToArticleBasic),
+          }),
         },
         scheduledItems,
         serverData,

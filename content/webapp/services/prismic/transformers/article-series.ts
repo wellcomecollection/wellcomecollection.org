@@ -1,10 +1,10 @@
-import { Series } from '@weco/content/types/series';
-import { Article } from '@weco/content/types/articles';
+import { SeriesBasic } from '@weco/content/types/series';
+import { ArticleBasic } from '@weco/content/types/articles';
 import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
 
 type ArticleSeriesProps = {
-  series: Series;
-  articles: Article[];
+  series: SeriesBasic;
+  articles: ArticleBasic[];
 };
 
 /** Get a list of all the scheduled items in this series that haven't
@@ -42,9 +42,11 @@ export function getScheduledItems({
 export function sortSeriesItems({
   series,
   articles,
-}: ArticleSeriesProps): Article[] {
+}: ArticleSeriesProps): ArticleBasic[] {
   if (series.schedule.length > 0) {
-    const scheduleTitles = series.schedule.map(item => item.title);
+    const scheduleTitles = series.schedule
+      .sort((a, b) => a.partNumber - b.partNumber)
+      .map(item => item.title);
 
     return articles.sort(
       (a, b) =>
