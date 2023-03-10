@@ -1,86 +1,29 @@
-import { Query } from '@prismicio/types';
-import { Series } from '../../../types/series';
-import { ArticleBasic } from '../../../types/articles';
-import { ArticlePrismicDocument } from '../types/articles';
-import { transformArticle, transformArticleToArticleBasic } from './articles';
-import { transformQuery } from './paginated-results';
+import { SeriesBasic } from '@weco/content/types/series';
+import { ArticleBasic } from '@weco/content/types/articles';
+import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
 
-type ArticleSeriesWithArticles = {
-  series: Series;
-  articles: ArticleBasic[];
-};
-
-/** Transform a series and its articles, given matching articles
- * from Prismic.
+/** Get a list of all the scheduled items in this series that haven't
+ * been published yet.
  *
- * Note: this function assumes it will get a non-empty list of articles,
- * otherwise it can't perform the transformation.
- *
+ * This is used for serials, which are usually 6 parts long -- although
+ * the articles aren't published all at once, the Editorial team will put
+ * "scheduled items" on the series in Prismic, so readers can see the titles
+ * of upcoming articles.
  */
-export const transformArticleSeries = (
-  seriesId: string,
-  articleQuery: Query<ArticlePrismicDocument>
-): ArticleSeriesWithArticles => {
-  // TODO: This function is quite confusing.  Refactor it and add
-  // more helpful comments.
+export function getScheduledItems({
+  series,
+  articles,
+}: {
+  series: SeriesBasic;
+  articles: ArticleBasic[];
+}): ArticleScheduleItem[] {
+  // Get a list of titles that have already been published in this series.
+  //
+  // This may cause issues with extremely long serials, if a single page
+  // of articles doesn't include all the already-published articles, but
+  // as we only expect serials to have scheduled items, and serials are
+  // short, it's probably not an issue.
+  const publishedTitles = articles.map(art => art.title);
 
-  const articles = transformQuery(articleQuery, transformArticle).results;
-
-  // This should never happen in practice -- an article series without
-  // any articles should return a 404 before we call this function.
-  if (articles.length === 0) {
-    throw new Error(
-      `Asked to transform series ${seriesId} without any articles`
-    );
-  }
-
-  const series = articles[0].series.find(series => series.id === seriesId)!;
-
-  // GOTCHA: We should hopefully be good here, as we only ever use this for serials,
-  // which are 6 parts long
-  const titles = articles.map(article => article.title);
-
-  const schedule =
-    series && series.schedule.length > 0
-      ? series.schedule.map(scheduleItem => {
-          const index = titles.indexOf(scheduleItem.title);
-          if (index !== -1 && articles[index]) {
-            return articles[index];
-          }
-
-          return scheduleItem;
-        })
-      : [];
-
-  // Add some colour
-  const items =
-    schedule.length > 0
-      ? schedule.map(item => {
-          const basicItem =
-            item.type === 'articles'
-              ? transformArticleToArticleBasic(item)
-              : item;
-
-          // TODO: This isn't always an ArticleBasic; sometimes it's an ArticleScheduleItem.
-          // This needs fixing as part of a broader refactor.
-          //
-          // See https://wellcome.slack.com/archives/C3TQSF63C/p1663838875989689
-          return {
-            ...basicItem,
-            color: series && series.color,
-          } as ArticleBasic;
-        })
-      : articles;
-
-  const seriesWithItems: Series = {
-    ...series,
-    items,
-  };
-
-  return (
-    series && {
-      articles: articles.map(transformArticleToArticleBasic),
-      series: seriesWithItems,
-    }
-  );
-};
+  return series.schedule.filter(item => !publishedTitles.includes(item.title));
+}

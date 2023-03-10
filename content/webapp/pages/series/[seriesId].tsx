@@ -22,7 +22,7 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
-import { transformArticleSeries } from '@weco/content/services/prismic/transformers/article-series';
+import { getScheduledItems } from '@weco/content/services/prismic/transformers/article-series';
 import { getPage } from '@weco/content/utils/query-params';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import {
@@ -91,8 +91,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // We've seen people trying to request a high-numbered page for a series,
     // presumably by guessing at URLs, e.g. /series/W-XBJxEAAKmng1TG?page=500.
     //
-    // The transformArticleSeries method expects to get a non-empty list of
-    // articles, so if this page doesn't have any articles, let's 404 here.
+    // We need a non-empty list of articles to get any metadata about the series,
+    // so if this page doesn't have any articles, let's 404 here.
     //
     // Note: this is a debug rather than a warn because it's more likely to be
     // somebody guessing about our URL scheme than somebody in Editorial looking
@@ -107,23 +107,28 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    const { articles, series } = transformArticleSeries(
-      seriesId,
-      articlesQuery
-    );
+    const articles = transformQuery(articlesQuery, transformArticle);
 
-    const paginatedArticles = transformQuery(articlesQuery, article =>
-      transformArticleToArticleBasic(transformArticle(article))
-    );
+    // We know that `articles` is non-empty, and because we queried for articles in
+    // this series, we know these articles have a series defined.
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const series = articles.results[0].series.find(
+      series => series.id === seriesId
+    )!;
+
+    const scheduledItems = getScheduledItems({
+      articles: articles.results,
+      series,
+    });
 
     return {
       props: removeUndefinedProps({
         series,
         articles: {
-          ...paginatedArticles,
-          articles,
+          ...articles,
+          results: articles.results.map(transformArticleToArticleBasic),
         },
-        scheduledItems: [],
+        scheduledItems,
         serverData,
         gaDimensions: {
           partOf: series.seasons.map(season => season.id),
@@ -137,7 +142,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ArticleSeriesPage: FunctionComponent<Props> = props => {
-  const { series, articles } = props;
+  const { series, articles, scheduledItems } = props;
   const breadcrumbs = {
     items: [
       {
@@ -193,7 +198,8 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
         contributors={series.contributors}
         seasons={series.seasons}
       >
-        <SearchResults items={series.items} showPosition={true} />
+        <SearchResults items={articles.results} showPosition={true} />
+        <SearchResults items={scheduledItems} showPosition={true} />
         {articles.totalPages > 1 && (
           <PaginationWrapper verticalSpacing="m" alignRight>
             <Pagination
