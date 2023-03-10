@@ -210,13 +210,13 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
 
   // Check if the article is in a serial, and where
   const serial = article.series.find(series => series.schedule.length > 0);
-  const positionInSerial = getPartNumberInSeries(article);
+  const partNumber = getPartNumberInSeries(article);
 
   // We can abstract this out as a component if we see it elsewhere.
   // Not too confident it's going to be used like this for long.
-  const TitleTopper = serial && positionInSerial && (
+  const TitleTopper = serial && partNumber && (
     <PartNumberIndicator
-      number={positionInSerial}
+      number={partNumber}
       backgroundColor={serial.color}
       description={isPodcast ? 'Episode' : 'Part'}
     />
@@ -298,7 +298,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
 
   const Siblings = listOfSeries
     ?.map(({ series, articles }) => {
-      return getNextUp(series, articles, article, positionInSerial, isPodcast);
+      return getNextUp(series, articles, article, partNumber, isPodcast);
     })
     .filter(Boolean);
 
