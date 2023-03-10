@@ -215,7 +215,6 @@ const SearchLayout: FunctionComponent<{ apiToolbarLinks: ApiToolbarLink[] }> =
             ]}
             currentSection={currentSearchCategory}
             hasDivider
-            variant="yellow"
           />
         </div>
         {children}

@@ -28,7 +28,6 @@ type Props = {
   label: string;
   items: SelectableTextLink[];
   currentSection: string;
-  variant?: 'yellow' | 'white';
   hasDivider?: boolean;
 };
 
@@ -41,7 +40,6 @@ const TabNavBottomBorder = styled.div`
 const SubNavigation: FunctionComponent<Props> = ({
   label,
   items,
-  variant,
   currentSection,
   hasDivider,
 }: Props) => {
@@ -60,7 +58,6 @@ const SubNavigation: FunctionComponent<Props> = ({
                 legacyBehavior
               >
                 <NavItemInner
-                  variant={variant}
                   selected={isSelected}
                   aria-current={isSelected ? 'page' : 'false'}
                   onClick={e => {

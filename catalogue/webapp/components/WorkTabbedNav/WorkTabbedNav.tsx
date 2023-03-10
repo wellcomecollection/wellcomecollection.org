@@ -39,7 +39,6 @@ const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
       ]}
       currentSection={selected}
       hasDivider
-      variant="yellow"
     />
   );
 };
