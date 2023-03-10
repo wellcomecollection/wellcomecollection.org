@@ -11,7 +11,11 @@ import {
   CardImageWrapper,
 } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { ArticleBasic } from '../../types/articles';
+import {
+  ArticleBasic,
+  getArticleColor,
+  getPartNumberInSeries,
+} from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import styled from 'styled-components';
@@ -46,26 +50,11 @@ const StoryPromo: FunctionComponent<Props> = ({
   const image = article.promo?.image;
   const url = linkResolver(article);
 
-  // This is a bit of nastiness as we can't access the articles within a series i.e.
-  // `thisArticle.series.schedule.articles.map(article => article.id === thisArticle.id)`
-  // So this only works on series that have a schedule, and a schedule where the titles
-  // match exactly with the schedule items. This wouldn't work with any series.
-  const seriesWithSchedule = article.series.find(series =>
-    (series.schedule ?? []).find(schedule => schedule.publishDate)
-  );
+  const seriesColor = getArticleColor(article);
 
-  const seriesColor = seriesWithSchedule?.color ?? undefined;
+  const partNumber = getPartNumberInSeries(article);
 
-  const seriesTitles =
-    seriesWithSchedule?.schedule?.map(scheduleItem => scheduleItem.title) || [];
-  const indexInSeriesSchedule = seriesTitles.indexOf(article.title);
-
-  const positionInSeriesSchedule =
-    isNotUndefined(indexInSeriesSchedule) && indexInSeriesSchedule !== -1
-      ? indexInSeriesSchedule + 1
-      : undefined;
-
-  const isSerial = Boolean(seriesWithSchedule);
+  const isSerial = article.series.some(series => series.schedule.length > 0);
 
   const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
     .filter(isNotUndefined)
@@ -106,9 +95,9 @@ const StoryPromo: FunctionComponent<Props> = ({
 
       <CardBody>
         <div>
-          {positionInSeriesSchedule && (
+          {partNumber && (
             <PartNumberIndicator
-              number={positionInSeriesSchedule}
+              number={partNumber}
               backgroundColor={seriesColor}
             />
           )}
