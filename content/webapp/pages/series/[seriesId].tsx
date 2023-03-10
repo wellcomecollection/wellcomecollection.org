@@ -34,10 +34,12 @@ import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
 
 type Props = {
   series: Series;
   articles: PaginatedResults<ArticleBasic>;
+  scheduledItems: ArticleScheduleItem[];
   gaDimensions: GaDimensions;
   pageview: Pageview;
 };
@@ -121,6 +123,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ...paginatedArticles,
           articles,
         },
+        scheduledItems: [],
         serverData,
         gaDimensions: {
           partOf: series.seasons.map(season => season.id),
