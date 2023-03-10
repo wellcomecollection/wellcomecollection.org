@@ -50,7 +50,7 @@ const ArticleCard: FunctionComponent<Props> = ({
       secondaryLabels={[]}
       description={!isPodcast ? article.promo?.caption ?? undefined : undefined}
       Image={
-        (image && (
+        image && (
           <PrismicImage
             // We intentionally omit the alt text on promos, so screen reader
             // users don't have to listen to the alt text before hearing the
@@ -66,8 +66,7 @@ const ArticleCard: FunctionComponent<Props> = ({
             }}
             quality="low"
           />
-        )) ||
-        undefined
+        )
       }
       xOfY={xOfY}
       postTitleChildren={
