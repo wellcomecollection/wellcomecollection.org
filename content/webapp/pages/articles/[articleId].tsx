@@ -131,7 +131,6 @@ function getNextUp(
 
     return nextUp ? (
       <SeriesNavigation
-        key={series.id}
         series={series}
         items={[nextUp]}
         isPodcast={isPodcast}
