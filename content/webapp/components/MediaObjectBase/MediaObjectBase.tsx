@@ -47,10 +47,7 @@ const BaseImageWrapper = styled.div.attrs({
 })``;
 
 const BaseTitleWrapper = styled.div.attrs({
-  className: classNames({
-    'card-link__title': true,
-    [font('wb', 3)]: true,
-  }),
+  className: `card-link__title ${font('wb', 3)}`,
 })``;
 
 export type HasImageProps = {
