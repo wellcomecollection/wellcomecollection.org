@@ -86,7 +86,7 @@ const SearchResults: FunctionComponent<Props> = ({
             {item.type === 'event-series' && (
               <CompactCard
                 url={`/event-series/${item.id}`}
-                title={item.title || ''}
+                title={item.title}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
                 description={item.promo && item.promo.caption}
@@ -119,7 +119,7 @@ const SearchResults: FunctionComponent<Props> = ({
             {item.type === 'books' && (
               <CompactCard
                 url={`/books/${item.id}`}
-                title={item.title || ''}
+                title={item.title}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
                 description={item.promo && item.promo.caption}
