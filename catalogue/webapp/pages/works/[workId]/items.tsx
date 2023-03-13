@@ -127,6 +127,13 @@ const ItemPage: NextPage<Props> = ({
     '@id': imageServiceId,
   };
 
+  // showViewer is true by default, so the noScriptViewer is available without javascript
+  // if javascript is available we set it to false and then determine whether the clickthrough modal is required
+  // before setting it to true
+  useEffect(() => {
+    setShowViewer(false);
+  }, []);
+
   useEffect(() => {
     setOrigin(`${window.location.protocol}//${window.location.hostname}`);
   }, []);
