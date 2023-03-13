@@ -86,6 +86,7 @@ type Props = {
   iconLeft?: IconSvg;
   isPill?: boolean;
   hasNoOptions?: boolean;
+  children?: ReactNode;
 };
 
 const DropdownButton: FunctionComponent<Props> = ({
