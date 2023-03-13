@@ -4,8 +4,8 @@ import { ImageType } from '@weco/common/model/image';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import {
   ArticleBasic,
-  getPositionInSeries,
   getArticleColor,
+  getPartNumberInSeries,
 } from '../../types/articles';
 import { Season } from '../../types/seasons';
 import { Card } from '../../types/card';
@@ -102,13 +102,13 @@ type FeaturedCardArticleBodyProps = {
 // TODO: make this e.g. just `CardArticleBody` and work it back into the existing promos/cards
 const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
   ({ article }) => {
-    const positionInSeries = getPositionInSeries(article);
+    const partNumber = getPartNumberInSeries(article);
     const seriesColor = getArticleColor(article);
     return (
       <>
-        {positionInSeries && (
+        {partNumber && (
           <PartNumberIndicator
-            number={positionInSeries}
+            number={partNumber}
             backgroundColor={seriesColor}
           />
         )}
