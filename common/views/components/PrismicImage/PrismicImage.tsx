@@ -10,7 +10,7 @@ const StyledImage = styled(Image)<{ $desaturate: boolean }>`
   filter: ${props => (props.$desaturate ? 'saturate(0%)' : undefined)};
   width: 100%;
   height: auto;
-  margin-bottom: -7.7px;
+  display: block;
 `;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
