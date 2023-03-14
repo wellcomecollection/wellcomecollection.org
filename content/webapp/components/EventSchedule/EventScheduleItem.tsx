@@ -51,8 +51,12 @@ const EventTimesWrapper = styled(Space).attrs({
     size: 'm',
     properties: ['margin-bottom'],
   },
-  className: `${grid({ s: 12, m: 12, l: 3, xl: 2 })} no-margin-l`,
-})``;
+  className: grid({ s: 12, m: 12, l: 3, xl: 2 }),
+})`
+  ${props => props.theme.media('large')`
+    margin: 0;
+  `}
+`;
 
 const EventScheduleItem: FunctionComponent<Props> = ({
   event,
