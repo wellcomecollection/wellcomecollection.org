@@ -39,28 +39,30 @@ type Props = {
   caption: prismicT.RichTextField;
   preCaptionNode?: ReactNode;
   width?: number;
-  isFigcaption?: boolean;
 };
 
 const Caption: FunctionComponent<Props> = ({
   caption,
   preCaptionNode,
   width,
-  isFigcaption = true,
 }: Props) => {
   return (
-    <Wrapper
-      width={width}
-      as={isFigcaption ? 'figcaption' : undefined}
-      aria-hidden={isFigcaption ? undefined : 'true'}
-      style={width ? { width: `${width}px` } : undefined}
-    >
-      <CaptionWrapper>
-        {preCaptionNode}
-        <CaptionText>
-          <PrismicHtmlBlock html={caption} />
-        </CaptionText>
-      </CaptionWrapper>
+    // In order to be valid html, a figcaption should appear as the first or
+    // last element in a figure. We have previously made this happen
+    // (https://github.com/wellcomecollection/wellcomecollection.org/pull/9103)
+    // but we have since discovered that Firefox will read the figcaption
+    // _before_ the img alt unless the figcaption is wrapped. On balance, it
+    // makes sense to have more accessible markup at the expense of it being
+    // less valid.
+    <Wrapper width={width} style={width ? { width: `${width}px` } : undefined}>
+      <figcaption>
+        <CaptionWrapper>
+          {preCaptionNode}
+          <CaptionText>
+            <PrismicHtmlBlock html={caption} />
+          </CaptionText>
+        </CaptionWrapper>
+      </figcaption>
     </Wrapper>
   );
 };
