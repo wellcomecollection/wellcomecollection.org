@@ -7,7 +7,7 @@ type Props = {
   isStub?: boolean;
 };
 
-const Rule = styled.hr<Props>`
+const Rule = styled.div<Props>`
   text-align: left;
   border: 0;
   height: 1px;
