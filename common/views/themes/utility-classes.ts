@@ -116,32 +116,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     margin: 0 !important;
   }
 
-  .no-margin-s.no-margin-s {
-    ${props =>
-      props.theme.mediaBetween(
-        'small',
-        'medium'
-      )(`
-        margin: 0;
-    `)}
-  }
-
-  .no-margin-m.no-margin-m {
-    ${props =>
-      props.theme.mediaBetween(
-        'medium',
-        'large'
-      )(`
-        margin: 0;
-    `)}
-  }
-
-  .no-margin-l.no-margin-l {
-    ${props => props.theme.media('large')`
-      margin: 0;
-    `}
-  }
-
   .promo-link {
     height: 100%;
     color: ${props => props.theme.color('black')};
