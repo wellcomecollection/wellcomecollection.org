@@ -1,4 +1,7 @@
-import { CatalogueResultsList, Image } from '../../../model/catalogue';
+import {
+  CatalogueResultsList,
+  Image,
+} from '@weco/catalogue/services/catalogue/types';
 
 const aggregations: CatalogueResultsList<Image> = {
   type: 'ResultList',
@@ -71,6 +74,7 @@ const aggregations: CatalogueResultsList<Image> = {
     },
     type: 'Aggregations',
   },
+  _requestUrl: 'https://api.wellcomecollection.org/catalogue/v2/images',
 };
 
 export default aggregations;

@@ -71,7 +71,6 @@ export const Tab = styled.div.attrs({
 
 type NavItemInnerProps = {
   selected: boolean;
-  variant?: 'yellow' | 'white';
 };
 export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
   return {
@@ -83,15 +82,7 @@ export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
   padding: 0 10px 24px; // Deliberately offset from the left-hand side to make the buttons bigger for a11y
   cursor: pointer;
   color: ${props =>
-    props.theme.color(
-      props.variant === 'white'
-        ? props.selected
-          ? 'white'
-          : 'warmNeutral.400'
-        : props.selected
-        ? 'black'
-        : 'neutral.600'
-    )};
+    props.theme.color(props.selected ? 'black' : 'neutral.600')};
   text-decoration: none;
   transition: all ${props => props.theme.transitionProperties};
 
@@ -103,19 +94,7 @@ export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
     left: 0;
     width: 0;
     background-color: ${props =>
-      props.theme.color(
-        props.selected
-          ? props.variant === 'white'
-            ? 'white'
-            : props.variant === 'yellow'
-            ? 'yellow'
-            : 'black'
-          : props.variant === 'white'
-          ? 'warmNeutral.400'
-          : props.variant === 'yellow'
-          ? 'lightYellow'
-          : 'neutral.600'
-      )};
+      props.theme.color(props.selected ? 'yellow' : 'lightYellow')};
     z-index: -1;
     transition: width 200ms ease;
   }

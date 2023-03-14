@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
-import { PhysicalItem, Work } from '@weco/common/model/catalogue';
+import { PhysicalItem, Work } from '@weco/catalogue/services/catalogue/types';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import {
   useAbortSignalEffect,
@@ -55,7 +55,7 @@ const useItemsState = (
 
   useEffect(() => {
     setItemsState(getItemsState(items));
-  }, [items]);
+  }, []);
 
   return [itemsState, setItemsState];
 };

@@ -2,14 +2,11 @@ import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { MultiContent } from '../../types/multi-content';
 import { grid } from '@weco/common/utils/classnames';
-import { formatDate } from '@weco/common/utils/format-date';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
-import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import Space from '@weco/common/views/components/styled/Space';
 import ArticleCard from '../ArticleCard/ArticleCard';
-import { ArticleScheduleItem } from '../../types/article-schedule-items';
 import { getCrop } from '@weco/common/model/image';
 import { Card } from '../../types/card';
 
@@ -20,7 +17,7 @@ const Result = styled.div`
 export type Props = {
   title?: string;
   summary?: string;
-  items: readonly (MultiContent | ArticleScheduleItem | Card)[];
+  items: readonly (MultiContent | Card)[];
   showPosition?: boolean;
 };
 
@@ -89,7 +86,7 @@ const SearchResults: FunctionComponent<Props> = ({
             {item.type === 'event-series' && (
               <CompactCard
                 url={`/event-series/${item.id}`}
-                title={item.title || ''}
+                title={item.title}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
                 description={item.promo && item.promo.caption}
@@ -122,7 +119,7 @@ const SearchResults: FunctionComponent<Props> = ({
             {item.type === 'books' && (
               <CompactCard
                 url={`/books/${item.id}`}
-                title={item.title || ''}
+                title={item.title}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
                 description={item.promo && item.promo.caption}
@@ -189,23 +186,6 @@ const SearchResults: FunctionComponent<Props> = ({
                     />
                   )
                 }
-                xOfY={{ x: index + 1, y: items.length }}
-              />
-            )}
-            {item.type === 'article-schedule-items' && (
-              <CompactCard
-                title={item.title || ''}
-                partNumber={item.partNumber}
-                partNumberColor={item.color}
-                primaryLabels={
-                  /* We don't show a label on items that haven't been published yet, because
-                   * we don't know whether they're a story, comic, etc.
-                   * See https://github.com/wellcomecollection/wellcomecollection.org/pull/7568 */
-                  []
-                }
-                secondaryLabels={[]}
-                description={`Available ${formatDate(item.publishDate)}`}
-                Image={<ImagePlaceholder backgroundColor={item.color} />}
                 xOfY={{ x: index + 1, y: items.length }}
               />
             )}

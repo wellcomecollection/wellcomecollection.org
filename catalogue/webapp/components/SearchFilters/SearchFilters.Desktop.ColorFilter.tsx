@@ -1,7 +1,7 @@
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import PaletteColorPicker, {
   PaletteColorPickerProps,
-} from '@weco/common/views/components/PaletteColorPicker/PaletteColorPicker';
+} from '@weco/catalogue/components/PaletteColorPicker';
 
 type DesktopColorFilterProps = PaletteColorPickerProps & {
   hasNoOptions?: boolean;

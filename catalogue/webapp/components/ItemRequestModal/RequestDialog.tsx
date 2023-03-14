@@ -9,7 +9,7 @@ import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { PhysicalItem, Work } from '@weco/common/model/catalogue';
+import { PhysicalItem, Work } from '@weco/catalogue/services/catalogue/types';
 import styled from 'styled-components';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';

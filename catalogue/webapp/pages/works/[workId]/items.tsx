@@ -3,8 +3,8 @@ import { GetServerSideProps, NextPage } from 'next';
 import {
   DigitalLocation,
   isDigitalLocation,
-  Work,
 } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
@@ -26,8 +26,8 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import {
   toLink as itemLink,
   fromQuery,
-} from '@weco/common/views/components/ItemLink/ItemLink';
-import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+} from '@weco/catalogue/components/ItemLink';
+import WorkLink from '@weco/catalogue/components/WorkLink';
 import { getServerData } from '@weco/common/server-data';
 import AudioList from '@weco/catalogue/components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/array';

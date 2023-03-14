@@ -1,8 +1,8 @@
-import { Work } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import { FunctionComponent } from 'react';
 import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
 import { listView, eye } from '@weco/common/icons';
-import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
+import { toLink as itemLink } from '../ItemLink';
 
 type Props = {
   work: Work;
@@ -39,7 +39,6 @@ const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
       ]}
       currentSection={selected}
       hasDivider
-      variant="yellow"
     />
   );
 };

@@ -1,5 +1,5 @@
+import { Work as WorkType } from '@weco/catalogue/services/catalogue/types';
 import {
-  Work as WorkType,
   Location as LocationType,
   DigitalLocation,
 } from '@weco/common/model/catalogue';

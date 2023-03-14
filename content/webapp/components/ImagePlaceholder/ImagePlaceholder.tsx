@@ -12,7 +12,7 @@ const Wrapper = styled.div<{
 
 const Pattern = styled.div`
   position: absolute;
-  background-image: ${`url('${repeatingLs}')`};
+  background-image: url('${repeatingLs}');
   background-size: cover;
   width: 100%;
   height: 100%;
@@ -24,9 +24,7 @@ type Props = {
   backgroundColor?: ColorSelection;
 };
 
-const ImagePlaceholder: FunctionComponent<Props> = ({
-  backgroundColor,
-}: Props) => (
+const ImagePlaceholder: FunctionComponent<Props> = ({ backgroundColor }) => (
   <Wrapper backgroundColor={backgroundColor || 'accent.purple'}>
     <img src={transparentGif} alt="" width="1" height="1" />
     <Pattern />

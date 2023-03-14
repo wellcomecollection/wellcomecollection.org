@@ -42,15 +42,17 @@ export type Article = GenericContentFields & {
   contributors: Contributor[];
 };
 
-export function getPositionInSeries(article: ArticleBasic): number | undefined {
-  const serialisedSeries = article.series.find(
-    series => series.schedule.length > 0
-  );
-  if (serialisedSeries) {
-    const titles = serialisedSeries.schedule.map(item => item.title);
-    const index = titles.indexOf(article.title);
-    return index > -1 ? index + 1 : undefined;
-  }
+/** Given an article in a serial, return its part number.
+ *
+ * e.g. "Cataloguing Audrey" is the second article in the "Finding Audrey Amiss" serial,
+ * so it has a part number of 2.
+ */
+export function getPartNumberInSeries(
+  article: ArticleBasic
+): number | undefined {
+  return article.series
+    .flatMap(series => series.schedule)
+    .find(scheduleItem => scheduleItem.title === article.title)?.partNumber;
 }
 
 export function getArticleColor(article: ArticleBasic): ColorSelection {

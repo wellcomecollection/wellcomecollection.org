@@ -1,12 +1,8 @@
-import worksAggregations from '../../fixtures/catalogueApi/works-aggregations';
-import imagesAggregations from '../../fixtures/catalogueApi/images-aggregations';
-import {
-  CheckboxFilter,
-  imagesFilters,
-  worksFilters,
-} from '../../../services/catalogue/filters';
-import { fromQuery as fromWorksQuery } from '../../../views/components/WorksLink/WorksLink';
-import { fromQuery as fromImagesQuery } from '../../../views/components/ImagesLink/ImagesLink';
+import worksAggregations from './fixtures/works-aggregations';
+import imagesAggregations from './fixtures/images-aggregations';
+import { CheckboxFilter, imagesFilters, worksFilters } from './filters';
+import { fromQuery as fromWorksQuery } from '@weco/catalogue/components/WorksLink';
+import { fromQuery as fromImagesQuery } from '@weco/catalogue/components/ImagesLink';
 
 // These tests require some knowledge of the fixture data.
 // A bit odd, but it works.

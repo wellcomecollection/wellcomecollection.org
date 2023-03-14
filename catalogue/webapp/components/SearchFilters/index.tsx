@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement, useContext, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 
 import { LinkProps } from '@weco/common/model/link-props';
-import { Filter } from '@weco/common/services/catalogue/filters';
+import { Filter } from '@weco/catalogue/services/catalogue/filters';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 

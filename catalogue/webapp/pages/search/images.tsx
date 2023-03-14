@@ -9,7 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import SearchFilters from '@weco/common/views/components/SearchFilters';
+import SearchFilters from '@weco/catalogue/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 
 // Utils & Helpers
@@ -22,15 +22,18 @@ import {
   fromQuery,
   ImagesProps,
   toLink,
-} from '@weco/common/views/components/ImagesLink/ImagesLink';
+} from '@weco/catalogue/components/ImagesLink';
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
-import { imagesFilters } from '@weco/common/services/catalogue/filters';
+import { imagesFilters } from '@weco/catalogue/services/catalogue/filters';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 
 // Types
-import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
+import {
+  CatalogueResultsList,
+  Image,
+} from '@weco/catalogue/services/catalogue/types';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Query } from '@weco/catalogue/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';

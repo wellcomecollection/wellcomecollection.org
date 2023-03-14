@@ -1,9 +1,9 @@
 import {
   CatalogueApiError,
+  CatalogueImagesApiProps,
   CatalogueResultsList,
   Image,
-} from '@weco/common/model/catalogue';
-import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/api';
+} from './types';
 import {
   rootUris,
   globalApiOptions,
@@ -20,7 +20,7 @@ import {
   emptyImagesProps,
   ImagesProps,
   toQuery,
-} from '@weco/common/views/components/ImagesLink/ImagesLink';
+} from '@weco/catalogue/components/ImagesLink';
 
 type ImageInclude =
   | 'visuallySimilar'

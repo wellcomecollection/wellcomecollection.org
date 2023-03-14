@@ -2,10 +2,10 @@ import {
   CatalogueApiError,
   CatalogueApiRedirect,
   CatalogueResultsList,
+  CatalogueWorksApiProps,
   ItemsList,
   Work,
-} from '@weco/common/model/catalogue';
-import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
+} from './types';
 import {
   catalogueApiError,
   globalApiOptions,
@@ -22,7 +22,7 @@ import {
   emptyWorksProps,
   toQuery,
   WorksProps,
-} from '@weco/common/views/components/WorksLink/WorksLink';
+} from '@weco/catalogue/components/WorksLink';
 
 type GetWorkProps = {
   id: string;

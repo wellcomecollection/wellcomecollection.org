@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { Work } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import { SearchResults } from '../../services/iiif/types/search/v3';
 import { Manifest } from '@iiif/presentation-3';
 import {

@@ -40,235 +40,190 @@ type PageLayoutMetadata = {
   apiToolbarLinks?: ApiToolbarLink[];
 };
 
-const SearchLayout: FunctionComponent<{
-  hasEventsExhibitions: boolean;
-  apiToolbarLinks: ApiToolbarLink[];
-}> = ({ children, hasEventsExhibitions, apiToolbarLinks }) => {
-  const router = useRouter();
-  const queryString = getQueryPropertyValue(router?.query?.query);
-  const [inputValue, setInputValue] = useState(queryString || '');
+const SearchLayout: FunctionComponent<{ apiToolbarLinks: ApiToolbarLink[] }> =
+  ({ children, apiToolbarLinks }) => {
+    const router = useRouter();
+    const queryString = getQueryPropertyValue(router?.query?.query);
+    const [inputValue, setInputValue] = useState(queryString || '');
 
-  const currentSearchCategory =
-    router.pathname === '/search'
-      ? 'overview'
-      : router.pathname.slice(router.pathname.lastIndexOf('/') + 1);
+    const currentSearchCategory =
+      router.pathname === '/search'
+        ? 'overview'
+        : router.pathname.slice(router.pathname.lastIndexOf('/') + 1);
 
-  const basePageMetadata: PageLayoutMetadata = {
-    apiToolbarLinks,
-    openGraphType: 'website',
-    siteSection: null,
-    jsonLd: { '@type': 'WebPage' },
-    hideNewsletterPromo: true,
-    excludeRoleMain: true,
-    title: `${queryString ? `${queryString} | ` : ''}Search`,
-    description: pageDescriptions.search.overview,
-    url: {
-      pathname: '/search',
-      query: queryString ? { query: queryString } : {},
-    },
-  };
-
-  const [pageLayoutMetadata, setPageLayoutMetadata] =
-    useState<PageLayoutMetadata>(basePageMetadata);
-
-  const getURL = (pathname: string) => {
-    return convertUrlToString({
-      pathname,
-      query: { query: queryString },
-    });
-  };
-
-  useEffect(() => {
-    const queryStringTitle = queryString ? `${queryString} | ` : '';
-    setInputValue(queryString || ''); // This accounts for queries done from these pages from the global search
-
-    switch (currentSearchCategory) {
-      case 'overview':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          title: `${queryStringTitle}Search`,
-        });
-        break;
-      case 'stories':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.stories,
-          title: `${queryStringTitle}Stories search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/stories',
-          },
-        });
-        break;
-      case 'images':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.images,
-          title: `${queryStringTitle}Images search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/images',
-          },
-        });
-        break;
-      case 'works':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.works,
-          title: `${queryStringTitle}Catalogue search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/works',
-          },
-        });
-        break;
-      // In development
-      case 'exhibitions':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.exhibitions,
-          title: `${queryStringTitle}Exhibitions search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/exhibitions',
-          },
-        });
-        break;
-      case 'events':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.events,
-          title: `${queryStringTitle}Events search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/events',
-          },
-        });
-        break;
-
-      default:
-        break;
-    }
-  }, [currentSearchCategory, queryString]);
-
-  const searchbarPlaceholderText = {
-    overview: 'Search our stories, images and catalogue',
-    stories: 'Search for stories',
-    images: 'Search for images',
-    works: 'Search the catalogue',
-    exhibitions: 'Search for exhibitions',
-    events: 'Search for events',
-  };
-
-  const updateUrl = (form: HTMLFormElement) => {
-    const formValues = formDataAsUrlQuery(form);
-
-    const sortOptionValue = getQueryPropertyValue(formValues.sortOrder);
-    const urlFormattedSort = sortOptionValue
-      ? getUrlQueryFromSortValue(sortOptionValue)
-      : undefined;
-
-    const link = linkResolver({
-      params: {
-        ...formValues,
-        ...(urlFormattedSort && {
-          sort: urlFormattedSort.sort,
-          sortOrder: urlFormattedSort.sortOrder,
-        }),
+    const basePageMetadata: PageLayoutMetadata = {
+      apiToolbarLinks,
+      openGraphType: 'website',
+      siteSection: null, // We don't want search to display under any menu section
+      jsonLd: { '@type': 'WebPage' },
+      hideNewsletterPromo: true,
+      excludeRoleMain: true,
+      title: `${queryString ? `${queryString} | ` : ''}Search`,
+      description: pageDescriptions.search.overview,
+      url: {
+        pathname: '/search',
+        query: queryString ? { query: queryString } : {},
       },
-      pathname: pageLayoutMetadata.url.pathname,
-    });
+    };
 
-    return router.push(link.href, link.as);
-  };
+    const [pageLayoutMetadata, setPageLayoutMetadata] =
+      useState<PageLayoutMetadata>(basePageMetadata);
 
-  return (
-    <CataloguePageLayout {...pageLayoutMetadata}>
-      <div className="container">
-        <form
-          role="search"
-          id="search-page-form"
-          onSubmit={event => {
-            event.preventDefault();
+    const getURL = (pathname: string) => {
+      return convertUrlToString({
+        pathname,
+        query: { query: queryString },
+      });
+    };
 
-            trackGaEvent({
-              category: 'SearchForm',
-              action: 'submit search',
-              label: router.query.query as string,
-            });
+    useEffect(() => {
+      const queryStringTitle = queryString ? `${queryString} | ` : '';
+      setInputValue(queryString || ''); // This accounts for queries done on these pages, but from the global search
 
-            updateUrl(event.currentTarget);
-          }}
-        >
-          <h1 className="visually-hidden">
-            {`${capitalize(currentSearchCategory)} search`}
-          </h1>
+      switch (currentSearchCategory) {
+        case 'overview':
+          setPageLayoutMetadata({
+            ...basePageMetadata,
+            title: `${queryStringTitle}Search`,
+          });
+          break;
+        case 'stories':
+          setPageLayoutMetadata({
+            ...basePageMetadata,
+            description: pageDescriptions.search.stories,
+            title: `${queryStringTitle}Stories search`,
+            url: {
+              ...basePageMetadata.url,
+              pathname: '/search/stories',
+            },
+          });
+          break;
+        case 'images':
+          setPageLayoutMetadata({
+            ...basePageMetadata,
+            description: pageDescriptions.search.images,
+            title: `${queryStringTitle}Images search`,
+            url: {
+              ...basePageMetadata.url,
+              pathname: '/search/images',
+            },
+          });
+          break;
+        case 'works':
+          setPageLayoutMetadata({
+            ...basePageMetadata,
+            description: pageDescriptions.search.works,
+            title: `${queryStringTitle}Catalogue search`,
+            url: {
+              ...basePageMetadata.url,
+              pathname: '/search/works',
+            },
+          });
+          break;
 
-          <SearchBarContainer
-            v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+        default:
+          break;
+      }
+    }, [currentSearchCategory, queryString]);
+
+    const searchbarPlaceholderText = {
+      overview: 'Search our stories, images and catalogue',
+      stories: 'Search for stories',
+      images: 'Search for images',
+      works: 'Search the catalogue',
+    };
+
+    const updateUrl = (form: HTMLFormElement) => {
+      const formValues = formDataAsUrlQuery(form);
+
+      const sortOptionValue = getQueryPropertyValue(formValues.sortOrder);
+      const urlFormattedSort = sortOptionValue
+        ? getUrlQueryFromSortValue(sortOptionValue)
+        : undefined;
+
+      const link = linkResolver({
+        params: {
+          ...formValues,
+          ...(urlFormattedSort && {
+            sort: urlFormattedSort.sort,
+            sortOrder: urlFormattedSort.sortOrder,
+          }),
+        },
+        pathname: router.pathname,
+      });
+
+      return router.push(link.href, link.as);
+    };
+
+    return (
+      <CataloguePageLayout {...pageLayoutMetadata}>
+        <div className="container">
+          <form
+            role="search"
+            id="search-page-form"
+            onSubmit={event => {
+              event.preventDefault();
+
+              trackGaEvent({
+                category: 'SearchForm',
+                action: 'submit search',
+                label: router.query.query as string,
+              });
+
+              updateUrl(event.currentTarget);
+            }}
           >
-            <SearchBar
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              placeholder={searchbarPlaceholderText[currentSearchCategory]}
-              form="search-page-form"
-              location="search"
-            />
-          </SearchBarContainer>
-        </form>
-        <SubNavigation
-          label="Search Categories"
-          items={[
-            {
-              id: 'overview',
-              url: getURL('/search'),
-              name: 'All',
-            },
-            {
-              id: 'stories',
-              url: getURL('/search/stories'),
-              name: 'Stories',
-            },
-            {
-              id: 'images',
-              url: getURL('/search/images'),
-              name: 'Images',
-            },
-            {
-              id: 'works',
-              url: getURL('/search/works'),
-              name: 'Catalogue',
-            },
-            ...(hasEventsExhibitions
-              ? [
-                  {
-                    id: 'exhibitions',
-                    url: getURL('/search/exhibitions'),
-                    name: 'Exhibitions',
-                  },
-                  {
-                    id: 'events',
-                    url: getURL('/search/events'),
-                    name: 'Events',
-                  },
-                ]
-              : []),
-          ]}
-          currentSection={currentSearchCategory}
-          hasDivider
-          variant="yellow"
-        />
-      </div>
-      {children}
-    </CataloguePageLayout>
-  );
-};
+            <h1 className="visually-hidden">
+              {`${capitalize(currentSearchCategory)} search`}
+            </h1>
+
+            <SearchBarContainer
+              v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <SearchBar
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                placeholder={searchbarPlaceholderText[currentSearchCategory]}
+                form="search-page-form"
+                location="search"
+              />
+            </SearchBarContainer>
+          </form>
+          <SubNavigation
+            label="Search Categories"
+            items={[
+              {
+                id: 'overview',
+                url: getURL('/search'),
+                name: 'All',
+              },
+              {
+                id: 'stories',
+                url: getURL('/search/stories'),
+                name: 'Stories',
+              },
+              {
+                id: 'images',
+                url: getURL('/search/images'),
+                name: 'Images',
+              },
+              {
+                id: 'works',
+                url: getURL('/search/works'),
+                name: 'Catalogue',
+              },
+            ]}
+            currentSection={currentSearchCategory}
+            hasDivider
+          />
+        </div>
+        {children}
+      </CataloguePageLayout>
+    );
+  };
 
 export const getSearchLayout = (page: ReactElement): JSX.Element => (
-  <SearchLayout
-    hasEventsExhibitions={page.props.serverData.toggles.hasEventsExhibitions}
-    apiToolbarLinks={page.props.apiToolbarLinks}
-  >
+  <SearchLayout apiToolbarLinks={page.props.apiToolbarLinks}>
     {page}
   </SearchLayout>
 );

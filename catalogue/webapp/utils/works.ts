@@ -1,14 +1,16 @@
 import {
   DigitalLocation,
   Location,
-  Item,
   PhysicalLocation,
-  RelatedWork,
+  AccessCondition,
+} from '@weco/common/model/catalogue';
+import {
+  Item,
   Work,
   Holding,
   PhysicalItem,
-  AccessCondition,
-} from '@weco/common/model/catalogue';
+  RelatedWork,
+} from '@weco/catalogue/services/catalogue/types';
 import { DownloadOption } from '../types/manifest';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { Label } from '@weco/common/model/labels';
