@@ -1,4 +1,4 @@
-import { createContext, FunctionComponent, useState } from 'react';
+import { createContext, FunctionComponent, ReactNode, useState } from 'react';
 import { LinkProps } from '../../../model/link-props';
 
 const defaultLink = {
@@ -18,7 +18,9 @@ const SearchContext = createContext<{
   setLink: link => link,
 });
 
-export const SearchContextProvider: FunctionComponent = ({ children }) => {
+export const SearchContextProvider: FunctionComponent<{
+  children: ReactNode;
+}> = ({ children }) => {
   const [searchLink, setSearchLink] = useState<LinkProps>(defaultLink);
 
   return (

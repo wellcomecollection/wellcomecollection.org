@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 type Props = {
@@ -6,6 +6,7 @@ type Props = {
   nRows?: number;
   lineSpacing?: number;
   maxWidth?: string;
+  children?: ReactNode;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

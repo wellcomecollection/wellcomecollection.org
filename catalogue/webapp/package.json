@@ -20,7 +20,7 @@
     "@types/jest": "^27.0.2",
     "@types/koa-router": "^7.4.4",
     "@types/node": "^18.14.6",
-    "@types/react": "^18.0.28",
+    "@types/react": "18.0.28",
     "@types/react-window": "^1.8.5",
     "@types/styled-components": "^5.1.26",
     "@types/supertest": "^2.0.11",

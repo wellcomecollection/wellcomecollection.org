@@ -54,6 +54,9 @@
     "prop-types": "15.8.1",
     "rimraf": "^3.0.2"
   },
+  "resolutions": {
+    "@types/react": "18.0.28"
+  },
   "private": true,
   "workspaces": [
     "common",
