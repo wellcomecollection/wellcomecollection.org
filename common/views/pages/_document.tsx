@@ -17,6 +17,7 @@ import {
   GoogleTagManagerNoScript,
   GaDimensions,
 } from '../../services/app/google-analytics';
+import { getCookie } from 'cookies-next';
 
 const {
   ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
@@ -44,6 +45,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   static async getInitialProps(
     ctx: DocumentContext
   ): Promise<DocumentInitialPropsWithTogglesAndGa> {
+    const gaUserId = getCookie('_ga', ctx);
     const sheet = new ServerStyleSheet();
     let pageProps;
     const originalRenderPage = ctx.renderPage;
@@ -62,6 +64,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
         ...initialProps,
         toggles: pageProps.serverData?.toggles,
         gaDimensions: pageProps.gaDimensions,
+        gaUserId,
         styles: (
           <>
             {initialProps.styles}
@@ -92,7 +95,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
           />
         </Head>
         <body>
-          <GoogleTagManagerNoScript />
+          <GoogleTagManagerNoScript gaUserId={this.props.gaUserId || ''} />
           <div id="top">
             <Main />
           </div>
