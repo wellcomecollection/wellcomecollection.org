@@ -81,7 +81,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               );
             })}
         </EventTimesWrapper>
-        <div className={`${grid({ s: 12, m: 12, l: 9, xl: 10 })}`}>
+        <div className={grid({ s: 12, m: 12, l: 9, xl: 10 })}>
           <div>
             {event.primaryLabels.length > 0 && (
               <Space v={{ size: 's', properties: ['margin-bottom'] }}>
