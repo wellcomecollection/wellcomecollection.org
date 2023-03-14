@@ -40,12 +40,13 @@ function renderSegmentSnippet() {
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
   gaDimensions?: GaDimensions;
+  gaUserId?: string;
 };
 class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   static async getInitialProps(
     ctx: DocumentContext
   ): Promise<DocumentInitialPropsWithTogglesAndGa> {
-    const gaUserId = getCookie('_ga', ctx);
+    const gaUserId = getCookie('_ga', ctx) as string | undefined;
     const sheet = new ServerStyleSheet();
     let pageProps;
     const originalRenderPage = ctx.renderPage;
