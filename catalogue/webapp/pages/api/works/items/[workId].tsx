@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ItemsList, CatalogueApiError } from '@weco/catalogue/services/catalogue/types';
+import {
+  ItemsList,
+  CatalogueApiError,
+} from '@weco/catalogue/services/catalogue/types';
 import {
   catalogueApiError,
   rootUris,
