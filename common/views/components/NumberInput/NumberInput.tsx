@@ -1,10 +1,8 @@
-import { ForwardedRef, forwardRef, FunctionComponent } from 'react';
+import { ForwardedRef, forwardRef, ForwardRefRenderFunction } from 'react';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 
-const StyledInput = styled(Space).attrs({
-  type: 'number',
-})`
+const StyledInput = styled.input`
   outline: none;
   border: 1px solid ${props => props.theme.color('warmNeutral.400')};
   padding: 12px;
@@ -28,7 +26,7 @@ type Props = {
   label: string;
 } & JSX.IntrinsicElements['input'];
 
-const Input: FunctionComponent<Props> = (
+const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   { label, ...inputProps }: Props,
   ref: ForwardedRef<HTMLInputElement>
 ) => (
@@ -36,11 +34,11 @@ const Input: FunctionComponent<Props> = (
     <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
       {label}
     </Space>
-
-    <StyledInput as="input" type="number" ref={ref as any} {...inputProps} />
+    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+    <StyledInput type="number" ref={ref as any} {...inputProps} />
   </label>
 );
 
-const NumberInput = forwardRef(Input);
+const NumberInput = forwardRef<HTMLInputElement, Props>(Input);
 
 export default NumberInput;
