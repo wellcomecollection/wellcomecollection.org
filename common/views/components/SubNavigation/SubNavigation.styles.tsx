@@ -4,11 +4,11 @@ import { classNames, font } from '@weco/common/utils/classnames';
 export const Wrapper = styled.div`
   ${props =>
     `
-      margin: 0 -${props.theme.containerPadding.small}px; 
+      margin: 0 -${props.theme.containerPadding.small}px;
       transition: margin ${props => props.theme.transitionProperties};
 
     ${props.theme.media('medium')(`
-        margin: 0 calc(-${props.theme.containerPadding.medium}px + 16px); 
+        margin: 0 calc(-${props.theme.containerPadding.medium}px + 16px);
     `)}
 
     ${props.theme.media('large')(`
@@ -16,7 +16,24 @@ export const Wrapper = styled.div`
     `)}
 
     ${props.theme.media('xlarge')(`
-        margin-right: 0; 
+        margin-right: 0;
+    `)}
+  `}
+`;
+
+// -1px is to make up for the extra pixel applied by the Divider
+// The goal being to align it perfectly with search/images
+export const DividerWrapper = styled.div`
+  ${props =>
+    `
+      margin: 0 -${props.theme.containerPadding.small}px -1px;
+
+    ${props.theme.media('medium')(`
+        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem) -1px ;
+    `)}
+
+    ${props.theme.media('large')(`
+        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem) -1px ;
     `)}
   `}
 `;
