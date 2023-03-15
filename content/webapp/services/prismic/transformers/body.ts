@@ -40,15 +40,6 @@ import {
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { BodySlice, Weight } from '../../../types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
-import { GuidePrismicDocument } from '../types/guides';
-import { SeasonPrismicDocument } from '../types/seasons';
-import { CardPrismicDocument } from '../types/card';
-import { PagePrismicDocument } from '../types/pages';
-import { EventSeriesPrismicDocument } from '../types/event-series';
-import { BookPrismicDocument } from '../types/books';
-import { EventPrismicDocument } from '../types/events';
-import { ArticlePrismicDocument } from '../types/articles';
-import { ExhibitionPrismicDocument } from '../types/exhibitions';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
 import { transformEventSeries } from './event-series';
@@ -137,6 +128,7 @@ function transformMediaObjectListSlice(slice: MediaObjectListSlice): BodySlice {
               text: mediaObject.text.length
                 ? asRichText(mediaObject.text)
                 : undefined,
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               image: transformImage(mediaObject.image)!,
             };
           }
@@ -255,7 +247,8 @@ function transformTitledTextItem({
     text: asRichText(text),
     link: transformLink(link),
     label: isFilledLinkToDocumentWithData(label)
-      ? transformLabelType(label)
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        transformLabelType(label as any)
       : undefined,
   };
 }
@@ -296,7 +289,9 @@ function transformIframeSlice(slice: IframeSlice): BodySlice {
     type: 'iframe',
     weight: getWeight(slice.slice_label),
     value: {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       src: slice.primary.iframeSrc!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       image: transformImage(slice.primary.previewImage)!,
     },
   };
@@ -360,7 +355,8 @@ function transformCollectionVenueSlice(
         type: 'collectionVenue',
         weight: getWeight(slice.slice_label),
         value: {
-          content: transformCollectionVenue(slice.primary.content),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          content: transformCollectionVenue(slice.primary.content as any),
           showClosingTimes: slice.primary.showClosingTimes === 'yes',
         },
       }
@@ -405,18 +401,11 @@ export function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
 }
 
 function transformContentListSlice(slice: ContentListSlice): BodySlice {
-  type ContentListPrismicDocument =
-    | PagePrismicDocument
-    | EventSeriesPrismicDocument
-    | BookPrismicDocument
-    | EventPrismicDocument
-    | ArticlePrismicDocument
-    | ExhibitionPrismicDocument
-    | CardPrismicDocument
-    | SeasonPrismicDocument
-    | GuidePrismicDocument;
+  // Tech debt, remove the as any and return it to a correct prismic type
+  // will require a better understanding of how prismic types work
 
-  const contents: ContentListPrismicDocument[] = slice.items
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const contents: any[] = slice.items
     .map(item => item.content)
     .filter(isFilledLinkToDocumentWithData);
 
