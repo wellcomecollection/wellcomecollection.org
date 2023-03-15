@@ -64,7 +64,7 @@ const Contributors: FunctionComponent<Props> = ({
 
   const roles = dedupeAndPluraliseRoles(
     contributors
-      .map(contributor => contributor?.role?.title)
+      .map(contributor => contributor.role?.title)
       .filter(isNotUndefined)
   );
 
