@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 import { font, grid } from '@weco/common/utils/classnames';
 import { Contributor as ContributorType } from '../../types/contributors';
@@ -8,6 +8,12 @@ import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
 
+const ContributorImageWrapper = styled(Space).attrs({
+  h: { size: 'm', properties: ['margin-right'] },
+})`
+  min-width: 78px;
+`;
+
 const ContributorInfoWrapper = styled(Space)`
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -15,6 +21,32 @@ const ContributorInfoWrapper = styled(Space)`
 const ContributorNameWrapper = styled.div`
   display: flex;
   align-items: baseline;
+`;
+
+const PeopleImage: FunctionComponent<{ children: ReactNode }> = ({
+  children,
+}) => (
+  <div
+    style={{
+      width: 72,
+      height: 72,
+      borderRadius: 6,
+      transform: 'rotateZ(-6deg)',
+      overflow: 'hidden',
+    }}
+  >
+    <div
+      style={{
+        transform: 'rotateZ(6deg) scale(1.2)',
+      }}
+    >
+      {children}
+    </div>
+  </div>
+);
+
+const OrganisationImage = styled.div`
+  width: 72px;
 `;
 
 const Name = styled.h3.attrs({ className: font('intb', 4) })`
@@ -56,41 +88,24 @@ const Contributor: FunctionComponent<ContributorType> = ({
   return (
     <div className="grid">
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
-        <Space
-          style={{ minWidth: '78px' }}
-          h={{ size: 'm', properties: ['margin-right'] }}
-        >
+        <ContributorImageWrapper>
           {contributor.type === 'people' && (
-            <div
-              style={{
-                width: 72,
-                height: 72,
-                borderRadius: 6,
-                transform: 'rotateZ(-6deg)',
-                overflow: 'hidden',
-              }}
-            >
-              <div
-                style={{
-                  transform: 'rotateZ(6deg) scale(1.2)',
-                }}
-              >
-                {/*
+            <PeopleImage>
+              {/*
                   Contributor images should always be in black-and-white. Most
                   of them are uploaded this way in Prismic, but we can
                   additionally add a filter here to catch any that are missed.
                 */}
-                <PrismicImage
-                  image={contributorImage}
-                  maxWidth={72}
-                  quality="low"
-                  desaturate={true}
-                />
-              </div>
-            </div>
+              <PrismicImage
+                image={contributorImage}
+                maxWidth={72}
+                quality="low"
+                desaturate={true}
+              />
+            </PeopleImage>
           )}
           {contributor.type === 'organisations' && (
-            <div style={{ width: '72px' }}>
+            <OrganisationImage>
               {/*
                 For now don't desaturate organisation images, brands can be picky
                 about that sort of thing.
@@ -101,9 +116,9 @@ const Contributor: FunctionComponent<ContributorType> = ({
                 quality="low"
                 desaturate={false}
               />
-            </div>
+            </OrganisationImage>
           )}
-        </Space>
+        </ContributorImageWrapper>
         <div>
           <ContributorNameWrapper>
             <Name>{contributor.name}</Name>
