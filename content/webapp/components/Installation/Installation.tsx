@@ -5,7 +5,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../../utils/page-header';
 import { Exhibition as InstallationType } from '../../types/exhibitions';
-import { getInfoItems } from '../Exhibition/Exhibition';
+import { AccessibilityServices, getInfoItems } from '../Exhibition/Exhibition';
 import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
@@ -87,9 +87,9 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
     >
       {installation.end && !isPast(installation.end) && (
         <InfoBox title="Visit us" items={getInfoItems(installation)}>
-          <p className={`no-margin ${font('intr', 5)}`}>
+          <AccessibilityServices>
             <a href="/access">All our accessibility services</a>
-          </p>
+          </AccessibilityServices>
         </InfoBox>
       )}
     </ContentPage>

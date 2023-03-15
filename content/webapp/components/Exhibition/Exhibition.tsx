@@ -38,6 +38,7 @@ import {
 
 import { EventBasic } from '../../types/events';
 import * as prismicT from '@prismicio/types';
+import styled from 'styled-components';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -179,6 +180,12 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
   ].filter(isNotUndefined);
 }
 
+export const AccessibilityServices = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  margin: 0;
+`;
+
 type Props = {
   exhibition: ExhibitionType;
   pages: PageType[];
@@ -279,9 +286,9 @@ const Exhibition: FunctionComponent<Props> = ({ exhibition, pages }) => {
 
       {exhibition.end && !isPast(exhibition.end) && (
         <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-          <p className={`no-margin ${font('intr', 5)}`}>
+          <AccessibilityServices>
             <a href="/access">All our accessibility services</a>
-          </p>
+          </AccessibilityServices>
         </InfoBox>
       )}
       {exhibitionAbouts.length > 0 && (
