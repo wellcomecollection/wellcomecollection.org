@@ -54,7 +54,7 @@ const Caption: FunctionComponent<Props> = ({
     // _before_ the img alt unless the figcaption is wrapped. On balance, it
     // makes sense to have more accessible markup at the expense of it being
     // less valid.
-    <Wrapper width={width} style={width ? { width: `${width}px` } : undefined}>
+    <Wrapper width={width}>
       <figcaption>
         <CaptionWrapper>
           {preCaptionNode}
