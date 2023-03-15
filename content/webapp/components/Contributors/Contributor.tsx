@@ -60,7 +60,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
           style={{ minWidth: '78px' }}
           h={{ size: 'm', properties: ['margin-right'] }}
         >
-          {contributorImage && contributor.type === 'people' && (
+          {contributor.type === 'people' && (
             <div
               style={{
                 width: 72,
@@ -89,7 +89,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
               </div>
             </div>
           )}
-          {contributorImage && contributor.type === 'organisations' && (
+          {contributor.type === 'organisations' && (
             <div style={{ width: '72px' }}>
               {/*
                 For now don't desaturate organisation images, brands can be picky
