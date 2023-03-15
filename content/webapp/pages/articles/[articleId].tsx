@@ -45,6 +45,12 @@ const ContentTypeWrapper = styled.div`
   align-items: baseline;
 `;
 
+const ContentTypeText = styled.p.attrs({
+  className: font('intr', 6),
+})`
+  margin: 0;
+`;
+
 type Props = {
   article: Article;
   jsonLd: JsonLdObj;
@@ -231,7 +237,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
       <ContentTypeWrapper>
         <Space v={{ size: 's', properties: ['margin-top'] }}>
-          <p className={`no-margin ${font('intr', 6)}`}>
+          <ContentTypeText>
             {article.contributors.length > 0 &&
               article.contributors.map(({ contributor, role }, i) => (
                 <ContentTypeInfoSection key={contributor.id}>
@@ -257,7 +263,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             <HTMLDateWrapper>
               <HTMLDate date={article.datePublished} />
             </HTMLDateWrapper>
-          </p>
+          </ContentTypeText>
         </Space>
       </ContentTypeWrapper>
     </>
