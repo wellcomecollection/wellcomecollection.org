@@ -1,11 +1,5 @@
 import { GetServerSideProps } from 'next';
-import {
-  Fragment,
-  FunctionComponent,
-  useState,
-  useEffect,
-  ReactElement,
-} from 'react';
+import { FunctionComponent, useState, useEffect, ReactElement } from 'react';
 import {
   Article,
   ArticleBasic,
@@ -233,7 +227,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   `;
 
   const ContentTypeInfo = (
-    <Fragment>
+    <>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
       <ContentTypeWrapper>
         <Space v={{ size: 's', properties: ['margin-top'] }}>
@@ -266,7 +260,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
           </p>
         </Space>
       </ContentTypeWrapper>
-    </Fragment>
+    </>
   );
 
   // This is for content that we don't have the crops for in Prismic
