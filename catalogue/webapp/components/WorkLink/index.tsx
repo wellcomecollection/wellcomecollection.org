@@ -1,5 +1,5 @@
 import NextLink, { LinkProps } from 'next/link';
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 
 type WorkLinkSource =
   | 'works_search_result'
@@ -11,12 +11,12 @@ type WorkLinkSource =
 
 // We remove `href` and `as` because we contruct those ourselves
 // in the component.
-type Props = {
+type Props = PropsWithChildren<{
   id: string;
   source: WorkLinkSource;
   resultPosition?: number;
-  children: ReactNode;
-} & Omit<LinkProps, 'as' | 'href'>;
+}> &
+  Omit<LinkProps, 'as' | 'href'>;
 
 const WorkLink: FunctionComponent<Props> = ({
   id,
