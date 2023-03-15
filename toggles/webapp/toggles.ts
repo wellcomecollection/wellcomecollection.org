@@ -45,13 +45,6 @@ const toggles = {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
     {
-      id: 'storiesLandingComics',
-      title: 'Rearranging comics on the stories landing page',
-      initialValue: true,
-      description:
-        'Takes the comics out of the general set of stories, and moves them to their own page section, grouped by series.',
-    },
-    {
       id: 'worksTabbedNav',
       title: 'Works page: Tabbed navigation',
       initialValue: false,
