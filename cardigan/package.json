@@ -20,6 +20,8 @@
     "@storybook/addon-backgrounds": "^6.5.16",
     "@storybook/addon-controls": "^6.5.16",
     "@storybook/addon-docs": "^6.5.16",
+    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.54.1",

@@ -1,5 +1,8 @@
 const path = require('path');
 module.exports = {
+  core: {
+    builder: 'webpack5',
+  },
   stories: [
     '../stories/global/**/*.stories.mdx',
     '../stories/global/**/*.stories.tsx',
@@ -12,8 +15,8 @@ module.exports = {
     '@storybook/addon-a11y',
     '@storybook/addon-backgrounds',
     'storybook-addon-next-router',
-     {
-      name: "@storybook/addon-docs",
+    {
+      name: '@storybook/addon-docs',
       options: { transcludeMarkdown: true },
     },
   ],
@@ -22,7 +25,7 @@ module.exports = {
     config.module.rules.push({
       test: /\.mjs$/,
       include: /node_modules/,
-      type: "javascript/auto",
+      type: 'javascript/auto',
     });
 
     config.module.rules.push({
