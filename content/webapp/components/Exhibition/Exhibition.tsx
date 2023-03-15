@@ -76,15 +76,15 @@ function getadmissionObject(): ExhibitionItem {
 function getTodaysHoursObject(): ExhibitionItem {
   const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
 
-  const link = {
+  const link: prismicT.RTLinkNode = {
     type: 'hyperlink',
-    start: todaysHoursText.length - 13,
+    start: todaysHoursText.length - 'Opening times'.length,
     end: todaysHoursText.length,
     data: {
       link_type: 'Web',
       url: '/opening-times',
     },
-  } as prismicT.RTLinkNode;
+  };
 
   return {
     description: [
