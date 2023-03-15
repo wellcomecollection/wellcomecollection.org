@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 // Components
 import Space from '@weco/common/views/components/styled/Space';
-import FooterWellcomeLogo from './FooterWellcomeLogo';
-import FindUs from '../FindUs/FindUs';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
-import FooterNav from './FooterNav';
-import FooterSocial from './FooterSocial';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import FindUs from '../FindUs/FindUs';
+import FooterNav from './Footer.Nav';
+import FooterSocial from './Footer.Social';
+import FooterWellcomeLogo from './Footer.WellcomeLogo';
 
 // Utils / Types
 import { font } from '@weco/common/utils/classnames';
@@ -180,7 +180,10 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           </OpeningTimesContainer>
 
           <InternalNavigationContainer>
-            <FooterNav type="InternalNavigation" />
+            <FooterNav
+              type="InternalNavigation"
+              ariaLabel="Useful internal links"
+            />
           </InternalNavigationContainer>
 
           <FullWidthDivider>
@@ -188,7 +191,11 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           </FullWidthDivider>
 
           <PoliciesContainer>
-            <FooterNav isInline type="PoliciesNavigation" />
+            <FooterNav
+              isInline
+              type="PoliciesNavigation"
+              ariaLabel="Policies navigation"
+            />
           </PoliciesContainer>
 
           <SocialsContainer>

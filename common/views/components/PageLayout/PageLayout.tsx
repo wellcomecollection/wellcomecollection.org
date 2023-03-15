@@ -8,7 +8,7 @@ import Header, { NavLink } from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
-import Footer from '../Footer/Footer';
+import Footer from '../Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
 import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
