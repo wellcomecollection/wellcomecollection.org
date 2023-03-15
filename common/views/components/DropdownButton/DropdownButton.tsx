@@ -6,6 +6,7 @@ import {
   useContext,
   FunctionComponent,
   ReactNode,
+  PropsWithChildren,
 } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
@@ -86,10 +87,9 @@ type Props = {
   iconLeft?: IconSvg;
   isPill?: boolean;
   hasNoOptions?: boolean;
-  children?: ReactNode;
 };
 
-const DropdownButton: FunctionComponent<Props> = ({
+const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   label,
   children,
   buttonType = 'outlined',
