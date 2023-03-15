@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { render, RenderOptions, RenderResult } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 
-const AllTheProviders: React.FunctionComponent = ({ children }) => {
+const AllTheProviders: React.FunctionComponent<PropsWithChildren> = ({
+  children,
+}) => {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 
