@@ -48,8 +48,6 @@ function getUpcomingExhibitionObject(
 ): ExhibitionItem | undefined {
   return isFuture(exhibition.start)
     ? {
-        id: undefined,
-        title: undefined,
         description: [
           {
             type: 'paragraph',
@@ -64,8 +62,6 @@ function getUpcomingExhibitionObject(
 
 function getadmissionObject(): ExhibitionItem {
   return {
-    id: undefined,
-    title: undefined,
     description: [
       {
         type: 'paragraph',
@@ -91,8 +87,6 @@ function getTodaysHoursObject(): ExhibitionItem {
   } as prismicT.RTLinkNode;
 
   return {
-    id: undefined,
-    title: undefined,
     description: [
       {
         type: 'paragraph',
@@ -109,8 +103,6 @@ function getPlaceObject(
 ): ExhibitionItem | undefined {
   return (
     exhibition.place && {
-      id: undefined,
-      title: undefined,
       description: [
         {
           type: 'paragraph',
@@ -132,8 +124,6 @@ const resourceIcons: { [key: string]: IconSvg } = {
 function getResourcesItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return exhibition.resources.map(resource => {
     return {
-      id: undefined,
-      title: undefined,
       description: resource.description,
       icon: resource.icon ? resourceIcons[resource.icon] : undefined,
     };
@@ -145,8 +135,6 @@ function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
     .filter(Boolean)
     .map(item => {
       return {
-        id: undefined,
-        title: undefined,
         description: item,
         icon:
           item === exhibition.bslInfo ? britishSignLanguage : audioDescribed,
@@ -157,8 +145,6 @@ function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
 function getAccessibilityItems(): ExhibitionItem[] {
   return [
     {
-      id: undefined,
-      title: undefined,
       description: [
         {
           type: 'paragraph',
@@ -169,8 +155,6 @@ function getAccessibilityItems(): ExhibitionItem[] {
       icon: a11Y,
     },
     {
-      id: undefined,
-      title: undefined,
       description: [
         {
           type: 'paragraph',
