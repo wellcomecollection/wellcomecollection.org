@@ -46,6 +46,18 @@ const EventContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color('yellow')};
 `;
 
+const EventTimesWrapper = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['margin-bottom'],
+  },
+  className: grid({ s: 12, m: 12, l: 3, xl: 2 }),
+})`
+  ${props => props.theme.media('large')`
+    margin: 0;
+  `}
+`;
+
 const EventScheduleItem: FunctionComponent<Props> = ({
   event,
   isNotLinked,
@@ -57,13 +69,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
   return (
     <GridWrapper>
       <div className="grid">
-        <Space
-          v={{
-            size: 'm',
-            properties: ['margin-bottom'],
-          }}
-          className={`${grid({ s: 12, m: 12, l: 3, xl: 2 })} no-margin-l`}
-        >
+        <EventTimesWrapper>
           {event.times &&
             event.times.map(t => {
               const startTimeString = t.range.startDateTime.toISOString();
@@ -78,8 +84,8 @@ const EventScheduleItem: FunctionComponent<Props> = ({
                 </h4>
               );
             })}
-        </Space>
-        <div className={`${grid({ s: 12, m: 12, l: 9, xl: 10 })}`}>
+        </EventTimesWrapper>
+        <div className={grid({ s: 12, m: 12, l: 9, xl: 10 })}>
           <div>
             {event.primaryLabels.length > 0 && (
               <Space v={{ size: 's', properties: ['margin-bottom'] }}>
