@@ -51,7 +51,7 @@ export function getContributorsTitle(
 const Contributors: FunctionComponent<Props> = ({
   titlePrefix = 'About the',
   contributors,
-}: Props) => {
+}) => {
   // The transformContributors() method will remove contributors that don't
   // have any visible fields.
   //
