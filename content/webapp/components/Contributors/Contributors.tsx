@@ -51,7 +51,6 @@ export function getContributorsTitle(
 const Contributors: FunctionComponent<Props> = ({
   titlePrefix = 'About the',
   contributors,
-  titleOverride,
 }: Props) => {
   // The transformContributors() method will remove contributors that don't
   // have any visible fields.
@@ -71,11 +70,7 @@ const Contributors: FunctionComponent<Props> = ({
 
   return (
     <>
-      <h2 className="h2">
-        {isNotUndefined(titleOverride)
-          ? titleOverride
-          : getContributorsTitle(roles, titlePrefix)}
-      </h2>
+      <h2 className="h2">{getContributorsTitle(roles, titlePrefix)}</h2>
 
       {contributors.map(({ contributor, role, description }) => (
         <Space
