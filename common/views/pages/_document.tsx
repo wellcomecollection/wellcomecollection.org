@@ -86,7 +86,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
           <Ga4DataLayer
             data={{
               toggles: this.props.toggles,
-              gaDimensions: this.props.gaDimensions,
             }}
           />
           <GoogleTagManager />
