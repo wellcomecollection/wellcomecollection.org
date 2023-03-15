@@ -11,19 +11,20 @@ type WorkLinkSource =
 
 // We remove `href` and `as` because we contruct those ourselves
 // in the component.
-type Props = {
+type Props = PropsWithChildren<{
   id: string;
   source: WorkLinkSource;
   resultPosition?: number;
-} & Omit<LinkProps, 'as' | 'href'>;
+}> &
+  Omit<LinkProps, 'as' | 'href'>;
 
-const WorkLink: FunctionComponent<PropsWithChildren<Props>> = ({
+const WorkLink: FunctionComponent<Props> = ({
   id,
   source,
   resultPosition,
   children,
   ...linkProps
-}: PropsWithChildren<Props>) => {
+}) => {
   return (
     <NextLink
       href={{
