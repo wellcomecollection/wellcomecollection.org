@@ -2,6 +2,7 @@ locals {
   toggles_cookies = ["toggles", "toggle_*"]
   works_cookies   = ["_queryType"]
   userpreference_cookies = ["WC_*"]
+  ga_cookies = ["_ga"]
 
   content_query_params = [
     "cachebust",
