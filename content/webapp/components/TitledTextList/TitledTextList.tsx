@@ -51,7 +51,7 @@ const TitledTextList: FunctionComponent<Props> = ({ items }) => (
             <PrismicHtmlBlock key={i} html={item.text} />
           </TextContainer>
         )}
-        {item?.label?.title && (
+        {item.label?.title && (
           <LabelsList
             labels={[{ text: item.label.title }]}
             defaultLabelColor="warmNeutral.300"
