@@ -19,17 +19,12 @@ const gaDimensionKeys = {
 type Props = {
   data: {
     toggles?: Toggles;
-    gaDimensions?: GaDimensions;
   };
 };
 
 const togglesGaCanIgnore = ['stagingApi', 'apiToolbar', 'disableRequesting'];
 
 export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
-  const partOf = data.gaDimensions?.partOf?.length
-    ? data.gaDimensions.partOf.join(',')
-    : null;
-
   // We send toggles as an event parameter to GA4 so we can determine the condition in which a particular event took place.
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en,
   // so instead of sending the whole toggles JSON blob we send a concatenated string of only the toggles that are turned on. We also remove toggles we know we don't care about.
@@ -43,14 +38,14 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
         })
         .join(',')
     : null;
-  return toggles || partOf ? (
+  return toggles ? (
     <script
       dangerouslySetInnerHTML={{
         __html: `
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-          ${toggles ? `'toggles': '${toggles}',` : ''}
-          ${partOf ? `'partOf': '${partOf}'` : ''}});
+          ${toggles ? `toggles: '${toggles}',` : ''}
+        });
         `,
       }}
     />
@@ -74,7 +69,9 @@ export const GoogleTagManagerNoScript: FunctionComponent<{ gaUserId: string }> =
   ({ gaUserId }) => (
     <noscript>
       <iframe
-        src={`https://www.googletagmanager.com/ns.html?id=GTM-53DFWQD&gaUserId=${encodeURIComponent(gaUserId)}`}
+        src={`https://www.googletagmanager.com/ns.html?id=GTM-53DFWQD&gaUserId=${encodeURIComponent(
+          gaUserId
+        )}`}
         height="0"
         width="0"
         style={{ display: 'none', visibility: 'hidden' }}
