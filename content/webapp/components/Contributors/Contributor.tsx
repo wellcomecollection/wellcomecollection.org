@@ -17,6 +17,27 @@ const ContributorNameWrapper = styled.div`
   align-items: baseline;
 `;
 
+const Name = styled.h3.attrs({ className: font('intb', 4) })`
+  margin: 0;
+`;
+
+const Pronouns = styled(ContributorInfoWrapper).attrs({
+  h: { size: 's', properties: ['margin-left'] },
+  className: font('intr', 5),
+})``;
+
+const Role = styled(ContributorInfoWrapper).attrs({
+  className: font('intb', 5),
+})``;
+
+const Description = styled(Space).attrs({
+  v: {
+    size: 's',
+    properties: ['margin-top'],
+  },
+  className: `${font('intr', 5)} spaced-text`,
+})``;
+
 const Contributor: FunctionComponent<ContributorType> = ({
   contributor,
   role,
@@ -85,24 +106,13 @@ const Contributor: FunctionComponent<ContributorType> = ({
         </Space>
         <div>
           <ContributorNameWrapper>
-            <h3 className={`${font('intb', 4)} no-margin`}>
-              {contributor.name}
-            </h3>
+            <Name>{contributor.name}</Name>
             {contributor.type === 'people' && contributor.pronouns && (
-              <ContributorInfoWrapper
-                h={{ size: 's', properties: ['margin-left'] }}
-                className={font('intr', 5)}
-              >
-                ({contributor.pronouns})
-              </ContributorInfoWrapper>
+              <Pronouns>({contributor.pronouns})</Pronouns>
             )}
           </ContributorNameWrapper>
 
-          {role && role.title && (
-            <ContributorInfoWrapper className={font('intb', 5)}>
-              {role.title}
-            </ContributorInfoWrapper>
-          )}
+          {role && role.title && <Role>{role.title}</Role>}
 
           {contributor.sameAs.length > 0 && (
             <LinkLabels
@@ -114,15 +124,9 @@ const Contributor: FunctionComponent<ContributorType> = ({
           )}
 
           {descriptionToRender && (
-            <Space
-              v={{
-                size: 's',
-                properties: ['margin-top'],
-              }}
-              className={`${font('intr', 5)} spaced-text`}
-            >
+            <Description>
               <PrismicHtmlBlock html={descriptionToRender} />
-            </Space>
+            </Description>
           )}
         </div>
       </div>
