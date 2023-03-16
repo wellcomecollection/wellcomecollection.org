@@ -4,6 +4,9 @@ import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 // We pull in the page after we've set the config
 import WhatsOnPage from '../../pages/whats-on';
 
+jest.mock('uuid', () => ({
+  v4: () => '1234',
+}));
 jest.mock('@weco/common/server-data');
 jest.mock('next/router', () => require('next-router-mock'));
 
