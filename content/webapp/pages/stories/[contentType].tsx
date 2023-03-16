@@ -56,11 +56,6 @@ function isContentType(x: any): x is ContentType {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const storiesLandingComics = serverData.toggles.storiesLandingComics;
-
-    if (!storiesLandingComics) {
-      return { notFound: true };
-    }
 
     const page = getPage(context.query);
 

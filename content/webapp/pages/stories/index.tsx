@@ -43,7 +43,6 @@ type Props = {
   articles: ArticleBasic[];
   comicSeries: SeriesBasic[];
   storiesLanding: StoriesLanding;
-  storiesLandingComics: boolean;
   jsonLd: JsonLdObj[];
 };
 
@@ -68,12 +67,12 @@ const StoryPromoContainer = styled.div.attrs({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const storiesLandingComics = serverData.toggles.storiesLandingComics;
     const client = createClient(context);
     const articlesQueryPromise = fetchArticles(client, {
-      predicates: storiesLandingComics
-        ? prismic.predicate.not('my.articles.format', ArticleFormatIds.Comic)
-        : undefined,
+      predicates: prismic.predicate.not(
+        'my.articles.format',
+        ArticleFormatIds.Comic
+      ),
     });
 
     const comicsQueryPromise = fetchArticles(client, {
@@ -127,7 +126,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
           jsonLd,
           storiesLanding,
-          storiesLandingComics,
         }),
       };
     } else {
@@ -140,7 +138,6 @@ const StoriesPage: FunctionComponent<Props> = ({
   comicSeries,
   jsonLd,
   storiesLanding,
-  storiesLandingComics,
 }) => {
   const firstArticle = articles[0];
   const introText = storiesLanding?.introText;
@@ -233,28 +230,26 @@ const StoriesPage: FunctionComponent<Props> = ({
         </SpacingComponent>
       </SpacingSection>
 
-      {storiesLandingComics && (
-        <SpacingSection>
-          <SpacingComponent>
-            <SectionHeader title="Comics" />
-          </SpacingComponent>
+      <SpacingSection>
+        <SpacingComponent>
+          <SectionHeader title="Comics" />
+        </SpacingComponent>
 
-          <SpacingComponent>
-            <Layout12>
-              <p>{pageDescriptions.comic}</p>
-            </Layout12>
-          </SpacingComponent>
+        <SpacingComponent>
+          <Layout12>
+            <p>{pageDescriptions.comic}</p>
+          </Layout12>
+        </SpacingComponent>
 
-          <SpacingComponent>
-            <CardGrid
-              items={comicSeries}
-              itemsPerRow={3}
-              itemsHaveTransparentBackground={true}
-              links={[{ text: 'More comics', url: '/stories/comic' }]}
-            />
-          </SpacingComponent>
-        </SpacingSection>
-      )}
+        <SpacingComponent>
+          <CardGrid
+            items={comicSeries}
+            itemsPerRow={3}
+            itemsHaveTransparentBackground={true}
+            links={[{ text: 'More comics', url: '/stories/comic' }]}
+          />
+        </SpacingComponent>
+      </SpacingSection>
 
       <SpacingSection>
         {storiesLanding.booksTitle && (
