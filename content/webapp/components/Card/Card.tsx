@@ -18,9 +18,9 @@ type Props = {
   item: CardType;
 };
 
-export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
+export const CardOuter = styled.a.attrs({
   className: 'plain-link promo-link',
-}))`
+})`
   display: block; // IE
 
   @supports (display: flex) {
