@@ -1,6 +1,5 @@
 import { FunctionComponent, useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import * as prismicT from '@prismicio/types';
@@ -340,29 +339,27 @@ const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
 
   return (
     <article>
-      <PlainList>
-        {stops.map((stop, index) => {
-          // We want to know whether a standalone title and/or a context title has been used
-          // so we can decrease subsequent headings to the appropriate level
-          if (!titlesUsed.standalone) {
-            titlesUsed.standalone = includesStandaloneTitle(stop);
-          }
-          if (!titlesUsed.context) {
-            titlesUsed.context = isNotUndefined(
-              stop.captionsOrTranscripts?.context
-            );
-          }
-          return (
-            <Stop
-              key={index}
-              index={index}
-              stop={stop}
-              isFirstStop={index === 0}
-              titlesUsed={titlesUsed}
-            />
+      {stops.map((stop, index) => {
+        // We want to know whether a standalone title and/or a context title has been used
+        // so we can decrease subsequent headings to the appropriate level
+        if (!titlesUsed.standalone) {
+          titlesUsed.standalone = includesStandaloneTitle(stop);
+        }
+        if (!titlesUsed.context) {
+          titlesUsed.context = isNotUndefined(
+            stop.captionsOrTranscripts?.context
           );
-        })}
-      </PlainList>
+        }
+        return (
+          <Stop
+            key={index}
+            index={index}
+            stop={stop}
+            isFirstStop={index === 0}
+            titlesUsed={titlesUsed}
+          />
+        );
+      })}
     </article>
   );
 };
