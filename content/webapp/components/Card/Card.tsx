@@ -19,8 +19,15 @@ type Props = {
 };
 
 export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
-  className: 'plain-link promo-link flex-ie-block',
+  className: 'plain-link promo-link',
 }))`
+  display: block; // IE
+
+  @supports (display: flex) {
+    // IE ignores @supports
+    display: flex;
+  }
+
   overflow: hidden;
   flex-direction: column;
 

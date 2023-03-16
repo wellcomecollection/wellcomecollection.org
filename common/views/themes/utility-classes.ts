@@ -99,15 +99,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .flex-ie-block {
-    display: block; // IE
-
-    @supports (display: flex) {
-      // IE ignores @supports
-      display: flex;
-    }
-  }
-
   .inline {
     display: inline;
   }
