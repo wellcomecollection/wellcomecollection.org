@@ -35,10 +35,10 @@ const circleHeight = 30;
 const circleBorder = 2;
 const verticalGuidePosition =
   controlHeight / 2 + circleHeight / 2 - circleBorder;
-const TreeInstructions = styled.p.attrs(() => ({
+const TreeInstructions = styled.p.attrs({
   'aria-hidden': 'true',
   id: 'tree-instructions',
-}))`
+})`
   display: none;
 `;
 

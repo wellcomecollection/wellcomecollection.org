@@ -80,14 +80,14 @@ export const CardPostBody = styled(Space).attrs({
   }
 `;
 
-export const CardBody = styled(Space).attrs(() => ({
+export const CardBody = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top'] },
   h: {
     size: 'm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-}))`
+})`
   display: flex;
   flex-direction: column;
   flex: 1;

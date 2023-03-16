@@ -178,9 +178,9 @@ const FeaturedCardWrap = styled.div`
 `;
 
 type HasIsReversed = { isReversed: boolean };
-const FeaturedCardLink = styled.a.attrs(() => ({
+const FeaturedCardLink = styled.a.attrs({
   className: 'grid promo-link plain-link',
-}))<HasIsReversed>`
+})<HasIsReversed>`
   justify-content: flex-end;
   flex-direction: ${props => (props.isReversed ? 'row-reverse' : 'row')};
 `;
