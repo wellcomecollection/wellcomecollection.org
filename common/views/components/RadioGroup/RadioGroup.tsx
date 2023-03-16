@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import Space from '../styled/Space';
 
-export type RadioGroupOption = {
+type RadioGroupOption = {
   value: string;
   id: string;
   label: string;
