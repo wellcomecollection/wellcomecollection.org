@@ -19,13 +19,14 @@ type Props = {
 };
 
 export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
-  className: 'plain-link promo-link rounded-corners flex-ie-block',
+  className: 'plain-link promo-link flex-ie-block',
 }))`
   overflow: hidden;
   flex-direction: column;
 
   background: ${props => props.theme.color('warmNeutral.300')};
   min-height: ${props => props.theme.minCardHeight}px;
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
 
   .card-theme.card-theme--white & {
     background: ${props => props.theme.color('white')};

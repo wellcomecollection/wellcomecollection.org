@@ -146,13 +146,14 @@ const PopupDialogCTA = styled(Space).attrs({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: `${font('intb', 5, { small: 3, medium: 3 })} rounded-corners`,
+  className: font('intb', 5, { small: 3, medium: 3 }),
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('accent.purple')};
   color: ${props => props.theme.color('white')};
   transition: all 500ms ease;
   border: 2px solid transparent;
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
 
   &:hover,

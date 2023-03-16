@@ -131,10 +131,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     transition: color 400ms ease;
   }
 
-  .rounded-corners {
-    border-radius: ${props => props.theme.borderRadiusUnit}px;
-  }
-
   .rounded-diagonal {
     border-top-left-radius: ${props => props.theme.borderRadiusUnit}px;
     border-bottom-right-radius: ${props => props.theme.borderRadiusUnit}px;
