@@ -5,5 +5,5 @@ module.exports = {
   snapshotSerializers: ['enzyme-to-json/serializer'],
   transformIgnorePatterns: ['node_modules(?!/@weco(?!.*node_modules))'],
   setupFiles: ['<rootDir>/jest.setup.js'],
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
 };

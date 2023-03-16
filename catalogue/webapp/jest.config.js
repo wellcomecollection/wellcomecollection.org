@@ -5,5 +5,5 @@ module.exports = {
   setupFilesAfterEnv: ['@weco/common/test/setupTests.ts'],
   snapshotSerializers: ['enzyme-to-json/serializer'],
   modulePathIgnorePatterns: ['/e2e/'],
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
 };

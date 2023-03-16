@@ -19,6 +19,7 @@
     "@weco/common": "1.0.0",
     "google-maps": "^3.3.0",
     "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
