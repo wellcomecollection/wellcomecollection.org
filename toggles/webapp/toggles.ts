@@ -57,7 +57,7 @@ const toggles = {
       id: 'storiesLandingComicTest1',
       title:
         'A/B test linking to series pages or individual comics from last three series',
-      range: [50, 50],
+      range: [0, 99],
       when: () => true,
     },
   ] as ABTest[],
