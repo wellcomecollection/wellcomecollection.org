@@ -4,12 +4,6 @@ import styled from 'styled-components';
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import Space from '../styled/Space';
 
-type RadioGroupOption = {
-  value: string;
-  id: string;
-  label: string;
-};
-
 type WrapperProps = { isLast: boolean };
 
 const CheckboxRadioWrapper = styled(Space).attrs<WrapperProps>(props => ({
@@ -23,6 +17,12 @@ const CheckboxRadioWrapper = styled(Space).attrs<WrapperProps>(props => ({
   display: inline-flex;
   justify-content: center;
 `;
+
+type RadioGroupOption = {
+  value: string;
+  id: string;
+  label: string;
+};
 
 type Props = {
   name: string;
