@@ -1,11 +1,5 @@
 import { GetServerSideProps } from 'next';
-import {
-  Fragment,
-  FunctionComponent,
-  useState,
-  useEffect,
-  ReactElement,
-} from 'react';
+import { FunctionComponent, useState, useEffect, ReactElement } from 'react';
 import {
   Article,
   ArticleBasic,
@@ -49,6 +43,12 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 const ContentTypeWrapper = styled.div`
   display: flex;
   align-items: baseline;
+`;
+
+const ContentTypeText = styled.p.attrs({
+  className: font('intr', 6),
+})`
+  margin: 0;
 `;
 
 type Props = {
@@ -233,11 +233,11 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   `;
 
   const ContentTypeInfo = (
-    <Fragment>
+    <>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
       <ContentTypeWrapper>
         <Space v={{ size: 's', properties: ['margin-top'] }}>
-          <p className={`no-margin ${font('intr', 6)}`}>
+          <ContentTypeText>
             {article.contributors.length > 0 &&
               article.contributors.map(({ contributor, role }, i) => (
                 <ContentTypeInfoSection key={contributor.id}>
@@ -263,10 +263,10 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             <HTMLDateWrapper>
               <HTMLDate date={article.datePublished} />
             </HTMLDateWrapper>
-          </p>
+          </ContentTypeText>
         </Space>
       </ContentTypeWrapper>
-    </Fragment>
+    </>
   );
 
   // This is for content that we don't have the crops for in Prismic

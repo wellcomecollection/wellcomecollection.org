@@ -197,7 +197,7 @@ const Homepage: FunctionComponent<Props> = ({
               className={font('wb', 1)}
             >
               <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <h1 className="no-margin">{homepageHeading}</h1>
+                <h1>{homepageHeading}</h1>
               </Space>
             </Space>
             {standfirst && (
