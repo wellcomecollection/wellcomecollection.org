@@ -43,6 +43,8 @@ type Props = {
   articles: ArticleBasic[];
   comicSeries: SeriesBasic[];
   storiesLanding: StoriesLanding;
+  firstComicFromEachSeries: ArticleBasic[];
+  storiesLandingComicTest1: boolean;
   jsonLd: JsonLdObj[];
 };
 
@@ -67,6 +69,8 @@ const StoryPromoContainer = styled.div.attrs({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+    const storiesLandingComicTest1 =
+      serverData.toggles.storiesLandingComicTest1;
     const client = createClient(context);
     const articlesQueryPromise = fetchArticles(client, {
       predicates: prismic.predicate.not(
@@ -108,6 +112,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       id => comics.results.find(item => item.series[0].id === id)?.series[0]
     ) as Series[];
 
+    const firstComicFromEachSeries = comicSeriesIds.map(id =>
+      comics.results.filter(item => item.series[0].id === id).at(-1)
+    ) as ArticleBasic[];
+
     const basicComicSeries = comicSeries.map(transformSeriesToSeriesBasic);
 
     const jsonLd = articles.results.map(articleLd);
@@ -123,6 +131,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           articles: basicArticles,
           comicSeries: basicComicSeries,
+          firstComicFromEachSeries: firstComicFromEachSeries,
+          storiesLandingComicTest1,
           serverData,
           jsonLd,
           storiesLanding,
@@ -136,6 +146,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const StoriesPage: FunctionComponent<Props> = ({
   articles,
   comicSeries,
+  firstComicFromEachSeries,
+  storiesLandingComicTest1,
   jsonLd,
   storiesLanding,
 }) => {
@@ -243,7 +255,9 @@ const StoriesPage: FunctionComponent<Props> = ({
 
         <SpacingComponent>
           <CardGrid
-            items={comicSeries}
+            items={
+              storiesLandingComicTest1 ? firstComicFromEachSeries : comicSeries
+            }
             itemsPerRow={3}
             itemsHaveTransparentBackground={true}
             links={[{ text: 'More comics', url: '/stories/comic' }]}
