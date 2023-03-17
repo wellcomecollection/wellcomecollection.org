@@ -58,13 +58,6 @@ function pageVanityUrl(
   route(url, template, router, app, { pageId });
 }
 
-// A Prismic ID is an alphanumeric string, plus underscore and hyphen
-//
-// We filter out any requests for pages that obviously aren't Prismic IDs; we know
-// they're not going to work, and they may be attempts to inject malicious data into
-// our Prismic queries.
-const prismicId = '[a-zA-Z0-9-_]+';
-
 const appPromise = nextApp
   .prepare()
   .then(async () => {

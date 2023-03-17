@@ -7,7 +7,6 @@ import { getFeaturedMedia } from '../../utils/page-header';
 import { Exhibition as InstallationType } from '../../types/exhibitions';
 import { AccessibilityServices, getInfoItems } from '../Exhibition/Exhibition';
 import InfoBox from '../InfoBox/InfoBox';
-import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
