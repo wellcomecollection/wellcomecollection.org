@@ -4,6 +4,11 @@ import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 // We pull in the page after we've set the config
 import WhatsOnPage from '../../pages/whats-on';
 
+/**
+ * with the upgrades to jest, this import needs to be mocked else
+ * there'll be problems building the page.
+ * this is the page that is tested outside of playwright
+ */
 jest.mock('uuid', () => ({
   v4: () => '1234',
 }));

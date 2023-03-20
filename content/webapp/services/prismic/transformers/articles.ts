@@ -44,6 +44,9 @@ function transformContentLink(document?: LinkField): MultiContent | undefined {
 
   if (isFilledLinkToDocumentWithData(document)) {
     return transformMultiContent(
+      // for some reason, the type od document and the type od MCPD do not overlap
+      // so to type it correctly, I must frist convert it to unknown then the
+      // correct type
       document as unknown as MultiContentPrismicDocument
     );
   }
