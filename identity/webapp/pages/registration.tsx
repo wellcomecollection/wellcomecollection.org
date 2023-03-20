@@ -137,7 +137,11 @@ const RegistrationPage: NextPage<Props> = ({
                         control={control}
                         defaultValue=""
                         rules={{ required: 'Enter your first name' }}
-                        render={({ onChange, value, name }, { invalid }) => (
+                        render={({
+                          field: { onChange, value, name },
+                          fieldState: { invalid },
+                          formState,
+                        }) => (
                           <WellcomeTextInput
                             required
                             id={name}
@@ -159,7 +163,11 @@ const RegistrationPage: NextPage<Props> = ({
                         control={control}
                         defaultValue=""
                         rules={{ required: 'Enter your last name' }}
-                        render={({ onChange, value, name }, { invalid }) => (
+                        render={({
+                          field: { onChange, value, name },
+                          fieldState: { invalid },
+                          formState,
+                        }) => (
                           <WellcomeTextInput
                             required
                             id={name}
@@ -185,12 +193,12 @@ const RegistrationPage: NextPage<Props> = ({
                         control={control}
                         defaultValue={false}
                         rules={{ required: 'Accept the terms to continue.' }}
-                        render={({ value, onChange }) => (
+                        render={({ field: { value, onChange } }) => (
                           <FlexStartCheckbox>
                             <Checkbox
                               name="termsAndConditions"
                               id="termsAndConditions"
-                              value={value}
+                              value={String(value)}
                               onChange={(e: FormEvent<HTMLInputElement>) =>
                                 onChange(e.currentTarget.checked)
                               }

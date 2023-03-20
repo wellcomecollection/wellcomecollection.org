@@ -1,7 +1,7 @@
 import {
   forwardRef,
   RefObject,
-  FunctionComponent,
+  ForwardRefRenderFunction,
   ChangeEvent,
   FocusEvent,
 } from 'react';
@@ -156,7 +156,7 @@ type Props = {
   darkBg?: boolean;
 };
 
-const Input: FunctionComponent<Props> = (
+const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   {
     label,
     type,
@@ -246,6 +246,6 @@ const Input: FunctionComponent<Props> = (
   );
 };
 
-const TextInput = forwardRef(Input);
+const TextInput = forwardRef<HTMLInputElement, Props>(Input);
 
 export default TextInput;

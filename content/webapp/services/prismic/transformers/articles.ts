@@ -25,6 +25,7 @@ import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { transformContributors } from './contributors';
 import { noAltTextBecausePromo } from './images';
 import readingTime from 'reading-time';
+import { MultiContentPrismicDocument } from '../types/multi-content';
 
 function transformContentLink(document?: LinkField): MultiContent | undefined {
   if (!document) {
@@ -42,7 +43,12 @@ function transformContentLink(document?: LinkField): MultiContent | undefined {
   }
 
   if (isFilledLinkToDocumentWithData(document)) {
-    return transformMultiContent(document);
+    return transformMultiContent(
+      // for some reason, the type od document and the type od MCPD do not overlap
+      // so to type it correctly, I must frist convert it to unknown then the
+      // correct type
+      document as unknown as MultiContentPrismicDocument
+    );
   }
 }
 

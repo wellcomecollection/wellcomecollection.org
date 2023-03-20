@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useController, UseControllerOptions } from 'react-hook-form';
+import { useController, UseControllerProps } from 'react-hook-form';
 import { ShowPasswordButton } from './PasswordInput.style';
 import {
   TextInputWrap,
@@ -8,7 +8,9 @@ import {
 } from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { a11YVisual, eye } from '@weco/common/icons';
-export type PasswordInputProps = UseControllerOptions & {
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PasswordInputProps = UseControllerProps<any> & {
   label: string;
   id?: string;
   updateInput?: (value: string) => void;
@@ -18,7 +20,7 @@ export const PasswordInput: React.FunctionComponent<PasswordInputProps> =
   props => {
     const { updateInput } = props;
     const [isVisible, setIsVisible] = useState(false);
-    const { field, meta } = useController(props);
+    const { field, fieldState } = useController(props);
     const toggleVisibility = () =>
       setIsVisible(currentlyVisible => !currentlyVisible);
 
@@ -30,7 +32,7 @@ export const PasswordInput: React.FunctionComponent<PasswordInputProps> =
 
     return (
       <>
-        <TextInputWrap hasErrorBorder={meta.invalid}>
+        <TextInputWrap hasErrorBorder={fieldState.invalid}>
           <TextInputLabel
             htmlFor={props.id}
             isEnhanced={true}
@@ -39,7 +41,7 @@ export const PasswordInput: React.FunctionComponent<PasswordInputProps> =
             {props.label}
           </TextInputLabel>
           <TextInputInput
-            hasErrorBorder={meta.invalid}
+            hasErrorBorder={fieldState.invalid}
             id={props.id || props.name}
             type={isVisible ? 'text' : 'password'}
             {...field}

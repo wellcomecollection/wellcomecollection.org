@@ -57,8 +57,8 @@ const HeroPictureContainer = styled.div`
 
 export type FeaturedMedia =
   | ReactElement<typeof PrismicImage>
-  | typeof VideoEmbed
-  | typeof Picture;
+  | ReactElement<typeof VideoEmbed>
+  | ReactElement<typeof Picture>;
 
 type BackgroundType = ReactElement<typeof HeaderBackground>;
 

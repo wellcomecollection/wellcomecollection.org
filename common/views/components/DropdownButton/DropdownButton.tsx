@@ -6,6 +6,7 @@ import {
   useContext,
   FunctionComponent,
   ReactNode,
+  PropsWithChildren,
 } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
@@ -88,7 +89,7 @@ type Props = {
   hasNoOptions?: boolean;
 };
 
-const DropdownButton: FunctionComponent<Props> = ({
+const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   label,
   children,
   buttonType = 'outlined',

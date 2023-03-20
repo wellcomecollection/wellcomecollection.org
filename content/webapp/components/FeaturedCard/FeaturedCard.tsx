@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { ImageType } from '@weco/common/model/image';
 import { ExhibitionBasic } from '../../types/exhibitions';
@@ -238,7 +238,7 @@ const FeaturedCardShim = styled.div.attrs<{ background: PaletteColor }>({
     props.isReversed ? props.theme.gutter.large + 'px' : null};
 `;
 
-const FeaturedCard: FunctionComponent<Props> = ({
+const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
   id,
   image,
   labels,

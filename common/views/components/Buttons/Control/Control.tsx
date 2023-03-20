@@ -1,4 +1,4 @@
-import { forwardRef, FunctionComponent } from 'react';
+import { forwardRef, ForwardRefRenderFunction } from 'react';
 import NextLink from 'next/link';
 import { LinkProps } from '../../../../model/link-props';
 import Icon from '../../Icon/Icon';
@@ -187,7 +187,7 @@ const InnerControl = ({ text, icon }: InnerControlProps) => (
 
 type Props = ButtonProps | AnchorProps;
 
-const BaseControl: FunctionComponent<Props> = (
+const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
   {
     tabIndex,
     link,
@@ -254,6 +254,6 @@ const BaseControl: FunctionComponent<Props> = (
   );
 };
 
-const Control = forwardRef(BaseControl);
+const Control = forwardRef<HTMLButtonElement, Props>(BaseControl);
 
 export default Control;

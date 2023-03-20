@@ -2,8 +2,8 @@ import {
   forwardRef,
   SyntheticEvent,
   ForwardedRef,
-  FunctionComponent,
   ReactNode,
+  ForwardRefRenderFunction,
 } from 'react';
 import styled from 'styled-components';
 
@@ -203,7 +203,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
       `};
 `;
 
-const Button: FunctionComponent<ButtonSolidProps> = (
+const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
   {
     icon,
     text,
@@ -279,6 +279,6 @@ const Button: FunctionComponent<ButtonSolidProps> = (
   );
 };
 
-const ButtonSolid = forwardRef(Button);
+const ButtonSolid = forwardRef<HTMLButtonElement, ButtonSolidProps>(Button);
 
 export default ButtonSolid;

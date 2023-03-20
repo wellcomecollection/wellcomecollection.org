@@ -43,6 +43,7 @@ import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 // pages where we actually define/use any resources (or at least not any picked up by
 // the previous implementation), so I couldn't test it.
 function transformResourceTypeList(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fragment: Record<string, any>[],
   labelKey: string
 ): Resource[] {
@@ -52,6 +53,7 @@ function transformResourceTypeList(
     .map(label => transformResourceType(label.data));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function transformResourceType(fragment: Record<string, any>): Resource {
   return {
     id: fragment.id,
@@ -91,9 +93,11 @@ export function transformExhibition(
 
   // TODO: Work out how to get this to type check without the 'as any'.
   const format = isFilledLinkToDocumentWithData(data.format)
-    ? transformExhibitionFormat(data.format as any)
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformExhibitionFormat(data.format as any)
     : undefined;
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const start = transformTimestamp(data.start)!;
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
@@ -114,7 +118,8 @@ export function transformExhibition(
   });
 
   const place = isFilledLinkToDocumentWithData(data.place)
-    ? transformPlace(data.place)
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformPlace(data.place as any)
     : undefined;
 
   const contributors = transformContributors(document);

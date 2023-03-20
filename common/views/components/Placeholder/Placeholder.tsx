@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 type Props = {
@@ -59,7 +59,7 @@ const widthOffsets = [0.8, 0.6, 0.3, 0.5, 0.8, 0.5, 0.2, 0.4, 0.3, 0.1];
 const randomWidth = ({ min, i }: { min: number; i: number }) =>
   100 - (100 - min) * widthOffsets[i % widthOffsets.length];
 
-const Placeholder: FunctionComponent<Props> = ({
+const Placeholder: FunctionComponent<PropsWithChildren<Props>> = ({
   children,
   isLoading,
   maxWidth,

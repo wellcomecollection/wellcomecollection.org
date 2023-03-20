@@ -1,9 +1,6 @@
 const path = require('path');
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const withMDX = require('@next/mdx')({
-  extension: /\.(md|mdx)$/,
-});
 const apmConfig = require('../services/apm/apmConfig');
 
 const defaultConfigOptions = {
@@ -25,7 +22,7 @@ const createConfig =
 
     const rewriteEntries = options.rewriteEntries || [];
 
-    const nextConfig = withMDX({
+    const nextConfig = {
       ...validDefaultConfig,
       // We handle compression in the nginx sidecar
       // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
@@ -88,7 +85,7 @@ const createConfig =
         outputFileTracingRoot: path.join(__dirname, '../../'),
       },
       reactStrictMode: true,
-    });
+    };
     return nextConfig;
   };
 

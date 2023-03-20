@@ -114,7 +114,10 @@ export const ChangeEmail: React.FunctionComponent<ChangeDetailsModalContentProps
                   },
                 },
               }}
-              render={({ onChange, value, name }, { invalid }) => (
+              render={({
+                field: { onChange, value, name },
+                fieldState: { invalid },
+              }) => (
                 <TextInput
                   required
                   id={name}

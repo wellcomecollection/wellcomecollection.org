@@ -1,4 +1,10 @@
-import { createContext, FunctionComponent, useContext, useState } from 'react';
+import {
+  createContext,
+  FunctionComponent,
+  PropsWithChildren,
+  useContext,
+  useState,
+} from 'react';
 import {
   auth0UserProfileToUserInfo,
   isFullAuth0Profile,
@@ -27,7 +33,7 @@ export function useUser(): Props {
   return contextState;
 }
 
-const UserProvider: FunctionComponent = ({ children }) => {
+const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<UserInfo>();
   const [state, setState] = useState<State>('initial');
 
