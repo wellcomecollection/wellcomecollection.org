@@ -17,70 +17,73 @@ type Props = {
   icon?: IconSvg;
 };
 
+const List = styled(PlainList).attrs({
+  className: font('intr', 5),
+})`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+`;
+
+const Heading = styled(Space).attrs({
+  h: { size: 'xs', properties: ['margin-right'] },
+  as: 'li',
+})`
+  display: flex;
+`;
+
+const IconWrapper = styled(Space).attrs({
+  h: { size: 's', properties: ['margin-right'] },
+  as: 'span',
+})``;
+
+const Item = styled.li`
+  margin: 0;
+`;
+
 type LinkOrSpanSpaceAttrs = {
   url?: string;
-  addBorder: boolean;
+  isFirst: boolean;
 };
 
 const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   as: props.url ? 'a' : 'span',
-  href: props.url || undefined,
+  href: props.url,
   h: {
     size: 's',
-    properties: [
-      'margin-right',
-      props.addBorder ? 'padding-left' : undefined,
-    ].filter(Boolean),
+    properties: props.isFirst
+      ? ['margin-right']
+      : ['margin-right', 'padding-left'],
   },
   className: font('intr', 5),
 }))<LinkOrSpanSpaceAttrs>`
   ${props =>
-    props.addBorder &&
+    !props.isFirst &&
     `
     border-left: 1px solid ${props.theme.color('neutral.500')};
   `}
 `;
 
-const PlainItemList = styled(PlainList).attrs({
-  className: font('intb', 5),
-})`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
-  heading ? (
-    <dl className={`flex flex--wrap no-margin ${font('intr', 5)}`}>
-      <Space
-        as="dt"
-        h={{ size: 'xs', properties: ['margin-right'] }}
-        className="flex"
-      >
+const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) => (
+  <List>
+    {heading && (
+      <Heading>
         {icon && (
-          <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+          <IconWrapper>
             <Icon icon={icon} />
-          </Space>
+          </IconWrapper>
         )}
         {heading}:
-      </Space>
-      {items.map(({ url, text }, i) => (
-        <dd key={`${url || text}-${i}`} className="no-margin">
-          <ItemText url={url} addBorder={i !== 0}>
-            {text}
-          </ItemText>
-        </dd>
-      ))}
-    </dl>
-  ) : (
-    <PlainItemList>
-      {items.map(({ url, text }, i) => (
-        <li key={`${url || text}-${i}`} className="no-margin">
-          <ItemText url={url} addBorder={i !== 0}>
-            {text}
-          </ItemText>
-        </li>
-      ))}
-    </PlainItemList>
-  );
+      </Heading>
+    )}
+    {items.map(({ url, text }, i) => (
+      <Item key={`${url || text}-${i}`}>
+        <ItemText url={url} isFirst={i === 0}>
+          {text}
+        </ItemText>
+      </Item>
+    ))}
+  </List>
+);
 
 export default LinkLabels;
