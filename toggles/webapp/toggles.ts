@@ -52,7 +52,15 @@ const toggles = {
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
   ] as const,
-  tests: [] as ABTest[],
+  tests: [
+    {
+      id: 'comicTest1',
+      title:
+        'A/B test linking to series pages or individual comics from last three series',
+      range: [0, 99],
+      when: () => true,
+    },
+  ] as ABTest[],
 };
 
 export default toggles;
