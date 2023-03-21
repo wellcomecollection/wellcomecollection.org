@@ -1,4 +1,4 @@
-import { mountWithTheme } from '../../../test/fixtures/enzyme-helpers';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import Pagination from './Pagination';
 
 // This approach to mocking useRouter() comes from a comment by Stephen Mason
@@ -10,43 +10,45 @@ describe('Pagination', () => {
   it('omits the "Previous" button if we’re on page 1', () => {
     useRouter.mockImplementationOnce(() => ({ query: {} }));
 
-    const component = mountWithTheme(
+    const { container } = renderWithTheme(
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
-
-    expect(component.html().includes('Previous')).toBe(false);
+    expect(container.innerHTML.includes('Previous')).toBe(false);
   });
 
   it('include the "Previous" button if we’re after page 1', () => {
     useRouter.mockImplementationOnce(() => ({ query: { page: '5' } }));
 
-    const component = mountWithTheme(
+    const { container, getByRole } = renderWithTheme(
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
-
-    expect(component.html().includes('Previous')).toBe(true);
-    expect(component.html().includes('href="?page=4"')).toBe(true);
+    expect(container.innerHTML.includes('Previous')).toBe(true);
+    expect(getByRole('button', { name: 'Previous (page 4)' })).toHaveAttribute(
+      'href',
+      '?page=4'
+    );
   });
 
   it('omits the "Next" button if we’re on the last page', () => {
     useRouter.mockImplementationOnce(() => ({ query: { page: '10' } }));
 
-    const component = mountWithTheme(
+    const { container } = renderWithTheme(
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
-
-    expect(component.html().includes('Next')).toBe(false);
+    expect(container.innerHTML.includes('Next')).toBe(false);
   });
 
   it('includes the "Next" button if we’re not on the last page', () => {
     useRouter.mockImplementationOnce(() => ({ query: { page: '5' } }));
 
-    const component = mountWithTheme(
+    const { container, getByRole } = renderWithTheme(
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
-
-    expect(component.html().includes('Next')).toBe(true);
-    expect(component.html().includes('href="?page=6"')).toBe(true);
+    expect(container.innerHTML.includes('Next')).toBe(true);
+    expect(getByRole('button', { name: 'Next (page 6)' })).toHaveAttribute(
+      'href',
+      '?page=6'
+    );
   });
 
   it('includes the pathname and query parameters when linking to the next/previous pages', () => {
@@ -55,39 +57,34 @@ describe('Pagination', () => {
       query: { page: '5', locations: 'available-online' },
     }));
 
-    const component = mountWithTheme(
+    const { getByRole } = renderWithTheme(
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
-
-    expect(
-      component
-        .html()
-        .includes('href="/search/works?page=6&amp;locations=available-online"')
-    ).toBe(true);
-    expect(
-      component
-        .html()
-        .includes('href="/search/works?page=4&amp;locations=available-online"')
-    ).toBe(true);
+    expect(getByRole('button', { name: 'Previous (page 4)' })).toHaveAttribute(
+      'href',
+      '/search/works?page=4&locations=available-online'
+    );
+    expect(getByRole('button', { name: 'Next (page 6)' })).toHaveAttribute(
+      'href',
+      '/search/works?page=6&locations=available-online'
+    );
   });
 
   it('includes the total number of pages', () => {
     useRouter.mockImplementationOnce(() => ({ query: { page: '5' } }));
 
-    const component = mountWithTheme(
+    const { findByText } = renderWithTheme(
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
-
-    expect(component.text().includes('Page 5 of 10')).toBe(true);
+    expect(findByText('Page 5 of 10'));
   });
 
   it('does pretty formatting of large page counts', () => {
     useRouter.mockImplementationOnce(() => ({ query: { page: '5' } }));
 
-    const component = mountWithTheme(
+    const { findByText } = renderWithTheme(
       <Pagination totalPages={12345} ariaLabel="Results pagination" />
     );
-
-    expect(component.text().includes('Page 5 of 12,345')).toBe(true);
+    expect(findByText('Page 5 of 12,345'));
   });
 });
