@@ -341,16 +341,14 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
         )}
         {event.ticketSalesStart &&
           showTicketSalesStart(event.ticketSalesStart) && (
-            <>
-              <Message
-                text={
-                  'Booking opens ' +
-                  formatDayDate(event.ticketSalesStart) +
-                  ' ' +
-                  formatTime(event.ticketSalesStart)
-                }
-              />
-            </>
+            <Message
+              text={
+                'Booking opens ' +
+                formatDayDate(event.ticketSalesStart) +
+                ' ' +
+                formatTime(event.ticketSalesStart)
+              }
+            />
           )}
         {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
           <>
