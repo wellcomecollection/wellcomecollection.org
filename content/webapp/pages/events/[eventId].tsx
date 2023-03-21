@@ -232,13 +232,13 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
       },
       ...event.series.map(series => ({
         url: `/event-series/${series.id}`,
-        text: series.title || '',
+        text: series.title,
         prefix: 'Part of',
       })),
       scheduledIn
         ? {
             url: `/events/${scheduledIn.id}`,
-            text: scheduledIn.title || '',
+            text: scheduledIn.title,
             prefix: 'Part of',
           }
         : undefined,
@@ -457,9 +457,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
 
             See https://wellcome.slack.com/archives/C8X9YKM5X/p1673523089747359
           */}
-          {isNotUndefined(
-            event.policies.find(p => p.id === eventPolicyIds.schoolBooking)
-          ) ? (
+          {event.policies.some(p => p.id === eventPolicyIds.schoolBooking) ? (
             <p className={`no-margin ${font('intr', 5)}`}>
               {a11y.defaultEventMessage}
             </p>
