@@ -197,10 +197,7 @@ function getRanges({ start, end }: RangeProps, acc: Range[] = []): Range[] {
 }
 
 export function isEventPast({ times }: HasTimes): boolean {
-  const hasFutureEvents = times.some(
-    ({ range }) => !isDayPast(range.endDateTime)
-  );
-  return !hasFutureEvents;
+  return times.every(({ range }) => isDayPast(range.endDateTime));
 }
 
 export function upcomingDatesFullyBooked(event: HasTimes): boolean {
