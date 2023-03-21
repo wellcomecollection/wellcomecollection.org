@@ -166,16 +166,14 @@ const getDescription = ({
   extraInformation,
   isPrimary,
 }: Interpretation): prismicT.RichTextField => {
-  const baseDescription: prismicT.RichTextField | undefined = isPrimary
-    ? interpretationType.primaryDescription
-    : interpretationType.description;
+  const baseDescription: prismicT.RichTextField =
+    (isPrimary
+      ? interpretationType.primaryDescription
+      : interpretationType.description) || [];
 
-  const extraDescription: prismicT.RichTextField | undefined =
-    extraInformation || [];
+  const extraDescription: prismicT.RichTextField = extraInformation || [];
 
-  return [...(baseDescription || []), ...extraDescription].filter(
-    isNotUndefined
-  ) as [prismicT.RTNode, ...prismicT.RTNode[]];
+  return [...baseDescription, ...extraDescription];
 };
 
 const eventInterpretationIcons: Record<string, IconSvg> = {
