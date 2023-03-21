@@ -61,7 +61,6 @@ import { isDayPast, isPast } from '@weco/common/utils/dates';
 
 import * as prismicT from '@prismicio/types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { PaletteColor } from '@weco/common/views/themes/config';
 import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -128,22 +127,9 @@ type Props = {
   pageview: Pageview;
 };
 
-const EventStatusWrapper = styled.div`
-  display: flex;
-`;
-
-// TODO: Probably use the StatusIndicator?
-type EventStatusProps = {
-  text: string;
-  color: PaletteColor;
-};
-function EventStatus({ text, color }: EventStatusProps) {
-  return (
-    <EventStatusWrapper>
-      <TextWithDot className={font('intb', 5)} dotColor={color} text={text} />
-    </EventStatusWrapper>
-  );
-}
+const EventStatus = styled(TextWithDot).attrs({
+  className: font('intb', 5),
+})``;
 
 function DateList(event: Event) {
   return (
@@ -158,12 +144,12 @@ function DateList(event: Event) {
               />
             </DateRangeWrapper>
 
-            {isDayPast(eventTime.range.endDateTime)
-              ? EventStatus({ text: 'Past', color: 'neutral.500' })
-              : eventTime.isFullyBooked.inVenue &&
-                eventTime.isFullyBooked.online
-              ? EventStatus({ text: 'Full', color: 'validation.red' })
-              : null}
+            {isDayPast(eventTime.range.endDateTime) ? (
+              <EventStatus text="Past" dotColor="neutral.500" />
+            ) : eventTime.isFullyBooked.inVenue &&
+              eventTime.isFullyBooked.online ? (
+              <EventStatus text="Full" dotColor="validation.red" />
+            ) : null}
           </TimeWrapper>
         );
       })}
@@ -302,9 +288,10 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
               )}
             </EventDatesLinkWrapper>
           </EventDateInfoWrapper>
-          {event.isPast && EventStatus({ text: 'Past', color: 'neutral.500' })}
-          {upcomingDatesFullyBooked(event) &&
-            EventStatus({ text: 'Fully booked', color: 'validation.red' })}
+          {event.isPast && <EventStatus text="Past" dotColor="neutral.500" />}
+          {upcomingDatesFullyBooked(event) && (
+            <EventStatus text="Fully booked" dotColor="validation.red" />
+          )}
         </>
       }
       isFree={!event.cost} // TODO or no online cost
