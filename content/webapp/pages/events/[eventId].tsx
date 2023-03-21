@@ -83,6 +83,24 @@ const DateWrapper = styled.div.attrs({
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
+const EventDateInfoWrapper = styled(Space).attrs({
+  v: {
+    size: 's',
+    properties: ['margin-bottom'],
+  },
+})`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const EventDateRangeWrapper = styled.div`
+  display: inline;
+`;
+
+const EventDatesLinkWrapper = styled(Space).attrs({
+  h: { size: 's', properties: ['margin-left'] },
+})``;
+
 const ThirdParty = styled.span.attrs({
   className: font('intr', 5),
 })`
@@ -268,26 +286,20 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
       }
       ContentTypeInfo={
         <>
-          <Space
-            v={{
-              size: 's',
-              properties: ['margin-bottom'],
-            }}
-            className="flex flex--wrap"
-          >
-            <div className="inline">
+          <EventDateInfoWrapper>
+            <EventDateRangeWrapper>
               <EventDateRange event={event} />
-            </div>
+            </EventDateRangeWrapper>
             {/*
               This 'All dates' link takes the user to the complete list of dates
               further down the page, but if there's only one date we can skip it.
              */}
-            <Space h={{ size: 's', properties: ['margin-left'] }}>
+            <EventDatesLinkWrapper>
               {!event.isPast && event.times.length > 1 && (
                 <EventDatesLink id={event.id} />
               )}
-            </Space>
-          </Space>
+            </EventDatesLinkWrapper>
+          </EventDateInfoWrapper>
           {event.isPast && EventStatus({ text: 'Past', color: 'neutral.500' })}
           {upcomingDatesFullyBooked(event) &&
             EventStatus({ text: 'Fully booked', color: 'validation.red' })}
