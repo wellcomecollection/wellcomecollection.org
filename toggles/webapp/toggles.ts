@@ -54,7 +54,7 @@ const toggles = {
   ] as const,
   tests: [
     {
-      id: 'storiesLandingComicTest1',
+      id: 'comicTest1',
       title:
         'A/B test linking to series pages or individual comics from last three series',
       range: [0, 99],

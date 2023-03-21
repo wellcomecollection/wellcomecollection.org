@@ -44,7 +44,7 @@ type Props = {
   comicSeries: SeriesBasic[];
   storiesLanding: StoriesLanding;
   firstComicFromEachSeries: ArticleBasic[];
-  storiesLandingComicTest1: boolean;
+  comicTest1: boolean;
   jsonLd: JsonLdObj[];
 };
 
@@ -69,8 +69,7 @@ const StoryPromoContainer = styled.div.attrs({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const storiesLandingComicTest1 =
-      serverData.toggles.storiesLandingComicTest1;
+    const comicTest1 = serverData.toggles.comicTest1;
     const client = createClient(context);
     const articlesQueryPromise = fetchArticles(client, {
       predicates: prismic.predicate.not(
@@ -132,7 +131,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           articles: basicArticles,
           comicSeries: basicComicSeries,
           firstComicFromEachSeries: firstComicFromEachSeries,
-          storiesLandingComicTest1,
+          comicTest1,
           serverData,
           jsonLd,
           storiesLanding,
@@ -147,7 +146,7 @@ const StoriesPage: FunctionComponent<Props> = ({
   articles,
   comicSeries,
   firstComicFromEachSeries,
-  storiesLandingComicTest1,
+  comicTest1,
   jsonLd,
   storiesLanding,
 }) => {
@@ -255,9 +254,7 @@ const StoriesPage: FunctionComponent<Props> = ({
 
         <SpacingComponent>
           <CardGrid
-            items={
-              storiesLandingComicTest1 ? firstComicFromEachSeries : comicSeries
-            }
+            items={comicTest1 ? firstComicFromEachSeries : comicSeries}
             itemsPerRow={3}
             itemsHaveTransparentBackground={true}
             links={[{ text: 'More comics', url: '/stories/comic' }]}
