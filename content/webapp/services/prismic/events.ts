@@ -126,12 +126,10 @@ export function groupEventsByDay(events: Event[]): EventsGroup[] {
 
   // See which events should go into which event group
   events.forEach(event => {
-    const times = event.times
-      .filter(time => time.range && time.range.startDateTime)
-      .map(time => ({
-        start: time.range.startDateTime,
-        end: time.range.endDateTime,
-      }));
+    const times = event.times.map(time => ({
+      start: time.range.startDateTime,
+      end: time.range.endDateTime,
+    }));
 
     ranges.forEach(range => {
       const isInRange = times.find(
