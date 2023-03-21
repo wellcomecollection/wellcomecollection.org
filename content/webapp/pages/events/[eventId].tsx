@@ -214,12 +214,10 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
     ? event.body.slice(1, event.body.length)
     : event.body;
   const eventFormat = event.format ? [{ text: event.format.title }] : [];
-  const eventAudiences = event.audiences
-    ? event.audiences.map(a => ({ text: a.title }))
-    : [];
-  const eventInterpretations = event.interpretations
-    ? event.interpretations.map(i => ({ text: i.interpretationType.title }))
-    : [];
+  const eventAudiences = event.audiences.map(a => ({ text: a.title }));
+  const eventInterpretations = event.interpretations.map(i => ({
+    text: i.interpretationType.title,
+  }));
   const relaxedPerformanceLabel = event.isRelaxedPerformance
     ? [{ text: 'Relaxed' }]
     : [];
