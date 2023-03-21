@@ -356,9 +356,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
             {event.thirdPartyBooking && (
               <>
                 {event.isCompletelySoldOut ? ( // TODO online sold out / versus normal sold out
-                  <>
-                    <ButtonSolid disabled={true} text="Fully booked" />
-                  </>
+                  <ButtonSolid disabled={true} text="Fully booked" />
                 ) : (
                   <>
                     <ButtonSolidLink
