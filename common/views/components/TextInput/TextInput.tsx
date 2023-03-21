@@ -112,7 +112,7 @@ export const TextInputInput = styled.input.attrs(props => ({
 `;
 
 const TextInputCheckmark = styled.span.attrs({
-  'data-test-id': 'TextInputCheckmark',
+  'data-testid': 'TextInputCheckmark',
 })`
   position: absolute;
   top: 50%;
@@ -123,7 +123,7 @@ const TextInputCheckmark = styled.span.attrs({
 
 export const TextInputErrorMessage = styled.span.attrs({
   role: 'alert',
-  'data-test-id': 'TextInputErrorMessage',
+  'data-testid': 'TextInputErrorMessage',
   className: 'font-intb',
 })`
   display: block;
