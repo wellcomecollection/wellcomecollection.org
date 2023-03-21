@@ -128,6 +128,10 @@ type Props = {
   pageview: Pageview;
 };
 
+const EventStatusWrapper = styled.div`
+  display: flex;
+`;
+
 // TODO: Probably use the StatusIndicator?
 type EventStatusProps = {
   text: string;
@@ -135,9 +139,9 @@ type EventStatusProps = {
 };
 function EventStatus({ text, color }: EventStatusProps) {
   return (
-    <div className="flex">
+    <EventStatusWrapper>
       <TextWithDot className={font('intb', 5)} dotColor={color} text={text} />
-    </div>
+    </EventStatusWrapper>
   );
 }
 
