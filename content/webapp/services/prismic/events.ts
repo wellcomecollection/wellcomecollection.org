@@ -205,11 +205,11 @@ export function upcomingDatesFullyBooked(event: HasTimes): boolean {
     event.times.length > 0
       ? event.times.filter(({ range }) => !isPast(range.endDateTime))
       : [];
-  if (upcoming.length > 0) {
-    return upcoming.every(
+
+  return (
+    upcoming.length > 0 &&
+    upcoming.every(
       ({ isFullyBooked }) => isFullyBooked.inVenue && isFullyBooked.online
-    );
-  } else {
-    return false;
-  }
+    )
+  );
 }
