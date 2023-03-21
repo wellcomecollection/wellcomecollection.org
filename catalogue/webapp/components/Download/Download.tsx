@@ -10,9 +10,9 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
-export const DownloadOptions = styled.div.attrs(() => ({
+export const DownloadOptions = styled.div.attrs({
   className: font('intb', 4),
-}))`
+})`
   white-space: normal;
   color: ${props => props.theme.color('black')};
 

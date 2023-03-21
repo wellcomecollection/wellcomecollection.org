@@ -5,9 +5,9 @@ import { Link } from '../../types/link';
 import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent } from 'react';
 
-const Anchor = styled.a.attrs(() => ({
+const Anchor = styled.a.attrs({
   className: font('intb', 5),
-}))`
+})`
   color: ${props => props.theme.color('black')};
 `;
 

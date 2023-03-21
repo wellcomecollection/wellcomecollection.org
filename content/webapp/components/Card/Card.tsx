@@ -18,14 +18,22 @@ type Props = {
   item: CardType;
 };
 
-export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
-  className: 'plain-link promo-link rounded-corners flex-ie-block',
-}))`
+export const CardOuter = styled.a.attrs({
+  className: 'plain-link promo-link',
+})`
+  display: block; // IE
+
+  @supports (display: flex) {
+    // IE ignores @supports
+    display: flex;
+  }
+
   overflow: hidden;
   flex-direction: column;
 
   background: ${props => props.theme.color('warmNeutral.300')};
   min-height: ${props => props.theme.minCardHeight}px;
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
 
   .card-theme.card-theme--white & {
     background: ${props => props.theme.color('white')};
@@ -72,14 +80,14 @@ export const CardPostBody = styled(Space).attrs({
   }
 `;
 
-export const CardBody = styled(Space).attrs(() => ({
+export const CardBody = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top'] },
   h: {
     size: 'm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-}))`
+})`
   display: flex;
   flex-direction: column;
   flex: 1;

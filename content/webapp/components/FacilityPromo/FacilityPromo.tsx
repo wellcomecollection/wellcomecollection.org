@@ -8,9 +8,8 @@ import { FacilityPromo as FacilityPromoType } from '../../types/facility-promo';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-const ImageWrapper = styled.div.attrs({
-  className: 'rounded-corners',
-})`
+const ImageWrapper = styled.div`
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
   overflow: hidden;
 `;
 

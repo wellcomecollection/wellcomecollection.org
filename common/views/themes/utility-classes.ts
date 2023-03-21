@@ -99,15 +99,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .flex-ie-block {
-    display: block; // IE
-
-    @supports (display: flex) {
-      // IE ignores @supports
-      display: flex;
-    }
-  }
-
   .inline {
     display: inline;
   }
@@ -129,10 +120,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .promo-link__title {
     transition: color 400ms ease;
-  }
-
-  .rounded-corners {
-    border-radius: ${props => props.theme.borderRadiusUnit}px;
   }
 
   .rounded-diagonal {

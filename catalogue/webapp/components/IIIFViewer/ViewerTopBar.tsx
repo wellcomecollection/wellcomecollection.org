@@ -18,9 +18,9 @@ import {
 } from '@weco/common/icons';
 
 // TODO: update this with a more considered button from our system
-export const ShameButton = styled.button.attrs(() => ({
+export const ShameButton = styled.button.attrs({
   className: font('intb', 5),
-}))<{ isDark?: boolean }>`
+})<{ isDark?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
