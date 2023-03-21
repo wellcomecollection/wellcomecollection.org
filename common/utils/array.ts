@@ -2,7 +2,7 @@ export function isNotUndefined<T>(val: T | undefined): val is T {
   return typeof val !== 'undefined';
 }
 
-export function isUndefined<T>(val: T | undefined): val is T {
+export function isUndefined<T>(val: T | undefined): val is undefined {
   return typeof val === 'undefined';
 }
 
