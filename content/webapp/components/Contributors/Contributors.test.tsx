@@ -2,7 +2,7 @@ import Contributors, {
   dedupeAndPluraliseRoles,
   Props as ContributorProps,
 } from './Contributors';
-import { shallowWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 const facilitator = 'Facilitator';
 const guide = 'Guide';
@@ -39,8 +39,8 @@ describe('Contributors', () => {
       contributors: [],
     };
 
-    const component = shallowWithTheme(<Contributors {...props} />);
+    const { container } = renderWithTheme(<Contributors {...props} />);
 
-    expect(component.html()).toBe('');
+    expect(container.innerHTML).toBe('');
   });
 });
