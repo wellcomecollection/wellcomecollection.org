@@ -1,7 +1,7 @@
 import ArchiveBreadcrumb from './ArchiveBreadcrumb';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { Work } from '@weco/catalogue/services/catalogue/types';
-import { shallowWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 describe('ArchiveBreadcrumb', () => {
   it("includes the reference number in the last crumb if there isn't one", () => {
@@ -34,19 +34,15 @@ describe('ArchiveBreadcrumb', () => {
       formerFrequency: [],
       designation: [],
     };
-
-    const component = shallowWithTheme(
+    const { getByText } = renderWithTheme(
       <IsArchiveContext.Provider value={true}>
         <ArchiveBreadcrumb work={w} />
       </IsArchiveContext.Provider>
     );
-    const componentHtml = component.html();
-    expect(
-      componentHtml.indexOf('Archives 1972 SA/GMR/A/16') > -1
-    ).toBeTruthy();
+    expect(getByText('Archives 1972 SA/GMR/A/16'));
   });
 
-  it("omits the reference number in a middle crumb if there isn't one", () => {
+  it("omits the reference number in a middle crumb if there isn't one", async () => {
     const w: Work = {
       id: 'x56u8dnf',
       title: 'Cĕrita hantu setan',
@@ -101,13 +97,13 @@ describe('ArchiveBreadcrumb', () => {
       designation: [],
     };
 
-    const component = shallowWithTheme(
+    const { container } = renderWithTheme(
       <IsArchiveContext.Provider value={true}>
         <ArchiveBreadcrumb work={w} />
       </IsArchiveContext.Provider>
     );
-    const componentHtml = component.html();
-    expect(componentHtml.indexOf('undefined')).toBe(-1);
+
+    expect(container.outerHTML.includes('undefined')).toBe(false);
   });
 
   it("omits the reference number in the last crumb if there isn't one", () => {
@@ -140,12 +136,12 @@ describe('ArchiveBreadcrumb', () => {
       designation: [],
     };
 
-    const component = shallowWithTheme(
+    const { container } = renderWithTheme(
       <IsArchiveContext.Provider value={true}>
         <ArchiveBreadcrumb work={w} />
       </IsArchiveContext.Provider>
     );
-    const componentHtml = component.html();
-    expect(componentHtml.indexOf('undefined')).toBe(-1);
+
+    expect(container.outerHTML.includes('undefined')).toBe(false);
   });
 });

@@ -1,22 +1,24 @@
 import SearchNoResults from './SearchNoResults';
-import { shallowWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 describe('SearchNoResults', () => {
   const query = 'hello-query-results';
 
   it('matches the display query param with the results', () => {
-    const component = shallowWithTheme(
+    const { getByText } = renderWithTheme(
       <SearchNoResults query={query} hasFilters={false} />
     );
-    expect(component.html()).toMatch(query);
-    expect(component.html()).not.toMatch('with the filters you have selected');
+    expect(getByText(query));
+    expect(() => getByText('with the filters you have selected')).toThrow();
   });
 
   it('displays no results with filters selected', () => {
-    const component = shallowWithTheme(
+    const { container, getByText } = renderWithTheme(
       <SearchNoResults query={query} hasFilters={true} />
     );
-    expect(component.html()).toMatch(query);
-    expect(component.html()).toMatch('with the filters you have selected');
+    expect(getByText(query));
+    expect(
+      container.innerHTML.includes('with the filters you have selected')
+    ).toBe(true);
   });
 });
