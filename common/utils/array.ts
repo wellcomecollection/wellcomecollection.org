@@ -9,12 +9,3 @@ export function isUndefined<T>(val: T | undefined): val is undefined {
 export function isString(v: any): v is string {
   return typeof v === 'string';
 }
-
-export function isJson(v: string): boolean {
-  try {
-    JSON.parse(v);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}

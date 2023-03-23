@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isJson, isString } from '@weco/common/utils/array';
+import { isString } from '@weco/common/utils/array';
+import { isJson } from '@weco/common/utils/json';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
