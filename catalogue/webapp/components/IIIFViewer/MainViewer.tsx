@@ -59,7 +59,7 @@ const ThumbnailWrapper = styled.div<{ imageLoaded?: boolean }>`
   opacity: ${props => (props.imageLoaded ? 1 : 0)};
   transition: opacity 500ms ease;
   position: absolute;
-  width: 100%;
+  width: calc(100% - 20px);
   height: 100%;
   img {
     position: relative;
