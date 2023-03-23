@@ -38,13 +38,13 @@ const WorkDetailsText: FunctionComponent<Props> = props => {
         {'contents' in props && props.contents}
         {'text' in props &&
           (isString(props.text) ? (
-            <div key="0">{props.text}</div>
+            <div>{props.text}</div>
           ) : (
             props.text.map((para, i) => <div key={i}>{para}</div>)
           ))}
         {'html' in props &&
           (isString(props.html) ? (
-            <div key="0" dangerouslySetInnerHTML={{ __html: props.html }} />
+            <div dangerouslySetInnerHTML={{ __html: props.html }} />
           ) : (
             props.html.map((para, i) => (
               <div key={i} dangerouslySetInnerHTML={{ __html: para }} />
