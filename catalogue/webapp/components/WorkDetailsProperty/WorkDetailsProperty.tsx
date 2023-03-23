@@ -15,7 +15,7 @@ const WorkDetailsProperty: FunctionComponent<Props> = ({
   inlineHeading,
   noSpacing,
   children,
-}: Props) => {
+}) => {
   return (
     <ConditionalWrapper
       condition={!noSpacing}
