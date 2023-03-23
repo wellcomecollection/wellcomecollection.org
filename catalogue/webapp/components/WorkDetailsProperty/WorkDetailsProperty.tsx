@@ -1,10 +1,33 @@
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import { FunctionComponent, PropsWithChildren } from 'react';
+import styled from 'styled-components';
 
-type Props = PropsWithChildren<{
+type InlineHeadingProps = {
+  inlineHeading?: boolean;
+};
+
+const Wrapper = styled.div.attrs({
+  className: font('intr', 5, { small: 3, medium: 3 }),
+})<InlineHeadingProps>`
+  ${props => (props.inlineHeading ? 'display: flex;' : '')}
+`;
+
+const Title = styled(Space).attrs<InlineHeadingProps>(props => ({
+  as: 'h3',
+  h: {
+    size: 's',
+    properties: props.inlineHeading ? ['margin-right'] : [],
+  },
+  className: font('intb', 5, { small: 3, medium: 3 }),
+}))<InlineHeadingProps>`
+  ${props => (!props.inlineHeading ? 'margin: 0;' : '')}
+  margin-bottom: 0;
+`;
+
+export type Props = PropsWithChildren<{
   title?: string;
   inlineHeading?: boolean;
   noSpacing?: boolean;
@@ -15,39 +38,16 @@ const WorkDetailsProperty: FunctionComponent<Props> = ({
   inlineHeading,
   noSpacing,
   children,
-}: Props) => {
+}) => {
   return (
     <ConditionalWrapper
       condition={!noSpacing}
       wrapper={children => <SpacingComponent>{children}</SpacingComponent>}
     >
-      <div
-        className={`${font('intr', 5, { small: 3, medium: 3 })}${
-          inlineHeading ? ' flex' : ''
-        }`}
-      >
-        {title && (
-          <Space
-            as="h3"
-            h={
-              inlineHeading
-                ? {
-                    size: 's',
-                    properties: ['margin-right'],
-                  }
-                : { size: 's', properties: [] }
-            }
-            className={classNames({
-              [font('intb', 5, { small: 3, medium: 3 })]: true,
-              'no-margin': !inlineHeading,
-            })}
-            style={{ marginBottom: 0 }}
-          >
-            {title}
-          </Space>
-        )}
+      <Wrapper inlineHeading={inlineHeading}>
+        {title && <Title inlineHeading={inlineHeading}>{title}</Title>}
         {children}
-      </div>
+      </Wrapper>
     </ConditionalWrapper>
   );
 };
