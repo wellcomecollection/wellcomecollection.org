@@ -1,4 +1,6 @@
-import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
+import WorkDetailsProperty, {
+  Props as BaseProps,
+} from '../WorkDetailsProperty/WorkDetailsProperty';
 import { FunctionComponent, ReactElement } from 'react';
 import { isString } from '@weco/common/utils/array';
 import styled from 'styled-components';
@@ -8,12 +10,6 @@ const LimitWidth = styled.div.attrs({
 })`
   max-width: 45em;
 `;
-
-type BaseProps = {
-  title?: string;
-  inlineHeading?: boolean;
-  noSpacing?: boolean;
-};
 
 type TextProps = BaseProps & {
   text: string | string[];
@@ -36,14 +32,8 @@ type ReactProps = BaseProps & {
 type Props = TextProps | HtmlProps | ReactProps;
 
 const WorkDetailsText: FunctionComponent<Props> = props => {
-  const { title, inlineHeading, noSpacing } = props;
-
   return (
-    <WorkDetailsProperty
-      title={title}
-      inlineHeading={inlineHeading}
-      noSpacing={noSpacing}
-    >
+    <WorkDetailsProperty {...props}>
       <LimitWidth>
         {'contents' in props && props.contents}
         {'text' in props &&

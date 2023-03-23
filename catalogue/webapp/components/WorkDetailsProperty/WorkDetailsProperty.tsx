@@ -27,7 +27,7 @@ const Title = styled(Space).attrs<InlineHeadingProps>(props => ({
   margin-bottom: 0;
 `;
 
-type Props = PropsWithChildren<{
+export type Props = PropsWithChildren<{
   title?: string;
   inlineHeading?: boolean;
   noSpacing?: boolean;
