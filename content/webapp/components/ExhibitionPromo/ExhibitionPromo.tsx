@@ -12,7 +12,7 @@ import {
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import styled from 'styled-components';
 

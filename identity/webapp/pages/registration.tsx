@@ -40,7 +40,7 @@ import {
   collectionsResearchAgreementLabel,
 } from '@weco/identity/copy';
 import { JwtPayload } from 'jsonwebtoken';
-import { isString } from '@weco/common/utils/array';
+import { isString } from '@weco/common/utils/type-guards';
 
 const { serverRuntimeConfig: config } = getConfig();
 

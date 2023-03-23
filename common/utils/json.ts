@@ -1,4 +1,4 @@
-import { isUndefined } from './array';
+import { isUndefined } from './type-guards';
 
 type Keyable = { [key: string]: any };
 

@@ -11,7 +11,7 @@ import {
   startOfDay,
 } from '@weco/common/utils/dates';
 import { Event, HasTimes } from '../../types/events';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 function getNextDateInFuture(event: HasTimes): Date | undefined {
   const futureTimes = event.times.filter(

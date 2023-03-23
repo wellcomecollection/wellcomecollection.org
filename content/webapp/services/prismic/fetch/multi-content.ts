@@ -1,6 +1,6 @@
 import { GetServerSidePropsPrismicClient, delistPredicate } from '.';
 import { Query } from '@prismicio/types';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   MultiContentPrismicDocument,
   StructuredSearchQuery,

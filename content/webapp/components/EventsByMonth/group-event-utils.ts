@@ -1,4 +1,4 @@
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   getDatesBetween,
   isFuture,

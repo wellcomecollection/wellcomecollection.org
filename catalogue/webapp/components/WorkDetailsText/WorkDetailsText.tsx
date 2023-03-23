@@ -1,6 +1,6 @@
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
 import { FunctionComponent, ReactElement } from 'react';
-import { isString } from '@weco/common/utils/array';
+import { isString } from '@weco/common/utils/type-guards';
 import styled from 'styled-components';
 
 const LimitWidth = styled.div.attrs({

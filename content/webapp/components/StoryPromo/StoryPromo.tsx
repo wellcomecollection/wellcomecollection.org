@@ -16,7 +16,7 @@ import {
   getArticleColor,
   getPartNumberInSeries,
 } from '../../types/articles';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import styled from 'styled-components';
 

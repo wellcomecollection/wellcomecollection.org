@@ -29,6 +29,18 @@
 // then TypeScript is happy, because it knows the type is `string[]` in the
 // second branch, and so the `join` method is definitely defined.
 
+export function isNotUndefined<T>(val: T | undefined): val is T {
+  return typeof val !== 'undefined';
+}
+
+export function isUndefined<T>(val: T | undefined): val is undefined {
+  return typeof val === 'undefined';
+}
+
+export function isString(v: unknown): v is string {
+  return typeof v === 'string';
+}
+
 export function isInTuple<T extends string>(
   val: string,
   tuple: readonly T[]

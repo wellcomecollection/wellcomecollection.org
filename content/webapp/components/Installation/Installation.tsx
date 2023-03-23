@@ -10,7 +10,7 @@ import InfoBox from '../InfoBox/InfoBox';
 import { isPast } from '@weco/common/utils/dates';
 import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions';
 
 type Props = {

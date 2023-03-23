@@ -42,7 +42,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
 import { isPicture, isVideoEmbed, BodySlice } from '@weco/content/types/body';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';

@@ -12,7 +12,7 @@ import {
 } from '@weco/common/services/prismic/types';
 import { GenericContentFields } from '../../../types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
-import { isNotUndefined, isString } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { WithGuideFormat } from '../types/guides';
 import { WithCardFormat } from '../types/card';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';

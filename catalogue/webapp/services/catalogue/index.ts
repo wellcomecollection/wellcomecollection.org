@@ -7,7 +7,7 @@ import {
 } from '@weco/catalogue/services/catalogue/types';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
-import { isString } from '@weco/common/utils/array';
+import { isString } from '@weco/common/utils/type-guards';
 
 export const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',

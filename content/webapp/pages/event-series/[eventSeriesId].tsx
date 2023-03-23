@@ -19,7 +19,7 @@ import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import * as prismic from '@prismicio/client';
 import { fetchEventSeriesById } from '@weco/content/services/prismic/fetch/event-series';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformEventSeries } from '@weco/content/services/prismic/transformers/event-series';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {

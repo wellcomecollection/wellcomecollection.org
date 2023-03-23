@@ -4,7 +4,7 @@ import { transformGenericFields, asText } from '.';
 import { BackgroundTexture } from '@weco/common/model/background-texture';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { ImageField, KeyTextField } from '@prismicio/types';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformContributors } from './contributors';
 
 function transformBackgroundTexture({

@@ -8,7 +8,7 @@ import { quoteVal } from '@weco/common/utils/csv';
 import { toHtmlId } from '@weco/common/utils/string';
 import { ImagesProps } from '@weco/catalogue/components/ImagesLink';
 import { WorksProps } from '@weco/catalogue/components/WorksLink';
-import { isNotUndefined, isString } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { formatNumber } from '@weco/common/utils/grammar';
 
 export type DateRangeFilter = {

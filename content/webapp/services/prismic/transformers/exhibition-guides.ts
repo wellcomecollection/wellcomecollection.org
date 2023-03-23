@@ -15,7 +15,7 @@ import { transformImagePromo } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { getYouTubeEmbedUrl } from './embeds';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.

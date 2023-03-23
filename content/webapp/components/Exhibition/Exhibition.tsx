@@ -28,7 +28,7 @@ import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
 import ContentPage from '../ContentPage/ContentPage';
 import Contributors from '../Contributors/Contributors';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { a11y } from '@weco/common/data/microcopy';
 import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
 import {
