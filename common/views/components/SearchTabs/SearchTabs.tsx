@@ -16,7 +16,6 @@ type TabProps = {
   isLast: boolean;
   isActive: boolean;
   isFocused: boolean;
-  isKeyboard: boolean;
 };
 const Tab = styled(Space).attrs({
   as: 'span',
@@ -35,14 +34,6 @@ const Tab = styled(Space).attrs({
     `
     border-color: ${props.theme.color('warmNeutral.300')};
     background: ${props.theme.color('warmNeutral.300')};
-  `}
-
-  ${props =>
-    props.isFocused &&
-    `
-    box-shadow: ${props.isKeyboard ? props.theme.focusBoxShadow : null};
-    position: relative;
-    z-index: 1;
   `}
 
   width: 100%;
@@ -65,7 +56,7 @@ const SearchTabs: FunctionComponent<Props> = ({
   query,
   activeTabIndex,
 }: Props): ReactElement<Props> => {
-  const { isKeyboard, isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useContext(AppContext);
   const searchImagesFormRef = useRef<HTMLFormElement>();
   const searchWorksFormRef = useRef<HTMLFormElement>();
 
@@ -99,12 +90,7 @@ const SearchTabs: FunctionComponent<Props> = ({
               </NextLink>
             )}
           >
-            <Tab
-              isActive={true}
-              isFocused={isFocused}
-              isKeyboard={isKeyboard}
-              isLast={false}
-            >
+            <Tab isActive={true} isFocused={isFocused} isLast={false}>
               Library catalogue
             </Tab>
           </ConditionalWrapper>
@@ -179,12 +165,7 @@ const SearchTabs: FunctionComponent<Props> = ({
               </NextLink>
             )}
           >
-            <Tab
-              isActive={false}
-              isFocused={isFocused}
-              isKeyboard={isKeyboard}
-              isLast={true}
-            >
+            <Tab isActive={false} isFocused={isFocused} isLast={true}>
               Images
             </Tab>
           </ConditionalWrapper>

@@ -80,7 +80,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
 
   render(): ReactElement<DocumentInitialProps> {
     return (
-      <Html lang="en" className="is-keyboard">
+      <Html lang="en">
         <Head>
           {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
           <Ga4DataLayer

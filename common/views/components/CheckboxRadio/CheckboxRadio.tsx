@@ -56,12 +56,13 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
     border-color: ${props => props.theme.color('black')};
   }
 
-  .is-keyboard & {
-    &:focus ~ ${CheckboxRadioBox} {
-      outline: 0;
-      box-shadow: ${props => props.theme.focusBoxShadow};
-      border-color: ${props => props.theme.color('black')};
-    }
+  &:focus-visible ~ ${CheckboxRadioBox}, &:focus ~ ${CheckboxRadioBox} {
+    box-shadow: ${props => props.theme.focusBoxShadow};
+    outline: 0;
+  }
+
+  &:focus ~ ${CheckboxRadioBox}:not(:focus-visible ~ ${CheckboxRadioBox}) {
+    box-shadow: none;
   }
 `;
 

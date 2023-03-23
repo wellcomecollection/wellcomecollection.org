@@ -2,7 +2,6 @@ import {
   ReactNode,
   useEffect,
   useRef,
-  useContext,
   FunctionComponent,
   RefObject,
   MutableRefObject,
@@ -10,14 +9,9 @@ import {
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
-import { AppContext } from '../AppContext/AppContext';
 import { CSSTransition } from 'react-transition-group';
 import { cross } from '@weco/common/icons';
 import FocusTrap from 'focus-trap-react';
-
-type CloseButtonProps = {
-  hideFocus: boolean;
-};
 
 type BaseModalProps = {
   width?: string | null;
@@ -49,12 +43,12 @@ const Overlay = styled.div`
   `}
 `;
 
-const CloseButton = styled(Space).attrs<CloseButtonProps>({
+const CloseButton = styled(Space).attrs({
   as: 'button',
   type: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
-})<CloseButtonProps>`
+})`
   position: fixed;
   width: 28px;
   height: 28px;
@@ -66,9 +60,13 @@ const CloseButton = styled(Space).attrs<CloseButtonProps>({
   outline: 0;
   z-index: 1;
 
+  &:focus-visible,
   &:focus {
-    ${props =>
-      !props.hideFocus && `border: 2px solid ${props.theme.color('black')}`}
+    outline: border: 2px solid ${props => props.theme.color('black')};
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 
   .icon {
@@ -200,7 +198,6 @@ const Modal: FunctionComponent<Props> = ({
   modalStyle,
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
-  const { isKeyboard } = useContext(AppContext);
   const ModalWindow = determineModal(modalStyle);
   const initialLoad = useRef(true);
   const nodeRef = useRef(null);
@@ -273,7 +270,6 @@ const Modal: FunctionComponent<Props> = ({
                 onClick={() => {
                   setIsActive(false);
                 }}
-                hideFocus={!isKeyboard}
               >
                 <span className="visually-hidden">Close modal window</span>
                 <Icon icon={cross} />

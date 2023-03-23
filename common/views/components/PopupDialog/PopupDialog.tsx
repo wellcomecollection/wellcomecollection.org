@@ -3,7 +3,6 @@ import {
   useState,
   useRef,
   useEffect,
-  useContext,
   KeyboardEvent as ReactKeyboardEvent,
 } from 'react';
 import styled from 'styled-components';
@@ -14,7 +13,6 @@ import Space from '../styled/Space';
 import { font } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import { trackGaEvent } from '../../../utils/ga';
-import { AppContext } from '../AppContext/AppContext';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { chat, clear } from '../../../icons';
@@ -111,7 +109,7 @@ const PopupDialogWindow = styled(Space).attrs({
 
 const PopupDialogClose = styled.button.attrs({
   className: 'plain-button',
-})<{ isKeyboard: boolean }>`
+})`
   margin: 0 !important;
   padding: 0;
 
@@ -123,14 +121,14 @@ const PopupDialogClose = styled.button.attrs({
   top: 10px;
   right: 10px;
 
+  &:focus-visible,
   &:focus {
+    box-shadow: ${props => props.theme.focusBoxShadow};
     outline: 0;
+  }
 
-    ${props =>
-      props.isKeyboard &&
-      `
-      box-shadow: ${props.theme.focusBoxShadow};
-    `}
+  :focus:not(:focus-visible) {
+    box-shadow: none;
   }
 `;
 
@@ -179,7 +177,6 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
   const closeDialogRef = useRef<HTMLButtonElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const dialogWindowRef = useRef<HTMLDivElement>(null);
-  const { isKeyboard } = useContext(AppContext);
 
   function hasPersistentState() {
     const cardiganHosts = ['localhost:9001', 'cardigan.wellcomecollection.org'];
@@ -313,7 +310,6 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
       </PopupDialogOpen>
       <PopupDialogWindow ref={dialogWindowRef} isActive={isActive}>
         <PopupDialogClose
-          isKeyboard={isKeyboard}
           title="close dialog"
           ref={closeDialogRef}
           tabIndex={isActive ? 0 : -1}
