@@ -26,8 +26,8 @@
 //      }
 //    }
 //
-// then TypeScript is happy, because it knows the type is `string[]` in the
-// second branch, and so the `join` method is definitely defined.
+// then TypeScript is happy, because it can work out that `s` must be a `string[]`
+// in the second branch, and so the `join` method is definitely defined.
 
 export function isNotUndefined<T>(val: T | undefined): val is T {
   return typeof val !== 'undefined';
