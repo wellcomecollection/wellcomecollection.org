@@ -18,12 +18,3 @@ export function isJson(v: string): boolean {
     return false;
   }
 }
-
-export function stringFromStringOrStringArray(
-  input: string | string[]
-): string {
-  if (Array.isArray(input)) {
-    return input.join('');
-  }
-  return input;
-}
