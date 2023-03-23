@@ -8,7 +8,7 @@ import {
   GroupField,
   SliceZone,
 } from '@prismicio/types';
-import { isNotUndefined } from '../../../utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import * as prismicH from '@prismicio/helpers';
 
 /**

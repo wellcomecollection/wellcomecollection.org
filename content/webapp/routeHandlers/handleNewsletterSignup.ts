@@ -1,4 +1,4 @@
-import { isUndefined } from '@weco/common/utils/array';
+import { isUndefined } from '@weco/common/utils/type-guards';
 import fetch from 'node-fetch';
 
 const dotdigitalUsername = process.env.dotdigital_username;

@@ -14,7 +14,7 @@ import {
   EventPolicy as EventPolicyPrismicDocument,
   EventTimePrismicDocument,
 } from '../types/events';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   GroupField,
   Query,

@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import * as prismic from '@prismicio/client';
-import { isUndefined } from '../../../utils/array';
+import { isUndefined } from '@weco/common/utils/type-guards';
 
 export function createClient(): prismic.Client {
   // We use an access token for Prismic in prod to avoid certain classes of

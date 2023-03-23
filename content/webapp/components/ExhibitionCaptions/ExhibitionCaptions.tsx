@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { ExhibitionGuideComponent } from 'types/exhibition-guides';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Stop, { getTypeColor } from './ExhibitionCaptions.Stop';
 
 type Props = {

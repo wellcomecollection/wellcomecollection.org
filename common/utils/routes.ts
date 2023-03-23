@@ -1,9 +1,8 @@
 import { LinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { PropsWithChildren } from 'react';
-import { isNotUndefined } from './array';
+import { isNotUndefined, isInTuple } from './type-guards';
 import { parseCsv, quoteVal } from './csv';
-import { isInTuple } from './type-guards';
 import { OptionalToUndefined, UndefinableToOptional } from './utility-types';
 
 export type QueryParam = ParsedUrlQuery[string];

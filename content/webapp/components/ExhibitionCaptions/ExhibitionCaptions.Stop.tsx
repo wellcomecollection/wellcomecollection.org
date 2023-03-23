@@ -10,7 +10,7 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import ZoomedPrismicImage from '@weco/content/components/ZoomedPrismicImage/ZoomedPrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { font } from '@weco/common/utils/classnames';
 import {
   ExhibitionGuideComponent,
@@ -76,7 +76,7 @@ const Tombstone = styled(Space).attrs({
   ${props => props.theme.media('large')`
       flex-basis: 30%;
     `}
-  
+
     p {
     margin-bottom: 0;
   }

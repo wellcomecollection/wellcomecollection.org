@@ -24,7 +24,7 @@ import {
   Body,
 } from '../types/body';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,

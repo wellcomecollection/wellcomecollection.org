@@ -6,7 +6,7 @@ import { trackGaEvent } from '../../../utils/ga';
 import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import { isNotUndefined } from '../../../utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type IsActiveProps = {
   isActive: boolean;

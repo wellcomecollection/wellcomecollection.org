@@ -25,7 +25,7 @@ import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import cookies from '@weco/common/data/cookies';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 export type SiteSection =

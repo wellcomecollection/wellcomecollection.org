@@ -15,7 +15,7 @@ import {
   Range,
 } from '@iiif/presentation-3';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { isNotUndefined, isString } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import {
   DownloadOption,
   TransformedCanvas,

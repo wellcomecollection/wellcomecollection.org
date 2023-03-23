@@ -41,7 +41,7 @@ import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Contributors from '@weco/content/components/Contributors/Contributors';
 import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   fetchEvent,
   fetchEventScheduleItems,
@@ -453,12 +453,12 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
               .filter(Boolean) as LabelField[]
           }
         >
-          {/* 
+          {/*
             By default we show an 'event terms and conditions' link at the bottom
             of the yellow box, but school events have their own T&Cs which are
             managed separately, so we suppress the link.
-            
-            Later we might want to make this event configurable in Prismic, 
+
+            Later we might want to make this event configurable in Prismic,
 
             See https://wellcome.slack.com/archives/C8X9YKM5X/p1673523089747359
           */}

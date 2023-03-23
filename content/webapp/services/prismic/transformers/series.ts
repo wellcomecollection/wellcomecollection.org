@@ -4,7 +4,7 @@ import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
 import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '../../../types/article-schedule-items';
 import { SeasonPrismicDocument } from '../types/seasons';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformContributors } from './contributors';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { getSeriesColor } from '../../../utils/colors';

@@ -13,7 +13,7 @@ import {
   transformSingleLevelGroup,
 } from '.';
 import { MultiContent } from '../../../types/multi-content';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Label } from '@weco/common/model/labels';
 import { Series } from '../../../types/series';
 import { transformSeason } from './seasons';

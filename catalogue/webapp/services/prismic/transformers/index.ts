@@ -1,5 +1,5 @@
 import { PrismicResponse, Story, Contributor } from '../types';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 

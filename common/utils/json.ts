@@ -1,6 +1,15 @@
-import { isUndefined } from './array';
+import { isUndefined } from './type-guards';
 
 type Keyable = { [key: string]: any };
+
+export function isJson(v: string): boolean {
+  try {
+    JSON.parse(v);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 
 // removes keys with value undefined | null associated with them
 export function removeEmptyProps(obj: Record<string, unknown>): Keyable {

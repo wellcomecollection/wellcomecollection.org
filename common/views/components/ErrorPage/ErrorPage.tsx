@@ -1,7 +1,7 @@
 import { Fragment, FunctionComponent, useState, useEffect } from 'react';
 
 // Helpers/Utils
-import { isNotUndefined } from '../../../utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getCookies } from 'cookies-next';
 import styled from 'styled-components';
 

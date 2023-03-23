@@ -1,5 +1,5 @@
 import { MultiContent } from '../../types/multi-content';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import CompactCard from '../CompactCard/CompactCard';
 import Divider from '@weco/common/views/components/Divider/Divider';

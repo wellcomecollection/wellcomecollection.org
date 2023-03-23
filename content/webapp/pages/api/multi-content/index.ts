@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isString } from '@weco/common/utils/array';
+import { isString } from '@weco/common/utils/type-guards';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   parseQuery,

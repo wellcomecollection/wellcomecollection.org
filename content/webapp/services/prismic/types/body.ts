@@ -12,7 +12,7 @@ import {
   EmbedField,
   RelationField,
 } from '@prismicio/types';
-import { isUndefined } from '@weco/common/utils/array';
+import { isUndefined } from '@weco/common/utils/type-guards';
 import { Image } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { TeamPrismicDocument } from './teams';

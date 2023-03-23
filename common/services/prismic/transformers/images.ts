@@ -1,6 +1,6 @@
 import { EmptyImageFieldImage, FilledImageFieldImage } from '@prismicio/types';
 import { ImageType } from '../../../model/image';
-import { isUndefined } from '../../../utils/array';
+import { isUndefined } from '@weco/common/utils/type-guards';
 import { transformTaslFromString } from '.';
 
 // when images have crops, event if the image isn't attached, we get e.g.

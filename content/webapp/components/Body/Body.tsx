@@ -52,7 +52,7 @@ import FeaturedCard, {
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
 import ImageGallery from '../ImageGallery/ImageGallery';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismicT from '@prismicio/types';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
