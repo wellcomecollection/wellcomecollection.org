@@ -82,7 +82,7 @@ const Popper = styled.div<{ isVisible: boolean }>`
 
 type Props = {
   id: string;
-  label: string;
+  label: ReactNode;
   ariaLabel?: string;
   buttonType?: 'outlined' | 'inline' | 'borderless';
   isOnDark?: boolean;
