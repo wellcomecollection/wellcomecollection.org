@@ -47,6 +47,7 @@ const DesktopSignIn: FunctionComponent = () => {
       {state === 'signedout' && (
         <SignedOutWrapper>
           <DropdownButton
+            label=""
             ariaLabel="library account sign in"
             iconLeft={userIcon}
             id="signedin-dropdown"
