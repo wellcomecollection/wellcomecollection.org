@@ -74,26 +74,6 @@ export function getDownloadOptionsFromImageUrl(
   }
 }
 
-const workTypeIcons = {
-  '3dobjects': 'threeD',
-  ebooks: 'book',
-  books: 'book',
-  audio: 'audio',
-  'digital images': 'digitalImage',
-  journals: 'journal',
-  maps: 'map',
-  music: 'music',
-  sound: 'music',
-  pictures: 'picture',
-  'archives and manuscripts': 'archive',
-  ephemera: 'threeD',
-  evideos: 'video',
-  websites: 'website',
-};
-export function getWorkTypeIcon(work: Work): string | undefined {
-  return workTypeIcons[work.workType.label.toLowerCase()];
-}
-
 type StacksItemStatus = {
   id: string;
   label: string;
@@ -246,12 +226,14 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   return undefined;
 };
 
-export const getCardLabels = (work: Work): Label[] => {
-  const cardLabels = [{ text: work.workType.label }];
-  if (isAvailableOnline(work)) {
-    return [...cardLabels, { text: 'Online', labelColor: 'white' }];
-  } else {
-    return cardLabels;
+export const getCardLabels = (work: Work): Label[] | undefined => {
+  if (work.workType) {
+    const cardLabels = [{ text: work.workType.label }];
+    if (isAvailableOnline(work)) {
+      return [...cardLabels, { text: 'Online', labelColor: 'white' }];
+    } else {
+      return cardLabels;
+    }
   }
 };
 

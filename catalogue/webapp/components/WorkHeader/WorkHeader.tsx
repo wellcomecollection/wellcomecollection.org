@@ -96,17 +96,19 @@ const WorkHeader: FunctionComponent<Props> = ({ work }) => {
               />
             )}
 
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-top'],
-              }}
-            >
-              <LabelsList
-                labels={cardLabels}
-                defaultLabelColor="warmNeutral.300"
-              />
-            </Space>
+            {cardLabels && (
+              <Space
+                v={{
+                  size: 'm',
+                  properties: ['margin-top'],
+                }}
+              >
+                <LabelsList
+                  labels={cardLabels}
+                  defaultLabelColor="warmNeutral.300"
+                />
+              </Space>
+            )}
 
             {collectionManifestsCount > 0 && (
               <Space v={{ size: 'm', properties: ['margin-top'] }}>
