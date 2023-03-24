@@ -82,7 +82,8 @@ const Popper = styled.div<{ isVisible: boolean }>`
 
 type Props = {
   id: string;
-  label: ReactNode;
+  label: string;
+  ariaLabel?: string;
   buttonType?: 'outlined' | 'inline' | 'borderless';
   isOnDark?: boolean;
   iconLeft?: IconSvg;
@@ -92,6 +93,7 @@ type Props = {
 
 const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   label,
+  ariaLabel,
   children,
   buttonType = 'outlined',
   isOnDark,
@@ -159,6 +161,7 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
     icon: chevron,
     isIconAfter: true,
     text: label,
+    ariaLabel,
     type: ButtonTypes.button,
     ariaControls: id,
     ariaExpanded: isActive,
@@ -200,7 +203,7 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
           iconLeft={iconLeft}
           type="button"
           text={label}
-          aria-label={id}
+          aria-label={ariaLabel}
         />
       )}
       {isEnhanced && (
