@@ -125,7 +125,7 @@ const DynamicFilterArray = ({
         const rightmostEdge = width + left;
 
         if (i === arrOfDropdownButtonNodes.length - 1) {
-          if (rightmostEdge < wrapperWidth) {
+          if (rightmostEdge < availableSpace) {
             /**
              * If the right edge of the first element is inside the right edge
              * of the wrapper surrounding the elements, then all items will fit
@@ -157,25 +157,23 @@ const DynamicFilterArray = ({
   return (
     <>
       {hasCalculatedFilters ? dynamicFiltersCalculated : dynamicFiltersSource}
-      {dynamicFilters.length < filters.length && (
-        <Space h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}>
-          <ButtonSolid
-            colors={themeValues.buttonColors.marbleWhiteCharcoal}
-            icon={filter}
-            isIconAfter
-            hoverUnderline={true}
-            size="small"
-            type={ButtonTypes.button}
-            text="All filters"
-            clickHandler={event => {
-              event.preventDefault();
-              setShowMoreFiltersModal(true);
-            }}
-            ref={openMoreFiltersButtonRef}
-            isPill
-          />
-        </Space>
-      )}
+      <Space h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}>
+        <ButtonSolid
+          colors={themeValues.buttonColors.marbleWhiteCharcoal}
+          icon={filter}
+          isIconAfter
+          hoverUnderline={true}
+          size="small"
+          type={ButtonTypes.button}
+          text="All filters"
+          clickHandler={event => {
+            event.preventDefault();
+            setShowMoreFiltersModal(true);
+          }}
+          ref={openMoreFiltersButtonRef}
+          isPill
+        />
+      </Space>
     </>
   );
 };
