@@ -37,11 +37,11 @@ If they're in the library, a new member has two options (quoting LE&E):
 
 The online form includes a brief explanation of what library membership includes, and asks them for an email address and password:
 
-![](screenshots/Screenshot 2023-03-09 at 09.21.02.png)
+<img src="./Screenshot 2023-03-09 at 09.21.02.png">
 
 On the next screen, the user is asked to give us some personal information – currently just their name and the collections research agreement:
 
-![](screenshots/Screenshot 2023-03-09 at 09.22.12.png)
+<img src="./Screenshot 2023-03-09 at 09.22.12.png">
 
 They are required to fill in this information – if they walk away and try to log in again later, they will keep returning to this screen until it’s completed.
 
