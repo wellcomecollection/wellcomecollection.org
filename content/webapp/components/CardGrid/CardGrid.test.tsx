@@ -2,6 +2,7 @@ import CardGrid from './CardGrid';
 import { MultiContent } from '../../types/multi-content';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { placeHolderImage } from '../../services/prismic/transformers/images';
+import '@testing-library/jest-dom';
 
 describe('CardGrid', () => {
   // This could be moved into fixture directory if used in more places
