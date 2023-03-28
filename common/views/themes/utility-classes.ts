@@ -87,11 +87,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .underline-on-hover:hover,
-  :link:hover .underline-on-hover {
-    text-decoration: underline;
-  }
-
   .no-visible-focus {
     &,
     &:focus {
