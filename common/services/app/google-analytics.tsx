@@ -34,7 +34,7 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
           return !togglesGaCanIgnore.includes(toggle);
         })
         .map(toggle => {
-          switch (data.toggles[toggle]) {
+          switch (data.toggles?.[toggle]) {
             case true:
               return toggle;
             case false:
