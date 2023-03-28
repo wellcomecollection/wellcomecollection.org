@@ -138,11 +138,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     width: 100%;
   }
 
-  // For when we get HTML out of systems like Prismic
-  .first-para-no-margin p:first-of-type {
-    margin: 0;
-  }
-
   // This removes the element from the flow, as well as it's visibility
   .visually-hidden {
     border: 0;
