@@ -70,7 +70,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             </Preview>
           )}
           <Details>
-            {cardLabels && (
+            {cardLabels.length > 0 && (
               <Space v={{ size: 's', properties: ['margin-bottom'] }}>
                 <LabelsList
                   labels={cardLabels}

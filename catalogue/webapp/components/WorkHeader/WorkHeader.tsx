@@ -96,7 +96,7 @@ const WorkHeader: FunctionComponent<Props> = ({ work }) => {
               />
             )}
 
-            {cardLabels && (
+            {cardLabels.length > 0 && (
               <Space
                 v={{
                   size: 'm',

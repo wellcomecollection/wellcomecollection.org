@@ -226,14 +226,13 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   return undefined;
 };
 
-export const getCardLabels = (work: Work): Label[] | undefined => {
-  if (work.workType) {
-    const cardLabels = [{ text: work.workType.label }];
-    if (isAvailableOnline(work)) {
-      return [...cardLabels, { text: 'Online', labelColor: 'white' }];
-    } else {
-      return cardLabels;
-    }
+export const getCardLabels = (work: Work): Label[] => {
+  const cardLabels = work.workType ? [{ text: work.workType.label }] : [];
+
+  if (isAvailableOnline(work)) {
+    return [...cardLabels, { text: 'Online', labelColor: 'white' }];
+  } else {
+    return cardLabels;
   }
 };
 
