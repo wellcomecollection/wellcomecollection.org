@@ -26,7 +26,7 @@ export type Work = {
   referenceNumber?: string;
   description?: string;
   physicalDescription: string;
-  workType: WorkType;
+  workType?: WorkType;
   lettering?: string;
   createdDate?: Period;
   contributors: Contributor[];
