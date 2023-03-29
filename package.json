@@ -9,8 +9,8 @@
     "catalogue": "yarn workspace @weco/catalogue run dev",
     "content": "yarn workspace @weco/content run dev",
     "build-webapps": "echo '@weco/catalogue @weco/content @weco/identity' | xargs -n 1 | xargs -I% yarn workspace % run build",
-    "clean": "rimraf '**/.next **/lib'",
-    "clean-deps": "rimraf '**/node_modules'",
+    "clean": "rimraf --glob **/.next **/.server-data **/lib",
+    "clean-deps": "rimraf --glob **/node_modules",
     "test:common": "echo \"⭕️ Running common tests...\" && cd common && NODE_ENV=test jest --no-cache && echo \"✅️ common tests finished\"",
     "test:catalogue": "echo \"⭕️ Running catalogue tests...\" && cd catalogue/webapp && NODE_ENV=test jest --no-cache && echo \"✅️ catalogue tests finished\"",
     "test:content": "echo \"⭕️ Running content tests...\" && cd content/webapp && NODE_ENV=test jest --no-cache && echo \"✅️ content tests finished\"",
@@ -52,7 +52,7 @@
     "lint-staged": "^8.1.5",
     "prettier": "^2.3.2",
     "prop-types": "15.8.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^4.4.1"
   },
   "resolutions": {
     "@types/react": "18.0.31"
