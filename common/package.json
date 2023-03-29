@@ -60,7 +60,7 @@
     "superjson": "^1.9.1",
     "timezone-mock": "^1.3.6",
     "ts-jest": "29.0.5",
-    "typescript": "^4.9.5",
+    "typescript": "^5.0.2",
     "url-template": "^2.0.8",
     "uuid": "^8.3.2",
     "webpack-bundle-analyzer": "^4.4.2"
