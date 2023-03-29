@@ -22,8 +22,8 @@
     "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^1.7.0",
     "@hookform/error-message": "^2.0.1",
+    "@auth0/nextjs-auth0": "^2.4.0",
     "@koa/router": "^10.0.0",
     "@types/styled-components": "^5.1.26",
     "@weco/common": "1.0.0",
