@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@testing-library/react": "^13.4.0",
-    "@types/jest": "^27.0.2",
+    "@types/jest": "^29.5.0",
     "@types/koa-router": "^7.4.4",
     "@types/styled-components": "^5.1.26",
     "@types/supertest": "^2.0.11",
