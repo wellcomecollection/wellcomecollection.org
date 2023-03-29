@@ -14,32 +14,29 @@ jest
   .spyOn(DateUtils, 'determineNextAvailableDate')
   .mockImplementation(() => new Date('2022-05-21'));
 
-const renderComponent = () => {
-  const RequestModal = () => {
-    const [requestModalIsActive, setRequestModalIsActive] = useState(true);
-    const item = getItemsWithPhysicalLocation(workWithPartOf.items ?? [])[0];
-    const openButtonRef = useRef(null);
+const RequestModal = () => {
+  const [requestModalIsActive, setRequestModalIsActive] = useState(true);
+  const item = getItemsWithPhysicalLocation(workWithPartOf.items ?? [])[0];
+  const openButtonRef = useRef(null);
 
-    return (
-      <ItemRequestModal
-        isActive={requestModalIsActive}
-        setIsActive={setRequestModalIsActive}
-        item={item}
-        work={workWithPartOf}
-        initialHoldNumber={2}
-        onSuccess={() => {
-          return undefined;
-        }}
-        openButtonRef={openButtonRef}
-      />
-    );
-  };
-  return renderWithTheme(<RequestModal />);
+  return (
+    <ItemRequestModal
+      isActive={requestModalIsActive}
+      setIsActive={setRequestModalIsActive}
+      item={item}
+      work={workWithPartOf}
+      initialHoldNumber={2}
+      onSuccess={() => {
+        return undefined;
+      }}
+      openButtonRef={openButtonRef}
+    />
+  );
 };
 
 describe('ItemRequestModal', () => {
   it('allows an available date to selected (based on business rules about what dates for collection should be available) and displays the entered date', () => {
-    const { getByLabelText } = renderComponent();
+    const { getByLabelText } = renderWithTheme(<RequestModal />);
     const select = getByLabelText(/^Select a date$/i) as HTMLSelectElement;
     userEvent.selectOptions(select, '23-05-2022');
     expect(select.value).toBe('23-05-2022');
