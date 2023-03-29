@@ -52,7 +52,7 @@
     "lint-staged": "^8.1.5",
     "prettier": "^2.3.2",
     "prop-types": "15.8.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^4.4.1"
   },
   "resolutions": {
     "@types/react": "18.0.31"
