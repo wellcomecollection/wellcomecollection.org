@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { FunctionComponent, PropsWithChildren, ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import {
@@ -9,9 +9,9 @@ import {
 } from '@testing-library/react';
 import theme from '../../views/themes/default';
 
-const AllTheProviders = ({ children }) => (
-  <ThemeProvider theme={theme}>{children}</ThemeProvider>
-);
+const AllTheProviders: FunctionComponent<PropsWithChildren> = ({
+  children,
+}) => <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 
 export const renderWithTheme = (
   ui: ReactElement,
