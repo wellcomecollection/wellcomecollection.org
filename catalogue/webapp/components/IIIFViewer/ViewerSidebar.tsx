@@ -83,15 +83,13 @@ const AccordionButton = styled.button.attrs({
   padding: 0;
 `;
 
-const AccordionItem = ({
-  title,
-  children,
-  testId,
-}: {
+type AccordionItemProps = {
   title: string;
   children: ReactNode;
   testId?: string;
-}) => {
+};
+
+const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
   const [isActive, setIsActive] = useState(false);
   return (
     <Item data-test-id={testId}>
