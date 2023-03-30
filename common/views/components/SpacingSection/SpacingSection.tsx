@@ -1,7 +1,11 @@
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import Space from '../styled/Space';
 
-const SpacingSection: FunctionComponent<PropsWithChildren> = ({ children }) => {
+type Props = {
+  children: ReactNode;
+};
+
+const SpacingSection: FunctionComponent<Props> = ({ children }) => {
   return (
     <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>{children}</Space>
   );

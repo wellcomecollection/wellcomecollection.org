@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponent, PropsWithChildren } from 'react';
+import React, { useContext, FunctionComponent, ReactNode } from 'react';
 import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
@@ -47,7 +47,7 @@ type SkipToContentLink = {
   label: string;
 };
 
-export type Props = PropsWithChildren<{
+export type Props = {
   title: string;
   description: string;
   url: Url;
@@ -56,13 +56,14 @@ export type Props = PropsWithChildren<{
   siteSection: SiteSection | null;
   image?: ImageType;
   rssUrl?: string;
+  children: ReactNode;
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
   headerProps?: HeaderProps;
   apiToolbarLinks?: (ApiToolbarLink | undefined)[];
   skipToContentLinks?: SkipToContentLink[];
-}>;
+};
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
   title,

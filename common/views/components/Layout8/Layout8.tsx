@@ -1,9 +1,10 @@
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { ReactNode, FunctionComponent } from 'react';
 import Layout from '../Layout/Layout';
 
-type Props = PropsWithChildren<{
+type Props = {
+  children: ReactNode;
   shift?: boolean;
-}>;
+};
 
 const Layout8: FunctionComponent<Props> = ({ children, shift = true }) => (
   <Layout

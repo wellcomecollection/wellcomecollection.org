@@ -3,8 +3,9 @@ import {
   createContext,
   useState,
   useEffect,
+  ReactElement,
   FunctionComponent,
-  PropsWithChildren,
+  ReactNode,
 } from 'react';
 import theme from '@weco/common/views/themes/default';
 import { Size } from '@weco/common/views/themes/config';
@@ -27,6 +28,10 @@ const appContextDefaults = {
 
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
 
+type AppContextProviderProps = {
+  children: ReactNode;
+};
+
 function getWindowSize(): Size {
   switch (true) {
     case window.innerWidth < theme.sizes.medium:
@@ -40,9 +45,9 @@ function getWindowSize(): Size {
   }
 }
 
-export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
+export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
   children,
-}) => {
+}: AppContextProviderProps): ReactElement<AppContextProviderProps> => {
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
   const [isFullSupportBrowser, setIsFullSupportBrowser] = useState(
     appContextDefaults.isFullSupportBrowser

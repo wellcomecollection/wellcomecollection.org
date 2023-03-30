@@ -1,4 +1,4 @@
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import Layout8 from '../Layout8/Layout8';
@@ -13,9 +13,13 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const WobblyEdgedContainer: FunctionComponent<PropsWithChildren> = ({
+type Props = {
+  children: ReactNode;
+};
+
+const WobblyEdgedContainer: FunctionComponent<Props> = ({
   children,
-}) => {
+}: Props) => {
   return (
     <Wrapper>
       <WobblyEdgeContainer>

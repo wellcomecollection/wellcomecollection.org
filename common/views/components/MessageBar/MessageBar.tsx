@@ -1,13 +1,11 @@
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { ReactNode, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
 import Space, { SpaceComponentProps } from '../styled/Space';
 
-type ColouredTagProps = PropsWithChildren<SpaceComponentProps>;
-
-const ColouredTag: FunctionComponent<ColouredTagProps> = styled.span.attrs({
+const ColouredTag: FunctionComponent<SpaceComponentProps> = styled.span.attrs({
   className: font('intb', 6),
-})<ColouredTagProps>`
+})<SpaceComponentProps>`
   display: inline-block;
   color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('neutral.700')};
@@ -16,11 +14,12 @@ const ColouredTag: FunctionComponent<ColouredTagProps> = styled.span.attrs({
   ${props => props.theme.makeSpacePropertyValues('s', ['margin-right'])}
 `;
 
-type Props = PropsWithChildren<{
+type Props = {
   tagText?: string;
-}>;
+  children: ReactNode;
+};
 
-const MessageBar: FunctionComponent<Props> = ({ tagText, children }) => (
+const MessageBar: FunctionComponent<Props> = ({ tagText, children }: Props) => (
   <Space
     v={{
       size: 'm',

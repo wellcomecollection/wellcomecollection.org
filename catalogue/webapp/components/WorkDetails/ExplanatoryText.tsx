@@ -5,7 +5,6 @@ import {
   useContext,
   FunctionComponent,
   ReactElement,
-  PropsWithChildren,
 } from 'react';
 import styled from 'styled-components';
 import { plus } from '@weco/common/icons';
@@ -60,16 +59,17 @@ const Content = styled.div<ContentProps>`
   display: ${props => (props.hidden ? 'none' : 'block')};
 `;
 
-type Props = PropsWithChildren<{
+type Props = {
   id: string;
   controlText: string;
-}>;
+  children: ReactElement;
+};
 
 const ExplanatoryText: FunctionComponent<Props> = ({
   id,
   controlText,
   children,
-}) => {
+}: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const [showContent, setShowContent] = useState(true);
   useEffect(() => {

@@ -1,12 +1,13 @@
-import { ComponentType, FunctionComponent, PropsWithChildren } from 'react';
+import { ReactNode, ComponentType, FunctionComponent } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 
-export const ContextDecorator: FunctionComponent<PropsWithChildren> = ({
-  children,
-}) => {
+type Props = {
+  children: ReactNode;
+};
+export const ContextDecorator: FunctionComponent<Props> = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle isFontsLoaded={true} />
@@ -55,12 +56,12 @@ const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
   );
 };
 
-type ReadmeDecoratorProps = PropsWithChildren<{
+type ReadmeDecoratorProps = {
   WrappedComponent: ComponentType;
   args: Record<string, unknown>;
   Readme: ComponentType;
   order?: 'componentFirst' | 'readmeFirst';
-}>;
+};
 
 export const ReadmeDecorator: FunctionComponent<ReadmeDecoratorProps> = ({
   WrappedComponent,
