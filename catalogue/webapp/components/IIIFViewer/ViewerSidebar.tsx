@@ -3,7 +3,7 @@ import {
   useState,
   useContext,
   RefObject,
-  ReactNode,
+  PropsWithChildren,
 } from 'react';
 import NextLink from 'next/link';
 import WorkLink from '../WorkLink';
@@ -83,11 +83,10 @@ const AccordionButton = styled.button.attrs({
   padding: 0;
 `;
 
-type AccordionItemProps = {
+type AccordionItemProps = PropsWithChildren<{
   title: string;
-  children: ReactNode;
   testId?: string;
-};
+}>;
 
 const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
   const [isActive, setIsActive] = useState(false);

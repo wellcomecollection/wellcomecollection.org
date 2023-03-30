@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { font, grid } from '@weco/common/utils/classnames';
 import { Contributor as ContributorType } from '../../types/contributors';
@@ -23,9 +23,7 @@ const ContributorNameWrapper = styled.div`
   align-items: baseline;
 `;
 
-const PeopleImage: FunctionComponent<{ children: ReactNode }> = ({
-  children,
-}) => (
+const PeopleImage: FunctionComponent<PropsWithChildren> = ({ children }) => (
   <div
     style={{
       width: 72,
