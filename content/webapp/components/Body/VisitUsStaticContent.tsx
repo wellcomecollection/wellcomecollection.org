@@ -17,9 +17,7 @@ type ContainerProps = {
 const Container: FunctionComponent<ContainerProps> = ({ children }) => (
   <SpacingSection>
     <SpacingComponent>
-      <div>
-        <Layout12>{children}</Layout12>
-      </div>
+      <Layout12>{children}</Layout12>
     </SpacingComponent>
   </SpacingSection>
 );
