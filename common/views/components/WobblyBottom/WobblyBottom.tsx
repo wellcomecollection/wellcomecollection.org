@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import styled from 'styled-components';
 
@@ -16,10 +16,8 @@ const WobblyBottom: FunctionComponent<Props> = ({
   children,
 }: Props) => (
   <Wrapper>
-    <Fragment>
-      {children}
-      <WobblyEdge backgroundColor={backgroundColor} />
-    </Fragment>
+    {children}
+    <WobblyEdge backgroundColor={backgroundColor} />
   </Wrapper>
 );
 export default WobblyBottom;
