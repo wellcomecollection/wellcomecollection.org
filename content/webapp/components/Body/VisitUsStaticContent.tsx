@@ -44,7 +44,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
               <h2 className={`${font('intb', 5)} no-margin`}>
                 Today’s opening times
               </h2>
-              <OpeningTimes venues={venues} />
+              {venues && <OpeningTimes venues={venues} />}
               <Space
                 v={{
                   size: 's',
