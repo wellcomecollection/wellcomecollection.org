@@ -172,7 +172,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       // [1]: https://wellcome.slack.com/archives/CUA669WHH/p1656325929053499?thread_ts=1656322401.443269&cid=CUA669WHH
       // [2]: https://auth0.com/docs/manage-users/user-accounts/user-profiles#caching-user-profiles
       //
-      const session = auth0.getSession(context.req, context.res);
+      const session = await auth0.getSession(context.req, context.res);
 
       if (session.user.family_name === 'Auth0_Registration_tempLastName') {
         const successParams = new URLSearchParams();
