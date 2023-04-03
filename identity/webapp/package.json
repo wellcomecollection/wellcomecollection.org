@@ -27,7 +27,7 @@
     "@koa/router": "^10.0.0",
     "@types/styled-components": "^5.1.26",
     "@weco/common": "1.0.0",
-    "axios": "^0.24.0",
+    "axios": "^1.3.4",
     "dotenv": "^8.2.0",
     "jest-environment-jsdom": "^29.5.0",
     "jsonwebtoken": "^9.0.0",
