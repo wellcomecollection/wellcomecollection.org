@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useRef } from 'react';
-import GoogleMapsLoader from 'google-maps';
+import { Loader, LoaderOptions } from 'google-maps';
 import styled from 'styled-components';
 
 export type Props = {
@@ -7,6 +7,11 @@ export type Props = {
   latitude: number;
   longitude: number;
 };
+
+const options: LoaderOptions = {
+  version: 'quartely',
+};
+const loader = new Loader('AIzaSyCcrz-MyrCbbJNrpFpPXxUFl16FFGmOBKs', options);
 
 const MapContainer = styled.div`
   position: relative;
@@ -22,12 +27,10 @@ const Map: FunctionComponent<Props> = ({
   latitude,
   longitude,
 }: Props) => {
-  const mapContainer = useRef(null);
+  const mapContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    GoogleMapsLoader.KEY = 'AIzaSyCcrz-MyrCbbJNrpFpPXxUFl16FFGmOBKs';
-    GoogleMapsLoader.VERSION = 'quarterly';
-    GoogleMapsLoader.load(google => {
+    loader.load().then(google => {
       const mapCanvas = mapContainer.current;
       const latLng = {
         lat: latitude,
@@ -42,7 +45,7 @@ const Map: FunctionComponent<Props> = ({
           style: google.maps.ZoomControlStyle.SMALL,
         },
       };
-      const map = new google.maps.Map(mapCanvas, mapOptions);
+      const map = new google.maps.Map(mapCanvas as Element, mapOptions);
       /* eslint-disable @typescript-eslint/no-unused-vars */
       const marker = new google.maps.Marker({
         position: latLng,
@@ -52,7 +55,27 @@ const Map: FunctionComponent<Props> = ({
       /* eslint-enable @typescript-eslint/no-unused-vars */
     });
     return () => {
-      GoogleMapsLoader.release();
+      /**
+       * not entirely pleased with this, but this is the solution presented in
+       * the github issue answer:
+       * https://github.com/davidkudera/google-maps-loader/issues/93#issuecomment-1156580846
+       */
+
+      if (window.google?.maps) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        delete google.maps;
+
+        document.querySelectorAll('script').forEach(script => {
+          if (
+            script.src.includes('googleapis.com/maps') ||
+            script.src.includes('maps.gstatic.com') ||
+            script.src.includes('earthbuilder.googleapis.com')
+          ) {
+            script.remove();
+          }
+        });
+      }
     };
   }, []);
 

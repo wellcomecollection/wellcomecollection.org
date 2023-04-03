@@ -63,7 +63,11 @@ const TogglesMessage: FunctionComponent = () => {
   const [toggles, setToggles] = useState<string[]>([]);
 
   useEffect(() => {
-    setToggles(dangerouslyGetEnabledToggles(getCookies()));
+    setToggles(
+      // dangerouslyGetEnabledToggles returns a list with of all toggle cookies that are set.
+      // Those prefixed with a ! have a false value and we only need to show the toggles with a value of true here
+      dangerouslyGetEnabledToggles(getCookies()).filter(v => !v.startsWith('!'))
+    );
   }, []);
 
   return toggles.length > 0 ? (

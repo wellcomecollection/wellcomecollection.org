@@ -70,12 +70,14 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             </Preview>
           )}
           <Details>
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <LabelsList
-                labels={cardLabels}
-                defaultLabelColor="warmNeutral.300"
-              />
-            </Space>
+            {cardLabels.length > 0 && (
+              <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+                <LabelsList
+                  labels={cardLabels}
+                  defaultLabelColor="warmNeutral.300"
+                />
+              </Space>
+            )}
             <WorkTitleHeading>
               <WorkTitle title={work.title} />
             </WorkTitleHeading>

@@ -31,20 +31,26 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
   const toggles = data.toggles
     ? Object.keys(data.toggles)
         .filter(toggle => {
-          return (
-            Boolean(data.toggles?.[toggle]) &&
-            !togglesGaCanIgnore.includes(toggle)
-          );
+          return !togglesGaCanIgnore.includes(toggle);
+        })
+        .map(toggle => {
+          switch (data.toggles?.[toggle]) {
+            case true:
+              return toggle;
+            case false:
+              return `!${toggle}`;
+          }
         })
         .join(',')
     : null;
+
   return toggles ? (
     <script
       dangerouslySetInnerHTML={{
         __html: `
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-          ${toggles ? `toggles: '${toggles}',` : ''}
+          toggles: '${toggles}'
         });
         `,
       }}

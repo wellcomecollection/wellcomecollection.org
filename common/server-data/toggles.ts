@@ -46,14 +46,23 @@ export function getTogglesFromContext(
     }),
     {} as Toggles
   );
-  const tests = [...togglesResp.tests].reduce(
-    (acc, test) => ({
+  const tests = [...togglesResp.tests].reduce((acc, test) => {
+    function testToggleValue(Id: string): boolean | undefined {
+      const cookieValue = allCookies[`toggle_${Id}`];
+      switch (cookieValue) {
+        case 'true':
+          return true;
+        case 'false':
+          return false;
+        default:
+          return undefined;
+      }
+    }
+    return {
       ...acc,
-      [test.id]: allCookies[`toggle_${test.id}`] === 'true',
-    }),
-    {} as Toggles
-  );
-
+      [test.id]: testToggleValue(test.id),
+    };
+  }, {} as Toggles);
   return { ...toggles, ...tests };
 }
 

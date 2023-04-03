@@ -1,15 +1,15 @@
-import { getCookie, getCookies } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 import cookies from '@weco/common/data/cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
-import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
 declare global {
   interface Window {
     // Segment.io requires `analytics: any;`
     // https://ashokraju.medium.com/using-segment-io-analytics-js-with-single-page-react-typescript-app-a8c12b4816c4
     // eslint-disable-next-line
     analytics: any;
+    dataLayer: Record<string, any>[] | undefined;
   }
 }
 
@@ -142,8 +142,9 @@ function trackSegmentEvent({
 
 function track(conversion: Conversion) {
   const debug = getCookie(cookies.analyticsDebug) === true;
-  // We're not in React land here, so we can't use `useToggles`
-  const toggles = dangerouslyGetEnabledToggles(getCookies());
+  // We make toggles available of the dataLayer for GTM, so can use them here too
+  const togglesString = window?.dataLayer?.find(data => data.toggles)?.toggles;
+  const toggles = togglesString ? togglesString.split(',') : [];
   const sessionId = getSessionId();
   const session: Session = {
     id: sessionId,

@@ -44,7 +44,7 @@ type Props = {
   comicSeries: SeriesBasic[];
   storiesLanding: StoriesLanding;
   firstComicFromEachSeries: ArticleBasic[];
-  comicTest1: boolean;
+  comicTest1: boolean | undefined;
   jsonLd: JsonLdObj[];
 };
 

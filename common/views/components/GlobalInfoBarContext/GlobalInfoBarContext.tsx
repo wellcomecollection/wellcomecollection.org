@@ -1,8 +1,10 @@
-import { createContext, FunctionComponent, ReactNode, useState } from 'react';
+import {
+  createContext,
+  FunctionComponent,
+  PropsWithChildren,
+  useState,
+} from 'react';
 
-type Props = {
-  children: ReactNode;
-};
 type ContextProps = {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
@@ -13,9 +15,9 @@ const GlobalInfoBarContext = createContext<ContextProps>({
     // noop
   },
 });
-const GlobalInfoBarContextProvider: FunctionComponent<Props> = ({
+const GlobalInfoBarContextProvider: FunctionComponent<PropsWithChildren> = ({
   children,
-}: Props) => {
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   return (
     <GlobalInfoBarContext.Provider

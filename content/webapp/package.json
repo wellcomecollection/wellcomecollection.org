@@ -11,13 +11,13 @@
     "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
   },
   "dependencies": {
-    "@testing-library/react": "^13.4.0",
-    "@types/jest": "^27.0.2",
+    "@testing-library/react": "^14.0.0",
+    "@types/jest": "^29.5.0",
     "@types/koa-router": "^7.4.4",
     "@types/styled-components": "^5.1.26",
     "@types/supertest": "^2.0.11",
     "@weco/common": "1.0.0",
-    "google-maps": "^3.3.0",
+    "google-maps": "^4.3.3",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "koa": "^2.5.0",
@@ -26,7 +26,7 @@
     "lodash.flattendeep": "^4.4.0",
     "lodash.throttle": "^4.1.1",
     "next": "^13.2.3",
-    "next-router-mock": "^0.9.2",
+    "next-router-mock": "^0.9.3",
     "node-fetch": "^2.6.2",
     "nodemon": "^1.17.5",
     "react": "^18.2.0",
@@ -35,6 +35,6 @@
     "styled-components": "^5.3.8",
     "supertest": "^4.0.2",
     "ts-jest": "29.0.5",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.2"
   }
 }

@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic';
 import React, {
-  ReactNode,
   ReactElement,
   FunctionComponent,
   Fragment,
+  PropsWithChildren,
 } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -62,15 +62,14 @@ const Map = dynamic(import('../Map/Map'), {
   ssr: false,
 });
 
-type LayoutWidthProps = {
+type LayoutWidthProps = PropsWithChildren<{
   width: 8 | 10 | 12;
-  children: ReactNode;
-};
+}>;
 
 const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   width,
   children,
-}: LayoutWidthProps): ReactElement | null => {
+}): ReactElement | null => {
   switch (true) {
     case width === 12:
       return <Layout12>{children}</Layout12>;

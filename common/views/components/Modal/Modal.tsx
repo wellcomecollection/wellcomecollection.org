@@ -1,10 +1,10 @@
 import {
-  ReactNode,
   useEffect,
   useRef,
   FunctionComponent,
   RefObject,
   MutableRefObject,
+  PropsWithChildren,
 } from 'react';
 import styled from 'styled-components';
 import Space from '../styled/Space';
@@ -18,8 +18,7 @@ type BaseModalProps = {
   maxWidth?: string;
 };
 
-type Props = {
-  children: ReactNode;
+type Props = PropsWithChildren<{
   isActive: boolean;
   setIsActive: (value: boolean) => void;
   width?: string | null;
@@ -29,7 +28,7 @@ type Props = {
   removeCloseButton?: boolean;
   showOverlay?: boolean;
   modalStyle?: 'filters' | 'calendar';
-};
+}>;
 const Overlay = styled.div`
   z-index: 1000;
   position: fixed;
