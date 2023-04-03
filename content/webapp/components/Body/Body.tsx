@@ -56,7 +56,19 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismicT from '@prismicio/types';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
-import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
+import { PaletteColor } from '@weco/common/views/themes/config';
+
+const BodyWrapper = styled.div<{ splitBackground: boolean }>`
+  ${props =>
+    props.splitBackground &&
+    `
+  > div:first-child {
+    background: linear-gradient(180deg, ${props.theme.color(
+      'white'
+    )} 50%, transparent 50%);
+  }
+`}
+`;
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -291,16 +303,7 @@ const Body: FunctionComponent<Props> = ({
   };
 
   return (
-    <div
-      className="basic-body"
-      style={{
-        background: isShortFilm
-          ? `linear-gradient(180deg, ${themeValues.color(
-              'white'
-            )} 50%, transparent 50%)`
-          : undefined,
-      }}
-    >
+    <BodyWrapper splitBackground={isShortFilm}>
       {filteredBody.length < 1 && (
         <AdditionalContent
           index={0}
@@ -591,7 +594,7 @@ const Body: FunctionComponent<Props> = ({
           )}
         </Fragment>
       ))}
-    </div>
+    </BodyWrapper>
   );
 };
 
