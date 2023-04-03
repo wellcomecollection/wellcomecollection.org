@@ -1,5 +1,9 @@
 resource "aws_s3_bucket" "terraform_build_state_bucket" {
   bucket = "wellcomecollection-infra"
+}
+
+resource "aws_s3_bucket_acl" "terraform_build_state_bucket" {
+  bucket = aws_s3_bucket.terraform_build_state_bucket.id
   acl    = "private"
 }
 
