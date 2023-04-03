@@ -276,6 +276,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
     : undefined;
   const isComicFormat = article.format?.id === ArticleFormatIds.Comic;
   const isInPicturesFormat = article.format?.id === ArticleFormatIds.InPictures;
+  const isShortFilmFormat = article.format?.id === ArticleFormatIds.ShortFilm;
   const isImageGallery = isInPicturesFormat || isComicFormat;
 
   const Header = (
@@ -285,9 +286,15 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       FeaturedMedia={
-        isImageGallery || isPodcast ? undefined : maybeFeaturedMedia
+        isShortFilmFormat || isImageGallery || isPodcast
+          ? undefined
+          : maybeFeaturedMedia
       }
-      HeroPicture={isImageGallery || isPodcast ? undefined : maybeHeroPicture}
+      HeroPicture={
+        isShortFilmFormat || isImageGallery || isPodcast
+          ? undefined
+          : maybeHeroPicture
+      }
       heroImageBgColor={isImageGallery ? 'white' : 'warmNeutral.300'}
       TitleTopper={TitleTopper}
       isContentTypeInfoBeforeMedia={true}
@@ -334,6 +341,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             isDropCapped={true}
             pageId={article.id}
             minWidth={isPodcast ? 10 : 8}
+            isShortFilm={isShortFilmFormat}
           />
         }
         RelatedContent={Siblings}

@@ -56,14 +56,14 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismicT from '@prismicio/types';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
 });
 
 type LayoutWidthProps = {
-  width: 8 | 10;
+  width: 8 | 10 | 12;
   children: ReactNode;
 };
 
@@ -72,6 +72,8 @@ const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   children,
 }: LayoutWidthProps): ReactElement | null => {
   switch (true) {
+    case width === 12:
+      return <Layout12>{children}</Layout12>;
     case width === 10:
       return <Layout10>{children}</Layout10>;
     case width === 8:
@@ -92,6 +94,7 @@ type Props = {
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
+  isShortFilm?: boolean;
 };
 
 type SectionTheme = {
@@ -130,6 +133,7 @@ const Body: FunctionComponent<Props> = ({
   sectionLevelPage = false,
   staticContent = null,
   comicPreviousNext,
+  isShortFilm = false,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -288,7 +292,16 @@ const Body: FunctionComponent<Props> = ({
   };
 
   return (
-    <div className="basic-body">
+    <div
+      className="basic-body"
+      style={{
+        background: isShortFilm
+          ? `linear-gradient(180deg, ${themeValues.color(
+              'white'
+            )} 50%, transparent 50%)`
+          : undefined,
+      }}
+    >
       {filteredBody.length < 1 && (
         <AdditionalContent
           index={0}
@@ -445,7 +458,7 @@ const Body: FunctionComponent<Props> = ({
               )}
               {slice.type === 'videoEmbed' && (
                 <SpacingComponent>
-                  <LayoutWidth width={minWidth}>
+                  <LayoutWidth width={isShortFilm ? 12 : minWidth}>
                     <VideoEmbed {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
