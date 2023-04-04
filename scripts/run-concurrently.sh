@@ -4,30 +4,12 @@ echo cleaning up the directories
 
 find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
 find . -name '.next' -type d -prune -print -exec rm -rf '{}' \;
+find . -name '.server-data' -type d -prune -print -exec rm -rf '{}' \;
 
 echo done cleaning up directories
 
-echo installing each app
-
-echo installing catalogue
-cd ./catalogue/webapp
-pwd
+echo installing the apps
 yarn
-echo catalogue installed
-
-echo installing content
-cd ../../content/webapp
-pwd
-yarn
-echo content installed
-
-echo installing identity
-cd ../../identity/webapp
-pwd
-yarn
-echo identity installed
-
-cd ../../
 pwd
 
 echo done installing apps
