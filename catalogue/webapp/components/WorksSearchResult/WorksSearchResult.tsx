@@ -57,9 +57,8 @@ const WorkSearchResult: FunctionComponent<Props> = ({
       id={work.id}
       resultPosition={resultPosition}
       source="works_search_result"
-      passHref
     >
-      <Wrapper as="a">
+      <Wrapper index={resultPosition}>
         <Container>
           {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
             <Preview>

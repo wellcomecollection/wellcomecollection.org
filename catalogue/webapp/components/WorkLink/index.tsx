@@ -39,7 +39,6 @@ const WorkLink: FunctionComponent<Props> = ({
         pathname: `/works/${id}`,
       }}
       {...linkProps}
-      legacyBehavior
     >
       {children}
     </NextLink>

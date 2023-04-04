@@ -8,10 +8,13 @@ export const Container = styled.div`
   `}
 `;
 
-export const Wrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+export const Wrapper = styled(Space).attrs<{ index: number }>(props => ({
+  v: {
+    size: 'l',
+    properties: [props.index !== 0 && 'padding-top', 'padding-bottom'],
+  },
   className: 'plain-link card-link',
-})`
+}))<{ index: number }>`
   display: block;
 `;
 
