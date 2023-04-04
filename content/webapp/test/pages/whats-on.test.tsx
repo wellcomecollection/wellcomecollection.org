@@ -18,17 +18,12 @@ jest.mock('next/router', () => require('next-router-mock'));
 
 describe('/whats-on', () => {
   it('renders a featured exhibition when there is one', () => {
-    const { container, getByText } = renderWithTheme(
-      <WhatsOnPage {...whatsOn(true)} />
-    );
+    const { getByText } = renderWithTheme(<WhatsOnPage {...whatsOn(true)} />);
     expect(getByText('Being Human'));
   });
 
   it('renders no exhibitions when there are none', () => {
-    const { container, getByText } = renderWithTheme(
-      <WhatsOnPage {...whatsOn(false)} />
-    );
-    console.log(container.outerHTML);
+    const { getByText } = renderWithTheme(<WhatsOnPage {...whatsOn(false)} />);
     expect(getByText('There are no current exhibitions'));
   });
 });
