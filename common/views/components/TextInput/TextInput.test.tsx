@@ -4,6 +4,7 @@ import TextInput from './TextInput';
 import useValidation from '../../../hooks/useValidation';
 import userEvent from '@testing-library/user-event';
 import { fireEvent } from '@testing-library/dom';
+import { act } from '@testing-library/react';
 
 const testErrorMessage = 'test error message';
 
@@ -31,10 +32,11 @@ describe('TextInput', () => {
     );
 
     const inputEl = getByLabelText('test input');
-
-    inputEl.focus();
-    await userEvent.type(inputEl, 'invalidemail@');
-    fireEvent.focusOut(inputEl);
+    await act(async () => {
+      inputEl.focus();
+      await userEvent.type(inputEl, 'invalidemail@');
+      fireEvent.focusOut(inputEl);
+    });
     expect(getByTestId('TextInputErrorMessage'));
   });
 
@@ -44,16 +46,18 @@ describe('TextInput', () => {
     );
 
     const inputEl = getByLabelText('test input');
-
-    inputEl.focus();
-    await userEvent.type(inputEl, 'invalidemail@');
-    fireEvent.focusOut(inputEl);
+    await act(async () => {
+      inputEl.focus();
+      await userEvent.type(inputEl, 'invalidemail@');
+      fireEvent.focusOut(inputEl);
+    });
     expect(getByTestId('TextInputErrorMessage'));
-
-    inputEl.focus();
-    await userEvent.clear(inputEl);
-    await userEvent.type(inputEl, 'valid@email.com');
-    fireEvent.focusOut(inputEl);
+    await act(async () => {
+      inputEl.focus();
+      await userEvent.clear(inputEl);
+      await userEvent.type(inputEl, 'valid@email.com');
+      fireEvent.focusOut(inputEl);
+    });
     expect(() => getByTestId('TextInputErrorMessage')).toThrow();
   });
 
@@ -63,18 +67,21 @@ describe('TextInput', () => {
     );
 
     const inputEl = getByLabelText('test input');
-
-    inputEl.focus();
-    await userEvent.type(inputEl, 'valid@email.com');
-    fireEvent.focusOut(inputEl);
+    await act(async () => {
+      inputEl.focus();
+      await userEvent.type(inputEl, 'valid@email.com');
+      fireEvent.focusOut(inputEl);
+    });
     expect(getByTestId('TextInputCheckmark'));
-
-    await userEvent.clear(inputEl);
-    await userEvent.type(inputEl, 'invalidemail@');
-
+    await act(async () => {
+      await userEvent.clear(inputEl);
+      await userEvent.type(inputEl, 'invalidemail@');
+    });
     expect(() => getByTestId('TextInputCheckmark')).toThrow();
     expect(() => getByTestId('TextInputErrorMessage')).toThrow();
-    fireEvent.focusOut(inputEl);
+    await act(async () => {
+      fireEvent.focusOut(inputEl);
+    });
     expect(getByTestId('TextInputErrorMessage'));
   });
 });
