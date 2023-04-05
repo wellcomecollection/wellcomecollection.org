@@ -2,6 +2,7 @@ import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
 
 export const utilityClasses = css<GlobalStyleProps>`
+  // Keep using
   .is-hidden {
     display: none !important;
   }
@@ -42,6 +43,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     `}
   }
 
+  // Stop using and clean up where it is used, eventually delete these.
   .flex {
     display: flex;
   }
@@ -66,6 +68,18 @@ export const utilityClasses = css<GlobalStyleProps>`
     justify-content: space-between;
   }
 
+  .inline {
+    display: inline;
+  }
+
+  .relative {
+    position: relative;
+  }
+
+  // Set to button element as default styles
+  // Check if anything that uses this class should be using ButtonSolid instead
+  // Check if any button styles can be cleaned up as this is now the default
+  // Delete this class declaration
   .plain-button {
     appearance: none;
     font-family: inherit;
@@ -75,6 +89,9 @@ export const utilityClasses = css<GlobalStyleProps>`
     text-align: left;
   }
 
+  // Design review? This is used in footer and cards
+  // We want default text links to be underlined
+  // Add comment to explain when this should be used.
   .plain-link,
   .plain-link:link,
   .plain-link:visited {
@@ -87,15 +104,16 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
+  // rename this one or delete it?
+  .hidden {
+    visibility: hidden;
+  }
+
   .no-visible-focus {
     &,
     &:focus {
       outline: 0;
     }
-  }
-
-  .inline {
-    display: inline;
   }
 
   .no-margin {
@@ -124,10 +142,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .round {
     border-radius: 50%;
-  }
-
-  .relative {
-    position: relative;
   }
 
   .full-width {
@@ -159,11 +173,6 @@ export const utilityClasses = css<GlobalStyleProps>`
       white-space: inherit;
     }
   }
-
-  .hidden {
-    visibility: hidden;
-  }
-
   // TODO: use this for e.g. Promo hover behaviour too
   .card-link {
     text-decoration: none;
