@@ -130,10 +130,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     position: relative;
   }
 
-  .absolute {
-    position: absolute;
-  }
-
   .full-width {
     width: 100%;
   }
