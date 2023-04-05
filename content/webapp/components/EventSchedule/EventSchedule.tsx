@@ -20,7 +20,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
     .map(({ event }) => event.id);
 
   return (
-    <Fragment>
+    <>
       {groupedEvents.map(
         eventsGroup =>
           eventsGroup.events.length > 0 && (
@@ -44,7 +44,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
             </Fragment>
           )
       )}
-    </Fragment>
+    </>
   );
 };
 export default EventSchedule;
