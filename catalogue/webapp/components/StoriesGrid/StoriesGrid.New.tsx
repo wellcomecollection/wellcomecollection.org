@@ -100,7 +100,7 @@ type Props = {
   isDetailed?: boolean;
 };
 
-const StoriesGridNew: FunctionComponent<Props> = ({
+const NewStoriesGrid: FunctionComponent<Props> = ({
   articles,
   dynamicImageSizes,
   isDetailed,
@@ -183,4 +183,4 @@ const StoriesGridNew: FunctionComponent<Props> = ({
   );
 };
 
-export default StoriesGridNew;
+export default NewStoriesGrid;

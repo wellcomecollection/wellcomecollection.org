@@ -8,7 +8,7 @@ import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNo
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
-import StoriesGridNew from '@weco/catalogue/components/StoriesGrid/StoriesGrid.New';
+import NewStoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid.New';
 import Space from '@weco/common/views/components/styled/Space';
 
 // Utils & Helpers
@@ -107,7 +107,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
               <main>
                 {newStoryResponseList && (
-                  <StoriesGridNew
+                  <NewStoriesGrid
                     isDetailed
                     articles={newStoryResponseList.results}
                     dynamicImageSizes={{

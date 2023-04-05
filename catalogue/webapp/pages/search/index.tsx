@@ -6,7 +6,7 @@ import { ParsedUrlQuery } from 'querystring';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
-import StoriesGridNew from '@weco/catalogue/components/StoriesGrid/StoriesGrid.New';
+import NewStoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid.New';
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -144,7 +144,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                   <SectionTitle sectionName="Stories" />
 
                   {newStories && (
-                    <StoriesGridNew
+                    <NewStoriesGrid
                       articles={newStories.pageResults}
                       dynamicImageSizes={{
                         xlarge: 1 / 5,
