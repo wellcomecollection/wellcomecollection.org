@@ -90,7 +90,7 @@ export async function contentQuery<Params>(
   ).toString();
 
   const url = `${rootUris[apiOptions.env]}/v0/${endpoint}?${searchParams}`;
-  console.log(url);
+
   try {
     const res = await contentFetch(url);
     const json = await res.json();

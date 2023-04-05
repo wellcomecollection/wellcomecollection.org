@@ -15,9 +15,6 @@ import {
   globalApiOptions,
   contentQuery,
 } from '.';
-import { Story } from '@weco/catalogue/services/prismic/types';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 type GetContentProps = {
   id: string;
@@ -53,25 +50,8 @@ export async function getArticle({
 
 export async function getArticles(
   props: QueryProps<ContentApiProps>
-): Promise<ContentResultsList<Story> | ContentApiError> {
+): Promise<ContentResultsList<Content> | ContentApiError> {
   const getArticlesResult = await contentQuery('articles', props);
-  if (getArticlesResult.type === 'Error') return getArticlesResult;
 
-  // For now with the toggle, transform the Content type into a Story type
-  const transformedContent = getArticlesResult.results.map(article => {
-    return {
-      type: 'articles',
-      id: article.id,
-      title: article.title,
-      summary: article.caption,
-      url: linkResolver({ id: article.id, type: 'articles' }),
-      image: transformImage(article.image),
-      firstPublicationDate:
-        article.publicationDate && new Date(article.publicationDate),
-      format: article.format?.label,
-      contributors: article.contributors.map(c => c.contributor?.label),
-    } as Story;
-  });
-
-  return { ...getArticlesResult, results: transformedContent };
+  return getArticlesResult;
 }

@@ -1,5 +1,4 @@
 import { DigitalLocation, Contributor } from '@weco/common/model/catalogue';
-import { Story } from '@weco/catalogue/services/prismic/types';
 import { Content, ContentApiProps } from './api';
 
 export type { ContentApiProps };
@@ -27,9 +26,7 @@ export type Image = {
   aspectRatio?: number;
 };
 
-export type ResultType = Story | Content;
-
-export type ContentResultsList<Result extends ResultType> = {
+export type ContentResultsList<Result extends Content> = {
   type: 'ResultList';
   totalResults: number;
   totalPages: number;
