@@ -19,6 +19,7 @@ import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
+import { getArticles } from '@weco/catalogue/services/content/articles';
 
 // Types
 import {
@@ -27,6 +28,7 @@ import {
   Story,
 } from '@weco/catalogue/services/prismic/types';
 import { Query } from '@weco/catalogue/types/search';
+import { Content } from '@weco/catalogue/services/content/types/api';
 
 type Props = {
   storyResponseList: PrismicResultsList<Story>;
@@ -123,6 +125,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   const serverData = await getServerData(context);
   const query = context.query;
+  const { contentApi } = serverData.toggles;
   const defaultProps = removeUndefinedProps({
     serverData,
     storyResponseList: { totalResults: 0 },
@@ -140,16 +143,28 @@ export const getServerSideProps: GetServerSideProps<
 
   // Setting a default order of descending publication date as default state
   // as the Prismic default is by "last updated"
-  const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
-    await getStories({
-      query: {
-        ...restOfQuery,
-        sort: getQueryPropertyValue(query.sort) || 'publication.dates',
-        sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
-        ...(pageNumber && { page: pageNumber }),
-      },
-      pageSize: 6,
-    });
+  const storyResponseList:
+    | PrismicResultsList<Story | Content>
+    | PrismicApiError = contentApi
+    ? await getArticles({
+        params: {
+          ...restOfQuery,
+          sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+          sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+          ...(pageNumber && { page: Number(pageNumber) }),
+        },
+        pageSize: 6,
+        toggles: serverData.toggles,
+      })
+    : await getStories({
+        query: {
+          ...restOfQuery,
+          sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+          sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+          ...(pageNumber && { page: pageNumber }),
+        },
+        pageSize: 6,
+      });
 
   if (storyResponseList.type === 'Error') {
     // Prismic returns Internal Server Errors without much details for certain queries, such as query=t:"PP.PRE.D.1.1"

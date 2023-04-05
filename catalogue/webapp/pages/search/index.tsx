@@ -34,6 +34,7 @@ import {
 } from '@weco/common/utils/routes';
 import theme from '@weco/common/views/themes/default';
 import { formatNumber } from '@weco/common/utils/grammar';
+import { getArticles } from '@weco/catalogue/services/content/articles';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -199,6 +200,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const query = context.query;
     const params = fromQuery(query);
+    const { contentApi } = serverData.toggles;
 
     const pageview: Pageview = {
       name: 'search',
@@ -214,14 +216,24 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     try {
       // Stories
       // We want the default order to be "descending publication date"
-      const storiesResults = await getStories({
-        query: {
-          ...query,
-          sort: getQueryPropertyValue(query.sort) || 'publication.dates',
-          sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
-        },
-        pageSize: 4,
-      });
+      const storiesResults = contentApi
+        ? await getArticles({
+            params: {
+              ...query,
+              sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+              sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+            },
+            pageSize: 4,
+            toggles: serverData.toggles,
+          })
+        : await getStories({
+            query: {
+              ...query,
+              sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+              sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+            },
+            pageSize: 4,
+          });
       const stories = getQueryResults({
         categoryName: 'stories',
         queryResults: storiesResults,

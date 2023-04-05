@@ -51,6 +51,13 @@ const toggles = {
       description:
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
+    {
+      id: 'contentApi',
+      title: 'Stories search: Content API',
+      initialValue: false,
+      description:
+        "Has stories search use the Content API instead of Prismics's API.",
+    },
   ] as const,
   tests: [
     {
