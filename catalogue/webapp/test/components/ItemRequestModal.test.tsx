@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, FunctionComponent } from 'react';
+import { act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { workWithPartOf } from '@weco/common/test/fixtures/catalogueApi/work';
 import prismicData from '@weco/common/test/fixtures/prismicData/prismic-data';
 import ItemRequestModal from '../../components/ItemRequestModal/ItemRequestModal';
-import userEvent from '@testing-library/user-event';
 import { getItemsWithPhysicalLocation } from '../../utils/works';
 import * as Context from '@weco/common/server-data/Context';
 import * as DateUtils from '../../utils/dates';
@@ -14,7 +15,7 @@ jest
   .spyOn(DateUtils, 'determineNextAvailableDate')
   .mockImplementation(() => new Date('2022-05-21'));
 
-const RequestModal = () => {
+const RequestModal: FunctionComponent = () => {
   const [requestModalIsActive, setRequestModalIsActive] = useState(true);
   const item = getItemsWithPhysicalLocation(workWithPartOf.items ?? [])[0];
   const openButtonRef = useRef(null);
@@ -35,10 +36,12 @@ const RequestModal = () => {
 };
 
 describe('ItemRequestModal', () => {
-  it('allows an available date to selected (based on business rules about what dates for collection should be available) and displays the entered date', () => {
+  it('allows an available date to selected (based on business rules about what dates for collection should be available) and displays the entered date', async () => {
     const { getByLabelText } = renderWithTheme(<RequestModal />);
     const select = getByLabelText(/^Select a date$/i) as HTMLSelectElement;
-    userEvent.selectOptions(select, '23-05-2022');
+    await act(async () => {
+      await userEvent.selectOptions(select, '23-05-2022');
+    });
     expect(select.value).toBe('23-05-2022');
   });
 });

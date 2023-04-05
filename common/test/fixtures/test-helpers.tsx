@@ -9,15 +9,13 @@ import {
 } from '@testing-library/react';
 import theme from '../../views/themes/default';
 
-const AllTheProviders: FunctionComponent<PropsWithChildren> = ({
+const ProvidersWrapper: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => <ThemeProvider theme={theme}>{children}</ThemeProvider>;
-
 export const renderWithTheme = (
   ui: ReactElement,
-  options?: Omit<RenderOptions, 'queries'>
-): RenderResult => render(ui, { wrapper: AllTheProviders, ...options });
-
+  options?: Omit<RenderOptions, 'wrapper'>
+): RenderResult => render(ui, { wrapper: ProvidersWrapper, ...options });
 type Query = (f: MatcherFunction) => HTMLElement;
 
 // This helper function was adapted from here: https://stackoverflow.com/a/56859650
