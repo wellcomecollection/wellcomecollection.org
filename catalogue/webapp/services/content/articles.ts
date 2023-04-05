@@ -70,7 +70,7 @@ export async function getArticles(
         article.publicationDate && new Date(article.publicationDate),
       format: article.format?.label,
       contributors: article.contributors.map(c => c.contributor?.label),
-    };
+    } as Story;
   });
 
   return { ...getArticlesResult, results: transformedContent };
