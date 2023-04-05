@@ -6,14 +6,13 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { ticketAvailable, email } from '@weco/common/icons';
-import { isUndefined } from '@weco/common/utils/type-guards';
 
 type Props = {
   event: Event;
 };
 
 const BookingButtonLink: FunctionComponent<Props> = ({ event }) => {
-  if (isUndefined(event.eventbriteId)) return null;
+  if (!event.eventbriteId) return null;
 
   if (event.isCompletelySoldOut) {
     return <Message text="Fully booked" />;
