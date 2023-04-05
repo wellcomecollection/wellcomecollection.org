@@ -2,7 +2,7 @@ import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
 } from '@weco/content/types/exhibition-guides';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -94,7 +94,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     };
   };
 
-const ExhibitionGuidePage: FC<Props> = ({
+const ExhibitionGuidePage: FunctionComponent<Props> = ({
   exhibitionGuide,
   jsonLd,
   otherExhibitionGuides,
