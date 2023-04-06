@@ -106,10 +106,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     width: 100%;
   }
 
-  .round {
-    border-radius: 50%;
-  }
-
   // Only used in one component so move there and delete this.
   // Question the style itself, is it something we still want as input and buttons went fully square.
   .rounded-diagonal {
