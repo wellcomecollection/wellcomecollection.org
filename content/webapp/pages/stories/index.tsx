@@ -43,7 +43,8 @@ type Props = {
   articles: ArticleBasic[];
   comicSeries: SeriesBasic[];
   storiesLanding: StoriesLanding;
-  storiesLandingComics: boolean;
+  firstComicFromEachSeries: ArticleBasic[];
+  comicTest1: boolean | undefined;
   jsonLd: JsonLdObj[];
 };
 
@@ -68,12 +69,13 @@ const StoryPromoContainer = styled.div.attrs({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const storiesLandingComics = serverData.toggles.storiesLandingComics;
+    const comicTest1 = serverData.toggles.comicTest1;
     const client = createClient(context);
     const articlesQueryPromise = fetchArticles(client, {
-      predicates: storiesLandingComics
-        ? prismic.predicate.not('my.articles.format', ArticleFormatIds.Comic)
-        : undefined,
+      predicates: prismic.predicate.not(
+        'my.articles.format',
+        ArticleFormatIds.Comic
+      ),
     });
 
     const comicsQueryPromise = fetchArticles(client, {
@@ -109,6 +111,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       id => comics.results.find(item => item.series[0].id === id)?.series[0]
     ) as Series[];
 
+    const firstComicFromEachSeries = comicSeriesIds.map(id =>
+      comics.results.filter(item => item.series[0].id === id).at(-1)
+    ) as ArticleBasic[];
+
     const basicComicSeries = comicSeries.map(transformSeriesToSeriesBasic);
 
     const jsonLd = articles.results.map(articleLd);
@@ -124,10 +130,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           articles: basicArticles,
           comicSeries: basicComicSeries,
+          firstComicFromEachSeries: firstComicFromEachSeries,
+          comicTest1,
           serverData,
           jsonLd,
           storiesLanding,
-          storiesLandingComics,
         }),
       };
     } else {
@@ -138,9 +145,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const StoriesPage: FunctionComponent<Props> = ({
   articles,
   comicSeries,
+  firstComicFromEachSeries,
+  comicTest1,
   jsonLd,
   storiesLanding,
-  storiesLandingComics,
 }) => {
   const firstArticle = articles[0];
   const introText = storiesLanding?.introText;
@@ -233,28 +241,26 @@ const StoriesPage: FunctionComponent<Props> = ({
         </SpacingComponent>
       </SpacingSection>
 
-      {storiesLandingComics && (
-        <SpacingSection>
-          <SpacingComponent>
-            <SectionHeader title="Comics" />
-          </SpacingComponent>
+      <SpacingSection>
+        <SpacingComponent>
+          <SectionHeader title="Comics" />
+        </SpacingComponent>
 
-          <SpacingComponent>
-            <Layout12>
-              <p>{pageDescriptions.comic}</p>
-            </Layout12>
-          </SpacingComponent>
+        <SpacingComponent>
+          <Layout12>
+            <p>{pageDescriptions.comic}</p>
+          </Layout12>
+        </SpacingComponent>
 
-          <SpacingComponent>
-            <CardGrid
-              items={comicSeries}
-              itemsPerRow={3}
-              itemsHaveTransparentBackground={true}
-              links={[{ text: 'More comics', url: '/stories/comic' }]}
-            />
-          </SpacingComponent>
-        </SpacingSection>
-      )}
+        <SpacingComponent>
+          <CardGrid
+            items={comicTest1 ? firstComicFromEachSeries : comicSeries}
+            itemsPerRow={3}
+            itemsHaveTransparentBackground={true}
+            links={[{ text: 'More comics', url: '/stories/comic' }]}
+          />
+        </SpacingComponent>
+      </SpacingSection>
 
       <SpacingSection>
         {storiesLanding.booksTitle && (

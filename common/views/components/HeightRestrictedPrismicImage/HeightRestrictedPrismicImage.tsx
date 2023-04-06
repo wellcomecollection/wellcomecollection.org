@@ -16,6 +16,7 @@ export type Props = {
 const PrismicImage = styled(Image)`
   color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('neutral.700')};
+  display: block;
 `;
 
 function determineSize(viewPortImageDifference: number): string {

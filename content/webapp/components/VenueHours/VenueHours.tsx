@@ -181,7 +181,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
-            {venue?.image?.contentUrl && (
+            {venue.image?.contentUrl && (
               <PrismicImage
                 image={{
                   contentUrl: getCrop(venue.image, '16:9')?.contentUrl || '',
@@ -207,10 +207,10 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           h={{ size: 'm', properties: ['padding-right'] }}
           className="h2"
         >
-          {isFeatured && venue?.name ? venue.name : 'Opening hours'}
+          {isFeatured ? venue.name : 'Opening hours'}
         </Space>
         <OpeningHours>
-          {venue?.openingHours.regular.map(
+          {venue.openingHours.regular.map(
             ({ dayOfWeek, opens, closes, isClosed }) => (
               <li key={dayOfWeek}>
                 <DayOfWeek>{dayOfWeek}</DayOfWeek>{' '}
@@ -291,8 +291,8 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         }}
         style={{ clear: 'both' }}
       >
-        {isFeatured && venue?.linkText && venue?.url && (
-          <MoreLink url={venue?.url} name={venue?.linkText} />
+        {isFeatured && venue.linkText && venue.url && (
+          <MoreLink url={venue.url} name={venue.linkText} />
         )}
       </Space>
     </>

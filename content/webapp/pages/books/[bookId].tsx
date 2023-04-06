@@ -72,6 +72,12 @@ const BookMetadata: FC<{ book: Book }> = ({ book }) => (
   </Space>
 );
 
+const Subtitle = styled.p.attrs({
+  className: font('intb', 3),
+})`
+  margin: 0;
+`;
+
 type Props = {
   book: Book;
   gaDimensions: GaDimensions;
@@ -142,13 +148,7 @@ const BookPage: FunctionComponent<Props> = props => {
       breadcrumbs={breadcrumbs}
       title={book.title}
       FeaturedMedia={FeaturedMedia}
-      ContentTypeInfo={
-        <>
-          {book.subtitle && (
-            <p className={`no-margin ${font('intb', 3)}`}>{book.subtitle}</p>
-          )}
-        </>
-      }
+      ContentTypeInfo={book.subtitle && <Subtitle>{book.subtitle}</Subtitle>}
       isContentTypeInfoBeforeMedia={true}
     />
   );

@@ -10,8 +10,12 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import BookImage from '@weco/content/components/BookImage/BookImage';
 import PageHeaderReadme from '@weco/common/views/components/PageHeader/README.md';
+import ShortFilmPageHeaderReadme from '@weco/common/views/components/PageHeader/ShortFilm_README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { LicenseType } from '@weco/common/model/license';
+import Body from '@weco/content/components/Body/Body';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import { videoEmbed } from '@weco/cardigan/stories/content';
 
 const Date = styled.span.attrs({ className: font('intr', 6) })`
   color: ${props => props.theme.color('neutral.600')};
@@ -224,6 +228,41 @@ article.args = {
   HeroPicture: <Picture images={articlePictureImages} isFull={true} />,
   ContentTypeInfo,
   isContentTypeInfoBeforeMedia: true,
+};
+
+const ContentPageTemplate = args => (
+  <ReadmeDecorator
+    WrappedComponent={ContentPage}
+    args={args}
+    Readme={ShortFilmPageHeaderReadme}
+  />
+);
+export const shortFilm = ContentPageTemplate.bind({});
+shortFilm.args = {
+  isCreamy: true,
+  Header: (
+    <PageHeader
+      isContentTypeInfoBeforeMedia={true}
+      ContentTypeInfo={ContentTypeInfo}
+      labels={{ labels: [{ text: 'Short film' }] }}
+      title="Audrey's archivist"
+      breadcrumbs={{
+        items: [{ text: 'Stories', url: '#' }],
+      }}
+    />
+  ),
+  Body: (
+    <Body
+      isShortFilm={true}
+      body={[
+        {
+          type: 'videoEmbed',
+          value: videoEmbed,
+        },
+      ]}
+      pageId="test"
+    />
+  ),
 };
 
 export const event = Template.bind({});

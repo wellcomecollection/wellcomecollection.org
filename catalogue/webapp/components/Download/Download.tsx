@@ -1,6 +1,6 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { DownloadOption } from '../../types/manifest';
-import { useContext, useRef } from 'react';
+import { FunctionComponent, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import DownloadLink, {
@@ -8,12 +8,11 @@ import DownloadLink, {
 } from '@weco/common/views/components/DownloadLink/DownloadLink';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
-import { NextPage } from 'next';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
-export const DownloadOptions = styled.div.attrs(() => ({
+export const DownloadOptions = styled.div.attrs({
   className: font('intb', 4),
-}))`
+})`
   white-space: normal;
   color: ${props => props.theme.color('black')};
 
@@ -54,7 +53,7 @@ type Props = {
   isInline?: boolean;
 };
 
-const Download: NextPage<Props> = ({
+const Download: FunctionComponent<Props> = ({
   ariaControlsId,
   workId,
   downloadOptions,

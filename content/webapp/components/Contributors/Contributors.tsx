@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Space from '@weco/common/views/components/styled/Space';
 import Contributor from './Contributor';
 import { Contributor as ContributorType } from '../../types/contributors';

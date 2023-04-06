@@ -167,11 +167,14 @@ export const typography = css<GlobalStyleProps>`
       text-decoration: none;
     }
 
-    .is-keyboard & {
-      &:focus {
-        outline: 0;
-        box-shadow: ${themeValues.focusBoxShadow};
-      }
+    &:focus-visible,
+    &:focus {
+      box-shadow: ${props => props.theme.focusBoxShadow};
+      outline: 0;
+    }
+
+    :focus:not(:focus-visible) {
+      box-shadow: none;
     }
   }
 

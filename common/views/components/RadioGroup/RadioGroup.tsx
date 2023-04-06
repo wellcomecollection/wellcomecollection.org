@@ -1,9 +1,24 @@
 import React, { FunctionComponent } from 'react';
+import styled from 'styled-components';
 
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import Space from '../styled/Space';
 
-export type RadioGroupOption = {
+type WrapperProps = { isLast: boolean };
+
+const CheckboxRadioWrapper = styled(Space).attrs<WrapperProps>(props => ({
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom'],
+    overrides: { small: 3, medium: 3, large: 3 },
+  },
+  h: !props.isLast ? { size: 'm', properties: ['margin-right'] } : undefined,
+}))<WrapperProps>`
+  display: inline-flex;
+  justify-content: center;
+`;
+
+type RadioGroupOption = {
   value: string;
   id: string;
   label: string;
@@ -24,20 +39,7 @@ const RadioGroup: FunctionComponent<Props> = ({
 }) => (
   <div>
     {options.map(({ value, label, id }, index) => (
-      <Space
-        key={value}
-        v={{
-          size: 'm',
-          properties: ['padding-top', 'padding-bottom'],
-          overrides: { small: 3, medium: 3, large: 3 },
-        }}
-        h={
-          index !== options.length - 1
-            ? { size: 'm', properties: ['margin-right'] }
-            : undefined
-        }
-        className="flex-inline flex--h-center"
-      >
+      <CheckboxRadioWrapper key={value} isLast={index === options.length - 1}>
         <CheckboxRadio
           id={id}
           text={label}
@@ -47,7 +49,7 @@ const RadioGroup: FunctionComponent<Props> = ({
           checked={selected === value}
           onChange={() => onChange(value)}
         />
-      </Space>
+      </CheckboxRadioWrapper>
     ))}
   </div>
 );

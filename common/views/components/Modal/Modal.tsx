@@ -1,31 +1,24 @@
 import {
-  ReactNode,
   useEffect,
   useRef,
-  useContext,
   FunctionComponent,
   RefObject,
   MutableRefObject,
+  PropsWithChildren,
 } from 'react';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
-import { AppContext } from '../AppContext/AppContext';
 import { CSSTransition } from 'react-transition-group';
 import { cross } from '@weco/common/icons';
 import FocusTrap from 'focus-trap-react';
-
-type CloseButtonProps = {
-  hideFocus: boolean;
-};
 
 type BaseModalProps = {
   width?: string | null;
   maxWidth?: string;
 };
 
-type Props = {
-  children: ReactNode;
+type Props = PropsWithChildren<{
   isActive: boolean;
   setIsActive: (value: boolean) => void;
   width?: string | null;
@@ -35,7 +28,7 @@ type Props = {
   removeCloseButton?: boolean;
   showOverlay?: boolean;
   modalStyle?: 'filters' | 'calendar';
-};
+}>;
 const Overlay = styled.div`
   z-index: 1000;
   position: fixed;
@@ -49,12 +42,12 @@ const Overlay = styled.div`
   `}
 `;
 
-const CloseButton = styled(Space).attrs<CloseButtonProps>({
+const CloseButton = styled(Space).attrs({
   as: 'button',
   type: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
-})<CloseButtonProps>`
+})`
   position: fixed;
   width: 28px;
   height: 28px;
@@ -66,9 +59,13 @@ const CloseButton = styled(Space).attrs<CloseButtonProps>({
   outline: 0;
   z-index: 1;
 
+  &:focus-visible,
   &:focus {
-    ${props =>
-      !props.hideFocus && `border: 2px solid ${props.theme.color('black')}`}
+    outline: border: 2px solid ${props => props.theme.color('black')};
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 
   .icon {
@@ -89,7 +86,6 @@ const CloseButton = styled(Space).attrs<CloseButtonProps>({
 const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-  className: 'shadow',
 })<BaseModalProps>`
   z-index: 10001;
   top: 0;
@@ -100,6 +96,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   overflow: auto;
   transition: opacity 350ms ease, transform 350ms ease;
   background-color: ${props => props.theme.color('white')};
+  box-shadow: ${props => props.theme.basicBoxShadow};
 
   &,
   &.fade-exit-done {
@@ -158,11 +155,11 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
 
 const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  className: 'shadow',
 })<BaseModalProps>`
   overflow: hidden;
   padding-left: 0px;
   padding-right: 0px;
+  box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 
 const CalendarModal = styled(BaseModalWindow)`
@@ -200,7 +197,6 @@ const Modal: FunctionComponent<Props> = ({
   modalStyle,
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
-  const { isKeyboard } = useContext(AppContext);
   const ModalWindow = determineModal(modalStyle);
   const initialLoad = useRef(true);
   const nodeRef = useRef(null);
@@ -273,7 +269,6 @@ const Modal: FunctionComponent<Props> = ({
                 onClick={() => {
                   setIsActive(false);
                 }}
-                hideFocus={!isKeyboard}
               >
                 <span className="visually-hidden">Close modal window</span>
                 <Icon icon={cross} />

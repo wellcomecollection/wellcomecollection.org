@@ -81,16 +81,18 @@ const PoliciesNavigation: NavLink[] = [
 
 const FooterNav = ({
   type,
+  ariaLabel,
   isInline,
 }: {
   type: 'InternalNavigation' | 'PoliciesNavigation';
+  ariaLabel: string;
   isInline?: boolean;
 }): ReactElement => {
   const itemsList =
     type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
 
   return (
-    <nav>
+    <nav aria-label={ariaLabel}>
       <NavList aria-label="Footer navigation" isInline={isInline}>
         {itemsList.map((link, i) => {
           // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here

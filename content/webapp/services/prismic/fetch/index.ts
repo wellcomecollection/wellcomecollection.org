@@ -3,7 +3,7 @@ import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import { ContentType } from '@weco/common/services/prismic/content-types';
-import { isString } from '@weco/common/utils/array';
+import { isString } from '@weco/common/utils/type-guards';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import superjson from 'superjson';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';

@@ -45,13 +45,6 @@ const toggles = {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
     {
-      id: 'storiesLandingComics',
-      title: 'Rearranging comics on the stories landing page',
-      initialValue: true,
-      description:
-        'Takes the comics out of the general set of stories, and moves them to their own page section, grouped by series.',
-    },
-    {
       id: 'worksTabbedNav',
       title: 'Works page: Tabbed navigation',
       initialValue: false,
@@ -59,7 +52,15 @@ const toggles = {
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
   ] as const,
-  tests: [] as ABTest[],
+  tests: [
+    {
+      id: 'comicTest1',
+      title:
+        'A/B test linking to series pages or individual comics from last three series',
+      range: [0, 99],
+      when: () => true,
+    },
+  ] as ABTest[],
 };
 
 export default toggles;

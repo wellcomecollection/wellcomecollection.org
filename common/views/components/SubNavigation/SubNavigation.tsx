@@ -5,7 +5,9 @@ import {
   TabsContainer,
   Tab,
   NavItemInner,
+  DividerWrapper,
 } from './SubNavigation.styles';
+import Divider from '../Divider/Divider';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { IconSvg } from '../../../icons';
@@ -31,12 +33,6 @@ type Props = {
   hasDivider?: boolean;
 };
 
-const TabNavBottomBorder = styled.div`
-  height: 1px;
-  width: 100%;
-  background-color: #e8e8e8;
-`;
-
 const SubNavigation: FunctionComponent<Props> = ({
   label,
   items,
@@ -44,52 +40,57 @@ const SubNavigation: FunctionComponent<Props> = ({
   hasDivider,
 }: Props) => {
   return (
-    <Wrapper aria-label={label}>
-      <TabsContainer data-test-id="sub-nav-tab-container">
-        {items.map(item => {
-          const isSelected = currentSection === item.id;
-          return (
-            <Tab data-test-id={item.id} key={item.id}>
-              <Link
-                scroll={false}
-                passHref
-                href={typeof item.url === 'string' ? item.url : item.url.href}
-                as={typeof item.url === 'string' ? undefined : item.url.as}
-                legacyBehavior
-              >
-                <NavItemInner
-                  selected={isSelected}
-                  aria-current={isSelected ? 'page' : 'false'}
-                  onClick={e => {
-                    if (!isSelected) {
-                      (e.target as HTMLDivElement).scrollIntoView({
-                        behavior: 'smooth',
-                        inline: 'center',
-                        block: 'nearest',
-                      });
-                    }
-                  }}
+    <>
+      <Wrapper aria-label={label}>
+        <TabsContainer data-test-id="sub-nav-tab-container">
+          {items.map(item => {
+            const isSelected = currentSection === item.id;
+            return (
+              <Tab data-test-id={item.id} key={item.id}>
+                <Link
+                  scroll={false}
+                  passHref
+                  href={typeof item.url === 'string' ? item.url : item.url.href}
+                  as={typeof item.url === 'string' ? undefined : item.url.as}
+                  legacyBehavior
                 >
-                  {item.icon && (
-                    <Space
-                      as="span"
-                      h={{ size: 's', properties: ['margin-right'] }}
-                    >
-                      <IconWrapper>
-                        <Icon icon={item.icon} />
-                      </IconWrapper>
-                    </Space>
-                  )}
-                  {item.name}
-                </NavItemInner>
-              </Link>
-            </Tab>
-          );
-        })}
-      </TabsContainer>
-
-      {hasDivider && <TabNavBottomBorder />}
-    </Wrapper>
+                  <NavItemInner
+                    selected={isSelected}
+                    aria-current={isSelected ? 'page' : 'false'}
+                    onClick={e => {
+                      if (!isSelected) {
+                        (e.target as HTMLDivElement).scrollIntoView({
+                          behavior: 'smooth',
+                          inline: 'center',
+                          block: 'nearest',
+                        });
+                      }
+                    }}
+                  >
+                    {item.icon && (
+                      <Space
+                        as="span"
+                        h={{ size: 's', properties: ['margin-right'] }}
+                      >
+                        <IconWrapper>
+                          <Icon icon={item.icon} />
+                        </IconWrapper>
+                      </Space>
+                    )}
+                    {item.name}
+                  </NavItemInner>
+                </Link>
+              </Tab>
+            );
+          })}
+        </TabsContainer>
+      </Wrapper>
+      {hasDivider && (
+        <DividerWrapper>
+          <Divider lineColor="neutral.300" />
+        </DividerWrapper>
+      )}
+    </>
   );
 };
 

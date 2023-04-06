@@ -7,7 +7,7 @@ import Tasl from '@weco/common/views/components/Tasl/Tasl';
 import Caption from '@weco/common/views/components/Caption/Caption';
 import { Tasl as TaslType } from '@weco/common/model/tasl';
 import styled from 'styled-components';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import * as prismicT from '@prismicio/types';
 
 const Video = styled.video`

@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ItemsList, CatalogueApiError } from '@weco/catalogue/services/catalogue/types';
+import {
+  ItemsList,
+  CatalogueApiError,
+} from '@weco/catalogue/services/catalogue/types';
 import {
   catalogueApiError,
   rootUris,
@@ -8,7 +11,7 @@ import {
 } from '@weco/catalogue/services/catalogue';
 import { Toggles } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
-import { isString, isUndefined } from '@weco/common/utils/array';
+import { isString, isUndefined } from '@weco/common/utils/type-guards';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env]}/v2/works/${workId}/items`;

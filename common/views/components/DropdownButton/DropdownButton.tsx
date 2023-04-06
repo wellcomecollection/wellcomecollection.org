@@ -6,6 +6,7 @@ import {
   useContext,
   FunctionComponent,
   ReactNode,
+  PropsWithChildren,
 } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
@@ -29,7 +30,6 @@ type DropdownProps = {
 const Dropdown = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  className: 'rounded-corners shadow',
 })<DropdownProps>`
   background-color: ${props => props.theme.color('white')};
   margin-top: -2px;
@@ -37,6 +37,8 @@ const Dropdown = styled(Space).attrs({
   overflow: auto;
   white-space: nowrap;
   transition: opacity 350ms ease, transform 350ms ease;
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
+  box-shadow: ${props => props.theme.basicBoxShadow};
 
   &,
   &.fade-exit-done {
@@ -81,6 +83,7 @@ const Popper = styled.div<{ isVisible: boolean }>`
 type Props = {
   id: string;
   label: ReactNode;
+  ariaLabel?: string;
   buttonType?: 'outlined' | 'inline' | 'borderless';
   isOnDark?: boolean;
   iconLeft?: IconSvg;
@@ -88,8 +91,9 @@ type Props = {
   hasNoOptions?: boolean;
 };
 
-const DropdownButton: FunctionComponent<Props> = ({
+const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   label,
+  ariaLabel,
   children,
   buttonType = 'outlined',
   isOnDark,
@@ -157,6 +161,7 @@ const DropdownButton: FunctionComponent<Props> = ({
     icon: chevron,
     isIconAfter: true,
     text: label,
+    ariaLabel,
     type: ButtonTypes.button,
     ariaControls: id,
     ariaExpanded: isActive,
@@ -198,7 +203,7 @@ const DropdownButton: FunctionComponent<Props> = ({
           iconLeft={iconLeft}
           type="button"
           text={label}
-          aria-label={id}
+          aria-label={ariaLabel}
         />
       )}
       {isEnhanced && (

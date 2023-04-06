@@ -1,5 +1,5 @@
 import { clock } from '@weco/common/icons';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 
 import { isContentList } from '../../../types/body';

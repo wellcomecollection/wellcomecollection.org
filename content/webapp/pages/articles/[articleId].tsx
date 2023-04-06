@@ -1,12 +1,10 @@
 import { GetServerSideProps } from 'next';
+import { FunctionComponent, useState, useEffect, ReactElement } from 'react';
 import {
-  Fragment,
-  FunctionComponent,
-  useState,
-  useEffect,
-  ReactElement,
-} from 'react';
-import { Article, ArticleBasic } from '@weco/content/types/articles';
+  Article,
+  ArticleBasic,
+  getPartNumberInSeries,
+} from '@weco/content/types/articles';
 import { Series } from '@weco/content/types/series';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -45,6 +43,12 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 const ContentTypeWrapper = styled.div`
   display: flex;
   align-items: baseline;
+`;
+
+const ContentTypeText = styled.p.attrs({
+  className: font('intr', 6),
+})`
+  margin: 0;
 `;
 
 type Props = {
@@ -127,7 +131,6 @@ function getNextUp(
 
     return nextUp ? (
       <SeriesNavigation
-        key={series.id}
         series={series}
         items={[nextUp]}
         isPodcast={isPodcast}
@@ -201,20 +204,17 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
     ],
   };
 
-  const isPodcast =
-    (article.format && article.format.id === ArticleFormatIds.Podcast) || false;
+  const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 
   // Check if the article is in a serial, and where
   const serial = article.series.find(series => series.schedule.length > 0);
-  const titlesInSerial = serial && serial.schedule.map(item => item.title);
-  const positionInSerial =
-    titlesInSerial && titlesInSerial.indexOf(article.title) + 1;
+  const partNumber = getPartNumberInSeries(article);
 
   // We can abstract this out as a component if we see it elsewhere.
   // Not too confident it's going to be used like this for long.
-  const TitleTopper = serial && positionInSerial && (
+  const TitleTopper = serial && partNumber && (
     <PartNumberIndicator
-      number={positionInSerial}
+      number={partNumber}
       backgroundColor={serial.color}
       description={isPodcast ? 'Episode' : 'Part'}
     />
@@ -233,11 +233,11 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   `;
 
   const ContentTypeInfo = (
-    <Fragment>
+    <>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
       <ContentTypeWrapper>
         <Space v={{ size: 's', properties: ['margin-top'] }}>
-          <p className={`no-margin ${font('intr', 6)}`}>
+          <ContentTypeText>
             {article.contributors.length > 0 &&
               article.contributors.map(({ contributor, role }, i) => (
                 <ContentTypeInfoSection key={contributor.id}>
@@ -263,10 +263,10 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             <HTMLDateWrapper>
               <HTMLDate date={article.datePublished} />
             </HTMLDateWrapper>
-          </p>
+          </ContentTypeText>
         </Space>
       </ContentTypeWrapper>
-    </Fragment>
+    </>
   );
 
   // This is for content that we don't have the crops for in Prismic
@@ -276,6 +276,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
     : undefined;
   const isComicFormat = article.format?.id === ArticleFormatIds.Comic;
   const isInPicturesFormat = article.format?.id === ArticleFormatIds.InPictures;
+  const isShortFilmFormat = article.format?.id === ArticleFormatIds.ShortFilm;
   const isImageGallery = isInPicturesFormat || isComicFormat;
 
   const Header = (
@@ -285,9 +286,15 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       FeaturedMedia={
-        isImageGallery || isPodcast ? undefined : maybeFeaturedMedia
+        isShortFilmFormat || isImageGallery || isPodcast
+          ? undefined
+          : maybeFeaturedMedia
       }
-      HeroPicture={isImageGallery || isPodcast ? undefined : maybeHeroPicture}
+      HeroPicture={
+        isShortFilmFormat || isImageGallery || isPodcast
+          ? undefined
+          : maybeHeroPicture
+      }
       heroImageBgColor={isImageGallery ? 'white' : 'warmNeutral.300'}
       TitleTopper={TitleTopper}
       isContentTypeInfoBeforeMedia={true}
@@ -296,7 +303,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
 
   const Siblings = listOfSeries
     ?.map(({ series, articles }) => {
-      return getNextUp(series, articles, article, positionInSerial, isPodcast);
+      return getNextUp(series, articles, article, partNumber, isPodcast);
     })
     .filter(Boolean);
 
@@ -334,6 +341,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             isDropCapped={true}
             pageId={article.id}
             minWidth={isPodcast ? 10 : 8}
+            isShortFilm={isShortFilmFormat}
           />
         }
         RelatedContent={Siblings}

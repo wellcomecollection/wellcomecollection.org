@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import EventPromo, { getLocationText } from './EventPromo';
 import * as Context from '@weco/common/server-data/Context';
-import { Event } from '@weco/common/model/events';
+import { Event } from '@weco/content/types/events';
 import {
   location,
   eventWithOneLocation,

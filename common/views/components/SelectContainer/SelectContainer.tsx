@@ -1,6 +1,5 @@
-import { useContext, ReactElement, FunctionComponent } from 'react';
+import { ReactElement, FunctionComponent } from 'react';
 import { chevron } from '@weco/common/icons';
-import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
@@ -8,7 +7,6 @@ import { classNames, font } from '../../../utils/classnames';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 
 type StyledSelectProps = {
-  isKeyboard: boolean;
   isFontsLoaded: boolean;
   isPill?: boolean;
   darkBg?: boolean;
@@ -51,14 +49,14 @@ const StyledSelect = styled.div.attrs({
       box-shadow: ${props => props.theme.focusBoxShadow};
     }
 
+    &:focus-visible,
     &:focus {
+      box-shadow: ${props => props.theme.focusBoxShadow};
       outline: 0;
+    }
 
-      ${props =>
-        props.isKeyboard &&
-        `
-        box-shadow: ${props.theme.focusBoxShadow};
-      `}
+    :focus:not(:focus-visible) {
+      box-shadow: none;
     }
   }
 `;
@@ -94,16 +92,10 @@ const SelectContainer: FunctionComponent<Props> = ({
   isPill,
   darkBg,
 }) => {
-  const { isKeyboard } = useContext(AppContext);
   const isFontsLoaded = useIsFontsLoaded();
 
   return (
-    <StyledSelect
-      isKeyboard={isKeyboard}
-      isFontsLoaded={isFontsLoaded}
-      isPill={isPill}
-      darkBg={darkBg}
-    >
+    <StyledSelect isFontsLoaded={isFontsLoaded} isPill={isPill} darkBg={darkBg}>
       <Label>
         <LabelContent hideLabel={hideLabel}>{label}</LabelContent>
         {children}

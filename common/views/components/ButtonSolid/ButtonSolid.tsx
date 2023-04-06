@@ -2,8 +2,8 @@ import {
   forwardRef,
   SyntheticEvent,
   ForwardedRef,
-  FunctionComponent,
   ReactNode,
+  ForwardRefRenderFunction,
 } from 'react';
 import styled from 'styled-components';
 
@@ -38,12 +38,14 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   white-space: nowrap;
   cursor: pointer;
 
+  &:focus-visible,
   &:focus {
+    box-shadow: ${props => props.theme.focusBoxShadow};
     outline: 0;
+  }
 
-    .is-keyboard & {
-      box-shadow: ${props => props.theme.focusBoxShadow};
-    }
+  :focus:not(:focus-visible) {
+    box-shadow: none;
   }
 
   &[disabled],
@@ -160,7 +162,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
 )<SolidButtonProps>`
   padding: ${props => getPadding(props.size)};
   ${props => `
-    background: 
+    background:
       ${props.theme.color(
         props?.colors?.background || props.theme.buttonColors.default.background
       )};
@@ -203,7 +205,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
       `};
 `;
 
-const Button: FunctionComponent<ButtonSolidProps> = (
+const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
   {
     icon,
     text,
@@ -279,6 +281,6 @@ const Button: FunctionComponent<ButtonSolidProps> = (
   );
 };
 
-const ButtonSolid = forwardRef(Button);
+const ButtonSolid = forwardRef<HTMLButtonElement, ButtonSolidProps>(Button);
 
 export default ButtonSolid;

@@ -164,22 +164,6 @@ const Gallery = styled.div.attrs({
     }
   `}
 
-  .close-wrapper {
-    display: none;
-
-    .enhanced & {
-      display: inherit;
-      top: 100px;
-      bottom: 0;
-      width: 100%;
-      pointer-events: none;
-
-      ${props => props.theme.media('medium')`
-        top: 200px;
-      `}
-    }
-  }
-
   .close {
     position: sticky;
     top: 18px;
@@ -202,17 +186,41 @@ const Gallery = styled.div.attrs({
         top: 200px;
     `)}
   }
+`;
 
-  .standalone-wobbly-edge {
-    top: 0;
-    width: 100%;
-    z-index: 2;
-  }
+const CloseWrapper = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['padding-top'],
+  },
+})`
+  position: absolute;
+  display: none;
 
-  .wobbly-edge-wrapper {
-    bottom: -2px;
+  .enhanced & {
+    display: inherit;
+    top: 100px;
+    bottom: 0;
     width: 100%;
+    pointer-events: none;
+
+    ${props => props.theme.media('medium')`
+        top: 200px;
+      `}
   }
+`;
+
+const StandaloneWobblyEdge = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+`;
+
+const WobblyEdgeWrapper = styled.div`
+  position: absolute;
+  bottom: -2px;
+  width: 100%;
 `;
 
 const ButtonContainer = styled.div<{ isHidden: boolean }>`
@@ -347,8 +355,9 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
         pageBackground={pageBackground}
       >
         <div
-          className="absolute background"
+          className="background"
           style={{
+            position: 'absolute',
             bottom: 0,
             width: `100%`,
             background: `url(${repeatingLsBlack}) no-repeat top center`,
@@ -368,24 +377,18 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             className="relative"
           >
             {(isStandalone || isFrames) && (
-              <div className="absolute standalone-wobbly-edge">
+              <StandaloneWobblyEdge>
                 <WobblyEdge isRotated={true} backgroundColor="white" />
-              </div>
+              </StandaloneWobblyEdge>
             )}
             {!isActive && (
-              <div className="wobbly-edge-wrapper absolute">
+              <WobblyEdgeWrapper>
                 <WobblyEdge backgroundColor={pageBackground} />
-              </div>
+              </WobblyEdgeWrapper>
             )}
 
             {!isStandalone && !isFrames && (
-              <Space
-                v={{
-                  size: 'm',
-                  properties: ['padding-top'],
-                }}
-                className="close-wrapper absolute"
-              >
+              <CloseWrapper>
                 <ControlContainer isActive={isActive}>
                   <Control
                     tabIndex={-1}
@@ -399,7 +402,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                     clickHandler={handleCloseClicked}
                   />
                 </ControlContainer>
-              </Space>
+              </CloseWrapper>
             )}
             {isFrames && (
               <FrameGridWrap>

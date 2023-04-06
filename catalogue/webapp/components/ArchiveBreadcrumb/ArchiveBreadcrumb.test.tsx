@@ -31,6 +31,8 @@ describe('ArchiveBreadcrumb', () => {
       availabilities: [],
       availableOnline: false,
       type: 'Work',
+      formerFrequency: [],
+      designation: [],
     };
 
     const component = shallowWithTheme(
@@ -95,6 +97,8 @@ describe('ArchiveBreadcrumb', () => {
       availabilities: [],
       availableOnline: false,
       type: 'Work',
+      formerFrequency: [],
+      designation: [],
     };
 
     const component = shallowWithTheme(
@@ -132,6 +136,8 @@ describe('ArchiveBreadcrumb', () => {
       availabilities: [],
       availableOnline: false,
       type: 'Work',
+      formerFrequency: [],
+      designation: [],
     };
 
     const component = shallowWithTheme(

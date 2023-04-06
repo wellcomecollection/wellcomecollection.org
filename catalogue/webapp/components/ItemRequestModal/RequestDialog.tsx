@@ -59,6 +59,14 @@ const WorkTitle = styled.span`
   display: block;
 `;
 
+const PickupDeadline = styled.p.attrs({
+  className: font('intr', 6),
+})`
+  ${props => props.theme.media('large')`
+    margin: 0;
+  `}
+`;
+
 type RequestDialogProps = {
   work: Work;
   item: PhysicalItem;
@@ -136,10 +144,10 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
                 Select the date you would like to view this item in the library.
               </p>
             </Space>
-            <p className={`${font('intr', 6)} no-margin-l`}>
+            <PickupDeadline>
               Item requests need to be placed by 10am on the working day before
               your visit. Please bear in mind the library is closed on Sundays.
-            </p>
+            </PickupDeadline>
           </PickUpDateDescription>
           <PickUpDateInputWrapper>
             <RequestingDayPicker

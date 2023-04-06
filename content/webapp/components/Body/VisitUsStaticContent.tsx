@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -10,16 +10,10 @@ import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import styled from 'styled-components';
 
-type ContainerProps = {
-  children: ReactNode;
-};
-
-const Container: FunctionComponent<ContainerProps> = ({ children }) => (
+const Container: FunctionComponent<PropsWithChildren> = ({ children }) => (
   <SpacingSection>
     <SpacingComponent>
-      <div>
-        <Layout12>{children}</Layout12>
-      </div>
+      <Layout12>{children}</Layout12>
     </SpacingComponent>
   </SpacingSection>
 );
@@ -46,7 +40,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
               <h2 className={`${font('intb', 5)} no-margin`}>
                 Today’s opening times
               </h2>
-              {venues && <OpeningTimes venues={venues} />}
+              <OpeningTimes venues={venues} />
               <Space
                 v={{
                   size: 's',

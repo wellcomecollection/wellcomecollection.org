@@ -4,7 +4,7 @@ import {
   useEffect,
   useContext,
   FunctionComponent,
-  ReactElement,
+  PropsWithChildren,
 } from 'react';
 import styled from 'styled-components';
 import { plus } from '@weco/common/icons';
@@ -28,21 +28,22 @@ const IconContainer = styled.div<IconContainerProps>`
   }
 `;
 
-type ControlProps = {
-  hideFocus: boolean;
-};
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
-const Control = styled.button.attrs(props => ({
+const Control = styled.button.attrs({
   className: `plain-button ${font('intb', 5)}`,
-}))<ControlProps>`
+})`
   display: flex;
   align-items: center;
 
   cursor: pointer;
   padding: 0;
+
+  &:focus-visible,
   &:focus {
-    outline: ${props => (!props.hideFocus ? 'intial' : 'none')};
+    outline: 'initial';
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 `;
 
@@ -58,18 +59,17 @@ const Content = styled.div<ContentProps>`
   display: ${props => (props.hidden ? 'none' : 'block')};
 `;
 
-type Props = {
+type Props = PropsWithChildren<{
   id: string;
   controlText: string;
-  children: ReactElement;
-};
+}>;
 
 const ExplanatoryText: FunctionComponent<Props> = ({
   id,
   controlText,
   children,
-}: Props) => {
-  const { isEnhanced, isKeyboard } = useContext(AppContext);
+}) => {
+  const { isEnhanced } = useContext(AppContext);
   const [showContent, setShowContent] = useState(true);
   useEffect(() => {
     setShowContent(false);
@@ -83,7 +83,6 @@ const ExplanatoryText: FunctionComponent<Props> = ({
           onClick={() => {
             setShowContent(!showContent);
           }}
-          hideFocus={!isKeyboard}
         >
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
             <IconContainer open={showContent}>

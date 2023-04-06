@@ -5,6 +5,7 @@ export const ArticleFormatIds = {
   Podcast: 'XwRZ6hQAAG4K-bbt',
   BookExtract: 'W8CbPhEAAB8Nq4aG',
   LongRead: 'YxcjgREAACAAkjBg',
+  ShortFilm: 'ZBH6PRQAAIrrFirA',
 };
 
 export const PageFormatIds = {

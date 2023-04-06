@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic';
 import React, {
-  ReactNode,
   ReactElement,
   FunctionComponent,
   Fragment,
+  PropsWithChildren,
 } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -52,26 +52,39 @@ import FeaturedCard, {
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
 import ImageGallery from '../ImageGallery/ImageGallery';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismicT from '@prismicio/types';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
+const BodyWrapper = styled.div<{ splitBackground: boolean }>`
+  ${props =>
+    props.splitBackground &&
+    `
+  > div:first-child {
+    background: linear-gradient(180deg, ${props.theme.color(
+      'white'
+    )} 50%, transparent 50%);
+  }
+`}
+`;
+
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
 });
 
-type LayoutWidthProps = {
-  width: 8 | 10;
-  children: ReactNode;
-};
+type LayoutWidthProps = PropsWithChildren<{
+  width: 8 | 10 | 12;
+}>;
 
 const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   width,
   children,
-}: LayoutWidthProps): ReactElement | null => {
+}): ReactElement | null => {
   switch (true) {
+    case width === 12:
+      return <Layout12>{children}</Layout12>;
     case width === 10:
       return <Layout10>{children}</Layout10>;
     case width === 8:
@@ -92,6 +105,7 @@ type Props = {
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
+  isShortFilm?: boolean;
 };
 
 type SectionTheme = {
@@ -130,6 +144,7 @@ const Body: FunctionComponent<Props> = ({
   sectionLevelPage = false,
   staticContent = null,
   comicPreviousNext,
+  isShortFilm = false,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -288,7 +303,7 @@ const Body: FunctionComponent<Props> = ({
   };
 
   return (
-    <div className="basic-body">
+    <BodyWrapper splitBackground={isShortFilm}>
       {filteredBody.length < 1 && (
         <AdditionalContent
           index={0}
@@ -445,7 +460,7 @@ const Body: FunctionComponent<Props> = ({
               )}
               {slice.type === 'videoEmbed' && (
                 <SpacingComponent>
-                  <LayoutWidth width={minWidth}>
+                  <LayoutWidth width={isShortFilm ? 12 : minWidth}>
                     <VideoEmbed {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
@@ -579,7 +594,7 @@ const Body: FunctionComponent<Props> = ({
           )}
         </Fragment>
       ))}
-    </div>
+    </BodyWrapper>
   );
 };
 

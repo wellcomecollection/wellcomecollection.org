@@ -1,4 +1,4 @@
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { StoriesLandingPrismicDocument } from '../types/stories-landing';
 import { StoriesLanding } from '../../../types/stories-landing';
 import { transformBook, transformBookToBookBasic } from '../transformers/books';

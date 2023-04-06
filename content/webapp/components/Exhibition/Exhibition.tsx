@@ -28,7 +28,7 @@ import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
 import ContentPage from '../ContentPage/ContentPage';
 import Contributors from '../Contributors/Contributors';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { a11y } from '@weco/common/data/microcopy';
 import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
 import {
@@ -38,6 +38,7 @@ import {
 
 import { EventBasic } from '../../types/events';
 import * as prismicT from '@prismicio/types';
+import styled from 'styled-components';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -48,8 +49,6 @@ function getUpcomingExhibitionObject(
 ): ExhibitionItem | undefined {
   return isFuture(exhibition.start)
     ? {
-        id: undefined,
-        title: undefined,
         description: [
           {
             type: 'paragraph',
@@ -64,8 +63,6 @@ function getUpcomingExhibitionObject(
 
 function getadmissionObject(): ExhibitionItem {
   return {
-    id: undefined,
-    title: undefined,
     description: [
       {
         type: 'paragraph',
@@ -80,19 +77,17 @@ function getadmissionObject(): ExhibitionItem {
 function getTodaysHoursObject(): ExhibitionItem {
   const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
 
-  const link = {
+  const link: prismicT.RTLinkNode = {
     type: 'hyperlink',
-    start: todaysHoursText.length - 13,
+    start: todaysHoursText.length - 'Opening times'.length,
     end: todaysHoursText.length,
     data: {
       link_type: 'Web',
       url: '/opening-times',
     },
-  } as prismicT.RTLinkNode;
+  };
 
   return {
-    id: undefined,
-    title: undefined,
     description: [
       {
         type: 'paragraph',
@@ -109,8 +104,6 @@ function getPlaceObject(
 ): ExhibitionItem | undefined {
   return (
     exhibition.place && {
-      id: undefined,
-      title: undefined,
       description: [
         {
           type: 'paragraph',
@@ -132,8 +125,6 @@ const resourceIcons: { [key: string]: IconSvg } = {
 function getResourcesItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return exhibition.resources.map(resource => {
     return {
-      id: undefined,
-      title: undefined,
       description: resource.description,
       icon: resource.icon ? resourceIcons[resource.icon] : undefined,
     };
@@ -145,8 +136,6 @@ function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
     .filter(Boolean)
     .map(item => {
       return {
-        id: undefined,
-        title: undefined,
         description: item,
         icon:
           item === exhibition.bslInfo ? britishSignLanguage : audioDescribed,
@@ -157,8 +146,6 @@ function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
 function getAccessibilityItems(): ExhibitionItem[] {
   return [
     {
-      id: undefined,
-      title: undefined,
       description: [
         {
           type: 'paragraph',
@@ -169,8 +156,6 @@ function getAccessibilityItems(): ExhibitionItem[] {
       icon: a11Y,
     },
     {
-      id: undefined,
-      title: undefined,
       description: [
         {
           type: 'paragraph',
@@ -194,6 +179,12 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
     ...getBslAdItems(exhibition),
   ].filter(isNotUndefined);
 }
+
+export const AccessibilityServices = styled.p.attrs({
+  className: font('intr', 5),
+})`
+  margin: 0;
+`;
 
 type Props = {
   exhibition: ExhibitionType;
@@ -295,9 +286,9 @@ const Exhibition: FunctionComponent<Props> = ({ exhibition, pages }) => {
 
       {exhibition.end && !isPast(exhibition.end) && (
         <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-          <p className={`no-margin ${font('intr', 5)}`}>
+          <AccessibilityServices>
             <a href="/access">All our accessibility services</a>
-          </p>
+          </AccessibilityServices>
         </InfoBox>
       )}
       {exhibitionAbouts.length > 0 && (

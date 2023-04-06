@@ -533,7 +533,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               </Space>
               <ExhibitionsAndEvents
                 exhibitions={exhibitions}
-                events={eventsToShow as EventBasic[]}
+                events={eventsToShow}
                 links={[
                   { text: 'View all exhibitions', url: '/exhibitions' },
                   { text: 'View all events', url: '/events' },

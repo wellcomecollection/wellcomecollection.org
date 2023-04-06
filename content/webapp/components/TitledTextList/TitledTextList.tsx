@@ -26,6 +26,10 @@ const List = styled.ul`
   padding: 0;
 `;
 
+const HeadingLinkWrapper = styled.h3`
+  margin: 0;
+`;
+
 export type Props = {
   items: {
     title?: string;
@@ -39,15 +43,15 @@ const TitledTextList: FunctionComponent<Props> = ({ items }) => (
   <List>
     {items.map((item, i) => (
       <Space v={{ size: 'l', properties: ['margin-bottom'] }} as="li" key={i}>
-        <h3 className="no-margin">
+        <HeadingLinkWrapper>
           <HeadingLink href={item.link}>{item.title}</HeadingLink>
-        </h3>
+        </HeadingLinkWrapper>
         {item.text && (
           <TextContainer>
             <PrismicHtmlBlock key={i} html={item.text} />
           </TextContainer>
         )}
-        {item?.label?.title && (
+        {item.label?.title && (
           <LabelsList
             labels={[{ text: item.label.title }]}
             defaultLabelColor="warmNeutral.300"

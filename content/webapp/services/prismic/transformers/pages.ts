@@ -15,7 +15,7 @@ import { Link } from '../../../types/link';
 import { Body } from '../types/body';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
-import { isNotUndefined, isUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 export function transformOnThisPage(body: Body): Link[] {

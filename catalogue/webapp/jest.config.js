@@ -1,9 +1,9 @@
 'use-strict';
 
 module.exports = {
-  transformIgnorePatterns: ['node_modules(?!/@weco(?!.*node_modules))'],
+  modulePathIgnorePatterns: ['/e2e/'],
   setupFilesAfterEnv: ['@weco/common/test/setupTests.ts'],
   snapshotSerializers: ['enzyme-to-json/serializer'],
-  modulePathIgnorePatterns: ['/e2e/'],
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
+  transformIgnorePatterns: ['node_modules(?!/@weco(?!.*node_modules))'],
 };

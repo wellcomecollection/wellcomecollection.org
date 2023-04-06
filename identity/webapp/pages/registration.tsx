@@ -33,7 +33,6 @@ import {
   RegistrationInputs,
   decodeToken,
 } from '@weco/identity/src/utility/jwt-codec';
-import { stringFromStringOrStringArray } from '@weco/common/utils/array';
 import RegistrationInformation from '@weco/identity/src/frontend/Registration/RegistrationInformation';
 import getConfig from 'next/config';
 import {
@@ -41,6 +40,7 @@ import {
   collectionsResearchAgreementLabel,
 } from '@weco/identity/copy';
 import { JwtPayload } from 'jsonwebtoken';
+import { isString } from '@weco/common/utils/type-guards';
 
 const { serverRuntimeConfig: config } = getConfig();
 
@@ -54,10 +54,13 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const auth0State = stringFromStringOrStringArray(context.query.state);
-    const sessionToken = stringFromStringOrStringArray(
-      context.query.session_token
-    );
+    const auth0State = isString(context.query.state)
+      ? context.query.state
+      : context.query.state.join('');
+
+    const sessionToken = isString(context.query.session_token)
+      ? context.query.session_token
+      : context.query.session_token.join('');
 
     let token: string | JwtPayload = '';
     let email = '';
@@ -137,7 +140,11 @@ const RegistrationPage: NextPage<Props> = ({
                         control={control}
                         defaultValue=""
                         rules={{ required: 'Enter your first name' }}
-                        render={({ onChange, value, name }, { invalid }) => (
+                        render={({
+                          field: { onChange, value, name },
+                          fieldState: { invalid },
+                          formState,
+                        }) => (
                           <WellcomeTextInput
                             required
                             id={name}
@@ -159,7 +166,11 @@ const RegistrationPage: NextPage<Props> = ({
                         control={control}
                         defaultValue=""
                         rules={{ required: 'Enter your last name' }}
-                        render={({ onChange, value, name }, { invalid }) => (
+                        render={({
+                          field: { onChange, value, name },
+                          fieldState: { invalid },
+                          formState,
+                        }) => (
                           <WellcomeTextInput
                             required
                             id={name}
@@ -185,12 +196,12 @@ const RegistrationPage: NextPage<Props> = ({
                         control={control}
                         defaultValue={false}
                         rules={{ required: 'Accept the terms to continue.' }}
-                        render={({ value, onChange }) => (
+                        render={({ field: { value, onChange } }) => (
                           <FlexStartCheckbox>
                             <Checkbox
                               name="termsAndConditions"
                               id="termsAndConditions"
-                              value={value}
+                              value={String(value)}
                               onChange={(e: FormEvent<HTMLInputElement>) =>
                                 onChange(e.currentTarget.checked)
                               }

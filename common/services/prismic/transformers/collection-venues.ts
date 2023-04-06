@@ -9,7 +9,7 @@ import {
   DayField,
   ModifiedDayOpeningTime,
 } from '../documents';
-import { isNotUndefined } from '../../../utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import * as prismicH from '@prismicio/helpers';
 import { transformImage } from './images';
 import { transformTimestamp } from '.';

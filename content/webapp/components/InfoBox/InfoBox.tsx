@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -11,11 +11,10 @@ type InfoBoxItem = LabelField & {
   icon?: IconSvg;
 };
 
-type Props = {
+type Props = PropsWithChildren<{
   title: string;
   items: InfoBoxItem[];
-  children: ReactNode;
-};
+}>;
 
 const InfoContainer = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },

@@ -4,13 +4,12 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { Series } from '../../types/series';
 import { ArticleBasic } from '../../types/articles';
-import { ArticleScheduleItem } from '../../types/article-schedule-items';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchResults from '../SearchResults/SearchResults';
 
 type Props = {
   series: Series;
-  items: readonly (ArticleBasic | ArticleScheduleItem)[];
+  items: ArticleBasic[];
   isPodcast: boolean;
 };
 
@@ -36,7 +35,12 @@ const SeriesNavigation: FunctionComponent<Props> = ({
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <MoreLink
             name={`More from ${series.title}`}
-            url={`/${series.type}/${series.id}`}
+            url={{
+              href: {
+                pathname: '/series/[seriesId]',
+                query: { seriesId: series.id },
+              },
+            }}
           />
         </Space>
       </Layout8>

@@ -42,7 +42,7 @@ import { transformExhibitionsQuery } from '@weco/content/services/prismic/transf
 import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { BodySlice, isContentList, isStandfirst } from 'types/body';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import Head from 'next/head';
 
@@ -158,12 +158,12 @@ const Homepage: FunctionComponent<Props> = ({
       <Head>
         {/*
           Verify our domain name for Meta/Facebook ads.
-          
+
           This is necessary for brand safety.  Without domain verification, any advertiser
           could run ads that point to our website, and we wouldn't be able to control the
           copy or content of the ad.  Once the domain is verified, only approved partners
           can run ads that point to the Wellcome Collection website.
-          
+
           Additionally, if we choose to use remarketing at any point, this verification
           will improve the accuracy of our tracking.
 
@@ -171,7 +171,7 @@ const Homepage: FunctionComponent<Props> = ({
           to our root domain, or creating a DNS TXT record), but I'm doing it this way
           because modifying HTML is something we do plenty of already, so we're more likely
           to get it right and/or notice if the mechanism has stopped working.
-          
+
           See https://www.facebook.com/business/help/286768115176155?id=199156230960298
           See https://github.com/wellcomecollection/wellcomecollection.org/issues/9289
         */}
@@ -197,7 +197,7 @@ const Homepage: FunctionComponent<Props> = ({
               className={font('wb', 1)}
             >
               <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <h1 className="no-margin">{homepageHeading}</h1>
+                <h1>{homepageHeading}</h1>
               </Space>
             </Space>
             {standfirst && (

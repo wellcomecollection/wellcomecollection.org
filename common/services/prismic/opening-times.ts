@@ -7,7 +7,7 @@ import {
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
 } from '../../model/opening-hours';
-import { isNotUndefined } from '../../utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   addDays,
   countDaysBetween,

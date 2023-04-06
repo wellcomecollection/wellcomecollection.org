@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponent, ReactNode } from 'react';
+import React, { useContext, FunctionComponent, PropsWithChildren } from 'react';
 import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
@@ -8,7 +8,7 @@ import Header, { NavLink } from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
-import Footer from '../Footer/Footer';
+import Footer from '../Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
 import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
@@ -25,7 +25,7 @@ import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import cookies from '@weco/common/data/cookies';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 export type SiteSection =
@@ -47,7 +47,7 @@ type SkipToContentLink = {
   label: string;
 };
 
-export type Props = {
+export type Props = PropsWithChildren<{
   title: string;
   description: string;
   url: Url;
@@ -56,14 +56,13 @@ export type Props = {
   siteSection: SiteSection | null;
   image?: ImageType;
   rssUrl?: string;
-  children: ReactNode;
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
   headerProps?: HeaderProps;
   apiToolbarLinks?: (ApiToolbarLink | undefined)[];
   skipToContentLinks?: SkipToContentLink[];
-};
+}>;
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
   title,

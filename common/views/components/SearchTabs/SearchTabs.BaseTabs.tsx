@@ -30,9 +30,19 @@ const Tab = styled.button.attrs((props: TabProps) => ({
 }))<TabProps>`
   color: ${props => props.theme.color('black')};
   cursor: pointer;
+
   &:focus {
     outline: 0;
   }
+
+  &[aria-selected='true']:focus-visible,
+  &:focus-visible + [aria-selected='true'] {
+    box-shadow: ${props => props.theme.focusBoxShadow};
+    position: relative;
+    z-index: 1;
+    outline: 0;
+  }
+
   padding: 0;
   width: 50%;
   ${props => props.theme.media('medium')`

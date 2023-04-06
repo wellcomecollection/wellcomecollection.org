@@ -35,10 +35,10 @@ const circleHeight = 30;
 const circleBorder = 2;
 const verticalGuidePosition =
   controlHeight / 2 + circleHeight / 2 - circleBorder;
-const TreeInstructions = styled.p.attrs(() => ({
+const TreeInstructions = styled.p.attrs({
   'aria-hidden': 'true',
   id: 'tree-instructions',
-}))`
+})`
   display: none;
 `;
 
@@ -79,7 +79,6 @@ const Tree = styled.div<{ isEnhanced?: boolean }>`
 type TreeItemProps = {
   isEnhanced?: boolean;
   showGuideline?: boolean;
-  hideFocus?: boolean;
 };
 
 const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
@@ -88,9 +87,14 @@ const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
   position: relative;
   list-style: ${props => (props.isEnhanced ? 'none' : 'disc')};
   padding: 0;
+
+  &:focus-visible,
   &:focus {
-    outline: ${props =>
-      !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
+    outline: 2px solid ${props => props.theme.color('black')};
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 
   &.guideline::before,
@@ -161,7 +165,6 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
 type StyledLinkProps = {
   isCurrent?: boolean;
   hasControl?: boolean;
-  hideFocus?: boolean;
 };
 
 const StyledLink = styled.a<StyledLinkProps>`
@@ -184,9 +187,16 @@ const StyledLink = styled.a<StyledLinkProps>`
       : 0};
   padding-right: ${props => `${props.theme.spacingUnit * 2}px`};
   text-decoration: none;
+
+  &:focus-visible,
   &:focus {
-    outline: ${props => (!props.hideFocus ? 'auto' : 'none')};
+    outline: 'auto';
   }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
   &:focus,
   &:hover {
     text-decoration: underline;
@@ -490,7 +500,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   setShowArchiveTree,
   archiveAncestorArray,
 }: ListItemProps) => {
-  const { isKeyboard, isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useContext(AppContext);
   const isEndNode = item.children && item.children.length === 0;
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
@@ -528,7 +538,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   }
   return (
     <TreeItem
-      hideFocus={!isKeyboard}
       isEnhanced={isEnhanced}
       showGuideline={isEnhanced && hasControl && item.openStatus && level > 1}
       id={item.work.id}
@@ -669,7 +678,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
               [font('intb', 6)]: level === 1,
               [font('intr', 6)]: level > 1,
             })}
-            hideFocus={!isKeyboard}
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             isCurrent={currentWorkId === item.work.id}
             ref={currentWorkId === item.work.id ? selected : undefined}

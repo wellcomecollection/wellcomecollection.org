@@ -10,7 +10,7 @@ import {
 } from '@weco/common/services/prismic/types';
 
 import { Contributor, ContributorBasic } from '../../../types/contributors';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { asRichText, asText } from '.';
 import { ImageType } from '@weco/common/model/image';
 import { Organisation, Person } from '../types/contributors';

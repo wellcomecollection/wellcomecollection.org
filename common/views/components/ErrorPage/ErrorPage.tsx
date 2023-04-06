@@ -1,7 +1,7 @@
 import { Fragment, FunctionComponent, useState, useEffect } from 'react';
 
 // Helpers/Utils
-import { isNotUndefined } from '../../../utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getCookies } from 'cookies-next';
 import styled from 'styled-components';
 
@@ -63,7 +63,11 @@ const TogglesMessage: FunctionComponent = () => {
   const [toggles, setToggles] = useState<string[]>([]);
 
   useEffect(() => {
-    setToggles(dangerouslyGetEnabledToggles(getCookies()));
+    setToggles(
+      // dangerouslyGetEnabledToggles returns a list with of all toggle cookies that are set.
+      // Those prefixed with a ! have a false value and we only need to show the toggles with a value of true here
+      dangerouslyGetEnabledToggles(getCookies()).filter(v => !v.startsWith('!'))
+    );
   }, []);
 
   return toggles.length > 0 ? (

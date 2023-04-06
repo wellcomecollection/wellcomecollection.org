@@ -19,7 +19,7 @@ import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { location } from '@weco/common/icons';
 import { PlaceBasic } from '../../types/places';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import styled from 'styled-components';

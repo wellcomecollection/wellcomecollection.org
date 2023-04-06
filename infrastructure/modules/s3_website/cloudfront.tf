@@ -4,7 +4,7 @@ locals {
 
 resource "aws_cloudfront_distribution" "https_s3_website" {
   origin {
-    domain_name = aws_s3_bucket.website_bucket.website_endpoint
+    domain_name = aws_s3_bucket_website_configuration.website_bucket.website_endpoint
     origin_id   = local.s3_origin_id
 
     custom_origin_config {

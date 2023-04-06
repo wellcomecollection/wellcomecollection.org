@@ -1,4 +1,4 @@
-import { isNotUndefined } from '../../utils/array';
+import { isNotUndefined } from './type-guards';
 
 describe('notUndefined', () => {
   it('filters out undefined and leaves nullish values', () => {

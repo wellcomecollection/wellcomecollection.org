@@ -8,7 +8,7 @@ import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLin
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
 import styled from 'styled-components';
 
-const DocumentType = styled.span.attrs({ className: 'no-margin' })`
+const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};
 `;
 

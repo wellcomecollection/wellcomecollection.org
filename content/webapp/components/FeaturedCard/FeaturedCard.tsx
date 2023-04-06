@@ -1,11 +1,11 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { ImageType } from '@weco/common/model/image';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import {
   ArticleBasic,
-  getPositionInSeries,
   getArticleColor,
+  getPartNumberInSeries,
 } from '../../types/articles';
 import { Season } from '../../types/seasons';
 import { Card } from '../../types/card';
@@ -102,13 +102,13 @@ type FeaturedCardArticleBodyProps = {
 // TODO: make this e.g. just `CardArticleBody` and work it back into the existing promos/cards
 const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
   ({ article }) => {
-    const positionInSeries = getPositionInSeries(article);
+    const partNumber = getPartNumberInSeries(article);
     const seriesColor = getArticleColor(article);
     return (
       <>
-        {positionInSeries && (
+        {partNumber && (
           <PartNumberIndicator
-            number={positionInSeries}
+            number={partNumber}
             backgroundColor={seriesColor}
           />
         )}
@@ -178,9 +178,9 @@ const FeaturedCardWrap = styled.div`
 `;
 
 type HasIsReversed = { isReversed: boolean };
-const FeaturedCardLink = styled.a.attrs(() => ({
+const FeaturedCardLink = styled.a.attrs({
   className: 'grid promo-link plain-link',
-}))<HasIsReversed>`
+})<HasIsReversed>`
   justify-content: flex-end;
   flex-direction: ${props => (props.isReversed ? 'row-reverse' : 'row')};
 `;
@@ -238,7 +238,7 @@ const FeaturedCardShim = styled.div.attrs<{ background: PaletteColor }>({
     props.isReversed ? props.theme.gutter.large + 'px' : null};
 `;
 
-const FeaturedCard: FunctionComponent<Props> = ({
+const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
   id,
   image,
   labels,

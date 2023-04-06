@@ -12,7 +12,7 @@
 // Note: we use this to distinguish it from catalogue IDs, which are (as of May 2022)
 // eight characters long.
 
-import { isString } from '@weco/common/utils/array';
+import { isString } from '@weco/common/utils/type-guards';
 
 export const looksLikePrismicId = (
   id: string | string[] | undefined

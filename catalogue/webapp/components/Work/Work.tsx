@@ -146,7 +146,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
   });
   const showTabbedNav =
     worksTabbedNav &&
-    (shouldShowItemLink || (audio?.sounds.length || []) > 0 || video);
+    (shouldShowItemLink || (audio?.sounds || []).length > 0 || video);
   // we want to experiment with showing the tabs for audio and video content
   // so we can't rely on shouldShowItemLink if we have that content
   const imageUrl =
