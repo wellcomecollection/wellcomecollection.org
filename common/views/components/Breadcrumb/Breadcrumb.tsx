@@ -45,6 +45,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => {
                 [font('intb', 6)]: Boolean(prefix),
               })}
               href={url}
+              data-gmt-trigger={url ? 'breadcrumb_link' : undefined}
             >
               {text}
             </LinkOrSpanTag>
