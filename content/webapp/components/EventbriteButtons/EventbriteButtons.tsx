@@ -57,6 +57,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                       label: 'event-page',
                     }}
                     icon={ticket}
+                    dataGtmTrigger="click_to_book"
                     text={
                       isHybridEvent ? 'In-venue tickets' : 'Check for tickets'
                     }
@@ -82,6 +83,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                       label: 'event-page',
                     }}
                     icon={ticket}
+                    dataGtmTrigger="click_to_book"
                     text={
                       isHybridEvent ? 'Online tickets' : 'Check for tickets'
                     }
