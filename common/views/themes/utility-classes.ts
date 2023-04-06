@@ -43,6 +43,32 @@ export const utilityClasses = css<GlobalStyleProps>`
     `}
   }
 
+  // This removes the element from the flow, as well as it's visibility
+  .visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+  }
+
+  .visually-hidden-focusable {
+    &:active,
+    &:focus {
+      clip: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      position: static;
+      width: auto;
+      white-space: inherit;
+    }
+  }
+
   // Stop using and clean up where it is used, eventually delete these.
   .flex {
     display: flex;
@@ -74,6 +100,28 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .relative {
     position: relative;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .round {
+    border-radius: 50%;
+  }
+
+  // Only used in one component so move there and delete this.
+  // Question the style itself, is it something we still want as input and buttons went fully square.
+  .rounded-diagonal {
+    border-top-left-radius: ${props => props.theme.borderRadiusUnit}px;
+    border-bottom-right-radius: ${props => props.theme.borderRadiusUnit}px;
+  }
+
+  // Write up a comment to explain when this should be used
+  // Maybe go through instances where it's used and see if it's required?
+  // timeboxed investigation? timeboxed change everything to margin: 0?
+  .no-margin {
+    margin: 0 !important;
   }
 
   // Set to button element as default styles
@@ -109,6 +157,8 @@ export const utilityClasses = css<GlobalStyleProps>`
     visibility: hidden;
   }
 
+  // Investigate if we still want this, feels anti-a11y?
+  // only used twice, move the styling directly in there and leave a comment as to why this is done.
   .no-visible-focus {
     &,
     &:focus {
@@ -116,10 +166,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .no-margin {
-    margin: 0 !important;
-  }
-
+  // Move to a styled component everywhere it is used, along with .promo_link__title and .card-link
   .promo-link {
     height: 100%;
     color: ${props => props.theme.color('black')};
@@ -135,45 +182,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     transition: color 400ms ease;
   }
 
-  .rounded-diagonal {
-    border-top-left-radius: ${props => props.theme.borderRadiusUnit}px;
-    border-bottom-right-radius: ${props => props.theme.borderRadiusUnit}px;
-  }
-
-  .round {
-    border-radius: 50%;
-  }
-
-  .full-width {
-    width: 100%;
-  }
-
-  // This removes the element from the flow, as well as it's visibility
-  .visually-hidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-  }
-
-  .visually-hidden-focusable {
-    &:active,
-    &:focus {
-      clip: auto;
-      height: auto;
-      margin: 0;
-      overflow: visible;
-      position: static;
-      width: auto;
-      white-space: inherit;
-    }
-  }
-  // TODO: use this for e.g. Promo hover behaviour too
   .card-link {
     text-decoration: none;
 
@@ -186,10 +194,14 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
+  // Move to using boxShadowProperties in theme
   .shadow {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
   }
 
+  // This is a hack that fixes pa11y errors about colour contrast that weren't detectable by users.
+  // TODO delete it and see how pa11y reacts; is it still required?
+  // If so, add details to explain this further and move to wellcome-normalize.ts
   noscript {
     background: ${props => props.theme.color('white')};
     color: ${props => props.theme.color('black')};
