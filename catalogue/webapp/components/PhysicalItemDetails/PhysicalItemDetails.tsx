@@ -187,6 +187,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           disabled={userState !== 'signedin'}
           ref={requestButtonRef}
           text="Request item"
+          dataGtmTrigger="requesting_initiate"
           clickHandler={() => {
             trackGaEvent({
               category: 'requesting',
