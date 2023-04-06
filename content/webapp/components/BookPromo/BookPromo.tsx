@@ -89,7 +89,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
         >
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
-            className="relative"
+            style={{ position: 'relative' }}
           >
             <Space
               v={{
