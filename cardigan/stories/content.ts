@@ -317,7 +317,7 @@ const smallText = () => [
 ];
 
 export const videoEmbed = {
-  embedUrl: 'https://www.youtube.com/embed/VYOjWnS4cMY',
+  embedUrl: 'https://www.youtube.com/embed/l0A8-DmX0Z0?feature=oembed',
 };
 
 export const event: Event = {
