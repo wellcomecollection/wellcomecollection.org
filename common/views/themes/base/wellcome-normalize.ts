@@ -22,6 +22,8 @@ img {
   height: auto;
 }
 
+
+// TODO verify if this is used (maybe by a library?)
 .scale {
   transform: scale(0);
   transition: transform 500ms;

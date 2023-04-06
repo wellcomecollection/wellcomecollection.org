@@ -243,6 +243,7 @@ export const themeValues = {
     large: 30,
     xlarge: 30,
   },
+  basicBoxShadow: `0 2px 8px 0 rgba(0, 0, 0, 0.4)`,
   focusBoxShadow: '0 0 0 3px rgba(43, 136, 143, 1)',
   keyframes: {
     hoverBounce: keyframes`

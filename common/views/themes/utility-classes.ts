@@ -2,6 +2,7 @@ import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
 
 export const utilityClasses = css<GlobalStyleProps>`
+  // Keep using
   .is-hidden {
     display: none !important;
   }
@@ -42,99 +43,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     `}
   }
 
-  .flex {
-    display: flex;
-  }
-
-  .flex-inline {
-    display: inline-flex;
-  }
-
-  .flex--v-center {
-    align-items: center;
-  }
-
-  .flex--wrap {
-    flex-wrap: wrap;
-  }
-
-  .flex--h-center {
-    justify-content: center;
-  }
-
-  .flex--h-space-between {
-    justify-content: space-between;
-  }
-
-  .plain-button {
-    appearance: none;
-    font-family: inherit;
-    letter-spacing: inherit;
-    background: transparent;
-    border: 0;
-    text-align: left;
-  }
-
-  .plain-link,
-  .plain-link:link,
-  .plain-link:visited {
-    text-decoration: none;
-    border: none;
-
-    .body-text & {
-      text-decoration: none;
-      border: none;
-    }
-  }
-
-  .no-visible-focus {
-    &,
-    &:focus {
-      outline: 0;
-    }
-  }
-
-  .inline {
-    display: inline;
-  }
-
-  .no-margin {
-    margin: 0 !important;
-  }
-
-  .promo-link {
-    height: 100%;
-    color: ${props => props.theme.color('black')};
-
-    &:hover .promo-link__title,
-    &:focus .promo-link__title {
-      text-decoration: underline;
-      text-decoration-color: ${props => props.theme.color('black')};
-    }
-  }
-
-  .promo-link__title {
-    transition: color 400ms ease;
-  }
-
-  .rounded-diagonal {
-    border-top-left-radius: ${props => props.theme.borderRadiusUnit}px;
-    border-bottom-right-radius: ${props => props.theme.borderRadiusUnit}px;
-  }
-
-  .round {
-    border-radius: 50%;
-  }
-
-  .relative {
-    position: relative;
-  }
-
-  .full-width {
-    width: 100%;
-  }
-
-  // This removes the element from the flow, as well as it's visibility
+  // This removes the element from the flow, as well as its visibility
   .visually-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -160,11 +69,96 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .hidden {
-    visibility: hidden;
+  // Stop using and clean up where it is used, eventually delete these.
+  .flex {
+    display: flex;
   }
 
-  // TODO: use this for e.g. Promo hover behaviour too
+  .flex-inline {
+    display: inline-flex;
+  }
+
+  .flex--v-center {
+    align-items: center;
+  }
+
+  .flex--wrap {
+    flex-wrap: wrap;
+  }
+
+  .flex--h-center {
+    justify-content: center;
+  }
+
+  .flex--h-space-between {
+    justify-content: space-between;
+  }
+
+  .inline {
+    display: inline;
+  }
+
+  .relative {
+    position: relative;
+  }
+
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9556
+  .no-margin {
+    margin: 0 !important;
+  }
+
+  // Only used in one component so move there and delete this.
+  // Question the style itself, is it something we still want as input and buttons went fully square?
+  .rounded-diagonal {
+    border-top-left-radius: ${props => props.theme.borderRadiusUnit}px;
+    border-bottom-right-radius: ${props => props.theme.borderRadiusUnit}px;
+  }
+
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9541
+  .plain-button {
+    appearance: none;
+    font-family: inherit;
+    letter-spacing: inherit;
+    background: transparent;
+    border: 0;
+    text-align: left;
+  }
+
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9557
+  .plain-link,
+  .plain-link:link,
+  .plain-link:visited {
+    text-decoration: none;
+    border: none;
+
+    .body-text & {
+      text-decoration: none;
+      border: none;
+    }
+  }
+
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9558
+  .no-visible-focus {
+    &,
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9561
+  .promo-link {
+    height: 100%;
+    color: ${props => props.theme.color('black')};
+
+    &:hover .promo-link__title,
+    &:focus .promo-link__title {
+      text-decoration: underline;
+      text-decoration-color: ${props => props.theme.color('black')};
+    }
+  }
+  .promo-link__title {
+    transition: color 400ms ease;
+  }
   .card-link {
     text-decoration: none;
 
@@ -177,10 +171,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  .shadow {
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
-  }
-
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9559
   noscript {
     background: ${props => props.theme.color('white')};
     color: ${props => props.theme.color('black')};
