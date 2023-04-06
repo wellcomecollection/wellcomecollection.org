@@ -2,13 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import {
   ItemsList,
   CatalogueApiError,
-} from '@weco/catalogue/services/catalogue/types';
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   catalogueApiError,
   rootUris,
   globalApiOptions,
   GlobalApiOptions,
-} from '@weco/catalogue/services/catalogue';
+} from '@weco/catalogue/services/wellcome/catalogue';
 import { Toggles } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString, isUndefined } from '@weco/common/utils/type-guards';

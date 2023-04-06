@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Work } from '@weco/catalogue/services/catalogue/types';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { TransformedImageJSON } from '../types/image';
 import { getDigitalLocationOfType } from '../utils/works';
 import { IIIFImage } from '../services/iiif/types/image/v2';

@@ -1,4 +1,4 @@
-import { Work } from '@weco/catalogue/services/catalogue/types';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 
 export const workFixture: Work = {
   holdings: [],

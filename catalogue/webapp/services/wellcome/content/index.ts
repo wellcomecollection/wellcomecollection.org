@@ -5,7 +5,7 @@ import { HttpsAgent as Agent } from 'agentkeepalive';
 import {
   ContentApiError,
   ContentResultsList,
-} from '@weco/catalogue/services/content/types';
+} from '@weco/catalogue/services/wellcome/content/types';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { Content } from './types/api';
 

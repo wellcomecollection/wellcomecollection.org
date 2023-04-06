@@ -20,7 +20,7 @@ import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
-import { getArticles } from '@weco/catalogue/services/content/articles';
+import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
 
 // Types
 import {
@@ -28,8 +28,8 @@ import {
   Story,
 } from '@weco/catalogue/services/prismic/types';
 import { Query } from '@weco/catalogue/types/search';
-import { Content } from '@weco/catalogue/services/content/types/api';
-import { ContentResultsList } from '@weco/catalogue/services/content/types';
+import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
+import { ContentResultsList } from '@weco/catalogue/services/wellcome/content/types';
 
 type Props = {
   storyResponseList?: PrismicResultsList<Story>;

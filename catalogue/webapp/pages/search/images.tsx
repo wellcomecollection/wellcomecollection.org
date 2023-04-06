@@ -14,7 +14,7 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 
 // Utils & Helpers
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { getImages } from '@weco/catalogue/services/catalogue/images';
+import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -25,7 +25,7 @@ import {
 } from '@weco/catalogue/components/ImagesLink';
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
-import { imagesFilters } from '@weco/catalogue/services/catalogue/filters';
+import { imagesFilters } from '@weco/catalogue/services/wellcome/catalogue/filters';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 
@@ -33,7 +33,7 @@ import { pluralize } from '@weco/common/utils/grammar';
 import {
   CatalogueResultsList,
   Image,
-} from '@weco/catalogue/services/catalogue/types';
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Query } from '@weco/catalogue/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';

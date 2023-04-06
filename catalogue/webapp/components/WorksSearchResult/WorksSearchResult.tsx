@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 // Types
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { Work } from '@weco/catalogue/services/catalogue/types';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 
 // Helpers/Utils
 import {

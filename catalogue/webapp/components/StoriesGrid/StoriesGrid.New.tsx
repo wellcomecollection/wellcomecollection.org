@@ -10,7 +10,7 @@ import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
-import { Content } from '@weco/catalogue/services/content/types/api';
+import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -22,7 +22,9 @@ const StoriesContainer = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
 const StoryWrapper = styled(Space).attrs<{
   isDetailed?: boolean;
 }>(props => ({
-  v: props.isDetailed ? { size: 'xl', properties: ['padding-bottom'] } : undefined,
+  v: props.isDetailed
+    ? { size: 'xl', properties: ['padding-bottom'] }
+    : undefined,
   className: props.isDetailed ? 'grid' : grid({ s: 6, m: 6, l: 3, xl: 3 }),
 }))<{ isDetailed?: boolean }>`
   text-decoration: none;

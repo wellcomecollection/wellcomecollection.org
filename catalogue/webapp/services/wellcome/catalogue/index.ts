@@ -4,7 +4,7 @@ import {
   CatalogueApiError,
   CatalogueResultsList,
   ResultType,
-} from '@weco/catalogue/services/catalogue/types';
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { isString } from '@weco/common/utils/type-guards';

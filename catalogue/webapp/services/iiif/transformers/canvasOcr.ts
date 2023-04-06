@@ -1,4 +1,4 @@
-import { missingAltTextMessage } from '../../catalogue/works';
+import { missingAltTextMessage } from '@weco/catalogue/wellcome/catalogue/works';
 import { TextJson } from '../fetch/canvasOcr';
 
 export function transformCanvasOcr(

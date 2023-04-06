@@ -24,10 +24,10 @@ import {
   Story,
 } from '@weco/catalogue/services/prismic/types';
 import { font } from '@weco/common/utils/classnames';
-import { getWorks } from '@weco/catalogue/services/catalogue/works';
+import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
-import { getImages } from '@weco/catalogue/services/catalogue/images';
-import { Image, Work } from '@weco/catalogue/services/catalogue/types';
+import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
+import { Image, Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   getQueryResults,
   getQueryPropertyValue,
@@ -39,12 +39,12 @@ import {
 } from '@weco/common/utils/routes';
 import theme from '@weco/common/views/themes/default';
 import { formatNumber } from '@weco/common/utils/grammar';
-import { getArticles } from '@weco/catalogue/services/content/articles';
+import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
 import {
   ContentApiError,
   ContentResultsList,
-} from '@weco/catalogue/services/content/types';
-import { Content } from '@weco/catalogue/services/content/types/api';
+} from '@weco/catalogue/services/wellcome/content/types';
+import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.

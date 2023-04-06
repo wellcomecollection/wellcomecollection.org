@@ -6,7 +6,7 @@ import PhotoAlbum, {
 import styled from 'styled-components';
 
 import { hexToRgb } from '@weco/common/utils/convert-colors';
-import { Image } from '@weco/catalogue/services/catalogue/types';
+import { Image } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 import ExpandedImage from '../ExpandedImage/ExpandedImage';

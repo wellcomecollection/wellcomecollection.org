@@ -3,7 +3,7 @@ import {
   ContentApiError,
   ContentResultsList,
   ContentApiProps,
-} from '@weco/catalogue/services/content/types';
+} from '@weco/catalogue/services/wellcome/content/types';
 import { QueryProps, contentQuery } from '.';
 
 export async function getArticles(
