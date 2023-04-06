@@ -4,7 +4,8 @@ import {
   ContentResultsList,
   ContentApiProps,
 } from '@weco/catalogue/services/wellcome/content/types';
-import { QueryProps, contentQuery } from '.';
+import { contentQuery } from '.';
+import { QueryProps } from '..';
 
 export async function getArticles(
   props: QueryProps<ContentApiProps>

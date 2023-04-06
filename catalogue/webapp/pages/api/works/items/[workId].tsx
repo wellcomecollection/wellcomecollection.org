@@ -1,17 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  ItemsList,
-  CatalogueApiError,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
-import {
-  catalogueApiError,
-  rootUris,
-  globalApiOptions,
-  GlobalApiOptions,
-} from '@weco/catalogue/services/wellcome/catalogue';
+import { ItemsList } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { rootUris } from '@weco/catalogue/services/wellcome/catalogue';
 import { Toggles } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString, isUndefined } from '@weco/common/utils/type-guards';
+import {
+  GlobalApiOptions,
+  globalApiOptions,
+  wellcomeApiError,
+  WellcomeApiError,
+} from '@weco/catalogue/services/wellcome';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env]}/v2/works/${workId}/items`;
@@ -36,7 +34,7 @@ async function fetchWorkItems({
 }: {
   workId: string;
   toggles: Toggles;
-}): Promise<ItemsList | CatalogueApiError> {
+}): Promise<ItemsList | WellcomeApiError> {
   const apiOptions = globalApiOptions(toggles);
   const apiUrl = getApiUrl(apiOptions, workId);
   try {
@@ -48,7 +46,7 @@ async function fetchWorkItems({
     }).then(resp => resp.json());
     return items;
   } catch (error) {
-    return catalogueApiError();
+    return wellcomeApiError();
   }
 }
 
