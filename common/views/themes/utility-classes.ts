@@ -186,11 +186,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // Move to using boxShadowProperties in theme
-  .shadow {
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
-  }
-
   // This is a hack that fixes pa11y errors about colour contrast that weren't detectable by users.
   // TODO delete it and see how pa11y reacts; is it still required?
   // If so, add details to explain this further and move to wellcome-normalize.ts

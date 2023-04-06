@@ -86,7 +86,6 @@ const CloseButton = styled(Space).attrs({
 const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-  className: 'shadow',
 })<BaseModalProps>`
   z-index: 10001;
   top: 0;
@@ -97,6 +96,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   overflow: auto;
   transition: opacity 350ms ease, transform 350ms ease;
   background-color: ${props => props.theme.color('white')};
+  box-shadow: ${props => props.theme.basicBoxShadow};
 
   &,
   &.fade-exit-done {
@@ -155,11 +155,11 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
 
 const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  className: 'shadow',
 })<BaseModalProps>`
   overflow: hidden;
   padding-left: 0px;
   padding-right: 0px;
+  box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 
 const CalendarModal = styled(BaseModalWindow)`
