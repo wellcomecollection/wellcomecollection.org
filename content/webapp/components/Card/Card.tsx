@@ -19,6 +19,7 @@ type Props = {
 };
 
 export const CardOuter = styled.a.attrs({
+  'data-gtm-trigger': 'card_link',
   className: 'plain-link promo-link',
 })`
   display: block; // IE
