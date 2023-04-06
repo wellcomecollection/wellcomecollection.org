@@ -102,18 +102,19 @@ export const utilityClasses = css<GlobalStyleProps>`
     position: relative;
   }
 
+  // Timeboxed investigation on usage
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/9556
+  .no-margin {
+    margin: 0 !important;
+  }
+
+  // Classes To eventually delete
+
   // Only used in one component so move there and delete this.
   // Question the style itself, is it something we still want as input and buttons went fully square.
   .rounded-diagonal {
     border-top-left-radius: ${props => props.theme.borderRadiusUnit}px;
     border-bottom-right-radius: ${props => props.theme.borderRadiusUnit}px;
-  }
-
-  // Write up a comment to explain when this should be used
-  // Maybe go through instances where it's used and see if it's required?
-  // timeboxed investigation? timeboxed change everything to margin: 0?
-  .no-margin {
-    margin: 0 !important;
   }
 
   // Set to button element as default styles
