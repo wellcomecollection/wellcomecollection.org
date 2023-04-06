@@ -165,6 +165,8 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
 type StyledLinkProps = {
   isCurrent?: boolean;
   hasControl?: boolean;
+  'data-gtm-trigger': 'tree_link';
+  'data-gtm-data-tree-level': number;
 };
 
 const StyledLink = styled.a<StyledLinkProps>`
