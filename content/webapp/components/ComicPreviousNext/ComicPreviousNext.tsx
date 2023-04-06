@@ -21,7 +21,9 @@ const Root = styled.div`
   `}
 `;
 
-const Link = styled.a<{ isNext: boolean }>`
+const Link = styled.a.attrs({
+  'data-gtm-trigger': 'comic_prev_next_link',
+})<{ isNext: boolean }>`
   position: absolute;
   color: ${props => props.theme.color('neutral.700')};
   left: ${props => (props.isNext ? undefined : 0)};
