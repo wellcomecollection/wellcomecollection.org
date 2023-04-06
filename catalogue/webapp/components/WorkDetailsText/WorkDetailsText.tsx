@@ -9,6 +9,7 @@ const LimitWidth = styled.div.attrs({
   className: 'spaced-text',
 })`
   max-width: 45em;
+  font-variant-ligatures: no-contextual;
 `;
 
 type TextProps = BaseProps & {
