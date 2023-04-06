@@ -102,25 +102,19 @@ export const utilityClasses = css<GlobalStyleProps>`
     position: relative;
   }
 
-  // Timeboxed investigation on usage
-  // https://github.com/wellcomecollection/wellcomecollection.org/issues/9556
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9556
   .no-margin {
     margin: 0 !important;
   }
 
-  // Classes To eventually delete
-
   // Only used in one component so move there and delete this.
-  // Question the style itself, is it something we still want as input and buttons went fully square.
+  // Question the style itself, is it something we still want as input and buttons went fully square?
   .rounded-diagonal {
     border-top-left-radius: ${props => props.theme.borderRadiusUnit}px;
     border-bottom-right-radius: ${props => props.theme.borderRadiusUnit}px;
   }
 
-  // Set to button element as default styles
-  // Check if anything that uses this class should be using ButtonSolid instead
-  // Check if any button styles can be cleaned up as this is now the default
-  // Delete this class declaration
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9541
   .plain-button {
     appearance: none;
     font-family: inherit;
@@ -130,9 +124,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     text-align: left;
   }
 
-  // Design review? This is used in footer and cards
-  // We want default text links to be underlined
-  // Add comment to explain when this should be used.
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9557
   .plain-link,
   .plain-link:link,
   .plain-link:visited {
@@ -145,8 +137,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // Investigate if we still want this, feels anti-a11y?
-  // only used twice, move the styling directly in there and leave a comment as to why this is done.
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9558
   .no-visible-focus {
     &,
     &:focus {
@@ -154,7 +145,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // Move to a styled component everywhere it is used, along with .promo_link__title and .card-link
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9561
   .promo-link {
     height: 100%;
     color: ${props => props.theme.color('black')};
@@ -165,11 +156,9 @@ export const utilityClasses = css<GlobalStyleProps>`
       text-decoration-color: ${props => props.theme.color('black')};
     }
   }
-
   .promo-link__title {
     transition: color 400ms ease;
   }
-
   .card-link {
     text-decoration: none;
 
@@ -182,9 +171,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // This is a hack that fixes pa11y errors about colour contrast that weren't detectable by users.
-  // TODO delete it and see how pa11y reacts; is it still required?
-  // If so, add details to explain this further and move to wellcome-normalize.ts
+  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9559
   noscript {
     background: ${props => props.theme.color('white')};
     color: ${props => props.theme.color('black')};
