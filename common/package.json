@@ -63,6 +63,6 @@
     "typescript": "^5.0.2",
     "url-template": "^2.0.8",
     "uuid": "^9.0.0",
-    "webpack-bundle-analyzer": "^4.4.2"
+    "webpack-bundle-analyzer": "^4.8.0"
   }
 }
