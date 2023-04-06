@@ -144,11 +144,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // rename this one or delete it?
-  .hidden {
-    visibility: hidden;
-  }
-
   // Investigate if we still want this, feels anti-a11y?
   // only used twice, move the styling directly in there and leave a comment as to why this is done.
   .no-visible-focus {
