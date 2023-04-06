@@ -655,6 +655,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       <div className="flex-inline">
         {isEnhanced && level > 1 && hasControl && (
           <TreeControl
+            data-gtm-trigger="tree_chevron"
             highlightCondition={highlightCondition}
             onClick={() => {
               trackGaEvent({
