@@ -56,7 +56,7 @@ const toggles = {
       title: 'Stories search: Content API',
       initialValue: false,
       description:
-        "Has stories search use the Content API instead of Prismics's API.",
+        "Has stories search use the Content API instead of Prismic's API.",
     },
   ] as const,
   tests: [
