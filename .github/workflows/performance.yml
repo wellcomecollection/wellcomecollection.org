@@ -6,6 +6,7 @@ on:
       - 'assets/**'
       - 'cache/**'
       - 'cardigan/**'
+      - 'infrastructure/**'
       - 'playwright/**'
 
 jobs:

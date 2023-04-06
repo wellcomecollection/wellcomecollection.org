@@ -8,7 +8,6 @@ module.exports = {
     '../stories/global/**/*.stories.tsx',
     '../stories/components/**/*.stories.mdx',
     '../stories/components/**/*.stories.tsx',
-    '../stories/docs/**/*.stories.mdx',
   ],
   addons: [
     '@storybook/addon-controls',
