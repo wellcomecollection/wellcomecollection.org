@@ -165,6 +165,8 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
 type StyledLinkProps = {
   isCurrent?: boolean;
   hasControl?: boolean;
+  'data-gtm-trigger': 'tree_link';
+  'data-gtm-data-tree-level': number;
 };
 
 const StyledLink = styled.a<StyledLinkProps>`
@@ -681,6 +683,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             isCurrent={currentWorkId === item.work.id}
             ref={currentWorkId === item.work.id ? selected : undefined}
+            data-gtm-trigger="tree_link"
+            data-gtm-data-tree-level={level}
             onClick={event => {
               event.stopPropagation();
               setShowArchiveTree(false);
