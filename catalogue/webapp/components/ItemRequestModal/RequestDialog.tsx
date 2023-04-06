@@ -164,7 +164,10 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
 
       <CTAs>
         <ConfirmRequestButtonWrapper>
-          <ButtonSolid text="Confirm request" />
+          <ButtonSolid
+            text="Confirm request"
+            dataGtmTrigger="requesting_confirm"
+          />
         </ConfirmRequestButtonWrapper>
         <ButtonSolid
           colors={themeValues.buttonColors.greenTransparentGreen}
