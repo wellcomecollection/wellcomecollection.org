@@ -27,6 +27,7 @@ export type CatalogueWorksApiProps = {
   'production.dates.from'?: string;
   'production.dates.to'?: string;
   'genres.label'?: string[];
+  'genres.concepts.id'?: string[];
   'subjects.label'?: string[];
   subjects?: string[];
   'contributors.agent.label'?: string[];
@@ -40,6 +41,7 @@ export type CatalogueImagesApiProps = {
   page?: number;
   'locations.license'?: string[];
   'source.genres.label'?: string[];
+  'source.genres.concepts.id'?: string[];
   'source.subjects.label'?: string[];
   'source.contributors.agent.label'?: string[];
   color?: string;

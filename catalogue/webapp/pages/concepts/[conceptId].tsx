@@ -44,11 +44,66 @@ type Props = {
   conceptResponse: ConceptType;
   worksAbout: CatalogueResultsList<WorkType> | undefined;
   worksBy: CatalogueResultsList<WorkType> | undefined;
+  worksIn: CatalogueResultsList<WorkType> | undefined;
   imagesAbout: CatalogueResultsList<ImageType> | undefined;
   imagesBy: CatalogueResultsList<ImageType> | undefined;
+  imagesIn: CatalogueResultsList<ImageType> | undefined;
   apiToolbarLinks: ApiToolbarLink[];
   pageview: Pageview;
 };
+
+const emptyImageResults: CatalogueResultsList<ImageType> = {
+  type: 'ResultList',
+  pageSize: 10,
+  totalPages: 0,
+  totalResults: 0,
+  results: [],
+  nextPage: null,
+  prevPage: null,
+  _requestUrl: '',
+};
+
+const emptyWorkResults: CatalogueResultsList<WorkType> = {
+  type: 'ResultList',
+  pageSize: 10,
+  totalPages: 0,
+  totalResults: 0,
+  results: [],
+  nextPage: null,
+  prevPage: null,
+  _requestUrl: '',
+};
+
+const tabOrder = ['about', 'by', 'in'];
+// Definition of the fields used to populate each section
+// of the page, and to define the link to the "all" searches.
+// Currently, only genres use the id to filter
+// the corresponding works.  As we make the identifiers available
+// for the other queries, they can be changed here.
+// In keeping with our API faceting principles, only the filters that
+// do not operate on the id have the full path to the attribute.
+const queryKeys = {
+  'works-about': ['subjects.label', 'label'],
+  'works-by': ['contributors.agent.label', 'label'],
+  'works-in': ['genres.concepts', 'id'],
+  'images-about': ['source.subjects.label', 'label'],
+  'images-by': ['source.contributors.agent.label', 'label'],
+  'images-in': ['source.genres.concepts', 'id'],
+};
+
+const queryParams = (sectionName: string, conceptResponse: ConceptType) => {
+  const field = queryKeys[sectionName];
+  return { [field[0]]: [conceptResponse[field[1]]] };
+};
+
+const linkSources = new Map([
+  ['works-about', 'concept/works_about'],
+  ['works-by', 'concept/works_by'],
+  ['works-in', 'concept/works_in'],
+  ['images-about', 'concept/images_about'],
+  ['images-by', 'concept/images_by'],
+  ['images-in', 'concept/images_in'],
+]);
 
 const ConceptHero = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
@@ -104,6 +159,56 @@ const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
   />
 );
 
+type WorksTabPanelType = {
+  tabId: string;
+  link: LinkProps;
+  results: CatalogueResultsList<WorkType>;
+};
+
+const WorksTabPanel = ({ tabId, link, results }: WorksTabPanelType) => {
+  return (
+    <div className="container">
+      <div
+        role="tabpanel"
+        id={`tabpanel-${tabId}`}
+        aria-labelledby={`tab-${tabId}`}
+      >
+        <WorksSearchResults works={results.results} />
+        <Space v={{ size: 'l', properties: ['padding-top'] }}>
+          <SeeMoreButton
+            text="All works"
+            totalResults={results.totalResults}
+            link={link}
+          />
+        </Space>
+      </div>
+    </div>
+  );
+};
+
+type ImagesTabPanelType = {
+  tabId: string;
+  link: LinkProps;
+  results: CatalogueResultsList<ImageType>;
+};
+
+const ImagesTabPanel = ({ tabId, link, results }: ImagesTabPanelType) => {
+  return (
+    <div
+      role="tabpanel"
+      id={`tabpanel-${tabId}`}
+      aria-labelledby={`tab-${tabId}`}
+    >
+      <ImageEndpointSearchResults images={results.results} />
+      <SeeMoreButton
+        text="All images"
+        totalResults={results.totalResults}
+        link={link}
+      />
+    </div>
+  );
+};
+
 type TagLabelType = {
   text: string;
   totalResults: number;
@@ -115,21 +220,112 @@ const TabLabel = ({ text, totalResults }: TagLabelType) => (
   </>
 );
 
+type SectionDefinition = {
+  id: string;
+  tab: {
+    id: string;
+    text: JSX.Element;
+  };
+  panel: {
+    id: string;
+    link: LinkProps;
+    results: CatalogueResultsList<WorkType | ImageType>;
+  };
+};
+
+const toSectionDefinition = (
+  tabId: string,
+  resultsGroup: CatalogueResultsList<WorkType | ImageType>,
+  tabLabelText: string,
+  link: LinkProps
+): SectionDefinition | undefined => {
+  return resultsGroup?.totalResults
+    ? {
+        id: tabId,
+        tab: {
+          id: tabId,
+          text: TabLabel({
+            text: tabLabelText,
+            totalResults: resultsGroup.totalResults,
+          }),
+        },
+        panel: { id: tabId, link: link, results: resultsGroup },
+      }
+    : undefined;
+};
+
+const withSelectedStatus = (selectedTab: string, tabDefinition) => {
+  tabDefinition.selected = selectedTab === tabDefinition.id;
+  return tabDefinition;
+};
+
+const conceptTypeDisplayName = (conceptResponse: ConceptType) => {
+  const lower = conceptResponse.type.toLowerCase();
+  return lower === 'genre' ? 'type/technique' : lower;
+};
+
+const currentTabPanel = (selectedTab: string, tabDefinitions) => {
+  if (tabDefinitions.length === 1) return tabDefinitions[0].panel;
+  for (const definition in tabDefinitions) {
+    if (tabDefinitions[definition].id === selectedTab) {
+      return tabDefinitions[definition].panel;
+    }
+  }
+  throw new Error(
+    `Unexpected tab ${selectedTab} not found in ${tabDefinitions}`
+  );
+};
+
 export const ConceptPage: NextPage<Props> = ({
   conceptResponse,
   worksAbout,
   worksBy,
+  worksIn,
   imagesAbout,
   imagesBy,
+  imagesIn,
   apiToolbarLinks,
 }) => {
   const [selectedWorksTab, setSelectedWorksTab] = useState('works-about');
   const [selectedImagesTab, setSelectedImagesTab] = useState('images-about');
 
-  const hasWorks = !!(worksBy?.totalResults || worksAbout?.totalResults);
-  const hasWorksTabs = !!(worksBy?.totalResults && worksAbout?.totalResults);
-  const hasImages = !!(imagesBy?.totalResults || imagesAbout?.totalResults);
-  const hasImagesTabs = !!(imagesBy?.totalResults && imagesAbout?.totalResults);
+  const conceptTypeName = conceptTypeDisplayName(conceptResponse);
+
+  const sectionData = {
+    about: [`About this ${conceptTypeName}`, worksAbout, imagesAbout],
+    by: [`By this ${conceptTypeName}`, worksBy, imagesBy],
+    in: [`Using this ${conceptTypeName}`, worksIn, imagesIn],
+  };
+
+  const worksTabs = tabOrder
+    .map(relationship => {
+      const tabId = `works-${relationship}`;
+      return toSectionDefinition(
+        tabId,
+        sectionData[relationship][1],
+        sectionData[relationship][0],
+        toWorksLink(queryParams(tabId, conceptResponse), linkSources[tabId])
+      );
+    })
+    .filter(e => !!e);
+
+  const hasWorks = worksTabs.length > 0;
+  const hasWorksTabs = worksTabs.length > 1;
+
+  const imagesTabs = tabOrder
+    .map(relationship => {
+      const tabId = `images-${relationship}`;
+      return toSectionDefinition(
+        tabId,
+        sectionData[relationship][2],
+        sectionData[relationship][0],
+        toImagesLink(queryParams(tabId, conceptResponse), linkSources[tabId])
+      );
+    })
+    .filter(e => !!e);
+
+  const hasImages = imagesTabs.length > 0;
+  const hasImagesTabs = imagesTabs.length > 1;
 
   return (
     <CataloguePageLayout
@@ -171,78 +367,23 @@ export const ConceptPage: NextPage<Props> = ({
         <ConceptImages as="section">
           <div className="container">
             <h2 className="h2 sectionTitle">Images</h2>
-
             {hasImagesTabs && (
               <TabNav
                 id="images"
                 selectedTab={selectedImagesTab}
                 variant="white"
-                items={[
-                  {
-                    id: 'images-about',
-                    text: TabLabel({
-                      text: `About this ${conceptResponse.type.toLowerCase()}`,
-                      totalResults: imagesAbout.totalResults,
-                    }),
-                    selected: selectedImagesTab === 'images-about',
-                  },
-                  {
-                    id: 'images-by',
-                    text: TabLabel({
-                      text: `By this ${conceptResponse.type.toLowerCase()}`,
-                      totalResults: imagesBy.totalResults,
-                    }),
-                    selected: selectedImagesTab === 'images-by',
-                  },
-                ]}
+                items={imagesTabs.map(
+                  tabData =>
+                    tabData &&
+                    withSelectedStatus(selectedImagesTab, tabData.tab)
+                )}
                 setSelectedTab={setSelectedImagesTab}
               />
             )}
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
-              {((hasImagesTabs && selectedImagesTab === 'images-about') ||
-                (!hasImagesTabs && !!imagesAbout?.totalResults)) && (
-                <div
-                  role="tabpanel"
-                  id="tabpanel-imagesAbout"
-                  aria-labelledby="tab-imagesAbout"
-                >
-                  <ImageEndpointSearchResults images={imagesAbout.results} />
-                  <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                    <SeeMoreButton
-                      text="All images"
-                      totalResults={imagesAbout.totalResults}
-                      link={toImagesLink(
-                        {
-                          'source.subjects.label': [conceptResponse.label],
-                        },
-                        'concept/images_about'
-                      )}
-                    />
-                  </Space>
-                </div>
-              )}
-              {((hasImagesTabs && selectedImagesTab === 'images-by') ||
-                (!hasImagesTabs && !!imagesBy?.totalResults)) && (
-                <div
-                  role="tabpanel"
-                  id="tabpanel-imagesBy"
-                  aria-labelledby="tab-imagesBy"
-                >
-                  <ImageEndpointSearchResults images={imagesBy.results} />
-                  <SeeMoreButton
-                    text="All images"
-                    totalResults={imagesBy.totalResults}
-                    link={toImagesLink(
-                      {
-                        'source.contributors.agent.label': [
-                          conceptResponse.label,
-                        ],
-                      },
-                      'concept/images_by'
-                    )}
-                  />
-                </div>
-              )}
+              <ImagesTabPanel
+                {...currentTabPanel(selectedImagesTab, imagesTabs)}
+              />
             </Space>
           </div>
         </ConceptImages>
@@ -254,28 +395,16 @@ export const ConceptPage: NextPage<Props> = ({
           <ConceptWorksHeader hasWorksTabs={hasWorksTabs}>
             <div className="container">
               <h2 className="h2">Catalogue</h2>
+
               {hasWorksTabs && (
                 <TabNav
                   id="works"
                   selectedTab={selectedWorksTab}
-                  items={[
-                    {
-                      id: 'works-about',
-                      text: TabLabel({
-                        text: `About this ${conceptResponse.type.toLowerCase()}`,
-                        totalResults: worksAbout.totalResults,
-                      }),
-                      selected: selectedWorksTab === 'works-about',
-                    },
-                    {
-                      id: 'works-by',
-                      text: TabLabel({
-                        text: `By this ${conceptResponse.type.toLowerCase()}`,
-                        totalResults: worksBy.totalResults,
-                      }),
-                      selected: selectedWorksTab === 'works-by',
-                    },
-                  ]}
+                  items={worksTabs.map(
+                    tabData =>
+                      tabData &&
+                      withSelectedStatus(selectedWorksTab, tabData.tab)
+                  )}
                   setSelectedTab={setSelectedWorksTab}
                 />
               )}
@@ -289,52 +418,7 @@ export const ConceptPage: NextPage<Props> = ({
               properties: ['margin-top', 'margin-bottom'],
             }}
           >
-            <div className="container">
-              {((hasWorksTabs && selectedWorksTab === 'works-about') ||
-                (!hasWorksTabs && !!worksAbout?.totalResults)) && (
-                <div
-                  role="tabpanel"
-                  id="tabpanel-worksAbout"
-                  aria-labelledby="tab-worksAbout"
-                >
-                  <WorksSearchResults works={worksAbout.results} />
-                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton
-                      text="All works"
-                      totalResults={worksAbout.totalResults}
-                      link={toWorksLink(
-                        {
-                          'subjects.label': [conceptResponse.label],
-                        },
-                        'concept/works_about'
-                      )}
-                    />
-                  </Space>
-                </div>
-              )}
-              {((hasWorksTabs && selectedWorksTab === 'works-by') ||
-                (!hasWorksTabs && !!worksBy?.totalResults)) && (
-                <div
-                  role="tabpanel"
-                  id="tabpanel-worksBy"
-                  aria-labelledby="tab-worksBy"
-                >
-                  <WorksSearchResults works={worksBy.results} />
-                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton
-                      text="All works"
-                      totalResults={worksBy.totalResults}
-                      link={toWorksLink(
-                        {
-                          'contributors.agent.label': [conceptResponse.label],
-                        },
-                        'concept/works_by'
-                      )}
-                    />
-                  </Space>
-                </div>
-              )}
-            </div>
+            <WorksTabPanel {...currentTabPanel(selectedWorksTab, worksTabs)} />
           </Space>
         </>
       )}
@@ -405,40 +489,47 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       );
     }
 
-    const worksAboutPromise = getWorks({
-      params: { 'subjects.label': [conceptResponse.label] },
-      toggles: serverData.toggles,
-      pageSize: 5,
-    });
+    const getConceptWorks = (sectionName: string) =>
+      getWorks({
+        params: queryParams(sectionName, conceptResponse),
+        toggles: serverData.toggles,
+        pageSize: 5,
+      });
 
-    const worksByPromise = getWorks({
-      params: { 'contributors.agent.label': [conceptResponse.label] },
-      toggles: serverData.toggles,
-      pageSize: 5,
-    });
+    const getConceptImages = (sectionName: string) =>
+      getImages({
+        params: queryParams(sectionName, conceptResponse),
+        toggles: serverData.toggles,
+        pageSize: 10,
+      });
 
-    const imagesAboutPromise = getImages({
-      params: { 'source.subjects.label': [conceptResponse.label] },
-      toggles: serverData.toggles,
-      pageSize: 10,
-    });
+    // Only Genres can have works or images "in" them
+    // so don't bother executing this query for other types
+    // just pretend that we have.
+    const worksInPromise =
+      conceptResponse.type === 'Genre'
+        ? getConceptWorks('works-in')
+        : Promise.resolve(emptyWorkResults);
 
-    const imagesByPromise = getImages({
-      params: { 'source.contributors.agent.label': [conceptResponse.label] },
-      toggles: serverData.toggles,
-      pageSize: 10,
-    });
+    const imagesInPromise =
+      conceptResponse.type === 'Genre'
+        ? getConceptImages('images-in')
+        : Promise.resolve(emptyImageResults);
 
     const [
       worksAboutResponse,
       worksByResponse,
+      worksInResponse,
       imagesAboutResponse,
       imagesByResponse,
+      imagesInResponse,
     ] = await Promise.all([
-      worksAboutPromise,
-      worksByPromise,
-      imagesAboutPromise,
-      imagesByPromise,
+      getConceptWorks('works-about'),
+      getConceptWorks('works-by'),
+      worksInPromise,
+      getConceptImages('images-about'),
+      getConceptImages('images-by'),
+      imagesInPromise,
     ]);
 
     const worksAbout =
@@ -449,6 +540,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       imagesAboutResponse.type === 'Error' ? undefined : imagesAboutResponse;
     const imagesBy =
       imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
+    const worksIn =
+      worksInResponse.type === 'Error' ? undefined : worksInResponse;
+    const imagesIn =
+      imagesInResponse.type === 'Error' ? undefined : imagesInResponse;
 
     const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
 
@@ -457,8 +552,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         conceptResponse,
         worksAbout,
         worksBy,
+        worksIn,
         imagesAbout,
         imagesBy,
+        imagesIn,
         apiToolbarLinks,
         serverData,
         pageview: {

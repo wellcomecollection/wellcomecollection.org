@@ -112,7 +112,8 @@ type ConceptType =
   | 'Person'
   | 'Concept'
   | 'Period'
-  | 'Place';
+  | 'Place'
+  | 'Genre';
 
 export type Concept = {
   id?: string;
