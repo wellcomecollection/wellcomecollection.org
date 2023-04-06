@@ -7,10 +7,9 @@ import {
   ContentResultsList,
 } from '@weco/catalogue/services/content/types';
 import { propsToQuery } from '@weco/common/utils/routes';
-import { isString } from '@weco/common/utils/type-guards';
 import { Content } from './types/api';
 
-export const rootUris = {
+const rootUris = {
   prod: 'https://api.wellcomecollection.org/content',
   stage: 'https://api-stage.wellcomecollection.org/content',
 };
@@ -20,19 +19,11 @@ type GlobalApiOptions = {
   index?: string;
 };
 
-export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
+const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
   env: toggles?.stagingApi ? 'stage' : 'prod',
 });
 
-export const notFound = (): ContentApiError => ({
-  errorType: 'http',
-  httpStatus: 404,
-  label: 'Not Found',
-  description: '',
-  type: 'Error',
-});
-
-export const contentApiError = (): ContentApiError => ({
+const contentApiError = (): ContentApiError => ({
   errorType: 'http',
   httpStatus: 500,
   label: 'Internal Server Error',
@@ -62,7 +53,7 @@ const agentKeepAlive = new Agent({
   freeSocketTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
 });
 
-export const contentFetch = (
+const contentFetch = (
   url: string,
   options?: Record<string, string>
 ): Promise<Response> => {
@@ -114,19 +105,3 @@ export async function contentQuery<Params>(
     return contentApiError();
   }
 }
-
-// Returns true if a string is plausibly a canonical ID, false otherwise.
-//
-// There's no way for the front-end to know what strings are valid canonical IDs
-// (only the content API knows that), but it can reject certain classes of
-// strings that it knows definitely aren't.
-//
-// e.g. any non-alphanumeric string definitely isn't a canonical ID.
-//
-// This is useful for rejecting queries that are obviously malformed, which might
-// be attempts to inject malicious data into API queries.
-export const looksLikeCanonicalId = (
-  id: string | string[] | undefined
-): id is string => {
-  return isString(id) && /^([a-z0-9]+)$/.test(id);
-};
