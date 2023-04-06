@@ -681,7 +681,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             isCurrent={currentWorkId === item.work.id}
             ref={currentWorkId === item.work.id ? selected : undefined}
-            data-gtm-trigger="treeLink"
+            data-gtm-trigger="tree_link"
             data-gtm-data-tree-level={level}
             onClick={event => {
               event.stopPropagation();
