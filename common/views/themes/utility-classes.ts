@@ -102,10 +102,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     position: relative;
   }
 
-  .full-width {
-    width: 100%;
-  }
-
   // Only used in one component so move there and delete this.
   // Question the style itself, is it something we still want as input and buttons went fully square.
   .rounded-diagonal {
