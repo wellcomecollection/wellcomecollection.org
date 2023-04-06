@@ -113,7 +113,10 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
           <li className="flex">
             <Icon matchText={true} icon={archive} />
             <ArchiveWorkLink id={firstCrumb.id}>
-              <a className="crumb-inner">
+              <a
+                className="crumb-inner"
+                data-gtm-trigger="work_breadcrumb_link"
+              >
                 <WorkTitle title={firstCrumb.title} />
               </a>
             </ArchiveWorkLink>
@@ -133,7 +136,10 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
                       <li key={crumb.id} className="flex">
                         <Icon matchText={true} icon={folder} />
                         <ArchiveWorkLink id={crumb.id}>
-                          <a className="crumb-inner">
+                          <a
+                            className="crumb-inner"
+                            data-gtm-trigger="work_breadcrumb_link"
+                          >
                             <WorkTitle
                               title={`${crumb.title} ${crumb.referenceNumber}`}
                             />
@@ -154,7 +160,10 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
                 <li key={crumb.id} className="flex">
                   <Icon matchText={true} icon={folder} />
                   <ArchiveWorkLink id={crumb.id}>
-                    <a className="crumb-inner">
+                    <a
+                      className="crumb-inner"
+                      data-gtm-trigger="work_breadcrumb_link"
+                    >
                       <WorkTitle
                         title={`${crumb.title}${
                           crumb.referenceNumber
