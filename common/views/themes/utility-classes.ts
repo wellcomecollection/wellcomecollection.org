@@ -43,7 +43,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     `}
   }
 
-  // This removes the element from the flow, as well as it's visibility
+  // This removes the element from the flow, as well as its visibility
   .visually-hidden {
     border: 0;
     clip: rect(0 0 0 0);
