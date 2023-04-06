@@ -83,17 +83,29 @@ const tabOrder = ['about', 'by', 'in'];
 // In keeping with our API faceting principles, only the filters that
 // do not operate on the id have the full path to the attribute.
 const queryKeys = {
-  'works-about': ['subjects.label', 'label'],
-  'works-by': ['contributors.agent.label', 'label'],
-  'works-in': ['genres.concepts', 'id'],
-  'images-about': ['source.subjects.label', 'label'],
-  'images-by': ['source.contributors.agent.label', 'label'],
-  'images-in': ['source.genres.concepts', 'id'],
+  'works-about': { filter: 'subjects.label', fields: ['label'] },
+  'works-by': { filter: 'contributors.agent.label', fields: ['label'] },
+  'works-in': { filter: 'genres.concepts', fields: ['id', 'sameAs'] },
+  'images-about': { filter: 'source.subjects.label', fields: ['label'] },
+  'images-by': { filter: 'source.contributors.agent.label', fields: ['label'] },
+  'images-in': { filter: 'source.genres.concepts', fields: ['id', 'sameAs'] },
+};
+
+const gatherValues = (conceptResponse, fields) => {
+  return fields.reduce(
+    (acc, current) => acc.concat(conceptResponse[current]),
+    []
+  );
 };
 
 const queryParams = (sectionName: string, conceptResponse: ConceptType) => {
-  const field = queryKeys[sectionName];
-  return { [field[0]]: [conceptResponse[field[1]]] };
+  const queryDefinition = queryKeys[sectionName];
+  return {
+    [queryDefinition.filter]: gatherValues(
+      conceptResponse,
+      queryDefinition.fields
+    ),
+  };
 };
 
 const linkSources = new Map([
@@ -314,13 +326,17 @@ export const ConceptPage: NextPage<Props> = ({
 
   const imagesTabs = tabOrder
     .map(relationship => {
-      const tabId = `images-${relationship}`;
-      return toSectionDefinition(
-        tabId,
-        sectionData[relationship][2],
-        sectionData[relationship][0],
-        toImagesLink(queryParams(tabId, conceptResponse), linkSources[tabId])
-      );
+      if (sectionData[relationship][2].totalResults) {
+        const tabId = `images-${relationship}`;
+
+        return toSectionDefinition(
+          tabId,
+          sectionData[relationship][2],
+          sectionData[relationship][0],
+          toImagesLink(queryParams(tabId, conceptResponse), linkSources[tabId])
+        );
+      }
+      return undefined;
     })
     .filter(e => !!e);
 
