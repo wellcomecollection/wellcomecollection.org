@@ -643,18 +643,34 @@ const WorkDetails: FunctionComponent<Props> = ({
           />
         ))}
 
+        {/*
+         A genre may be simple or compound.
+
+         A simple genre contains just one concept in its concepts list,
+         whereas a compound genre may contain many.
+
+         In both cases, the first concept is the "important" one that 
+         should be used to link to a concepts page.
+
+         Compound genres behave more like contributors than subjects.
+         The additional information imparted by the subsequent concepts
+         are more relevant to Genre as it relates to the Work in question 
+         than the Genre as its own thing.
+         */}
         {work.genres.length > 0 && (
           <WorkDetailsTags
             title="Type/Technique"
-            tags={work.genres.map(g => {
+            tags={work.genres.map(genre => {
               return {
-                textParts: g.concepts.map(c => c.label),
-                linkAttributes: worksLink(
-                  {
-                    'genres.label': [g.label],
+                textParts: genre.concepts.map(c => c.label),
+                linkAttributes: {
+                  href: {
+                    pathname: `/concepts/${genre.concepts[0].id}`,
                   },
-                  'work_details/genres'
-                ),
+                  as: {
+                    pathname: `/concepts/${genre.concepts[0].id}`,
+                  },
+                },
               };
             })}
           />
