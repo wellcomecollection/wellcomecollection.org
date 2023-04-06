@@ -53,7 +53,10 @@ const DesktopSignIn: FunctionComponent = () => {
             id="signedin-dropdown"
             buttonType="borderless"
           >
-            <a href="/account/api/auth/login">
+            <a
+              href="/account/api/auth/login"
+              data-gtm-trigger="library_account_login"
+            >
               Sign in to your library account
             </a>
           </DropdownButton>

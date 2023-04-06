@@ -56,6 +56,7 @@ const MobileSignIn: FunctionComponent = () => {
       {!user && (
         <a
           href="/account/api/auth/login"
+          data-gtm-trigger="library_account_login"
           onClick={() => {
             trackGaEvent({
               category: 'library_account',
