@@ -215,6 +215,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
         {isEnhanced && !showZoomed && (
           <>
             <ShameButton
+              data-gtm-trigger="toggle_side_panel"
               data-test-id="toggle-info-desktop"
               className="viewer-desktop"
               isDark
