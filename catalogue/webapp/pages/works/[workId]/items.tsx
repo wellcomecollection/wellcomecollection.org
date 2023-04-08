@@ -306,7 +306,7 @@ const ItemPage: NextPage<Props> = ({
           )}
           {isAnyImageOpen && origin && (
             <Space
-              className="flex flex-inline"
+              className="flex-inline"
               h={{ size: 'm', properties: ['margin-right'] }}
               v={{ size: 'm', properties: ['margin-top'] }}
             >
