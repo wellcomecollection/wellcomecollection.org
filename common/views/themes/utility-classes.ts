@@ -86,10 +86,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     flex-wrap: wrap;
   }
 
-  .flex--h-center {
-    justify-content: center;
-  }
-
   .inline {
     display: inline;
   }
