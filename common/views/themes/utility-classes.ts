@@ -69,11 +69,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // Stop using and clean up where it is used, eventually delete these.
-  .inline {
-    display: inline;
-  }
-
   // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9556
   .no-margin {
     margin: 0 !important;

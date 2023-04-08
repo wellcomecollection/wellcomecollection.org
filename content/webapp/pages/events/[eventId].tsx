@@ -275,7 +275,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
             }}
             style={{ display: 'flex', flexWrap: 'wrap' }}
           >
-            <div className="inline">
+            <div style={{ display: 'inline' }}>
               <EventDateRange event={event} />
             </div>
             {/*

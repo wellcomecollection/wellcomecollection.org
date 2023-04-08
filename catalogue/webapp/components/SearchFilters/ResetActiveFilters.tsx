@@ -110,7 +110,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     <Wrapper>
       <div className={font('intb', 5)} role="status">
         <div>
-          <h2 className="inline">
+          <h2 style={{ display: 'inline' }}>
             <Space
               as="span"
               h={{
