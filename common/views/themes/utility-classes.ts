@@ -78,10 +78,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: inline-flex;
   }
 
-  .flex--v-center {
-    align-items: center;
-  }
-
   .inline {
     display: inline;
   }

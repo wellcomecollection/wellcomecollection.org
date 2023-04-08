@@ -98,7 +98,10 @@ const DownloadLink: FunctionComponent<Props> = ({
         trackingEvent && trackGaEvent(trackingEvent);
       }}
     >
-      <span className={linkText && 'flex-inline flex--v-center'}>
+      <span
+        className={linkText && 'flex-inline'}
+        style={linkText ? { alignItems: 'center' } : undefined}
+      >
         <IconWrapper forceInline={!!children}>
           <Icon icon={download} matchText={!!children} />
         </IconWrapper>

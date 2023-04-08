@@ -31,7 +31,7 @@ type Props = {
 };
 
 const WatchLabel: FunctionComponent<Props> = ({ text }: Props) => (
-  <div className={`${font('intr', 4)} flex flex--v-center`}>
+  <div className={`${font('intr', 4)} flex`} style={{ alignItems: 'center' }}>
     <WatchIconWrapper>
       <Icon icon={play} matchText={true} />
     </WatchIconWrapper>
