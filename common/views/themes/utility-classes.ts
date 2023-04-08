@@ -90,10 +90,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     justify-content: center;
   }
 
-  .flex--h-space-between {
-    justify-content: space-between;
-  }
-
   .inline {
     display: inline;
   }

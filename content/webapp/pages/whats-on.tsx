@@ -208,7 +208,10 @@ const Header: FunctionComponent<HeaderProps> = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div className="flex flex--v-center flex--h-space-between flex--wrap">
+            <div
+              className="flex flex--v-center flex--wrap"
+              style={{ justifyContent: 'space-between' }}
+            >
               <SectionPageHeader sectionLevelPage={true}>
                 What’s on
               </SectionPageHeader>
@@ -525,7 +528,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                 }}
               >
                 <Layout12>
-                  <div className="flex flex--v-center flex--h-space-between">
+                  <div
+                    className="flex flex--v-center"
+                    style={{ justifyContent: 'space-between' }}
+                  >
                     <h2 className="h1">Exhibitions and Events</h2>
                     <span className={font('intb', 4)}>Free admission</span>
                   </div>
