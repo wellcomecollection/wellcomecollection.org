@@ -142,7 +142,8 @@ const EventContentTypeInfo = () => (
         size: 's',
         properties: ['margin-bottom'],
       }}
-      className="flex flex--wrap"
+      className="flex"
+      style={{ flexWrap: 'wrap' }}
     >
       Saturday 8 February 2020, 13:00 – 16:00
     </Space>

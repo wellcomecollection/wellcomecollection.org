@@ -209,13 +209,13 @@ const Header: FunctionComponent<HeaderProps> = ({
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div
-              className="flex flex--v-center flex--wrap"
-              style={{ justifyContent: 'space-between' }}
+              className="flex flex--v-center"
+              style={{ justifyContent: 'space-between', flexWrap: 'wrap' }}
             >
               <SectionPageHeader sectionLevelPage={true}>
                 What’s on
               </SectionPageHeader>
-              <div className="flex flex--v-center flex--wrap">
+              <div className="flex flex--v-center" style={{ flexWrap: 'wrap' }}>
                 {todaysOpeningHours && (
                   <div className="flex flex--v-center">
                     <Space

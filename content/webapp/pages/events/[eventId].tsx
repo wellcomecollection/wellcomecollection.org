@@ -273,7 +273,8 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
               size: 's',
               properties: ['margin-bottom'],
             }}
-            className="flex flex--wrap"
+            className="flex"
+            style={{ flexWrap: 'wrap' }}
           >
             <div className="inline">
               <EventDateRange event={event} />

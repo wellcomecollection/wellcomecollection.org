@@ -82,10 +82,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     align-items: center;
   }
 
-  .flex--wrap {
-    flex-wrap: wrap;
-  }
-
   .inline {
     display: inline;
   }
