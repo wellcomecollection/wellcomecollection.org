@@ -70,10 +70,6 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   // Stop using and clean up where it is used, eventually delete these.
-  .flex {
-    display: flex;
-  }
-
   .inline {
     display: inline;
   }

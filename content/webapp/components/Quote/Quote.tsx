@@ -38,7 +38,7 @@ const Quote: FunctionComponent<Props> = ({
         <PrismicHtmlBlock html={text} />
       </Space>
       {citation && (
-        <footer className="quote__footer flex">
+        <footer className="quote__footer" style={{ display: 'flex' }}>
           <Cite>
             <PrismicHtmlBlock html={citation} />
           </Cite>

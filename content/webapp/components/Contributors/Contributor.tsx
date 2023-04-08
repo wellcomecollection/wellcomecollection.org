@@ -85,7 +85,10 @@ const Contributor: FunctionComponent<ContributorType> = ({
 
   return (
     <div className="grid">
-      <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
+      <div
+        className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
+        style={{ display: 'flex' }}
+      >
         <ContributorImageWrapper>
           {contributor.type === 'people' && (
             <PeopleImage>

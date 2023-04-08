@@ -181,14 +181,13 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <WorkLink id={work.id} source="viewer_back_link">
             <a
-              className={`${font('intr', 5)} flex`}
-              style={{ alignItems: 'center' }}
+              className={font('intr', 5)}
+              style={{ display: 'flex', alignItems: 'center' }}
             >
               Catalogue details
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
-                className="flex"
-                style={{ alignItems: 'center' }}
+                style={{ display: 'flex', alignItems: 'center' }}
               >
                 <Icon icon={arrow} matchText={true} iconColor="white" />
               </Space>

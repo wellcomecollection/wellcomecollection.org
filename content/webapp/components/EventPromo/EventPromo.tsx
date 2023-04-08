@@ -128,8 +128,8 @@ const EventPromo: FunctionComponent<Props> = ({
           {(event.isOnline || event.locations.length > 0) && (
             <Space
               v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
-              className={`${font('intr', 5)} flex`}
-              style={{ alignItems: 'center' }}
+              className={font('intr', 5)}
+              style={{ display: 'flex', alignItems: 'center' }}
             >
               <Icon icon={location} matchText />
               <Space h={{ size: 'xs', properties: ['margin-left'] }}>

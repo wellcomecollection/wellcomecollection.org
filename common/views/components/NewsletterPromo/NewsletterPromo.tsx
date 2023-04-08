@@ -149,7 +149,7 @@ const NewsletterPromo: FunctionComponent = () => {
   return (
     <div className="row">
       <div className="container">
-        <div className="flex" style={{ justifyContent: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div>
             <YellowBox>
               <BoxInner>

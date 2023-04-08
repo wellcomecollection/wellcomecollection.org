@@ -117,7 +117,7 @@ type EventStatusProps = {
 };
 function EventStatus({ text, color }: EventStatusProps) {
   return (
-    <div className="flex">
+    <div style={{ display: 'flex' }}>
       <TextWithDot className={font('intb', 5)} dotColor={color} text={text} />
     </div>
   );
@@ -273,8 +273,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
               size: 's',
               properties: ['margin-bottom'],
             }}
-            className="flex"
-            style={{ flexWrap: 'wrap' }}
+            style={{ display: 'flex', flexWrap: 'wrap' }}
           >
             <div className="inline">
               <EventDateRange event={event} />

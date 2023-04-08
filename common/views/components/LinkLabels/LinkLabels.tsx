@@ -51,13 +51,13 @@ const PlainItemList = styled(PlainList).attrs({
 const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
   heading ? (
     <dl
-      className={`flex no-margin ${font('intr', 5)}`}
-      style={{ flexWrap: 'wrap' }}
+      className={`no-margin ${font('intr', 5)}`}
+      style={{ display: 'flex', flexWrap: 'wrap' }}
     >
       <Space
         as="dt"
         h={{ size: 'xs', properties: ['margin-right'] }}
-        className="flex"
+        style={{ display: 'flex' }}
       >
         {icon && (
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>

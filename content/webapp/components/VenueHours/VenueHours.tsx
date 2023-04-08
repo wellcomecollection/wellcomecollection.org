@@ -241,7 +241,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
               bottomLeft={randomPx()}
             >
               <h3 className={font('intb', 5)}>
-                <div className="flex" style={{ alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Space
                     as="span"
                     h={{ size: 's', properties: ['margin-right'] }}

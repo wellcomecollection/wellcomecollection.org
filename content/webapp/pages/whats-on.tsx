@@ -209,8 +209,8 @@ const Header: FunctionComponent<HeaderProps> = ({
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div
-              className="flex"
               style={{
+                display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 flexWrap: 'wrap',
@@ -220,11 +220,14 @@ const Header: FunctionComponent<HeaderProps> = ({
                 What’s on
               </SectionPageHeader>
               <div
-                className="flex"
-                style={{ alignItems: 'center', flexWrap: 'wrap' }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                }}
               >
                 {todaysOpeningHours && (
-                  <div className="flex" style={{ alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Space
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
@@ -237,7 +240,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                     {!todaysOpeningHours.isClosed && (
                       <>
                         <Space
-                          className="flex"
+                          style={{ display: 'flex' }}
                           as="span"
                           h={{ size: 's', properties: ['margin-right'] }}
                         >
@@ -536,8 +539,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               >
                 <Layout12>
                   <div
-                    className="flex"
                     style={{
+                      display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
                     }}

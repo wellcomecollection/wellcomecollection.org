@@ -124,7 +124,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         {primaryLabels.length > 0 && (
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
-            className="flex"
+            style={{ display: 'flex' }}
           >
             <LabelsList labels={primaryLabels} />
           </Space>
@@ -157,7 +157,10 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           </div>
         )}
         {secondaryLabels.length > 0 && (
-          <Space v={{ size: 's', properties: ['margin-top'] }} className="flex">
+          <Space
+            v={{ size: 's', properties: ['margin-top'] }}
+            style={{ display: 'flex' }}
+          >
             <LabelsList labels={secondaryLabels} defaultLabelColor="black" />
           </Space>
         )}

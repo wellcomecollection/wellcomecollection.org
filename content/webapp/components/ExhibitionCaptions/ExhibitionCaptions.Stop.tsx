@@ -195,7 +195,7 @@ const Stop: FunctionComponent<{
           {!isFirstStop && (
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}></Space>
           )}
-          <div className="flex" style={{ flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             <Tombstone />
             {/* This empty Tombstone is needed for correct alignment of the standaloneTitle */}
             <Space
@@ -223,7 +223,10 @@ const Stop: FunctionComponent<{
             </ContextContainer>
           )}
         >
-          <div className="flex container" style={{ flexWrap: 'wrap' }}>
+          <div
+            className="container"
+            style={{ display: 'flex', flexWrap: 'wrap' }}
+          >
             <Tombstone>
               {!hasContext && title && (
                 <TombstoneTitle

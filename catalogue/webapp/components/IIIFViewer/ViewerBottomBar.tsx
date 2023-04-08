@@ -98,7 +98,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
 
       <RightZone>
         {isEnhanced && isFullscreenEnabled && (
-          <div className="flex" style={{ alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <ShameButton
                 isDark
