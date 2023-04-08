@@ -74,10 +74,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: flex;
   }
 
-  .flex-inline {
-    display: inline-flex;
-  }
-
   .inline {
     display: inline;
   }

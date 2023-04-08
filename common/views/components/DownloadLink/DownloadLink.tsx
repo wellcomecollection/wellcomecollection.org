@@ -99,8 +99,11 @@ const DownloadLink: FunctionComponent<Props> = ({
       }}
     >
       <span
-        className={linkText && 'flex-inline'}
-        style={linkText ? { alignItems: 'center' } : undefined}
+        style={
+          linkText
+            ? { display: 'inline-flex', alignItems: 'center' }
+            : undefined
+        }
       >
         <IconWrapper forceInline={!!children}>
           <Icon icon={download} matchText={!!children} />
