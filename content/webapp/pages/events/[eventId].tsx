@@ -359,6 +359,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
                       }}
                       icon={ticket}
                       text="Check for tickets"
+                      dataGtmTrigger="click_to_book"
                     />
                     {event.thirdPartyBooking.name && (
                       <Space v={{ size: 's', properties: ['margin-top'] }}>
