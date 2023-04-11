@@ -206,8 +206,8 @@ export const getServerSideProps: GetServerSideProps<
     : await getStories({
         query: {
           ...restOfQuery,
-          sort: getQueryPropertyValue(query.sort),
-          sortOrder: getQueryPropertyValue(query.sortOrder),
+          sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+          sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
           ...(pageNumber && { page: pageNumber }),
         },
         pageSize: 6,
