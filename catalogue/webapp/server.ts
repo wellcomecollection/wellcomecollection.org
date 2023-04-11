@@ -8,7 +8,7 @@ const serverPromise = appPromise.then(app => {
     console.log(
       `> ${
         process.env.NODE_ENV || 'development'
-      } ready on http://localhost:${port}/works`
+      } ready on http://localhost:${port}/search/works`
     );
   });
 

@@ -31,6 +31,7 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
               legacyBehavior
             >
               <Anchor
+                data-gtm-trigger="volumes_nav_link"
                 isManifestIndex={i === manifestIndex}
                 aria-current={i === manifestIndex ? 'page' : undefined}
               >

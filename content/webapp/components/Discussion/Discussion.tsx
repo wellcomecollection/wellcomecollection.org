@@ -44,6 +44,9 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
           {isEnhanced && (
             <ButtonContainer>
               <ButtonSolid
+                dataGtmTrigger={
+                  isActive ? 'hide_transcript' : 'show_transcript'
+                }
                 ariaControls="discussion-container"
                 ariaExpanded={isActive}
                 icon={isActive ? minus : plus}

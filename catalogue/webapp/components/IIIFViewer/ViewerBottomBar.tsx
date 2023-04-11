@@ -68,6 +68,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   id: 'pageView',
                   label: 'Page',
                   icon: singlePage,
+                  dataGtmTrigger: 'item_view_page_button',
                   clickHandler() {
                     setGridVisible(false);
                     trackGaEvent({
@@ -81,6 +82,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   id: 'gridView',
                   label: 'Grid',
                   icon: gridView,
+                  dataGtmTrigger: 'item_view_grid_button',
                   clickHandler() {
                     setGridVisible(true);
                     trackGaEvent({

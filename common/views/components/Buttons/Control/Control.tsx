@@ -18,6 +18,7 @@ type WrapperProps = {
   ariaControls?: string;
   ariaExpanded?: boolean;
   ariaPressed?: 'true' | 'false' | 'mixed';
+  dataGtmTrigger?: string;
   colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
   tabIndex?: number;
   id?: string;
@@ -29,6 +30,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   'aria-controls': props.ariaControls || undefined,
   'aria-expanded': props.ariaExpanded || undefined,
   'aria-pressed': props.ariaPressed || undefined,
+  'data-gtm-trigger': props.dataGtmTrigger || undefined,
   tabIndex: props.tabIndex || undefined,
   id: props.id || undefined,
   disabled: props.disabled || undefined,
@@ -162,6 +164,7 @@ type CommonProps = {
   disabled?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
+  dataGtmTrigger?: string;
   ariaPressed?: 'true' | 'false' | 'mixed';
   clickHandler?: (event: Event) => void | Promise<void>;
 };
@@ -205,6 +208,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     ariaControls,
     ariaExpanded,
     ariaPressed,
+    dataGtmTrigger,
   }: Props,
   ref: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ) => {
@@ -212,6 +216,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     ariaControls,
     ariaExpanded,
     ariaPressed,
+    dataGtmTrigger,
     tabIndex,
     id,
     colorScheme,

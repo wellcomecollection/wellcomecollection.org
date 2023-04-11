@@ -298,6 +298,11 @@ const Stop: FunctionComponent<{
                         action: 'read full transcript',
                         label: stop.anchorId,
                       }}
+                      dataGtmTrigger={
+                        isFullTranscription
+                          ? 'hide_transcript'
+                          : 'show_transcript'
+                      }
                       text={
                         isFullTranscription
                           ? 'Hide full transcript'
