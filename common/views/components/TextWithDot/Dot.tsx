@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { FunctionComponent } from 'react';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
-const DotEl = styled.span.attrs({
+const Dot = styled.span.attrs({
   'aria-hidden': true,
 })<{ dotColor: PaletteColor }>`
   font-size: 0.7em;
@@ -13,11 +12,4 @@ const DotEl = styled.span.attrs({
   }
 `;
 
-type Props = {
-  dotColor: PaletteColor;
-};
-
-const Dot: FunctionComponent<Props> = ({ dotColor }) => (
-  <DotEl dotColor={dotColor} />
-);
 export default Dot;
