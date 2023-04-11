@@ -78,6 +78,7 @@ import {
 } from '@weco/content/services/prismic/transformers/whats-on';
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import styled from 'styled-components';
 
 const segmentedControlItems = [
   {
