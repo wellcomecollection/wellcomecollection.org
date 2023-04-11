@@ -11,7 +11,7 @@ export type ContentApiProps = {
 export type ArticleFormat = {
   type: 'ArticleFormat';
   id: ArticleFormatId;
-  label?: string;
+  label: string;
 };
 
 export type Content = {
@@ -19,7 +19,7 @@ export type Content = {
   title: string;
   publicationDate: string;
   contributors: Contributor[];
-  format?: ArticleFormat;
+  format: ArticleFormat;
   image?: EmptyImageFieldImage | FilledImageFieldImage; // TODO
   caption?: string;
   type: 'Article';

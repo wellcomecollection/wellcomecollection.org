@@ -137,17 +137,13 @@ const NewStoriesGrid: FunctionComponent<Props> = ({
                 />
 
                 <MobileLabel>
-                  <LabelsList
-                    labels={[{ text: article.format?.label || 'Article' }]}
-                  />
+                  <LabelsList labels={[{ text: article.format.label }]} />
                 </MobileLabel>
               </ImageWrapper>
             )}
             <Details isDetailed={isDetailed}>
               <DesktopLabel>
-                <LabelsList
-                  labels={[{ text: article.format?.label || 'Article' }]}
-                />
+                <LabelsList labels={[{ text: article.format.label }]} />
               </DesktopLabel>
 
               <h3 className={font('wb', 4)}>{article.title}</h3>
