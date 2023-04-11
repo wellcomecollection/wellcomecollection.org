@@ -654,7 +654,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         }
       }}
     >
-      <div className="flex-inline">
+      <div style={{ display: 'inline-flex' }}>
         {isEnhanced && level > 1 && hasControl && (
           <TreeControl
             highlightCondition={highlightCondition}

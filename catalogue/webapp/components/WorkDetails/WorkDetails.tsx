@@ -341,9 +341,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                   </Space>
                 )}
 
-                {/* Note: there is no class flex-h-center, but there is flex--h-center
-                    Is that what's meant here? */}
-                <div className="flex flex-h-center">
+                <div style={{ display: 'flex' }}>
                   {itemUrl && (
                     <Space
                       as="span"

@@ -35,7 +35,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
           <FindUs />
         </div>
         <div className={`${grid({ s: 12, l: 5, xl: 5 })} ${font('intr', 4)}`}>
-          <div className="flex">
+          <div style={{ display: 'flex' }}>
             <OpeningTimesWrapper>
               <h2 className={`${font('intb', 5)} no-margin`}>
                 Today’s opening times

@@ -444,7 +444,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           <Volume audioPlayer={audioPlayerRef.current} id={id} />
         )}
         <SecondRow>
-          <div className="flex flex--h-space-between">
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div
               className={font('intr', 6)}
               style={{
