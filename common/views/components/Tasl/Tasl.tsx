@@ -210,7 +210,7 @@ const Tasl: FunctionComponent<Props> = ({
   copyrightHolder,
   copyrightLink,
   idSuffix = '',
-}: Props) => {
+}) => {
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(false);
   function toggleWithAnalytics(event: MouseEvent<HTMLButtonElement>) {
