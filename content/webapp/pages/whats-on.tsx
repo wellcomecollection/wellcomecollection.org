@@ -186,6 +186,19 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
   );
 };
 
+const OpeningTimesWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+const OpeningTimes = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
 type HeaderProps = {
   activeId: string;
   todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
@@ -208,24 +221,11 @@ const Header: FunctionComponent<HeaderProps> = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-              }}
-            >
+            <OpeningTimesWrapper>
               <SectionPageHeader sectionLevelPage={true}>
                 What’s on
               </SectionPageHeader>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexWrap: 'wrap',
-                }}
-              >
+              <OpeningTimes>
                 {todaysOpeningHours && (
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Space
@@ -268,8 +268,8 @@ const Header: FunctionComponent<HeaderProps> = ({
                 >
                   Full opening times
                 </NextLink>
-              </div>
-            </div>
+              </OpeningTimes>
+            </OpeningTimesWrapper>
           </div>
           {featuredText && featuredText.value && (
             <Space
