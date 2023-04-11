@@ -48,24 +48,31 @@ const PlainItemList = styled(PlainList).attrs({
   flex-wrap: wrap;
 `;
 
+const ListWithHeading = styled.dl.attrs({
+  className: `no-margin ${font('intr', 5)}`,
+})`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const ListWithHeadingItem = styled(Space).attrs({
+  h: { size: 'xs', properties: ['margin-right'] },
+  as: 'dt',
+})`
+  display: flex;
+`;
+
 const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
   heading ? (
-    <dl
-      className={`no-margin ${font('intr', 5)}`}
-      style={{ display: 'flex', flexWrap: 'wrap' }}
-    >
-      <Space
-        as="dt"
-        h={{ size: 'xs', properties: ['margin-right'] }}
-        style={{ display: 'flex' }}
-      >
+    <ListWithHeading>
+      <ListWithHeadingItem>
         {icon && (
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
             <Icon icon={icon} />
           </Space>
         )}
         {heading}:
-      </Space>
+      </ListWithHeadingItem>
       {items.map(({ url, text }, i) => (
         <dd key={`${url || text}-${i}`} className="no-margin">
           <ItemText url={url} addBorder={i !== 0}>
@@ -73,7 +80,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
           </ItemText>
         </dd>
       ))}
-    </dl>
+    </ListWithHeading>
   ) : (
     <PlainItemList>
       {items.map(({ url, text }, i) => (
