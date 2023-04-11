@@ -136,20 +136,22 @@ const NewStoriesGrid: FunctionComponent<Props> = ({
                   quality="low"
                 />
 
-                {article.type && article.format?.label && (
-                  <MobileLabel>
-                    <LabelsList labels={[{ text: article.format?.label }]} />
-                  </MobileLabel>
-                )}
+                <MobileLabel>
+                  <LabelsList
+                    labels={[{ text: article.format?.label || 'Article' }]}
+                  />
+                </MobileLabel>
               </ImageWrapper>
             )}
             <Details isDetailed={isDetailed}>
-              {article.format && article.format?.label && (
-                <DesktopLabel>
-                  <LabelsList labels={[{ text: article.format?.label }]} />
-                </DesktopLabel>
-              )}
+              <DesktopLabel>
+                <LabelsList
+                  labels={[{ text: article.format?.label || 'Article' }]}
+                />
+              </DesktopLabel>
+
               <h3 className={font('wb', 4)}>{article.title}</h3>
+
               {isDetailed &&
                 (article.publicationDate || !!article.contributors.length) && (
                   <StoryInformation>
