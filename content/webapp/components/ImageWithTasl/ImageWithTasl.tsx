@@ -1,10 +1,10 @@
-import { FunctionComponent, ReactElement } from 'react';
-import Tasl, {
-  MarkupProps as TaslProps,
-} from '@weco/common/views/components/Tasl/Tasl';
+import { ComponentProps, FunctionComponent, ReactElement } from 'react';
+import Tasl from '@weco/common/views/components/Tasl/Tasl';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 import styled from 'styled-components';
+
+type TaslProps = ComponentProps<typeof Tasl>;
 
 const ImageWrapper = styled.div`
   position: relative;

@@ -71,7 +71,7 @@ const InfoContainer = styled(Space).attrs({
   padding-right: 36px;
 `;
 
-export type MarkupProps = {
+type MarkupProps = {
   title?: string;
   author?: string;
   sourceName?: string;
