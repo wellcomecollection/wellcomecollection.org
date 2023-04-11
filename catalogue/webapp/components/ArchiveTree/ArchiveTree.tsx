@@ -8,14 +8,17 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { getWorkClientSide } from '../../services/catalogue/works';
+import { getWorkClientSide } from '@weco/catalogue/services/wellcome/catalogue/works';
 import WorkLink from '../WorkLink';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { getArchiveAncestorArray } from '../../utils/works';
-import { RelatedWork, Work } from '@weco/catalogue/services/catalogue/types';
+import {
+  RelatedWork,
+  Work,
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';

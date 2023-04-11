@@ -3,7 +3,7 @@ import {
   CatalogueResultsList,
   Work,
   Image,
-} from '@weco/catalogue/services/catalogue/types';
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import { quoteVal } from '@weco/common/utils/csv';
 import { toHtmlId } from '@weco/common/utils/string';
 import { ImagesProps } from '@weco/catalogue/components/ImagesLink';

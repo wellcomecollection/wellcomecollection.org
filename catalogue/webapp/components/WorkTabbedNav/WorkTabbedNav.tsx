@@ -1,4 +1,4 @@
-import { Work } from '@weco/catalogue/services/catalogue/types';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { FunctionComponent } from 'react';
 import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
 import { listView, eye } from '@weco/common/icons';

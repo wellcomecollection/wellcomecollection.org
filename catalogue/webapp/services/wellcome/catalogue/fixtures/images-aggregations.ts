@@ -1,7 +1,7 @@
 import {
   CatalogueResultsList,
   Image,
-} from '@weco/catalogue/services/catalogue/types';
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 
 const aggregations: CatalogueResultsList<Image> = {
   type: 'ResultList',
