@@ -35,6 +35,7 @@ const WorkLink: FunctionComponent<Props> = ({
           resultPosition,
         },
       }}
+      className="plain-link card-link"
       as={{
         pathname: `/works/${id}`,
       }}

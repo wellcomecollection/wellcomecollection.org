@@ -13,7 +13,6 @@ export const Wrapper = styled(Space).attrs<{ index: number }>(props => ({
     size: 'l',
     properties: [props.index !== 0 && 'padding-top', 'padding-bottom'],
   },
-  className: 'plain-link card-link',
 }))<{ index: number }>`
   display: block;
 `;
