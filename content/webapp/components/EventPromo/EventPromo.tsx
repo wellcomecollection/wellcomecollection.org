@@ -66,6 +66,14 @@ const DateInfo = styled.p.attrs({
   margin: 0;
 `;
 
+const LocationWrapper = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  className: font('intr', 5),
+})`
+  display: flex;
+  align-items: center;
+`;
+
 const EventPromo: FunctionComponent<Props> = ({
   event,
   position = 0,
@@ -126,15 +134,12 @@ const EventPromo: FunctionComponent<Props> = ({
           </Space>
 
           {(event.isOnline || event.locations.length > 0) && (
-            <Space
-              v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
-              className={`${font('intr', 5)} flex flex--v-center`}
-            >
+            <LocationWrapper>
               <Icon icon={location} matchText />
               <Space h={{ size: 'xs', properties: ['margin-left'] }}>
                 {getLocationText(event.isOnline, event.locations)}
               </Space>
-            </Space>
+            </LocationWrapper>
           )}
 
           {event.availableOnline && (
