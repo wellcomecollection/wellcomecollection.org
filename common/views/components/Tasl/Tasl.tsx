@@ -82,7 +82,7 @@ type MarkupProps = {
   idSuffix?: string;
 };
 
-function getMarkup({
+const Markup: FunctionComponent<MarkupProps> = ({
   title,
   author,
   sourceName,
@@ -90,7 +90,7 @@ function getMarkup({
   license,
   copyrightHolder,
   copyrightLink,
-}: MarkupProps) {
+}) => {
   return (
     <>
       {getTitleHtml(title, author, sourceLink)}
@@ -99,7 +99,7 @@ function getMarkup({
       {getLicenseHtml(license)}
     </>
   );
-}
+};
 
 function getTitleHtml(
   title?: string,
@@ -245,15 +245,15 @@ const Tasl: FunctionComponent<Props> = ({
           'is-hidden': isEnhanced && !isActive,
         })}
       >
-        {getMarkup({
-          title,
-          author,
-          sourceName,
-          sourceLink,
-          license,
-          copyrightHolder,
-          copyrightLink,
-        })}
+        <Markup
+          title={title}
+          author={author}
+          license={license}
+          sourceName={sourceName}
+          sourceLink={sourceLink}
+          copyrightHolder={copyrightHolder}
+          copyrightLink={copyrightLink}
+        />
       </InfoContainer>
     </StyledTasl>
   ) : null;
