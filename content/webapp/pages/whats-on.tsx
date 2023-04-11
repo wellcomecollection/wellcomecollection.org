@@ -78,6 +78,7 @@ import {
 } from '@weco/content/services/prismic/transformers/whats-on';
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import styled from 'styled-components';
 
 const segmentedControlItems = [
   {
@@ -186,6 +187,19 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
   );
 };
 
+const OpeningTimesWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+const OpeningTimes = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
 type HeaderProps = {
   activeId: string;
   todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
@@ -208,13 +222,13 @@ const Header: FunctionComponent<HeaderProps> = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div className="flex flex--v-center flex--h-space-between flex--wrap">
+            <OpeningTimesWrapper>
               <SectionPageHeader sectionLevelPage={true}>
                 What’s on
               </SectionPageHeader>
-              <div className="flex flex--v-center flex--wrap">
+              <OpeningTimes>
                 {todaysOpeningHours && (
-                  <div className="flex flex--v-center">
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Space
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
@@ -227,7 +241,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                     {!todaysOpeningHours.isClosed && (
                       <>
                         <Space
-                          className="flex"
+                          style={{ display: 'flex' }}
                           as="span"
                           h={{ size: 's', properties: ['margin-right'] }}
                         >
@@ -255,8 +269,8 @@ const Header: FunctionComponent<HeaderProps> = ({
                 >
                   Full opening times
                 </NextLink>
-              </div>
-            </div>
+              </OpeningTimes>
+            </OpeningTimesWrapper>
           </div>
           {featuredText && featuredText.value && (
             <Space
@@ -525,7 +539,13 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                 }}
               >
                 <Layout12>
-                  <div className="flex flex--v-center flex--h-space-between">
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
                     <h2 className="h1">Exhibitions and Events</h2>
                     <span className={font('intb', 4)}>Free admission</span>
                   </div>

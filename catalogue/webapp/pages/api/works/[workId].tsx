@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
-import { getWork } from '@weco/catalogue/services/catalogue/works';
+import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { isString } from '@weco/common/utils/type-guards';
 
 const WorksApi = async (

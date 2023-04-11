@@ -289,7 +289,7 @@ const Scrubber: FunctionComponent<ScrubberProps> = ({
         Audio time scrubber
       </label>
       <input
-        className="full-width"
+        style={{ width: '100%' }}
         aria-valuetext={`Elapsed time: ${
           formatTime(startTime).nonVisual
         }, duration ${formatTime(duration).nonVisual}`}
@@ -435,7 +435,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           </PlayPauseInner>
         </PlayPauseButton>
 
-        <div className="full-width">
+        <div style={{ width: '100%' }}>
           <Scrubber
             startTime={startTime}
             duration={duration}
@@ -448,7 +448,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           <Volume audioPlayer={audioPlayerRef.current} id={id} />
         )}
         <SecondRow>
-          <div className="flex flex--h-space-between">
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div
               className={font('intr', 6)}
               style={{

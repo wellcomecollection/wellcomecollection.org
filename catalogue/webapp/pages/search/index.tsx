@@ -5,7 +5,8 @@ import { ParsedUrlQuery } from 'querystring';
 
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
-import StoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid';
+import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
+import NewStoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid.New';
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -17,12 +18,16 @@ import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
-import { Story } from '@weco/catalogue/services/prismic/types';
+import {
+  PrismicApiError,
+  PrismicResultsList,
+  Story,
+} from '@weco/catalogue/services/prismic/types';
 import { font } from '@weco/common/utils/classnames';
-import { getWorks } from '@weco/catalogue/services/catalogue/works';
+import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
-import { getImages } from '@weco/catalogue/services/catalogue/images';
-import { Image, Work } from '@weco/catalogue/services/catalogue/types';
+import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
+import { Image, Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   getQueryResults,
   getQueryPropertyValue,
@@ -34,6 +39,12 @@ import {
 } from '@weco/common/utils/routes';
 import theme from '@weco/common/views/themes/default';
 import { formatNumber } from '@weco/common/utils/grammar';
+import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
+import {
+  ContentApiError,
+  ContentResultsList,
+} from '@weco/catalogue/services/wellcome/content/types';
+import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -47,6 +58,7 @@ type Props = {
   works?: ResultsProps<Work>;
   images?: ResultsProps<Image>;
   stories?: ResultsProps<Story>;
+  newStories?: ResultsProps<Content>;
   query: Query;
   pageview: Pageview;
 };
@@ -91,9 +103,11 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   works,
   images,
   stories,
+  newStories,
   query,
 }) => {
   const { query: queryString } = query;
+  const returnedStories = stories || newStories;
 
   const SeeMoreButton = ({
     text,
@@ -124,26 +138,39 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           </div>
         ) : (
           <>
-            {stories && (
+            {returnedStories && (
               <StoriesSection as="section">
                 <div className="container">
                   <SectionTitle sectionName="Stories" />
 
-                  <StoriesGrid
-                    stories={stories.pageResults}
-                    dynamicImageSizes={{
-                      xlarge: 1 / 5,
-                      large: 1 / 5,
-                      medium: 1 / 2,
-                      small: 1 / 2,
-                    }}
-                  />
+                  {newStories && (
+                    <NewStoriesGrid
+                      articles={newStories.pageResults}
+                      dynamicImageSizes={{
+                        xlarge: 1 / 5,
+                        large: 1 / 5,
+                        medium: 1 / 2,
+                        small: 1 / 2,
+                      }}
+                    />
+                  )}
+                  {stories && (
+                    <StoriesGrid
+                      stories={stories.pageResults}
+                      dynamicImageSizes={{
+                        xlarge: 1 / 5,
+                        large: 1 / 5,
+                        medium: 1 / 2,
+                        small: 1 / 2,
+                      }}
+                    />
+                  )}
 
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text="All stories"
                       pathname="/search/stories"
-                      totalResults={stories.totalResults}
+                      totalResults={returnedStories.totalResults}
                     />
                   </Space>
                 </div>
@@ -199,6 +226,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const query = context.query;
     const params = fromQuery(query);
+    const { contentApi } = serverData.toggles;
 
     const pageview: Pageview = {
       name: 'search',
@@ -214,18 +242,40 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     try {
       // Stories
       // We want the default order to be "descending publication date"
-      const storiesResults = await getStories({
-        query: {
-          ...query,
-          sort: getQueryPropertyValue(query.sort) || 'publication.dates',
-          sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
-        },
-        pageSize: 4,
-      });
-      const stories = getQueryResults({
-        categoryName: 'stories',
-        queryResults: storiesResults,
-      });
+      const storiesParams = {
+        ...query,
+        sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+        sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+      };
+
+      const storiesResults = contentApi
+        ? await getArticles({
+            params: storiesParams,
+            pageSize: 4,
+            toggles: serverData.toggles,
+          })
+        : await getStories({
+            query: storiesParams,
+            pageSize: 4,
+          });
+
+      const newStories = contentApi
+        ? getQueryResults({
+            categoryName: 'stories',
+            queryResults: storiesResults as
+              | ContentResultsList<Content>
+              | ContentApiError,
+          })
+        : undefined;
+
+      const stories = contentApi
+        ? undefined
+        : getQueryResults({
+            categoryName: 'stories',
+            queryResults: storiesResults as
+              | PrismicResultsList<Story>
+              | PrismicApiError,
+          });
 
       // Works
       const _worksQueryType = getCookie('_queryType') as string | undefined;
@@ -265,7 +315,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: {
           ...defaultProps,
-          ...(stories?.pageResults.length && { stories }),
+          ...(stories && stories.pageResults?.length && { stories }),
+          ...(newStories && newStories.pageResults?.length && { newStories }),
           ...(images?.pageResults.length && { images }),
           ...(works?.pageResults.length && { works }),
         },

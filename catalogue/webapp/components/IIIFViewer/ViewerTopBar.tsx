@@ -304,7 +304,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
         </MiddleZone>
         <RightZone>
           {isEnhanced && (
-            <div className="flex flex--v-center">
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {!showZoomed && (
                 <Space h={{ size: 's', properties: ['margin-right'] }}>
                   <Download

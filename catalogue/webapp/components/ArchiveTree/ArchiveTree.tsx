@@ -8,14 +8,17 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { getWorkClientSide } from '../../services/catalogue/works';
+import { getWorkClientSide } from '@weco/catalogue/services/wellcome/catalogue/works';
 import WorkLink from '../WorkLink';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { getArchiveAncestorArray } from '../../utils/works';
-import { RelatedWork, Work } from '@weco/catalogue/services/catalogue/types';
+import {
+  RelatedWork,
+  Work,
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
@@ -165,6 +168,8 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
 type StyledLinkProps = {
   isCurrent?: boolean;
   hasControl?: boolean;
+  'data-gtm-trigger': 'tree_link';
+  'data-gtm-data-tree-level': number;
 };
 
 const StyledLink = styled.a<StyledLinkProps>`
@@ -652,7 +657,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         }
       }}
     >
-      <div className="flex-inline">
+      <div style={{ display: 'inline-flex' }}>
         {isEnhanced && level > 1 && hasControl && (
           <TreeControl
             data-gtm-trigger="tree_chevron"
@@ -682,6 +687,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
             isCurrent={currentWorkId === item.work.id}
             ref={currentWorkId === item.work.id ? selected : undefined}
+            data-gtm-trigger="tree_link"
+            data-gtm-data-tree-level={level}
             onClick={event => {
               event.stopPropagation();
               setShowArchiveTree(false);

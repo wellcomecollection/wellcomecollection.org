@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Work } from '@weco/catalogue/services/catalogue/types';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
@@ -10,7 +10,7 @@ import {
   LicenseData,
 } from '@weco/common/utils/licenses';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
-import { getWork } from '@weco/catalogue/services/catalogue/works';
+import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download from '@weco/catalogue/components/Download/Download';
@@ -22,7 +22,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import { looksLikeCanonicalId } from '@weco/catalogue/services/catalogue';
+import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
 

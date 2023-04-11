@@ -1,7 +1,7 @@
 import {
   CatalogueResultsList,
   Work,
-} from '@weco/catalogue/services/catalogue/types';
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 
 const aggregations: CatalogueResultsList<Work> = {
   type: 'ResultList',

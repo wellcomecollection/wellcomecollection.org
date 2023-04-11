@@ -1,5 +1,5 @@
 import { Event } from '../../types/events';
-import { FunctionComponent, Fragment } from 'react';
+import { FunctionComponent } from 'react';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Message from '@weco/common/views/components/Message/Message';
 import { font } from '@weco/common/utils/classnames';
@@ -11,8 +11,8 @@ type Props = {
   event: Event;
 };
 
-function getButtonMarkup(event: Event) {
-  if (!event.eventbriteId) return;
+const BookingButtonLink: FunctionComponent<Props> = ({ event }) => {
+  if (!event.eventbriteId) return null;
 
   if (event.isCompletelySoldOut) {
     return <Message text="Fully booked" />;
@@ -20,17 +20,17 @@ function getButtonMarkup(event: Event) {
     return (
       <div data-eventbrite-ticket-id={event.eventbriteId}>
         <ButtonSolidLink
-          link={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
+          link={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
           icon={ticketAvailable}
           text="Book free tickets"
         />
       </div>
     );
   }
-}
+};
 
-function getBookingEnquiryMarkup(event: Event) {
-  if (!event.bookingEnquiryTeam) return;
+const BookingEnquiryLink: FunctionComponent<Props> = ({ event }) => {
+  if (!event.bookingEnquiryTeam) return null;
 
   if (event.isCompletelySoldOut) {
     return <Message text="Fully booked" />;
@@ -43,7 +43,7 @@ function getBookingEnquiryMarkup(event: Event) {
       />
     );
   }
-}
+};
 
 type EventBookingButtonProps = {
   email: string;
@@ -64,19 +64,19 @@ const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
   color: ${props => props.theme.color('neutral.700')};
 `;
 
-const EventBookingButton: FunctionComponent<Props> = ({ event }: Props) => {
+const EventBookingButton: FunctionComponent<Props> = ({ event }) => {
   const team = event.bookingEnquiryTeam;
 
   return (
-    <Fragment>
-      {getButtonMarkup(event)}
-      {getBookingEnquiryMarkup(event)}
+    <>
+      <BookingButtonLink event={event} />
+      <BookingEnquiryLink event={event} />
       {team && (
         <EventBookingButtonLink email={team.email} title={event.title}>
           {team.email}
         </EventBookingButtonLink>
       )}
-    </Fragment>
+    </>
   );
 };
 

@@ -65,10 +65,7 @@ const EventDateRange: FunctionComponent<Props> = ({
   );
   const dateRange =
     earliestFutureDateRange || (dateRanges.length > 0 ? dateRanges[0] : null);
-  const DateInfo = dateRange && (
-    <DateRange {...dateRange} splitTime={splitTime} />
-  );
 
-  return DateInfo;
+  return dateRange && <DateRange {...dateRange} splitTime={splitTime} />;
 };
 export default EventDateRange;

@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { Work, Image } from '@weco/catalogue/services/catalogue/types';
+import { Work, Image } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { toLink as imageLink } from '@weco/catalogue/components/ImageLink';
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -9,12 +9,12 @@ import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
 import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { getWork } from '@weco/catalogue/services/catalogue/works';
-import { getImage } from '@weco/catalogue/services/catalogue/images';
+import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { getImage } from '@weco/catalogue/services/wellcome/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { looksLikeCanonicalId } from '@weco/catalogue/services/catalogue';
+import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
 import { createDefaultTransformedManifest } from '@weco/catalogue/types/manifest';
 import {
   ApiToolbarLink,

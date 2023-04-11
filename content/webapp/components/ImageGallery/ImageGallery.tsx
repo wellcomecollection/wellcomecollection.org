@@ -374,7 +374,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                   }
                 : undefined
             }
-            className="relative"
+            style={{ position: 'relative' }}
           >
             {(isStandalone || isFrames) && (
               <StandaloneWobblyEdge>

@@ -30,7 +30,6 @@ type DropdownProps = {
 const Dropdown = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  className: 'shadow',
 })<DropdownProps>`
   background-color: ${props => props.theme.color('white')};
   margin-top: -2px;
@@ -39,6 +38,7 @@ const Dropdown = styled(Space).attrs({
   white-space: nowrap;
   transition: opacity 350ms ease, transform 350ms ease;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
+  box-shadow: ${props => props.theme.basicBoxShadow};
 
   &,
   &.fade-exit-done {

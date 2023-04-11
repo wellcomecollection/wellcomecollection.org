@@ -142,11 +142,11 @@ const EventContentTypeInfo = () => (
         size: 's',
         properties: ['margin-bottom'],
       }}
-      className="flex flex--wrap"
+      style={{ display: 'flex', flexWrap: 'wrap' }}
     >
       Saturday 8 February 2020, 13:00 – 16:00
     </Space>
-    <div className="flex">
+    <div style={{ display: 'flex' }}>
       <TextWithDot
         className={font('intb', 5)}
         dotColor="neutral.500"
@@ -157,7 +157,7 @@ const EventContentTypeInfo = () => (
 );
 
 const ExhibitionContentTypeInfo = () => (
-  <div className="flex">
+  <div style={{ display: 'flex' }}>
     <TextWithDot
       className={font('intb', 5)}
       dotColor="neutral.500"

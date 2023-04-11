@@ -9,7 +9,10 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import { PhysicalItem, Work } from '@weco/catalogue/services/catalogue/types';
+import {
+  PhysicalItem,
+  Work,
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   getLocationLabel,
   getLocationShelfmark,

@@ -1,21 +1,11 @@
 import {
-  CatalogueApiError,
   CatalogueApiRedirect,
   CatalogueResultsList,
   CatalogueWorksApiProps,
   ItemsList,
   Work,
 } from './types';
-import {
-  catalogueApiError,
-  globalApiOptions,
-  looksLikeCanonicalId,
-  rootUris,
-  notFound,
-  catalogueFetch,
-  catalogueQuery,
-  QueryProps,
-} from '.';
+import { looksLikeCanonicalId, rootUris, notFound, catalogueQuery } from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
@@ -23,6 +13,13 @@ import {
   toQuery,
   WorksProps,
 } from '@weco/catalogue/components/WorksLink';
+import {
+  QueryProps,
+  globalApiOptions,
+  wellcomeApiError,
+  wellcomeApiFetch,
+  WellcomeApiError,
+} from '..';
 
 type GetWorkProps = {
   id: string;
@@ -99,7 +96,7 @@ function toIsoDateString(
  */
 export async function getWorks(
   props: QueryProps<CatalogueWorksApiProps>
-): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
+): Promise<CatalogueResultsList<Work> | WellcomeApiError> {
   const params: WorksProps = {
     ...emptyWorksProps,
     ...props.params,
@@ -128,7 +125,7 @@ export async function getWorks(
 
 type WorkResponse =
   | (Work & { url: string })
-  | CatalogueApiError
+  | WellcomeApiError
   | CatalogueApiRedirect;
 
 export async function getWork({
@@ -148,7 +145,7 @@ export async function getWork({
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
   const url = `${rootUris[apiOptions.env]}/v2/works/${id}?${searchParams}`;
 
-  const res = await catalogueFetch(url, { redirect: 'manual' });
+  const res = await wellcomeApiFetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
   // latter to the former. This would happen quietly on the API request, but we
@@ -177,7 +174,7 @@ export async function getWork({
     const work = await res.json();
     return { ...work, url };
   } catch (e) {
-    return catalogueApiError();
+    return wellcomeApiError();
   }
 }
 
@@ -200,7 +197,7 @@ export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
 export async function getWorkItemsClientSide(
   workId: string,
   signal: AbortSignal | null
-): Promise<ItemsList | CatalogueApiError> {
+): Promise<ItemsList | WellcomeApiError> {
   // passing credentials: 'same-origin' ensures we pass the cookies to
   // the API; in particular the toggle cookies
   const response = await fetch(`/api/works/items/${workId}`, {

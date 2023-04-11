@@ -30,7 +30,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { Work } from '@weco/catalogue/services/catalogue/types';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
@@ -341,9 +341,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                   </Space>
                 )}
 
-                {/* Note: there is no class flex-h-center, but there is flex--h-center
-                    Is that what's meant here? */}
-                <div className="flex flex-h-center">
+                <div style={{ display: 'flex' }}>
                   {itemUrl && (
                     <Space
                       as="span"

@@ -133,8 +133,9 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
   return (
     <ToolbarContainer mini={mini}>
       <div
-        className="flex flex--v-center"
         style={{
+          display: 'flex',
+          alignItems: 'center',
           flexGrow: 1,
         }}
       >

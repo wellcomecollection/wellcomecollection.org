@@ -1,6 +1,9 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
-import { PhysicalItem, Work } from '@weco/catalogue/services/catalogue/types';
+import {
+  PhysicalItem,
+  Work,
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import {
   useAbortSignalEffect,
@@ -12,7 +15,7 @@ import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
-import { getWorkItemsClientSide } from 'services/catalogue/works';
+import { getWorkItemsClientSide } from '@weco/catalogue/services/wellcome/catalogue/works';
 
 type Props = {
   work: Work;

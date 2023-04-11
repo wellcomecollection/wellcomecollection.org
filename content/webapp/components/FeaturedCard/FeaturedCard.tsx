@@ -276,7 +276,10 @@ const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
             />
           )}
         </FeaturedCardLeft>
-        <div className={`flex ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`}>
+        <div
+          className={grid({ s: 12, m: 11, l: 5, xl: 5 })}
+          style={{ display: 'flex' }}
+        >
           <FeaturedCardRight isReversed={isReversed}>
             {labels && labels.length > 0 ? (
               <LabelsList labels={labels} />

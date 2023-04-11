@@ -188,14 +188,6 @@ type ImageInclude = {
 };
 
 // Response objects
-export type CatalogueApiError = {
-  errorType: string;
-  httpStatus: number;
-  label: string;
-  description: string;
-  type: 'Error';
-};
-
 export type CatalogueApiRedirect = {
   status: number;
   redirectToId: string;

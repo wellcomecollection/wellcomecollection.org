@@ -4,7 +4,7 @@ import {
   isValidType,
 } from '@weco/content/types/exhibition-guides';
 import { deleteCookie, getCookie } from 'cookies-next';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuide } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import {
@@ -162,7 +162,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const ExhibitionGuidePage: FC<Props> = props => {
+const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   useHotjar(true);
 
   const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;

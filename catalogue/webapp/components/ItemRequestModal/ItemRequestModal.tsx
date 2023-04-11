@@ -8,13 +8,13 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import {
   PhysicalItem,
   Work,
-  CatalogueApiError,
-} from '@weco/catalogue/services/catalogue/types';
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import LL from '@weco/common/views/components/styled/LL';
 import RequestDialog from './RequestDialog';
 import ConfirmedDialog from './ConfirmedDialog';
 import ErrorDialog from './ErrorDialog';
 import { formatDateForRequestsAPI } from './format-date';
+import { WellcomeApiError } from '@weco/catalogue/services/wellcome';
 
 type Props = {
   work: Work;
@@ -73,7 +73,7 @@ const ItemRequestModal: FunctionComponent<Props> = ({
         },
       });
       if (!response.ok) {
-        const responseJson = (await response.json()) as CatalogueApiError;
+        const responseJson = (await response.json()) as WellcomeApiError;
         setRequestingState('error');
         setRequestingError(responseJson.description);
       } else {

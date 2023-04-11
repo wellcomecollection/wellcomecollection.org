@@ -1,4 +1,4 @@
-import { Work } from '@weco/catalogue/services/catalogue/types';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import styled from 'styled-components';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -110,7 +110,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
     <ArchiveBreadcrumbNav>
       <ul>
         {firstCrumb && (
-          <li className="flex">
+          <li style={{ display: 'flex' }}>
             <Icon matchText={true} icon={archive} />
             <ArchiveWorkLink id={firstCrumb.id}>
               <a
@@ -133,7 +133,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
                 <ul>
                   {middleCrumbs.map(crumb => {
                     return (
-                      <li key={crumb.id} className="flex">
+                      <li key={crumb.id} style={{ display: 'flex' }}>
                         <Icon matchText={true} icon={folder} />
                         <ArchiveWorkLink id={crumb.id}>
                           <a
@@ -157,7 +157,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
           <>
             {middleCrumbs.map(crumb => {
               return (
-                <li key={crumb.id} className="flex">
+                <li key={crumb.id} style={{ display: 'flex' }}>
                   <Icon matchText={true} icon={folder} />
                   <ArchiveWorkLink id={crumb.id}>
                     <a
@@ -179,7 +179,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
           </>
         )}
         {lastCrumb && (
-          <li className="flex">
+          <li style={{ display: 'flex' }}>
             <Icon matchText={true} icon={folder} />
             <span className="crumb-inner">
               <WorkTitle
