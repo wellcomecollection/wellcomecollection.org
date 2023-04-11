@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
@@ -115,15 +115,16 @@ type EventStatusProps = {
   text: string;
   color: PaletteColor;
 };
-function EventStatus({ text, color }: EventStatusProps) {
+
+const EventStatus: FunctionComponent<EventStatusProps> = ({ text, color }) => {
   return (
     <div style={{ display: 'flex' }}>
       <TextWithDot className={font('intb', 5)} dotColor={color} text={text} />
     </div>
   );
-}
+};
 
-function DateList(event: Event) {
+const DateList: FunctionComponent<{ event: Event }> = ({ event }) => {
   return (
     event.times && (
       <>
@@ -137,19 +138,19 @@ function DateList(event: Event) {
                 />
               </DateRangeWrapper>
 
-              {isDayPast(eventTime.range.endDateTime)
-                ? EventStatus({ text: 'Past', color: 'neutral.500' })
-                : eventTime.isFullyBooked.inVenue &&
-                  eventTime.isFullyBooked.online
-                ? EventStatus({ text: 'Full', color: 'validation.red' })
-                : null}
+              {isDayPast(eventTime.range.endDateTime) ? (
+                <EventStatus text="Past" color="neutral.500" />
+              ) : eventTime.isFullyBooked.inVenue &&
+                eventTime.isFullyBooked.online ? (
+                <EventStatus text="Full" color="validation.red" />
+              ) : null}
             </TimeWrapper>
           );
         })}
       </>
     )
   );
-}
+};
 
 function showTicketSalesStart(dateTime: Date | undefined) {
   return dateTime && !isPast(dateTime);
@@ -210,12 +211,10 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
     ? event.body.slice(1, event.body.length)
     : event.body;
   const eventFormat = event.format ? [{ text: event.format.title }] : [];
-  const eventAudiences = event.audiences
-    ? event.audiences.map(a => ({ text: a.title }))
-    : [];
-  const eventInterpretations = event.interpretations
-    ? event.interpretations.map(i => ({ text: i.interpretationType.title }))
-    : [];
+  const eventAudiences = event.audiences.map(a => ({ text: a.title }));
+  const eventInterpretations = event.interpretations.map(i => ({
+    text: i.interpretationType.title,
+  }));
   const relaxedPerformanceLabel = event.isRelaxedPerformance
     ? [{ text: 'Relaxed' }]
     : [];
@@ -319,7 +318,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
       >
         <DateWrapper>
           <h2 id="dates">Dates</h2>
-          {DateList(event)}
+          <DateList event={event} />
         </DateWrapper>
         {event.schedule && event.schedule.length > 0 && (
           <>

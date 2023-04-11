@@ -70,20 +70,19 @@ const EventScheduleItem: FunctionComponent<Props> = ({
     <GridWrapper>
       <div className="grid">
         <EventTimesWrapper>
-          {event.times &&
-            event.times.map(t => {
-              const startTimeString = t.range.startDateTime.toISOString();
-              return (
-                <h4
-                  key={`${event.title} ${startTimeString}`}
-                  className={`${font('intb', 5)} no-margin`}
-                >
-                  <HTMLTime date={t.range.startDateTime} />
-                  {' – '}
-                  <HTMLTime date={t.range.endDateTime} />
-                </h4>
-              );
-            })}
+          {event.times.map(t => {
+            const startTimeString = t.range.startDateTime.toISOString();
+            return (
+              <h4
+                key={`${event.title} ${startTimeString}`}
+                className={`${font('intb', 5)} no-margin`}
+              >
+                <HTMLTime date={t.range.startDateTime} />
+                {' – '}
+                <HTMLTime date={t.range.endDateTime} />
+              </h4>
+            );
+          })}
         </EventTimesWrapper>
         <div className={grid({ s: 12, m: 12, l: 9, xl: 10 })}>
           <div>

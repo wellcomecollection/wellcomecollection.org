@@ -1,4 +1,4 @@
-import { font } from '../../../../common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
@@ -26,19 +26,23 @@ const WatchText = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.700')};
 `;
 
+const Wrapper = styled.div.attrs({
+  className: font('intr', 4),
+})`
+  display: flex;
+  align-items: center;
+`;
+
 type Props = {
   text: string | ReactElement;
 };
 
-const WatchLabel: FunctionComponent<Props> = ({ text }: Props) => (
-  <div
-    className={font('intr', 4)}
-    style={{ display: 'flex', alignItems: 'center' }}
-  >
+const WatchLabel: FunctionComponent<Props> = ({ text }) => (
+  <Wrapper>
     <WatchIconWrapper>
       <Icon icon={play} matchText={true} />
     </WatchIconWrapper>
     <WatchText>{text}</WatchText>
-  </div>
+  </Wrapper>
 );
 export default WatchLabel;

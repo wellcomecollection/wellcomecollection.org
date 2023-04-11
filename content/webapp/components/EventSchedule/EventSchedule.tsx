@@ -16,13 +16,11 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
   const events = schedule.map(({ event }) => event);
   const groupedEvents = groupEventsByDay(events);
   const isNotLinkedIds = schedule
-    .map(({ event, isNotLinked }) => {
-      return isNotLinked ? event.id : null;
-    })
-    .filter(Boolean);
+    .filter(({ isNotLinked }) => isNotLinked)
+    .map(({ event }) => event.id);
 
   return (
-    <Fragment>
+    <>
       {groupedEvents.map(
         eventsGroup =>
           eventsGroup.events.length > 0 && (
@@ -46,7 +44,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
             </Fragment>
           )
       )}
-    </Fragment>
+    </>
   );
 };
 export default EventSchedule;
