@@ -197,7 +197,10 @@ export const getServerSideProps: GetServerSideProps<
       })
     : undefined;
 
-  if (storyResponseList?.type === 'Error') {
+  if (
+    storyResponseList?.type === 'Error' ||
+    newStoryResponseList?.type === 'Error'
+  ) {
     // Prismic returns Internal Server Errors without much details for certain queries, such as query=t:"PP.PRE.D.1.1"
     // As this is a temporary search tool until we replace it with our own API, we'll just return No Result should it happen
     return {
@@ -228,12 +231,24 @@ export const getServerSideProps: GetServerSideProps<
       pageview: {
         name: 'stories',
         properties: {
-          totalResults:
-            storyResponseList?.type === 'ResultList'
-              ? storyResponseList.totalResults
-              : 0,
+          totalResults: newStoryResponseList
+            ? newStoryResponseList?.type === 'ResultList'
+              ? newStoryResponseList.results
+              : 0
+            : storyResponseList?.type === 'ResultList'
+            ? storyResponseList.totalResults
+            : 0,
         },
       },
+      apiToolbarLinks: newStoryResponseList
+        ? [
+            {
+              id: 'content-api',
+              label: 'Content API query',
+              link: newStoryResponseList._requestUrl,
+            },
+          ]
+        : [],
     }),
   };
 };
