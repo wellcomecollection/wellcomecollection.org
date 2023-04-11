@@ -102,10 +102,8 @@ const MediaObjectBase: FunctionComponent<Props> = ({
     <LinkOrDivSpace
       v={{
         size: 'l',
-        properties: [
-          'padding-top',
-          x === y ? undefined : 'padding-bottom',
-        ].filter(Boolean) as VerticalSpaceProperty[],
+        properties:
+          x === y ? ['padding-top'] : ['padding-top', 'padding-bottom'],
       }}
       url={urlProp}
       className={classNames({
