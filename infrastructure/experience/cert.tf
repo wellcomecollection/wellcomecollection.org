@@ -1,5 +1,5 @@
 module "wellcomecollection_cert" {
-  source = "../modules/certificate"
+  source = "github.com/wellcomecollection/terraform-aws-acm-certificate?ref=v1.0.0"
 
   domain_name = "wellcomecollection.org"
 
