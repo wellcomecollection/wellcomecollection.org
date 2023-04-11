@@ -82,31 +82,14 @@ type MarkupProps = {
   idSuffix?: string;
 };
 
-const Markup: FunctionComponent<MarkupProps> = ({
+type TitleProps = { title?: string; author?: string; sourceLink?: string };
+
+const Title: FunctionComponent<TitleProps> = ({
   title,
   author,
-  sourceName,
   sourceLink,
-  license,
-  copyrightHolder,
-  copyrightLink,
 }) => {
-  return (
-    <>
-      {getTitleHtml(title, author, sourceLink)}
-      {getSourceHtml(sourceName, sourceLink)}
-      {getCopyrightHtml(copyrightHolder, copyrightLink)}
-      {getLicenseHtml(license)}
-    </>
-  );
-};
-
-function getTitleHtml(
-  title?: string,
-  author?: string,
-  sourceLink?: string
-): ReactElement | undefined {
-  if (!title) return;
+  if (!title) return null;
 
   const byAuthor = author ? `, ${author}` : '';
 
@@ -130,13 +113,12 @@ function getTitleHtml(
       </>
     );
   }
-}
+};
 
-function getSourceHtml(
-  sourceName?: string,
-  sourceLink?: string
-): ReactElement | undefined {
-  if (!sourceName) return;
+type SourceProps = { sourceName?: string; sourceLink?: string };
+
+const Source: FunctionComponent<SourceProps> = ({ sourceName, sourceLink }) => {
+  if (!sourceName) return null;
 
   if (sourceLink) {
     return (
@@ -151,13 +133,18 @@ function getSourceHtml(
   } else {
     return <>Source: {sourceName}. </>;
   }
-}
+};
 
-function getCopyrightHtml(
-  copyrightHolder?: string,
-  copyrightLink?: string
-): ReactElement | undefined {
-  if (!copyrightHolder) return;
+type CopyrightProps = {
+  copyrightHolder?: string;
+  copyrightLink?: string;
+};
+
+const Copyright: FunctionComponent<CopyrightProps> = ({
+  copyrightHolder,
+  copyrightLink,
+}) => {
+  if (!copyrightHolder) return null;
 
   if (copyrightLink) {
     return (
@@ -168,12 +155,14 @@ function getCopyrightHtml(
   } else {
     return <>&copy; {copyrightHolder}. </>;
   }
-}
+};
 
-function getLicenseHtml(license?: string): ReactElement | undefined {
+type LicenseProps = { license?: string };
+
+const License: FunctionComponent<LicenseProps> = ({ license }) => {
   const licenseData = license && getPrismicLicenseData(license);
 
-  if (!licenseData) return;
+  if (!licenseData) return null;
 
   return (
     <>
@@ -183,7 +172,29 @@ function getLicenseHtml(license?: string): ReactElement | undefined {
       .
     </>
   );
-}
+};
+
+const Markup: FunctionComponent<MarkupProps> = ({
+  title,
+  author,
+  sourceName,
+  sourceLink,
+  license,
+  copyrightHolder,
+  copyrightLink,
+}) => {
+  return (
+    <>
+      <Title title={title} author={author} sourceLink={sourceLink} />
+      <Source sourceName={sourceName} sourceLink={sourceLink} />
+      <Copyright
+        copyrightHolder={copyrightHolder}
+        copyrightLink={copyrightLink}
+      />
+      <License license={license} />
+    </>
+  );
+};
 
 export type Props = MarkupProps & {
   positionTop?: boolean;
