@@ -71,7 +71,7 @@ const InfoContainer = styled(Space).attrs({
   padding-right: 36px;
 `;
 
-export type MarkUpProps = {
+export type MarkupProps = {
   title?: string;
   author?: string;
   sourceName?: string;
@@ -90,7 +90,7 @@ function getMarkup({
   license,
   copyrightHolder,
   copyrightLink,
-}: MarkUpProps) {
+}: MarkupProps) {
   return (
     <>
       {getTitleHtml(title, author, sourceLink)}
@@ -185,7 +185,7 @@ function getLicenseHtml(license?: string): ReactElement | undefined {
   );
 }
 
-export type Props = MarkUpProps & {
+export type Props = MarkupProps & {
   positionTop?: boolean;
 };
 

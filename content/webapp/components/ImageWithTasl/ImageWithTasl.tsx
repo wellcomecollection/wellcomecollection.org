@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactElement } from 'react';
 import Tasl, {
-  MarkUpProps as TaslProps,
+  MarkupProps as TaslProps,
 } from '@weco/common/views/components/Tasl/Tasl';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
