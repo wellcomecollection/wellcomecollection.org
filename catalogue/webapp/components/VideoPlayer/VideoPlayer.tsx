@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState, useRef } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
 import { Video } from '../../services/iiif/types/manifest/v3';
@@ -15,13 +15,18 @@ const VideoPlayer: FunctionComponent<Props> = ({
   showDownloadOptions,
 }: Props) => {
   const [secondsPlayed, setSecondsPlayed] = useState(0);
+  const secondsPlayedRef = useRef(secondsPlayed);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    secondsPlayedRef.current = secondsPlayed;
+  }, [secondsPlayed]);
 
   function trackViewingTime() {
     trackGaEvent({
       category: 'Engagement',
       action: 'Amount of media played',
-      value: secondsPlayed,
+      value: secondsPlayedRef.current,
       nonInteraction: true,
       transport: 'beacon',
       label: 'Video',
