@@ -27,7 +27,7 @@ const SectionWithDivider = styled(Space).attrs({
 const WorkDetailsSection: FunctionComponent<Props> = ({
   headingText,
   children,
-}: Props) => {
+}) => {
   const isArchive = useContext(IsArchiveContext);
 
   return (
