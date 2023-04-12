@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  MouseEvent,
-  ReactElement,
-  useContext,
-  useState,
-} from 'react';
+import { FunctionComponent, MouseEvent, useContext, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { getPrismicLicenseData } from '../../../utils/licenses';
 import { trackGaEvent } from '../../../utils/ga';
