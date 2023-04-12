@@ -132,7 +132,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   return (
     <main>
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-        {!stories && !images && !works ? (
+        {!returnedStories && !images && !works ? (
           <div className="container">
             <SearchNoResults query={queryString} />
           </div>
