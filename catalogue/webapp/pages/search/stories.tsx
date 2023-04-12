@@ -21,6 +21,7 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
+import { useToggles } from '@weco/common/server-data/Context';
 
 // Types
 import {
@@ -59,7 +60,29 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   query,
 }) => {
   const { query: queryString } = query;
+  const { contentApi } = useToggles();
   const returnedStories = storyResponseList || newStoryResponseList;
+
+  const sortOptions = [
+    // Default value to be left empty as to not be reflected in URL query
+    ...(contentApi
+      ? [
+          {
+            value: '',
+            text: 'Relevance',
+          },
+        ]
+      : []),
+
+    {
+      value: 'publication.dates.asc',
+      text: 'Oldest to newest',
+    },
+    {
+      value: contentApi ? 'publication.dates.desc' : '',
+      text: 'Newest to oldest',
+    },
+  ];
 
   return (
     <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
@@ -77,16 +100,22 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 <SortPaginationWrapper>
                   <Sort
                     formId="search-page-form"
-                    options={[
-                      // Default value to be left empty as to not be reflected in URL query
-                      {
-                        value: 'publication.dates.asc',
-                        text: 'Oldest to newest',
-                      },
-                      { value: '', text: 'Newest to oldest' },
-                    ]}
+                    options={sortOptions}
                     jsLessOptions={{
-                      sort: [{ value: '', text: 'Publication dates' }],
+                      sort: [
+                        ...(contentApi
+                          ? [
+                              {
+                                value: '',
+                                text: 'Relevance',
+                              },
+                            ]
+                          : []),
+                        {
+                          value: contentApi ? 'publication.dates' : '',
+                          text: 'Publication dates',
+                        },
+                      ],
                       sortOrder: [
                         { value: 'asc', text: 'Ascending' },
                         { value: 'desc', text: 'Descending' },
@@ -188,8 +217,8 @@ export const getServerSideProps: GetServerSideProps<
     ? await getArticles({
         params: {
           ...restOfQuery,
-          sort: getQueryPropertyValue(query.sort) || 'publication.dates',
-          sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+          sort: getQueryPropertyValue(query.sort),
+          sortOrder: getQueryPropertyValue(query.sortOrder),
           ...(pageNumber && { page: Number(pageNumber) }),
         },
         pageSize: 6,
