@@ -25,7 +25,7 @@
     "@types/gtag.js": "^0.0.12",
     "@types/jest": "^27.0.2",
     "@types/lodash.debounce": "^4.0.6",
-    "@types/react": "^18.0.31",
+    "@types/react": "^18.0.35",
     "@types/styled-components": "^5.1.26",
     "@types/uuid": "^9.0.1",
     "@weco/toggles": "1.0.0",
