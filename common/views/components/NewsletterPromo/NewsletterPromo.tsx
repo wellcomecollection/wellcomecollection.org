@@ -209,6 +209,7 @@ const NewsletterPromo: FunctionComponent = () => {
                         />
                         <ShameButtonWrap>
                           <ButtonSolid
+                            dataGtmTrigger="newsletter_promo_subscribe"
                             text={isSubmitting ? 'Sending…' : 'Subscribe'}
                             disabled={isSubmitting}
                           />
