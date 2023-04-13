@@ -20,7 +20,7 @@ jobs:
       # See https://github.com/wellcomecollection/wellcomecollection.org/pull/9324
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - uses: preactjs/compressed-size-action@v2
         with:
           build-script: "build-webapps"
