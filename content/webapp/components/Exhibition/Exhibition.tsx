@@ -292,7 +292,7 @@ const Exhibition: FunctionComponent<Props> = ({ exhibition, pages }) => {
         </InfoBox>
       )}
       {exhibitionAbouts.length > 0 && (
-        <SearchResults items={exhibitionAbouts} title="About this exhibition" />
+        <SearchResults items={exhibitionAbouts} title="Related stories" />
       )}
     </ContentPage>
   );
