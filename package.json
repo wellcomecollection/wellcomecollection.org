@@ -55,7 +55,7 @@
     "rimraf": "^4.4.1"
   },
   "resolutions": {
-    "@types/react": "18.0.31"
+    "@types/react": "18.0.35"
   },
   "private": true,
   "workspaces": [
