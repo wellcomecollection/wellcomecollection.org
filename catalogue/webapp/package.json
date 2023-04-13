@@ -38,6 +38,7 @@
     "lodash.clonedeep": "^4.5.0",
     "next": "^13.2.3",
     "nodemon": "^2.0.22",
+    "openseadragon": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-photo-album": "^2.0.0",
