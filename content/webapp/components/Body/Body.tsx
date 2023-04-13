@@ -461,7 +461,10 @@ const Body: FunctionComponent<Props> = ({
               {slice.type === 'videoEmbed' && (
                 <SpacingComponent>
                   <LayoutWidth width={isShortFilm ? 12 : minWidth}>
-                    <VideoEmbed {...slice.value} />
+                    <VideoEmbed
+                      {...slice.value}
+                      hasFullSizePoster={isShortFilm}
+                    />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
