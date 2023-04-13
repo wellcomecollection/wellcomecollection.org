@@ -31,7 +31,7 @@
     "@weco/toggles": "1.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^29.5.0",
-    "babel-plugin-styled-components": "^2.0.7",
+    "babel-plugin-styled-components": "^2.1.1",
     "babel-plugin-superjson-next": "^0.4.4",
     "cookies-next": "^2.1.1",
     "elastic-apm-node": "^3.21.1",
