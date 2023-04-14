@@ -150,7 +150,6 @@ const SearchLayout: FunctionComponent<
 
     const link = linkResolver({
       params: {
-        ...router.query, // Ensures we keep filters that aren't listed in the form, such as partOf
         ...formValues,
         ...(urlFormattedSort && {
           sort: urlFormattedSort.sort,

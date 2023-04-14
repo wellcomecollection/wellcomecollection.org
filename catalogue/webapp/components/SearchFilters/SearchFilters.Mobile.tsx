@@ -238,45 +238,54 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           </FiltersHeader>
 
           <FiltersBody>
-            {filters
-              .filter(f => !f.excludeFromMoreFilters)
-              .map((f, i) => {
-                return (
-                  // TODO remove index from key once we resolve the doubled IDs issue
-                  // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
-                  // as we now sometimes get "Warning: Encountered two children with the same key" console errors
-                  <FilterSection key={`${f.id}-${i}`}>
-                    <h3 className="h3">
-                      {f.type === 'color' ? 'Colours' : f.label}
-                    </h3>
-                    {f.type === 'checkbox' && (
-                      <CheckboxFilter
+            {filters.map((f, i) => {
+              // We need to have the excluded filters still in the form so their values gets retained in the URL
+              // when more filtering is done (e.g. partOf.title)
+              // Only checkbox types are excluded at the moment
+              return f.excludeFromMoreFilters && f.type === 'checkbox' ? (
+                <div className="is-hidden">
+                  <CheckboxFilter
+                    f={f}
+                    changeHandler={changeHandler}
+                    form={searchFormId}
+                  />
+                </div>
+              ) : (
+                // TODO remove index from key once we resolve the doubled IDs issue
+                // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
+                // as we now sometimes get "Warning: Encountered two children with the same key" console errors
+                <FilterSection key={`${f.id}-${i}`}>
+                  <h3 className="h3">
+                    {f.type === 'color' ? 'Colours' : f.label}
+                  </h3>
+                  {f.type === 'checkbox' && (
+                    <CheckboxFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={searchFormId}
+                    />
+                  )}
+
+                  {f.type === 'dateRange' &&
+                    !(hasNoResults && !(f.from.value || f.to.value)) && (
+                      <DateRangeFilter
                         f={f}
                         changeHandler={changeHandler}
                         form={searchFormId}
                       />
                     )}
 
-                    {f.type === 'dateRange' &&
-                      !(hasNoResults && !(f.from.value || f.to.value)) && (
-                        <DateRangeFilter
-                          f={f}
-                          changeHandler={changeHandler}
-                          form={searchFormId}
-                        />
-                      )}
-
-                    {f.type === 'color' && !(hasNoResults && !f.color) && (
-                      <PaletteColorPicker
-                        name={f.id}
-                        color={f.color}
-                        onChangeColor={changeHandler}
-                        form={searchFormId}
-                      />
-                    )}
-                  </FilterSection>
-                );
-              })}
+                  {f.type === 'color' && !(hasNoResults && !f.color) && (
+                    <PaletteColorPicker
+                      name={f.id}
+                      color={f.color}
+                      onChangeColor={changeHandler}
+                      form={searchFormId}
+                    />
+                  )}
+                </FilterSection>
+              );
+            })}
           </FiltersBody>
         </FiltersScrollable>
 

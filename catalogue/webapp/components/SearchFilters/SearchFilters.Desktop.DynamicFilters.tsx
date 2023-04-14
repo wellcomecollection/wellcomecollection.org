@@ -37,7 +37,18 @@ const DynamicFilterArray = ({
   };
 
   const renderDynamicFilter = (f: Filter, i: number, arr: Filter[]) => {
-    return (
+    // We need to have the excluded filters still in the form so their values gets retained in the URL
+    // when more filtering is done (e.g. partOf.title)
+    // Only checkbox types are excluded at the moment
+    return f.excludeFromMoreFilters && f.type === 'checkbox' ? (
+      <div className="is-hidden">
+        <CheckboxFilter
+          {...(!showMoreFiltersModal && { form: searchFormId })}
+          f={f}
+          changeHandler={changeHandler}
+        />
+      </div>
+    ) : (
       // TODO remove index from key once we resolve the doubled IDs issue
       // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
       // as we now sometimes get "Warning: Encountered two children with the same key" console errors
@@ -80,12 +91,8 @@ const DynamicFilterArray = ({
     );
   };
 
-  const dynamicFiltersSource = filters
-    .filter(f => !f.excludeFromMoreFilters)
-    .map(renderDynamicFilter);
-  const dynamicFiltersCalculated = dynamicFilters
-    .filter(f => !f.excludeFromMoreFilters)
-    .map(renderDynamicFilter);
+  const dynamicFiltersSource = filters.map(renderDynamicFilter);
+  const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
 
   /**
    * if you don't set this to false, then on route change, you don't get the
