@@ -30,8 +30,9 @@ const expectSearchParam = (
   if (expectedVal) {
     const foundMatchingParam = Array.from(params).find(([key, val], i) => {
       if (i === 0) {
-        // the first key returns the whole URL.
-        // This is fine if it has "cachebust" which we ignore, but it doesn't if the test didn't start on that page.
+        // The first key returns the whole URL.
+        // This is fine if it has "cachebust" which we ignored,
+        // but if the first value is a valid filter, it never matches.
         return (
           key.slice(key.indexOf('?') + 1) === expectedKey && val === expectedVal
         );
@@ -294,12 +295,9 @@ test.describe(
       await safeWaitForNavigation(page);
 
       expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
-      console.log('0');
 
       await openDropdown('Formats', page);
-      console.log('1');
       await selectCheckbox('Books', page);
-      console.log('2');
 
       expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
       expectSearchParam('workType', 'a', page);
