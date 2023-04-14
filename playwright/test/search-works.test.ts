@@ -1,5 +1,5 @@
 import { Page } from 'playwright';
-import { URLSearchParams } from 'url';
+import { URL, URLSearchParams } from 'url';
 import { test, expect } from '@playwright/test';
 import { isMobile, newWorksSearch } from './contexts';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
@@ -112,6 +112,59 @@ test.describe('Scenario 1: The person is looking for an archive', () => {
     expectSearchParam('workType', 'h', page);
 
     await navigateToResult(3, page);
+  });
+
+  test.only('and the user can get back to their original search results', async ({
+    page,
+    context,
+  }) => {
+    // Open the search page, search for a term, apply a filter, navigate away from
+    // the first page.
+    await newWorksSearch(context, page);
+    await searchFor('Persian', page);
+    await openDropdown('Formats', page);
+    await selectCheckbox('Archives and manuscripts', page);
+    await navigateToNextPage(page);
+
+    // Save the URL of the current search page, which will be something like
+    // https://www-stage.wellcomecollection.org/search/works?query=Persian&workType=h&page=2
+    const originalSearchUrl = new URL(page.url());
+
+    // Now go to the third result on the page, and look for "Back to search results".
+    await navigateToResult(3, page);
+
+    const backToSearchResults = await page.$(
+      'a:has-text("Back to search results")'
+    );
+    expect(backToSearchResults).toBeTruthy();
+
+    // Note: we expect the URLs on the "Back to search results" link to be relative,
+    // but the URL class only takes absolute URLs.
+    //
+    // Check this is a relative URL, then construct an absolute URL we can compare.
+    const backToSearchResultsUrlString =
+      (await backToSearchResults?.getAttribute('href')) as string;
+    expect(backToSearchResultsUrlString.startsWith('/')).toBe(true);
+
+    const backToSearchResultsUrl = new URL(
+      `${process.env.PLAYWRIGHT_BASE_URL}${backToSearchResultsUrlString}`
+    );
+
+    // Now compare the URLs.  Note that the query parameters may be in a different order,
+    // but they're still equivalent for our purposes, e.g.
+    //
+    //      /search/works?query=Persian&workType=h&page=2 and
+    //      /search/works?query=Persian&page=2&workType=h
+    //
+    // are both totally fine.  Sorting them first makes them easier to compare.
+    expect(originalSearchUrl.pathname).toEqual(backToSearchResultsUrl.pathname);
+
+    originalSearchUrl.searchParams.sort();
+    backToSearchResultsUrl.searchParams.sort();
+
+    expect(originalSearchUrl.searchParams).toEqual(
+      backToSearchResultsUrl.searchParams
+    );
   });
 });
 
