@@ -386,6 +386,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
                     }}
                     icon={email}
                     text="Email to book"
+                    dataGtmTrigger="click_to_book"
                   />
                 )}
 

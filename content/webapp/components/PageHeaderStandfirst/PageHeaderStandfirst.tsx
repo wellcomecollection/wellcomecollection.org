@@ -1,7 +1,6 @@
-import { FunctionComponent } from 'react';
+import { ComponentPropsWithoutRef, FunctionComponent } from 'react';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
-import * as prismicT from '@prismicio/types';
 import styled from 'styled-components';
 
 const Wrapper = styled(Space).attrs({
@@ -16,13 +15,11 @@ const Wrapper = styled(Space).attrs({
   }
 `;
 
-type Props = {
-  html: prismicT.RichTextField;
-};
+type Props = ComponentPropsWithoutRef<typeof PrismicHtmlBlock>;
 
-const PageHeaderStandfirst: FunctionComponent<Props> = ({ html }: Props) => (
+const PageHeaderStandfirst: FunctionComponent<Props> = props => (
   <Wrapper>
-    <PrismicHtmlBlock html={html} />
+    <PrismicHtmlBlock {...props} />
   </Wrapper>
 );
 

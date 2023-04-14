@@ -89,7 +89,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
 type TdProps = {
   plain?: boolean;
   maxWidth?: number;
-  content?: string | ReactNode;
+  cellContent?: ReactNode;
   key?: number;
 };
 
@@ -122,14 +122,14 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
     :before {
       display: block;
       white-space: nowrap;
-      content: ${props => (props.content ? `'${props.content}'` : '')};
+      content: ${props => (props.cellContent ? `'${props.cellContent}'` : '')};
       ${fontFamilyMixin('intb', true)}
     }
   }
 `;
 
 type Props = {
-  rows: (string | ReactNode)[][];
+  rows: ReactNode[][];
   plain?: boolean;
   maxWidth?: number;
   columnWidths?: (number | undefined)[];
@@ -162,16 +162,18 @@ const StackingTable: FunctionComponent<Props> = ({
       <tbody>
         {bodyRows.map((row, index) => (
           <StyledTr plain={plain} key={index}>
-            {row.map((data, index) => (
-              <StyledTd
-                key={index}
-                content={headerRow[index]}
-                plain={plain}
-                maxWidth={maxWidth}
-              >
-                {data}
-              </StyledTd>
-            ))}
+            {row.map((data, index) => {
+              return (
+                <StyledTd
+                  key={index}
+                  cellContent={headerRow[index]}
+                  plain={plain}
+                  maxWidth={maxWidth}
+                >
+                  {data}
+                </StyledTd>
+              );
+            })}
           </StyledTr>
         ))}
       </tbody>

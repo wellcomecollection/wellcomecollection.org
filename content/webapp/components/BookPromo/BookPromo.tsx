@@ -101,7 +101,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
               <LabelsList labels={[{ text: 'Book' }]} />
             </Space>
           </Space>
-          {title && <Title>{title}</Title>}
+          <Title>{title}</Title>
 
           {subtitle && <Subtitle as="h4">{subtitle}</Subtitle>}
 

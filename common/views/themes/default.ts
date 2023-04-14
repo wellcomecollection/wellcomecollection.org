@@ -89,7 +89,7 @@ const sizesClasses = Object.keys(themeValues.sizes).reduce((acc, size) => {
 }, {});
 
 // We know these types to be true but typescript and `.keys` and `.reduce` doesn't play all that nice
-// TODO: Remove type coersion
+// TODO: Remove type coercion
 // see: https://fettblog.eu/typescript-better-object-keys/
 const cls = {
   ...classes,

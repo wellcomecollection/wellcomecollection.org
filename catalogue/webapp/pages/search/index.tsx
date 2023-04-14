@@ -132,7 +132,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   return (
     <main>
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-        {!stories && !images && !works ? (
+        {!returnedStories && !images && !works ? (
           <div className="container">
             <SearchNoResults query={queryString} />
           </div>
@@ -241,21 +241,24 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     try {
       // Stories
-      // We want the default order to be "descending publication date"
-      const storiesParams = {
-        ...query,
-        sort: getQueryPropertyValue(query.sort) || 'publication.dates',
-        sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
-      };
+      // We want the default order to be "descending publication date" with the Prismic API
 
       const storiesResults = contentApi
         ? await getArticles({
-            params: storiesParams,
+            params: {
+              ...query,
+              sort: getQueryPropertyValue(query.sort),
+              sortOrder: getQueryPropertyValue(query.sortOrder),
+            },
             pageSize: 4,
             toggles: serverData.toggles,
           })
         : await getStories({
-            query: storiesParams,
+            query: {
+              ...query,
+              sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+              sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+            },
             pageSize: 4,
           });
 
