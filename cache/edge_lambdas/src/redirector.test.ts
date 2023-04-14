@@ -123,6 +123,11 @@ describe('Query string redirects', () => {
       to: '/search/images',
     },
     {
+      description: 'partOf.title is kept as a query param',
+      from: '/works?partOf.title=Eighteenth+Century+collections+online',
+      to: '/search/works?partOf.title=Eighteenth+Century+collections+online',
+    },
+    {
       description: 'Do not occur if the uri is not an exact match',
       from: '/work',
       to: 'redirectionShouldFail',
