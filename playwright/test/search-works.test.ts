@@ -1,7 +1,11 @@
 import { Page } from 'playwright';
 import { URLSearchParams } from 'url';
 import { test, expect } from '@playwright/test';
-import { isMobile, newWorksSearch } from './contexts';
+import {
+  isMobile,
+  newWorksSearch,
+  workWithDigitalLocationAndLocationNote,
+} from './contexts';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 import { formatFilterMobileButton } from './selectors/search';
 
@@ -24,9 +28,17 @@ const expectSearchParam = (
   const params = new URLSearchParams(page.url());
 
   if (expectedVal) {
-    const foundMatchingParam = Array.from(params).find(
-      ([key, val]) => key === expectedKey && val === expectedVal
-    );
+    const foundMatchingParam = Array.from(params).find(([key, val], i) => {
+      if (i === 0) {
+        // the first key returns the whole URL.
+        // This is fine if it has "cachebust" which we ignore, but it doesn't if the test didn't start on that page.
+        return (
+          key.slice(key.indexOf('?') + 1) === expectedKey && val === expectedVal
+        );
+      } else {
+        return key === expectedKey && val === expectedVal;
+      }
+    });
 
     if (!foundMatchingParam) {
       console.log(page.url());
@@ -52,6 +64,7 @@ const openDropdown = async (label: string, page: Page) => {
 };
 
 const selectCheckbox = async (label: string, page: Page) => {
+  console.info('selectCheckbox', label);
   await Promise.all([
     safeWaitForNavigation(page),
     page.click(`label :text("${label}")`),
@@ -264,6 +277,32 @@ test.describe(
 
       expectSearchParam('sortOrder', 'asc', page);
       expectSearchParam('page', undefined, page);
+    });
+  }
+);
+
+test.describe(
+  'Scenario 8: The user is coming from a prefiltered series search',
+  () => {
+    test('The user should be able to add more filters', async ({
+      context,
+      page,
+    }) => {
+      await workWithDigitalLocationAndLocationNote(context, page);
+
+      await page.click('a >> text="Medical Heritage LIbrary"'); // Medical Heritage LIbrary
+      await safeWaitForNavigation(page);
+
+      expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
+      console.log('0');
+
+      await openDropdown('Formats', page);
+      console.log('1');
+      await selectCheckbox('Books', page);
+      console.log('2');
+
+      expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
+      expectSearchParam('workType', 'a', page);
     });
   }
 );
