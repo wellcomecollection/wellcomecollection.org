@@ -232,7 +232,7 @@ const TabLabel = ({ text, totalResults }: TagLabelType) => (
   </>
 );
 
-type SectionDefinition = {
+type PageSectionDefinition = {
   id: string;
   tab: {
     id: string;
@@ -250,7 +250,7 @@ const toSectionDefinition = (
   resultsGroup: CatalogueResultsList<WorkType | ImageType>,
   tabLabelText: string,
   link: LinkProps
-): SectionDefinition | undefined => {
+): PageSectionDefinition | undefined => {
   return resultsGroup?.totalResults
     ? {
         id: tabId,
@@ -303,10 +303,22 @@ export const ConceptPage: NextPage<Props> = ({
 
   const conceptTypeName = conceptTypeDisplayName(conceptResponse);
 
-  const sectionData = {
-    about: [`About this ${conceptTypeName}`, worksAbout, imagesAbout],
-    by: [`By this ${conceptTypeName}`, worksBy, imagesBy],
-    in: [`Using this ${conceptTypeName}`, worksIn, imagesIn],
+  const sectionsData = {
+    about: {
+      label: `About this ${conceptTypeName}`,
+      works: worksAbout,
+      images: imagesAbout,
+    },
+    by: {
+      label: `By this ${conceptTypeName}`,
+      works: worksBy,
+      images: imagesBy,
+    },
+    in: {
+      label: `Using this ${conceptTypeName}`,
+      works: worksIn,
+      images: imagesIn,
+    },
   };
 
   const worksTabs = tabOrder
@@ -314,8 +326,8 @@ export const ConceptPage: NextPage<Props> = ({
       const tabId = `works-${relationship}`;
       return toSectionDefinition(
         tabId,
-        sectionData[relationship][1],
-        sectionData[relationship][0],
+        sectionsData[relationship].works,
+        sectionsData[relationship].label,
         toWorksLink(queryParams(tabId, conceptResponse), linkSources[tabId])
       );
     })
@@ -326,17 +338,13 @@ export const ConceptPage: NextPage<Props> = ({
 
   const imagesTabs = tabOrder
     .map(relationship => {
-      if (sectionData[relationship][2].totalResults) {
-        const tabId = `images-${relationship}`;
-
-        return toSectionDefinition(
-          tabId,
-          sectionData[relationship][2],
-          sectionData[relationship][0],
-          toImagesLink(queryParams(tabId, conceptResponse), linkSources[tabId])
-        );
-      }
-      return undefined;
+      const tabId = `images-${relationship}`;
+      return toSectionDefinition(
+        tabId,
+        sectionsData[relationship].images,
+        sectionsData[relationship].label,
+        toImagesLink(queryParams(tabId, conceptResponse), linkSources[tabId])
+      );
     })
     .filter(e => !!e);
 
