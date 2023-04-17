@@ -31,7 +31,9 @@ class AsyncSearchResults extends Component<Props, State> {
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <div className="grid">
               <div className={grid({ s: 12 })}>
-                <h2 className="h2 no-margin">{this.props.title}</h2>
+                <h2 className="h2" style={{ marginBottom: 0 }}>
+                  {this.props.title}
+                </h2>
               </div>
             </div>
           </Space>

@@ -23,7 +23,7 @@ const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
     <div className="body-text">
       <h2>{getNameFromCollectionVenue(venue.id)} closures</h2>
       {venue.id === collectionVenueId.libraries.id && (
-        <p className="no-margin">
+        <p style={{ marginBottom: 0 }}>
           Planning a research visit? Our library is closed over bank holiday
           weekends and between Christmas Eve and New Year{`'`}s Day:
         </p>

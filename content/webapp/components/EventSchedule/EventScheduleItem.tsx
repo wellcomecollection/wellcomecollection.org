@@ -56,6 +56,10 @@ const EventTimesWrapper = styled(Space).attrs({
   ${props => props.theme.media('large')`
     margin: 0;
   `}
+
+  h4 {
+    margin-bottom: 0;
+  }
 `;
 
 const EventScheduleItem: FunctionComponent<Props> = ({
@@ -75,7 +79,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             return (
               <h4
                 key={`${event.title} ${startTimeString}`}
-                className={`${font('intb', 5)} no-margin`}
+                className={`${font('intb', 5)}`}
               >
                 <HTMLTime date={t.range.startDateTime} />
                 {' – '}
@@ -125,7 +129,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
                   properties: ['margin-top', 'margin-bottom'],
                 }}
               >
-                <p className={`${font('intr', 5)} no-margin`}>
+                <p className={`${font('intr', 5)}`} style={{ marginBottom: 0 }}>
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className="visually-hidden">

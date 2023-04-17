@@ -31,6 +31,10 @@ const VolumeWrapper = styled.div`
   }
 `;
 
+const AudioPlayerWrapper = styled.figure`
+  margin: 0;
+`;
+
 const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
   className: 'plain-button',
   ariaPressed: props.isPlaying,
@@ -414,7 +418,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   };
 
   return (
-    <figure className="no-margin">
+    <AudioPlayerWrapper>
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
         <figcaption className={font('intb', 5)} {...titleProps}>
           {title}
@@ -499,7 +503,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           instead.
         </p>
       </audio>
-    </figure>
+    </AudioPlayerWrapper>
   );
 };
 

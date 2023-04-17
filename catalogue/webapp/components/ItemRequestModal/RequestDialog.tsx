@@ -129,11 +129,11 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
           currentHoldRequests={currentHoldNumber}
         />
       </Header>
-      <p className={`${font('intb', 5)} no-margin`}>
+      <p className={`${font('intb', 5)}`} style={{ marginBottom: 0 }}>
         You are about to request the following item:
       </p>
       <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-        <p className="no-margin">
+        <p style={{ marginBottom: 0 }}>
           {work.title && <WorkTitle>{work.title}</WorkTitle>}
           {item.title && <span>{item.title}</span>}
         </p>
@@ -143,7 +143,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         <PickUpDate>
           <PickUpDateDescription>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <p className="no-margin">
+              <p style={{ marginBottom: 0 }}>
                 Select the date you would like to view this item in the library.
               </p>
             </Space>

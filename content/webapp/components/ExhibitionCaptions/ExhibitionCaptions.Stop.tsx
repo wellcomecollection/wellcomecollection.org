@@ -21,13 +21,14 @@ const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
   v: {
     size: 'm',
-    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+    properties: ['padding-top', 'padding-bottom'],
   },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: `${font('wb', 2)} no-margin`,
+  className: `${font('wb', 2)}`,
 })`
   display: inline-block;
   position: relative;
+  margin-bottom: 0;
 
   background: ${props =>
     props.theme.color(getTypeColor('captions-and-transcripts'))};

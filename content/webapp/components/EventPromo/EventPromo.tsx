@@ -191,7 +191,11 @@ const EventPromo: FunctionComponent<Props> = ({
       {event.series.length > 0 && (
         <CardPostBody>
           {event.series.map(series => (
-            <p key={series.title} className={`${font('intb', 6)} no-margin`}>
+            <p
+              key={series.title}
+              className={`${font('intb', 6)}`}
+              style={{ marginBottom: 0 }}
+            >
               <span className={font('intr', 6)}>Part of</span> {series.title}
             </p>
           ))}

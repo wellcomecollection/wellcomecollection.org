@@ -49,10 +49,11 @@ const PlainItemList = styled(PlainList).attrs({
 `;
 
 const ListWithHeading = styled.dl.attrs({
-  className: `no-margin ${font('intr', 5)}`,
+  className: `${font('intr', 5)}`,
 })`
   display: flex;
   flex-wrap: wrap;
+  margin: 0;
 `;
 
 const ListWithHeadingItem = styled(Space).attrs({
@@ -74,7 +75,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
         {heading}:
       </ListWithHeadingItem>
       {items.map(({ url, text }, i) => (
-        <dd key={`${url || text}-${i}`} className="no-margin">
+        <dd key={`${url || text}-${i}`} style={{ marginBottom: 0 }}>
           <ItemText url={url} addBorder={i !== 0}>
             {text}
           </ItemText>
@@ -84,7 +85,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
   ) : (
     <PlainItemList>
       {items.map(({ url, text }, i) => (
-        <li key={`${url || text}-${i}`} className="no-margin">
+        <li key={`${url || text}-${i}`} style={{ marginBottom: 0 }}>
           <ItemText url={url} addBorder={i !== 0}>
             {text}
           </ItemText>
