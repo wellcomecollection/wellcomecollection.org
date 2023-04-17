@@ -22,15 +22,6 @@ const organisations: CustomType = {
         }),
         title: singleLineText('Title', {
           placeholder: 'The official website of Organisation (required)',
-          // Note: the `heading1` is for back-compatibility with an older version of the
-          // Prismic custom type; we should aim to remove it.
-          overrideTextOptions: [
-            'paragraph',
-            'hyperlink',
-            'strong',
-            'em',
-            'heading1',
-          ],
         }),
       }),
     },
