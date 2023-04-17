@@ -19,7 +19,7 @@ import ArchiveBreadcrumb from '../ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import ArchiveTree from '../ArchiveTree/ArchiveTree';
-import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
@@ -29,6 +29,8 @@ import { useToggles } from '@weco/common/server-data/Context';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import { Audio, Video } from 'services/iiif/types/manifest/v3';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import { propsToQuery } from '@weco/common/utils/routes';
+import { ParsedUrlQuery } from 'querystring';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -180,15 +182,30 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
         hideNewsletterPromo={true}
       >
         <Container>
-          <Grid>
-            <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-              <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                <SearchTabs
-                  query={searchLink.as.query?.query?.toString() || ''}
-                />
-              </Space>
-            </div>
-          </Grid>
+          <SearchForm
+            query={searchLink.as.query?.query?.toString() || ''}
+            linkResolver={params => {
+              const queryWithSource = propsToQuery(params);
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              const { source = undefined, ...queryWithoutSource } = {
+                ...queryWithSource,
+              };
+
+              const as = {
+                pathname: '/search/works',
+                query: queryWithoutSource as ParsedUrlQuery,
+              };
+
+              const href = {
+                pathname: '/search/works',
+                query: queryWithSource,
+              };
+
+              return { href, as };
+            }}
+            ariaDescribedBy="library-catalogue-form-description"
+            isImageSearch={false}
+          />
           <Grid>
             <Space
               v={{
