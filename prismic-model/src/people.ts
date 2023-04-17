@@ -17,8 +17,12 @@ const people: CustomType = {
       pronouns: keyword('Pronouns'),
       image: image('Image'),
       sameAs: list('Same as', {
-        link: keyword('Link'),
-        title: singleLineText('Link text'),
+        link: keyword('Link', {
+          placeholder: 'https://example.com/person (required)',
+        }),
+        title: singleLineText('Link text', {
+          placeholder: 'The personal website of Person (required)',
+        }),
       }),
     },
   },
