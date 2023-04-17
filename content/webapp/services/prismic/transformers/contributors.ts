@@ -48,6 +48,12 @@ function transformCommonFields(
         const link = asText(sameAs.link);
         const title = asText(sameAs.title);
 
+        if ((title || link) && !(title && link)) {
+          console.warn(
+            `Only one of title and link are specified in sameAs on ${agent.id}; both must be provided`
+          );
+        }
+
         return title && link ? { title, link } : undefined;
       })
       .filter(isNotUndefined),
