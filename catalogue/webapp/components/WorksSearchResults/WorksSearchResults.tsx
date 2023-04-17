@@ -17,18 +17,6 @@ const SearchResultListItem = styled.li`
   flex-basis: 100%;
   max-width: 100%;
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
-
-  &:first-child {
-    border-top: 0;
-
-    & > a {
-      padding-top: 0;
-    }
-  }
-
-  &:last-child a {
-    padding-bottom: 0;
-  }
 `;
 
 const WorksSearchResults: FunctionComponent<Props> = ({ works }: Props) => {
@@ -36,7 +24,11 @@ const WorksSearchResults: FunctionComponent<Props> = ({ works }: Props) => {
     <SearchResultUnorderedList data-test-id="works-search-results-container">
       {works.map((result, i) => (
         <SearchResultListItem data-test-id="work-search-result" key={result.id}>
-          <WorksSearchResult work={result} resultPosition={i} />
+          <WorksSearchResult
+            work={result}
+            resultPosition={i}
+            isLast={works.length - 1 === i}
+          />
         </SearchResultListItem>
       ))}
     </SearchResultUnorderedList>

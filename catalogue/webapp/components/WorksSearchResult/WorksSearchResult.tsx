@@ -31,6 +31,7 @@ import {
 type Props = {
   work: Work;
   resultPosition: number;
+  isLast: boolean;
 };
 
 // TODO: remove, hack to handle the fact that we are pulling through PDF thumbnails.
@@ -43,6 +44,7 @@ function isPdfThumbnail(thumbnail: DigitalLocation): boolean {
 const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
+  isLast,
 }) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
@@ -58,7 +60,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
       resultPosition={resultPosition}
       source="works_search_result"
     >
-      <Wrapper index={resultPosition}>
+      <Wrapper index={resultPosition} isLast={isLast}>
         <Container>
           {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
             <Preview>

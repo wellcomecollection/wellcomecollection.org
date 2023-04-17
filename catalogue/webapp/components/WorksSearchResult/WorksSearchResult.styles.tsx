@@ -8,12 +8,17 @@ export const Container = styled.div`
   `}
 `;
 
-export const Wrapper = styled(Space).attrs<{ index: number }>(props => ({
-  v: {
-    size: 'l',
-    properties: [props.index !== 0 && 'padding-top', 'padding-bottom'],
-  },
-}))<{ index: number }>`
+export const Wrapper = styled(Space).attrs<{ index: number; isLast: boolean }>(
+  props => ({
+    v: {
+      size: 'l',
+      properties: [
+        props.index !== 0 && 'padding-top',
+        !props.isLast && 'padding-bottom',
+      ],
+    },
+  })
+)<{ index: number; isLast: boolean }>`
   display: block;
 `;
 
