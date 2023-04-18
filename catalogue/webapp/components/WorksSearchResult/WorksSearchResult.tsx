@@ -59,7 +59,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
       source="works_search_result"
       passHref
     >
-      <Wrapper>
+      <Wrapper as="a">
         <Container>
           {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
             <Preview>
