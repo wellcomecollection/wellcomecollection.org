@@ -21,12 +21,12 @@ const SearchResultListItem = styled.li`
   &:first-child {
     border-top: 0;
 
-    & > a {
+    & > a > div {
       padding-top: 0;
     }
   }
 
-  &:last-child a {
+  &:last-child a > div {
     padding-bottom: 0;
   }
 `;
