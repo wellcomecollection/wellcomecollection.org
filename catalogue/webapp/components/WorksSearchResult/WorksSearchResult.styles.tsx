@@ -10,7 +10,6 @@ export const Container = styled.div`
 
 export const Wrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: 'plain-link card-link',
 })`
   display: block;
 `;
