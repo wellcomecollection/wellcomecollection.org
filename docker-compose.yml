@@ -1,48 +1,8 @@
 version: '3.3'
 services:
-  common:
-    image: common_webapp
-    build:
-      context: .
-      dockerfile: common/Dockerfile
   catalogue:
     image: uk.ac.wellcome/catalogue_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
       dockerfile: catalogue/Dockerfile
-  content:
-    image: uk.ac.wellcome/content_webapp:${CONTAINER_TAG:-test}
-    build:
-      context: .
-      dockerfile: content/Dockerfile
-  identity:
-    image: uk.ac.wellcome/identity_webapp:${CONTAINER_TAG:-test}
-    build:
-      context: .
-      dockerfile: identity/Dockerfile
-  dash:
-    build:
-      context: ./dash
-  edge_lambdas:
-    build:
-      context: .
-      dockerfile: cache/edge_lambdas/Dockerfile
-    volumes:
-      - ~/.aws:/root/.aws
-      - ./cache/edge_lambdas/deploy.js:/repo/cache/edge_lambdas/deploy.js
-    environment:
-      - AWS_PROFILE
-  pa11y:
-    build:
-      context: ./pa11y
-  updown:
-    build:
-      context: ./updown
-  e2e:
-    image: "130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright:latest"
-    volumes:
-      - ./playwright/test:/usr/src/app/webapp/playwright/test
-  prismic_model:
-    build:
-      context: .
-      dockerfile: prismic-model/Dockerfile
+  
