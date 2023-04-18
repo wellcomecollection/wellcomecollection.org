@@ -16,7 +16,7 @@ import useScrollVelocity from '../../hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
 import IIIFViewerImage from './IIIFViewerImage';
-import { missingAltTextMessage } from '../../services/catalogue/works';
+import { missingAltTextMessage } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { font } from '@weco/common/utils/classnames';
 import { SearchResults } from '../../services/iiif/types/search/v3';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';

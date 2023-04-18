@@ -55,6 +55,7 @@ type Props = {
     id: string;
     icon: IconSvg;
     label: string;
+    dataGtmTrigger?: string;
     clickHandler: (event: SyntheticEvent) => void;
   }[];
 };
@@ -68,7 +69,10 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
     <List>
       {items.map(item => (
         <Item isActive={activeId === item.id} key={item.id}>
-          <Button onClick={item.clickHandler}>
+          <Button
+            onClick={item.clickHandler}
+            data-gtm-trigger={item.dataGtmTrigger}
+          >
             <ButtonInner isActive={activeId === item.id}>
               <Icon
                 icon={item.icon}

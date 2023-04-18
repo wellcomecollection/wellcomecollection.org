@@ -422,7 +422,11 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       </Space>
 
       <AudioPlayerGrid>
-        <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
+        <PlayPauseButton
+          onClick={onTogglePlay}
+          isPlaying={isPlaying}
+          data-gtm-trigger={isPlaying ? undefined : 'audio_play'}
+        >
           <PlayPauseInner>
             <span className="visually-hidden">
               {isPlaying ? 'Pause' : 'Play'}
@@ -444,7 +448,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           <Volume audioPlayer={audioPlayerRef.current} id={id} />
         )}
         <SecondRow>
-          <div className="flex flex--h-space-between">
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div
               className={font('intr', 6)}
               style={{

@@ -36,6 +36,7 @@ const SignInLink: FunctionComponent = () => {
       </Space>
       <a
         href={loginURL}
+        data-gtm-trigger="library_account_login"
         className={font('intr', 5)}
         onClick={() => {
           trackGaEvent({

@@ -50,6 +50,7 @@ const ImageCard: FunctionComponent<Props> = ({
           if (onClick) onClick(event);
         }}
         id={id}
+        data-gtm-trigger={isEnhanced ? 'open_image_modal' : undefined}
         title={isEnhanced ? 'Open modal window' : undefined}
       >
         <IIIFImage

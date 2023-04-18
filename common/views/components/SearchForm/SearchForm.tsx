@@ -112,7 +112,7 @@ const SearchForm = forwardRef(
       <form
         role="search"
         ref={searchForm}
-        className="relative"
+        style={{ position: 'relative' }}
         action="/search/works"
         aria-describedby={ariaDescribedBy}
         onSubmit={event => {
@@ -162,5 +162,7 @@ const SearchForm = forwardRef(
     );
   }
 );
+
+SearchForm.displayName = 'SearchForm';
 
 export default SearchForm;

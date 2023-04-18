@@ -114,6 +114,7 @@ export type ButtonSolidBaseProps = {
   trackingEvent?: GaEvent;
   ariaControls?: string;
   ariaExpanded?: boolean;
+  dataGtmTrigger?: string;
   ariaLive?: 'off' | 'polite' | 'assertive';
   colors?: ButtonColors;
   isIconAfter?: boolean;
@@ -215,6 +216,7 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
     clickHandler,
     ariaControls,
     ariaExpanded,
+    dataGtmTrigger,
     ariaLive,
     disabled,
     size,
@@ -236,6 +238,7 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
       type={type}
       aria-controls={ariaControls}
       aria-expanded={ariaExpanded}
+      data-gtm-trigger={dataGtmTrigger}
       aria-live={ariaLive}
       onClick={handleClick}
       disabled={disabled}

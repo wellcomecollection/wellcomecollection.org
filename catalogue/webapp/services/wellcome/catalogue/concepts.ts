@@ -1,27 +1,24 @@
 import {
-  CatalogueApiError,
   CatalogueConceptsApiProps,
   CatalogueResultsList,
   Concept,
 } from './types';
 import { Toggles } from '@weco/toggles';
+import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
 import {
-  catalogueApiError,
-  catalogueFetch,
-  catalogueQuery,
-  globalApiOptions,
-  looksLikeCanonicalId,
-  notFound,
   QueryProps,
-  rootUris,
-} from '.';
+  globalApiOptions,
+  wellcomeApiError,
+  wellcomeApiFetch,
+  WellcomeApiError,
+} from '..';
 
 type GetConceptProps = {
   id: string;
   toggles: Toggles;
 };
 
-type ConceptResponse = Concept | CatalogueApiError;
+type ConceptResponse = Concept | WellcomeApiError;
 
 export async function getConcept({
   id,
@@ -35,7 +32,7 @@ export async function getConcept({
 
   const url = `${rootUris[apiOptions.env]}/v2/concepts/${id}`;
 
-  const res = await catalogueFetch(url, { redirect: 'manual' });
+  const res = await wellcomeApiFetch(url, { redirect: 'manual' });
 
   // TODO: If we ever do redirects in the concepts API, support it here
 
@@ -46,12 +43,12 @@ export async function getConcept({
   try {
     return await res.json();
   } catch (e) {
-    return catalogueApiError();
+    return wellcomeApiError();
   }
 }
 
 export async function getConcepts(
   props: QueryProps<CatalogueConceptsApiProps>
-): Promise<CatalogueResultsList<Concept> | CatalogueApiError> {
+): Promise<CatalogueResultsList<Concept> | WellcomeApiError> {
   return catalogueQuery('concepts', props);
 }

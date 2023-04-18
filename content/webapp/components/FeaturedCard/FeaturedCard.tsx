@@ -180,6 +180,7 @@ const FeaturedCardWrap = styled.div`
 type HasIsReversed = { isReversed: boolean };
 const FeaturedCardLink = styled.a.attrs({
   className: 'grid promo-link plain-link',
+  'data-gtm-trigger': 'featured_card_link',
 })<HasIsReversed>`
   justify-content: flex-end;
   flex-direction: ${props => (props.isReversed ? 'row-reverse' : 'row')};
@@ -275,7 +276,10 @@ const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
             />
           )}
         </FeaturedCardLeft>
-        <div className={`flex ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`}>
+        <div
+          className={grid({ s: 12, m: 11, l: 5, xl: 5 })}
+          style={{ display: 'flex' }}
+        >
           <FeaturedCardRight isReversed={isReversed}>
             {labels && labels.length > 0 ? (
               <LabelsList labels={labels} />

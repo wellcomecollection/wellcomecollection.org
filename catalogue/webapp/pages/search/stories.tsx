@@ -7,7 +7,8 @@ import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import StoriesGrid from 'components/StoriesGrid/StoriesGrid';
+import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
+import NewStoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid.New';
 import Space from '@weco/common/views/components/styled/Space';
 
 // Utils & Helpers
@@ -19,17 +20,21 @@ import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
+import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
+import { useToggles } from '@weco/common/server-data/Context';
 
 // Types
 import {
-  PrismicApiError,
   PrismicResultsList,
   Story,
 } from '@weco/catalogue/services/prismic/types';
 import { Query } from '@weco/catalogue/types/search';
+import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
+import { ContentResultsList } from '@weco/catalogue/services/wellcome/content/types';
 
 type Props = {
-  storyResponseList: PrismicResultsList<Story>;
+  storyResponseList?: PrismicResultsList<Story>;
+  newStoryResponseList?: ContentResultsList<Content>;
   query: Query;
   pageview: Pageview;
 };
@@ -51,66 +56,120 @@ const SortPaginationWrapper = styled.div`
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
+  newStoryResponseList,
   query,
 }) => {
   const { query: queryString } = query;
+  const { contentApi } = useToggles();
+  const returnedStories = storyResponseList || newStoryResponseList;
+
+  const sortOptions = [
+    // Default value to be left empty as to not be reflected in URL query
+    ...(contentApi
+      ? [
+          {
+            value: '',
+            text: 'Relevance',
+          },
+        ]
+      : []),
+
+    {
+      value: 'publication.dates.asc',
+      text: 'Oldest to newest',
+    },
+    {
+      value: contentApi ? 'publication.dates.desc' : '',
+      text: 'Newest to oldest',
+    },
+  ];
 
   return (
     <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
-      {storyResponseList.totalResults === 0 ? (
-        <div className="container">
-          <SearchNoResults query={queryString} />
-        </div>
-      ) : (
-        <div className="container">
-          <PaginationWrapper verticalSpacing="l">
-            <span>{pluralize(storyResponseList.totalResults, 'result')}</span>
+      {returnedStories && (
+        <>
+          {returnedStories?.totalResults === 0 ? (
+            <div className="container">
+              <SearchNoResults query={queryString} />
+            </div>
+          ) : (
+            <div className="container">
+              <PaginationWrapper verticalSpacing="l">
+                <span>{pluralize(returnedStories.totalResults, 'result')}</span>
 
-            <SortPaginationWrapper>
-              <Sort
-                formId="search-page-form"
-                options={[
-                  // Default value to be left empty as to not be reflected in URL query
-                  { value: 'publication.dates.asc', text: 'Oldest to newest' },
-                  { value: '', text: 'Newest to oldest' },
-                ]}
-                jsLessOptions={{
-                  sort: [{ value: '', text: 'Publication dates' }],
-                  sortOrder: [
-                    { value: 'asc', text: 'Ascending' },
-                    { value: 'desc', text: 'Descending' },
-                  ],
-                }}
-                defaultValues={{ sort: query.sort, sortOrder: query.sortOrder }}
-              />
-              <Pagination
-                totalPages={storyResponseList.totalPages}
-                ariaLabel="Stories search pagination"
-                isHiddenMobile
-              />
-            </SortPaginationWrapper>
-          </PaginationWrapper>
+                <SortPaginationWrapper>
+                  <Sort
+                    formId="search-page-form"
+                    options={sortOptions}
+                    jsLessOptions={{
+                      sort: [
+                        ...(contentApi
+                          ? [
+                              {
+                                value: '',
+                                text: 'Relevance',
+                              },
+                            ]
+                          : []),
+                        {
+                          value: contentApi ? 'publication.dates' : '',
+                          text: 'Publication dates',
+                        },
+                      ],
+                      sortOrder: [
+                        { value: 'asc', text: 'Ascending' },
+                        { value: 'desc', text: 'Descending' },
+                      ],
+                    }}
+                    defaultValues={{
+                      sort: query.sort,
+                      sortOrder: query.sortOrder,
+                    }}
+                  />
+                  <Pagination
+                    totalPages={returnedStories.totalPages}
+                    ariaLabel="Stories search pagination"
+                    isHiddenMobile
+                  />
+                </SortPaginationWrapper>
+              </PaginationWrapper>
 
-          <main>
-            <StoriesGrid
-              isDetailed
-              stories={storyResponseList.results}
-              dynamicImageSizes={{
-                xlarge: 1 / 5,
-                large: 1 / 5,
-                medium: 1 / 5,
-                small: 1,
-              }}
-            />
-          </main>
+              <main>
+                {newStoryResponseList && (
+                  <NewStoriesGrid
+                    isDetailed
+                    articles={newStoryResponseList.results}
+                    dynamicImageSizes={{
+                      xlarge: 1 / 5,
+                      large: 1 / 5,
+                      medium: 1 / 5,
+                      small: 1,
+                    }}
+                  />
+                )}
+                {storyResponseList && (
+                  <StoriesGrid
+                    isDetailed
+                    stories={storyResponseList.results}
+                    dynamicImageSizes={{
+                      xlarge: 1 / 5,
+                      large: 1 / 5,
+                      medium: 1 / 5,
+                      small: 1,
+                    }}
+                  />
+                )}
+              </main>
 
-          <PaginationWrapper verticalSpacing="l" alignRight>
-            <Pagination
-              totalPages={storyResponseList.totalPages}
-              ariaLabel="Stories search pagination"
-            />
-          </PaginationWrapper>
-        </div>
+              <PaginationWrapper verticalSpacing="l" alignRight>
+                <Pagination
+                  totalPages={returnedStories.totalPages}
+                  ariaLabel="Stories search pagination"
+                />
+              </PaginationWrapper>
+            </div>
+          )}
+        </>
       )}
     </Wrapper>
   );
@@ -123,6 +182,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   const serverData = await getServerData(context);
   const query = context.query;
+  const { contentApi } = serverData.toggles;
   const defaultProps = removeUndefinedProps({
     serverData,
     storyResponseList: { totalResults: 0 },
@@ -140,18 +200,36 @@ export const getServerSideProps: GetServerSideProps<
 
   // Setting a default order of descending publication date as default state
   // as the Prismic default is by "last updated"
-  const storyResponseList: PrismicResultsList<Story> | PrismicApiError =
-    await getStories({
-      query: {
-        ...restOfQuery,
-        sort: getQueryPropertyValue(query.sort) || 'publication.dates',
-        sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
-        ...(pageNumber && { page: pageNumber }),
-      },
-      pageSize: 6,
-    });
 
-  if (storyResponseList.type === 'Error') {
+  const storyResponseList = contentApi
+    ? undefined
+    : await getStories({
+        query: {
+          ...restOfQuery,
+          sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+          sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+          ...(pageNumber && { page: pageNumber }),
+        },
+        pageSize: 6,
+      });
+
+  const newStoryResponseList = contentApi
+    ? await getArticles({
+        params: {
+          ...restOfQuery,
+          sort: getQueryPropertyValue(query.sort),
+          sortOrder: getQueryPropertyValue(query.sortOrder),
+          ...(pageNumber && { page: Number(pageNumber) }),
+        },
+        pageSize: 6,
+        toggles: serverData.toggles,
+      })
+    : undefined;
+
+  if (
+    storyResponseList?.type === 'Error' ||
+    newStoryResponseList?.type === 'Error'
+  ) {
     // Prismic returns Internal Server Errors without much details for certain queries, such as query=t:"PP.PRE.D.1.1"
     // As this is a temporary search tool until we replace it with our own API, we'll just return No Result should it happen
     return {
@@ -178,15 +256,28 @@ export const getServerSideProps: GetServerSideProps<
     props: removeUndefinedProps({
       ...defaultProps,
       storyResponseList,
+      newStoryResponseList,
       pageview: {
         name: 'stories',
         properties: {
-          totalResults:
-            storyResponseList?.type === 'ResultList'
-              ? storyResponseList.totalResults
-              : 0,
+          totalResults: newStoryResponseList
+            ? newStoryResponseList?.type === 'ResultList'
+              ? newStoryResponseList.results
+              : 0
+            : storyResponseList?.type === 'ResultList'
+            ? storyResponseList.totalResults
+            : 0,
         },
       },
+      apiToolbarLinks: newStoryResponseList
+        ? [
+            {
+              id: 'content-api',
+              label: 'Content API query',
+              link: newStoryResponseList._requestUrl,
+            },
+          ]
+        : [],
     }),
   };
 };

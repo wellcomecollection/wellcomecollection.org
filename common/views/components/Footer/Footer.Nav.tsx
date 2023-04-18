@@ -103,6 +103,7 @@ const FooterNav = ({
               <NavLinkElement
                 as="a"
                 href={link.href}
+                data-gtm-trigger="footer_nav_link"
                 {...(isBurgerMenuLink && { id: 'footer-nav-1' })}
               >
                 {link.title}

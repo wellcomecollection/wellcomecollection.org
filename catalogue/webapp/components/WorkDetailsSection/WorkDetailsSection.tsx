@@ -27,17 +27,13 @@ const SectionWithDivider = styled(Space).attrs({
 const WorkDetailsSection: FunctionComponent<Props> = ({
   headingText,
   children,
-}: Props) => {
+}) => {
   const isArchive = useContext(IsArchiveContext);
 
   return (
     <SectionWithDivider isArchive={isArchive}>
       <SpacingSection>
-        {headingText && (
-          <h2 className={`${font('wb', 4)} work-details-heading`}>
-            {headingText}
-          </h2>
-        )}
+        {headingText && <h2 className={font('wb', 4)}>{headingText}</h2>}
 
         {children}
       </SpacingSection>

@@ -1,12 +1,12 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Work as WorkType } from '@weco/catalogue/services/catalogue/types';
+import { Work as WorkType } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getServerData } from '@weco/common/server-data';
 import Work from '@weco/catalogue/components/Work/Work';
-import { getWork } from '@weco/catalogue/services/catalogue/works';
-import { looksLikeCanonicalId } from '@weco/catalogue/services/catalogue';
+import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
 
 type Props = {
   work: WorkType;

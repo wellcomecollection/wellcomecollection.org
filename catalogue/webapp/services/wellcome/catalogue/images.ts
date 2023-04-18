@@ -1,19 +1,5 @@
-import {
-  CatalogueApiError,
-  CatalogueImagesApiProps,
-  CatalogueResultsList,
-  Image,
-} from './types';
-import {
-  rootUris,
-  globalApiOptions,
-  catalogueApiError,
-  notFound,
-  looksLikeCanonicalId,
-  catalogueFetch,
-  catalogueQuery,
-  QueryProps,
-} from '.';
+import { CatalogueImagesApiProps, CatalogueResultsList, Image } from './types';
+import { rootUris, notFound, looksLikeCanonicalId, catalogueQuery } from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
@@ -21,6 +7,13 @@ import {
   ImagesProps,
   toQuery,
 } from '@weco/catalogue/components/ImagesLink';
+import {
+  QueryProps,
+  globalApiOptions,
+  wellcomeApiError,
+  wellcomeApiFetch,
+  WellcomeApiError,
+} from '..';
 
 type ImageInclude =
   | 'visuallySimilar'
@@ -46,7 +39,7 @@ type GetImageProps = {
  */
 export async function getImages(
   props: QueryProps<CatalogueImagesApiProps>
-): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
+): Promise<CatalogueResultsList<Image> | WellcomeApiError> {
   const params: ImagesProps = {
     ...emptyImagesProps,
     ...props.params,
@@ -64,7 +57,7 @@ export async function getImages(
 
 type ImageResponse = {
   url?: string;
-  image: Image | CatalogueApiError;
+  image: Image | WellcomeApiError;
 };
 
 export async function getImage({
@@ -88,7 +81,7 @@ export async function getImage({
     rootUris[apiOptions.env]
   }/v2/images/${id}?${searchParams.toString()}`;
 
-  const res = await catalogueFetch(url);
+  const res = await wellcomeApiFetch(url);
 
   if (res.status === 404) {
     return { image: notFound() };
@@ -98,6 +91,6 @@ export async function getImage({
     const image = await res.json();
     return { url, image };
   } catch (e) {
-    return { url, image: catalogueApiError() };
+    return { url, image: wellcomeApiError() };
   }
 }

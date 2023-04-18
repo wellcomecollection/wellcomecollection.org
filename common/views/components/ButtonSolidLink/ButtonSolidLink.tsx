@@ -30,6 +30,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
+  dataGtmTrigger,
   size,
   hoverUnderline,
   ariaLabel,
@@ -57,6 +58,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
       <SolidButton
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
+        data-gtm-trigger={dataGtmTrigger}
         onClick={handleClick}
         size={size}
         href={getHref(link)}

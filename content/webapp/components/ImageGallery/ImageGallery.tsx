@@ -374,7 +374,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                   }
                 : undefined
             }
-            className="relative"
+            style={{ position: 'relative' }}
           >
             {(isStandalone || isFrames) && (
               <StandaloneWobblyEdge>
@@ -394,6 +394,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                     tabIndex={-1}
                     ariaControls={`image-gallery-${id}`}
                     ariaExpanded={isActive}
+                    dataGtmTrigger={'hide_image_gallery'}
                     ref={closeButtonRef}
                     replace={true}
                     colorScheme="light"
@@ -468,6 +469,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                   ref={openButtonRef}
                   ariaControls={`image-gallery-${id}`}
                   ariaExpanded={isActive}
+                  dataGtmTrigger={isActive ? undefined : 'show_image_gallery'}
                   icon={gallery}
                   clickHandler={handleOpenClicked}
                   text={`${items.length} images`}

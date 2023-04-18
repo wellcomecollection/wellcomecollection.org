@@ -48,15 +48,14 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                   <ButtonSolid disabled={true} text="Fully booked" />
                 ) : (
                   <ButtonSolidLink
-                    link={`https://www.eventbrite.com/e/${
-                      event.eventbriteId || ''
-                    }/`}
+                    link={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
                     trackingEvent={{
                       category: 'component',
                       action: 'booking-tickets:click',
                       label: 'event-page',
                     }}
                     icon={ticket}
+                    dataGtmTrigger="click_to_book"
                     text={
                       isHybridEvent ? 'In-venue tickets' : 'Check for tickets'
                     }
@@ -73,15 +72,14 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                   <ButtonSolid disabled={true} text="Fully booked" />
                 ) : (
                   <ButtonSolidLink
-                    link={`https://www.eventbrite.com/e/${
-                      event.onlineEventbriteId || ''
-                    }/`}
+                    link={`https://www.eventbrite.com/e/${event.onlineEventbriteId}/`}
                     trackingEvent={{
                       category: 'component',
                       action: 'booking-tickets:click',
                       label: 'event-page',
                     }}
                     icon={ticket}
+                    dataGtmTrigger="click_to_book"
                     text={
                       isHybridEvent ? 'Online tickets' : 'Check for tickets'
                     }

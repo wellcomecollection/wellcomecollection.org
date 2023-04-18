@@ -125,8 +125,9 @@ const PageHeader: FunctionComponent<Props> = ({
   return (
     <>
       <div
-        className="row relative"
+        className="row"
         style={{
+          position: 'relative',
           backgroundImage: backgroundTexture
             ? `url(${backgroundTexture})`
             : undefined,
@@ -187,12 +188,12 @@ const PageHeader: FunctionComponent<Props> = ({
 
         {FeaturedMedia && (
           <Layout10>
-            <div className="relative">{FeaturedMedia}</div>
+            <div style={{ position: 'relative' }}>{FeaturedMedia}</div>
           </Layout10>
         )}
 
         {HeroPicture && (
-          <div className="relative" style={{ height: '100%' }}>
+          <div style={{ position: 'relative', height: '100%' }}>
             <HeroPictureBackground bgColor={heroImageBgColor} />
 
             <HeroPictureContainer>

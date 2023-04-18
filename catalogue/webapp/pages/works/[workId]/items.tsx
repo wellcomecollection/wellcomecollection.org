@@ -4,11 +4,11 @@ import {
   DigitalLocation,
   isDigitalLocation,
 } from '@weco/common/model/catalogue';
-import { Work } from '@weco/catalogue/services/catalogue/types';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
-import { getWork } from '@weco/catalogue/services/catalogue/works';
+import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
@@ -32,7 +32,7 @@ import { getServerData } from '@weco/common/server-data';
 import AudioList from '@weco/catalogue/components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
-import { looksLikeCanonicalId } from 'services/catalogue';
+import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
 import { fetchCanvasOcr } from '@weco/catalogue/services/iiif/fetch/canvasOcr';
@@ -306,7 +306,7 @@ const ItemPage: NextPage<Props> = ({
           )}
           {isAnyImageOpen && origin && (
             <Space
-              className="flex flex-inline"
+              style={{ display: 'inline-flex' }}
               h={{ size: 'm', properties: ['margin-right'] }}
               v={{ size: 'm', properties: ['margin-top'] }}
             >

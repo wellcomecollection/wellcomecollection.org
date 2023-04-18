@@ -9,7 +9,13 @@ const LimitWidth = styled.div.attrs({
   className: 'spaced-text',
 })`
   max-width: 45em;
+  font-variant-ligatures: no-contextual;
 `;
+/**
+ * [font-variant-ligatures: no-contextual] is supposed to maintain the
+ * changes needed for letters spaced together, but should remove any
+ * consideration for symbols. So no more -> turning into an arrow
+ * */
 
 type TextProps = BaseProps & {
   text: string | string[];

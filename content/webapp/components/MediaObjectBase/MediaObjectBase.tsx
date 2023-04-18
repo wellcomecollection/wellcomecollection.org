@@ -102,10 +102,8 @@ const MediaObjectBase: FunctionComponent<Props> = ({
     <LinkOrDivSpace
       v={{
         size: 'l',
-        properties: [
-          'padding-top',
-          x === y ? undefined : 'padding-bottom',
-        ].filter(Boolean) as VerticalSpaceProperty[],
+        properties:
+          x === y ? ['padding-top'] : ['padding-top', 'padding-bottom'],
       }}
       url={urlProp}
       className={classNames({
@@ -124,7 +122,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         {primaryLabels.length > 0 && (
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
-            className="flex"
+            style={{ display: 'flex' }}
           >
             <LabelsList labels={primaryLabels} />
           </Space>
@@ -143,21 +141,15 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         {ExtraInfo}
 
         {description && (
-          <div
-            className={classNames({
-              'spaced-text': true,
-              [font('intr', 5)]: !descriptionIsString,
-            })}
-          >
-            {descriptionIsString ? (
-              <p className={font('intr', 5)}>{description}</p>
-            ) : (
-              description
-            )}
+          <div className={`spaced-text ${font('intr', 5)}`}>
+            {descriptionIsString ? <p>{description}</p> : description}
           </div>
         )}
         {secondaryLabels.length > 0 && (
-          <Space v={{ size: 's', properties: ['margin-top'] }} className="flex">
+          <Space
+            v={{ size: 's', properties: ['margin-top'] }}
+            style={{ display: 'flex' }}
+          >
             <LabelsList labels={secondaryLabels} defaultLabelColor="black" />
           </Space>
         )}

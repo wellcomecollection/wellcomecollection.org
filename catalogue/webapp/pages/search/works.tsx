@@ -27,8 +27,8 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { getWorks } from '@weco/catalogue/services/catalogue/works';
-import { worksFilters } from '@weco/catalogue/services/catalogue/filters';
+import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { worksFilters } from '@weco/catalogue/services/wellcome/catalogue/filters';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
@@ -38,7 +38,7 @@ import { pluralize } from '@weco/common/utils/grammar';
 import {
   CatalogueResultsList,
   Work,
-} from '@weco/catalogue/services/catalogue/types';
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import { Query } from '@weco/catalogue/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 

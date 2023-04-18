@@ -9,7 +9,10 @@ import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { PhysicalItem, Work } from '@weco/catalogue/services/catalogue/types';
+import {
+  PhysicalItem,
+  Work,
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import styled from 'styled-components';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -164,7 +167,10 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
 
       <CTAs>
         <ConfirmRequestButtonWrapper>
-          <ButtonSolid text="Confirm request" />
+          <ButtonSolid
+            text="Confirm request"
+            dataGtmTrigger="requesting_confirm"
+          />
         </ConfirmRequestButtonWrapper>
         <ButtonSolid
           colors={themeValues.buttonColors.greenTransparentGreen}

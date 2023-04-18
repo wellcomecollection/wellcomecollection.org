@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { FC, FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
@@ -44,14 +44,14 @@ type MetadataProps = {
   value: ReactElement | string | undefined;
 };
 
-const Metadata: FC<MetadataProps> = ({ label, value }) => (
+const Metadata: FunctionComponent<MetadataProps> = ({ label, value }) => (
   <>
     <MetadataKey>{label}</MetadataKey>
     <MetadataValue>{value}</MetadataValue>
   </>
 );
 
-const BookMetadata: FC<{ book: Book }> = ({ book }) => (
+const BookMetadata: FunctionComponent<{ book: Book }> = ({ book }) => (
   <Space
     v={{
       size: 'm',

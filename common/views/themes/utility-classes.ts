@@ -69,39 +69,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // Stop using and clean up where it is used, eventually delete these.
-  .flex {
-    display: flex;
-  }
-
-  .flex-inline {
-    display: inline-flex;
-  }
-
-  .flex--v-center {
-    align-items: center;
-  }
-
-  .flex--wrap {
-    flex-wrap: wrap;
-  }
-
-  .flex--h-center {
-    justify-content: center;
-  }
-
-  .flex--h-space-between {
-    justify-content: space-between;
-  }
-
-  .inline {
-    display: inline;
-  }
-
-  .relative {
-    position: relative;
-  }
-
   // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9556
   .no-margin {
     margin: 0 !important;

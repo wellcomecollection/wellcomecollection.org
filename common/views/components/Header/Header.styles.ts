@@ -193,7 +193,9 @@ export const HeaderItem = styled.li`
 `}
 `;
 
-export const HeaderLink = styled.a<{ burgerMenuisActive: boolean }>`
+export const HeaderLink = styled.a.attrs({
+  'data-gtm-trigger': 'header_nav_link',
+})<{ burgerMenuisActive: boolean }>`
   padding: 1.4rem 0.3rem;
   display: inline-block;
   text-decoration: none;
