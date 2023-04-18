@@ -1,6 +1,7 @@
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import Readme from '@weco/common/views/components/BackToResults/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 const nextLink = {
   href: {
@@ -19,15 +20,26 @@ const nextLink = {
   },
 };
 
+const WrappedBackToResults = () => (
+  <SearchContext.Provider
+    value={{
+      link: nextLink,
+      setLink: () => {
+        /* */
+      },
+    }}
+  >
+    <BackToResults />
+  </SearchContext.Provider>
+);
+
 const Template = args => (
   <ReadmeDecorator
-    WrappedComponent={BackToResults}
+    WrappedComponent={WrappedBackToResults}
     args={args}
     Readme={Readme}
   />
 );
 export const basic = Template.bind({});
-basic.args = {
-  nextLink,
-};
+
 basic.storyName = 'BackToResults';
