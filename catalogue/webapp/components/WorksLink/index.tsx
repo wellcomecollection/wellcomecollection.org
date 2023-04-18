@@ -1,55 +1,11 @@
-import { ParsedUrlQuery } from 'querystring';
-import NextLink from 'next/link';
-import { LinkProps } from '@weco/common/model/link-props';
-import { FunctionComponent } from 'react';
 import {
-  LinkFrom,
   stringCodec,
   numberCodec,
   csvCodec,
   maybeStringCodec,
   quotedCsvCodec,
   FromCodecMap,
-  decodeQuery,
-  encodeQuery,
 } from '@weco/common/utils/routes';
-import { Prefix } from '@weco/common/utils/utility-types';
-
-const worksPropsSources = [
-  'search_form',
-  'canonical_link',
-  'meta_link',
-  'search/paginator',
-  'concept/works_about',
-  'concept/works_by',
-  'works_search_context',
-  'work_details/contributors',
-  'work_details/genres',
-  'work_details/subjects',
-  'work_details/partOf',
-] as const;
-
-type WorksPropsSource =
-  | typeof worksPropsSources[number]
-  | Prefix<'cancel_filter/'>
-  | 'unknown';
-
-const emptyWorksProps: WorksProps = {
-  query: '',
-  page: 1,
-  workType: [],
-  'items.locations.locationType': [],
-  availabilities: [],
-  languages: [],
-  'genres.label': [],
-  'subjects.label': [],
-  'contributors.agent.label': [],
-  sort: undefined,
-  sortOrder: undefined,
-  'partOf.title': undefined,
-  'production.dates.from': undefined,
-  'production.dates.to': undefined,
-};
 
 const codecMap = {
   query: stringCodec,
@@ -69,50 +25,3 @@ const codecMap = {
 };
 
 export type WorksProps = FromCodecMap<typeof codecMap>;
-
-const fromQuery: (params: ParsedUrlQuery) => WorksProps = params => {
-  return decodeQuery<WorksProps>(params, codecMap);
-};
-
-const toQuery: (props: WorksProps) => ParsedUrlQuery = props => {
-  return encodeQuery<WorksProps>(props, codecMap);
-};
-
-function toLink(
-  partialProps: Partial<WorksProps>,
-  source: WorksPropsSource
-): LinkProps {
-  const pathname = '/search/works';
-  const props: WorksProps = {
-    ...emptyWorksProps,
-    ...partialProps,
-  };
-  const query = toQuery(props);
-
-  return {
-    href: {
-      pathname,
-      query: { ...query, source },
-    },
-    as: {
-      pathname,
-      query,
-    },
-  };
-}
-
-type Props = LinkFrom<WorksProps> & { source: WorksPropsSource };
-const WorksLink: FunctionComponent<Props> = ({
-  children,
-  source,
-  ...props
-}: Props) => {
-  return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
-};
-
-export default WorksLink;
-export { toLink, toQuery, fromQuery, emptyWorksProps };
