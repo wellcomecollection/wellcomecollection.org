@@ -10,7 +10,6 @@ import {
   withCachedValues,
   handleAllRoute,
 } from '@weco/common/koa-middleware/withCachedValues';
-import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -23,7 +22,6 @@ const appPromise = nextApp.prepare().then(async () => {
   const koaApp = new Koa();
   const router = new Router();
 
-  koaApp.use(apmErrorMiddleware);
   koaApp.use(withCachedValues);
 
   router.get('/works/management/healthcheck', async ctx => {
