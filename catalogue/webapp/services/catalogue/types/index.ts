@@ -6,17 +6,6 @@ import {
   Agent,
   Contributor,
 } from '@weco/common/model/catalogue';
-import {
-  CatalogueWorksApiProps,
-  CatalogueImagesApiProps,
-  CatalogueConceptsApiProps,
-} from './api';
-
-export type {
-  CatalogueWorksApiProps,
-  CatalogueImagesApiProps,
-  CatalogueConceptsApiProps,
-};
 
 export type Work = {
   type: 'Work' | 'Collection' | 'Section' | 'Series';
