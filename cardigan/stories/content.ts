@@ -120,7 +120,7 @@ export const bannerCardItem: Card = {
 export const image = (
   contentUrl = 'https://images.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg?auto=compress,format',
   width = 640,
-  height = 480
+  height = 360
 ) => {
   return {
     contentUrl: contentUrl,
@@ -288,6 +288,7 @@ export const eventSchedule = [
 
 export const captionedImage = () => ({
   image: image(),
+
   caption: [
     {
       type: 'paragraph',
