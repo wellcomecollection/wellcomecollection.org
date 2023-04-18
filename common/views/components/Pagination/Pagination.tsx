@@ -1,8 +1,9 @@
-import { useEffect, useState, FunctionComponent } from 'react';
+import { useEffect, useState, FunctionComponent, useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { font } from '@weco/common/utils/classnames';
@@ -76,6 +77,18 @@ const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
   `}
 `;
 
+const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
+  height: 36px;
+  width: 36px;
+  max-width: 50px;
+  background: none;
+  color: ${({ darkBg }) => (darkBg ? '#ffffff' : '#121212')};
+  border: ${({ darkBg }) => (darkBg ? '#cccccc' : '#6b6b6b')} 1px solid;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0 10px;
+`;
+
 export const Pagination: FunctionComponent<Props> = ({
   totalPages,
   ariaLabel,
@@ -88,6 +101,7 @@ export const Pagination: FunctionComponent<Props> = ({
 
   const pageNumber = query.page ? Number(query.page) : 1;
   const [currentPage, setCurrentPage] = useState(pageNumber);
+  const { isEnhanced } = useContext(AppContext);
 
   useEffect(() => {
     // Only push changes if the page number is a different one than on currently
@@ -131,9 +145,26 @@ export const Pagination: FunctionComponent<Props> = ({
         </Link>
       )}
 
-      <span>
-        Page <strong>{currentPage}</strong> of {formatNumber(totalPages)}
-      </span>
+      {isEnhanced && isHiddenMobile ? (
+        <>
+          <span aria-hidden>Showing page</span>
+          <span id="searchInputLabel" className="visually-hidden">
+            {`Showing page ${currentPage} / ${totalPages}`}
+          </span>
+          <PageSelectorInput
+            name="page"
+            form="search-page-form"
+            aria-labelledby="searchInputLabel"
+            defaultValue={currentPage}
+            darkBg={hasDarkBg}
+          />
+          <span aria-hidden>/ {totalPages}</span>
+        </>
+      ) : (
+        <span>
+          Page <strong>{currentPage}</strong> of {formatNumber(totalPages)}
+        </span>
+      )}
 
       {showNext && (
         <Link
