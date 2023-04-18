@@ -6,15 +6,30 @@ import {
   useEffect,
   useState,
 } from 'react';
+import styled from 'styled-components';
 
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
+import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
+import Space from '@weco/common/views/components/styled/Space';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { getQueryPropertyValue } from '@weco/common/utils/search';
+import { trackGaEvent } from '@weco/common/utils/ga';
+import {
+  getUrlQueryFromSortValue,
+  getQueryPropertyValue,
+  linkResolver,
+} from '@weco/common/utils/search';
+import { capitalize } from '@weco/common/utils/grammar';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+
+const SearchBarContainer = styled(Space)`
+  ${props => props.theme.media('medium', 'max-width')`
+    margin-bottom:0;
+  `}
+`;
 
 type PageLayoutMetadata = {
   openGraphType: 'website';
@@ -36,6 +51,7 @@ const SearchLayout: FunctionComponent<
 > = ({ children, apiToolbarLinks }) => {
   const router = useRouter();
   const queryString = getQueryPropertyValue(router?.query?.query);
+  const [inputValue, setInputValue] = useState(queryString || '');
 
   const currentSearchCategory =
     router.pathname === '/search'
@@ -69,6 +85,7 @@ const SearchLayout: FunctionComponent<
 
   useEffect(() => {
     const queryStringTitle = queryString ? `${queryString} | ` : '';
+    setInputValue(queryString || ''); // This accounts for queries done on these pages, but from the global search
 
     switch (currentSearchCategory) {
       case 'overview':
@@ -116,10 +133,69 @@ const SearchLayout: FunctionComponent<
     }
   }, [currentSearchCategory, queryString]);
 
+  const searchbarPlaceholderText = {
+    overview: 'Search our stories, images and catalogue',
+    stories: 'Search for stories',
+    images: 'Search for images',
+    works: 'Search the catalogue',
+  };
+
+  const updateUrl = (form: HTMLFormElement) => {
+    const formValues = formDataAsUrlQuery(form);
+
+    const sortOptionValue = getQueryPropertyValue(formValues.sortOrder);
+    const urlFormattedSort = sortOptionValue
+      ? getUrlQueryFromSortValue(sortOptionValue)
+      : undefined;
+
+    const link = linkResolver({
+      params: {
+        ...formValues,
+        ...(urlFormattedSort && {
+          sort: urlFormattedSort.sort,
+          sortOrder: urlFormattedSort.sortOrder,
+        }),
+      },
+      pathname: router.pathname,
+    });
+
+    return router.push(link.href, link.as);
+  };
+
   return (
     <CataloguePageLayout {...pageLayoutMetadata}>
       <div className="container">
-        <SearchForm />
+        <form
+          role="search"
+          id="search-page-form"
+          onSubmit={event => {
+            event.preventDefault();
+
+            trackGaEvent({
+              category: 'SearchForm',
+              action: 'submit search',
+              label: router.query.query as string,
+            });
+
+            updateUrl(event.currentTarget);
+          }}
+        >
+          <h1 className="visually-hidden">
+            {`${capitalize(currentSearchCategory)} search`}
+          </h1>
+
+          <SearchBarContainer
+            v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+          >
+            <SearchBar
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              placeholder={searchbarPlaceholderText[currentSearchCategory]}
+              form="search-page-form"
+              location="search"
+            />
+          </SearchBarContainer>
+        </form>
         <SubNavigation
           label="Search Categories"
           items={[
