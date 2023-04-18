@@ -39,6 +39,10 @@ compactCard.storyName = 'CompactCard';
 compactCard.parameters = {
   gridSizes: { s: 12, m: 10, l: 8, xl: 8 },
 };
+compactCard.parameters = {
+  // Sets a delay for the component's stories
+  chromatic: { delay: 300 },
+};
 
 const BannerCardTemplate = args => <BannerCard {...args} />;
 export const bannerCard = BannerCardTemplate.bind({});
@@ -46,6 +50,10 @@ bannerCard.args = {
   item: bannerCardItem,
 };
 bannerCard.storyName = 'BannerCard';
+bannerCard.parameters = {
+  // Sets a delay for the component's stories
+  chromatic: { delay: 300 },
+};
 
 const FeaturedCardTemplate = args => {
   return (
@@ -80,6 +88,10 @@ featuredCard.args = {
   isReversed: false,
 };
 featuredCard.storyName = 'FeaturedCard';
+featuredCard.parameters = {
+  // Sets a delay for the component's stories
+  chromatic: { delay: 300 },
+};
 
 const EventPromoTemplate = args => <EventPromo {...args} />;
 export const eventPromo = EventPromoTemplate.bind({});
@@ -91,6 +103,10 @@ eventPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
 eventPromo.storyName = 'EventPromo';
+eventPromo.parameters = {
+  // Sets a delay for the component's stories
+  chromatic: { delay: 300 },
+};
 
 const ExhibitionPromoTemplate = args => <ExhibitionPromo {...args} />;
 export const exhibitionPromo = ExhibitionPromoTemplate.bind({});
@@ -99,6 +115,10 @@ exhibitionPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
 exhibitionPromo.storyName = 'ExhibitionPromo';
+exhibitionPromo.parameters = {
+  // Sets a delay for the component's stories
+  chromatic: { delay: 300 },
+};
 
 const StoryPromoTemplate = args => <StoryPromo {...args} />;
 export const storyPromo = StoryPromoTemplate.bind({});
@@ -110,3 +130,7 @@ storyPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
 storyPromo.storyName = 'StoryPromo';
+storyPromo.parameters = {
+  // Sets a delay for the component's stories
+  chromatic: { delay: 300 },
+};
