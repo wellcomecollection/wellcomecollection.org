@@ -4,15 +4,10 @@ import { FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
 
-const PlainList = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['margin-bottom'],
-  },
-  className: 'no-margin',
-})`
+const PlainList = styled(Space)`
   list-style: none;
   padding: 0;
+  margin: 0;
 `;
 type Props = { title: string; list: string[] };
 

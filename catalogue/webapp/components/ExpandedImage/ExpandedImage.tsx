@@ -58,9 +58,10 @@ const Metadata = styled.span`
 `;
 
 const ModalTitle = styled.h2.attrs({
-  className: `${font('intb', 3)} no-margin`,
+  className: `${font('intb', 3)}`,
 })`
   color: ${props => props.theme.color('black')};
+  margin-bottom: 0;
 `;
 
 const ImageWrapper = styled(Space).attrs({

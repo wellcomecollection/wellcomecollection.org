@@ -160,7 +160,7 @@ export const HeaderNav = styled.nav<{ burgerMenuisActive: boolean }>`
 export const HeaderList = styled.ul`
   list-style: none;
   padding: 0;
-  margin-left: -0.3rem;
+  margin: 0;
 
   ${props => props.theme.media('headerMedium')`
   display: flex;

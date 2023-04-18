@@ -50,7 +50,7 @@ const ContentTypeInfo = (
         v={{ size: 's', properties: ['margin-top'] }}
         className={font('intr', 6)}
       >
-        <p className="no-margin">
+        <p style={{ marginBottom: 0 }}>
           <span>By </span>
           <span className={font('intb', 6)}>Naomi Paxton</span>{' '}
           <Date>17 April 2019</Date>
@@ -167,7 +167,7 @@ const ExhibitionContentTypeInfo = () => (
 );
 
 const BookContentTypeInfo = () => (
-  <p className={`no-margin ${font('intb', 3)}`}>
+  <p className={font('intb', 3)} style={{ marginBottom: 0 }}>
     Loneliness, Health & What Happens When We Find Connection
   </p>
 );

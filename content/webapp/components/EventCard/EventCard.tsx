@@ -63,7 +63,9 @@ const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
         </Space>
       </>
     ) : !event.isPast && event.times.length > 1 ? (
-      <p className={`${font('intb', 4)} no-margin`}>See all dates/times</p>
+      <p className={`${font('intb', 4)}`} style={{ marginBottom: 0 }}>
+        See all dates/times
+      </p>
     ) : undefined;
 
   return (

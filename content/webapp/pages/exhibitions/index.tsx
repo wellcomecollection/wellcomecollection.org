@@ -145,7 +145,7 @@ const ExhibitionsPage: FunctionComponent<Props> = props => {
               <SectionHeader title="Past Exhibitions" />
               <Layout12>
                 <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                  <p className="no-margin">{pastExhibitionsStrapline}</p>
+                  <p style={{ marginBottom: 0 }}>{pastExhibitionsStrapline}</p>
                 </Space>
               </Layout12>
             </Space>

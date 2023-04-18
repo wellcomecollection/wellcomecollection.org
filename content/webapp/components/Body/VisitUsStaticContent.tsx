@@ -21,7 +21,9 @@ const Container: FunctionComponent<PropsWithChildren> = ({ children }) => (
 const OpeningTimesWrapper = styled.div.attrs({
   className: font('intr', 5),
 })`
-  float; left;
+  h2 {
+    margin-bottom: 0;
+  }
 `;
 
 const VisitUsStaticContent: FunctionComponent = () => {
@@ -37,9 +39,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
         <div className={`${grid({ s: 12, l: 5, xl: 5 })} ${font('intr', 4)}`}>
           <div style={{ display: 'flex' }}>
             <OpeningTimesWrapper>
-              <h2 className={`${font('intb', 5)} no-margin`}>
-                Today’s opening times
-              </h2>
+              <h2 className={`${font('intb', 5)}`}>Today’s opening times</h2>
               <OpeningTimes venues={venues} />
               <Space
                 v={{

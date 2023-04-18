@@ -24,9 +24,10 @@ const FeaturedMediaWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.h1.attrs({
-  className: `no-margin ${font('wb', 1)}`,
+  className: `${font('wb', 1)}`,
 })`
   display: inline-block;
+  margin-bottom: 0;
 `;
 
 type Props = {

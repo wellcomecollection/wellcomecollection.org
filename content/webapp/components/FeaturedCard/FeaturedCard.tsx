@@ -119,7 +119,11 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
         {article.series.length > 0 && (
           <Space v={{ size: 'l', properties: ['margin-top'] }}>
             {article.series.map(series => (
-              <p key={series.title} className={`${font('intb', 6)} no-margin`}>
+              <p
+                key={series.title}
+                className={`${font('intb', 6)}`}
+                style={{ marginBottom: 0 }}
+              >
                 <span className={font('intr', 6)}>Part of</span> {series.title}
               </p>
             ))}

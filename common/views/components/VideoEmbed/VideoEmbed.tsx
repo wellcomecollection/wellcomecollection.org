@@ -23,6 +23,10 @@ const YouTubePlay = () => (
   </svg>
 );
 
+const VideoEmbedWrapper = styled.figure`
+  margin: 0;
+`;
+
 const VideoTrigger = styled.button.attrs({
   className: 'plain-button',
 })<{ hasFullSizePoster?: boolean }>`
@@ -76,7 +80,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <figure className="no-margin">
+    <VideoEmbedWrapper>
       <IframeContainer>
         {isActive ? (
           <iframe
@@ -105,7 +109,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
       </IframeContainer>
 
       {caption && <Caption caption={caption} />}
-    </figure>
+    </VideoEmbedWrapper>
   );
 };
 

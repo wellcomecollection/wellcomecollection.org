@@ -24,7 +24,7 @@ const Item = styled.li<{ isActive: boolean }>`
 
 const Button = styled.button.attrs({
   type: 'button',
-  className: 'plain-button no-margin',
+  className: 'plain-button',
 })`
   display: flex;
   padding: 0;
