@@ -8,7 +8,6 @@ const BackToResults: FunctionComponent = () => {
   const { link } = useContext(SearchContext);
   const query = link.href?.query?.query;
   const page = link.href?.query?.page;
-  console.log({ link, query, page });
 
   if (!query) return null;
 
