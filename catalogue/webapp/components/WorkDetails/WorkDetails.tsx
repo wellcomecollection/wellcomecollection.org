@@ -24,7 +24,6 @@ import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import ExplanatoryText from './ExplanatoryText';
 import { toLink as itemLink } from '../ItemLink';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
@@ -427,50 +426,6 @@ const WorkDetails: FunctionComponent<Props> = ({
                   />
                 </Space>
               )}
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top'],
-                }}
-              >
-                <ExplanatoryText
-                  id="licenseDetail"
-                  controlText="Can I use this?"
-                >
-                  <>
-                    {digitalLocationInfo.license.humanReadableText && (
-                      <WorkDetailsText
-                        contents={digitalLocationInfo.license.humanReadableText}
-                      />
-                    )}
-                    <WorkDetailsText
-                      contents={
-                        <>
-                          Credit: {work.title.replace(/\.$/g, '')}.
-                          {credit && (
-                            <>
-                              {' '}
-                              <a
-                                href={`https://wellcomecollection.org/works/${work.id}`}
-                              >
-                                {credit}
-                              </a>
-                              .
-                            </>
-                          )}{' '}
-                          {digitalLocationInfo.license.url ? (
-                            <a href={digitalLocationInfo.license.url}>
-                              {digitalLocationInfo.license.label}
-                            </a>
-                          ) : (
-                            digitalLocationInfo.license.label
-                          )}
-                        </>
-                      }
-                    />
-                  </>
-                </ExplanatoryText>
-              </Space>
             </>
           )}
         </WorkDetailsSection>
