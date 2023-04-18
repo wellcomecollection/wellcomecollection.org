@@ -16,6 +16,7 @@ import { LicenseType } from '@weco/common/model/license';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import { videoEmbed } from '@weco/cardigan/stories/content';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 
 const Date = styled.span.attrs({ className: font('intr', 6) })`
   color: ${props => props.theme.color('neutral.600')};
@@ -193,8 +194,8 @@ const eventImage = {
 const bookImage = {
   contentUrl:
     'https://images.prismic.io/wellcomecollection/db52c5b0-d4bf-4def-b83e-14a2d7e9b42d_Together+book+cover.jpg?auto=compress,format',
-  width: 1848,
-  height: 2839,
+  width: 1080,
+  height: 1659,
   alt: 'Book cover featuring the word ‘Together’, multicoloured and in joined-up text',
   tasl: {
     title: null,
@@ -315,15 +316,14 @@ book.args = {
   isContentTypeInfoBeforeMedia: true,
   breadcrumbs: { items: [{ text: 'Books', url: '#' }] },
   FeaturedMedia: (
-    <BookImage
-      image={bookImage}
-      sizes={{
-        xlarge: 1 / 2,
-        large: 1 / 2,
-        medium: 1 / 2,
-        small: 1,
-      }}
-      quality="low"
-    />
+    <Space v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
+      <Layout8>
+        <BookImage
+          image={bookImage}
+          sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
+          quality="low"
+        />
+      </Layout8>
+    </Space>
   ),
 };
