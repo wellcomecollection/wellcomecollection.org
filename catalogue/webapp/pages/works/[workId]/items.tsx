@@ -311,6 +311,7 @@ const ItemPage: NextPage<Props> = ({
               v={{ size: 'm', properties: ['margin-top'] }}
             >
               <ButtonSolid
+                dataGtmTrigger="show_the_content"
                 text="Show the content"
                 clickHandler={() => {
                   trackGaEvent({
