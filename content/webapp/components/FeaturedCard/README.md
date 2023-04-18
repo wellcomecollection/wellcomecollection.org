@@ -1,5 +1,0 @@
-## Purpose
-To give more prominence to a piece of content than a regular card.
-
-
-[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/content/webapp/components/FeaturedCard/README.md)
