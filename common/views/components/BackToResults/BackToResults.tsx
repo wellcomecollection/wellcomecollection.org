@@ -22,7 +22,7 @@ const BackToResults: FunctionComponent = () => {
       }}
       className={font('intr', 5)}
     >
-      <span>{`Back to search${query ? ' results' : ''}`}</span>
+      <span>Back to search results</span>
     </NextLink>
   ) : null;
 };
