@@ -84,7 +84,7 @@ export function determineNextAvailableDate(
 
 type groupedExceptionalClosedDates = { included: Date[]; excluded: Date[] };
 
-export function groupExceptionalClosedDates(params: {
+function groupExceptionalClosedDates(params: {
   startDate: Date;
   endDate: Date;
   exceptionalClosedDates: Date[];
@@ -102,7 +102,7 @@ export function groupExceptionalClosedDates(params: {
   );
 }
 
-export function filterExceptionalClosedDates(
+function filterExceptionalClosedDates(
   exceptionalClosedDates: Date[],
   regularClosedDays: DayOfWeek[]
 ): Date[] {
@@ -111,7 +111,7 @@ export function filterExceptionalClosedDates(
   });
 }
 
-export function includedRegularClosedDays(params: {
+function includedRegularClosedDays(params: {
   startDate: Date;
   endDate: Date;
   regularClosedDays: DayOfWeek[];

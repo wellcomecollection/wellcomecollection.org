@@ -2,99 +2,13 @@ import {
   DigitalLocation,
   Location,
   PhysicalLocation,
-  AccessCondition,
 } from '@weco/common/model/catalogue';
 import {
   Item,
   Work,
-  Holding,
   PhysicalItem,
   RelatedWork,
 } from '@weco/catalogue/services/catalogue/types';
-import { DownloadOption } from '../types/manifest';
-import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
-import { Label } from '@weco/common/model/labels';
-import {
-  getCatalogueLicenseData,
-  LicenseData,
-} from '@weco/common/utils/licenses';
-
-export function getProductionDates(work: Work): string[] {
-  return work.production
-    .map(productionEvent => productionEvent.dates.map(date => date.label))
-    .reduce((a, b) => a.concat(b), []);
-}
-
-type DownloadImage = {
-  url: string;
-  width?: number;
-  height?: number;
-};
-
-export function getDownloadOptionsFromImageUrl(
-  downloadImage: DownloadImage
-): DownloadOption[] {
-  const smallImageWidth = 760;
-  const imageDimensions = {
-    fullWidth: downloadImage.width || null,
-    fullHeight: downloadImage.height || null,
-    smallWidth: smallImageWidth,
-    smallHeight:
-      downloadImage.width && downloadImage.height
-        ? `${Math.round(
-            downloadImage.height / (downloadImage.width / smallImageWidth)
-          )}`
-        : null,
-  };
-  if (downloadImage.url) {
-    return [
-      {
-        id: convertIiifImageUri(downloadImage.url, 'full'),
-        format: 'image/jpeg',
-        label: `This image (${
-          imageDimensions.fullWidth && imageDimensions.fullHeight
-            ? `${imageDimensions.fullWidth}x${imageDimensions.fullHeight} pixels`
-            : 'Full size'
-        })`,
-        width: 'full',
-      },
-      {
-        id: convertIiifImageUri(downloadImage.url, smallImageWidth),
-        format: 'image/jpeg',
-        label: `This image (${
-          imageDimensions.smallHeight
-            ? `${imageDimensions.smallWidth}x${imageDimensions.smallHeight} pixels`
-            : `${smallImageWidth}px`
-        })`,
-        width: smallImageWidth,
-      },
-    ];
-  } else {
-    return [];
-  }
-}
-
-type StacksItemStatus = {
-  id: string;
-  label: string;
-  type: 'ItemStatus';
-};
-
-// We have the items from the catalogue API and add additional data from the stacks API,
-// data from UI interactions and data we work out based on location and status
-export type PhysicalItemAugmented = {
-  locations: PhysicalLocation[];
-  dueDate?: string;
-  status?: StacksItemStatus;
-  checked?: boolean;
-  requestable?: boolean;
-  requested?: boolean;
-  requestSucceeded?: boolean;
-};
-
-export function getHoldings(work: Work): Holding[] {
-  return work.holdings || [];
-}
 
 export function getItemsWithPhysicalLocation(
   items: Item<Location>[]
@@ -108,40 +22,6 @@ export function getItemsWithPhysicalLocation(
       }
     })
     .filter((item?: PhysicalItem): item is PhysicalItem => Boolean(item));
-}
-
-export function getItemsByLocationType(
-  work: Work,
-  locationTypeId: string
-): Item<PhysicalLocation | DigitalLocation>[] {
-  return (work.items || []).filter(i =>
-    i.locations.find(l => l.locationType.id === locationTypeId)
-  );
-}
-
-export function getDigitalLocationOfType(
-  work: Work,
-  locationType: string
-): DigitalLocation | undefined {
-  const [location] = (work.items ?? [])
-    .map(item =>
-      item.locations.find(location => location.locationType.id === locationType)
-    )
-    .filter(
-      (
-        location?: DigitalLocation | PhysicalLocation
-      ): location is DigitalLocation => location?.type === 'DigitalLocation'
-    );
-  return location;
-}
-
-export function getAccessConditionForDigitalLocation(
-  digitalLocation: DigitalLocation
-): string | undefined {
-  const accessCondition = digitalLocation.accessConditions.find(
-    condition => condition.status
-  );
-  return accessCondition?.status?.id;
 }
 
 function itemIdentifierWithId(
@@ -176,41 +56,10 @@ export function getItemsWith(
   );
 }
 
-export function getItemIdentifiersWith(
-  work: Work,
-  { identifierId, locationType }: ItemProps,
-  identifierType: string
-): string[] {
-  const items: Item<PhysicalLocation | DigitalLocation>[] = getItemsWith(work, {
-    identifierId,
-    locationType,
-  });
-
-  return items.reduce(
-    (acc: string[], item: Item<PhysicalLocation | DigitalLocation>) => {
-      const matching = item.identifiers?.find(
-        identifier => identifier.identifierType.id === identifierType
-      );
-
-      const matchingValue = matching?.value;
-
-      if (matchingValue) {
-        acc.push(matchingValue);
-      }
-
-      return acc;
-    },
-    []
-  );
-}
-
 type ArchiveLabels = {
   reference: string;
   partOf?: string;
 };
-
-export const isAvailableOnline = (work: Work): boolean =>
-  (work.availabilities ?? []).some(({ id }) => id === 'online');
 
 const getArchiveRoot = (work: RelatedWork): RelatedWork =>
   work?.partOf?.[0] ? getArchiveRoot(work.partOf[0]) : work;
@@ -224,16 +73,6 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
     };
   }
   return undefined;
-};
-
-export const getCardLabels = (work: Work): Label[] => {
-  const cardLabels = work.workType ? [{ text: work.workType.label }] : [];
-
-  if (isAvailableOnline(work)) {
-    return [...cardLabels, { text: 'Online', labelColor: 'white' }];
-  } else {
-    return cardLabels;
-  }
 };
 
 function makeArchiveAncestorArray(
@@ -290,61 +129,4 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   Return all the ancestors of work starting with the most distant.
   */
   return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
-}
-
-type DigitalLocationInfo = {
-  accessCondition: string | undefined;
-  license: LicenseData | undefined;
-};
-
-export function getDigitalLocationInfo(
-  digitalLocation: DigitalLocation
-): DigitalLocationInfo {
-  return {
-    accessCondition: getAccessConditionForDigitalLocation(digitalLocation),
-    license:
-      digitalLocation?.license &&
-      getCatalogueLicenseData(digitalLocation.license),
-  };
-}
-
-export function getLocationLabel(
-  location: PhysicalLocation | DigitalLocation
-): string | undefined {
-  if ((location as PhysicalLocation).label) {
-    return (location as PhysicalLocation).label;
-  }
-}
-
-export function getLocationShelfmark(
-  location: PhysicalLocation | DigitalLocation
-): string | undefined {
-  if ((location as PhysicalLocation).shelfmark) {
-    return (location as PhysicalLocation).shelfmark;
-  }
-}
-
-export function getLocationLink(
-  location: PhysicalLocation | DigitalLocation
-): { url: string; linkText: string } | undefined {
-  if ((location as DigitalLocation).url) {
-    return {
-      url: (location as DigitalLocation).url,
-      linkText:
-        (location as DigitalLocation)?.linkText ||
-        (location as DigitalLocation).url,
-    };
-  }
-}
-
-export function getFirstPhysicalLocation(
-  item: PhysicalItem
-): PhysicalLocation | undefined {
-  return item.locations?.find(location => location.type === 'PhysicalLocation');
-}
-
-export function getFirstAccessCondition(
-  location?: Location
-): AccessCondition | undefined {
-  return location?.accessConditions?.[0];
 }
