@@ -8,8 +8,11 @@ const BackToResults: FunctionComponent = () => {
   const { link } = useContext(SearchContext);
   const query = link.href?.query?.query;
   const page = link.href?.query?.page;
+  console.log({ link, query, page });
 
-  return query ? (
+  if (!query) return null;
+
+  return (
     <NextLink
       {...link}
       data-gtm-trigger="back_to_search_results"
@@ -24,7 +27,7 @@ const BackToResults: FunctionComponent = () => {
     >
       <span>Back to search results</span>
     </NextLink>
-  ) : null;
+  );
 };
 
 export default BackToResults;
