@@ -75,7 +75,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
         {heading}:
       </ListWithHeadingItem>
       {items.map(({ url, text }, i) => (
-        <dd key={`${url || text}-${i}`} style={{ marginBottom: 0 }}>
+        <dd key={`${url || text}-${i}`} style={{ margin: 0 }}>
           <ItemText url={url} addBorder={i !== 0}>
             {text}
           </ItemText>
@@ -85,7 +85,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
   ) : (
     <PlainItemList>
       {items.map(({ url, text }, i) => (
-        <li key={`${url || text}-${i}`} style={{ marginBottom: 0 }}>
+        <li key={`${url || text}-${i}`}>
           <ItemText url={url} addBorder={i !== 0}>
             {text}
           </ItemText>
