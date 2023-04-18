@@ -230,6 +230,7 @@ const RegistrationPage: NextPage<Props> = ({
                     <SpacingComponent>
                       <FullWidthButton>
                         <ButtonSolid
+                          dataGtmTrigger="create_library_account"
                           type={ButtonTypes.submit}
                           text="Create library account"
                         />
