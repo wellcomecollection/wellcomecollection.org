@@ -38,8 +38,6 @@ compactCard.args = {
 compactCard.storyName = 'CompactCard';
 compactCard.parameters = {
   gridSizes: { s: 12, m: 10, l: 8, xl: 8 },
-};
-compactCard.parameters = {
   // Sets a delay for the component's stories
   chromatic: { delay: 300 },
 };
@@ -101,24 +99,20 @@ eventPromo.args = {
 };
 eventPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
-};
-eventPromo.storyName = 'EventPromo';
-eventPromo.parameters = {
   // Sets a delay for the component's stories
   chromatic: { delay: 300 },
 };
+eventPromo.storyName = 'EventPromo';
 
 const ExhibitionPromoTemplate = args => <ExhibitionPromo {...args} />;
 export const exhibitionPromo = ExhibitionPromoTemplate.bind({});
 exhibitionPromo.args = { exhibition: exhibitionBasic };
 exhibitionPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
-};
-exhibitionPromo.storyName = 'ExhibitionPromo';
-exhibitionPromo.parameters = {
   // Sets a delay for the component's stories
   chromatic: { delay: 300 },
 };
+exhibitionPromo.storyName = 'ExhibitionPromo';
 
 const StoryPromoTemplate = args => <StoryPromo {...args} />;
 export const storyPromo = StoryPromoTemplate.bind({});
@@ -128,9 +122,7 @@ storyPromo.args = {
 };
 storyPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
-};
-storyPromo.storyName = 'StoryPromo';
-storyPromo.parameters = {
   // Sets a delay for the component's stories
   chromatic: { delay: 300 },
 };
+storyPromo.storyName = 'StoryPromo';
