@@ -167,7 +167,7 @@ const ExhibitionContentTypeInfo = () => (
 );
 
 const BookContentTypeInfo = () => (
-  <p className={`${font('intb', 3)}`} style={{ marginBottom: 0 }}>
+  <p className={font('intb', 3)} style={{ marginBottom: 0 }}>
     Loneliness, Health & What Happens When We Find Connection
   </p>
 );
