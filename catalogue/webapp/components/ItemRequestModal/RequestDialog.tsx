@@ -129,7 +129,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
           currentHoldRequests={currentHoldNumber}
         />
       </Header>
-      <p className={`${font('intb', 5)}`} style={{ marginBottom: 0 }}>
+      <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
         You are about to request the following item:
       </p>
       <Space v={{ size: 's', properties: ['margin-bottom'] }}>
