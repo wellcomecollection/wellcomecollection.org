@@ -11,7 +11,6 @@ import {
   ServerData,
 } from '../../server-data/types';
 import { ServerDataContext } from '../../server-data/Context';
-import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
 import { AppErrorProps } from '../../services/app';
 import useMaintainPageHeight from '../../services/app/useMaintainPageHeight';
@@ -49,18 +48,16 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({ pageProps, Component }) => {
     <>
       <ApmContextProvider>
         <ServerDataContext.Provider value={serverData}>
-          <UserProvider>
-            <AppContextProvider>
-              <ThemeProvider theme={theme}>
-                <GlobalStyle
-                  toggles={serverData.toggles}
-                  isFontsLoaded={useIsFontsLoaded()}
-                />
-                {!pageProps.err &&
-                  getLayout(<Component {...(pageProps as any)} />)}
-              </ThemeProvider>
-            </AppContextProvider>
-          </UserProvider>
+          <AppContextProvider>
+            <ThemeProvider theme={theme}>
+              <GlobalStyle
+                toggles={serverData.toggles}
+                isFontsLoaded={useIsFontsLoaded()}
+              />
+              {!pageProps.err &&
+                getLayout(<Component {...(pageProps as any)} />)}
+            </ThemeProvider>
+          </AppContextProvider>
         </ServerDataContext.Provider>
       </ApmContextProvider>
     </>

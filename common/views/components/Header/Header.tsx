@@ -29,9 +29,6 @@ import {
   HeaderNav,
   NavLoginWrapper,
 } from './Header.styles';
-import DesktopSignIn from './DesktopSignIn';
-import MobileSignIn from './MobileSignIn';
-import HeaderSearch from './HeaderSearch';
 
 const NoJSIconWrapper = styled.div`
   padding: 5px 8px 0;
@@ -170,7 +167,6 @@ const Header: FunctionComponent<Props> = ({
                       </HeaderItem>
                     ))}
                   </HeaderList>
-                  {!isMinimalHeader && <MobileSignIn />}
                 </HeaderNav>
 
                 <HeaderActions>
@@ -209,21 +205,11 @@ const Header: FunctionComponent<Props> = ({
                       )}
                     </>
                   )}
-
-                  {!isMinimalHeader && <DesktopSignIn />}
                 </HeaderActions>
               </NavLoginWrapper>
             </Container>
           </GridCell>
         </Wrapper>
-
-        {!isMinimalHeader && (
-          <HeaderSearch
-            isActive={searchDropdownIsActive}
-            handleCloseModal={() => setSearchDropdownIsActive(false)}
-            searchButtonRef={searchButtonRef}
-          />
-        )}
       </div>
     </FocusTrap>
   );

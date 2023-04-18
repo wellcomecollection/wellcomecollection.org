@@ -1,14 +1,9 @@
 import NextApp, { AppContext, AppProps } from 'next/app';
 import App from '@weco/common/views/pages/_app';
-import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import { ReactElement } from 'react';
 
 export default function CatalogueApp(props: AppProps): ReactElement {
-  return (
-    <SearchContextProvider>
-      <App {...props} />
-    </SearchContextProvider>
-  );
+  return <App {...props} />;
 }
 
 // This is here to disable Automatic Static Optimisation as per
