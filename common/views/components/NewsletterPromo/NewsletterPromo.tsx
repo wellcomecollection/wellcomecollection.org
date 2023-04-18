@@ -1,6 +1,6 @@
 import { useState, useContext, FunctionComponent } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import TextInput from '../TextInput/TextInput';
@@ -155,15 +155,18 @@ const NewsletterPromo: FunctionComponent = () => {
               <BoxInner>
                 <CopyWrap>
                   <h2
-                    className={classNames({
-                      h2: true,
-                      'no-margin': !isSuccess,
-                    })}
+                    className="h2"
+                    style={{ marginBottom: !isSuccess ? 0 : undefined }}
                   >
                     {isSuccess ? 'Thank you for signing up!' : headingText}
                   </h2>
                   {!isSuccess && (
-                    <p className={`${font('intr', 5)} no-margin`}>{bodyText}</p>
+                    <p
+                      className={`${font('intr', 5)}`}
+                      style={{ marginBottom: 0 }}
+                    >
+                      {bodyText}
+                    </p>
                   )}
                   {isSuccess && (
                     <div className={`${font('intr', 5)} spaced-text`}>
@@ -219,7 +222,7 @@ const NewsletterPromo: FunctionComponent = () => {
                 )}
               </BoxInner>
               {!isSuccess && (
-                <p className={`${font('intr', 6)} no-margin`}>
+                <p className={`${font('intr', 6)}`} style={{ marginBottom: 0 }}>
                   <a href="/newsletter">All our newsletters</a>
                 </p>
               )}

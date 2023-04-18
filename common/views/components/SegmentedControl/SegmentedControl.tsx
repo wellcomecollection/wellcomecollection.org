@@ -182,7 +182,7 @@ const MobileControlsModal = styled(Space).attrs({
 `;
 
 const Button = styled.button.attrs({
-  className: 'segmented-control__header plain-button no-margin',
+  className: 'segmented-control__header plain-button',
 })`
   padding: 0;
 `;

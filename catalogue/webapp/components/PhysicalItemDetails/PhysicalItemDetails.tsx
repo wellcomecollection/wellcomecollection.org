@@ -61,8 +61,10 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 `;
 
 const DetailHeading = styled.h3.attrs({
-  className: `${font('intb', 5, { small: 3, medium: 3 })} no-margin`,
-})``;
+  className: `${font('intb', 5, { small: 3, medium: 3 })}`,
+})`
+  margin-bottom: 0;
+`;
 
 export type Props = {
   item: PhysicalItem;

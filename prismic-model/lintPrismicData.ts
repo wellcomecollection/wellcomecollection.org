@@ -109,6 +109,38 @@ function detectNonPromoImageStories(doc: any): string[] {
   return [];
 }
 
+// Contributors have a `sameAs` field which is used to generate links to
+// their pages elsewhere, e.g. social media or organisation websites.
+//
+// These fields need to have both a link and a title specified, otherwise
+// we don't show them.  Find any contributors where one is supplied but
+// not the other -- in these cases, no link will appear.
+function detectIncompleteContributorSameAs(doc: any): string[] {
+  if (doc.type === 'people' || doc.type === 'organisations') {
+    return doc.data.sameAs
+
+      .filter(
+        // Remove any instances where there's an entry but no data,
+        // i.e. { link: null, title: [] }
+        sameAs => !(sameAs.link === null && sameAs.title.length === 0)
+      )
+
+      .filter(
+        // Remove any instances where both the link and title are populated
+        // e.g. [ { link: 'http://www.blueprinttheatre.co.uk/', title: [ [Object] ] } ]
+        sameAs => !(sameAs.link !== null && sameAs.title.length > 0)
+      )
+      .map(sameAs =>
+        sameAs.link === null
+          ? `The sameAs field has a title (${JSON.stringify(
+              sameAs.title
+            )}) but no link; add a link to make it appear`
+          : `The sameAs field has a link (${sameAs.link}) but no title; add a title to make it appear`
+      );
+  }
+  return [];
+}
+
 async function run() {
   const snapshotFile = await downloadPrismicSnapshot();
 
@@ -121,6 +153,7 @@ async function run() {
       ...detectBrokenInterpretationTypeLinks(doc),
       ...detectNonHttpContributorLinks(doc),
       ...detectNonPromoImageStories(doc),
+      ...detectIncompleteContributorSameAs(doc),
     ];
 
     totalErrors += errors.length;

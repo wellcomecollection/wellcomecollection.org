@@ -107,6 +107,10 @@ const FiltersHeader = styled(Space).attrs({
   top: 0px;
   left: 0px;
   width: 100%;
+
+  > * {
+    margin-bottom: 0;
+  }
 `;
 
 type CheckboxFilterProps = {
@@ -232,7 +236,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         modalStyle="filters"
       >
         <FiltersHeader>
-          <h3 className="h3 no-margin">All filters</h3>
+          <h3 className="h3">All filters</h3>
         </FiltersHeader>
 
         <ModalInner>

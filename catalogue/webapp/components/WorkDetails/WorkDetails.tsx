@@ -378,7 +378,10 @@ const WorkDetails: FunctionComponent<Props> = ({
                       properties: ['margin-top'],
                     }}
                   >
-                    <p className={`no-margin ${font('lr', 6)}`}>
+                    <p
+                      className={`${font('lr', 6)}`}
+                      style={{ marginBottom: 0 }}
+                    >
                       Contains:{' '}
                       {collectionManifestsCount > 0
                         ? `${collectionManifestsCount} ${

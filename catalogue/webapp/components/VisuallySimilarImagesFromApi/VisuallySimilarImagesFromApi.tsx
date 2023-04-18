@@ -132,7 +132,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
           </a>
         ))}
       </Wrapper>
-      <p className={`${font('intr', 6)} no-margin`}>
+      <p className={`${font('intr', 6)}`} style={{ marginBottom: 0 }}>
         We use machine learning to find images in our collection with similar
         shapes and features.
         <br />

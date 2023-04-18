@@ -90,8 +90,12 @@ export const ChangeEmail: React.FunctionComponent<ChangeDetailsModalContentProps
           <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
         )}
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <h3 className={`${font('intb', 5)} no-margin`}>Email</h3>
-          <p className={`${font('intr', 5)} no-margin`}>{user?.email}</p>
+          <h3 className={`${font('intb', 5)}`} style={{ marginBottom: 0 }}>
+            Email
+          </h3>
+          <p className={`${font('intr', 5)}`} style={{ marginBottom: 0 }}>
+            {user?.email}
+          </p>
         </Space>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldMargin>

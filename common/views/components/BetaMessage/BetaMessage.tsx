@@ -23,7 +23,7 @@ const BetaMessage: FunctionComponent<Props> = ({
     <Space h={{ size: 's', properties: ['margin-right'] }}>
       <Icon icon={underConstruction} />
     </Space>
-    <p className="no-margin">{message}</p>
+    <p style={{ marginBottom: 0 }}>{message}</p>
   </StyledBetaMessage>
 );
 

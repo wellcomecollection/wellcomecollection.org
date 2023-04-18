@@ -14,7 +14,7 @@ const RegistrationInformation: FunctionComponent<Props> = ({ email }) => {
       <SectionHeading as="h1">Apply for a library membership</SectionHeading>
 
       <h2 className={font('intb', 4)}>Your details</h2>
-      <p className="no-margin">
+      <p style={{ marginBottom: 0 }}>
         Email address: <strong className={font('intb', 5)}>{email}</strong>
       </p>
       <Space
