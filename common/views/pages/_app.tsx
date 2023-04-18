@@ -13,7 +13,6 @@ import {
 import { ServerDataContext } from '../../server-data/Context';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
 import { AppErrorProps } from '../../services/app';
-import useMaintainPageHeight from '../../services/app/useMaintainPageHeight';
 import { NextPage } from 'next';
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
@@ -37,7 +36,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({ pageProps, Component }) => {
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  useMaintainPageHeight();
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
   }, []);
