@@ -3,7 +3,6 @@ import {
   FunctionComponent,
   PropsWithChildren,
   ReactElement,
-  ReactNode,
   useEffect,
   useState,
 } from 'react';
@@ -47,7 +46,7 @@ type PageLayoutMetadata = {
   apiToolbarLinks?: ApiToolbarLink[];
 };
 
-const SearchLayout: FunctionComponent<
+const SearchPageLayout: FunctionComponent<
   PropsWithChildren<{ apiToolbarLinks: ApiToolbarLink[] }>
 > = ({ children, apiToolbarLinks }) => {
   const router = useRouter();
@@ -231,9 +230,9 @@ const SearchLayout: FunctionComponent<
 };
 
 export const getSearchLayout = (page: ReactElement): JSX.Element => (
-  <SearchLayout apiToolbarLinks={page.props.apiToolbarLinks}>
+  <SearchPageLayout apiToolbarLinks={page.props.apiToolbarLinks}>
     {page}
-  </SearchLayout>
+  </SearchPageLayout>
 );
 
-export default SearchLayout;
+export default SearchPageLayout;
