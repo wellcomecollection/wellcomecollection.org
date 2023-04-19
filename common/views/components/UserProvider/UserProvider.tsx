@@ -48,7 +48,7 @@ const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
         signal: abortSignal,
       });
       switch (resp.status) {
-        case 401:
+        case 204:
           setState('signedout');
           break;
 
