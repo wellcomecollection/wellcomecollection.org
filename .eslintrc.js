@@ -32,7 +32,7 @@ const sharedRules = {
 };
 
 module.exports = {
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   plugins: sharedPlugins,
   env: {
     'jest/globals': true,
@@ -42,6 +42,10 @@ module.exports = {
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
+    },
+    requireConfigFile: false,
+    babelOptions: {
+      presets: ['@babel/preset-react'],
     },
   },
   settings: {

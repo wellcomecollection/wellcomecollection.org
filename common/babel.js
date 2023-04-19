@@ -1,4 +1,4 @@
-module.exports = function (api) {
+module.exports = function () {
   const presets = ['next/babel'];
   const plugins = [
     [
@@ -6,7 +6,6 @@ module.exports = function (api) {
       {
         ssr: true,
         displayName: true,
-        preprocess: false,
       },
     ],
   ];
