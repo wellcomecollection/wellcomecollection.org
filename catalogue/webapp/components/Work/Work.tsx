@@ -29,8 +29,6 @@ import { useToggles } from '@weco/common/server-data/Context';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import { Audio, Video } from 'services/iiif/types/manifest/v3';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { propsToQuery } from '@weco/common/utils/routes';
-import { ParsedUrlQuery } from 'querystring';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -118,7 +116,6 @@ type Props = {
 };
 
 const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
-  const { link: searchLink } = useContext(SearchContext);
   const { worksTabbedNav } = useToggles();
   const transformedIIIFManifest = useTransformedManifest(work);
 
@@ -182,30 +179,17 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
         hideNewsletterPromo={true}
       >
         <Container>
-          <SearchForm
-            query={searchLink.as.query?.query?.toString() || ''}
-            linkResolver={params => {
-              const queryWithSource = propsToQuery(params);
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              const { source = undefined, ...queryWithoutSource } = {
-                ...queryWithSource,
-              };
-
-              const as = {
-                pathname: '/search/works',
-                query: queryWithoutSource as ParsedUrlQuery,
-              };
-
-              const href = {
-                pathname: '/search/works',
-                query: queryWithSource,
-              };
-
-              return { href, as };
-            }}
-            ariaDescribedBy="library-catalogue-form-description"
-            isImageSearch={false}
-          />
+          <Grid>
+            <Space
+              v={{
+                size: 's',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
+              className={grid({ s: 12 })}
+            >
+              <SearchForm searchCategory="works" location="page" />
+            </Space>
+          </Grid>
           <Grid>
             <Space
               v={{
