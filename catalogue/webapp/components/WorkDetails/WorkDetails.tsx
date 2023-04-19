@@ -482,6 +482,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection headingText="Selected images from this work">
           <ButtonSolidLink
+            dataGtmTrigger="view_selected_images"
             colors={themeValues.buttonColors.greenTransparentGreen}
             text={
               work.images.length > 1

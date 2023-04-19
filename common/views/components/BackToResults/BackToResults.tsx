@@ -9,9 +9,12 @@ const BackToResults: FunctionComponent = () => {
   const query = link.href?.query?.query;
   const page = link.href?.query?.page;
 
+  if (!query) return null;
+
   return (
     <NextLink
       {...link}
+      data-gtm-trigger="back_to_search_results"
       onClick={() => {
         trackGaEvent({
           category: 'BackToResults',
@@ -21,7 +24,7 @@ const BackToResults: FunctionComponent = () => {
       }}
       className={font('intr', 5)}
     >
-      <span>{`Back to search${query ? ' results' : ''}`}</span>
+      <span>Back to search results</span>
     </NextLink>
   );
 };
