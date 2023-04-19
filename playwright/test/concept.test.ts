@@ -1,4 +1,4 @@
-import { test as base, expect } from '@playwright/test';
+import { Page, test as base, expect } from '@playwright/test';
 import { concept } from './contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
@@ -32,9 +32,14 @@ const conceptIds = {
 
   // Chosen because there are images both about and by this person
   'Darwin, Charles, 1809-1882': 'v3m7uhy9',
+
+  // A Genre chosen because it has works and images both about and using the technique
+  Songs: 'cfxnfvnc',
+  // A Genre with both works and images using it.
+  Lithographs: 'fmydsuw2',
 };
 
-test.describe('concepts', () => {
+test.describe('concepts @conceptPage', () => {
   test('concept pages get a list of related works', async ({
     page,
     context,
@@ -151,3 +156,105 @@ test.describe('concepts', () => {
     );
   });
 });
+
+const allRecordsLink = async (
+  page: Page,
+  tabId: string | undefined,
+  recordType: string
+) => {
+  // Note: the `link-reset` class is added by ButtonSolid, and is a way to
+  // make sure we find the "All Works" link, and not a link to an individual work.
+  const allRecords = await page.waitForSelector(
+    `div#tabpanel-${tabId} a.link-reset`
+  );
+  const content = await allRecords.textContent();
+
+  expect(content?.startsWith(`All ${recordType}`)).toBe(true);
+  return allRecords;
+};
+
+const showsTab = async (page: Page, tabId: string, tabText: string) => {
+  const tab = await page.waitForSelector(`button#tab-${tabId}`);
+  const content = await tab.textContent();
+  expect(content?.startsWith(tabText)).toBe(true);
+};
+
+test.describe(
+  'genres with works and images both about and using @conceptPage @genres',
+  () => {
+    test.beforeEach(async ({ page, context }) => {
+      await concept(conceptIds['Songs'], context, page);
+    });
+
+    test('two works sections are shown: about and using', async ({ page }) => {
+      await showsTab(page, 'worksAbout', 'About this type/technique');
+      await showsTab(page, 'worksIn', 'Using this type/technique');
+    });
+
+    test('the "All works" link filters by all ids associated with the concept', async ({
+      page,
+    }) => {
+      await page.click(`css=button#tab-worksIn`);
+
+      const allWorks = await allRecordsLink(page, 'worksIn', 'works');
+      expect(await allWorks.getAttribute('href')).toBe(
+        `/search/works?genres.concepts=${encodeURIComponent(
+          '"cfxnfvnc","sndumejv","vb3xq295"'
+        )}`
+      );
+    });
+
+    test('two images sections are shown: about and using', async ({ page }) => {
+      await showsTab(page, 'imagesAbout', 'About this type/technique');
+      await showsTab(page, 'imagesIn', 'Using this type/technique');
+    });
+
+    test('the "All images" link filters by all ids associated with the concept', async ({
+      page,
+    }) => {
+      await page.click(`css=button#tab-imagesIn`);
+      const allImages = await allRecordsLink(page, 'imagesIn', 'images');
+      expect(await allImages.getAttribute('href')).toBe(
+        `/search/images?source.genres.concepts=${encodeURIComponent(
+          '"cfxnfvnc","sndumejv","vb3xq295"'
+        )}`
+      );
+    });
+  }
+);
+
+test.describe(
+  'genres used by works and images, with nothing about them @conceptPage @genres',
+  () => {
+    test.beforeEach(async ({ page, context }) => {
+      await concept(conceptIds['Lithographs'], context, page);
+    });
+
+    test('both the Works and images sections are shown', async ({ page }) => {
+      await page.waitForSelector('h2 >> text="Catalogue"');
+      await page.waitForSelector('h2 >> text="Images"');
+    });
+
+    test('the "All works" link filters by all ids associated with the concept', async ({
+      page,
+    }) => {
+      const allWorks = await allRecordsLink(page, 'worksIn', 'works');
+      expect(await allWorks.getAttribute('href')).toBe(
+        `/search/works?genres.concepts=${encodeURIComponent(
+          '"fmydsuw2","pzbaq8tx","yqxm24zx"'
+        )}`
+      );
+    });
+
+    test('the "All images" link filters by all ids associated with the concept', async ({
+      page,
+    }) => {
+      const allImages = await allRecordsLink(page, 'imagesIn', 'images');
+      expect(await allImages.getAttribute('href')).toBe(
+        `/search/images?source.genres.concepts=${encodeURIComponent(
+          '"fmydsuw2","pzbaq8tx","yqxm24zx"'
+        )}`
+      );
+    });
+  }
+);
