@@ -82,8 +82,10 @@ const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
   width: 36px;
   max-width: 50px;
   background: none;
-  color: ${({ darkBg }) => (darkBg ? '#ffffff' : '#121212')};
-  border: ${({ darkBg }) => (darkBg ? '#cccccc' : '#6b6b6b')} 1px solid;
+  color: ${({ darkBg, theme }) => theme.color(darkBg ? 'white' : 'black')};
+  border: ${({ darkBg, theme }) =>
+      theme.color(darkBg ? 'neutral.300' : 'neutral.600')}
+    1px solid;
   border-radius: 5px;
   text-align: center;
   margin: 0 10px;
@@ -149,7 +151,7 @@ export const Pagination: FunctionComponent<Props> = ({
         <>
           <span aria-hidden>Showing page</span>
           <span id="searchInputLabel" className="visually-hidden">
-            {`Showing page ${currentPage} / ${totalPages}`}
+            {`Showing page ${currentPage} / ${formatNumber(totalPages)}`}
           </span>
           <PageSelectorInput
             name="page"
@@ -158,7 +160,7 @@ export const Pagination: FunctionComponent<Props> = ({
             defaultValue={currentPage}
             darkBg={hasDarkBg}
           />
-          <span aria-hidden>/ {totalPages}</span>
+          <span aria-hidden>/ {formatNumber(totalPages)}</span>
         </>
       ) : (
         <span>
