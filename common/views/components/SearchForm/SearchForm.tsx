@@ -1,97 +1,83 @@
 import { useRouter } from 'next/router';
-import { capitalize } from '@weco/common/utils/grammar';
-import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
-import {
-  getUrlQueryFromSortValue,
-  linkResolver,
-  getQueryPropertyValue,
-} from '@weco/common/utils/search';
-import { useState, useEffect, ReactElement } from 'react';
-import styled from 'styled-components';
-import { trackGaEvent } from '@weco/common/utils/ga';
-import Space from '@weco/common/views/components/styled/Space';
+import SearchBar, {
+  ValidLocations,
+} from '@weco/common/views/components/SearchBar/SearchBar';
+import { linkResolver, getQueryPropertyValue } from '@weco/common/utils/search';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
+import { useState, useRef, useEffect, useContext, ReactElement } from 'react';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
-const SearchBarContainer = styled(Space)`
-  ${props => props.theme.media('medium', 'max-width')`
-    margin-bottom:0;
-  `}
-`;
-// TODO if on /collections can't use router push - how does the header search take care of this
-const updateUrl = (form: HTMLFormElement, router) => {
-  const formValues = formDataAsUrlQuery(form);
+type SearchCategory = 'all' | 'works';
 
-  const sortOptionValue = getQueryPropertyValue(formValues.sortOrder);
-  const urlFormattedSort = sortOptionValue
-    ? getUrlQueryFromSortValue(sortOptionValue)
-    : undefined;
+function placeholderText(searchCategory: SearchCategory) {
+  switch (searchCategory) {
+    case 'all':
+      return 'Search our stories, images and catalogue';
+    case 'works':
+      return 'Search our catalogue and images';
+    default:
+      return 'Search our stories, images and catalogue';
+  }
+}
 
-  const link = linkResolver({
-    params: {
-      ...formValues,
-      ...(urlFormattedSort && {
-        sort: urlFormattedSort.sort,
-        sortOrder: urlFormattedSort.sortOrder,
-      }),
-    },
-    pathname: router.pathname,
-  });
-
-  return router.push(link.href, link.as);
-};
-
-// TODO get it working on /collections
-const SearchForm = (): ReactElement => {
+function formAction(searchCategory: SearchCategory) {
+  switch (searchCategory) {
+    case 'all':
+      return '/search';
+    case 'works':
+      return '/search/works';
+    default:
+      return '/search';
+  }
+}
+// This search form is used in the Header and also at the top of /collections and /works/{id} pages
+// If it's at the top of /collections or /works/{id} we want to show '/search/works'
+// otherwise we default to '/search'
+const SearchForm = ({
+  searchCategory = 'all',
+  location = 'header',
+}: {
+  searchCategory?: SearchCategory;
+  location?: ValidLocations;
+}): ReactElement => {
   const router = useRouter();
-  const currentSearchCategory =
-    router.pathname === '/search'
-      ? 'overview'
-      : router.pathname.slice(router.pathname.lastIndexOf('/') + 1);
-  const queryString = getQueryPropertyValue(router?.query?.query);
-  const [inputValue, setInputValue] = useState(queryString || '');
-  const searchbarPlaceholderText = {
-    overview: 'Search our stories, images and catalogue',
-    stories: 'Search for stories',
-    images: 'Search for images',
-    works: 'Search the catalogue',
-  };
-  /// //////////
+  const routerQuery = getQueryPropertyValue(router?.query?.query);
+  const { link: searchLink } = useContext(SearchContext);
+  const initialValue =
+    routerQuery || searchLink.as.query?.query?.toString() || '';
+  const [inputValue, setInputValue] = useState(initialValue);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setInputValue(queryString || ''); // This accounts for queries done on these pages, but from the global search
-  }, [currentSearchCategory, queryString]);
+    setInputValue(initialValue);
+  }, [router?.pathname, router?.query]);
 
+  const updateUrl = (form: HTMLFormElement) => {
+    const formValues = formDataAsUrlQuery(form);
+    const link = linkResolver({
+      params: formValues,
+      pathname: formAction(searchCategory),
+    });
+
+    return router.push(link.href, link.as);
+  };
   return (
     <form
-      role="search"
-      id="search-page-form"
+      action={formAction(searchCategory)}
+      id={`search-form-${searchCategory}`}
       onSubmit={event => {
         event.preventDefault();
-
-        trackGaEvent({
-          category: 'SearchForm',
-          action: 'submit search',
-          label: router.query.query as string,
-        });
-
-        updateUrl(event.currentTarget, router);
+        updateUrl(event.currentTarget);
       }}
     >
-      <h1 className="visually-hidden">
-        {`${capitalize(currentSearchCategory)} search`}
-      </h1>
-
-      <SearchBarContainer
-        v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
-      >
-        <SearchBar
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          placeholder={searchbarPlaceholderText[currentSearchCategory]}
-          form="search-page-form"
-          location="search"
-        />
-      </SearchBarContainer>
+      <SearchBar
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        form={`search-form-${searchCategory}`}
+        placeholder={placeholderText(searchCategory)}
+        inputRef={inputRef}
+        location={location}
+      />
     </form>
   );
 };
