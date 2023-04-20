@@ -335,10 +335,10 @@ export const ConceptPage: NextPage<Props> = ({
   // the two tabs lists are ordered consistently as defined by tabOrder,
   // which is ordered so that the more specific tabs come first.
   const [selectedWorksTab, setSelectedWorksTab] = useState(
-    worksTabs[0]?.id || 'worksAbout'
+    worksTabs[0]?.id || ''
   );
   const [selectedImagesTab, setSelectedImagesTab] = useState(
-    imagesTabs[0]?.id || 'imagesAbout'
+    imagesTabs[0]?.id || ''
   );
 
   return (

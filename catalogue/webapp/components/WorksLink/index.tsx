@@ -61,7 +61,7 @@ const codecMap = {
   availabilities: csvCodec,
   languages: csvCodec,
   'genres.label': quotedCsvCodec,
-  'genres.concepts': quotedCsvCodec,
+  'genres.concepts': csvCodec,
   'subjects.label': quotedCsvCodec,
   'contributors.agent.label': quotedCsvCodec,
   sort: maybeStringCodec,

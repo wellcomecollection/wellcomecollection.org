@@ -190,7 +190,6 @@ test.describe(
     test('two works sections are shown: about and using', async ({ page }) => {
       await showsTab(page, 'worksAbout', 'About this type/technique');
       await showsTab(page, 'worksIn', 'Using this type/technique');
-      expect(''.toBe(''));
     });
 
     test('the "All works" link filters by all ids associated with the concept', async ({
@@ -201,7 +200,7 @@ test.describe(
       const allWorks = await allRecordsLink(page, 'worksIn', 'works');
       expect(await allWorks.getAttribute('href')).toBe(
         `/search/works?genres.concepts=${encodeURIComponent(
-          '"cfxnfvnc","sndumejv","vb3xq295"'
+          'cfxnfvnc,sndumejv,vb3xq295'
         )}`
       );
     });
@@ -218,7 +217,7 @@ test.describe(
       const allImages = await allRecordsLink(page, 'imagesIn', 'images');
       expect(await allImages.getAttribute('href')).toBe(
         `/search/images?source.genres.concepts=${encodeURIComponent(
-          '"cfxnfvnc","sndumejv","vb3xq295"'
+          'cfxnfvnc,sndumejv,vb3xq295'
         )}`
       );
     });
@@ -243,7 +242,7 @@ test.describe(
       const allWorks = await allRecordsLink(page, 'worksIn', 'works');
       expect(await allWorks.getAttribute('href')).toBe(
         `/search/works?genres.concepts=${encodeURIComponent(
-          '"fmydsuw2","pzbaq8tx","yqxm24zx"'
+          'fmydsuw2,pzbaq8tx,yqxm24zx'
         )}`
       );
     });
@@ -254,7 +253,7 @@ test.describe(
       const allImages = await allRecordsLink(page, 'imagesIn', 'images');
       expect(await allImages.getAttribute('href')).toBe(
         `/search/images?source.genres.concepts=${encodeURIComponent(
-          '"fmydsuw2","pzbaq8tx","yqxm24zx"'
+          'fmydsuw2,pzbaq8tx,yqxm24zx'
         )}`
       );
     });

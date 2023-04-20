@@ -43,7 +43,7 @@ const codecMap = {
   page: numberCodec,
   'locations.license': csvCodec,
   'source.genres.label': quotedCsvCodec,
-  'source.genres.concepts': quotedCsvCodec,
+  'source.genres.concepts': csvCodec,
   'source.subjects.label': quotedCsvCodec,
   'source.contributors.agent.label': quotedCsvCodec,
   color: maybeStringCodec,
