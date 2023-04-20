@@ -36,17 +36,40 @@ const DynamicFilterArray = ({
     }
   };
 
-  const renderDynamicFilter = (f: Filter, i: number, arr: Filter[]) => {
+  const renderDynamicFilter = (f: Filter, i: number) => {
+    const isHidden = hasCalculatedFilters
+      ? !dynamicFilters.map(f => f.id).includes(f.id)
+      : false;
+
     // We need to have the excluded filters still in the form so their values gets retained in the URL
     // when more filtering is done (e.g. partOf.title)
-    // Only checkbox types are excluded at the moment
-    return f.excludeFromMoreFilters && f.type === 'checkbox' ? (
+    return isHidden || f.excludeFromMoreFilters ? (
       <div className="is-hidden">
-        <CheckboxFilter
-          {...(!showMoreFiltersModal && { form: searchFormId })}
-          f={f}
-          changeHandler={changeHandler}
-        />
+        {f.type === 'checkbox' && (
+          <CheckboxFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
+            f={f}
+            changeHandler={changeHandler}
+          />
+        )}
+        {f.type === 'dateRange' && (
+          <DesktopDateRangeFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
+            f={f}
+            changeHandler={changeHandler}
+            hasNoOptions={hasNoResults && !(f.from.value || f.to.value)}
+          />
+        )}
+
+        {f.type === 'color' && (
+          <DesktopColorFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
+            name={f.id}
+            color={f.color}
+            onChangeColor={changeHandler}
+            hasNoOptions={hasNoResults && !f.color}
+          />
+        )}
       </div>
     ) : (
       // TODO remove index from key once we resolve the doubled IDs issue
@@ -55,11 +78,7 @@ const DynamicFilterArray = ({
       <Space
         key={`${f.id}-${i}`}
         data-is-filter // Needed in useLayoutEffect
-        h={
-          i + 1 !== arr.length
-            ? { size: 'm', properties: ['margin-right'] }
-            : undefined
-        }
+        h={{ size: 'm', properties: ['margin-right'] }}
       >
         {f.type === 'checkbox' && (
           <CheckboxFilter
@@ -91,9 +110,6 @@ const DynamicFilterArray = ({
     );
   };
 
-  const dynamicFiltersSource = filters.map(renderDynamicFilter);
-  const dynamicFiltersCalculated = dynamicFilters.map(renderDynamicFilter);
-
   /**
    * if you don't set this to false, then on route change, you don't get the
    * full filter list rendered before useLayoutEffect runs, which will have
@@ -116,7 +132,7 @@ const DynamicFilterArray = ({
       const arrOfDropdownButtonNodes =
         document.querySelectorAll('[data-is-filter]');
 
-      const showAllFiltersModalButtonWidthInPixels = 150;
+      const showAllFiltersModalButtonWidthInPixels = 136;
       const availableSpace =
         wrapperWidth - showAllFiltersModalButtonWidthInPixels;
       let dynamicFilterArray: Filter[] = [];
@@ -163,8 +179,8 @@ const DynamicFilterArray = ({
 
   return (
     <>
-      {hasCalculatedFilters ? dynamicFiltersCalculated : dynamicFiltersSource}
-      <Space h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}>
+      {filters.map(renderDynamicFilter)}
+      <Space h={{ size: 'm', properties: ['margin-right'] }}>
         <ButtonSolid
           colors={themeValues.buttonColors.marbleWhiteCharcoal}
           icon={filter}
