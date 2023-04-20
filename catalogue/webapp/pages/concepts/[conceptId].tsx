@@ -334,8 +334,12 @@ export const ConceptPage: NextPage<Props> = ({
   // Set the default tab in each group to the first populated tab
   // the two tabs lists are ordered consistently as defined by tabOrder,
   // which is ordered so that the more specific tabs come first.
-  const [selectedWorksTab, setSelectedWorksTab] = useState(worksTabs[0]?.id);
-  const [selectedImagesTab, setSelectedImagesTab] = useState(imagesTabs[0]?.id);
+  const [selectedWorksTab, setSelectedWorksTab] = useState(
+    worksTabs[0]?.id || 'worksAbout'
+  );
+  const [selectedImagesTab, setSelectedImagesTab] = useState(
+    imagesTabs[0]?.id || 'imagesAbout'
+  );
 
   return (
     <CataloguePageLayout
