@@ -3,7 +3,6 @@ import {
   Location as LocationType,
   DigitalLocation,
 } from '@weco/common/model/catalogue';
-import { useContext, FunctionComponent } from 'react';
 import { grid } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -22,7 +21,6 @@ import ArchiveTree from '../ArchiveTree/ArchiveTree';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
-import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -182,8 +180,8 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
           <Grid>
             <Space
               v={{
-                size: 's',
-                properties: ['padding-top', 'padding-bottom'],
+                size: 'l',
+                properties: ['padding-top'],
               }}
               className={grid({ s: 12 })}
             >
