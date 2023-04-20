@@ -120,7 +120,7 @@ export type Concept = {
   identifiers?: Identifier[];
   label: string;
   type: ConceptType;
-  sameAs: string[];
+  sameAs?: string[];
 };
 
 type Availability = {

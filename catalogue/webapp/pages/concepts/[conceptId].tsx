@@ -81,7 +81,7 @@ const emptyWorkResults: CatalogueResultsList<WorkType> = {
   _requestUrl: '',
 };
 
-const tabOrder = ['about', 'by', 'in'];
+const tabOrder = ['by', 'in', 'about'];
 // Definition of the fields used to populate each section
 // of the page, and to define the link to the "all" searches.
 // Currently, only genres use the id to filter
@@ -293,8 +293,6 @@ export const ConceptPage: NextPage<Props> = ({
   sectionsData,
   apiToolbarLinks,
 }) => {
-  const [selectedWorksTab, setSelectedWorksTab] = useState('worksAbout');
-  const [selectedImagesTab, setSelectedImagesTab] = useState('imagesAbout');
   const worksTabs = tabOrder
     .map(relationship => {
       if (sectionsData[relationship].works?.totalResults) {
@@ -333,6 +331,11 @@ export const ConceptPage: NextPage<Props> = ({
 
   const hasImages = imagesTabs.length > 0;
   const hasImagesTabs = imagesTabs.length > 1;
+  // Set the default tab in each group to the first populated tab
+  // the two tabs lists are ordered consistently as defined by tabOrder,
+  // which is ordered so that the more specific tabs come first.
+  const [selectedWorksTab, setSelectedWorksTab] = useState(worksTabs[0]?.id);
+  const [selectedImagesTab, setSelectedImagesTab] = useState(imagesTabs[0]?.id);
 
   return (
     <CataloguePageLayout
@@ -523,6 +526,23 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         ? getConceptImages('imagesIn')
         : Promise.resolve(emptyImageResults);
 
+    // Genres cannot be creators of works or images.
+    // Semantically, we could claim that only Agents can be creators
+    // but some metonymy exists in the source data, meaning that some
+    // concepts that do not strictly have agency are present in
+    // the contributor fields.
+    // Therefore, we can only really be certain that a Concept
+    // is not (and should never be) a contributor when it is a genre.
+    const worksByPromise =
+      conceptResponse.type !== 'Genre'
+        ? getConceptWorks('worksBy')
+        : Promise.resolve(emptyWorkResults);
+
+    const imagesByPromise =
+      conceptResponse.type !== 'Genre'
+        ? getConceptImages('imagesBy')
+        : Promise.resolve(emptyImageResults);
+
     const [
       worksAboutResponse,
       worksByResponse,
@@ -532,10 +552,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       imagesInResponse,
     ] = await Promise.all([
       getConceptWorks('worksAbout'),
-      getConceptWorks('worksBy'),
+      worksByPromise,
       worksInPromise,
       getConceptImages('imagesAbout'),
-      getConceptImages('imagesBy'),
+      imagesByPromise,
       imagesInPromise,
     ]);
 

@@ -173,6 +173,7 @@ const allRecordsLink = async (
   return allRecords;
 };
 
+// assert the tab specified is visible
 const showsTab = async (page: Page, tabId: string, tabText: string) => {
   const tab = await page.waitForSelector(`button#tab-${tabId}`);
   const content = await tab.textContent();
@@ -189,6 +190,7 @@ test.describe(
     test('two works sections are shown: about and using', async ({ page }) => {
       await showsTab(page, 'worksAbout', 'About this type/technique');
       await showsTab(page, 'worksIn', 'Using this type/technique');
+      expect(''.toBe(''));
     });
 
     test('the "All works" link filters by all ids associated with the concept', async ({
