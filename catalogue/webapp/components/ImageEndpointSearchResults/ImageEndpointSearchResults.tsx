@@ -147,7 +147,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
           </GalleryContainer>
         </PlainList>
       )}
-
       {(!isFullSupportBrowser || isSmallGallery) && (
         <ImageCardList data-test-id="image-search-results-container">
           {imagesWithDimensions.map((result: GalleryImageProps) => (
@@ -179,7 +178,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
           ))}
         </ImageCardList>
       )}
-
       <Modal
         id="expanded-image-dialog"
         isActive={isActive}

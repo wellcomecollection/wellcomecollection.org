@@ -148,7 +148,7 @@ module "any_search_data_listener" {
   target_group_arn       = local.target_group_arn
 
   priority      = "206"
-  path_patterns = ["/_next/data/*/search/*.json"]
+  path_patterns = ["/_next/data/*/search/*.json", "/_next/data/*/works/*.json",]
 }
 
 locals {

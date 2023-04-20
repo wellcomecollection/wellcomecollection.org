@@ -1,6 +1,6 @@
-import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 import { ImageType } from '@weco/common/model/image';
 import IIIFImage from './IIIFImage';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 describe('IIIFImage', () => {
   const props: ImageType = {
@@ -11,15 +11,12 @@ describe('IIIFImage', () => {
   };
 
   it('renders a IIIF image URL', () => {
-    const component = mountWithTheme(
+    const { getByRole } = renderWithTheme(
       <IIIFImage image={props} priority={true} layout="fixed" />
     );
-    expect(
-      component
-        .html()
-        .includes(
-          'https://iiif.wellcomecollection.org/image/V0043039/full/384%2C/0/default.jpg'
-        )
-    ).toBeTruthy();
+    expect(getByRole('img')).toHaveAttribute(
+      'src',
+      'https://iiif.wellcomecollection.org/image/V0043039/full/640%2C/0/default.jpg'
+    );
   });
 });

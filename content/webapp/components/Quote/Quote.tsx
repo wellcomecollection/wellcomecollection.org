@@ -11,6 +11,18 @@ export type Props = {
   isPullOrReview: boolean;
 };
 
+const Blockquote = styled.blockquote.attrs<{ isPullOrReview: boolean }>(
+  props => ({
+    className: classNames({
+      'quote--pull': props.isPullOrReview,
+      [font('intr', 2)]: props.isPullOrReview,
+      quote: true,
+    }),
+  })
+)<{ isPullOrReview: boolean }>`
+  margin: 0;
+`;
+
 const Cite = styled.cite.attrs({
   className: `quote__cite ${font('intr', 5)}`,
 })`
@@ -25,13 +37,7 @@ const Quote: FunctionComponent<Props> = ({
   isPullOrReview,
 }) => {
   return (
-    <blockquote
-      className={classNames({
-        'quote--pull': isPullOrReview,
-        [font('intr', 2)]: isPullOrReview,
-        'quote no-margin': true,
-      })}
-    >
+    <Blockquote isPullOrReview={isPullOrReview}>
       <Space
         v={citation ? { size: 'xs', properties: ['margin-bottom'] } : undefined}
       >
@@ -44,7 +50,7 @@ const Quote: FunctionComponent<Props> = ({
           </Cite>
         </footer>
       )}
-    </blockquote>
+    </Blockquote>
   );
 };
 

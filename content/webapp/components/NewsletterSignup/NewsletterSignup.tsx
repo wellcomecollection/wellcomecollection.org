@@ -200,7 +200,10 @@ const NewsletterSignup: FunctionComponent<Props> = ({
           </Space>
 
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <ButtonSolid text="Subscribe" />
+            <ButtonSolid
+              text="Subscribe"
+              dataGtmTrigger="newsletter_signup_subscribe"
+            />
           </Space>
 
           {isCheckboxError && isSubmitAttempted && (

@@ -6,6 +6,9 @@ on:
       - 'assets/**'
       - 'cache/**'
       - 'cardigan/**'
+      - 'catalogue/terraform/**'
+      - 'content/terraform/**'
+      - 'identity/terraform/**'
       - 'infrastructure/**'
       - 'playwright/**'
 

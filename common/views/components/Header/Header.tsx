@@ -32,6 +32,7 @@ import {
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
+import { searchPlaceholderText } from '@weco/common/data/microcopy';
 
 const NoJSIconWrapper = styled.div`
   padding: 5px 8px 0;
@@ -155,7 +156,7 @@ const Header: FunctionComponent<Props> = ({
                   id="header-nav"
                   aria-labelledby="header-burger-trigger"
                 >
-                  <HeaderList className={`${font('wb', 5)} no-margin`}>
+                  <HeaderList className={`${font('wb', 5)}`}>
                     {(customNavLinks || links).map((link, i) => (
                       <HeaderItem key={i}>
                         <HeaderLink
@@ -183,7 +184,7 @@ const Header: FunctionComponent<Props> = ({
                               icon={searchDropdownIsActive ? cross : search}
                             />
                             <span className="visually-hidden">
-                              Search our stories, images and catalogue
+                              {searchPlaceholderText.overview}
                             </span>
                           </NoJSIconWrapper>
                         </NextLink>

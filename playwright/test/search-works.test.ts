@@ -1,7 +1,11 @@
 import { Page } from 'playwright';
-import { URLSearchParams } from 'url';
+import { URL, URLSearchParams } from 'url';
 import { test, expect } from '@playwright/test';
-import { isMobile, newWorksSearch } from './contexts';
+import {
+  isMobile,
+  newWorksSearch,
+  workWithDigitalLocationAndLocationNote,
+} from './contexts';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 import { formatFilterMobileButton } from './selectors/search';
 
@@ -24,9 +28,18 @@ const expectSearchParam = (
   const params = new URLSearchParams(page.url());
 
   if (expectedVal) {
-    const foundMatchingParam = Array.from(params).find(
-      ([key, val]) => key === expectedKey && val === expectedVal
-    );
+    const foundMatchingParam = Array.from(params).find(([key, val], i) => {
+      if (i === 0) {
+        // The first key returns the whole URL.
+        // This is fine if it has "cachebust" which we ignored,
+        // but if the first value is a valid filter, it never matches.
+        return (
+          key.slice(key.indexOf('?') + 1) === expectedKey && val === expectedVal
+        );
+      } else {
+        return key === expectedKey && val === expectedVal;
+      }
+    });
 
     if (!foundMatchingParam) {
       console.log(page.url());
@@ -52,6 +65,7 @@ const openDropdown = async (label: string, page: Page) => {
 };
 
 const selectCheckbox = async (label: string, page: Page) => {
+  console.info('selectCheckbox', label);
   await Promise.all([
     safeWaitForNavigation(page),
     page.click(`label :text("${label}")`),
@@ -112,6 +126,59 @@ test.describe('Scenario 1: The person is looking for an archive', () => {
     expectSearchParam('workType', 'h', page);
 
     await navigateToResult(3, page);
+  });
+
+  test.only('and the user can get back to their original search results', async ({
+    page,
+    context,
+  }) => {
+    // Open the search page, search for a term, apply a filter, navigate away from
+    // the first page.
+    await newWorksSearch(context, page);
+    await searchFor('Persian', page);
+    await openDropdown('Formats', page);
+    await selectCheckbox('Archives and manuscripts', page);
+    await navigateToNextPage(page);
+
+    // Save the URL of the current search page, which will be something like
+    // https://www-stage.wellcomecollection.org/search/works?query=Persian&workType=h&page=2
+    const originalSearchUrl = new URL(page.url());
+
+    // Now go to the third result on the page, and look for "Back to search results".
+    await navigateToResult(3, page);
+
+    const backToSearchResults = await page.$(
+      'a:has-text("Back to search results")'
+    );
+    expect(backToSearchResults).toBeTruthy();
+
+    // Note: we expect the URLs on the "Back to search results" link to be relative,
+    // but the URL class only takes absolute URLs.
+    //
+    // Check this is a relative URL, then construct an absolute URL we can compare.
+    const backToSearchResultsUrlString =
+      (await backToSearchResults?.getAttribute('href')) as string;
+    expect(backToSearchResultsUrlString.startsWith('/')).toBe(true);
+
+    const backToSearchResultsUrl = new URL(
+      `${process.env.PLAYWRIGHT_BASE_URL}${backToSearchResultsUrlString}`
+    );
+
+    // Now compare the URLs.  Note that the query parameters may be in a different order,
+    // but they're still equivalent for our purposes, e.g.
+    //
+    //      /search/works?query=Persian&workType=h&page=2 and
+    //      /search/works?query=Persian&page=2&workType=h
+    //
+    // are both totally fine.  Sorting them first makes them easier to compare.
+    expect(originalSearchUrl.pathname).toEqual(backToSearchResultsUrl.pathname);
+
+    originalSearchUrl.searchParams.sort();
+    backToSearchResultsUrl.searchParams.sort();
+
+    expect(originalSearchUrl.searchParams).toEqual(
+      backToSearchResultsUrl.searchParams
+    );
   });
 });
 
@@ -264,6 +331,29 @@ test.describe(
 
       expectSearchParam('sortOrder', 'asc', page);
       expectSearchParam('page', undefined, page);
+    });
+  }
+);
+
+test.describe(
+  'Scenario 8: The user is coming from a prefiltered series search',
+  () => {
+    test('The user should be able to add more filters', async ({
+      context,
+      page,
+    }) => {
+      await workWithDigitalLocationAndLocationNote(context, page);
+
+      await page.click('a >> text="Medical Heritage LIbrary"'); // Medical Heritage LIbrary
+      await safeWaitForNavigation(page);
+
+      expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
+
+      await openDropdown('Formats', page);
+      await selectCheckbox('Books', page);
+
+      expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
+      expectSearchParam('workType', 'a', page);
     });
   }
 );

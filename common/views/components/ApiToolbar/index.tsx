@@ -20,10 +20,11 @@ const ToolbarContainer = styled.div<{ mini: boolean }>`
 `;
 
 const LinkList = styled.ul.attrs({
-  className: 'no-margin font-size-5',
+  className: 'font-size-5',
 })`
   display: flex;
   list-style: none;
+  margin: 0;
 `;
 
 /** tzitzit is a tool used by the Digital Editorial team to create TASL

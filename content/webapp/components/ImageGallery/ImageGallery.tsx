@@ -88,6 +88,10 @@ const GalleryTitle = styled(Space).attrs({
   className: 'flex--v-top',
 })`
   display: flex;
+
+  h2 {
+    margin-bottom: 0;
+  }
 `;
 
 const Gallery = styled.div.attrs({
@@ -342,7 +346,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
               <Icon icon={gallery} />
             </Space>
-            <h2 id={`gallery-${id}`} className="h2 no-margin" ref={headingRef}>
+            <h2 id={`gallery-${id}`} className="h2" ref={headingRef}>
               {title || 'In pictures'}
             </h2>
           </GalleryTitle>

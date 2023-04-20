@@ -22,6 +22,10 @@ const Stop = styled(Space).attrs({
   height: 100%;
 `;
 
+const VideoPlayerWrapper = styled.figure`
+  margin: 0;
+`;
+
 type VideoPlayerProps = {
   title: string;
   videoUrl: string;
@@ -33,14 +37,14 @@ const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   videoUrl,
   titleProps,
 }) => (
-  <figure className="no-margin">
+  <VideoPlayerWrapper>
     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
       <figcaption className={font('intb', 5)} {...titleProps}>
         {title}
       </figcaption>
     </Space>
     <VideoEmbed embedUrl={videoUrl} />
-  </figure>
+  </VideoPlayerWrapper>
 );
 
 type Props = {

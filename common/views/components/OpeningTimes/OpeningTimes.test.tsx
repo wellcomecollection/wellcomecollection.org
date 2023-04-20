@@ -1,8 +1,6 @@
+import { screen } from '@testing-library/react';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import OpeningTimes from './OpeningTimes';
-import {
-  shallowWithTheme,
-  mountWithTheme,
-} from '../../../test/fixtures/enzyme-helpers';
 import * as serviceOpeningTimes from '@weco/common/services/prismic/opening-times';
 import { shopVenue } from '../../../test/fixtures/components/shop-venue';
 
@@ -39,13 +37,10 @@ describe('OpeningTimes', () => {
       return undefined;
     });
 
-    const component = mountWithTheme(
-      <OpeningTimes venues={mockOpeningTimes} />
-    );
-
-    const openingTimes = component.find('ul');
-    expect(openingTimes.length).toEqual(1);
-    expect(openingTimes.find('li').length).toEqual(0);
+    renderWithTheme(<OpeningTimes venues={mockOpeningTimes} />);
+    expect(screen.getByRole('list'));
+    expect(screen.getByRole('list').querySelectorAll('li').length).toBe(0);
+    expect(() => screen.getByRole('listitem')).toThrow();
   });
 
   it('renders venue opening times as closed', () => {
@@ -57,8 +52,8 @@ describe('OpeningTimes', () => {
         isClosed: true,
       };
     });
-    const component = shallowWithTheme(<OpeningTimes venues={[shopVenue]} />);
-    expect(component.html().includes('Shop')).toBeTruthy();
-    expect(component.html().includes('closed')).toBeTruthy();
+    renderWithTheme(<OpeningTimes venues={[shopVenue]} />);
+    expect(screen.findByText('Shop'));
+    expect(screen.findByText('closed'));
   });
 });

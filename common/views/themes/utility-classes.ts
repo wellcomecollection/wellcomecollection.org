@@ -69,11 +69,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9556
-  .no-margin {
-    margin: 0 !important;
-  }
-
   // Only used in one component so move there and delete this.
   // Question the style itself, is it something we still want as input and buttons went fully square?
   .rounded-diagonal {

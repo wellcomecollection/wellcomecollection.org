@@ -67,7 +67,10 @@ const Typography = ({ text }) => {
                   font-{font} font-size-{size}
                 </code>
               </FontName>
-              <p className={`no-margin font-size-${size} font-${font}`}>
+              <p
+                className={`font-size-${size} font-${font}`}
+                style={{ marginBottom: 0 }}
+              >
                 {text}
               </p>
             </Font>
@@ -101,7 +104,7 @@ const MiscTemplate = () => (
     <div>
       <h2>Body text link</h2>
       <div className="body-text">
-        <p className="no-margin">
+        <p style={{ marginBottom: 0 }}>
           There has even been a (failed){' '}
           <a href="https://www.nytimes.com/2015/10/15/us/court-rules-hot-yoga-isnt-entitled-to-copyright.html">
             attempt to copyright a yoga system
@@ -118,7 +121,7 @@ const MiscTemplate = () => (
     <div>
       <h2>Plain text link</h2>
       <div>
-        <p className="no-margin font-hnr4-s">
+        <p className="font-hnr4-s" style={{ marginBottom: 0 }}>
           Here is <a href="#">a link</a> in a block of non body text.
         </p>
       </div>
