@@ -48,6 +48,7 @@ describe('WorksLink', () => {
         'production.dates.from': '1500',
         'production.dates.to': '1900',
         search: undefined,
+        'genres.concepts': [],
         'genres.label': [],
         'subjects.label': [],
         languages: [],
