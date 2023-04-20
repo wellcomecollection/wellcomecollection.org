@@ -40,6 +40,8 @@ import { EventBasic } from '../../types/events';
 import * as prismicT from '@prismicio/types';
 import styled from 'styled-components';
 
+import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
+
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
 };
@@ -287,7 +289,21 @@ const Exhibition: FunctionComponent<Props> = ({ exhibition, pages }) => {
       {exhibition.end && !isPast(exhibition.end) && (
         <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
           <AccessibilityServices>
-            <a href="/access">All our accessibility services</a>
+            For more information, please visit our{' '}
+            <a href="/access">Accessibility</a> page. If you have any queries
+            about accessibility, please email us at{' '}
+            <a href="mailto:access@wellcomecollection.org">
+              access@wellcomecollection.org
+            </a>{' '}
+            or call{' '}
+            {/*
+        This is to ensure phone numbers are read in a sensible way by
+        screen readers.
+      */}
+            <span className="visually-hidden">
+              {createScreenreaderLabel('020 7611 2222')}
+            </span>
+            <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
           </AccessibilityServices>
         </InfoBox>
       )}
