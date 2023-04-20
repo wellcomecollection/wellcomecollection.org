@@ -71,19 +71,16 @@ export const GoogleTagManager: FunctionComponent = () => (
   />
 );
 
-export const GoogleTagManagerNoScript: FunctionComponent<{ gaUserId: string }> =
-  ({ gaUserId }) => (
-    <noscript>
-      <iframe
-        src={`https://www.googletagmanager.com/ns.html?id=GTM-53DFWQD&gaUserId=${encodeURIComponent(
-          gaUserId
-        )}`}
-        height="0"
-        width="0"
-        style={{ display: 'none', visibility: 'hidden' }}
-      ></iframe>
-    </noscript>
-  );
+export const GoogleTagManagerNoScript: FunctionComponent = () => (
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-53DFWQD"
+      height="0"
+      width="0"
+      style={{ display: 'none', visibility: 'hidden' }}
+    ></iframe>
+  </noscript>
+);
 
 export const GoogleAnalyticsUA: FunctionComponent = () => (
   <script
