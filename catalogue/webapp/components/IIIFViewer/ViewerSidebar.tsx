@@ -78,9 +78,13 @@ const Item = styled.div`
 `;
 
 const AccordionButton = styled.button.attrs({
-  className: 'plain-button no-margin',
+  className: 'plain-button',
 })`
   padding: 0;
+
+  h2 {
+    margin-bottom: 0;
+  }
 `;
 
 type AccordionItemProps = PropsWithChildren<{
@@ -98,7 +102,7 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
           aria-controls={toHtmlId(title)}
         >
           <span>
-            <h2 className={`${font('intb', 5)} no-margin`}>{title}</h2>
+            <h2 className={`${font('intb', 5)}`}>{title}</h2>
             <Icon
               icon={chevron}
               iconColor="white"

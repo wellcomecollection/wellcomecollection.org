@@ -41,6 +41,22 @@ function transformCommonFields(
     id: agent.id,
     description: asRichText(agent.data.description),
     image: transformImage(agent.data.image) || defaultContributorImage,
+    type: agent.type,
+    name: asText(agent.data.name),
+    sameAs: (agent.data.sameAs ?? [])
+      .map(sameAs => {
+        const link = asText(sameAs.link);
+        const title = asText(sameAs.title);
+
+        if ((title || link) && !(title && link)) {
+          console.warn(
+            `Only one of title and link are specified in sameAs on ${agent.id}; both must be provided`
+          );
+        }
+
+        return title && link ? { title, link } : undefined;
+      })
+      .filter(isNotUndefined),
   };
 }
 
@@ -50,30 +66,10 @@ export function transformContributorAgent(
   if (isFilledLinkToPersonField(agent)) {
     return {
       ...transformCommonFields(agent),
-      type: agent.type,
-      name: asText(agent.data.name),
       pronouns: asText(agent.data.pronouns),
-      sameAs: (agent.data.sameAs ?? [])
-        .map(sameAs => {
-          const link = asText(sameAs.link);
-          const title = asText(sameAs.title);
-          return title && link ? { title, link } : undefined;
-        })
-        .filter(isNotUndefined),
     };
   } else if (isFilledLinkToOrganisationField(agent)) {
-    return {
-      ...transformCommonFields(agent),
-      type: agent.type,
-      name: asText(agent.data.name),
-      sameAs: (agent.data.sameAs ?? [])
-        .map(sameAs => {
-          const link = asText(sameAs.link);
-          const title = asText(sameAs.title);
-          return title && link ? { title, link } : undefined;
-        })
-        .filter(isNotUndefined),
-    };
+    return transformCommonFields(agent);
   } else {
     return undefined;
   }

@@ -281,6 +281,7 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
         'contributors.agent.label', // Contributors
         'languages',
         'page',
+        'partOf.title',
       ]),
     },
   ],

@@ -378,7 +378,10 @@ const WorkDetails: FunctionComponent<Props> = ({
                       properties: ['margin-top'],
                     }}
                   >
-                    <p className={`no-margin ${font('lr', 6)}`}>
+                    <p
+                      className={`${font('lr', 6)}`}
+                      style={{ marginBottom: 0 }}
+                    >
                       Contains:{' '}
                       {collectionManifestsCount > 0
                         ? `${collectionManifestsCount} ${
@@ -479,6 +482,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection headingText="Selected images from this work">
           <ButtonSolidLink
+            dataGtmTrigger="view_selected_images"
             colors={themeValues.buttonColors.greenTransparentGreen}
             text={
               work.images.length > 1

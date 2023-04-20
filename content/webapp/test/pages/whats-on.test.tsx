@@ -1,5 +1,5 @@
 import { whatsOn } from '../../__mocks__/whats-on';
-import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 // We pull in the page after we've set the config
 import WhatsOnPage from '../../pages/whats-on';
@@ -12,28 +12,18 @@ import WhatsOnPage from '../../pages/whats-on';
 jest.mock('uuid', () => ({
   v4: () => '1234',
 }));
+
 jest.mock('@weco/common/server-data');
 jest.mock('next/router', () => require('next-router-mock'));
 
-const featuredExhibitionSelector = '[data-test-id="featured-exhibition"]';
-const noExhibitionsSelector = '[data-test-id="no-exhibitions"]';
-
 describe('/whats-on', () => {
   it('renders a featured exhibition when there is one', () => {
-    const pageWithExhibition = mountWithTheme(
-      <WhatsOnPage {...whatsOn(true)} />
-    );
-    expect(pageWithExhibition.exists(featuredExhibitionSelector)).toBe(true);
-    expect(pageWithExhibition.exists(noExhibitionsSelector)).toBe(false);
+    const { getByText } = renderWithTheme(<WhatsOnPage {...whatsOn(true)} />);
+    expect(getByText('Being Human'));
   });
 
   it('renders no exhibitions when there are none', () => {
-    const pageWithoutExhibition = mountWithTheme(
-      <WhatsOnPage {...whatsOn(false)} />
-    );
-    expect(pageWithoutExhibition.exists(featuredExhibitionSelector)).toBe(
-      false
-    );
-    expect(pageWithoutExhibition.exists(noExhibitionsSelector)).toBe(true);
+    const { getByText } = renderWithTheme(<WhatsOnPage {...whatsOn(false)} />);
+    expect(getByText('There are no current exhibitions'));
   });
 });

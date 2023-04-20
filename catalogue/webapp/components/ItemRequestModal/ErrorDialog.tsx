@@ -17,7 +17,9 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({
     <Header>
       <span className="h2">Request failed</span>
     </Header>
-    <p className="no-margin">{errorMessage || defaultRequestErrorMessage}</p>
+    <p style={{ marginBottom: 0 }}>
+      {errorMessage || defaultRequestErrorMessage}
+    </p>
     <CTAs>
       <ButtonSolid
         colors={themeValues.buttonColors.greenTransparentGreen}

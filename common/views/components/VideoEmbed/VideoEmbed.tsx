@@ -7,6 +7,7 @@ import styled from 'styled-components';
 export type Props = {
   embedUrl: string;
   caption?: prismicT.RichTextField;
+  hasFullSizePoster?: boolean;
 };
 
 // In order to have a red button with a white triangle, we can't reuse the
@@ -22,17 +23,20 @@ const YouTubePlay = () => (
   </svg>
 );
 
+const VideoEmbedWrapper = styled.figure`
+  margin: 0;
+`;
+
 const VideoTrigger = styled.button.attrs({
   className: 'plain-button',
-})`
+})<{ hasFullSizePoster?: boolean }>`
   cursor: pointer;
   position: absolute;
   padding-bottom: 56.25%; /* 16:9 */
   width: 100%;
 
   img {
-    width: 100%;
-    top: -16.84%;
+    top: ${props => (props.hasFullSizePoster ? 0 : '-16.84%')};
     left: 0;
     position: absolute;
   }
@@ -46,7 +50,11 @@ const VideoTrigger = styled.button.attrs({
   }
 `;
 
-const VideoEmbed: FunctionComponent<Props> = ({ embedUrl, caption }: Props) => {
+const VideoEmbed: FunctionComponent<Props> = ({
+  embedUrl,
+  caption,
+  hasFullSizePoster,
+}: Props) => {
   const [isActive, setIsActive] = useState(false);
   const id = embedUrl.match(/embed\/(.*)\?/)?.[1];
 
@@ -72,7 +80,7 @@ const VideoEmbed: FunctionComponent<Props> = ({ embedUrl, caption }: Props) => {
   }, []);
 
   return (
-    <figure className="no-margin">
+    <VideoEmbedWrapper>
       <IframeContainer>
         {isActive ? (
           <iframe
@@ -84,11 +92,16 @@ const VideoEmbed: FunctionComponent<Props> = ({ embedUrl, caption }: Props) => {
             frameBorder="0"
           />
         ) : (
-          <VideoTrigger onClick={() => setIsActive(true)}>
+          <VideoTrigger
+            onClick={() => setIsActive(true)}
+            hasFullSizePoster={hasFullSizePoster}
+          >
             <span className="visually-hidden">Play video</span>
             <YouTubePlay />
             <img
-              src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
+              src={`https://img.youtube.com/vi/${id}/${
+                hasFullSizePoster ? 'maxresdefault' : 'hqdefault'
+              }.jpg`}
               alt=""
             />
           </VideoTrigger>
@@ -96,7 +109,7 @@ const VideoEmbed: FunctionComponent<Props> = ({ embedUrl, caption }: Props) => {
       </IframeContainer>
 
       {caption && <Caption caption={caption} />}
-    </figure>
+    </VideoEmbedWrapper>
   );
 };
 

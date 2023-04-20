@@ -1,8 +1,6 @@
 import MediaObjectBase, { HasImageProps } from './MediaObjectBase';
-import {
-  shallowWithTheme,
-  mountWithTheme,
-} from '@weco/common/test/fixtures/enzyme-helpers';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import userEvent from '@testing-library/user-event';
 import {
   mockData,
   mockDataWithPrismicText,
@@ -11,6 +9,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';
 import { grid, font } from '@weco/common/utils/classnames';
+import * as prismicT from '@prismicio/types';
 
 const getBaseTitleClass = number => {
   return `card-link__title font-wb font-size-${number}`;
@@ -53,60 +52,102 @@ const TitleWrapper = styled.div.attrs({
 const extraClass = 'my_extra_extra_class';
 
 describe('MediaObjectBase', () => {
-  const componentWithImage = mountWithTheme(
-    <MediaObjectBase
-      title={mockData.title}
-      Image={
-        <PrismicImage
-          image={{ ...mockData.image }}
-          sizes={{
-            xlarge: 1 / 6,
-            large: 1 / 6,
-            medium: 1 / 5,
-            small: 1 / 4,
-          }}
-          quality="low"
-        />
-      }
-      description={mockData.text}
-      primaryLabels={[]}
-      secondaryLabels={[]}
-      extraClasses={extraClass}
-      onClick={mockOnClick}
-      partDescription="Part"
-    />
-  );
-
-  const componentWithoutImage = shallowWithTheme(
-    <MediaObjectBase
-      title={mockData.title}
-      description={mockData.text}
-      primaryLabels={[]}
-      secondaryLabels={[]}
-      partDescription="Part"
-    />
-  );
-
   it('renders image', () => {
-    expect(componentWithImage.find('Image')).toBeTruthy();
+    const componentWithImage = renderWithTheme(
+      <MediaObjectBase
+        title={mockData.title}
+        Image={
+          <PrismicImage
+            image={{ ...mockData.image }}
+            sizes={{
+              xlarge: 1 / 6,
+              large: 1 / 6,
+              medium: 1 / 5,
+              small: 1 / 4,
+            }}
+            quality="low"
+          />
+        }
+        description={mockData.text}
+        primaryLabels={[]}
+        secondaryLabels={[]}
+        extraClasses={extraClass}
+        onClick={mockOnClick}
+        url="/blah"
+        partDescription="Part"
+      />
+    );
+    expect(componentWithImage.getByRole('img')).toBeTruthy();
   });
 
-  it('calls mock callback function when clicking on component', () => {
-    componentWithImage.simulate('click');
+  it('calls mock callback function when clicking on component', async () => {
+    const componentWithImage = renderWithTheme(
+      <MediaObjectBase
+        title={mockData.title}
+        Image={
+          <PrismicImage
+            image={{ ...mockData.image }}
+            sizes={{
+              xlarge: 1 / 6,
+              large: 1 / 6,
+              medium: 1 / 5,
+              small: 1 / 4,
+            }}
+            quality="low"
+          />
+        }
+        description={mockData.text}
+        primaryLabels={[]}
+        secondaryLabels={[]}
+        extraClasses={extraClass}
+        onClick={mockOnClick}
+        url="/blah"
+        partDescription="Part"
+      />
+    );
+    await userEvent.click(componentWithImage.getByRole('link'));
     expect(mockOnClick).toBeCalledTimes(1);
   });
 
   describe('Description', () => {
     it('renders description in a p tag if description is type text', () => {
-      expect(componentWithImage.find('p').contains(mockData.text)).toBeTruthy();
+      const componentWithImage = renderWithTheme(
+        <MediaObjectBase
+          title={mockData.title}
+          Image={
+            <PrismicImage
+              image={{ ...mockData.image }}
+              sizes={{
+                xlarge: 1 / 6,
+                large: 1 / 6,
+                medium: 1 / 5,
+                small: 1 / 4,
+              }}
+              quality="low"
+            />
+          }
+          description={mockData.text}
+          primaryLabels={[]}
+          secondaryLabels={[]}
+          extraClasses={extraClass}
+          onClick={mockOnClick}
+          url="/blah"
+          partDescription="Part"
+        />
+      );
+      expect(
+        componentWithImage.container.outerHTML.includes(mockData.text)
+      ).toBe(true);
     });
 
-    it('only render one p tag if description is a PrismicHtmlBlock', () => {
+    it('only render one p tag if description is a PrismicHtmlBlock', async () => {
       const Description = (
-        <PrismicHtmlBlock html={mockDataWithPrismicText.text} />
+        <PrismicHtmlBlock
+          html={mockDataWithPrismicText.text as prismicT.RichTextField}
+        />
       );
 
-      const component = mountWithTheme(
+      const component = renderWithTheme(
         <MediaObjectBase
           title={mockData.title}
           description={Description}
@@ -115,26 +156,89 @@ describe('MediaObjectBase', () => {
           partDescription="Part"
         />
       );
-
-      expect(component.find('p').length).toEqual(1);
+      expect(
+        component.container.textContent!.includes(
+          'Keep your nose and mouth covered, unless you’re exempt'
+        )
+      );
     });
   });
 
   it('adds additional classNames to space wrapper', () => {
-    expect(componentWithImage.html().match(extraClass)).toBeTruthy();
+    const componentWithImage = renderWithTheme(
+      <MediaObjectBase
+        title={mockData.title}
+        Image={
+          <PrismicImage
+            image={{ ...mockData.image }}
+            sizes={{
+              xlarge: 1 / 6,
+              large: 1 / 6,
+              medium: 1 / 5,
+              small: 1 / 4,
+            }}
+            quality="low"
+          />
+        }
+        description={mockData.text}
+        primaryLabels={[]}
+        secondaryLabels={[]}
+        extraClasses={extraClass}
+        onClick={mockOnClick}
+        url="/blah"
+        partDescription="Part"
+      />
+    );
+    expect(
+      componentWithImage.container.outerHTML.includes(extraClass)
+    ).toBeTruthy();
   });
 
   describe('Styles', () => {
     describe('Existing Grid styles', () => {
       it('renders the default grid styles image (3) and title (12) no Image', () => {
-        const componentHtml = componentWithoutImage.html();
+        const componentWithoutImage = renderWithTheme(
+          <MediaObjectBase
+            title={mockData.title}
+            description={mockData.text}
+            primaryLabels={[]}
+            secondaryLabels={[]}
+            partDescription="Part"
+          />
+        );
+
+        const componentHtml = componentWithoutImage.container.outerHTML;
         expect(componentHtml.match(grid3)).toBeTruthy();
         expect(componentHtml.match(grid12)).toBeTruthy();
         expect(componentHtml.match(getBaseTitleClass(3))).toBeTruthy();
       });
 
       it('renders the default grid styles image (3) and title (9) if image Prop included', () => {
-        const componentHtml = componentWithImage.html();
+        const componentWithImage = renderWithTheme(
+          <MediaObjectBase
+            title={mockData.title}
+            Image={
+              <PrismicImage
+                image={{ ...mockData.image }}
+                sizes={{
+                  xlarge: 1 / 6,
+                  large: 1 / 6,
+                  medium: 1 / 5,
+                  small: 1 / 4,
+                }}
+                quality="low"
+              />
+            }
+            description={mockData.text}
+            primaryLabels={[]}
+            secondaryLabels={[]}
+            extraClasses={extraClass}
+            onClick={mockOnClick}
+            url="/blah"
+            partDescription="Part"
+          />
+        );
+        const componentHtml = componentWithImage.container.outerHTML;
         expect(componentHtml.match(grid3)).toBeTruthy();
         expect(componentHtml.match(grid9)).toBeTruthy();
       });
@@ -142,7 +246,7 @@ describe('MediaObjectBase', () => {
 
     describe('Override styles', () => {
       it('overrides text, title and base styles of MediaObjectBase', () => {
-        const component = shallowWithTheme(
+        const component = renderWithTheme(
           <MediaObjectBase
             title={mockData.title}
             Image={
@@ -166,7 +270,7 @@ describe('MediaObjectBase', () => {
             partDescription="Part"
           />
         );
-        const componentHtml = component.html();
+        const componentHtml = component.container.outerHTML;
         expect(componentHtml.match(grid2)).toBeTruthy();
         expect(componentHtml.match(grid10)).toBeTruthy();
         expect(componentHtml.match(getBaseTitleClass(4))).toBeTruthy();
