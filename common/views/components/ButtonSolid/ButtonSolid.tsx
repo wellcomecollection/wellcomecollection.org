@@ -228,7 +228,7 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
-  function handleClick(event) {
+  function handleClick(event: SyntheticEvent<HTMLButtonElement>) {
     clickHandler && clickHandler(event);
     trackingEvent && trackGaEvent(trackingEvent);
   }
