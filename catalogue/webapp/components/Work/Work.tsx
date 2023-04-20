@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import { Work as WorkType } from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   Location as LocationType,
