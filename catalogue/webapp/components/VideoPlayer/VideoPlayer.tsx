@@ -1,7 +1,12 @@
 import Router from 'next/router';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { FunctionComponent, useEffect, useState, useRef } from 'react';
-import useInterval from '@weco/common/hooks/useInterval';
+import {
+  FunctionComponent,
+  useEffect,
+  useState,
+  SyntheticEvent,
+  cache,
+} from 'react';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
 import { Video } from '../../services/iiif/types/manifest/v3';
 
@@ -14,67 +19,54 @@ const VideoPlayer: FunctionComponent<Props> = ({
   video,
   showDownloadOptions,
 }: Props) => {
-  const [secondsPlayed, setSecondsPlayed] = useState(0);
-  const secondsPlayedRef = useRef(secondsPlayed);
-  const [isPlaying, setIsPlaying] = useState(false);
+  // {Audio/Video} Current Time (HTMLMediaElement.currentTime)
+  // {Audio/Video} Duration (HTMLMediaElement.duration)
+  // {Audio/Video} Percent (duration / currentTime)
+  // {Audio/Video} Provider (static)
+  // {Audio/Video} Status (?)
+  // {Audio/Video} Title (static)
+  // {Audio/Video} URL (static)
 
-  useEffect(() => {
-    secondsPlayedRef.current = secondsPlayed;
-  }, [secondsPlayed]);
+  const cachedSteps = new Set();
+  const progressSteps = [10, 25, 50, 75, 90];
 
-  function trackViewingTime() {
-    trackGaEvent({
-      category: 'Engagement',
-      action: 'Amount of media played',
-      value: secondsPlayedRef.current,
-      nonInteraction: true,
-      transport: 'beacon',
-      label: 'Video',
-    });
+  function trackPlay(event: SyntheticEvent<HTMLVideoElement, Event>) {
+    console.log('play');
+    // TODO: send GA4 video_start event here (only if you're at zero seconds?)
   }
 
-  useEffect(() => {
-    Router.events.on('routeChangeStart', trackViewingTime);
+  function trackEnded(event: SyntheticEvent<HTMLVideoElement, Event>) {
+    console.log('ended');
+    // TODO: send GA4 video_complete event here
+  }
 
-    try {
-      window.addEventListener('beforeunload', trackViewingTime);
-    } catch (error) {
-      trackGaEvent({
-        category: 'Engagement',
-        action: 'unable to track media playing time',
-        nonInteraction: true,
-      });
+  function trackProgress(event: SyntheticEvent<HTMLVideoElement, Event>) {
+    const currentTime = event.currentTarget.currentTime;
+    const duration = event.currentTarget.duration;
+    const percentComplete = (currentTime / duration) * 100;
+    const currentPercent = progressSteps
+      .filter(step => percentComplete >= step)
+      .at(-1);
+
+    if (currentPercent && !cachedSteps.has(currentPercent)) {
+      // TODO: send GA4 video_progress event here
+      cachedSteps.add(currentPercent);
     }
-
-    return () => {
-      try {
-        window.removeEventListener('beforeunload', trackViewingTime);
-        Router.events.off('routeChangeStart', trackViewingTime);
-      } catch (error) {}
-    };
-  }, []);
-
-  useInterval(
-    () => {
-      setSecondsPlayed(secondsPlayed + 1);
-    },
-    isPlaying ? 1000 : undefined
-  );
+  }
 
   return (
     <>
       <video
-        onPlay={() => {
-          setIsPlaying(true);
+        onPlay={event => {
+          trackPlay(event);
           trackGaEvent({
             category: 'Video',
             action: 'play video',
             label: video.id,
           });
         }}
-        onPause={() => {
-          setIsPlaying(false);
-        }}
+        onEnded={trackEnded}
+        onProgress={trackProgress}
         controlsList={!showDownloadOptions ? 'nodownload' : undefined}
         controls
         preload="none"
