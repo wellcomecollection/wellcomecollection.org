@@ -1,11 +1,10 @@
-import { fromQuery } from '.';
+import { WorksProps, fromQuery } from '.';
 
 describe('WorksLink', () => {
   describe('fromQuery', () => {
     it('handles a query without any values', () => {
       const query = {};
-      const worksRouteState = fromQuery(query);
-
+      const worksRouteState: WorksProps = fromQuery(query);
       expect(worksRouteState).toEqual({
         query: '',
         page: 1,
@@ -17,7 +16,7 @@ describe('WorksLink', () => {
         'partOf.title': undefined,
         'production.dates.from': undefined,
         'production.dates.to': undefined,
-        search: undefined,
+        'genres.concepts': [],
         'genres.label': [],
         'subjects.label': [],
         languages: [],
