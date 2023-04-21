@@ -26,13 +26,7 @@ type GetWorkProps = {
   toggles: Toggles;
 };
 
-const worksIncludes = [
-  'identifiers',
-  'production',
-  'contributors',
-  'subjects',
-  'partOf',
-];
+const worksIncludes = ['production', 'contributors', 'partOf'];
 
 const workIncludes = [
   'identifiers',
