@@ -128,7 +128,7 @@ test.describe('Scenario 1: The person is looking for an archive', () => {
     await navigateToResult(3, page);
   });
 
-  test.only('and the user can get back to their original search results', async ({
+  test('and the user can get back to their original search results', async ({
     page,
     context,
   }) => {
