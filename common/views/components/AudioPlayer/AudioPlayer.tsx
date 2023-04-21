@@ -20,6 +20,7 @@ import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { useAVTracking } from '@weco/common/hooks/useAVTracking';
 
 const VolumeWrapper = styled.div`
   display: flex;
@@ -330,6 +331,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   // one-time announcement for screenreaders. Using `currentTime` causes an
   // announcement every second.
   const [startTime, setStartTime] = useState(currentTime);
+  const { trackPlay, trackEnded, trackProgress } = useAVTracking('audio');
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
@@ -490,7 +492,12 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
 
       <audio
         onLoadedMetadata={onLoadedMetadata}
-        onPlay={() => setIsPlaying(true)}
+        onPlay={event => {
+          trackPlay(event);
+          setIsPlaying(true);
+        }}
+        onEnded={trackEnded}
+        onProgress={trackProgress}
         onPause={() => setIsPlaying(false)}
         onTimeUpdate={onTimeUpdate}
         preload="metadata"
