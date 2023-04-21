@@ -61,28 +61,26 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
       }}
     >
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <div style={{ padding: '2px' }}>
-          <BookImage
-            image={{
-              contentUrl: cover?.contentUrl || '',
-              width: cover?.width || 0,
-              height: cover?.height || 0,
-              // We intentionally omit the alt text on promos, so screen reader
-              // users don't have to listen to the alt text before hearing the
-              // title of the item in the list.
-              //
-              // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-              alt: '',
-            }}
-            sizes={{
-              xlarge: 1 / 6,
-              large: 1 / 6,
-              medium: 1 / 3,
-              small: 1,
-            }}
-            quality="low"
-          />
-        </div>
+        <BookImage
+          image={{
+            contentUrl: cover?.contentUrl || '',
+            width: cover?.width || 0,
+            height: cover?.height || 0,
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+            alt: '',
+          }}
+          sizes={{
+            xlarge: 1 / 6,
+            large: 1 / 6,
+            medium: 1 / 3,
+            small: 1,
+          }}
+          quality="low"
+        />
         <Space
           h={{
             size: 'l',
