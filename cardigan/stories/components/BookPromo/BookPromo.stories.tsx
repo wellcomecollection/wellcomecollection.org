@@ -9,10 +9,10 @@ basic.args = {
     id: 'cardigan',
     cover: image(
       'https://images.prismic.io/wellcomecollection/1e958377a9f21d49a5de6578212e02ad4381d473_9781781254875_0.png?auto=compress,format',
-      575,
+      576,
       884
     ),
-    title: 'singleLineOfText(',
+    title: singleLineOfText(),
     subtitle: singleLineOfText(),
   },
 };
