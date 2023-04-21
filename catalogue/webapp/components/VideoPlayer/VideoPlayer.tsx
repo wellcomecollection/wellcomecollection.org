@@ -1,12 +1,5 @@
-import Router from 'next/router';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import {
-  FunctionComponent,
-  useEffect,
-  useState,
-  SyntheticEvent,
-  cache,
-} from 'react';
+import { FunctionComponent, useState, SyntheticEvent } from 'react';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
 import { Video } from '../../services/iiif/types/manifest/v3';
 
@@ -19,25 +12,36 @@ const VideoPlayer: FunctionComponent<Props> = ({
   video,
   showDownloadOptions,
 }: Props) => {
-  // {Audio/Video} Current Time (HTMLMediaElement.currentTime)
-  // {Audio/Video} Duration (HTMLMediaElement.duration)
-  // {Audio/Video} Percent (duration / currentTime)
-  // {Audio/Video} Provider (static)
-  // {Audio/Video} Status (?)
-  // {Audio/Video} Title (static)
-  // {Audio/Video} URL (static)
+  const [didStart, setDidStart] = useState(false);
 
-  const cachedSteps = new Set();
+  function getParams(
+    event: SyntheticEvent<HTMLVideoElement, Event>,
+    cachedSteps: Set<number>
+  ) {
+    return {
+      video_current_time: event.currentTarget.currentTime,
+      video_duration: event.currentTarget.duration,
+      video_percent: [...cachedSteps].pop(),
+      video_provider: 'IIIF',
+      video_title: 'IIIF',
+      video_url: event.currentTarget.src,
+    };
+  }
+
+  const cachedSteps: Set<number> = new Set();
   const progressSteps = [10, 25, 50, 75, 90];
 
   function trackPlay(event: SyntheticEvent<HTMLVideoElement, Event>) {
-    console.log('play');
-    // TODO: send GA4 video_start event here (only if you're at zero seconds?)
+    if (didStart) return;
+
+    gtag('event', 'video_start', getParams(event, cachedSteps));
+
+    setDidStart(true);
   }
 
   function trackEnded(event: SyntheticEvent<HTMLVideoElement, Event>) {
-    console.log('ended');
-    // TODO: send GA4 video_complete event here
+    gtag('event', 'video_complete', getParams(event, cachedSteps));
+    setDidStart(false);
   }
 
   function trackProgress(event: SyntheticEvent<HTMLVideoElement, Event>) {
@@ -49,7 +53,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
       .at(-1);
 
     if (currentPercent && !cachedSteps.has(currentPercent)) {
-      // TODO: send GA4 video_progress event here
+      gtag('event', 'video_progress', getParams(event, cachedSteps));
       cachedSteps.add(currentPercent);
     }
   }
