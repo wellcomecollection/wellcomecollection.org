@@ -39,7 +39,7 @@ const SearchForm = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setInputValue(initialValue);
+    setInputValue(location === 'header' ? '' : initialValue);
   }, [router?.pathname, router?.query]);
 
   const updateUrl = (form: HTMLFormElement) => {
@@ -61,7 +61,7 @@ const SearchForm = ({
       }}
     >
       <SearchBar
-        inputValue={location === 'header' ? '' : inputValue}
+        inputValue={inputValue}
         setInputValue={setInputValue}
         form={`search-form-${searchCategory}`}
         placeholder={searchPlaceholderText[searchCategory]}
