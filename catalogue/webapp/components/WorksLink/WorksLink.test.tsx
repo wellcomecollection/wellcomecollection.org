@@ -1,10 +1,10 @@
-import fromQuery from '.';
+import { fromQuery, WorksProps } from '.';
 
 describe('WorksLink', () => {
   describe('fromQuery', () => {
     it('handles a query without any values', () => {
       const query = {};
-      const worksRouteState = fromQuery(query);
+      const worksRouteState: WorksProps = fromQuery(query);
       expect(worksRouteState).toStrictEqual({
         query: '',
         page: 1,
@@ -33,7 +33,7 @@ describe('WorksLink', () => {
         'production.dates.to': '1900',
         notValid: '( ͡° ͜ʖ ͡°)',
       };
-      const worksRouteState = fromQuery(query);
+      const worksRouteState: WorksProps = fromQuery(query);
 
       expect(worksRouteState).toStrictEqual({
         query: 'gargoyles',
