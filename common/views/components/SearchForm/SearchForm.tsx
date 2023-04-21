@@ -6,23 +6,13 @@ import { linkResolver, getQueryPropertyValue } from '@weco/common/utils/search';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { useState, useRef, useEffect, useContext, ReactElement } from 'react';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import { searchPlaceholderText } from '@weco/common/data/microcopy';
 
-type SearchCategory = 'all' | 'works';
-
-function placeholderText(searchCategory: SearchCategory) {
-  switch (searchCategory) {
-    case 'all':
-      return 'Search our stories, images and catalogue';
-    case 'works':
-      return 'Search our catalogue and images';
-    default:
-      return 'Search our stories, images and catalogue';
-  }
-}
+type SearchCategory = 'overview' | 'works';
 
 function formAction(searchCategory: SearchCategory) {
   switch (searchCategory) {
-    case 'all':
+    case 'overview':
       return '/search';
     case 'works':
       return '/search/works';
@@ -34,7 +24,7 @@ function formAction(searchCategory: SearchCategory) {
 // If it's at the top of /collections or /works/{id} we want to show '/search/works'
 // otherwise we default to '/search'
 const SearchForm = ({
-  searchCategory = 'all',
+  searchCategory = 'overview',
   location = 'header',
 }: {
   searchCategory?: SearchCategory;
@@ -74,7 +64,7 @@ const SearchForm = ({
         inputValue={location === 'header' ? '' : inputValue}
         setInputValue={setInputValue}
         form={`search-form-${searchCategory}`}
-        placeholder={placeholderText(searchCategory)}
+        placeholder={searchPlaceholderText[searchCategory]}
         inputRef={inputRef}
         location={location}
       />
