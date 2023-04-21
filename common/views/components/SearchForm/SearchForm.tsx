@@ -71,7 +71,7 @@ const SearchForm = ({
       }}
     >
       <SearchBar
-        inputValue={inputValue}
+        inputValue={location === 'header' ? '' : inputValue}
         setInputValue={setInputValue}
         form={`search-form-${searchCategory}`}
         placeholder={placeholderText(searchCategory)}
