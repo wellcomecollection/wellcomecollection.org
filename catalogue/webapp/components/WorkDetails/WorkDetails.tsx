@@ -627,10 +627,7 @@ const WorkDetails: FunctionComponent<Props> = ({
           e.g. Patient <...>, sup<erior> mesenteric a<rtery>
           */}
         {work.lettering && (
-          <WorkDetailsText
-            title="Lettering"
-            text={work.lettering.split('\n\n')}
-          />
+          <WorkDetailsText title="Lettering" text={work.lettering} />
         )}
 
         {work.edition && (
