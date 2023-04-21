@@ -12,7 +12,7 @@ basic.args = {
       575,
       884
     ),
-    title: singleLineOfText(),
+    title: 'singleLineOfText()',
     subtitle: singleLineOfText(),
   },
 };
