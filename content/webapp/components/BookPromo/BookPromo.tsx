@@ -64,7 +64,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
         <BookImage
           image={{
             contentUrl: cover?.contentUrl || '',
-            width: cover?.width || 0,
+            width: (cover?.width || 0) + 1,
             height: cover?.height || 0,
             // We intentionally omit the alt text on promos, so screen reader
             // users don't have to listen to the alt text before hearing the
