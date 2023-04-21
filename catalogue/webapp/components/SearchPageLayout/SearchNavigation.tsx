@@ -110,7 +110,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
         }}
       >
         <h1 className="visually-hidden">
-          ${capitalize(currentSearchCategory)} search
+          {capitalize(currentSearchCategory)} search
         </h1>
 
         <SearchBarContainer
