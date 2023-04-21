@@ -4,7 +4,13 @@ import SearchBar, {
 } from '@weco/common/views/components/SearchBar/SearchBar';
 import { linkResolver, getQueryPropertyValue } from '@weco/common/utils/search';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
-import { useState, useRef, useEffect, useContext, ReactElement } from 'react';
+import {
+  useState,
+  useEffect,
+  useContext,
+  ReactElement,
+  RefObject,
+} from 'react';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { searchPlaceholderText } from '@weco/common/data/microcopy';
 
@@ -26,9 +32,11 @@ function formAction(searchCategory: SearchCategory) {
 const SearchForm = ({
   searchCategory = 'overview',
   location = 'header',
+  inputRef = undefined,
 }: {
   searchCategory?: SearchCategory;
   location?: ValidLocations;
+  inputRef?: RefObject<HTMLInputElement> | undefined;
 }): ReactElement => {
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
@@ -36,7 +44,6 @@ const SearchForm = ({
   const initialValue =
     routerQuery || searchLink.as.query?.query?.toString() || '';
   const [inputValue, setInputValue] = useState(initialValue);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setInputValue(location === 'header' ? '' : initialValue);

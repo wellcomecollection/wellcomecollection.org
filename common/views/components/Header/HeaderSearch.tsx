@@ -83,7 +83,7 @@ const HeaderSearch = ({
         onClick={e => e.stopPropagation()}
       >
         <div className="container">
-          <SearchForm />
+          <SearchForm inputRef={inputRef} />
         </div>
       </SearchBarWrapper>
     </Overlay>
