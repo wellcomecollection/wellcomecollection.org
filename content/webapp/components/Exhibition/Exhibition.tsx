@@ -41,7 +41,6 @@ import * as prismicT from '@prismicio/types';
 import styled from 'styled-components';
 
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
-import Link from 'next/link';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -291,11 +290,11 @@ const Exhibition: FunctionComponent<Props> = ({ exhibition, pages }) => {
         <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
           <AccessibilityServices>
             For more information, please visit our{' '}
-            <Link href="/access">Accessibility</Link> page. If you have any
-            queries about accessibility, please email us at{' '}
-            <Link href="mailto:access@wellcomecollection.org">
+            <a href="/access">Accessibility</a> page. If you have any queries
+            about accessibility, please email us at{' '}
+            <a href="mailto:access@wellcomecollection.org">
               access@wellcomecollection.org
-            </Link>{' '}
+            </a>{' '}
             or call{' '}
             {/*
         This is to ensure phone numbers are read in a sensible way by
