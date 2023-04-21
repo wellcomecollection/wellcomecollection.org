@@ -9,13 +9,18 @@ const LimitWidth = styled.div.attrs({
   className: 'spaced-text',
 })`
   max-width: 45em;
+
+  /* This keeps the changes needed for letters spaced together, but
+   * should remove any consideration for symbols. So no more -> turning
+   * into an arrow, which can be an issue e.g. for year ranges <1800->
+   **/
   font-variant-ligatures: no-contextual;
+
+  /* This ensures any newlines in the API data are rendered on the page,
+   * e.g. lettering with newlines on https://wellcomecollection.org/works/cphumehx
+   **/
+  white-space: break-spaces;
 `;
-/**
- * [font-variant-ligatures: no-contextual] is supposed to maintain the
- * changes needed for letters spaced together, but should remove any
- * consideration for symbols. So no more -> turning into an arrow
- * */
 
 type TextProps = BaseProps & {
   text: string | string[];
