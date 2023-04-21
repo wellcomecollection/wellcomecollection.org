@@ -5,10 +5,6 @@ import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 
-export const Container = styled.div.attrs({
-  className: 'container',
-})``;
-
 const Overlay = styled.div.attrs<{ isActive: boolean }>(props => ({
   className: classNames({
     'is-hidden': !props.isActive,
@@ -86,9 +82,9 @@ const HeaderSearch = ({
         ref={isActive ? wrapperRef : undefined}
         onClick={e => e.stopPropagation()}
       >
-        <Container>
+        <div className="container">
           <SearchForm />
-        </Container>
+        </div>
       </SearchBarWrapper>
     </Overlay>
   );
