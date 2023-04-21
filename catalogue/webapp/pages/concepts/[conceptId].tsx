@@ -40,25 +40,6 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Pageview } from '@weco/common/services/conversion/track';
 import theme from '@weco/common/views/themes/default';
 
-type SectionData = {
-  label: string;
-  works: CatalogueResultsList<WorkType> | undefined;
-  images: CatalogueResultsList<ImageType> | undefined;
-};
-
-type SectionsData = {
-  about: SectionData;
-  by: SectionData;
-  in: SectionData;
-};
-
-type Props = {
-  conceptResponse: ConceptType;
-  sectionsData: SectionsData;
-  apiToolbarLinks: ApiToolbarLink[];
-  pageview: Pageview;
-};
-
 const emptyImageResults: CatalogueResultsList<ImageType> = {
   type: 'ResultList',
   pageSize: 10,
@@ -225,46 +206,6 @@ type TagLabelType = {
   totalResults: number;
 };
 
-const TabLabel = ({ text, totalResults }: TagLabelType) => (
-  <>
-    {text} <span className="is-hidden-s">({formatNumber(totalResults)})</span>
-  </>
-);
-
-type PageSectionDefinition = {
-  id: string;
-  tab: {
-    id: string;
-    text: JSX.Element;
-  };
-  panel: {
-    id: string;
-    link: LinkProps;
-    results: CatalogueResultsList<WorkType | ImageType>;
-  };
-};
-
-const toSectionDefinition = (
-  tabId: string,
-  resultsGroup: CatalogueResultsList<WorkType | ImageType> | undefined,
-  tabLabelText: string,
-  link: LinkProps
-): PageSectionDefinition | undefined => {
-  return resultsGroup?.totalResults
-    ? {
-        id: tabId,
-        tab: {
-          id: tabId,
-          text: TabLabel({
-            text: tabLabelText,
-            totalResults: resultsGroup.totalResults,
-          }),
-        },
-        panel: { id: tabId, link: link, results: resultsGroup },
-      }
-    : undefined;
-};
-
 const withSelectedStatus = (selectedTab: string, tabDefinition) => {
   tabDefinition.selected = selectedTab === tabDefinition.id;
   return tabDefinition;
@@ -288,6 +229,66 @@ const currentTabPanel = (selectedTab: string, tabDefinitions) => {
   );
 };
 
+const TabLabel = ({ text, totalResults }: TagLabelType) => (
+  <>
+    {text} <span className="is-hidden-s">({formatNumber(totalResults)})</span>
+  </>
+);
+
+// Represents the data for a single tab/tab panel combination.
+type PageSectionDefinition = {
+  id: string;
+  tab: {
+    id: string;
+    text: JSX.Element;
+  };
+  panel: {
+    id: string;
+    link: LinkProps;
+    results: CatalogueResultsList<WorkType | ImageType>;
+  };
+};
+
+const toPageSectionDefinition = (
+  tabId: string,
+  resultsGroup: CatalogueResultsList<WorkType | ImageType> | undefined,
+  tabLabelText: string,
+  link: LinkProps
+): PageSectionDefinition | undefined => {
+  return resultsGroup?.totalResults
+    ? {
+        id: tabId,
+        tab: {
+          id: tabId,
+          text: TabLabel({
+            text: tabLabelText,
+            totalResults: resultsGroup.totalResults,
+          }),
+        },
+        panel: { id: tabId, link: link, results: resultsGroup },
+      }
+    : undefined;
+};
+
+type SectionData = {
+  label: string;
+  works: CatalogueResultsList<WorkType> | undefined;
+  images: CatalogueResultsList<ImageType> | undefined;
+};
+
+type SectionsData = {
+  about: SectionData;
+  by: SectionData;
+  in: SectionData;
+};
+
+type Props = {
+  conceptResponse: ConceptType;
+  sectionsData: SectionsData;
+  apiToolbarLinks: ApiToolbarLink[];
+  pageview: Pageview;
+};
+
 export const ConceptPage: NextPage<Props> = ({
   conceptResponse,
   sectionsData,
@@ -300,7 +301,7 @@ export const ConceptPage: NextPage<Props> = ({
           .charAt(0)
           .toUpperCase()}${relationship.slice(1)}`;
 
-        return toSectionDefinition(
+        return toPageSectionDefinition(
           tabId,
           sectionsData[relationship].works,
           sectionsData[relationship].label,
@@ -319,7 +320,7 @@ export const ConceptPage: NextPage<Props> = ({
         const tabId = `images${relationship
           .charAt(0)
           .toUpperCase()}${relationship.slice(1)}`;
-        return toSectionDefinition(
+        return toPageSectionDefinition(
           tabId,
           sectionsData[relationship].images,
           sectionsData[relationship].label,
@@ -331,9 +332,11 @@ export const ConceptPage: NextPage<Props> = ({
 
   const hasImages = imagesTabs.length > 0;
   const hasImagesTabs = imagesTabs.length > 1;
+
   // Set the default tab in each group to the first populated tab
   // the two tabs lists are ordered consistently as defined by tabOrder,
   // which is ordered so that the more specific tabs come first.
+  // Maximally one "more specific" tab is expected to be populated for any given concept.
   const [selectedWorksTab, setSelectedWorksTab] = useState(
     worksTabs[0]?.id || ''
   );
