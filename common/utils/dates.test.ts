@@ -12,6 +12,8 @@ import {
   minDate,
   maxDate,
   startOfWeek,
+  startOfDay,
+  endOfDay,
 } from './dates';
 
 it('identifies dates in the past', () => {
@@ -257,8 +259,8 @@ describe('getNextWeekendDateRange', () => {
   ])('the next weekend after $day is $weekend', ({ day, weekend }) => {
     const range = getNextWeekendDateRange(day);
 
-    expect(isSameDay(range.start, weekend.start)).toBeTruthy();
-    expect(isSameDay(range.end, weekend.end)).toBeTruthy();
+    expect(isSameDay(range.start, weekend.start, 'London')).toBeTruthy();
+    expect(isSameDay(range.end, weekend.end, 'London')).toBeTruthy();
   });
 });
 
@@ -341,4 +343,32 @@ describe('minDate and maxDate', () => {
       expect(maxDate(dates)).toBe(date3);
     }
   );
+});
+
+describe('startOfDay and endOfDay', () => {
+  const combinations = [
+    // when British Summer Time is in effect, and London is offset from UTC
+    {
+      d: new Date('2023-04-24'),
+      startDate: new Date('2023-04-23T23:00:00Z'),
+      endDate: new Date('2023-04-24T22:59:59Z'),
+    },
+    // when British Summer Time is not in effect, and London is on UTC
+    {
+      d: new Date('2023-11-24'),
+      startDate: new Date('2023-11-24T00:00:00Z'),
+      endDate: new Date('2023-11-24T23:59:59Z'),
+    },
+  ];
+
+  test.each(combinations)(
+    'the start of $d is $startDate',
+    ({ d, startDate }) => {
+      expect(startOfDay(d)).toStrictEqual(startDate);
+    }
+  );
+
+  test.each(combinations)('the end of $d is $endDate', ({ d, endDate }) => {
+    expect(endOfDay(d)).toStrictEqual(endDate);
+  });
 });
