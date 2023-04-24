@@ -1,13 +1,13 @@
 import { FunctionComponent } from 'react';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
 const CollectionsStaticContent: FunctionComponent = () => {
   return (
     <Layout12>
       <SpacingSection>
-        <SearchTabs query="" />
+        <SearchForm searchCategory="works" location="page" />
       </SpacingSection>
     </Layout12>
   );
