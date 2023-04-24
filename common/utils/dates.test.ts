@@ -12,7 +12,11 @@ import {
   minDate,
   maxDate,
   startOfWeek,
+  startOfDay,
+  endOfDay,
+  getLondonTimezone,
 } from './dates';
+import { formatDayDate } from './format-date';
 
 it('identifies dates in the past', () => {
   expect(isPast(new Date(2001, 1, 1, 1, 1, 1, 999))).toEqual(true);
@@ -257,8 +261,8 @@ describe('getNextWeekendDateRange', () => {
   ])('the next weekend after $day is $weekend', ({ day, weekend }) => {
     const range = getNextWeekendDateRange(day);
 
-    expect(isSameDay(range.start, weekend.start)).toBeTruthy();
-    expect(isSameDay(range.end, weekend.end)).toBeTruthy();
+    expect(isSameDay(range.start, weekend.start, 'London')).toBeTruthy();
+    expect(isSameDay(range.end, weekend.end, 'London')).toBeTruthy();
   });
 });
 
@@ -339,6 +343,69 @@ describe('minDate and maxDate', () => {
     `the max date from ${combinations} is ${date1}`,
     ({ dates }) => {
       expect(maxDate(dates)).toBe(date3);
+    }
+  );
+});
+
+describe('getLondonTimezone', () => {
+  test.each([
+    { d: new Date('2023-04-24'), tz: 'BST' },
+    { d: new Date('2023-11-24'), tz: 'GMT' },
+  ])(`in $d London is in $tz`, ({ d, tz }) => {
+    expect(getLondonTimezone(d)).toBe(tz);
+  });
+});
+
+describe('startOfDay and endOfDay', () => {
+  const combinations = [
+    // during British Summer Time, when London is offset from UTC
+    {
+      d: new Date('2023-04-24'),
+      startDate: new Date('2023-04-23T23:00:00.000Z'),
+      endDate: new Date('2023-04-24T22:59:59.999Z'),
+    },
+    {
+      d: new Date('2023-04-23T23:10:00Z'),
+      startDate: new Date('2023-04-23T23:00:00.000Z'),
+      endDate: new Date('2023-04-24T22:59:59.999Z'),
+    },
+    {
+      d: new Date('2023-04-24T22:40:00Z'),
+      startDate: new Date('2023-04-23T23:00:00.000Z'),
+      endDate: new Date('2023-04-24T22:59:59.999Z'),
+    },
+    // during British Winter Time, London is on UTC
+    {
+      d: new Date('2023-11-24'),
+      startDate: new Date('2023-11-24T00:00:00.000Z'),
+      endDate: new Date('2023-11-24T23:59:59.999Z'),
+    },
+  ];
+
+  test.each(combinations)(
+    'the start of $d is $startDate',
+    ({ d, startDate }) => {
+      expect(startOfDay(d)).toStrictEqual(startDate);
+    }
+  );
+
+  test.each(combinations)('the end of $d is $endDate', ({ d, endDate }) => {
+    expect(endOfDay(d)).toStrictEqual(endDate);
+  });
+
+  test.each(combinations)(
+    'the start/end of $d is the same day as d',
+    ({ d }) => {
+      expect(formatDayDate(d)).toBe(formatDayDate(startOfDay(d)));
+      expect(formatDayDate(d)).toBe(formatDayDate(endOfDay(d)));
+    }
+  );
+
+  test.each(combinations)(
+    'the start/end date functions are idempotent on $d',
+    ({ d }) => {
+      expect(startOfDay(startOfDay(d))).toStrictEqual(startOfDay(d));
+      expect(endOfDay(endOfDay(d))).toStrictEqual(endOfDay(d));
     }
   );
 });
