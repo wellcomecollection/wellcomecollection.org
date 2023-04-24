@@ -22,7 +22,7 @@ export const useAVTracking = (avType: 'audio' | 'video') => {
       [percentKey]: [...cachedSteps].pop(),
       [providerKey]: 'IIIF',
       [titleKey]: 'IIIF',
-      [urlKey]: event.currentTarget.src,
+      [urlKey]: event.currentTarget.currentSrc,
     };
   }
 
