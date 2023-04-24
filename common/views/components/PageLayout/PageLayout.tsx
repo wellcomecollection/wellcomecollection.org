@@ -246,6 +246,18 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         )}
       </Head>
 
+      {/* Note: these <Script> tags are very deliberately:
+      
+          - not <script>
+          - not in the <Head>
+      
+          When we put <script> tags in the <Head>, we saw issues with Next.js doubling-up certain
+          elements in the final <head>, e.g. the charset declaration.
+
+          When we put <Script> tags in the <Head>, they didn't appear in the rendered page.
+
+      */}
+
       <Script
         src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
           ','
