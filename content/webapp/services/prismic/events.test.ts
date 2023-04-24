@@ -213,8 +213,8 @@ describe('groupEventsByDay', () => {
     expect(result).toStrictEqual([
       {
         label: 'Saturday 6 April 2019',
-        start: new Date('2019-04-06T00:00:00.000Z'),
-        end: new Date('2019-04-06T23:59:59.999Z'),
+        start: new Date('2019-04-05T23:00:00.000Z'),
+        end: new Date('2019-04-06T22:59:59.999Z'),
         events: [
           {
             id: 'XH6TQBAAAA0FGlrx',
@@ -246,8 +246,8 @@ describe('groupEventsByDay', () => {
       },
       {
         label: 'Sunday 7 April 2019',
-        start: new Date('2019-04-07T00:00:00.000Z'),
-        end: new Date('2019-04-07T23:59:59.999Z'),
+        start: new Date('2019-04-06T23:00:00.000Z'),
+        end: new Date('2019-04-07T22:59:59.999Z'),
         events: [
           {
             id: 'XHZeuhAAAHJe9sPp',
@@ -276,12 +276,6 @@ describe('groupEventsByDay', () => {
             ],
           },
         ],
-      },
-      {
-        label: 'Monday 8 April 2019',
-        start: new Date('2019-04-08T00:00:00.000Z'),
-        end: new Date('2019-04-08T23:59:59.999Z'),
-        events: [],
       },
     ]);
   });
