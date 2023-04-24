@@ -115,6 +115,7 @@ Object.entries(themeValues.colors)
         ...paletteColors.core.colors,
         [key]: newColor,
       };
+      return null;
     } else {
       const [category, colorName] = key.split('.');
 
@@ -128,6 +129,7 @@ Object.entries(themeValues.colors)
           },
         },
       };
+      return null;
     }
   })
   .filter(Boolean);
