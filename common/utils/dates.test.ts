@@ -260,11 +260,6 @@ describe('getNextWeekendDateRange', () => {
     const range = getNextWeekendDateRange(day);
 
     expect(isSameDay(range.start, weekend.start, 'London')).toBeTruthy();
-    console.log(
-      `@@AWLC range = ${JSON.stringify(range)}, weekend = ${JSON.stringify(
-        weekend
-      )}`
-    );
     expect(isSameDay(range.end, weekend.end, 'London')).toBeTruthy();
   });
 });
