@@ -10,11 +10,9 @@ const sharedPlugins = [
 const sharedExtends = [
   'standard',
   'plugin:react/recommended',
-  'plugin:prettier/recommended',
   'plugin:jest-playwright/recommended',
   'prettier',
-  'prettier/react',
-  'prettier/standard',
+  'plugin:prettier/recommended', // Should be the last extension https://github.com/prettier/eslint-plugin-prettier#recommended-configuration
 ];
 
 const sharedRules = {
