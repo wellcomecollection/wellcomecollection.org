@@ -1,9 +1,9 @@
+import { FunctionComponent } from 'react';
 import { Work as WorkType } from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   Location as LocationType,
   DigitalLocation,
 } from '@weco/common/model/catalogue';
-import { useContext, FunctionComponent } from 'react';
 import { grid } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -19,10 +19,9 @@ import ArchiveBreadcrumb from '../ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import ArchiveTree from '../ArchiveTree/ArchiveTree';
-import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
-import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -116,7 +115,6 @@ type Props = {
 };
 
 const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
-  const { link: searchLink } = useContext(SearchContext);
   const { worksTabbedNav } = useToggles();
   const transformedIIIFManifest = useTransformedManifest(work);
 
@@ -181,13 +179,15 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
       >
         <Container>
           <Grid>
-            <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-              <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                <SearchTabs
-                  query={searchLink.as.query?.query?.toString() || ''}
-                />
-              </Space>
-            </div>
+            <Space
+              v={{
+                size: 'l',
+                properties: ['padding-top'],
+              }}
+              className={grid({ s: 12 })}
+            >
+              <SearchForm searchCategory="works" location="page" />
+            </Space>
           </Grid>
           <Grid>
             <Space

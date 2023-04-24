@@ -11,17 +11,6 @@ export function isJson(v: string): boolean {
   }
 }
 
-// removes keys with value undefined | null associated with them
-export function removeEmptyProps(obj: Record<string, unknown>): Keyable {
-  return JSON.parse(
-    JSON.stringify(obj, function (_, value) {
-      return value === null || value === undefined || value === ''
-        ? undefined
-        : value;
-    })
-  );
-}
-
 // removes keys with value undefined associated with them
 export function removeUndefinedProps<T extends Record<string, any>>(t: T): T {
   Object.keys(t).forEach((key: string) => {

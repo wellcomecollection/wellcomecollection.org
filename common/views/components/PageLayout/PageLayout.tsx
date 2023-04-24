@@ -154,9 +154,8 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   return (
     <>
       <Head>
-        <meta property="next:version" content="13" />
         <title>{fullTitle}</title>
-        <meta name="description" content={description || ''} />
+        <meta name="description" content={description} />
         <link rel="canonical" href={absoluteUrl} />
         {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
         <meta property="og:site_name" content="Wellcome Collection" />
@@ -203,11 +202,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <meta key="twitter:image" name="twitter:image" content={imageUrl} />
         <meta name="twitter:image:alt" content={imageAltText} />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <script
-          src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
-            ','
-          )}`}
-        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
           rel="apple-touch-icon"
@@ -240,17 +234,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           href="https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg"
           color="#000000"
         />
-        <script
-          src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
-          async
-        />
-
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd),
-          }}
-        />
 
         {rssUrl && (
           <link
@@ -260,21 +243,49 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             type="application/rss+xml"
           />
         )}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              museumLd(wellcomeCollectionGalleryWithHours)
-            ),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),
-          }}
-        />
       </Head>
+
+      {/* Note: these <Script> tags are very deliberately:
+      
+          - not <script>
+          - not in the <Head>
+      
+          When we put <script> tags in the <Head>, we saw issues with Next.js doubling-up certain
+          elements in the final <head>, e.g. the charset declaration.
+
+          When we put <Script> tags in the <Head>, they didn't appear in the rendered page.
+
+      */}
+
+      <Script
+        src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
+          ','
+        )}`}
+      />
+
+      <Script
+        src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
+        async
+      />
+
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      />
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(museumLd(wellcomeCollectionGalleryWithHours)),
+        }}
+      />
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),
+        }}
+      />
 
       <div id="root">
         {apiToolbar && (

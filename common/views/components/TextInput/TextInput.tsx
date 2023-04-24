@@ -8,19 +8,20 @@ import {
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { check } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
 
 type TextInputWrapProps = {
   hasErrorBorder: boolean;
   big?: boolean;
   darkBg?: boolean;
 };
-export const TextInputWrap = styled.div<TextInputWrapProps>`
+export const TextInputWrap = styled.div.attrs<TextInputWrapProps>(props => ({
+  className: props.big ? font('intr', 4) : font('intr', 5),
+}))<TextInputWrapProps>`
   display: flex;
   position: relative;
   border: 2px solid
     ${props => props.theme.color(props.darkBg ? 'white' : 'neutral.600')};
-  font-size: ${props => (props.big ? '20px' : '16px')};
-
   &:focus-within {
     box-shadow: ${props => props.theme.focusBoxShadow};
 

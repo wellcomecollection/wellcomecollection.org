@@ -45,7 +45,7 @@ type Props = {
   location: ValidLocations;
 };
 
-type ValidLocations = 'header' | 'search';
+export type ValidLocations = 'header' | 'search' | 'page';
 
 const SearchBar: FunctionComponent<Props> = ({
   inputValue,
