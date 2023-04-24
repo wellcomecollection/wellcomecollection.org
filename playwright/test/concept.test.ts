@@ -174,10 +174,21 @@ const allRecordsLink = async (
 };
 
 // assert the tab specified is visible
-const showsTab = async (page: Page, tabId: string, tabText: string) => {
-  const tab = await page.waitForSelector(`button#tab-${tabId}`);
-  const content = await tab.textContent();
-  expect(content?.startsWith(tabText)).toBe(true);
+const showsTab = async (
+  page: Page,
+  recordType: string,
+  tabId: string,
+  tabText: string
+) => {
+  const tabGroup = page.getByRole('tablist', {
+    name: `Tabs for ${recordType}`,
+  });
+  const tab = tabGroup.getByRole('tab', {
+    name: tabText,
+    exact: false, // The text is expected to be followed by a count of the matchign records
+  });
+  const actualId = await tab.getAttribute('id');
+  expect(actualId).toBe(`tab-${tabId}`);
 };
 
 test.describe(
@@ -187,9 +198,11 @@ test.describe(
       await concept(conceptIds['Songs'], context, page);
     });
 
-    test('two works sections are shown: about and using', async ({ page }) => {
-      await showsTab(page, 'worksAbout', 'About this type/technique');
-      await showsTab(page, 'worksIn', 'Using this type/technique');
+    test.only('two works sections are shown: about and using', async ({
+      page,
+    }) => {
+      await showsTab(page, 'works', 'worksAbout', 'About this type/technique');
+      await showsTab(page, 'works', 'worksIn', 'Using this type/technique');
     });
 
     test('the "All works" link filters by all ids associated with the concept', async ({
@@ -206,8 +219,13 @@ test.describe(
     });
 
     test('two images sections are shown: about and using', async ({ page }) => {
-      await showsTab(page, 'imagesAbout', 'About this type/technique');
-      await showsTab(page, 'imagesIn', 'Using this type/technique');
+      await showsTab(
+        page,
+        'images',
+        'imagesAbout',
+        'About this type/technique'
+      );
+      await showsTab(page, 'images', 'imagesIn', 'Using this type/technique');
     });
 
     test('the "All images" link filters by all ids associated with the concept', async ({
