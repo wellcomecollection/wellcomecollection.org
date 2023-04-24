@@ -317,20 +317,18 @@ export const Page: FunctionComponent<Props> = ({
     return [...orderedItems, ...unorderedItems];
   }
 
-  const Siblings = siblings.map((siblingGroup, i) => {
-    if (siblingGroup.siblings.length > 0) {
-      return (
-        <SpacingSection key={i}>
-          <SpacingComponent>
-            <SectionHeader title={`More from ${siblingGroup.title}`} />
-          </SpacingComponent>
-          <SpacingComponent>
-            <CardGrid items={orderItems(siblingGroup)} itemsPerRow={3} />
-          </SpacingComponent>
-        </SpacingSection>
-      );
-    }
-  });
+  const Siblings = siblings.map((siblingGroup, i) =>
+    siblingGroup.siblings.length > 0 ? (
+      <SpacingSection key={i}>
+        <SpacingComponent>
+          <SectionHeader title={`More from ${siblingGroup.title}`} />
+        </SpacingComponent>
+        <SpacingComponent>
+          <CardGrid items={orderItems(siblingGroup)} itemsPerRow={3} />
+        </SpacingComponent>
+      </SpacingSection>
+    ) : null
+  );
 
   const Children =
     children.siblings.length > 0

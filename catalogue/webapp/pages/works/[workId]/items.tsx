@@ -177,7 +177,7 @@ const ItemPage: NextPage<Props> = ({
         serviceOrigin &&
         `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
       ) {
-        if (data.hasOwnProperty('accessToken')) {
+        if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setShowModal(Boolean(isTotallyRestricted));
           setShowViewer(!isTotallyRestricted);
         } else {
