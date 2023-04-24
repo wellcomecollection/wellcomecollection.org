@@ -156,7 +156,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     <>
       <Head>
         <title>{fullTitle}</title>
-        <meta name="description" content={description || ''} />
+        <meta name="description" content={description} />
         <link rel="canonical" href={absoluteUrl} />
         {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
         <meta property="og:site_name" content="Wellcome Collection" />
