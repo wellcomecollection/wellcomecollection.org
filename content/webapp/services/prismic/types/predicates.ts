@@ -91,6 +91,8 @@ export const getExhibitionPeriodPredicates = ({
   switch (period) {
     case 'current-and-coming-up':
       // yesterday < endDate and yesterday != endDate
+      // ⇔
+      // today <= endDate
       return [predicate.dateAfter(endField, formatIso8601Date(yesterday))];
 
     case 'past':
@@ -104,9 +106,13 @@ export const getExhibitionPeriodPredicates = ({
     case 'today':
       return [
         // startDate < tomorrow and startDate != tomorrow
+        // ⇔
+        // startDate <= today
         predicate.dateBefore(startField, formatIso8601Date(tomorrow)),
 
         // yesterday < endDate and yesterday != endDate
+        // ⇔
+        // today <= endDate
         predicate.dateAfter(endField, formatIso8601Date(yesterday)),
       ];
 
