@@ -20,61 +20,58 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   return <Work work={work} apiUrl={apiUrl} />;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { workId } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { workId } = context.query;
 
-    if (!looksLikeCanonicalId(workId)) {
+  if (!looksLikeCanonicalId(workId)) {
+    return { notFound: true };
+  }
+
+  const workResponse = await getWork({
+    id: workId,
+    toggles: serverData.toggles,
+  });
+
+  if (workResponse.type === 'Redirect') {
+    return {
+      redirect: {
+        destination: `/works/${workResponse.redirectToId}`,
+        permanent: workResponse.status === 301,
+      },
+    };
+  }
+
+  if (workResponse.type === 'Error') {
+    if (workResponse.httpStatus === 404) {
       return { notFound: true };
     }
+    return appError(context, workResponse.httpStatus, workResponse.description);
+  }
 
-    const workResponse = await getWork({
-      id: workId,
-      toggles: serverData.toggles,
-    });
+  const { url, ...work } = workResponse;
 
-    if (workResponse.type === 'Redirect') {
-      return {
-        redirect: {
-          destination: `/works/${workResponse.redirectToId}`,
-          permanent: workResponse.status === 301,
+  return {
+    props: removeUndefinedProps({
+      work,
+      apiUrl: url,
+      serverData,
+      pageview: {
+        name: 'work',
+        // we shouldn't overload this
+        // these metrics allow us to report back on breadth of collection accessed
+        properties: {
+          workType: workResponse.workType?.id,
+          identifiers: workResponse.identifiers.map(id => id.value),
+          identifierTypes: workResponse.identifiers.map(
+            id => id.identifierType.id
+          ),
         },
-      };
-    }
-
-    if (workResponse.type === 'Error') {
-      if (workResponse.httpStatus === 404) {
-        return { notFound: true };
-      }
-      return appError(
-        context,
-        workResponse.httpStatus,
-        workResponse.description
-      );
-    }
-
-    const { url, ...work } = workResponse;
-
-    return {
-      props: removeUndefinedProps({
-        work,
-        apiUrl: url,
-        serverData,
-        pageview: {
-          name: 'work',
-          // we shouldn't overload this
-          // these metrics allow us to report back on breadth of collection accessed
-          properties: {
-            workType: workResponse.workType?.id,
-            identifiers: workResponse.identifiers.map(id => id.value),
-            identifierTypes: workResponse.identifiers.map(
-              id => id.identifierType.id
-            ),
-          },
-        },
-      }),
-    };
+      },
+    }),
   };
+};
 
 export default WorkPage;

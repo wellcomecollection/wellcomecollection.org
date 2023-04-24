@@ -32,15 +32,16 @@ type Props = {
   serverData: SimplifiedServerData;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
 
-    return {
-      props: removeUndefinedProps({
-        serverData,
-      }),
-    };
+  return {
+    props: removeUndefinedProps({
+      serverData,
+    }),
   };
+};
 
 export default DeleteRequestedPage;

@@ -32,54 +32,55 @@ type Props = {
   jsonLd: JsonLdObj[];
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const page = getPage(context.query);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const page = getPage(context.query);
 
-    if (typeof page !== 'number') {
-      return appError(context, 400, page.message);
-    }
+  if (typeof page !== 'number') {
+    return appError(context, 400, page.message);
+  }
 
-    const serverData = await getServerData(context);
+  const serverData = await getServerData(context);
 
-    const {
-      period = 'current-and-coming-up',
-      isOnline,
-      availableOnline,
-    } = context.query;
+  const {
+    period = 'current-and-coming-up',
+    isOnline,
+    availableOnline,
+  } = context.query;
 
-    const client = createClient(context);
+  const client = createClient(context);
 
-    const eventsQueryPromise = await fetchEvents(client, {
-      page,
-      period: period as 'current-and-coming-up' | 'past' | undefined,
-      pageSize: 100,
-      isOnline: isOnline === 'true',
-      availableOnline: availableOnline === 'true',
-    });
+  const eventsQueryPromise = await fetchEvents(client, {
+    page,
+    period: period as 'current-and-coming-up' | 'past' | undefined,
+    pageSize: 100,
+    isOnline: isOnline === 'true',
+    availableOnline: availableOnline === 'true',
+  });
 
-    const events = transformQuery(eventsQueryPromise, transformEvent);
-    const basicEvents = transformQuery(eventsQueryPromise, transformEventBasic);
+  const events = transformQuery(eventsQueryPromise, transformEvent);
+  const basicEvents = transformQuery(eventsQueryPromise, transformEventBasic);
 
-    if (events) {
-      const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
-      const jsonLd = events.results.flatMap(eventLd);
-      return {
-        props: removeUndefinedProps({
-          events: {
-            ...events,
-            results: basicEvents.results,
-          },
-          title,
-          period: period as Period,
-          jsonLd,
-          serverData,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+  if (events) {
+    const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
+    const jsonLd = events.results.flatMap(eventLd);
+    return {
+      props: removeUndefinedProps({
+        events: {
+          ...events,
+          results: basicEvents.results,
+        },
+        title,
+        period: period as Period,
+        jsonLd,
+        serverData,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 const EventsPage: FunctionComponent<Props> = props => {
   const { events, title, period, jsonLd } = props;

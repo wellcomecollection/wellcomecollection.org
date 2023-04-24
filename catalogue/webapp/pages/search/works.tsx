@@ -212,61 +212,62 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
 CatalogueSearchPage.getLayout = getSearchLayout;
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const query = context.query;
-    const params = fromQuery(query);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const query = context.query;
+  const params = fromQuery(query);
 
-    const aggregations = [
-      'workType',
-      'availabilities',
-      'genres.label',
-      'languages',
-      'subjects.label',
-      'contributors.agent.label',
-    ];
+  const aggregations = [
+    'workType',
+    'availabilities',
+    'genres.label',
+    'languages',
+    'subjects.label',
+    'contributors.agent.label',
+  ];
 
-    const _queryType = getCookie('_queryType') as string | undefined;
+  const _queryType = getCookie('_queryType') as string | undefined;
 
-    const worksApiProps = {
-      ...params,
-      _queryType,
-      aggregations,
-    };
-
-    const works = await getWorks({
-      params: worksApiProps,
-      pageSize: 25,
-      toggles: serverData.toggles,
-    });
-
-    if (works.type === 'Error') {
-      return appError(
-        context,
-        works.httpStatus,
-        works.description || works.label
-      );
-    }
-
-    return {
-      props: removeUndefinedProps({
-        works,
-        worksRouteProps: params,
-        serverData,
-        query,
-        pageview: {
-          name: 'works',
-          properties: { totalResults: works.totalResults },
-        },
-        apiToolbarLinks: [
-          {
-            id: 'catalogue-api',
-            label: 'Catalogue API query',
-            link: works._requestUrl,
-          },
-        ],
-      }),
-    };
+  const worksApiProps = {
+    ...params,
+    _queryType,
+    aggregations,
   };
+
+  const works = await getWorks({
+    params: worksApiProps,
+    pageSize: 25,
+    toggles: serverData.toggles,
+  });
+
+  if (works.type === 'Error') {
+    return appError(
+      context,
+      works.httpStatus,
+      works.description || works.label
+    );
+  }
+
+  return {
+    props: removeUndefinedProps({
+      works,
+      worksRouteProps: params,
+      serverData,
+      query,
+      pageview: {
+        name: 'works',
+        properties: { totalResults: works.totalResults },
+      },
+      apiToolbarLinks: [
+        {
+          id: 'catalogue-api',
+          label: 'Catalogue API query',
+          link: works._requestUrl,
+        },
+      ],
+    }),
+  };
+};
 export default CatalogueSearchPage;

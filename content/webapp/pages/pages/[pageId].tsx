@@ -114,73 +114,74 @@ function getFeaturedPictureWithTasl(
   );
 }
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { pageId } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { pageId } = context.query;
 
-    const client = createClient(context);
+  const client = createClient(context);
 
-    if (!looksLikePrismicId(pageId)) {
-      return { notFound: true };
-    }
+  if (!looksLikePrismicId(pageId)) {
+    return { notFound: true };
+  }
 
-    const vanityUrl = isVanityUrl(pageId, context.resolvedUrl)
-      ? context.resolvedUrl
-      : undefined;
+  const vanityUrl = isVanityUrl(pageId, context.resolvedUrl)
+    ? context.resolvedUrl
+    : undefined;
 
-    const pageLookup = await fetchPage(client, pageId);
-    const page = pageLookup && transformPage(pageLookup);
+  const pageLookup = await fetchPage(client, pageId);
+  const page = pageLookup && transformPage(pageLookup);
 
-    if (page) {
-      const siblings: SiblingsGroup<PageType>[] = (
-        await fetchSiblings(client, page)
-      ).map(group => {
-        return {
-          ...group,
-          siblings: group.siblings.map(transformPage),
-        };
-      });
-      const ordersInParents: OrderInParent[] =
-        page.parentPages.map(p => {
-          return {
-            id: p.id,
-            title: p.title,
-            order: p.order,
-            type: p.type,
-          };
-        }) || [];
-
-      // TODO: Why are we putting 'children' in a 'siblings' attribute?
-      // Fix this janky naming.
-      const children = {
-        id: page.id,
-        title: page.title,
-        siblings: (await fetchChildren(client, page)).map(transformPage),
-      };
-
-      const jsonLd = contentLd(page);
-
+  if (page) {
+    const siblings: SiblingsGroup<PageType>[] = (
+      await fetchSiblings(client, page)
+    ).map(group => {
       return {
-        props: removeUndefinedProps({
-          page,
-          siblings,
-          children,
-          ordersInParents,
-          staticContent: null,
-          postOutroContent: null,
-          jsonLd,
-          serverData,
-          vanityUrl,
-          gaDimensions: {
-            partOf: page.seasons.map(season => season.id),
-          },
-        }),
+        ...group,
+        siblings: group.siblings.map(transformPage),
       };
-    } else {
-      return { notFound: true };
-    }
-  };
+    });
+    const ordersInParents: OrderInParent[] =
+      page.parentPages.map(p => {
+        return {
+          id: p.id,
+          title: p.title,
+          order: p.order,
+          type: p.type,
+        };
+      }) || [];
+
+    // TODO: Why are we putting 'children' in a 'siblings' attribute?
+    // Fix this janky naming.
+    const children = {
+      id: page.id,
+      title: page.title,
+      siblings: (await fetchChildren(client, page)).map(transformPage),
+    };
+
+    const jsonLd = contentLd(page);
+
+    return {
+      props: removeUndefinedProps({
+        page,
+        siblings,
+        children,
+        ordersInParents,
+        staticContent: null,
+        postOutroContent: null,
+        jsonLd,
+        serverData,
+        vanityUrl,
+        gaDimensions: {
+          partOf: page.seasons.map(season => season.id),
+        },
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 export const Page: FunctionComponent<Props> = ({
   page,

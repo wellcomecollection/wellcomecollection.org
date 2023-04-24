@@ -51,49 +51,50 @@ type Props = {
   email: string;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const auth0State = isString(context.query.state)
-      ? context.query.state
-      : context.query.state.join('');
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const auth0State = isString(context.query.state)
+    ? context.query.state
+    : context.query.state.join('');
 
-    const sessionToken = isString(context.query.session_token)
-      ? context.query.session_token
-      : context.query.session_token.join('');
+  const sessionToken = isString(context.query.session_token)
+    ? context.query.session_token
+    : context.query.session_token.join('');
 
-    let token: string | JwtPayload = '';
-    let email = '';
+  let token: string | JwtPayload = '';
+  let email = '';
 
-    // We can get an error here if somebody tries to use an invalid session token;
-    // which we return as a user error.
-    try {
-      token = decodeToken(sessionToken, config.auth0.actionSecret);
-    } catch (error) {
-      // There are non-nefarious reasons this might happen (eg expiry), so we redirect
-      // to login as logging in will give the user a new token.
-      console.error('Error decoding/validating session token', error);
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/api/auth/login',
-        },
-      };
-    }
-
-    if (typeof token !== 'string') {
-      email = token.email;
-    }
-
+  // We can get an error here if somebody tries to use an invalid session token;
+  // which we return as a user error.
+  try {
+    token = decodeToken(sessionToken, config.auth0.actionSecret);
+  } catch (error) {
+    // There are non-nefarious reasons this might happen (eg expiry), so we redirect
+    // to login as logging in will give the user a new token.
+    console.error('Error decoding/validating session token', error);
     return {
-      props: removeUndefinedProps({
-        serverData,
-        sessionToken,
-        auth0State,
-        email,
-      }),
+      redirect: {
+        permanent: false,
+        destination: '/api/auth/login',
+      },
     };
+  }
+
+  if (typeof token !== 'string') {
+    email = token.email;
+  }
+
+  return {
+    props: removeUndefinedProps({
+      serverData,
+      sessionToken,
+      auth0State,
+      email,
+    }),
   };
+};
 
 const RegistrationPage: NextPage<Props> = ({
   sessionToken,

@@ -91,43 +91,41 @@ const GuidePage: FunctionComponent<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { format } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { format } = context.query;
 
-    if (!looksLikePrismicId(format)) {
-      return { notFound: true };
-    }
+  if (!looksLikePrismicId(format)) {
+    return { notFound: true };
+  }
 
-    const client = createClient(context);
+  const client = createClient(context);
 
-    const guidesQueryPromise = fetchGuides(client, { format });
-    const guidesFormatQueryPromise = fetchGuideFormats(client);
+  const guidesQueryPromise = fetchGuides(client, { format });
+  const guidesFormatQueryPromise = fetchGuideFormats(client);
 
-    const [guidesQuery, guideFormatsQuery] = await Promise.all([
-      guidesQueryPromise,
-      guidesFormatQueryPromise,
-    ]);
+  const [guidesQuery, guideFormatsQuery] = await Promise.all([
+    guidesQueryPromise,
+    guidesFormatQueryPromise,
+  ]);
 
-    const guides = transformQuery(guidesQuery, transformGuide);
-    const guideFormats = transformQuery(
-      guideFormatsQuery,
-      transformGuideFormat
-    );
+  const guides = transformQuery(guidesQuery, transformGuide);
+  const guideFormats = transformQuery(guideFormatsQuery, transformGuideFormat);
 
-    if (guides) {
-      return {
-        props: removeUndefinedProps({
-          guides,
-          guideFormats: guideFormats.results,
-          formatId: format || null,
-          serverData,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+  if (guides) {
+    return {
+      props: removeUndefinedProps({
+        guides,
+        guideFormats: guideFormats.results,
+        formatId: format || null,
+        serverData,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 export default GuidePage;
