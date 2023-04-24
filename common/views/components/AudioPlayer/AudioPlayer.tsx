@@ -428,11 +428,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       </Space>
 
       <AudioPlayerGrid>
-        <PlayPauseButton
-          onClick={onTogglePlay}
-          isPlaying={isPlaying}
-          data-gtm-trigger={isPlaying ? undefined : 'audio_play'}
-        >
+        <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
           <PlayPauseInner>
             <span className="visually-hidden">
               {isPlaying ? 'Pause' : 'Play'}
