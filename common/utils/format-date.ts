@@ -41,7 +41,7 @@ export function formatDate(date: Date): string {
 /** Formats a date as the HH:MM time, using a 24-hour clock, e.g. '09:00' or '13:30' */
 export function formatTime(date: Date): string {
   const hours = formatLondon(date, { hour: '2-digit', hourCycle: 'h23' });
-  const minutes = formatLondon(date, { minute: '2-digit' });
+  const minutes = formatLondon(date, { minute: '2-digit' }).padStart(2, '0');
 
   return `${hours}:${minutes}`;
 }
@@ -84,8 +84,12 @@ export function formatDuration(seconds: number): string {
 /** Formats a date as an ISO-8601 date, e.g. '1 February 2003' is '2003-02-01' */
 export function formatIso8601Date(date: Date): string {
   const year = formatLondon(date, { year: 'numeric' });
-  const month = formatLondon(date, { month: '2-digit' });
-  const day = formatLondon(date, { day: '2-digit' });
+  const month = formatLondon(date, { month: 'numeric' })
+    .toString()
+    .padStart(2, '0');
+  const day = formatLondon(date, { day: 'numeric' })
+    .toString()
+    .padStart(2, '0');
 
   return `${year}-${month}-${day}`;
 }
