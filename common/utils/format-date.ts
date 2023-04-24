@@ -1,4 +1,7 @@
-function formatLondon(date: Date, options: Intl.DateTimeFormatOptions): string {
+export function formatLondon(
+  date: Date,
+  options: Intl.DateTimeFormatOptions
+): string {
   return date.toLocaleString('en-GB', {
     ...options,
     timeZone: 'Europe/London',

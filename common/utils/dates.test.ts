@@ -356,13 +356,13 @@ describe('startOfDay and endOfDay', () => {
     {
       d: new Date('2023-04-24'),
       startDate: new Date('2023-04-23T23:00:00Z'),
-      endDate: new Date('2023-04-24T22:59:59Z'),
+      endDate: new Date('2023-04-24T22:59:59.999Z'),
     },
     // when British Summer Time is not in effect, and London is on UTC
     {
       d: new Date('2023-11-24'),
       startDate: new Date('2023-11-24T00:00:00Z'),
-      endDate: new Date('2023-11-24T23:59:59Z'),
+      endDate: new Date('2023-11-24T23:59:59.999Z'),
     },
   ];
 

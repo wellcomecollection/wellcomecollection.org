@@ -1,5 +1,5 @@
 import { DateRange } from '../model/date-range';
-import { formatDayDate, formatIso8601Date } from './format-date';
+import { formatDayDate, formatLondon } from './format-date';
 
 // This is to allow us to mock values in tests, e.g.
 //
@@ -93,11 +93,37 @@ export function isDayPast(date: Date): boolean {
  * This is the start/end of the day in London, not UTC.
  */
 export function startOfDay(d: Date): Date {
-  return new Date(`${formatIso8601Date(d)} 00:00:00 (London)`);
+  const currentTz = formatLondon(d, {
+    hour: '2-digit',
+    timeZoneName: 'short',
+  }).split(' ')[1];
+
+  if (currentTz === 'BST') {
+    const res = new Date(d);
+    res.setUTCHours(-1, 0, 0, 0);
+    return res;
+  } else {
+    const res = new Date(d);
+    res.setUTCHours(0, 0, 0, 0);
+    return res;
+  }
 }
 
 export function endOfDay(d: Date): Date {
-  return new Date(`${formatIso8601Date(d)} 23:59:59 (London)`);
+  const currentTz = formatLondon(d, {
+    hour: '2-digit',
+    timeZoneName: 'short',
+  }).split(' ')[1];
+
+  if (currentTz === 'BST') {
+    const res = new Date(d);
+    res.setUTCHours(22, 59, 59, 999);
+    return res;
+  } else {
+    const res = new Date(d);
+    res.setUTCHours(23, 59, 59, 999);
+    return res;
+  }
 }
 
 export function addDays(d: Date, days: number): Date {
