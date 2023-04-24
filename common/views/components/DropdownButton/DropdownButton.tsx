@@ -156,7 +156,7 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   }, [isActive, children]);
 
   const buttonProps = {
-    isActive: isActive,
+    isActive,
     clickHandler: () => setIsActive(!isActive),
     icon: chevron,
     isIconAfter: true,

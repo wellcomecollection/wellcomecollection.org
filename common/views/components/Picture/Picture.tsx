@@ -48,6 +48,7 @@ export const Picture: FunctionComponent<Props> = ({
               />
             );
           }
+          return null;
         })}
 
         {lastImage && lastImage.contentUrl && (

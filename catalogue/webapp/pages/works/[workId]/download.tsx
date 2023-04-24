@@ -165,50 +165,48 @@ const DownloadPage: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { workId } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { workId } = context.query;
 
-    if (!looksLikeCanonicalId(workId)) {
-      return {
-        notFound: true,
-      };
-    }
-
-    const work = await getWork({
-      id: workId,
-      toggles: serverData.toggles,
-    });
-
-    if (work.type === 'Error') {
-      return appError(context, work.httpStatus, work.description);
-    } else if (work.type === 'Redirect') {
-      return {
-        redirect: {
-          destination: `/works/${work.redirectToId}/download`,
-          permanent: work.status === 301,
-        },
-      };
-    }
-
-    const manifestLocation = getDigitalLocationOfType(
-      work,
-      'iiif-presentation'
-    );
-    const iiifManifest =
-      manifestLocation &&
-      (await fetchIIIFPresentationManifest(manifestLocation.url));
-    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
-
+  if (!looksLikeCanonicalId(workId)) {
     return {
-      props: removeUndefinedProps({
-        serverData,
-        workId,
-        transformedManifest,
-        work,
-      }),
+      notFound: true,
     };
+  }
+
+  const work = await getWork({
+    id: workId,
+    toggles: serverData.toggles,
+  });
+
+  if (work.type === 'Error') {
+    return appError(context, work.httpStatus, work.description);
+  } else if (work.type === 'Redirect') {
+    return {
+      redirect: {
+        destination: `/works/${work.redirectToId}/download`,
+        permanent: work.status === 301,
+      },
+    };
+  }
+
+  const manifestLocation = getDigitalLocationOfType(work, 'iiif-presentation');
+  const iiifManifest =
+    manifestLocation &&
+    (await fetchIIIFPresentationManifest(manifestLocation.url));
+  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+
+  return {
+    props: removeUndefinedProps({
+      serverData,
+      workId,
+      transformedManifest,
+      work,
+    }),
   };
+};
 
 export default DownloadPage;

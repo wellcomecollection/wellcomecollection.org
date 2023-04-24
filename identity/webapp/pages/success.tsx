@@ -19,19 +19,20 @@ type Props = {
   email: string;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async (context: GetServerSidePropsContext) => {
-    const serverData = await getServerData(context);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async (context: GetServerSidePropsContext) => {
+  const serverData = await getServerData(context);
 
-    const { email } = context.query;
+  const { email } = context.query;
 
-    return {
-      props: removeUndefinedProps({
-        serverData,
-        email: email as string,
-      }),
-    };
+  return {
+    props: removeUndefinedProps({
+      serverData,
+      email: email as string,
+    }),
   };
+};
 
 const SuccessPage: NextPage<Props> = ({ email }) => {
   usePageTitle('Application received');

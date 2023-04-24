@@ -84,36 +84,37 @@ type Props = {
   pageview: Pageview;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const { bookId } = context.query;
-    if (!looksLikePrismicId(bookId)) {
-      return { notFound: true };
-    }
-    const client = createClient(context);
-    const bookDocument = await fetchBook(client, bookId);
-
-    if (bookDocument) {
-      const serverData = await getServerData(context);
-      const book = transformBook(bookDocument);
-
-      return {
-        props: removeUndefinedProps({
-          book,
-          serverData,
-          gaDimensions: {
-            partOf: book.seasons.map(season => season.id),
-          },
-          pageview: {
-            name: 'story',
-            properties: { type: bookDocument.type },
-          },
-        }),
-      };
-    }
-
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const { bookId } = context.query;
+  if (!looksLikePrismicId(bookId)) {
     return { notFound: true };
-  };
+  }
+  const client = createClient(context);
+  const bookDocument = await fetchBook(client, bookId);
+
+  if (bookDocument) {
+    const serverData = await getServerData(context);
+    const book = transformBook(bookDocument);
+
+    return {
+      props: removeUndefinedProps({
+        book,
+        serverData,
+        gaDimensions: {
+          partOf: book.seasons.map(season => season.id),
+        },
+        pageview: {
+          name: 'story',
+          properties: { type: bookDocument.type },
+        },
+      }),
+    };
+  }
+
+  return { notFound: true };
+};
 
 const BookPage: FunctionComponent<Props> = props => {
   if (!('book' in props)) return null;

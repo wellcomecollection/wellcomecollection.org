@@ -55,57 +55,58 @@ function getPastEvents(
     .slice(0, 3);
 }
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { eventSeriesId } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { eventSeriesId } = context.query;
 
-    if (!looksLikePrismicId(eventSeriesId)) {
-      return { notFound: true };
-    }
+  if (!looksLikePrismicId(eventSeriesId)) {
+    return { notFound: true };
+  }
 
-    const client = createClient(context);
+  const client = createClient(context);
 
-    const eventsQueryPromise = fetchEvents(client, {
-      predicates: [
-        prismic.predicate.at('my.events.series.series', eventSeriesId),
-      ],
-      pageSize: 100,
-    });
+  const eventsQueryPromise = fetchEvents(client, {
+    predicates: [
+      prismic.predicate.at('my.events.series.series', eventSeriesId),
+    ],
+    pageSize: 100,
+  });
 
-    const seriesPromise = fetchEventSeriesById(client, eventSeriesId);
+  const seriesPromise = fetchEventSeriesById(client, eventSeriesId);
 
-    const [eventsQuery, seriesDocument] = await Promise.all([
-      eventsQueryPromise,
-      seriesPromise,
-    ]);
+  const [eventsQuery, seriesDocument] = await Promise.all([
+    eventsQueryPromise,
+    seriesPromise,
+  ]);
 
-    if (isNotUndefined(seriesDocument)) {
-      const series = transformEventSeries(seriesDocument);
+  if (isNotUndefined(seriesDocument)) {
+    const series = transformEventSeries(seriesDocument);
 
-      const fullEvents = transformQuery(eventsQuery, transformEvent).results;
-      const events = transformQuery(eventsQuery, transformEventBasic).results;
+    const fullEvents = transformQuery(eventsQuery, transformEvent).results;
+    const events = transformQuery(eventsQuery, transformEventBasic).results;
 
-      const upcomingEvents = getUpcomingEvents(events);
-      const upcomingEventsIds = new Set(upcomingEvents.map(event => event.id));
+    const upcomingEvents = getUpcomingEvents(events);
+    const upcomingEventsIds = new Set(upcomingEvents.map(event => event.id));
 
-      const pastEvents = getPastEvents(events, upcomingEventsIds);
+    const pastEvents = getPastEvents(events, upcomingEventsIds);
 
-      const jsonLd = fullEvents.flatMap(eventLd);
+    const jsonLd = fullEvents.flatMap(eventLd);
 
-      return {
-        props: removeUndefinedProps({
-          series,
-          upcomingEvents,
-          pastEvents,
-          jsonLd,
-          serverData,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+    return {
+      props: removeUndefinedProps({
+        series,
+        upcomingEvents,
+        pastEvents,
+        jsonLd,
+        serverData,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 const EventSeriesPage: FunctionComponent<Props> = ({
   series,

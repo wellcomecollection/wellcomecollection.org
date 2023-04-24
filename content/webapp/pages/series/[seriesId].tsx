@@ -55,105 +55,106 @@ type Props = {
   pageview: Pageview;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
 
-    const { seriesId } = context.query;
+  const { seriesId } = context.query;
 
-    if (!looksLikePrismicId(seriesId)) {
-      return { notFound: true };
-    }
+  if (!looksLikePrismicId(seriesId)) {
+    return { notFound: true };
+  }
 
-    const page = getPage(context.query);
+  const page = getPage(context.query);
 
-    if (typeof page !== 'number') {
-      return appError(context, 400, page.message);
-    }
+  if (typeof page !== 'number') {
+    return appError(context, 400, page.message);
+  }
 
-    const client = createClient(context);
+  const client = createClient(context);
 
-    // GOTCHA: This is for a series where we have the `webcomics` type.
-    // This will have to remain like this until we figure out how to migrate them.
-    // We create new webcomics as an article with comic format, and add
-    // an article-series to them.
-    const seriesField =
-      seriesId === bodySquabblesSeries
-        ? 'my.webcomics.series.series'
-        : 'my.articles.series.series';
+  // GOTCHA: This is for a series where we have the `webcomics` type.
+  // This will have to remain like this until we figure out how to migrate them.
+  // We create new webcomics as an article with comic format, and add
+  // an article-series to them.
+  const seriesField =
+    seriesId === bodySquabblesSeries
+      ? 'my.webcomics.series.series'
+      : 'my.articles.series.series';
 
-    const articlesQuery = await fetchArticles(client, {
-      predicates: [prismic.predicate.at(seriesField, seriesId)],
-      page,
-      pageSize: 20,
-      fetchLinks: seasonsFetchLinks,
-    });
+  const articlesQuery = await fetchArticles(client, {
+    predicates: [prismic.predicate.at(seriesField, seriesId)],
+    page,
+    pageSize: 20,
+    fetchLinks: seasonsFetchLinks,
+  });
 
-    // This can occasionally occur if somebody in the Editorial team is
-    // trying to preview a series that doesn't have any entries yet.
-    //
-    // It should never happen for live content so we don't support it;
-    // the log is to make it easier to debug if somebody tries it.
-    if (articlesQuery.total_results_size === 0) {
-      console.warn(`Series ${seriesId} doesn't contain any articles`);
-      return { notFound: true };
-    }
+  // This can occasionally occur if somebody in the Editorial team is
+  // trying to preview a series that doesn't have any entries yet.
+  //
+  // It should never happen for live content so we don't support it;
+  // the log is to make it easier to debug if somebody tries it.
+  if (articlesQuery.total_results_size === 0) {
+    console.warn(`Series ${seriesId} doesn't contain any articles`);
+    return { notFound: true };
+  }
 
-    // We've seen people trying to request a high-numbered page for a series,
-    // presumably by guessing at URLs, e.g. /series/W-XBJxEAAKmng1TG?page=500.
-    //
-    // We need a non-empty list of articles to get any metadata about the series,
-    // so if this page doesn't have any articles, let's 404 here.
-    //
-    // Note: this is a debug rather than a warn because it's more likely to be
-    // somebody guessing about our URL scheme than somebody in Editorial looking
-    // at a yet-to-be-published series.
-    //
-    // Note: we may be able to remove this once we refactor transformArticleSeries,
-    // see https://github.com/wellcomecollection/wellcomecollection.org/issues/8516
-    if (articlesQuery.results_size === 0) {
-      console.debug(
-        `Series ${seriesId} doesn't have any articles on page ${page}`
-      );
-      return { notFound: true };
-    }
+  // We've seen people trying to request a high-numbered page for a series,
+  // presumably by guessing at URLs, e.g. /series/W-XBJxEAAKmng1TG?page=500.
+  //
+  // We need a non-empty list of articles to get any metadata about the series,
+  // so if this page doesn't have any articles, let's 404 here.
+  //
+  // Note: this is a debug rather than a warn because it's more likely to be
+  // somebody guessing about our URL scheme than somebody in Editorial looking
+  // at a yet-to-be-published series.
+  //
+  // Note: we may be able to remove this once we refactor transformArticleSeries,
+  // see https://github.com/wellcomecollection/wellcomecollection.org/issues/8516
+  if (articlesQuery.results_size === 0) {
+    console.debug(
+      `Series ${seriesId} doesn't have any articles on page ${page}`
+    );
+    return { notFound: true };
+  }
 
-    const articles = transformQuery(articlesQuery, transformArticle);
+  const articles = transformQuery(articlesQuery, transformArticle);
 
-    // We know that `articles` is non-empty, and because we queried for articles in
-    // this series, we know these articles have a series defined.
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const series = articles.results[0].series.find(
-      series => series.id === seriesId
-    )!;
+  // We know that `articles` is non-empty, and because we queried for articles in
+  // this series, we know these articles have a series defined.
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const series = articles.results[0].series.find(
+    series => series.id === seriesId
+  )!;
 
-    const scheduledItems = getScheduledItems({
-      articles: articles.results,
+  const scheduledItems = getScheduledItems({
+    articles: articles.results,
+    series,
+  });
+
+  return {
+    props: removeUndefinedProps({
       series,
-    });
-
-    return {
-      props: removeUndefinedProps({
-        series,
-        articles: {
-          ...articles,
-          results: sortSeriesItems({
-            series,
-            articles: articles.results.map(transformArticleToArticleBasic),
-          }),
-        },
-        scheduledItems,
-        serverData,
-        gaDimensions: {
-          partOf: series.seasons.map(season => season.id),
-        },
-        pageview: {
-          name: 'story',
-          properties: { type: series.type },
-        },
-      }),
-    };
+      articles: {
+        ...articles,
+        results: sortSeriesItems({
+          series,
+          articles: articles.results.map(transformArticleToArticleBasic),
+        }),
+      },
+      scheduledItems,
+      serverData,
+      gaDimensions: {
+        partOf: series.seasons.map(season => season.id),
+      },
+      pageview: {
+        name: 'story',
+        properties: { type: series.type },
+      },
+    }),
   };
+};
 
 const ArticleSeriesPage: FunctionComponent<Props> = props => {
   const { series, articles, scheduledItems } = props;

@@ -1,9 +1,9 @@
 import React, { useContext, FunctionComponent, PropsWithChildren } from 'react';
-import { Url } from '../../../model/link-props';
-import { JsonLdObj } from '../JsonLd/JsonLd';
-import Head from 'next/head';
 import Script from 'next/script';
-import convertUrlToString from '../../../utils/convert-url-to-string';
+import Head from 'next/head';
+import { Url } from '@weco/common/model/link-props';
+import { JsonLdObj } from '../JsonLd/JsonLd';
+import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import Header, { NavLink } from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
@@ -11,16 +11,20 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
-import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
-import { collectionVenueId } from '../../../data/hardcoded-ids';
+import {
+  museumLd,
+  libraryLd,
+  openingHoursLd,
+} from '@weco/common/utils/json-ld';
+import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { getVenueById } from '../../../services/prismic/opening-times';
-import { wellcomeCollectionGallery } from '../../../data/organization';
+import { getVenueById } from '@weco/common/services/prismic/opening-times';
+import { wellcomeCollectionGallery } from '@weco/common/data/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import ApiToolbar, { ApiToolbarLink } from '../ApiToolbar';
-import { usePrismicData, useToggles } from '../../../server-data/Context';
+import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';

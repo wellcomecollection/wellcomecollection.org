@@ -39,6 +39,8 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
               return toggle;
             case false:
               return `!${toggle}`;
+            default:
+              return null;
           }
         })
         .join(',')

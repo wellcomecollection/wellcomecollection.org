@@ -71,96 +71,97 @@ function getTypeTitle(type: ExhibitionGuideType): string {
   }
 }
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
-    const { res, req } = context;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
+  const { res, req } = context;
 
-    if (!looksLikePrismicId(id) || !isValidType(type)) {
-      return { notFound: true };
-    }
+  if (!looksLikePrismicId(id) || !isValidType(type)) {
+    return { notFound: true };
+  }
 
-    const client = createClient(context);
-    const exhibitionGuideQuery = await fetchExhibitionGuide(client, id);
+  const client = createClient(context);
+  const exhibitionGuideQuery = await fetchExhibitionGuide(client, id);
 
-    const userPreferenceGuideType = getCookie(cookies.exhibitionGuideType, {
-      req,
-      res,
-    });
+  const userPreferenceGuideType = getCookie(cookies.exhibitionGuideType, {
+    req,
+    res,
+  });
 
-    /** When a user opens an exhibition guide on their smartphone, they can
-     * choose which guide to read.  To avoid somebody having to repeatedly select
-     * the same exhibition guide, we "remember" which guide they select in a cookie,
-     * and redirect them the next time they open the guide.
-     *
-     * This logic is deliberately conservative, to avoid causing more confusion:
-     *
-     *    - We only redirect users who've scanned a QR code in the gallery
-     *    - We only redirect users who've expressed an explicit preference for
-     *      a non-default guide type
-     *
-     * == Historical note ==
-     *
-     * The original implementation of this was more aggressive: in particular,
-     * it would redirect a user who landed on a guide page, even if they didn't
-     * come from scanning a QR code.
-     *
-     * We changed it after discovering it broke the "Back" button:
-     *
-     *    1.  A user goes to an exhibition guide overview page `/guides/exhibitions/[id]`
-     *    2.  They click to select a particular guide, say `/guides/exhibitions/[id]/audio`.
-     *        This sets a preference cookie telling us the user wants audio guides.
-     *    3.  They click the "Back" button in their browser because they want to see the
-     *        page they were just looking at. This takes them to `/guides/exhibitions/[id]`
-     *        … where we redirect them back to the guide they were just looking at.
-     *
-     * We only create QR codes that link to the audio guides, not the overview page, so
-     * this prevents somebody getting stuck in this sort of redirect loop.
-     *
-     */
-    if (
-      usingQRCode &&
-      typeof userPreferenceGuideType === 'string' &&
-      userPreferenceGuideType !== type &&
-      typeof stopId === 'string'
-    ) {
-      return {
-        redirect: {
-          permanent: false,
-          // We do a simple replace on the URL so we preserve all other URL information
-          // (e.g. UTM tracking parameters).
-          destination: context.resolvedUrl.replace(
-            `/${type}`,
-            `/${userPreferenceGuideType}`
-          ),
-        },
-      };
-    }
+  /** When a user opens an exhibition guide on their smartphone, they can
+   * choose which guide to read.  To avoid somebody having to repeatedly select
+   * the same exhibition guide, we "remember" which guide they select in a cookie,
+   * and redirect them the next time they open the guide.
+   *
+   * This logic is deliberately conservative, to avoid causing more confusion:
+   *
+   *    - We only redirect users who've scanned a QR code in the gallery
+   *    - We only redirect users who've expressed an explicit preference for
+   *      a non-default guide type
+   *
+   * == Historical note ==
+   *
+   * The original implementation of this was more aggressive: in particular,
+   * it would redirect a user who landed on a guide page, even if they didn't
+   * come from scanning a QR code.
+   *
+   * We changed it after discovering it broke the "Back" button:
+   *
+   *    1.  A user goes to an exhibition guide overview page `/guides/exhibitions/[id]`
+   *    2.  They click to select a particular guide, say `/guides/exhibitions/[id]/audio`.
+   *        This sets a preference cookie telling us the user wants audio guides.
+   *    3.  They click the "Back" button in their browser because they want to see the
+   *        page they were just looking at. This takes them to `/guides/exhibitions/[id]`
+   *        … where we redirect them back to the guide they were just looking at.
+   *
+   * We only create QR codes that link to the audio guides, not the overview page, so
+   * this prevents somebody getting stuck in this sort of redirect loop.
+   *
+   */
+  if (
+    usingQRCode &&
+    typeof userPreferenceGuideType === 'string' &&
+    userPreferenceGuideType !== type &&
+    typeof stopId === 'string'
+  ) {
+    return {
+      redirect: {
+        permanent: false,
+        // We do a simple replace on the URL so we preserve all other URL information
+        // (e.g. UTM tracking parameters).
+        destination: context.resolvedUrl.replace(
+          `/${type}`,
+          `/${userPreferenceGuideType}`
+        ),
+      },
+    };
+  }
 
-    if (exhibitionGuideQuery) {
-      const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
-      const filteredExhibitionGuide = filterExhibitionGuideComponents(
-        exhibitionGuide,
-        type
-      );
+  if (exhibitionGuideQuery) {
+    const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
+    const filteredExhibitionGuide = filterExhibitionGuideComponents(
+      exhibitionGuide,
+      type
+    );
 
-      const jsonLd = exhibitionGuideLd(exhibitionGuide);
+    const jsonLd = exhibitionGuideLd(exhibitionGuide);
 
-      return {
-        props: removeUndefinedProps({
-          exhibitionGuide: filteredExhibitionGuide,
-          jsonLd,
-          serverData,
-          type,
-          userPreferenceSet,
-          stopId: stopId as string | undefined,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+    return {
+      props: removeUndefinedProps({
+        exhibitionGuide: filteredExhibitionGuide,
+        jsonLd,
+        serverData,
+        type,
+        userPreferenceSet,
+        stopId: stopId as string | undefined,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   useHotjar(true);

@@ -380,93 +380,94 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   return [apiLink, ...identifiers];
 }
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { conceptId } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { conceptId } = context.query;
 
-    if (!looksLikeCanonicalId(conceptId)) {
+  if (!looksLikeCanonicalId(conceptId)) {
+    return { notFound: true };
+  }
+
+  const conceptResponse = await getConcept({
+    id: conceptId,
+    toggles: serverData.toggles,
+  });
+
+  if (conceptResponse.type === 'Error') {
+    if (conceptResponse.httpStatus === 404) {
       return { notFound: true };
     }
+    return appError(
+      context,
+      conceptResponse.httpStatus,
+      conceptResponse.description
+    );
+  }
 
-    const conceptResponse = await getConcept({
-      id: conceptId,
-      toggles: serverData.toggles,
-    });
+  const worksAboutPromise = getWorks({
+    params: { 'subjects.label': [conceptResponse.label] },
+    toggles: serverData.toggles,
+    pageSize: 5,
+  });
 
-    if (conceptResponse.type === 'Error') {
-      if (conceptResponse.httpStatus === 404) {
-        return { notFound: true };
-      }
-      return appError(
-        context,
-        conceptResponse.httpStatus,
-        conceptResponse.description
-      );
-    }
+  const worksByPromise = getWorks({
+    params: { 'contributors.agent.label': [conceptResponse.label] },
+    toggles: serverData.toggles,
+    pageSize: 5,
+  });
 
-    const worksAboutPromise = getWorks({
-      params: { 'subjects.label': [conceptResponse.label] },
-      toggles: serverData.toggles,
-      pageSize: 5,
-    });
+  const imagesAboutPromise = getImages({
+    params: { 'source.subjects.label': [conceptResponse.label] },
+    toggles: serverData.toggles,
+    pageSize: 10,
+  });
 
-    const worksByPromise = getWorks({
-      params: { 'contributors.agent.label': [conceptResponse.label] },
-      toggles: serverData.toggles,
-      pageSize: 5,
-    });
+  const imagesByPromise = getImages({
+    params: { 'source.contributors.agent.label': [conceptResponse.label] },
+    toggles: serverData.toggles,
+    pageSize: 10,
+  });
 
-    const imagesAboutPromise = getImages({
-      params: { 'source.subjects.label': [conceptResponse.label] },
-      toggles: serverData.toggles,
-      pageSize: 10,
-    });
+  const [
+    worksAboutResponse,
+    worksByResponse,
+    imagesAboutResponse,
+    imagesByResponse,
+  ] = await Promise.all([
+    worksAboutPromise,
+    worksByPromise,
+    imagesAboutPromise,
+    imagesByPromise,
+  ]);
 
-    const imagesByPromise = getImages({
-      params: { 'source.contributors.agent.label': [conceptResponse.label] },
-      toggles: serverData.toggles,
-      pageSize: 10,
-    });
+  const worksAbout =
+    worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
+  const worksBy =
+    worksByResponse.type === 'Error' ? undefined : worksByResponse;
+  const imagesAbout =
+    imagesAboutResponse.type === 'Error' ? undefined : imagesAboutResponse;
+  const imagesBy =
+    imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
 
-    const [
-      worksAboutResponse,
-      worksByResponse,
-      imagesAboutResponse,
-      imagesByResponse,
-    ] = await Promise.all([
-      worksAboutPromise,
-      worksByPromise,
-      imagesAboutPromise,
-      imagesByPromise,
-    ]);
+  const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
 
-    const worksAbout =
-      worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
-    const worksBy =
-      worksByResponse.type === 'Error' ? undefined : worksByResponse;
-    const imagesAbout =
-      imagesAboutResponse.type === 'Error' ? undefined : imagesAboutResponse;
-    const imagesBy =
-      imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
-
-    const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
-
-    return {
-      props: removeUndefinedProps({
-        conceptResponse,
-        worksAbout,
-        worksBy,
-        imagesAbout,
-        imagesBy,
-        apiToolbarLinks,
-        serverData,
-        pageview: {
-          name: 'concept',
-          properties: {},
-        },
-      }),
-    };
+  return {
+    props: removeUndefinedProps({
+      conceptResponse,
+      worksAbout,
+      worksBy,
+      imagesAbout,
+      imagesBy,
+      apiToolbarLinks,
+      serverData,
+      pageview: {
+        name: 'concept',
+        properties: {},
+      },
+    }),
   };
+};
 
 export default ConceptPage;

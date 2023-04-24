@@ -19,31 +19,32 @@ type ValidatedSuccessTextProps = {
   isNewSignUp: boolean;
 };
 
-export const ValidatedSuccessText: FunctionComponent<ValidatedSuccessTextProps> =
-  ({ isNewSignUp }: ValidatedSuccessTextProps) => (
-    <>
-      <SectionHeading as="h1">Email verified</SectionHeading>
-      <p>Thank you for verifying your email address.</p>
-      {isNewSignUp && (
-        <div data-test-id="new-sign-up">
-          <p>
-            You can now request up to 15 items from our closed stores in the
-            library.
-          </p>
-          <p>
-            To complete your membership and access subscription databases,
-            e-journals and e-books, you’ll need to bring a form of photo
-            identification (ID) and proof of your address to our admissions desk
-            when you visit. The identification we accept is detailed on our{' '}
-            <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
-              Library membership page
-            </a>
-            .
-          </p>
-        </div>
-      )}
-    </>
-  );
+export const ValidatedSuccessText: FunctionComponent<
+  ValidatedSuccessTextProps
+> = ({ isNewSignUp }: ValidatedSuccessTextProps) => (
+  <>
+    <SectionHeading as="h1">Email verified</SectionHeading>
+    <p>Thank you for verifying your email address.</p>
+    {isNewSignUp && (
+      <div data-test-id="new-sign-up">
+        <p>
+          You can now request up to 15 items from our closed stores in the
+          library.
+        </p>
+        <p>
+          To complete your membership and access subscription databases,
+          e-journals and e-books, you’ll need to bring a form of photo
+          identification (ID) and proof of your address to our admissions desk
+          when you visit. The identification we accept is detailed on our{' '}
+          <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
+            Library membership page
+          </a>
+          .
+        </p>
+      </div>
+    )}
+  </>
+);
 
 export const ValidatedFailedText: FunctionComponent<{
   message: string | string[];

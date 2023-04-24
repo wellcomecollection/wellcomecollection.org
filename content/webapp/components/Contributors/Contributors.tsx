@@ -14,7 +14,7 @@ export function dedupeAndPluraliseRoles(roles: string[]): string[] {
   const dedupedWithCount: { [key: string]: number } = roles
     .filter(Boolean)
     .reduce((acc, role) => {
-      if (!acc.hasOwnProperty(role)) {
+      if (!Object.prototype.hasOwnProperty.call(acc, role)) {
         acc[role] = 0;
       }
       acc[role]++;

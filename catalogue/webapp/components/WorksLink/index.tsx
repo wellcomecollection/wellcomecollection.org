@@ -30,7 +30,7 @@ const worksPropsSources = [
 ] as const;
 
 type WorksPropsSource =
-  | typeof worksPropsSources[number]
+  | (typeof worksPropsSources)[number]
   | Prefix<'cancel_filter/'>
   | 'unknown';
 
