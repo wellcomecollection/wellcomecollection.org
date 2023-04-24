@@ -331,7 +331,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   // one-time announcement for screenreaders. Using `currentTime` causes an
   // announcement every second.
   const [startTime, setStartTime] = useState(currentTime);
-  const { trackPlay, trackEnded, trackProgress } = useAVTracking('audio');
+  const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('audio');
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
@@ -497,9 +497,11 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           setIsPlaying(true);
         }}
         onEnded={trackEnded}
-        onProgress={trackProgress}
         onPause={() => setIsPlaying(false)}
-        onTimeUpdate={onTimeUpdate}
+        onTimeUpdate={event => {
+          onTimeUpdate();
+          trackTimeUpdate(event);
+        }}
         preload="metadata"
         ref={audioPlayerRef}
         src={audioFile}

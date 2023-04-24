@@ -12,7 +12,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
   video,
   showDownloadOptions,
 }: Props) => {
-  const { trackPlay, trackEnded, trackProgress } = useAVTracking('video');
+  const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('video');
 
   return (
     <>
@@ -26,7 +26,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
           });
         }}
         onEnded={trackEnded}
-        onProgress={trackProgress}
+        onTimeUpdate={trackTimeUpdate}
         controlsList={!showDownloadOptions ? 'nodownload' : undefined}
         controls
         preload="none"

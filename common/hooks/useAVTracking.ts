@@ -2,7 +2,7 @@ import { useState, SyntheticEvent } from 'react';
 
 export const useAVTracking = (avType: 'audio' | 'video') => {
   const [didStart, setDidStart] = useState(false);
-  const cachedSteps: Set<number> = new Set();
+  const [cachedSteps, setCachedSteps] = useState<Set<number>>(new Set());
   const progressSteps = [10, 25, 50, 75, 90];
 
   const currentTimeKey = `${avType}_current_time`;
@@ -12,14 +12,11 @@ export const useAVTracking = (avType: 'audio' | 'video') => {
   const titleKey = `${avType}_title`;
   const urlKey = `${avType}_url`;
 
-  function getParams(
-    event: SyntheticEvent<HTMLMediaElement, Event>,
-    cachedSteps: Set<number>
-  ) {
+  function getParams(event: SyntheticEvent<HTMLMediaElement, Event>) {
     return {
       [currentTimeKey]: event.currentTarget.currentTime,
       [durationKey]: event.currentTarget.duration,
-      [percentKey]: [...cachedSteps].pop(),
+      [percentKey]: [...cachedSteps].at(-1),
       [providerKey]: 'IIIF',
       [titleKey]: 'IIIF',
       [urlKey]: event.currentTarget.currentSrc,
@@ -29,33 +26,33 @@ export const useAVTracking = (avType: 'audio' | 'video') => {
   function trackPlay(event: SyntheticEvent<HTMLMediaElement, Event>) {
     if (didStart) return;
 
-    gtag('event', `${avType}_start`, getParams(event, cachedSteps));
+    gtag('event', `${avType}_start`, getParams(event));
 
     setDidStart(true);
   }
 
   function trackEnded(event: SyntheticEvent<HTMLMediaElement, Event>) {
-    gtag('event', `${avType}_complete`, getParams(event, cachedSteps));
+    gtag('event', `${avType}_complete`, getParams(event));
     setDidStart(false);
   }
 
-  function trackProgress(event: SyntheticEvent<HTMLMediaElement, Event>) {
+  function trackTimeUpdate(event: SyntheticEvent<HTMLMediaElement, Event>) {
     const currentTime = event.currentTarget.currentTime;
     const duration = event.currentTarget.duration;
     const percentComplete = (currentTime / duration) * 100;
-    const currentPercent = progressSteps
-      .filter(step => percentComplete >= step)
-      .at(-1);
+    const currentPercent =
+      progressSteps.filter(step => percentComplete >= step).at(-1) || 0;
 
-    if (currentPercent && !cachedSteps.has(currentPercent)) {
-      gtag('event', `${avType}_progress`, getParams(event, cachedSteps));
+    if (!cachedSteps.has(currentPercent)) {
       cachedSteps.add(currentPercent);
+      setCachedSteps(cachedSteps);
+      gtag('event', `${avType}_progress`, getParams(event));
     }
   }
 
   return {
     trackPlay,
     trackEnded,
-    trackProgress,
+    trackTimeUpdate,
   };
 };
