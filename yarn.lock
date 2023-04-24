@@ -6299,7 +6299,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@18.0.35", "@types/react@^18.0.35":
+"@types/react@*", "@types/react@18.0.35", "@types/react@18.0.38", "@types/react@^18.0.35":
   version "18.0.35"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.35.tgz#192061cb1044fe01f2d3a94272cd35dd50502741"
   integrity sha512-6Laome31HpetaIUGFWl1VQ3mdSImwxtFZ39rh059a1MNnKGqBpC88J6NJ8n/Is3Qx7CefDGLgf/KhN/sYCf7ag==
@@ -6880,10 +6880,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@weco/ts-aws@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@weco/ts-aws/-/ts-aws-0.1.0.tgz#0d9140061b73f0d10505218b4fa3ea908571b490"
-  integrity sha512-XJ8XRQ/07Q1BdXrKSAN9fegGsCidT4d4AxkeYUGpGClTABsmCvqUdwdNlR53LdwrB34RnbsRXoeyXlqdzRgwxw==
+"@weco/ts-aws@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@weco/ts-aws/-/ts-aws-1.0.1.tgz#560b658117ef396bb5d63bf8b22529ae432e101d"
+  integrity sha512-KmR1Aapr2370Tpzt77N2iDKW6wsbkjlJJkEVlDf6udaGGOgSf4gKQ3kMSUjWLC6EjbuI+ZdzEe3NaSQnBvxqQQ==
   dependencies:
     "@aws-sdk/client-secrets-manager" "^3.40.0"
     "@aws-sdk/client-sts" "^3.22.0"

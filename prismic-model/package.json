@@ -19,7 +19,7 @@
     "@types/prompts": "^2.0.14",
     "@types/yargs": "^17.0.5",
     "@weco/common": "1.0.0",
-    "@weco/ts-aws": "^0.1.0",
+    "@weco/ts-aws": "^1.0.1",
     "babel-cli": "^6.26.0",
     "babel-plugin-react": "^1.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
