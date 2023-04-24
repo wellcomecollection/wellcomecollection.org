@@ -58,33 +58,34 @@ type Props = {
   isNewSignUp: boolean;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const { query, req, res } = context;
-    const { success, message, supportSignUp } = query;
-    const didSucceed = success === 'true';
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const { query, req, res } = context;
+  const { success, message, supportSignUp } = query;
+  const didSucceed = success === 'true';
 
-    if (didSucceed) {
-      // The email validation state is held within the ID token, which we need to
-      // refresh after fetching a new access token.
-      try {
-        await auth0.getAccessToken(req, res, { refresh: true });
-        await auth0.getSession(req, res);
-      } catch (e) {
-        // It doesn't matter if this fails; it means the user doesn't currently have a session
-      }
+  if (didSucceed) {
+    // The email validation state is held within the ID token, which we need to
+    // refresh after fetching a new access token.
+    try {
+      await auth0.getAccessToken(req, res, { refresh: true });
+      await auth0.getSession(req, res);
+    } catch (e) {
+      // It doesn't matter if this fails; it means the user doesn't currently have a session
     }
+  }
 
-    const serverData = await getServerData(context);
+  const serverData = await getServerData(context);
 
-    return {
-      props: removeUndefinedProps({
-        serverData,
-        success: didSucceed,
-        message: message || null,
-        isNewSignUp: supportSignUp === 'true',
-      }),
-    };
+  return {
+    props: removeUndefinedProps({
+      serverData,
+      success: didSucceed,
+      message: message || null,
+      isNewSignUp: supportSignUp === 'true',
+    }),
   };
+};
 
 export default ValidatedPage;

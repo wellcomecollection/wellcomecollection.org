@@ -12,7 +12,7 @@ import {
 import { LinkProps } from '@weco/common/model/link-props';
 
 const imagePropsSources = ['images_search_result', 'viewer/paginator'] as const;
-type ImagePropsSource = typeof imagePropsSources[number];
+type ImagePropsSource = (typeof imagePropsSources)[number];
 
 const emptyImageProps: ImageProps = {
   id: '',

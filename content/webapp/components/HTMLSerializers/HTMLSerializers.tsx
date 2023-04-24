@@ -56,7 +56,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
       return <ul key={key}>{children}</ul>;
     case RichTextNodeType.oList:
       return <ol key={key}>{children}</ol>;
-    case RichTextNodeType.image:
+    case RichTextNodeType.image: {
       const url = element.linkTo
         ? prismicH.asLink(element.linkTo, linkResolver)
         : null;
@@ -79,6 +79,8 @@ export const defaultSerializer: JSXFunctionSerializer = (
           )}
         </p>
       );
+    }
+
     case RichTextNodeType.embed:
       return (
         <div
@@ -90,7 +92,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
           {element.oembed.html}
         </div>
       );
-    case RichTextNodeType.hyperlink:
+    case RichTextNodeType.hyperlink: {
       const target =
         'target' in element.data ? element.data.target || undefined : undefined;
       const rel = target ? 'noopener' : undefined;
@@ -141,13 +143,16 @@ export const defaultSerializer: JSXFunctionSerializer = (
           </a>
         );
       }
-    case RichTextNodeType.label:
+    }
+
+    case RichTextNodeType.label: {
       const labelClass = element.data.label || undefined;
       return (
         <span key={key} className={labelClass}>
           {children}
         </span>
       );
+    }
     case RichTextNodeType.span:
       return content ? (
         <Fragment key={key}>

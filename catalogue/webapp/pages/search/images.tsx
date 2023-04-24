@@ -177,59 +177,60 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
 
 ImagesSearchPage.getLayout = getSearchLayout;
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const query = context.query;
-    const params = fromQuery(query);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const query = context.query;
+  const params = fromQuery(query);
 
-    /**
-     * This is here due to the noscript colour element
-     * the value provided by the native element will
-     * include the "#" symbol.
-     */
-    if (params.color) {
-      params.color = params.color.replace('#', '');
-    }
+  /**
+   * This is here due to the noscript colour element
+   * the value provided by the native element will
+   * include the "#" symbol.
+   */
+  if (params.color) {
+    params.color = params.color.replace('#', '');
+  }
 
-    const aggregations = [
-      'locations.license',
-      'source.genres.label',
-      'source.subjects.label',
-      'source.contributors.agent.label',
-    ];
-    const apiProps = {
-      ...params,
-      aggregations,
-    };
-    const images = await getImages({
-      params: apiProps,
-      toggles: serverData.toggles,
-      pageSize: 30,
-    });
-
-    if (images.type === 'Error') {
-      return appError(context, images.httpStatus, 'Images API error');
-    }
-
-    return {
-      props: removeUndefinedProps({
-        images,
-        imagesRouteProps: params,
-        serverData,
-        query,
-        pageview: {
-          name: 'images',
-          properties: { totalResults: images.totalResults },
-        },
-        apiToolbarLinks: [
-          {
-            id: 'catalogue-api',
-            label: 'Catalogue API query',
-            link: images._requestUrl,
-          },
-        ],
-      }),
-    };
+  const aggregations = [
+    'locations.license',
+    'source.genres.label',
+    'source.subjects.label',
+    'source.contributors.agent.label',
+  ];
+  const apiProps = {
+    ...params,
+    aggregations,
   };
+  const images = await getImages({
+    params: apiProps,
+    toggles: serverData.toggles,
+    pageSize: 30,
+  });
+
+  if (images.type === 'Error') {
+    return appError(context, images.httpStatus, 'Images API error');
+  }
+
+  return {
+    props: removeUndefinedProps({
+      images,
+      imagesRouteProps: params,
+      serverData,
+      query,
+      pageview: {
+        name: 'images',
+        properties: { totalResults: images.totalResults },
+      },
+      apiToolbarLinks: [
+        {
+          id: 'catalogue-api',
+          label: 'Catalogue API query',
+          link: images._requestUrl,
+        },
+      ],
+    }),
+  };
+};
 export default ImagesSearchPage;

@@ -12,9 +12,7 @@ import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import ImageType from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ColorSelection } from '../../types/color-selections';
-import Space, {
-  VerticalSpaceProperty,
-} from '@weco/common/views/components/styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import { Label } from '@weco/common/model/labels';
 import styled from 'styled-components';
 import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';

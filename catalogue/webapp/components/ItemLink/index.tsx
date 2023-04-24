@@ -19,7 +19,7 @@ const itemPropsSources = [
   'manifests_navigation',
   'search_within_result',
 ] as const;
-type ItemPropsSource = typeof itemPropsSources[number];
+type ItemPropsSource = (typeof itemPropsSources)[number];
 
 const emptyItemProps: ItemProps = {
   workId: '',

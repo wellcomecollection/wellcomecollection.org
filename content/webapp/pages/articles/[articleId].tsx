@@ -64,40 +64,41 @@ function articleHasOutro(article: Article) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const { articleId } = context.query;
-    if (!looksLikePrismicId(articleId)) {
-      return { notFound: true };
-    }
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const { articleId } = context.query;
+  if (!looksLikePrismicId(articleId)) {
+    return { notFound: true };
+  }
 
-    const client = createClient(context);
-    const articleDocument = await fetchArticle(client, articleId);
-    const serverData = await getServerData(context);
+  const client = createClient(context);
+  const articleDocument = await fetchArticle(client, articleId);
+  const serverData = await getServerData(context);
 
-    if (articleDocument) {
-      const article = transformArticle(articleDocument);
-      const jsonLd = articleLd(article);
-      return {
-        props: removeUndefinedProps({
-          article,
-          jsonLd,
-          serverData,
-          gaDimensions: {
-            partOf: article.seasons
-              .map(season => season.id)
-              .concat(article.series.map(series => series.id)),
-          },
-          pageview: {
-            name: 'story',
-            properties: { type: articleDocument.type },
-          },
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+  if (articleDocument) {
+    const article = transformArticle(articleDocument);
+    const jsonLd = articleLd(article);
+    return {
+      props: removeUndefinedProps({
+        article,
+        jsonLd,
+        serverData,
+        gaDimensions: {
+          partOf: article.seasons
+            .map(season => season.id)
+            .concat(article.series.map(series => series.id)),
+        },
+        pageview: {
+          name: 'story',
+          properties: { type: articleDocument.type },
+        },
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 type ArticleSeriesList = {
   series: Series;

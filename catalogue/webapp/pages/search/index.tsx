@@ -221,113 +221,114 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
 SearchPage.getLayout = getSearchLayout;
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const query = context.query;
-    const params = fromQuery(query);
-    const { contentApi } = serverData.toggles;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const query = context.query;
+  const params = fromQuery(query);
+  const { contentApi } = serverData.toggles;
 
-    const pageview: Pageview = {
-      name: 'search',
-      properties: {},
-    };
+  const pageview: Pageview = {
+    name: 'search',
+    properties: {},
+  };
 
-    const defaultProps = removeUndefinedProps({
-      serverData,
-      query,
-      pageview,
+  const defaultProps = removeUndefinedProps({
+    serverData,
+    query,
+    pageview,
+  });
+
+  try {
+    // Stories
+    // We want the default order to be "descending publication date" with the Prismic API
+
+    const storiesResults = contentApi
+      ? await getArticles({
+          params: {
+            ...query,
+            sort: getQueryPropertyValue(query.sort),
+            sortOrder: getQueryPropertyValue(query.sortOrder),
+          },
+          pageSize: 4,
+          toggles: serverData.toggles,
+        })
+      : await getStories({
+          query: {
+            ...query,
+            sort: getQueryPropertyValue(query.sort) || 'publication.dates',
+            sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
+          },
+          pageSize: 4,
+        });
+
+    const newStories = contentApi
+      ? getQueryResults({
+          categoryName: 'stories',
+          queryResults: storiesResults as
+            | ContentResultsList<Content>
+            | ContentApiError,
+        })
+      : undefined;
+
+    const stories = contentApi
+      ? undefined
+      : getQueryResults({
+          categoryName: 'stories',
+          queryResults: storiesResults as
+            | PrismicResultsList<Story>
+            | PrismicApiError,
+        });
+
+    // Works
+    const _worksQueryType = getCookie('_queryType') as string | undefined;
+    const worksResults = await getWorks({
+      params: {
+        ...params,
+        _queryType: _worksQueryType,
+      },
+      pageSize: 5,
+      toggles: serverData.toggles,
+    });
+    const works = getQueryResults({
+      categoryName: 'works',
+      queryResults: worksResults,
     });
 
-    try {
-      // Stories
-      // We want the default order to be "descending publication date" with the Prismic API
+    // Images
+    const imagesResults = await getImages({
+      params,
+      toggles: serverData.toggles,
+      pageSize: 10,
+    });
+    const images = getQueryResults({
+      categoryName: 'images',
+      queryResults: imagesResults,
+    });
 
-      const storiesResults = contentApi
-        ? await getArticles({
-            params: {
-              ...query,
-              sort: getQueryPropertyValue(query.sort),
-              sortOrder: getQueryPropertyValue(query.sortOrder),
-            },
-            pageSize: 4,
-            toggles: serverData.toggles,
-          })
-        : await getStories({
-            query: {
-              ...query,
-              sort: getQueryPropertyValue(query.sort) || 'publication.dates',
-              sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
-            },
-            pageSize: 4,
-          });
-
-      const newStories = contentApi
-        ? getQueryResults({
-            categoryName: 'stories',
-            queryResults: storiesResults as
-              | ContentResultsList<Content>
-              | ContentApiError,
-          })
-        : undefined;
-
-      const stories = contentApi
-        ? undefined
-        : getQueryResults({
-            categoryName: 'stories',
-            queryResults: storiesResults as
-              | PrismicResultsList<Story>
-              | PrismicApiError,
-          });
-
-      // Works
-      const _worksQueryType = getCookie('_queryType') as string | undefined;
-      const worksResults = await getWorks({
-        params: {
-          ...params,
-          _queryType: _worksQueryType,
-        },
-        pageSize: 5,
-        toggles: serverData.toggles,
-      });
-      const works = getQueryResults({
-        categoryName: 'works',
-        queryResults: worksResults,
-      });
-
-      // Images
-      const imagesResults = await getImages({
-        params,
-        toggles: serverData.toggles,
-        pageSize: 10,
-      });
-      const images = getQueryResults({
-        categoryName: 'images',
-        queryResults: imagesResults,
-      });
-
-      // If all three queries fail, return an error page
-      if (
-        imagesResults.type === 'Error' &&
-        worksResults.type === 'Error' &&
-        storiesResults.type === 'Error'
-      ) {
-        return appError(context, 500, 'Search results error');
-      }
-
-      return {
-        props: {
-          ...defaultProps,
-          ...(stories && stories.pageResults?.length && { stories }),
-          ...(newStories && newStories.pageResults?.length && { newStories }),
-          ...(images?.pageResults.length && { images }),
-          ...(works?.pageResults.length && { works }),
-        },
-      };
-    } catch (error) {
-      console.error(error);
+    // If all three queries fail, return an error page
+    if (
+      imagesResults.type === 'Error' &&
+      worksResults.type === 'Error' &&
+      storiesResults.type === 'Error'
+    ) {
       return appError(context, 500, 'Search results error');
     }
-  };
+
+    return {
+      props: {
+        ...defaultProps,
+        ...(stories && stories.pageResults?.length && { stories }),
+        ...(newStories && newStories.pageResults?.length && { newStories }),
+        ...(images?.pageResults.length && { images }),
+        ...(works?.pageResults.length && { works }),
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return appError(context, 500, 'Search results error');
+  }
+};
 
 export default SearchPage;

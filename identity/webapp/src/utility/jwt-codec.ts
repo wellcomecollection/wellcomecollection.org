@@ -43,7 +43,7 @@ const jwtRequiredFields = [
 ] as const;
 export type RegistrationJwtPayload = Pick<
   JwtPayload,
-  typeof jwtRequiredFields[number]
+  (typeof jwtRequiredFields)[number]
 >;
 
 export const generateNewToken = (

@@ -249,42 +249,44 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
               />
             </ThumbnailWrapper>
           )}
-          {(imageType === 'main' || mainLoaded) && urlTemplateMain && infoUrl && (
-            <>
-              {rotation === 0 &&
-                overlayPositionData &&
-                overlayPositionData.map((item, i) => {
-                  return (
-                    <SearchTermHighlight
-                      key={i}
-                      top={item.overlayStartTop + item.highlight.y}
-                      left={item.overlayStartLeft + item.highlight.x}
-                      width={item.highlight.w}
-                      height={item.highlight.h}
-                    />
-                  );
-                })}
-              <div data-test-id={`canvas-${index}`}>
-                <ImageViewer
-                  id="item-page"
-                  infoUrl={infoUrl}
-                  width={currentCanvas.width || 0}
-                  height={currentCanvas.height || 0}
-                  alt={ocrText}
-                  urlTemplate={urlTemplateMain}
-                  rotation={rotation}
-                  index={index}
-                  loadHandler={() => {
-                    setMainLoaded(true);
-                    setIsLoading(false);
-                  }}
-                  mainAreaRef={mainAreaRef}
-                  setImageRect={setImageRect}
-                  setImageContainerRect={setImageContainerRect}
-                />
-              </div>
-            </>
-          )}
+          {(imageType === 'main' || mainLoaded) &&
+            urlTemplateMain &&
+            infoUrl && (
+              <>
+                {rotation === 0 &&
+                  overlayPositionData &&
+                  overlayPositionData.map((item, i) => {
+                    return (
+                      <SearchTermHighlight
+                        key={i}
+                        top={item.overlayStartTop + item.highlight.y}
+                        left={item.overlayStartLeft + item.highlight.x}
+                        width={item.highlight.w}
+                        height={item.highlight.h}
+                      />
+                    );
+                  })}
+                <div data-test-id={`canvas-${index}`}>
+                  <ImageViewer
+                    id="item-page"
+                    infoUrl={infoUrl}
+                    width={currentCanvas.width || 0}
+                    height={currentCanvas.height || 0}
+                    alt={ocrText}
+                    urlTemplate={urlTemplateMain}
+                    rotation={rotation}
+                    index={index}
+                    loadHandler={() => {
+                      setMainLoaded(true);
+                      setIsLoading(false);
+                    }}
+                    mainAreaRef={mainAreaRef}
+                    setImageRect={setImageRect}
+                    setImageContainerRect={setImageContainerRect}
+                  />
+                </div>
+              </>
+            )}
         </>
       )}
     </div>

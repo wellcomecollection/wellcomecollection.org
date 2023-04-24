@@ -37,62 +37,63 @@ type Props = {
   otherExhibitionGuides: ExhibitionGuideBasic[];
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { id } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { id } = context.query;
 
-    if (!looksLikePrismicId(id)) {
-      return { notFound: true };
-    }
+  if (!looksLikePrismicId(id)) {
+    return { notFound: true };
+  }
 
-    const client = createClient(context);
-    const exhibitionGuideQueryPromise = fetchExhibitionGuide(client, id);
-    const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
-      page: 1,
-    });
+  const client = createClient(context);
+  const exhibitionGuideQueryPromise = fetchExhibitionGuide(client, id);
+  const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
+    page: 1,
+  });
 
-    const [exhibitionGuideQuery, exhibitionGuidesQuery] = await Promise.all([
-      exhibitionGuideQueryPromise,
-      exhibitionGuidesQueryPromise,
-    ]);
+  const [exhibitionGuideQuery, exhibitionGuidesQuery] = await Promise.all([
+    exhibitionGuideQueryPromise,
+    exhibitionGuidesQueryPromise,
+  ]);
 
-    if (!exhibitionGuideQuery) {
-      return { notFound: true };
-    }
+  if (!exhibitionGuideQuery) {
+    return { notFound: true };
+  }
 
-    const exhibitionGuides = transformQuery(
-      exhibitionGuidesQuery,
-      transformExhibitionGuide
-    );
+  const exhibitionGuides = transformQuery(
+    exhibitionGuidesQuery,
+    transformExhibitionGuide
+  );
 
-    const basicExhibitionGuides = {
-      ...exhibitionGuides,
-      results: exhibitionGuides.results.map(
-        transformExhibitionGuideToExhibitionGuideBasic
-      ),
-    };
-
-    // We don't need to send data about individual components to the page, so
-    // remove it here.
-    const exhibitionGuide = {
-      ...transformExhibitionGuide(exhibitionGuideQuery),
-      components: [],
-    };
-
-    const jsonLd = exhibitionGuideLd(exhibitionGuide);
-
-    return {
-      props: removeUndefinedProps({
-        exhibitionGuide,
-        jsonLd,
-        serverData,
-        otherExhibitionGuides: basicExhibitionGuides.results.filter(
-          result => result.id !== id
-        ),
-      }),
-    };
+  const basicExhibitionGuides = {
+    ...exhibitionGuides,
+    results: exhibitionGuides.results.map(
+      transformExhibitionGuideToExhibitionGuideBasic
+    ),
   };
+
+  // We don't need to send data about individual components to the page, so
+  // remove it here.
+  const exhibitionGuide = {
+    ...transformExhibitionGuide(exhibitionGuideQuery),
+    components: [],
+  };
+
+  const jsonLd = exhibitionGuideLd(exhibitionGuide);
+
+  return {
+    props: removeUndefinedProps({
+      exhibitionGuide,
+      jsonLd,
+      serverData,
+      otherExhibitionGuides: basicExhibitionGuides.results.filter(
+        result => result.id !== id
+      ),
+    }),
+  };
+};
 
 const ExhibitionGuidePage: FunctionComponent<Props> = ({
   exhibitionGuide,

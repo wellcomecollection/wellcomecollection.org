@@ -90,7 +90,7 @@ const Title: FunctionComponent<TitleProps> = ({
   if (sourceLink) {
     return (
       <>
-        <a href={sourceLink} property="dc:title" rel="cc:attributionURL">
+        <a href={sourceLink} rel="cc:attributionURL">
           {title}
           {byAuthor}
         </a>
@@ -100,7 +100,7 @@ const Title: FunctionComponent<TitleProps> = ({
   } else {
     return (
       <>
-        <span property="dc:title">
+        <span>
           {title}
           {byAuthor}.
         </span>{' '}

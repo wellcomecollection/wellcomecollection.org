@@ -120,7 +120,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const issnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'issn';
   });
-  const seriesPartOfs = work.partOf.filter(p => !p['id']);
+  const seriesPartOfs = work.partOf.filter(p => !p.id);
 
   const physicalItems = getItemsWithPhysicalLocation(work.items ?? []);
 

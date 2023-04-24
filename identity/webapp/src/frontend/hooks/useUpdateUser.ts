@@ -29,7 +29,7 @@ export function useUpdateUser(): UseUpdateUserMutation {
 
   const updateUser: UseUpdateUserMutation['updateUser'] = async (
     userDetails,
-    onComplete = () => void 0
+    onComplete = () => undefined
   ) => {
     setState('loading');
     try {

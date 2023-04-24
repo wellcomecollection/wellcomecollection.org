@@ -22,32 +22,33 @@ type Props = {
   books: PaginatedResults<BookBasic>;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const page = getPage(context.query);
-    if (typeof page !== 'number') {
-      return appError(context, 400, page.message);
-    }
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const page = getPage(context.query);
+  if (typeof page !== 'number') {
+    return appError(context, 400, page.message);
+  }
 
-    const client = createClient(context);
-    const booksQuery = await fetchBooks(client, {
-      page,
-      pageSize: 21,
-    });
+  const client = createClient(context);
+  const booksQuery = await fetchBooks(client, {
+    page,
+    pageSize: 21,
+  });
 
-    const books = transformQuery(booksQuery, book =>
-      transformBookToBookBasic(transformBook(book))
-    );
+  const books = transformQuery(booksQuery, book =>
+    transformBookToBookBasic(transformBook(book))
+  );
 
-    const serverData = await getServerData(context);
+  const serverData = await getServerData(context);
 
-    return {
-      props: removeUndefinedProps({
-        books,
-        serverData,
-      }),
-    };
+  return {
+    props: removeUndefinedProps({
+      books,
+      serverData,
+    }),
   };
+};
 
 const BooksPage: FunctionComponent<Props> = ({ books }) => {
   const firstBook = books.results[0];

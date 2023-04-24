@@ -2,7 +2,6 @@ import React, { useContext, FunctionComponent, PropsWithChildren } from 'react';
 import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
-import Script from 'next/script';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import Header, { NavLink } from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';

@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
+/* eslint-disable dot-notation */
 import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';

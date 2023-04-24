@@ -36,40 +36,41 @@ type Props = {
   jsonLd: JsonLdObj[];
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const client = createClient(context);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const client = createClient(context);
 
-    const page = getPage(context.query);
-    if (typeof page !== 'number') {
-      return appError(context, 400, page.message);
-    }
+  const page = getPage(context.query);
+  if (typeof page !== 'number') {
+    return appError(context, 400, page.message);
+  }
 
-    const { period } = context.query;
+  const { period } = context.query;
 
-    const exhibitionsQuery = await fetchExhibitions(client, {
-      page,
-      period: period as Period,
-    });
-    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+  const exhibitionsQuery = await fetchExhibitions(client, {
+    page,
+    period: period as Period,
+  });
+  const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
-    if (exhibitions && exhibitions.results.length > 0) {
-      const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
-      const jsonLd = exhibitions.results.map(exhibitionLd);
-      return {
-        props: removeUndefinedProps({
-          exhibitions,
-          title,
-          period: period as Period,
-          jsonLd,
-          serverData,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+  if (exhibitions && exhibitions.results.length > 0) {
+    const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
+    const jsonLd = exhibitions.results.map(exhibitionLd);
+    return {
+      props: removeUndefinedProps({
+        exhibitions,
+        title,
+        period: period as Period,
+        jsonLd,
+        serverData,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 const ExhibitionsPage: FunctionComponent<Props> = props => {
   const { exhibitions, period, title, jsonLd } = props;

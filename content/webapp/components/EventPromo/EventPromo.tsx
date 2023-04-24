@@ -85,7 +85,7 @@ const EventPromo: FunctionComponent<Props> = ({
   return (
     <CardOuter
       data-component="EventPromo"
-      data-component-state={JSON.stringify({ position: position })}
+      data-component-state={JSON.stringify({ position })}
       href={(event.promo && event.promo.link) || `/events/${event.id}`}
       onClick={() => {
         trackGaEvent({
