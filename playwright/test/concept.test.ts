@@ -157,24 +157,16 @@ test.describe('concepts @conceptPage', () => {
   });
 });
 
-const allRecordsLink = async (
-  page: Page,
-  tabId: string | undefined,
-  recordType: string
-) => {
-  // Note: the `link-reset` class is added by ButtonSolid, and is a way to
-  // make sure we find the "All Works" link, and not a link to an individual work.
-  const allRecords = await page.waitForSelector(
-    `div#tabpanel-${tabId} a.link-reset`
-  );
-  const content = await allRecords.textContent();
-
-  expect(content?.startsWith(`All ${recordType}`)).toBe(true);
+const allRecordsLink = async (page: Page, recordType: string) => {
+  const allRecords = await page.getByRole('link', {
+    name: new RegExp(`^All ${recordType} \\([0-9,\\.K]+\\)`),
+    exact: false, // match substring, the actual link also includes the right-arrow.
+  });
   return allRecords;
 };
 
 // assert the tab specified is visible
-const showsTab = async (
+const tab = async (
   page: Page,
   recordType: string,
   tabId: string,
@@ -185,10 +177,11 @@ const showsTab = async (
   });
   const tab = tabGroup.getByRole('tab', {
     name: tabText,
-    exact: false, // The text is expected to be followed by a count of the matchign records
+    exact: false, // The text is expected to be followed by a count of the matching records
   });
   const actualId = await tab.getAttribute('id');
   expect(actualId).toBe(`tab-${tabId}`);
+  return tab;
 };
 
 test.describe(
@@ -198,19 +191,23 @@ test.describe(
       await concept(conceptIds['Songs'], context, page);
     });
 
-    test.only('two works sections are shown: about and using', async ({
-      page,
-    }) => {
-      await showsTab(page, 'works', 'worksAbout', 'About this type/technique');
-      await showsTab(page, 'works', 'worksIn', 'Using this type/technique');
+    test('two works sections are shown: about and using', async ({ page }) => {
+      await tab(page, 'works', 'worksAbout', 'About this type/technique');
+      await tab(page, 'works', 'worksIn', 'Using this type/technique');
     });
 
     test('the "All works" link filters by all ids associated with the concept', async ({
       page,
     }) => {
-      await page.click(`css=button#tab-worksIn`);
+      const worksInTab = await tab(
+        page,
+        'works',
+        'worksIn',
+        'Using this type/technique'
+      );
+      await worksInTab.click();
 
-      const allWorks = await allRecordsLink(page, 'worksIn', 'works');
+      const allWorks = await allRecordsLink(page, 'works');
       expect(await allWorks.getAttribute('href')).toBe(
         `/search/works?genres.concepts=${encodeURIComponent(
           'cfxnfvnc,sndumejv,vb3xq295'
@@ -219,20 +216,21 @@ test.describe(
     });
 
     test('two images sections are shown: about and using', async ({ page }) => {
-      await showsTab(
-        page,
-        'images',
-        'imagesAbout',
-        'About this type/technique'
-      );
-      await showsTab(page, 'images', 'imagesIn', 'Using this type/technique');
+      await tab(page, 'images', 'imagesAbout', 'About this type/technique');
+      await tab(page, 'images', 'imagesIn', 'Using this type/technique');
     });
 
     test('the "All images" link filters by all ids associated with the concept', async ({
       page,
     }) => {
-      await page.click(`css=button#tab-imagesIn`);
-      const allImages = await allRecordsLink(page, 'imagesIn', 'images');
+      const imagesInTab = await tab(
+        page,
+        'images',
+        'imagesIn',
+        'Using this type/technique'
+      );
+      await imagesInTab.click();
+      const allImages = await allRecordsLink(page, 'images');
       expect(await allImages.getAttribute('href')).toBe(
         `/search/images?source.genres.concepts=${encodeURIComponent(
           'cfxnfvnc,sndumejv,vb3xq295'
@@ -257,7 +255,7 @@ test.describe(
     test('the "All works" link filters by all ids associated with the concept', async ({
       page,
     }) => {
-      const allWorks = await allRecordsLink(page, 'worksIn', 'works');
+      const allWorks = await allRecordsLink(page, 'works');
       expect(await allWorks.getAttribute('href')).toBe(
         `/search/works?genres.concepts=${encodeURIComponent(
           'fmydsuw2,pzbaq8tx,yqxm24zx'
@@ -268,7 +266,7 @@ test.describe(
     test('the "All images" link filters by all ids associated with the concept', async ({
       page,
     }) => {
-      const allImages = await allRecordsLink(page, 'imagesIn', 'images');
+      const allImages = await allRecordsLink(page, 'images');
       expect(await allImages.getAttribute('href')).toBe(
         `/search/images?source.genres.concepts=${encodeURIComponent(
           'fmydsuw2,pzbaq8tx,yqxm24zx'
