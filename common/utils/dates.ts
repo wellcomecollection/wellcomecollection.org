@@ -47,7 +47,7 @@ type ComparisonMode = 'UTC' | 'London';
 export function isSameDay(
   date1: Date,
   date2: Date,
-  mode: ComparisonMode = 'UTC'
+  mode: ComparisonMode
 ): boolean {
   if (mode === 'UTC') {
     return (
@@ -81,7 +81,7 @@ export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
 // Returns true if 'date' falls on a past day; false otherwise.
 export function isDayPast(date: Date): boolean {
   const now = new Date();
-  if (isSameDay(date, now) || date > now) {
+  if (isSameDay(date, now, 'UTC') || date > now) {
     return false;
   } else {
     return true;
