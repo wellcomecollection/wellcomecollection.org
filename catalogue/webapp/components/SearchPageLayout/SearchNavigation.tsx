@@ -78,31 +78,21 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
       ? getUrlQueryFromSortValue(sortOptionValue)
       : undefined;
 
-    let link;
-    if (queryValue !== inputValue) {
-      // strip all filters since the search query has changed
-      link = linkResolver({
-        params: {
-          query: formValues.query,
-        },
-        pathname: router.pathname,
-      });
-    } else {
-      // now to strip the page number if page is not what has changed
-      if (formValues.page === router.query.page) {
-        delete formValues.page;
-      }
-      link = linkResolver({
-        params: {
-          ...formValues,
-          ...(urlFormattedSort && {
-            sort: urlFormattedSort.sort,
-            sortOrder: urlFormattedSort.sortOrder,
-          }),
-        },
-        pathname: router.pathname,
-      });
+    // now to strip the page number if page is not what has changed
+    if (formValues.page === router.query.page) {
+      delete formValues.page;
     }
+
+    const link = linkResolver({
+      params: {
+        ...formValues,
+        ...(urlFormattedSort && {
+          sort: urlFormattedSort.sort,
+          sortOrder: urlFormattedSort.sortOrder,
+        }),
+      },
+      pathname: router.pathname,
+    });
 
     return router.push(link.href, link.as);
   };
