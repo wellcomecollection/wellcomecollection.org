@@ -6,6 +6,7 @@ import {
   formatDuration,
   formatTime,
   formatYear,
+  formatIso8601Date,
 } from './format-date';
 import timezoneMock from 'timezone-mock';
 
@@ -82,6 +83,18 @@ describe('formatDuration', () => {
     '$seconds seconds is formatted as $formattedDuration',
     ({ seconds, formattedDuration }) => {
       expect(formatDuration(seconds)).toStrictEqual(formattedDuration);
+    }
+  );
+});
+
+describe('formatIso8601Date', () => {
+  test.each([
+    { date: new Date('1 February 2003'), formattedDate: '2003-02-01' },
+    { date: new Date('17 December 2021'), formattedDate: '2021-12-17' },
+  ])(
+    '$date seconds is formatted as $formattedDate',
+    ({ date, formattedDate }) => {
+      expect(formatIso8601Date(date)).toStrictEqual(formattedDate);
     }
   );
 });
