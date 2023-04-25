@@ -24,7 +24,7 @@ const urls = [
   '/articles/WyjHUicAACvGnmJI',
   '/articles/W8ivQRAAAJFijw1h',
   '/works/cjwep3ze?query=health&page=1',
-  '/works/e7vav3ss/items?page=1&canvas=1&sierraId=b28136615&langCode=eng',
+  '/works/e7vav3ss/items?page=1&canvas=1',
   '/works/d2mach47',
   '/what-we-do',
   '/series/WsSUrR8AAL3KGFPF',
