@@ -86,7 +86,6 @@ const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
   border: ${({ darkBg, theme }) =>
       theme.color(darkBg ? 'neutral.300' : 'neutral.600')}
     1px solid;
-  border-radius: 5px;
   text-align: center;
   margin: 0 10px;
 `;
