@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 import fetch from 'node-fetch';
-import { getCreds } from '@weco/ts-aws/sts';
+import { getCreds } from '@weco/ts-aws';
 import prompts from 'prompts';
 import { error, success, warn } from './console';
 import { removeUndefinedProps, printDelta } from './utils';
