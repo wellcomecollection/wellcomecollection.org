@@ -13,13 +13,16 @@ export const useAVTracking = (avType: 'audio' | 'video') => {
   const urlKey = `${avType}_url`;
 
   function getParams(event: SyntheticEvent<HTMLMediaElement, Event>) {
+    const src = event.currentTarget.currentSrc;
+    const host = new URL(src).host;
+
     return {
       [currentTimeKey]: event.currentTarget.currentTime,
       [durationKey]: event.currentTarget.duration,
       [percentKey]: [...cachedSteps].at(-1),
-      [providerKey]: 'IIIF',
-      [titleKey]: 'IIIF',
-      [urlKey]: event.currentTarget.currentSrc,
+      [providerKey]: host,
+      [titleKey]: host,
+      [urlKey]: src,
     };
   }
 
