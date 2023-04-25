@@ -20,6 +20,7 @@ import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { useAVTracking } from '@weco/common/hooks/useAVTracking';
 
 const VolumeWrapper = styled.div`
   display: flex;
@@ -330,6 +331,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   // one-time announcement for screenreaders. Using `currentTime` causes an
   // announcement every second.
   const [startTime, setStartTime] = useState(currentTime);
+  const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('audio');
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
@@ -426,11 +428,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       </Space>
 
       <AudioPlayerGrid>
-        <PlayPauseButton
-          onClick={onTogglePlay}
-          isPlaying={isPlaying}
-          data-gtm-trigger={isPlaying ? undefined : 'audio_play'}
-        >
+        <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
           <PlayPauseInner>
             <span className="visually-hidden">
               {isPlaying ? 'Pause' : 'Play'}
@@ -490,9 +488,16 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
 
       <audio
         onLoadedMetadata={onLoadedMetadata}
-        onPlay={() => setIsPlaying(true)}
+        onPlay={event => {
+          trackPlay(event);
+          setIsPlaying(true);
+        }}
+        onEnded={trackEnded}
         onPause={() => setIsPlaying(false)}
-        onTimeUpdate={onTimeUpdate}
+        onTimeUpdate={event => {
+          onTimeUpdate();
+          trackTimeUpdate(event);
+        }}
         preload="metadata"
         ref={audioPlayerRef}
         src={audioFile}
