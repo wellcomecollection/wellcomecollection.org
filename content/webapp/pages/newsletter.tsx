@@ -15,18 +15,19 @@ type Props = {
   result?: string;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { result } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { result } = context.query;
 
-    return {
-      props: removeUndefinedProps({
-        result: result ? result.toString() : undefined,
-        serverData,
-      }),
-    };
+  return {
+    props: removeUndefinedProps({
+      result: result ? result.toString() : undefined,
+      serverData,
+    }),
   };
+};
 
 const Newsletter: FunctionComponent<Props> = ({ result }) => {
   return (

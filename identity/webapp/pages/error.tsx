@@ -47,19 +47,20 @@ type Props = {
   errorDescription: string;
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { query } = context;
-    const errorDescription = Array.isArray(query.error_description)
-      ? query.error_description[0]
-      : query.error_description;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { query } = context;
+  const errorDescription = Array.isArray(query.error_description)
+    ? query.error_description[0]
+    : query.error_description;
 
-    return {
-      props: removeUndefinedProps({
-        serverData,
-        errorDescription,
-      }),
-    };
+  return {
+    props: removeUndefinedProps({
+      serverData,
+      errorDescription,
+    }),
   };
+};
 export default ErrorPage;

@@ -10,7 +10,7 @@ import {
   minDate,
   startOfDay,
 } from '@weco/common/utils/dates';
-import { Event, HasTimes } from '../../types/events';
+import { HasTimes } from '../../types/events';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 function getNextDateInFuture(event: HasTimes): Date | undefined {
@@ -91,14 +91,16 @@ export function orderEventsByNextAvailableDate<T extends HasTimes>(
     .map(({ event }) => event);
 }
 
-type EventsGroup = {
+type EventsGroup<T> = {
   label: string;
   start: Date;
   end: Date;
-  events: Event[];
+  events: T[];
 };
 
-export function groupEventsByDay(events: Event[]): EventsGroup[] {
+export function groupEventsByDay<T extends HasTimes>(
+  events: T[]
+): EventsGroup<T>[] {
   // Get the full range of all the events
   const range = events
     .map(({ times }) =>
@@ -116,7 +118,7 @@ export function groupEventsByDay(events: Event[]): EventsGroup[] {
     });
 
   // Convert the range into an array of labeled event groups
-  const ranges: EventsGroup[] = getRanges({
+  const ranges: EventsGroup<T>[] = getRanges({
     start: startOfDay(range.start),
     end: endOfDay(range.end),
   }).map(range => ({

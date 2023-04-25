@@ -26,40 +26,41 @@ type Props = {
   jsonLd: JsonLdObj[];
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const page = getPage(context.query);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const page = getPage(context.query);
 
-    if (typeof page !== 'number') {
-      return appError(context, 400, page.message);
-    }
+  if (typeof page !== 'number') {
+    return appError(context, 400, page.message);
+  }
 
-    const client = createClient(context);
-    const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
+  const client = createClient(context);
+  const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
 
-    const exhibitionGuides = transformQuery(
-      exhibitionGuidesQuery,
-      transformExhibitionGuide
-    );
+  const exhibitionGuides = transformQuery(
+    exhibitionGuidesQuery,
+    transformExhibitionGuide
+  );
 
-    const basicExhibitionGuides = {
-      ...exhibitionGuides,
-      results: exhibitionGuides.results.map(
-        transformExhibitionGuideToExhibitionGuideBasic
-      ),
-    };
-
-    const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
-
-    return {
-      props: removeUndefinedProps({
-        exhibitionGuides: basicExhibitionGuides,
-        jsonLd,
-        serverData,
-      }),
-    };
+  const basicExhibitionGuides = {
+    ...exhibitionGuides,
+    results: exhibitionGuides.results.map(
+      transformExhibitionGuideToExhibitionGuideBasic
+    ),
   };
+
+  const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
+
+  return {
+    props: removeUndefinedProps({
+      exhibitionGuides: basicExhibitionGuides,
+      jsonLd,
+      serverData,
+    }),
+  };
+};
 
 const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
   const { exhibitionGuides } = props;

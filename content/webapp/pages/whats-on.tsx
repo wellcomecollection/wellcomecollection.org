@@ -306,89 +306,87 @@ const Header: FunctionComponent<HeaderProps> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
 
-    const client = createClient(context);
+  const client = createClient(context);
 
-    const period = context.query.period
-      ? context.query.period.toString()
-      : 'current-and-coming-up';
+  const period = context.query.period
+    ? context.query.period.toString()
+    : 'current-and-coming-up';
 
-    const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
+  const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 
-    const exhibitionsQueryPromise = fetchExhibitions(client, {
-      period,
-      order: 'asc',
-    });
+  const exhibitionsQueryPromise = fetchExhibitions(client, {
+    period,
+    order: 'asc',
+  });
 
-    const eventsQueryPromise = fetchEvents(client, {
-      period: 'current-and-coming-up',
-      pageSize: 100,
-    });
+  const eventsQueryPromise = fetchEvents(client, {
+    period: 'current-and-coming-up',
+    pageSize: 100,
+  });
 
-    const availableOnlineEventsQueryPromise = fetchEvents(client, {
-      period: 'past',
-      pageSize: 6,
-      availableOnline: true,
-    });
+  const availableOnlineEventsQueryPromise = fetchEvents(client, {
+    period: 'past',
+    pageSize: 6,
+    availableOnline: true,
+  });
 
-    const [
-      exhibitionsQuery,
-      eventsQuery,
-      availableOnlineEventsQuery,
-      whatsOnPageDocument,
-    ] = await Promise.all([
-      exhibitionsQueryPromise,
-      eventsQueryPromise,
-      availableOnlineEventsQueryPromise,
-      whatsOnPagePromise,
-    ]);
+  const [
+    exhibitionsQuery,
+    eventsQuery,
+    availableOnlineEventsQuery,
+    whatsOnPageDocument,
+  ] = await Promise.all([
+    exhibitionsQueryPromise,
+    eventsQueryPromise,
+    availableOnlineEventsQueryPromise,
+    whatsOnPagePromise,
+  ]);
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const whatsOnPage = transformPage(whatsOnPageDocument!);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const whatsOnPage = transformPage(whatsOnPageDocument!);
 
-    const featuredText = getPageFeaturedText(whatsOnPage);
-    const tryTheseToo = getTryTheseTooPromos(whatsOnPage);
+  const featuredText = getPageFeaturedText(whatsOnPage);
+  const tryTheseToo = getTryTheseTooPromos(whatsOnPage);
 
-    const dateRange = getRangeForPeriod(period);
+  const dateRange = getRangeForPeriod(period);
 
-    const events = transformQuery(eventsQuery, transformEvent).results;
-    const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
-    const availableOnlineEvents = transformQuery(
-      availableOnlineEventsQuery,
-      transformEventBasic
-    ).results;
+  const events = transformQuery(eventsQuery, transformEvent).results;
+  const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
+  const availableOnlineEvents = transformQuery(
+    availableOnlineEventsQuery,
+    transformEventBasic
+  ).results;
 
-    const basicEvents = transformQuery(
-      eventsQuery,
-      transformEventBasic
-    ).results;
+  const basicEvents = transformQuery(eventsQuery, transformEventBasic).results;
 
-    if (period && events && exhibitions) {
-      const jsonLd = [
-        ...exhibitions.map(exhibitionLd),
-        ...events.map(eventLd),
-      ] as JsonLdObj[];
+  if (period && events && exhibitions) {
+    const jsonLd = [
+      ...exhibitions.map(exhibitionLd),
+      ...events.map(eventLd),
+    ] as JsonLdObj[];
 
-      return {
-        props: removeUndefinedProps({
-          period,
-          exhibitions,
-          events: basicEvents,
-          availableOnlineEvents,
-          dateRange,
-          jsonLd,
-          featuredText,
-          tryTheseToo,
-          serverData,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+    return {
+      props: removeUndefinedProps({
+        period,
+        exhibitions,
+        events: basicEvents,
+        availableOnlineEvents,
+        dateRange,
+        jsonLd,
+        featuredText,
+        tryTheseToo,
+        serverData,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 const WhatsOnPage: FunctionComponent<Props> = props => {
   const {

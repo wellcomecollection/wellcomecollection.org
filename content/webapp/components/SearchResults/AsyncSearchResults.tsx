@@ -24,6 +24,7 @@ class AsyncSearchResults extends Component<Props, State> {
 
     this.setState({ items: multiContentQuery?.results || [] });
   }
+
   render(): ReactElement {
     return (
       <Fragment>

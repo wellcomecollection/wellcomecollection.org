@@ -100,38 +100,39 @@ type FeaturedCardArticleBodyProps = {
 };
 
 // TODO: make this e.g. just `CardArticleBody` and work it back into the existing promos/cards
-const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
-  ({ article }) => {
-    const partNumber = getPartNumberInSeries(article);
-    const seriesColor = getArticleColor(article);
-    return (
-      <>
-        {partNumber && (
-          <PartNumberIndicator
-            number={partNumber}
-            backgroundColor={seriesColor}
-          />
-        )}
-        <h2 className={font('wb', 2)}>{article.title}</h2>
-        {article.promo?.caption && (
-          <p className={font('intr', 5)}>{article.promo?.caption}</p>
-        )}
-        {article.series.length > 0 && (
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
-            {article.series.map(series => (
-              <p
-                key={series.title}
-                className={`${font('intb', 6)}`}
-                style={{ marginBottom: 0 }}
-              >
-                <span className={font('intr', 6)}>Part of</span> {series.title}
-              </p>
-            ))}
-          </Space>
-        )}
-      </>
-    );
-  };
+const FeaturedCardArticleBody: FunctionComponent<
+  FeaturedCardArticleBodyProps
+> = ({ article }) => {
+  const partNumber = getPartNumberInSeries(article);
+  const seriesColor = getArticleColor(article);
+  return (
+    <>
+      {partNumber && (
+        <PartNumberIndicator
+          number={partNumber}
+          backgroundColor={seriesColor}
+        />
+      )}
+      <h2 className={font('wb', 2)}>{article.title}</h2>
+      {article.promo?.caption && (
+        <p className={font('intr', 5)}>{article.promo?.caption}</p>
+      )}
+      {article.series.length > 0 && (
+        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          {article.series.map(series => (
+            <p
+              key={series.title}
+              className={`${font('intb', 6)}`}
+              style={{ marginBottom: 0 }}
+            >
+              <span className={font('intr', 6)}>Part of</span> {series.title}
+            </p>
+          ))}
+        </Space>
+      )}
+    </>
+  );
+};
 
 type FeaturedCardExhibitionProps = {
   exhibition: ExhibitionBasic;
@@ -302,26 +303,28 @@ const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
   );
 };
 
-export const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> =
-  ({ article, background, textColor }) => {
-    const props = convertItemToFeaturedCardProps(article);
+export const FeaturedCardArticle: FunctionComponent<
+  FeaturedCardArticleProps
+> = ({ article, background, textColor }) => {
+  const props = convertItemToFeaturedCardProps(article);
 
-    return (
-      <FeaturedCard {...props} background={background} textColor={textColor}>
-        <FeaturedCardArticleBody article={article} />
-      </FeaturedCard>
-    );
-  };
+  return (
+    <FeaturedCard {...props} background={background} textColor={textColor}>
+      <FeaturedCardArticleBody article={article} />
+    </FeaturedCard>
+  );
+};
 
-export const FeaturedCardExhibition: FunctionComponent<FeaturedCardExhibitionProps> =
-  ({ exhibition, background, textColor }) => {
-    const props = convertItemToFeaturedCardProps(exhibition);
+export const FeaturedCardExhibition: FunctionComponent<
+  FeaturedCardExhibitionProps
+> = ({ exhibition, background, textColor }) => {
+  const props = convertItemToFeaturedCardProps(exhibition);
 
-    return (
-      <FeaturedCard {...props} background={background} textColor={textColor}>
-        <FeaturedCardExhibitionBody exhibition={exhibition} />
-      </FeaturedCard>
-    );
-  };
+  return (
+    <FeaturedCard {...props} background={background} textColor={textColor}>
+      <FeaturedCardExhibitionBody exhibition={exhibition} />
+    </FeaturedCard>
+  );
+};
 
 export default FeaturedCard;

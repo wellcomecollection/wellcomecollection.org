@@ -379,7 +379,7 @@ async function createArchiveTree({
       if (work.id === curr.id) {
         // If it's the curr work we have all the information we need to create an array of it and its siblings
         // This becomes the value of its parent node's children property
-        const siblings = createSiblingsArray({ work: work });
+        const siblings = createSiblingsArray({ work });
         return updateChildren({
           tree: await acc,
           id: parentId,

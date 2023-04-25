@@ -71,78 +71,79 @@ const pageImage: ImageType = {
   alt: '',
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
 
-    const client = createClient(context);
+  const client = createClient(context);
 
-    const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
-    const eventsQueryPromise = fetchEvents(client, {
-      period: 'current-and-coming-up',
-    });
-    const pagePromise = fetchPage(client, homepageId);
-    const exhibitionsQueryPromise = fetchExhibitions(client, {
-      period: 'next-seven-days',
-      order: 'asc',
-    });
+  const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
+  const eventsQueryPromise = fetchEvents(client, {
+    period: 'current-and-coming-up',
+  });
+  const pagePromise = fetchPage(client, homepageId);
+  const exhibitionsQueryPromise = fetchExhibitions(client, {
+    period: 'next-seven-days',
+    order: 'asc',
+  });
 
-    const [exhibitionsQuery, eventsQuery, articlesQuery, pageDocument] =
-      await Promise.all([
-        exhibitionsQueryPromise,
-        eventsQueryPromise,
-        articlesQueryPromise,
-        pagePromise,
-      ]);
+  const [exhibitionsQuery, eventsQuery, articlesQuery, pageDocument] =
+    await Promise.all([
+      exhibitionsQueryPromise,
+      eventsQueryPromise,
+      articlesQueryPromise,
+      pagePromise,
+    ]);
 
-    // The homepage should always exist in Prismic.
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const page = transformPage(pageDocument!);
+  // The homepage should always exist in Prismic.
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const page = transformPage(pageDocument!);
 
-    const articles = transformQuery(articlesQuery, transformArticle);
-    const jsonLd = articles.results.map(articleLd);
-    const basicArticles = articles.results.map(transformArticleToArticleBasic);
+  const articles = transformQuery(articlesQuery, transformArticle);
+  const jsonLd = articles.results.map(articleLd);
+  const basicArticles = articles.results.map(transformArticleToArticleBasic);
 
-    const events = transformQuery(eventsQuery, transformEventBasic).results;
-    const nextSevenDaysEvents = orderEventsByNextAvailableDate(
-      filterEventsForNext7Days(events)
-    );
+  const events = transformQuery(eventsQuery, transformEventBasic).results;
+  const nextSevenDaysEvents = orderEventsByNextAvailableDate(
+    filterEventsForNext7Days(events)
+  );
 
-    const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
+  const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
 
-    const standfirst = page.body.find(isStandfirst);
-    const contentLists = page.body.filter(isContentList);
+  const standfirst = page.body.find(isStandfirst);
+  const contentLists = page.body.filter(isContentList);
 
-    const headerList = contentLists.length === 2 ? contentLists[0] : null;
+  const headerList = contentLists.length === 2 ? contentLists[0] : null;
 
-    const headerListIds: Set<string> = headerList
-      ? new Set(headerList.value.items.map(v => v.id).filter(isNotUndefined))
-      : new Set();
+  const headerListIds: Set<string> = headerList
+    ? new Set(headerList.value.items.map(v => v.id).filter(isNotUndefined))
+    : new Set();
 
-    const contentList =
-      contentLists.length === 2 ? contentLists[1] : contentLists[0];
+  const contentList =
+    contentLists.length === 2 ? contentLists[1] : contentLists[0];
 
-    if (events && exhibitions && articles && page) {
-      return {
-        props: removeUndefinedProps({
-          articles: basicArticles,
-          serverData,
-          jsonLd,
-          standfirst,
-          headerList,
-          contentList,
-          // If an exhibition or event appears in the header, we don't want
-          // to display it a second time in the list of what's on.
-          exhibitions: exhibitions.filter(ex => !headerListIds.has(ex.id)),
-          nextSevenDaysEvents: nextSevenDaysEvents.filter(
-            ev => !headerListIds.has(ev.id)
-          ),
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+  if (events && exhibitions && articles && page) {
+    return {
+      props: removeUndefinedProps({
+        articles: basicArticles,
+        serverData,
+        jsonLd,
+        standfirst,
+        headerList,
+        contentList,
+        // If an exhibition or event appears in the header, we don't want
+        // to display it a second time in the list of what's on.
+        exhibitions: exhibitions.filter(ex => !headerListIds.has(ex.id)),
+        nextSevenDaysEvents: nextSevenDaysEvents.filter(
+          ev => !headerListIds.has(ev.id)
+        ),
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 const Homepage: FunctionComponent<Props> = ({
   nextSevenDaysEvents,

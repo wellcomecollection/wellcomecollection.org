@@ -1,4 +1,5 @@
 import {
+  groupEventsByDay,
   orderEventsByNextAvailableDate,
   upcomingDatesFullyBooked,
 } from './events';
@@ -150,5 +151,132 @@ describe('upcomingDatesFullyBooked', () => {
     };
     const result = upcomingDatesFullyBooked(event);
     expect(result).toEqual(false);
+  });
+});
+
+describe('groupEventsByDay', () => {
+  it('works', () => {
+    // This example is based on https://wellcomecollection.org/events/XHZdDRAAAHJe9rx9
+    const careAndDestruction = {
+      id: 'XH6TQBAAAA0FGlrx',
+      title: 'Care and Destruction of a Childhood',
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2019-04-06T11:30:00.000Z'),
+            endDateTime: new Date('2019-04-06T12:30:00.000Z'),
+          },
+          isFullyBooked: { inVenue: true, online: true },
+        },
+      ],
+    };
+
+    const whoCriesWins = {
+      id: 'XHZeuhAAAHJe9sPp',
+      title: 'Who Cries Wins',
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2019-04-07T13:00:00.000Z'),
+            endDateTime: new Date('2019-04-07T14:00:00.000Z'),
+          },
+          isFullyBooked: { inVenue: true, online: true },
+        },
+      ],
+    };
+
+    const whiteFeminist = {
+      id: 'XH6U0hAAAPXyGmIS',
+      title: 'White Feminist',
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2019-04-06T15:00:00.000Z'),
+            endDateTime: new Date('2019-04-06T16:00:00.000Z'),
+          },
+          isFullyBooked: { inVenue: true, online: true },
+        },
+        {
+          range: {
+            startDateTime: new Date('2019-04-07T15:00:00.000Z'),
+            endDateTime: new Date('2019-04-07T16:00:00.000Z'),
+          },
+          isFullyBooked: { inVenue: true, online: true },
+        },
+      ],
+    };
+
+    const events = [careAndDestruction, whoCriesWins, whiteFeminist];
+
+    const result = groupEventsByDay(events);
+
+    expect(result).toStrictEqual([
+      {
+        label: 'Saturday 6 April 2019',
+        start: new Date('2019-04-05T23:00:00.000Z'),
+        end: new Date('2019-04-06T22:59:59.999Z'),
+        events: [
+          {
+            id: 'XH6TQBAAAA0FGlrx',
+            title: 'Care and Destruction of a Childhood',
+            times: [
+              {
+                range: {
+                  startDateTime: new Date('2019-04-06T11:30:00.000Z'),
+                  endDateTime: new Date('2019-04-06T12:30:00.000Z'),
+                },
+                isFullyBooked: { inVenue: true, online: true },
+              },
+            ],
+          },
+          {
+            id: 'XH6U0hAAAPXyGmIS',
+            title: 'White Feminist',
+            times: [
+              {
+                range: {
+                  startDateTime: new Date('2019-04-06T15:00:00.000Z'),
+                  endDateTime: new Date('2019-04-06T16:00:00.000Z'),
+                },
+                isFullyBooked: { inVenue: true, online: true },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'Sunday 7 April 2019',
+        start: new Date('2019-04-06T23:00:00.000Z'),
+        end: new Date('2019-04-07T22:59:59.999Z'),
+        events: [
+          {
+            id: 'XHZeuhAAAHJe9sPp',
+            title: 'Who Cries Wins',
+            times: [
+              {
+                range: {
+                  startDateTime: new Date('2019-04-07T13:00:00.000Z'),
+                  endDateTime: new Date('2019-04-07T14:00:00.000Z'),
+                },
+                isFullyBooked: { inVenue: true, online: true },
+              },
+            ],
+          },
+          {
+            id: 'XH6U0hAAAPXyGmIS',
+            title: 'White Feminist',
+            times: [
+              {
+                range: {
+                  startDateTime: new Date('2019-04-07T15:00:00.000Z'),
+                  endDateTime: new Date('2019-04-07T16:00:00.000Z'),
+                },
+                isFullyBooked: { inVenue: true, online: true },
+              },
+            ],
+          },
+        ],
+      },
+    ]);
   });
 });

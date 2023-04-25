@@ -110,13 +110,13 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   }, [isOnScreen]);
 
   useEffect(() => {
-    setImageSrc(urlTemplate({ size: '640,', rotation: rotation }));
+    setImageSrc(urlTemplate({ size: '640,', rotation }));
     setImageSrcSet(
       imageSizes(2048)
         .map(width => {
           const urlString = urlTemplate({
             size: `${width},`,
-            rotation: rotation,
+            rotation,
           });
           return urlString && `${urlString} ${width}w`;
         })

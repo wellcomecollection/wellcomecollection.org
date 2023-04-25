@@ -137,97 +137,98 @@ const SeasonPage = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const { seasonId } = context.query;
-    if (!looksLikePrismicId(seasonId)) {
-      return { notFound: true };
-    }
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const { seasonId } = context.query;
+  if (!looksLikePrismicId(seasonId)) {
+    return { notFound: true };
+  }
 
-    const client = createClient(context);
+  const client = createClient(context);
 
-    // TODO: Is there a reason we're hard-coding predicates here, and not
-    // using the Prismic library helpers as on the other pages?
-    const booksQueryPromise = fetchBooks(client, {
-      predicates: [`[at(my.books.seasons.season, "${seasonId}")]`],
-    });
-    const articlesQueryPromise = fetchArticles(client, {
-      predicates: [`[at(my.articles.seasons.season, "${seasonId}")]`],
-    });
-    const eventsQueryPromise = fetchEvents(client, {
-      predicates: [`[at(my.events.seasons.season, "${seasonId}")]`],
-      orderings: ['my.events.times.startDateTime'],
-    });
-    const exhibitionsQueryPromise = fetchExhibitions(client, {
-      predicates: [`[at(my.exhibitions.seasons.season, "${seasonId}")]`],
-      order: 'desc',
-    });
-    const pagesQueryPromise = fetchPages(client, {
-      predicates: [`[at(my.pages.seasons.season, "${seasonId}")]`],
-    });
-    const projectsQueryPromise = fetchProjects(client, {
-      predicates: [`[at(my.projects.seasons.season, "${seasonId}")]`],
-    });
-    const seriesQueryPromise = fetchSeries(client, {
-      predicates: [`[at(my.series.seasons.season, "${seasonId}")]`],
-    });
+  // TODO: Is there a reason we're hard-coding predicates here, and not
+  // using the Prismic library helpers as on the other pages?
+  const booksQueryPromise = fetchBooks(client, {
+    predicates: [`[at(my.books.seasons.season, "${seasonId}")]`],
+  });
+  const articlesQueryPromise = fetchArticles(client, {
+    predicates: [`[at(my.articles.seasons.season, "${seasonId}")]`],
+  });
+  const eventsQueryPromise = fetchEvents(client, {
+    predicates: [`[at(my.events.seasons.season, "${seasonId}")]`],
+    orderings: ['my.events.times.startDateTime'],
+  });
+  const exhibitionsQueryPromise = fetchExhibitions(client, {
+    predicates: [`[at(my.exhibitions.seasons.season, "${seasonId}")]`],
+    order: 'desc',
+  });
+  const pagesQueryPromise = fetchPages(client, {
+    predicates: [`[at(my.pages.seasons.season, "${seasonId}")]`],
+  });
+  const projectsQueryPromise = fetchProjects(client, {
+    predicates: [`[at(my.projects.seasons.season, "${seasonId}")]`],
+  });
+  const seriesQueryPromise = fetchSeries(client, {
+    predicates: [`[at(my.series.seasons.season, "${seasonId}")]`],
+  });
 
-    const seasonDocPromise = fetchSeason(client, seasonId);
+  const seasonDocPromise = fetchSeason(client, seasonId);
 
-    const [
-      articlesQuery,
-      booksQuery,
-      eventsQuery,
-      exhibitionsQuery,
-      pagesQuery,
-      projectsQuery,
-      seriesQuery,
-      seasonDoc,
-    ] = await Promise.all([
-      articlesQueryPromise,
-      booksQueryPromise,
-      eventsQueryPromise,
-      exhibitionsQueryPromise,
-      pagesQueryPromise,
-      projectsQueryPromise,
-      seriesQueryPromise,
-      seasonDocPromise,
-    ]);
+  const [
+    articlesQuery,
+    booksQuery,
+    eventsQuery,
+    exhibitionsQuery,
+    pagesQuery,
+    projectsQuery,
+    seriesQuery,
+    seasonDoc,
+  ] = await Promise.all([
+    articlesQueryPromise,
+    booksQueryPromise,
+    eventsQueryPromise,
+    exhibitionsQueryPromise,
+    pagesQueryPromise,
+    projectsQueryPromise,
+    seriesQueryPromise,
+    seasonDocPromise,
+  ]);
 
-    const articles = transformQuery(articlesQuery, article =>
-      transformArticleToArticleBasic(transformArticle(article))
-    );
-    const books = transformQuery(booksQuery, book =>
-      transformBookToBookBasic(transformBook(book))
-    );
-    const events = transformQuery(eventsQuery, transformEventBasic);
-    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+  const articles = transformQuery(articlesQuery, article =>
+    transformArticleToArticleBasic(transformArticle(article))
+  );
+  const books = transformQuery(booksQuery, book =>
+    transformBookToBookBasic(transformBook(book))
+  );
+  const events = transformQuery(eventsQuery, transformEventBasic);
+  const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
-    const pages = transformQuery(pagesQuery, transformPage);
-    const projects = transformQuery(projectsQuery, transformProject);
-    const series = transformQuery(seriesQuery, transformSeries);
-    const season = seasonDoc && transformSeason(seasonDoc);
+  const pages = transformQuery(pagesQuery, transformPage);
+  const projects = transformQuery(projectsQuery, transformProject);
+  const series = transformQuery(seriesQuery, transformSeries);
+  const season = seasonDoc && transformSeason(seasonDoc);
 
-    if (season) {
-      const jsonLd = contentLd(season);
-      const serverData = await getServerData(context);
-      return {
-        props: removeUndefinedProps({
-          season,
-          articles: articles.results,
-          books: books.results,
-          events: events.results,
-          exhibitions: exhibitions.results,
-          pages: pages.results,
-          projects: projects.results,
-          series: series.results,
-          jsonLd,
-          serverData,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+  if (season) {
+    const jsonLd = contentLd(season);
+    const serverData = await getServerData(context);
+    return {
+      props: removeUndefinedProps({
+        season,
+        articles: articles.results,
+        books: books.results,
+        events: events.results,
+        exhibitions: exhibitions.results,
+        pages: pages.results,
+        projects: projects.results,
+        series: series.results,
+        jsonLd,
+        serverData,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 export default SeasonPage;

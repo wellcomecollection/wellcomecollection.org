@@ -66,81 +66,80 @@ const StoryPromoContainer = styled.div.attrs({
   }
 `;
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const comicTest1 = serverData.toggles.comicTest1;
-    const client = createClient(context);
-    const articlesQueryPromise = fetchArticles(client, {
-      predicates: prismic.predicate.not(
-        'my.articles.format',
-        ArticleFormatIds.Comic
-      ),
-    });
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const comicTest1 = serverData.toggles.comicTest1;
+  const client = createClient(context);
+  const articlesQueryPromise = fetchArticles(client, {
+    predicates: prismic.predicate.not(
+      'my.articles.format',
+      ArticleFormatIds.Comic
+    ),
+  });
 
-    const comicsQueryPromise = fetchArticles(client, {
-      pageSize: 100, // we need enough comics to make sure we have at least one from three different series
-      predicates: prismic.predicate.at(
-        'my.articles.format',
-        ArticleFormatIds.Comic
-      ),
-    });
+  const comicsQueryPromise = fetchArticles(client, {
+    pageSize: 100, // we need enough comics to make sure we have at least one from three different series
+    predicates: prismic.predicate.at(
+      'my.articles.format',
+      ArticleFormatIds.Comic
+    ),
+  });
 
-    const storiesLandingPromise = fetchStoriesLanding(client);
+  const storiesLandingPromise = fetchStoriesLanding(client);
 
-    const [articlesQuery, storiesLandingDoc, comicsQuery] = await Promise.all([
-      articlesQueryPromise,
-      storiesLandingPromise,
-      comicsQueryPromise,
-    ]);
+  const [articlesQuery, storiesLandingDoc, comicsQuery] = await Promise.all([
+    articlesQueryPromise,
+    storiesLandingPromise,
+    comicsQueryPromise,
+  ]);
 
-    const articles = transformQuery(articlesQuery, transformArticle);
+  const articles = transformQuery(articlesQuery, transformArticle);
 
-    // In order to avoid the case where we end up with an empty comic series,
-    // rather than querying for the series itself we query for the individual
-    // comics, then group them by series and stop once we've got to three. That
-    // way we can be confident each of the three series that we have contains at
-    // least one comic.
-    const comics = transformQuery(comicsQuery, transformArticle);
+  // In order to avoid the case where we end up with an empty comic series,
+  // rather than querying for the series itself we query for the individual
+  // comics, then group them by series and stop once we've got to three. That
+  // way we can be confident each of the three series that we have contains at
+  // least one comic.
+  const comics = transformQuery(comicsQuery, transformArticle);
 
-    const comicSeriesIds = [
-      ...new Set(comics.results.map(item => item.series[0].id)),
-    ].slice(0, 3); // Set limits to unique values, of which we want the first three
+  const comicSeriesIds = [
+    ...new Set(comics.results.map(item => item.series[0].id)),
+  ].slice(0, 3); // Set limits to unique values, of which we want the first three
 
-    const comicSeries = comicSeriesIds.map(
-      id => comics.results.find(item => item.series[0].id === id)?.series[0]
-    ) as Series[];
+  const comicSeries = comicSeriesIds.map(
+    id => comics.results.find(item => item.series[0].id === id)?.series[0]
+  ) as Series[];
 
-    const firstComicFromEachSeries = comicSeriesIds.map(id =>
-      comics.results.filter(item => item.series[0].id === id).at(-1)
-    ) as ArticleBasic[];
+  const firstComicFromEachSeries = comicSeriesIds.map(id =>
+    comics.results.filter(item => item.series[0].id === id).at(-1)
+  ) as ArticleBasic[];
 
-    const basicComicSeries = comicSeries.map(transformSeriesToSeriesBasic);
+  const basicComicSeries = comicSeries.map(transformSeriesToSeriesBasic);
 
-    const jsonLd = articles.results.map(articleLd);
-    const basicArticles = articles.results.map(transformArticleToArticleBasic);
-    const storiesLanding =
-      storiesLandingDoc &&
-      transformStoriesLanding(
-        storiesLandingDoc as StoriesLandingPrismicDocument
-      );
+  const jsonLd = articles.results.map(articleLd);
+  const basicArticles = articles.results.map(transformArticleToArticleBasic);
+  const storiesLanding =
+    storiesLandingDoc &&
+    transformStoriesLanding(storiesLandingDoc as StoriesLandingPrismicDocument);
 
-    if (articles && articles.results) {
-      return {
-        props: removeUndefinedProps({
-          articles: basicArticles,
-          comicSeries: basicComicSeries,
-          firstComicFromEachSeries: firstComicFromEachSeries,
-          comicTest1,
-          serverData,
-          jsonLd,
-          storiesLanding,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+  if (articles && articles.results) {
+    return {
+      props: removeUndefinedProps({
+        articles: basicArticles,
+        comicSeries: basicComicSeries,
+        firstComicFromEachSeries,
+        comicTest1,
+        serverData,
+        jsonLd,
+        storiesLanding,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 const StoriesPage: FunctionComponent<Props> = ({
   articles,

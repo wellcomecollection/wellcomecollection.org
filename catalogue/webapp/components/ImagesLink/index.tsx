@@ -23,7 +23,7 @@ const imagesPropsSources = [
   'work_details/images',
   'unknown',
 ] as const;
-type ImagesPropsSource = typeof imagesPropsSources[number];
+type ImagesPropsSource = (typeof imagesPropsSources)[number];
 
 export type ImagesProps = FromCodecMap<typeof codecMap>;
 

@@ -150,9 +150,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                     </NextLink>
                   );
                 });
-            }
-
-            if (f.type === 'dateRange') {
+            } else if (f.type === 'dateRange') {
               return (
                 <Fragment key={`cancel-${f.id}`}>
                   {f.from.value && (
@@ -186,8 +184,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                   )}
                 </Fragment>
               );
-            }
-            if (f.type === 'color' && f.color) {
+            } else if (f.type === 'color' && f.color) {
               return (
                 <Fragment key={`cancel-${f.id}`}>
                   <NextLink
@@ -211,6 +208,8 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                   </NextLink>
                 </Fragment>
               );
+            } else {
+              return null;
             }
           })}
 
