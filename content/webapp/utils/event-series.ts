@@ -41,7 +41,7 @@ function isUpcoming<T extends HasTimes>(event: T): boolean {
   );
   const latestEndTime = maxDate(event.times.map(t => t.range.endDateTime));
 
-  const isMultiDayEvent = !isSameDay(earliestStartTime, latestEndTime);
+  const isMultiDayEvent = !isSameDay(earliestStartTime, latestEndTime, 'UTC');
   const isUnfinished = latestEndTime > new Date();
   const endsOnAFutureDay = isMultiDayEvent && isUnfinished;
 
