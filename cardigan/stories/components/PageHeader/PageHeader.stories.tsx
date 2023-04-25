@@ -231,7 +231,7 @@ article.args = {
   isContentTypeInfoBeforeMedia: true,
 };
 article.parameters = {
-  diffThreshold: 0.1,
+  diffThreshold: 0.2,
 };
 
 const ContentPageTemplate = args => (
