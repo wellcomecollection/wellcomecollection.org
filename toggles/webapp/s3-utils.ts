@@ -8,7 +8,7 @@ import {
   CloudFrontClient,
   CreateInvalidationCommand,
 } from '@aws-sdk/client-cloudfront';
-import { getCreds } from '@weco/ts-aws/sts';
+import { getCreds } from '@weco/ts-aws';
 import { Readable } from 'stream';
 import { TogglesResp } from '.';
 import { bucket, key, region } from './config';
