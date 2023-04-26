@@ -73,10 +73,10 @@ const tabOrder = ['by', 'in', 'about'];
 const queryKeys = {
   worksAbout: { filter: 'subjects.label', fields: ['label'] },
   worksBy: { filter: 'contributors.agent.label', fields: ['label'] },
-  worksIn: { filter: 'genres.concepts', fields: ['id', 'sameAs'] },
+  worksIn: { filter: 'genres.label', fields: ['label'] },
   imagesAbout: { filter: 'source.subjects.label', fields: ['label'] },
   imagesBy: { filter: 'source.contributors.agent.label', fields: ['label'] },
-  imagesIn: { filter: 'source.genres.concepts', fields: ['id', 'sameAs'] },
+  imagesIn: { filter: 'source.genres.label', fields: ['label'] },
 };
 
 const gatherValues = (conceptResponse, fields) => {

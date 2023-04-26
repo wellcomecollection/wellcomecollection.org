@@ -196,7 +196,7 @@ test.describe(
       await tab(page, 'works', 'worksIn', 'Using this type/technique');
     });
 
-    test('the "All works" link filters by all ids associated with the concept', async ({
+    test('the "All works" link filters by the concept label', async ({
       page,
     }) => {
       const worksInTab = await tab(
@@ -209,9 +209,7 @@ test.describe(
 
       const allWorks = await allRecordsLink(page, 'works');
       expect(await allWorks.getAttribute('href')).toBe(
-        `/search/works?genres.concepts=${encodeURIComponent(
-          'cfxnfvnc,sndumejv,vb3xq295'
-        )}`
+        `/search/works?genres.label=${encodeURIComponent('"Songs"')}`
       );
     });
 
@@ -220,7 +218,7 @@ test.describe(
       await tab(page, 'images', 'imagesIn', 'Using this type/technique');
     });
 
-    test('the "All images" link filters by all ids associated with the concept', async ({
+    test('the "All images" link filters by the concept label', async ({
       page,
     }) => {
       const imagesInTab = await tab(
@@ -232,9 +230,7 @@ test.describe(
       await imagesInTab.click();
       const allImages = await allRecordsLink(page, 'images');
       expect(await allImages.getAttribute('href')).toBe(
-        `/search/images?source.genres.concepts=${encodeURIComponent(
-          'cfxnfvnc,sndumejv,vb3xq295'
-        )}`
+        `/search/images?source.genres.label=${encodeURIComponent('"Songs"')}`
       );
     });
   }
@@ -252,24 +248,22 @@ test.describe(
       await page.waitForSelector('h2 >> text="Images"');
     });
 
-    test('the "All works" link filters by all ids associated with the concept', async ({
+    test('the "All works" link filters by the concept label', async ({
       page,
     }) => {
       const allWorks = await allRecordsLink(page, 'works');
       expect(await allWorks.getAttribute('href')).toBe(
-        `/search/works?genres.concepts=${encodeURIComponent(
-          'fmydsuw2,pzbaq8tx,yqxm24zx'
-        )}`
+        `/search/works?genres.label=${encodeURIComponent('"Lithographs"')}`
       );
     });
 
-    test('the "All images" link filters by all ids associated with the concept', async ({
+    test('the "All images" link filters by the concept label', async ({
       page,
     }) => {
       const allImages = await allRecordsLink(page, 'images');
       expect(await allImages.getAttribute('href')).toBe(
-        `/search/images?source.genres.concepts=${encodeURIComponent(
-          'fmydsuw2,pzbaq8tx,yqxm24zx'
+        `/search/images?source.genres.label=${encodeURIComponent(
+          '"Lithographs"'
         )}`
       );
     });
