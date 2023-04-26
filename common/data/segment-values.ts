@@ -57,8 +57,7 @@ export type WorkLinkSource =
   | 'item_auth_modal_back_to_work_link'
   | 'archive_tree'
   | 'viewer_back_link'
-  | 'viewer_credit'
-  | 'download_credit';
+  | 'viewer_credit';
 
 export type WorksLinkSource =
   | 'search_form'

@@ -25,7 +25,6 @@ import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
-import WorkLink from '@weco/catalogue/components/WorkLink';
 
 type CreditProps = {
   workId: string;
@@ -45,10 +44,7 @@ const Credit: FunctionComponent<CreditProps> = ({
   const linkCredit = credit && (
     <>
       Credit:{' '}
-      <WorkLink id={workId} source="download_credit">
-        {credit}
-      </WorkLink>
-      .
+      <a href={`https://wellcomecollection.org/works/${workId}`}>{credit}</a>.
     </>
   );
 
