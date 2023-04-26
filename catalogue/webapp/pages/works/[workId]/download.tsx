@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { font } from '@weco/common/utils/classnames';
 import {
@@ -25,59 +25,61 @@ import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
+import WorkLink from '@weco/catalogue/components/WorkLink';
 
-function getCredit(
-  workId: string,
-  title: string,
-  iiifImageLocationCredit: string | undefined,
-  license: LicenseData
-): ReactElement {
+type CreditProps = {
+  workId: string;
+  title: string;
+  credit?: string;
+  license: LicenseData;
+};
+
+const Credit: FunctionComponent<CreditProps> = ({
+  workId,
+  title,
+  credit,
+  license,
+}) => {
   const titleCredit = title.replace(/\.$/g, '');
 
-  const linkCredit = iiifImageLocationCredit ? (
+  const linkCredit = credit && (
     <>
       Credit:{' '}
-      <a href={`https://wellcomecollection.org/works/${workId}`}>
-        {iiifImageLocationCredit}
-      </a>
+      <WorkLink id={workId} source="download_credit">
+        {credit}
+      </WorkLink>
       .
     </>
-  ) : null;
+  );
 
-  const licenseCredit: ReactElement = license.url ? (
+  const licenseCredit = license.url ? (
     <a href={license.url}>{license.label}</a>
   ) : (
     <>{license.label}</>
   );
 
   return (
-    <div key="0">
+    <div>
       {titleCredit}. {linkCredit} {licenseCredit}
     </div>
   );
-}
-
-type Props = {
-  workId: string;
-  transformedManifest?: TransformedManifest;
-  work?: Work;
 };
 
-const DownloadPage: NextPage<Props> = ({
-  workId,
-  transformedManifest,
-  work,
-}) => {
+type Props = {
+  transformedManifest?: TransformedManifest;
+  work: Work;
+};
+
+const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
   const { title, downloadEnabled, downloadOptions, iiifCredit } = {
     ...transformedManifest,
   };
-  const displayTitle = title || work?.title || '';
-  const iiifImageLocation = work
-    ? getDigitalLocationOfType(work, 'iiif-image')
-    : null;
-  const iiifPresentationLocation = work
-    ? getDigitalLocationOfType(work, 'iiif-presentation')
-    : null;
+  const displayTitle = title || work.title || '';
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
   const digitalLocation = iiifImageLocation || iiifPresentationLocation; // TODO here we favour imageLocation over manifestLocation
   const license =
     digitalLocation?.license &&
@@ -107,7 +109,7 @@ const DownloadPage: NextPage<Props> = ({
     <PageLayout
       title={displayTitle}
       description=""
-      url={{ pathname: `/works/${workId}/download` }}
+      url={{ pathname: `/works/${work.id}/download` }}
       openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
@@ -128,19 +130,17 @@ const DownloadPage: NextPage<Props> = ({
               {displayTitle}
             </Space>
           </SpacingComponent>
-          {workId && (
-            <SpacingComponent>
-              {downloadEnabled && allDownloadOptions.length !== 0 ? (
-                <Download
-                  ariaControlsId="itemDownloads"
-                  workId={workId}
-                  downloadOptions={allDownloadOptions}
-                />
-              ) : (
-                <p>There are no downloads available.</p>
-              )}
-            </SpacingComponent>
-          )}
+          <SpacingComponent>
+            {downloadEnabled && allDownloadOptions.length !== 0 ? (
+              <Download
+                ariaControlsId="itemDownloads"
+                workId={work.id}
+                downloadOptions={allDownloadOptions}
+              />
+            ) : (
+              <p>There are no downloads available.</p>
+            )}
+          </SpacingComponent>
           {license && (
             <SpacingComponent key={license.url}>
               <div>
@@ -153,7 +153,14 @@ const DownloadPage: NextPage<Props> = ({
                 {title && (
                   <WorkDetailsText
                     title="Credit"
-                    contents={getCredit(workId, title, credit, license)}
+                    contents={
+                      <Credit
+                        workId={work.id}
+                        title={title}
+                        credit={credit}
+                        license={license}
+                      />
+                    }
                   />
                 )}
               </div>
@@ -165,48 +172,50 @@ const DownloadPage: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
-> = async context => {
-  const serverData = await getServerData(context);
-  const { workId } = context.query;
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const serverData = await getServerData(context);
+    const { workId } = context.query;
 
-  if (!looksLikeCanonicalId(workId)) {
-    return {
-      notFound: true,
-    };
-  }
+    if (!looksLikeCanonicalId(workId)) {
+      return {
+        notFound: true,
+      };
+    }
 
-  const work = await getWork({
-    id: workId,
-    toggles: serverData.toggles,
-  });
+    const work = await getWork({
+      id: workId,
+      toggles: serverData.toggles,
+    });
 
-  if (work.type === 'Error') {
-    return appError(context, work.httpStatus, work.description);
-  } else if (work.type === 'Redirect') {
-    return {
-      redirect: {
-        destination: `/works/${work.redirectToId}/download`,
-        permanent: work.status === 301,
-      },
-    };
-  }
+    if (work.type === 'Error') {
+      return appError(context, work.httpStatus, work.description);
+    } else if (work.type === 'Redirect') {
+      return {
+        redirect: {
+          destination: `/works/${work.redirectToId}/download`,
+          permanent: work.status === 301,
+        },
+      };
+    }
 
-  const manifestLocation = getDigitalLocationOfType(work, 'iiif-presentation');
-  const iiifManifest =
-    manifestLocation &&
-    (await fetchIIIFPresentationManifest(manifestLocation.url));
-  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
-
-  return {
-    props: removeUndefinedProps({
-      serverData,
-      workId,
-      transformedManifest,
+    const manifestLocation = getDigitalLocationOfType(
       work,
-    }),
+      'iiif-presentation'
+    );
+    const iiifManifest =
+      manifestLocation &&
+      (await fetchIIIFPresentationManifest(manifestLocation.url));
+    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+
+    return {
+      props: removeUndefinedProps({
+        serverData,
+        workId,
+        transformedManifest,
+        work,
+      }),
+    };
   };
-};
 
 export default DownloadPage;
