@@ -30,7 +30,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Work } from '@weco/catalogue/services/catalogue/types';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
@@ -341,7 +341,9 @@ const WorkDetails: FunctionComponent<Props> = ({
                   </Space>
                 )}
 
-                <div style={{ display: 'flex' }}>
+                {/* Note: there is no class flex-h-center, but there is flex--h-center
+                    Is that what's meant here? */}
+                <div className="flex flex-h-center">
                   {itemUrl && (
                     <Space
                       as="span"
@@ -378,10 +380,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                       properties: ['margin-top'],
                     }}
                   >
-                    <p
-                      className={`${font('lr', 6)}`}
-                      style={{ marginBottom: 0 }}
-                    >
+                    <p className={`no-margin ${font('lr', 6)}`}>
                       Contains:{' '}
                       {collectionManifestsCount > 0
                         ? `${collectionManifestsCount} ${
@@ -482,7 +481,6 @@ const WorkDetails: FunctionComponent<Props> = ({
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection headingText="Selected images from this work">
           <ButtonSolidLink
-            dataGtmTrigger="view_selected_images"
             colors={themeValues.buttonColors.greenTransparentGreen}
             text={
               work.images.length > 1
@@ -591,6 +589,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                     linkAttributes: {
                       href: {
                         pathname: `/concepts/${contributor.agent.id}`,
+                        query: { source: 'work_details/contributors' },
                       },
                       as: {
                         pathname: `/concepts/${contributor.agent.id}`,
@@ -668,6 +667,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                 linkAttributes: {
                   href: {
                     pathname: `/concepts/${genre.concepts[0].id}`,
+                    query: { source: 'work_details/genres' },
                   },
                   as: {
                     pathname: `/concepts/${genre.concepts[0].id}`,
@@ -700,8 +700,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                     ),
                     linkAttributes: {
                       href: {
-                        pathname: '/concept',
-                        query: { id: s.id },
+                        pathname: `/concepts/${s.id}`,
+                        query: { source: 'work_details/subjects' },
                       },
                       as: {
                         pathname: `/concepts/${s.id}`,
