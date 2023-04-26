@@ -10,7 +10,7 @@ import {
   stringCodec,
 } from '@weco/common/utils/routes';
 import { LinkProps } from '@weco/common/model/link-props';
-import { ImageLinkSource } from '@weco/common/data/segment-sources';
+import { ImageLinkSource } from '@weco/common/data/segment-values';
 
 const emptyImageProps: ImageProps = {
   id: '',
@@ -46,7 +46,7 @@ function toLink(
 
   return {
     href: {
-      pathname: `/works/[workId]/images`,
+      pathname: '/works/[workId]/images',
       query: {
         workId: props.workId,
         ...query,

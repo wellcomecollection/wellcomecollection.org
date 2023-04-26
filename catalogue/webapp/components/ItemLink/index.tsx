@@ -11,7 +11,7 @@ import {
   stringCodec,
 } from '@weco/common/utils/routes';
 import { LinkProps } from '@weco/common/model/link-props';
-import { ItemLinkSource } from '@weco/common/data/segment-sources';
+import { ItemLinkSource } from '@weco/common/data/segment-values';
 
 const emptyItemProps: ItemProps = {
   workId: '',
