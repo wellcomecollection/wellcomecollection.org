@@ -13,17 +13,7 @@ import {
   decodeQuery,
   quotedCsvCodec,
 } from '@weco/common/utils/routes';
-
-const imagesPropsSources = [
-  'search/paginator',
-  'canonical_link',
-  'concept/images_about',
-  'concept/images_by',
-  'images_search_context',
-  'work_details/images',
-  'unknown',
-] as const;
-type ImagesPropsSource = (typeof imagesPropsSources)[number];
+import { ImagesLinkSource } from '@weco/common/data/segment-sources';
 
 export type ImagesProps = FromCodecMap<typeof codecMap>;
 
@@ -57,7 +47,7 @@ const toQuery: (props: ImagesProps) => ParsedUrlQuery = props => {
 
 function toLink(
   partialProps: Partial<ImagesProps>,
-  source: ImagesPropsSource
+  source: ImagesLinkSource
 ): LinkProps {
   const pathname = '/search/images';
   const props: ImagesProps = {
@@ -78,7 +68,7 @@ function toLink(
   };
 }
 
-type Props = LinkFrom<ImagesProps> & { source: ImagesPropsSource };
+type Props = LinkFrom<ImagesProps> & { source: ImagesLinkSource };
 const ImagesLink: FunctionComponent<Props> = ({
   children,
   source,
