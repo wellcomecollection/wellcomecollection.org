@@ -30,7 +30,7 @@ import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import cookies from '@weco/common/data/cookies';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 export type SiteSection =
   | 'collections'
@@ -128,6 +128,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
+  const { isEnhanced } = useContext(AppContext);
 
   // For Twitter cards in particular, we prefer a crop as close to 2:1 as
   // possible.  This avoids an automated crop by Twitter, which may be less
@@ -251,10 +252,10 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       </Head>
 
       {/* Note: these <Script> tags are very deliberately:
-      
+
           - not <script>
           - not in the <Head>
-      
+
           When we put <script> tags in the <Head>, we saw issues with Next.js doubling-up certain
           elements in the final <head>, e.g. the charset declaration.
 
@@ -350,15 +351,8 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         )}
         {/* The no javascript version of the burger menu relies on the footer being present on the page,
         as we then use an anchor link to take people to the navigation links in the footer.
-        Instead of completely removing the footer when we don't want it, we wrap it in a noscript tag,
-        so teh degraded experience still works.
-        */}
-        <ConditionalWrapper
-          condition={Boolean(hideFooter)}
-          wrapper={children => <noscript>{children}</noscript>}
-        >
-          <Footer venues={venues} />
-        </ConditionalWrapper>
+        We only completely remove the footer if you've got JS. */}
+        {(!hideFooter || !isEnhanced) && <Footer venues={venues} />}
       </div>
     </>
   );
