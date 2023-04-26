@@ -261,6 +261,7 @@ class SegmentedControl extends Component<Props, State> {
                     className="segmented-control__close"
                     onClick={() => this.setState({ isActive: false })}
                   >
+                    <span className="visually-hidden">close</span>
                     <Icon icon={cross} title="Close" />
                   </span>
                 </Fragment>
