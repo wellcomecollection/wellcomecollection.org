@@ -212,8 +212,9 @@ const withSelectedStatus = (selectedTab: string, tabDefinition) => {
 };
 
 const conceptTypeDisplayName = (conceptResponse: ConceptType) => {
-  const lower = conceptResponse.type.toLowerCase();
-  return lower === 'genre' ? 'type/technique' : lower;
+  return conceptResponse.type === 'Genre'
+    ? 'Type/Technique'
+    : conceptResponse.type;
 };
 
 const currentTabPanel = (selectedTab: string, tabDefinitions) => {
@@ -357,7 +358,7 @@ export const ConceptPage: NextPage<Props> = ({
     >
       <ConceptHero>
         <div className="container">
-          <TypeLabel>{conceptResponse.type}</TypeLabel>
+          <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
           <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
             <HeroTitle>{conceptResponse.label}</HeroTitle>
             <ConceptDescription className={font('intr', 5)}>
@@ -581,7 +582,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
 
-    const conceptTypeName = conceptTypeDisplayName(conceptResponse);
+    const conceptTypeName =
+      conceptTypeDisplayName(conceptResponse).toLowerCase();
 
     const sectionsData = {
       about: {
