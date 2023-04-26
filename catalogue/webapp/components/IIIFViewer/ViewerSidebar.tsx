@@ -185,6 +185,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <WorkLink id={work.id} source="viewer_back_link">
             <a
+              data-gtm-trigger="catalogue_details"
               className={font('intr', 5)}
               style={{ display: 'flex', alignItems: 'center' }}
             >
