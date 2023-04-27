@@ -165,7 +165,7 @@ type Production = {
 };
 
 type Language = {
-  id?: string;
+  id: string;
   label: string;
   type: 'Language';
 };
