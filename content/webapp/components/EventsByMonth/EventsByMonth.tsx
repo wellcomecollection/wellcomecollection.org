@@ -52,7 +52,6 @@ class EventsByMonth extends Component<Props, State> {
                   id="monthControls"
                   activeId={groups[0]?.id}
                   items={groups}
-                  extraClasses="segmented-control__list--inline"
                   onActiveIdChange={id => {
                     this.setState({ activeId: id });
                   }}
