@@ -11,15 +11,7 @@ import {
   stringCodec,
 } from '@weco/common/utils/routes';
 import { LinkProps } from '@weco/common/model/link-props';
-
-const itemPropsSources = [
-  'work',
-  'images_search_result',
-  'viewer/paginator',
-  'manifests_navigation',
-  'search_within_result',
-] as const;
-type ItemPropsSource = (typeof itemPropsSources)[number];
+import { ItemLinkSource } from '@weco/common/data/segment-values';
 
 const emptyItemProps: ItemProps = {
   workId: '',
@@ -53,7 +45,7 @@ const toQuery: (props: ItemProps) => ParsedUrlQuery = props => {
 
 function toLink(
   partialProps: Partial<ItemProps>,
-  source: ItemPropsSource
+  source: ItemLinkSource
 ): LinkProps {
   const props: ItemProps = {
     ...emptyItemProps,
@@ -73,7 +65,7 @@ function toLink(
   };
 }
 
-type Props = LinkFrom<ItemProps> & { source: ItemPropsSource };
+type Props = LinkFrom<ItemProps> & { source: ItemLinkSource };
 
 const ItemLink: FunctionComponent<Props> = ({
   children,

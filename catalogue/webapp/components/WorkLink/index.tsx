@@ -1,13 +1,6 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent, PropsWithChildren } from 'react';
-
-type WorkLinkSource =
-  | 'works_search_result'
-  | 'images_search_result'
-  | 'item_auth_modal_back_to_work_link'
-  | 'archive_tree'
-  | 'viewer_back_link'
-  | 'viewer_credit';
+import { WorkLinkSource } from '@weco/common/data/segment-values';
 
 // We remove `href` and `as` because we contruct those ourselves
 // in the component.

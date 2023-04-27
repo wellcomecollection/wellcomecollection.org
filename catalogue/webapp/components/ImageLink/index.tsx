@@ -10,9 +10,7 @@ import {
   stringCodec,
 } from '@weco/common/utils/routes';
 import { LinkProps } from '@weco/common/model/link-props';
-
-const imagePropsSources = ['images_search_result', 'viewer/paginator'] as const;
-type ImagePropsSource = (typeof imagePropsSources)[number];
+import { ImageLinkSource } from '@weco/common/data/segment-values';
 
 const emptyImageProps: ImageProps = {
   id: '',
@@ -38,7 +36,7 @@ const toQuery: (props: ImageProps) => ParsedUrlQuery = props => {
 
 function toLink(
   partialProps: Partial<ImageProps>,
-  source: ImagePropsSource
+  source: ImageLinkSource
 ): LinkProps {
   const props: ImageProps = {
     ...emptyImageProps,
@@ -48,7 +46,7 @@ function toLink(
 
   return {
     href: {
-      pathname: `/works/[workId]/images`,
+      pathname: '/works/[workId]/images',
       query: {
         workId: props.workId,
         ...query,
@@ -64,7 +62,7 @@ function toLink(
   };
 }
 
-type Props = LinkFrom<ImageProps> & { source: ImagePropsSource };
+type Props = LinkFrom<ImageProps> & { source: ImageLinkSource };
 
 const ImageLink: FunctionComponent<Props> = ({
   children,

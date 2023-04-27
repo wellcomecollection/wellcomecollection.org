@@ -169,7 +169,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
       <CataloguePageLayout
         title={title}
         description={work.description || title}
-        url={{ pathname: `/works/${work.id}`, query: {} }}
+        url={{ pathname: `/works/${work.id}` }}
         openGraphType="website"
         jsonLd={workLd(work)}
         siteSection="collections"
