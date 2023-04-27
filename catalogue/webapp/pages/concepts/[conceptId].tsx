@@ -18,9 +18,6 @@ import { formatNumber } from '@weco/common/utils/grammar';
 
 // Components
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
-import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
-import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 // Types
@@ -38,7 +35,7 @@ import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Pageview } from '@weco/common/services/conversion/track';
-import theme from '@weco/common/views/themes/default';
+import { ImagesTabPanel, WorksTabPanel } from './TabPanels';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = {
   type: 'ResultList',
@@ -142,70 +139,6 @@ const ConceptWorksHeader = styled(Space).attrs({
     theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};};
 `;
 
-type SeeMoreButtonType = {
-  text: string;
-  link: LinkProps;
-  totalResults: number;
-};
-
-const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
-  <MoreLink
-    name={`${text} (${formatNumber(totalResults, {
-      isCompact: true,
-    })})`}
-    url={link}
-    colors={theme.buttonColors.yellowYellowBlack}
-    hoverUnderline
-  />
-);
-
-type WorksTabPanelType = {
-  id: string;
-  link: LinkProps;
-  results: CatalogueResultsList<WorkType>;
-};
-
-const WorksTabPanel = ({ id, link, results }: WorksTabPanelType) => {
-  return (
-    <div className="container">
-      <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
-        <WorksSearchResults works={results.results} />
-        <Space v={{ size: 'l', properties: ['padding-top'] }}>
-          <SeeMoreButton
-            text="All works"
-            totalResults={results.totalResults}
-            link={link}
-          />
-        </Space>
-      </div>
-    </div>
-  );
-};
-
-type ImagesTabPanelType = {
-  id: string;
-  link: LinkProps;
-  results: CatalogueResultsList<ImageType>;
-};
-
-const ImagesTabPanel = ({ id, link, results }: ImagesTabPanelType) => {
-  return (
-    <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
-      <ImageEndpointSearchResults images={results.results} />
-      <SeeMoreButton
-        text="All images"
-        totalResults={results.totalResults}
-        link={link}
-      />
-    </div>
-  );
-};
-
-type TagLabelType = {
-  text: string;
-  totalResults: number;
-};
-
 const withSelectedStatus = (selectedTab: string, tabDefinition) => {
   tabDefinition.selected = selectedTab === tabDefinition.id;
   return tabDefinition;
@@ -228,6 +161,11 @@ const currentTabPanel = (selectedTab: string, tabDefinitions) => {
   throw new Error(
     `Unexpected selected tab ${selectedTab} not found in ${tabDefinitions}`
   );
+};
+
+type TagLabelType = {
+  text: string;
+  totalResults: number;
 };
 
 const TabLabel = ({ text, totalResults }: TagLabelType) => (
