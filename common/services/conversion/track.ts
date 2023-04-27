@@ -3,12 +3,14 @@ import cookies from '@weco/common/data/cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
+import { PageviewName } from '@weco/common/data/segment-values';
 declare global {
   interface Window {
     // Segment.io requires `analytics: any;`
     // https://ashokraju.medium.com/using-segment-io-analytics-js-with-single-page-react-typescript-app-a8c12b4816c4
     // eslint-disable-next-line
     analytics: any;
+    // eslint-disable-next-line
     dataLayer: Record<string, any>[] | undefined;
   }
 }
@@ -43,27 +45,8 @@ type EventProps = {
   eventGroup?: EventGroup;
 };
 
-// The pageview values are used for monthly/quarterly reporting.
-//
-// This type is an attempt to describe the expectations of those reporting tools;
-// to enforce our "analytics contract" in code.  It isn't set in stone, but it's
-// meant to flag to developers if they make unplanned or unexpected changes --
-// hopefully this will lead to more intentional changes.
-//
-// If you want to change this type, check with our digital analyst (currently Tacey)
-// before you do -- so the change can be coordinated with their reports.
 export type Pageview = {
-  name:
-    | 'concept'
-    | 'event'
-    | 'exhibition'
-    | 'image'
-    | 'images'
-    | 'item'
-    | 'search'
-    | 'story'
-    | 'work'
-    | 'works';
+  name: PageviewName;
   properties: Record<string, string[] | number[] | string | number | undefined>;
   eventGroup?: EventGroup;
 };
