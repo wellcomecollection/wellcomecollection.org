@@ -35,7 +35,7 @@ const conceptIds = {
 
   // A Genre chosen because it has works and images both about and using the technique
   Songs: 'cfxnfvnc',
-  // A Genre with both works and images using it.
+  // A Genre with both works and images using it, but nothing about it.
   Lithographs: 'fmydsuw2',
 };
 

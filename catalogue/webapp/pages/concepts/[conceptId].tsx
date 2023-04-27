@@ -11,8 +11,12 @@ import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogu
 import { getConcept } from '@weco/catalogue/services/wellcome/catalogue/concepts';
 import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+
 import { toLink as toImagesLink } from '@weco/catalogue/components/ImagesLink';
 import { toLink as toWorksLink } from '@weco/catalogue/components/WorksLink';
+import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { formatNumber } from '@weco/common/utils/grammar';
 
@@ -21,11 +25,11 @@ import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 // Types
-import { IdentifierType } from '@weco/common/model/catalogue';
 import {
   CatalogueResultsList,
   Concept as ConceptType,
   Image as ImageType,
+  ResultType,
   Work as WorkType,
 } from '@weco/catalogue/services/wellcome/catalogue/types';
 
@@ -35,7 +39,13 @@ import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { ImagesTabPanel, WorksTabPanel } from './components/TabPanels';
+import theme from '@weco/common/views/themes/default';
+import {
+  allRecordsLinkParams,
+  conceptTypeDisplayName,
+  getDisplayIdentifierType,
+  queryParams,
+} from '@weco/catalogue/utils/concepts';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = {
   type: 'ResultList',
@@ -60,38 +70,6 @@ const emptyWorkResults: CatalogueResultsList<WorkType> = {
 };
 
 const tabOrder = ['by', 'in', 'about'];
-// Definition of the fields used to populate each section
-// of the page, and to define the link to the "all" searches.
-// Currently, only genres use the id to filter
-// the corresponding works.  As we make the identifiers available
-// for the other queries, they can be changed here.
-// In keeping with our API faceting principles, only the filters that
-// do not operate on the id have the full path to the attribute.
-const queryKeys = {
-  worksAbout: { filter: 'subjects.label', fields: ['label'] },
-  worksBy: { filter: 'contributors.agent.label', fields: ['label'] },
-  worksIn: { filter: 'genres.label', fields: ['label'] },
-  imagesAbout: { filter: 'source.subjects.label', fields: ['label'] },
-  imagesBy: { filter: 'source.contributors.agent.label', fields: ['label'] },
-  imagesIn: { filter: 'source.genres.label', fields: ['label'] },
-};
-
-const gatherValues = (conceptResponse, fields) => {
-  return fields.reduce(
-    (acc, current) => acc.concat(conceptResponse[current]),
-    []
-  );
-};
-
-const queryParams = (sectionName: string, conceptResponse: ConceptType) => {
-  const queryDefinition = queryKeys[sectionName];
-  return {
-    [queryDefinition.filter]: gatherValues(
-      conceptResponse,
-      queryDefinition.fields
-    ),
-  };
-};
 
 const linkSources = new Map([
   ['worksAbout', 'concept/works_about'],
@@ -144,13 +122,10 @@ const withSelectedStatus = (selectedTab: string, tabDefinition) => {
   return tabDefinition;
 };
 
-const conceptTypeDisplayName = (conceptResponse: ConceptType) => {
-  return conceptResponse.type === 'Genre'
-    ? 'Type/Technique'
-    : conceptResponse.type;
-};
-
-const currentTabPanel = (selectedTab: string, tabDefinitions) => {
+function currentTabPanel<T extends ResultType>(
+  selectedTab: string,
+  tabDefinitions: PageSectionDefinition<T>[]
+) {
   if (tabDefinitions.length === 1) return tabDefinitions[0].panel;
 
   for (const definition in tabDefinitions) {
@@ -161,8 +136,24 @@ const currentTabPanel = (selectedTab: string, tabDefinitions) => {
   throw new Error(
     `Unexpected selected tab ${selectedTab} not found in ${tabDefinitions}`
   );
+}
+
+type SeeMoreButtonType = {
+  text: string;
+  link: LinkProps;
+  totalResults: number;
 };
 
+const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
+  <MoreLink
+    name={`${text} (${formatNumber(totalResults, {
+      isCompact: true,
+    })})`}
+    url={link}
+    colors={theme.buttonColors.yellowYellowBlack}
+    hoverUnderline
+  />
+);
 type TagLabelType = {
   text: string;
   totalResults: number;
@@ -174,8 +165,50 @@ const TabLabel = ({ text, totalResults }: TagLabelType) => (
   </>
 );
 
+type ImagesTabPanelType = {
+  id: string;
+  link: LinkProps;
+  results: CatalogueResultsList<ImageType>;
+};
+const ImagesTabPanel = ({ id, link, results }: ImagesTabPanelType) => {
+  return (
+    <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
+      <ImageEndpointSearchResults images={results.results} />
+      <Space v={{ size: 'm', properties: ['margin-top'] }}>
+        <SeeMoreButton
+          text="All images"
+          totalResults={results.totalResults}
+          link={link}
+        />
+      </Space>
+    </div>
+  );
+};
+
+type WorksTabPanelType = {
+  id: string;
+  link: LinkProps;
+  results: CatalogueResultsList<WorkType>;
+};
+const WorksTabPanel = ({ id, link, results }: WorksTabPanelType) => {
+  return (
+    <div className="container">
+      <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
+        <WorksSearchResults works={results.results} />
+        <Space v={{ size: 'l', properties: ['padding-top'] }}>
+          <SeeMoreButton
+            text="All works"
+            totalResults={results.totalResults}
+            link={link}
+          />
+        </Space>
+      </div>
+    </div>
+  );
+};
+
 // Represents the data for a single tab/tab panel combination.
-type PageSectionDefinition = {
+type PageSectionDefinition<T extends ResultType> = {
   id: string;
   tab: {
     id: string;
@@ -184,16 +217,16 @@ type PageSectionDefinition = {
   panel: {
     id: string;
     link: LinkProps;
-    results: CatalogueResultsList<WorkType | ImageType>;
+    results: CatalogueResultsList<T>;
   };
 };
 
-const toPageSectionDefinition = (
+function toPageSectionDefinition<T extends ResultType>(
   tabId: string,
-  resultsGroup: CatalogueResultsList<WorkType | ImageType> | undefined,
+  resultsGroup: CatalogueResultsList<T> | undefined,
   tabLabelText: string,
   link: LinkProps
-): PageSectionDefinition | undefined => {
+): PageSectionDefinition<T> | undefined {
   return resultsGroup?.totalResults
     ? {
         id: tabId,
@@ -207,7 +240,7 @@ const toPageSectionDefinition = (
         panel: { id: tabId, link: link, results: resultsGroup },
       }
     : undefined;
-};
+}
 
 type SectionData = {
   label: string;
@@ -240,20 +273,23 @@ export const ConceptPage: NextPage<Props> = ({
           .charAt(0)
           .toUpperCase()}${relationship.slice(1)}`;
 
-        return toPageSectionDefinition(
+        return toPageSectionDefinition<WorkType>(
           tabId,
           sectionsData[relationship].works,
           sectionsData[relationship].label,
-          toWorksLink(queryParams(tabId, conceptResponse), linkSources[tabId])
+          toWorksLink(
+            allRecordsLinkParams(tabId, conceptResponse),
+            linkSources[tabId]
+          )
         );
       }
     })
-    .filter(e => !!e);
+    .filter(e => !!e) as PageSectionDefinition<WorkType>[];
 
   const hasWorks = worksTabs.length > 0;
   const hasWorksTabs = worksTabs.length > 1;
 
-  const imagesTabs = tabOrder
+  const imagesTabs: PageSectionDefinition<ImageType>[] = tabOrder
     .map(relationship => {
       if (sectionsData[relationship].images?.totalResults) {
         const tabId = `images${relationship
@@ -263,11 +299,14 @@ export const ConceptPage: NextPage<Props> = ({
           tabId,
           sectionsData[relationship].images,
           sectionsData[relationship].label,
-          toImagesLink(queryParams(tabId, conceptResponse), linkSources[tabId])
+          toImagesLink(
+            allRecordsLinkParams(tabId, conceptResponse),
+            linkSources[tabId]
+          )
         );
       }
     })
-    .filter(e => !!e);
+    .filter(e => !!e) as PageSectionDefinition<ImageType>[];
 
   const hasImages = imagesTabs.length > 0;
   const hasImagesTabs = imagesTabs.length > 1;
@@ -328,10 +367,8 @@ export const ConceptPage: NextPage<Props> = ({
                 id="images"
                 selectedTab={selectedImagesTab}
                 variant="white"
-                items={imagesTabs.map(
-                  tabData =>
-                    tabData &&
-                    withSelectedStatus(selectedImagesTab, tabData.tab)
+                items={imagesTabs.map(tabData =>
+                  withSelectedStatus(selectedImagesTab, tabData.tab)
                 )}
                 setSelectedTab={setSelectedImagesTab}
               />
@@ -356,10 +393,8 @@ export const ConceptPage: NextPage<Props> = ({
                 <TabNav
                   id="works"
                   selectedTab={selectedWorksTab}
-                  items={worksTabs.map(
-                    tabData =>
-                      tabData &&
-                      withSelectedStatus(selectedWorksTab, tabData.tab)
+                  items={worksTabs.map(tabData =>
+                    withSelectedStatus(selectedWorksTab, tabData.tab)
                   )}
                   setSelectedTab={setSelectedWorksTab}
                 />
@@ -381,19 +416,6 @@ export const ConceptPage: NextPage<Props> = ({
     </CataloguePageLayout>
   );
 };
-
-function getDisplayIdentifierType(identifierType: IdentifierType): string {
-  switch (identifierType.id) {
-    case 'lc-names':
-      return 'LC Names';
-    case 'lc-subjects':
-      return 'LCSH';
-    case 'nlm-mesh':
-      return 'MeSH';
-    default:
-      return identifierType.label;
-  }
-}
 
 function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;
