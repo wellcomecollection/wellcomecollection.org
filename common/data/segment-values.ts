@@ -71,5 +71,6 @@ export type WorksLinkSource =
   | 'work_details/genres'
   | 'work_details/subjects'
   | 'work_details/partOf'
+  | 'work_details/languages'
   | Prefix<'cancel_filter/'>
   | 'unknown';
