@@ -1,22 +1,20 @@
 import { font } from '@weco/common/utils/classnames';
-import { ColorSelection } from '../../types/color-selections';
 import Number from '@weco/common/views/components/Number/Number';
-import { FunctionComponent, ReactElement } from 'react';
+import { ComponentPropsWithoutRef, FunctionComponent } from 'react';
 
-type Props = {
-  number: number;
-  backgroundColor?: ColorSelection;
+type NumberProps = ComponentPropsWithoutRef<typeof Number>;
+
+type Props = NumberProps & {
   description?: 'Part' | 'Episode';
 };
 
 const PartNumberIndicator: FunctionComponent<Props> = ({
-  number,
-  backgroundColor,
   description = 'Part',
-}: Props): ReactElement<Props> => (
+  ...numberProps
+}) => (
   <div className={font('wb', 5)}>
     {description}
-    <Number backgroundColor={backgroundColor} number={number} />
+    <Number {...numberProps} />
   </div>
 );
 
