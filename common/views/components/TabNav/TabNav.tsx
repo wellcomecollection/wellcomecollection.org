@@ -9,6 +9,29 @@ import {
 import { trackGaEvent } from '@weco/common/utils/ga';
 import { Wrapper, TabsContainer, Tab, NavItemInner } from './TabNav.styles';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import { trackSegmentEvent } from '@weco/common/services/conversion/track';
+
+type SendEventProps = {
+  id: string;
+  trackWithSegment: boolean;
+};
+
+function sendEvent({ id, trackWithSegment }: SendEventProps) {
+  trackGaEvent({
+    category: 'TabNav',
+    action: 'Tab clicked',
+    label: id,
+  });
+  if (trackWithSegment) {
+    trackSegmentEvent({
+      name: 'Click tab nav',
+      eventGroup: 'conversion',
+      properties: {
+        tabId: id,
+      },
+    });
+  }
+}
 
 type SelectableTextLink = {
   id: string;
@@ -23,6 +46,7 @@ type Props = {
   setSelectedTab: Dispatch<SetStateAction<string>>;
   variant?: 'yellow' | 'white';
   hasDivider?: boolean;
+  trackWithSegment?: boolean;
 };
 
 const TabNav: FunctionComponent<Props> = ({
@@ -32,6 +56,7 @@ const TabNav: FunctionComponent<Props> = ({
   setSelectedTab,
   variant,
   hasDivider,
+  trackWithSegment = false,
 }: Props) => {
   const tabListRef = useRef<HTMLDivElement>(null);
 
@@ -42,14 +67,6 @@ const TabNav: FunctionComponent<Props> = ({
 
     element?.focus();
   }
-
-  const sendEvent = (id: string) => {
-    trackGaEvent({
-      category: 'TabNav',
-      action: 'Tab clicked',
-      label: id,
-    });
-  };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     const LEFT = [37, 'ArrowLeft'];
@@ -72,25 +89,25 @@ const TabNav: FunctionComponent<Props> = ({
     if (LEFT.includes(key)) {
       setSelectedTab(items[prevIndex].id);
       focusTabAtIndex(prevIndex);
-      sendEvent(items[prevIndex].id);
+      sendEvent({ id: items[prevIndex].id, trackWithSegment });
     }
 
     if (RIGHT.includes(key)) {
       setSelectedTab(items[nextIndex].id);
       focusTabAtIndex(nextIndex);
-      sendEvent(items[nextIndex].id);
+      sendEvent({ id: items[nextIndex].id, trackWithSegment });
     }
 
     if (HOME.includes(key)) {
       setSelectedTab(items[0].id);
       focusTabAtIndex(0);
-      sendEvent(items[0].id);
+      sendEvent({ id: items[0].id, trackWithSegment });
     }
 
     if (END.includes(key)) {
       setSelectedTab(items[items.length - 1].id);
       focusTabAtIndex(items.length - 1);
-      sendEvent(items[items.length - 1].id);
+      sendEvent({ id: items[items.length - 1].id, trackWithSegment });
     }
   };
 
@@ -119,7 +136,7 @@ const TabNav: FunctionComponent<Props> = ({
 
                 setSelectedTab(item.id);
 
-                sendEvent(item.id);
+                sendEvent({ id: item.id, trackWithSegment });
               }
             }}
             onKeyDown={handleKeyDown}

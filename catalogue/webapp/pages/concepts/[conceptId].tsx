@@ -196,6 +196,7 @@ export const ConceptPage: NextPage<Props> = ({
                   },
                 ]}
                 setSelectedTab={setSelectedImagesTab}
+                trackWithSegment={true}
               />
             )}
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
@@ -277,6 +278,7 @@ export const ConceptPage: NextPage<Props> = ({
                     },
                   ]}
                   setSelectedTab={setSelectedWorksTab}
+                  trackWithSegment={true}
                 />
               )}
             </div>
