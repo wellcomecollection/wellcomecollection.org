@@ -664,7 +664,7 @@ const WorkDetails: FunctionComponent<Props> = ({
 
         {work.languages.length > 0 && (
           <WorkDetailsTags
-            title="Languages workslink"
+            title="Languages"
             tags={work.languages.map(lang => {
               return {
                 textParts: [lang.label],
