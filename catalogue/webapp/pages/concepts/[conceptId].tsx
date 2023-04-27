@@ -35,7 +35,7 @@ import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { ImagesTabPanel, WorksTabPanel } from './TabPanels';
+import { ImagesTabPanel, WorksTabPanel } from './components/TabPanels';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = {
   type: 'ResultList',
