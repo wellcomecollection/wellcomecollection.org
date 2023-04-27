@@ -1,4 +1,10 @@
-import { Fragment, FunctionComponent, useState, useEffect } from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -8,6 +14,8 @@ import Space from '../styled/Space';
 import styled from 'styled-components';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Period } from '@weco/content/types/periods';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+
 type IsActiveProps = {
   isActive: boolean;
 };
@@ -35,18 +43,16 @@ const DrawerItem = styled(Space).attrs({
 
 const List = styled(PlainList).attrs({
   className: 'rounded-diagonal',
-})`
+})<{ isEnhanced: boolean }>`
   border: 1px solid ${props => props.theme.color('black')};
   overflow: hidden;
-  display: flex;
+  display: ${props => (props.isEnhanced ? 'none' : 'flex')};
 
-  .enhanced & {
-    display: none;
-
-    ${props => props.theme.media('medium')`
-        display: flex;
-      `}
-  }
+  ${props =>
+    props.isEnhanced &&
+    props.theme.media('medium')`
+      display: flex;
+  `}
 `;
 
 type ItemProps = {
@@ -165,18 +171,14 @@ const SegmentedControl: FunctionComponent<Props> = ({
   const [activeIdInternal, setActiveIdInternal] = useState<Period | undefined>(
     activeId || items?.[0].id
   );
+  const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(false);
-  const [isEnhanced, setIsEnhanced] = useState(false);
 
   useEffect(() => {
     if (onActiveIdChange) {
       onActiveIdChange(id);
     }
   }, [activeIdInternal]);
-
-  useEffect(() => {
-    setIsEnhanced(true);
-  }, []);
 
   return (
     <div>
@@ -236,7 +238,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
           </MobileControlsModal>
         </Drawer>
       )}
-      <List>
+      <List isEnhanced={isEnhanced}>
         {items.map((item, i) => (
           <Item key={item.id} isLast={i === items.length - 1}>
             <ItemInner
