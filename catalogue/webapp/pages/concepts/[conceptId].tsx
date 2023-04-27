@@ -122,10 +122,14 @@ const withSelectedStatus = (selectedTab: string, tabDefinition) => {
   return tabDefinition;
 };
 
+// tabDefinitions is an ordered list of the image or works tabs in a page.
+// (hence not just having an object and doing a [selectedTab] lookup)
+// Return the currently selected one.
 function currentTabPanel<T extends ResultType>(
   selectedTab: string,
   tabDefinitions: PageSectionDefinition<T>[]
 ) {
+  // When only one tab exists, there is no selection going on, just return it.
   if (tabDefinitions.length === 1) return tabDefinitions[0].panel;
 
   for (const definition in tabDefinitions) {
@@ -154,6 +158,7 @@ const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
     hoverUnderline
   />
 );
+
 type TagLabelType = {
   text: string;
   totalResults: number;
