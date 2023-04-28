@@ -8,7 +8,6 @@ import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNo
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
-import NewStoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid.New';
 import Space from '@weco/common/views/components/styled/Space';
 
 // Utils & Helpers
@@ -22,17 +21,12 @@ import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
 
 // Types
-import {
-  PrismicResultsList,
-  Story,
-} from '@weco/catalogue/services/prismic/types';
 import { Query } from '@weco/catalogue/types/search';
 import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
 import { ContentResultsList } from '@weco/catalogue/services/wellcome/content/types';
 
 type Props = {
-  storyResponseList?: PrismicResultsList<Story>;
-  newStoryResponseList?: ContentResultsList<Content>;
+  storyResponseList?: ContentResultsList<Content>;
   query: Query;
   pageview: Pageview;
 };
@@ -54,11 +48,9 @@ const SortPaginationWrapper = styled.div`
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
-  newStoryResponseList,
   query,
 }) => {
   const { query: queryString } = query;
-  const returnedStories = storyResponseList || newStoryResponseList;
 
   const sortOptions = [
     // Default value to be left empty as to not be reflected in URL query
@@ -78,16 +70,18 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
   return (
     <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
-      {returnedStories && (
+      {storyResponseList && (
         <>
-          {returnedStories?.totalResults === 0 ? (
+          {storyResponseList.totalResults === 0 ? (
             <div className="container">
               <SearchNoResults query={queryString} />
             </div>
           ) : (
             <div className="container">
               <PaginationWrapper verticalSpacing="l">
-                <span>{pluralize(returnedStories.totalResults, 'result')}</span>
+                <span>
+                  {pluralize(storyResponseList.totalResults, 'result')}
+                </span>
 
                 <SortPaginationWrapper>
                   <Sort
@@ -115,7 +109,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                     }}
                   />
                   <Pagination
-                    totalPages={returnedStories.totalPages}
+                    totalPages={storyResponseList.totalPages}
                     ariaLabel="Stories search pagination"
                     isHiddenMobile
                   />
@@ -123,35 +117,21 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               </PaginationWrapper>
 
               <main>
-                {newStoryResponseList && (
-                  <NewStoriesGrid
-                    isDetailed
-                    articles={newStoryResponseList.results}
-                    dynamicImageSizes={{
-                      xlarge: 1 / 5,
-                      large: 1 / 5,
-                      medium: 1 / 5,
-                      small: 1,
-                    }}
-                  />
-                )}
-                {storyResponseList && (
-                  <StoriesGrid
-                    isDetailed
-                    stories={storyResponseList.results}
-                    dynamicImageSizes={{
-                      xlarge: 1 / 5,
-                      large: 1 / 5,
-                      medium: 1 / 5,
-                      small: 1,
-                    }}
-                  />
-                )}
+                <StoriesGrid
+                  isDetailed
+                  articles={storyResponseList.results}
+                  dynamicImageSizes={{
+                    xlarge: 1 / 5,
+                    large: 1 / 5,
+                    medium: 1 / 5,
+                    small: 1,
+                  }}
+                />
               </main>
 
               <PaginationWrapper verticalSpacing="l" alignRight>
                 <Pagination
-                  totalPages={returnedStories.totalPages}
+                  totalPages={storyResponseList.totalPages}
                   ariaLabel="Stories search pagination"
                 />
               </PaginationWrapper>
