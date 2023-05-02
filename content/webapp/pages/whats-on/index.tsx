@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
-import { Period } from '@weco/content/types/periods';
+import { Period, isOfTypePeriod } from '@weco/content/types/periods';
 import { font, grid, cssGrid } from '@weco/common/utils/classnames';
 import {
   getPageFeaturedText,
@@ -315,9 +315,18 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
-  const period = context.query.period
-    ? context.query.period.toString()
-    : 'current-and-coming-up';
+  let period: Period;
+
+  if (context.query.period) {
+    const test = context.query.period.toString();
+    if (isOfTypePeriod(test)) {
+      period = test;
+    } else {
+      return { notFound: true };
+    }
+  } else {
+    period = 'current-and-coming-up';
+  }
 
   const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 

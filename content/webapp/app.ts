@@ -89,7 +89,7 @@ const appPromise = nextApp
 
     pageVanityUrl(router, nextApp, '/', homepageId, '/homepage');
 
-    route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, nextApp);
+    // route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, nextApp);
 
     // We define the vanity URLs as soon as possible, so they can intercept
     // any routes defined further down, e.g. /pages/:id
