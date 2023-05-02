@@ -7,7 +7,7 @@ import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-
+import { Period } from '@weco/content/types/periods';
 type IsActiveProps = {
   isActive: boolean;
 };
@@ -213,14 +213,16 @@ type Props = {
 };
 
 type State = {
-  activeId?: string;
+  activeId?: Period;
   isActive: boolean;
+  isEnhanced: boolean;
 };
 
 class SegmentedControl extends Component<Props, State> {
   state = {
     activeId: undefined,
     isActive: false,
+    isEnhanced: false,
   };
 
   setActiveId(id: string): void {
@@ -234,6 +236,10 @@ class SegmentedControl extends Component<Props, State> {
   }
 
   componentDidMount(): void {
+    this.setState({
+      isEnhanced: true,
+    });
+
     this.setActiveId(
       this.props.activeId || (this.props.items[0] && this.props.items[0].id)
     );
@@ -241,68 +247,70 @@ class SegmentedControl extends Component<Props, State> {
 
   render(): ReactElement {
     const { id, items, extraClasses } = this.props;
-    const { activeId, isActive } = this.state;
+    const { activeId, isActive, isEnhanced } = this.state;
 
     return (
       <Wrapper className={extraClasses} isActive={isActive}>
-        <div className="segmented-control__drawer">
-          <Button>
-            {items
-              .filter(item => item.id === activeId)
-              .map(item => (
-                <Fragment key={item.id}>
-                  <MobileControlsContainer
-                    onClick={() => this.setState({ isActive: true })}
-                  >
-                    <span>{item.text}</span>
-                    <Icon icon={chevron} iconColor="white" />
-                  </MobileControlsContainer>
-                  <span
-                    className="segmented-control__close"
-                    onClick={() => this.setState({ isActive: false })}
-                  >
-                    <span className="visually-hidden">close</span>
-                    <Icon icon={cross} title="Close" />
-                  </span>
-                </Fragment>
-              ))}
-          </Button>
-          <MobileControlsModal id={id}>
-            <Label>See:</Label>
-            <PlainList className="segmented-control__drawer-list">
-              {items.map((item, i) => (
-                <DrawerItem isFirst={i === 0} key={item.id}>
-                  <PlainLink
-                    onClick={e => {
-                      const url = e.currentTarget.href;
-                      const isHash = url.startsWith('#');
+        {isEnhanced && (
+          <div className="segmented-control__drawer">
+            <Button>
+              {items
+                .filter(item => item.id === activeId)
+                .map(item => (
+                  <Fragment key={item.id}>
+                    <MobileControlsContainer
+                      onClick={() => this.setState({ isActive: true })}
+                    >
+                      <span>{item.text}</span>
+                      <Icon icon={chevron} iconColor="white" />
+                    </MobileControlsContainer>
+                    <span
+                      className="segmented-control__close"
+                      onClick={() => this.setState({ isActive: false })}
+                    >
+                      <span className="visually-hidden">close</span>
+                      <Icon icon={cross} title="Close" />
+                    </span>
+                  </Fragment>
+                ))}
+            </Button>
+            <MobileControlsModal id={id}>
+              <Label>See:</Label>
+              <PlainList className="segmented-control__drawer-list">
+                {items.map((item, i) => (
+                  <DrawerItem isFirst={i === 0} key={item.id}>
+                    <PlainLink
+                      onClick={e => {
+                        const url = e.currentTarget.href;
+                        const isHash = url.startsWith('#');
 
-                      trackGaEvent({
-                        category: 'SegmentedControl',
-                        action: 'select segment',
-                        label: item.text,
-                      });
+                        trackGaEvent({
+                          category: 'SegmentedControl',
+                          action: 'select segment',
+                          label: item.text,
+                        });
 
-                      this.setActiveId(item.id);
-                      this.setState({
-                        isActive: false,
-                      });
+                        this.setActiveId(item.id);
+                        this.setState({
+                          isActive: false,
+                        });
 
-                      // Assume we want to
-                      if (isHash) {
-                        e.preventDefault();
-                        return false;
-                      }
-                    }}
-                    href={item.url}
-                  >
-                    {item.text}
-                  </PlainLink>
-                </DrawerItem>
-              ))}
-            </PlainList>
-          </MobileControlsModal>
-        </div>
+                        // Assume we want to
+                        if (isHash) {
+                          e.preventDefault();
+                          return false;
+                        }
+                      }}
+                      href={item.url}
+                    >
+                      {item.text}
+                    </PlainLink>
+                  </DrawerItem>
+                ))}
+              </PlainList>
+            </MobileControlsModal>
+          </div>
+        )}
         <List>
           {items.map((item, i) => (
             <Item key={item.id} isLast={i === items.length - 1}>
