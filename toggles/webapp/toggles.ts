@@ -59,15 +59,7 @@ const toggles = {
         "Has stories search use the Content API instead of Prismic's API.",
     },
   ] as const,
-  tests: [
-    {
-      id: 'comicTest1',
-      title:
-        'A/B test linking to series pages or individual comics from last three series',
-      range: [0, 99],
-      when: () => true,
-    },
-  ] as ABTest[],
+  tests: [] as ABTest[],
 };
 
 export default toggles;
