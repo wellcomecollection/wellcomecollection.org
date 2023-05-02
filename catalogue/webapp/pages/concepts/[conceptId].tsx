@@ -274,9 +274,7 @@ export const ConceptPage: NextPage<Props> = ({
   const worksTabs = tabOrder
     .map(relationship => {
       if (sectionsData[relationship].works?.totalResults) {
-        const tabId = `works${relationship
-          .charAt(0)
-          .toUpperCase()}${relationship.slice(1)}`;
+        const tabId = `works${capitalize(relationship)}`;
 
         return toPageSectionDefinition<WorkType>(
           tabId,
