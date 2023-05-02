@@ -33,7 +33,7 @@ const Template = ({ items, variant, ...rest }) => {
             items: itemsSelector,
             selectedTab: 'all',
             variant,
-            setSelectedTab: setSelectedTab,
+            setSelectedTab,
             ...rest,
           }}
           Readme={Readme}

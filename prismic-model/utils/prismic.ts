@@ -1,4 +1,4 @@
-import { setEnvsFromSecrets } from '@weco/ts-aws/secrets-manager';
+import { setEnvsFromSecrets } from '@weco/ts-aws';
 import { CustomType } from '../src/types/CustomType';
 import { secrets } from '../config';
 import fetch from 'node-fetch';

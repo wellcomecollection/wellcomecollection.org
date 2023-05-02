@@ -86,7 +86,6 @@ const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
   border: ${({ darkBg, theme }) =>
       theme.color(darkBg ? 'neutral.300' : 'neutral.600')}
     1px solid;
-  border-radius: 5px;
   text-align: center;
   margin: 0 10px;
 `;
@@ -123,8 +122,8 @@ export const Pagination: FunctionComponent<Props> = ({
     }
   }, [query.page]);
 
-  const showPrev = currentPage > 1;
-  const showNext = currentPage < totalPages;
+  const showPrev = pageNumber > 1;
+  const showNext = pageNumber < totalPages;
 
   return (
     <Container
@@ -157,7 +156,8 @@ export const Pagination: FunctionComponent<Props> = ({
             name="page"
             form="search-page-form"
             aria-labelledby="searchInputLabel"
-            defaultValue={currentPage}
+            value={currentPage}
+            onChange={e => setCurrentPage(Number(e.target.value))}
             darkBg={hasDarkBg}
           />
           <span aria-hidden>/ {formatNumber(totalPages)}</span>

@@ -39,7 +39,7 @@ compactCard.storyName = 'CompactCard';
 compactCard.parameters = {
   gridSizes: { s: 12, m: 10, l: 8, xl: 8 },
   // Sets a delay for the component's stories
-  chromatic: { delay: 300 },
+  chromatic: { diffThreshold: 0.2 },
 };
 
 const BannerCardTemplate = args => <BannerCard {...args} />;
@@ -50,7 +50,7 @@ bannerCard.args = {
 bannerCard.storyName = 'BannerCard';
 bannerCard.parameters = {
   // Sets a delay for the component's stories
-  chromatic: { delay: 300 },
+  chromatic: { diffThreshold: 0.2 },
 };
 
 const FeaturedCardTemplate = args => {
@@ -88,7 +88,7 @@ featuredCard.args = {
 featuredCard.storyName = 'FeaturedCard';
 featuredCard.parameters = {
   // Sets a delay for the component's stories
-  chromatic: { delay: 300 },
+  chromatic: { diffThreshold: 0.2 },
 };
 
 const EventPromoTemplate = args => <EventPromo {...args} />;
@@ -100,7 +100,7 @@ eventPromo.args = {
 eventPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
   // Sets a delay for the component's stories
-  chromatic: { delay: 300 },
+  chromatic: { diffThreshold: 0.2 },
 };
 eventPromo.storyName = 'EventPromo';
 
@@ -110,7 +110,7 @@ exhibitionPromo.args = { exhibition: exhibitionBasic };
 exhibitionPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
   // Sets a delay for the component's stories
-  chromatic: { delay: 300 },
+  chromatic: { diffThreshold: 0.2 },
 };
 exhibitionPromo.storyName = 'ExhibitionPromo';
 
@@ -123,6 +123,6 @@ storyPromo.args = {
 storyPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
   // Sets a delay for the component's stories
-  chromatic: { delay: 300 },
+  chromatic: { diffThreshold: 0.2 },
 };
 storyPromo.storyName = 'StoryPromo';

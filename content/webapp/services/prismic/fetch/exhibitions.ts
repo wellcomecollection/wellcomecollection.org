@@ -12,7 +12,7 @@ import {
   exhibitionResourcesFields,
 } from '../fetch-links';
 import { Period } from '../../../types/periods';
-import { getPeriodPredicates } from '../types/predicates';
+import { getExhibitionPeriodPredicates } from '../types/predicates';
 import {
   Exhibition,
   ExhibitionRelatedContent,
@@ -106,7 +106,7 @@ export const fetchExhibitions = (
   ];
 
   const periodPredicates = period
-    ? getPeriodPredicates({ period, startField, endField })
+    ? getExhibitionPeriodPredicates({ period, startField, endField })
     : [];
 
   return exhibitionsFetcher.getByType(client, {

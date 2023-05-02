@@ -1,4 +1,4 @@
-import { getCreds } from '@weco/ts-aws/sts';
+import { getCreds } from '@weco/ts-aws';
 import { error, success } from './console';
 import { isCi } from './config';
 import { diffString } from 'json-diff';
@@ -25,8 +25,9 @@ export default async function diffContentTypes(
         printDelta(id, delta);
         return { id };
       }
+      return null;
     })
-    .filter(Boolean);
+    .filter(d => d);
 
   if (deltas.length > 0) {
     error(`Diffs found on ${deltas.map(delta => delta.id).join(', ')}`);

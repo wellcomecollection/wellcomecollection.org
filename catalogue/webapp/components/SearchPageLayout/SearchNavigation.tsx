@@ -78,6 +78,11 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
       ? getUrlQueryFromSortValue(sortOptionValue)
       : undefined;
 
+    // now to strip the page number if page is not what has changed
+    if (formValues.page === router.query.page) {
+      delete formValues.page;
+    }
+
     const link = linkResolver({
       params: {
         ...formValues,
@@ -110,7 +115,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
         }}
       >
         <h1 className="visually-hidden">
-          ${capitalize(currentSearchCategory)} search
+          {capitalize(currentSearchCategory)} search
         </h1>
 
         <SearchBarContainer

@@ -1,10 +1,8 @@
-import Router from 'next/router';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { FunctionComponent, useEffect, useState, useRef } from 'react';
-import useInterval from '@weco/common/hooks/useInterval';
+import { FunctionComponent } from 'react';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
 import { Video } from '../../services/iiif/types/manifest/v3';
-
+import { useAVTracking } from '@weco/common/hooks/useAVTracking';
 type Props = {
   video: Video;
   showDownloadOptions: boolean;
@@ -14,67 +12,21 @@ const VideoPlayer: FunctionComponent<Props> = ({
   video,
   showDownloadOptions,
 }: Props) => {
-  const [secondsPlayed, setSecondsPlayed] = useState(0);
-  const secondsPlayedRef = useRef(secondsPlayed);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  useEffect(() => {
-    secondsPlayedRef.current = secondsPlayed;
-  }, [secondsPlayed]);
-
-  function trackViewingTime() {
-    trackGaEvent({
-      category: 'Engagement',
-      action: 'Amount of media played',
-      value: secondsPlayedRef.current,
-      nonInteraction: true,
-      transport: 'beacon',
-      label: 'Video',
-    });
-  }
-
-  useEffect(() => {
-    Router.events.on('routeChangeStart', trackViewingTime);
-
-    try {
-      window.addEventListener('beforeunload', trackViewingTime);
-    } catch (error) {
-      trackGaEvent({
-        category: 'Engagement',
-        action: 'unable to track media playing time',
-        nonInteraction: true,
-      });
-    }
-
-    return () => {
-      try {
-        window.removeEventListener('beforeunload', trackViewingTime);
-        Router.events.off('routeChangeStart', trackViewingTime);
-      } catch (error) {}
-    };
-  }, []);
-
-  useInterval(
-    () => {
-      setSecondsPlayed(secondsPlayed + 1);
-    },
-    isPlaying ? 1000 : undefined
-  );
+  const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('video');
 
   return (
     <>
       <video
-        onPlay={() => {
-          setIsPlaying(true);
+        onPlay={event => {
+          trackPlay(event);
           trackGaEvent({
             category: 'Video',
             action: 'play video',
             label: video.id,
           });
         }}
-        onPause={() => {
-          setIsPlaying(false);
-        }}
+        onEnded={trackEnded}
+        onTimeUpdate={trackTimeUpdate}
         controlsList={!showDownloadOptions ? 'nodownload' : undefined}
         controls
         preload="none"

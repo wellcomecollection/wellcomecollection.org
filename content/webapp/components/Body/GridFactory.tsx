@@ -60,7 +60,7 @@ const GridFactory: FunctionComponent<Props> = ({
     default: [s12m6l4xl4],
   };
 
-  const gridSizes = gridSizesMap[items?.length] || gridSizesMap['default'];
+  const gridSizes = gridSizesMap[items?.length] || gridSizesMap.default;
 
   return (
     <div className="container">

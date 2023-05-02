@@ -25,34 +25,35 @@ type Props = {
   jsonLd: JsonLdObj[];
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const page = getPage(context.query);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const page = getPage(context.query);
 
-    if (typeof page !== 'number') {
-      return appError(context, 400, page.message);
-    }
+  if (typeof page !== 'number') {
+    return appError(context, 400, page.message);
+  }
 
-    const client = createClient(context);
-    const articlesQuery = await fetchArticles(client, { page });
+  const client = createClient(context);
+  const articlesQuery = await fetchArticles(client, { page });
 
-    const articles = transformQuery(articlesQuery, transformArticle);
-    const jsonLd = articles.results.map(articleLd);
-    const basicArticles = {
-      ...articles,
-      results: articles.results.map(transformArticleToArticleBasic),
-    };
-
-    const serverData = await getServerData(context);
-
-    return {
-      props: removeUndefinedProps({
-        articles: basicArticles,
-        jsonLd,
-        serverData,
-      }),
-    };
+  const articles = transformQuery(articlesQuery, transformArticle);
+  const jsonLd = articles.results.map(articleLd);
+  const basicArticles = {
+    ...articles,
+    results: articles.results.map(transformArticleToArticleBasic),
   };
+
+  const serverData = await getServerData(context);
+
+  return {
+    props: removeUndefinedProps({
+      articles: basicArticles,
+      jsonLd,
+      serverData,
+    }),
+  };
+};
 
 const ArticlesPage: FunctionComponent<Props> = ({
   articles,

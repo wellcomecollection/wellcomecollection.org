@@ -53,41 +53,42 @@ const ExhibitionPage: FunctionComponent<Props> = ({
   </PageLayout>
 );
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { exhibitionId } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { exhibitionId } = context.query;
 
-    if (!looksLikePrismicId(exhibitionId)) {
-      return { notFound: true };
-    }
+  if (!looksLikePrismicId(exhibitionId)) {
+    return { notFound: true };
+  }
 
-    const client = createClient(context);
-    const { exhibition, pages } = await fetchExhibition(client, exhibitionId);
+  const client = createClient(context);
+  const { exhibition, pages } = await fetchExhibition(client, exhibitionId);
 
-    if (exhibition) {
-      const exhibitionDoc = transformExhibition(exhibition);
-      const relatedPages = transformQuery(pages, transformPage);
-      const jsonLd = exhibitionLd(exhibitionDoc);
+  if (exhibition) {
+    const exhibitionDoc = transformExhibition(exhibition);
+    const relatedPages = transformQuery(pages, transformPage);
+    const jsonLd = exhibitionLd(exhibitionDoc);
 
-      return {
-        props: removeUndefinedProps({
-          exhibition: exhibitionDoc,
-          pages: relatedPages?.results || [],
-          jsonLd,
-          serverData,
-          gaDimensions: {
-            partOf: exhibitionDoc.seasons.map(season => season.id),
-          },
-          pageview: {
-            name: 'exhibition',
-            properties: {},
-          },
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+    return {
+      props: removeUndefinedProps({
+        exhibition: exhibitionDoc,
+        pages: relatedPages?.results || [],
+        jsonLd,
+        serverData,
+        gaDimensions: {
+          partOf: exhibitionDoc.seasons.map(season => season.id),
+        },
+        pageview: {
+          name: 'exhibition',
+          properties: {},
+        },
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 export default ExhibitionPage;

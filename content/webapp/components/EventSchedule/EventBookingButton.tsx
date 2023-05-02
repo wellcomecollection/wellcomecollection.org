@@ -40,6 +40,7 @@ const BookingEnquiryLink: FunctionComponent<Props> = ({ event }) => {
         link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
         icon={email}
         text="Email to book"
+        dataGtmTrigger="click_to_book"
       />
     );
   }

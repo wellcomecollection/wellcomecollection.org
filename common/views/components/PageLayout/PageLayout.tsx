@@ -1,9 +1,9 @@
 import React, { useContext, FunctionComponent, PropsWithChildren } from 'react';
-import { Url } from '../../../model/link-props';
-import { JsonLdObj } from '../JsonLd/JsonLd';
-import Head from 'next/head';
 import Script from 'next/script';
-import convertUrlToString from '../../../utils/convert-url-to-string';
+import Head from 'next/head';
+import { Url } from '@weco/common/model/link-props';
+import { JsonLdObj } from '../JsonLd/JsonLd';
+import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import Header, { NavLink } from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
@@ -11,22 +11,26 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
-import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
-import { collectionVenueId } from '../../../data/hardcoded-ids';
+import {
+  museumLd,
+  libraryLd,
+  openingHoursLd,
+} from '@weco/common/utils/json-ld';
+import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { getVenueById } from '../../../services/prismic/opening-times';
-import { wellcomeCollectionGallery } from '../../../data/organization';
+import { getVenueById } from '@weco/common/services/prismic/opening-times';
+import { wellcomeCollectionGallery } from '@weco/common/data/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import ApiToolbar, { ApiToolbarLink } from '../ApiToolbar';
-import { usePrismicData, useToggles } from '../../../server-data/Context';
+import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import cookies from '@weco/common/data/cookies';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 export type SiteSection =
   | 'collections'
@@ -124,6 +128,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
+  const { isEnhanced } = useContext(AppContext);
 
   // For Twitter cards in particular, we prefer a crop as close to 2:1 as
   // possible.  This avoids an automated crop by Twitter, which may be less
@@ -155,9 +160,8 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   return (
     <>
       <Head>
-        <meta property="next:version" content="13" />
         <title>{fullTitle}</title>
-        <meta name="description" content={description || ''} />
+        <meta name="description" content={description} />
         <link rel="canonical" href={absoluteUrl} />
         {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
         <meta property="og:site_name" content="Wellcome Collection" />
@@ -204,11 +208,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <meta key="twitter:image" name="twitter:image" content={imageUrl} />
         <meta name="twitter:image:alt" content={imageAltText} />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <Script
-          src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
-            ','
-          )}`}
-        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
           rel="apple-touch-icon"
@@ -241,17 +240,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           href="https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg"
           color="#000000"
         />
-        <Script
-          src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
-          async
-        />
-
-        <Script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd),
-          }}
-        />
 
         {rssUrl && (
           <link
@@ -261,21 +249,49 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             type="application/rss+xml"
           />
         )}
-        <Script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              museumLd(wellcomeCollectionGalleryWithHours)
-            ),
-          }}
-        />
-        <Script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),
-          }}
-        />
       </Head>
+
+      {/* Note: these <Script> tags are very deliberately:
+
+          - not <script>
+          - not in the <Head>
+
+          When we put <script> tags in the <Head>, we saw issues with Next.js doubling-up certain
+          elements in the final <head>, e.g. the charset declaration.
+
+          When we put <Script> tags in the <Head>, they didn't appear in the rendered page.
+
+      */}
+
+      <Script
+        src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
+          ','
+        )}`}
+      />
+
+      <Script
+        src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
+        async
+      />
+
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      />
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(museumLd(wellcomeCollectionGalleryWithHours)),
+        }}
+      />
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),
+        }}
+      />
 
       <div id="root">
         {apiToolbar && (
@@ -335,15 +351,8 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         )}
         {/* The no javascript version of the burger menu relies on the footer being present on the page,
         as we then use an anchor link to take people to the navigation links in the footer.
-        Instead of completely removing the footer when we don't want it, we wrap it in a noscript tag,
-        so teh degraded experience still works.
-        */}
-        <ConditionalWrapper
-          condition={Boolean(hideFooter)}
-          wrapper={children => <noscript>{children}</noscript>}
-        >
-          <Footer venues={venues} />
-        </ConditionalWrapper>
+        We only completely remove the footer if you've got JS. */}
+        {(!hideFooter || !isEnhanced) && <Footer venues={venues} />}
       </div>
     </>
   );

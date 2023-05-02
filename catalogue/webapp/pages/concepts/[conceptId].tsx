@@ -242,7 +242,7 @@ function toPageSectionDefinition<T extends ResultType>(
             totalResults: resultsGroup.totalResults,
           }),
         },
-        panel: { id: tabId, link: link, results: resultsGroup },
+        panel: { id: tabId, link, results: resultsGroup },
       }
     : undefined;
 }
@@ -376,6 +376,7 @@ export const ConceptPage: NextPage<Props> = ({
                   withSelectedStatus(selectedImagesTab, tabData.tab)
                 )}
                 setSelectedTab={setSelectedImagesTab}
+                trackWithSegment={true}
               />
             )}
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
@@ -402,6 +403,7 @@ export const ConceptPage: NextPage<Props> = ({
                     withSelectedStatus(selectedWorksTab, tabData.tab)
                   )}
                   setSelectedTab={setSelectedWorksTab}
+                  trackWithSegment={true}
                 />
               )}
             </div>

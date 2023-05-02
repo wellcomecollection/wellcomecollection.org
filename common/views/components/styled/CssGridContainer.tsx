@@ -52,6 +52,8 @@ function makeGridTemplateColumns(
       } else if (col === secondaryEnd) {
         columnString = `${columnString} [secondary-end]`;
       }
+
+      return null;
     })
     .join(' ');
 

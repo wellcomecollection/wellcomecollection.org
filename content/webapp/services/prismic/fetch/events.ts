@@ -9,7 +9,7 @@ import {
   teamFetchLinks,
 } from '../types/events';
 import { Query } from '@prismicio/types';
-import { getPeriodPredicates } from '../types/predicates';
+import { getEventPredicates } from '../types/predicates';
 import * as prismic from '@prismicio/client';
 import { EventBasic } from '../../../types/events';
 import {
@@ -159,7 +159,7 @@ export const fetchEvents = (
       : [];
 
   const dateRangePredicates = period
-    ? getPeriodPredicates({ period, startField, endField })
+    ? getEventPredicates({ period, startField, endField })
     : [];
 
   // NOTE: Ideally we'd use the Prismic DSL to construct these predicates rather

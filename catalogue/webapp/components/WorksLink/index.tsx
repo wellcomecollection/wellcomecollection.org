@@ -13,27 +13,7 @@ import {
   decodeQuery,
   encodeQuery,
 } from '@weco/common/utils/routes';
-import { Prefix } from '@weco/common/utils/utility-types';
-
-const worksPropsSources = [
-  'search_form',
-  'canonical_link',
-  'meta_link',
-  'search/paginator',
-  'concept/works_about',
-  'concept/works_by',
-  'concept/works_in',
-  'works_search_context',
-  'work_details/contributors',
-  'work_details/genres',
-  'work_details/subjects',
-  'work_details/partOf',
-] as const;
-
-type WorksPropsSource =
-  | typeof worksPropsSources[number]
-  | Prefix<'cancel_filter/'>
-  | 'unknown';
+import { WorksLinkSource } from '@weco/common/data/segment-values';
 
 const emptyWorksProps: WorksProps = {
   query: '',
@@ -83,7 +63,7 @@ const toQuery: (props: WorksProps) => ParsedUrlQuery = props => {
 
 function toLink(
   partialProps: Partial<WorksProps>,
-  source: WorksPropsSource
+  source: WorksLinkSource
 ): LinkProps {
   const pathname = '/search/works';
   const props: WorksProps = {
@@ -104,7 +84,7 @@ function toLink(
   };
 }
 
-type Props = LinkFrom<WorksProps> & { source: WorksPropsSource };
+type Props = LinkFrom<WorksProps> & { source: WorksLinkSource };
 const WorksLink: FunctionComponent<Props> = ({
   children,
   source,

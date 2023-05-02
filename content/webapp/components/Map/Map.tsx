@@ -49,8 +49,8 @@ const Map: FunctionComponent<Props> = ({
       /* eslint-disable @typescript-eslint/no-unused-vars */
       const marker = new google.maps.Marker({
         position: latLng,
-        map: map,
-        title: title,
+        map,
+        title,
       });
       /* eslint-enable @typescript-eslint/no-unused-vars */
     });

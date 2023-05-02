@@ -75,7 +75,8 @@ export const a11y = {
   //
   defaultEventMessage: (
     <>
-      If you have any queries about accessibility, please email us at{' '}
+      For more information, please visit our <a href="/access">Accessibility</a>{' '}
+      page. If you have any queries about accessibility, please email us at{' '}
       <a href="mailto:access@wellcomecollection.org">
         access@wellcomecollection.org
       </a>{' '}

@@ -82,7 +82,7 @@ const Index: FunctionComponent = () => {
   // This "score" is used to order the results, to make it easier to
   // spot failures in the dashboard -- pages with lots of errors will
   // appear at the top of the page.
-  const results = (resultsList['results'] || [])
+  const results = (resultsList['results'] || []) //eslint-disable-line
     .map(r => {
       const errors = r.issues.filter(({ type }) => type === 'error');
       const warnings = r.issues.filter(({ type }) => type === 'warning');

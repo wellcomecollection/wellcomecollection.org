@@ -24,7 +24,7 @@ import * as prismic from '@prismicio/client';
 import { articleSeriesLd } from '@weco/content/services/prismic/transformers/json-ld';
 
 const contentTypes = ['comic'] as const;
-type ContentType = typeof contentTypes[number];
+type ContentType = (typeof contentTypes)[number];
 
 type Props = {
   title: string;
@@ -53,51 +53,52 @@ function isContentType(x: any): x is ContentType {
   return contentTypes.includes(x);
 }
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
 
-    const page = getPage(context.query);
+  const page = getPage(context.query);
 
-    if (typeof page !== 'number') {
-      return appError(context, 400, page.message);
-    }
+  if (typeof page !== 'number') {
+    return appError(context, 400, page.message);
+  }
 
-    const { contentType } = context.query;
+  const { contentType } = context.query;
 
-    if (!isContentType(contentType)) {
-      return { notFound: true };
-    }
+  if (!isContentType(contentType)) {
+    return { notFound: true };
+  }
 
-    const contentTypeInfo = getContentTypeId(contentType);
+  const contentTypeInfo = getContentTypeId(contentType);
 
-    const client = createClient(context);
-    const seriesQuery = await fetchSeries(client, {
-      predicates: prismic.predicate.at('my.series.format', contentTypeInfo.id),
-      page,
-      orderings: {
-        field: 'document.first_publication_date',
-        direction: 'desc',
-      },
-    });
-    const series = transformQuery(seriesQuery, transformSeries);
-    const basicSeries = {
-      ...series,
-      results: series.results.map(transformSeriesToSeriesBasic),
-    };
-
-    const jsonLd = series.results.map(articleSeriesLd);
-
-    return {
-      props: removeUndefinedProps({
-        title: contentTypeInfo.title,
-        contentType,
-        series: basicSeries,
-        jsonLd,
-        serverData,
-      }),
-    };
+  const client = createClient(context);
+  const seriesQuery = await fetchSeries(client, {
+    predicates: prismic.predicate.at('my.series.format', contentTypeInfo.id),
+    page,
+    orderings: {
+      field: 'document.first_publication_date',
+      direction: 'desc',
+    },
+  });
+  const series = transformQuery(seriesQuery, transformSeries);
+  const basicSeries = {
+    ...series,
+    results: series.results.map(transformSeriesToSeriesBasic),
   };
+
+  const jsonLd = series.results.map(articleSeriesLd);
+
+  return {
+    props: removeUndefinedProps({
+      title: contentTypeInfo.title,
+      contentType,
+      series: basicSeries,
+      jsonLd,
+      serverData,
+    }),
+  };
+};
 
 const ArticleSeriesManyPage: FunctionComponent<Props> = ({
   title,

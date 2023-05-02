@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /** This script runs some linting rules against a snapshot of Prismic.
  *
  * It's meant to help us find issues in the data that need to be fixed in
@@ -97,11 +98,19 @@ function detectNonPromoImageStories(doc: any): string[] {
   if (doc.type === 'articles') {
     if (!doc.data.promo[0]) {
       return ['This article has no promo image, please add one.'];
-    } else if (!doc.data.promo[0].primary?.image?.square) {
       // getCrop won't work without square/ratioed layouts and therefore won't render an image
       // on the front end.
+    } else if (!doc.data.promo[0].primary?.image?.square) {
       return [
         "This article's promo image has no square layout, re-add the image and save it to fix.",
+      ];
+    } else if (!doc.data.promo[0].primary?.image?.['32:15']) {
+      return [
+        `This article's promo image has no 32:15 layout, re-add the image and save it to fix.`,
+      ];
+    } else if (!doc.data.promo[0].primary?.image?.['16:9']) {
+      return [
+        "This article's promo image has no 16:9 layout, re-add the image and save it to fix.",
       ];
     }
   }

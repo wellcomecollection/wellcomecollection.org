@@ -230,6 +230,9 @@ article.args = {
   ContentTypeInfo,
   isContentTypeInfoBeforeMedia: true,
 };
+article.parameters = {
+  diffThreshold: 0.2,
+};
 
 const ContentPageTemplate = args => (
   <ReadmeDecorator

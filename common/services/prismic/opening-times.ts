@@ -55,7 +55,7 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
     .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
     .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
       const isAlreadyInResult = result.some(t =>
-        isSameDay(t.overrideDate, thisOverride.overrideDate)
+        isSameDay(t.overrideDate, thisOverride.overrideDate, 'UTC')
       );
 
       if (!isAlreadyInResult) {
@@ -255,10 +255,10 @@ export function createExceptionalOpeningHoursDays(
     const days = sortedDates
       .map(date => {
         const matchingVenueGroup = groupedExceptionalDays.find(group =>
-          group.find(day => isSameDay(day.overrideDate, date))
+          group.find(day => isSameDay(day.overrideDate, date, 'UTC'))
         );
         const matchingDay = matchingVenueGroup?.find(day =>
-          isSameDay(day.overrideDate, date)
+          isSameDay(day.overrideDate, date, 'UTC')
         );
         const backfillDay = exceptionalFromRegular(venue, date, type);
         return matchingDay || backfillDay;
@@ -279,7 +279,7 @@ export function groupConsecutiveExceptionalDays(
 
       if (
         lastDayOfGroup &&
-        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup)
+        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup, 'UTC')
       ) {
         group.push(date);
       } else {

@@ -1,11 +1,9 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { classNames } from '@weco/common/utils/classnames';
-import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
-import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
-import { formDataAsUrlQuery } from '@weco/common/utils/forms';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 
 const Overlay = styled.div.attrs<{ isActive: boolean }>(props => ({
   className: classNames({
@@ -40,8 +38,6 @@ const HeaderSearch = ({
   searchButtonRef,
 }: Props) => {
   const router = useRouter();
-  const routerQuery = getQueryPropertyValue(router?.query?.query);
-  const [inputValue, setInputValue] = useState(routerQuery || '');
   const inputRef = useRef<HTMLInputElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -72,7 +68,6 @@ const HeaderSearch = ({
 
   useEffect(() => {
     handleCloseModal();
-    setInputValue('');
   }, [router?.pathname, router?.query]);
 
   useEffect(() => {
@@ -81,36 +76,15 @@ const HeaderSearch = ({
     }
   }, [isActive]);
 
-  const updateUrl = (form: HTMLFormElement) => {
-    const formValues = formDataAsUrlQuery(form);
-    const link = linkResolver({ params: formValues, pathname: '/search' });
-
-    return router.push(link.href, link.as);
-  };
-
   return (
     <Overlay isActive={isActive}>
       <SearchBarWrapper
         ref={isActive ? wrapperRef : undefined}
         onClick={e => e.stopPropagation()}
       >
-        <form
-          className="container"
-          id="global-search-form"
-          onSubmit={event => {
-            event.preventDefault();
-            updateUrl(event.currentTarget);
-          }}
-        >
-          <SearchBar
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            form="global-search-form"
-            placeholder="Search our stories, images and catalogue"
-            inputRef={inputRef}
-            location="header"
-          />
-        </form>
+        <div className="container">
+          <SearchForm inputRef={inputRef} />
+        </div>
       </SearchBarWrapper>
     </Overlay>
   );

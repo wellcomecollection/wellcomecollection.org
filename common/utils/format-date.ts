@@ -71,9 +71,22 @@ export function formatDuration(seconds: number): string {
     `${hours ** secondsPerHour + minutes * secondsPerMinute} != ${seconds}`
   );
 
-  const HH = String(hours).padStart(2, '0');
-  const MM = String(minutes).padStart(2, '0');
-  const SS = String(remainingSeconds).padStart(2, '0');
+  const HH = hours.toString().padStart(2, '0');
+  const MM = minutes.toString().padStart(2, '0');
+  const SS = remainingSeconds.toString().padStart(2, '0');
 
   return `${HH}:${MM}:${SS}`;
+}
+
+/** Formats a date as an ISO-8601 date, e.g. '1 February 2003' is '2003-02-01' */
+export function formatIso8601Date(date: Date): string {
+  const year = formatLondon(date, { year: 'numeric' });
+  const month = formatLondon(date, { month: 'numeric' })
+    .toString()
+    .padStart(2, '0');
+  const day = formatLondon(date, { day: 'numeric' })
+    .toString()
+    .padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
 }

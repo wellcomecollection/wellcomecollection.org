@@ -26,6 +26,7 @@ import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ExplanatoryText from './ExplanatoryText';
 import { toLink as itemLink } from '../ItemLink';
+import { toLink as conceptLink } from '../ConceptLink';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -120,7 +121,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const issnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'issn';
   });
-  const seriesPartOfs = work.partOf.filter(p => !p['id']);
+  const seriesPartOfs = work.partOf.filter(p => !p.id);
 
   const physicalItems = getItemsWithPhysicalLocation(work.items ?? []);
 
@@ -343,7 +344,8 @@ const WorkDetails: FunctionComponent<Props> = ({
 
                 {/* Note: there is no class flex-h-center, but there is flex--h-center
                     Is that what's meant here? */}
-                <div className="flex flex-h-center">
+
+                <div style={{ display: 'flex' }}>
                   {itemUrl && (
                     <Space
                       as="span"
@@ -586,15 +588,10 @@ const WorkDetails: FunctionComponent<Props> = ({
               return contributor.agent.id
                 ? {
                     textParts,
-                    linkAttributes: {
-                      href: {
-                        pathname: `/concepts/${contributor.agent.id}`,
-                        query: { source: 'work_details/contributors' },
-                      },
-                      as: {
-                        pathname: `/concepts/${contributor.agent.id}`,
-                      },
-                    },
+                    linkAttributes: conceptLink(
+                      { conceptId: contributor.agent.id },
+                      'work_details/contributors'
+                    ),
                   }
                 : {
                     textParts,
@@ -664,24 +661,30 @@ const WorkDetails: FunctionComponent<Props> = ({
             tags={work.genres.map(genre => {
               return {
                 textParts: genre.concepts.map(c => c.label),
-                linkAttributes: {
-                  href: {
-                    pathname: `/concepts/${genre.concepts[0].id}`,
-                    query: { source: 'work_details/genres' },
-                  },
-                  as: {
-                    pathname: `/concepts/${genre.concepts[0].id}`,
-                  },
-                },
+
+                linkAttributes: conceptLink(
+                  { conceptId: genre.concepts[0].id as string },
+                  'work_details/contributors'
+                ),
               };
             })}
           />
         )}
 
         {work.languages.length > 0 && (
-          <WorkDetailsList
+          <WorkDetailsTags
             title="Languages"
-            list={work.languages.map(lang => lang.label)}
+            tags={work.languages.map(lang => {
+              return {
+                textParts: [lang.label],
+                linkAttributes: worksLink(
+                  {
+                    languages: [lang.id],
+                  },
+                  'work_details/languages'
+                ),
+              };
+            })}
           />
         )}
       </WorkDetailsSection>
@@ -698,15 +701,10 @@ const WorkDetails: FunctionComponent<Props> = ({
                     textParts: [s.concepts[0].label].concat(
                       s.concepts.slice(1).map(c => c.label)
                     ),
-                    linkAttributes: {
-                      href: {
-                        pathname: `/concepts/${s.id}`,
-                        query: { source: 'work_details/subjects' },
-                      },
-                      as: {
-                        pathname: `/concepts/${s.id}`,
-                      },
-                    },
+                    linkAttributes: conceptLink(
+                      { conceptId: s.id },
+                      'work_details/subjects'
+                    ),
                   }
                 : {
                     textParts: s.concepts.map(c => c.label),

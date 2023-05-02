@@ -23,18 +23,19 @@ const VisibilityButton = styled(SolidButton).attrs(props => ({
 
 type PasswordInputProps = React.ComponentPropsWithRef<typeof WellcomeTextInput>;
 
-export const PasswordInput: React.FunctionComponent<PasswordInputProps> =
-  props => {
-    const [isVisible, setIsVisible] = useState(false);
+export const PasswordInput: React.FunctionComponent<
+  PasswordInputProps
+> = props => {
+  const [isVisible, setIsVisible] = useState(false);
 
-    const toggleIsVisible = () => setIsVisible(wasVisible => !wasVisible);
+  const toggleIsVisible = () => setIsVisible(wasVisible => !wasVisible);
 
-    return (
-      <PasswordInputContainer>
-        <WellcomeTextInput {...props} type={isVisible ? 'text' : 'password'} />
-        <VisibilityButton onClick={toggleIsVisible}>
-          <Icon icon={isVisible ? a11YVisual : eye} />
-        </VisibilityButton>
-      </PasswordInputContainer>
-    );
-  };
+  return (
+    <PasswordInputContainer>
+      <WellcomeTextInput {...props} type={isVisible ? 'text' : 'password'} />
+      <VisibilityButton onClick={toggleIsVisible}>
+        <Icon icon={isVisible ? a11YVisual : eye} />
+      </VisibilityButton>
+    </PasswordInputContainer>
+  );
+};
