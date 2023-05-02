@@ -19,7 +19,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
+  align-items: stretch;
 `;
 const SearchInputWrapper = styled.div`
   flex: 1 1 auto;
@@ -34,8 +34,11 @@ const SearchInputWrapper = styled.div`
 `;
 
 const SearchButtonWrapper = styled.div`
-  flex: 0 1 auto;
+  button {
+    height: 100%;
+  }
 `;
+
 type Props = {
   inputValue: string;
   setInputValue: Dispatch<SetStateAction<string>>;
@@ -89,7 +92,6 @@ const SearchBar: FunctionComponent<Props> = ({
         <ButtonSolid
           text="Search"
           type={ButtonTypes.submit}
-          size="large"
           form={form}
           colors={themeValues.buttonColors.yellowYellowBlack}
         />
