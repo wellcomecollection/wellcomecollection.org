@@ -10,6 +10,39 @@ import {
 } from '../../utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
+const List = styled(PlainList)`
+  border-left: 1px solid ${props => props.theme.color('neutral.600')};
+`;
+
+const Item = styled(Space).attrs({
+  as: 'li',
+  v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: font('intr', 5),
+})<{ isActive: boolean }>`
+  position: relative;
+
+  ${props =>
+    props.isActive &&
+    `
+      background: #222; // FIXME: we don't have a shade between dark-charcoal and black in the palette (light-black?)
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -1px;
+        bottom: 0;
+        width: 4px;
+        background: ${props.theme.color('yellow')};
+      }
+    `}
+
+  button {
+    cursor: pointer;
+  }
+`;
+
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
 };
@@ -24,38 +57,6 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   } = useContext(ItemViewerContext);
   const { structures, canvases } = transformedManifest;
   const groupedStructures = groupStructures(canvases, structures);
-  const List = styled(PlainList)`
-    border-left: 1px solid ${props => props.theme.color('neutral.600')};
-  `;
-
-  const Item = styled(Space).attrs({
-    as: 'li',
-    v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
-    h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-    className: font('intr', 5),
-  })<{ isActive: boolean }>`
-    position: relative;
-
-    ${props =>
-      props.isActive &&
-      `
-        background: #222; // FIXME: we don't have a shade between dark-charcoal and black in the palette (light-black?)
-
-        &:before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -1px;
-          bottom: 0;
-          width: 4px;
-          background: ${props.theme.color('yellow')};
-        }
-      `}
-
-    button {
-      cursor: pointer;
-    }
-  `;
 
   return groupedStructures.length > 0 ? (
     <List>
