@@ -29,15 +29,11 @@
  *
  */
 
-import { prismicPageIds } from './hardcoded-ids';
+// import { prismicPageIds } from './hardcoded-ids';
 
-type VanityUrl = {
-  url: string;
-  prismicId: string;
-  template?: string;
-};
+const { prismicPageIds } = require('./hardcoded-ids');
 
-export const vanityUrls: VanityUrl[] = [
+const vanityUrls = [
   {
     url: '/about-us',
     prismicId: prismicPageIds.aboutUs,
@@ -84,3 +80,5 @@ export const vanityUrls: VanityUrl[] = [
     prismicId: prismicPageIds.youth,
   },
 ];
+
+module.exports = { vanityUrls };
