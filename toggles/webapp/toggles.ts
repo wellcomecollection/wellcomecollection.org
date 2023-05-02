@@ -51,6 +51,13 @@ const toggles = {
       description:
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
+    {
+      id: 'useIIIFTest',
+      title: 'Use iiif-test.wellcomecollection.org for IIIF URLs',
+      initialValue: false,
+      description:
+        'Fetch IIIF manifests from iiif-test.wellcomecollection.org for new DLCS testing.',
+    },
   ] as const,
   tests: [
     {

@@ -201,7 +201,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     );
     const iiifManifest =
       manifestLocation &&
-      (await fetchIIIFPresentationManifest(manifestLocation.url));
+      (await fetchIIIFPresentationManifest(manifestLocation.url, serverData.toggles));
     const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
     return {
