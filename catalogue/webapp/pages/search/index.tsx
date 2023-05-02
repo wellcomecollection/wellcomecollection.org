@@ -141,7 +141,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       small: 1 / 2,
                     }}
                   />
-                  )
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text="All stories"
