@@ -10,25 +10,29 @@ import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { newsletterAddressBook } from '../../../data/dotdigital';
 
 const FormElementWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
+  gap: 10px;
+
+  > * {
+    width: 100%;
+  }
+
   ${props => props.theme.media('medium')`
-    display: flex;
-    flex: 1;
-    align-items: flex-start;
+    flex-wrap: nowrap;
+    align-items: stretch;
+
+    > * {
+      width: auto;
+    }
   `}
 `;
 
-const ShameButtonWrap = styled.div`
+const ButtonWrap = styled.div`
   button {
-    height: 55px;
+    height: 100%;
     width: 100%;
-    margin-top: 10px;
-    justify-content: center;
-
-    ${props => props.theme.media('medium')`
-      margin-left: 10px;
-      margin-top: 0;
-    `}
   }
 `;
 
@@ -210,13 +214,13 @@ const NewsletterPromo: FunctionComponent = () => {
                           setValue={setValue}
                           {...emailValidation}
                         />
-                        <ShameButtonWrap>
+                        <ButtonWrap>
                           <ButtonSolid
                             dataGtmTrigger="newsletter_promo_subscribe"
                             text={isSubmitting ? 'Sending…' : 'Subscribe'}
                             disabled={isSubmitting}
                           />
-                        </ShameButtonWrap>
+                        </ButtonWrap>
                       </FormElementWrapper>
                     </NewsletterForm>
                   </>
