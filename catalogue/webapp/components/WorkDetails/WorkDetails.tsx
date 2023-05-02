@@ -46,6 +46,7 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -59,7 +60,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const isArchive = useContext(IsArchiveContext);
   const itemUrl = itemLink({ workId: work.id }, 'work');
   const transformedIIIFImage = useTransformedIIIFImage(work);
-  const transformedIIIFManifest = useTransformedManifest(work);
+  const transformedIIIFManifest = useTransformedManifest(work, useToggles());
   const {
     video,
     iiifCredit,

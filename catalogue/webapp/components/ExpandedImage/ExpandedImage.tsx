@@ -25,6 +25,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import { toLink as itemLink } from '../ItemLink';
 import { toLink as imageLink } from '../ImageLink';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   image: ImageType | undefined;
@@ -188,6 +189,8 @@ const ExpandedImage: FunctionComponent<Props> = ({
     }
   }, [workId, currentImageId]);
 
+  const toggles = useToggles();
+
   useEffect(() => {
     // This downloads the IIIF manifest and tries to find the image in the canvases.
     // With upcoming work on IIIF identifiers, we should be able to provide the
@@ -199,7 +202,8 @@ const ExpandedImage: FunctionComponent<Props> = ({
     ) => {
       const imageLocationBase = imageUrl.replace('/info.json', '');
       const iiifManifest = await fetchIIIFPresentationManifest(
-        manifestLocation
+        manifestLocation,
+        toggles
       );
       const transformedManifest =
         iiifManifest && transformManifest(iiifManifest);
