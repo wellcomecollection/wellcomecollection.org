@@ -18,7 +18,7 @@ import { toLink as toWorksLink } from '@weco/catalogue/components/WorksLink';
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
-import { formatNumber } from '@weco/common/utils/grammar';
+import { capitalize, formatNumber } from '@weco/common/utils/grammar';
 
 // Components
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
@@ -273,19 +273,17 @@ export const ConceptPage: NextPage<Props> = ({
 }) => {
   const worksTabs = tabOrder
     .map(relationship => {
-      if (sectionsData[relationship].works?.totalResults) {
-        const tabId = `works${capitalize(relationship)}`;
+      const tabId = `works${capitalize(relationship)}`;
 
-        return toPageSectionDefinition<WorkType>(
-          tabId,
-          sectionsData[relationship].works,
-          sectionsData[relationship].label,
-          toWorksLink(
-            allRecordsLinkParams(tabId, conceptResponse),
-            linkSources[tabId]
-          )
-        );
-      }
+      return toPageSectionDefinition<WorkType>(
+        tabId,
+        sectionsData[relationship].works,
+        sectionsData[relationship].label,
+        toWorksLink(
+          allRecordsLinkParams(tabId, conceptResponse),
+          linkSources[tabId]
+        )
+      );
     })
     .filter(e => !!e) as PageSectionDefinition<WorkType>[];
 
@@ -294,20 +292,18 @@ export const ConceptPage: NextPage<Props> = ({
 
   const imagesTabs: PageSectionDefinition<ImageType>[] = tabOrder
     .map(relationship => {
-      if (sectionsData[relationship].images?.totalResults) {
-        const tabId = `images${relationship
-          .charAt(0)
-          .toUpperCase()}${relationship.slice(1)}`;
-        return toPageSectionDefinition(
-          tabId,
-          sectionsData[relationship].images,
-          sectionsData[relationship].label,
-          toImagesLink(
-            allRecordsLinkParams(tabId, conceptResponse),
-            linkSources[tabId]
-          )
-        );
-      }
+      const tabId = `images${relationship
+        .charAt(0)
+        .toUpperCase()}${relationship.slice(1)}`;
+      return toPageSectionDefinition(
+        tabId,
+        sectionsData[relationship].images,
+        sectionsData[relationship].label,
+        toImagesLink(
+          allRecordsLinkParams(tabId, conceptResponse),
+          linkSources[tabId]
+        )
+      );
     })
     .filter(e => !!e) as PageSectionDefinition<ImageType>[];
 
@@ -447,139 +443,142 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   return [apiLink, ...identifiers];
 }
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { conceptId } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const serverData = await getServerData(context);
+  const { conceptId } = context.query;
 
-    if (!looksLikeCanonicalId(conceptId)) {
+  if (!looksLikeCanonicalId(conceptId)) {
+    return { notFound: true };
+  }
+
+  const conceptResponse = await getConcept({
+    id: conceptId,
+    toggles: serverData.toggles,
+  });
+
+  if (conceptResponse.type === 'Error') {
+    if (conceptResponse.httpStatus === 404) {
       return { notFound: true };
     }
+    return appError(
+      context,
+      conceptResponse.httpStatus,
+      conceptResponse.description
+    );
+  }
 
-    const conceptResponse = await getConcept({
-      id: conceptId,
+  const getConceptWorks = (sectionName: string) =>
+    getWorks({
+      params: queryParams(sectionName, conceptResponse),
       toggles: serverData.toggles,
+      pageSize: 5,
     });
 
-    if (conceptResponse.type === 'Error') {
-      if (conceptResponse.httpStatus === 404) {
-        return { notFound: true };
-      }
-      return appError(
-        context,
-        conceptResponse.httpStatus,
-        conceptResponse.description
-      );
-    }
+  const getConceptImages = (sectionName: string) =>
+    getImages({
+      params: queryParams(sectionName, conceptResponse),
+      toggles: serverData.toggles,
+      pageSize: 10,
+    });
 
-    const getConceptWorks = (sectionName: string) =>
-      getWorks({
-        params: queryParams(sectionName, conceptResponse),
-        toggles: serverData.toggles,
-        pageSize: 5,
-      });
+  const worksAboutPromise = getConceptWorks('worksAbout');
+  const imagesAboutPromise = getConceptImages('imagesAbout');
 
-    const getConceptImages = (sectionName: string) =>
-      getImages({
-        params: queryParams(sectionName, conceptResponse),
-        toggles: serverData.toggles,
-        pageSize: 10,
-      });
+  // Only Genres can have works or images "in" them
+  // so don't bother executing this query for other types
+  // just pretend that we have.
+  const worksInPromise =
+    conceptResponse.type === 'Genre'
+      ? getConceptWorks('worksIn')
+      : Promise.resolve(emptyWorkResults);
 
-    // Only Genres can have works or images "in" them
-    // so don't bother executing this query for other types
-    // just pretend that we have.
-    const worksInPromise =
-      conceptResponse.type === 'Genre'
-        ? getConceptWorks('worksIn')
-        : Promise.resolve(emptyWorkResults);
+  const imagesInPromise =
+    conceptResponse.type === 'Genre'
+      ? getConceptImages('imagesIn')
+      : Promise.resolve(emptyImageResults);
 
-    const imagesInPromise =
-      conceptResponse.type === 'Genre'
-        ? getConceptImages('imagesIn')
-        : Promise.resolve(emptyImageResults);
+  // Genres cannot be creators of works or images.
+  // Semantically, we could claim that only Agents can be creators
+  // but some metonymy exists in the source data, meaning that some
+  // concepts that do not strictly have agency are present in
+  // the contributor fields.
+  // Therefore, we can only really be certain that a Concept
+  // is not (and should never be) a contributor when it is a genre.
+  const worksByPromise =
+    conceptResponse.type !== 'Genre'
+      ? getConceptWorks('worksBy')
+      : Promise.resolve(emptyWorkResults);
 
-    // Genres cannot be creators of works or images.
-    // Semantically, we could claim that only Agents can be creators
-    // but some metonymy exists in the source data, meaning that some
-    // concepts that do not strictly have agency are present in
-    // the contributor fields.
-    // Therefore, we can only really be certain that a Concept
-    // is not (and should never be) a contributor when it is a genre.
-    const worksByPromise =
-      conceptResponse.type !== 'Genre'
-        ? getConceptWorks('worksBy')
-        : Promise.resolve(emptyWorkResults);
+  const imagesByPromise =
+    conceptResponse.type !== 'Genre'
+      ? getConceptImages('imagesBy')
+      : Promise.resolve(emptyImageResults);
 
-    const imagesByPromise =
-      conceptResponse.type !== 'Genre'
-        ? getConceptImages('imagesBy')
-        : Promise.resolve(emptyImageResults);
+  const [
+    worksAboutResponse,
+    worksByResponse,
+    worksInResponse,
+    imagesAboutResponse,
+    imagesByResponse,
+    imagesInResponse,
+  ] = await Promise.all([
+    worksAboutPromise,
+    worksByPromise,
+    worksInPromise,
+    imagesAboutPromise,
+    imagesByPromise,
+    imagesInPromise,
+  ]);
 
-    const [
-      worksAboutResponse,
-      worksByResponse,
-      worksInResponse,
-      imagesAboutResponse,
-      imagesByResponse,
-      imagesInResponse,
-    ] = await Promise.all([
-      getConceptWorks('worksAbout'),
-      worksByPromise,
-      worksInPromise,
-      getConceptImages('imagesAbout'),
-      imagesByPromise,
-      imagesInPromise,
-    ]);
+  const worksAbout =
+    worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
+  const worksBy =
+    worksByResponse.type === 'Error' ? undefined : worksByResponse;
+  const imagesAbout =
+    imagesAboutResponse.type === 'Error' ? undefined : imagesAboutResponse;
+  const imagesBy =
+    imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
+  const worksIn =
+    worksInResponse.type === 'Error' ? undefined : worksInResponse;
+  const imagesIn =
+    imagesInResponse.type === 'Error' ? undefined : imagesInResponse;
 
-    const worksAbout =
-      worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
-    const worksBy =
-      worksByResponse.type === 'Error' ? undefined : worksByResponse;
-    const imagesAbout =
-      imagesAboutResponse.type === 'Error' ? undefined : imagesAboutResponse;
-    const imagesBy =
-      imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
-    const worksIn =
-      worksInResponse.type === 'Error' ? undefined : worksInResponse;
-    const imagesIn =
-      imagesInResponse.type === 'Error' ? undefined : imagesInResponse;
+  const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
 
-    const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
+  const conceptTypeName = conceptTypeDisplayName(conceptResponse).toLowerCase();
 
-    const conceptTypeName =
-      conceptTypeDisplayName(conceptResponse).toLowerCase();
-
-    const sectionsData = {
-      about: {
-        label: `About this ${conceptTypeName}`,
-        works: worksAbout,
-        images: imagesAbout,
-      },
-      by: {
-        label: `By this ${conceptTypeName}`,
-        works: worksBy,
-        images: imagesBy,
-      },
-      in: {
-        label: `Using this ${conceptTypeName}`,
-        works: worksIn,
-        images: imagesIn,
-      },
-    };
-
-    return {
-      props: removeUndefinedProps({
-        conceptResponse,
-        sectionsData,
-        apiToolbarLinks,
-        serverData,
-        pageview: {
-          name: 'concept',
-          properties: {},
-        },
-      }),
-    };
+  const sectionsData = {
+    about: {
+      label: `About this ${conceptTypeName}`,
+      works: worksAbout,
+      images: imagesAbout,
+    },
+    by: {
+      label: `By this ${conceptTypeName}`,
+      works: worksBy,
+      images: imagesBy,
+    },
+    in: {
+      label: `Using this ${conceptTypeName}`,
+      works: worksIn,
+      images: imagesIn,
+    },
   };
+
+  return {
+    props: removeUndefinedProps({
+      conceptResponse,
+      sectionsData,
+      apiToolbarLinks,
+      serverData,
+      pageview: {
+        name: 'concept',
+        properties: {},
+      },
+    }),
+  };
+};
 
 export default ConceptPage;
