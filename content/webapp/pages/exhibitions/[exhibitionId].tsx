@@ -19,9 +19,14 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import ExhibitionsPage, {
+  getServerSideProps as gSSP,
+  ExhibitionsProps,
+} from '.';
+import { isOfTypePeriod } from 'types/periods';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
-type Props = {
+type ExhibitionProps = {
   exhibition: ExhibitionType;
   jsonLd: JsonLdObj;
   pages: PageType[];
@@ -29,7 +34,7 @@ type Props = {
   pageview: Pageview;
 };
 
-const ExhibitionPage: FunctionComponent<Props> = ({
+const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
   exhibition,
   pages,
   jsonLd,
@@ -54,8 +59,20 @@ const ExhibitionPage: FunctionComponent<Props> = ({
   </PageLayout>
 );
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const isOfTypeExhibitions = (input): input is ExhibitionsProps => {
+  return input.exhibitions.results.length > 0;
+};
+
+const PageWrapper = props => {
+  if (isOfTypeExhibitions(props)) {
+    return <ExhibitionsPage {...props} />;
+  } else {
+    return <ExhibitionPage {...props} />;
+  }
+};
+
+const originalGSSP: GetServerSideProps<
+  ExhibitionProps | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -93,4 +110,15 @@ export const getServerSideProps: GetServerSideProps<
   }
 };
 
-export default ExhibitionPage;
+export const getServerSideProps: GetServerSideProps<
+  ExhibitionProps | ExhibitionsProps | AppErrorProps
+> = async context => {
+  const { exhibitionId } = context.query;
+  if (isOfTypePeriod(exhibitionId as unknown as string)) {
+    return gSSP(context);
+  } else {
+    return originalGSSP(context);
+  }
+};
+
+export default PageWrapper;

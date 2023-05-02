@@ -14,13 +14,10 @@ import {
   handleAllRoute,
 } from '@weco/common/koa-middleware/withCachedValues';
 import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { Periods } from './types/periods';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import * as prismic from '@prismicio/client';
 import { vanityUrls } from '@weco/common/data/vanity-urls';
-
-const periodPaths = Object.values(Periods).join('|');
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
@@ -89,22 +86,11 @@ const appPromise = nextApp
 
     pageVanityUrl(router, nextApp, '/', homepageId, '/homepage');
 
-    // route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, nextApp);
-
     // We define the vanity URLs as soon as possible, so they can intercept
     // any routes defined further down, e.g. /pages/:id
     vanityUrls.forEach(({ url, prismicId }) =>
       pageVanityUrl(router, nextApp, url, prismicId, `/pages/${prismicId}`)
     );
-
-    route(
-      `/exhibitions/:period(${periodPaths})`,
-      '/exhibitions',
-      router,
-      nextApp
-    );
-
-    route(`/events/:period(${periodPaths})`, '/events', router, nextApp);
 
     router.redirect(
       `/pages/${prismicPageIds.collections}`,

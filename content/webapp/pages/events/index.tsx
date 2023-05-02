@@ -26,7 +26,7 @@ import { EventBasic } from '@weco/content/types/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
-type Props = {
+export type Props = {
   title: string;
   events: PaginatedResults<EventBasic>;
   period?: Period;

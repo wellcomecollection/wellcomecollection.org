@@ -30,7 +30,7 @@ import { isFuture } from '@weco/common/utils/dates';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
-type Props = {
+export type ExhibitionsProps = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
   period?: Period;
   title: string;
@@ -38,7 +38,7 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+  ExhibitionsProps | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -74,7 +74,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 };
 
-const ExhibitionsPage: FunctionComponent<Props> = props => {
+const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
   const { exhibitions, period, title, jsonLd } = props;
   const firstExhibition = exhibitions[0];
 

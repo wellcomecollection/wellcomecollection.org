@@ -63,7 +63,12 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import EventsPage, {
+  Props as EventsProps,
+  getServerSideProps as gSSP,
+} from '.';
+import { isOfTypePeriod } from 'types/periods';
+import { AppErrorProps } from '@weco/common/services/app';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
@@ -86,7 +91,12 @@ const EmailTeamCopy = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.700')};
 `;
 
-type Props = {
+const DateRangeWrapper = styled.div<{ isPast: boolean }>`
+  ${props => props.isPast && `color: ${props.theme.color('neutral.600')};`};
+  flex: 1;
+`;
+
+type EventProps = {
   event: Event;
   jsonLd: JsonLdObj[];
   gaDimensions: GaDimensions;
@@ -121,7 +131,7 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
+const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
   const [scheduledIn, setScheduledIn] = useState<EventBasic>();
 
   // This is used to populate the 'Part of' in the breadcrumb trail.
@@ -447,8 +457,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async context => {
-  setCacheControl(context.res);
+const originalGSSP: GetServerSideProps<EventProps> = async context => {
   const serverData = await getServerData(context);
   const { eventId } = context.query;
 
@@ -490,4 +499,27 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
   };
 };
 
-export default EventPage;
+export const getServerSideProps: GetServerSideProps<
+  EventProps | EventsProps | AppErrorProps
+> = async context => {
+  const { eventId } = context.query;
+  if (isOfTypePeriod(eventId as unknown as string)) {
+    return gSSP(context);
+  } else {
+    return originalGSSP(context);
+  }
+};
+
+export const isOfTypeEvents = (input): input is EventsProps => {
+  return input.events?.results.length > 0;
+};
+
+const PageWrapper = props => {
+  if (isOfTypeEvents(props)) {
+    return <EventsPage {...props} />;
+  } else {
+    return <EventPage {...props} />;
+  }
+};
+
+export default PageWrapper;
