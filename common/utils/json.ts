@@ -1,7 +1,5 @@
 import { isUndefined } from './type-guards';
 
-type Keyable = { [key: string]: any };
-
 export function isJson(v: string): boolean {
   try {
     JSON.parse(v);
