@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Work, Image } from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
@@ -28,7 +28,6 @@ import GridViewer from './GridViewer';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
-import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from './RenderlessPaginator';
 import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBar from './ViewerBottomBar';
@@ -37,20 +36,18 @@ import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
 import { TransformedCanvas, TransformedManifest } from '../../types/manifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
+import { toLink as imageLink } from '@weco/catalogue/components/ImageLink';
 
 type IIIFViewerProps = {
   title: string;
   currentCanvas?: TransformedCanvas;
-  mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
-  thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
   lang: string;
   canvasOcr?: string;
-  workId: string;
   pageIndex: number;
-  pageSize: number;
   canvasIndex: number;
-  iiifImageLocation: DigitalLocation | undefined;
   work: Work;
+  image?: Image;
   transformedManifest: TransformedManifest;
   manifestIndex?: number;
   handleImageError?: () => void;
@@ -203,18 +200,15 @@ const Thumbnails = styled.div<{
 `;
 
 const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
-  mainPaginatorProps,
   currentCanvas,
   lang,
   canvasIndex,
-  iiifImageLocation,
   work,
+  image,
   transformedManifest,
   manifestIndex,
-  pageSize,
   pageIndex,
   canvasOcr,
-  thumbsPaginatorProps,
   handleImageError,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
@@ -242,6 +236,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [searchResults, setSearchResults] = useState(results);
   const [isResizing, setIsResizing] = useState(false);
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
+  const iiifImageLocation = image?.locations[0];
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
@@ -266,13 +261,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
-
-  const navigationCanvases =
-    canvases &&
-    [...Array(pageSize)]
-      .map((_, i) => pageSize * pageIndex + i)
-      .map(i => canvases[i])
-      .filter(Boolean);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -382,31 +370,24 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   ];
 
   useSkipInitialEffect(() => {
-    const canvasParams =
-      (canvases && canvases.length > 0) || currentCanvas
-        ? { canvas: `${activeIndex + 1}` }
-        : {};
-    const manifest = mainPaginatorProps.link.href.query?.manifest;
-    const manifestParams = manifest ? { manifest } : {};
-
-    const url = {
-      ...mainPaginatorProps.link.href,
-      query: {
-        ...mainPaginatorProps.link.href.query,
-        ...canvasParams,
-        ...manifestParams,
-        source: 'viewer/paginator',
-      },
-    };
-    const as = {
-      ...mainPaginatorProps.link.as,
-      query: {
-        ...mainPaginatorProps.link.as.query,
-        ...canvasParams,
-        ...manifestParams,
-      },
-    };
-    Router.replace(url, as);
+    const link = image
+      ? imageLink(
+          {
+            workId: work.id,
+            id: image.id,
+          },
+          'unknown'
+        )
+      : itemLink(
+          {
+            workId: work.id,
+            page: pageIndex + 1,
+            canvas: activeIndex + 1,
+            manifest: manifestIndex ? manifestIndex + 1 : undefined,
+          },
+          'unknown'
+        );
+    Router.replace(link.href, link.as);
   }, [activeIndex]);
 
   useEffect(() => {
@@ -539,19 +520,15 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     </ItemViewerContext.Provider>
   ) : (
     <NoScriptViewer
-      thumbnailsRequired={Boolean(navigationCanvases?.length)}
       imageUrl={imageUrl}
       iiifImageLocation={iiifImageLocation}
       currentCanvas={currentCanvas}
       canvasOcr={canvasOcr}
       lang={lang}
-      mainPaginatorProps={mainPaginatorProps}
-      thumbsPaginatorProps={thumbsPaginatorProps}
       workId={work.id}
       canvases={canvases || []}
       canvasIndex={canvasIndex}
       pageIndex={pageIndex}
-      pageSize={pageSize}
     />
   );
 };
