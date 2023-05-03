@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import {
-  booleanCodec,
   decodeQuery,
   encodeQuery,
   FromCodecMap,
@@ -12,25 +11,22 @@ import {
 } from '@weco/common/utils/routes';
 import { LinkProps } from '@weco/common/model/link-props';
 import { ItemLinkSource } from '@weco/common/data/segment-values';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const emptyItemProps: ItemProps = {
   workId: '',
   canvas: 1,
   page: 1,
   manifest: 1,
-  pageSize: undefined,
-  isOverview: false,
   resultPosition: undefined,
 };
 
 const codecMap = {
   workId: stringCodec,
+  resultPosition: maybeNumberCodec, // This used for tracking and tells us the position of the search result that linked to the item page. It doesn't get exposed in the url
   canvas: maybeNumberCodec,
-  page: maybeNumberCodec,
-  pageSize: maybeNumberCodec,
-  isOverview: booleanCodec,
-  resultPosition: maybeNumberCodec,
   manifest: maybeNumberCodec,
+  page: maybeNumberCodec, // This is only needed by the NoScriptViewer
 };
 
 export type ItemProps = FromCodecMap<typeof codecMap>;
@@ -52,7 +48,7 @@ function toLink(
     ...partialProps,
   };
   const query = toQuery(props);
-
+  const { canvas, manifest, page } = query;
   return {
     href: {
       pathname: '/works/[workId]/items',
@@ -60,7 +56,7 @@ function toLink(
     },
     as: {
       pathname: `/works/${props.workId}/items`,
-      query: {},
+      query: removeUndefinedProps({ canvas, manifest, page }),
     },
   };
 }
