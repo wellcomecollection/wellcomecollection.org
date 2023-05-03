@@ -52,11 +52,11 @@ const toggles = {
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
     },
     {
-      id: 'contentApi',
-      title: 'Stories search: Content API',
+      id: 'useIIIFTest',
+      title: 'Use iiif-test.wellcomecollection.org for IIIF URLs',
       initialValue: false,
       description:
-        "Has stories search use the Content API instead of Prismic's API.",
+        'Fetch IIIF manifests from iiif-test.wellcomecollection.org for new DLCS testing.',
     },
   ] as const,
   tests: [

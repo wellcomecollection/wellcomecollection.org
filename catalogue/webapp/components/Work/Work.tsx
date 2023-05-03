@@ -116,7 +116,8 @@ type Props = {
 
 const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
   const { worksTabbedNav } = useToggles();
-  const transformedIIIFManifest = useTransformedManifest(work);
+  const toggles = useToggles();
+  const transformedIIIFManifest = useTransformedManifest(work, toggles);
 
   const isArchive = !!(
     work.parts.length ||

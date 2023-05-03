@@ -8,10 +8,14 @@ import {
   createDefaultTransformedManifest,
 } from '../types/manifest';
 import { getDigitalLocationOfType } from '../utils/works';
+import { Toggles } from '@weco/toggles';
 
 const manifestPromises: Map<string, Promise<Manifest | undefined>> = new Map();
 const cachedTransformedManifest: Map<string, TransformedManifest> = new Map();
-const useTransformedManifest = (work: Work): TransformedManifest => {
+const useTransformedManifest = (
+  work: Work,
+  toggles: Toggles
+): TransformedManifest => {
   const [transformedManifest, setTransformedManifest] =
     useState<TransformedManifest>(createDefaultTransformedManifest());
 
@@ -39,7 +43,7 @@ const useTransformedManifest = (work: Work): TransformedManifest => {
         if (!iiifPresentationLocation) return;
         manifestPromises.set(
           work.id,
-          fetchIIIFPresentationManifest(iiifPresentationLocation.url)
+          fetchIIIFPresentationManifest(iiifPresentationLocation.url, toggles)
         );
         const iiifManifest = await manifestPromises.get(work.id);
         iiifManifest && transformAndUpdate(iiifManifest, work.id);

@@ -6,7 +6,6 @@ import { ParsedUrlQuery } from 'querystring';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
-import NewStoriesGrid from '@weco/catalogue/components/StoriesGrid/StoriesGrid.New';
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -17,12 +16,6 @@ import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { getStories } from '@weco/catalogue/services/prismic/fetch/articles';
-import {
-  PrismicApiError,
-  PrismicResultsList,
-  Story,
-} from '@weco/catalogue/services/prismic/types';
 import { font } from '@weco/common/utils/classnames';
 import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
@@ -57,8 +50,7 @@ const fromQuery: (params: ParsedUrlQuery) => CodecMapProps = params => {
 type Props = {
   works?: ResultsProps<Work>;
   images?: ResultsProps<Image>;
-  stories?: ResultsProps<Story>;
-  newStories?: ResultsProps<Content>;
+  stories?: ResultsProps<Content>;
   query: Query;
   pageview: Pageview;
 };
@@ -103,11 +95,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   works,
   images,
   stories,
-  newStories,
   query,
 }) => {
   const { query: queryString } = query;
-  const returnedStories = stories || newStories;
 
   const SeeMoreButton = ({
     text,
@@ -132,45 +122,30 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   return (
     <main>
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-        {!returnedStories && !images && !works ? (
+        {!stories && !images && !works ? (
           <div className="container">
             <SearchNoResults query={queryString} />
           </div>
         ) : (
           <>
-            {returnedStories && (
+            {stories && (
               <StoriesSection as="section">
                 <div className="container">
                   <SectionTitle sectionName="Stories" />
-
-                  {newStories && (
-                    <NewStoriesGrid
-                      articles={newStories.pageResults}
-                      dynamicImageSizes={{
-                        xlarge: 1 / 5,
-                        large: 1 / 5,
-                        medium: 1 / 2,
-                        small: 1 / 2,
-                      }}
-                    />
-                  )}
-                  {stories && (
-                    <StoriesGrid
-                      stories={stories.pageResults}
-                      dynamicImageSizes={{
-                        xlarge: 1 / 5,
-                        large: 1 / 5,
-                        medium: 1 / 2,
-                        small: 1 / 2,
-                      }}
-                    />
-                  )}
-
+                  <StoriesGrid
+                    articles={stories.pageResults}
+                    dynamicImageSizes={{
+                      xlarge: 1 / 5,
+                      large: 1 / 5,
+                      medium: 1 / 2,
+                      small: 1 / 2,
+                    }}
+                  />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text="All stories"
                       pathname="/search/stories"
-                      totalResults={returnedStories.totalResults}
+                      totalResults={stories.totalResults}
                     />
                   </Space>
                 </div>
@@ -227,7 +202,6 @@ export const getServerSideProps: GetServerSideProps<
   const serverData = await getServerData(context);
   const query = context.query;
   const params = fromQuery(query);
-  const { contentApi } = serverData.toggles;
 
   const pageview: Pageview = {
     name: 'search',
@@ -244,42 +218,22 @@ export const getServerSideProps: GetServerSideProps<
     // Stories
     // We want the default order to be "descending publication date" with the Prismic API
 
-    const storiesResults = contentApi
-      ? await getArticles({
-          params: {
-            ...query,
-            sort: getQueryPropertyValue(query.sort),
-            sortOrder: getQueryPropertyValue(query.sortOrder),
-          },
-          pageSize: 4,
-          toggles: serverData.toggles,
-        })
-      : await getStories({
-          query: {
-            ...query,
-            sort: getQueryPropertyValue(query.sort) || 'publication.dates',
-            sortOrder: getQueryPropertyValue(query.sortOrder) || 'desc',
-          },
-          pageSize: 4,
-        });
+    const storiesResults = await getArticles({
+      params: {
+        ...query,
+        sort: getQueryPropertyValue(query.sort),
+        sortOrder: getQueryPropertyValue(query.sortOrder),
+      },
+      pageSize: 4,
+      toggles: serverData.toggles,
+    });
 
-    const newStories = contentApi
-      ? getQueryResults({
-          categoryName: 'stories',
-          queryResults: storiesResults as
-            | ContentResultsList<Content>
-            | ContentApiError,
-        })
-      : undefined;
-
-    const stories = contentApi
-      ? undefined
-      : getQueryResults({
-          categoryName: 'stories',
-          queryResults: storiesResults as
-            | PrismicResultsList<Story>
-            | PrismicApiError,
-        });
+    const stories = getQueryResults({
+      categoryName: 'stories',
+      queryResults: storiesResults as
+        | ContentResultsList<Content>
+        | ContentApiError,
+    });
 
     // Works
     const _worksQueryType = getCookie('_queryType') as string | undefined;
@@ -320,7 +274,6 @@ export const getServerSideProps: GetServerSideProps<
       props: {
         ...defaultProps,
         ...(stories && stories.pageResults?.length && { stories }),
-        ...(newStories && newStories.pageResults?.length && { newStories }),
         ...(images?.pageResults.length && { images }),
         ...(works?.pageResults.length && { works }),
       },

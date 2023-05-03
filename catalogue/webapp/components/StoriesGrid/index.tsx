@@ -5,11 +5,14 @@ import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { font, grid } from '@weco/common/utils/classnames';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import { Story } from '@weco/catalogue/services/prismic/types';
 import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
+import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
+
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 const StoriesContainer = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
   className: props.isDetailed ? '' : 'grid',
@@ -18,7 +21,9 @@ const StoriesContainer = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
 const StoryWrapper = styled(Space).attrs<{
   isDetailed?: boolean;
 }>(props => ({
-  v: { size: 'xl', properties: [props.isDetailed ? 'padding-bottom' : ''] },
+  v: props.isDetailed
+    ? { size: 'xl', properties: ['padding-bottom'] }
+    : undefined,
   className: props.isDetailed ? 'grid' : grid({ s: 6, m: 6, l: 3, xl: 3 }),
 }))<{ isDetailed?: boolean }>`
   text-decoration: none;
@@ -91,29 +96,27 @@ const StoryInformationItemSeparator = styled.span`
 `;
 
 type Props = {
-  stories: Story[];
+  articles: Content[];
   dynamicImageSizes?: BreakpointSizes;
   isDetailed?: boolean;
 };
 
 const StoriesGrid: FunctionComponent<Props> = ({
-  stories,
+  articles,
   dynamicImageSizes,
   isDetailed,
 }: Props) => {
   return (
     <StoriesContainer isDetailed={isDetailed}>
-      {stories.map(story => {
-        const croppedImage = getCrop(
-          story.image,
-          isDetailed ? '16:9' : '32:15'
-        );
+      {articles.map(article => {
+        const image = transformImage(article.image);
+        const croppedImage = getCrop(image, isDetailed ? '16:9' : '32:15');
 
         return (
           <StoryWrapper
-            key={story.id}
+            key={article.id}
             as="a"
-            href={story.url}
+            href={linkResolver({ id: article.id, type: 'articles' })}
             isDetailed={isDetailed}
           >
             {croppedImage && (
@@ -132,44 +135,44 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   quality="low"
                 />
 
-                {story.type && (
-                  <MobileLabel>
-                    <LabelsList labels={[{ text: story.format }]} />
-                  </MobileLabel>
-                )}
+                <MobileLabel>
+                  <LabelsList labels={[{ text: article.format.label }]} />
+                </MobileLabel>
               </ImageWrapper>
             )}
             <Details isDetailed={isDetailed}>
-              {story.format && (
-                <DesktopLabel>
-                  <LabelsList labels={[{ text: story.format }]} />
-                </DesktopLabel>
-              )}
-              <h3 className={font('wb', 4)}>{story.title}</h3>
+              <DesktopLabel>
+                <LabelsList labels={[{ text: article.format.label }]} />
+              </DesktopLabel>
+
+              <h3 className={font('wb', 4)}>{article.title}</h3>
+
               {isDetailed &&
-                (story.firstPublicationDate || !!story.contributors.length) && (
+                (article.publicationDate || !!article.contributors.length) && (
                   <StoryInformation>
-                    {story.firstPublicationDate && (
+                    {article.publicationDate && (
                       <StoryInformationItem className="searchable-selector">
-                        <HTMLDate date={new Date(story.firstPublicationDate)} />
+                        <HTMLDate date={new Date(article.publicationDate)} />
                       </StoryInformationItem>
                     )}
-                    {!!story.contributors.length && (
+                    {!!article.contributors.length && (
                       <>
                         <StoryInformationItemSeparator>
                           {' | '}
                         </StoryInformationItemSeparator>
                         <StoryInformationItem>
-                          {story.contributors.map(contributor => (
-                            <span key={contributor}>{contributor}</span>
+                          {article.contributors.map(contributor => (
+                            <span key={contributor.contributor?.id}>
+                              {contributor.contributor?.label}
+                            </span>
                           ))}
                         </StoryInformationItem>
                       </>
                     )}
                   </StoryInformation>
                 )}
-              {story.summary && (
-                <p className={font('intr', 5)}>{story.summary}</p>
+              {article.caption && (
+                <p className={font('intr', 5)}>{article.caption}</p>
               )}
             </Details>
           </StoryWrapper>

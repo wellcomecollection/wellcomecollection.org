@@ -26,6 +26,7 @@ export type PageviewName =
   | 'item'
   | 'search'
   | 'story'
+  | 'stories'
   | 'work'
   | 'works';
 
