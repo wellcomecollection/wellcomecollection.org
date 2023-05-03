@@ -13,7 +13,7 @@ import Space from '@weco/common/views/components/styled/Space';
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { AppErrorProps } from '@weco/common/services/app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
@@ -24,11 +24,13 @@ import { getArticles } from '@weco/catalogue/services/wellcome/content/articles'
 import { Query } from '@weco/catalogue/types/search';
 import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
 import { ContentResultsList } from '@weco/catalogue/services/wellcome/content/types';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
   storyResponseList?: ContentResultsList<Content>;
   query: Query;
   pageview: Pageview;
+  apiToolbarLinks: ApiToolbarLink[];
 };
 
 const Wrapper = styled(Space)`
@@ -146,7 +148,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 SearchPage.getLayout = getSearchLayout;
 
 export const getServerSideProps: GetServerSideProps<
-  Record<string, unknown> | AppErrorProps
+  Props | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
   const query = context.query;
@@ -177,26 +179,7 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   if (storyResponseList?.type === 'Error') {
-    // Prismic returns Internal Server Errors without much details for certain queries, such as query=t:"PP.PRE.D.1.1"
-    // As this is a temporary search tool until we replace it with our own API, we'll just return No Result should it happen
-    return {
-      props: removeUndefinedProps({
-        ...defaultProps,
-        storyResponseList: {
-          type: 'ResultList',
-          totalResults: 0,
-          totalPages: 0,
-          results: [],
-          pageSize: 6,
-        },
-        pageview: {
-          name: 'stories',
-          properties: {
-            totalResults: 0,
-          },
-        },
-      }),
-    };
+    return appError(context, storyResponseList.httpStatus, 'Content API error');
   }
 
   return {
@@ -206,14 +189,16 @@ export const getServerSideProps: GetServerSideProps<
       pageview: {
         name: 'stories',
         properties: {
-          totalResults: storyResponseList?.results ?? 0,
+          totalResults: storyResponseList?.totalResults ?? 0,
         },
       },
-      apiToolbarLinks: {
-        id: 'content-api',
-        label: 'Content API query',
-        link: storyResponseList._requestUrl,
-      },
+      apiToolbarLinks: [
+        {
+          id: 'content-api',
+          label: 'Content API query',
+          link: storyResponseList._requestUrl,
+        },
+      ],
     }),
   };
 };
