@@ -8,7 +8,7 @@ import {
   startOfWeek,
   today,
 } from '@weco/common/utils/dates';
-import { Period } from '../../../types/periods';
+import { Period } from '@weco/common/types/periods';
 import { formatIso8601Date } from '@weco/common/utils/format-date';
 
 type Props = { period?: Period; startField: string; endField: string };

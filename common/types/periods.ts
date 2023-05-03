@@ -1,4 +1,4 @@
-export const Periods = [
+const Periods = [
   'today',
   'this-weekend',
   'current-and-coming-up',
