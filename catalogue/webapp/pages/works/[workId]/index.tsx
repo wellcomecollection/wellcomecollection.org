@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { Work as WorkType } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getServerData } from '@weco/common/server-data';
@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps<
   const { url, ...work } = workResponse;
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       work,
       apiUrl: url,
       serverData,

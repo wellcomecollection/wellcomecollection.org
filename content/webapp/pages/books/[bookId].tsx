@@ -10,7 +10,7 @@ import BookImage from '@weco/content/components/BookImage/BookImage';
 import styled from 'styled-components';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
@@ -99,7 +99,7 @@ export const getServerSideProps: GetServerSideProps<
     const book = transformBook(bookDocument);
 
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         book,
         serverData,
         gaDimensions: {

@@ -5,8 +5,8 @@ import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import { ContentType } from '@weco/common/services/prismic/content-types';
 import { isString } from '@weco/common/utils/type-guards';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import superjson from 'superjson';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
+import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 
 const client = createPrismicClient();
 
@@ -158,7 +158,7 @@ export function clientSideFetcher<TransformedDocument>(endpoint: string) {
 
       if (response.ok) {
         const json = await response.text();
-        return superjson.parse<PaginatedResults<TransformedDocument>>(json);
+        return deserialiseJsonDates(json);
       }
     },
   };

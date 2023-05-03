@@ -13,7 +13,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { getPage } from '@weco/content/utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<
   const serverData = await getServerData(context);
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       articles: basicArticles,
       jsonLd,
       serverData,

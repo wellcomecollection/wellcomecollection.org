@@ -23,7 +23,7 @@ import {
 } from '@weco/catalogue/components/WorksLink';
 
 // Utils & Helpers
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -251,7 +251,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       works,
       worksRouteProps: params,
       serverData,

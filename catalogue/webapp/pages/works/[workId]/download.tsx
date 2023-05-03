@@ -18,7 +18,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsText from '@weco/catalogue/components/WorkDetailsText/WorkDetailsText';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
@@ -205,7 +205,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         serverData,
         workId,
         transformedManifest,

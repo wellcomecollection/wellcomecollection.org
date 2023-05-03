@@ -74,3 +74,11 @@ export function removeUndefinedProps<T extends Record<string, any>>(t: T): T {
 
   return t;
 }
+
+export function serialiseProps<T extends Record<string, any>>(t: T): T {
+  return serialiseDates(removeUndefinedProps(t));
+}
+
+export function deserialiseProps<T extends Record<string, any>>(t: T): T {
+  return deserialiseDates(t);
+}
