@@ -32,7 +32,7 @@ const createConfig =
       assetPrefix:
         isProd && prodSubdomain
           ? `https://${prodSubdomain}.wellcomecollection.org`
-          : '',
+          : undefined,
       publicRuntimeConfig: {
         apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
       },
