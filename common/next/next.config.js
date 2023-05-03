@@ -83,6 +83,7 @@ const createConfig =
         ...validDefaultConfig.experimental,
         mdxRs: true,
         outputFileTracingRoot: path.join(__dirname, '../../'),
+        forceSwcTransforms: true,
       },
       reactStrictMode: true,
     };
