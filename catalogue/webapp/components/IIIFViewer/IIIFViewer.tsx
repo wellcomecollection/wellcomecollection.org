@@ -34,8 +34,6 @@ import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
 import { TransformedCanvas, TransformedManifest } from '../../types/manifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
-import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
-import { toLink as imageLink } from '@weco/catalogue/components/ImageLink';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
 
 type IIIFViewerProps = {
