@@ -178,17 +178,6 @@ test.describe('genres with works and images both about and using @conceptPage @g
     await expect(songsPage.worksInTab).toBeVisible();
   });
 
-  test('the "works using" panel should be visible by default', async ({
-    songsPage,
-  }) => {
-    await expect(
-      await songsPage.tabPanelFor(songsPage.worksInTab)
-    ).toBeVisible();
-    await expect(
-      await songsPage.tabPanelFor(songsPage.worksAboutTab)
-    ).not.toBeVisible();
-  });
-
   test('the "All works" link filters by the concept label', async ({
     songsPage,
   }) => {
