@@ -31,7 +31,8 @@ export type PageviewName =
 
 export type ConceptLinkSource =
   | 'work_details/contributors'
-  | 'work_details/subjects';
+  | 'work_details/subjects'
+  | 'work_details/genres';
 
 export type ImageLinkSource = 'images_search_result' | 'viewer/paginator';
 
