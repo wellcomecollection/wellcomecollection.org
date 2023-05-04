@@ -2,7 +2,10 @@ import { test as base, expect } from '@playwright/test';
 import { concept } from './contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
-import { imagesByThisPerson, worksByThisPerson } from './selectors/concepts';
+import {
+  imagesAboutThisPerson,
+  worksAboutThisPerson,
+} from './selectors/concepts';
 import { ConceptPage } from './pages/concept';
 const domain = new URL(baseUrl).host;
 
@@ -73,6 +76,7 @@ test.describe('concepts @conceptPage', () => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Stephens, Joanna'], context, page);
+    await page.click(worksAboutThisPerson);
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
@@ -95,8 +99,6 @@ test.describe('concepts @conceptPage', () => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Stephens, Joanna'], context, page);
-
-    await page.click(worksByThisPerson);
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
@@ -130,6 +132,7 @@ test.describe('concepts @conceptPage', () => {
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Darwin, Charles, 1809-1882'], context, page);
 
+    await page.click(imagesAboutThisPerson);
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
     const aboutThisPerson = await page.waitForSelector(
@@ -151,8 +154,6 @@ test.describe('concepts @conceptPage', () => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Darwin, Charles, 1809-1882'], context, page);
-
-    await page.click(imagesByThisPerson);
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
