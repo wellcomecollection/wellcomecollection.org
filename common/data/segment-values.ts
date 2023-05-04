@@ -32,7 +32,8 @@ export type PageviewName =
 
 export type ConceptLinkSource =
   | 'work_details/contributors'
-  | 'work_details/subjects';
+  | 'work_details/subjects'
+  | 'work_details/genres';
 
 export type ImageLinkSource = 'images_search_result' | 'viewer/paginator';
 
@@ -41,6 +42,7 @@ export type ImagesLinkSource =
   | 'canonical_link'
   | 'concept/images_about'
   | 'concept/images_by'
+  | 'concept/images_in'
   | 'images_search_context'
   | 'work_details/images'
   | 'unknown';
@@ -67,6 +69,7 @@ export type WorksLinkSource =
   | 'search/paginator'
   | 'concept/works_about'
   | 'concept/works_by'
+  | 'concept/works_in'
   | 'works_search_context'
   | 'work_details/contributors'
   | 'work_details/genres'

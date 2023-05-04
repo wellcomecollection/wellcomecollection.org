@@ -112,13 +112,15 @@ type ConceptType =
   | 'Person'
   | 'Concept'
   | 'Period'
-  | 'Place';
+  | 'Place'
+  | 'Genre';
 
 export type Concept = {
   id?: string;
   identifiers?: Identifier[];
   label: string;
   type: ConceptType;
+  sameAs?: string[];
 };
 
 type Availability = {
