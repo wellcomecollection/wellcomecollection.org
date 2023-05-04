@@ -20,15 +20,21 @@ export class ConceptPage {
   constructor(page: Page, conceptTypeLabel: string) {
     this.page = page;
     this.conceptTypeLabel = conceptTypeLabel;
-    this.worksHeader = page.locator('h2 >> text="Catalogue"');
-    this.imagesHeader = page.locator('h2 >> text="Images"');
+    this.worksHeader = page.getByRole('heading', {
+      name: 'Catalogue',
+      level: 2,
+    });
+    this.imagesHeader = page.getByRole('heading', {
+      name: 'Images',
+      level: 2,
+    });
     this.worksSection = this.worksHeader;
     this.allWorksLink = this.allRecordsLink('works');
     this.allImagesLink = this.allRecordsLink('images');
-    this.worksTabGroup = this.page.getByRole('tablist', {
+    this.worksTabGroup = page.getByRole('tablist', {
       name: 'Tabs for works',
     });
-    this.imagesTabGroup = this.page.getByRole('tablist', {
+    this.imagesTabGroup = page.getByRole('tablist', {
       name: 'Tabs for images',
     });
     this.worksAboutTab = this.tab(
@@ -63,7 +69,7 @@ export class ConceptPage {
   // The use of the full and exact label should mean that the correct panel is found (images vs works),
   // as it includes the count suffix.
   // However, this does mean that tabPanelFor is not a "pure" Locator that can be stored as
-  // a property in the constructor.
+  // a property in the constructor.  The test author needs to know that the tab exists
   tabPanelFor = async (tab: Locator) => {
     const label = await tab.textContent();
     if (label) return this.page.getByRole('tabpanel', { name: label });
