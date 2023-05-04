@@ -225,13 +225,19 @@ type PageSectionDefinition<T extends ResultType> = {
     results: CatalogueResultsList<T>;
   };
 };
+type PageSectionDefinitionProps<T extends ResultType> = {
+  tabId: string;
+  resultsGroup: CatalogueResultsList<T> | undefined;
+  tabLabelText: string;
+  link: LinkProps;
+};
 
-function toPageSectionDefinition<T extends ResultType>(
-  tabId: string,
-  resultsGroup: CatalogueResultsList<T> | undefined,
-  tabLabelText: string,
-  link: LinkProps
-): PageSectionDefinition<T> | undefined {
+function toPageSectionDefinition<T extends ResultType>({
+  tabId,
+  resultsGroup,
+  tabLabelText,
+  link,
+}: PageSectionDefinitionProps<T>): PageSectionDefinition<T> | undefined {
   return resultsGroup?.totalResults
     ? {
         id: tabId,
@@ -275,15 +281,15 @@ export const ConceptPage: NextPage<Props> = ({
     .map(relationship => {
       const tabId = `works${capitalize(relationship)}`;
 
-      return toPageSectionDefinition<WorkType>(
+      return toPageSectionDefinition<WorkType>({
         tabId,
-        sectionsData[relationship].works,
-        sectionsData[relationship].label,
-        toWorksLink(
+        resultsGroup: sectionsData[relationship].works,
+        tabLabelText: sectionsData[relationship].label,
+        link: toWorksLink(
           allRecordsLinkParams(tabId, conceptResponse),
           linkSources[tabId]
-        )
-      );
+        ),
+      });
     })
     .filter(e => !!e) as PageSectionDefinition<WorkType>[];
 
@@ -295,15 +301,15 @@ export const ConceptPage: NextPage<Props> = ({
       const tabId = `images${relationship
         .charAt(0)
         .toUpperCase()}${relationship.slice(1)}`;
-      return toPageSectionDefinition(
+      return toPageSectionDefinition({
         tabId,
-        sectionsData[relationship].images,
-        sectionsData[relationship].label,
-        toImagesLink(
+        resultsGroup: sectionsData[relationship].images,
+        tabLabelText: sectionsData[relationship].label,
+        link: toImagesLink(
           allRecordsLinkParams(tabId, conceptResponse),
           linkSources[tabId]
-        )
-      );
+        ),
+      });
     })
     .filter(e => !!e) as PageSectionDefinition<ImageType>[];
 
