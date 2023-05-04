@@ -119,11 +119,8 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
     </Item>
   );
 };
-type Props = {
-  mainViewerRef: RefObject<FixedSizeList>;
-};
 
-const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
+const ViewerSidebar: FunctionComponent = () => {
   const { work, transformedManifest, parentManifest, currentManifestLabel } =
     useContext(ItemViewerContext);
   const { iiifCredit, structures, searchService } = transformedManifest;
@@ -225,7 +222,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
 
         {structures.length > 0 && (
           <AccordionItem title="Contents">
-            <ViewerStructures mainViewerRef={mainViewerRef} />
+            <ViewerStructures />
           </AccordionItem>
         )}
         {parentManifest &&
@@ -238,7 +235,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
       </Inner>
       {searchService && (
         <Inner>
-          <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+          <IIIFSearchWithin />
         </Inner>
       )}
     </>

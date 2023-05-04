@@ -15,14 +15,12 @@ import {
 } from '../../utils/works';
 import { getMultiVolumeLabel } from '../../utils/iiif/v3';
 import ViewerSidebar from './ViewerSidebar';
-import MainViewer, { scrollViewer } from './MainViewer';
+import MainViewer from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
 import ItemViewerContext, {
   results,
   RotatedImage,
 } from '../ItemViewerContext/ItemViewerContext';
-import { FixedSizeList } from 'react-window';
-import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import { useRouter } from 'next/router';
 import GridViewer from './GridViewer';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -231,7 +229,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const { isFullSupportBrowser } = useContext(AppContext);
   const viewToggleRef = useRef<HTMLButtonElement>(null);
   const gridViewerRef = useRef<HTMLDivElement>(null);
-  const mainViewerRef = useRef<FixedSizeList>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
@@ -361,15 +358,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     ...manifestDownloadOptions,
   ];
 
-
-  useEffect(() => {
-    if (previousManifestIndex.current === manifestIndex) return;
-
-    // If we change manifests, it's not enough to rely on the next/link
-    // to scroll us to the first canvas, because it's being handled by
-    // react window
-    mainViewerRef?.current?.scrollToItem(0, 'start');
-    previousManifestIndex.current = manifestIndex;
   // TODO why do we need to do this?
   useEffect(() => {
     const fetchParentManifest = async () => {
@@ -433,7 +421,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           isActiveMobile={isMobileSidebarActive}
           isActiveDesktop={isDesktopSidebarActive}
         >
-          <ViewerSidebar mainViewerRef={mainViewerRef} />
+          <ViewerSidebar />
         </Sidebar>
         <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
           <ViewerTopBar viewToggleRef={viewToggleRef} viewerRef={viewerRef} />
@@ -460,12 +448,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               setImageContainerRect={() => undefined}
             />
           )}
-          {hasImageService && (
-            <MainViewer
-              mainViewerRef={mainViewerRef}
-              mainAreaRef={mainAreaRef}
-            />
-          )}
+          {hasImageService && <MainViewer mainAreaRef={mainAreaRef} />}
         </Main>
         {showZoomed && (
           <Zoom>
@@ -482,11 +465,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           isActive={gridVisible}
           isDesktopSidebarActive={isDesktopSidebarActive}
         >
-          <GridViewer
-            mainViewerRef={mainViewerRef}
-            gridViewerRef={gridViewerRef}
-            viewerRef={viewerRef}
-          />
+          <GridViewer gridViewerRef={gridViewerRef} viewerRef={viewerRef} />
         </Thumbnails>
       </Grid>
     </ItemViewerContext.Provider>

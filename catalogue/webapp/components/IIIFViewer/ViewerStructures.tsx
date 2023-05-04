@@ -43,16 +43,9 @@ const Item = styled(Space).attrs({
   }
 `;
 
-type Props = {
-  mainViewerRef: RefObject<FixedSizeList>;
-};
-const ViewerStructuresPrototype: FunctionComponent<Props> = ({
-  mainViewerRef,
-}: Props) => {
-  const {
-    transformedManifest,
-    setIsMobileSidebarActive,
-  } = useContext(ItemViewerContext);
+const ViewerStructuresPrototype: FunctionComponent = () => {
+  const { transformedManifest, setIsMobileSidebarActive } =
+    useContext(ItemViewerContext);
   const { structures, canvases } = transformedManifest;
   const groupedStructures = groupStructures(canvases, structures);
 

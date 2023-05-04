@@ -1,25 +1,14 @@
-import {
-  useState,
-  useContext,
-  FunctionComponent,
-  RefObject,
-  useRef,
-} from 'react';
+import { useState, useContext, FunctionComponent, useRef } from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
-
-type Props = {
-  mainViewerRef: RefObject<FixedSizeList>;
-};
 
 const SearchForm = styled.form`
   position: relative;
@@ -91,7 +80,7 @@ const Loading = () => (
   </div>
 );
 
-const IIIFSearchWithin: FunctionComponent<Props> = ({ mainViewerRef }) => {
+const IIIFSearchWithin: FunctionComponent = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);

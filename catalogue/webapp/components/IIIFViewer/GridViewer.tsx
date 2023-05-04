@@ -44,7 +44,6 @@ type CellProps = {
     columnCount: number;
     gridVisible: boolean;
     setGridVisible: (value: boolean) => void;
-    mainViewerRef: RefObject<FixedSizeList>;
     canvases: TransformedCanvas[];
     searchResults: SearchResults;
     mainAreaWidth: number;
@@ -54,7 +53,6 @@ type CellProps = {
 const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   const {
     columnCount,
-    mainViewerRef,
     gridVisible,
     setGridVisible,
     scrollVelocity,
@@ -84,12 +82,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
             <IIIFCanvasThumbnail
               canvas={currentCanvas}
               clickHandler={() => {
-                scrollViewer(
-                  currentCanvas,
-                  itemIndex,
-                  mainViewerRef?.current,
-                  mainAreaWidth
-                );
+                // TODO make this a NextLink
                 setGridVisible(false);
               }}
               thumbNumber={itemIndex + 1}
@@ -125,13 +118,11 @@ const GridViewerEl = styled.div<GridViewerElProps>`
 
 type Props = {
   gridViewerRef: RefObject<HTMLDivElement>;
-  mainViewerRef: RefObject<FixedSizeList>;
   viewerRef: RefObject<HTMLElement>;
 };
 
 const GridViewer: FunctionComponent<Props> = ({
   gridViewerRef,
-  mainViewerRef,
   viewerRef,
 }: Props) => {
   const {
@@ -217,7 +208,6 @@ const GridViewer: FunctionComponent<Props> = ({
           width={mainAreaWidth}
           itemData={{
             columnCount,
-            mainViewerRef,
             gridVisible,
             setGridVisible,
             scrollVelocity,
