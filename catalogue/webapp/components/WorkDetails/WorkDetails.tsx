@@ -342,9 +342,6 @@ const WorkDetails: FunctionComponent<Props> = ({
                   </Space>
                 )}
 
-                {/* Note: there is no class flex-h-center, but there is flex--h-center
-                    Is that what's meant here? */}
-
                 <div style={{ display: 'flex' }}>
                   {itemUrl && (
                     <Space
@@ -382,7 +379,10 @@ const WorkDetails: FunctionComponent<Props> = ({
                       properties: ['margin-top'],
                     }}
                   >
-                    <p className={`no-margin ${font('lr', 6)}`}>
+                    <p
+                      className={`${font('lr', 6)}`}
+                      style={{ marginBottom: 0 }}
+                    >
                       Contains:{' '}
                       {collectionManifestsCount > 0
                         ? `${collectionManifestsCount} ${
@@ -483,6 +483,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection headingText="Selected images from this work">
           <ButtonSolidLink
+            dataGtmTrigger="view_selected_images"
             colors={themeValues.buttonColors.greenTransparentGreen}
             text={
               work.images.length > 1
@@ -640,7 +641,6 @@ const WorkDetails: FunctionComponent<Props> = ({
             allowDangerousRawHtml={true}
           />
         ))}
-
         {/*
          A genre may be simple or compound.
 
@@ -664,7 +664,7 @@ const WorkDetails: FunctionComponent<Props> = ({
 
                 linkAttributes: conceptLink(
                   { conceptId: genre.concepts[0].id as string },
-                  'work_details/contributors'
+                  'work_details/genres'
                 ),
               };
             })}
