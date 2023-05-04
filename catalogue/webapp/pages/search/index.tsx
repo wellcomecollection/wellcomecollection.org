@@ -11,7 +11,7 @@ import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/Wo
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -208,7 +208,7 @@ export const getServerSideProps: GetServerSideProps<
     properties: {},
   };
 
-  const defaultProps = removeUndefinedProps({
+  const defaultProps = serialiseProps({
     serverData,
     query,
     pageview,

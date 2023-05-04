@@ -9,7 +9,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { getPage } from '@weco/content/utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -90,7 +90,7 @@ export const getServerSideProps: GetServerSideProps<
   const jsonLd = series.results.map(articleSeriesLd);
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       title: contentTypeInfo.title,
       contentType,
       series: basicSeries,

@@ -8,7 +8,6 @@ import {
 import * as prismic from '@prismicio/client';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '../../../types/multi-content';
-import superjson from 'superjson';
 import {
   contributorFetchLinks,
   exhibitionFormatsFetchLinks,
@@ -25,6 +24,7 @@ import {
 import { pagesFetchLinks } from '../types/pages';
 import { seriesFetchLinks } from '../types/series';
 import { articlesFetchLinks } from '../types/articles';
+import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -105,6 +105,6 @@ export const fetchMultiContentClientSide = async (
 
   if (response.ok) {
     const json = await response.text();
-    return superjson.parse<PaginatedResults<MultiContent>>(json);
+    return deserialiseJsonDates(json);
   }
 };

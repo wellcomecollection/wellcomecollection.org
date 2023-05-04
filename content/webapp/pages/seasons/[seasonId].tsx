@@ -4,7 +4,7 @@ import { Season } from '@weco/content/types/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -213,7 +213,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = contentLd(season);
     const serverData = await getServerData(context);
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         season,
         articles: articles.results,
         books: books.results,

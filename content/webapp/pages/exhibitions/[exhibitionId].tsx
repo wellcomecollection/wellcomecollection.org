@@ -6,7 +6,7 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = exhibitionLd(exhibitionDoc);
 
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         exhibition: exhibitionDoc,
         pages: relatedPages?.results || [],
         jsonLd,

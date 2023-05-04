@@ -20,7 +20,7 @@ import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
@@ -80,7 +80,7 @@ export const getServerSideProps: GetServerSideProps<
     const article = transformArticle(articleDocument);
     const jsonLd = articleLd(article);
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         article,
         jsonLd,
         serverData,

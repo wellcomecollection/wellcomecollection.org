@@ -1,11 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/type-guards';
-import { isJson } from '@weco/common/utils/json';
+import {
+  isJson,
+  serialiseDates as serialiseJsonDates,
+} from '@weco/common/utils/json';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { transformEventBasic } from '@weco/content/services/prismic/transformers/events';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import superjson from 'superjson';
 
 export default async (
   req: NextApiRequest,
@@ -25,6 +27,6 @@ export default async (
 
   if (query) {
     const events = transformQuery(query, transformEventBasic);
-    return res.status(200).json(superjson.serialize(events));
+    return res.status(200).json(serialiseJsonDates(events));
   }
 };

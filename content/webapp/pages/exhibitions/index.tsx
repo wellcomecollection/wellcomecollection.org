@@ -5,7 +5,7 @@ import { Period } from '@weco/content/types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { getPage } from '@weco/content/utils/query-params';
@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps<
     const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
     const jsonLd = exhibitions.results.map(exhibitionLd);
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         exhibitions,
         title,
         period: period as Period,

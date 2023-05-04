@@ -13,7 +13,7 @@ import { ArticleBasic } from '@weco/content/types/articles';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
@@ -134,7 +134,7 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       series,
       articles: {
         ...articles,

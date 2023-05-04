@@ -5,7 +5,7 @@ import Link, { LinkProps } from 'next/link';
 
 // Helpers/Utils
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
 import { getConcept } from '@weco/catalogue/services/wellcome/catalogue/concepts';
@@ -574,7 +574,7 @@ export const getServerSideProps: GetServerSideProps<
   };
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       conceptResponse,
       sectionsData,
       apiToolbarLinks,

@@ -45,7 +45,7 @@ import { SectionPageHeader } from '@weco/common/views/components/styled/SectionP
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import {
@@ -371,7 +371,7 @@ export const getServerSideProps: GetServerSideProps<
     ] as JsonLdObj[];
 
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         period,
         exhibitions,
         events: basicEvents,

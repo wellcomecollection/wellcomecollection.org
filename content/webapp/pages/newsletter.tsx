@@ -5,7 +5,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { newsletterDescription } from '@weco/common/data/microcopy';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<
   const { result } = context.query;
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       result: result ? result.toString() : undefined,
       serverData,
     }),

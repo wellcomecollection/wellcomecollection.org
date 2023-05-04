@@ -17,7 +17,6 @@ import {
   Exhibition,
   ExhibitionRelatedContent,
 } from '../../../types/exhibitions';
-import superjson from 'superjson';
 import {
   articleFormatsFetchLinks,
   contributorFetchLinks,
@@ -37,6 +36,7 @@ import {
 } from '../types/events';
 import { seriesFetchLinks } from '../types/series';
 import { articlesFetchLinks } from '../types/articles';
+import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 
 const fetchLinks = [
   ...exhibitionFormatsFetchLinks,
@@ -179,6 +179,6 @@ export const fetchExhibitionRelatedContentClientSide = async (
 
   if (response.ok) {
     const json = await response.text();
-    return superjson.parse<ExhibitionRelatedContent>(json);
+    return deserialiseJsonDates(json);
   }
 };

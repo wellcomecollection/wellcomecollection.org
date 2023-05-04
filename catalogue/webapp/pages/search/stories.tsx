@@ -12,7 +12,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -152,7 +152,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   const serverData = await getServerData(context);
   const query = context.query;
-  const defaultProps = removeUndefinedProps({
+  const defaultProps = serialiseProps({
     serverData,
     storyResponseList: { totalResults: 0 },
     query,
@@ -183,7 +183,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       ...defaultProps,
       storyResponseList,
       pageview: {
