@@ -390,6 +390,13 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
     }
   }
 
+  // Scroll to the correct canvas if the canvasIndex, i.e. url canvas param changes
+  // TODO do we need to handle landscapes here too? Maybe use scrollViewer function from here
+  useEffect(() => {
+    const canvasIndex = canvasParam - 1; // TODO do this somewhere else and comment on why
+    mainViewerRef?.current?.scrollToItem(canvasIndex, 'start');
+  }, [canvasParam]);
+
   return (
     <div data-test-id="main-viewer">
       <FixedSizeList
