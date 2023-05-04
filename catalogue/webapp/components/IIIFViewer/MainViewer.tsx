@@ -341,7 +341,6 @@ const MainViewer: FunctionComponent<Props> = ({
   mainAreaRef,
 }: Props) => {
   const {
-    setActiveIndex,
     mainAreaHeight,
     mainAreaWidth,
     transformedManifest,
@@ -377,7 +376,6 @@ const MainViewer: FunctionComponent<Props> = ({
   function handleOnItemsRendered() {
     let currentCanvas: TransformedCanvas | undefined;
     if (firstRenderRef.current) {
-      setActiveIndex(canvasIndex);
       currentCanvas = canvases?.[canvasIndex];
       const viewer = mainViewerRef?.current;
 
@@ -407,7 +405,6 @@ const MainViewer: FunctionComponent<Props> = ({
           setShowZoomed,
           setZoomInfoUrl,
           rotatedImages,
-          setActiveIndex,
           setIsLoading,
           mainAreaRef,
           errorHandler,

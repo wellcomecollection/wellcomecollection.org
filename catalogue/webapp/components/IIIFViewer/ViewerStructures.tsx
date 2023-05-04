@@ -51,8 +51,6 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
 }: Props) => {
   const {
     transformedManifest,
-    setActiveIndex,
-    activeIndex,
     setIsMobileSidebarActive,
   } = useContext(ItemViewerContext);
   const { structures, canvases } = transformedManifest;

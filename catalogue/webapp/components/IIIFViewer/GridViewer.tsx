@@ -45,8 +45,6 @@ type CellProps = {
     gridVisible: boolean;
     setGridVisible: (value: boolean) => void;
     mainViewerRef: RefObject<FixedSizeList>;
-    activeIndex: number;
-    setActiveIndex: (i: number) => void;
     canvases: TransformedCanvas[];
     searchResults: SearchResults;
     mainAreaWidth: number;
@@ -60,8 +58,6 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     gridVisible,
     setGridVisible,
     scrollVelocity,
-    activeIndex,
-    setActiveIndex,
     canvases,
     searchResults,
     mainAreaWidth,
@@ -94,10 +90,8 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                   mainViewerRef?.current,
                   mainAreaWidth
                 );
-                setActiveIndex(itemIndex);
                 setGridVisible(false);
               }}
-              isActive={activeIndex === itemIndex}
               thumbNumber={itemIndex + 1}
               isFocusable={gridVisible}
               highlightImage={hasSearchResults}
@@ -145,8 +139,6 @@ const GridViewer: FunctionComponent<Props> = ({
     mainAreaWidth,
     gridVisible,
     setGridVisible,
-    setActiveIndex,
-    activeIndex,
     transformedManifest,
     isFullscreen,
     searchResults,

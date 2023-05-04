@@ -229,7 +229,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false); // don't show sidebar by default on mobile
-  const [activeIndex, setActiveIndex] = useState(0);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
   const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
@@ -248,7 +247,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     image => image.canvasIndex === 0
   );
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
-  const activeIndexRef = useRef(activeIndex);
   const previousManifestIndex = useRef(manifestIndex);
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
   const transformedIIIFImage = useTransformedIIIFImage(work);
@@ -263,12 +261,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   } = transformedManifest;
 
   useEffect(() => {
-    activeIndexRef.current = activeIndex;
-  }, [activeIndex]);
-
-  useEffect(() => {
     let timer: NodeJS.Timeout;
-    let previousActiveIndex;
 
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
       clearTimeout(timer);
@@ -277,29 +270,17 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setIsResizing(true);
       }
 
-      // Store a reference to where we were
-      if (!previousActiveIndex) {
-        previousActiveIndex = activeIndexRef.current;
-      }
-
-      timer = setTimeout(() => {
-        // If we've changed index as a result of the
-        // mainArea changing size, reset it to what
-        // it was before and scroll to the right place.
-        if (previousActiveIndex !== activeIndex) {
-          setActiveIndex(previousActiveIndex);
-          canvases &&
-            scrollViewer(
-              canvases[previousActiveIndex],
-              previousActiveIndex,
-              mainViewerRef?.current,
-              mainArea.contentRect.width
-            );
-        }
-
-        previousActiveIndex = undefined;
-        setIsResizing(false);
-      }, 500); // Debounce
+      // timer = setTimeout(() => {
+      // If we've changed index as a result of the
+      // mainArea changing size, reset it to what
+      // it was before and scroll to the right place.
+      // if () {
+      //   canvases &&
+      //     scrollViewer();
+      // }
+      //   previousActiveIndex = undefined;
+      //   setIsResizing(false);
+      // }, 500); // Debounce
 
       setMainAreaWidth(mainArea.contentRect.width);
       setMainAreaHeight(mainArea.contentRect.height);
@@ -373,26 +354,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     ...manifestDownloadOptions,
   ];
 
-  useSkipInitialEffect(() => {
-    const link = image
-      ? imageLink(
-          {
-            workId: work.id,
-            id: image.id,
-          },
-          'unknown'
-        )
-      : itemLink(
-          {
-            workId: work.id,
-            page: pageIndex + 1,
-            canvas: activeIndex + 1,
-            manifest: manifestIndex ? manifestIndex + 1 : undefined,
-          },
-          'unknown'
-        );
-    Router.replace(link.href, link.as);
-  }, [activeIndex]);
 
   useEffect(() => {
     if (previousManifestIndex.current === manifestIndex) return;
@@ -424,7 +385,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         manifestIndex,
         lang,
         canvasIndex,
-        activeIndex,
         gridVisible,
         currentManifestLabel,
         iiifImageLocationCredit,
@@ -446,7 +406,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setSearchResults,
         setIsMobileSidebarActive,
         setIsDesktopSidebarActive,
-        setActiveIndex,
         setGridVisible,
         setShowZoomed,
         setIsFullscreen,

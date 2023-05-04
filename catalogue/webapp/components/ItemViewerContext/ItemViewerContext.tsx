@@ -15,9 +15,10 @@ type Props = {
   work: Work;
   transformedManifest: TransformedManifest;
   manifestIndex: number | undefined;
-  activeIndex: number;
-  setActiveIndex: (i: number) => void;
-  canvasIndex: number;
+  // canvasIndex: number;
+  pageParam: number;
+  canvasParam: number;
+  manifestParam: number;
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
   currentManifestLabel?: string;
@@ -96,7 +97,6 @@ const ItemViewerContext = createContext<Props>({
   },
   transformedManifest: createDefaultTransformedManifest(),
   manifestIndex: undefined,
-  activeIndex: 0,
   canvasIndex: 0,
   gridVisible: false,
   currentManifestLabel: undefined,
@@ -118,7 +118,6 @@ const ItemViewerContext = createContext<Props>({
   searchResults: results,
   isResizing: false,
   setZoomInfoUrl: () => undefined,
-  setActiveIndex: () => undefined,
   setGridVisible: () => false,
   setShowZoomed: () => undefined,
   setIsDesktopSidebarActive: () => undefined,

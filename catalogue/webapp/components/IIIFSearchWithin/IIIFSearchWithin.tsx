@@ -96,7 +96,6 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({ mainViewerRef }) => {
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const {
-    setActiveIndex,
     transformedManifest,
     searchResults,
     setSearchResults,
@@ -192,7 +191,6 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({ mainViewerRef }) => {
                   onClick={() => {
                     if (index) {
                       setIsMobileSidebarActive(false);
-                      setActiveIndex(index || 0);
                       mainViewerRef &&
                         mainViewerRef.current &&
                         mainViewerRef.current.scrollToItem(index || 0, 'start');

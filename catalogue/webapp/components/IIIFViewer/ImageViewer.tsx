@@ -63,7 +63,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   setImageRect,
   setImageContainerRect,
 }: ImageViewerProps) => {
-  const { lang, setActiveIndex, errorHandler, setZoomInfoUrl, setShowZoomed } =
+  const { lang, errorHandler, setZoomInfoUrl, setShowZoomed } =
     useContext(ItemViewerContext);
   const imageViewer = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -104,9 +104,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   }, []);
 
   useEffect(() => {
-    if (setActiveIndex && isOnScreen) {
-      setActiveIndex(index);
       setZoomInfoUrl && setZoomInfoUrl(infoUrl);
+    if (isOnScreen) {
     }
   }, [isOnScreen]);
 
