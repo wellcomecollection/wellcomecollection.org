@@ -159,23 +159,23 @@ const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
   />
 );
 
-type TagLabelType = {
+type TabLabelProps = {
   text: string;
   totalResults: number;
 };
 
-const TabLabel = ({ text, totalResults }: TagLabelType) => (
+const TabLabel = ({ text, totalResults }: TabLabelProps) => (
   <>
     {text} <span className="is-hidden-s">({formatNumber(totalResults)})</span>
   </>
 );
 
-type ImagesTabPanelType = {
+type ImagesTabPanelProps = {
   id: string;
   link: LinkProps;
   results: CatalogueResultsList<ImageType>;
 };
-const ImagesTabPanel = ({ id, link, results }: ImagesTabPanelType) => {
+const ImagesTabPanel = ({ id, link, results }: ImagesTabPanelProps) => {
   return (
     <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
       <ImageEndpointSearchResults images={results.results} />
@@ -190,12 +190,12 @@ const ImagesTabPanel = ({ id, link, results }: ImagesTabPanelType) => {
   );
 };
 
-type WorksTabPanelType = {
+type WorksTabPanelProps = {
   id: string;
   link: LinkProps;
   results: CatalogueResultsList<WorkType>;
 };
-const WorksTabPanel = ({ id, link, results }: WorksTabPanelType) => {
+const WorksTabPanel = ({ id, link, results }: WorksTabPanelProps) => {
   return (
     <div className="container">
       <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
