@@ -332,14 +332,10 @@ export function scrollViewer(
 }
 
 type Props = {
-  mainViewerRef: RefObject<FixedSizeList>;
   mainAreaRef: RefObject<HTMLDivElement>;
 };
 
-const MainViewer: FunctionComponent<Props> = ({
-  mainViewerRef,
-  mainAreaRef,
-}: Props) => {
+const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
   const {
     mainAreaHeight,
     mainAreaWidth,
@@ -353,6 +349,7 @@ const MainViewer: FunctionComponent<Props> = ({
     setShowControls,
     errorHandler,
   } = useContext(ItemViewerContext);
+  const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
   const firstRenderRef = useRef(firstRender);
