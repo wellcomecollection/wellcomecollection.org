@@ -37,8 +37,7 @@ export const useAVTracking = (avType: 'audio' | 'video') => {
   function trackEnded(event: SyntheticEvent<HTMLMediaElement, Event>) {
     gtag('event', `${avType}_complete`, getParams(event));
     setDidStart(false);
-    cachedSteps.clear();
-    setCachedSteps(cachedSteps);
+    setCachedSteps(new Set());
   }
 
   function trackTimeUpdate(event: SyntheticEvent<HTMLMediaElement, Event>) {
