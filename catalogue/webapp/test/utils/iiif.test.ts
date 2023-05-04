@@ -19,6 +19,9 @@ import {
   clickThroughService,
 } from '@weco/common/__mocks__/iiif-manifest-v3';
 
+import b16641097 from '@weco/catalogue/test/fixtures/iiif/manifests/b16641097';
+import b3223756x from '@weco/catalogue/test/fixtures/iiif/manifests/b3223756x';
+
 const canvases = getTransformedCanvases(manifest as Manifest);
 const structures = [
   {
@@ -170,6 +173,42 @@ describe('Group repetitive iiif structures', () => {
 });
 
 describe('getVideo', () => {
+  it('gets a video with a single "Video" in the body', () => {
+    const video = getVideo(b16641097 as any);
+
+    expect(video).toStrictEqual({
+      width: 720,
+      height: 720,
+      duration: 1061,
+      id: 'https://iiif-test.wellcomecollection.org/av/b16641097_0055-0000-3655-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.mp4',
+      type: 'Video',
+      label: {
+        en: ['Video file, size: 720 x 720'],
+      },
+      format: 'video/mp4',
+      thumbnail: 'https://iiif-test.wellcomecollection.org/thumb/b16641097',
+      annotations: undefined,
+    });
+  });
+
+  it('gets a video with multiple items as a "Choice" in the body', () => {
+    const video = getVideo(b3223756x as any);
+
+    expect(video).toStrictEqual({
+      width: 960,
+      height: 720,
+      duration: 239.875,
+      id: 'https://iiif-test.wellcomecollection.org/av/b3223756x_0002.mp4/full/full/max/max/0/default.mp4',
+      type: 'Video',
+      label: {
+        en: ['Video file, size: 960 x 720'],
+      },
+      format: 'video/mp4',
+      thumbnail: 'https://iiif-test.wellcomecollection.org/thumb/b3223756x',
+      annotations: undefined,
+    });
+  });
+
   it('returns a Video type from a manifest', () => {
     const video = {
       width: 720,
