@@ -345,6 +345,7 @@ const MainViewer: FunctionComponent<Props> = ({
     mainAreaWidth,
     transformedManifest,
     canvasIndex,
+    canvasParam,
     setShowZoomed,
     setZoomInfoUrl,
     setIsLoading,

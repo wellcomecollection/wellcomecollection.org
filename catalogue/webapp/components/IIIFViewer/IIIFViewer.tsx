@@ -23,7 +23,7 @@ import ItemViewerContext, {
 } from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import GridViewer from './GridViewer';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
@@ -38,6 +38,7 @@ import { TransformedCanvas, TransformedManifest } from '../../types/manifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import { toLink as imageLink } from '@weco/catalogue/components/ImageLink';
+import { fromQuery } from '@weco/catalogue/components/ItemLink';
 
 type IIIFViewerProps = {
   title: string;
@@ -216,6 +217,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   canvasOcr,
   handleImageError,
 }: IIIFViewerProps) => {
+  const router = useRouter(); // TODO or should this be passed in from items/images pages from context.query?
+  const {
+    page: pageParam = 1, // TODO do we really need to rename these
+    canvas: canvasParam = 1,
+    manifest: manifestParam = 1,
+  } = fromQuery(router.query);
   const [gridVisible, setGridVisible] = useState(false);
   const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
@@ -363,8 +370,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     // react window
     mainViewerRef?.current?.scrollToItem(0, 'start');
     previousManifestIndex.current = manifestIndex;
-  }, [manifestIndex]);
-
+  // TODO why do we need to do this?
   useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
@@ -385,6 +391,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         manifestIndex,
         lang,
         canvasIndex,
+        pageParam, // TODO maybe do these as one thing, i.e. query and maybe do them as index with -1 taken into account
+        canvasParam,
+        manifestParam,
         gridVisible,
         currentManifestLabel,
         iiifImageLocationCredit,
