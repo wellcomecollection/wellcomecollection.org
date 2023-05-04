@@ -144,10 +144,6 @@ const GridViewer: FunctionComponent<Props> = ({
   const { isVisible } = useContext(GlobalInfoBarContext);
   const { canvases } = transformedManifest;
 
-  useEffect(() => {
-    const rowIndex = Math.floor(activeIndex / columnCount);
-    grid.current?.scrollToItem({ align: 'start', rowIndex });
-  }, [activeIndex]);
 
   useEffect(() => {
     // required to be set as we are setting the body to overflow hidden to stop multiple scrolls in view bug issue.
@@ -211,8 +207,6 @@ const GridViewer: FunctionComponent<Props> = ({
             gridVisible,
             setGridVisible,
             scrollVelocity,
-            activeIndex,
-            setActiveIndex,
             canvases,
             searchResults,
             mainAreaWidth,
