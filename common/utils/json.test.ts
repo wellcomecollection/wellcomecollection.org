@@ -23,6 +23,10 @@ describe('date serialisation', () => {
         new Date('2008-08-08T08:08:08Z'),
         new Date('2009-09-09T09:09:09Z'),
       ],
+      nonUTCDates: [
+        new Date('2001-01-01T01:01:01+0100'),
+        new Date('2002-02-02T02:02:02-0200'),
+      ],
     };
 
     expect(deserialiseDates(serialiseDates(value))).toStrictEqual(value);
