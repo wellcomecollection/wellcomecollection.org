@@ -19,17 +19,6 @@ const TextWrapper = styled.div`
   border-left: 1px solid ${props => props.theme.color('accent.salmon')};
 `;
 
-const FeaturedMediaWrapper = styled.div`
-  position: relative;
-`;
-
-const TitleWrapper = styled.h1.attrs({
-  className: `${font('wb', 1)}`,
-})`
-  display: inline-block;
-  margin-bottom: 0;
-`;
-
 type Props = {
   labels: ComponentProps<typeof LabelsList>;
   title: string;
@@ -52,7 +41,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({
       <HeaderWrapper>
         <WobblyBottom backgroundColor="white">
           {FeaturedMedia && (
-            <FeaturedMediaWrapper>{FeaturedMedia}</FeaturedMediaWrapper>
+            <div style={{ position: 'relative' }}>{FeaturedMedia}</div>
           )}
           <Space
             v={{
@@ -72,7 +61,12 @@ const SeasonsHeader: FunctionComponent<Props> = ({
                     )}
                     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                        <TitleWrapper>{title}</TitleWrapper>
+                        <h1
+                          className={font('wb', 1)}
+                          style={{ display: 'inline-block', marginBottom: 0 }}
+                        >
+                          {title}
+                        </h1>
                       </Space>
                       {start && end && (
                         <div className={font('intr', 5)}>
