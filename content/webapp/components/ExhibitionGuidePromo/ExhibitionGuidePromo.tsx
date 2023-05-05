@@ -63,7 +63,7 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
           </Space>
           {exhibitionGuide.promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
-              <p className={`${font('intr', 5)}`} style={{ marginBottom: 0 }}>
+              <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
                 {exhibitionGuide.promo.caption}
               </p>
             </Space>

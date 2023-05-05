@@ -79,7 +79,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             return (
               <h4
                 key={`${event.title} ${startTimeString}`}
-                className={`${font('intb', 5)}`}
+                className={font('intb', 5)}
               >
                 <HTMLTime date={t.range.startDateTime} />
                 {' – '}
@@ -129,7 +129,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
                   properties: ['margin-top', 'margin-bottom'],
                 }}
               >
-                <p className={`${font('intr', 5)}`} style={{ marginBottom: 0 }}>
+                <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className="visually-hidden">
