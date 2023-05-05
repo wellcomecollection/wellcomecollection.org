@@ -67,7 +67,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
             className={cssGrid(gridSize12)}
             style={{ display: 'block' }}
           >
-            <h2 className="container" id={id}>
+            <h2 className="container is-hidden" id={id}>
               {month.month}
             </h2>
             <CardGrid
