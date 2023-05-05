@@ -31,6 +31,15 @@ describe('date serialisation', () => {
 
     expect(deserialiseDates(serialiseDates(value))).toStrictEqual(value);
   });
+
+  it('handles null values in the JSON', () => {
+    const value = {
+      name: 'the void',
+      location: null,
+    };
+
+    expect(deserialiseDates(serialiseDates(value))).toStrictEqual(value);
+  });
 });
 
 describe('removeUndefinedProps', () => {

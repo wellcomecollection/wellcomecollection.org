@@ -48,6 +48,7 @@ export function deserialiseDates(value: any) {
   const reviver = function (key: string, value: any) {
     if (
       typeof value === 'object' &&
+      value !== null &&
       Object.keys(value).length === 2 &&
       Object.keys(value).includes('type') &&
       Object.keys(value).includes('value') &&
