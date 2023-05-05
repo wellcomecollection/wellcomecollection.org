@@ -7,6 +7,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
 import { groupEventsByMonth, startOf } from './group-event-utils';
+import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 
 type Props = {
   events: EventBasic[];
@@ -37,7 +38,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
         <CssGridContainer>
           <div className="css-grid">
-            <div className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}>
+            <div className={cssGrid(gridSize12)}>
               <SegmentedControl
                 id="monthControls"
                 activeId={activeId}
@@ -52,7 +53,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
       {groups.map(g => (
         <div
           key={g.id}
-          className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}
+          className={cssGrid(gridSize12)}
           style={{
             display: activeId === g.id ? 'block' : 'none',
           }}
