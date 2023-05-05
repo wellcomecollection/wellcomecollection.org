@@ -21,11 +21,9 @@ type Props = {
 };
 
 const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
-  const eventsInMonths = groupEventsByMonth(events);
-
   // Order months correctly.  This returns the headings for each month,
   // now in chronological order.
-  const groups = eventsInMonths.map(({ month, events }) => {
+  const eventsInMonths = groupEventsByMonth(events).map(({ month, events }) => {
     const id = `${month.month}-${month.year}`.toLowerCase();
 
     return {
@@ -37,7 +35,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
     };
   });
 
-  const [activeId, setActiveId] = useState(groups[0].id);
+  const [activeId, setActiveId] = useState(eventsInMonths[0].id);
 
   return (
     <div>
@@ -49,29 +47,29 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
                 id="monthControls"
                 activeId={activeId}
                 setActiveId={setActiveId}
-                items={groups}
+                items={eventsInMonths}
               />
             </div>
           </div>
         </CssGridContainer>
       </Space>
 
-      {groups
-        .filter(g => activeId === g.id)
-        .map(g => (
+      {eventsInMonths
+        .filter(({ id }) => activeId === id)
+        .map(({ id, month, events }) => (
           <div
-            key={g.id}
+            key={id}
             className={cssGrid(gridSize12)}
             style={{ display: 'block' }}
           >
-            <h2 className="container" id={g.id}>
-              {g.month.month}
+            <h2 className="container" id={id}>
+              {month.month}
             </h2>
             <CardGrid
-              items={g.events}
+              items={events}
               itemsPerRow={3}
               links={links}
-              fromDate={startOf(g.month)}
+              fromDate={startOf(month)}
             />
           </div>
         ))}
