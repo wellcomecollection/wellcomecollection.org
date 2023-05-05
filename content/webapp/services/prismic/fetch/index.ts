@@ -157,7 +157,7 @@ export function clientSideFetcher<TransformedDocument>(endpoint: string) {
       const response = await fetch(url);
 
       if (response.ok) {
-        const json = await response.text();
+        const json = await response.json();
         return deserialiseJsonDates(json);
       }
     },
