@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react';
-import { classNames, cssGrid } from '@weco/common/utils/classnames';
+import { cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { EventBasic } from '../../types/events';
 import { Link } from '../../types/link';
@@ -50,31 +50,25 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         </CssGridContainer>
       </Space>
 
-      {groups.map(g => (
-        <div
-          key={g.id}
-          className={cssGrid(gridSize12)}
-          style={{
-            display: activeId === g.id ? 'block' : 'none',
-          }}
-        >
-          <h2
-            className={classNames({
-              container: true,
-              'is-hidden': Boolean(activeId),
-            })}
-            id={g.id}
+      {groups
+        .filter(g => activeId === g.id)
+        .map(g => (
+          <div
+            key={g.id}
+            className={cssGrid(gridSize12)}
+            style={{ display: 'block' }}
           >
-            {g.month.month}
-          </h2>
-          <CardGrid
-            items={g.events}
-            itemsPerRow={3}
-            links={links}
-            fromDate={startOf(g.month)}
-          />
-        </div>
-      ))}
+            <h2 className="container" id={g.id}>
+              {g.month.month}
+            </h2>
+            <CardGrid
+              items={g.events}
+              itemsPerRow={3}
+              links={links}
+              fromDate={startOf(g.month)}
+            />
+          </div>
+        ))}
     </div>
   );
 };
