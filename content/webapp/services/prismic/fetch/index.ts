@@ -145,7 +145,11 @@ export async function fetchFromClientSide<T>({
   //
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
   const urlSearchParams = new URLSearchParams();
-  urlSearchParams.set('params', JSON.stringify(params));
+
+  urlSearchParams.set(
+    'params',
+    isString(params) ? params : JSON.stringify(params)
+  );
 
   const url = `/api/${endpoint}?${urlSearchParams.toString()}`;
 

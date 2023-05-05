@@ -1,4 +1,8 @@
-import { GetServerSidePropsPrismicClient, delistPredicate } from '.';
+import {
+  GetServerSidePropsPrismicClient,
+  delistPredicate,
+  fetchFromClientSide,
+} from '.';
 import { Query } from '@prismicio/types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
@@ -24,7 +28,6 @@ import {
 import { pagesFetchLinks } from '../types/pages';
 import { seriesFetchLinks } from '../types/series';
 import { articlesFetchLinks } from '../types/articles';
-import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -87,24 +90,5 @@ export const fetchMultiContent = async (
 
 export const fetchMultiContentClientSide = async (
   stringQuery: string
-): Promise<PaginatedResults<MultiContent> | undefined> => {
-  // If you add more parameters here, you have to update the corresponding cache behaviour
-  // in the CloudFront distribution, or you may get incorrect behaviour.
-  //
-  // e.g. at one point we forgot to include the "params" query in the cache key,
-  // so every article was showing the same set of related stories.
-  //
-  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
-  const urlSearchParams = new URLSearchParams();
-  urlSearchParams.set('params', stringQuery);
-
-  // If we have multiple content types, use the first one as the ID.
-  const url = `/api/multi-content?${urlSearchParams.toString()}`;
-
-  const response = await fetch(url);
-
-  if (response.ok) {
-    const json = await response.text();
-    return deserialiseJsonDates(json);
-  }
-};
+): Promise<PaginatedResults<MultiContent> | undefined> =>
+  fetchFromClientSide({ endpoint: 'multi-content', params: stringQuery });
