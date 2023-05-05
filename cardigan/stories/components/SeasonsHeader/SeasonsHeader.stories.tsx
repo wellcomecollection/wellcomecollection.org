@@ -17,7 +17,7 @@ const Template = args => <SeasonsHeader {...args} />;
 export const basic = Template.bind({});
 basic.args = {
   season: {
-    labels: { labels: [{ text: 'Article' }] },
+    labels: [{ text: 'Article' }],
     title: 'What does it mean to be human, now?',
     start: new Date('2021-01-05T00:00:00.000Z'),
     end: new Date('2021-01-26T00:00:00.000Z'),
