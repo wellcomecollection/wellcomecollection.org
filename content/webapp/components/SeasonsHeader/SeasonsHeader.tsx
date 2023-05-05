@@ -43,15 +43,9 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
             <div style={{ position: 'relative' }}>
               <PrismicImage
                 image={superWidescreenImage}
-                sizes={{
-                  xlarge: 1,
-                  large: 1,
-                  medium: 1,
-                  small: 1,
-                }}
+                sizes={{ xlarge: 1, large: 1, medium: 1, small: 1 }}
                 quality="low"
               />
-              ) : undefined
             </div>
           )}
           <Space
