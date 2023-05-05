@@ -62,7 +62,7 @@ const SearchBar: FunctionComponent<Props> = ({
   const defaultInputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Container>
+    <Container className="is-hidden-print">
       <SearchInputWrapper>
         <TextInput
           id={`${location}-searchbar`}

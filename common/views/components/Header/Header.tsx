@@ -123,7 +123,7 @@ const Header: FunctionComponent<Props> = ({
       active={searchDropdownIsActive || burgerMenuIsActive}
       focusTrapOptions={{ preventScroll: true }}
     >
-      <div>
+      <div className="is-hidden-print">
         <Wrapper isBurgerOpen={burgerMenuIsActive}>
           <GridCell>
             <Container>

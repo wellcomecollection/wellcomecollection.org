@@ -43,6 +43,13 @@ export const utilityClasses = css<GlobalStyleProps>`
     `}
   }
 
+  // Only hides when printing
+  .is-hidden-print {
+    @media print {
+      display: none;
+    }
+  }
+
   // This removes the element from the flow, as well as its visibility
   .visually-hidden {
     border: 0;

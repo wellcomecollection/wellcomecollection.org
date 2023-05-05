@@ -25,7 +25,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => {
   ];
 
   return (
-    <BreadcrumbWrapper>
+    <BreadcrumbWrapper className="is-hidden-print">
       {visibleItems.map(({ text, url, prefix }, i) => {
         const LinkOrSpanTag = url ? 'a' : 'span';
         return (

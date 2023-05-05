@@ -11,7 +11,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import { addDays, today } from '../../../utils/dates';
 
 const CookieNoticeStyle = styled.div.attrs({
-  className: font('intb', 4),
+  className: `${font('intb', 4)} is-hidden-print`,
 })`
   position: fixed;
   background: ${props => props.theme.color('accent.blue')};

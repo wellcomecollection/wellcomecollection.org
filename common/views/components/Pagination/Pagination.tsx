@@ -17,7 +17,9 @@ export type Props = {
   isLoading?: boolean;
 };
 
-const Container = styled.nav.attrs({ className: font('intr', 6) })<{
+const Container = styled.nav.attrs({
+  className: `${font('intr', 6)} is-hidden-print`,
+})<{
   isHiddenMobile?: boolean;
 }>`
   display: flex;

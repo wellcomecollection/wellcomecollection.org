@@ -1,13 +1,13 @@
 import { useState, useContext, FunctionComponent } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { font } from '../../../utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import TextInput from '../TextInput/TextInput';
-import { trackGaEvent } from '../../../utils/ga';
-import useValidation from '../../../hooks/useValidation';
+import { trackGaEvent } from '@weco/common/utils/ga';
+import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import { newsletterAddressBook } from '../../../data/dotdigital';
+import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 
 const FormElementWrapper = styled.div`
   display: flex;
@@ -151,7 +151,7 @@ const NewsletterPromo: FunctionComponent = () => {
   }
 
   return (
-    <div className="row">
+    <div className="is-hidden-print">
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div>
