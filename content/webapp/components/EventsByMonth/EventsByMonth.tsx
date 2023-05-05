@@ -21,21 +21,26 @@ type Props = {
 };
 
 const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
-  // Order months correctly.  This returns the headings for each month,
-  // now in chronological order.
-  const eventsInMonths = groupEventsByMonth(events).map(({ month, events }) => {
-    const id = `${month.month}-${month.year}`.toLowerCase();
+  // Group the events into the per-month tabs that we render on the
+  // What's On page, e.g. a group for May, June, July, ...
+  const monthsWithEvents = groupEventsByMonth(events).map(
+    ({ month, events }) => {
+      const id = `${month.month}-${month.year}`.toLowerCase();
 
-    return {
-      id,
-      url: `#${id}`,
-      text: month.month,
-      month,
-      events,
-    };
-  });
+      return {
+        id,
+        url: `#${id}`,
+        text: month.month,
+        month,
+        events,
+      };
+    }
+  );
 
-  const [activeId, setActiveId] = useState(eventsInMonths[0].id);
+  // We assume that there will always be some upcoming events scheduled,
+  // which means there will be at least one month in `monthsWithEvents`
+  // that has some events in it -- so this will always be a string.
+  const [activeId, setActiveId] = useState(monthsWithEvents[0].id);
 
   return (
     <div>
@@ -47,14 +52,14 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
                 id="monthControls"
                 activeId={activeId}
                 setActiveId={setActiveId}
-                items={eventsInMonths}
+                items={monthsWithEvents}
               />
             </div>
           </div>
         </CssGridContainer>
       </Space>
 
-      {eventsInMonths
+      {monthsWithEvents
         .filter(({ id }) => activeId === id)
         .map(({ id, month, events }) => (
           <div
