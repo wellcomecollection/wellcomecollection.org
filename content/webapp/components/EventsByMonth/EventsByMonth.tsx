@@ -1,13 +1,19 @@
 import { FunctionComponent, useState } from 'react';
+
+// Helpers/Utils
 import { cssGrid } from '@weco/common/utils/classnames';
-import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import { EventBasic } from '../../types/events';
-import { Link } from '../../types/link';
-import Space from '@weco/common/views/components/styled/Space';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import CardGrid from '../CardGrid/CardGrid';
-import { groupEventsByMonth, startOf } from './group-event-utils';
 import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
+import { groupEventsByMonth, startOf } from './group-event-utils';
+
+// Components
+import CardGrid from '../CardGrid/CardGrid';
+import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+import Space from '@weco/common/views/components/styled/Space';
+
+// Types
+import { EventBasic } from '@weco/content/types/events';
+import { Link } from '@weco/content/types/link';
 
 type Props = {
   events: EventBasic[];

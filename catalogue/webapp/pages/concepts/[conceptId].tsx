@@ -11,18 +11,17 @@ import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogu
 import { getConcept } from '@weco/catalogue/services/wellcome/catalogue/concepts';
 import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
-
 import { toLink as toImagesLink } from '@weco/catalogue/components/ImagesLink';
 import { toLink as toWorksLink } from '@weco/catalogue/components/WorksLink';
-import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { capitalize, formatNumber } from '@weco/common/utils/grammar';
 
 // Components
-import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
+import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 
 // Types
 import {
