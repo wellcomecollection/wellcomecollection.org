@@ -29,7 +29,10 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => {
       {visibleItems.map(({ text, url, prefix }, i) => {
         const LinkOrSpanTag = url ? 'a' : 'span';
         return (
-          <ItemWrapper key={text} as={prefix ? 'b' : 'span'}>
+          <ItemWrapper
+            key={prefix ? `${prefix}-${text}` : text}
+            as={prefix ? 'b' : 'span'}
+          >
             {i > 0 && (
               <Space
                 as="span"
