@@ -338,10 +338,22 @@ function getExternalWebResourceBody(
 }
 
 export function getVideo(manifest: Manifest): Video | undefined {
-  const videoChoiceBody = getChoiceBody(
-    manifest.items?.[0]?.items?.[0]?.items?.[0]?.body
-  );
-  const maybeVideo = getExternalWebResourceBody(videoChoiceBody?.items?.[0]);
+  const body = manifest.items?.[0]?.items?.[0]?.items?.[0]?.body;
+
+  const videoChoiceBody = getChoiceBody(body);
+
+  // A video can appear in the "body" in two ways:
+  //
+  //    - As a ChoiceBody with multiple items, for example if the video is
+  //      available in multiple formats or resolutions.
+  //    - As an ExternalWebResource with type "Video", if the video is only
+  //      available in a single format/resolution.
+  //
+  // See the test cases for this function for examples of both.
+  const maybeVideo = videoChoiceBody
+    ? getExternalWebResourceBody(videoChoiceBody.items?.[0])
+    : getExternalWebResourceBody(body);
+
   const thumbnailImageResourceBody = getExternalWebResourceBody(
     manifest.placeholderCanvas?.items?.[0]?.items?.[0]?.body
   );

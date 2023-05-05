@@ -27,7 +27,7 @@ import { Props as LabelsListProps } from '@weco/common/views/components/LabelsLi
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { GetServerSideProps } from 'next';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import Body from '@weco/content/components/Body/Body';
@@ -163,7 +163,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = contentLd(page);
 
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         page,
         siblings,
         children,

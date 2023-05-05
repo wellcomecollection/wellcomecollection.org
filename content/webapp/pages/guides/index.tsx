@@ -5,7 +5,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { createClient } from '@weco/content/services/prismic/fetch';
@@ -47,6 +47,7 @@ const Filters: FunctionComponent<FiltersProps> = ({
     url: '/guides',
     text: 'All',
   });
+
   return (
     <Layout12>
       <SegmentedControl
@@ -116,7 +117,7 @@ export const getServerSideProps: GetServerSideProps<
 
   if (guides) {
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         guides,
         guideFormats: guideFormats.results,
         formatId: format || null,

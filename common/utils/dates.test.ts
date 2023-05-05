@@ -29,7 +29,7 @@ it('identifies dates in the future', () => {
 describe('isSameDay', () => {
   it('says a day is the same as itself', () => {
     const day = new Date(2001, 1, 1, 1, 1, 1);
-    const result = isSameDay(day, day);
+    const result = isSameDay(day, day, 'UTC');
 
     expect(result).toEqual(true);
   });
@@ -101,7 +101,7 @@ describe('isSameDay', () => {
     // completely different days
     [new Date(2001, 2, 3, 1, 1, 1), new Date(2022, 5, 7, 19, 11, 13)],
   ]).test('identifies %s and %s as different', (a, b) => {
-    const result = isSameDay(a, b);
+    const result = isSameDay(a, b, 'UTC');
     expect(result).toEqual(false);
   });
 
@@ -236,7 +236,7 @@ describe('startOfWeek and endOfWeek', () => {
   ])(
     'the week containing $day starts on $expectedStart',
     ({ day, expectedStart }) => {
-      expect(isSameDay(startOfWeek(day), expectedStart)).toBeTruthy();
+      expect(isSameDay(startOfWeek(day), expectedStart, 'UTC')).toBeTruthy();
     }
   );
 
@@ -247,7 +247,7 @@ describe('startOfWeek and endOfWeek', () => {
   ])(
     'the week containing $day ends on $expectedEnd',
     ({ day, expectedEnd }) => {
-      expect(isSameDay(endOfWeek(day), expectedEnd)).toBeTruthy();
+      expect(isSameDay(endOfWeek(day), expectedEnd, 'UTC')).toBeTruthy();
     }
   );
 });

@@ -13,7 +13,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
@@ -43,8 +43,6 @@ type Props = {
   articles: ArticleBasic[];
   comicSeries: SeriesBasic[];
   storiesLanding: StoriesLanding;
-  firstComicFromEachSeries: ArticleBasic[];
-  comicTest1: boolean | undefined;
   jsonLd: JsonLdObj[];
 };
 
@@ -70,7 +68,6 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
-  const comicTest1 = serverData.toggles.comicTest1;
   const client = createClient(context);
   const articlesQueryPromise = fetchArticles(client, {
     predicates: prismic.predicate.not(
@@ -112,10 +109,6 @@ export const getServerSideProps: GetServerSideProps<
     id => comics.results.find(item => item.series[0].id === id)?.series[0]
   ) as Series[];
 
-  const firstComicFromEachSeries = comicSeriesIds.map(id =>
-    comics.results.filter(item => item.series[0].id === id).at(-1)
-  ) as ArticleBasic[];
-
   const basicComicSeries = comicSeries.map(transformSeriesToSeriesBasic);
 
   const jsonLd = articles.results.map(articleLd);
@@ -126,11 +119,9 @@ export const getServerSideProps: GetServerSideProps<
 
   if (articles && articles.results) {
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         articles: basicArticles,
         comicSeries: basicComicSeries,
-        firstComicFromEachSeries,
-        comicTest1,
         serverData,
         jsonLd,
         storiesLanding,
@@ -144,8 +135,6 @@ export const getServerSideProps: GetServerSideProps<
 const StoriesPage: FunctionComponent<Props> = ({
   articles,
   comicSeries,
-  firstComicFromEachSeries,
-  comicTest1,
   jsonLd,
   storiesLanding,
 }) => {
@@ -253,7 +242,7 @@ const StoriesPage: FunctionComponent<Props> = ({
 
         <SpacingComponent>
           <CardGrid
-            items={comicTest1 ? firstComicFromEachSeries : comicSeries}
+            items={comicSeries}
             itemsPerRow={3}
             itemsHaveTransparentBackground={true}
             links={[{ text: 'More comics', url: '/stories/comic' }]}

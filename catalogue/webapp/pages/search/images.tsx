@@ -15,7 +15,7 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 // Utils & Helpers
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import {
@@ -214,7 +214,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       images,
       imagesRouteProps: params,
       serverData,

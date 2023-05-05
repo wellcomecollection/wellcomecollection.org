@@ -7,7 +7,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
 import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { getImage } from '@weco/catalogue/services/wellcome/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
@@ -146,7 +146,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         image,
         // We know we'll get a catalogue API URL for a non-error response, but
         // this isn't (currently) asserted by the type system.

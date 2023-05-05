@@ -27,7 +27,7 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import {
   RegistrationInputs,
@@ -87,7 +87,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       serverData,
       sessionToken,
       auth0State,

@@ -104,7 +104,7 @@ export enum ButtonTypes {
   submit = 'submit',
 }
 
-type ButtonSize = 'small' | 'medium' | 'large';
+type ButtonSize = 'small' | 'medium';
 
 export type ButtonSolidBaseProps = {
   text: ReactNode;
@@ -148,8 +148,6 @@ const getPadding = (size: ButtonSize = 'medium') => {
       return '8px 12px';
     case 'medium':
       return '13px 20px';
-    case 'large':
-      return '21px 24px';
   }
 };
 

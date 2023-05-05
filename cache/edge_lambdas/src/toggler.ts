@@ -19,17 +19,7 @@ type Test = {
 };
 
 // This is mutable for testing
-export let tests: Test[] = [
-  {
-    id: 'comicTest1',
-    title:
-      'A/B test linking to series pages or individual comics from last three series',
-    range: [0, 99],
-    when: (request: CloudFrontRequest): boolean => {
-      return Boolean(request.uri.match(/^\/stories/));
-    },
-  },
-];
+export let tests: Test[] = [];
 
 export const setTests = function (newTests: Test[]): void {
   tests = newTests;

@@ -12,7 +12,7 @@ import {
   transformExhibitionGuide,
 } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -149,7 +149,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = exhibitionGuideLd(exhibitionGuide);
 
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         exhibitionGuide: filteredExhibitionGuide,
         jsonLd,
         serverData,

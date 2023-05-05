@@ -1,4 +1,4 @@
-import { Component, Fragment, ReactElement } from 'react';
+import { Fragment, FunctionComponent, useState, useContext } from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -7,7 +7,8 @@ import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { Period } from '@weco/content/types/periods';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+
 type IsActiveProps = {
   isActive: boolean;
 };
@@ -22,7 +23,7 @@ const DrawerItem = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom'],
   },
   as: 'li',
-  className: `${font('wb', 4)} segmented-control__drawer-item`,
+  className: font('wb', 4),
 })<DrawerItemProps>`
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 
@@ -34,10 +35,17 @@ const DrawerItem = styled(Space).attrs({
 `;
 
 const List = styled(PlainList).attrs({
-  className: 'segmented-control__list rounded-diagonal',
-})`
+  className: 'rounded-diagonal',
+})<{ isEnhanced: boolean }>`
   border: 1px solid ${props => props.theme.color('black')};
   overflow: hidden;
+  display: ${props => (props.isEnhanced ? 'none' : 'flex')};
+
+  ${props =>
+    props.isEnhanced &&
+    props.theme.media('medium')`
+      display: flex;
+  `}
 `;
 
 type ItemProps = {
@@ -45,10 +53,11 @@ type ItemProps = {
 };
 
 const Item = styled.li.attrs({
-  className: `${font('wb', 6)} segmented-control__item`,
+  className: font('wb', 6),
 })<ItemProps>`
   display: flex;
   line-height: 1;
+  flex: 1;
   border-right: 1px solid ${props => props.theme.color('black')};
 
   ${props =>
@@ -61,11 +70,12 @@ const Item = styled.li.attrs({
 const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
     'is-active': props.isActive,
-    'plain-link segmented-control__link no-visible-focus': true,
+    'plain-link no-visible-focus': true,
   }),
 }))<IsActiveProps>`
   display: block;
-
+  width: 100%;
+  text-align: center;
   transition: background ${props => props.theme.transitionProperties};
 
   color: ${props => props.theme.color(props.isActive ? 'white' : 'black')};
@@ -84,90 +94,16 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   }
 `;
 
-const Wrapper = styled.div<IsActiveProps>`
-  .segmented-control__drawer {
+const Drawer = styled.div`
+  ${props => props.theme.media('medium')`
     display: none;
-
-    .enhanced & {
-      display: block;
-
-      ${props => props.theme.media('medium')`
-        display: none;
-      `}
-    }
-  }
-
-  ${props =>
-    props.isActive &&
-    `
-    .segmented-control__button-text {
-      display: none;
-    }
   `}
-
-  .segmented-control__close {
-    display: ${props => (props.isActive ? 'block' : 'none')};
-  }
-
-  .segmented-control__header {
-    width: 100%;
-
-    ${props =>
-      props.isActive &&
-      `
-      width: auto;
-      position: fixed;
-      top: 4px;
-      right: 10px;
-      z-index: 7;
-    `}
-  }
-
-  .segmented-control__body {
-    display: ${props => (props.isActive ? 'block' : 'none')};
-    position: fixed;
-    z-index: 6; // Ensures that it's above the fixed header on mobile
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  .segmented-control__list {
-    display: flex;
-
-    .enhanced & {
-      display: none;
-
-      ${props => props.theme.media('medium')`
-        display: flex;
-      `}
-    }
-  }
-
-  &.segmented-control__list--inline {
-    .enhanced & {
-      ${props => props.theme.media('medium')`
-        display: inline-block;
-      `}
-    }
-  }
-
-  .segmented-control__item {
-    flex: 1;
-  }
-
-  .segmented-control__link {
-    width: 100%;
-    text-align: center;
-  }
 `;
 
 const MobileControlsContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className:
-    font('wb', 4) + ' ' + 'segmented-control__button-text rounded-diagonal',
+  className: font('wb', 4) + ' ' + 'rounded-diagonal',
 })`
   display: flex;
   color: ${props => props.theme.color('white')};
@@ -176,29 +112,36 @@ const MobileControlsContainer = styled(Space).attrs({
 
 const MobileControlsModal = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: 'segmented-control__body',
-})`
+})<{ isActive: boolean }>`
   background-color: ${props => props.theme.color('white')};
+  display: ${props => (props.isActive ? 'block' : 'none')};
+  position: fixed;
+  z-index: 6; // Ensures that it's above the fixed header on mobile
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `;
 
 const Button = styled.button.attrs({
-  className: 'segmented-control__header plain-button',
-})`
+  className: 'plain-button',
+})<{ isActive: boolean }>`
   padding: 0;
+  width: 100%;
+
+  ${props =>
+    props.isActive &&
+    `
+      width: auto;
+      position: fixed;
+      top: 4px;
+      right: 10px;
+      z-index: 7;
+    `}
 `;
 
 const PlainLink = styled.a.attrs({
-  className: 'segmented-control__drawer-link plain-link',
-})`
-  display: block;
-`;
-
-const Label = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['margin-bottom'],
-  },
-  className: 'segmented-control__label',
+  className: 'plain-link',
 })`
   display: block;
 `;
@@ -206,149 +149,120 @@ const Label = styled(Space).attrs({
 type Props = {
   id: string;
   items: { id: string; text: string; url: string }[];
-  activeId?: string;
-  onActiveIdChange?: (id: string) => void;
-  extraClasses?: string;
   ariaCurrentText?: string;
+  // Note: depending on the URLs passed in `items`, clicking on a segment may
+  // cause the user to navigate to a complete different page.
+  //
+  // In this case, the state is tracked by the URL, and there's no need for
+  // a setActiveId hook -- it will be updated by the re-render for the new URL.
+  activeId: string;
+  setActiveId?: (id: string) => void;
 };
 
-type State = {
-  activeId?: Period;
-  isActive: boolean;
-  isEnhanced: boolean;
-};
+const SegmentedControl: FunctionComponent<Props> = ({
+  id,
+  items,
+  activeId,
+  setActiveId,
+  ariaCurrentText,
+}) => {
+  const { isEnhanced } = useContext(AppContext);
+  const [isActive, setIsActive] = useState(false);
 
-class SegmentedControl extends Component<Props, State> {
-  state = {
-    activeId: undefined,
-    isActive: false,
-    isEnhanced: false,
-  };
-
-  setActiveId(id: string): void {
-    this.setState({
-      activeId: id,
-    });
-
-    if (this.props.onActiveIdChange) {
-      this.props.onActiveIdChange(id);
-    }
-  }
-
-  componentDidMount(): void {
-    this.setState({
-      isEnhanced: true,
-    });
-
-    this.setActiveId(
-      this.props.activeId || (this.props.items[0] && this.props.items[0].id)
-    );
-  }
-
-  render(): ReactElement {
-    const { id, items, extraClasses } = this.props;
-    const { activeId, isActive, isEnhanced } = this.state;
-
-    return (
-      <Wrapper className={extraClasses} isActive={isActive}>
-        {isEnhanced && (
-          <div className="segmented-control__drawer">
-            <Button>
-              {items
-                .filter(item => item.id === activeId)
-                .map(item => (
-                  <Fragment key={item.id}>
-                    <MobileControlsContainer
-                      onClick={() => this.setState({ isActive: true })}
-                    >
+  return (
+    <div>
+      {isEnhanced && (
+        <Drawer>
+          <Button isActive={isActive}>
+            {items
+              .filter(item => item.id === activeId)
+              .map(item => (
+                <Fragment key={item.id}>
+                  {!isActive ? (
+                    <MobileControlsContainer onClick={() => setIsActive(true)}>
                       <span>{item.text}</span>
                       <Icon icon={chevron} iconColor="white" />
                     </MobileControlsContainer>
-                    <span
-                      className="segmented-control__close"
-                      onClick={() => this.setState({ isActive: false })}
-                    >
+                  ) : (
+                    <span onClick={() => setIsActive(false)}>
                       <span className="visually-hidden">close</span>
                       <Icon icon={cross} title="Close" />
                     </span>
-                  </Fragment>
-                ))}
-            </Button>
-            <MobileControlsModal id={id}>
-              <Label>See:</Label>
-              <PlainList className="segmented-control__drawer-list">
-                {items.map((item, i) => (
-                  <DrawerItem isFirst={i === 0} key={item.id}>
-                    <PlainLink
-                      onClick={e => {
-                        const url = e.currentTarget.href;
-                        const isHash = url.startsWith('#');
+                  )}
+                </Fragment>
+              ))}
+          </Button>
+          <MobileControlsModal isActive={isActive} id={id}>
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>See:</Space>
+            <PlainList>
+              {items.map((item, i) => (
+                <DrawerItem isFirst={i === 0} key={item.id}>
+                  <PlainLink
+                    onClick={e => {
+                      const url = e.currentTarget.href;
+                      const isHash = url.startsWith('#');
 
-                        trackGaEvent({
-                          category: 'SegmentedControl',
-                          action: 'select segment',
-                          label: item.text,
-                        });
+                      trackGaEvent({
+                        category: 'SegmentedControl',
+                        action: 'select segment',
+                        label: item.text,
+                      });
 
-                        this.setActiveId(item.id);
-                        this.setState({
-                          isActive: false,
-                        });
+                      setActiveId && setActiveId(item.id);
+                      setIsActive(false);
 
-                        // Assume we want to
-                        if (isHash) {
-                          e.preventDefault();
-                          return false;
-                        }
-                      }}
-                      href={item.url}
-                    >
-                      {item.text}
-                    </PlainLink>
-                  </DrawerItem>
-                ))}
-              </PlainList>
-            </MobileControlsModal>
-          </div>
-        )}
-        <List>
-          {items.map((item, i) => (
-            <Item key={item.id} isLast={i === items.length - 1}>
-              <ItemInner
-                isActive={item.id === activeId}
-                onClick={e => {
-                  const url = e.currentTarget.href;
-                  const isHash = url.startsWith('#');
+                      // Assume we want to
+                      if (isHash) {
+                        e.preventDefault();
+                        return false;
+                      }
+                    }}
+                    href={item.url}
+                  >
+                    {item.text}
+                  </PlainLink>
+                </DrawerItem>
+              ))}
+            </PlainList>
+          </MobileControlsModal>
+        </Drawer>
+      )}
+      <List isEnhanced={isEnhanced}>
+        {items.map((item, i) => (
+          <Item key={item.id} isLast={i === items.length - 1}>
+            <ItemInner
+              isActive={item.id === activeId}
+              onClick={e => {
+                const url = e.currentTarget.href;
+                const isHash = url.startsWith('#');
 
-                  trackGaEvent({
-                    category: 'SegmentedControl',
-                    action: 'select segment',
-                    label: item.text,
-                  });
+                trackGaEvent({
+                  category: 'SegmentedControl',
+                  action: 'select segment',
+                  label: item.text,
+                });
 
-                  this.setActiveId(item.id);
+                setActiveId && setActiveId(item.id);
 
-                  // Assume we want to
-                  if (isHash) {
-                    e.preventDefault();
-                    return false;
-                  }
-                }}
-                href={item.url}
-                aria-current={
-                  item.id === activeId
-                    ? isNotUndefined(this.props.ariaCurrentText)
-                    : undefined
+                // Assume we want to
+                if (isHash) {
+                  e.preventDefault();
+                  return false;
                 }
-              >
-                {item.text}
-              </ItemInner>
-            </Item>
-          ))}
-        </List>
-      </Wrapper>
-    );
-  }
-}
-
+              }}
+              href={item.url}
+              aria-current={
+                item.id === activeId
+                  ? isNotUndefined(ariaCurrentText)
+                  : undefined
+              }
+            >
+              {item.text}
+            </ItemInner>
+          </Item>
+        ))}
+      </List>
+    </div>
+  );
+};
 export default SegmentedControl;

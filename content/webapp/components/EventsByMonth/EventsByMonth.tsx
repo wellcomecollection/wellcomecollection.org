@@ -1,82 +1,70 @@
-import { Component } from 'react';
-import { classNames, cssGrid } from '@weco/common/utils/classnames';
-import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import { EventBasic } from '../../types/events';
-import { Link } from '../../types/link';
-import Space from '@weco/common/views/components/styled/Space';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import CardGrid from '../CardGrid/CardGrid';
+import { FunctionComponent, useState } from 'react';
+
+// Helpers/Utils
+import { cssGrid } from '@weco/common/utils/classnames';
+import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 import { groupEventsByMonth, startOf } from './group-event-utils';
+
+// Components
+import CardGrid from '../CardGrid/CardGrid';
+import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+import Space from '@weco/common/views/components/styled/Space';
+
+// Types
+import { EventBasic } from '@weco/content/types/events';
+import { Link } from '@weco/content/types/link';
 
 type Props = {
   events: EventBasic[];
   links?: Link[];
 };
 
-type State = {
-  activeId?: string;
-};
+const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
+  const eventsInMonths = groupEventsByMonth(events);
 
-class EventsByMonth extends Component<Props, State> {
-  state = {
-    activeId: undefined,
-  };
+  // Order months correctly.  This returns the headings for each month,
+  // now in chronological order.
+  const groups = eventsInMonths.map(({ month, events }) => {
+    const id = `${month.month}-${month.year}`.toLowerCase();
 
-  render(): JSX.Element {
-    const { events, links } = this.props;
-    const { activeId } = this.state;
+    return {
+      id,
+      url: `#${id}`,
+      text: month.month,
+      month,
+      events,
+    };
+  });
 
-    const eventsInMonths = groupEventsByMonth(events);
+  const [activeId, setActiveId] = useState(groups[0].id);
 
-    // Order months correctly.  This returns the headings for each month,
-    // now in chronological order.
-    const groups = eventsInMonths.map(({ month, events }) => {
-      const id = `${month.month}-${month.year}`.toLowerCase();
-
-      return {
-        id,
-        url: `#${id}`,
-        text: month.month,
-        month,
-        events,
-      };
-    });
-
-    return (
-      <div>
-        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <CssGridContainer>
-            <div className="css-grid">
-              <div className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <SegmentedControl
-                  id="monthControls"
-                  activeId={groups[0]?.id}
-                  items={groups}
-                  extraClasses="segmented-control__list--inline"
-                  onActiveIdChange={id => {
-                    this.setState({ activeId: id });
-                  }}
-                />
-              </div>
+  return (
+    <div>
+      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <CssGridContainer>
+          <div className="css-grid">
+            <div className={cssGrid(gridSize12)}>
+              <SegmentedControl
+                id="monthControls"
+                activeId={activeId}
+                setActiveId={setActiveId}
+                items={groups}
+              />
             </div>
-          </CssGridContainer>
-        </Space>
+          </div>
+        </CssGridContainer>
+      </Space>
 
-        {groups.map(g => (
+      {groups
+        .filter(g => activeId === g.id)
+        .map(g => (
           <div
             key={g.id}
-            className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}
-            style={{
-              display: !activeId || activeId === g.id ? 'block' : 'none',
-            }}
+            className={cssGrid(gridSize12)}
+            style={{ display: 'block' }}
           >
-            <h2
-              className={classNames({
-                container: true,
-                'is-hidden': Boolean(activeId),
-              })}
-              id={g.id}
-            >
+            <h2 className="container" id={g.id}>
               {g.month.month}
             </h2>
             <CardGrid
@@ -87,9 +75,8 @@ class EventsByMonth extends Component<Props, State> {
             />
           </div>
         ))}
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default EventsByMonth;

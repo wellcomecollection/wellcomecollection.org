@@ -36,7 +36,7 @@ import {
   ticket,
 } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Contributors from '@weco/content/components/Contributors/Contributors';
@@ -530,7 +530,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
   const jsonLd = eventLd(event);
 
   return {
-    props: removeUndefinedProps({
+    props: serialiseProps({
       event,
       jsonLd,
       serverData,

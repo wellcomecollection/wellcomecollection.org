@@ -20,7 +20,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
@@ -443,7 +443,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       const canvasOcr = transformCanvasOcr(canvasOcrText);
 
       return {
-        props: removeUndefinedProps({
+        props: serialiseProps({
           transformedManifest: displayManifest,
           manifestIndex,
           pageIndex,
@@ -460,7 +460,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (iiifImageLocation) {
       return {
-        props: removeUndefinedProps({
+        props: serialiseProps({
           transformedManifest: createDefaultTransformedManifest(),
           pageIndex,
           canvasIndex,

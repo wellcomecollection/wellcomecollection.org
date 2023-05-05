@@ -2,19 +2,39 @@ import { test as base, expect } from '@playwright/test';
 import { concept } from './contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
-import { imagesByThisPerson, worksByThisPerson } from './selectors/concepts';
-
+import {
+  imagesAboutThisPerson,
+  worksAboutThisPerson,
+} from './selectors/concepts';
+import { ConceptPage } from './pages/concept';
 const domain = new URL(baseUrl).host;
 
-const test = base.extend({
+const test = base.extend<{
+  songsPage: ConceptPage;
+  lithographsPage: ConceptPage;
+}>({
   context: async ({ context }, use) => {
     const defaultToggleAndTestCookies = await makeDefaultToggleCookies(domain);
     await context.addCookies([
-      { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
+      { name: 'WC_cookiesAccepted', value: 'true', domain, path: '/' },
       ...defaultToggleAndTestCookies,
     ]);
 
     await use(context);
+  },
+
+  songsPage: async ({ context, page }, use) => {
+    // A Genre chosen because it has works and images both about and using the technique
+    await concept('cfxnfvnc', context, page);
+    const songsPage = new ConceptPage(page, 'type/technique');
+    await use(songsPage);
+  },
+
+  lithographsPage: async ({ context, page }, use) => {
+    // A Genre with both works and images using it, but nothing about it.
+    await concept('fmydsuw2', context, page);
+    const songsPage = new ConceptPage(page, 'type/technique');
+    await use(songsPage);
   },
 });
 
@@ -34,7 +54,7 @@ const conceptIds = {
   'Darwin, Charles, 1809-1882': 'v3m7uhy9',
 };
 
-test.describe('concepts', () => {
+test.describe('concepts @conceptPage', () => {
   test('concept pages get a list of related works', async ({
     page,
     context,
@@ -56,6 +76,7 @@ test.describe('concepts', () => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Stephens, Joanna'], context, page);
+    await page.click(worksAboutThisPerson);
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
@@ -78,8 +99,6 @@ test.describe('concepts', () => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Stephens, Joanna'], context, page);
-
-    await page.click(worksByThisPerson);
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
@@ -113,6 +132,7 @@ test.describe('concepts', () => {
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Darwin, Charles, 1809-1882'], context, page);
 
+    await page.click(imagesAboutThisPerson);
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
     const aboutThisPerson = await page.waitForSelector(
@@ -135,8 +155,6 @@ test.describe('concepts', () => {
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Darwin, Charles, 1809-1882'], context, page);
 
-    await page.click(imagesByThisPerson);
-
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
     const byThisPerson = await page.waitForSelector(
@@ -148,6 +166,66 @@ test.describe('concepts', () => {
     expect(content?.startsWith('All images')).toBe(true);
     expect(await byThisPerson.getAttribute('href')).toBe(
       '/search/images?source.contributors.agent.label=%22Darwin%2C+Charles%2C+1809-1882%22'
+    );
+  });
+});
+
+test.describe('genres with works and images both about and using @conceptPage @genres', () => {
+  test('two works sections are shown: about and using', async ({
+    songsPage,
+  }) => {
+    await expect(songsPage.worksAboutTab).toBeVisible();
+    await expect(songsPage.worksInTab).toBeVisible();
+  });
+
+  test('the "All works" link filters by the concept label', async ({
+    songsPage,
+  }) => {
+    expect(await songsPage.allWorksLink.getAttribute('href')).toBe(
+      `/search/works?genres.label=${encodeURIComponent('"Songs"')}`
+    );
+  });
+
+  test('two images sections are shown: about and using', async ({
+    songsPage,
+  }) => {
+    await expect(songsPage.imagesAboutTab).toBeVisible();
+    await expect(songsPage.imagesInTab).toBeVisible();
+  });
+
+  test('the "All images" link filters by the concept label', async ({
+    songsPage,
+  }) => {
+    expect(await songsPage.allImagesLink.getAttribute('href')).toBe(
+      `/search/images?source.genres.label=${encodeURIComponent('"Songs"')}`
+    );
+  });
+});
+
+test.describe('genres used by works and images, with nothing about them @conceptPage @genres', () => {
+  test('both the Works and images sections are shown', async ({
+    lithographsPage,
+  }) => {
+    await expect(lithographsPage.imagesHeader).toBeVisible();
+    await expect(lithographsPage.worksHeader).toBeVisible();
+  });
+
+  test('the "All works" link filters by the concept label', async ({
+    lithographsPage,
+  }) => {
+    const allWorks = lithographsPage.allWorksLink;
+    expect(await allWorks.getAttribute('href')).toBe(
+      `/search/works?genres.label=${encodeURIComponent('"Lithographs"')}`
+    );
+  });
+
+  test('the "All images" link filters by the concept label', async ({
+    lithographsPage,
+  }) => {
+    expect(await lithographsPage.allImagesLink.getAttribute('href')).toBe(
+      `/search/images?source.genres.label=${encodeURIComponent(
+        '"Lithographs"'
+      )}`
     );
   });
 });

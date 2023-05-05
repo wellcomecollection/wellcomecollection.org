@@ -1,12 +1,11 @@
-import { fromQuery } from '.';
+import { fromQuery, WorksProps } from '.';
 
 describe('WorksLink', () => {
   describe('fromQuery', () => {
     it('handles a query without any values', () => {
       const query = {};
-      const worksRouteState = fromQuery(query);
-
-      expect(worksRouteState).toEqual({
+      const worksRouteState: WorksProps = fromQuery(query);
+      expect(worksRouteState).toStrictEqual({
         query: '',
         page: 1,
         workType: [],
@@ -17,7 +16,7 @@ describe('WorksLink', () => {
         'partOf.title': undefined,
         'production.dates.from': undefined,
         'production.dates.to': undefined,
-        search: undefined,
+        'genres.concepts': [],
         'genres.label': [],
         'subjects.label': [],
         languages: [],
@@ -34,9 +33,9 @@ describe('WorksLink', () => {
         'production.dates.to': '1900',
         notValid: '( ͡° ͜ʖ ͡°)',
       };
-      const worksRouteState = fromQuery(query);
+      const worksRouteState: WorksProps = fromQuery(query);
 
-      expect(worksRouteState).toEqual({
+      expect(worksRouteState).toStrictEqual({
         query: 'gargoyles',
         page: 3,
         workType: ['a', 'b', 'c'],
@@ -47,7 +46,7 @@ describe('WorksLink', () => {
         'partOf.title': undefined,
         'production.dates.from': '1500',
         'production.dates.to': '1900',
-        search: undefined,
+        'genres.concepts': [],
         'genres.label': [],
         'subjects.label': [],
         languages: [],

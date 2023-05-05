@@ -26,6 +26,7 @@ import {
 import { useOnPageLoad } from '../../services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
 import { NextPage } from 'next';
+import { deserialiseProps } from '@weco/common/utils/json';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -128,7 +129,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                 <OutboundLinkTracker>
                   <LoadingIndicator />
                   {!pageProps.err &&
-                    getLayout(<Component {...(pageProps as any)} />)}
+                    getLayout(
+                      <Component {...(deserialiseProps(pageProps) as any)} />
+                    )}
                   {pageProps.err && (
                     <ErrorPage
                       statusCode={pageProps.err.statusCode}

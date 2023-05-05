@@ -22,6 +22,7 @@ const emptyImagesProps: ImagesProps = {
   page: 1,
   'locations.license': [],
   'source.genres.label': [],
+  'source.genres.concepts': [],
   'source.subjects.label': [],
   'source.contributors.agent.label': [],
   color: undefined,
@@ -32,6 +33,7 @@ const codecMap = {
   page: numberCodec,
   'locations.license': csvCodec,
   'source.genres.label': quotedCsvCodec,
+  'source.genres.concepts': csvCodec,
   'source.subjects.label': quotedCsvCodec,
   'source.contributors.agent.label': quotedCsvCodec,
   color: maybeStringCodec,
@@ -55,7 +57,6 @@ function toLink(
     ...partialProps,
   };
   const query = toQuery(props);
-
   return {
     href: {
       pathname,

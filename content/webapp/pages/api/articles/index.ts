@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/type-guards';
-import { isJson } from '@weco/common/utils/json';
+import {
+  isJson,
+  serialiseDates as serialiseJsonDates,
+} from '@weco/common/utils/json';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
@@ -8,7 +11,6 @@ import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
-import superjson from 'superjson';
 
 type NotFound = { notFound: true };
 
@@ -34,6 +36,6 @@ export default async (
     );
     return res
       .status(200)
-      .json(superjson.serialize(articles) as unknown as string);
+      .json(serialiseJsonDates(articles) as unknown as string);
   }
 };

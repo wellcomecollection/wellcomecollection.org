@@ -81,32 +81,6 @@ export const getUrlQueryFromSortValue = (
   return { sort, sortOrder };
 };
 
-/**
- * Takes the 'sort' and 'sortOrder' parameters from the URL query and maps it to what the Prismic API
- * expects for its 'sortBy' parameter.
- * @param {string} sort - e.g. publication.dates
- * @param {string} sortOrder - e.g. asc
- */
-export const getPrismicSortValue = ({
-  sort,
-  sortOrder,
-}: DefaultSortValuesType): string => {
-  // Map to match Prismic's API's `sortBy` attributes
-  if (sortOrder && sort) {
-    switch (sort) {
-      case 'publication.dates':
-        return 'meta_firstPublicationDate_' + sortOrder.toUpperCase();
-      default:
-        // TODO change to adapt to events/exhibitions/etc;
-        // this is currently what we set as default for Stories
-        return 'title_ASC';
-    }
-  }
-  // TODO change to adapt to events/exhibitions/etc;
-  // this is currently what we set as default for Stories
-  return 'title_ASC';
-};
-
 // FILTERS
 /**
  * Compare filter options to query parameters,

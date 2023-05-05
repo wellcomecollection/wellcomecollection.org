@@ -7,7 +7,7 @@ import {
 } from '@weco/content/services/prismic/transformers/multi-content';
 import { fetchMultiContent } from '@weco/content/services/prismic/fetch/multi-content';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import superjson from 'superjson';
+import { serialiseDates as serialiseJsonDates } from '@weco/common/utils/json';
 
 export default async (
   req: NextApiRequest,
@@ -27,6 +27,6 @@ export default async (
 
   if (query) {
     const multiContent = transformQuery(query, transformMultiContent);
-    return res.status(200).json(superjson.serialize(multiContent));
+    return res.status(200).json(serialiseJsonDates(multiContent));
   }
 };

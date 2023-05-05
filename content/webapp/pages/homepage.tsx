@@ -19,7 +19,7 @@ import { EventBasic } from '@weco/content/types/events';
 import { convertItemToCardProps } from '@weco/content/types/card';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
-import { removeUndefinedProps } from '@weco/common/utils/json';
+import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
@@ -125,7 +125,7 @@ export const getServerSideProps: GetServerSideProps<
 
   if (events && exhibitions && articles && page) {
     return {
-      props: removeUndefinedProps({
+      props: serialiseProps({
         articles: basicArticles,
         serverData,
         jsonLd,
