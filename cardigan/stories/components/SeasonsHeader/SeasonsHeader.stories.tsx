@@ -1,5 +1,4 @@
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ImageType } from '@weco/common/model/image';
 
 const image: ImageType = {
@@ -14,29 +13,26 @@ const image: ImageType = {
   },
 };
 
-const headerProps = {
-  labels: { labels: [{ text: 'Article' }] },
-  title: 'What does it mean to be human, now?',
-  start: new Date('2021-01-05T00:00:00.000Z'),
-  end: new Date('2021-01-26T00:00:00.000Z'),
-  FeaturedMedia: <PrismicImage image={image} quality="low" />,
-  standfirst: [
-    {
-      type: 'paragraph',
-      text: 'Throughout history, pandemics have been powerful engines of change, exposing structural inequalities in the distribution of health and wealth.',
-      spans: [],
-    },
-  ],
-};
-
 const Template = args => <SeasonsHeader {...args} />;
 export const basic = Template.bind({});
 basic.args = {
-  labels: headerProps.labels,
-  title: headerProps.title,
-  start: headerProps.start,
-  end: headerProps.end,
-  standfirst: headerProps.standfirst,
-  FeaturedMedia: headerProps.FeaturedMedia,
+  season: {
+    labels: { labels: [{ text: 'Article' }] },
+    title: 'What does it mean to be human, now?',
+    start: new Date('2021-01-05T00:00:00.000Z'),
+    end: new Date('2021-01-26T00:00:00.000Z'),
+    standfirst: [
+      {
+        type: 'paragraph',
+        text: 'Throughout history, pandemics have been powerful engines of change, exposing structural inequalities in the distribution of health and wealth.',
+        spans: [],
+      },
+    ],
+    image: {
+      richCrops: {
+        '32:15': image,
+      },
+    },
+  },
 };
 basic.storyName = 'SeasonsHeader';
