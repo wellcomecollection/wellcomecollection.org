@@ -149,9 +149,14 @@ const PlainLink = styled.a.attrs({
 type Props = {
   id: string;
   items: { id: string; text: string; url: string }[];
-  activeId: string;
-  setActiveId: (id: string) => void;
   ariaCurrentText?: string;
+  // Note: depending on the URLs passed in `items`, clicking on a segment may
+  // cause the user to navigate to a complete different page.
+  //
+  // In this case, the state is tracked by the URL, and there's no need for
+  // a setActiveId hook -- it will be updated by the re-render for the new URL.
+  activeId: string;
+  setActiveId?: (id: string) => void;
 };
 
 const SegmentedControl: FunctionComponent<Props> = ({
@@ -203,7 +208,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
                         label: item.text,
                       });
 
-                      setActiveId(item.id);
+                      setActiveId && setActiveId(item.id);
                       setIsActive(false);
 
                       // Assume we want to
@@ -237,7 +242,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
                   label: item.text,
                 });
 
-                setActiveId(item.id);
+                setActiveId && setActiveId(item.id);
 
                 // Assume we want to
                 if (isHash) {

@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
@@ -48,14 +48,11 @@ const Filters: FunctionComponent<FiltersProps> = ({
     text: 'All',
   });
 
-  const [activeId, setActiveId] = useState((currentId as string) || 'all');
-
   return (
     <Layout12>
       <SegmentedControl
         id="guidesFilter"
-        activeId={activeId}
-        setActiveId={setActiveId}
+        activeId={(currentId as string) || 'all'}
         items={items}
       />
     </Layout12>
