@@ -1,7 +1,6 @@
 import {
   Fragment,
   FunctionComponent,
-  HTMLAnchorElement,
   MouseEvent,
   useState,
   useContext,
