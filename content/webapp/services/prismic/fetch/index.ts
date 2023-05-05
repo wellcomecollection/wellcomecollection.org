@@ -130,6 +130,33 @@ export function fetcher<Document extends PrismicDocument>(
   };
 }
 
+export async function fetchFromClientSide<T>({
+  endpoint,
+  params,
+}: {
+  endpoint: string;
+  params: unknown;
+}): Promise<T | undefined> {
+  // If you add more parameters here, you have to update the corresponding cache behaviour
+  // in the CloudFront distribution, or you may get incorrect behaviour.
+  //
+  // e.g. at one point we forgot to include the "params" query in the cache key,
+  // so every article was showing the same set of related stories.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
+  const urlSearchParams = new URLSearchParams();
+  urlSearchParams.set('params', JSON.stringify(params));
+
+  const url = `/api/${endpoint}?${urlSearchParams.toString()}`;
+
+  const response = await fetch(url);
+
+  if (response.ok) {
+    const json = await response.json();
+    return deserialiseJsonDates(json);
+  }
+}
+
 export function clientSideFetcher<TransformedDocument>(endpoint: string) {
   return {
     /** Get all the documents of a given type.
@@ -142,24 +169,7 @@ export function clientSideFetcher<TransformedDocument>(endpoint: string) {
     getByTypeClientSide: async (
       params?: GetByTypeParams
     ): Promise<PaginatedResults<TransformedDocument> | undefined> => {
-      // If you add more parameters here, you have to update the corresponding cache behaviour
-      // in the CloudFront distribution, or you may get incorrect behaviour.
-      //
-      // e.g. at one point we forgot to include the "params" query in the cache key,
-      // so every article was showing the same set of related stories.
-      //
-      // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
-      const urlSearchParams = new URLSearchParams();
-      urlSearchParams.set('params', JSON.stringify(params));
-
-      const url = `/api/${endpoint}?${urlSearchParams.toString()}`;
-
-      const response = await fetch(url);
-
-      if (response.ok) {
-        const json = await response.json();
-        return deserialiseJsonDates(json);
-      }
+      return fetchFromClientSide({ endpoint, params });
     },
   };
 }
