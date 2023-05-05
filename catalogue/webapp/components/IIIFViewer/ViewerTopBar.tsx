@@ -194,7 +194,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     gridVisible,
     setGridVisible,
     work,
-    activeIndex,
+    canvasParam,
     downloadOptions,
     setIsMobileSidebarActive,
     setIsDesktopSidebarActive,
@@ -292,12 +292,10 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
         <MiddleZone className="viewer-desktop">
           {canvases?.length > 1 && !showZoomed && !isResizing && (
             <>
-              <span data-test-id="active-index">{`${
-                activeIndex + 1 || 0
-              }`}</span>
+              <span data-test-id="active-index">{`${canvasParam || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}
-              {!(canvases[activeIndex]?.label?.trim() === '-') &&
-                `(page ${canvases[activeIndex]?.label?.trim()})`}
+              {!(canvases[canvasParam - 1]?.label?.trim() === '-') &&
+                `(page ${canvases[canvasParam - 1]?.label?.trim()})`}
             </>
           )}
         </MiddleZone>
