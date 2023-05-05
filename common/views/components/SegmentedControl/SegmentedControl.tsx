@@ -201,7 +201,13 @@ const SegmentedControl: FunctionComponent<Props> = ({
     setActiveId && setActiveId(item.id);
     isEnhanced && setIsActive(false);
 
-    // Assume we want to
+    // TODO: Do we still need this?  The original comment ("Assume we want to")
+    // didn't provide much context, and it's not clear if/how this changes the
+    // behaviour of the page, or indeed if it ever fires.
+    //
+    // The only page where we use SegmentedControl with anchors in the URL is
+    // the What's On page, and testing locally the `isHash` value will never
+    // be true – the `href` of the item is the full URL.
     if (isHash) {
       e.preventDefault();
       return false;
