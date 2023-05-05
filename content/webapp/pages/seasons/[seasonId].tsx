@@ -3,7 +3,6 @@ import { ReactElement } from 'react';
 import { Season } from '@weco/content/types/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { serialiseProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -45,7 +44,6 @@ import { Page } from '@weco/content/types/pages';
 import { Project } from '@weco/content/types/projects';
 import { Series } from '@weco/content/types/series';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { getCrop } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 
@@ -72,32 +70,6 @@ const SeasonPage = ({
   books,
   jsonLd,
 }: Props): ReactElement<Props> => {
-  const superWidescreenImage = getCrop(season.image, '32:15');
-
-  const Header = (
-    <SeasonsHeader
-      labels={{ labels: season.labels }}
-      title={season.title}
-      FeaturedMedia={
-        superWidescreenImage ? (
-          <PrismicImage
-            image={superWidescreenImage}
-            sizes={{
-              xlarge: 1,
-              large: 1,
-              medium: 1,
-              small: 1,
-            }}
-            quality="low"
-          />
-        ) : undefined
-      }
-      standfirst={season?.standfirst}
-      start={season.start}
-      end={season.end}
-    />
-  );
-
   const allItems = [
     ...exhibitions,
     ...events,
@@ -121,7 +93,7 @@ const SeasonPage = ({
     >
       <ContentPage
         id={season.id}
-        Header={Header}
+        Header={<SeasonsHeader season={season} />}
         Body={<Body body={season.body} pageId={season.id} />}
         hideContributors={true}
       />

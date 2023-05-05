@@ -4,12 +4,13 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import Layout8 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
-import { FunctionComponent, ComponentProps, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeaderStandfirst from '../PageHeaderStandfirst/PageHeaderStandfirst';
 import styled from 'styled-components';
-import * as prismicT from '@prismicio/types';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import { Season } from '@weco/content/types/seasons';
+import { getCrop } from '@weco/common/model/image';
 
 const HeaderWrapper = styled.div`
   background: ${props => props.theme.color('neutral.700')};
@@ -20,28 +21,32 @@ const TextWrapper = styled.div`
 `;
 
 type Props = {
-  labels: ComponentProps<typeof LabelsList>;
-  title: string;
-  FeaturedMedia?: ReactElement<typeof PrismicImage>;
-  standfirst?: prismicT.RichTextField;
-  start?: Date;
-  end?: Date;
+  season: Season;
 };
 
-const SeasonsHeader: FunctionComponent<Props> = ({
-  labels,
-  title,
-  FeaturedMedia,
-  standfirst,
-  start,
-  end,
-}: Props) => {
+const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
+  const { title, standfirst, start, end, labels } = season;
+
+  const superWidescreenImage = getCrop(season.image, '32:15');
+
   return (
     <Layout12>
       <HeaderWrapper>
         <WobblyBottom backgroundColor="white">
-          {FeaturedMedia && (
-            <div style={{ position: 'relative' }}>{FeaturedMedia}</div>
+          {superWidescreenImage && (
+            <div style={{ position: 'relative' }}>
+              <PrismicImage
+                image={superWidescreenImage}
+                sizes={{
+                  xlarge: 1,
+                  large: 1,
+                  medium: 1,
+                  small: 1,
+                }}
+                quality="low"
+              />
+              ) : undefined
+            </div>
           )}
           <Space
             v={{
@@ -53,9 +58,9 @@ const SeasonsHeader: FunctionComponent<Props> = ({
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <TextWrapper>
                   <Space h={{ size: 'm', properties: ['padding-left'] }}>
-                    {labels && labels.labels.length > 0 && (
+                    {labels.length > 0 && (
                       <LabelsList
-                        {...labels}
+                        labels={labels}
                         defaultLabelColor="accent.salmon"
                       />
                     )}
