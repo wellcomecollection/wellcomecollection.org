@@ -146,12 +146,6 @@ const Button = styled.button.attrs({
     `}
 `;
 
-const PlainLink = styled.a.attrs({
-  className: 'plain-link',
-})`
-  display: block;
-`;
-
 type SegmentedControlItem = { id: string; text: string; url: string };
 
 type Props = {
@@ -241,9 +235,14 @@ const SegmentedControl: FunctionComponent<Props> = ({
             <PlainList>
               {items.map((item, i) => (
                 <DrawerItem isFirst={i === 0} key={item.id}>
-                  <PlainLink onClick={e => onClick(e, item)} href={item.url}>
+                  <a
+                    className="plain-link"
+                    style={{ display: 'block' }}
+                    onClick={e => onClick(e, item)}
+                    href={item.url}
+                  >
                     {item.text}
-                  </PlainLink>
+                  </a>
                 </DrawerItem>
               ))}
             </PlainList>
