@@ -1,16 +1,22 @@
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+// Helpers/Utils
 import { font } from '@weco/common/utils/classnames';
+import { getCrop } from '@weco/common/model/image';
+
+// Components
+import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Layout8 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
-import { FunctionComponent } from 'react';
-import Space from '@weco/common/views/components/styled/Space';
 import PageHeaderStandfirst from '../PageHeaderStandfirst/PageHeaderStandfirst';
-import styled from 'styled-components';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
+import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
+
+// Types
 import { Season } from '@weco/content/types/seasons';
-import { getCrop } from '@weco/common/model/image';
 
 const HeaderWrapper = styled.div`
   background: ${props => props.theme.color('neutral.700')};
