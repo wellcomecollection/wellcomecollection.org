@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 
@@ -42,7 +42,11 @@ describe('PasswordInput', () => {
   it('lets a user enter a password', async () => {
     renderComponent();
     const input = screen.getByLabelText(/^password$/i);
-    await userEvent.type(input, 'hunter2');
+
+    await act(async () => {
+      await userEvent.type(input, 'hunter2');
+    });
+
     expect(input).toHaveValue('hunter2');
   });
 
@@ -50,13 +54,19 @@ describe('PasswordInput', () => {
     renderComponent();
     const input = screen.getByLabelText(/^password$/i);
     expect(input).toHaveAttribute('type', 'password');
-    await userEvent.click(
-      screen.getByRole('button', { name: /show password/i })
-    );
+
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', { name: /show password/i })
+      );
+    });
     expect(input).toHaveAttribute('type', 'text');
-    await userEvent.click(
-      screen.getByRole('button', { name: /hide password/i })
-    );
+
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', { name: /hide password/i })
+      );
+    });
     expect(input).toHaveAttribute('type', 'password');
   });
 });
