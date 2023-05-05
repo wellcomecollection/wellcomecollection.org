@@ -91,10 +91,10 @@ export const ChangeEmail: React.FunctionComponent<
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <h3 className={`${font('intb', 5)}`} style={{ marginBottom: 0 }}>
+        <h3 className={font('intb', 5)} style={{ marginBottom: 0 }}>
           Email
         </h3>
-        <p className={`${font('intr', 5)}`} style={{ marginBottom: 0 }}>
+        <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
           {user?.email}
         </p>
       </Space>

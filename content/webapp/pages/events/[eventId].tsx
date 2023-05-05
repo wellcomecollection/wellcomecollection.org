@@ -466,13 +466,13 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
           {isNotUndefined(
             event.policies.find(p => p.id === eventPolicyIds.schoolBooking)
           ) ? (
-            <p className={`${font('intr', 5)}`} style={{ marginBottom: 0 }}>
+            <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
               {a11y.defaultEventMessage}
             </p>
           ) : (
             <>
               <p className={font('intr', 5)}>{a11y.defaultEventMessage}</p>
-              <p className={`${font('intr', 5)}`} style={{ marginBottom: 0 }}>
+              <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
                 <a
                   href={`https://wellcomecollection.org/pages/${prismicPageIds.bookingAndAttendingOurEvents}`}
                 >

@@ -101,7 +101,7 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
           aria-controls={toHtmlId(title)}
         >
           <span>
-            <h2 className={`${font('intb', 5)}`}>{title}</h2>
+            <h2 className={font('intb', 5)}>{title}</h2>
             <Icon
               icon={chevron}
               iconColor="white"

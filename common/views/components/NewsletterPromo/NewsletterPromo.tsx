@@ -165,10 +165,7 @@ const NewsletterPromo: FunctionComponent = () => {
                     {isSuccess ? 'Thank you for signing up!' : headingText}
                   </h2>
                   {!isSuccess && (
-                    <p
-                      className={`${font('intr', 5)}`}
-                      style={{ marginBottom: 0 }}
-                    >
+                    <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
                       {bodyText}
                     </p>
                   )}
@@ -227,7 +224,7 @@ const NewsletterPromo: FunctionComponent = () => {
                 )}
               </BoxInner>
               {!isSuccess && (
-                <p className={`${font('intr', 6)}`} style={{ marginBottom: 0 }}>
+                <p className={font('intr', 6)} style={{ marginBottom: 0 }}>
                   <a href="/newsletter">All our newsletters</a>
                 </p>
               )}
