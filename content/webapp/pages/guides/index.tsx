@@ -47,6 +47,7 @@ const Filters: FunctionComponent<FiltersProps> = ({
     url: '/guides',
     text: 'All',
   });
+
   return (
     <Layout12>
       <SegmentedControl

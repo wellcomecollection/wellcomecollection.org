@@ -1,10 +1,4 @@
-import {
-  Fragment,
-  FunctionComponent,
-  useState,
-  useEffect,
-  useContext,
-} from 'react';
+import { Fragment, FunctionComponent, useState, useContext } from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -13,7 +7,6 @@ import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { Period } from '@weco/content/types/periods';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 type IsActiveProps = {
@@ -156,29 +149,25 @@ const PlainLink = styled.a.attrs({
 type Props = {
   id: string;
   items: { id: string; text: string; url: string }[];
-  activeId?: string;
-  onActiveIdChange?: (id: string) => void;
   ariaCurrentText?: string;
+  // Note: depending on the URLs passed in `items`, clicking on a segment may
+  // cause the user to navigate to a complete different page.
+  //
+  // In this case, the state is tracked by the URL, and there's no need for
+  // a setActiveId hook -- it will be updated by the re-render for the new URL.
+  activeId: string;
+  setActiveId?: (id: string) => void;
 };
 
 const SegmentedControl: FunctionComponent<Props> = ({
   id,
   items,
   activeId,
-  onActiveIdChange,
+  setActiveId,
   ariaCurrentText,
 }) => {
-  const [activeIdInternal, setActiveIdInternal] = useState<Period | undefined>(
-    activeId || items?.[0].id
-  );
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(false);
-
-  useEffect(() => {
-    if (onActiveIdChange) {
-      onActiveIdChange(id);
-    }
-  }, [activeIdInternal]);
 
   return (
     <div>
@@ -186,7 +175,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
         <Drawer>
           <Button isActive={isActive}>
             {items
-              .filter(item => item.id === activeIdInternal)
+              .filter(item => item.id === activeId)
               .map(item => (
                 <Fragment key={item.id}>
                   {!isActive ? (
@@ -219,7 +208,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
                         label: item.text,
                       });
 
-                      setActiveIdInternal(item.id);
+                      setActiveId && setActiveId(item.id);
                       setIsActive(false);
 
                       // Assume we want to
@@ -242,7 +231,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
         {items.map((item, i) => (
           <Item key={item.id} isLast={i === items.length - 1}>
             <ItemInner
-              isActive={item.id === activeIdInternal}
+              isActive={item.id === activeId}
               onClick={e => {
                 const url = e.currentTarget.href;
                 const isHash = url.startsWith('#');
@@ -253,7 +242,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
                   label: item.text,
                 });
 
-                setActiveIdInternal(item.id);
+                setActiveId && setActiveId(item.id);
 
                 // Assume we want to
                 if (isHash) {
@@ -263,7 +252,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
               }}
               href={item.url}
               aria-current={
-                item.id === activeIdInternal
+                item.id === activeId
                   ? isNotUndefined(ariaCurrentText)
                   : undefined
               }
