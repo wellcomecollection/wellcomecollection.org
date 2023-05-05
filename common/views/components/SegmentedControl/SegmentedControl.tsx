@@ -1,4 +1,11 @@
-import { Fragment, FunctionComponent, useState, useContext } from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  HTMLAnchorElement,
+  MouseEvent,
+  useState,
+  useContext,
+} from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -146,9 +153,11 @@ const PlainLink = styled.a.attrs({
   display: block;
 `;
 
+type SegmentedControlItem = { id: string; text: string; url: string };
+
 type Props = {
   id: string;
-  items: { id: string; text: string; url: string }[];
+  items: SegmentedControlItem[];
   ariaCurrentText?: string;
   // Note: parents don't always pass in a value for `setActiveId`.
   //
@@ -175,6 +184,29 @@ const SegmentedControl: FunctionComponent<Props> = ({
 }) => {
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(false);
+
+  function onClick(
+    e: MouseEvent<HTMLAnchorElement>,
+    item: SegmentedControlItem
+  ): boolean | undefined {
+    const url = e.currentTarget.href;
+    const isHash = url.startsWith('#');
+
+    trackGaEvent({
+      category: 'SegmentedControl',
+      action: 'select segment',
+      label: item.text,
+    });
+
+    setActiveId && setActiveId(item.id);
+    isEnhanced && setIsActive(false);
+
+    // Assume we want to
+    if (isHash) {
+      e.preventDefault();
+      return false;
+    }
+  }
 
   return (
     <div>
@@ -204,28 +236,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
             <PlainList>
               {items.map((item, i) => (
                 <DrawerItem isFirst={i === 0} key={item.id}>
-                  <PlainLink
-                    onClick={e => {
-                      const url = e.currentTarget.href;
-                      const isHash = url.startsWith('#');
-
-                      trackGaEvent({
-                        category: 'SegmentedControl',
-                        action: 'select segment',
-                        label: item.text,
-                      });
-
-                      setActiveId && setActiveId(item.id);
-                      setIsActive(false);
-
-                      // Assume we want to
-                      if (isHash) {
-                        e.preventDefault();
-                        return false;
-                      }
-                    }}
-                    href={item.url}
-                  >
+                  <PlainLink onClick={e => onClick(e, item)} href={item.url}>
                     {item.text}
                   </PlainLink>
                 </DrawerItem>
@@ -239,24 +250,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
           <Item key={item.id} isLast={i === items.length - 1}>
             <ItemInner
               isActive={item.id === activeId}
-              onClick={e => {
-                const url = e.currentTarget.href;
-                const isHash = url.startsWith('#');
-
-                trackGaEvent({
-                  category: 'SegmentedControl',
-                  action: 'select segment',
-                  label: item.text,
-                });
-
-                setActiveId && setActiveId(item.id);
-
-                // Assume we want to
-                if (isHash) {
-                  e.preventDefault();
-                  return false;
-                }
-              }}
+              onClick={e => onClick(e, item)}
               href={item.url}
               aria-current={
                 item.id === activeId
