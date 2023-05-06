@@ -1,5 +1,6 @@
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import { ImageType } from '@weco/common/model/image';
+import { Season } from '@weco/content/types/seasons';
 
 const image: ImageType = {
   contentUrl:
@@ -13,26 +14,33 @@ const image: ImageType = {
   },
 };
 
-const Template = args => <SeasonsHeader {...args} />;
-export const basic = Template.bind({});
-basic.args = {
-  season: {
-    labels: [{ text: 'Article' }],
-    title: 'What does it mean to be human, now?',
-    start: new Date('2021-01-05T00:00:00.000Z'),
-    end: new Date('2021-01-26T00:00:00.000Z'),
-    standfirst: [
-      {
-        type: 'paragraph',
-        text: 'Throughout history, pandemics have been powerful engines of change, exposing structural inequalities in the distribution of health and wealth.',
-        spans: [],
-      },
-    ],
-    image: {
-      richCrops: {
-        '32:15': image,
-      },
+const season: Season = {
+  id: 'X84FvhIAACUAqiqp',
+  labels: [{ text: 'Article' }],
+  title: 'What does it mean to be human, now?',
+  start: new Date('2021-01-05T00:00:00.000Z'),
+  end: new Date('2021-01-26T00:00:00.000Z'),
+  standfirst: [
+    {
+      type: 'paragraph',
+      text: 'Throughout history, pandemics have been powerful engines of change, exposing structural inequalities in the distribution of health and wealth.',
+      spans: [],
+    },
+  ],
+  image: {
+    width: image.width,
+    height: image.height,
+    contentUrl: image.contentUrl,
+    alt: image.alt,
+    richCrops: {
+      '32:15': image,
     },
   },
+  body: [],
+  type: 'seasons',
 };
+
+const Template = args => <SeasonsHeader {...args} />;
+export const basic = Template.bind({});
+basic.args = { season };
 basic.storyName = 'SeasonsHeader';
