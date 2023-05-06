@@ -117,14 +117,10 @@ const GridViewerEl = styled.div<GridViewerElProps>`
 `;
 
 type Props = {
-  gridViewerRef: RefObject<HTMLDivElement>;
   viewerRef: RefObject<HTMLElement>;
 };
 
-const GridViewer: FunctionComponent<Props> = ({
-  gridViewerRef,
-  viewerRef,
-}: Props) => {
+const GridViewer: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const {
     mainAreaHeight,
     mainAreaWidth,
@@ -190,7 +186,6 @@ const GridViewer: FunctionComponent<Props> = ({
       <GridViewerEl
         isVisible={gridVisible}
         isFullscreen={isFullscreen}
-        ref={gridViewerRef}
         viewerRef={viewerRef}
         tabIndex={0}
         infoBarIsVisible={isVisible}

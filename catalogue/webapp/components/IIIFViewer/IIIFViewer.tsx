@@ -226,7 +226,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   >();
   const { isFullSupportBrowser } = useContext(AppContext);
   const viewToggleRef = useRef<HTMLButtonElement>(null);
-  const gridViewerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
@@ -463,7 +462,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           isActive={gridVisible}
           isDesktopSidebarActive={isDesktopSidebarActive}
         >
-          <GridViewer gridViewerRef={gridViewerRef} viewerRef={viewerRef} />
+          <GridViewer viewerRef={viewerRef} />
         </Thumbnails>
       </Grid>
     </ItemViewerContext.Provider>
