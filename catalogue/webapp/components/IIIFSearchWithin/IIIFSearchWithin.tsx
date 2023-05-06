@@ -9,6 +9,8 @@ import LL from '@weco/common/views/components/styled/LL';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
+import NextLink from 'next/link';
 
 const SearchForm = styled.form`
   position: relative;
@@ -89,6 +91,8 @@ const IIIFSearchWithin: FunctionComponent = () => {
     searchResults,
     setSearchResults,
     setIsMobileSidebarActive,
+    manifestParam,
+    work,
   } = useContext(ItemViewerContext);
   const { searchService, canvases } = transformedManifest;
 
@@ -176,38 +180,41 @@ const IIIFSearchWithin: FunctionComponent = () => {
             const matchingCanvas = (index && canvases[index]) || undefined;
             return (
               <ListItem key={i}>
-                <SearchResult
-                  onClick={() => {
-                    if (index) {
-                      setIsMobileSidebarActive(false);
-                      mainViewerRef &&
-                        mainViewerRef.current &&
-                        mainViewerRef.current.scrollToItem(index || 0, 'start');
-                    }
-                  }}
-                >
-                  <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
-                    {`${
-                      index &&
-                      `Found on image ${index + 1} / ${
-                        canvases && canvases.length
-                      }`
-                    } ${
-                      matchingCanvas?.label?.trim() !== '-'
-                        ? ` (page ${matchingCanvas?.label})`
-                        : ''
-                    }`}
-                  </HitData>
-                  <span role="presentation">…{hit.before}</span>
-                  <span
-                    style={{
-                      background: '#944aa0',
-                      color: 'white',
-                    }}
+                <SearchResult>
+                  <NextLink
+                    {...itemLink(
+                      {
+                        workId: work.id,
+                        manifest: manifestParam,
+                        canvas: index + 1,
+                      },
+                      'search_within_result'
+                    )}
+                    onClick={() => setIsMobileSidebarActive(false)}
                   >
-                    {hit.match}
-                  </span>
-                  <span role="presentation">{hit.after}...</span>
+                    <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
+                      {`${
+                        index &&
+                        `Found on image ${index + 1} / ${
+                          canvases && canvases.length
+                        }`
+                      } ${
+                        matchingCanvas?.label?.trim() !== '-'
+                          ? ` (page ${matchingCanvas?.label})`
+                          : ''
+                      }`}
+                    </HitData>
+                    <span role="presentation">…{hit.before}</span>
+                    <span
+                      style={{
+                        background: '#944aa0',
+                        color: 'white',
+                      }}
+                    >
+                      {hit.match}
+                    </span>
+                    <span role="presentation">{hit.after}...</span>
+                  </NextLink>
                 </SearchResult>
               </ListItem>
             );
