@@ -9,7 +9,7 @@ import {
   FunctionComponent,
   CSSProperties,
 } from 'react';
-import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
+import { FixedSizeGrid, areEqual } from 'react-window';
 import useScrollVelocity from '../../hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
@@ -18,8 +18,9 @@ import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarCon
 import { SearchResults } from '../../services/iiif/types/search/v3';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { scrollViewer } from './MainViewer';
 import { TransformedCanvas } from '../../types/manifest';
+import NextLink from 'next/link';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 
 const Defs = styled.svg`
   position: absolute;
@@ -32,6 +33,9 @@ const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   height: 400px;
+  a {
+    text-decoration: none;
+  }
 `;
 
 type CellProps = {
@@ -46,7 +50,9 @@ type CellProps = {
     setGridVisible: (value: boolean) => void;
     canvases: TransformedCanvas[];
     searchResults: SearchResults;
-    mainAreaWidth: number;
+    manifestParam: number;
+    canvasParam: number;
+    workId: string;
   };
 };
 
@@ -58,7 +64,9 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     scrollVelocity,
     canvases,
     searchResults,
-    mainAreaWidth,
+    manifestParam,
+    canvasParam,
+    workId,
   } = data;
   const itemIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[itemIndex];
@@ -79,16 +87,29 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
       ) : (
         currentCanvas && (
           <ThumbnailSpacer>
-            <IIIFCanvasThumbnail
-              canvas={currentCanvas}
-              clickHandler={() => {
-                // TODO make this a NextLink
+            <NextLink
+              {...itemLink(
+                {
+                  workId,
+                  manifest: manifestParam,
+                  canvas: itemIndex + 1,
+                },
+                'viewer/thumbnail'
+              )}
+              passHref={true}
+              aria-current={true}
+              onClick={() => {
                 setGridVisible(false);
               }}
-              thumbNumber={itemIndex + 1}
-              isFocusable={gridVisible}
-              highlightImage={hasSearchResults}
-            />
+            >
+              <IIIFCanvasThumbnail
+                canvas={currentCanvas}
+                isActive={canvasParam === itemIndex + 1}
+                thumbNumber={itemIndex + 1}
+                isFocusable={gridVisible}
+                highlightImage={hasSearchResults}
+              />
+            </NextLink>
           </ThumbnailSpacer>
         )
       )}
@@ -129,6 +150,9 @@ const GridViewer: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     transformedManifest,
     isFullscreen,
     searchResults,
+    canvasParam,
+    manifestParam,
+    work,
   } = useContext(ItemViewerContext);
   const { windowSize } = useContext(AppContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -140,6 +164,10 @@ const GridViewer: FunctionComponent<Props> = ({ viewerRef }: Props) => {
   const { isVisible } = useContext(GlobalInfoBarContext);
   const { canvases } = transformedManifest;
 
+  useEffect(() => {
+    const rowIndex = Math.floor((canvasParam - 1) / columnCount);
+    grid.current?.scrollToItem({ align: 'start', rowIndex });
+  }, [canvasParam]);
 
   useEffect(() => {
     // required to be set as we are setting the body to overflow hidden to stop multiple scrolls in view bug issue.
@@ -205,6 +233,9 @@ const GridViewer: FunctionComponent<Props> = ({ viewerRef }: Props) => {
             canvases,
             searchResults,
             mainAreaWidth,
+            canvasParam,
+            manifestParam,
+            workId: work.id,
           }}
           onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
           ref={grid}
