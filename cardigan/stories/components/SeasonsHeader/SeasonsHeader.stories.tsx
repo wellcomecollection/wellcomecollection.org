@@ -1,4 +1,4 @@
-import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
+import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { ImageType } from '@weco/common/model/image';
 import { Season } from '@weco/content/types/seasons';
 

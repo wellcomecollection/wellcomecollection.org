@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
 import { Season } from '@weco/content/types/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
+import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { serialiseProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
