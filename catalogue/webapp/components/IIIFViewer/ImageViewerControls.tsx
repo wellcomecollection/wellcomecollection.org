@@ -47,7 +47,7 @@ const ImageViewerControls: FunctionComponent = () => {
   const {
     showControls,
     rotatedImages,
-    activeIndex,
+    canvasParam,
     urlTemplate,
     setRotatedImages,
     setIsLoading,
@@ -79,24 +79,27 @@ const ImageViewerControls: FunctionComponent = () => {
           icon={rotateRight}
           clickHandler={() => {
             const matchingIndex = rotatedImages.findIndex(
-              image => image.canvasIndex === activeIndex
+              rotation => rotation.canvasParam === canvasParam
             );
             if (matchingIndex >= 0) {
+              const currentRotationValue =
+                rotatedImages[matchingIndex].rotation;
+              const newRotationValue =
+                currentRotationValue < 270 ? currentRotationValue + 90 : 0;
               rotatedImages[matchingIndex] = {
-                canvasIndex: rotatedImages[matchingIndex].canvasIndex,
-                rotation:
-                  rotatedImages[matchingIndex].rotation < 270
-                    ? rotatedImages[matchingIndex].rotation + 90
-                    : 0,
+                canvasParam,
+                rotation: newRotationValue,
               };
+              setRotatedImages([...rotatedImages]);
             } else {
-              rotatedImages.push({
-                canvasIndex: activeIndex,
-                rotation: 90,
-              });
+              setRotatedImages([
+                ...rotatedImages,
+                {
+                  canvasParam,
+                  rotation: 90,
+                },
+              ]);
             }
-            setRotatedImages([...rotatedImages]);
-            setIsLoading(true);
           }}
         />
       </Space>

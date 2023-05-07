@@ -155,7 +155,10 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     : undefined;
   const infoUrl =
     mainImageService['@id'] && convertIiifUriToInfoUri(mainImageService['@id']);
-  const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);
+  const matching = rotatedImages.find(
+    canvas => canvas.canvasParam === index + 1
+  );
+
   const rotation = matching ? matching.rotation : 0;
   const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
   const isRestricted = currentCanvas.hasRestrictedImage;
