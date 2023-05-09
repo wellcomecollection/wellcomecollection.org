@@ -8,7 +8,15 @@ console.info(
   localConcurrentDevelopment
 );
 
+const rewriteEntries = [
+  {
+    source: '/works/management/healthcheck',
+    destination: `/api/works/management/healthcheck`,
+  },
+];
+
 module.exports = createConfig({
   applicationName: 'catalogue',
   basePath: localConcurrentDevelopment ? '/catalogue' : '',
+  rewriteEntries,
 });

@@ -26,16 +26,7 @@ const appPromise = nextApp.prepare().then(async () => {
   koaApp.use(apmErrorMiddleware);
   koaApp.use(withCachedValues);
 
-  router.get('/works/management/healthcheck', async ctx => {
-    ctx.status = 200;
-    ctx.body = 'ok';
-  });
-
   router.get('*', handleAllRoute(handle));
-  router.post(
-    '/account/api/users/:userId/item-requests',
-    handleAllRoute(handle)
-  );
 
   koaApp.use(async (ctx, next) => {
     ctx.res.statusCode = 200;
