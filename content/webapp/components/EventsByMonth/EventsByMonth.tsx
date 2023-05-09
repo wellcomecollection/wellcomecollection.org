@@ -1,19 +1,12 @@
 import { FunctionComponent, useState } from 'react';
-
-// Helpers/Utils
-import { cssGrid } from '@weco/common/utils/classnames';
-import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
-import { groupEventsByMonth, startOf } from './group-event-utils';
-
-// Components
-import CardGrid from '../CardGrid/CardGrid';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+import { EventBasic } from '../../types/events';
+import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
-
-// Types
-import { EventBasic } from '@weco/content/types/events';
-import { Link } from '@weco/content/types/link';
+import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import CardGrid from '../CardGrid/CardGrid';
+import { groupEventsByMonth, startOf } from './group-event-utils';
 
 type Props = {
   events: EventBasic[];
@@ -37,17 +30,17 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
     };
   });
 
-  const [activeId, setActiveId] = useState(groups[0].id);
+  const [activeId, setActiveId] = useState<string | undefined>(undefined);
 
   return (
     <div>
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
         <CssGridContainer>
           <div className="css-grid">
-            <div className={cssGrid(gridSize12)}>
+            <div className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}>
               <SegmentedControl
                 id="monthControls"
-                activeId={activeId}
+                activeId={groups[0]?.id}
                 setActiveId={setActiveId}
                 items={groups}
               />
@@ -56,25 +49,31 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         </CssGridContainer>
       </Space>
 
-      {groups
-        .filter(g => activeId === g.id)
-        .map(g => (
-          <div
-            key={g.id}
-            className={cssGrid(gridSize12)}
-            style={{ display: 'block' }}
+      {groups.map(g => (
+        <div
+          key={g.id}
+          className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}
+          style={{
+            display: !activeId || activeId === g.id ? 'block' : 'none',
+          }}
+        >
+          <h2
+            className={classNames({
+              container: true,
+              'is-hidden': Boolean(activeId),
+            })}
+            id={g.id}
           >
-            <h2 className="container" id={g.id}>
-              {g.month.month}
-            </h2>
-            <CardGrid
-              items={g.events}
-              itemsPerRow={3}
-              links={links}
-              fromDate={startOf(g.month)}
-            />
-          </div>
-        ))}
+            {g.month.month}
+          </h2>
+          <CardGrid
+            items={g.events}
+            itemsPerRow={3}
+            links={links}
+            fromDate={startOf(g.month)}
+          />
+        </div>
+      ))}
     </div>
   );
 };
