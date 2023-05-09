@@ -54,7 +54,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
             <div className={cssGrid(gridSize12)}>
               <SegmentedControl
                 id="monthControls"
-                activeId={activeId || monthsWithEvents[0].id}
+                activeId={monthsWithEvents[0].id}
                 setActiveId={setActiveId}
                 items={monthsWithEvents}
               />
