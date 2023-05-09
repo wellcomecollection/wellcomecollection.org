@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useEffect } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 // Helpers/Utils
 import { cssGrid, classNames } from '@weco/common/utils/classnames';
@@ -41,10 +41,6 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   // which means there will be at least one month in `monthsWithEvents`
   // that has some events in it (as long as we have JS)
   const [activeId, setActiveId] = useState<string | undefined>();
-
-  useEffect(() => {
-    setActiveId(monthsWithEvents[0].id);
-  }, []);
 
   return (
     <div>

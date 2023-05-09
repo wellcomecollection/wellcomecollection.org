@@ -4,6 +4,7 @@ import {
   MouseEvent,
   useState,
   useContext,
+  useEffect,
 } from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
@@ -177,6 +178,10 @@ const SegmentedControl: FunctionComponent<Props> = ({
 }) => {
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    setActiveId?.(window.location.hash.slice(1) || activeId);
+  }, []);
 
   function onClick(
     e: MouseEvent<HTMLAnchorElement>,
