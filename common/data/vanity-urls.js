@@ -29,8 +29,6 @@
  *
  */
 
-// import { prismicPageIds } from './hardcoded-ids';
-
 const { prismicPageIds } = require('./hardcoded-ids');
 
 const vanityUrls = [
