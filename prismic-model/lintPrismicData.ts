@@ -40,6 +40,24 @@ function detectEur01Safelinks(doc: any): string[] {
   return [];
 }
 
+// Look for preview.wellcomecollection.org links.
+//
+// This is a very crude check; we could recurse further down into
+// the object to get more debugging information, but I hope this
+// is good enough for now.
+function detectPreviewLinks(doc: any): string[] {
+  if (
+    JSON.stringify(doc).indexOf('https://preview.wellcomecollection.org/') !==
+    -1
+  ) {
+    return [
+      'One of the links is a preview.wellcomecollection.org URL, which should be replaced with a link to the live site.',
+    ];
+  }
+
+  return [];
+}
+
 // Look for broken links to interpretation types on events.
 //
 // These manifest as small black squares (on promo cards) or small yellow
@@ -159,6 +177,7 @@ async function run() {
   for (const doc of getPrismicDocuments(snapshotFile)) {
     const errors = [
       ...detectEur01Safelinks(doc),
+      ...detectPreviewLinks(doc),
       ...detectBrokenInterpretationTypeLinks(doc),
       ...detectNonHttpContributorLinks(doc),
       ...detectNonPromoImageStories(doc),
