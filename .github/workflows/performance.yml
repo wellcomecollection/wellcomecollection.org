@@ -11,6 +11,7 @@ on:
       - 'identity/terraform/**'
       - 'infrastructure/**'
       - 'playwright/**'
+      - 'prismic-model/**'
 
 jobs:
   bundle_size_diff:
