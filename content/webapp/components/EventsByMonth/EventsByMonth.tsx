@@ -21,23 +21,26 @@ type Props = {
 };
 
 const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
-  const eventsInMonths = groupEventsByMonth(events);
+  // Group the events into the per-month tabs that we render on the
+  // What's On page, e.g. a group for May, June, July, ...
+  const monthsWithEvents = groupEventsByMonth(events).map(
+    ({ month, events }) => {
+      const id = `${month.month}-${month.year}`.toLowerCase();
 
-  // Order months correctly.  This returns the headings for each month,
-  // now in chronological order.
-  const groups = eventsInMonths.map(({ month, events }) => {
-    const id = `${month.month}-${month.year}`.toLowerCase();
+      return {
+        id,
+        url: `#${id}`,
+        text: month.month,
+        month,
+        events,
+      };
+    }
+  );
 
-    return {
-      id,
-      url: `#${id}`,
-      text: month.month,
-      month,
-      events,
-    };
-  });
-
-  const [activeId, setActiveId] = useState(groups[0].id);
+  // We assume that there will always be some upcoming events scheduled,
+  // which means there will be at least one month in `monthsWithEvents`
+  // that has some events in it -- so this will always be a string.
+  const [activeId, setActiveId] = useState(monthsWithEvents[0].id);
 
   return (
     <div>
@@ -49,29 +52,29 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
                 id="monthControls"
                 activeId={activeId}
                 setActiveId={setActiveId}
-                items={groups}
+                items={monthsWithEvents}
               />
             </div>
           </div>
         </CssGridContainer>
       </Space>
 
-      {groups
-        .filter(g => activeId === g.id)
-        .map(g => (
+      {monthsWithEvents
+        .filter(({ id }) => activeId === id)
+        .map(({ id, month, events }) => (
           <div
-            key={g.id}
+            key={id}
             className={cssGrid(gridSize12)}
             style={{ display: 'block' }}
           >
-            <h2 className="container" id={g.id}>
-              {g.month.month}
+            <h2 className="container is-hidden" id={id}>
+              {month.month}
             </h2>
             <CardGrid
-              items={g.events}
+              items={events}
               itemsPerRow={3}
               links={links}
-              fromDate={startOf(g.month)}
+              fromDate={startOf(month)}
             />
           </div>
         ))}
