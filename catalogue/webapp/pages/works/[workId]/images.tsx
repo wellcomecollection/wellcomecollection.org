@@ -49,7 +49,7 @@ const ImagePage: FunctionComponent<Props> = ({
 
   // We only send a langCode if it's unambiguous -- better to send no language
   // than the wrong one.
-  const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
+  const lang = (work.languages.length === 1 && work.languages[0]?.id) || '';
 
   const apiLink = {
     id: 'json',
