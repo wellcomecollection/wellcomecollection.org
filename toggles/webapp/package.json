@@ -9,7 +9,7 @@
     "setDefaultValueFor": "ts-node ./scripts/setDefaultValueFor"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.71",
+    "@types/aws-lambda": "^8.10.115",
     "@aws-sdk/client-s3": "^3.317.0",
     "@babel/preset-typescript": "^7.21.4",
     "@types/node": "12.19.0",
