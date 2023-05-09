@@ -67,7 +67,7 @@ import EventsPage, {
   Props as EventsProps,
   getServerSideProps as gSSP,
 } from '.';
-import { isOfTypePeriod } from 'types/periods';
+import { isOfTypePeriod } from '@weco/common/types/periods';
 import { AppErrorProps } from '@weco/common/services/app';
 
 const DateWrapper = styled.div.attrs({

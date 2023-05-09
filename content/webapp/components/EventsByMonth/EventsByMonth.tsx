@@ -8,7 +8,9 @@ import { groupEventsByMonth, startOf } from './group-event-utils';
 // Components
 import CardGrid from '../CardGrid/CardGrid';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+import SegmentedControl, {
+  ItemID,
+} from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import Space from '@weco/common/views/components/styled/Space';
 
 // Types
@@ -25,7 +27,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   // What's On page, e.g. a group for May, June, July, ...
   const monthsWithEvents = groupEventsByMonth(events).map(
     ({ month, events }) => {
-      const id = `${month.month}-${month.year}`.toLowerCase();
+      const id = `${month.month}-${month.year}`.toLowerCase() as ItemID;
 
       return {
         id,

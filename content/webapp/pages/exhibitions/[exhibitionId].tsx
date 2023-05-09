@@ -23,7 +23,7 @@ import ExhibitionsPage, {
   getServerSideProps as gSSP,
   ExhibitionsProps,
 } from '.';
-import { isOfTypePeriod } from 'types/periods';
+import { isOfTypePeriod } from '@weco/common/types/periods';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type ExhibitionProps = {

@@ -203,7 +203,7 @@ type Props = {
   id: string;
   items: Item[];
   activeId?: ItemID;
-  onActiveIdChange?: (id: string) => void;
+  onActiveIdChange?: (id: ItemID) => void;
   extraClasses?: string;
   ariaCurrentText?: string;
   // Note: parents don't always pass in a value for `setActiveId`.
@@ -215,7 +215,7 @@ type Props = {
   //
   // In this case, the state is tracked by the URL, and there's no need for
   // a setActiveId hook -- it will be updated by the re-render for the new URL.
-  setActiveId?: (id: string) => void;
+  setActiveId?: (id: ItemID) => void;
 };
 
 const SegmentedControl: FunctionComponent<Props> = ({
