@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { EventBasic } from '../../types/events';
@@ -30,7 +30,11 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
     };
   });
 
-  const [activeId, setActiveId] = useState<string | undefined>(undefined);
+  const [activeId, setActiveId] = useState<string | undefined>();
+
+  useEffect(() => {
+    setActiveId(groups[0].id);
+  }, []);
 
   return (
     <div>
@@ -40,7 +44,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
             <div className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}>
               <SegmentedControl
                 id="monthControls"
-                activeId={groups[0]?.id}
+                activeId={groups[0].id}
                 setActiveId={setActiveId}
                 items={groups}
               />
