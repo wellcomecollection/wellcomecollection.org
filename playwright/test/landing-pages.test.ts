@@ -11,6 +11,21 @@ import {
 } from './helpers/urls';
 import { gotoWithoutCache } from './contexts';
 
+test.describe('With JavaScript disabled', () => {
+  test.use({ javaScriptEnabled: false }); // Turn off JS for tests in this block
+
+  test(`the what's on page displays all events`, async ({ page }) => {
+    await gotoWithoutCache(whatsOnUrl, page);
+    const links = page.locator('a:has-text("View all events")');
+    const linksCount = await links.count();
+
+    for (let linkIndex = 0; linkIndex < linksCount; linkIndex++) {
+      const link = links.nth(linkIndex);
+      await expect(link).toBeVisible();
+    }
+  });
+});
+
 test.describe('Top-level landing pages', () => {
   test('the homepage renders with an accessible title', async ({ page }) => {
     await gotoWithoutCache(homepageUrl, page);
@@ -37,6 +52,18 @@ test.describe('Top-level landing pages', () => {
     const content = await page.textContent('h1');
 
     expect(content).toBe('What’s on');
+
+    const links = page.locator('a:has-text("View all events")');
+    const linksCount = await links.count();
+
+    for (let linkIndex = 0; linkIndex < linksCount; linkIndex++) {
+      const link = links.nth(linkIndex);
+      if (linkIndex === 0) {
+        await expect(link).toBeVisible();
+      } else {
+        await expect(link).toBeHidden();
+      }
+    }
   });
 
   test('the stories page renders with an accessible title', async ({
