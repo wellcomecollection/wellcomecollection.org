@@ -1,7 +1,7 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 
 // Helpers/Utils
-import { cssGrid } from '@weco/common/utils/classnames';
+import { cssGrid, classNames } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 import { groupEventsByMonth, startOf } from './group-event-utils';
 
@@ -39,8 +39,12 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
 
   // We assume that there will always be some upcoming events scheduled,
   // which means there will be at least one month in `monthsWithEvents`
-  // that has some events in it -- so this will always be a string.
-  const [activeId, setActiveId] = useState(monthsWithEvents[0].id);
+  // that has some events in it (as long as we have JS)
+  const [activeId, setActiveId] = useState<string | undefined>();
+
+  useEffect(() => {
+    setActiveId(monthsWithEvents[0].id);
+  }, []);
 
   return (
     <div>
@@ -50,7 +54,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
             <div className={cssGrid(gridSize12)}>
               <SegmentedControl
                 id="monthControls"
-                activeId={activeId}
+                activeId={activeId || monthsWithEvents[0].id}
                 setActiveId={setActiveId}
                 items={monthsWithEvents}
               />
@@ -59,25 +63,31 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         </CssGridContainer>
       </Space>
 
-      {monthsWithEvents
-        .filter(({ id }) => activeId === id)
-        .map(({ id, month, events }) => (
-          <div
-            key={id}
-            className={cssGrid(gridSize12)}
-            style={{ display: 'block' }}
+      {monthsWithEvents.map(({ id, month, events }) => (
+        <div
+          key={id}
+          className={classNames({
+            [cssGrid(gridSize12)]: true,
+            'is-hidden': Boolean(activeId) && activeId !== id,
+          })}
+        >
+          <h2
+            className={classNames({
+              container: true,
+              'is-hidden': Boolean(activeId),
+            })}
+            id={id}
           >
-            <h2 className="container is-hidden" id={id}>
-              {month.month}
-            </h2>
-            <CardGrid
-              items={events}
-              itemsPerRow={3}
-              links={links}
-              fromDate={startOf(month)}
-            />
-          </div>
-        ))}
+            {month.month}
+          </h2>
+          <CardGrid
+            items={events}
+            itemsPerRow={3}
+            links={links}
+            fromDate={startOf(month)}
+          />
+        </div>
+      ))}
     </div>
   );
 };

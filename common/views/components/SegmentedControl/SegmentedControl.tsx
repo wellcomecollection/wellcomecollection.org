@@ -253,7 +253,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
         {items.map((item, i) => (
           <Item key={item.id} isLast={i === items.length - 1}>
             <ItemInner
-              isActive={item.id === activeId}
+              isActive={isEnhanced && item.id === activeId}
               onClick={e => onClick(e, item)}
               href={item.url}
               aria-current={
