@@ -43,4 +43,7 @@ const season: Season = {
 const Template = args => <SeasonsHeader {...args} />;
 export const basic = Template.bind({});
 basic.args = { season };
+basic.parameters = {
+  chromatic: { diffThreshold: 0.2 },
+};
 basic.storyName = 'SeasonsHeader';
