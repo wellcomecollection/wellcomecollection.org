@@ -1,4 +1,10 @@
-import { Fragment, FunctionComponent, useState, useContext } from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  MouseEvent,
+  useState,
+  useContext,
+} from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -140,21 +146,24 @@ const Button = styled.button.attrs({
     `}
 `;
 
-const PlainLink = styled.a.attrs({
-  className: 'plain-link',
-})`
-  display: block;
-`;
+type SegmentedControlItem = { id: string; text: string; url: string };
 
 type Props = {
   id: string;
-  items: { id: string; text: string; url: string }[];
+  items: SegmentedControlItem[];
   ariaCurrentText?: string;
-  // Note: depending on the URLs passed in `items`, clicking on a segment may
-  // cause the user to navigate to a complete different page.
+  // Note: parents don't always pass in a value for `setActiveId`.
   //
-  // In this case, the state is tracked by the URL, and there's no need for
-  // a setActiveId hook -- it will be updated by the re-render for the new URL.
+  // The best way to understand why is to look at an example: on the
+  // What's On page, we use a segmented control for "Everything/Today/This weekend".
+  // When you click on one of the segments, you get taken to a completely
+  // different URL, e.g. from `/whats-on` to `/whats-on/today`.
+  //
+  // When you go to that new URL, it'll completely re-render the page,
+  // including this component, getting the new value of `activeId` from the URL.
+  // It doesn't make sense for the What's On page to pass in a `setActiveId`
+  // function -- even if called, the outcome would never be used, because
+  // the user is about to be taken to a new URL/page.
   activeId: string;
   setActiveId?: (id: string) => void;
 };
@@ -168,6 +177,35 @@ const SegmentedControl: FunctionComponent<Props> = ({
 }) => {
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(false);
+
+  function onClick(
+    e: MouseEvent<HTMLAnchorElement>,
+    item: SegmentedControlItem
+  ): boolean | undefined {
+    const url = e.currentTarget.href;
+    const isHash = url.startsWith('#');
+
+    trackGaEvent({
+      category: 'SegmentedControl',
+      action: 'select segment',
+      label: item.text,
+    });
+
+    setActiveId && setActiveId(item.id);
+    isEnhanced && setIsActive(false);
+
+    // TODO: Do we still need this?  The original comment ("Assume we want to")
+    // didn't provide much context, and it's not clear if/how this changes the
+    // behaviour of the page, or indeed if it ever fires.
+    //
+    // The only page where we use SegmentedControl with anchors in the URL is
+    // the What's On page, and testing locally the `isHash` value will never
+    // be true – the `href` of the item is the full URL.
+    if (isHash) {
+      e.preventDefault();
+      return false;
+    }
+  }
 
   return (
     <div>
@@ -197,30 +235,14 @@ const SegmentedControl: FunctionComponent<Props> = ({
             <PlainList>
               {items.map((item, i) => (
                 <DrawerItem isFirst={i === 0} key={item.id}>
-                  <PlainLink
-                    onClick={e => {
-                      const url = e.currentTarget.href;
-                      const isHash = url.startsWith('#');
-
-                      trackGaEvent({
-                        category: 'SegmentedControl',
-                        action: 'select segment',
-                        label: item.text,
-                      });
-
-                      setActiveId && setActiveId(item.id);
-                      setIsActive(false);
-
-                      // Assume we want to
-                      if (isHash) {
-                        e.preventDefault();
-                        return false;
-                      }
-                    }}
+                  <a
+                    className="plain-link"
+                    style={{ display: 'block' }}
+                    onClick={e => onClick(e, item)}
                     href={item.url}
                   >
                     {item.text}
-                  </PlainLink>
+                  </a>
                 </DrawerItem>
               ))}
             </PlainList>
@@ -232,24 +254,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
           <Item key={item.id} isLast={i === items.length - 1}>
             <ItemInner
               isActive={item.id === activeId}
-              onClick={e => {
-                const url = e.currentTarget.href;
-                const isHash = url.startsWith('#');
-
-                trackGaEvent({
-                  category: 'SegmentedControl',
-                  action: 'select segment',
-                  label: item.text,
-                });
-
-                setActiveId && setActiveId(item.id);
-
-                // Assume we want to
-                if (isHash) {
-                  e.preventDefault();
-                  return false;
-                }
-              }}
+              onClick={e => onClick(e, item)}
               href={item.url}
               aria-current={
                 item.id === activeId

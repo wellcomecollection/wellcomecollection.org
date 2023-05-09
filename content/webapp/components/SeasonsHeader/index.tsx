@@ -1,15 +1,22 @@
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+// Helpers/Utils
 import { font } from '@weco/common/utils/classnames';
+import { getCrop } from '@weco/common/model/image';
+
+// Components
+import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Layout8 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
-import { FunctionComponent, ComponentProps, ReactElement } from 'react';
-import Space from '@weco/common/views/components/styled/Space';
 import PageHeaderStandfirst from '../PageHeaderStandfirst/PageHeaderStandfirst';
-import styled from 'styled-components';
-import * as prismicT from '@prismicio/types';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
+import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
+
+// Types
+import { Season } from '@weco/content/types/seasons';
 
 const HeaderWrapper = styled.div`
   background: ${props => props.theme.color('neutral.700')};
@@ -19,40 +26,27 @@ const TextWrapper = styled.div`
   border-left: 1px solid ${props => props.theme.color('accent.salmon')};
 `;
 
-const FeaturedMediaWrapper = styled.div`
-  position: relative;
-`;
-
-const TitleWrapper = styled.h1.attrs({
-  className: `${font('wb', 1)}`,
-})`
-  display: inline-block;
-  margin-bottom: 0;
-`;
-
 type Props = {
-  labels: ComponentProps<typeof LabelsList>;
-  title: string;
-  FeaturedMedia?: ReactElement<typeof PrismicImage>;
-  standfirst?: prismicT.RichTextField;
-  start?: Date;
-  end?: Date;
+  season: Season;
 };
 
-const SeasonsHeader: FunctionComponent<Props> = ({
-  labels,
-  title,
-  FeaturedMedia,
-  standfirst,
-  start,
-  end,
-}: Props) => {
+const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
+  const { title, standfirst, start, end, labels } = season;
+
+  const superWidescreenImage = getCrop(season.image, '32:15');
+
   return (
     <Layout12>
       <HeaderWrapper>
         <WobblyBottom backgroundColor="white">
-          {FeaturedMedia && (
-            <FeaturedMediaWrapper>{FeaturedMedia}</FeaturedMediaWrapper>
+          {superWidescreenImage && (
+            <div style={{ position: 'relative' }}>
+              <PrismicImage
+                image={superWidescreenImage}
+                sizes={{ xlarge: 1, large: 1, medium: 1, small: 1 }}
+                quality="low"
+              />
+            </div>
           )}
           <Space
             v={{
@@ -64,15 +58,20 @@ const SeasonsHeader: FunctionComponent<Props> = ({
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <TextWrapper>
                   <Space h={{ size: 'm', properties: ['padding-left'] }}>
-                    {labels && labels.labels.length > 0 && (
+                    {labels.length > 0 && (
                       <LabelsList
-                        {...labels}
+                        labels={labels}
                         defaultLabelColor="accent.salmon"
                       />
                     )}
                     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                        <TitleWrapper>{title}</TitleWrapper>
+                        <h1
+                          className={font('wb', 1)}
+                          style={{ display: 'inline-block', marginBottom: 0 }}
+                        >
+                          {title}
+                        </h1>
                       </Space>
                       {start && end && (
                         <div className={font('intr', 5)}>

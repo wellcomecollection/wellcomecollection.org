@@ -7,14 +7,13 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import Space from '@weco/common/views/components/styled/Space';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import RenderlessPaginator, {
-  PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   PaginatorRenderFunctionProps,
 } from './RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { TransformedCanvas } from '../../types/manifest';
 import { FunctionComponent } from 'react';
-import { toLink as itemLink } from '../ItemLink';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import { arrow } from '@weco/common/icons';
 
 const NoScriptViewerEl = styled.div`
@@ -141,42 +140,37 @@ const PaginatorButtons = (
 /* eslint-enable react/display-name */
 
 type NoScriptViewerProps = {
-  mainPaginatorProps: PaginatorPropsWithoutRenderFunction;
-  thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction;
   currentCanvas?: TransformedCanvas;
   lang: string;
   canvasOcr?: string;
   workId: string;
   pageIndex: number;
-  pageSize: number;
   imageUrl?: string;
-  thumbnailsRequired: boolean;
   iiifImageLocation?: { url: string };
   canvases: TransformedCanvas[];
   canvasIndex: number;
+  manifestIndex?: number;
 };
 
 const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
-  thumbnailsRequired,
   imageUrl,
   iiifImageLocation,
   currentCanvas,
   canvasOcr,
   lang,
-  mainPaginatorProps,
-  thumbsPaginatorProps,
   workId,
   canvases,
   canvasIndex,
+  manifestIndex,
   pageIndex,
-  pageSize,
 }: NoScriptViewerProps) => {
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
-
+  const pageSize = 4;
   const navigationCanvases = [...Array(pageSize)]
     .map((_, i) => pageSize * pageIndex + i)
     .map(i => canvases[i])
     .filter(Boolean);
+  const thumbnailsRequired = Boolean(navigationCanvases?.length);
 
   const urlTemplate =
     (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
@@ -186,6 +180,30 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
     imageSizes(2048)
       .map(width => `${urlTemplate({ size: `${width},` })} ${width}w`)
       .join(',');
+  const sharedPaginatorProps = {
+    totalResults: canvases?.length || 1,
+    link: itemLink(
+      {
+        workId,
+        page: pageIndex + 1,
+        canvas: canvasIndex + 1,
+        manifest: manifestIndex ? manifestIndex + 1 : undefined,
+      },
+      'viewer/paginator'
+    ),
+  };
+  const mainPaginatorProps = {
+    currentPage: canvasIndex + 1,
+    pageSize: 1,
+    linkKey: 'canvas',
+    ...sharedPaginatorProps,
+  };
+  const thumbsPaginatorProps = {
+    currentPage: pageIndex + 1,
+    pageSize: 4,
+    linkKey: 'page',
+    ...sharedPaginatorProps,
+  };
 
   return (
     <NoScriptViewerEl>

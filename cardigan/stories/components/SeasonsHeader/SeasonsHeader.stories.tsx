@@ -1,6 +1,6 @@
-import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { ImageType } from '@weco/common/model/image';
+import { Season } from '@weco/content/types/seasons';
 
 const image: ImageType = {
   contentUrl:
@@ -14,12 +14,12 @@ const image: ImageType = {
   },
 };
 
-const headerProps = {
-  labels: { labels: [{ text: 'Article' }] },
+const season: Season = {
+  id: 'X84FvhIAACUAqiqp',
+  labels: [{ text: 'Article' }],
   title: 'What does it mean to be human, now?',
   start: new Date('2021-01-05T00:00:00.000Z'),
   end: new Date('2021-01-26T00:00:00.000Z'),
-  FeaturedMedia: <PrismicImage image={image} quality="low" />,
   standfirst: [
     {
       type: 'paragraph',
@@ -27,16 +27,23 @@ const headerProps = {
       spans: [],
     },
   ],
+  image: {
+    width: image.width,
+    height: image.height,
+    contentUrl: image.contentUrl,
+    alt: image.alt,
+    richCrops: {
+      '32:15': image,
+    },
+  },
+  body: [],
+  type: 'seasons',
 };
 
 const Template = args => <SeasonsHeader {...args} />;
 export const basic = Template.bind({});
-basic.args = {
-  labels: headerProps.labels,
-  title: headerProps.title,
-  start: headerProps.start,
-  end: headerProps.end,
-  standfirst: headerProps.standfirst,
-  FeaturedMedia: headerProps.FeaturedMedia,
+basic.args = { season };
+basic.parameters = {
+  chromatic: { diffThreshold: 0.2 },
 };
 basic.storyName = 'SeasonsHeader';
