@@ -79,6 +79,21 @@ const createConfig =
         ignoreDuringBuilds: !options.lintBuilds,
       },
       transpilePackages: ['@weco/common'],
+
+      // I was seeing an error in the content app:
+      //
+      //      Prop `className` did not match.
+      //      Server: "sc-eFyCCs fKZyxD spacing-component"
+      //      Client: "sc-gHjUZk gufBcP spacing-component"
+      //
+      // This is coming from somewhere inside styled-components; I found
+      // this suggested compiler option on Stack Overflow.  It cleans up
+      // the error *and* uses SWC to compile styled-components, which
+      // makes the build noticeably faster on my machine.
+      compiler: {
+        styledComponents: true,
+      },
+
       experimental: {
         ...validDefaultConfig.experimental,
         mdxRs: true,
