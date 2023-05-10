@@ -81,6 +81,7 @@ const ImagePage: FunctionComponent<Props> = ({
           pageIndex={0}
           canvasIndex={0}
           image={image}
+          iiifImageLocation={iiifImageLocation}
           work={work}
         />
       ) : (

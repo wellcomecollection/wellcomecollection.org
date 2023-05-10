@@ -327,6 +327,7 @@ const ItemPage: NextPage<Props> = ({
             manifestIndex={manifestIndex}
             work={work}
             transformedManifest={transformedManifest}
+            iiifImageLocation={iiifImageLocation}
             handleImageError={() => {
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
               reloadAuthIframe(document, iframeId);
