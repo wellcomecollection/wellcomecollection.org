@@ -21,7 +21,7 @@ afterAll(() => {
 
 test('healthcheck', async () => {
   await request
-    .get('/content/management/healthcheck')
+    .get('/api/content/management/healthcheck')
     .expect(200)
     .then(response => {
       expect(response.text).toEqual('ok');

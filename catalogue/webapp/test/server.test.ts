@@ -22,7 +22,7 @@ afterAll(() => {
 
 test('healthcheck', async () => {
   await request
-    .get('/works/management/healthcheck')
+    .get('/api/works/management/healthcheck')
     .expect(200)
     .then(response => {
       expect(response.text).toEqual('ok');
