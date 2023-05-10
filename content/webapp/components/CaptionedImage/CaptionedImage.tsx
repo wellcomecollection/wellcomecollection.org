@@ -61,6 +61,7 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
 type CaptionedImageProps = CaptionedImageType & {
   isBody?: boolean;
   preCaptionNode?: ReactNode;
+  isPrinting?: boolean;
 };
 
 const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
@@ -69,6 +70,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
   image,
   isBody,
   hasRoundedCorners,
+  isPrinting,
 }) => {
   // Note: the default quality here was originally 45, but this caused images to
   // appear very fuzzy on stories.
@@ -87,7 +89,13 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
         hasRoundedCorners={hasRoundedCorners}
       >
         <ImageWithTasl
-          Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
+          Image={
+            <HeightRestrictedPrismicImage
+              isPrinting={isPrinting}
+              image={image}
+              quality="high"
+            />
+          }
           tasl={{
             ...image.tasl,
             idSuffix: dasherizeShorten(image.contentUrl),

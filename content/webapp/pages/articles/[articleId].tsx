@@ -165,6 +165,7 @@ const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
 
 const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
+  const [isPrinting, setIsPrinting] = useState(false);
 
   useEffect(() => {
     async function setSeries() {
@@ -193,6 +194,21 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
     }
 
     setSeries();
+
+    function setIsPrintingTrue() {
+      setIsPrinting(true);
+    }
+    function setIsPrintingFalse() {
+      setIsPrinting(false);
+    }
+
+    window.addEventListener('beforeprint', setIsPrintingTrue);
+    window.addEventListener('afterprint', setIsPrintingFalse);
+
+    return () => {
+      window.removeEventListener('beforeprint', setIsPrintingTrue);
+      window.removeEventListener('afterprint', setIsPrintingFalse);
+    };
   }, []);
 
   const breadcrumbs = {
@@ -343,6 +359,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             pageId={article.id}
             minWidth={isPodcast ? 10 : 8}
             isShortFilm={isShortFilmFormat}
+            isPrinting={isPrinting}
           />
         }
         RelatedContent={Siblings}

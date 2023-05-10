@@ -11,6 +11,7 @@ export type Props = {
   image: ImageType;
   maxWidth?: number;
   quality: ImageQuality;
+  isPrinting?: boolean;
 };
 
 const PrismicImage = styled(Image)`
@@ -66,6 +67,7 @@ const HeightRestrictedPrismicImage: FunctionComponent<Props> = ({
   image,
   maxWidth,
   quality,
+  isPrinting,
 }) => {
   const vSizesString = convertVerticalBreakpointSizesToSizes(
     aspectRatios,
@@ -78,7 +80,19 @@ const HeightRestrictedPrismicImage: FunctionComponent<Props> = ({
     ? Math.min(maxWidth * 3, image.width)
     : image.width;
 
-  return (
+  return isPrinting ? (
+    <img
+      width={image.width}
+      height={image.height}
+      src={image.contentUrl}
+      alt={image.alt || ''}
+      sizes={`${vSizesString}, calc(100vw - 84px)`}
+      style={{
+        width: '100%',
+        height: 'auto',
+      }}
+    />
+  ) : (
     <PrismicImage
       width={image.width}
       height={image.height}

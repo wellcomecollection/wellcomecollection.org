@@ -259,6 +259,7 @@ export type Props = {
   isStandalone: boolean;
   isFrames: boolean;
   comicPreviousNext?: ComicPreviousNextProps;
+  isPrinting?: boolean;
 };
 
 const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
@@ -268,6 +269,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   isStandalone,
   isFrames,
   comicPreviousNext,
+  isPrinting,
 }) => {
   const [isActive, setIsActive] = useState(true);
   const openButtonRef = useRef<HTMLButtonElement>(null);
@@ -448,6 +450,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 >
                   <CaptionedImage
                     image={captionedImage.image}
+                    isPrinting={isPrinting}
                     caption={captionedImage.caption}
                     hasRoundedCorners={captionedImage.hasRoundedCorners}
                     preCaptionNode={

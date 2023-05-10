@@ -106,6 +106,7 @@ type Props = {
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
   isShortFilm?: boolean;
+  isPrinting?: boolean;
 };
 
 type SectionTheme = {
@@ -145,6 +146,7 @@ const Body: FunctionComponent<Props> = ({
   staticContent = null,
   comicPreviousNext,
   isShortFilm = false,
+  isPrinting,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -408,6 +410,7 @@ const Body: FunctionComponent<Props> = ({
                 <SpacingComponent>
                   <ImageGallery
                     {...slice.value}
+                    isPrinting={isPrinting}
                     id={imageGalleryIdCount++}
                     comicPreviousNext={comicPreviousNext}
                   />
