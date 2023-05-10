@@ -38,12 +38,7 @@ const RightZone = styled(Space).attrs({
   align-items: center;
 `;
 
-type Props = {
-  viewToggleRef: RefObject<HTMLButtonElement>;
-  viewerRef: RefObject<HTMLDivElement>;
-};
-
-const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
+const ViewerBottomBar: FunctionComponent = () => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
 
@@ -54,6 +49,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     work,
     showZoomed,
     isMobileSidebarActive,
+    viewerRef,
   } = useContext(ItemViewerContext);
   const { canvases } = transformedManifest;
   return (
@@ -107,7 +103,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
               <ShameButton
                 isDark
                 onClick={() => {
-                  if (viewerRef && viewerRef.current) {
+                  if (viewerRef?.current) {
                     if (
                       !document.fullscreenElement &&
                       !document['webkitFullscreenElement']

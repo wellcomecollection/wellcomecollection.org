@@ -184,10 +184,9 @@ const RightZone = styled.div`
 
 type Props = {
   viewToggleRef: RefObject<HTMLButtonElement>;
-  viewerRef: RefObject<HTMLDivElement>;
 };
 
-const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
+const ViewerTopBar: FunctionComponent<Props> = () => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
@@ -203,6 +202,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     showZoomed,
     isResizing,
     transformedManifest,
+    viewerRef,
   } = useContext(ItemViewerContext);
   const { canvases } = transformedManifest;
   return (
@@ -318,7 +318,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   className="viewer-desktop"
                   isDark
                   onClick={() => {
-                    if (viewerRef && viewerRef.current) {
+                    if (viewerRef?.current) {
                       if (
                         !document.fullscreenElement &&
                         !document['webkitFullscreenElement']
