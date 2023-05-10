@@ -48,6 +48,7 @@ type IIIFViewerProps = {
   canvasIndex: number;
   work: Work;
   image?: Image;
+  iiifImageLocation?: DigitalLocation;
   transformedManifest: TransformedManifest;
   manifestIndex?: number;
   handleImageError?: () => void;
@@ -205,6 +206,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   canvasIndex,
   work,
   image,
+  iiifImageLocation,
   transformedManifest,
   manifestIndex,
   pageIndex,
@@ -236,7 +238,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [searchResults, setSearchResults] = useState(results);
   const [isResizing, setIsResizing] = useState(false);
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
-  const iiifImageLocation = image?.locations[0];
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
