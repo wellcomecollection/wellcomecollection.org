@@ -80,7 +80,6 @@ type ItemRendererProps = {
   index: number;
   data: {
     scrollVelocity: number;
-    mainAreaRef: RefObject<HTMLDivElement>;
     setActiveIndex: (i: number) => void;
     canvases: TransformedCanvas[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -143,7 +142,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     canvases,
     rotatedImages,
     setIsLoading,
-    mainAreaRef,
     restrictedService,
   } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
@@ -284,7 +282,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                       setMainLoaded(true);
                       setIsLoading(false);
                     }}
-                    mainAreaRef={mainAreaRef}
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
                   />

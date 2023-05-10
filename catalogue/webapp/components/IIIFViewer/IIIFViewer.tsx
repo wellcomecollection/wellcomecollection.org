@@ -287,9 +287,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       setMainAreaHeight(mainArea.contentRect.height);
     });
 
-    mainAreaRef &&
-      mainAreaRef.current &&
-      mainAreaObserver.observe(mainAreaRef.current);
+    mainAreaRef?.current && mainAreaObserver.observe(mainAreaRef.current);
 
     return () => mainAreaObserver.disconnect();
   }, []);
@@ -410,6 +408,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setRotatedImages,
         setParentManifest,
         setCurrentManifestLabel,
+        viewerRef,
+        mainAreaRef,
       }}
     >
       <Grid ref={viewerRef}>
@@ -445,7 +445,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               setImageContainerRect={() => undefined}
             />
           )}
-          {hasImageService && <MainViewer mainAreaRef={mainAreaRef} />}
+          {hasImageService && <MainViewer />}
         </Main>
         {showZoomed && (
           <Zoom>

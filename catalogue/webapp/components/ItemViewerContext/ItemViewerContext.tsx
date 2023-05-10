@@ -51,7 +51,8 @@ type Props = {
   setCurrentManifestLabel: (v: string) => void;
   searchResults: SearchResults;
   setSearchResults: (v) => void;
-  viewerRef: RefObject<HTMLDivElement>;
+  viewerRef: RefObject<HTMLDivElement> | undefined;
+  mainAreaRef: RefObject<HTMLDivElement> | undefined;
 };
 
 export const results = {
@@ -135,5 +136,6 @@ const ItemViewerContext = createContext<Props>({
   setCurrentManifestLabel: () => undefined,
   setSearchResults: () => undefined,
   viewerRef: undefined,
+  mainAreaRef: undefined,
 });
 export default ItemViewerContext;

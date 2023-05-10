@@ -44,7 +44,6 @@ type ImageViewerProps = {
   urlTemplate: (v: IIIFUriProps) => string;
   rotation: number;
   loadHandler?: () => void;
-  mainAreaRef?: RefObject<HTMLDivElement>;
   index?: number;
   setImageRect: (v: ClientRect) => void;
   setImageContainerRect: (v: ClientRect) => void;
@@ -59,11 +58,10 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   rotation,
   loadHandler,
   index = 0,
-  mainAreaRef,
   setImageRect,
   setImageContainerRect,
 }: ImageViewerProps) => {
-  const { lang, errorHandler, setZoomInfoUrl, setShowZoomed } =
+  const { lang, errorHandler, setZoomInfoUrl, setShowZoomed, mainAreaRef } =
     useContext(ItemViewerContext);
   const imageViewer = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
