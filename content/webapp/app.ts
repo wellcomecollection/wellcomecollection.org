@@ -6,8 +6,6 @@ import Router from 'koa-router';
 import next from 'next';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
-import bodyParser from 'koa-bodyparser';
-import handleNewsletterSignup from './routeHandlers/handleNewsletterSignup';
 import {
   withCachedValues,
   handleAllRoute,
@@ -47,9 +45,6 @@ const appPromise = nextApp
 
     koaApp.use(apmErrorMiddleware);
     koaApp.use(withCachedValues);
-    koaApp.use(bodyParser());
-
-    router.post('/newsletter-signup', handleNewsletterSignup);
 
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.
@@ -77,11 +72,7 @@ const appPromise = nextApp
       ctx.redirect(url);
     });
 
-    router.get('/content/management/healthcheck', async ctx => {
-      ctx.status = 200;
-      ctx.body = 'ok';
-    });
-    router.get('*', handleAllRoute(handle));
+    router.all('*', handleAllRoute(handle));
 
     koaApp.use(async (ctx, next) => {
       ctx.res.statusCode = 200;
