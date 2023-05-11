@@ -18,6 +18,7 @@ import {
   gridView,
   singlePage,
 } from '@weco/common/icons';
+import { queryParamToArrayIndex } from './IIIFViewer';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs({
@@ -294,8 +295,13 @@ const ViewerTopBar: FunctionComponent<Props> = () => {
             <>
               <span data-test-id="active-index">{`${canvasParam || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}
-              {!(canvases[canvasParam - 1]?.label?.trim() === '-') &&
-                `(page ${canvases[canvasParam - 1]?.label?.trim()})`}
+              {!(
+                canvases[queryParamToArrayIndex(canvasParam)]?.label?.trim() ===
+                '-'
+              ) &&
+                `(page ${canvases[
+                  queryParamToArrayIndex(canvasParam)
+                ]?.label?.trim()})`}
             </>
           )}
         </MiddleZone>
