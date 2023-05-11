@@ -1,3 +1,9 @@
+import {
+  FunctionComponent,
+  ReactNode,
+  ReactElement,
+  ComponentProps,
+} from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
@@ -12,12 +18,6 @@ import Layout from '../Layout/Layout';
 import { gridSize12 } from '../Layout12/Layout12';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
-import {
-  FunctionComponent,
-  ReactNode,
-  ReactElement,
-  ComponentProps,
-} from 'react';
 import Space from '../styled/Space';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -63,9 +63,7 @@ const HeroPictureBackground = styled.div.attrs({
     )}
 `;
 
-const HeroPictureContainer = styled.div.attrs({
-  className: 'is-hidden-print',
-})`
+const HeroPictureContainer = styled.div`
   max-width: 1450px;
   margin: 0 auto;
 
