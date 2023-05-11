@@ -20,6 +20,10 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { TransformedCanvas } from '../../types/manifest';
 import NextLink from 'next/link';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
+import {
+  arrayIndexToQueryParam,
+  queryParamToArrayIndex,
+} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const Defs = styled.svg`
   position: absolute;
@@ -67,8 +71,8 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     canvasParam,
     workId,
   } = data;
-  const itemIndex = rowIndex * columnCount + columnIndex;
-  const currentCanvas = canvases[itemIndex];
+  const canvasIndex = rowIndex * columnCount + columnIndex;
+  const currentCanvas = canvases[canvasIndex];
   const hasSearchResults = Boolean(
     searchResults.resources.find(
       resource =>
@@ -91,7 +95,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                 {
                   workId,
                   manifest: manifestParam,
-                  canvas: itemIndex + 1,
+                  canvas: arrayIndexToQueryParam(canvasIndex),
                 },
                 'viewer/thumbnail'
               )}
@@ -103,8 +107,8 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
             >
               <IIIFCanvasThumbnail
                 canvas={currentCanvas}
-                isActive={canvasParam === itemIndex + 1}
-                thumbNumber={itemIndex + 1}
+                isActive={canvasParam === queryParamToArrayIndex(canvasIndex)}
+                thumbNumber={arrayIndexToQueryParam(canvasIndex)}
                 isFocusable={gridVisible}
                 highlightImage={hasSearchResults}
               />
@@ -159,7 +163,9 @@ const GridViewer: FunctionComponent = () => {
   const { canvases } = transformedManifest;
 
   useEffect(() => {
-    const rowIndex = Math.floor((canvasParam - 1) / columnCount);
+    const rowIndex = Math.floor(
+      queryParamToArrayIndex(canvasParam) / columnCount
+    );
     grid.current?.scrollToItem({ align: 'start', rowIndex });
   }, [canvasParam]);
 
