@@ -25,7 +25,8 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => {
   ];
 
   return (
-    <BreadcrumbWrapper>
+    // TODO remove is-hidden-print class once we've made the breadcrumbs more useful
+    <BreadcrumbWrapper className="is-hidden-print">
       {visibleItems.map(({ text, url, prefix }, i) => {
         const LinkOrSpanTag = url ? 'a' : 'span';
         return (

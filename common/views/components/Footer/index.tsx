@@ -20,7 +20,7 @@ type Props = {
 
 // Styles
 const Wrapper = styled(Space).attrs({
-  className: font('intr', 5),
+  className: `${font('intr', 5)} is-hidden-print`,
   v: { size: 'xl', properties: ['padding-top'] },
 })`
   position: relative;

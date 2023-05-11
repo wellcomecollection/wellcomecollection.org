@@ -1,4 +1,11 @@
-import { font } from '../../../utils/classnames';
+import {
+  FunctionComponent,
+  ReactNode,
+  ReactElement,
+  ComponentProps,
+} from 'react';
+import styled from 'styled-components';
+import { font } from '@weco/common/utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import PrismicImage from '../PrismicImage/PrismicImage';
@@ -11,22 +18,34 @@ import Layout from '../Layout/Layout';
 import { gridSize12 } from '../Layout12/Layout12';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
-import {
-  FunctionComponent,
-  ReactNode,
-  ReactElement,
-  ComponentProps,
-} from 'react';
 import Space from '../styled/Space';
-import styled from 'styled-components';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
+const Container = styled.div<{
+  backgroundTexture?: string;
+}>`
+  position: relative;
+  background-image: ${props =>
+    props.backgroundTexture ? `url(${props.backgroundTexture})` : 'undefined'};
+  background-size: ${props =>
+    props.backgroundTexture ? 'cover' : 'undefined'};
+`;
+
+const Wrapper = styled(Space)`
+  @media print {
+    margin: 0;
+    padding: 0;
+  }
+`;
+
 // The `bottom` values here are coupled to the space
 // beneath the Header in ContentPage.tsx
 export const headerSpaceSize = 'l';
-const HeroPictureBackground = styled.div<{ bgColor: PaletteColor }>`
+const HeroPictureBackground = styled.div.attrs({
+  className: 'is-hidden-print',
+})<{ bgColor: PaletteColor }>`
   position: absolute;
   background-color: ${props => props.theme.color(props.bgColor)};
   height: 50%;
@@ -124,21 +143,12 @@ const PageHeader: FunctionComponent<Props> = ({
 
   return (
     <>
-      <div
-        className="row"
-        style={{
-          position: 'relative',
-          backgroundImage: backgroundTexture
-            ? `url(${backgroundTexture})`
-            : undefined,
-          backgroundSize: backgroundTexture ? 'cover' : undefined,
-        }}
-      >
+      <Container backgroundTexture={backgroundTexture}>
         {Background}
         <Layout
           gridSizes={sectionLevelPage ? gridSize12 : sectionLevelPageGridLayout}
         >
-          <Space
+          <Wrapper
             v={{
               size: 'l',
               properties:
@@ -183,7 +193,7 @@ const PageHeader: FunctionComponent<Props> = ({
             {amendedLabels && amendedLabels.labels.length > 0 && (
               <LabelsList {...amendedLabels} />
             )}
-          </Space>
+          </Wrapper>
         </Layout>
 
         {FeaturedMedia && (
@@ -203,7 +213,7 @@ const PageHeader: FunctionComponent<Props> = ({
             </HeroPictureContainer>
           </div>
         )}
-      </div>
+      </Container>
       {!hasMedia && !isContentTypeInfoBeforeMedia && !sectionLevelPage && (
         <WobblyEdge backgroundColor="white" />
       )}
