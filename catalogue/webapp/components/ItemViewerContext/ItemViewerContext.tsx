@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, RefObject } from 'react';
 import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import { Manifest } from '@iiif/presentation-3';
