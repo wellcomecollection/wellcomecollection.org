@@ -12,7 +12,8 @@ const Anchor = styled.a<{ isManifestIndex: boolean }>`
 `;
 
 const MultipleManifestListPrototype: FunctionComponent = () => {
-  const { parentManifest, work, manifestIndex } = useContext(ItemViewerContext);
+  const { parentManifest, work, manifestIndex, setIsMobileSidebarActive } =
+    useContext(ItemViewerContext);
   return (
     <nav>
       <PlainList aria-label={volumesNavigationLabel}>
@@ -34,6 +35,9 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
                 data-gtm-trigger="volumes_nav_link"
                 isManifestIndex={i === manifestIndex}
                 aria-current={i === manifestIndex ? 'page' : undefined}
+                onClick={() => {
+                  setIsMobileSidebarActive(false);
+                }}
               >
                 {(manifest?.label &&
                   getMultiVolumeLabel(manifest.label, work?.title || '')) ||
