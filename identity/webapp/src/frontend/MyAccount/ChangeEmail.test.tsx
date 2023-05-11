@@ -117,13 +117,16 @@ describe('ChangeEmail', () => {
   });
 
   describe('shows an error on submission', () => {
-    it('with an empty email field', async () => {
+    // TODO remove only before merging
+    it.only('with an empty email field', async () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
 
       await act(async () => {
+        await userEvent.click(emailAddressInput);
         await userEvent.clear(emailAddressInput);
       });
+      expect(emailAddressInput).toHaveValue('');
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
       await act(async () => {
@@ -135,6 +138,7 @@ describe('ChangeEmail', () => {
           screen.getByRole('button', { name: /update email/i })
         );
       });
+
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /enter a valid email address/i
       );
