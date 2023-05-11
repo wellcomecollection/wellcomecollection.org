@@ -153,11 +153,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     : undefined;
   const infoUrl =
     mainImageService['@id'] && convertIiifUriToInfoUri(mainImageService['@id']);
-  const matching = rotatedImages.find(
-    canvas => canvas.canvasParam === index + 1
-  );
-
-  const rotation = matching ? matching.rotation : 0;
   const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
   const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults } = useContext(ItemViewerContext);
@@ -250,6 +245,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                 }}
               />
             </ThumbnailWrapper>
+                  index={index}
           )}
           {(imageType === 'main' || mainLoaded) &&
             urlTemplateMain &&
@@ -276,7 +272,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     height={currentCanvas.height || 0}
                     alt={ocrText}
                     urlTemplate={urlTemplateMain}
-                    rotation={rotation}
                     index={index}
                     loadHandler={() => {
                       setMainLoaded(true);

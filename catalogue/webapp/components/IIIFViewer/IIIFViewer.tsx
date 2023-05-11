@@ -244,10 +244,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
-  const firstRotatedImage = rotatedImages.find(
-    image => image.canvasIndex === 0
-  );
-  const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
   const previousManifestIndex = useRef(manifestIndex);
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
   const transformedIIIFImage = useTransformedIIIFImage(work);
@@ -434,9 +430,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               infoUrl={iiifImageLocation.url}
               id={imageUrl}
               width={800}
+              index={0}
               alt={work?.description || work?.title || ''}
               urlTemplate={urlTemplate}
-              rotation={firstRotation}
               loadHandler={() => {
                 setZoomInfoUrl(iiifImageLocation.url);
                 setIsLoading(false);

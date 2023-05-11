@@ -42,9 +42,9 @@ type ImageViewerProps = {
   infoUrl: string;
   alt: string;
   urlTemplate: (v: IIIFUriProps) => string;
-  rotation: number;
   loadHandler?: () => void;
   index?: number;
+  index: number;
   setImageRect: (v: ClientRect) => void;
   setImageContainerRect: (v: ClientRect) => void;
 };
@@ -55,14 +55,19 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   alt,
   infoUrl,
   urlTemplate,
-  rotation,
   loadHandler,
-  index = 0,
+  index,
   setImageRect,
   setImageContainerRect,
 }: ImageViewerProps) => {
-  const { lang, errorHandler, setZoomInfoUrl, setShowZoomed, mainAreaRef } =
-    useContext(ItemViewerContext);
+  const {
+    lang,
+    errorHandler,
+    setZoomInfoUrl,
+    setShowZoomed,
+    mainAreaRef,
+    rotatedImages,
+  } = useContext(ItemViewerContext);
   const imageViewer = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const isOnScreen = useOnScreen({
@@ -82,6 +87,11 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       })
       .join(',')
   );
+  const matching = rotatedImages.find(
+    canvas => queryParamToArrayIndex(canvas.canvasParam) === index
+  );
+
+  const rotation = matching ? matching.rotation : 0;
 
   function updateImagePosition() {
     const imageRect = imageRef?.current?.getBoundingClientRect();
