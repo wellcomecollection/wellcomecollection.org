@@ -39,6 +39,7 @@ import { fromQuery } from '@weco/catalogue/components/ItemLink';
 type IIIFViewerProps = {
   title: string;
   currentCanvas?: TransformedCanvas;
+  iiifImageLocation: DigitalLocation | undefined;
   lang: string;
   canvasOcr?: string;
   pageIndex: number;
@@ -211,6 +212,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   manifestIndex,
   pageIndex,
   canvasOcr,
+  iiifImageLocation,
   handleImageError,
 }: IIIFViewerProps) => {
   const router = useRouter(); // TODO or should this be passed in from items/images pages from context.query?
