@@ -320,7 +320,7 @@ const ViewerTopBar: FunctionComponent = () => {
                   className="viewer-desktop"
                   isDark
                   onClick={() => {
-                    if (viewerRef?.current) {
+                    if (viewerRef && viewerRef.current) {
                       if (
                         !document.fullscreenElement &&
                         !document['webkitFullscreenElement']
