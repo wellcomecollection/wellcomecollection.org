@@ -50,7 +50,6 @@ const ImageViewerControls: FunctionComponent = () => {
     canvasParam,
     urlTemplate,
     setRotatedImages,
-    setIsLoading,
     setShowZoomed,
   } = useContext(ItemViewerContext);
 
