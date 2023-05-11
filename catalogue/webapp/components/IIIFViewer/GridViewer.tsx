@@ -5,7 +5,6 @@ import {
   useEffect,
   useRef,
   useContext,
-  RefObject,
   FunctionComponent,
   CSSProperties,
 } from 'react';
