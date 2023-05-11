@@ -138,7 +138,7 @@ describe('ChangeEmail', () => {
           screen.getByRole('button', { name: /update email/i })
         );
       });
-
+      console.log({ emailAddressInput });
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /enter a valid email address/i
       );
