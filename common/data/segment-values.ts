@@ -50,7 +50,9 @@ export type ItemLinkSource =
   | 'work'
   | 'images_search_result'
   | 'viewer/paginator'
+  | 'viewer/thumbnail'
   | 'viewer/scroll'
+  | 'viewer/resize'
   | 'manifests_navigation'
   | 'search_within_result'
   | 'contents_nav';
