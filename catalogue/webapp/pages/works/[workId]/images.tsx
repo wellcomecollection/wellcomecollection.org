@@ -84,6 +84,7 @@ const ImagePage: FunctionComponent<Props> = ({
           image={image}
           iiifImageLocation={iiifImageLocation}
           work={work}
+          iiifImageLocation={iiifImageLocation}
         />
       ) : (
         <Layout12>
