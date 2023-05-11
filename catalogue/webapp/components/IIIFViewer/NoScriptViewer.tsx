@@ -15,6 +15,7 @@ import { TransformedCanvas } from '../../types/manifest';
 import { FunctionComponent } from 'react';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import { arrow } from '@weco/common/icons';
+import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const NoScriptViewerEl = styled.div`
   display: flex;
@@ -185,21 +186,23 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
     link: itemLink(
       {
         workId,
-        page: pageIndex + 1,
-        canvas: canvasIndex + 1,
-        manifest: manifestIndex ? manifestIndex + 1 : undefined,
+        page: arrayIndexToQueryParam(pageIndex),
+        canvas: arrayIndexToQueryParam(canvasIndex),
+        manifest: manifestIndex
+          ? arrayIndexToQueryParam(manifestIndex)
+          : undefined,
       },
       'viewer/paginator'
     ),
   };
   const mainPaginatorProps = {
-    currentPage: canvasIndex + 1,
+    currentPage: arrayIndexToQueryParam(canvasIndex),
     pageSize: 1,
     linkKey: 'canvas',
     ...sharedPaginatorProps,
   };
   const thumbsPaginatorProps = {
-    currentPage: pageIndex + 1,
+    currentPage: arrayIndexToQueryParam(pageIndex),
     pageSize: 4,
     linkKey: 'page',
     ...sharedPaginatorProps,
@@ -258,7 +261,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                       {...itemLink(
                         {
                           workId,
-                          page: pageIndex + 1,
+                          page: arrayIndexToQueryParam(pageIndex),
                           canvas: canvasNumber,
                         },
                         'viewer/paginator'
@@ -271,7 +274,9 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                       <ThumbnailLink>
                         <IIIFCanvasThumbnail
                           canvas={canvas}
-                          isActive={canvasNumber === canvasIndex + 1}
+                          isActive={
+                            canvasNumber === arrayIndexToQueryParam(canvasIndex)
+                          }
                           thumbNumber={canvasNumber}
                         />
                       </ThumbnailLink>
