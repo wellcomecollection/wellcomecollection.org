@@ -11,6 +11,7 @@ import { search } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import NextLink from 'next/link';
+import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const SearchForm = styled.form`
   position: relative;
@@ -186,7 +187,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                       {
                         workId: work.id,
                         manifest: manifestParam,
-                        canvas: index + 1,
+                        canvas: arrayIndexToQueryParam(index),
                       },
                       'search_within_result'
                     )}
@@ -195,7 +196,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                     <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
                       {`${
                         index &&
-                        `Found on image ${index + 1} / ${
+                        `Found on image ${arrayIndexToQueryParam(index)} / ${
                           canvases && canvases.length
                         }`
                       } ${
