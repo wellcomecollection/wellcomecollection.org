@@ -9,7 +9,7 @@ import {
 } from '../../types/manifest';
 import { UrlTemplate } from 'url-template';
 
-export type RotatedImage = { canvasIndex: number; rotation: number };
+export type RotatedImage = { canvasParam: number; rotation: number };
 
 type Props = {
   work: Work;
@@ -40,12 +40,12 @@ type Props = {
   setZoomInfoUrl: (v: string) => void;
   setIsFullscreen: (v: boolean) => void;
   zoomInfoUrl: string | undefined;
+  rotatedImages: RotatedImage[];
   setRotatedImages: (v: RotatedImage[]) => void;
   showControls: boolean;
   isLoading: boolean;
   setIsLoading: (v: boolean) => void;
   setParentManifest: (v: Manifest) => void;
-  rotatedImages: { canvasIndex: number; rotation: number }[];
   setShowControls: (v: boolean) => void;
   errorHandler?: () => void;
   setCurrentManifestLabel: (v: string) => void;
