@@ -183,23 +183,19 @@ const RightZone = styled.div`
   align-items: center;
 `;
 
-type Props = {
-  viewToggleRef: RefObject<HTMLButtonElement>;
-};
-
-const ViewerTopBar: FunctionComponent<Props> = () => {
+const ViewerTopBar: FunctionComponent = () => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     gridVisible,
     setGridVisible,
     work,
-    canvasParam,
     downloadOptions,
     setIsMobileSidebarActive,
     setIsDesktopSidebarActive,
     isMobileSidebarActive,
     isDesktopSidebarActive,
+    canvasParam,
     showZoomed,
     isResizing,
     transformedManifest,
