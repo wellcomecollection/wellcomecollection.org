@@ -117,12 +117,16 @@ describe('ChangeEmail', () => {
   });
 
   describe('shows an error on submission', () => {
-    // TODO remove only before merging
+    // TODO remove ".only" before merging
     it.only('with an empty email field', async () => {
       renderComponent();
-      const emailAddressInput = await screen.findByLabelText(/email address/i);
+      const emailAddressInput = await screen.findByLabelText(
+        /new email address/i
+      );
 
       await act(async () => {
+        // this seems required to actually clear the input
+        // https://github.com/testing-library/user-event/discussions/970
         await userEvent.click(emailAddressInput);
         await userEvent.clear(emailAddressInput);
       });
@@ -138,7 +142,8 @@ describe('ChangeEmail', () => {
           screen.getByRole('button', { name: /update email/i })
         );
       });
-      console.log({ emailAddressInput });
+      const alert = await screen.findByRole('alert');
+      console.log({ alert });
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /enter a valid email address/i
       );
