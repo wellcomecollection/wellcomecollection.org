@@ -361,7 +361,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           <ViewerSidebar />
         </Sidebar>
         <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
-          <ViewerTopBar viewToggleRef={viewToggleRef} viewerRef={viewerRef} />
+          <ViewerTopBar />
         </Topbar>
         <Main
           isDesktopSidebarActive={isDesktopSidebarActive}
@@ -393,16 +393,13 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           </Zoom>
         )}
         <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
-          <ViewerBottomBar
-            viewToggleRef={viewToggleRef}
-            viewerRef={viewerRef}
-          />
+          <ViewerBottomBar />
         </BottomBar>
         <Thumbnails
           isActive={gridVisible}
           isDesktopSidebarActive={isDesktopSidebarActive}
         >
-          <GridViewer viewerRef={viewerRef} />
+          <GridViewer />
         </Thumbnails>
       </Grid>
     </ItemViewerContext.Provider>
