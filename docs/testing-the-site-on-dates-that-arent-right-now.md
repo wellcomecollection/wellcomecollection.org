@@ -26,6 +26,6 @@ To help us test date logic, you can make the site think it's running at a partic
     </div>
     ```
 
-<img src="./datetime-banner.png">
+<img src="./screenshots/datetime-banner.png">
 
 Where you put this banner isn't hugely important, as it's just for debugging – but if you want to capture any screenshots as evidence for your testing, having this visible makes it much easier to understand them later.
