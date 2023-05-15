@@ -5,8 +5,7 @@ import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { HasTimes } from '@weco/content/types/events';
 import EventStatus from '../EventStatus';
 import Space from '@weco/common/views/components/styled/Space';
-
-import { isDayPast } from '@weco/common/utils/dates';
+import { isPast } from '@weco/common/utils/dates';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -28,18 +27,16 @@ const EventDateList: FunctionComponent<{ event: HasTimes }> = ({ event }) => {
   return (
     <>
       {event.times.map((eventTime, index) => {
-        const isPast = isDayPast(eventTime.range.endDateTime);
-
         return (
           <TimeWrapper key={index}>
-            <DateRangeWrapper isPast={isPast}>
+            <DateRangeWrapper isPast={isPast(eventTime.range.endDateTime)}>
               <DateRange
                 start={eventTime.range.startDateTime}
                 end={eventTime.range.endDateTime}
               />
             </DateRangeWrapper>
 
-            {isPast ? (
+            {isPast(eventTime.range.endDateTime) ? (
               <EventStatus text="Past" color="neutral.500" />
             ) : eventTime.isFullyBooked.inVenue &&
               eventTime.isFullyBooked.online ? (
