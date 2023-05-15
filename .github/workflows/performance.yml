@@ -8,6 +8,7 @@ on:
       - 'cardigan/**'
       - 'catalogue/terraform/**'
       - 'content/terraform/**'
+      - 'docs/**'
       - 'identity/terraform/**'
       - 'infrastructure/**'
       - 'playwright/**'

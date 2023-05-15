@@ -1,7 +1,20 @@
 name: 'Chromatic'
 # We get one Storybook per branch at https://<branch>--<appid>.chromatic.com
 # https://www.chromatic.com/docs/permalinks
-on: push
+on:
+  push:
+    paths-ignore:
+      - 'assets/**'
+      - 'cache/**'
+      - 'cardigan/**'
+      - 'catalogue/terraform/**'
+      - 'content/terraform/**'
+      - 'docs/**'
+      - 'identity/terraform/**'
+      - 'infrastructure/**'
+      - 'playwright/**'
+      - 'prismic-model/**'
+
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
