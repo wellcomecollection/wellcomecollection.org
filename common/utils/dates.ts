@@ -90,9 +90,7 @@ export function isDayPast(date: Date): boolean {
 
 type LondonTZ = 'GMT' | 'BST';
 
-/** Returns true if London is currently in BST (one-hour offset from UTC),
- * false if it's in UTC.
- */
+/** Returns the current timezone in London. */
 export function getLondonTimezone(d: Date): LondonTZ {
   const s = d.toLocaleString('en-GB', {
     hour: '2-digit',
