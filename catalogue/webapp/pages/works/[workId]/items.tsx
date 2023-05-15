@@ -89,7 +89,6 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
 
 type Props = {
   transformedManifest: TransformedManifest;
-  manifestIndex?: number;
   work: Work;
   pageIndex: number;
   canvasIndex: number;
@@ -103,10 +102,7 @@ type Props = {
 
 const ItemPage: NextPage<Props> = ({
   transformedManifest,
-  manifestIndex,
   work,
-  pageIndex,
-  canvasIndex,
   canvasOcr,
   currentCanvas,
   iiifImageLocation,
@@ -320,9 +316,6 @@ const ItemPage: NextPage<Props> = ({
             title={displayTitle}
             currentCanvas={currentCanvas}
             canvasOcr={canvasOcr}
-            pageIndex={pageIndex}
-            canvasIndex={canvasIndex}
-            manifestIndex={manifestIndex}
             work={work}
             transformedManifest={transformedManifest}
             iiifImageLocation={iiifImageLocation}
@@ -364,7 +357,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // I imagine a fix for this could be having new parameters `m&c`
     // and then redirecting to those once we have em fixed.
     const canvasIndex = canvas - 1;
-    const manifestIndex = manifestParam - 1;
 
     const work = await getWork({
       id: workId,
@@ -446,7 +438,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: serialiseProps({
           transformedManifest: displayManifest,
-          manifestIndex,
           pageIndex,
           canvasIndex,
           canvasOcr,

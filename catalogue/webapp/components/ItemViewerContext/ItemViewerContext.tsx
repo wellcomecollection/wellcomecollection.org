@@ -14,8 +14,6 @@ export type RotatedImage = { canvasParam: number; rotation: number };
 type Props = {
   work: Work;
   transformedManifest: TransformedManifest;
-  manifestIndex: number | undefined;
-  // canvasIndex: number;
   query: {
     pageParam: number;
     canvasParam: number;
@@ -26,7 +24,6 @@ type Props = {
   setGridVisible: (v: boolean) => void;
   iiifImageLocationCredit: string | undefined;
   parentManifest: Manifest | undefined;
-  lang: string;
   mainAreaWidth: number;
   mainAreaHeight: number;
   isFullscreen: boolean;
@@ -68,7 +65,10 @@ export const results = {
   hits: [],
 };
 
+// Separate DataContext and UI context - may improve performance? depends where they are used?
 const ItemViewerContext = createContext<Props>({
+  // DATA props:
+  // TODO get these from router in each place, rather than adding to context then not everything will update if it changes
   query: {
     canvasParam: 1,
     pageParam: 1,
@@ -76,6 +76,7 @@ const ItemViewerContext = createContext<Props>({
     shouldScrollToCanvas: true,
   },
   work: {
+    // TODO reduce data on work // TODO createDefaultWork
     type: 'Work',
     id: '',
     title: '',
@@ -104,8 +105,6 @@ const ItemViewerContext = createContext<Props>({
     holdings: [],
   },
   transformedManifest: createDefaultTransformedManifest(),
-  manifestIndex: undefined,
-  canvasIndex: 0,
   gridVisible: false,
   iiifImageLocationCredit: '',
   parentManifest: undefined,

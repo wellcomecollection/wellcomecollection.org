@@ -74,8 +74,6 @@ const ImagePage: FunctionComponent<Props> = ({
         <IIIFViewer
           title={title}
           transformedManifest={createDefaultTransformedManifest()}
-          pageIndex={0}
-          canvasIndex={0}
           image={image}
           iiifImageLocation={iiifImageLocation}
           work={work}

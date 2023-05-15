@@ -45,13 +45,10 @@ type IIIFViewerProps = {
   currentCanvas?: TransformedCanvas;
   iiifImageLocation: DigitalLocation | undefined;
   canvasOcr?: string;
-  pageIndex: number;
-  canvasIndex: number;
   work: Work;
   image?: Image;
   iiifImageLocation?: DigitalLocation;
   transformedManifest: TransformedManifest;
-  manifestIndex?: number;
   handleImageError?: () => void;
 };
 
@@ -206,13 +203,10 @@ const Thumbnails = styled.div<{
 
 const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   currentCanvas,
-  canvasIndex,
   work,
   image,
   iiifImageLocation,
   transformedManifest,
-  manifestIndex,
-  pageIndex,
   canvasOcr,
   iiifImageLocation,
   handleImageError,
@@ -320,8 +314,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       value={{
         work,
         transformedManifest,
-        manifestIndex,
-        canvasIndex,
         query: {
           pageParam,
           canvasParam,
@@ -423,10 +415,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       iiifImageLocation={iiifImageLocation}
       currentCanvas={currentCanvas}
       canvasOcr={canvasOcr}
-      workId={work.id}
       canvases={canvases || []}
-      canvasIndex={canvasIndex}
-      pageIndex={pageIndex}
     />
   );
 };

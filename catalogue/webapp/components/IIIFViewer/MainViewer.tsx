@@ -292,12 +292,17 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 
 ItemRenderer.displayName = 'ItemRenderer';
 
-export function scrollViewer(
-  currentCanvas: TransformedCanvas | undefined,
-  canvasIndex: number,
-  viewer: FixedSizeList | null,
-  mainAreaWidth: number
-): void {
+function scrollViewer({
+  currentCanvas,
+  canvasParam,
+  viewer,
+  mainAreaWidth,
+}: {
+  currentCanvas: TransformedCanvas | undefined;
+  canvasParam: number;
+  viewer: FixedSizeList | null;
+  mainAreaWidth: number;
+}): void {
   const isLandscape =
     currentCanvas?.width && currentCanvas?.height
       ? currentCanvas.width > currentCanvas.height
@@ -316,14 +321,15 @@ export function scrollViewer(
         ? currentCanvas.height / currentCanvas.width
         : 1;
     const renderedHeight = mainAreaWidth * ratio * 0.8; // TODO: 0.8 = 80% max-width image in container. Variable.
-    const heightOfPreviousItems = canvasIndex * (viewer?.props.itemSize || 0);
+    const heightOfPreviousItems =
+      queryParamToArrayIndex(canvasParam) * (viewer?.props.itemSize || 0);
     const distanceToScroll =
       heightOfPreviousItems +
       ((viewer?.props.itemSize || 0) - renderedHeight) / 2;
     viewer?.scrollTo(distanceToScroll);
   } else {
     // 4. Otherwise, if it's portrait, we go to the start of the image
-    viewer?.scrollToItem(canvasIndex, 'start');
+    viewer?.scrollToItem(queryParamToArrayIndex(canvasParam), 'start');
   }
 }
 
@@ -336,7 +342,6 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
     mainAreaHeight,
     mainAreaWidth,
     transformedManifest,
-    canvasIndex,
     query,
     setShowZoomed,
     setZoomInfoUrl,
@@ -371,10 +376,9 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
   function handleOnItemsRendered() {
     let currentCanvas: TransformedCanvas | undefined;
     if (firstRenderRef.current) {
-      currentCanvas = canvases?.[canvasIndex];
+      currentCanvas = canvases?.[queryParamToArrayIndex(canvasParam)];
       const viewer = mainViewerRef?.current;
-
-      scrollViewer(currentCanvas, canvasIndex, viewer, mainAreaWidth);
+      scrollViewer({ currentCanvas, canvasParam, viewer, mainAreaWidth });
       setFirstRender(false);
       const mainImageService = {
         '@id': currentCanvas ? currentCanvas.imageServiceId : '',
@@ -387,11 +391,18 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
     }
   }
 
-  // Scroll to the correct canvas if the canvasIndex, i.e. url canvas param changes
-  // TODO do we need to handle landscapes here too? Maybe use scrollViewer function from here
+  // Scroll to the correct canvas if the canvasIndex when the canvasParam changes.
+  // But we don't want this to happen if the canvasParam changes as a result of the viewer being scrolled,
+  // so ItemLink href prop can include a shouldScrollToCanvas query param on the href object to prevent this.
   useEffect(() => {
-    const canvasIndex = canvasParam - 1; // TODO do this somewhere else and comment on why
-    mainViewerRef?.current?.scrollToItem(canvasIndex, 'start');
+    if (shouldScrollToCanvas) {
+      scrollViewer({
+        currentCanvas: canvases?.[queryParamToArrayIndex(canvasParam)],
+        canvasParam,
+        viewer: mainViewerRef?.current,
+        mainAreaWidth,
+      });
+    }
   }, [canvasParam]);
 
   return (
