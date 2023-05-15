@@ -93,9 +93,9 @@ describe('ChangePassword', () => {
     );
 
     await act(async () => {
-      userEvent.type(currentPasswordInput, 'hunter2');
-      userEvent.type(newPasswordInput, 'Superman1938');
-      userEvent.type(confirmPasswordInput, 'Superman1938');
+      await userEvent.type(currentPasswordInput, 'hunter2');
+      await userEvent.type(newPasswordInput, 'Superman1938');
+      await userEvent.type(confirmPasswordInput, 'Superman1938');
     });
 
     rerender(
@@ -455,23 +455,23 @@ describe('ChangePassword', () => {
         })
       );
       renderComponent();
-      expect(await screen.queryByRole('alert')).not.toBeInTheDocument();
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
       await act(async () => {
         await userEvent.type(
-          await screen.getByLabelText(/current password/i),
+          screen.getByLabelText(/current password/i),
           'hunter2'
         );
         await userEvent.type(
-          await screen.getByLabelText(/^create new password/i),
+          screen.getByLabelText(/^create new password/i),
           'Superman1938'
         );
         await userEvent.type(
-          await screen.getByLabelText(/re-enter new password/i),
+          screen.getByLabelText(/re-enter new password/i),
           'Superman1938'
         );
         await userEvent.click(
-          await screen.getByRole('button', { name: /update password/i })
+          screen.getByRole('button', { name: /update password/i })
         );
       });
 

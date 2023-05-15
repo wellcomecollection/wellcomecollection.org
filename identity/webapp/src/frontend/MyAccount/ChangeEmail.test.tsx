@@ -46,8 +46,8 @@ describe('ChangeEmail', () => {
     renderComponent();
     const emailAddressInput = await screen.findByLabelText(/email address/i);
     await act(async () => {
-      userEvent.clear(emailAddressInput);
-      userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+      await userEvent.clear(emailAddressInput);
+      await userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
     });
     await waitFor(() =>
       expect(emailAddressInput).toHaveValue('clarkkent@dailybugle.com')
@@ -60,7 +60,7 @@ describe('ChangeEmail', () => {
       /confirm password/i
     );
     await act(async () => {
-      userEvent.type(confirmPasswordInput, 'Superman1938');
+      await userEvent.type(confirmPasswordInput, 'Superman1938');
     });
     await waitFor(() =>
       expect(confirmPasswordInput).toHaveValue('Superman1938')
@@ -96,8 +96,8 @@ describe('ChangeEmail', () => {
     const { rerender } = renderComponent();
     const emailAddressInput = await screen.findByLabelText(/email address/i);
     await act(async () => {
-      userEvent.clear(emailAddressInput);
-      userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
+      await userEvent.clear(emailAddressInput);
+      await userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
     });
     rerender(
       <ThemeProvider theme={theme}>
