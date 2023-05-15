@@ -23,7 +23,6 @@ type Props = {
   setGridVisible: (v: boolean) => void;
   currentManifestLabel?: string;
   iiifImageLocationCredit: string | undefined;
-  downloadOptions: DownloadOption[]; // This can be downloads from a manifest or created from a iiif-image location
   parentManifest: Manifest | undefined;
   lang: string;
   mainAreaWidth: number;
@@ -106,7 +105,6 @@ const ItemViewerContext = createContext<Props>({
   gridVisible: false,
   currentManifestLabel: undefined,
   iiifImageLocationCredit: '',
-  downloadOptions: [],
   parentManifest: undefined,
   lang: '',
   mainAreaWidth: 1000,

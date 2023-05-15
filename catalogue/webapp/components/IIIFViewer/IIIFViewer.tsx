@@ -9,10 +9,6 @@ import styled from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { Work, Image } from '@weco/catalogue/services/wellcome/catalogue/types';
-import {
-  getDigitalLocationOfType,
-  getDownloadOptionsFromImageUrl,
-} from '../../utils/works';
 import { getMultiVolumeLabel } from '../../utils/iiif/v3';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
@@ -253,8 +249,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const hasImageService = mainImageService['@id'] && currentCanvas;
   const {
     canvases,
-    downloadEnabled,
-    downloadOptions: manifestDownloadOptions,
     parentManifestUrl,
     iiifCredit,
   } = transformedManifest;
@@ -319,37 +313,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   // iiif-image locations have credit info.
   // iiif-presentation locations don't have credit info, so we fall back to the data in the manifest
   const iiifImageLocationCredit = digitalLocation?.credit || iiifCredit;
-
-  // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
-  // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
-  // For a iiif-image DigitalLocation we create the download options
-  // from a combination of the DigitalLocation and the iiif-image json to which it points.
-  // The json provides the image width and height used in the link text.
-  // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
-  // gets this data client side.
-  const iiifImageDownloadOptions = iiifImageLocation
-    ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocation.url,
-        width: transformedIIIFImage.width,
-        height: transformedIIIFImage.height,
-      })
-    : [];
-
-  // We also want to offer download options for each canvas image
-  // in the iiif-presentation manifest when it is being viewed.
-  const canvasImageDownloads = mainImageService['@id']
-    ? getDownloadOptionsFromImageUrl({
-        url: mainImageService['@id'],
-        width: currentCanvas && currentCanvas.width,
-        height: currentCanvas && currentCanvas.height,
-      })
-    : [];
-
-  const downloadOptions = [
-    ...iiifImageDownloadOptions,
-    ...canvasImageDownloads,
-    ...manifestDownloadOptions,
-  ];
 
   // TODO why do we need to do this?
   useEffect(() => {

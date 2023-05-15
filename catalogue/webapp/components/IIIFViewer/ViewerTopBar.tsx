@@ -6,7 +6,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/Download';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, useContext, RefObject } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
@@ -19,6 +19,11 @@ import {
   singlePage,
 } from '@weco/common/icons';
 import { queryParamToArrayIndex } from './IIIFViewer';
+import {
+  getDownloadOptionsFromImageUrl,
+  getDigitalLocationOfType,
+} from '../../utils/works';
+import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs({
@@ -190,18 +195,58 @@ const ViewerTopBar: FunctionComponent = () => {
     gridVisible,
     setGridVisible,
     work,
-    downloadOptions,
-    setIsMobileSidebarActive,
-    setIsDesktopSidebarActive,
     isMobileSidebarActive,
+    setIsMobileSidebarActive,
     isDesktopSidebarActive,
-    canvasParam,
+    setIsDesktopSidebarActive,
     showZoomed,
     isResizing,
     transformedManifest,
+    query,
     viewerRef,
   } = useContext(ItemViewerContext);
-  const { canvases } = transformedManifest;
+  const { canvasParam } = query;
+  const {
+    canvases,
+    downloadEnabled,
+    downloadOptions: manifestDownloadOptions,
+  } = transformedManifest;
+  const currentCanvas = canvases[queryParamToArrayIndex(query.canvasParam)];
+  const mainImageService = { '@id': currentCanvas?.imageServiceId };
+  const transformedIIIFImage = useTransformedIIIFImage(work);
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
+  // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
+  // For a iiif-image DigitalLocation we create the download options
+  // from a combination of the DigitalLocation and the iiif-image json to which it points.
+  // The json provides the image width and height used in the link text.
+  // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
+  // gets this data client side.
+  const iiifImageDownloadOptions = iiifImageLocation
+    ? getDownloadOptionsFromImageUrl({
+        url: iiifImageLocation.url,
+        width: transformedIIIFImage.width,
+        height: transformedIIIFImage.height,
+      })
+    : [];
+
+  // We also want to offer download options for each canvas image
+  // in the iiif-presentation manifest when it is being viewed.
+  const canvasImageDownloads = mainImageService['@id']
+    ? getDownloadOptionsFromImageUrl({
+        url: mainImageService['@id'],
+        width: currentCanvas && currentCanvas.width,
+        height: currentCanvas && currentCanvas.height,
+      })
+    : [];
+
+  const downloadOptions = downloadEnabled // TODO check this works as expected
+    ? [
+        ...iiifImageDownloadOptions,
+        ...canvasImageDownloads,
+        ...manifestDownloadOptions,
+      ]
+    : [];
   return (
     <TopBar
       isZooming={showZoomed}
