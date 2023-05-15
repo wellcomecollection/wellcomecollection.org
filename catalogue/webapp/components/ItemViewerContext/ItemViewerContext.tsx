@@ -3,7 +3,6 @@ import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import { Manifest } from '@iiif/presentation-3';
 import {
-  DownloadOption,
   TransformedManifest,
   createDefaultTransformedManifest,
 } from '../../types/manifest';
@@ -12,8 +11,9 @@ import { UrlTemplate } from 'url-template';
 export type RotatedImage = { canvasParam: number; rotation: number };
 
 type Props = {
-  work: Work;
+  work: Work; // TODO update type to be WorkBasic?
   transformedManifest: TransformedManifest;
+  // TODO get these from router where needed, as not all components rerender whenever they change
   query: {
     pageParam: number;
     canvasParam: number;
@@ -41,8 +41,6 @@ type Props = {
   rotatedImages: RotatedImage[];
   setRotatedImages: (v: RotatedImage[]) => void;
   showControls: boolean;
-  isLoading: boolean;
-  setIsLoading: (v: boolean) => void;
   setParentManifest: (v: Manifest) => void;
   setShowControls: (v: boolean) => void;
   errorHandler?: () => void;
@@ -105,37 +103,42 @@ const ItemViewerContext = createContext<Props>({
     holdings: [],
   },
   transformedManifest: createDefaultTransformedManifest(),
+  searchResults: results,
+  setSearchResults: () => undefined,
+
+  // UI props:
+  viewerRef: undefined,
+  mainAreaRef: undefined,
   gridVisible: false,
-  iiifImageLocationCredit: '',
-  parentManifest: undefined,
-  lang: '',
+  setGridVisible: () => false,
   mainAreaWidth: 1000,
   mainAreaHeight: 500,
   isFullscreen: false,
-  isDesktopSidebarActive: true,
-  isMobileSidebarActive: false,
-  showZoomed: false,
-  zoomInfoUrl: '',
-  showControls: false,
-  isLoading: false,
-  rotatedImages: [],
-  urlTemplate: undefined,
-  searchResults: results,
-  isResizing: false,
-  setZoomInfoUrl: () => undefined,
-  setGridVisible: () => false,
-  setShowZoomed: () => undefined,
-  setIsDesktopSidebarActive: () => undefined,
-  setIsMobileSidebarActive: () => undefined,
   setIsFullscreen: () => undefined,
-  setRotatedImages: () => undefined,
-  setIsLoading: () => undefined,
-  setParentManifest: () => undefined,
+  isDesktopSidebarActive: true,
+  setIsDesktopSidebarActive: () => undefined,
+  isMobileSidebarActive: false,
+  setIsMobileSidebarActive: () => undefined,
+  showZoomed: false,
+  setShowZoomed: () => undefined,
+  showControls: false,
   setShowControls: () => undefined,
+  rotatedImages: [],
+  setRotatedImages: () => undefined,
   errorHandler: () => undefined,
-  setCurrentManifestLabel: () => undefined,
-  setSearchResults: () => undefined,
-  viewerRef: undefined,
-  mainAreaRef: undefined,
+
+  // TODO remove everything below here:
+  iiifImageLocationCredit: '', // TODO don't think we use this anymore
+  zoomInfoUrl: '', // TODO prop remove and do this from canvasParam in ZoomedImage, comes from iiifImageLocation.url
+  setZoomInfoUrl: () => undefined, // TODO maybe dump
+
+  // TODO move to correct section
+  parentManifest: undefined, // TODO ????
+  setParentManifest: () => undefined, // ????
+  urlTemplate: undefined, // TODO ????
+
+  // TODO possibly remove
+  // it is just used to show/hide things when the window is resizing but not sure this is necessary
+  isResizing: false,
 });
 export default ItemViewerContext;
