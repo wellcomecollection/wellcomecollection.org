@@ -28,16 +28,18 @@ const EventDateList: FunctionComponent<{ event: HasTimes }> = ({ event }) => {
   return (
     <>
       {event.times.map((eventTime, index) => {
+        const isPast = isDayPast(eventTime.range.endDateTime);
+
         return (
           <TimeWrapper key={index}>
-            <DateRangeWrapper isPast={isDayPast(eventTime.range.endDateTime)}>
+            <DateRangeWrapper isPast={isPast}>
               <DateRange
                 start={eventTime.range.startDateTime}
                 end={eventTime.range.endDateTime}
               />
             </DateRangeWrapper>
 
-            {isDayPast(eventTime.range.endDateTime) ? (
+            {isPast ? (
               <EventStatus text="Past" color="neutral.500" />
             ) : eventTime.isFullyBooked.inVenue &&
               eventTime.isFullyBooked.online ? (
