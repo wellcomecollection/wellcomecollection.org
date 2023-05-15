@@ -48,10 +48,6 @@ const ImagePage: FunctionComponent<Props> = ({
   const title = work.title || '';
   const iiifImageLocation = image.locations[0];
 
-  // We only send a langCode if it's unambiguous -- better to send no language
-  // than the wrong one.
-  const lang = (work.languages.length === 1 && work.languages[0]?.id) || '';
-
   const apiLink = {
     id: 'json',
     label: 'JSON',
@@ -77,7 +73,6 @@ const ImagePage: FunctionComponent<Props> = ({
       {iiifImageLocation ? (
         <IIIFViewer
           title={title}
-          lang={lang}
           transformedManifest={createDefaultTransformedManifest()}
           pageIndex={0}
           canvasIndex={0}

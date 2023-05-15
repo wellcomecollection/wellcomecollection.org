@@ -170,10 +170,6 @@ const ItemPage: NextPage<Props> = ({
     }
   }, []);
 
-  // We only send a langCode if it's unambiguous -- better to send no language
-  // than the wrong one.
-  const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
-
   return (
     <CataloguePageLayout
       title={displayTitle}
@@ -323,7 +319,6 @@ const ItemPage: NextPage<Props> = ({
           <IIIFViewer
             title={displayTitle}
             currentCanvas={currentCanvas}
-            lang={lang}
             canvasOcr={canvasOcr}
             pageIndex={pageIndex}
             canvasIndex={canvasIndex}
