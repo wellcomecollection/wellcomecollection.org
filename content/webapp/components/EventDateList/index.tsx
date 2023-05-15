@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
-import { Event } from '@weco/content/types/events';
+import { HasTimes } from '@weco/content/types/events';
 import EventStatus from '../EventStatus';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -24,7 +24,7 @@ const DateRangeWrapper = styled.div<{ isPast: boolean }>`
   flex: 1;
 `;
 
-const EventDateList: FunctionComponent<{ event: Event }> = ({ event }) => {
+const EventDateList: FunctionComponent<{ event: HasTimes }> = ({ event }) => {
   return (
     event.times && (
       <>
