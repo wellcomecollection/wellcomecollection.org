@@ -59,9 +59,7 @@ describe('ChangeEmail', () => {
     const confirmPasswordInput = await screen.findByLabelText(
       /confirm password/i
     );
-    await act(async () => {
-      await userEvent.type(confirmPasswordInput, 'Superman1938');
-    });
+    await act(async () => userEvent.type(confirmPasswordInput, 'Superman1938'));
     await waitFor(() =>
       expect(confirmPasswordInput).toHaveValue('Superman1938')
     );
@@ -121,9 +119,7 @@ describe('ChangeEmail', () => {
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
 
-      await act(async () => {
-        await userEvent.clear(emailAddressInput);
-      });
+      await act(async () => userEvent.clear(emailAddressInput));
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
       await act(async () => {

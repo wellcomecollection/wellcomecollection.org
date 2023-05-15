@@ -33,9 +33,7 @@ describe('DeleteAccount', () => {
   it('allows the user to enter their password', async () => {
     renderComponent();
     const currentPasswordInput = screen.getByLabelText(/^password$/i);
-    await act(async () => {
-      await userEvent.type(currentPasswordInput, 'hunter2');
-    });
+    await act(async () => userEvent.type(currentPasswordInput, 'hunter2'));
     expect(currentPasswordInput).toHaveValue('hunter2');
   });
 
@@ -67,9 +65,7 @@ describe('DeleteAccount', () => {
   it('resets when modal closes', async () => {
     const { rerender } = renderComponent();
     const passwordInput = screen.getByLabelText(/^password$/i);
-    await act(async () => {
-      await userEvent.type(passwordInput, 'hunter2');
-    });
+    await act(async () => userEvent.type(passwordInput, 'hunter2'));
 
     rerender(
       <ThemeProvider theme={theme}>
@@ -90,11 +86,11 @@ describe('DeleteAccount', () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-      await act(async () => {
-        await userEvent.click(
+      await act(async () =>
+        userEvent.click(
           screen.getByRole('button', { name: /yes, delete my account/i })
-        );
-      });
+        )
+      );
 
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /enter your current password/i

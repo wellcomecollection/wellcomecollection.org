@@ -33,18 +33,14 @@ describe('ChangePassword', () => {
   it('allows the user to enter their current password', async () => {
     renderComponent();
     const currentPasswordInput = screen.getByLabelText(/current password/i);
-    await act(async () => {
-      await userEvent.type(currentPasswordInput, 'hunter2');
-    });
+    await act(async () => userEvent.type(currentPasswordInput, 'hunter2'));
     expect(currentPasswordInput).toHaveValue('hunter2');
   });
 
   it('allows the user to enter a new password', async () => {
     renderComponent();
     const newPasswordInput = screen.getByLabelText(/^create new password/i);
-    await act(async () => {
-      await userEvent.type(newPasswordInput, 'hunter2');
-    });
+    await act(async () => userEvent.type(newPasswordInput, 'hunter2'));
     expect(newPasswordInput).toHaveValue('hunter2');
   });
 
@@ -53,9 +49,7 @@ describe('ChangePassword', () => {
     const confirmPasswordInput = screen.getByLabelText(
       /re-enter new password/i
     );
-    await act(async () => {
-      await userEvent.type(confirmPasswordInput, 'hunter2');
-    });
+    await act(async () => userEvent.type(confirmPasswordInput, 'hunter2'));
     expect(confirmPasswordInput).toHaveValue('hunter2');
   });
 
