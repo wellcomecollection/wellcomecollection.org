@@ -44,14 +44,12 @@ export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
     const preferredThumbnail = thumbnailService?.sizes
       ?.sort((a, b) => a.height - b.height)
       .find(dimensions => dimensions.height >= preferredMinThumbnailHeight);
-    return (
-      urlTemplate && {
-        width: preferredThumbnail?.width || 30,
-        url: urlTemplate({
-          size: preferredThumbnail ? `${preferredThumbnail.width},` : 'max',
-        }),
-      }
-    );
+    return {
+      width: preferredThumbnail?.width || 30,
+      url: urlTemplate({
+        size: preferredThumbnail ? `${preferredThumbnail.width},` : 'max',
+      }),
+    };
   } else {
     return {
       width: thumbnail.width,
