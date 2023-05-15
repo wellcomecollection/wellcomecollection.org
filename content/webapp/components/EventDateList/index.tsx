@@ -24,7 +24,7 @@ const DateRangeWrapper = styled.div<{ isPast: boolean }>`
   flex: 1;
 `;
 
-const DateList: FunctionComponent<{ event: Event }> = ({ event }) => {
+const EventDateList: FunctionComponent<{ event: Event }> = ({ event }) => {
   return (
     event.times && (
       <>
@@ -52,4 +52,4 @@ const DateList: FunctionComponent<{ event: Event }> = ({ event }) => {
   );
 };
 
-export default DateList;
+export default EventDateList;

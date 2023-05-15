@@ -56,7 +56,7 @@ import {
 } from '@weco/common/data/hardcoded-ids';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isPast } from '@weco/common/utils/dates';
-import DateList from '@weco/content/components/DateList';
+import EventDateList from '@weco/content/components/EventDateList';
 import EventStatus from '@weco/content/components/EventStatus';
 
 import * as prismicT from '@prismicio/types';
@@ -260,7 +260,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
       >
         <DateWrapper>
           <h2 id="dates">Dates</h2>
-          <DateList event={event} />
+          <EventDateList event={event} />
         </DateWrapper>
         {event.schedule && event.schedule.length > 0 && (
           <>
