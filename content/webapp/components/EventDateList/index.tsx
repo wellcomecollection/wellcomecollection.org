@@ -26,29 +26,27 @@ const DateRangeWrapper = styled.div<{ isPast: boolean }>`
 
 const EventDateList: FunctionComponent<{ event: HasTimes }> = ({ event }) => {
   return (
-    event.times && (
-      <>
-        {event.times.map((eventTime, index) => {
-          return (
-            <TimeWrapper key={index}>
-              <DateRangeWrapper isPast={isDayPast(eventTime.range.endDateTime)}>
-                <DateRange
-                  start={eventTime.range.startDateTime}
-                  end={eventTime.range.endDateTime}
-                />
-              </DateRangeWrapper>
+    <>
+      {event.times.map((eventTime, index) => {
+        return (
+          <TimeWrapper key={index}>
+            <DateRangeWrapper isPast={isDayPast(eventTime.range.endDateTime)}>
+              <DateRange
+                start={eventTime.range.startDateTime}
+                end={eventTime.range.endDateTime}
+              />
+            </DateRangeWrapper>
 
-              {isDayPast(eventTime.range.endDateTime) ? (
-                <EventStatus text="Past" color="neutral.500" />
-              ) : eventTime.isFullyBooked.inVenue &&
-                eventTime.isFullyBooked.online ? (
-                <EventStatus text="Full" color="validation.red" />
-              ) : null}
-            </TimeWrapper>
-          );
-        })}
-      </>
-    )
+            {isDayPast(eventTime.range.endDateTime) ? (
+              <EventStatus text="Past" color="neutral.500" />
+            ) : eventTime.isFullyBooked.inVenue &&
+              eventTime.isFullyBooked.online ? (
+              <EventStatus text="Full" color="validation.red" />
+            ) : null}
+          </TimeWrapper>
+        );
+      })}
+    </>
   );
 };
 
