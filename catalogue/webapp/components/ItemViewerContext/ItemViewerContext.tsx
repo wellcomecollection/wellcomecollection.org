@@ -21,7 +21,6 @@ type Props = {
   manifestParam: number;
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
-  currentManifestLabel?: string;
   iiifImageLocationCredit: string | undefined;
   parentManifest: Manifest | undefined;
   lang: string;
@@ -47,7 +46,6 @@ type Props = {
   setParentManifest: (v: Manifest) => void;
   setShowControls: (v: boolean) => void;
   errorHandler?: () => void;
-  setCurrentManifestLabel: (v: string) => void;
   searchResults: SearchResults;
   setSearchResults: (v) => void;
   viewerRef: RefObject<HTMLDivElement> | undefined;
@@ -103,7 +101,6 @@ const ItemViewerContext = createContext<Props>({
   pageParam: 1,
   manifestParam: 1,
   gridVisible: false,
-  currentManifestLabel: undefined,
   iiifImageLocationCredit: '',
   parentManifest: undefined,
   lang: '',

@@ -2,12 +2,11 @@ import {
   FunctionComponent,
   useState,
   useContext,
-  RefObject,
+  useEffect,
   PropsWithChildren,
 } from 'react';
 import NextLink from 'next/link';
 import WorkLink from '../WorkLink';
-import { FixedSizeList } from 'react-window';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
@@ -26,6 +25,7 @@ import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
+import { getMultiVolumeLabel } from '@weco/catalogue/utils/iiif/v3';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -121,8 +121,11 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
 };
 
 const ViewerSidebar: FunctionComponent = () => {
-  const { work, transformedManifest, parentManifest, currentManifestLabel } =
+  const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
+  const [currentManifestLabel, setCurrentManifestLabel] = useState<
+    string | undefined
+  >();
   const { iiifCredit, structures, searchService } = transformedManifest;
   const productionDates = getProductionDates(work);
   // Determine digital location
@@ -139,6 +142,21 @@ const ViewerSidebar: FunctionComponent = () => {
     getCatalogueLicenseData(digitalLocation.license);
 
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
+
+  useEffect(() => {
+    const matchingManifest =
+      parentManifest?.items &&
+      parentManifest.items.find(canvas => {
+        return !transformedManifest
+          ? false
+          : canvas.id === transformedManifest.id;
+      });
+
+    const manifestLabel =
+      matchingManifest?.label &&
+      getMultiVolumeLabel(matchingManifest.label, work?.title || '');
+    manifestLabel && setCurrentManifestLabel(manifestLabel);
+  }, [transformedManifest, parentManifest]);
 
   return (
     <>

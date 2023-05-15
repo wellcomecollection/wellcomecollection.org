@@ -10,6 +10,7 @@ import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { Work, Image } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { getMultiVolumeLabel } from '../../utils/iiif/v3';
+import { getDigitalLocationOfType } from '../../utils/works';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -219,9 +220,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   } = fromQuery(router.query);
   const [gridVisible, setGridVisible] = useState(false);
   const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
-  const [currentManifestLabel, setCurrentManifestLabel] = useState<
-    string | undefined
-  >();
   const { isFullSupportBrowser } = useContext(AppContext);
   const viewToggleRef = useRef<HTMLButtonElement>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
@@ -283,22 +281,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 
     return () => mainAreaObserver.disconnect();
   }, []);
-
-  useEffect(() => {
-    const matchingManifest =
-      parentManifest &&
-      parentManifest.items &&
-      parentManifest.items.find(canvas => {
-        return !transformedManifest
-          ? false
-          : canvas.id === transformedManifest.id;
-      });
-
-    const manifestLabel =
-      matchingManifest?.label &&
-      getMultiVolumeLabel(matchingManifest.label, work?.title || '');
-    manifestLabel && setCurrentManifestLabel(manifestLabel);
-  }, [transformedManifest, parentManifest]);
 
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
