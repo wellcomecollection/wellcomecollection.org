@@ -32,6 +32,13 @@ import { fetchJson } from '@weco/common/utils/http';
 import { TransformedCanvas, TransformedManifest } from '../../types/manifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
+// canvas and manifest params use 1-based indexing, but are used to access items in 0 indexed arrays,
+// so we need to convert it in various places
+export function queryParamToArrayIndex(canvasParam: number): number {
+  return canvasParam - 1;
+export function arrayIndexToQueryParam(canvasIndex: number): number {
+  return canvasIndex + 1;
+}
 
 type IIIFViewerProps = {
   title: string;
