@@ -410,7 +410,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     <NoScriptViewer
       imageUrl={imageUrl}
       iiifImageLocation={iiifImageLocation}
-      currentCanvas={currentCanvas}
       canvasOcr={canvasOcr}
       canvases={canvases || []}
     />

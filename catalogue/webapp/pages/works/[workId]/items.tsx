@@ -104,8 +104,8 @@ const ItemPage: NextPage<Props> = ({
   transformedManifest,
   work,
   canvasOcr,
-  currentCanvas,
   iiifImageLocation,
+  canvasParam,
 }) => {
   const workId = work.id;
   const [origin, setOrigin] = useState<string>();
@@ -123,9 +123,11 @@ const ItemPage: NextPage<Props> = ({
     tokenService,
     restrictedService,
     isTotallyRestricted,
+    canvases,
   } = transformedManifest;
 
   const authService = clickThroughService || restrictedService;
+  const currentCanvas = canvases[queryParamToArrayIndex(canvasParam)];
 
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
@@ -335,8 +337,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const {
       workId,
-      page = 1,
-      canvas = 1,
+      canvas: canvasParam = 1,
       manifest: manifestParam = 1,
     } = fromQuery(context.query);
 
@@ -348,15 +349,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       name: 'item',
       properties: {},
     };
-
-    const pageIndex = page - 1;
-    // Canvas and manifest params should be 0 indexed as they reference elements in an array
-    // We've chosen not to do this for some reason lost to time, but felt it better to stick
-    // to the same buggy implementation than have 2 implementations
-
-    // I imagine a fix for this could be having new parameters `m&c`
-    // and then redirecting to those once we have em fixed.
-    const canvasIndex = canvas - 1;
 
     const work = await getWork({
       id: workId,
@@ -431,18 +423,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         queryParamToArrayIndex(manifestParam)
       );
       const { canvases } = displayManifest;
-      const currentCanvas = canvases[canvasIndex];
       const canvasOcrText = await fetchCanvasOcr(currentCanvas);
+      const currentCanvas = canvases[queryParamToArrayIndex(canvasParam)];
       const canvasOcr = transformCanvasOcr(canvasOcrText);
 
       return {
         props: serialiseProps({
-          transformedManifest: displayManifest,
-          pageIndex,
-          canvasIndex,
+          transformedManifest: displayManifest, // TODO move this down tree
           canvasOcr,
           work,
-          currentCanvas,
+          canvasParam,
           iiifImageLocation,
           pageview,
           serverData,
