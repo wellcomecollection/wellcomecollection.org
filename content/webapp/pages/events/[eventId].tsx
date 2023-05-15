@@ -228,9 +228,10 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
               )}
             </Space>
           </Space>
-          {event.isPast && EventStatus({ text: 'Past', color: 'neutral.500' })}
-          {upcomingDatesFullyBooked(event) &&
-            EventStatus({ text: 'Fully booked', color: 'validation.red' })}
+          {event.isPast && <EventStatus text="Past" color="neutral.500" />}
+          {upcomingDatesFullyBooked(event) && (
+            <EventStatus text="Fully booked" color="validation.red" />
+          )}
         </>
       }
       isFree={!event.cost} // TODO or no online cost
