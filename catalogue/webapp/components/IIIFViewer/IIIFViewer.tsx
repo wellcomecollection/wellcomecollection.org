@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { Work, Image } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { getMultiVolumeLabel } from '../../utils/iiif/v3';
 import { getDigitalLocationOfType } from '../../utils/works';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
@@ -321,7 +320,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           shouldScrollToCanvas,
         },
         gridVisible,
-        currentManifestLabel,
         iiifImageLocationCredit,
         downloadOptions: downloadEnabled ? downloadOptions : [],
         parentManifest,
@@ -350,7 +348,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         errorHandler: handleImageError,
         setRotatedImages,
         setParentManifest,
-        setCurrentManifestLabel,
         viewerRef,
         mainAreaRef,
       }}
