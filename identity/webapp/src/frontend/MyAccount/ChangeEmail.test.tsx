@@ -135,9 +135,10 @@ describe('ChangeEmail', () => {
           screen.getByRole('button', { name: /update email/i })
         );
       });
-      expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter a valid email address/i
-      );
+
+      // Note: this is testing that the browser's native controls are rejecting
+      // the empty field, rather than our own alerts.
+      expect(emailAddressInput).toBeInvalid();
     });
 
     it('when the email is missing an @', async () => {
