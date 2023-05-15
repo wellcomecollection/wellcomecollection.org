@@ -13,7 +13,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.18.6",
-    "@elastic/apm-rum": "^5.9.1",
+    "@elastic/apm-rum": "^5.12.0",
     "@next/bundle-analyzer": "^13.2.3",
     "@popperjs/core": "^2.11.7",
     "@prismicio/client": "^6.7.3",
