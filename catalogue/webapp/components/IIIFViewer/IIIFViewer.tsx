@@ -221,7 +221,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false); // don't show sidebar by default on mobile
   const [showZoomed, setShowZoomed] = useState(false);
-  const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
   const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -305,7 +304,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         mainAreaWidth,
         mainAreaHeight,
         showZoomed,
-        zoomInfoUrl,
         rotatedImages,
         showControls,
         isFullscreen,
@@ -320,7 +318,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setGridVisible,
         setShowZoomed,
         setIsFullscreen,
-        setZoomInfoUrl, // TODO could this be done in the ZoomedImageComponent? from the canvasIndex
         setShowControls,
         errorHandler: handleImageError,
         setRotatedImages,
@@ -355,9 +352,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
                 index={0}
                 alt={work?.description || work?.title || ''}
                 urlTemplate={urlTemplate}
-                loadHandler={() => {
-                  setZoomInfoUrl(iiifImageLocation.url);
-                }}
                 setImageRect={() => undefined}
                 setImageContainerRect={() => undefined}
               />

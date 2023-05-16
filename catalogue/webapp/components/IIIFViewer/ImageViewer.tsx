@@ -63,7 +63,6 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   const {
     work,
     errorHandler,
-    setZoomInfoUrl,
     setShowZoomed,
     mainAreaRef,
     query,
@@ -113,7 +112,6 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     return () => window.removeEventListener('resize', updateImagePosition);
   }, []);
 
-      setZoomInfoUrl && setZoomInfoUrl(infoUrl);
   useSkipInitialEffect(() => {
     if (isOnScreen) {
       const link = itemLink(
@@ -169,7 +167,6 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         lang={lang}
         alt={alt}
         clickHandler={() => {
-          setZoomInfoUrl && setZoomInfoUrl(infoUrl);
           setShowZoomed(true);
         }}
         loadHandler={() => {

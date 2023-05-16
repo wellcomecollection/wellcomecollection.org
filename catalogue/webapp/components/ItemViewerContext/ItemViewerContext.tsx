@@ -34,9 +34,7 @@ type Props = {
   isMobileSidebarActive: boolean;
   setIsMobileSidebarActive: (v: boolean) => void;
   showZoomed: boolean;
-  setZoomInfoUrl: (v: string) => void;
   setIsFullscreen: (v: boolean) => void;
-  zoomInfoUrl: string | undefined;
   rotatedImages: RotatedImage[];
   setRotatedImages: (v: RotatedImage[]) => void;
   showControls: boolean;
@@ -128,8 +126,6 @@ const ItemViewerContext = createContext<Props>({
 
   // TODO remove everything below here:
   iiifImageLocationCredit: '', // TODO don't think we use this anymore
-  zoomInfoUrl: '', // TODO prop remove and do this from canvasParam in ZoomedImage, comes from iiifImageLocation.url
-  setZoomInfoUrl: () => undefined, // TODO maybe dump
 
   // TODO move to correct section
   parentManifest: undefined, // TODO ????
