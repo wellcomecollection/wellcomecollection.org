@@ -117,6 +117,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     return () => window.removeEventListener('resize', updateImagePosition);
   }, []);
 
+  // Update the url when the main viewer is scrolled
+  // TODO we don't want to do this if caused by a resize
   useSkipInitialEffect(() => {
     if (isOnScreen) {
       const link = itemLink(
@@ -128,6 +130,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         },
         'viewer/scroll'
       );
+      Router.replace(link.href, link.as);
     }
   }, [isOnScreen]);
 
