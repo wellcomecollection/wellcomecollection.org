@@ -6,13 +6,13 @@ import {
   useContext,
   useEffect,
 } from 'react';
+import styled from 'styled-components';
 import { chevron, cross } from '@weco/common/icons';
-import { classNames, font } from '../../../utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '../Icon/Icon';
-import { trackGaEvent } from '../../../utils/ga';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
-import styled from 'styled-components';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
@@ -41,9 +41,7 @@ const DrawerItem = styled(Space).attrs({
   `}
 `;
 
-const List = styled(PlainList).attrs({
-  className: 'rounded-diagonal',
-})<{ isEnhanced: boolean }>`
+const List = styled(PlainList)<{ isEnhanced: boolean }>`
   border: 1px solid ${props => props.theme.color('black')};
   overflow: hidden;
   display: ${props => (props.isEnhanced ? 'none' : 'flex')};
@@ -110,7 +108,7 @@ const Drawer = styled.div`
 const MobileControlsContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: font('wb', 4) + ' ' + 'rounded-diagonal',
+  className: font('wb', 4),
 })`
   display: flex;
   color: ${props => props.theme.color('white')};

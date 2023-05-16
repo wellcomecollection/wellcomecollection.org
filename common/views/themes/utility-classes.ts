@@ -76,13 +76,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // Only used in one component so move there and delete this.
-  // Question the style itself, is it something we still want as input and buttons went fully square?
-  .rounded-diagonal {
-    border-top-left-radius: ${props => props.theme.borderRadiusUnit}px;
-    border-bottom-right-radius: ${props => props.theme.borderRadiusUnit}px;
-  }
-
   // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9541
   .plain-button {
     appearance: none;
