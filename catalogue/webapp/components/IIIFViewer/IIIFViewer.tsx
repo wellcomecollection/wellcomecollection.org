@@ -349,7 +349,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         mainAreaRef,
       }}
     >
-      {!isFullSupportBrowser ? (
+      {isFullSupportBrowser ? (
         <Grid ref={viewerRef}>
           <Sidebar
             data-test-id="viewer-sidebar"
