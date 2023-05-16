@@ -1,5 +1,7 @@
 // This is based on https://iiif.wellcomecollection.org/presentation/v3/b21506115
 // Retrieved 4 May 2023
+//
+// This pre-dates the DLCS image server upgrades in May 2023.
 const manifest = {
   '@context': [
     'http://iiif.io/api/search/1/context.json',

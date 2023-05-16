@@ -1,5 +1,7 @@
 // This is based on https://iiif-test.wellcomecollection.org/presentation/v3/b3223756x
 // as retrieved 4 May 2023
+//
+// This uses the new version of the DLCS image server, after the upgrades in May 2023.
 const manifest = {
   '@context': 'http://iiif.io/api/presentation/3/context.json',
   id: 'https://iiif-test.wellcomecollection.org/presentation/b3223756x',

@@ -33,7 +33,7 @@ import { getThumbnailImage } from './canvas';
 export function getMultiVolumeLabel(
   internationalString: InternationalString,
   itemTitle: string
-): string {
+): string | undefined {
   const stringAtIndex1 = getEnFromInternationalString(internationalString, {
     index: 1,
   });
@@ -49,13 +49,12 @@ export function getMultiVolumeLabel(
 export function getEnFromInternationalString(
   internationalString: InternationalString,
   indexProps?: { index: number }
-): string {
+): string | undefined {
   const index = indexProps?.index || 0;
-  return (
-    internationalString?.['en']?.[index] ||
-    internationalString?.['none']?.[index] ||
-    ''
-  );
+  const label =
+    internationalString?.en?.[index] || internationalString?.none?.[index];
+
+  return label !== '-' ? label : undefined;
 }
 
 export function transformLabel(
@@ -138,20 +137,33 @@ export function getDownloadOptionsFromManifest(
 }
 
 export function getPdf(iiifManifest: Manifest): DownloadOption | undefined {
-  const allAnnotations = iiifManifest.items
-    ?.map(item => item.annotations)
-    ?.flat();
-  const allItems = allAnnotations?.map(annotation => annotation?.items).flat();
-  // The Annotation[] type on the Manifest, which applies to pdfItem seems incorrect
-  // Temporarily using Rendering until it is fixed.
-  const pdfItem = allItems?.find(item => {
-    const body = (
-      Array.isArray(item?.body) ? item?.body[0] : item?.body
-    ) as Rendering;
-    return body?.format === 'application/pdf';
-  });
-  const pdfItemBody = pdfItem?.body || {};
-  const { id, label, format } = pdfItemBody as Rendering;
+  // There are two different ways to find PDFs in a manifest:
+  //
+  //    - Before the DLCS image server upgrades in May 2023, the manifests has
+  //      PDF resources at `items[0].annotations[0].items[0].body`
+  //    - After the DLCS image server upgrades, new manifests will have the
+  //      PDFs at `items[0].rendering[0]`.
+  //
+  // See discussion here: https://wellcome.slack.com/archives/CBT40CMKQ/p1683121718005049
+  //
+  const renderingFromItem = iiifManifest.items
+    .flatMap(item => item.rendering)
+    .filter(isNotUndefined)
+    .find(r => r.type === 'Text' && r.format === 'application/pdf');
+
+  const renderingFromAnnotations = iiifManifest.items
+    .flatMap(item => item.annotations)
+    .flatMap(annotation => annotation?.items)
+    .filter(isNotUndefined)
+    .map(
+      item => (Array.isArray(item.body) ? item.body[0] : item.body) as Rendering
+    )
+    .find(body => body?.format === 'application/pdf');
+
+  const rendering = renderingFromItem || renderingFromAnnotations || {};
+
+  const { id, label, format } = rendering as any;
+
   if (id) {
     return {
       id,
@@ -167,7 +179,7 @@ export function getTitle(
   if (!label) return '';
   if (typeof label === 'string') return label;
 
-  return getEnFromInternationalString(label);
+  return getEnFromInternationalString(label) || '';
 }
 
 export function getTransformedCanvases(

@@ -1,5 +1,7 @@
 // Based on https://iiif-test.wellcomecollection.org/presentation/v3/b28462270
 // Retrieved 4 May 2023
+//
+// This uses the new version of the DLCS image server, after the upgrades in May 2023.
 const manifest = {
   '@context': [
     'https://iiif-test.wellcomecollection.org/extensions/born-digital/context.json',
