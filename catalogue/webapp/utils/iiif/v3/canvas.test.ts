@@ -1,6 +1,9 @@
 import { getThumbnailImage } from './canvas';
-import b21506115 from '@weco/catalogue/test/fixtures/iiif/manifests/b21506115';
-import b2178081x from '@weco/catalogue/test/fixtures/iiif/manifests/b2178081x';
+import {
+  b21506115,
+  b2178081x,
+  b28462270,
+} from '@weco/catalogue/test/fixtures/iiif/manifests';
 
 describe('getThumbnailImage', () => {
   it('if there’s no thumbnail on the canvas', () => {
@@ -21,6 +24,17 @@ describe('getThumbnailImage', () => {
     expect(getThumbnailImage(canvas2 as any)).toStrictEqual({
       url: 'https://iiif-test.wellcomecollection.org/thumbs/b2178081x_0002_0005.jp2/full/299%2C/0/default.jpg',
       width: 299,
+    });
+  });
+
+  it('finds a thumbnail image for a digitised PDF', () => {
+    // This is a PDF created with the new DLCS, which doesn't have an
+    // image service on PDF thumbnails.
+    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/9727
+    const canvas = b28462270.items[0];
+    expect(getThumbnailImage(canvas as any)).toStrictEqual({
+      url: 'https://iiif-test.wellcomecollection.org/extensions/born-digital/placeholder-thumb/fmt/20/application/pdf',
+      width: 101,
     });
   });
 });

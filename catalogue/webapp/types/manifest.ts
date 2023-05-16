@@ -8,7 +8,7 @@ import {
 } from '@iiif/presentation-3';
 import { Audio, Video } from '../../webapp/services/iiif/types/manifest/v3';
 
-type ThumbnailImage = { url: string | undefined; width: number };
+export type ThumbnailImage = { url: string; width: number };
 
 export type TransformedCanvas = {
   id: string;
