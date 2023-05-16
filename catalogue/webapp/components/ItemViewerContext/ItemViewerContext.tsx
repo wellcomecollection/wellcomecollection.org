@@ -22,7 +22,6 @@ type Props = {
   };
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
-  iiifImageLocationCredit: string | undefined;
   parentManifest: Manifest | undefined;
   mainAreaWidth: number;
   mainAreaHeight: number;

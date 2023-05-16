@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { Work, Image } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { getDigitalLocationOfType } from '../../utils/works';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -277,20 +276,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     return () => mainAreaObserver.disconnect();
   }, []);
 
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
-
-  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
-  // we use the former
-  const digitalLocation: DigitalLocation | undefined =
-    iiifPresentationLocation || iiifImageLocation;
-
-  // iiif-image locations have credit info.
-  // iiif-presentation locations don't have credit info, so we fall back to the data in the manifest
-  const iiifImageLocationCredit = digitalLocation?.credit || iiifCredit;
-
   // TODO why do we need to do this?
   useEffect(() => {
     const fetchParentManifest = async () => {
@@ -316,7 +301,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           shouldScrollToCanvas,
         },
         gridVisible,
-        iiifImageLocationCredit,
         parentManifest,
         mainAreaWidth,
         mainAreaHeight,
