@@ -11,11 +11,14 @@ import RenderlessPaginator, {
 } from './RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
-import { TransformedCanvas } from '../../types/manifest';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import { arrow } from '@weco/common/icons';
-import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import {
+  arrayIndexToQueryParam,
+  queryParamToArrayIndex,
+} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const NoScriptViewerEl = styled.div`
   display: flex;
@@ -141,34 +144,25 @@ const PaginatorButtons = (
 /* eslint-enable react/display-name */
 
 type NoScriptViewerProps = {
-  currentCanvas?: TransformedCanvas;
-  lang: string;
-  canvasOcr?: string;
-  workId: string;
-  pageIndex: number;
   imageUrl?: string;
   iiifImageLocation?: { url: string };
-  canvases: TransformedCanvas[];
-  canvasIndex: number;
-  manifestIndex?: number;
+  canvasOcr?: string;
 };
 
 const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   imageUrl,
   iiifImageLocation,
-  currentCanvas,
   canvasOcr,
-  lang,
-  workId,
-  canvases,
-  canvasIndex,
-  manifestIndex,
-  pageIndex,
 }: NoScriptViewerProps) => {
+  const { work, query, transformedManifest } = useContext(ItemViewerContext);
+  const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
+  const { canvases } = transformedManifest;
+  const currentCanvas = canvases[queryParamToArrayIndex(query.canvasParam)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
+  const pageIndex = queryParamToArrayIndex(query.pageParam);
   const pageSize = 4;
   const navigationCanvases = [...Array(pageSize)]
-    .map((_, i) => pageSize * pageIndex + i)
+    .map((_, i) => pageSize * queryParamToArrayIndex(query.pageParam) + i)
     .map(i => canvases[i])
     .filter(Boolean);
   const thumbnailsRequired = Boolean(navigationCanvases?.length);
@@ -185,24 +179,22 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
     totalResults: canvases?.length || 1,
     link: itemLink(
       {
-        workId,
-        page: arrayIndexToQueryParam(pageIndex),
-        canvas: arrayIndexToQueryParam(canvasIndex),
-        manifest: manifestIndex
-          ? arrayIndexToQueryParam(manifestIndex)
-          : undefined,
+        workId: work.id,
+        page: query.pageParam,
+        canvas: query.canvasParam,
+        manifest: query.manifestParam || undefined,
       },
       'viewer/paginator'
     ),
   };
   const mainPaginatorProps = {
-    currentPage: arrayIndexToQueryParam(canvasIndex),
+    currentPage: query.canvasParam,
     pageSize: 1,
     linkKey: 'canvas',
     ...sharedPaginatorProps,
   };
   const thumbsPaginatorProps = {
-    currentPage: arrayIndexToQueryParam(pageIndex),
+    currentPage: query.pageParam,
     pageSize: 4,
     linkKey: 'page',
     ...sharedPaginatorProps,
@@ -242,7 +234,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
         <NoScriptViewerPaginatorButtons>
           <RenderlessPaginator
             {...mainPaginatorProps}
-            render={PaginatorButtons(workId)}
+            render={PaginatorButtons(work.id)}
           />
         </NoScriptViewerPaginatorButtons>
       </NoScriptViewerMain>
@@ -251,7 +243,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
         <StaticThumbnailsContainer>
           {navigationCanvases &&
             navigationCanvases.map((canvas, i) => {
-              const canvasNumber = pageSize * pageIndex + (i + 1);
+              const canvasParam = pageSize * pageIndex + (i + 1);
               return (
                 <RenderlessPaginator
                   key={canvas['@id']}
@@ -260,9 +252,9 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                     <NextLink
                       {...itemLink(
                         {
-                          workId,
+                          workId: work.id,
                           page: arrayIndexToQueryParam(pageIndex),
-                          canvas: canvasNumber,
+                          canvas: canvasParam,
                         },
                         'viewer/paginator'
                       )}
@@ -274,10 +266,8 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                       <ThumbnailLink>
                         <IIIFCanvasThumbnail
                           canvas={canvas}
-                          isActive={
-                            canvasNumber === arrayIndexToQueryParam(canvasIndex)
-                          }
-                          thumbNumber={canvasNumber}
+                          isActive={canvasParam === query.canvasParam}
+                          thumbNumber={canvasParam}
                         />
                       </ThumbnailLink>
                     </NextLink>
@@ -288,7 +278,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
           <NoScriptViewerPaginatorButtons>
             <RenderlessPaginator
               {...thumbsPaginatorProps}
-              render={PaginatorButtons(workId)}
+              render={PaginatorButtons(work.id)}
             />
           </NoScriptViewerPaginatorButtons>
         </StaticThumbnailsContainer>

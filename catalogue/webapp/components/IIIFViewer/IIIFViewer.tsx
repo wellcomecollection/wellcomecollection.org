@@ -308,7 +308,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     fetchParentManifest();
   }, []);
 
-  return isFullSupportBrowser ? (
+  return (
     <ItemViewerContext.Provider
       value={{
         work,
@@ -321,7 +321,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         },
         gridVisible,
         iiifImageLocationCredit,
-        downloadOptions: downloadEnabled ? downloadOptions : [],
         parentManifest,
         mainAreaWidth,
         mainAreaHeight,
@@ -329,7 +328,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         zoomInfoUrl,
         rotatedImages,
         showControls,
-        isLoading,
         isFullscreen,
         isDesktopSidebarActive,
         urlTemplate,
@@ -342,8 +340,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setGridVisible,
         setShowZoomed,
         setIsFullscreen,
-        setZoomInfoUrl,
-        setIsLoading,
+        setZoomInfoUrl, // TODO could this be done in the ZoomedImageComponent? from the canvasIndex
         setShowControls,
         errorHandler: handleImageError,
         setRotatedImages,
@@ -352,64 +349,64 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         mainAreaRef,
       }}
     >
-      <Grid ref={viewerRef}>
-        <Sidebar
-          data-test-id="viewer-sidebar"
-          isActiveMobile={isMobileSidebarActive}
-          isActiveDesktop={isDesktopSidebarActive}
-        >
-          <ViewerSidebar />
-        </Sidebar>
-        <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
-          <ViewerTopBar />
-        </Topbar>
-        <Main
-          isDesktopSidebarActive={isDesktopSidebarActive}
-          isResizing={isResizing}
-          ref={mainAreaRef}
-        >
-          {!showZoomed && <ImageViewerControls />}
-          {hasIiifImage && !hasImageService && (
-            <ImageViewer
-              infoUrl={iiifImageLocation.url}
-              id={imageUrl}
-              width={800}
-              index={0}
-              alt={work?.description || work?.title || ''}
-              urlTemplate={urlTemplate}
-              loadHandler={() => {
-                setZoomInfoUrl(iiifImageLocation.url);
-                setIsLoading(false);
-              }}
-              setImageRect={() => undefined}
-              setImageContainerRect={() => undefined}
-            />
+      {!isFullSupportBrowser ? (
+        <Grid ref={viewerRef}>
+          <Sidebar
+            data-test-id="viewer-sidebar"
+            isActiveMobile={isMobileSidebarActive}
+            isActiveDesktop={isDesktopSidebarActive}
+          >
+            <ViewerSidebar />
+          </Sidebar>
+          <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
+            <ViewerTopBar />
+          </Topbar>
+          <Main
+            isDesktopSidebarActive={isDesktopSidebarActive}
+            isResizing={isResizing}
+            ref={mainAreaRef}
+          >
+            {!showZoomed && <ImageViewerControls />}
+            {hasIiifImage && !hasImageService && (
+              <ImageViewer
+                infoUrl={iiifImageLocation.url}
+                id={imageUrl}
+                width={800}
+                index={0}
+                alt={work?.description || work?.title || ''}
+                urlTemplate={urlTemplate}
+                loadHandler={() => {
+                  setZoomInfoUrl(iiifImageLocation.url);
+                }}
+                setImageRect={() => undefined}
+                setImageContainerRect={() => undefined}
+              />
+            )}
+            {hasImageService && <MainViewer />}
+          </Main>
+          {showZoomed && (
+            <Zoom>
+              <ZoomedImage />
+            </Zoom>
           )}
-          {hasImageService && <MainViewer />}
-        </Main>
-        {showZoomed && (
-          <Zoom>
-            <ZoomedImage />
-          </Zoom>
-        )}
-        <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
-          <ViewerBottomBar />
-        </BottomBar>
-        <Thumbnails
-          isActive={gridVisible}
-          isDesktopSidebarActive={isDesktopSidebarActive}
-        >
-          <GridViewer />
-        </Thumbnails>
-      </Grid>
+          <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
+            <ViewerBottomBar />
+          </BottomBar>
+          <Thumbnails
+            isActive={gridVisible}
+            isDesktopSidebarActive={isDesktopSidebarActive}
+          >
+            <GridViewer />
+          </Thumbnails>
+        </Grid>
+      ) : (
+        <NoScriptViewer
+          imageUrl={imageUrl}
+          iiifImageLocation={iiifImageLocation}
+          canvasOcr={canvasOcr}
+        />
+      )}
     </ItemViewerContext.Provider>
-  ) : (
-    <NoScriptViewer
-      imageUrl={imageUrl}
-      iiifImageLocation={iiifImageLocation}
-      canvasOcr={canvasOcr}
-      canvases={canvases || []}
-    />
   );
 };
 
