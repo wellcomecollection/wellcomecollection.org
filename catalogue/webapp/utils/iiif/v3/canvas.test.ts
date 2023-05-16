@@ -1,3 +1,4 @@
+import { Canvas } from '@iiif/presentation-3';
 import { getThumbnailImage } from './canvas';
 import {
   b21506115,
@@ -7,15 +8,18 @@ import {
 
 describe('getThumbnailImage', () => {
   it('if there’s no thumbnail on the canvas', () => {
-    const canvas = {};
-    expect(getThumbnailImage(canvas as any)).toBeUndefined();
+    const canvas: Canvas = {
+      id: 'example',
+      type: 'Canvas',
+    };
+    expect(getThumbnailImage(canvas)).toBeUndefined();
   });
 
   it('finds a thumbnail image from a digitised book', () => {
     // This test looks for thumbnails in manifests that are pre- and post-
     // the DLCS image server upgrades in summer 2023.
     const canvas1 = b21506115.items[0];
-    expect(getThumbnailImage(canvas1 as any)).toStrictEqual({
+    expect(getThumbnailImage(canvas1)).toStrictEqual({
       url: 'https://iiif.wellcomecollection.org/thumbs/b21506115_0001.jp2/full/286%2C/0/default.jpg',
       width: 286,
     });
