@@ -104,6 +104,7 @@ export const Pagination: FunctionComponent<Props> = ({
 
   const pageNumber = query.page ? Number(query.page) : 1;
   const [currentPage, setCurrentPage] = useState(pageNumber);
+  const [isFocused, setIsFocused] = useState(false);
   const { isEnhanced } = useContext(AppContext);
 
   useEffect(() => {
@@ -148,7 +149,7 @@ export const Pagination: FunctionComponent<Props> = ({
         </Link>
       )}
 
-      {isEnhanced && isHiddenMobile ? (
+      {isEnhanced ? (
         <>
           <span aria-hidden>Showing page</span>
           <span id="searchInputLabel" className="visually-hidden">
@@ -156,7 +157,9 @@ export const Pagination: FunctionComponent<Props> = ({
           </span>
           <PageSelectorInput
             name="page"
-            form="search-page-form"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            form={`${isFocused ? 'search-page-form' : ''}`}
             aria-labelledby="searchInputLabel"
             value={currentPage}
             onChange={e => setCurrentPage(Number(e.target.value))}
