@@ -132,10 +132,4 @@ export const utilityClasses = css<GlobalStyleProps>`
       }
     }
   }
-
-  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9559
-  noscript {
-    background: ${props => props.theme.color('white')};
-    color: ${props => props.theme.color('black')};
-  }
 `;
