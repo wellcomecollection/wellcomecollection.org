@@ -129,9 +129,9 @@ const ItemViewerContext = createContext<Props>({
   isResizing: false,
   errorHandler: () => undefined,
 
-  // TODO move to correct section
-  parentManifest: undefined, // TODO ????
-  setParentManifest: () => undefined, // ????
-  urlTemplate: undefined, // TODO ????
+  // TODO move to correct section / remove?
+  parentManifest: undefined,
+  setParentManifest: () => undefined,
+  urlTemplate: undefined,
 });
 export default ItemViewerContext;
