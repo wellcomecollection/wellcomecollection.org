@@ -4,7 +4,6 @@ import {
   useRef,
   useContext,
   FunctionComponent,
-  RefObject,
 } from 'react';
 import styled from 'styled-components';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
@@ -12,6 +11,13 @@ import { imageSizes } from '@weco/common/utils/image-sizes';
 import IIIFViewerImage from './IIIFViewerImage';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import Router from 'next/router';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
+import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
+import {
+  arrayIndexToQueryParam,
+  queryParamToArrayIndex,
+} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const ImageWrapper = styled.div`
   position: absolute;
@@ -43,7 +49,6 @@ type ImageViewerProps = {
   alt: string;
   urlTemplate: (v: IIIFUriProps) => string;
   loadHandler?: () => void;
-  index?: number;
   index: number;
   setImageRect: (v: ClientRect) => void;
   setImageContainerRect: (v: ClientRect) => void;
