@@ -198,6 +198,10 @@ const contentRedirects: Record<string, string> = {
   // of letters.
   // See https://wellcome.slack.com/archives/C3TQSF63C/p1668010459644169
   '/in-plain-sight': '/exhibitions/Yv95yBAAAILuCNv6',
+
+  // Requested by Content team
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/9765
+  '/lbe-festival': '/event-series/ZFt3UBQAAMFmEIya',
 };
 
 /**
