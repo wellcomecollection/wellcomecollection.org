@@ -321,7 +321,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setShowControls,
         errorHandler: handleImageError,
         setRotatedImages,
-        setParentManifest,
         viewerRef,
         mainAreaRef,
       }}
