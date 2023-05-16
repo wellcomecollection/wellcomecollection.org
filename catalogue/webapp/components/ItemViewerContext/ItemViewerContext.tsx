@@ -20,6 +20,7 @@ type Props = {
   };
   work: Work;
   transformedManifest: TransformedManifest;
+  parentManifest: Manifest | undefined;
   searchResults: SearchResults;
   setSearchResults: (v) => void;
 
@@ -46,8 +47,6 @@ type Props = {
   errorHandler?: () => void;
 
   urlTemplate?: UrlTemplate;
-  parentManifest: Manifest | undefined;
-  setParentManifest: (v: Manifest) => void;
 };
 
 export const results = {
@@ -104,6 +103,7 @@ const ItemViewerContext = createContext<Props>({
   query,
   work,
   transformedManifest: createDefaultTransformedManifest(),
+  parentManifest: undefined,
   searchResults: results,
   setSearchResults: () => undefined,
 
@@ -130,8 +130,6 @@ const ItemViewerContext = createContext<Props>({
   errorHandler: () => undefined,
 
   // TODO move to correct section / remove?
-  parentManifest: undefined,
-  setParentManifest: () => undefined,
   urlTemplate: undefined,
 });
 export default ItemViewerContext;
