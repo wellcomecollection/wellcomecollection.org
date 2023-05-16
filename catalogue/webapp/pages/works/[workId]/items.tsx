@@ -37,7 +37,6 @@ import { transformManifest } from '@weco/catalogue/services/iiif/transformers/ma
 import { fetchCanvasOcr } from '@weco/catalogue/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/canvasOcr';
 import {
-  TransformedCanvas,
   TransformedManifest,
   createDefaultTransformedManifest,
 } from '@weco/catalogue/types/manifest';
@@ -90,10 +89,8 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
 type Props = {
   transformedManifest: TransformedManifest;
   work: Work;
-  pageIndex: number;
-  canvasIndex: number;
+  canvasParam: number;
   canvasOcr?: string;
-  currentCanvas?: TransformedCanvas;
   video?: Video; // TODO - remove as this is on manifestData
   audio?: Audio; // TODO - remove as this is on manifestData
   iiifImageLocation?: DigitalLocation;
@@ -442,9 +439,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: serialiseProps({
           transformedManifest: createDefaultTransformedManifest(),
-          pageIndex,
-          canvasIndex,
           work,
+          canvasParam,
           canvases: [],
           iiifImageLocation,
           pageview,
