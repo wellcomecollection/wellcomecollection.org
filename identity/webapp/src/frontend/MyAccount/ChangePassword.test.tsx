@@ -33,18 +33,14 @@ describe('ChangePassword', () => {
   it('allows the user to enter their current password', async () => {
     renderComponent();
     const currentPasswordInput = screen.getByLabelText(/current password/i);
-    await act(async () => {
-      await userEvent.type(currentPasswordInput, 'hunter2');
-    });
+    await act(async () => userEvent.type(currentPasswordInput, 'hunter2'));
     expect(currentPasswordInput).toHaveValue('hunter2');
   });
 
   it('allows the user to enter a new password', async () => {
     renderComponent();
     const newPasswordInput = screen.getByLabelText(/^create new password/i);
-    await act(async () => {
-      await userEvent.type(newPasswordInput, 'hunter2');
-    });
+    await act(async () => userEvent.type(newPasswordInput, 'hunter2'));
     expect(newPasswordInput).toHaveValue('hunter2');
   });
 
@@ -53,9 +49,7 @@ describe('ChangePassword', () => {
     const confirmPasswordInput = screen.getByLabelText(
       /re-enter new password/i
     );
-    await act(async () => {
-      await userEvent.type(confirmPasswordInput, 'hunter2');
-    });
+    await act(async () => userEvent.type(confirmPasswordInput, 'hunter2'));
     expect(confirmPasswordInput).toHaveValue('hunter2');
   });
 
@@ -93,9 +87,9 @@ describe('ChangePassword', () => {
     );
 
     await act(async () => {
-      userEvent.type(currentPasswordInput, 'hunter2');
-      userEvent.type(newPasswordInput, 'Superman1938');
-      userEvent.type(confirmPasswordInput, 'Superman1938');
+      await userEvent.type(currentPasswordInput, 'hunter2');
+      await userEvent.type(newPasswordInput, 'Superman1938');
+      await userEvent.type(confirmPasswordInput, 'Superman1938');
     });
 
     rerender(
@@ -455,23 +449,23 @@ describe('ChangePassword', () => {
         })
       );
       renderComponent();
-      expect(await screen.queryByRole('alert')).not.toBeInTheDocument();
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
       await act(async () => {
         await userEvent.type(
-          await screen.getByLabelText(/current password/i),
+          screen.getByLabelText(/current password/i),
           'hunter2'
         );
         await userEvent.type(
-          await screen.getByLabelText(/^create new password/i),
+          screen.getByLabelText(/^create new password/i),
           'Superman1938'
         );
         await userEvent.type(
-          await screen.getByLabelText(/re-enter new password/i),
+          screen.getByLabelText(/re-enter new password/i),
           'Superman1938'
         );
         await userEvent.click(
-          await screen.getByRole('button', { name: /update password/i })
+          screen.getByRole('button', { name: /update password/i })
         );
       });
 

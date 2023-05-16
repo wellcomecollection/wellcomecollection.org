@@ -15,7 +15,7 @@ import UserProvider from '@weco/common/views/components/UserProvider/UserProvide
 // avoid rendering header SVG to help with debugging tests
 jest.mock('../components/PageWrapper', () => ({
   __esModule: true,
-  PageWrapper: ({ children }) => <>{children}</>, // eslint-disable-line react/display-name
+  PageWrapper: ({ children }) => <>{children}</>,
 }));
 
 jest.mock('@weco/common/server-data', () => ({
@@ -167,9 +167,7 @@ describe('MyAccount', () => {
     const changeEmailButton = await screen.findByRole('button', {
       name: /change email/i,
     });
-    await act(async () => {
-      await userEvent.click(changeEmailButton);
-    });
+    await act(async () => userEvent.click(changeEmailButton));
 
     const emailInput = await screen.findByLabelText(/email address/i);
     const passwordConfirmInput = screen.getByLabelText(/confirm password/i);
@@ -187,9 +185,7 @@ describe('MyAccount', () => {
     const updateEmailButton = screen.getByRole('button', {
       name: /update email/i,
     });
-    await act(async () => {
-      await userEvent.click(updateEmailButton);
-    });
+    await act(async () => userEvent.click(updateEmailButton));
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /email updated/i
@@ -202,9 +198,7 @@ describe('MyAccount', () => {
     const changePasswordButton = await screen.findByRole('button', {
       name: /Change password/,
     });
-    await act(async () => {
-      await userEvent.click(changePasswordButton);
-    });
+    await act(async () => userEvent.click(changePasswordButton));
 
     const currentPasswordInput = screen.getByLabelText(/current password/i);
     const newPasswordInput = screen.getByLabelText(/^create new password/i);
@@ -225,9 +219,7 @@ describe('MyAccount', () => {
     const updatePasswordButton = screen.getByRole('button', {
       name: /update password/i,
     });
-    await act(async () => {
-      await userEvent.click(updatePasswordButton);
-    });
+    await act(async () => userEvent.click(updatePasswordButton));
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /password updated/i
@@ -244,18 +236,14 @@ describe('MyAccount', () => {
     const requestDeletionButton = await screen.findByRole('button', {
       name: /cancel your membership/i,
     });
-    await act(async () => {
-      await userEvent.click(requestDeletionButton);
-    });
+    await act(async () => userEvent.click(requestDeletionButton));
 
     expect(
       await screen.findByRole('button', { name: /yes, delete my account/i })
     ).toBeInTheDocument();
 
     const closeButton = screen.getByRole('button', { name: /close/i });
-    await act(async () => {
-      await userEvent.click(closeButton);
-    });
+    await act(async () => userEvent.click(closeButton));
 
     await waitFor(() => {
       expect(
