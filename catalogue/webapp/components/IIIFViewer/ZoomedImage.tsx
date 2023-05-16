@@ -12,6 +12,8 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { cross, minus, plus, rotateRight } from '@weco/common/icons';
+import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
+import { queryParamToArrayIndex } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const ZoomedImageContainer = styled.div`
   position: relative;
@@ -40,7 +42,14 @@ const ErrorMessage = () => (
 );
 
 const ZoomedImage: FunctionComponent = () => {
-  const { zoomInfoUrl, setShowZoomed } = useContext(ItemViewerContext);
+  const { transformedManifest, query, setShowZoomed } =
+    useContext(ItemViewerContext);
+  const currentCanvas =
+    transformedManifest.canvases[queryParamToArrayIndex(query.canvasParam)];
+  const mainImageService = {
+    '@id': currentCanvas?.imageServiceId || '',
+  };
+  const zoomInfoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
   const zoomStep = 0.5;
@@ -84,7 +93,7 @@ const ZoomedImage: FunctionComponent = () => {
 
   useEffect(() => {
     setupViewer(zoomInfoUrl, 'zoomedImage');
-    lastControl && lastControl.current && lastControl.current.focus();
+    lastControl?.current && lastControl.current.focus();
   }, []);
 
   function doZoomIn(viewer) {
