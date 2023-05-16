@@ -86,19 +86,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     text-align: left;
   }
 
-  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9557
-  .plain-link,
-  .plain-link:link,
-  .plain-link:visited {
-    text-decoration: none;
-    border: none;
-
-    .body-text & {
-      text-decoration: none;
-      border: none;
-    }
-  }
-
   // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9558
   .no-visible-focus {
     &,

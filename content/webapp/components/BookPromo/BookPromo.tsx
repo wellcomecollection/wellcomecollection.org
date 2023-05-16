@@ -1,11 +1,11 @@
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { BookBasic } from '../../types/books';
+import { BookBasic } from '@weco/content/types/books';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { FunctionComponent } from 'react';
-import BookImage from '../../components/BookImage/BookImage';
+import BookImage from '@weco/content/components/BookImage/BookImage';
 
 type LinkSpaceAttrs = {
   url: string;
@@ -14,14 +14,18 @@ type LinkSpaceAttrs = {
 const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   as: 'a',
   href: props.url,
-  className: 'promo-link plain-link',
-  v: {
-    size: 'xl',
-    properties: ['padding-top'],
-  },
+  className: 'promo-link',
+  v: { size: 'xl', properties: ['padding-top'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 }))<LinkSpaceAttrs>`
   display: block;
+
+  &,
+  &:link,
+  &:visited {
+    text-decoration: none;
+    border: none;
+  }
 `;
 
 const Title = styled.h3.attrs({

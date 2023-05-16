@@ -34,6 +34,14 @@ const DrawerItem = styled(Space).attrs({
 })<DrawerItemProps>`
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 
+    a,
+    a:link,
+    a:visited {
+      text-decoration: none;
+      border: none;
+    }
+  }
+
   ${props =>
     props.isFirst &&
     `
@@ -75,13 +83,22 @@ const Item = styled.li.attrs({
 const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
     'is-active': props.isActive,
-    'plain-link no-visible-focus': true,
+    'no-visible-focus': true,
   }),
 }))<IsActiveProps>`
   display: block;
   width: 100%;
   text-align: center;
   transition: background ${props => props.theme.transitionProperties};
+
+  text-decoration: none;
+  border: none;
+
+  &:link,
+  &:visited {
+    text-decoration: none;
+    border: none;
+  }
 
   color: ${props => props.theme.color(props.isActive ? 'white' : 'black')};
   background-color: ${props =>
@@ -238,12 +255,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
             <PlainList>
               {items.map((item, i) => (
                 <DrawerItem isFirst={i === 0} key={item.id}>
-                  <a
-                    className="plain-link"
-                    style={{ display: 'block' }}
-                    onClick={e => onClick(e, item)}
-                    href={item.url}
-                  >
+                  <a onClick={e => onClick(e, item)} href={item.url}>
                     {item.text}
                   </a>
                 </DrawerItem>
