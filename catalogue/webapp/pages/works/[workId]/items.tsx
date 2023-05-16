@@ -418,13 +418,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         queryParamToArrayIndex(manifestParam)
       );
       const { canvases } = displayManifest;
-      const canvasOcrText = await fetchCanvasOcr(currentCanvas);
       const currentCanvas = canvases[queryParamToArrayIndex(canvasParam)];
+      const canvasOcrText = await fetchCanvasOcr(currentCanvas);
       const canvasOcr = transformCanvasOcr(canvasOcrText);
 
       return {
         props: serialiseProps({
-          transformedManifest: displayManifest, // TODO move this down tree
+          transformedManifest: displayManifest,
           canvasOcr,
           work,
           canvasParam,
