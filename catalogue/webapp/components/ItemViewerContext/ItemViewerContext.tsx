@@ -11,40 +11,43 @@ import { UrlTemplate } from 'url-template';
 export type RotatedImage = { canvasParam: number; rotation: number };
 
 type Props = {
-  work: Work; // TODO update type to be WorkBasic?
-  transformedManifest: TransformedManifest;
-  // TODO get these from router where needed, as not all components rerender whenever they change
+  // DATA props:
   query: {
     pageParam: number;
     canvasParam: number;
     manifestParam: number;
     shouldScrollToCanvas: boolean;
   };
-  gridVisible: boolean;
-  setGridVisible: (v: boolean) => void;
-  parentManifest: Manifest | undefined;
+  work: Work;
+  transformedManifest: TransformedManifest;
+  searchResults: SearchResults;
+  setSearchResults: (v) => void;
+
+  // UI props:
+  viewerRef: RefObject<HTMLDivElement> | undefined;
+  mainAreaRef: RefObject<HTMLDivElement> | undefined;
   mainAreaWidth: number;
   mainAreaHeight: number;
+  gridVisible: boolean;
+  setGridVisible: (v: boolean) => void;
   isFullscreen: boolean;
-  isResizing: boolean;
-  urlTemplate?: UrlTemplate;
-  setShowZoomed: (v: boolean) => void;
+  setIsFullscreen: (v: boolean) => void;
   isDesktopSidebarActive: boolean;
   setIsDesktopSidebarActive: (v: boolean) => void;
   isMobileSidebarActive: boolean;
   setIsMobileSidebarActive: (v: boolean) => void;
   showZoomed: boolean;
-  setIsFullscreen: (v: boolean) => void;
+  setShowZoomed: (v: boolean) => void;
+  showControls: boolean;
+  setShowControls: (v: boolean) => void;
   rotatedImages: RotatedImage[];
   setRotatedImages: (v: RotatedImage[]) => void;
-  showControls: boolean;
-  setParentManifest: (v: Manifest) => void;
-  setShowControls: (v: boolean) => void;
+  isResizing: boolean;
   errorHandler?: () => void;
-  searchResults: SearchResults;
-  setSearchResults: (v) => void;
-  viewerRef: RefObject<HTMLDivElement> | undefined;
-  mainAreaRef: RefObject<HTMLDivElement> | undefined;
+
+  urlTemplate?: UrlTemplate;
+  parentManifest: Manifest | undefined;
+  setParentManifest: (v: Manifest) => void;
 };
 
 export const results = {
@@ -60,45 +63,46 @@ export const results = {
   hits: [],
 };
 
-// Separate DataContext and UI context - may improve performance? depends where they are used?
+const query = {
+  canvasParam: 1,
+  pageParam: 1,
+  manifestParam: 1,
+  shouldScrollToCanvas: true,
+};
+
+const work = {
+  type: 'Work',
+  id: '',
+  title: '',
+  alternativeTitles: [],
+  physicalDescription: '',
+  workType: {
+    id: '',
+    label: '',
+    type: 'Format',
+  },
+  contributors: [],
+  identifiers: [],
+  subjects: [],
+  genres: [],
+  production: [],
+  languages: [],
+  notes: [],
+  formerFrequency: [],
+  designation: [],
+  parts: [],
+  partOf: [],
+  precededBy: [],
+  succeededBy: [],
+  availabilities: [],
+  availableOnline: false,
+  holdings: [],
+} as Work;
+
 const ItemViewerContext = createContext<Props>({
   // DATA props:
-  // TODO get these from router in each place, rather than adding to context then not everything will update if it changes
-  query: {
-    canvasParam: 1,
-    pageParam: 1,
-    manifestParam: 1,
-    shouldScrollToCanvas: true,
-  },
-  work: {
-    // TODO reduce data on work // TODO createDefaultWork
-    type: 'Work',
-    id: '',
-    title: '',
-    alternativeTitles: [],
-    physicalDescription: '',
-    workType: {
-      id: '',
-      label: '',
-      type: 'Format',
-    },
-    contributors: [],
-    identifiers: [],
-    subjects: [],
-    genres: [],
-    production: [],
-    languages: [],
-    notes: [],
-    formerFrequency: [],
-    designation: [],
-    parts: [],
-    partOf: [],
-    precededBy: [],
-    succeededBy: [],
-    availabilities: [],
-    availableOnline: false,
-    holdings: [],
-  },
+  query,
+  work,
   transformedManifest: createDefaultTransformedManifest(),
   searchResults: results,
   setSearchResults: () => undefined,
@@ -106,10 +110,10 @@ const ItemViewerContext = createContext<Props>({
   // UI props:
   viewerRef: undefined,
   mainAreaRef: undefined,
-  gridVisible: false,
-  setGridVisible: () => false,
   mainAreaWidth: 1000,
   mainAreaHeight: 500,
+  gridVisible: false,
+  setGridVisible: () => false,
   isFullscreen: false,
   setIsFullscreen: () => undefined,
   isDesktopSidebarActive: true,
@@ -122,18 +126,12 @@ const ItemViewerContext = createContext<Props>({
   setShowControls: () => undefined,
   rotatedImages: [],
   setRotatedImages: () => undefined,
+  isResizing: false,
   errorHandler: () => undefined,
-
-  // TODO remove everything below here:
-  iiifImageLocationCredit: '', // TODO don't think we use this anymore
 
   // TODO move to correct section
   parentManifest: undefined, // TODO ????
   setParentManifest: () => undefined, // ????
   urlTemplate: undefined, // TODO ????
-
-  // TODO possibly remove
-  // it is just used to show/hide things when the window is resizing but not sure this is necessary
-  isResizing: false,
 });
 export default ItemViewerContext;
