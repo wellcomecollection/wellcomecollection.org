@@ -2,7 +2,6 @@ import {
   memo,
   useState,
   useRef,
-  RefObject,
   CSSProperties,
   FunctionComponent,
   useEffect,
@@ -138,13 +137,7 @@ function getPositionData(
   return highlightsPositioningData;
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const {
-    scrollVelocity,
-    canvases,
-    rotatedImages,
-    setIsLoading,
-    restrictedService,
-  } = data;
+  const { scrollVelocity, canvases, restrictedService } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
   const currentCanvas = canvases[index];
@@ -344,7 +337,6 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
     transformedManifest,
     query,
     setShowZoomed,
-    setZoomInfoUrl,
     setIsLoading,
     rotatedImages,
     setShowControls,
@@ -380,13 +372,6 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
       const viewer = mainViewerRef?.current;
       scrollViewer({ currentCanvas, canvasParam, viewer, mainAreaWidth });
       setFirstRender(false);
-      const mainImageService = {
-        '@id': currentCanvas ? currentCanvas.imageServiceId : '',
-      };
-      const infoUrl = convertIiifUriToInfoUri(mainImageService['@id'] || '');
-      if (infoUrl) {
-        setZoomInfoUrl(infoUrl);
-      }
       setShowControls(true);
     }
   }
@@ -416,7 +401,6 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
           scrollVelocity,
           canvases,
           setShowZoomed,
-          setZoomInfoUrl,
           rotatedImages,
           setIsLoading,
           mainAreaRef,
