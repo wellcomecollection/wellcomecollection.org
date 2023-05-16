@@ -89,7 +89,6 @@ resource "aws_cloudfront_cache_policy" "weco_apps" {
           distinct(
             concat(
               local.toggles_cookies,
-              local.works_cookies,
               local.userpreference_cookies,
               local.ga_cookies,
             )

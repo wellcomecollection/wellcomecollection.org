@@ -32,7 +32,6 @@ export type CatalogueWorksApiProps = {
   subjects?: string[];
   'contributors.agent.label'?: string[];
   languages?: string[];
-  _queryType?: string;
   aggregations?: string[];
 };
 

@@ -1,6 +1,5 @@
 locals {
   toggles_cookies = ["toggles", "toggle_*"]
-  works_cookies   = ["_queryType"]
   userpreference_cookies = ["WC_*"]
   ga_cookies = ["_ga"]
 
@@ -51,7 +50,6 @@ locals {
     "manifest",
 
     # All other parameters
-    "_queryType",
     "current",
     "items.locations.locationType",
     "source",
