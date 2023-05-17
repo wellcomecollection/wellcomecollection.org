@@ -24,6 +24,7 @@ import {
 type GetWorkProps = {
   id: string;
   toggles: Toggles;
+  include?: string[];
 };
 
 const worksIncludes = ['production', 'contributors', 'partOf'];
@@ -125,6 +126,7 @@ type WorkResponse =
 export async function getWork({
   id,
   toggles,
+  include = workIncludes,
 }: GetWorkProps): Promise<WorkResponse> {
   if (!looksLikeCanonicalId(id)) {
     return notFound();
@@ -133,7 +135,7 @@ export async function getWork({
   const apiOptions = globalApiOptions(toggles);
 
   const params = {
-    include: workIncludes,
+    include,
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
