@@ -83,7 +83,6 @@ const Item = styled.li.attrs({
 const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
     'is-active': props.isActive,
-    'no-visible-focus': true,
   }),
 }))<IsActiveProps>`
   display: block;
