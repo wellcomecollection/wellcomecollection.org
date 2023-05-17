@@ -50,8 +50,8 @@ type ImageViewerProps = {
   urlTemplate: (v: IIIFUriProps) => string;
   loadHandler?: () => void;
   index: number;
-  setImageRect: (v: ClientRect) => void;
-  setImageContainerRect: (v: ClientRect) => void;
+  setImageRect: (v: DOMRect) => void;
+  setImageContainerRect: (v: DOMRect) => void;
 };
 
 const ImageViewer: FunctionComponent<ImageViewerProps> = ({
