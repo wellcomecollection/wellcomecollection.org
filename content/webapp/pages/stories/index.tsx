@@ -70,18 +70,12 @@ export const getServerSideProps: GetServerSideProps<
   const serverData = await getServerData(context);
   const client = createClient(context);
   const articlesQueryPromise = fetchArticles(client, {
-    predicates: prismic.predicate.not(
-      'my.articles.format',
-      ArticleFormatIds.Comic
-    ),
+    filters: prismic.filter.not('my.articles.format', ArticleFormatIds.Comic),
   });
 
   const comicsQueryPromise = fetchArticles(client, {
     pageSize: 100, // we need enough comics to make sure we have at least one from three different series
-    predicates: prismic.predicate.at(
-      'my.articles.format',
-      ArticleFormatIds.Comic
-    ),
+    filters: prismic.filter.at('my.articles.format', ArticleFormatIds.Comic),
   });
 
   const storiesLandingPromise = fetchStoriesLanding(client);

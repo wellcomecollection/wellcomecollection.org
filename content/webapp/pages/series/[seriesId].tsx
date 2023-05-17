@@ -84,7 +84,7 @@ export const getServerSideProps: GetServerSideProps<
       : 'my.articles.series.series';
 
   const articlesQuery = await fetchArticles(client, {
-    predicates: [prismic.predicate.at(seriesField, seriesId)],
+    filters: [prismic.filter.at(seriesField, seriesId)],
     page,
     pageSize: 20,
     fetchLinks: seasonsFetchLinks,

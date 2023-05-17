@@ -59,7 +59,6 @@ import { isPast } from '@weco/common/utils/dates';
 import EventDateList from '@weco/content/components/EventDateList';
 import EventStatus from '@weco/content/components/EventStatus';
 
-import * as prismic from '@prismicio/client';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -130,7 +129,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
   // https://wellcomecollection.org/events/W3K54ykAACcAEIGL
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
-      predicates: [prismic.predicate.at('my.events.schedule.event', event.id)],
+      filters: [prismic.filter.at('my.events.schedule.event', event.id)],
       pageSize: 1,
     });
 

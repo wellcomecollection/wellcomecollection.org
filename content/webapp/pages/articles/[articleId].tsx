@@ -176,12 +176,12 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             : 'my.articles.series.series';
 
         // Note: we deliberately use a hard-coded string here instead of the
-        // predicate DSL in the Prismic client library, because it means we don't
+        // filter DSL in the Prismic client library, because it means we don't
         // send the Prismic client library as part of the browser bundle.
-        const predicates = [`[at(${seriesField}, "${series.id}")]`];
+        const filters = [`[at(${seriesField}, "${series.id}")]`];
 
         const articlesInSeries = series
-          ? await fetchArticlesClientSide({ predicates })
+          ? await fetchArticlesClientSide({ filters })
           : undefined;
 
         const articles = articlesInSeries?.results ?? [];

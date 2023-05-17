@@ -68,9 +68,7 @@ export const getServerSideProps: GetServerSideProps<
   const client = createClient(context);
 
   const eventsQueryPromise = fetchEvents(client, {
-    predicates: [
-      prismic.predicate.at('my.events.series.series', eventSeriesId),
-    ],
+    filters: [prismic.filter.at('my.events.series.series', eventSeriesId)],
     pageSize: 100,
   });
 
