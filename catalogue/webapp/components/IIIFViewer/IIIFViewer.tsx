@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { Work, Image } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -42,7 +42,6 @@ export function arrayIndexToQueryParam(canvasIndex: number): number {
 
 type IIIFViewerProps = {
   work: Work;
-  image?: Image;
   iiifImageLocation: DigitalLocation | undefined;
   transformedManifest: TransformedManifest;
   canvasOcr?: string;
