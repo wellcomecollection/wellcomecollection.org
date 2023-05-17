@@ -76,16 +76,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     }
   }
 
-  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9541
-  .plain-button {
-    appearance: none;
-    font-family: inherit;
-    letter-spacing: inherit;
-    background: transparent;
-    border: 0;
-    text-align: left;
-  }
-
   // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9558
   .no-visible-focus {
     &,

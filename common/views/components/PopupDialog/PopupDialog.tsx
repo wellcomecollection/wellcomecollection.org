@@ -38,7 +38,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: `${font('intb', 5)} plain-button`,
+  className: font('intb', 5),
 }))<PopupDialogOpenProps>`
   line-height: 1;
   display: inline-flex;
