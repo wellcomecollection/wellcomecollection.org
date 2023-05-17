@@ -49,6 +49,44 @@ const TypographyScale = ({ fontFamily }) => {
   return <Table caption={null} hasRowHeaders={false} rows={rowsWithHeadings} />;
 };
 
+const TypographyScaleSimple = () => {
+  const transpose = matrix => {
+    const [row] = matrix;
+    return row.map((_, column) => matrix.map(row => row[column]));
+  };
+
+  const cols = Object.entries(fontSizesAtBreakpoints)
+    .map(entry => {
+      const value = entry[1];
+      return Object.entries(value).map((e, index) => {
+        const v = e[1];
+
+        return (
+          <span key={index}>
+            {v * 16} / {+(v * 16 * 1.5).toFixed(2)}
+          </span>
+        );
+      });
+    })
+    .reverse();
+
+  const rows = transpose(cols);
+  const rowsWithScaleNumbers = rows.map((row, index) => {
+    return [<span key={index}>{index}</span>, ...row];
+  });
+  const firstRow = [['Font size unit', 'BP Large', 'BP Medium', 'BP Small']];
+  const rowsWithHeadings = firstRow.concat(rowsWithScaleNumbers);
+
+  return (
+    <Table
+      caption={null}
+      hasRowHeaders={false}
+      rows={rowsWithHeadings}
+      plain={true}
+    />
+  );
+};
+
 const sizes = [0, 1, 2, 3, 4, 5, 6];
 const fontFamilies = ['intr', 'intb', 'wb', 'lr'];
 
@@ -89,6 +127,9 @@ export const scale = ScaleTemplate.bind({});
 scale.args = {
   fontFamily: 'Wellcome Bold Web',
 };
+
+const scaleTemplateSimple = () => <TypographyScaleSimple />;
+export const scaleSimple = scaleTemplateSimple.bind({});
 
 const MiscTemplate = () => (
   <div className="spaced-text">
