@@ -1,10 +1,10 @@
-import { Card as CardType } from '../../types/card';
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+import { Card as CardType } from '@weco/content/types/card';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
-import { FunctionComponent } from 'react';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { getCrop } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -20,7 +20,7 @@ type Props = {
 
 export const CardOuter = styled.a.attrs({
   'data-gtm-trigger': 'card_link',
-  className: 'plain-link promo-link',
+  className: 'promo-link',
 })`
   display: block; // IE
 
@@ -35,6 +35,13 @@ export const CardOuter = styled.a.attrs({
   background: ${props => props.theme.color('warmNeutral.300')};
   min-height: ${props => props.theme.minCardHeight}px;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
+
+  &,
+  &:link,
+  &:visited {
+    text-decoration: none;
+    border: none;
+  }
 
   .card-theme.card-theme--white & {
     background: ${props => props.theme.color('white')};
