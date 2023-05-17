@@ -9,14 +9,16 @@ import {
 
 export type RotatedImage = { canvasParam: number; rotation: number };
 
+export type Query = {
+  pageParam: number;
+  canvasParam: number;
+  manifestParam: number;
+  shouldScrollToCanvas: boolean;
+};
+
 type Props = {
   // DATA props:
-  query: {
-    pageParam: number;
-    canvasParam: number;
-    manifestParam: number;
-    shouldScrollToCanvas: boolean;
-  };
+  query: Query;
   work: Work;
   transformedManifest: TransformedManifest;
   parentManifest: Manifest | undefined;

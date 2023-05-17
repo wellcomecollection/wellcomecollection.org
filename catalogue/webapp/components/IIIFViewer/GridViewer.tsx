@@ -53,12 +53,7 @@ type CellProps = {
     setGridVisible: (value: boolean) => void;
     canvases: TransformedCanvas[];
     searchResults: SearchResults;
-    query: {
-      pageParam: number;
-      manifestParam: number;
-      canvasParam: number;
-      shouldScrollToCanvas: boolean;
-    };
+    query: Query;
     workId: string;
   };
 };
