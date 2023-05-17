@@ -1,5 +1,4 @@
-import { useContext, FunctionComponent, RefObject } from 'react';
-import { FixedSizeList } from 'react-window';
+import { useContext, FunctionComponent } from 'react';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -9,6 +8,9 @@ import {
   groupStructures,
 } from '../../utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
+import NextLink from 'next/link';
+import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const List = styled(PlainList)`
   border-left: 1px solid ${props => props.theme.color('neutral.600')};
@@ -44,8 +46,12 @@ const Item = styled(Space).attrs({
 `;
 
 const ViewerStructuresPrototype: FunctionComponent = () => {
-  const { transformedManifest, setIsMobileSidebarActive } =
-    useContext(ItemViewerContext);
+  const {
+    transformedManifest,
+    setIsMobileSidebarActive,
+    canvasParam,
+    manifestParam,
+  } = useContext(ItemViewerContext);
   const { structures, canvases } = transformedManifest;
   const groupedStructures = groupStructures(canvases, structures);
 
@@ -62,20 +68,22 @@ const ViewerStructuresPrototype: FunctionComponent = () => {
         );
 
         return (
-          <Item key={i} isActive={activeIndex === canvasIndex}>
-            <button
-              data-gtm-trigger="contents_nav"
-              type="button"
+          <Item key={i} isActive={true}>
+            <NextLink
+              {...itemLink(
+                {
+                  manifest: manifestParam,
+                  canvas: arrayIndexToQueryParam(canvasIndex),
+                },
+                'contents_nav'
+              )}
+              aria-current={canvasParam === arrayIndexToQueryParam(canvasIndex)}
               onClick={() => {
-                mainViewerRef &&
-                  mainViewerRef.current &&
-                  mainViewerRef.current.scrollToItem(canvasIndex, 'start');
-                setActiveIndex(canvasIndex);
                 setIsMobileSidebarActive(false);
               }}
             >
               {getEnFromInternationalString(structure.label)}
-            </button>
+            </NextLink>
           </Item>
         );
       })}
