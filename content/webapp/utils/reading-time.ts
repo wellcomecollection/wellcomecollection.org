@@ -23,7 +23,10 @@ function allArticleText(genericBody: BodySlice[]) {
 
 export function calculateReadingTime(body: BodySlice[]): string {
   const articleText = allArticleText(body);
-  return Math.ceil(readingTime(articleText).minutes) + ' minutes';
+
+  const minutes = Math.ceil(readingTime(articleText).minutes);
+
+  return `${minutes} minute${minutes > 1 ? 's' : ''}`;
 }
 
 export function showReadingTime(
