@@ -25,7 +25,7 @@ import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { transformContributors } from './contributors';
 import { noAltTextBecausePromo } from './images';
 import { MultiContentPrismicDocument } from '../types/multi-content';
-import { calculateReadingTime, showReadingTime } from 'utils/reading-time';
+import { calculateReadingTime, showReadingTime } from '@weco/content/utils/reading-time';
 
 function transformContentLink(document?: LinkField): MultiContent | undefined {
   if (!document) {
