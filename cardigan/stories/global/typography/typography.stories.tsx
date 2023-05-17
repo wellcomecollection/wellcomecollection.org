@@ -128,7 +128,7 @@ scale.args = {
   fontFamily: 'Wellcome Bold Web',
 };
 
-const scaleTemplateSimple = args => <TypographyScaleSimple {...args} />;
+const scaleTemplateSimple = () => <TypographyScaleSimple />;
 export const scaleSimple = scaleTemplateSimple.bind({});
 
 const MiscTemplate = () => (
