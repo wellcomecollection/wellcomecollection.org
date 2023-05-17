@@ -6,7 +6,6 @@ import {
   TransformedManifest,
   createDefaultTransformedManifest,
 } from '../../types/manifest';
-import { UrlTemplate } from 'url-template';
 
 export type RotatedImage = { canvasParam: number; rotation: number };
 
@@ -45,8 +44,6 @@ type Props = {
   setRotatedImages: (v: RotatedImage[]) => void;
   isResizing: boolean;
   errorHandler?: () => void;
-
-  urlTemplate?: UrlTemplate;
 };
 
 export const results = {
@@ -128,8 +125,5 @@ const ItemViewerContext = createContext<Props>({
   setRotatedImages: () => undefined,
   isResizing: false,
   errorHandler: () => undefined,
-
-  // TODO move to correct section / remove?
-  urlTemplate: undefined,
 });
 export default ItemViewerContext;

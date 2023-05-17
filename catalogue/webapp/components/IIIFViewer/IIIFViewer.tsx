@@ -219,7 +219,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false); // don't show sidebar by default on mobile
   const [showZoomed, setShowZoomed] = useState(false);
   const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
-  const [showControls, setShowControls] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
@@ -228,12 +227,15 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
-  const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
+  const hasIiifImage = imageUrl && iiifImageLocation;
   const currentCanvas =
     transformedManifest.canvases[queryParamToArrayIndex(canvasParam)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const hasImageService = mainImageService['@id'] && currentCanvas;
   const { parentManifestUrl } = transformedManifest;
+  const [showControls, setShowControls] = useState(
+    Boolean(hasIiifImage && !hasImageService)
+  );
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -288,7 +290,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         showControls,
         isFullscreen,
         isDesktopSidebarActive,
-        urlTemplate,
         isMobileSidebarActive,
         searchResults,
         isResizing,
