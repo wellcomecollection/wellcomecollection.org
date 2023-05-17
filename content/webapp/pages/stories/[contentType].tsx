@@ -76,10 +76,12 @@ export const getServerSideProps: GetServerSideProps<
   const seriesQuery = await fetchSeries(client, {
     filters: prismic.filter.at('my.series.format', contentTypeInfo.id),
     page,
-    orderings: {
-      field: 'document.first_publication_date',
-      direction: 'desc',
-    },
+    orderings: [
+      {
+        field: 'document.first_publication_date',
+        direction: 'desc',
+      },
+    ],
   });
   const series = transformQuery(seriesQuery, transformSeries);
   const basicSeries = {

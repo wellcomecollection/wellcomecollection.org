@@ -127,21 +127,21 @@ export const getServerSideProps: GetServerSideProps<
     filters: [prismic.filter.at('my.articles.seasons.season', seasonId)],
   });
   const eventsQueryPromise = fetchEvents(client, {
-    filters: [`[at(my.events.seasons.season, "${seasonId}")]`],
-    orderings: ['my.events.times.startDateTime'],
+    filters: [prismic.filter.at('my.events.seasons.season', seasonId)],
+    orderings: [{ field: 'my.events.times.startDateTime', direction: 'desc' }],
   });
   const exhibitionsQueryPromise = fetchExhibitions(client, {
-    filters: [`[at(my.exhibitions.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.exhibitions.seasons.season', seasonId)],
     order: 'desc',
   });
   const pagesQueryPromise = fetchPages(client, {
-    filters: [`[at(my.pages.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.pages.seasons.season', seasonId)],
   });
   const projectsQueryPromise = fetchProjects(client, {
-    filters: [`[at(my.projects.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.projects.seasons.season', seasonId)],
   });
   const seriesQueryPromise = fetchSeries(client, {
-    filters: [`[at(my.series.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.series.seasons.season', seasonId)],
   });
 
   const seasonDocPromise = fetchSeason(client, seasonId);
