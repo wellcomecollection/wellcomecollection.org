@@ -34,6 +34,8 @@ import { fromQuery } from '@weco/catalogue/components/ItemLink';
 // so we need to convert it in various places
 export function queryParamToArrayIndex(canvasParam: number): number {
   return canvasParam - 1;
+}
+
 export function arrayIndexToQueryParam(canvasIndex: number): number {
   return canvasIndex + 1;
 }
