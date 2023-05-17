@@ -15,7 +15,9 @@ import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 import { SearchResults } from '../../services/iiif/types/search/v3';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext, {
+  Query,
+} from '../ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { TransformedCanvas } from '../../types/manifest';
 import NextLink from 'next/link';
