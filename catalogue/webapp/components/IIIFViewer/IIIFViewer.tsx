@@ -343,7 +343,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           </Main>
           {showZoomed && (
             <Zoom>
-              <ZoomedImage />
+              <ZoomedImage iiifImageLocation={iiifImageLocation} />
             </Zoom>
           )}
           <BottomBar isMobileSidebarActive={isMobileSidebarActive}>

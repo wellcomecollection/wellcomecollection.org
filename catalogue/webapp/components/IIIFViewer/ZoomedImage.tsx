@@ -8,6 +8,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
+import { DigitalLocation } from '@weco/common/model/catalogue';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -41,7 +42,13 @@ const ErrorMessage = () => (
   </div>
 );
 
-const ZoomedImage: FunctionComponent = () => {
+type Props = {
+  iiifImageLocation: DigitalLocation | undefined;
+};
+
+const ZoomedImage: FunctionComponent<Props> = ({
+  iiifImageLocation,
+}: Props) => {
   const { transformedManifest, query, setShowZoomed } =
     useContext(ItemViewerContext);
   const currentCanvas =
@@ -49,7 +56,9 @@ const ZoomedImage: FunctionComponent = () => {
   const mainImageService = {
     '@id': currentCanvas?.imageServiceId || '',
   };
-  const zoomInfoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
+  const zoomInfoUrl = iiifImageLocation
+    ? iiifImageLocation.url
+    : convertIiifUriToInfoUri(mainImageService['@id']);
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
   const zoomStep = 0.5;
