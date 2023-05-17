@@ -85,19 +85,6 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9561
-  .promo-link {
-    height: 100%;
-    color: ${props => props.theme.color('black')};
-
-    &:hover .promo-link__title,
-    &:focus .promo-link__title {
-      text-decoration: underline;
-      text-decoration-color: ${props => props.theme.color('black')};
-    }
-  }
-  .promo-link__title {
-    transition: color 400ms ease;
-  }
   .card-link {
     text-decoration: none;
 
