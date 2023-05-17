@@ -4812,15 +4812,15 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.7.tgz#ccab5c8f7dc557a52ca3288c10075c9ccd37fff7"
   integrity sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==
 
-"@prismicio/client@^6.7.3":
-  version "6.7.3"
-  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-6.7.3.tgz#a9744f523507334de86c6bad98417b3dd4f4b6d2"
-  integrity sha512-zQVZhuQDYIgdaY636u+QNk2tvvbtpkaKsEiLT0Ef51nFW/y5fqpOG5U0eU3cVsikZaYNlZ17x6O1wmvVCLdimQ==
+"@prismicio/client@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.0.0.tgz#04897bacb8521b8464d1d1e4eb7ca6bfa9b876cc"
+  integrity sha512-T/V2F3zaFvWYt+ITd/casc2F7qik5xuxTABE0NTcGJqsxeX8l/ivv0N9qiY3dsxFrh7qYMlC7gytdUeclmuA+Q==
   dependencies:
-    "@prismicio/helpers" "^2.3.8"
-    "@prismicio/types" "^0.2.7"
+    "@prismicio/richtext" "^2.1.4"
+    imgix-url-builder "^0.0.3"
 
-"@prismicio/helpers@^2.3.8", "@prismicio/helpers@^2.3.9":
+"@prismicio/helpers@^2.3.8":
   version "2.3.9"
   resolved "https://registry.yarnpkg.com/@prismicio/helpers/-/helpers-2.3.9.tgz#dd2513a429644ed2d7a6fbc8955de6b2e9659fc0"
   integrity sha512-p7Y1sG83A2YPZvptfAzuZA8xH1bdM2wGRjqSKW9Qa0rAnBq2OfVKRvwl9OMCZML4eLUMxSEUAEWRVSoKpQnJvA==
