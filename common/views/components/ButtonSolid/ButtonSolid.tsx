@@ -34,7 +34,6 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   text-align: center;
   transition: background ${props => props.theme.transitionProperties},
     border-color ${props => props.theme.transitionProperties};
-  border: 0;
   white-space: nowrap;
   cursor: pointer;
 

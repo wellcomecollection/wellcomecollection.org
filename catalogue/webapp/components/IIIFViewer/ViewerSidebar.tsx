@@ -76,9 +76,7 @@ const Item = styled.div`
   }
 `;
 
-const AccordionButton = styled.button.attrs({
-  className: 'plain-button',
-})`
+const AccordionButton = styled.button`
   padding: 0;
 
   h2 {

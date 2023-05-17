@@ -42,7 +42,7 @@ export const TabsContainer = styled.div`
 `;
 
 export const Tab = styled.button.attrs({
-  className: `plain-button ${font('intb', 5)}`,
+  className: font('intb', 5),
 })`
   margin: 0;
   padding: 0 1.5rem 0 0;

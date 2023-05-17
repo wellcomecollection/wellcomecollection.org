@@ -37,7 +37,6 @@ const AudioPlayerWrapper = styled.figure`
 `;
 
 const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
-  className: 'plain-button',
   ariaPressed: props.isPlaying,
 }))<{ isPlaying: boolean }>`
   padding: 0;
@@ -58,7 +57,6 @@ const PlayPauseInner = styled.div`
 `;
 
 const MuteUnmuteButton = styled.button.attrs<{ isMuted: boolean }>(props => ({
-  className: 'plain-button',
   ariaPressed: props.isMuted,
 }))`
   padding: 0;

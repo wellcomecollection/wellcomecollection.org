@@ -29,7 +29,7 @@ const IconContainer = styled.div<IconContainerProps>`
 `;
 
 const Control = styled.button.attrs({
-  className: `plain-button ${font('intb', 5)}`,
+  className: font('intb', 5),
 })`
   display: flex;
   align-items: center;

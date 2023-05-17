@@ -6,6 +6,15 @@ button {
   border-radius: 0;
 }
 
+button {
+  appearance: none;
+  font-family: inherit;
+  letter-spacing: inherit;
+  background: transparent;
+  border: 0;
+  text-align: left;
+}
+
 fieldset {
   border: 0;
   margin: 0;

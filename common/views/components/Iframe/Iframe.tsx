@@ -81,7 +81,7 @@ export const IframeContainer = styled.div.attrs({
 `;
 
 const ButtonWrapper = styled.span.attrs({
-  className: 'trigger plain-button no-visible-focus',
+  className: 'trigger no-visible-focus',
 })`
   padding: 0;
 `;

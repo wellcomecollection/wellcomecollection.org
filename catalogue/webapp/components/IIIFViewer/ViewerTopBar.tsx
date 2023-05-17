@@ -28,7 +28,6 @@ export const ShameButton = styled.button.attrs({
   text-decoration: none;
   text-align: center;
   transition: all ${props => props.theme.transitionProperties};
-  border: 0;
   white-space: nowrap;
   padding: 6px 12px;
   position: relative;

@@ -30,9 +30,7 @@ type TaslButtonProps = {
   positionAtTop: boolean;
 };
 
-const TaslButton = styled.button.attrs({
-  className: 'plain-button',
-})<TaslButtonProps>`
+const TaslButton = styled.button<TaslButtonProps>`
   position: absolute;
   right: 0;
   top: ${props => (props.positionAtTop ? '2px' : 'auto')};

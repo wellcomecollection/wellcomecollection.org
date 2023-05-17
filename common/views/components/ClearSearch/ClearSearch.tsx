@@ -4,9 +4,7 @@ import Icon from '../Icon/Icon';
 import { clear } from '@weco/common/icons';
 import styled from 'styled-components';
 
-const Button = styled.button.attrs({
-  className: 'plain-button',
-})`
+const Button = styled.button`
   position: absolute;
   line-height: 1;
   top: 50%;

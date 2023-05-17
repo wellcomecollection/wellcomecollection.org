@@ -145,9 +145,7 @@ const MobileControlsModal = styled(Space).attrs({
   bottom: 0;
 `;
 
-const Button = styled.button.attrs({
-  className: 'plain-button',
-})<{ isActive: boolean }>`
+const Button = styled.button<{ isActive: boolean }>`
   padding: 0;
   width: 100%;
 

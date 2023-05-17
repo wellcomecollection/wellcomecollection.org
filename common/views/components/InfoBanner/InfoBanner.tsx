@@ -42,9 +42,7 @@ const Copy = styled(Space).attrs({
   align-self: center;
 `;
 
-const CloseButton = styled.button.attrs({
-  className: 'plain-button',
-})`
+const CloseButton = styled.button`
   margin: 0;
   padding: 0;
   cursor: pointer;
