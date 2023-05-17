@@ -370,7 +370,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const work = await getWork({
       id: workId,
       toggles: serverData.toggles,
-      include: ['items', 'languages', 'contributors'],
+      include: ['items', 'languages', 'contributors', 'production'],
     });
 
     if (work.type === 'Error') {
