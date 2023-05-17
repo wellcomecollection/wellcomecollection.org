@@ -374,13 +374,17 @@ export function getClickThroughService(
   ) as AuthClickThroughServiceWithPossibleServiceArray | undefined;
 }
 
-const restrictedAuthServiceUrl =
-  'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+const restrictedAuthServiceUrls = [
+  'https://iiif.wellcomecollection.org/auth/restrictedlogin',
+  'https://iiif-test.wellcomecollection.org/auth/restrictedlogin',
+];
 
 function isImageRestricted(canvas: Canvas): boolean {
   const imageService = getImageService(canvas);
   const imageAuthCookieService = getImageAuthCookieService(imageService);
-  return imageAuthCookieService?.['@id'] === restrictedAuthServiceUrl;
+  return restrictedAuthServiceUrls.some(
+    url => imageAuthCookieService?.['@id'] === url
+  );
 }
 
 export function getRestrictedLoginService(
@@ -388,7 +392,7 @@ export function getRestrictedLoginService(
 ): AuthExternalService | undefined {
   return manifest.services?.find(service => {
     const typedService = service as AuthExternalService;
-    return typedService['@id'] === restrictedAuthServiceUrl;
+    return restrictedAuthServiceUrls.some(url => typedService['@id'] === url);
   }) as AuthExternalService;
 }
 
