@@ -1,11 +1,12 @@
+import styled from 'styled-components';
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import TextWithDot from '@weco/common/views/components/TextWithDot';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import { EventBasic } from '../../types/events';
-import { upcomingDatesFullyBooked } from '../../services/prismic/events';
+import { EventBasic } from '@weco/content/types/events';
+import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   CardOuter,
@@ -13,16 +14,16 @@ import {
   CardPostBody,
   CardLabels,
   CardImageWrapper,
+  CardTitle,
 } from '../Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { location } from '@weco/common/icons';
-import { PlaceBasic } from '../../types/places';
+import { PlaceBasic } from '@weco/content/types/places';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import styled from 'styled-components';
 
 type Props = {
   event: EventBasic;
@@ -122,16 +123,7 @@ const EventPromo: FunctionComponent<Props> = ({
 
       <CardBody>
         <div>
-          <Space
-            v={{
-              size: 's',
-              properties: ['margin-bottom'],
-            }}
-            as="h2"
-            className={`promo-link__title ${font('wb', 3)}`}
-          >
-            {event.title}
-          </Space>
+          <CardTitle>{event.title}</CardTitle>
 
           {(event.isOnline || event.locations.length > 0) && (
             <LocationWrapper>

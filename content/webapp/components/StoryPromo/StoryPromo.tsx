@@ -1,24 +1,24 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import Space from '@weco/common/views/components/styled/Space';
 import {
   CardOuter,
   CardBody,
   CardPostBody,
   CardLabels,
   CardImageWrapper,
+  CardTitle,
 } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import {
   ArticleBasic,
   getArticleColor,
   getPartNumberInSeries,
-} from '../../types/articles';
+} from '@weco/content/types/articles';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import styled from 'styled-components';
 
 const Caption = styled.p.attrs({
   className: font('intr', 5),
@@ -99,16 +99,7 @@ const StoryPromo: FunctionComponent<Props> = ({
               backgroundColor={seriesColor}
             />
           )}
-          <Space
-            v={{
-              size: 's',
-              properties: ['margin-bottom'],
-            }}
-            as="h2"
-            className={`promo-link__title ${font('wb', 3)}`}
-          >
-            {article.title}
-          </Space>
+          <CardTitle>{article.title}</CardTitle>
           {!hidePromoText && isNotUndefined(article.promo?.caption) && (
             <Caption>{article.promo?.caption}</Caption>
           )}

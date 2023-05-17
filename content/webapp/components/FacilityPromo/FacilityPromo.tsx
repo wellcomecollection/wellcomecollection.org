@@ -65,7 +65,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
 
         <CardBody>
           <div>
-            <h2 className={`promo-link__title ${font('wb', 4)}`}>{title}</h2>
+            <h2 className={font('wb', 4)}>{title}</h2>
             <Description>{description}</Description>
 
             {metaText && (

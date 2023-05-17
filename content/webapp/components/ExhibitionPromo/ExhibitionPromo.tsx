@@ -1,20 +1,21 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   CardOuter,
   CardBody,
   CardLabels,
   CardImageWrapper,
+  CardTitle,
 } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { ExhibitionBasic } from '../../types/exhibitions';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
-import styled from 'styled-components';
 
 const DateWrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -78,15 +79,7 @@ const ExhibitionPromo: FunctionComponent<Props> = ({
 
       <CardBody>
         <div>
-          <Space
-            v={{
-              size: 's',
-              properties: ['margin-bottom'],
-            }}
-            className={`promo-link__title ${font('wb', 3)}`}
-          >
-            {exhibition.title}
-          </Space>
+          <CardTitle>{exhibition.title}</CardTitle>
 
           {!statusOverride && !isPermanent && start && end && (
             <DateWrapper as="p">

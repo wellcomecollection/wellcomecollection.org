@@ -1,9 +1,9 @@
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { FunctionComponent } from 'react';
-import { Season } from '../../types/seasons';
-import styled from 'styled-components';
+import { Season } from '@weco/content/types/seasons';
 import Space from '@weco/common/views/components/styled/Space';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -12,6 +12,7 @@ import { arrowSmall } from '@weco/common/icons';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { getCrop } from '@weco/common/model/image';
 import { themeValues } from '@weco/common/views/themes/config';
+import { CardTitle } from '@weco/content/components/Card/Card';
 
 type CardOuterProps = {
   background: 'neutral.700' | 'warmNeutral.300';
@@ -148,16 +149,12 @@ const BannerCard: FunctionComponent<Props> = ({
             defaultLabelColor="accent.salmon"
           />
         )}
-        <Space
-          v={{
-            size: 'm',
-            properties: ['margin-top', 'margin-bottom'],
-          }}
-          as="h2"
-          className={`promo-link__title ${font('wb', 2)}`}
+        <CardTitle
+          v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+          className={font('wb', 2)}
         >
           {title}
-        </Space>
+        </CardTitle>
         {start && end && (
           <DateRangeWrapper>
             <DateRange start={start} end={end} />
