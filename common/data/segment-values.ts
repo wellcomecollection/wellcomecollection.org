@@ -44,7 +44,8 @@ export type ImagesLinkSource =
   | 'concept/images_by'
   | 'concept/images_in'
   | 'images_search_context'
-  | 'work_details/images';
+  | 'work_details/images'
+  | 'unknown';
 
 export type ItemLinkSource =
   | 'work'
