@@ -3,7 +3,7 @@ import {
   RichTextField,
   NumberField,
   LinkField,
-  RelationField,
+  ContentRelationshipField,
 } from '@prismicio/types';
 import {
   Image,
@@ -25,13 +25,17 @@ const typeEnum = 'card';
 
 export type WithCardFormat = {
   format:
-    | RelationField<
+    | ContentRelationshipField<
         'article-formats',
         'en-gb',
         InferDataInterface<ArticleFormat>
       >
-    | RelationField<'event-formats', 'en-gb', InferDataInterface<EventFormat>>
-    | RelationField<'labels', 'en-gb', InferDataInterface<Label>>;
+    | ContentRelationshipField<
+        'event-formats',
+        'en-gb',
+        InferDataInterface<EventFormat>
+      >
+    | ContentRelationshipField<'labels', 'en-gb', InferDataInterface<Label>>;
 };
 
 export type CardPrismicDocument = PrismicDocument<

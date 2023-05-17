@@ -1,7 +1,7 @@
 import {
   PrismicDocument,
   RichTextField,
-  RelationField,
+  ContentRelationshipField,
   GroupField,
   NumberField,
   LinkToMediaField,
@@ -29,7 +29,7 @@ export type ExhibitionGuideComponentPrismicDocument = {
 export type ExhibitionGuidePrismicDocument = PrismicDocument<{
   title: RichTextField;
   introText: RichTextField;
-  'related-exhibition': RelationField<
+  'related-exhibition': ContentRelationshipField<
     'exhibitions',
     'en-gb',
     InferDataInterface<ExhibitionPrismicDocument>

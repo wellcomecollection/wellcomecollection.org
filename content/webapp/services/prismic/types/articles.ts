@@ -4,7 +4,7 @@ import {
   TimestampField,
   PrismicDocument,
   GroupField,
-  RelationField,
+  ContentRelationshipField,
 } from '@prismicio/types';
 import { SeriesPrismicDocument } from './series';
 import {
@@ -19,7 +19,7 @@ import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 type WithSeries = {
   series: GroupField<{
-    series: RelationField<
+    series: ContentRelationshipField<
       'series',
       'en-gb',
       InferDataInterface<SeriesPrismicDocument>

@@ -10,7 +10,7 @@ import {
   ImageField,
   GeoPointField,
   EmbedField,
-  RelationField,
+  ContentRelationshipField,
 } from '@prismicio/types';
 import { isUndefined } from '@weco/common/utils/type-guards';
 import { Image } from '.';
@@ -98,7 +98,7 @@ export type Map = Slice<
 export type CollectionVenue = Slice<
   'collectionVenue',
   {
-    content: RelationField<'collection-venue'>;
+    content: ContentRelationshipField<'collection-venue'>;
     showClosingTimes: SelectField<'yes'>;
   }
 >;
@@ -106,7 +106,7 @@ export type CollectionVenue = Slice<
 export type Contact = Slice<
   'contact',
   {
-    content: RelationField<
+    content: ContentRelationshipField<
       'teams',
       'en-us',
       InferDataInterface<Partial<TeamPrismicDocument>>
@@ -158,7 +158,7 @@ export type TitledTextList = Slice<
     title: RichTextField;
     text: RichTextField;
     link: LinkField;
-    label: RelationField<'labels'>;
+    label: ContentRelationshipField<'labels'>;
   }
 >;
 
@@ -166,7 +166,7 @@ export type ContentList = Slice<
   'contentList',
   { title: RichTextField },
   {
-    content: RelationField<
+    content: ContentRelationshipField<
       | 'pages'
       | 'event-series'
       | 'books'
