@@ -4,6 +4,7 @@ import { asText } from '@weco/content/services/prismic/transformers';
 import { BodySlice } from '@weco/content/types/body';
 import { Format } from '@weco/content/types/format';
 import { Label } from '@weco/common/model/labels';
+import { pluralize } from '@weco/common/utils/grammar';
 
 // Calculating the full reading time of the article by getting all article text
 function allArticleText(genericBody: BodySlice[]) {
@@ -26,7 +27,7 @@ export function calculateReadingTime(body: BodySlice[]): string {
 
   const minutes = Math.ceil(readingTime(articleText).minutes);
 
-  return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+  return pluralize(minutes, 'minute');
 }
 
 export function showReadingTime(
