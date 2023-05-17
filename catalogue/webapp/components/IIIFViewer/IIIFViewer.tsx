@@ -198,11 +198,9 @@ const Thumbnails = styled.div<{
 
 const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   work,
-  image,
   iiifImageLocation,
   transformedManifest,
   canvasOcr,
-  iiifImageLocation,
   handleImageError,
 }: IIIFViewerProps) => {
   const router = useRouter();
@@ -250,20 +248,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setIsResizing(true);
       }
 
-      // timer = setTimeout(() => {
-      // If we've changed index as a result of the
-      // mainArea changing size, reset it to what
-      // it was before and scroll to the right place.
-      // if () {
-      //   canvases &&
-      //     scrollViewer();
-      // }
-      //   previousActiveIndex = undefined;
-      //   setIsResizing(false);
-      // }, 500); // Debounce
-
-      setMainAreaWidth(mainArea.contentRect.width);
-      setMainAreaHeight(mainArea.contentRect.height);
+      timer = setTimeout(() => {
+        setIsResizing(false);
+        setMainAreaWidth(mainArea.contentRect.width);
+        setMainAreaHeight(mainArea.contentRect.height);
+      }, 500); // Debounce
     });
 
     mainAreaRef?.current && mainAreaObserver.observe(mainAreaRef.current);
