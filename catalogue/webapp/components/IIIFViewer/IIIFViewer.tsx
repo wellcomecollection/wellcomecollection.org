@@ -40,14 +40,11 @@ export function arrayIndexToQueryParam(canvasIndex: number): number {
 }
 
 type IIIFViewerProps = {
-  title: string;
-  currentCanvas?: TransformedCanvas;
-  iiifImageLocation: DigitalLocation | undefined;
-  canvasOcr?: string;
   work: Work;
   image?: Image;
   iiifImageLocation?: DigitalLocation;
   transformedManifest: TransformedManifest;
+  canvasOcr?: string; // TODO move to context? // or move down tree - if we only do this client side anyway
   handleImageError?: () => void;
 };
 
@@ -201,7 +198,6 @@ const Thumbnails = styled.div<{
 `;
 
 const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
-  currentCanvas,
   work,
   image,
   iiifImageLocation,

@@ -315,11 +315,9 @@ const ItemPage: NextPage<Props> = ({
       {showViewer &&
         ((mainImageService && currentCanvas) || iiifImageLocation) && (
           <IIIFViewer
-            title={displayTitle}
-            currentCanvas={currentCanvas}
-            canvasOcr={canvasOcr}
             work={work}
             transformedManifest={transformedManifest}
+            canvasOcr={canvasOcr}
             iiifImageLocation={iiifImageLocation}
             handleImageError={() => {
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
