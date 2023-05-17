@@ -61,11 +61,11 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       text: 'Relevance',
     },
     {
-      value: 'publication.dates.asc',
+      value: 'publicationDate.asc',
       text: 'Oldest to newest',
     },
     {
-      value: 'publication.dates.desc',
+      value: 'publicationDate.desc',
       text: 'Newest to oldest',
     },
   ];
@@ -96,8 +96,8 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                           text: 'Relevance',
                         },
                         {
-                          value: 'publication.dates',
-                          text: 'Publication dates',
+                          value: 'publicationDate',
+                          text: 'Publication date',
                         },
                       ],
                       sortOrder: [
