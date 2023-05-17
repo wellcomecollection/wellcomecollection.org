@@ -65,8 +65,10 @@ const ViewerStructuresPrototype: FunctionComponent = () => {
           0;
 
         return (
-          // TODO
-          <Item key={i} isActive={false}>
+          <Item
+            key={i}
+            isActive={canvasParam === arrayIndexToQueryParam(canvasIndex)}
+          >
             <NextLink
               {...itemLink(
                 {
