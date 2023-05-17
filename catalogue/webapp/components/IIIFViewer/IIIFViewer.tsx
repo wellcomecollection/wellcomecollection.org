@@ -133,7 +133,6 @@ const Topbar = styled.div<{
 `;
 
 const Main = styled.div<{
-  isResizing: boolean;
   isDesktopSidebarActive: boolean;
 }>`
   background: ${props => props.theme.color('black')};
@@ -143,7 +142,6 @@ const Main = styled.div<{
 
   img {
     transition: filter ${props => props.theme.transitionProperties};
-    filter: blur(${props => (props.isResizing ? '5px' : '0')});
   }
 
   grid-area: desktop-main-start / left-edge / mobile-main-end / right-edge;
@@ -339,7 +337,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           </Topbar>
           <Main
             isDesktopSidebarActive={isDesktopSidebarActive}
-            isResizing={isResizing}
             ref={mainAreaRef}
           >
             {!showZoomed && <ImageViewerControls />}
