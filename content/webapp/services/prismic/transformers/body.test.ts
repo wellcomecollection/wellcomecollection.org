@@ -1,5 +1,5 @@
 import { Embed, MediaObjectList as MediaObjectListSlice } from '../types/body';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { transformBody } from './body';
 
 export const sameAs = [
@@ -17,7 +17,7 @@ describe('media object list slices', () => {
       {
         title: [
           {
-            type: prismicT.RichTextNodeType.oListItem,
+            type: prismic.RichTextNodeType.oListItem,
             text: 'Only book for your household or bubble',
             spans: [],
           },
@@ -66,7 +66,7 @@ describe('transformBody', () => {
           title: 'Monstrous Births in the Middle Ages',
           author_name: 'Wellcome Collection',
           author_url: 'https://www.youtube.com/user/WellcomeCollection',
-          type: prismicT.OEmbedType.Rich,
+          type: prismic.OEmbedType.Rich,
           height: 113,
           width: 200,
           version: '1.0',
@@ -108,7 +108,7 @@ describe('transformBody', () => {
           title: 'Experiencing Ear Trumpets in the Enlightenment',
           author_name: 'Wellcome Collection',
           author_url: 'https://www.youtube.com/user/WellcomeCollection',
-          type: prismicT.OEmbedType.Rich,
+          type: prismic.OEmbedType.Rich,
           height: 113,
           width: 200,
           version: '1.0',

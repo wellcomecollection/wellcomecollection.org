@@ -5,7 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { LabelField } from '@weco/common/model/label-field';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 const HeadingLink = styled.a.attrs({
   className: font('intb', 4),
@@ -34,7 +34,7 @@ export type Props = {
   items: {
     title?: string;
     link?: string;
-    text?: prismicT.RichTextField;
+    text?: prismic.RichTextField;
     label?: LabelField;
   }[];
 };

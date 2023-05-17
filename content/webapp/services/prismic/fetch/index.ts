@@ -1,4 +1,4 @@
-import { Query, PrismicDocument } from '@prismicio/types';
+import { Query, PrismicDocument } from '@prismicio/client';
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';

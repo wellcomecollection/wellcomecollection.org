@@ -4,7 +4,7 @@ import {
   NumberField,
   LinkField,
   ContentRelationshipField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import {
   Image,
   CommonPrismicFields,

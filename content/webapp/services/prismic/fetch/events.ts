@@ -8,7 +8,7 @@ import {
   interpretationTypeFetchLinks,
   teamFetchLinks,
 } from '../types/events';
-import { Query } from '@prismicio/types';
+import { Query } from '@prismicio/client';
 import { getEventPredicates } from '../types/predicates';
 import * as prismic from '@prismicio/client';
 import { EventBasic } from '../../../types/events';

@@ -1,4 +1,4 @@
-import { Query, RichTextField } from '@prismicio/types';
+import { Query, RichTextField } from '@prismicio/client';
 import {
   CollectionVenuePrismicDocument,
   PopupDialogPrismicDocument,

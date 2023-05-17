@@ -1,5 +1,5 @@
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
-import { EmptyImageFieldImage, FilledImageFieldImage } from '@prismicio/types';
+import { EmptyImageFieldImage, FilledImageFieldImage } from '@prismicio/client';
 
 export type ContentApiProps = {
   query?: string;

@@ -6,8 +6,7 @@ import {
   isFilledLinkToMediaField,
   isFilledLinkToWebField,
 } from '../types';
-import * as prismicH from '@prismicio/helpers';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 export function transformTaslFromString(pipedString: string | null): Tasl {
   if (pipedString === null) {
@@ -55,7 +54,7 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
 }
 
 export function transformLink(
-  link?: prismicT.LinkField<string, string, any>
+  link?: prismic.LinkField<string, string, any>
 ): string | undefined {
   if (link) {
     if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
@@ -76,7 +75,7 @@ export function transformLink(
  *
  */
 export function transformTimestamp(
-  field: prismicT.TimestampField
+  field: prismic.TimestampField
 ): Date | undefined {
-  return prismicH.asDate(field) || undefined;
+  return prismic.asDate(field) || undefined;
 }

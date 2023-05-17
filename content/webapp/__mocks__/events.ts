@@ -1,6 +1,6 @@
 import { Event } from '../types/events';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 const image = {
   contentUrl:
@@ -23,7 +23,7 @@ export const location = {
       text: 'We’ll be in the Reading Room on level 2. You can walk up the spiral staircase to the Reading Room door, or take the lift up and then head left from the Library Desk.',
       spans: [],
     },
-  ] as prismicT.RichTextField,
+  ] as prismic.RichTextField,
 };
 
 const baseEvent: Event = {

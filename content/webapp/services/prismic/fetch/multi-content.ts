@@ -3,7 +3,7 @@ import {
   delistPredicate,
   fetchFromClientSide,
 } from '.';
-import { Query } from '@prismicio/types';
+import { Query } from '@prismicio/client';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   MultiContentPrismicDocument,

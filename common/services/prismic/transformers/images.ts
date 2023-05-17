@@ -1,4 +1,4 @@
-import { EmptyImageFieldImage, FilledImageFieldImage } from '@prismicio/types';
+import { EmptyImageFieldImage, FilledImageFieldImage } from '@prismicio/client';
 import { ImageType } from '../../../model/image';
 import { isUndefined } from '@weco/common/utils/type-guards';
 import { transformTaslFromString } from '.';

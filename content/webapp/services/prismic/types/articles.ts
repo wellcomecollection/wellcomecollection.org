@@ -5,7 +5,7 @@ import {
   PrismicDocument,
   GroupField,
   ContentRelationshipField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { SeriesPrismicDocument } from './series';
 import {
   CommonPrismicFields,

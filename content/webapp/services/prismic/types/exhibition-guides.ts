@@ -6,7 +6,7 @@ import {
   NumberField,
   LinkToMediaField,
   EmbedField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { Image } from '.';
 import { ExhibitionPrismicDocument } from './exhibitions';

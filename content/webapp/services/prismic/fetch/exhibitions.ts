@@ -8,7 +8,7 @@ import {
   ExhibitionPrismicDocument,
   ExhibitionRelatedContentPrismicDocument,
 } from '../types/exhibitions';
-import { Query } from '@prismicio/types';
+import { Query } from '@prismicio/client';
 import { fetchPages } from './pages';
 import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';

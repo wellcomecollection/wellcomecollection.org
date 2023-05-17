@@ -3,7 +3,7 @@ import {
   RichTextField,
   PrismicDocument,
   ContentRelationshipField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { BookPrismicDocument } from './books';
 import { ArticlePrismicDocument } from './articles';
 import { SeriesPrismicDocument } from '../types/series';

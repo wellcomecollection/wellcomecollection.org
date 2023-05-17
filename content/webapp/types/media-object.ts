@@ -1,8 +1,8 @@
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { ImageType } from '@weco/common/model/image';
 
 export type MediaObjectType = {
   title: string | null;
-  text: prismicT.RichTextField | null;
+  text: prismic.RichTextField | null;
   image: ImageType | null;
 };

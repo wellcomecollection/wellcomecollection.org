@@ -9,7 +9,7 @@ import { Resource } from './resource';
 import { Season } from './seasons';
 import { ImagePromo } from './image-promo';
 import { Label } from '@weco/common/model/labels';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 // e.g. 'Permanent'
 export type ExhibitionFormat = {
@@ -43,8 +43,8 @@ export type Exhibition = GenericContentFields & {
   end?: Date;
   isPermanent: boolean;
   statusOverride?: string;
-  bslInfo?: prismicT.RichTextField;
-  audioDescriptionInfo?: prismicT.RichTextField;
+  bslInfo?: prismic.RichTextField;
+  audioDescriptionInfo?: prismic.RichTextField;
   place?: Place;
   exhibits: Exhibit[];
   resources: Resource[];

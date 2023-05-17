@@ -1,4 +1,4 @@
-import { RichTextField, PrismicDocument } from '@prismicio/types';
+import { RichTextField, PrismicDocument } from '@prismicio/client';
 import { FetchLinks } from '.';
 
 export type ProjectFormat = PrismicDocument<

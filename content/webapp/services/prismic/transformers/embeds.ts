@@ -1,13 +1,13 @@
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
-export function getVimeoEmbedUrl(embed: prismicT.EmbedField): string {
+export function getVimeoEmbedUrl(embed: prismic.EmbedField): string {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const embedUrl = embed.html?.match(/src="([-a-zA-Z0-9://.?=_]+)?/)![1];
 
   return `${embedUrl}?rel=0&dnt=1`;
 }
 
-export function getSoundCloudEmbedUrl(embed: prismicT.EmbedField): string {
+export function getSoundCloudEmbedUrl(embed: prismic.EmbedField): string {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const apiUrl = embed.html!.match(/url=([^&]*)&/)!;
 
@@ -19,7 +19,7 @@ export function getSoundCloudEmbedUrl(embed: prismicT.EmbedField): string {
   return `https://w.soundcloud.com/player/?url=${apiUrl[1]}${secretTokenString}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`;
 }
 
-export function getYouTubeEmbedUrl(embed: prismicT.EmbedField): string {
+export function getYouTubeEmbedUrl(embed: prismic.EmbedField): string {
   // The embed will be a blob of HTML of the form
   //
   //    <iframe src=\"https://www.youtube.com/embed/RTlA8X0EJ7w...\" ...></iframe>

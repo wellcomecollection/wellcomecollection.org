@@ -59,7 +59,7 @@ import { isPast } from '@weco/common/utils/dates';
 import EventDateList from '@weco/content/components/EventDateList';
 import EventStatus from '@weco/content/components/EventStatus';
 
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -101,17 +101,17 @@ const getDescription = ({
   interpretationType,
   extraInformation,
   isPrimary,
-}: Interpretation): prismicT.RichTextField => {
-  const baseDescription: prismicT.RichTextField | undefined = isPrimary
+}: Interpretation): prismic.RichTextField => {
+  const baseDescription: prismic.RichTextField | undefined = isPrimary
     ? interpretationType.primaryDescription
     : interpretationType.description;
 
-  const extraDescription: prismicT.RichTextField | undefined =
+  const extraDescription: prismic.RichTextField | undefined =
     extraInformation || [];
 
   return [...(baseDescription || []), ...extraDescription].filter(
     isNotUndefined
-  ) as [prismicT.RTNode, ...prismicT.RTNode[]];
+  ) as [prismic.RTNode, ...prismic.RTNode[]];
 };
 
 const eventInterpretationIcons: Record<string, IconSvg> = {

@@ -4,7 +4,7 @@ import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
 } from '@weco/common/services/prismic/types';
-import { LinkField } from '@prismicio/types';
+import { LinkField } from '@prismicio/client';
 import { transformMultiContent } from './multi-content';
 import {
   asText,

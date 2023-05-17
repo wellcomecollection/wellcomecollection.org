@@ -21,7 +21,7 @@ import {
   ContentRelationshipField,
   LinkField,
   KeyTextField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import {
   getDatesBetween,
   isPast,
@@ -54,7 +54,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
-import * as prismicH from '@prismicio/helpers';
+import * as prismic from '@prismicio/client';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { noAltTextBecausePromo } from './images';
 
@@ -178,7 +178,7 @@ export function transformEvent(
       : [];
   const interpretations: Interpretation[] = data.interpretations
     .map(interpretation =>
-      prismicH.isFilled.link(interpretation.interpretationType)
+      prismic.isFilled.link(interpretation.interpretationType)
         ? {
             interpretationType: {
               id: interpretation.interpretationType.id,
@@ -205,7 +205,7 @@ export function transformEvent(
 
   const audiences: Audience[] = data.audiences
     .map(audience =>
-      prismicH.isFilled.link(audience.audience)
+      prismic.isFilled.link(audience.audience)
         ? {
             id: audience.audience.id,
             title: audience.audience.data?.title
@@ -519,7 +519,7 @@ export const getScheduleIds = (
 ): string[] => {
   return eventDocument.data.schedule
     .map(linkField =>
-      prismicH.isFilled.link(linkField.event) ? linkField.event.id : undefined
+      prismic.isFilled.link(linkField.event) ? linkField.event.id : undefined
     )
     .filter(isNotUndefined);
 };

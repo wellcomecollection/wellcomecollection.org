@@ -7,9 +7,9 @@ import {
   AnyRegularField,
   GroupField,
   SliceZone,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import * as prismicH from '@prismicio/helpers';
+import * as prismic from '@prismicio/client';
 
 /**
  * This is a convenience type for what the generic DataInterface type extend in @prismicio/types
@@ -58,7 +58,7 @@ export function isFilledLinkToWebField(
   field: LinkField
 ): field is FilledLinkToWebField {
   return (
-    prismicH.isFilled.link(field) && field.link_type === 'Web' && 'url' in field
+    prismic.isFilled.link(field) && field.link_type === 'Web' && 'url' in field
   );
 }
 
@@ -66,7 +66,7 @@ export function isFilledLinkToMediaField(
   field: LinkField
 ): field is FilledLinkToWebField {
   return (
-    prismicH.isFilled.link(field) &&
+    prismic.isFilled.link(field) &&
     field.link_type === 'Media' &&
     'url' in field
   );
