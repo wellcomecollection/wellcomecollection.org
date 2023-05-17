@@ -80,7 +80,6 @@ type ItemRendererProps = {
   index: number;
   data: {
     scrollVelocity: number;
-
     canvases: TransformedCanvas[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rotatedImages: any[];
@@ -367,7 +366,7 @@ const MainViewer: FunctionComponent = () => {
     }
   }
 
-  // Scroll to the correct canvas if the canvasIndex when the canvasParam changes.
+  // Scroll to the correct canvas  when the canvasParam changes.
   // But we don't want this to happen if the canvasParam changes as a result of the viewer being scrolled,
   // so ItemLink href prop can include a shouldScrollToCanvas query param on the href object to prevent this.
   useEffect(() => {

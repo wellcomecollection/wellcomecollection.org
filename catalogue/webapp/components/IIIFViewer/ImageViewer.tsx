@@ -117,8 +117,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     return () => window.removeEventListener('resize', updateImagePosition);
   }, []);
 
-  // Update the url when the main viewer is scrolled
-  // TODO we don't want to do this if caused by a resize
+  // If the visible canvas changes because it is scrolled into view
+  // we update the canvas param to match
   useSkipInitialEffect(() => {
     if (isOnScreen) {
       const link = itemLink(
