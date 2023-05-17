@@ -29,7 +29,7 @@ export const control = ControlTemplate.bind({});
 control.args = {
   text: 'something for screenreaders',
   icon: chevron,
-  extraClasses: 'control--light',
+  colorScheme: 'light',
 };
 control.storyName = 'Control';
 
