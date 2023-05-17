@@ -15,11 +15,7 @@ type ViewerThumbProps = {
 const IIIFViewerThumb = styled.button.attrs<ViewerThumbProps>(props => ({
   tabIndex: props.isFocusable ? 0 : -1,
 }))<ViewerThumbProps>`
-  appearance: none;
-  font-family: inherit;
-  letter-spacing: inherit;
   cursor: pointer;
-  border: 0;
   display: block;
   height: 100%;
   width: 300px;

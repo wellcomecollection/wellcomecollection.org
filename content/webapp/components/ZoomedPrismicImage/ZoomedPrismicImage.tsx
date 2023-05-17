@@ -27,7 +27,6 @@ const ZoomButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 0;
   padding: 0;
   margin: 0;
 

@@ -27,9 +27,7 @@ const CloseCookieNotice = styled.button`
   align-items: center;
   margin-left: 1em;
   cursor: pointer;
-  appearance: none;
   background: none;
-  border: 0;
 `;
 
 const CookieMessage = styled.div`
