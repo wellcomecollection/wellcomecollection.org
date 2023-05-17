@@ -53,8 +53,12 @@ type CellProps = {
     setGridVisible: (value: boolean) => void;
     canvases: TransformedCanvas[];
     searchResults: SearchResults;
-    manifestParam: number;
-    canvasParam: number;
+    query: {
+      pageParam: number;
+      manifestParam: number;
+      canvasParam: number;
+      shouldScrollToCanvas: boolean;
+    };
     workId: string;
   };
 };
@@ -67,8 +71,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     scrollVelocity,
     canvases,
     searchResults,
-    manifestParam,
-    canvasParam,
+    query,
     workId,
   } = data;
   const canvasIndex = rowIndex * columnCount + columnIndex;
@@ -94,7 +97,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
               {...itemLink(
                 {
                   workId,
-                  manifest: manifestParam,
+                  manifest: query.manifestParam,
                   canvas: arrayIndexToQueryParam(canvasIndex),
                 },
                 'viewer/thumbnail'
@@ -107,7 +110,9 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
             >
               <IIIFCanvasThumbnail
                 canvas={currentCanvas}
-                isActive={canvasParam === queryParamToArrayIndex(canvasIndex)}
+                isActive={
+                  canvasIndex === queryParamToArrayIndex(query.canvasParam)
+                }
                 thumbNumber={arrayIndexToQueryParam(canvasIndex)}
                 isFocusable={gridVisible}
                 highlightImage={hasSearchResults}
