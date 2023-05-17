@@ -12,7 +12,6 @@ import { arrowSmall } from '@weco/common/icons';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { getCrop } from '@weco/common/model/image';
 import { themeValues } from '@weco/common/views/themes/config';
-import { CardTitle } from '@weco/content/components/Card/Card';
 
 type CardOuterProps = {
   background: 'neutral.700' | 'warmNeutral.300';
@@ -149,12 +148,13 @@ const BannerCard: FunctionComponent<Props> = ({
             defaultLabelColor="accent.salmon"
           />
         )}
-        <CardTitle
+        <Space
           v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+          as="h2"
           className={font('wb', 2)}
         >
           {title}
-        </CardTitle>
+        </Space>
         {start && end && (
           <DateRangeWrapper>
             <DateRange start={start} end={end} />
