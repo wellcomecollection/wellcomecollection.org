@@ -156,15 +156,17 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
 }: NoScriptViewerProps) => {
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
   const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
-  const { canvases } = transformedManifest;
-  const currentCanvas = canvases[queryParamToArrayIndex(query.canvasParam)];
+  const { canvases } = { ...transformedManifest };
+  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvasParam)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const pageIndex = queryParamToArrayIndex(query.pageParam);
   const pageSize = 4;
-  const navigationCanvases = [...Array(pageSize)]
-    .map((_, i) => pageSize * queryParamToArrayIndex(query.pageParam) + i)
-    .map(i => canvases[i])
-    .filter(Boolean);
+  const navigationCanvases = canvases
+    ? [...Array(pageSize)]
+        .map((_, i) => pageSize * queryParamToArrayIndex(query.pageParam) + i)
+        .map(i => canvases?.[i])
+        .filter(Boolean)
+    : [];
   const thumbnailsRequired = Boolean(navigationCanvases?.length);
 
   const urlTemplate =
@@ -246,7 +248,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               const canvasParam = pageSize * pageIndex + (i + 1);
               return (
                 <RenderlessPaginator
-                  key={canvas['@id']}
+                  key={canvas?.['@id'] || i}
                   {...thumbsPaginatorProps}
                   render={() => (
                     <NextLink

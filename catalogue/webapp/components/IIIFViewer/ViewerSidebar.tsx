@@ -126,7 +126,7 @@ const ViewerSidebar: FunctionComponent = () => {
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
     string | undefined
   >();
-  const { iiifCredit, structures, searchService } = transformedManifest;
+  const { iiifCredit, structures, searchService } = { ...transformedManifest };
   const productionDates = getProductionDates(work);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -238,7 +238,7 @@ const ViewerSidebar: FunctionComponent = () => {
           </div>
         </AccordionItem>
 
-        {structures.length > 0 && (
+        {structures && structures.length > 0 && (
           <AccordionItem title="Contents">
             <ViewerStructures />
           </AccordionItem>

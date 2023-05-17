@@ -95,7 +95,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
     query,
     work,
   } = useContext(ItemViewerContext);
-  const { searchService, canvases } = transformedManifest;
+  const { searchService, canvases } = { ...transformedManifest };
 
   async function getSearchResults() {
     if (searchService) {
@@ -171,14 +171,14 @@ const IIIFSearchWithin: FunctionComponent = () => {
               .filter(Boolean)
               .filter(resource => resource?.resource?.chars);
             // Get the index of the canvas the hits appear on
-            const index = canvases.findIndex(canvas => {
+            const index = canvases?.findIndex(canvas => {
               const matchingPathname = matchingResources?.[0]?.on || '';
               return (
                 new URL(matchingPathname).pathname ===
                 new URL(canvas.id).pathname
               );
             });
-            const matchingCanvas = (index && canvases[index]) || undefined;
+            const matchingCanvas = (index && canvases?.[index]) || undefined;
             return (
               <ListItem key={i}>
                 <SearchResult>
@@ -187,7 +187,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                       {
                         workId: work.id,
                         manifest: query.manifestParam,
-                        canvas: arrayIndexToQueryParam(index),
+                        canvas: arrayIndexToQueryParam(index || 0),
                       },
                       'search_within_result'
                     )}

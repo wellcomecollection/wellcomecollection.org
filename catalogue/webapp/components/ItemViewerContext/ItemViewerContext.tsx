@@ -2,10 +2,7 @@ import { createContext, RefObject } from 'react';
 import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import { Manifest } from '@iiif/presentation-3';
-import {
-  TransformedManifest,
-  createDefaultTransformedManifest,
-} from '../../types/manifest';
+import { TransformedManifest } from '../../types/manifest';
 
 export type RotatedImage = { canvasParam: number; rotation: number };
 
@@ -20,7 +17,7 @@ type Props = {
   // DATA props:
   query: Query;
   work: Work;
-  transformedManifest: TransformedManifest;
+  transformedManifest: TransformedManifest | undefined;
   parentManifest: Manifest | undefined;
   searchResults: SearchResults;
   setSearchResults: (v) => void;
@@ -101,7 +98,7 @@ const ItemViewerContext = createContext<Props>({
   // DATA props:
   query,
   work,
-  transformedManifest: createDefaultTransformedManifest(),
+  transformedManifest: undefined,
   parentManifest: undefined,
   searchResults: results,
   setSearchResults: () => undefined,

@@ -72,6 +72,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     mainAreaRef,
     query,
     rotatedImages,
+    transformedManifest,
   } = useContext(ItemViewerContext);
   const imageViewer = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -120,7 +121,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   // If the visible canvas changes because it is scrolled into view
   // we update the canvas param to match
   useSkipInitialEffect(() => {
-    if (isOnScreen) {
+    if (isOnScreen && transformedManifest) {
       const link = itemLink(
         {
           workId: work.id,

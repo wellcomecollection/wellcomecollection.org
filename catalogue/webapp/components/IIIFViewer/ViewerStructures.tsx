@@ -49,8 +49,8 @@ const ViewerStructuresPrototype: FunctionComponent = () => {
   const { transformedManifest, setIsMobileSidebarActive, query, work } =
     useContext(ItemViewerContext);
   const { canvasParam, manifestParam } = query;
-  const { structures, canvases } = transformedManifest;
-  const groupedStructures = groupStructures(canvases, structures);
+  const { structures, canvases } = { ...transformedManifest };
+  const groupedStructures = groupStructures(canvases || [], structures || []);
 
   return groupedStructures.length > 0 ? (
     <List>
@@ -60,9 +60,9 @@ const ViewerStructuresPrototype: FunctionComponent = () => {
           typeof maybeFirstCanvasInRange !== 'string'
             ? maybeFirstCanvasInRange
             : undefined;
-        const canvasIndex = canvases.findIndex(
-          canvas => canvas.id === firstCanvasInRange?.id
-        );
+        const canvasIndex =
+          canvases?.findIndex(canvas => canvas.id === firstCanvasInRange?.id) ||
+          0;
 
         return (
           // TODO

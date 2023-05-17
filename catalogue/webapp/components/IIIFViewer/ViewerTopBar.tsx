@@ -210,8 +210,8 @@ const ViewerTopBar: FunctionComponent = () => {
     canvases,
     downloadEnabled,
     downloadOptions: manifestDownloadOptions,
-  } = transformedManifest;
-  const currentCanvas = canvases[queryParamToArrayIndex(query.canvasParam)];
+  } = { ...transformedManifest };
+  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvasParam)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -240,11 +240,11 @@ const ViewerTopBar: FunctionComponent = () => {
       })
     : [];
 
-  const downloadOptions = downloadEnabled // TODO check this works as expected
+  const downloadOptions = downloadEnabled
     ? [
         ...iiifImageDownloadOptions,
         ...canvasImageDownloads,
-        ...manifestDownloadOptions,
+        ...(manifestDownloadOptions || []),
       ]
     : [];
   return (
@@ -332,7 +332,7 @@ const ViewerTopBar: FunctionComponent = () => {
           )}
         </LeftZone>
         <MiddleZone className="viewer-desktop">
-          {canvases?.length > 1 && !showZoomed && !isResizing && (
+          {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
             <>
               <span data-test-id="active-index">{`${canvasParam || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}

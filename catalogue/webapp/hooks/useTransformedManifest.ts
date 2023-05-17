@@ -3,10 +3,7 @@ import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { Manifest } from '@iiif/presentation-3';
 import { transformManifest } from '../services/iiif/transformers/manifest';
 import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
-import {
-  TransformedManifest,
-  createDefaultTransformedManifest,
-} from '../types/manifest';
+import { TransformedManifest } from '../types/manifest';
 import { getDigitalLocationOfType } from '../utils/works';
 import { Toggles } from '@weco/toggles';
 
@@ -15,9 +12,10 @@ const cachedTransformedManifest: Map<string, TransformedManifest> = new Map();
 const useTransformedManifest = (
   work: Work,
   toggles: Toggles
-): TransformedManifest => {
-  const [transformedManifest, setTransformedManifest] =
-    useState<TransformedManifest>(createDefaultTransformedManifest());
+): TransformedManifest | undefined => {
+  const [transformedManifest, setTransformedManifest] = useState<
+    TransformedManifest | undefined
+  >(undefined);
 
   function transformAndUpdate(manifest: Manifest, id: string) {
     const transformedManifest = transformManifest(manifest);

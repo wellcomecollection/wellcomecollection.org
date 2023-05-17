@@ -43,7 +43,7 @@ export function arrayIndexToQueryParam(canvasIndex: number): number {
 type IIIFViewerProps = {
   work: Work;
   iiifImageLocation: DigitalLocation | undefined;
-  transformedManifest: TransformedManifest;
+  transformedManifest?: TransformedManifest;
   canvasOcr?: string;
   handleImageError?: () => void;
 };
@@ -228,10 +228,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
   const hasIiifImage = imageUrl && iiifImageLocation;
   const currentCanvas =
-    transformedManifest.canvases[queryParamToArrayIndex(canvasParam)];
+    transformedManifest?.canvases[queryParamToArrayIndex(canvasParam)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const hasImageService = mainImageService['@id'] && currentCanvas;
-  const { parentManifestUrl } = transformedManifest;
+  const { parentManifestUrl } = { ...transformedManifest };
   const [showControls, setShowControls] = useState(
     Boolean(hasIiifImage && !hasImageService)
   );
@@ -260,7 +260,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
-        transformedManifest.parentManifestUrl &&
+        transformedManifest?.parentManifestUrl &&
         (await fetchJson(parentManifestUrl as string));
 
       parentManifest && setParentManifest(parentManifest);

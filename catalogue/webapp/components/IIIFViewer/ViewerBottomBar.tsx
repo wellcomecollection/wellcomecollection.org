@@ -51,7 +51,7 @@ const ViewerBottomBar: FunctionComponent = () => {
     isMobileSidebarActive,
     viewerRef,
   } = useContext(ItemViewerContext);
-  const { canvases } = transformedManifest;
+  const { canvases } = { ...transformedManifest };
   return (
     <BottomBar>
       <LeftZone data-test-id="page-grid-buttons">

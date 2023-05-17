@@ -341,7 +341,7 @@ const MainViewer: FunctionComponent = () => {
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const { canvases, restrictedService } = transformedManifest;
+  const { canvases, restrictedService } = { ...transformedManifest };
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {
@@ -389,7 +389,7 @@ const MainViewer: FunctionComponent = () => {
         itemCount={canvases?.length || 0}
         itemData={{
           scrollVelocity,
-          canvases,
+          canvases: canvases || [],
           setShowZoomed,
           rotatedImages,
           errorHandler,

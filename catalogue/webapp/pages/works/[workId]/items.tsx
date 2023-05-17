@@ -36,10 +36,7 @@ import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fet
 import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
 import { fetchCanvasOcr } from '@weco/catalogue/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/canvasOcr';
-import {
-  TransformedManifest,
-  createDefaultTransformedManifest,
-} from '@weco/catalogue/types/manifest';
+import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import WorkHeader from '@weco/catalogue/components/WorkHeader/WorkHeader';
 import WorkTabbedNav from '@weco/catalogue/components/WorkTabbedNav/WorkTabbedNav';
 import { Container, Grid } from '@weco/catalogue/components/Work/Work';
@@ -87,7 +84,7 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
 }
 
 type Props = {
-  transformedManifest: TransformedManifest;
+  transformedManifest: TransformedManifest | undefined;
   work: Work;
   canvasParam: number;
   canvasOcr?: string;
@@ -121,10 +118,10 @@ const ItemPage: NextPage<Props> = ({
     restrictedService,
     isTotallyRestricted,
     canvases,
-  } = transformedManifest;
+  } = { ...transformedManifest };
 
   const authService = clickThroughService || restrictedService;
-  const currentCanvas = canvases[queryParamToArrayIndex(canvasParam)];
+  const currentCanvas = canvases?.[queryParamToArrayIndex(canvasParam)];
 
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
@@ -438,7 +435,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (iiifImageLocation) {
       return {
         props: serialiseProps({
-          transformedManifest: createDefaultTransformedManifest(),
+          transformedManifest: undefined,
           work,
           canvasParam,
           canvases: [],

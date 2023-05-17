@@ -14,7 +14,6 @@ import { getServerData } from '@weco/common/server-data';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
-import { createDefaultTransformedManifest } from '@weco/catalogue/types/manifest';
 import {
   ApiToolbarLink,
   setTzitzitParams,
@@ -71,11 +70,7 @@ const ImagePage: FunctionComponent<Props> = ({
       hideTopContent={true}
     >
       {iiifImageLocation ? (
-        <IIIFViewer
-          work={work}
-          transformedManifest={createDefaultTransformedManifest()}
-          iiifImageLocation={iiifImageLocation}
-        />
+        <IIIFViewer work={work} iiifImageLocation={iiifImageLocation} />
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>

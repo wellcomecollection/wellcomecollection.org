@@ -161,7 +161,7 @@ const GridViewer: FunctionComponent = () => {
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
   const { isVisible } = useContext(GlobalInfoBarContext);
-  const { canvases } = transformedManifest;
+  const { canvases } = { ...transformedManifest } || [];
 
   useEffect(() => {
     const rowIndex = Math.floor(
