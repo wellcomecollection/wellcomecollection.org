@@ -74,7 +74,6 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
           <Item key={i} isActive={activeIndex === canvasIndex}>
             <button
               data-gtm-trigger="contents_nav"
-              className="plain-button"
               type="button"
               onClick={() => {
                 mainViewerRef &&

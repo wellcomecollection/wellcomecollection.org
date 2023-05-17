@@ -83,7 +83,7 @@ type SwatchProps = {
 
 const Swatch = styled.button.attrs((props: SwatchProps) => ({
   type: 'button',
-  className: `plain-button ${font('intr', 5)}`,
+  className: font('intr', 5),
   'aria-pressed': !!props.ariaPressed,
 }))<SwatchProps>`
   position: relative;

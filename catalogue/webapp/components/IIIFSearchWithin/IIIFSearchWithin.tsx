@@ -53,7 +53,7 @@ const ListItem = styled.li`
 `;
 
 const SearchResult = styled.button.attrs({
-  className: `${font('intr', 6)} plain-button`,
+  className: font('intr', 6),
 })`
   cursor: pointer;
   display: block;

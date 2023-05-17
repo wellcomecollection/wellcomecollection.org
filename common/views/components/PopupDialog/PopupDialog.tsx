@@ -107,9 +107,7 @@ const PopupDialogWindow = styled(Space).attrs({
   z-index: 3;
 `;
 
-const PopupDialogClose = styled.button.attrs({
-  className: 'plain-button',
-})`
+const PopupDialogClose = styled.button`
   margin: 0 !important;
   padding: 0;
 

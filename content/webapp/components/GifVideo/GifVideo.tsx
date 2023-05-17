@@ -18,7 +18,6 @@ const Video = styled.video`
 
 const PlayPause = styled.button.attrs({
   'aria-label': 'play/pause button',
-  className: 'plain-button',
 })`
   margin: 0 !important;
   padding: 0;

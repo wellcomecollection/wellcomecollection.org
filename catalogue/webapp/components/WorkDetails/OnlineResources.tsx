@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const ShowHideButton = styled.button.attrs({
-  className: `plain-button ${font('intr', 5)}`,
+  className: font('intr', 5),
 })`
   text-decoration: underline;
   padding: 0;

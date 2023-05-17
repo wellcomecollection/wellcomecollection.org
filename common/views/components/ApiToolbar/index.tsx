@@ -169,7 +169,6 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
         )}
       </div>
       <button
-        className="plain-button"
         type="button"
         onClick={() => {
           getAnchorLinkUrls();
@@ -180,7 +179,6 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
       </button>
 
       <button
-        className="plain-button"
         type="button"
         onClick={() => {
           setMini(!mini);

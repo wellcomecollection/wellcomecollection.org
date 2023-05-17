@@ -142,7 +142,7 @@ const FooterLicense = styled.p.attrs({ className: font('intr', 6) })`
 `;
 
 const BackToTopButton = styled.button.attrs({
-  className: 'is-hidden-s plain-button',
+  className: 'is-hidden-s',
 })`
   text-decoration: underline;
   color: ${props => props.theme.color('white')};
