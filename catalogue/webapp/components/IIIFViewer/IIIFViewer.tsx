@@ -213,7 +213,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [gridVisible, setGridVisible] = useState(false);
   const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
   const { isFullSupportBrowser } = useContext(AppContext);
-  const viewToggleRef = useRef<HTMLButtonElement>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
@@ -221,26 +220,23 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [showZoomed, setShowZoomed] = useState(false);
   const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
   const [showControls, setShowControls] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
   const [isResizing, setIsResizing] = useState(false);
-  const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
-  const previousManifestIndex = useRef(manifestIndex);
   const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
-  const transformedIIIFImage = useTransformedIIIFImage(work);
-
+  const currentCanvas =
+    transformedManifest.canvases[queryParamToArrayIndex(canvasParam)];
+  const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const hasImageService = mainImageService['@id'] && currentCanvas;
-  const { canvases, parentManifestUrl, iiifCredit } = transformedManifest;
+  const { parentManifestUrl } = transformedManifest;
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
       clearTimeout(timer);
 
