@@ -43,9 +43,9 @@ export function arrayIndexToQueryParam(canvasIndex: number): number {
 type IIIFViewerProps = {
   work: Work;
   image?: Image;
-  iiifImageLocation?: DigitalLocation;
+  iiifImageLocation: DigitalLocation | undefined;
   transformedManifest: TransformedManifest;
-  canvasOcr?: string; // TODO move to context? // or move down tree - if we only do this client side anyway
+  canvasOcr?: string;
   handleImageError?: () => void;
 };
 
@@ -205,7 +205,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   iiifImageLocation,
   handleImageError,
 }: IIIFViewerProps) => {
-  const router = useRouter(); // TODO or should this be passed in from items/images pages from context.query?
+  const router = useRouter();
   const {
     page: pageParam = 1,
     canvas: canvasParam = 1,
@@ -238,11 +238,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const transformedIIIFImage = useTransformedIIIFImage(work);
 
   const hasImageService = mainImageService['@id'] && currentCanvas;
-  const {
-    canvases,
-    parentManifestUrl,
-    iiifCredit,
-  } = transformedManifest;
+  const { canvases, parentManifestUrl, iiifCredit } = transformedManifest;
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
