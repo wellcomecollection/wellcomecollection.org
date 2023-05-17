@@ -260,7 +260,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     return () => mainAreaObserver.disconnect();
   }, []);
 
-  // TODO why do we need to do this?
   useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
@@ -339,7 +338,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
                 setImageContainerRect={() => undefined}
               />
             )}
-            {hasImageService && <MainViewer />}
+            {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
+            {hasImageService && !isResizing && <MainViewer />}
           </Main>
           {showZoomed && (
             <Zoom>
