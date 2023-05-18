@@ -78,6 +78,7 @@ const ViewerStructuresPrototype: FunctionComponent = () => {
                 },
                 'contents_nav'
               )}
+              data-gtm-trigger="contents_nav"
               aria-current={canvasParam === arrayIndexToQueryParam(canvasIndex)}
               onClick={() => {
                 setIsMobileSidebarActive(false);
