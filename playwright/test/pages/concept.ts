@@ -32,10 +32,10 @@ export class ConceptPage {
     this.allWorksLink = this.allRecordsLink('works');
     this.allImagesLink = this.allRecordsLink('images');
     this.worksTabGroup = page.getByRole('tablist', {
-      name: 'Tabs for works',
+      name: 'works',
     });
     this.imagesTabGroup = page.getByRole('tablist', {
-      name: 'Tabs for images',
+      name: 'images',
     });
     this.worksAboutTab = this.tab(
       this.worksTabGroup,
