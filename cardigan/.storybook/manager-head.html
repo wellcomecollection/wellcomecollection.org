@@ -12,8 +12,9 @@ ga('send', 'pageview');
 </script>
 
 <style>
-  /* Don't show simple scale in sidebar – we're just embedding the story in GitBook */
-  #global-typography--scale-simple {
+  /* Don't show story in the sidebar – we're just embedding it in GitBook */
+  #gitbook,
+  .sidebar-item[data-parent-id="gitbook"] {
     display: none;
   }
 </style>
