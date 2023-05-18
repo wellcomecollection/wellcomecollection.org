@@ -48,7 +48,7 @@ bannerCard.args = {
 };
 bannerCard.storyName = 'BannerCard';
 bannerCard.parameters = {
-  chromatic: { diffThreshold: 0.2 },
+  chromatic: { diffThreshold: 0.2, viewports: [320, 1200] },
 };
 
 const FeaturedCardTemplate = args => {
