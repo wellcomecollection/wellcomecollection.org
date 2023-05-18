@@ -100,7 +100,7 @@ const expectedChecks = contentChecks.concat(worksChecks, apiChecks, [
     period: 60 as CheckInterval,
   },
   {
-    url: 'https://dlcs.io/health.aspx',
+    url: 'https://dlcs.io/health',
     alias: 'DLCS: API: IIIF (origin)',
     period: 60 as CheckInterval,
   },

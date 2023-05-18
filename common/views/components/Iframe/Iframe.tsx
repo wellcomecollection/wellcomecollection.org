@@ -1,11 +1,11 @@
-import { Component, Fragment, createRef, ReactElement } from 'react';
+import { Component, createRef, ReactElement } from 'react';
+import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import PrismicImage from '../PrismicImage/PrismicImage';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
-import styled from 'styled-components';
 
 export const IframeContainer = styled.div.attrs({
   'data-chromatic': 'ignore',
@@ -81,7 +81,7 @@ export const IframeContainer = styled.div.attrs({
 `;
 
 const ButtonWrapper = styled.span.attrs({
-  className: 'trigger no-visible-focus',
+  className: 'trigger',
 })`
   padding: 0;
 `;
@@ -126,7 +126,7 @@ class Iframe extends Component<Props, State> {
     return (
       <IframeContainer>
         {image.contentUrl && (
-          <Fragment>
+          <>
             {!this.state.iframeShowing && (
               <ButtonWrapper onClick={this.toggleIframeDisplay}>
                 <span className="overlay" />
@@ -154,7 +154,7 @@ class Iframe extends Component<Props, State> {
                 extraClasses="close"
               />
             )}
-          </Fragment>
+          </>
         )}
         {this.state.iframeShowing && (
           <iframe

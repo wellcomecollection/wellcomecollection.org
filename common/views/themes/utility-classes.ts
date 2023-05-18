@@ -75,12 +75,4 @@ export const utilityClasses = css<GlobalStyleProps>`
       white-space: inherit;
     }
   }
-
-  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9558
-  .no-visible-focus {
-    &,
-    &:focus {
-      outline: 0;
-    }
-  }
 `;
