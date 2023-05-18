@@ -77,14 +77,7 @@ const TypographyScaleSimple = () => {
   const firstRow = [['Font size unit', 'BP Large', 'BP Medium', 'BP Small']];
   const rowsWithHeadings = firstRow.concat(rowsWithScaleNumbers);
 
-  return (
-    <Table
-      caption={null}
-      hasRowHeaders={false}
-      rows={rowsWithHeadings}
-      plain={true}
-    />
-  );
+  return <Table caption={null} hasRowHeaders={false} rows={rowsWithHeadings} />;
 };
 
 const sizes = [0, 1, 2, 3, 4, 5, 6];
