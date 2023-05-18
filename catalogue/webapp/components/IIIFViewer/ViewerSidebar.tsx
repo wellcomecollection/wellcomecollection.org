@@ -238,7 +238,7 @@ const ViewerSidebar: FunctionComponent = () => {
           </div>
         </AccordionItem>
 
-        {structures && structures.length > 0 && (
+        {Boolean(structures && structures.length > 0) && (
           <AccordionItem title="Contents">
             <ViewerStructures />
           </AccordionItem>
