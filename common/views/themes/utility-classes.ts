@@ -83,17 +83,4 @@ export const utilityClasses = css<GlobalStyleProps>`
       outline: 0;
     }
   }
-
-  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9561
-  .card-link {
-    text-decoration: none;
-
-    &:hover,
-    &:focus {
-      .card-link__title {
-        text-decoration: underline;
-        text-decoration-color: ${props => props.theme.color('black')};
-      }
-    }
-  }
 `;

@@ -45,7 +45,7 @@ const BaseImageWrapper = styled.div.attrs({
 })``;
 
 const BaseTitleWrapper = styled.div.attrs({
-  className: `card-link__title ${font('wb', 3)}`,
+  className: font('wb', 3),
 })``;
 
 export type HasImageProps = {
@@ -106,7 +106,6 @@ const MediaObjectBase: FunctionComponent<Props> = ({
       url={urlProp}
       className={classNames({
         grid: true,
-        'card-link': Boolean(url),
         [extraClasses || '']: Boolean(extraClasses),
       })}
       onClick={() => {
