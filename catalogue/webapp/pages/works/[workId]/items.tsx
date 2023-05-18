@@ -5,7 +5,6 @@ import {
   isDigitalLocation,
 } from '@weco/common/model/catalogue';
 import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
@@ -88,8 +87,6 @@ type Props = {
   work: Work;
   canvasParam: number;
   canvasOcr?: string;
-  video?: Video; // TODO - remove as this is on manifestData
-  audio?: Audio; // TODO - remove as this is on manifestData
   iiifImageLocation?: DigitalLocation;
   pageview: Pageview;
 };
