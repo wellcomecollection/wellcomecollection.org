@@ -58,7 +58,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
       return <ol key={key}>{children}</ol>;
     case RichTextNodeType.image: {
       const url = element.linkTo
-        ? prismic.asLink(element.linkTo, linkResolver)
+        ? prismic.asLink(element.linkTo, { linkResolver })
         : null;
       const linkTarget =
         element.linkTo && 'target' in element.linkTo
@@ -96,7 +96,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
       const target =
         'target' in element.data ? element.data.target || undefined : undefined;
       const rel = target ? 'noopener' : undefined;
-      const linkUrl = prismic.asLink(element.data, linkResolver) || '';
+      const linkUrl = prismic.asLink(element.data, { linkResolver }) || '';
       const isDocument =
         'kind' in element.data ? element.data.kind === 'document' : false;
 
