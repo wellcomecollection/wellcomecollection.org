@@ -14,7 +14,6 @@ type LinkSpaceAttrs = {
 const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   as: 'a',
   href: props.url,
-  className: 'promo-link',
   v: { size: 'xl', properties: ['padding-top'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 }))<LinkSpaceAttrs>`
@@ -26,10 +25,16 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
     text-decoration: none;
     border: none;
   }
+
+  &:hover h3,
+  &:focus h3 {
+    text-decoration: underline;
+    text-decoration-color: ${props => props.theme.color('black')};
+  }
 `;
 
 const Title = styled.h3.attrs({
-  className: `promo-link__title ${font('wb', 4)}`,
+  className: font('wb', 4),
 })`
   margin: 0;
 `;

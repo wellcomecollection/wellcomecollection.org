@@ -1,9 +1,9 @@
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { FunctionComponent } from 'react';
-import { Season } from '../../types/seasons';
-import styled from 'styled-components';
+import { Season } from '@weco/content/types/seasons';
 import Space from '@weco/common/views/components/styled/Space';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -149,12 +149,9 @@ const BannerCard: FunctionComponent<Props> = ({
           />
         )}
         <Space
-          v={{
-            size: 'm',
-            properties: ['margin-top', 'margin-bottom'],
-          }}
+          v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           as="h2"
-          className={`promo-link__title ${font('wb', 2)}`}
+          className={font('wb', 2)}
         >
           {title}
         </Space>

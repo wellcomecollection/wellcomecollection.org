@@ -1,16 +1,16 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { ImageType } from '@weco/common/model/image';
-import { ExhibitionBasic } from '../../types/exhibitions';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import {
   ArticleBasic,
   getArticleColor,
   getPartNumberInSeries,
-} from '../../types/articles';
-import { Season } from '../../types/seasons';
-import { Card } from '../../types/card';
+} from '@weco/content/types/articles';
+import { Season } from '@weco/content/types/seasons';
+import { Card } from '@weco/content/types/card';
 import { Label } from '@weco/common/model/labels';
-import { Link } from '../../types/link';
+import { Link } from '@weco/content/types/link';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { grid, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -18,11 +18,11 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { Page } from '../../types/pages';
-import { EventSeries } from '../../types/event-series';
-import { Book } from '../../types/books';
-import { EventBasic } from '../../types/events';
-import { Guide } from '../../types/guides';
+import { Page } from '@weco/content/types/pages';
+import { EventSeries } from '@weco/content/types/event-series';
+import { Book } from '@weco/content/types/books';
+import { EventBasic } from '@weco/content/types/events';
+import { Guide } from '@weco/content/types/guides';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
@@ -184,7 +184,7 @@ const FeaturedCardWrap = styled.div`
 
 type HasIsReversed = { isReversed: boolean };
 const FeaturedCardLink = styled.a.attrs({
-  className: 'grid promo-link',
+  className: 'grid',
   'data-gtm-trigger': 'featured_card_link',
 })<HasIsReversed>`
   justify-content: flex-end;

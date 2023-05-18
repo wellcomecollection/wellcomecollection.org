@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
+import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody, CardImageWrapper } from '../Card/Card';
+import { CardOuter, CardBody, CardImageWrapper, CardTitle } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 type Props = {
@@ -51,16 +51,7 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
 
       <CardBody>
         <div>
-          <Space
-            v={{
-              size: 's',
-              properties: ['margin-bottom'],
-            }}
-            as="h2"
-            className={`promo-link__title ${font('wb', 3)}`}
-          >
-            {exhibitionGuide.title}
-          </Space>
+          <CardTitle>{exhibitionGuide.title}</CardTitle>
           {exhibitionGuide.promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
               <p className={font('intr', 5)} style={{ marginBottom: 0 }}>

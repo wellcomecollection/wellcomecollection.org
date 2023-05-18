@@ -20,7 +20,6 @@ type Props = {
 
 export const CardOuter = styled.a.attrs({
   'data-gtm-trigger': 'card_link',
-  className: 'promo-link',
 })`
   display: block; // IE
 
@@ -43,6 +42,15 @@ export const CardOuter = styled.a.attrs({
     border: none;
   }
 
+  &:hover,
+  &:focus {
+    h2,
+    h3 {
+      text-decoration: underline;
+      text-decoration-color: ${props => props.theme.color('black')};
+    }
+  }
+
   .card-theme.card-theme--white & {
     background: ${props => props.theme.color('white')};
   }
@@ -56,9 +64,14 @@ export const CardOuter = styled.a.attrs({
     color: ${props => props.theme.color('white')};
   }
 
-  .card-theme.bg-dark &:hover .promo-link__title,
-  .card-theme.bg-dark &:focus .promo-link__title {
-    text-decoration-color: ${props => props.theme.color('white')};
+  .card-theme.bg-dark {
+    &:hover,
+    &:focus {
+      h2,
+      h3 {
+        text-decoration-color: ${props => props.theme.color('white')};
+      }
+    }
   }
 `;
 
@@ -142,6 +155,14 @@ const Description = styled.p.attrs({
   margin: 0;
 `;
 
+export const CardTitle = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-bottom'] },
+  as: 'h3',
+  className: font('wb', 3),
+})`
+  transition: color 400ms ease;
+`;
+
 const Card: FunctionComponent<Props> = ({ item }: Props) => {
   const image = getCrop(item.image, '16:9');
 
@@ -178,18 +199,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
       <CardBody>
         <div>
           {item.order && <PartNumberIndicator number={item.order} />}
-          {item.title && (
-            <Space
-              v={{
-                size: 's',
-                properties: ['margin-bottom'],
-              }}
-              as="h2"
-              className={`promo-link__title ${font('wb', 3)}`}
-            >
-              {item.title}
-            </Space>
-          )}
+          {item.title && <CardTitle>{item.title}</CardTitle>}
           {item.description && <Description>{item.description}</Description>}
         </div>
       </CardBody>
