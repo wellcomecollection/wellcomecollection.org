@@ -93,7 +93,9 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                 'viewer/thumbnail'
               )}
               passHref={true}
-              aria-current={true}
+              aria-current={
+                canvasIndex === queryParamToArrayIndex(query.canvasParam)
+              }
               onClick={() => {
                 setGridVisible(false);
               }}
