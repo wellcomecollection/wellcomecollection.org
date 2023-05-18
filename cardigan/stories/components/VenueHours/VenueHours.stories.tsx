@@ -13,3 +13,6 @@ const Template = () => (
 export const basic = Template.bind({});
 
 basic.storyName = 'VenueHours';
+basic.parameters = {
+  chromatic: { viewports: [375, 1200] },
+};

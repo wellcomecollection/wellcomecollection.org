@@ -11,3 +11,4 @@ basic.args = {
   venues,
 };
 basic.storyName = 'Footer';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

@@ -231,7 +231,7 @@ article.args = {
   isContentTypeInfoBeforeMedia: true,
 };
 article.parameters = {
-  diffThreshold: 0.2,
+  chromatic: { diffThreshold: 0.2, viewports: [375, 1200] },
 };
 
 const ContentPageTemplate = args => (

@@ -26,5 +26,5 @@ const Template = () => {
 };
 
 export const basic = Template.bind({});
-basic.args = {};
 basic.storyName = 'Modal';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };
