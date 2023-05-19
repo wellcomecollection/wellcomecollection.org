@@ -137,15 +137,17 @@ const IIIFSearchWithin: FunctionComponent = () => {
   const { searchService, canvases } = { ...transformedManifest };
 
   async function getSearchResults() {
-    if (searchService) {
+    if (searchService && query.query.length > 0) {
       setIsLoading(true);
       try {
         const results = await (
-          await fetch(`${searchService['@id']}?q=${value}`)
+          await fetch(`${searchService['@id']}?q=${query.query}`)
         ).json();
         setIsLoading(false);
         setSearchResults(results);
       } catch (error) {}
+    } else {
+      setSearchResults(results);
     }
   }
   return (
