@@ -153,12 +153,23 @@ const IIIFSearchWithin: FunctionComponent = () => {
   return (
     <>
       <SearchForm
-        action="/"
+        action={router.asPath}
         onSubmit={event => {
           event.preventDefault();
-          getSearchResults();
+          const link = itemLink({
+            workId: work.id,
+            props: {
+              canvas: query.canvas,
+              manifest: query.manifest,
+              query: value,
+            },
+            source: 'search_within_submit',
+          });
+          router.replace(link.href, link.as);
         }}
       >
+        <input type="hidden" name="canvas" value={query.canvas} />
+        <input type="hidden" name="manifest" value={query.manifest} />
         <SearchInputWrapper>
           <TextInput
             id="searchWithin"
