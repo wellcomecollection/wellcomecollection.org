@@ -1,9 +1,18 @@
-import { useState, useContext, FunctionComponent, useRef } from 'react';
+import { useRouter } from 'next/router';
+import {
+  useState,
+  useContext,
+  useEffect,
+  FunctionComponent,
+  useRef,
+} from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext, {
+  results,
+} from '../ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
@@ -123,6 +132,7 @@ const Hit: FunctionComponent<HitProps> = ({
 };
 
 const IIIFSearchWithin: FunctionComponent = () => {
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
