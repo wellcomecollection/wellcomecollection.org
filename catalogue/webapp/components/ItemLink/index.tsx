@@ -1,11 +1,8 @@
-import NextLink from 'next/link';
-import { FunctionComponent } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import {
   decodeQuery,
   encodeQuery,
   FromCodecMap,
-  LinkFrom,
   maybeNumberCodec,
   booleanCodec,
   stringCodec,
@@ -64,19 +61,4 @@ function toLink(
   };
 }
 
-type Props = LinkFrom<ItemProps> & { source: ItemLinkSource };
-
-const ItemLink: FunctionComponent<Props> = ({
-  children,
-  source,
-  ...props
-}: Props) => {
-  return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
-};
-
-export default ItemLink;
 export { toLink, fromQuery, emptyItemProps };
