@@ -222,14 +222,15 @@ const IIIFSearchWithin: FunctionComponent = () => {
               <ListItem key={i}>
                 <SearchResult>
                   <NextLink
-                    {...itemLink(
-                      {
-                        workId: work.id,
-                        manifest: query.manifestParam,
+                    {...itemLink({
+                      workId: work.id,
+                      props: {
+                        manifest: query.manifest,
+                        query: query.query,
                         canvas: arrayIndexToQueryParam(index || 0),
                       },
-                      'search_within_result'
-                    )}
+                      source: 'search_within_result',
+                    })}
                     onClick={() => setIsMobileSidebarActive(false)}
                   >
                     <Hit
