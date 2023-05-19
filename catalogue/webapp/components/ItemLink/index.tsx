@@ -12,7 +12,6 @@ import { ItemLinkSource } from '@weco/common/data/segment-values';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const emptyItemProps: ItemProps = {
-  workId: '',
   resultPosition: undefined,
   canvas: 1,
   manifest: 1,
@@ -21,7 +20,6 @@ const emptyItemProps: ItemProps = {
 };
 
 const codecMap = {
-  workId: stringCodec,
   resultPosition: maybeNumberCodec, // This used for tracking and tells us the position of the search result that linked to the item page. It doesn't get exposed in the url
   canvas: maybeNumberCodec,
   manifest: maybeNumberCodec,
