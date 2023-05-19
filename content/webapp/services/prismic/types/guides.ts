@@ -1,7 +1,7 @@
 import {
   TimestampField,
   PrismicDocument,
-  RelationField,
+  ContentRelationshipField,
   RichTextField,
   BooleanField,
 } from '@prismicio/types';
@@ -30,7 +30,7 @@ export const guideFormatsFetchLinks: FetchLinks<GuideFormatPrismicDocument> = [
 ];
 
 export type WithGuideFormat = {
-  format: RelationField<
+  format: ContentRelationshipField<
     'guide-formats',
     'en-gb',
     InferDataInterface<GuideFormatPrismicDocument>

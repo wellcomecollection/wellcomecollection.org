@@ -1,4 +1,4 @@
-import { FilledLinkToDocumentField, PrismicDocument } from '@prismicio/types';
+import { FilledContentRelationshipField, PrismicDocument } from '@prismicio/types';
 import {
   WithContributors,
   isFilledLinkToOrganisationField,
@@ -26,12 +26,12 @@ const defaultContributorImage: ImageType = {
 
 function transformCommonFields(
   agent:
-    | (FilledLinkToDocumentField<
+    | (FilledContentRelationshipField<
         'people',
         'en-gb',
         InferDataInterface<Person>
       > & { data: Person })
-    | (FilledLinkToDocumentField<
+    | (FilledContentRelationshipField<
         'organisations',
         'en-gb',
         InferDataInterface<Organisation>

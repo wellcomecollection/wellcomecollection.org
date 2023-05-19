@@ -1,7 +1,7 @@
 import {
   PrismicDocument,
-  RelationField,
-  FilledLinkToDocumentField,
+  ContentRelationshipField,
+  FilledContentRelationshipField,
   FilledLinkToWebField,
   LinkField,
   AnyRegularField,
@@ -20,10 +20,10 @@ export type DataInterface = Record<
 >;
 /**
  * This allows us to get the DataInterface from PrismicDocuments when we
- * Need them for `RelationField`s e.g.
+ * Need them for `ContentRelationshipField`s e.g.
  * type Doc = PrismicDocument<{ title: RichTextField }>
  * type DataInterface = InferDataInterface<Doc> // { title: RichTextField }
- * RelationField<'formats', 'en-gb', DataInterface>
+ * ContentRelationshipField<'formats', 'en-gb', DataInterface>
  */
 export type InferDataInterface<T> = T extends PrismicDocument<
   infer DataInterface
@@ -43,14 +43,14 @@ export type PaginatedResults<T> = {
 
 // Guards
 export function isFilledLinkToDocument<T, L, D extends DataInterface>(
-  field: RelationField<T, L, D> | undefined
-): field is FilledLinkToDocumentField<T, L, D> {
+  field: ContentRelationshipField<T, L, D> | undefined
+): field is FilledContentRelationshipField<T, L, D> {
   return isNotUndefined(field) && 'id' in field && field.isBroken === false;
 }
 
 export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
-  field: RelationField<T, L, D> | undefined
-): field is FilledLinkToDocumentField<T, L, D> & { data: DataInterface } {
+  field: ContentRelationshipField<T, L, D> | undefined
+): field is FilledContentRelationshipField<T, L, D> & { data: DataInterface } {
   return isFilledLinkToDocument(field) && 'data' in field;
 }
 

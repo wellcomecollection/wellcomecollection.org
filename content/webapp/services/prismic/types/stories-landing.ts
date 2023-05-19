@@ -2,7 +2,7 @@ import {
   GroupField,
   RichTextField,
   PrismicDocument,
-  RelationField,
+  ContentRelationshipField,
 } from '@prismicio/types';
 import { BookPrismicDocument } from './books';
 import { ArticlePrismicDocument } from './articles';
@@ -14,7 +14,7 @@ export type StoriesLandingPrismicDocument = PrismicDocument<{
   storiesTitle: RichTextField;
   storiesDescription: RichTextField;
   stories: GroupField<{
-    story: RelationField<
+    story: ContentRelationshipField<
       'stories',
       'en-us',
       InferDataInterface<
@@ -25,7 +25,7 @@ export type StoriesLandingPrismicDocument = PrismicDocument<{
   booksTitle: RichTextField;
   booksDescription: RichTextField;
   books: GroupField<{
-    book: RelationField<
+    book: ContentRelationshipField<
       'book',
       'en-us',
       InferDataInterface<Partial<BookPrismicDocument>>

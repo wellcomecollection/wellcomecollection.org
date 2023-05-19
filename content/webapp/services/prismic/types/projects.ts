@@ -1,7 +1,7 @@
 import {
   TimestampField,
   PrismicDocument,
-  RelationField,
+  ContentRelationshipField,
   RichTextField,
 } from '@prismicio/types';
 import {
@@ -23,7 +23,7 @@ type ProjectFormat = PrismicDocument<
 
 export type ProjectPrismicDocument = PrismicDocument<
   {
-    format: RelationField<
+    format: ContentRelationshipField<
       'project-formats',
       'en-gb',
       InferDataInterface<ProjectFormat>

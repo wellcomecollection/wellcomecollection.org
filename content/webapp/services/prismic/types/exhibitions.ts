@@ -2,7 +2,7 @@ import {
   GroupField,
   TimestampField,
   PrismicDocument,
-  RelationField,
+  ContentRelationshipField,
   RichTextField,
   SelectField,
 } from '@prismicio/types';
@@ -29,7 +29,7 @@ export type ExhibitionFormat = PrismicDocument<
 
 export type ExhibitionPrismicDocument = PrismicDocument<
   {
-    format: RelationField<
+    format: ContentRelationshipField<
       'exhibition-formats',
       'en-gb',
       InferDataInterface<ExhibitionFormat>
@@ -41,9 +41,9 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     statusOverride: RichTextField;
     bslInfo: RichTextField;
     audioDescriptionInfo: RichTextField;
-    place: RelationField<'place'>;
+    place: ContentRelationshipField<'place'>;
     exhibits: GroupField<{
-      item: RelationField<
+      item: ContentRelationshipField<
         'exhibitions',
         'en-gb',
         // We know this is an ExhibitionPrismicDocument, but the type checker gets
@@ -56,13 +56,13 @@ export type ExhibitionPrismicDocument = PrismicDocument<
       >;
     }>;
     events: GroupField<{
-      item: RelationField<'events'>;
+      item: ContentRelationshipField<'events'>;
     }>;
     articles: GroupField<{
-      item: RelationField<'articles'>;
+      item: ContentRelationshipField<'articles'>;
     }>;
     resources: GroupField<{
-      item: RelationField<'resources'>;
+      item: ContentRelationshipField<'resources'>;
     }>;
   } & WithContributors &
     WithExhibitionParents &

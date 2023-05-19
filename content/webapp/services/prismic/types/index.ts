@@ -6,8 +6,8 @@ import {
   SliceZone,
   PrismicDocument,
   GroupField,
-  RelationField,
-  FilledLinkToDocumentField,
+  ContentRelationshipField,
+  FilledContentRelationshipField,
   NumberField,
   EmptyLinkField,
 } from '@prismicio/types';
@@ -107,7 +107,7 @@ export const commonPrismicFieldsFetchLinks = [
 
 export type WithEventSeries = {
   series: GroupField<{
-    series: RelationField<
+    series: ContentRelationshipField<
       'series',
       'en-gb',
       InferDataInterface<EventSeriesPrismicDocument>
@@ -122,7 +122,7 @@ export const eventSeriesFetchLinks: FetchLinks<EventSeriesPrismicDocument> = [
 
 export type WithSeasons = {
   seasons: GroupField<{
-    season: RelationField<
+    season: ContentRelationshipField<
       'seasons',
       'en-gb',
       InferDataInterface<SeasonPrismicDocument>
@@ -137,7 +137,7 @@ export const seasonsFetchLinks: FetchLinks<SeasonPrismicDocument> = [
 ];
 
 export type WithArticleFormat = {
-  format: RelationField<
+  format: ContentRelationshipField<
     'article-formats',
     'en-gb',
     InferDataInterface<ArticleFormat>
@@ -159,7 +159,7 @@ export const projectFormatsFetchLinks: FetchLinks<ProjectFormat> = [
 export type WithExhibitionParents = {
   parents: GroupField<{
     order: NumberField;
-    parent: RelationField<
+    parent: ContentRelationshipField<
       'exhibitions',
       // We know this is an ExhibitionPrismicDocument, but the type checker gets
       // unhappy about the circular reference:
@@ -180,8 +180,8 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
 
 type Contributor =
   | EmptyLinkField<'Document'>
-  | FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>>
-  | FilledLinkToDocumentField<
+  | FilledContentRelationshipField<'people', 'en-gb', InferDataInterface<Person>>
+  | FilledContentRelationshipField<
       'organisations',
       'en-gb',
       InferDataInterface<Organisation>
@@ -190,7 +190,7 @@ type Contributor =
 export type WithContributors = {
   contributorsTitle: RichTextField;
   contributors: GroupField<{
-    role: RelationField<
+    role: ContentRelationshipField<
       'editorial-contributor-roles',
       'en-gb',
       InferDataInterface<EditorialContributorRole>
@@ -229,7 +229,7 @@ export const contributorFetchLinks = [
 // Guards
 export function isFilledLinkToPersonField(
   field: Contributor
-): field is FilledLinkToDocumentField<
+): field is FilledContentRelationshipField<
   'people',
   'en-gb',
   InferDataInterface<Person>
@@ -239,7 +239,7 @@ export function isFilledLinkToPersonField(
 
 export function isFilledLinkToOrganisationField(
   field: Contributor
-): field is FilledLinkToDocumentField<
+): field is FilledContentRelationshipField<
   'organisations',
   'en-gb',
   InferDataInterface<Organisation>
