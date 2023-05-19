@@ -11,6 +11,7 @@ export type Query = {
   canvasParam: number;
   manifestParam: number;
   shouldScrollToCanvas: boolean;
+  queryParam: string;
 };
 
 type Props = {
@@ -63,6 +64,7 @@ const query = {
   pageParam: 1,
   manifestParam: 1,
   shouldScrollToCanvas: true,
+  queryParam: '',
 };
 
 const work = {
