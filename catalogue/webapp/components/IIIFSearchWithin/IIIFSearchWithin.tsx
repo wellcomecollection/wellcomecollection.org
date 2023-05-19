@@ -173,6 +173,11 @@ const IIIFSearchWithin: FunctionComponent = () => {
       setSearchResults(results);
     }
   }
+
+  useEffect(() => {
+    getSearchResults();
+  }, [query.query, query.manifest]);
+
   return (
     <>
       <SearchForm
@@ -229,7 +234,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
       </SearchForm>
       <div aria-live="polite">
         {isLoading && <Loading />}
-        {searchResults.within.total !== null && (
+        {Boolean(searchResults.within.total !== null && query.query) && (
           <ResultsHeader data-test-id="results-header">
             {searchResults.within.total}{' '}
             {searchResults.within.total === 1 ? 'result' : 'results'}
