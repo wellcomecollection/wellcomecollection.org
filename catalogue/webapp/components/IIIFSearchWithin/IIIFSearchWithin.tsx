@@ -134,8 +134,6 @@ const Hit: FunctionComponent<HitProps> = ({
 const IIIFSearchWithin: FunctionComponent = () => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const {
     transformedManifest,
     searchResults,
@@ -144,7 +142,22 @@ const IIIFSearchWithin: FunctionComponent = () => {
     query,
     work,
   } = useContext(ItemViewerContext);
+  const [value, setValue] = useState(query.query);
+  const [isLoading, setIsLoading] = useState(false);
   const { searchService, canvases } = { ...transformedManifest };
+
+  function handleClearResults() {
+    const link = itemLink({
+      workId: work.id,
+      props: {
+        manifest: query.manifest,
+        canvas: query.canvas,
+      },
+      source: 'search_within_clear',
+    });
+    setSearchResults(results);
+    router.replace(link.href, link.as);
+  }
 
   async function getSearchResults() {
     if (searchService && query.query.length > 0) {
@@ -199,6 +212,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                 action: 'clear search',
                 label: 'item-search-within',
               }}
+              clickHandler={handleClearResults}
               setValue={setValue}
               right={10}
             />
