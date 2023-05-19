@@ -55,8 +55,10 @@ export type ItemLinkSource =
   | 'viewer/scroll'
   | 'viewer/resize'
   | 'manifests_navigation'
-  | 'search_within_result'
-  | 'contents_nav';
+  | 'contents_nav'
+  | 'search_within_submit'
+  | 'search_within_clear'
+  | 'search_within_result';
 
 export type WorkLinkSource =
   | 'works_search_result'
