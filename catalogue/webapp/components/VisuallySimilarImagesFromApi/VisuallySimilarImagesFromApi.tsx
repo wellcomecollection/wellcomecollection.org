@@ -17,10 +17,6 @@ type Props = {
 
 type State = 'initial' | 'loading' | 'success' | 'failed';
 
-const Container = styled.div`
-  color: ${props => props.theme.color('black')};
-`;
-
 const Wrapper = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
 })`
@@ -91,7 +87,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
     );
 
   return similarImages.length === 0 ? null : (
-    <Container>
+    <>
       <h3 className={font('wb', 5)}>Visually similar images</h3>
 
       <Wrapper>
@@ -135,7 +131,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
         </a>{' '}
         if something doesn&rsquo;t look right.
       </p>
-    </Container>
+    </>
   );
 };
 export default VisuallySimilarImagesFromApi;

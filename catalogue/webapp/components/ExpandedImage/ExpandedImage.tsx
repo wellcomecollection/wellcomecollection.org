@@ -38,6 +38,10 @@ type CanvasLink = {
   canvas: number;
 };
 
+const Container = styled.div`
+  color: ${props => props.theme.color('black')};
+`;
+
 const ImageInfoWrapper = styled.div`
   ${props => props.theme.media('large')`
     display: flex;
@@ -59,9 +63,8 @@ const Metadata = styled.span`
 `;
 
 const ModalTitle = styled.h2.attrs({
-  className: `${font('intb', 3)}`,
+  className: font('intb', 3),
 })`
-  color: ${props => props.theme.color('black')};
   margin-bottom: 0;
 `;
 
@@ -290,7 +293,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const displayTitle = detailedWork?.title ?? '';
 
   return (
-    <>
+    <Container>
       <ImageInfoWrapper>
         {iiifImageLocation && expandedImageLink && (
           <ImageWrapper>
@@ -362,7 +365,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           onClickImage={setExpandedImage}
         />
       )}
-    </>
+    </Container>
   );
 };
 
