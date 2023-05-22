@@ -67,6 +67,7 @@ function articleHasOutro(article: Article) {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  context.res.setHeader('Cache-Control', 'public');
   const { articleId } = context.query;
   if (!looksLikePrismicId(articleId)) {
     return { notFound: true };

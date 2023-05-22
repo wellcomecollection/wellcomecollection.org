@@ -309,6 +309,7 @@ const Header: FunctionComponent<HeaderProps> = ({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  context.res.setHeader('Cache-Control', 'public');
   const serverData = await getServerData(context);
 
   const client = createClient(context);

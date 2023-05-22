@@ -150,6 +150,7 @@ SearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  context.res.setHeader('Cache-Control', 'public');
   const serverData = await getServerData(context);
   const query = context.query;
   const defaultProps = serialiseProps({

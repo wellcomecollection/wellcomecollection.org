@@ -447,6 +447,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
+  context.res.setHeader('Cache-Control', 'public');
   const serverData = await getServerData(context);
   const { eventId } = context.query;
 

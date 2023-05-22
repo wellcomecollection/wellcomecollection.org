@@ -74,6 +74,7 @@ function getTypeTitle(type: ExhibitionGuideType): string {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  context.res.setHeader('Cache-Control', 'public');
   const serverData = await getServerData(context);
   const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
   const { res, req } = context;

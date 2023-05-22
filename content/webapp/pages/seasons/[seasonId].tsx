@@ -113,6 +113,7 @@ const SeasonPage = ({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  context.res.setHeader('Cache-Control', 'public');
   const { seasonId } = context.query;
   if (!looksLikePrismicId(seasonId)) {
     return { notFound: true };

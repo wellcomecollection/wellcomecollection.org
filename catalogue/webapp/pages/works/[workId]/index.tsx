@@ -23,6 +23,7 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  context.res.setHeader('Cache-Control', 'public');
   const serverData = await getServerData(context);
   const { workId } = context.query;
 

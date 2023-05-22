@@ -28,6 +28,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  context.res.setHeader('Cache-Control', 'public');
   const page = getPage(context.query);
 
   if (typeof page !== 'number') {
