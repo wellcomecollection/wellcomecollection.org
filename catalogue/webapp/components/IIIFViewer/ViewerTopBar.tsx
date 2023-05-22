@@ -133,7 +133,7 @@ const Sidebar = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
 })<{ isZooming: boolean }>`
-  grid-column: left-edge desktop-sidebar-end;
+  grid-column: left-edge / desktop-sidebar-end;
   display: flex;
   justify-content: flex-start;
   align-items: center;

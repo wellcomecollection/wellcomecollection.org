@@ -20,6 +20,7 @@ module.exports = {
           "camelCaseSvgKeywords": true
       }
     ],
-    "font-family-name-quotes": "always-unless-keyword"
+    "font-family-name-quotes": "always-unless-keyword",
+    "declaration-property-value-no-unknown": true
   }
 }

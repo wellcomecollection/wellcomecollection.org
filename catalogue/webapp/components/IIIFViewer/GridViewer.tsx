@@ -25,7 +25,6 @@ const Defs = styled.svg`
   position: absolute;
   height: 0;
   width: 0;
-  overflow: none;
   left: -100%;
 `;
 

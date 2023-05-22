@@ -54,7 +54,6 @@ const ImageCardList = styled(PlainList)`
 
 const AlbumRow = styled(PlainList)`
   display: flex;
-  align-items: space-between;
   margin-bottom: 0;
 `;
 
