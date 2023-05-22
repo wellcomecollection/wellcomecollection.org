@@ -77,18 +77,13 @@
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "eslint --fix --max-warnings=0 --report-unused-disable-directives",
-      "git add"
-    ]
-  },
-  "stylelint": {
-    "*.{js,ts,tsx}": [
       "stylelint --fix --max-warnings=0 --report-unused-disable-directives",
       "git add"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged stylelint"
+      "pre-commit": "lint-staged"
     }
   },
   "dependencies": {

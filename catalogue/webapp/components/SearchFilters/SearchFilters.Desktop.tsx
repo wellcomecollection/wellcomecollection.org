@@ -31,7 +31,8 @@ const FilterDropdownsContainer = styled(Space).attrs({
 })<{ isEnhanced?: boolean }>`
   display: flex;
   align-items: center;
-  // Wrap if old style or if new style without Javascript
+
+  /* Wrap if old style or if new style without Javascript */
   ${props => !props.isEnhanced && `flex-wrap: wrap;`}
 `;
 
