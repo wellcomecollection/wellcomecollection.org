@@ -209,7 +209,7 @@ const StyledLink = styled.a<StyledLinkProps>`
 
   &:focus-visible,
   &:focus {
-    outline: 'auto';
+    outline: auto;
   }
 
   :focus:not(:focus-visible) {
