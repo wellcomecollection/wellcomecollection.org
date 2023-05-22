@@ -54,11 +54,14 @@ const PaletteColor = styled.div<{ hasBorder: boolean }>`
   position: relative;
   min-width: 200px;
   margin-right: 15px;
+
+  /* stylelint-disable value-keyword-case */
   border: 1px solid
     ${props =>
       props.hasBorder ? props.theme.color('neutral.500') : 'transparent'};
+  /* stylelint-enable value-keyword-case */
 
-  &:before {
+  &::before {
     content: '';
     display: block;
     padding-top: 100%;

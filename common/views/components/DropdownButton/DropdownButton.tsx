@@ -64,7 +64,7 @@ const Dropdown = styled(Space).attrs({
   &.fade-enter-active,
   &.fade-enter-done {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translateY(0);
   }
 `;
 

@@ -2,10 +2,8 @@ import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const Image = styled.img<{ highlightImage?: boolean }>`
-  ${props =>
-    props.highlightImage
-      ? `filter: url(#purpleFilter})`
-      : ''}; // the filter is used for highlighting thumbnails that contain search terms
+  /* the filter is used for highlighting thumbnails that contain search terms */
+  ${props => (props.highlightImage ? `filter: url(#purpleFilter});` : '')}
 `;
 
 type Props = {
@@ -38,7 +36,7 @@ const IIIFViewerImage = (
     tabIndex,
     highlightImage,
   }: Props,
-  ref // eslint-disable-line
+  ref
 ) => {
   return (
     <Image

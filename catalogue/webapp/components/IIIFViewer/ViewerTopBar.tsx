@@ -99,13 +99,12 @@ const TopBar = styled.div<{
   isZooming: boolean;
   isDesktopSidebarActive: boolean;
 }>`
-  display: flex;
+  display: ${props => (props.isZooming ? 'none' : 'grid')};
   position: relative;
   z-index: 3;
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
   justify-content: space-between;
-  display: ${props => (props.isZooming ? 'none' : 'grid')};
   grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
 
   ${props => props.theme.media('medium')`
@@ -134,8 +133,7 @@ const Sidebar = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
 })<{ isZooming: boolean }>`
-  grid-column-start: left-edge;
-  grid-column-end: desktop-sidebar-end;
+  grid-column: left-edge desktop-sidebar-end;
   display: flex;
   justify-content: flex-start;
   align-items: center;

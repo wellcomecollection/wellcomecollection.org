@@ -68,6 +68,7 @@ export const WorkInformation = styled(Space).attrs({
 // sibling after `searchable-selector`
 export const WorkInformationItemSeparator = styled.span`
   display: none;
+
   .searchable-selector + & {
     display: inline-block;
     margin: 0 4px;

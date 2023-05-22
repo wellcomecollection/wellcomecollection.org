@@ -90,7 +90,7 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     )};
   transition: all ${props => props.theme.transitionProperties};
 
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -117,17 +117,18 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
 
   &:hover,
   &:focus {
-    &:after {
+    &::after {
       width: 100%;
-      // Prevent iOS double-tap link issue
-      // https://css-tricks.com/annoying-mobile-double-tap-link-issue/
+
+      /* Prevent iOS double-tap link issue
+       https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
       @media (pointer: coarse) {
         width: 0;
       }
     }
   }
 
-  &.selected:after {
+  &.selected::after {
     width: 100%;
   }
 `;

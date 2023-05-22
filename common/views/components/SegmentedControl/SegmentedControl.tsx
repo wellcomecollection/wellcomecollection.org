@@ -34,12 +34,11 @@ const DrawerItem = styled(Space).attrs({
 })<DrawerItemProps>`
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 
-    a,
-    a:link,
-    a:visited {
-      text-decoration: none;
-      border: none;
-    }
+  a,
+  a:link,
+  a:visited {
+    text-decoration: none;
+    border: none;
   }
 
   ${props =>
@@ -137,7 +136,7 @@ const MobileControlsModal = styled(Space).attrs({
   background-color: ${props => props.theme.color('white')};
   display: ${props => (props.isActive ? 'block' : 'none')};
   position: fixed;
-  z-index: 6; // Ensures that it's above the fixed header on mobile
+  z-index: 6; /*  Ensures that it's above the fixed header on mobile */
   top: 0;
   left: 0;
   right: 0;

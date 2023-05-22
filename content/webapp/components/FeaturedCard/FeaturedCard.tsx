@@ -208,7 +208,7 @@ const FeaturedCardRight = styled.div<HasIsReversed>`
   padding-left: ${props => (props.isReversed ? 0 : props.theme.gutter.small)}px;
   padding-right: ${props =>
     props.isReversed ? props.theme.gutter.small : 0}px;
-  transform: translateY(-28px); // Height of a label (font size + padding)
+  transform: translateY(-28px); /* Height of a label (font size + padding) */
   width: 100%;
   height: 100%;
   min-height: 200px;
@@ -245,6 +245,7 @@ const FeaturedCardShim = styled.div.attrs<{ background: PaletteColor }>({
   position: relative;
   background-color: ${props => props.theme.color(props.background)};
   height: 21px;
+
   /* Prevent a white line appearing above the shim because of browser rounding errors */
   top: -1px;
   margin-left: ${props =>

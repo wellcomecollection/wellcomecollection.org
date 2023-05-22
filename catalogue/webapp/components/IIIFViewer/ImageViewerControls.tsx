@@ -13,6 +13,7 @@ const ImageViewerControlsEl = styled.div<{ showControls?: boolean }>`
   opacity: ${props => (props.showControls ? 1 : 0)};
   transition: opacity 300ms ease;
   display: flex;
+
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
     for a less heavy handed solution to Openseadragon breaking on touch events */
   &,

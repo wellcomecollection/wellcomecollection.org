@@ -258,7 +258,7 @@ export const typography = css<GlobalStyleProps>`
       li {
         padding-left: 12px;
 
-        &:before {
+        &::before {
           content: '';
           width: 0.35em;
           height: 0.35em;
@@ -320,7 +320,7 @@ export const typography = css<GlobalStyleProps>`
     border-color: transparent;
     position: relative;
 
-    &:before {
+    &::before {
       ${fontFamilyMixin('wb', true)}
       position: absolute;
       content: '“';

@@ -152,7 +152,7 @@ function getNextUp(
 }
 
 const ContentTypeInfoSection = styled.span`
-  &:not(:first-child):before {
+  &:not(:first-child)::before {
     content: ' | ';
     margin: 0 4px;
   }

@@ -79,14 +79,14 @@ export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
 })<NavItemInnerProps>`
   display: block;
   position: relative;
-  padding: 0 10px 24px; // Deliberately offset from the left-hand side to make the buttons bigger for a11y
+  padding: 0 10px 24px; /* Deliberately offset from the left-hand side to make the buttons bigger for a11y */
   cursor: pointer;
   color: ${props =>
     props.theme.color(props.selected ? 'black' : 'neutral.600')};
   text-decoration: none;
   transition: all ${props => props.theme.transitionProperties};
 
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -101,17 +101,18 @@ export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
 
   &:hover,
   &:focus {
-    &:after {
+    &::after {
       width: 100%;
-      // Prevent iOS double-tap link issue
-      // https://css-tricks.com/annoying-mobile-double-tap-link-issue/
+
+      /* Prevent iOS double-tap link issue
+      https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
       @media (pointer: coarse) {
         width: 0;
       }
     }
   }
 
-  &.selected:after {
+  &.selected::after {
     width: 100%;
   }
 `;

@@ -28,7 +28,7 @@ const StyledComponent = styled.div.attrs({
       margin-right: 1em;
       padding-right: 1em;
 
-      &:after {
+      &::after {
         position: absolute;
         right: 0;
         content: '|';
@@ -36,7 +36,7 @@ const StyledComponent = styled.div.attrs({
     }
 
     &:last-of-type {
-      &:after {
+      &::after {
         display: none;
       }
     }

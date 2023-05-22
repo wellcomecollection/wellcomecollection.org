@@ -22,12 +22,12 @@ const backgroundAnimation = keyframes`
     background-position: 0 0;
   }
 
-  // This 70% keyframe is so the animation eases quite aggressively
+  /* This 70% keyframe is so the animation eases quite aggressively */
   70% {
     background-position: -50% 0;
   }
 
-  // This is a "complete rotation" of the background - ie back to the start
+  /* This is a "complete rotation" of the background - ie back to the start */
   to {
     background-position: -200% 0;
   }
@@ -39,13 +39,13 @@ const PlaceholderRow = styled.div<{
 }>`
   background: ${({ theme }) => getGradient(theme)};
 
-  // This "stretches" the periodic background so we only see half of it
+  /* This "stretches" the periodic background so we only see half of it */
   background-size: 200%;
   background-repeat: repeat-x;
   animation: ${backgroundAnimation} 1.2s ease-in infinite;
   width: ${({ percentWidth }) => percentWidth.toFixed(2)}%;
 
-  // These should sum to 1.5rem to reflect the usual line-height of inline text
+  /* These should sum to 1.5rem to reflect the usual line-height of inline text */
   height: 1rem;
   margin-top: 0.5rem;
 `;

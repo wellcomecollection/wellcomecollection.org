@@ -28,10 +28,11 @@ type PartWithSeparatorProps = {
 const PartWithSeparator = styled.span.attrs({
   className: font('intr', 5),
 })<PartWithSeparatorProps>`
-  &:after {
+  &::after {
     display: ${props => (props.isLast ? 'none' : 'inline')};
-    content: '\u00A0${props =>
-      props.separator}\u00A0'; // non-breaking space (\u00A0) keeps characters that would otherwise break (e.g. hyphens) stuck to the preceding text
+
+    /* non-breaking space (\u00A0) keeps characters that would otherwise break (e.g. hyphens) stuck to the preceding text */
+    content: '\u00A0${props => props.separator}\u00A0';
   }
 `;
 

@@ -16,6 +16,7 @@ const AccountA = styled(Space).attrs<AccountAProps>(props => ({
 }))<AccountAProps>`
   display: block;
   text-decoration: none;
+
   &:hover {
     text-decoration: underline;
   }
@@ -24,7 +25,7 @@ const AccountA = styled(Space).attrs<AccountAProps>(props => ({
 const SignedOutWrapper = styled.span.attrs({
   className: 'display-none headerMedium-display-block' + ' ' + font('intr', 6),
 })`
-  // Hack to minimise the margins between both icons when signed out
+  /* Hack to minimise the margins between both icons when signed out */
   button span span:first-child {
     margin-right: 0;
   }

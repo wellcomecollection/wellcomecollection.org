@@ -51,7 +51,7 @@ export const BurgerTrigger = styled.a<{ burgerMenuisActive: boolean }>`
   height: 0.9rem;
   display: block;
 
-  // TODO: replace with svg-sprite icon
+  /* TODO: replace with svg-sprite icon */
   span {
     position: absolute;
     top: 0;
@@ -125,7 +125,7 @@ export const HeaderNav = styled.nav<{ burgerMenuisActive: boolean }>`
   display: ${props => (props.burgerMenuisActive ? 'block' : 'none')};
   background: ${props => props.theme.color('white')};
   position: absolute;
-  top: calc(100% + 17px); // Accounts for the set size of the header
+  top: calc(100% + 17px); /* Accounts for the set size of the header */
   left: 0;
   right: 0;
   padding-left: ${props =>
@@ -170,9 +170,9 @@ export const HeaderList = styled.ul`
 export const HeaderItem = styled.li`
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 
-  // TODO: the vw units below are tightly coupled to the
-  // number of nav items and number of characters in them.
-  // This is a stop-gap ahead of nav design rework.
+  /* TODO: the vw units below are tightly coupled to the
+   number of nav items and number of characters in them.
+   This is a stop-gap ahead of nav design rework. */
 
   ${props => `
   ${props.theme.media('headerMedium')`
@@ -208,7 +208,7 @@ export const HeaderLink = styled.a.attrs({
   padding-bottom: 1rem;
 `}
 
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     bottom: 1.3rem;
@@ -226,11 +226,11 @@ export const HeaderLink = styled.a.attrs({
 
   &:hover,
   &:focus {
-    &:after {
+    &::after {
       width: 100%;
 
-      // Prevent iOS double-tap link issue
-      // https://css-tricks.com/annoying-mobile-double-tap-link-issue/
+      /* Prevent iOS double-tap link issue
+      https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
       @media (pointer: coarse) {
         width: 0;
       }
@@ -240,10 +240,10 @@ export const HeaderLink = styled.a.attrs({
   ${props =>
     props.burgerMenuisActive &&
     `
-  &:after {
-    width: 100%;
-  }
-`}
+      &::after {
+        width: 100%;
+      }
+    `}
 `;
 
 export const HeaderActions = styled.div`

@@ -23,6 +23,8 @@ const ArchiveBreadcrumbNav = styled.nav`
     align-items: flex-start;
   }
 
+  /* Ignoring linting here as it's quite complex */
+  /* stylelint-disable no-descending-specificity */
   li {
     .crumb-inner {
       display: flex;
@@ -40,7 +42,7 @@ const ArchiveBreadcrumbNav = styled.nav`
     position: relative;
     margin-right: 24px;
 
-    &:after {
+    &::after {
       content: '>';
       position: absolute;
       top: 0;
@@ -49,7 +51,7 @@ const ArchiveBreadcrumbNav = styled.nav`
     }
 
     &:last-child {
-      &:after {
+      &::after {
         display: none;
       }
     }
@@ -61,18 +63,19 @@ const ArchiveBreadcrumbNav = styled.nav`
       li {
         margin-bottom: 1px;
 
-        &:after {
+        &::after {
           display: none;
         }
 
         &:last-child {
-          &:after {
+          &::after {
             display: none;
           }
         }
       }
     }
   }
+  /* stylelint-enable no-descending-specificity */
 `;
 
 type ArchiveWorkLinkProps = PropsWithChildren<{

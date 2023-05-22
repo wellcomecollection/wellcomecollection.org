@@ -61,6 +61,7 @@ const ThumbnailWrapper = styled.div<{ imageLoaded?: boolean }>`
   position: absolute;
   width: calc(100% - 20px);
   height: 100%;
+
   img {
     position: relative;
     display: block;

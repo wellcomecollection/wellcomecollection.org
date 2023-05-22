@@ -32,7 +32,7 @@ const imageMargin = 16;
 const GalleryContainer = styled.div`
   margin: 0 -${imageMargin / 2}px;
 
-  // This div is rendered by Gallery so we're targetting it on mobile only to ensure images are aligned on both sides
+  /* This div is rendered by Gallery so we're targetting it on mobile only to ensure images are aligned on both sides */
   .react-photo-gallery--gallery > div {
     justify-content: space-around;
   }

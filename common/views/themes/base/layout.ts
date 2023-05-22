@@ -3,8 +3,8 @@ import { themeValues } from '../config';
 export const layout = `
 * {
   &,
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     box-sizing: border-box;
   }
 }

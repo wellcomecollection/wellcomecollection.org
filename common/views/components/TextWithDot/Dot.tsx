@@ -7,7 +7,7 @@ const Dot = styled.span.attrs({
   font-size: 0.7em;
   color: ${props => props.theme.color(props.dotColor)};
 
-  &:before {
+  &::before {
     content: '⬤';
   }
 `;

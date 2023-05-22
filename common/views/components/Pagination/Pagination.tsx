@@ -25,7 +25,7 @@ const Container = styled.nav.attrs({
   display: flex;
   align-items: center;
 
-  // We're removing the top pagination on mobile to avoid the controls getting too crowded.
+  /* We're removing the top pagination on mobile to avoid the controls getting too crowded. */
   ${props =>
     props.theme.media(
       'medium',
@@ -46,9 +46,9 @@ const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
   cursor: pointer;
   transition: background ${props => props.theme.transitionProperties};
 
-  // This is required to make the icon be the right size on iOS.  If this class
-  // has 'position: relative', then iOS will give it an incorrect height and
-  // it will appear super small.  Illegible!
+  /* This is required to make the icon be the right size on iOS.  If this class
+  has 'position: relative', then iOS will give it an incorrect height and
+  it will appear super small.  Illegible! */
   .icon {
     position: absolute;
   }

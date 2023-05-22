@@ -12,7 +12,7 @@ const Pre = styled.pre`
   white-space: -o-pre-wrap; /* Opera 7 */
   word-wrap: break-word; /* Internet Explorer 5.5+ */
 
-  // This is the neutral.300 from the global palette
+  /* This is the neutral.300 from the global palette */
   background: #e8e8e8;
 
   margin: 6px 0;
