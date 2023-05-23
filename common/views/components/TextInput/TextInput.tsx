@@ -22,6 +22,7 @@ export const TextInputWrap = styled.div.attrs<TextInputWrapProps>(props => ({
   position: relative;
   border: 2px solid
     ${props => props.theme.color(props.darkBg ? 'white' : 'neutral.600')};
+
   &:focus-within {
     box-shadow: ${props => props.theme.focusBoxShadow};
 
@@ -98,7 +99,7 @@ export const TextInputInput = styled.input.attrs(props => ({
     border-color: ${props => props.theme.color('accent.turquoise')};
   }
 
-  &:-ms-clear {
+  &::-ms-clear {
     display: none;
   }
 

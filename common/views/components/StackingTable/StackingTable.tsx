@@ -12,14 +12,11 @@ type TableProps = {
 const StyledTable = styled.table.attrs({
   className: font('intr', 5),
 })<TableProps>`
-   {
-    table-layout: ${props => (props.useFixedWidth ? 'fixed' : 'auto')};
-    width: 100%;
-    border-collapse: collapse;
-  }
+  table-layout: ${props => (props.useFixedWidth ? 'fixed' : 'auto')};
+  width: 100%;
+  border-collapse: collapse;
 
-  @media (max-width: ${props =>
-      props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.maxWidth || props.theme.sizes.large}px) {
     display: block;
 
     thead,
@@ -29,11 +26,13 @@ const StyledTable = styled.table.attrs({
     tr {
       display: block;
     }
+
     thead {
-      // hidden visually, but still available to screen readers
+      /* hidden visually, but still available to screen readers */
       overflow: hidden;
       position: relative;
     }
+
     thead tr {
       position: absolute;
     }
@@ -80,8 +79,8 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
   white-space: nowrap;
   text-align: left;
   vertical-align: top;
-  @media (max-width: ${props =>
-      props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
+
+  @media (max-width: ${props => props.maxWidth || props.theme.sizes.large}px) {
     padding-left: 0;
   }
 `;
@@ -108,18 +107,21 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
 }))<TdProps>`
   text-align: left;
   vertical-align: top;
-  @media (max-width: ${props =>
-      props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
+
+  @media (max-width: ${props => props.maxWidth || props.theme.sizes.large}px) {
     padding-left: 0;
     padding-top: 0;
     padding-bottom: ${props => `${props.theme.spacingUnit}px`};
+
     &:first-of-type {
       padding-top: ${props => `${props.theme.spacingUnit * 2}px`};
     }
+
     &:last-of-type {
       padding-bottom: ${props => `${props.theme.spacingUnit * 3}px`};
     }
-    :before {
+
+    &::before {
       display: block;
       white-space: nowrap;
       content: ${props => (props.cellContent ? `'${props.cellContent}'` : '')};
@@ -143,6 +145,7 @@ const StackingTable: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const headerRow = rows[0];
   const bodyRows = rows.slice(1);
+
   return (
     <StyledTable maxWidth={maxWidth} useFixedWidth={columnWidths.length > 0}>
       <thead>

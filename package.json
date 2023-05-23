@@ -21,7 +21,8 @@
     "e2e-stage": "yarn test:playwright && yarn test:playwright:mobile",
     "run-concurrently": "./scripts/run-concurrently.sh",
     "run-concurrently:clean": "./scripts/run-concurrently.sh clean",
-    "lint": "eslint \"**/*.tsx\""
+    "lint": "eslint \"**/*.{ts,tsx}\"",
+    "lint:css": "stylelint \"**/*.{js,ts,tsx}\""
   },
   "repository": {
     "type": "git",
@@ -54,8 +55,12 @@
     "husky": "^4.3.0",
     "lint-staged": "^8.1.5",
     "prettier": "^2.8.8",
+    "postcss": "^8.4.23",
+    "postcss-styled-syntax": "^0.4.0",
     "prop-types": "15.8.1",
-    "rimraf": "^4.4.1"
+    "rimraf": "^4.4.1",
+    "stylelint": "^15.6.2",
+    "stylelint-config-standard": "^33.0.0"
   },
   "resolutions": {
     "@types/react": "18.2.4"
@@ -73,6 +78,7 @@
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "eslint --fix --max-warnings=0 --report-unused-disable-directives",
+      "stylelint --max-warnings=0",
       "git add"
     ]
   },

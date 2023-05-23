@@ -47,6 +47,10 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
     box-shadow: none;
   }
 
+  &.disabled {
+    pointer-events: none;
+  }
+
   &[disabled],
   &.disabled {
     background: ${props => props.theme.color('neutral.300')};
@@ -57,10 +61,6 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
     &:hover {
       text-decoration: none;
     }
-  }
-
-  &.disabled {
-    pointer-events: none;
   }
 `;
 
@@ -93,7 +93,7 @@ export const ButtonIconWrapper = styled(Space).attrs({
     !props.isTextHidden &&
     (props.iconAfter ? 'margin-left: 4px;' : 'margin-right: 4px;')}
 
-  // Prevent icon within .spaced-text parent having top margin
+  /* Prevent icon within .spaced-text parent having top margin */
   margin-top: 0;
 `;
 

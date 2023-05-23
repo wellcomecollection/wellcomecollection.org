@@ -48,7 +48,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   transform: ${props =>
     props.isActive || !props.shouldStartAnimation
       ? 'translateY(10px)'
-      : 'translateY(0px)'};
+      : 'translateY(0)'};
   bottom: 20px;
   left: 20px;
   z-index: 3;
@@ -91,12 +91,12 @@ const PopupDialogWindow = styled(Space).attrs({
 })<PopupDialogWindowProps>`
   background-color: ${props => props.theme.color('white')};
   color: ${props => props.theme.color('accent.purple')};
-  border-radius: 20px 0 20px 0;
+  border-radius: 20px 0;
   box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.7);
   opacity: ${props => (props.isActive ? 1 : 0)};
   pointer-events: ${props => (props.isActive ? 'all' : 'none')};
   transform: ${props =>
-    props.isActive ? 'translateY(0px)' : 'translateY(10px)'};
+    props.isActive ? 'translateY(0)' : 'translateY(10px)'};
   transition: opacity 500ms ease, transform 500ms ease;
   transition-delay: ${props => (props.isActive ? '500ms' : '0ms')};
   position: fixed;

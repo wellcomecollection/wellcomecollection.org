@@ -159,7 +159,7 @@ const Gallery = styled.div.attrs({
     `
     background: ${props.theme.color('neutral.700')};
 
-    &:before {
+    &::before {
       top: 0;
 
       ${props.theme.media('medium')`

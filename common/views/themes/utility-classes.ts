@@ -8,7 +8,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     display: none !important;
   }
 
-  // Based on screen size
+  /* Based on screen size */
   .is-hidden-s {
     ${props =>
       props.theme.mediaBetween(
@@ -45,15 +45,15 @@ export const utilityClasses = css<GlobalStyleProps>`
     `}
   }
 
-  // Based on media type
+  /* Based on media type */
   .is-hidden-print {
     @media print {
       display: none;
     }
   }
 
-  // Removes the element from the flow,
-  // as well as its visibility
+  /* Removes the element from the flow,
+  as well as its visibility */
   .visually-hidden {
     border: 0;
     clip: rect(0 0 0 0);

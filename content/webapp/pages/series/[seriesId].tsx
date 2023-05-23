@@ -42,9 +42,10 @@ import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
 
 const SeriesItem = styled.div<{ isFirst: boolean }>`
-  border-top-width: ${props => (props.isFirst ? '0' : '1px')};
-  border-top-style: solid;
-  border-top-color: ${props => props.theme.color('warmNeutral.400')};
+  border-top: ${props =>
+    `${props.isFirst ? '0' : '1px'} solid ${props.theme.color(
+      'warmNeutral.400'
+    )}`};
 `;
 
 type Props = {

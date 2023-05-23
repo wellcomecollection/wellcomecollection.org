@@ -21,10 +21,10 @@ type Props = {
 export const CardOuter = styled.a.attrs({
   'data-gtm-trigger': 'card_link',
 })`
-  display: block; // IE
+  display: block; /* IE */
 
   @supports (display: flex) {
-    // IE ignores @supports
+    /* IE ignores @supports */
     display: flex;
   }
 
@@ -125,6 +125,7 @@ export const CardBody = styled(Space).attrs({
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
+
     /* CardBodys flex in the column axis by default, which makese them
     stretch to the height of any others on the same row. We don't want
     this behaviour when the cards don't have backgrounds because it can

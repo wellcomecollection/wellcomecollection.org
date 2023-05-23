@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Issue = styled.div<{ type: string }>`
   padding: 12px;
-  margin: 12px 0px;
+  margin: 12px 0;
   ${props =>
     props.type === 'error'
       ? `
@@ -25,7 +25,7 @@ const Issue = styled.div<{ type: string }>`
     `
       : ''}
 
-  // This is the validation green from the global palette
+  /* This is the validation green from the global palette  */
   ${props =>
     props.type === 'success'
       ? `

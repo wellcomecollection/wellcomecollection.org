@@ -25,7 +25,8 @@ const StyledImageContainer = styled.div<{
   display: flex;
   align-items: center;
   justify-content: center;
-  &:after {
+
+  &::after {
     content: '';
     position: absolute;
     top: 0;

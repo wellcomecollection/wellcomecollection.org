@@ -27,7 +27,7 @@ const Item = styled(Space).attrs({
     `
       background: #222; // FIXME: we don't have a shade between dark-charcoal and black in the palette (light-black?)
 
-      &:before {
+      &::before {
         content: '';
         position: absolute;
         top: 0;

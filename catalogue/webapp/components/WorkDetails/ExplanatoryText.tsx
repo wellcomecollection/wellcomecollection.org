@@ -39,10 +39,10 @@ const Control = styled.button.attrs({
 
   &:focus-visible,
   &:focus {
-    outline: 'initial';
+    outline: initial;
   }
 
-  :focus:not(:focus-visible) {
+  &:focus:not(:focus-visible) {
     outline: none;
   }
 `;
@@ -74,6 +74,7 @@ const ExplanatoryText: FunctionComponent<Props> = ({
   useEffect(() => {
     setShowContent(false);
   }, []);
+
   return (
     <div>
       {isEnhanced && (
@@ -98,14 +99,7 @@ const ExplanatoryText: FunctionComponent<Props> = ({
         </Control>
       )}
       <Content id={id} aria-hidden={!showContent} hidden={!showContent}>
-        <Space
-          v={{
-            size: 'l',
-            properties: ['margin-top'],
-          }}
-        >
-          {children}
-        </Space>
+        <Space v={{ size: 'l', properties: ['margin-top'] }}>{children}</Space>
       </Content>
     </div>
   );

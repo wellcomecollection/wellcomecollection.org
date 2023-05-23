@@ -50,9 +50,11 @@ const Tree = styled.div<{ isEnhanced?: boolean }>`
     position: relative;
     padding-left: 0;
     margin: 0;
+
     ${props => props.theme.media('medium')`
       width: 375px;
     `}
+
     &::before {
       display: none;
       position: absolute;
@@ -65,9 +67,11 @@ const Tree = styled.div<{ isEnhanced?: boolean }>`
       border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
       max-width: 600px;
     }
+
     &:focus::before {
       display: block;
     }
+
     ul {
       content: '';
       width: auto;
@@ -134,14 +138,17 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
   min-width: ${`${controlWidth}px`};
   position: relative;
   z-index: 1;
+
   &::before {
     content: '';
     position: absolute;
     height: ${`${circleHeight}px`};
     width: ${`${circleWidth}px`};
-    // centre the circle in the control
+
+    /* centre the circle in the control */
     top: ${`${(controlHeight - circleHeight) / 2}px`};
     left: ${`${(controlWidth - circleWidth) / 2}px`};
+
     background: ${props =>
       props.theme.color(
         props.highlightCondition === 'primary'
@@ -156,12 +163,15 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
         : `2px solid ${props.theme.color('white')}`};
     border-radius: 50%;
   }
+
   .icon {
     position: absolute;
     z-index: 1;
-    // centre the icon in the control
-    top: ${`${(controlHeight - 24) / 2}px`}; // icons have a height of 24px
-    left: ${`${(controlWidth - 24) / 2}px`}; // icons have a width of 24px
+
+    /* centre the icon in the control
+     icons have a height and width of 24px */
+    top: ${`${(controlHeight - 24) / 2}px`};
+    left: ${`${(controlWidth - 24) / 2}px`};
   }
 `;
 
@@ -182,6 +192,10 @@ const StyledLink = styled.a<StyledLinkProps>`
   cursor: pointer;
   margin-left: ${props =>
     props.hasControl ? `-${controlWidth / 2}px` : `${controlWidth / 2}px`};
+  text-decoration: none;
+
+  /* Keeping this readable */
+  /* stylelint-disable declaration-block-no-redundant-longhand-properties */
   padding-top: ${props => `${props.theme.spacingUnit}px`};
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
   padding-left: ${props =>
@@ -191,11 +205,11 @@ const StyledLink = styled.a<StyledLinkProps>`
       ? `${props.theme.spacingUnit}px`
       : 0};
   padding-right: ${props => `${props.theme.spacingUnit * 2}px`};
-  text-decoration: none;
+  /* stylelint-enable declaration-block-no-redundant-longhand-properties */
 
   &:focus-visible,
   &:focus {
-    outline: 'auto';
+    outline: auto;
   }
 
   :focus:not(:focus-visible) {

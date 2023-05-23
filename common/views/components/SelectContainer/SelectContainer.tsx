@@ -17,6 +17,7 @@ const StyledSelect = styled.div.attrs({
 })<StyledSelectProps>`
   position: relative;
   ${({ isPill }) => isPill && 'display: inline-block;'}
+
   .icon {
     position: absolute;
     pointer-events: none;
@@ -25,8 +26,6 @@ const StyledSelect = styled.div.attrs({
   }
 
   select {
-    -moz-appearance: none;
-    -webkit-appearance: none;
     font-family: inherit;
     font-weight: inherit;
     appearance: none;
@@ -37,7 +36,9 @@ const StyledSelect = styled.div.attrs({
     background-color: ${props =>
       props.theme.color(props.darkBg ? 'white' : 'transparent')};
     color: ${props =>
-      props.theme.color('black')}; // This avoids the default blue links on iOS
+      props.theme.color(
+        'black'
+      )}; /* This avoids the default blue links on iOS */
     width: 100%;
     ${props => (props.isPill ? 'line-height: 1;' : '')}
 

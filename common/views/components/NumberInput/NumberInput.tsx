@@ -12,7 +12,6 @@ const StyledInput = styled.input`
   /* removes up and down arrows webkit adds to number inputs on desktop */
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
     margin: 0;
   }
 

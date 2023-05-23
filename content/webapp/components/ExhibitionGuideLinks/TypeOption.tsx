@@ -7,9 +7,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
 
 const TypeItem = styled.li`
-  flex-basis: 100%;
-  flex-grow: 0;
-  flex-shrink: 0;
+  flex: 0 0 100%;
   position: relative;
   min-height: 200px;
   ${props => props.theme.media('medium')`

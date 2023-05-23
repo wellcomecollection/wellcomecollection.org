@@ -73,6 +73,7 @@ const FilterSection = styled(Space).attrs({
 const List = styled(PlainList)`
   display: flex;
   flex-wrap: wrap;
+
   > * {
     flex: 1 1 200px;
   }
@@ -104,8 +105,8 @@ const FiltersHeader = styled(Space).attrs({
   background-color: ${props => props.theme.color('white')};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   text-align: center;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   width: 100%;
 
   > * {

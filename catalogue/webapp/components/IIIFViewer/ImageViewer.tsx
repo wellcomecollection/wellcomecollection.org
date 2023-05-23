@@ -20,6 +20,7 @@ const ImageWrapper = styled.div`
   bottom: 0;
   right: 20px;
   padding: 0;
+
   img {
     margin: auto;
     position: relative;
