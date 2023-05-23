@@ -22,6 +22,7 @@ import {
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import * as prismic from '@prismicio/client';
 import { articleSeriesLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const contentTypes = ['comic'] as const;
 type ContentType = (typeof contentTypes)[number];
@@ -56,7 +57,7 @@ function isContentType(x: any): x is ContentType {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  context.res.setHeader('Cache-Control', 'public');
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
 
   const page = getPage(context.query);

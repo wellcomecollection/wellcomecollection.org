@@ -10,6 +10,7 @@ import { getServerData } from '@weco/common/server-data';
 import { newsletterDescription } from '@weco/common/data/microcopy';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   result?: string;
@@ -18,7 +19,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  context.res.setHeader('Cache-Control', 'public');
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { result } = context.query;
 

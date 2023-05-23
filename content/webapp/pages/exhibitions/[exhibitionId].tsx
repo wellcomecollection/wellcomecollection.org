@@ -19,6 +19,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   exhibition: ExhibitionType;
@@ -56,7 +57,7 @@ const ExhibitionPage: FunctionComponent<Props> = ({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  context.res.setHeader('Cache-Control', 'public');
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { exhibitionId } = context.query;
 

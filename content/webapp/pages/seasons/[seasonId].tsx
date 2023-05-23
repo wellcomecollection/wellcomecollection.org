@@ -47,6 +47,7 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import * as prismic from '@prismicio/client';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   season: Season;
@@ -113,7 +114,7 @@ const SeasonPage = ({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  context.res.setHeader('Cache-Control', 'public');
+  setCacheControl(context.res);
   const { seasonId } = context.query;
   if (!looksLikePrismicId(seasonId)) {
     return { notFound: true };

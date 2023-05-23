@@ -30,6 +30,7 @@ import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Head
 import OtherExhibitionGuides from 'components/OtherExhibitionGuides/OtherExhibitionGuides';
 import ExhibitionGuideLinks from 'components/ExhibitionGuideLinks/ExhibitionGuideLinks';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
@@ -40,7 +41,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  context.res.setHeader('Cache-Control', 'public');
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { id } = context.query;
 

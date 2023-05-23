@@ -19,6 +19,7 @@ import { getPage } from '@weco/content/utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { ArticleBasic } from '@weco/content/types/articles';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   articles: PaginatedResults<ArticleBasic>;
@@ -28,7 +29,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  context.res.setHeader('Cache-Control', 'public');
+  setCacheControl(context.res);
   const page = getPage(context.query);
 
   if (typeof page !== 'number') {

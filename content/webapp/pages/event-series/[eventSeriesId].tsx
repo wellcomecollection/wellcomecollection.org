@@ -29,6 +29,7 @@ import {
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { getUpcomingEvents } from '@weco/content/utils/event-series';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   series: EventSeries;
@@ -58,7 +59,7 @@ function getPastEvents(
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  context.res.setHeader('Cache-Control', 'public');
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { eventSeriesId } = context.query;
 

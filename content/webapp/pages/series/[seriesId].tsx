@@ -40,6 +40,7 @@ import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items'
 import styled from 'styled-components';
 import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const SeriesItem = styled.div<{ isFirst: boolean }>`
   border-top: ${props =>
@@ -59,7 +60,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  context.res.setHeader('Cache-Control', 'public');
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
 
   const { seriesId } = context.query;
