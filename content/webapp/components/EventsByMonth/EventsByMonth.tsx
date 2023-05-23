@@ -42,7 +42,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   // We assume that there will always be some upcoming events scheduled,
   // which means there will be at least one month in `monthsWithEvents`
   // that has some events in it (as long as we have JS)
-  const [activeId, setActiveId] = useState<string | undefined>();
+  const [activeId, setActiveId] = useState<ItemID | undefined>();
 
   return (
     <div>

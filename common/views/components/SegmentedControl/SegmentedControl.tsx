@@ -229,7 +229,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    setActiveId?.(window.location.hash.slice(1) || activeId);
+    setActiveId?.((window.location.hash.slice(1) as ItemID) || activeId);
   }, []);
 
   function onClick(
