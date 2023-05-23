@@ -35,7 +35,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
-    "husky": "^4.3.0",
+    "husky": "^8.0.3",
     "next": "^13.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
