@@ -11,6 +11,6 @@ basic.storyName = 'ArchiveTree';
 basic.parameters = {
   chromatic: {
     viewports: [375, 1200],
-    delay: 500, // The data needs time to load
+    delay: 1500, // The data needs time to load
   },
 };

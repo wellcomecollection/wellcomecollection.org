@@ -98,8 +98,8 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
             <Space
               v={{
                 size: 'm',
-                negative: true,
                 properties: ['margin-top'],
+                negative: true,
               }}
             >
               <LabelsList labels={[{ text: 'Book' }]} />

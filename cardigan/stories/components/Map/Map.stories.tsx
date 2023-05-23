@@ -11,6 +11,6 @@ basic.storyName = 'Map';
 basic.parameters = {
   chromatic: {
     viewports: [375, 1200],
-    delay: 500, // needs time to load
+    delay: 1500, // needs time to load
   },
 };
