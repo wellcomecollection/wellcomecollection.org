@@ -1,18 +1,22 @@
 #!/bin/bash
 
-echo cleaning up the directories
+mode=$1
 
-find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
-find . -name '.next' -type d -prune -print -exec rm -rf '{}' \;
-find . -name '.server-data' -type d -prune -print -exec rm -rf '{}' \;
-
-echo done cleaning up directories
-
-echo installing the apps
-yarn
-pwd
-
-echo done installing apps
+if [[ -n "$mode" ]]; then
+    if [[$mode = "clean"]]; then
+        echo cleaning up the directories
+        find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
+        find . -name '.next' -type d -prune -print -exec rm -rf '{}' \;
+        find . -name '.server-data' -type d -prune -print -exec rm -rf '{}' \;
+        echo done cleaning up directories
+        echo installing the apps
+        yarn
+        pwd
+        echo done installing apps
+    else
+        echo invalid argument passed, there is only one valid argument, "clean"
+    fi
+fi
 
 echo running 'aws-azure-login --no-prompt'
 echo if this fails, you will not be able to run the identity app, please communicate with team members
