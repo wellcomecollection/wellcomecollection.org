@@ -3,12 +3,14 @@ import {
   withMarkup,
 } from '@weco/common/test/fixtures/test-helpers';
 import * as dateUtils from '@weco/common/utils/dates';
-import DateList from '.';
+import EventDateList from '.';
 import { HasTimes } from '@weco/content/types/events';
 
 describe('DateList', () => {
   it('doesn’t show anything if there aren’t any times', () => {
-    const { container } = renderWithTheme(<DateList event={{ times: [] }} />);
+    const { container } = renderWithTheme(
+      <EventDateList event={{ times: [] }} />
+    );
     expect(container.innerHTML).toBe('');
   });
 
@@ -29,7 +31,7 @@ describe('DateList', () => {
       return date < new Date('2000-01-01T00:00:00Z');
     });
 
-    const { getByText } = renderWithTheme(<DateList event={event} />);
+    const { getByText } = renderWithTheme(<EventDateList event={event} />);
     withMarkup(getByText, 'Full');
   });
 
@@ -38,7 +40,7 @@ describe('DateList', () => {
       return date < new Date('2023-01-01T00:00:00Z');
     });
 
-    const { getByText } = renderWithTheme(<DateList event={event} />);
+    const { getByText } = renderWithTheme(<EventDateList event={event} />);
     withMarkup(getByText, 'Past');
   });
 
@@ -47,7 +49,7 @@ describe('DateList', () => {
       return date < new Date('2002-02-02T12:00:00Z');
     });
 
-    const { getByText } = renderWithTheme(<DateList event={event} />);
+    const { getByText } = renderWithTheme(<EventDateList event={event} />);
     withMarkup(getByText, 'Past');
   });
 });
