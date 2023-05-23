@@ -87,11 +87,6 @@ const EmailTeamCopy = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.700')};
 `;
 
-const DateRangeWrapper = styled.div<{ isPast: boolean }>`
-  ${props => props.isPast && `color: ${props.theme.color('neutral.600')};`};
-  flex: 1;
-`;
-
 type EventProps = {
   event: Event;
   jsonLd: JsonLdObj[];

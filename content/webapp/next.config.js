@@ -22,12 +22,12 @@ const apiRewrites = [
 const periodTypeRoutes = [
   {
     source:
-      '/events/:slug(today|this-weekend|current-and-coming-up|past|coming-up|this-week|next-seven-days)',
+      '/events/:period(today|this-weekend|current-and-coming-up|past|coming-up|this-week|next-seven-days)',
     destination: `/events`,
   },
   {
     source:
-      '/exhibitions/:slug(today|this-weekend|current-and-coming-up|past|coming-up|this-week|next-seven-days)',
+      '/exhibitions/:period(today|this-weekend|current-and-coming-up|past|coming-up|this-week|next-seven-days)',
     destination: `/exhibitions`,
   },
 ];
