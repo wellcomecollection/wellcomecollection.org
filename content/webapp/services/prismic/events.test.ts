@@ -1,5 +1,7 @@
+import { HasTimes } from '@weco/content/types/events';
 import {
   groupEventsByDay,
+  isEventPast,
   orderEventsByNextAvailableDate,
   upcomingDatesFullyBooked,
 } from './events';
@@ -278,5 +280,56 @@ describe('groupEventsByDay', () => {
         ],
       },
     ]);
+  });
+});
+
+describe('isEventPast', () => {
+  const now = new Date('2011-01-01T12:00:00Z');
+
+  jest.spyOn(dateUtils, 'isPast').mockImplementation((d: Date) => d < now);
+
+  it('marks an event as past if every time is in the past', () => {
+    const event = {
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2001-01-01T01:01:01Z'),
+            endDateTime: new Date('2001-01-01T02:02:02Z'),
+          },
+        },
+      ],
+    };
+
+    expect(isEventPast(event as HasTimes)).toBeTruthy();
+  });
+
+  it('marks an event as past if the last event finished earlier in the same day', () => {
+    const event = {
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2001-01-01T01:01:01Z'),
+            endDateTime: new Date('2011-01-01T02:02:02Z'),
+          },
+        },
+      ],
+    };
+
+    expect(isEventPast(event as HasTimes)).toBeTruthy();
+  });
+
+  it('does not mark an event as past if the last event hasn’t finished yet', () => {
+    const event = {
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2001-01-01T01:01:01Z'),
+            endDateTime: new Date('2033-03-03T03:03:03Z'),
+          },
+        },
+      ],
+    };
+
+    expect(isEventPast(event as HasTimes)).toBeFalsy();
   });
 });
