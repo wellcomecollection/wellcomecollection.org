@@ -47,7 +47,7 @@ const CloseButton = styled.button`
   padding: 0;
   cursor: pointer;
   color: ${props =>
-    props.theme.color('black')}; // This avoids the default blue links on iOS
+    props.theme.color('black')}; /* This avoids the default blue links on iOS */
 `;
 
 const InfoBanner: FunctionComponent<Props> = ({

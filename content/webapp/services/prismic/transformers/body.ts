@@ -37,7 +37,11 @@ import {
   transformLink,
   transformTaslFromString,
 } from '@weco/common/services/prismic/transformers';
-import { LinkField, RelationField, RichTextField } from '@prismicio/types';
+import {
+  LinkField,
+  ContentRelationshipField,
+  RichTextField,
+} from '@prismicio/types';
 import { BodySlice, Weight } from '../../../types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';
@@ -240,7 +244,7 @@ function transformTitledTextItem({
   title: RichTextField;
   text: RichTextField;
   link: LinkField;
-  label: RelationField<'labels'>;
+  label: ContentRelationshipField<'labels'>;
 }) {
   return {
     title: asTitle(title),

@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { getCookie } from 'cookies-next';
 import styled from 'styled-components';
 
 // Components
@@ -228,11 +227,8 @@ export const getServerSideProps: GetServerSideProps<
     'contributors.agent.label',
   ];
 
-  const _queryType = getCookie('_queryType') as string | undefined;
-
   const worksApiProps = {
     ...params,
-    _queryType,
     aggregations,
   };
 

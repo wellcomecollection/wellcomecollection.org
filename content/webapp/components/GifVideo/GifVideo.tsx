@@ -36,7 +36,7 @@ const Text = styled.span.attrs({
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   color: ${props => props.theme.color('white')};
 
-  &:before {
+  &::before {
     content: '${props => (props.isPlaying ? 'pause' : 'play')}';
   }
 `;

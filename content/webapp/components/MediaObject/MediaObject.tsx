@@ -33,7 +33,7 @@ const TextWrapper = styled.div.attrs<HasImageProps>(props => ({
 }))<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: `card-link__title ${font('wb', 4)}`,
+  className: font('wb', 4),
 })``;
 
 export const MediaObject: FunctionComponent<Props> = ({

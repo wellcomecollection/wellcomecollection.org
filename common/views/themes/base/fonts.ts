@@ -12,6 +12,7 @@ export const fonts = css<GlobalStyleProps>`
         format('woff');
     font-display: swap;
   }
+
   @font-face {
     font-family: 'Inter';
     font-style: normal;
@@ -22,6 +23,7 @@ export const fonts = css<GlobalStyleProps>`
         format('woff');
     font-display: swap;
   }
+
   @font-face {
     font-family: 'Wellcome Bold Web';
     src: url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff2')

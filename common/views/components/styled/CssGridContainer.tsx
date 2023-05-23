@@ -168,7 +168,7 @@ const CssGridContainer = styled.div`
   .css-grid__cell,
   .css-grid__cell--primary,
   .css-grid__cell--secondary {
-    // fallback
+    /* fallback */
     flex: 1;
     position: relative;
 

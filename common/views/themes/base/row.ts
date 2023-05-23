@@ -16,7 +16,7 @@ export const row = `
   transition: height 600ms ease;
   background: ${themeValues.color('white')};
 
-  &:after {
+  &::after {
     position: absolute;
     height: 10vw;
     top: 100%;

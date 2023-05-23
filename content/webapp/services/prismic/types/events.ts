@@ -2,7 +2,7 @@ import {
   GroupField,
   TimestampField,
   PrismicDocument,
-  RelationField,
+  ContentRelationshipField,
   RichTextField,
   SelectField,
   BooleanField,
@@ -95,7 +95,7 @@ export const teamFetchLinks: FetchLinks<Team> = [
 ];
 
 export type WithEventFormat = {
-  format: RelationField<
+  format: ContentRelationshipField<
     'event-formats',
     'en-gb',
     InferDataInterface<EventFormat>
@@ -112,7 +112,7 @@ export type EventTimePrismicDocument = {
 export type EventPrismicDocument = PrismicDocument<
   {
     locations: GroupField<{
-      location: RelationField<
+      location: ContentRelationshipField<
         'place',
         'en-gb',
         InferDataInterface<PlacePrismicDocument>
@@ -123,7 +123,7 @@ export type EventPrismicDocument = PrismicDocument<
     times: GroupField<EventTimePrismicDocument>;
     isRelaxedPerformance: SelectField<'yes'>;
     interpretations: GroupField<{
-      interpretationType: RelationField<
+      interpretationType: ContentRelationshipField<
         'interpretation-types',
         'en-gb',
         InferDataInterface<InterpretationType>
@@ -132,14 +132,14 @@ export type EventPrismicDocument = PrismicDocument<
       extraInformation: RichTextField;
     }>;
     audiences: GroupField<{
-      audience: RelationField<
+      audience: ContentRelationshipField<
         'audiences',
         'en-gb',
         InferDataInterface<Audience>
       >;
     }>;
     ticketSalesStart: TimestampField;
-    bookingEnquiryTeam: RelationField<
+    bookingEnquiryTeam: ContentRelationshipField<
       'teams',
       'en-gb',
       InferDataInterface<Team>
@@ -149,7 +149,7 @@ export type EventPrismicDocument = PrismicDocument<
     thirdPartyBookingUrl: LinkField;
     bookingInformation: RichTextField;
     policies: GroupField<{
-      policy: RelationField<
+      policy: ContentRelationshipField<
         'event-policy',
         'en-gb',
         InferDataInterface<EventPolicy>
@@ -158,7 +158,7 @@ export type EventPrismicDocument = PrismicDocument<
     hasEarlyRegistration: SelectField<'yes'>;
     cost: KeyTextField;
     schedule: GroupField<{
-      event: RelationField<
+      event: ContentRelationshipField<
         'events',
         'en-gb',
         // We know this is an EventPrismicDocument, but the type checker gets
@@ -171,13 +171,13 @@ export type EventPrismicDocument = PrismicDocument<
       >;
       isNotLinked: SelectField<'yes'>;
     }>;
-    backgroundTexture: RelationField<
+    backgroundTexture: ContentRelationshipField<
       'background-textures',
       'en-gb',
       InferDataInterface<BackgroundTexturesDocument>
     >;
     onlineTicketSalesStart: TimestampField;
-    onlineBookingEnquiryTeam: RelationField<
+    onlineBookingEnquiryTeam: ContentRelationshipField<
       'teams',
       'en-gb',
       InferDataInterface<Team>
@@ -187,7 +187,7 @@ export type EventPrismicDocument = PrismicDocument<
     onlineThirdPartyBookingUrl: LinkField;
     onlineBookingInformation: RichTextField;
     onlinePolicies: GroupField<{
-      policy: RelationField<
+      policy: ContentRelationshipField<
         'event-policy',
         'en-gb',
         InferDataInterface<EventPolicy>

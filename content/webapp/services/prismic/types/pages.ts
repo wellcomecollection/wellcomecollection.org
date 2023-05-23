@@ -1,7 +1,7 @@
 import {
   TimestampField,
   PrismicDocument,
-  RelationField,
+  ContentRelationshipField,
   RichTextField,
   BooleanField,
 } from '@prismicio/types';
@@ -29,7 +29,7 @@ export const pageFormatsFetchLinks: FetchLinks<PageFormat> = [
 ];
 
 export type WithPageFormat = {
-  format: RelationField<
+  format: ContentRelationshipField<
     'page-formats',
     'en-gb',
     InferDataInterface<PageFormat>

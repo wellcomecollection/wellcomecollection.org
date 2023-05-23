@@ -39,9 +39,7 @@ const PickUpDateDescription = styled(Space).attrs({
   id: 'pick-up-date-description',
 })`
   @media (min-width: 800px) {
-    flex-basis: 64%;
-    flex-grow: 0;
-    flex-shrink: 0;
+    flex: 0 0 64%;
   }
 `;
 

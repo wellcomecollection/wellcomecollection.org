@@ -26,7 +26,7 @@ const CaptionedImageFigure = styled.figure<CaptionedImageFigureProps>`
       margin-right: 0;
     }
   `}
-}`;
+`;
 
 type ImageContainerInnerProps = {
   aspectRatio: number;

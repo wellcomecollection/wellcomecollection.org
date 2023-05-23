@@ -94,9 +94,9 @@ const Swatch = styled.button.attrs((props: SwatchProps) => ({
   cursor: pointer;
   min-height: 32px;
   color: ${props =>
-    props.theme.color('black')}; // This avoids the default blue links on iOS
+    props.theme.color('black')}; /* This avoids the default blue links on iOS */
 
-  &:before {
+  &::before {
     content: '';
     position: absolute;
     top: 4px;

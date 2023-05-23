@@ -1,18 +1,31 @@
 #!/bin/bash
 
-echo cleaning up the directories
+clean_flag=''
 
-find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
-find . -name '.next' -type d -prune -print -exec rm -rf '{}' \;
-find . -name '.server-data' -type d -prune -print -exec rm -rf '{}' \;
+function print_help {
+    echo this is the run concurrently script
+    echo besides using the 'h' command as you have done, you can also use -c as a command to clean up the local directory and reinstall all dependencies before running the apps concurrently
+}
 
-echo done cleaning up directories
+while getopts 'ch' flag; do
+  case "${flag}" in
+    c) clean_flag="true" ;;
+    h) print_help
+    exit 1 ;;
+  esac
+done
 
-echo installing the apps
-yarn
-pwd
-
-echo done installing apps
+if [[ "$clean_flag" = "true" ]]; then
+    echo cleaning up the directories
+    find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
+    find . -name '.next' -type d -prune -print -exec rm -rf '{}' \;
+    find . -name '.server-data' -type d -prune -print -exec rm -rf '{}' \;
+    echo done cleaning up directories
+    echo installing the apps
+    yarn
+    pwd
+    echo done installing apps
+fi
 
 echo running 'aws-azure-login --no-prompt'
 echo if this fails, you will not be able to run the identity app, please communicate with team members

@@ -61,10 +61,10 @@ const CloseButton = styled(Space).attrs({
 
   &:focus-visible,
   &:focus {
-    outline: border: 2px solid ${props => props.theme.color('black')};
+    outline: 2px solid ${props => props.theme.color('black')};
   }
 
-  :focus:not(:focus-visible) {
+  &:focus:not(:focus-visible) {
     outline: none;
   }
 
@@ -103,12 +103,14 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
     z-index: -1;
     pointer-events: none;
   }
+
   &.fade-enter,
   &.fade-exit,
   &.fade-enter-done {
     z-index: 1001;
     pointer-events: all;
   }
+
   &,
   &.fade-enter,
   &.fade-exit-active,
@@ -116,6 +118,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
     opacity: 0;
     transform: scale(0.9);
   }
+
   &.fade-enter-active,
   &.fade-enter-done {
     opacity: 1;
@@ -157,8 +160,8 @@ const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })<BaseModalProps>`
   overflow: hidden;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 0;
+  padding-right: 0;
   box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 

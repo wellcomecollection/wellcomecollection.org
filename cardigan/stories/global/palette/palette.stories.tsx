@@ -3,6 +3,7 @@ import { themeValues } from '@weco/common/views/themes/config';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import Table from '@weco/common/views/components/Table/Table';
 import {
   RGB,
   HSL,
@@ -54,11 +55,15 @@ const PaletteColor = styled.div<{ hasBorder: boolean }>`
   position: relative;
   min-width: 200px;
   margin-right: 15px;
-  border: 1px solid
-    ${props =>
-      props.hasBorder ? props.theme.color('neutral.500') : 'transparent'};
 
-  &:before {
+  /* stylelint-disable value-keyword-case */
+  border: ${props =>
+    `1px solid ${
+      props.hasBorder ? props.theme.color('neutral.500') : 'transparent'
+    }`};
+  /* stylelint-enable value-keyword-case */
+
+  &::before {
     content: '';
     display: block;
     padding-top: 100%;
@@ -133,6 +138,46 @@ Object.entries(themeValues.colors)
     }
   })
   .filter(Boolean);
+
+const Swatch = ({ hex }) => {
+  return (
+    <div
+      style={{
+        width: '40px',
+        height: '40px',
+        borderRadius: '50%',
+        backgroundColor: hex,
+        border: hex === '#ffffff' ? '1px solid #ddd' : undefined,
+      }}
+    />
+  );
+};
+
+const GitbookPalette = () => {
+  function getNameAndType(key: string): [string, string] {
+    if (!key.includes('.')) return [key, 'core'];
+
+    return [key.slice(key.indexOf('.') + 1), key.slice(0, key.indexOf('.'))];
+  }
+
+  const headings = ['Name', 'Type', 'Hex', 'Swatch'];
+
+  const gitbookColorRows = Object.keys(themeValues.colors).map(key => {
+    const hex = themeValues.colors[key];
+    const nameAndType = getNameAndType(key);
+    return [
+      nameAndType[0],
+      nameAndType[1],
+      hex,
+      <Swatch key={key} hex={hex} />,
+    ];
+  });
+
+  return <Table rows={[headings, ...gitbookColorRows]} />;
+};
+
+const GitbookPaletteTemplate = () => <GitbookPalette />;
+export const gitbookPalette = GitbookPaletteTemplate.bind({});
 
 export const Palette: FunctionComponent = () => (
   <>

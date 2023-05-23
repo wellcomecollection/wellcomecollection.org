@@ -10,9 +10,18 @@ export const Container = styled.div`
 
 export const Wrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: 'card-link',
 })`
   display: block;
+
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    h3 {
+      text-decoration: underline;
+      text-decoration-color: ${props => props.theme.color('black')};
+    }
+  }
 `;
 
 export const Preview = styled(Space)`
@@ -59,6 +68,7 @@ export const WorkInformation = styled(Space).attrs({
 // sibling after `searchable-selector`
 export const WorkInformationItemSeparator = styled.span`
   display: none;
+
   .searchable-selector + & {
     display: inline-block;
     margin: 0 4px;
@@ -66,7 +76,7 @@ export const WorkInformationItemSeparator = styled.span`
 `;
 
 export const WorkTitleHeading = styled.h3.attrs({
-  className: `${font('intb', 4)} card-link__title`,
+  className: font('intb', 4),
 })`
   margin-bottom: 0.5rem;
 `;

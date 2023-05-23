@@ -26,6 +26,7 @@ const IIIFViewerThumb = styled.button.attrs<ViewerThumbProps>(props => ({
   padding: 12px 16px;
   text-align: center;
   margin: auto;
+
   &:focus {
     outline: ${props => `1px solid ${props.theme.color('yellow')}`};
   }
@@ -40,10 +41,9 @@ const IIIFViewerThumbInner = styled.span`
 const ImageContainer = styled.div`
   flex-grow: 1;
   position: relative;
+
   img {
     position: absolute;
-    top: 0;
-    left: 0;
     max-height: 100%;
     max-width: 100%;
     height: auto;

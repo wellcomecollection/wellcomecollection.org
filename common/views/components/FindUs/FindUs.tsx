@@ -12,7 +12,7 @@ import PlainList from '../styled/PlainList';
 const PlainLink = styled.a`
   transition: color 200ms ease;
 
-  // TODO change hover behaviour to match the rest of the website?
+  /* TODO change hover behaviour to match the rest of the website? */
   &,
   &:link,
   &:visited {

@@ -12,7 +12,7 @@ import { grid, font } from '@weco/common/utils/classnames';
 import * as prismicT from '@prismicio/types';
 
 const getBaseTitleClass = number => {
-  return `card-link__title font-wb font-size-${number}`;
+  return `font-wb font-size-${number}`;
 };
 
 const mockOnClick = jest.fn();
@@ -46,7 +46,7 @@ const TextWrapper = styled.div.attrs<HasImageProps>(props => {
 })<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: `card-link__title ${font('wb', 4)}`,
+  className: font('wb', 4),
 })``;
 
 const extraClass = 'my_extra_extra_class';

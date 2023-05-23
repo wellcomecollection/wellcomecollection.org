@@ -41,7 +41,8 @@ const Wrapper = styled(Space).attrs({
     margin-right: 10px;
     width: auto;
     max-height: 120px;
-    // Safari doesn't respond to max-height/width like the other browsers, we need this to ensure it's not warped.
+
+    /* Safari doesn't respond to max-height/width like the other browsers, we need this to ensure it's not warped. */
     object-fit: contain;
 
     ${props => props.theme.media('large')`

@@ -26,8 +26,8 @@ const LL = styled.div<LLProps>`
       top: 0;
       transform: translateX(-50%);`}
 
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     content: '';
     position: absolute;
     top: 0;
@@ -37,12 +37,12 @@ const LL = styled.div<LLProps>`
       props.theme.color(props.lighten ? 'neutral.500' : 'black')};
   }
 
-  &:before {
+  &::before {
     left: 0;
     animation: animate-ll 1s infinite;
   }
 
-  &:after {
+  &::after {
     right: 0;
     animation: animate-ll 1s 0.5s infinite;
   }

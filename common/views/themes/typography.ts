@@ -251,6 +251,7 @@ export const typography = css<GlobalStyleProps>`
       background: ${themeValues.color('accent.turquoise')}4d;
     }
 
+    /* stylelint-disable no-descending-specificity */
     ul {
       list-style: none;
       padding: 0;
@@ -258,7 +259,7 @@ export const typography = css<GlobalStyleProps>`
       li {
         padding-left: 12px;
 
-        &:before {
+        &::before {
           content: '';
           width: 0.35em;
           height: 0.35em;
@@ -271,6 +272,7 @@ export const typography = css<GlobalStyleProps>`
         }
       }
     }
+    /* stylelint-enable no-descending-specificity */
 
     a:link:not(.link-reset),
     a:visited:not(.link-reset) {
@@ -301,6 +303,7 @@ export const typography = css<GlobalStyleProps>`
     top: 0.05em;
   }
 
+  /* stylelint-disable no-descending-specificity */
   .quote {
     border-left: 12px solid ${themeValues.color('warmNeutral.400')};
     padding-left: 0.9em;
@@ -315,12 +318,13 @@ export const typography = css<GlobalStyleProps>`
       }
     }
   }
+  /* stylelint-enable no-descending-specificity */
 
   .quote--pull {
     border-color: transparent;
     position: relative;
 
-    &:before {
+    &::before {
       ${fontFamilyMixin('wb', true)}
       position: absolute;
       content: '“';

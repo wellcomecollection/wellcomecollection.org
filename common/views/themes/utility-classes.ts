@@ -1,12 +1,14 @@
 import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
 
+// Spring 2023: we went through utility classes and decided to only
+// keep the ones that had to do with display status/visibility.
 export const utilityClasses = css<GlobalStyleProps>`
-  // Keep using
   .is-hidden {
     display: none !important;
   }
 
+  /* Based on screen size */
   .is-hidden-s {
     ${props =>
       props.theme.mediaBetween(
@@ -43,14 +45,15 @@ export const utilityClasses = css<GlobalStyleProps>`
     `}
   }
 
-  // Only hides when printing
+  /* Based on media type */
   .is-hidden-print {
     @media print {
       display: none;
     }
   }
 
-  // This removes the element from the flow, as well as its visibility
+  /* Removes the element from the flow,
+  as well as its visibility */
   .visually-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -73,19 +76,6 @@ export const utilityClasses = css<GlobalStyleProps>`
       position: static;
       width: auto;
       white-space: inherit;
-    }
-  }
-
-  // TODO See ticket for more information: https://github.com/wellcomecollection/wellcomecollection.org/issues/9561
-  .card-link {
-    text-decoration: none;
-
-    &:hover,
-    &:focus {
-      .card-link__title {
-        text-decoration: underline;
-        text-decoration-color: ${props => props.theme.color('black')};
-      }
     }
   }
 `;

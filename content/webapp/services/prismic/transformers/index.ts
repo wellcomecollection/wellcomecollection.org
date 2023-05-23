@@ -1,7 +1,7 @@
 import * as prismicH from '@prismicio/helpers';
 import {
   PrismicDocument,
-  FilledLinkToDocumentField,
+  FilledContentRelationshipField,
   KeyTextField,
   RichTextField,
 } from '@prismicio/types';
@@ -100,7 +100,7 @@ export function transformSingleLevelGroup(
 }
 
 export function transformLabelType(
-  format: FilledLinkToDocumentField<
+  format: FilledContentRelationshipField<
     'article-formats',
     'en-gb',
     InferDataInterface<ArticleFormat>

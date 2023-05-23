@@ -44,9 +44,11 @@ const BaseImageWrapper = styled.div.attrs({
   className: grid({ s: 3, m: 3, l: 3, xl: 3 }),
 })``;
 
-const BaseTitleWrapper = styled.div.attrs({
-  className: `card-link__title ${font('wb', 3)}`,
-})``;
+const BaseTitleWrapper = styled.h3.attrs({
+  className: font('wb', 3),
+})`
+  margin: 0;
+`;
 
 export type HasImageProps = {
   hasImage: boolean;
@@ -65,7 +67,17 @@ type LinkOrDivSpaceAttrs = {
 const LinkOrDivSpace = styled(Space).attrs<LinkOrDivSpaceAttrs>(props => ({
   as: props.url ? 'a' : 'div',
   href: props.url || undefined,
-}))<LinkOrDivSpaceAttrs>``;
+}))<LinkOrDivSpaceAttrs>`
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    h3 {
+      text-decoration: underline;
+      text-decoration-color: ${props => props.theme.color('black')};
+    }
+  }
+`;
 
 const MediaObjectBase: FunctionComponent<Props> = ({
   url,
@@ -106,7 +118,6 @@ const MediaObjectBase: FunctionComponent<Props> = ({
       url={urlProp}
       className={classNames({
         grid: true,
-        'card-link': Boolean(url),
         [extraClasses || '']: Boolean(extraClasses),
       })}
       onClick={() => {

@@ -113,7 +113,7 @@ const ConceptWorksHeader = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top'] },
 })<{ hasWorksTabs: boolean }>`
   background-color: ${({ hasWorksTabs, theme }) =>
-    theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};};
+    theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};
 `;
 
 const withSelectedStatus = (selectedTab: string, tabDefinition) => {

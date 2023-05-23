@@ -15,7 +15,7 @@ const WatchIconWrapper = styled.div`
   border-radius: 50%;
 
   .icon {
-    margin-left: 3px; // Make triangle appear centred in circle
+    margin-left: 3px; /*  Make triangle appear centred in circle */
   }
 `;
 

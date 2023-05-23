@@ -129,7 +129,10 @@ const Topbar = styled.div<{
 }>`
   background: ${props => props.theme.color('neutral.700')};
   grid-area: top-edge / left-edge / desktop-topbar-end / right-edge;
-  z-index: 4; // TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile. If we move the downloads, this can be simplified
+
+  /* TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile.
+   If we move the downloads, this can be simplified */
+  z-index: 4;
 
   ${props => props.theme.media('medium')`
     z-index: 5;

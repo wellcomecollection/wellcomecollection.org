@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next';
-import { getCookie } from 'cookies-next';
 import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
 
@@ -236,12 +235,8 @@ export const getServerSideProps: GetServerSideProps<
     });
 
     // Works
-    const _worksQueryType = getCookie('_queryType') as string | undefined;
     const worksResults = await getWorks({
-      params: {
-        ...params,
-        _queryType: _worksQueryType,
-      },
+      params,
       pageSize: 5,
       toggles: serverData.toggles,
     });
@@ -253,8 +248,8 @@ export const getServerSideProps: GetServerSideProps<
     // Images
     const imagesResults = await getImages({
       params,
-      toggles: serverData.toggles,
       pageSize: 10,
+      toggles: serverData.toggles,
     });
     const images = getQueryResults({
       categoryName: 'images',

@@ -18,7 +18,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   GroupField,
   Query,
-  RelationField,
+  ContentRelationshipField,
   LinkField,
   KeyTextField,
 } from '@prismicio/types';
@@ -81,7 +81,7 @@ export function getLastEndTime(times: EventTime[]): Date | undefined {
 
 export function transformEventPolicyLabels(
   fragment: GroupField<{
-    policy: RelationField<
+    policy: ContentRelationshipField<
       'event-policy',
       'en-gb',
       InferDataInterface<EventPolicyPrismicDocument>
@@ -104,7 +104,7 @@ export function getEventbriteId(url: string): string | undefined {
 }
 
 function transformBookingEnquiryTeam(
-  team: RelationField<'teams', 'en-gb', InferDataInterface<PrismicTeam>>
+  team: ContentRelationshipField<'teams', 'en-gb', InferDataInterface<PrismicTeam>>
 ): Team | undefined {
   return isFilledLinkToDocumentWithData(team)
     ? {

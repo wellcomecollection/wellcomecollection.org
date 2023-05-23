@@ -93,7 +93,8 @@ const ImageLink = styled.a`
   img {
     max-width: calc(100% - 20px);
     max-height: 100%;
-    // Safari doesn't respond to max-height/width like the other browsers, we need this to ensure it's not warped.
+
+    /* Safari doesn't respond to max-height/width like the other browsers, we need this to ensure it's not warped. */
     object-fit: contain;
   }
 

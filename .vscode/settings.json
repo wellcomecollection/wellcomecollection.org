@@ -1,6 +1,8 @@
 {
   // We add this to avoid having linting commits in CI
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "stylelint.validate": ["typescriptreact"],
 }

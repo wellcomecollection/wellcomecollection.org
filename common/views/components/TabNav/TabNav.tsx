@@ -113,11 +113,7 @@ const TabNav: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      <TabsContainer
-        role="tablist"
-        ref={tabListRef}
-        aria-label={`Tabs for ${id}`}
-      >
+      <TabsContainer role="tablist" ref={tabListRef} aria-label={id}>
         {items.map(item => (
           <Tab
             key={item.id}
