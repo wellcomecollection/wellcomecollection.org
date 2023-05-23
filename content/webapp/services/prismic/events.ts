@@ -3,7 +3,6 @@ import {
   addDays,
   endOfDay,
   getNextWeekendDateRange,
-  isDayPast,
   isFuture,
   isPast,
   isSameDayOrBefore,
@@ -199,10 +198,7 @@ function getRanges({ start, end }: RangeProps, acc: Range[] = []): Range[] {
 }
 
 export function isEventPast({ times }: HasTimes): boolean {
-  const hasFutureEvents = times.some(
-    ({ range }) => !isDayPast(range.endDateTime)
-  );
-  return !hasFutureEvents;
+  return times.every(({ range }) => isPast(range.endDateTime));
 }
 
 export function upcomingDatesFullyBooked(event: HasTimes): boolean {
