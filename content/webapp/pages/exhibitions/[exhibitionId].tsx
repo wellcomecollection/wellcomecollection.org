@@ -19,11 +19,6 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import ExhibitionsPage, {
-  getServerSideProps as gSSP,
-  ExhibitionsProps,
-} from '.';
-import { isOfTypePeriod } from '@weco/common/types/periods';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type ExhibitionProps = {
@@ -59,19 +54,7 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
   </PageLayout>
 );
 
-export const isOfTypeExhibitions = (input): input is ExhibitionsProps => {
-  return input.exhibitions.results.length > 0;
-};
-
-const PageWrapper = props => {
-  if (isOfTypeExhibitions(props)) {
-    return <ExhibitionsPage {...props} />;
-  } else {
-    return <ExhibitionPage {...props} />;
-  }
-};
-
-const originalGSSP: GetServerSideProps<
+export const getServerSideProps: GetServerSideProps<
   ExhibitionProps | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
@@ -110,15 +93,4 @@ const originalGSSP: GetServerSideProps<
   }
 };
 
-export const getServerSideProps: GetServerSideProps<
-  ExhibitionProps | ExhibitionsProps | AppErrorProps
-> = async context => {
-  const { exhibitionId } = context.query;
-  if (isOfTypePeriod(exhibitionId as unknown as string)) {
-    return gSSP(context);
-  } else {
-    return originalGSSP(context);
-  }
-};
-
-export default PageWrapper;
+export default ExhibitionPage;

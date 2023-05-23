@@ -63,12 +63,8 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import EventsPage, {
-  Props as EventsProps,
-  getServerSideProps as gSSP,
-} from '.';
-import { isOfTypePeriod } from '@weco/common/types/periods';
 import { AppErrorProps } from '@weco/common/services/app';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
@@ -457,7 +453,10 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
   );
 };
 
-const originalGSSP: GetServerSideProps<EventProps> = async context => {
+export const getServerSideProps: GetServerSideProps<
+  EventProps | AppErrorProps
+> = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { eventId } = context.query;
 
@@ -499,27 +498,4 @@ const originalGSSP: GetServerSideProps<EventProps> = async context => {
   };
 };
 
-export const getServerSideProps: GetServerSideProps<
-  EventProps | EventsProps | AppErrorProps
-> = async context => {
-  const { eventId } = context.query;
-  if (isOfTypePeriod(eventId as unknown as string)) {
-    return gSSP(context);
-  } else {
-    return originalGSSP(context);
-  }
-};
-
-export const isOfTypeEvents = (input): input is EventsProps => {
-  return input.events?.results.length > 0;
-};
-
-const PageWrapper = props => {
-  if (isOfTypeEvents(props)) {
-    return <EventsPage {...props} />;
-  } else {
-    return <EventPage {...props} />;
-  }
-};
-
-export default PageWrapper;
+export default EventPage;

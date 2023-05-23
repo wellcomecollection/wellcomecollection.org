@@ -7,7 +7,7 @@ const dotdigitalPassword = process.env.dotdigital_password;
 
 type Status = 'ok' | 'error';
 
-export async function createSubscription({
+async function createSubscription({
   emailAddress,
   addressBookId,
 }: {
