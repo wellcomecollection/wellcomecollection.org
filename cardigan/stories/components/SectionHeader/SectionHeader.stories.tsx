@@ -14,3 +14,4 @@ basic.args = {
   title: 'You may have missed',
 };
 basic.storyName = 'SectionHeader';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

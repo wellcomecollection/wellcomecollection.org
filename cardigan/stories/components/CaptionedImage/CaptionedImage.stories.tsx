@@ -8,3 +8,4 @@ basic.args = {
   ...captionedImage(),
 };
 basic.storyName = 'CaptionedImage';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

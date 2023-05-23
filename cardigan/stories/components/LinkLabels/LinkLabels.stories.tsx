@@ -20,6 +20,7 @@ basic.args = {
   ],
 };
 basic.storyName = 'Basic LinkLabels';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const withHeading = Template.bind({});
 withHeading.args = {
@@ -27,6 +28,7 @@ withHeading.args = {
   items: [{ text: 'red' }, { text: 'green' }, { text: 'blue' }],
 };
 withHeading.storyName = 'LinkLabels with a heading';
+withHeading.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const withIcon = Template.bind({});
 withIcon.args = {
@@ -35,3 +37,4 @@ withIcon.args = {
   items: [{ text: 'Monday' }, { text: 'Tuesday' }, { text: 'Wednesday' }],
 };
 withIcon.storyName = 'LinkLabels with a heading and an icon';
+withIcon.parameters = { chromatic: { viewports: [375, 1200] } };

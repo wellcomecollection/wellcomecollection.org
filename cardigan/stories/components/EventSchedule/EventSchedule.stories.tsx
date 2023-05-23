@@ -161,3 +161,4 @@ basic.args = {
   schedule,
 };
 basic.storyName = 'EventSchedule';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

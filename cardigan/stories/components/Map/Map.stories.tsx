@@ -8,3 +8,4 @@ basic.args = {
   longitude: -0.1333271,
 };
 basic.storyName = 'Map';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

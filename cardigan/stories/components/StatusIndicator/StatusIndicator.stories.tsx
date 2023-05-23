@@ -31,6 +31,7 @@ comingSoon.args = {
   end: twoWeeksFromNow,
 };
 comingSoon.storyName = 'Coming soon';
+comingSoon.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const past = Template.bind({});
 past.args = {
@@ -38,6 +39,7 @@ past.args = {
   end: aWeekAgo,
 };
 past.storyName = 'Past';
+past.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const finalWeek = Template.bind({});
 finalWeek.args = {
@@ -45,6 +47,7 @@ finalWeek.args = {
   end: threeDaysFromNow,
 };
 finalWeek.storyName = 'Final week';
+finalWeek.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const nowOn = Template.bind({});
 nowOn.args = {
@@ -52,3 +55,4 @@ nowOn.args = {
   end: twoWeeksFromNow,
 };
 nowOn.storyName = 'Now on';
+nowOn.parameters = { chromatic: { viewports: [375, 1200] } };

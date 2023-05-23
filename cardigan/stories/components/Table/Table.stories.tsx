@@ -16,6 +16,7 @@ colHeaders.args = {
   ],
 };
 colHeaders.storyName = 'Column headers';
+colHeaders.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const rowHeaders = Template.bind({});
 rowHeaders.args = {
@@ -31,3 +32,4 @@ rowHeaders.args = {
   ],
 };
 rowHeaders.storyName = 'Row headers';
+rowHeaders.parameters = { chromatic: { viewports: [375, 1200] } };

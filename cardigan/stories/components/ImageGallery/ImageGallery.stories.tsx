@@ -4,6 +4,12 @@ import Readme from '@weco/content/components/ImageGallery/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const images = [...new Array(5)].map(() => captionedImage());
+const sharedArgs = {
+  items: images,
+  id: 'test',
+  isStandalone: false,
+};
+const sharedParams = { chromatic: { viewports: [375, 1200] } };
 
 const Template = args => (
   <ReadmeDecorator
@@ -14,21 +20,21 @@ const Template = args => (
 );
 export const inline = Template.bind({});
 inline.args = {
-  items: images,
-  id: 'test',
+  ...sharedArgs,
   isStandalone: false,
 };
+inline.parameters = sharedParams;
 
 export const standalone = Template.bind({});
 standalone.args = {
-  items: images,
-  id: 'test',
+  ...sharedArgs,
   isStandalone: true,
 };
+standalone.parameters = sharedParams;
 
 export const frames = Template.bind({});
 frames.args = {
-  items: images,
-  id: 'test',
+  ...sharedArgs,
   isFrames: true,
 };
+frames.parameters = sharedParams;

@@ -12,3 +12,4 @@ basic.args = {
   title: 'Mat Fraser: interview 1',
 };
 basic.storyName = 'AudioPlayer';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

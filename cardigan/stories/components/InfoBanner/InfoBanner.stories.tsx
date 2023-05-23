@@ -20,3 +20,4 @@ basic.args = {
   },
 };
 basic.storyName = 'InfoBanner';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

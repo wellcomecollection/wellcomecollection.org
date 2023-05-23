@@ -18,9 +18,15 @@ middleOfPagination.parameters = {
     },
   },
 };
+middleOfPagination.parameters = {
+  chromatic: { viewports: [375, 1200] },
+};
 
 export const startOfPagination = Template.bind({});
 startOfPagination.args = {
   totalPages: 10,
 };
 startOfPagination.storyName = 'Start of pagination';
+startOfPagination.parameters = {
+  chromatic: { viewports: [375, 1200] },
+};

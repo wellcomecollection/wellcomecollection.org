@@ -11,3 +11,4 @@ basic.args = {
   nRows: 1,
 };
 basic.storyName = 'Placeholder';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

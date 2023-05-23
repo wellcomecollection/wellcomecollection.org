@@ -22,3 +22,4 @@ basic.args = {
   },
 };
 basic.storyName = 'PopupDialog';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };
