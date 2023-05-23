@@ -8,4 +8,9 @@ basic.args = {
   work: collectionTree,
 };
 basic.storyName = 'ArchiveTree';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };
+basic.parameters = {
+  chromatic: {
+    viewports: [375, 1200],
+    delay: 500, // The data needs time to load
+  },
+};

@@ -8,4 +8,9 @@ basic.args = {
   longitude: -0.1333271,
 };
 basic.storyName = 'Map';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };
+basic.parameters = {
+  chromatic: {
+    viewports: [375, 1200],
+    delay: 500, // needs time to load
+  },
+};

@@ -17,8 +17,6 @@ middleOfPagination.parameters = {
       page: '5',
     },
   },
-};
-middleOfPagination.parameters = {
   chromatic: { viewports: [375, 1200] },
 };
 
