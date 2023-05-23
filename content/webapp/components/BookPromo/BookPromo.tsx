@@ -90,12 +90,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
           }}
           quality="low"
         />
-        <Space
-          h={{
-            size: 'l',
-            properties: ['padding-left', 'padding-right'],
-          }}
-        >
+        <Space h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
             style={{ position: 'relative' }}
