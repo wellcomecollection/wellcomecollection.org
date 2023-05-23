@@ -16,9 +16,7 @@ module.exports = {
     "media-feature-range-notation": "prefix",
     "value-keyword-case": [
       "lower",
-      {
-          "camelCaseSvgKeywords": true
-      }
+      { "camelCaseSvgKeywords": true }
     ],
     "font-family-name-quotes": "always-unless-keyword",
     "declaration-property-value-no-unknown": true
