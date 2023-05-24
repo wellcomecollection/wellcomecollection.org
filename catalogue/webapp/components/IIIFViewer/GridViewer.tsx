@@ -27,13 +27,6 @@ import {
   queryParamToArrayIndex,
 } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
-const Defs = styled.svg`
-  position: absolute;
-  height: 0;
-  width: 0;
-  left: -100%;
-`;
-
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
