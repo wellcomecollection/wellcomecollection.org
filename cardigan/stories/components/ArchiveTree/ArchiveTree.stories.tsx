@@ -12,6 +12,5 @@ basic.storyName = 'ArchiveTree';
 basic.parameters = {
   chromatic: {
     viewports: [375, 1200],
-    delay: 15000,
   },
 };
