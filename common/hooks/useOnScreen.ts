@@ -34,7 +34,6 @@ export default function useOnScreen({
       },
       {
         root,
-        rootMargin: '0px',
         threshold,
       }
     );
