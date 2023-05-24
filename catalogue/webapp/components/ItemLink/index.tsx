@@ -7,6 +7,7 @@ import {
   FromCodecMap,
   LinkFrom,
   maybeNumberCodec,
+  booleanCodec,
   stringCodec,
 } from '@weco/common/utils/routes';
 import { LinkProps } from '@weco/common/model/link-props';
@@ -15,10 +16,11 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const emptyItemProps: ItemProps = {
   workId: '',
-  canvas: 1,
-  page: 1,
-  manifest: 1,
   resultPosition: undefined,
+  canvas: 1,
+  manifest: 1,
+  page: 1,
+  shouldScrollToCanvas: true,
 };
 
 const codecMap = {
@@ -27,6 +29,7 @@ const codecMap = {
   canvas: maybeNumberCodec,
   manifest: maybeNumberCodec,
   page: maybeNumberCodec, // This is only needed by the NoScriptViewer
+  shouldScrollToCanvas: booleanCodec,
 };
 
 export type ItemProps = FromCodecMap<typeof codecMap>;

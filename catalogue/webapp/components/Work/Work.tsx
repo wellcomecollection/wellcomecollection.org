@@ -136,7 +136,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-  const { video, audio } = transformedIIIFManifest;
+  const { video, audio } = { ...transformedIIIFManifest };
   const shouldShowItemLink = showItemLink({
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,

@@ -14,7 +14,6 @@ import { getServerData } from '@weco/common/server-data';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
-import { createDefaultTransformedManifest } from '@weco/catalogue/types/manifest';
 import {
   ApiToolbarLink,
   setTzitzitParams,
@@ -48,10 +47,6 @@ const ImagePage: FunctionComponent<Props> = ({
   const title = work.title || '';
   const iiifImageLocation = image.locations[0];
 
-  // We only send a langCode if it's unambiguous -- better to send no language
-  // than the wrong one.
-  const lang = (work.languages.length === 1 && work.languages[0]?.id) || '';
-
   const apiLink = {
     id: 'json',
     label: 'JSON',
@@ -75,16 +70,7 @@ const ImagePage: FunctionComponent<Props> = ({
       hideTopContent={true}
     >
       {iiifImageLocation ? (
-        <IIIFViewer
-          title={title}
-          lang={lang}
-          transformedManifest={createDefaultTransformedManifest()}
-          pageIndex={0}
-          canvasIndex={0}
-          image={image}
-          iiifImageLocation={iiifImageLocation}
-          work={work}
-        />
+        <IIIFViewer work={work} iiifImageLocation={iiifImageLocation} />
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
