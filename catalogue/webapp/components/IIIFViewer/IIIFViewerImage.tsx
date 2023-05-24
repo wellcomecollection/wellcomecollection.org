@@ -2,8 +2,10 @@ import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const Image = styled.img<{ highlightImage?: boolean }>`
-  /* the filter is used for highlighting thumbnails that contain search terms */
-  ${props => (props.highlightImage ? `filter: url(#purpleFilter});` : '')}
+  ${props =>
+    props.highlightImage
+      ? `filter: grayscale(100%) brightness(70%) sepia(40%) hue-rotate(-120deg) saturate(400%) contrast(1);`
+      : ''}; // the filter is used for highlighting thumbnails that contain search terms
 `;
 
 type Props = {

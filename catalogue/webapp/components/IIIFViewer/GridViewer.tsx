@@ -191,58 +191,36 @@ const GridViewer: FunctionComponent = () => {
   }, []);
 
   return (
-    <>
-      {searchResults.resources.length > 0 && (
-        <Defs>
-          <filter
-            id="purpleFilter"
-            colorInterpolationFilters="sRGB"
-            x="0"
-            y="0"
-            height="100%"
-            width="100%"
-          >
-            <feColorMatrix
-              type="matrix"
-              values="0.48 0 0 0 0
-            0 0.29 0 0 0
-            0 0 0.7 0 0
-            0 0 0 1 0"
-            />
-          </filter>
-        </Defs>
-      )}
-      <GridViewerEl
-        isVisible={gridVisible}
-        isFullscreen={isFullscreen}
-        tabIndex={0}
-        infoBarIsVisible={isVisible}
+    <GridViewerEl
+      isVisible={gridVisible}
+      isFullscreen={isFullscreen}
+      tabIndex={0}
+      infoBarIsVisible={isVisible}
+    >
+      <FixedSizeGrid
+        columnCount={columnCount}
+        columnWidth={columnWidth}
+        height={mainAreaHeight}
+        rowCount={canvases ? canvases.length / columnCount + 1 : 0}
+        rowHeight={450}
+        width={mainAreaWidth}
+        itemData={{
+          columnCount,
+          gridVisible,
+          setGridVisible,
+          scrollVelocity,
+          canvases,
+          searchResults,
+          mainAreaWidth,
+          query,
+          workId: work.id,
+        }}
+        onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
+        ref={grid}
       >
-        <FixedSizeGrid
-          columnCount={columnCount}
-          columnWidth={columnWidth}
-          height={mainAreaHeight}
-          rowCount={canvases ? canvases.length / columnCount + 1 : 0}
-          rowHeight={450}
-          width={mainAreaWidth}
-          itemData={{
-            columnCount,
-            gridVisible,
-            setGridVisible,
-            scrollVelocity,
-            canvases,
-            searchResults,
-            mainAreaWidth,
-            query,
-            workId: work.id,
-          }}
-          onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
-          ref={grid}
-        >
-          {Cell}
-        </FixedSizeGrid>
-      </GridViewerEl>
-    </>
+        {Cell}
+      </FixedSizeGrid>
+    </GridViewerEl>
   );
 };
 
