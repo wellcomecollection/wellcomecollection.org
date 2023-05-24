@@ -30,7 +30,7 @@ export const getRejection = (
         : 'wellcomecollection.org';
 
     const params = new URLSearchParams();
-    params.set('originalUrl', request.uri);
+    params.set('originalUrl', `${request.uri}?${request.querystring}`);
 
     return redirect301(host, `/404?${params}`);
   }
