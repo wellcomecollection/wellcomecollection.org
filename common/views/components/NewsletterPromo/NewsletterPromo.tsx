@@ -126,7 +126,7 @@ const NewsletterPromo: FunctionComponent = () => {
       emailAddress: formEls.find(el => el.name === 'email').value,
     };
 
-    const response = await fetch('/newsletter-signup', {
+    const response = await fetch('/api/newsletter-signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

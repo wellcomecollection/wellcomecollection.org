@@ -1,4 +1,4 @@
-import { Period } from '@weco/content/types/periods';
+import { Period } from '@weco/common/types/periods';
 import { getExhibitionPeriodFilters, getEventFilters } from './filters';
 import * as dateUtils from '@weco/common/utils/dates';
 

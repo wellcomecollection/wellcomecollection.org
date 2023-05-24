@@ -3,7 +3,7 @@ import { orderEventsByNextAvailableDate } from '@weco/content/services/prismic/e
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { Period } from '@weco/content/types/periods';
+
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -25,8 +25,9 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { EventBasic } from '@weco/content/types/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { Period } from '@weco/common/types/periods';
 
-type Props = {
+export type Props = {
   title: string;
   events: PaginatedResults<EventBasic>;
   period?: Period;

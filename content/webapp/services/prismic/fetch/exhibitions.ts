@@ -16,7 +16,7 @@ import {
   eventAccessOptionsFields,
   exhibitionResourcesFields,
 } from '../fetch-links';
-import { Period } from '../../../types/periods';
+import { Period } from '@weco/common/types/periods';
 import { getExhibitionPeriodFilters } from '../types/filters';
 import {
   Exhibition,

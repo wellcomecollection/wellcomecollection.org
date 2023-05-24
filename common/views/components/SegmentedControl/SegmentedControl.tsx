@@ -15,6 +15,7 @@ import PlainList from '../styled/PlainList';
 import Space from '../styled/Space';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { Period } from '@weco/common/types/periods';
 
 type IsActiveProps = {
   isActive: boolean;
@@ -158,11 +159,52 @@ const Button = styled.button<{ isActive: boolean }>`
     `}
 `;
 
-type SegmentedControlItem = { id: string; text: string; url: string };
+const months = [
+  'january',
+  'feburary',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december',
+] as const;
+type Month = (typeof months)[number];
+
+export type DateID = `${Month}-${number}`;
+
+const isOfTypeMonth = (input): input is Month => {
+  return months.includes(input);
+};
+
+export const isOfTypeDateId = (input: unknown): input is DateID => {
+  if (input instanceof String) {
+    const sections = input.split('-');
+    if (sections.length !== 2) return false;
+    if (isOfTypeMonth(sections[0])) {
+      if (Number(sections[1])) {
+        return true;
+      }
+    }
+    return false;
+  } else {
+    return false;
+  }
+};
+
+export type ItemID = DateID | Period;
+export type Item = { id: ItemID; text: string; url: string };
 
 type Props = {
   id: string;
-  items: SegmentedControlItem[];
+  items: Item[];
+  activeId?: ItemID;
+  onActiveIdChange?: (id: ItemID) => void;
+  extraClasses?: string;
   ariaCurrentText?: string;
   // Note: parents don't always pass in a value for `setActiveId`.
   //
@@ -171,13 +213,9 @@ type Props = {
   // When you click on one of the segments, you get taken to a completely
   // different URL, e.g. from `/whats-on` to `/whats-on/today`.
   //
-  // When you go to that new URL, it'll completely re-render the page,
-  // including this component, getting the new value of `activeId` from the URL.
-  // It doesn't make sense for the What's On page to pass in a `setActiveId`
-  // function -- even if called, the outcome would never be used, because
-  // the user is about to be taken to a new URL/page.
-  activeId: string;
-  setActiveId?: (id: string) => void;
+  // In this case, the state is tracked by the URL, and there's no need for
+  // a setActiveId hook -- it will be updated by the re-render for the new URL.
+  setActiveId?: (id: ItemID) => void;
 };
 
 const SegmentedControl: FunctionComponent<Props> = ({
@@ -191,12 +229,12 @@ const SegmentedControl: FunctionComponent<Props> = ({
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    setActiveId?.(window.location.hash.slice(1) || activeId);
+    setActiveId?.((window.location.hash.slice(1) as ItemID) || activeId);
   }, []);
 
   function onClick(
     e: MouseEvent<HTMLAnchorElement>,
-    item: SegmentedControlItem
+    item: Item
   ): boolean | undefined {
     const url = e.currentTarget.href;
     const isHash = url.startsWith('#');

@@ -63,6 +63,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { AppErrorProps } from '@weco/common/services/app';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const DateWrapper = styled.div.attrs({
@@ -86,7 +87,7 @@ const EmailTeamCopy = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.700')};
 `;
 
-type Props = {
+type EventProps = {
   event: Event;
   jsonLd: JsonLdObj[];
   gaDimensions: GaDimensions;
@@ -121,7 +122,12 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
+/**
+ * Please note that the /events/{period} routes do not arrive here
+ * but instead are rewritten to the index file. Please observe
+ * this setup in the next.config file for this app
+ */
+const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
   const [scheduledIn, setScheduledIn] = useState<EventBasic>();
 
   // This is used to populate the 'Part of' in the breadcrumb trail.
@@ -447,7 +453,9 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async context => {
+export const getServerSideProps: GetServerSideProps<
+  EventProps | AppErrorProps
+> = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { eventId } = context.query;

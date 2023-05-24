@@ -8,7 +8,9 @@ import { groupEventsByMonth, startOf } from './group-event-utils';
 // Components
 import CardGrid from '../CardGrid/CardGrid';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+import SegmentedControl, {
+  ItemID,
+} from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import Space from '@weco/common/views/components/styled/Space';
 
 // Types
@@ -25,7 +27,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   // What's On page, e.g. a group for May, June, July, ...
   const monthsWithEvents = groupEventsByMonth(events).map(
     ({ month, events }) => {
-      const id = `${month.month}-${month.year}`.toLowerCase();
+      const id = `${month.month}-${month.year}`.toLowerCase() as ItemID;
 
       return {
         id,
@@ -40,7 +42,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   // We assume that there will always be some upcoming events scheduled,
   // which means there will be at least one month in `monthsWithEvents`
   // that has some events in it (as long as we have JS)
-  const [activeId, setActiveId] = useState<string | undefined>();
+  const [activeId, setActiveId] = useState<ItemID | undefined>();
 
   return (
     <div>

@@ -1,9 +1,9 @@
 // Place to store id's of prismic of dynamic content if required.
 // We can always reference all hardcoded prismic id where they are called and remove them later to maintain
 
-export const homepageId = 'XphUbREAACMAgRNP';
+const homepageId = 'XphUbREAACMAgRNP';
 
-export const collectionVenueId = {
+const collectionVenueId = {
   galleries: {
     id: 'Wsttgx8AAJeSNmJ4',
     name: 'Galleries',
@@ -25,7 +25,7 @@ export const collectionVenueId = {
   },
 };
 
-export const prismicPageIds = {
+const prismicPageIds = {
   covidWelcomeBack: 'X5amzBIAAB0Aq6Gm',
   whatWeDo: 'WwLGFCAAAPMiB_Ps',
   visitUs: 'X8ZTSBIAACQAiDzY',
@@ -49,11 +49,11 @@ export const prismicPageIds = {
   youth: 'Wuw2MSIAACtd3Ssg',
 };
 
-export const eventPolicyIds = {
+const eventPolicyIds = {
   schoolBooking: 'W4Vx5h4AACIAehqz',
 };
 
-export const getNameFromCollectionVenue = (id: string): string | undefined => {
+const getNameFromCollectionVenue = id => {
   // check the keys and returns back name based on id
   for (const [key, value] of Object.entries(collectionVenueId)) {
     if (value && value.id === id) {
@@ -62,11 +62,21 @@ export const getNameFromCollectionVenue = (id: string): string | undefined => {
   }
 };
 
-export const sectionLevelPages = [
+const sectionLevelPages = [
   prismicPageIds.visitUs,
   prismicPageIds.collections,
   prismicPageIds.getInvolved,
 ];
 
 // The only series that uses the `webcomics` type.
-export const bodySquabblesSeries = 'WleP3iQAACUAYEoN';
+const bodySquabblesSeries = 'WleP3iQAACUAYEoN';
+
+module.exports = {
+  homepageId,
+  collectionVenueId,
+  prismicPageIds,
+  eventPolicyIds,
+  getNameFromCollectionVenue,
+  sectionLevelPages,
+  bodySquabblesSeries,
+};
