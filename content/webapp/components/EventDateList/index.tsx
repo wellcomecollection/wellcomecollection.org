@@ -2,11 +2,10 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
-import { Event } from '@weco/content/types/events';
+import { HasTimes } from '@weco/content/types/events';
 import EventStatus from '../EventStatus';
 import Space from '@weco/common/views/components/styled/Space';
-
-import { isDayPast } from '@weco/common/utils/dates';
+import { isPast } from '@weco/common/utils/dates';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -24,31 +23,29 @@ const DateRangeWrapper = styled.div<{ isPast: boolean }>`
   flex: 1;
 `;
 
-const EventDateList: FunctionComponent<{ event: Event }> = ({ event }) => {
+const EventDateList: FunctionComponent<{ event: HasTimes }> = ({ event }) => {
   return (
-    event.times && (
-      <>
-        {event.times.map((eventTime, index) => {
-          return (
-            <TimeWrapper key={index}>
-              <DateRangeWrapper isPast={isDayPast(eventTime.range.endDateTime)}>
-                <DateRange
-                  start={eventTime.range.startDateTime}
-                  end={eventTime.range.endDateTime}
-                />
-              </DateRangeWrapper>
+    <>
+      {event.times.map((eventTime, index) => {
+        return (
+          <TimeWrapper key={index}>
+            <DateRangeWrapper isPast={isPast(eventTime.range.endDateTime)}>
+              <DateRange
+                start={eventTime.range.startDateTime}
+                end={eventTime.range.endDateTime}
+              />
+            </DateRangeWrapper>
 
-              {isDayPast(eventTime.range.endDateTime) ? (
-                <EventStatus text="Past" color="neutral.500" />
-              ) : eventTime.isFullyBooked.inVenue &&
-                eventTime.isFullyBooked.online ? (
-                <EventStatus text="Full" color="validation.red" />
-              ) : null}
-            </TimeWrapper>
-          );
-        })}
-      </>
-    )
+            {isPast(eventTime.range.endDateTime) ? (
+              <EventStatus text="Past" color="neutral.500" />
+            ) : eventTime.isFullyBooked.inVenue &&
+              eventTime.isFullyBooked.online ? (
+              <EventStatus text="Full" color="validation.red" />
+            ) : null}
+          </TimeWrapper>
+        );
+      })}
+    </>
   );
 };
 
