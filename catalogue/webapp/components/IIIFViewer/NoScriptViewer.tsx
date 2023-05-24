@@ -155,7 +155,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   canvasOcr,
 }: NoScriptViewerProps) => {
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
-  const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
+  const lang = (work.languages.length === 1 && work.languages[0].id) || '';
   const { canvases } = { ...transformedManifest };
   const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvasParam)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
