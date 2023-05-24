@@ -148,8 +148,7 @@ const GridViewer: FunctionComponent = () => {
     transformedManifest,
     isFullscreen,
     searchResults,
-    canvasParam,
-    manifestParam,
+    query,
     work,
   } = useContext(ItemViewerContext);
   const { windowSize } = useContext(AppContext);
@@ -164,10 +163,10 @@ const GridViewer: FunctionComponent = () => {
 
   useEffect(() => {
     const rowIndex = Math.floor(
-      queryParamToArrayIndex(canvasParam) / columnCount
+      queryParamToArrayIndex(query.canvasParam) / columnCount
     );
     grid.current?.scrollToItem({ align: 'start', rowIndex });
-  }, [canvasParam]);
+  }, [query.canvasParam]);
 
   useEffect(() => {
     // required to be set as we are setting the body to overflow hidden to stop multiple scrolls in view bug issue.
@@ -232,8 +231,7 @@ const GridViewer: FunctionComponent = () => {
             canvases,
             searchResults,
             mainAreaWidth,
-            canvasParam,
-            manifestParam,
+            query,
             workId: work.id,
           }}
           onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}

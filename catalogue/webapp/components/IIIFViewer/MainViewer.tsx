@@ -25,6 +25,7 @@ import { TransformedCanvas } from '../../types/manifest';
 import { fetchCanvasOcr } from '../../services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '../../services/iiif/transformers/canvasOcr';
 import { AuthExternalService } from '@iiif/presentation-3';
+import { queryParamToArrayIndex } from './IIIFViewer';
 
 type SearchTermHighlightProps = {
   top: number;
@@ -336,7 +337,7 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
     mainAreaWidth,
     transformedManifest,
     canvasIndex,
-    canvasParam,
+    query,
     setShowZoomed,
     setZoomInfoUrl,
     setIsLoading,
@@ -344,6 +345,7 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
     setShowControls,
     errorHandler,
   } = useContext(ItemViewerContext);
+  const { shouldScrollToCanvas, canvasParam } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
@@ -409,6 +411,7 @@ const MainViewer: FunctionComponent<Props> = ({ mainAreaRef }: Props) => {
           mainAreaRef,
           errorHandler,
           restrictedService,
+          canvasParam,
         }}
         itemSize={mainAreaWidth}
         onItemsRendered={debounceHandleOnItemsRendered.current}

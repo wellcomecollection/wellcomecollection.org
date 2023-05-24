@@ -46,12 +46,9 @@ const Item = styled(Space).attrs({
 `;
 
 const ViewerStructuresPrototype: FunctionComponent = () => {
-  const {
-    transformedManifest,
-    setIsMobileSidebarActive,
-    canvasParam,
-    manifestParam,
-  } = useContext(ItemViewerContext);
+  const { transformedManifest, setIsMobileSidebarActive, query, work } =
+    useContext(ItemViewerContext);
+  const { canvasParam, manifestParam } = query;
   const { structures, canvases } = transformedManifest;
   const groupedStructures = groupStructures(canvases, structures);
 
@@ -68,10 +65,12 @@ const ViewerStructuresPrototype: FunctionComponent = () => {
         );
 
         return (
-          <Item key={i} isActive={true}>
+          // TODO
+          <Item key={i} isActive={false}>
             <NextLink
               {...itemLink(
                 {
+                  workId: work.id,
                   manifest: manifestParam,
                   canvas: arrayIndexToQueryParam(canvasIndex),
                 },

@@ -214,9 +214,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 }: IIIFViewerProps) => {
   const router = useRouter(); // TODO or should this be passed in from items/images pages from context.query?
   const {
-    page: pageParam = 1, // TODO do we really need to rename these
+    page: pageParam = 1,
     canvas: canvasParam = 1,
     manifest: manifestParam = 1,
+    shouldScrollToCanvas = true,
   } = fromQuery(router.query);
   const [gridVisible, setGridVisible] = useState(false);
   const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
@@ -317,9 +318,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         manifestIndex,
         lang,
         canvasIndex,
-        pageParam, // TODO maybe do these as one thing, i.e. query and maybe do them as index with -1 taken into account
-        canvasParam,
-        manifestParam,
+        query: {
+          pageParam,
+          canvasParam,
+          manifestParam,
+          shouldScrollToCanvas,
+        },
         gridVisible,
         currentManifestLabel,
         iiifImageLocationCredit,

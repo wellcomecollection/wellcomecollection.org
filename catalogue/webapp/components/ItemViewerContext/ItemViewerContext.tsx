@@ -16,9 +16,12 @@ type Props = {
   transformedManifest: TransformedManifest;
   manifestIndex: number | undefined;
   // canvasIndex: number;
-  pageParam: number;
-  canvasParam: number;
-  manifestParam: number;
+  query: {
+    pageParam: number;
+    canvasParam: number;
+    manifestParam: number;
+    shouldScrollToCanvas: boolean;
+  };
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
   iiifImageLocationCredit: string | undefined;
@@ -66,6 +69,12 @@ export const results = {
 };
 
 const ItemViewerContext = createContext<Props>({
+  query: {
+    canvasParam: 1,
+    pageParam: 1,
+    manifestParam: 1,
+    shouldScrollToCanvas: true,
+  },
   work: {
     type: 'Work',
     id: '',
@@ -97,9 +106,6 @@ const ItemViewerContext = createContext<Props>({
   transformedManifest: createDefaultTransformedManifest(),
   manifestIndex: undefined,
   canvasIndex: 0,
-  canvasParam: 1,
-  pageParam: 1,
-  manifestParam: 1,
   gridVisible: false,
   iiifImageLocationCredit: '',
   parentManifest: undefined,

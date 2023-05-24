@@ -66,6 +66,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     setZoomInfoUrl,
     setShowZoomed,
     mainAreaRef,
+    query,
     rotatedImages,
   } = useContext(ItemViewerContext);
   const imageViewer = useRef<HTMLDivElement>(null);
@@ -111,9 +112,18 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     return () => window.removeEventListener('resize', updateImagePosition);
   }, []);
 
-  useEffect(() => {
       setZoomInfoUrl && setZoomInfoUrl(infoUrl);
+  useSkipInitialEffect(() => {
     if (isOnScreen) {
+      const link = itemLink(
+        {
+          workId: work.id,
+          manifest: query.manifestParam,
+          canvas: arrayIndexToQueryParam(index),
+          shouldScrollToCanvas: false,
+        },
+        'viewer/scroll'
+      );
     }
   }, [isOnScreen]);
 

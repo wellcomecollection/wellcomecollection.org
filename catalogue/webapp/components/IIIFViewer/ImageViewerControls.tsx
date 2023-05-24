@@ -47,11 +47,12 @@ const ImageViewerControls: FunctionComponent = () => {
   const {
     showControls,
     rotatedImages,
-    canvasParam,
+    query,
     urlTemplate,
     setRotatedImages,
     setShowZoomed,
   } = useContext(ItemViewerContext);
+  const { canvasParam } = query;
 
   return (
     <ImageViewerControlsEl showControls={showControls || urlTemplate}>

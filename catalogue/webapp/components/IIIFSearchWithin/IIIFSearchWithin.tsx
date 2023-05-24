@@ -92,7 +92,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
     searchResults,
     setSearchResults,
     setIsMobileSidebarActive,
-    manifestParam,
+    query,
     work,
   } = useContext(ItemViewerContext);
   const { searchService, canvases } = transformedManifest;
@@ -186,7 +186,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                     {...itemLink(
                       {
                         workId: work.id,
-                        manifest: manifestParam,
+                        manifest: query.manifestParam,
                         canvas: arrayIndexToQueryParam(index),
                       },
                       'search_within_result'
