@@ -7,7 +7,11 @@ import {
 import { getRejection } from './rejection';
 
 export const request: CloudFrontRequestHandler = (event, context, callback) => {
-  getRejection(event);
+  const rejectResponse = getRejection(event);
+  if (rejectResponse) {
+    callback(null, rejectResponse);
+    return;
+  }
 
   const redirectResponse = getRedirect(event);
   if (redirectResponse) {

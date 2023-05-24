@@ -2,7 +2,7 @@ import { CloudFrontRequestEvent, CloudFrontResponse } from 'aws-lambda';
 import { URLSearchParams } from 'url';
 import { literalRedirects, queryRedirects } from './redirects';
 
-const redirect301 = (host: string, path: string) => ({
+export const redirect301 = (host: string, path: string) => ({
   status: '301',
   statusDescription: 'Found',
   headers: {
