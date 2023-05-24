@@ -24,43 +24,54 @@ export const getEventFilters = ({
 
   const weekendDateRange = getNextWeekendDateRange(now);
 
-  // The 'current-and-coming-up' and 'past' filters should split
-  // events into two segments -- every event/exhibition should match
-  // exactly one of these.
-  //
-  // We use today() as the comparison value so events get removed from
-  // the What's On page as soon as they're done -- otherwise we get
-  // events appearing with a "Past" label in the event list.
-  if (period === 'current-and-coming-up') {
-    return [prismic.filter.dateAfter(endField, today())];
-  }
-  if (period === 'past') {
-    return [prismic.filter.dateBefore(endField, today())];
-  }
+  switch (period) {
+    // The 'current-and-coming-up' and 'past' filters should split
+    // events into two segments -- every event/exhibition should match
+    // exactly one of these.
+    //
+    // We use today() as the comparison value so events get removed from
+    // the What's On page as soon as they're done -- otherwise we get
+    // events appearing with a "Past" label in the event list.
 
-  return period === 'coming-up'
-    ? [prismic.filter.dateAfter(startField, endOfToday)]
-    : period === 'today'
-    ? [
+    case 'current-and-coming-up':
+      return [prismic.filter.dateAfter(endField, today())];
+
+    case 'past':
+      return [prismic.filter.dateBefore(endField, today())];
+
+    case 'coming-up':
+      return [prismic.filter.dateAfter(startField, endOfToday)];
+
+    case 'today':
+      return [
         prismic.filter.dateBefore(startField, endOfToday),
         prismic.filter.dateAfter(endField, startOfToday),
-      ]
-    : period === 'this-weekend'
-    ? [
+      ];
+
+    case 'this-weekend':
+      return [
         prismic.filter.dateBefore(startField, weekendDateRange.end),
         prismic.filter.dateAfter(endField, weekendDateRange.start),
-      ]
-    : period === 'this-week'
-    ? [
+      ];
+
+    case 'this-week':
+      return [
         prismic.filter.dateBefore(startField, endOfWeek(now)),
         prismic.filter.dateAfter(startField, startOfWeek(now)),
-      ]
-    : period === 'next-seven-days'
-    ? [
+      ];
+
+    case 'next-seven-days':
+      return [
         prismic.filter.dateBefore(startField, endOfDay(addDays(now, 6))),
         prismic.filter.dateAfter(endField, startOfToday),
-      ]
-    : [];
+      ];
+
+    // This branch should be unreachable by the types on Period, but we include
+    // it for safety and so that TypeScript is happy with the return type.
+    default:
+      console.warn(`Got unrecognised period: ${period}`);
+      return [];
+  }
 };
 
 export const getExhibitionPeriodFilters = ({
