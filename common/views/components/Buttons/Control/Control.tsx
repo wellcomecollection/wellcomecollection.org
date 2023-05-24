@@ -40,7 +40,6 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   border-radius: 50%;
   padding: 0;
   transition: background ${props => props.theme.transitionProperties};
-  cursor: pointer;
   width: 46px;
   height: 46px;
 

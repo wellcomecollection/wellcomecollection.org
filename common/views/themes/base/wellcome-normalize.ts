@@ -13,6 +13,7 @@ button {
   background: transparent;
   border: 0;
   text-align: left;
+  cursor: pointer;
 }
 
 fieldset {
