@@ -247,6 +247,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                 loadHandler={() => {
                   setThumbLoaded(true);
                 }}
+                zoomOnClick={true}
               />
             </ThumbnailWrapper>
           )}

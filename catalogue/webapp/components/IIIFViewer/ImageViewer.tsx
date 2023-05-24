@@ -158,6 +158,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
           updateImagePosition();
         }}
         errorHandler={errorHandler}
+        zoomOnClick={true}
       />
     </ImageWrapper>
   );
