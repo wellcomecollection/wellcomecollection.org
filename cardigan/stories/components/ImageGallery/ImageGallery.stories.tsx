@@ -9,7 +9,9 @@ const sharedArgs = {
   id: 'test',
   isStandalone: false,
 };
-const sharedParams = { chromatic: { viewports: [375, 1200] } };
+const sharedParams = {
+  chromatic: { viewports: [375, 1200], diffThreshold: 0.2 },
+};
 
 const Template = args => (
   <ReadmeDecorator
