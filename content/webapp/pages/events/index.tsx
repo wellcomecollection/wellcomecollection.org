@@ -52,8 +52,6 @@ export const getServerSideProps: GetServerSideProps<
     availableOnline,
   } = context.query;
 
-  console.log(context.query);
-
   const client = createClient(context);
 
   const eventsQueryPromise = await fetchEvents(client, {

@@ -122,6 +122,11 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed,
 };
 
+/**
+ * Please note that the /events/{period} routes do not arrive here
+ * but instead are rewritten to the index file. Please observe
+ * this setup in the next.config file for this app
+ */
 const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
   const [scheduledIn, setScheduledIn] = useState<EventBasic>();
 
