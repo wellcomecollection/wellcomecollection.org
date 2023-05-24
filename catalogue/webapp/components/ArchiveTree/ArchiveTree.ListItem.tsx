@@ -338,7 +338,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         </WorkLink>
       </div>
       {item.children && item.openStatus && (
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         <NestedList
           selected={selected}
           currentWorkId={currentWorkId}
