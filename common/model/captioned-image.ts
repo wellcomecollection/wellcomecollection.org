@@ -1,8 +1,8 @@
 import { ImageType } from './image';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 export type CaptionedImage = {
-  caption: prismicT.RichTextField;
+  caption: prismic.RichTextField;
   image: ImageType;
   hasRoundedCorners: boolean;
 };

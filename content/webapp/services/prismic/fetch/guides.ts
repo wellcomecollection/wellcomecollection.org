@@ -1,4 +1,4 @@
-import { Query } from '@prismicio/types';
+import { Query } from '@prismicio/client';
 import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 import {
   GuidePrismicDocument,
@@ -23,12 +23,12 @@ export const fetchGuides = (
   client: GetServerSidePropsPrismicClient,
   { format, ...opts }: GuidesQueryProps
 ): Promise<Query<GuidePrismicDocument>> => {
-  const formatPredicates = format
-    ? [prismic.predicate.at('my.guides.format', format)]
+  const formatFilters = format
+    ? [prismic.filter.at('my.guides.format', format)]
     : [];
 
   return guidesFetcher.getByType(client, {
-    predicates: formatPredicates,
+    filters: formatFilters,
     fetchLinks: pagesFetchLinks,
     ...opts,
   });

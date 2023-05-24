@@ -4,7 +4,7 @@ import {
   ContentRelationshipField,
   RichTextField,
   BooleanField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import {
   CommonPrismicFields,
   FetchLinks,

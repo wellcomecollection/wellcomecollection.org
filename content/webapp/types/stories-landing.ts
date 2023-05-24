@@ -1,4 +1,4 @@
-import { RichTextField } from '@prismicio/types';
+import { RichTextField } from '@prismicio/client';
 import { ArticleBasic } from './articles';
 import { SeriesBasic } from './series';
 import { BookBasic } from './books';

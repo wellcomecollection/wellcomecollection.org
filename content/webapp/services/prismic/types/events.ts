@@ -9,7 +9,7 @@ import {
   EmbedField,
   KeyTextField,
   LinkField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { BackgroundTexturesDocument } from './background-textures';
 import { PlacePrismicDocument } from './places';
 import {

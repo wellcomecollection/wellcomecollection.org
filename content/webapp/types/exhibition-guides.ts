@@ -1,6 +1,6 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
-import { RichTextField } from '@prismicio/types';
+import { RichTextField } from '@prismicio/client';
 
 type CaptionsOrTranscripts = {
   title: string;

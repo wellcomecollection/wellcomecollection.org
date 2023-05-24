@@ -1,4 +1,4 @@
-import { Query } from '@prismicio/types';
+import { Query } from '@prismicio/client';
 import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { exhibitionsFetchLinks, contributorFetchLinks } from '../types';

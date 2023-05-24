@@ -1,9 +1,9 @@
 import {
   GetServerSidePropsPrismicClient,
-  delistPredicate,
+  delistFilter,
   fetchFromClientSide,
 } from '.';
-import { Query } from '@prismicio/types';
+import { Query } from '@prismicio/client';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   MultiContentPrismicDocument,
@@ -36,35 +36,35 @@ export const fetchMultiContent = async (
   const { types, type, id, ids, tags, tag, pageSize, orderings } =
     structuredSearchQuery;
 
-  const idsPredicate =
-    ids.length > 0 ? prismic.predicate.at('document.id', ids) : undefined;
-  const idPredicate =
-    id.length > 0 ? prismic.predicate.in('document.id', id) : undefined;
-  const tagsPredicate =
-    tags.length > 0 ? prismic.predicate.at('document.tags', tags) : undefined;
-  const tagPredicate =
-    tag.length > 0 ? prismic.predicate.any('document.tags', tag) : undefined;
-  const typesPredicate =
-    types.length > 0 ? prismic.predicate.in('document.type', types) : undefined;
-  const typePredicate =
-    type.length > 0 ? prismic.predicate.any('document.type', type) : undefined;
+  const idsFilter =
+    ids.length > 0 ? prismic.filter.at('document.id', ids) : undefined;
+  const idFilter =
+    id.length > 0 ? prismic.filter.in('document.id', id) : undefined;
+  const tagsFilter =
+    tags.length > 0 ? prismic.filter.at('document.tags', tags) : undefined;
+  const tagFilter =
+    tag.length > 0 ? prismic.filter.any('document.tags', tag) : undefined;
+  const typesFilter =
+    types.length > 0 ? prismic.filter.in('document.type', types) : undefined;
+  const typeFilter =
+    type.length > 0 ? prismic.filter.any('document.type', type) : undefined;
 
   // content type specific
   const articleSeries = structuredSearchQuery['article-series'];
-  const articleSeriesPredicate =
+  const articleSeriesFilter =
     articleSeries.length > 0
-      ? prismic.predicate.any('my.articles.series.series', articleSeries)
+      ? prismic.filter.any('my.articles.series.series', articleSeries)
       : undefined;
 
-  const predicates = [
-    idsPredicate,
-    idPredicate,
-    tagsPredicate,
-    tagPredicate,
-    typesPredicate,
-    typePredicate,
-    articleSeriesPredicate,
-    delistPredicate,
+  const filters = [
+    idsFilter,
+    idFilter,
+    tagsFilter,
+    tagFilter,
+    typesFilter,
+    typeFilter,
+    articleSeriesFilter,
+    delistFilter,
   ].filter(isNotUndefined);
 
   return client.get<MultiContentPrismicDocument>({
@@ -82,7 +82,7 @@ export const fetchMultiContent = async (
       ...teamsFetchLinks,
       ...articlesFetchLinks,
     ],
-    predicates,
+    filters,
     pageSize: pageSize || 100,
     orderings: orderings || [],
   });

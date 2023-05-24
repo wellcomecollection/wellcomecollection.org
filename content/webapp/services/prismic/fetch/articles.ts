@@ -1,4 +1,4 @@
-import { Query } from '@prismicio/types';
+import { Query } from '@prismicio/client';
 import {
   GetServerSidePropsPrismicClient,
   GetByTypeParams,

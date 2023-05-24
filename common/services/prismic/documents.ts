@@ -14,7 +14,7 @@ import {
   KeyTextField,
   ImageField,
   BooleanField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 
 export type DayField = GroupField<{
   startDateTime: TimestampField;

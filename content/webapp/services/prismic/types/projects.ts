@@ -3,7 +3,7 @@ import {
   PrismicDocument,
   ContentRelationshipField,
   RichTextField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import {
   CommonPrismicFields,
   WithContributors,

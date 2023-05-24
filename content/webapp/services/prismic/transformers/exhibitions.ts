@@ -10,7 +10,7 @@ import {
   ExhibitionRelatedContentPrismicDocument,
   ExhibitionFormat as ExhibitionFormatPrismicDocument,
 } from '../types/exhibitions';
-import { Query } from '@prismicio/types';
+import { Query } from '@prismicio/client';
 import {
   PaginatedResults,
   isFilledLinkToDocumentWithData,
@@ -32,7 +32,7 @@ import {
   transformContributors,
   transformContributorToContributorBasic,
 } from './contributors';
-import * as prismicH from '@prismicio/helpers';
+import * as prismic from '@prismicio/client';
 import { noAltTextBecausePromo } from './images';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
@@ -79,13 +79,13 @@ export function transformExhibition(
   const genericFields = transformGenericFields(document);
   const data = document.data;
   const exhibitIds = data.exhibits
-    ? data.exhibits.map(i => prismicH.isFilled.link(i.item) && i.item.id)
+    ? data.exhibits.map(i => prismic.isFilled.link(i.item) && i.item.id)
     : [];
   const eventIds = data.events
-    ? data.events.map(i => prismicH.isFilled.link(i.item) && i.item.id)
+    ? data.events.map(i => prismic.isFilled.link(i.item) && i.item.id)
     : [];
   const articleIds = data.articles
-    ? data.articles.map(i => prismicH.isFilled.link(i.item) && i.item.id)
+    ? data.articles.map(i => prismic.isFilled.link(i.item) && i.item.id)
     : [];
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean

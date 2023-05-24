@@ -5,7 +5,7 @@ import {
   TimestampField,
   PrismicDocument,
   SelectField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import {
   CommonPrismicFields,
   FetchLinks,

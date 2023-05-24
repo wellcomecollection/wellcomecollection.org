@@ -74,12 +74,14 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
   const seriesQuery = await fetchSeries(client, {
-    predicates: prismic.predicate.at('my.series.format', contentTypeInfo.id),
+    filters: prismic.filter.at('my.series.format', contentTypeInfo.id),
     page,
-    orderings: {
-      field: 'document.first_publication_date',
-      direction: 'desc',
-    },
+    orderings: [
+      {
+        field: 'document.first_publication_date',
+        direction: 'desc',
+      },
+    ],
   });
   const series = transformQuery(seriesQuery, transformSeries);
   const basicSeries = {

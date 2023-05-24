@@ -6,7 +6,7 @@ import { Place, PlaceBasic } from './places';
 import { Season } from './seasons';
 import { Label } from '@weco/common/model/labels';
 import { ImagePromo } from './image-promo';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { EventSeriesBasic } from './event-series';
 import { ImageType } from '@weco/common/model/image';
 
@@ -29,14 +29,14 @@ export type EventTime = {
 export type InterpretationType = {
   id: string;
   title: string;
-  description?: prismicT.RichTextField;
-  primaryDescription?: prismicT.RichTextField;
+  description?: prismic.RichTextField;
+  primaryDescription?: prismic.RichTextField;
 };
 
 export type Interpretation = {
   interpretationType: InterpretationType;
   isPrimary: boolean;
-  extraInformation?: prismicT.RichTextField;
+  extraInformation?: prismic.RichTextField;
 };
 
 export type Team = {
@@ -50,7 +50,7 @@ export type Team = {
 export type Audience = {
   id: string;
   title: string;
-  description?: prismicT.RichTextField;
+  description?: prismic.RichTextField;
 };
 
 export type DateRange = {
@@ -109,7 +109,7 @@ export type Event = GenericContentFields & {
   interpretations: Interpretation[];
   audiences: Audience[];
   policies: LabelField[];
-  bookingInformation?: prismicT.RichTextField;
+  bookingInformation?: prismic.RichTextField;
   cost?: string;
   bookingType?: string;
   thirdPartyBooking?: ThirdPartyBooking;
@@ -129,7 +129,7 @@ export type Event = GenericContentFields & {
   onlineBookingEnquiryTeam?: Team;
   onlineEventbriteId?: string;
   onlineThirdPartyBooking?: ThirdPartyBooking;
-  onlineBookingInformation?: prismicT.RichTextField;
+  onlineBookingInformation?: prismic.RichTextField;
   onlinePolicies: LabelField[];
   onlineHasEarlyRegistration: boolean;
   onlineCost?: string;

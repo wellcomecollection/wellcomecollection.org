@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import Caption from '@weco/common/views/components/Caption/Caption';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 
 const Figure = styled.figure`
@@ -9,7 +9,7 @@ const Figure = styled.figure`
 
 export type Props = {
   embedUrl: string;
-  caption?: prismicT.RichTextField;
+  caption?: prismic.RichTextField;
 };
 
 const SoundCloudEmbed: FunctionComponent<Props> = ({ embedUrl, caption }) => (

@@ -2,8 +2,8 @@ import { Fragment } from 'react';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { JSXFunctionSerializer } from '@prismicio/react';
-import { RichTextNodeType } from '@prismicio/types';
-import * as prismicH from '@prismicio/helpers';
+import { RichTextNodeType } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
 import styled from 'styled-components';
@@ -58,7 +58,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
       return <ol key={key}>{children}</ol>;
     case RichTextNodeType.image: {
       const url = element.linkTo
-        ? prismicH.asLink(element.linkTo, linkResolver)
+        ? prismic.asLink(element.linkTo, { linkResolver })
         : null;
       const linkTarget =
         element.linkTo && 'target' in element.linkTo
@@ -96,7 +96,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
       const target =
         'target' in element.data ? element.data.target || undefined : undefined;
       const rel = target ? 'noopener' : undefined;
-      const linkUrl = prismicH.asLink(element.data, linkResolver) || '';
+      const linkUrl = prismic.asLink(element.data, { linkResolver }) || '';
       const isDocument =
         'kind' in element.data ? element.data.kind === 'document' : false;
 
