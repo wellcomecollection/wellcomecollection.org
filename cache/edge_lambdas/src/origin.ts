@@ -4,8 +4,11 @@ import {
   CloudFrontRequestHandler,
   CloudFrontResponseHandler,
 } from 'aws-lambda';
+import { getRejection } from './rejection';
 
 export const request: CloudFrontRequestHandler = (event, context, callback) => {
+  getRejection(event);
+
   const redirectResponse = getRedirect(event);
   if (redirectResponse) {
     callback(null, redirectResponse);
