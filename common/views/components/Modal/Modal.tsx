@@ -29,6 +29,7 @@ type Props = PropsWithChildren<{
   showOverlay?: boolean;
   modalStyle?: 'filters' | 'calendar';
 }>;
+
 const Overlay = styled.div`
   z-index: 1000;
   position: fixed;
