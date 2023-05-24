@@ -6,7 +6,7 @@ import {
   getDigitalLocationOfType,
   getAccessConditionForDigitalLocation,
 } from '../utils/works';
-import { getTabbableIds } from '../components/ArchiveTree/ArchiveTree';
+import { getTabbableIds } from '../components/ArchiveTree/ArchiveTree.helpers';
 import {
   workFixture,
   workWithPartOf,

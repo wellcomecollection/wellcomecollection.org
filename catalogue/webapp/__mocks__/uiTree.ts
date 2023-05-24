@@ -1,4 +1,4 @@
-import { UiTree } from '../components/ArchiveTree/ArchiveTree';
+import { UiTree } from '../components/ArchiveTree/ArchiveTree.helpers';
 
 export const uiTree: UiTree = [
   {
