@@ -85,7 +85,7 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
 type Props = {
   transformedManifest: TransformedManifest | undefined;
   work: Work;
-  canvasParam: number;
+  canvas: number;
   canvasOcr?: string;
   iiifImageLocation?: DigitalLocation;
   pageview: Pageview;
@@ -96,7 +96,7 @@ const ItemPage: NextPage<Props> = ({
   work,
   canvasOcr,
   iiifImageLocation,
-  canvasParam,
+  canvas,
 }) => {
   const workId = work.id;
   const [origin, setOrigin] = useState<string>();
@@ -118,7 +118,7 @@ const ItemPage: NextPage<Props> = ({
   } = { ...transformedManifest };
 
   const authService = clickThroughService || restrictedService;
-  const currentCanvas = canvases?.[queryParamToArrayIndex(canvasParam)];
+  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
@@ -324,13 +324,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     setCacheControl(context.res);
     const serverData = await getServerData(context);
-    const {
-      workId,
-      canvas: canvasParam = 1,
-      manifest: manifestParam = 1,
-    } = fromQuery(context.query);
+    const { canvas = 1, manifest = 1 } = fromQuery(context.query);
 
-    if (!looksLikeCanonicalId(workId)) {
+    if (!looksLikeCanonicalId(context.query.workId)) {
       return { notFound: true };
     }
 
@@ -340,7 +336,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     };
 
     const work = await getWork({
-      id: workId,
+      id: context.query.workId,
       toggles: serverData.toggles,
       include: ['items', 'languages', 'contributors', 'production'],
     });
@@ -354,7 +350,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       // e.g. if you have a link to /works/$oldId/items?canvas=10, then
       // you'll go to /works/$newId/items?canvas=10
       const destination = isNotUndefined(context.req.url)
-        ? context.req.url.replace(workId, work.redirectToId)
+        ? context.req.url.replace(context.query.workId, work.redirectToId)
         : `/works/${work.redirectToId}/items`;
 
       return {
@@ -409,11 +405,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (transformedManifest) {
       const displayManifest = await getDisplayManifest(
         transformedManifest,
-        queryParamToArrayIndex(manifestParam)
+        queryParamToArrayIndex(manifest)
       );
 
       const { canvases } = displayManifest;
-      const currentCanvas = canvases[queryParamToArrayIndex(canvasParam)];
+      const currentCanvas = canvases[queryParamToArrayIndex(canvas)];
       const canvasOcrText = await fetchCanvasOcr(currentCanvas);
       const canvasOcr = transformCanvasOcr(canvasOcrText);
 
@@ -422,7 +418,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           transformedManifest: displayManifest,
           canvasOcr,
           work,
-          canvasParam,
+          canvas,
           iiifImageLocation,
           pageview,
           serverData,
@@ -435,7 +431,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: serialiseProps({
           transformedManifest: undefined,
           work,
-          canvasParam,
+          canvas,
           canvases: [],
           iiifImageLocation,
           pageview,

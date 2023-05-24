@@ -32,8 +32,8 @@ import { fromQuery } from '@weco/catalogue/components/ItemLink';
 
 // canvas and manifest params use 1-based indexing, but are used to access items in 0 indexed arrays,
 // so we need to convert it in various places
-export function queryParamToArrayIndex(canvasParam: number): number {
-  return canvasParam - 1;
+export function queryParamToArrayIndex(canvas: number): number {
+  return canvas - 1;
 }
 
 export function arrayIndexToQueryParam(canvasIndex: number): number {
@@ -204,10 +204,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
-    page: pageParam = 1,
-    canvas: canvasParam = 1,
-    manifest: manifestParam = 1,
+    page = 1,
+    canvas = 1,
+    manifest = 1,
     shouldScrollToCanvas = true,
+    query = '',
   } = fromQuery(router.query);
   const [gridVisible, setGridVisible] = useState(false);
   const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
@@ -228,7 +229,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
   const hasIiifImage = imageUrl && iiifImageLocation;
   const currentCanvas =
-    transformedManifest?.canvases[queryParamToArrayIndex(canvasParam)];
+    transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const hasImageService = mainImageService['@id'] && currentCanvas;
   const { parentManifestUrl } = { ...transformedManifest };
@@ -274,10 +275,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       value={{
         // DATA props:
         query: {
-          pageParam,
-          canvasParam,
-          manifestParam,
+          page,
+          canvas,
+          manifest,
           shouldScrollToCanvas,
+          query,
         },
         work,
         transformedManifest,

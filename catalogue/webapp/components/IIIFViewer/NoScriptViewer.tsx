@@ -157,13 +157,13 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
   const lang = (work.languages.length === 1 && work.languages[0].id) || '';
   const { canvases } = { ...transformedManifest };
-  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvasParam)];
+  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
-  const pageIndex = queryParamToArrayIndex(query.pageParam);
+  const pageIndex = queryParamToArrayIndex(query.page);
   const pageSize = 4;
   const navigationCanvases = canvases
     ? [...Array(pageSize)]
-        .map((_, i) => pageSize * queryParamToArrayIndex(query.pageParam) + i)
+        .map((_, i) => pageSize * queryParamToArrayIndex(query.page) + i)
         .map(i => canvases?.[i])
         .filter(Boolean)
     : [];
@@ -179,24 +179,23 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
       .join(',');
   const sharedPaginatorProps = {
     totalResults: canvases?.length || 1,
-    link: itemLink(
-      {
-        workId: work.id,
-        page: query.pageParam,
-        canvas: query.canvasParam,
-        manifest: query.manifestParam || undefined,
+    link: itemLink({
+      workId: work.id,
+      props: {
+        canvas: query.canvas,
+        page: query.page,
       },
-      'viewer/paginator'
-    ),
+      source: 'viewer/paginator',
+    }),
   };
   const mainPaginatorProps = {
-    currentPage: query.canvasParam,
+    currentPage: query.canvas,
     pageSize: 1,
     linkKey: 'canvas',
     ...sharedPaginatorProps,
   };
   const thumbsPaginatorProps = {
-    currentPage: query.pageParam,
+    currentPage: query.page,
     pageSize: 4,
     linkKey: 'page',
     ...sharedPaginatorProps,
@@ -252,14 +251,14 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                   {...thumbsPaginatorProps}
                   render={() => (
                     <NextLink
-                      {...itemLink(
-                        {
-                          workId: work.id,
+                      {...itemLink({
+                        workId: work.id,
+                        props: {
+                          canvas: query.canvas,
                           page: arrayIndexToQueryParam(pageIndex),
-                          canvas: canvasParam,
                         },
-                        'viewer/paginator'
-                      )}
+                        source: 'viewer/paginator',
+                      })}
                       scroll={false}
                       replace
                       passHref
@@ -268,7 +267,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                       <ThumbnailLink>
                         <IIIFCanvasThumbnail
                           canvas={canvas}
-                          isActive={canvasParam === query.canvasParam}
+                          isActive={canvasParam === query.canvas}
                           thumbNumber={canvasParam}
                         />
                       </ThumbnailLink>

@@ -88,7 +88,7 @@ const ImageViewerControls: FunctionComponent = () => {
     setRotatedImages,
     setShowZoomed,
   } = useContext(ItemViewerContext);
-  const { canvasParam } = query;
+  const { canvas } = query;
 
   return (
     <ImageViewerControlsEl showControls={showControls}>
@@ -117,7 +117,7 @@ const ImageViewerControls: FunctionComponent = () => {
             setRotatedImages(
               updateRotatedImages({
                 rotatedImages,
-                canvasParam,
+                canvas,
               })
             );
           }}

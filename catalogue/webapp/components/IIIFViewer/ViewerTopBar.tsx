@@ -205,13 +205,13 @@ const ViewerTopBar: FunctionComponent = () => {
     query,
     viewerRef,
   } = useContext(ItemViewerContext);
-  const { canvasParam } = query;
+  const { canvas } = query;
   const {
     canvases,
     downloadEnabled,
     downloadOptions: manifestDownloadOptions,
   } = { ...transformedManifest };
-  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvasParam)];
+  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -334,14 +334,14 @@ const ViewerTopBar: FunctionComponent = () => {
         <MiddleZone className="viewer-desktop">
           {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
             <>
-              <span data-test-id="active-index">{`${canvasParam || 0}`}</span>
+              <span data-test-id="active-index">{`${canvas || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}
               {!(
-                canvases[queryParamToArrayIndex(canvasParam)]?.label?.trim() ===
+                canvases[queryParamToArrayIndex(canvas)]?.label?.trim() ===
                 '-'
               ) &&
                 `(page ${canvases[
-                  queryParamToArrayIndex(canvasParam)
+                  queryParamToArrayIndex(canvas)
                 ]?.label?.trim()})`}
             </>
           )}

@@ -283,12 +283,12 @@ ItemRenderer.displayName = 'ItemRenderer';
 
 function scrollViewer({
   currentCanvas,
-  canvasParam,
+  canvas,
   viewer,
   mainAreaWidth,
 }: {
   currentCanvas: TransformedCanvas | undefined;
-  canvasParam: number;
+  canvas: number;
   viewer: FixedSizeList | null;
   mainAreaWidth: number;
 }): void {
@@ -311,14 +311,14 @@ function scrollViewer({
         : 1;
     const renderedHeight = mainAreaWidth * ratio * 0.8; // TODO: 0.8 = 80% max-width image in container. Variable.
     const heightOfPreviousItems =
-      queryParamToArrayIndex(canvasParam) * (viewer?.props.itemSize || 0);
+      queryParamToArrayIndex(canvas) * (viewer?.props.itemSize || 0);
     const distanceToScroll =
       heightOfPreviousItems +
       ((viewer?.props.itemSize || 0) - renderedHeight) / 2;
     viewer?.scrollTo(distanceToScroll);
   } else {
     // 4. Otherwise, if it's portrait, we go to the start of the image
-    viewer?.scrollToItem(queryParamToArrayIndex(canvasParam), 'start');
+    viewer?.scrollToItem(queryParamToArrayIndex(canvas), 'start');
   }
 }
 
@@ -333,7 +333,7 @@ const MainViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
   } = useContext(ItemViewerContext);
-  const { shouldScrollToCanvas, canvasParam } = query;
+  const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
@@ -357,31 +357,31 @@ const MainViewer: FunctionComponent = () => {
     }, 500);
   }
 
-  // We display the canvas indicated by the canvasParam when the page first loads
+  // We display the canvas indicated by the canvas when the page first loads
   function handleOnItemsRendered() {
     let currentCanvas: TransformedCanvas | undefined;
     if (firstRenderRef.current) {
-      currentCanvas = canvases?.[queryParamToArrayIndex(canvasParam)];
+      currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
       const viewer = mainViewerRef?.current;
-      scrollViewer({ currentCanvas, canvasParam, viewer, mainAreaWidth });
+      scrollViewer({ currentCanvas, canvas, viewer, mainAreaWidth });
       setFirstRender(false);
       setShowControls(true);
     }
   }
 
-  // Scroll to the correct canvas  when the canvasParam changes.
-  // But we don't want this to happen if the canvasParam changes as a result of the viewer being scrolled,
+  // Scroll to the correct canvas  when the canvas changes.
+  // But we don't want this to happen if the canvas changes as a result of the viewer being scrolled,
   // so ItemLink href prop can include a shouldScrollToCanvas query param on the href object to prevent this.
   useEffect(() => {
     if (shouldScrollToCanvas) {
       scrollViewer({
-        currentCanvas: canvases?.[queryParamToArrayIndex(canvasParam)],
-        canvasParam,
+        currentCanvas: canvases?.[queryParamToArrayIndex(canvas)],
+        canvas,
         viewer: mainViewerRef?.current,
         mainAreaWidth,
       });
     }
-  }, [canvasParam]);
+  }, [canvas]);
 
   return (
     <div data-test-id="main-viewer">
@@ -397,7 +397,7 @@ const MainViewer: FunctionComponent = () => {
           rotatedImages,
           errorHandler,
           restrictedService,
-          canvasParam,
+          canvas,
         }}
         itemSize={mainAreaWidth}
         onItemsRendered={debounceHandleOnItemsRendered.current}

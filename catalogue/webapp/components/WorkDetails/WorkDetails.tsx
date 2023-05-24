@@ -58,7 +58,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   shouldShowItemLink,
 }: Props) => {
   const isArchive = useContext(IsArchiveContext);
-  const itemUrl = itemLink({ workId: work.id }, 'work');
+  const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const transformedIIIFManifest = useTransformedManifest(work, useToggles());
   const {
