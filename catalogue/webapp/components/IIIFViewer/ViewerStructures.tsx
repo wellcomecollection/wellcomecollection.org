@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {
   getEnFromInternationalString,
   groupStructures,
-} from '../../utils/iiif/v3';
+} from '@weco/catalogue/utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import NextLink from 'next/link';

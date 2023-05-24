@@ -27,7 +27,7 @@ import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
-import { TransformedManifest } from '../../types/manifest';
+import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
 
 // canvas and manifest params use 1-based indexing, but are used to access items in 0 indexed arrays,

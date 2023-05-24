@@ -22,8 +22,8 @@ import { queryParamToArrayIndex } from './IIIFViewer';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-} from '../../utils/works';
-import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
+} from '@weco/catalogue/utils/works';
+import useTransformedIIIFImage from '@weco/catalogue/hooks/useTransformedIIIFImage';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs({

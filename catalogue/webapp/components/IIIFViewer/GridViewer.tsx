@@ -9,17 +9,17 @@ import {
   CSSProperties,
 } from 'react';
 import { FixedSizeGrid, areEqual } from 'react-window';
-import useScrollVelocity from '../../hooks/useScrollVelocity';
+import useScrollVelocity from '@weco/catalogue/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
-import { SearchResults } from '../../services/iiif/types/search/v3';
+import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import ItemViewerContext, {
   Query,
 } from '../ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { TransformedCanvas } from '../../types/manifest';
+import { TransformedCanvas } from '@weco/catalogue/types/manifest';
 import NextLink from 'next/link';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import {

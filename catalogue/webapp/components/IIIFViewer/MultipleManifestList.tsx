@@ -4,7 +4,7 @@ import NextLink from 'next/link';
 import { toLink as itemLink } from '../ItemLink';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
-import { getMultiVolumeLabel } from '../../utils/iiif/v3';
+import { getMultiVolumeLabel } from '@weco/catalogue/utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { queryParamToArrayIndex } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 

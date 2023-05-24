@@ -13,7 +13,7 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { cross, minus, plus, rotateRight } from '@weco/common/icons';
-import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
+import { convertIiifUriToInfoUri } from '@weco/catalogue/utils/convert-iiif-uri';
 import { queryParamToArrayIndex } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const ZoomedImageContainer = styled.div`
