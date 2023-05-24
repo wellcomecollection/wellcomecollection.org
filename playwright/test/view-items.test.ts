@@ -312,6 +312,7 @@ test.describe(
   () => {
     test('the main viewer can be scrolled', async ({ page, context }) => {
       await itemWithSearchAndStructures(context, page);
+      await page.waitForSelector(mainViewer);
       await scrollToBottom(mainViewer, page);
 
       // In this test, we're loading an item with 68 pages, scrolling to the
