@@ -98,7 +98,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   );
 
   const rotation = matching ? matching.rotation : 0;
-  const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
+  const lang = (work.languages.length === 1 && work.languages[0]?.id) || '';
 
   function updateImagePosition() {
     const imageRect = imageRef?.current?.getBoundingClientRect();
