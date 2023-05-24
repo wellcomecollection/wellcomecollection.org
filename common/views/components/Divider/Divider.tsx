@@ -15,7 +15,11 @@ const Rule = styled.div<Props>`
     props.lineColor &&
     `background-color: ${props.theme.color(props.lineColor)};`};
 
-  ${props => props.isStub && 'width: 60px; height: 5px;'}
+  ${props =>
+    props.isStub &&
+    `
+    width: 60px;
+    height: 5px;`}
 `;
 
 const Divider: FunctionComponent<Props> = ({

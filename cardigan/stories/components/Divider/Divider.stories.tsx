@@ -47,4 +47,3 @@ basic.argTypes = {
     options: ['black', 'white'],
   },
 };
-basic.parameters = { chromatic: { viewports: [375, 1200] } };
