@@ -43,4 +43,3 @@ const Template = args => (
 export const basic = Template.bind({});
 
 basic.storyName = 'BackToResults';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

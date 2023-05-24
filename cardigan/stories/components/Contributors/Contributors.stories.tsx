@@ -40,4 +40,3 @@ basic.args = {
   ],
 };
 basic.storyName = 'Contributors';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

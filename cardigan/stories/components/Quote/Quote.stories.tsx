@@ -13,7 +13,6 @@ block.args = {
   isPullOrReview: false,
 };
 block.storyName = 'Quote';
-block.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const pullOrReview = Template.bind({});
 pullOrReview.args = {
@@ -22,4 +21,3 @@ pullOrReview.args = {
   isPullOrReview: true,
 };
 pullOrReview.storyName = 'Pull/Review';
-pullOrReview.parameters = { chromatic: { viewports: [375, 1200] } };

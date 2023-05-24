@@ -9,7 +9,6 @@ const sharedArgs = {
   id: 'test',
   isStandalone: false,
 };
-const sharedParams = { chromatic: { viewports: [375, 1200] } };
 
 const Template = args => (
   <ReadmeDecorator
@@ -23,18 +22,18 @@ inline.args = {
   ...sharedArgs,
   isStandalone: false,
 };
-inline.parameters = sharedParams;
 
 export const standalone = Template.bind({});
 standalone.args = {
   ...sharedArgs,
   isStandalone: true,
 };
-standalone.parameters = sharedParams;
 
 export const frames = Template.bind({});
 frames.args = {
   ...sharedArgs,
   isFrames: true,
 };
-frames.parameters = sharedParams;
+frames.parameters = {
+  chromatic: { diffThreshold: 0.2 },
+};

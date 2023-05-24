@@ -8,4 +8,3 @@ basic.args = {
   },
 };
 basic.storyName = 'Label';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

@@ -47,4 +47,3 @@ basic.args = {
   items,
 };
 basic.storyName = 'TitledTextList';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

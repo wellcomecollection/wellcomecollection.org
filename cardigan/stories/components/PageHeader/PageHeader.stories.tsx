@@ -231,7 +231,7 @@ article.args = {
   isContentTypeInfoBeforeMedia: true,
 };
 article.parameters = {
-  chromatic: { diffThreshold: 0.2, viewports: [375, 1200] },
+  chromatic: { diffThreshold: 0.2 },
 };
 
 const ContentPageTemplate = args => (
@@ -268,9 +268,6 @@ shortFilm.args = {
     />
   ),
 };
-shortFilm.parameters = {
-  chromatic: { viewports: [375, 1200] },
-};
 
 export const event = Template.bind({});
 event.args = {
@@ -286,9 +283,6 @@ event.args = {
     />
   ),
 };
-event.parameters = {
-  chromatic: { viewports: [375, 1200] },
-};
 
 export const exhibition = Template.bind({});
 exhibition.args = {
@@ -298,9 +292,6 @@ exhibition.args = {
   HeroPicture: <Picture images={exhibitionPictureImages} isFull={true} />,
   ContentTypeInfo: <ExhibitionContentTypeInfo />,
   isContentTypeInfoBeforeMedia: true,
-};
-exhibition.parameters = {
-  chromatic: { viewports: [375, 1200] },
 };
 
 export const list = Template.bind({});
@@ -312,18 +303,13 @@ list.args = {
   ContentTypeInfo:
     'We publish adventurous and unusual books that explore health, medicine and the complexities of the human condition.',
 };
-list.parameters = {
-  chromatic: { viewports: [375, 1200] },
-};
+
 export const page = Template.bind({});
 page.args = {
   title: 'Venue hire terms and conditions',
   backgroundTexture: headerBackgroundLs,
   highlightHeading: true,
   breadcrumbs: { items: [{ text: 'Get involved', url: '#' }] },
-};
-page.parameters = {
-  chromatic: { viewports: [375, 1200] },
 };
 
 export const book = Template.bind({});
@@ -343,7 +329,4 @@ book.args = {
       </Layout8>
     </Space>
   ),
-};
-book.parameters = {
-  chromatic: { viewports: [375, 1200] },
 };

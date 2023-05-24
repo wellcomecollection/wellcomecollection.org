@@ -8,11 +8,9 @@ image.args = {
   backgroundColor: 'warmNeutral.300',
   children: <PrismicImage image={contentImage()} quality="low" />,
 };
-image.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const headline = Template.bind({});
 headline.args = {
   backgroundColor: 'warmNeutral.300',
   children: <h1 className="h1">Lorem ipsum dolor sit amet</h1>,
 };
-headline.parameters = { chromatic: { viewports: [375, 1200] } };

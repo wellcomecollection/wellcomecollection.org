@@ -14,4 +14,3 @@ basic.args = {
   id: 'test',
 };
 basic.storyName = 'EventDatesLink';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

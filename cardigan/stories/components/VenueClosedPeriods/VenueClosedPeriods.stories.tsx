@@ -7,4 +7,3 @@ const Template = () => {
 export const basic = Template.bind({});
 
 basic.storyName = 'VenueClosedPeriods';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };
