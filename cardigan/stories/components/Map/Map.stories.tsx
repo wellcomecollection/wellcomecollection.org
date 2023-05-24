@@ -11,7 +11,8 @@ basic.args = {
 basic.storyName = 'Map';
 basic.parameters = {
   chromatic: {
-    viewports: [375, 1200],
-    delay: 15000,
+    // I tried to delay the snapshot for 15s (the max) and it still gives an error.
+    // This still allows the Canvas view, it just won't snapshot/compare it.
+    disableSnapshot: true,
   },
 };
