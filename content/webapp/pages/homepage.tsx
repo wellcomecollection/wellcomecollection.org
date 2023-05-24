@@ -45,6 +45,7 @@ import { BodySlice, isContentList, isStandfirst } from 'types/body';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import Head from 'next/head';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -74,6 +75,7 @@ const pageImage: ImageType = {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
 
   const client = createClient(context);

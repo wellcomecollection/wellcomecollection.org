@@ -20,6 +20,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
@@ -29,6 +30,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const page = getPage(context.query);
 

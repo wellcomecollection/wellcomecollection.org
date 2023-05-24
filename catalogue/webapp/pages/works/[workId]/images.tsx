@@ -19,6 +19,7 @@ import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 function createTzitzitImageLink(
   work: Work,
@@ -97,70 +98,72 @@ const ImagePage: FunctionComponent<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { id, workId } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  setCacheControl(context.res);
+  const serverData = await getServerData(context);
+  const { id, workId } = context.query;
 
-    if (!looksLikeCanonicalId(id) || !looksLikeCanonicalId(workId)) {
+  if (!looksLikeCanonicalId(id) || !looksLikeCanonicalId(workId)) {
+    return { notFound: true };
+  }
+
+  const { url: catalogueApiUrl, image } = await getImage({
+    id,
+    toggles: serverData.toggles,
+  });
+
+  if (image.type === 'Error') {
+    if (image.httpStatus === 404) {
       return { notFound: true };
     }
+    return appError(context, image.httpStatus, image.description);
+  }
 
-    const { url: catalogueApiUrl, image } = await getImage({
-      id,
-      toggles: serverData.toggles,
-    });
+  // This is to avoid exposing a URL that has a valid `imageId` in it
+  // but not the correct `workId`, which would technically work,
+  // but the data on the page would be incorrect. e.g:
+  // image: { id: '1234567', image.source.id: 'abcdefg' }
+  // url: /works/gfedcba/images?id=1234567
+  if (image.source.id !== workId) {
+    return { notFound: true };
+  }
 
-    if (image.type === 'Error') {
-      if (image.httpStatus === 404) {
-        return { notFound: true };
-      }
-      return appError(context, image.httpStatus, image.description);
-    }
+  const work = await getWork({
+    id: workId,
+    toggles: serverData.toggles,
+  });
 
-    // This is to avoid exposing a URL that has a valid `imageId` in it
-    // but not the correct `workId`, which would technically work,
-    // but the data on the page would be incorrect. e.g:
-    // image: { id: '1234567', image.source.id: 'abcdefg' }
-    // url: /works/gfedcba/images?id=1234567
-    if (image.source.id !== workId) {
+  if (work.type === 'Error') {
+    if (work.httpStatus === 404) {
       return { notFound: true };
     }
-
-    const work = await getWork({
-      id: workId,
-      toggles: serverData.toggles,
-    });
-
-    if (work.type === 'Error') {
-      if (work.httpStatus === 404) {
-        return { notFound: true };
-      }
-      return appError(context, work.httpStatus, work.description);
-    } else if (work.type === 'Redirect') {
-      return {
-        redirect: {
-          destination: `/works/${work.redirectToId}`,
-          permanent: work.status === 301,
-        },
-      };
-    }
-
+    return appError(context, work.httpStatus, work.description);
+  } else if (work.type === 'Redirect') {
     return {
-      props: serialiseProps({
-        image,
-        // We know we'll get a catalogue API URL for a non-error response, but
-        // this isn't (currently) asserted by the type system.
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        catalogueApiUrl: catalogueApiUrl!,
-        work,
-        pageview: {
-          name: 'image',
-          properties: {},
-        },
-        serverData,
-      }),
+      redirect: {
+        destination: `/works/${work.redirectToId}`,
+        permanent: work.status === 301,
+      },
     };
+  }
+
+  return {
+    props: serialiseProps({
+      image,
+      // We know we'll get a catalogue API URL for a non-error response, but
+      // this isn't (currently) asserted by the type system.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      catalogueApiUrl: catalogueApiUrl!,
+      work,
+      pageview: {
+        name: 'image',
+        properties: {},
+      },
+      serverData,
+    }),
   };
+};
 
 export default ImagePage;

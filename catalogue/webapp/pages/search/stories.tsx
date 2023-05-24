@@ -19,6 +19,7 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 // Types
 import { Query } from '@weco/catalogue/types/search';
@@ -150,6 +151,7 @@ SearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const query = context.query;
   const defaultProps = serialiseProps({

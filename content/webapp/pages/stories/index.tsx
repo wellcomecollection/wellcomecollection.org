@@ -38,6 +38,7 @@ import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/tra
 import { Series, SeriesBasic } from '@weco/content/types/series';
 import * as prismic from '@prismicio/client';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   articles: ArticleBasic[];
@@ -67,6 +68,7 @@ const StoryPromoContainer = styled.div.attrs({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const client = createClient(context);
   const articlesQueryPromise = fetchArticles(client, {

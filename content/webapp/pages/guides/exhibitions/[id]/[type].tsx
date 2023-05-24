@@ -33,6 +33,7 @@ import ExhibitionGuideStops from '@weco/content/components/ExhibitionGuideStops/
 import { getTypeColor } from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
 import useHotjar from '@weco/common/hooks/useHotjar';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const ButtonWrapper = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
@@ -74,6 +75,7 @@ function getTypeTitle(type: ExhibitionGuideType): string {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
   const { res, req } = context;

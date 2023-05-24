@@ -47,6 +47,7 @@ import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -338,146 +339,147 @@ const ItemPage: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const {
-      workId,
-      page = 1,
-      canvas = 1,
-      manifest: manifestParam = 1,
-    } = fromQuery(context.query);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  setCacheControl(context.res);
+  const serverData = await getServerData(context);
+  const {
+    workId,
+    page = 1,
+    canvas = 1,
+    manifest: manifestParam = 1,
+  } = fromQuery(context.query);
 
-    if (!looksLikeCanonicalId(workId)) {
-      return { notFound: true };
-    }
+  if (!looksLikeCanonicalId(workId)) {
+    return { notFound: true };
+  }
 
-    const pageview: Pageview = {
-      name: 'item',
-      properties: {},
-    };
+  const pageview: Pageview = {
+    name: 'item',
+    properties: {},
+  };
 
-    const pageIndex = page - 1;
-    // Canvas and manifest params should be 0 indexed as they reference elements in an array
-    // We've chosen not to do this for some reason lost to time, but felt it better to stick
-    // to the same buggy implementation than have 2 implementations
+  const pageIndex = page - 1;
+  // Canvas and manifest params should be 0 indexed as they reference elements in an array
+  // We've chosen not to do this for some reason lost to time, but felt it better to stick
+  // to the same buggy implementation than have 2 implementations
 
-    // I imagine a fix for this could be having new parameters `m&c`
-    // and then redirecting to those once we have em fixed.
-    const canvasIndex = canvas - 1;
-    const manifestIndex = manifestParam - 1;
+  // I imagine a fix for this could be having new parameters `m&c`
+  // and then redirecting to those once we have em fixed.
+  const canvasIndex = canvas - 1;
+  const manifestIndex = manifestParam - 1;
 
-    const work = await getWork({
-      id: workId,
-      toggles: serverData.toggles,
-      include: ['items', 'languages', 'contributors', 'production'],
-    });
+  const work = await getWork({
+    id: workId,
+    toggles: serverData.toggles,
+    include: ['items', 'languages', 'contributors', 'production'],
+  });
 
-    if (work.type === 'Error') {
-      return appError(context, work.httpStatus, work.description);
-    }
+  if (work.type === 'Error') {
+    return appError(context, work.httpStatus, work.description);
+  }
 
-    if (work.type === 'Redirect') {
-      // This ensures that any query parameters are preserved on redirect,
-      // e.g. if you have a link to /works/$oldId/items?canvas=10, then
-      // you'll go to /works/$newId/items?canvas=10
-      const destination = isNotUndefined(context.req.url)
-        ? context.req.url.replace(workId, work.redirectToId)
-        : `/works/${work.redirectToId}/items`;
-
-      return {
-        redirect: {
-          destination,
-          permanent: work.status === 301,
-        },
-      };
-    }
-
-    const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-    const iiifPresentationLocation = getDigitalLocationOfType(
-      work,
-      'iiif-presentation'
-    );
-    const iiifManifest =
-      iiifPresentationLocation &&
-      (await fetchIIIFPresentationManifest(
-        iiifPresentationLocation.url,
-        serverData.toggles
-      ));
-
-    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
-
-    const { isCollectionManifest, manifests } = { ...transformedManifest };
-    // If the manifest is actually a Collection, .i.e. a manifest of manifests,
-    // then we get the first child manifest and use the data from that
-    // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302
-    // from: https://wellcomecollection.org/works/f6qp7m32/items
-    async function getDisplayManifest(
-      transformedManifest: TransformedManifest,
-      manifestIndex: number
-    ): Promise<TransformedManifest> {
-      if (isCollectionManifest) {
-        const selectedCollectionManifestLocation =
-          manifests?.[manifestIndex]?.id;
-        const selectedCollectionManifest = selectedCollectionManifestLocation
-          ? await fetchIIIFPresentationManifest(
-              selectedCollectionManifestLocation,
-              serverData.toggles
-            )
-          : undefined;
-        const firstChildTransformedManifest =
-          selectedCollectionManifest &&
-          transformManifest(selectedCollectionManifest);
-        return firstChildTransformedManifest || transformedManifest;
-      } else {
-        return transformedManifest;
-      }
-    }
-
-    if (transformedManifest) {
-      const displayManifest = await getDisplayManifest(
-        transformedManifest,
-        manifestIndex
-      );
-      const { canvases } = displayManifest;
-      const currentCanvas = canvases[canvasIndex];
-      const canvasOcrText = await fetchCanvasOcr(currentCanvas);
-      const canvasOcr = transformCanvasOcr(canvasOcrText);
-
-      return {
-        props: serialiseProps({
-          transformedManifest: displayManifest,
-          manifestIndex,
-          pageIndex,
-          canvasIndex,
-          canvasOcr,
-          work,
-          currentCanvas,
-          iiifImageLocation,
-          pageview,
-          serverData,
-        }),
-      };
-    }
-
-    if (iiifImageLocation) {
-      return {
-        props: serialiseProps({
-          transformedManifest: createDefaultTransformedManifest(),
-          pageIndex,
-          canvasIndex,
-          work,
-          canvases: [],
-          iiifImageLocation,
-          pageview,
-          serverData,
-        }),
-      };
-    }
+  if (work.type === 'Redirect') {
+    // This ensures that any query parameters are preserved on redirect,
+    // e.g. if you have a link to /works/$oldId/items?canvas=10, then
+    // you'll go to /works/$newId/items?canvas=10
+    const destination = isNotUndefined(context.req.url)
+      ? context.req.url.replace(workId, work.redirectToId)
+      : `/works/${work.redirectToId}/items`;
 
     return {
-      notFound: true,
+      redirect: {
+        destination,
+        permanent: work.status === 301,
+      },
     };
+  }
+
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
+  const iiifManifest =
+    iiifPresentationLocation &&
+    (await fetchIIIFPresentationManifest(
+      iiifPresentationLocation.url,
+      serverData.toggles
+    ));
+
+  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+
+  const { isCollectionManifest, manifests } = { ...transformedManifest };
+  // If the manifest is actually a Collection, .i.e. a manifest of manifests,
+  // then we get the first child manifest and use the data from that
+  // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302
+  // from: https://wellcomecollection.org/works/f6qp7m32/items
+  async function getDisplayManifest(
+    transformedManifest: TransformedManifest,
+    manifestIndex: number
+  ): Promise<TransformedManifest> {
+    if (isCollectionManifest) {
+      const selectedCollectionManifestLocation = manifests?.[manifestIndex]?.id;
+      const selectedCollectionManifest = selectedCollectionManifestLocation
+        ? await fetchIIIFPresentationManifest(
+            selectedCollectionManifestLocation,
+            serverData.toggles
+          )
+        : undefined;
+      const firstChildTransformedManifest =
+        selectedCollectionManifest &&
+        transformManifest(selectedCollectionManifest);
+      return firstChildTransformedManifest || transformedManifest;
+    } else {
+      return transformedManifest;
+    }
+  }
+
+  if (transformedManifest) {
+    const displayManifest = await getDisplayManifest(
+      transformedManifest,
+      manifestIndex
+    );
+    const { canvases } = displayManifest;
+    const currentCanvas = canvases[canvasIndex];
+    const canvasOcrText = await fetchCanvasOcr(currentCanvas);
+    const canvasOcr = transformCanvasOcr(canvasOcrText);
+
+    return {
+      props: serialiseProps({
+        transformedManifest: displayManifest,
+        manifestIndex,
+        pageIndex,
+        canvasIndex,
+        canvasOcr,
+        work,
+        currentCanvas,
+        iiifImageLocation,
+        pageview,
+        serverData,
+      }),
+    };
+  }
+
+  if (iiifImageLocation) {
+    return {
+      props: serialiseProps({
+        transformedManifest: createDefaultTransformedManifest(),
+        pageIndex,
+        canvasIndex,
+        work,
+        canvases: [],
+        iiifImageLocation,
+        pageview,
+        serverData,
+      }),
+    };
+  }
+
+  return {
+    notFound: true,
   };
+};
 
 export default ItemPage;

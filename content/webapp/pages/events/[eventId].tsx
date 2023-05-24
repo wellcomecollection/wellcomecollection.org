@@ -63,6 +63,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
@@ -447,6 +448,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }) => {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { eventId } = context.query;
 

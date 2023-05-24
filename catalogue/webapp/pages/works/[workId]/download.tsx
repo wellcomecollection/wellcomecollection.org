@@ -25,6 +25,7 @@ import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type CreditProps = {
   workId: string;
@@ -168,50 +169,52 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { workId } = context.query;
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  setCacheControl(context.res);
+  const serverData = await getServerData(context);
+  const { workId } = context.query;
 
-    if (!looksLikeCanonicalId(workId)) {
-      return {
-        notFound: true,
-      };
-    }
-
-    const work = await getWork({
-      id: workId,
-      toggles: serverData.toggles,
-    });
-
-    if (work.type === 'Error') {
-      return appError(context, work.httpStatus, work.description);
-    } else if (work.type === 'Redirect') {
-      return {
-        redirect: {
-          destination: `/works/${work.redirectToId}/download`,
-          permanent: work.status === 301,
-        },
-      };
-    }
-
-    const manifestLocation = getDigitalLocationOfType(
-      work,
-      'iiif-presentation'
-    );
-    const iiifManifest =
-      manifestLocation &&
-      (await fetchIIIFPresentationManifest(manifestLocation.url, serverData.toggles));
-    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
-
+  if (!looksLikeCanonicalId(workId)) {
     return {
-      props: serialiseProps({
-        serverData,
-        workId,
-        transformedManifest,
-        work,
-      }),
+      notFound: true,
     };
+  }
+
+  const work = await getWork({
+    id: workId,
+    toggles: serverData.toggles,
+  });
+
+  if (work.type === 'Error') {
+    return appError(context, work.httpStatus, work.description);
+  } else if (work.type === 'Redirect') {
+    return {
+      redirect: {
+        destination: `/works/${work.redirectToId}/download`,
+        permanent: work.status === 301,
+      },
+    };
+  }
+
+  const manifestLocation = getDigitalLocationOfType(work, 'iiif-presentation');
+  const iiifManifest =
+    manifestLocation &&
+    (await fetchIIIFPresentationManifest(
+      manifestLocation.url,
+      serverData.toggles
+    ));
+  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+
+  return {
+    props: serialiseProps({
+      serverData,
+      workId,
+      transformedManifest,
+      work,
+    }),
   };
+};
 
 export default DownloadPage;

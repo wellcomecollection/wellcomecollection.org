@@ -39,6 +39,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import styled from 'styled-components';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const ContentTypeWrapper = styled.div`
   display: flex;
@@ -67,6 +68,7 @@ function articleHasOutro(article: Article) {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const { articleId } = context.query;
   if (!looksLikePrismicId(articleId)) {
     return { notFound: true };
