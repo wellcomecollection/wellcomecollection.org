@@ -12,6 +12,8 @@ import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import NextLink from 'next/link';
 import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
+import { TransformedCanvas } from '@weco/catalogue/types/manifest';
 
 const Highlight = styled.span`
   background: ${props => props.theme.color('accent.purple')};
@@ -87,6 +89,38 @@ const Loading = () => (
     <span className="visually-hidden">Loading</span>
   </div>
 );
+
+type HitProps = {
+  hit: SearchResults['hits'][0];
+  matchingCanvas: TransformedCanvas | undefined;
+  matchingCanvasParam: number;
+  totalCanvases: number | undefined;
+};
+
+const Hit: FunctionComponent<HitProps> = ({
+  hit,
+  matchingCanvas,
+  matchingCanvasParam,
+  totalCanvases,
+}: HitProps) => {
+  const label =
+    matchingCanvas?.label && matchingCanvas.label.trim() !== '-'
+      ? ` (page ${matchingCanvas?.label})`
+      : '';
+  return (
+    <>
+      <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
+        {`Found on image ${matchingCanvasParam}${
+          totalCanvases ? ` / ${totalCanvases}` : ''
+        }`}
+        {label}
+      </HitData>
+      <span role="presentation">…{hit.before}</span>
+      <Highlight>{hit.match}</Highlight>
+      <span role="presentation">{hit.after}...</span>
+    </>
+  );
+};
 
 const IIIFSearchWithin: FunctionComponent = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -198,21 +232,12 @@ const IIIFSearchWithin: FunctionComponent = () => {
                     )}
                     onClick={() => setIsMobileSidebarActive(false)}
                   >
-                    <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
-                      {`${
-                        index &&
-                        `Found on image ${arrayIndexToQueryParam(index)} / ${
-                          canvases && canvases.length
-                        }`
-                      } ${
-                        matchingCanvas?.label?.trim() !== '-'
-                          ? ` (page ${matchingCanvas?.label})`
-                          : ''
-                      }`}
-                    </HitData>
-                    <span role="presentation">…{hit.before}</span>
-                    <Highlight>{hit.match}</Highlight>
-                    <span role="presentation">{hit.after}...</span>
+                    <Hit
+                      hit={hit}
+                      matchingCanvas={matchingCanvas}
+                      matchingCanvasParam={arrayIndexToQueryParam(index || 0)}
+                      totalCanvases={canvases?.length}
+                    />
                   </NextLink>
                 </SearchResult>
               </ListItem>
