@@ -62,10 +62,7 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
 `;
 
 const DateRangeWrapper = styled(Space).attrs({
-  v: {
-    size: 's',
-    properties: ['margin-top', 'margin-bottom'],
-  },
+  v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
   className: font('intr', 5),
 })`
   color: ${props => props.theme.color('neutral.400')};

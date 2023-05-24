@@ -26,5 +26,4 @@ const Template = () => {
 };
 
 export const basic = Template.bind({});
-basic.args = {};
 basic.storyName = 'Modal';

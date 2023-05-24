@@ -372,10 +372,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
           <Space
             v={
               isStandalone || isFrames
-                ? {
-                    size: 'xl',
-                    properties: ['padding-top'],
-                  }
+                ? { size: 'xl', properties: ['padding-top'] }
                 : undefined
             }
             style={{ position: 'relative' }}

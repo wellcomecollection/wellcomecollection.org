@@ -49,10 +49,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
             </div>
           )}
           <Space
-            v={{
-              size: 'l',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
+            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <Layout8>
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
