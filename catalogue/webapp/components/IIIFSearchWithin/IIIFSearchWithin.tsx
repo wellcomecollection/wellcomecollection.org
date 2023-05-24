@@ -264,6 +264,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
               <ListItem key={i}>
                 <SearchResult>
                   <NextLink
+                    replace={true}
                     {...itemLink({
                       workId: work.id,
                       props: {
