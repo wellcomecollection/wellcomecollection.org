@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, useContext, RefObject } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
@@ -38,12 +38,7 @@ const RightZone = styled(Space).attrs({
   align-items: center;
 `;
 
-type Props = {
-  viewToggleRef: RefObject<HTMLButtonElement>;
-  viewerRef: RefObject<HTMLDivElement>;
-};
-
-const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
+const ViewerBottomBar: FunctionComponent = () => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
 
@@ -54,8 +49,9 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
     work,
     showZoomed,
     isMobileSidebarActive,
+    viewerRef,
   } = useContext(ItemViewerContext);
-  const { canvases } = transformedManifest;
+  const { canvases } = { ...transformedManifest };
   return (
     <BottomBar>
       <LeftZone data-test-id="page-grid-buttons">
@@ -107,7 +103,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
               <ShameButton
                 isDark
                 onClick={() => {
-                  if (viewerRef && viewerRef.current) {
+                  if (viewerRef?.current) {
                     if (
                       !document.fullscreenElement &&
                       !document['webkitFullscreenElement']

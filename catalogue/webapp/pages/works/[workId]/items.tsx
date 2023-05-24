@@ -5,13 +5,14 @@ import {
   isDigitalLocation,
 } from '@weco/common/model/catalogue';
 import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import IIIFViewer, {
+  queryParamToArrayIndex,
+} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 import VideoPlayer from '@weco/catalogue/components/VideoPlayer/VideoPlayer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
@@ -34,11 +35,7 @@ import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fet
 import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
 import { fetchCanvasOcr } from '@weco/catalogue/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/canvasOcr';
-import {
-  TransformedCanvas,
-  TransformedManifest,
-  createDefaultTransformedManifest,
-} from '@weco/catalogue/types/manifest';
+import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import WorkHeader from '@weco/catalogue/components/WorkHeader/WorkHeader';
 import WorkTabbedNav from '@weco/catalogue/components/WorkTabbedNav/WorkTabbedNav';
 import { Container, Grid } from '@weco/catalogue/components/Work/Work';
@@ -86,28 +83,20 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
 }
 
 type Props = {
-  transformedManifest: TransformedManifest;
-  manifestIndex?: number;
+  transformedManifest: TransformedManifest | undefined;
   work: Work;
-  pageIndex: number;
-  canvasIndex: number;
+  canvasParam: number;
   canvasOcr?: string;
-  currentCanvas?: TransformedCanvas;
-  video?: Video; // TODO - remove as this is on manifestData
-  audio?: Audio; // TODO - remove as this is on manifestData
   iiifImageLocation?: DigitalLocation;
   pageview: Pageview;
 };
 
 const ItemPage: NextPage<Props> = ({
   transformedManifest,
-  manifestIndex,
   work,
-  pageIndex,
-  canvasIndex,
   canvasOcr,
-  currentCanvas,
   iiifImageLocation,
+  canvasParam,
 }) => {
   const workId = work.id;
   const [origin, setOrigin] = useState<string>();
@@ -125,9 +114,11 @@ const ItemPage: NextPage<Props> = ({
     tokenService,
     restrictedService,
     isTotallyRestricted,
-  } = transformedManifest;
+    canvases,
+  } = { ...transformedManifest };
 
   const authService = clickThroughService || restrictedService;
+  const currentCanvas = canvases?.[queryParamToArrayIndex(canvasParam)];
 
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
@@ -167,10 +158,6 @@ const ItemPage: NextPage<Props> = ({
       setShowViewer(true);
     }
   }, []);
-
-  // We only send a langCode if it's unambiguous -- better to send no language
-  // than the wrong one.
-  const lang = (work.languages.length === 1 && work?.languages[0]?.id) || '';
 
   return (
     <CataloguePageLayout
@@ -319,15 +306,9 @@ const ItemPage: NextPage<Props> = ({
       {showViewer &&
         ((mainImageService && currentCanvas) || iiifImageLocation) && (
           <IIIFViewer
-            title={displayTitle}
-            currentCanvas={currentCanvas}
-            lang={lang}
-            canvasOcr={canvasOcr}
-            pageIndex={pageIndex}
-            canvasIndex={canvasIndex}
-            manifestIndex={manifestIndex}
             work={work}
             transformedManifest={transformedManifest}
+            canvasOcr={canvasOcr}
             iiifImageLocation={iiifImageLocation}
             handleImageError={() => {
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
@@ -339,147 +320,132 @@ const ItemPage: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
-> = async context => {
-  setCacheControl(context.res);
-  const serverData = await getServerData(context);
-  const {
-    workId,
-    page = 1,
-    canvas = 1,
-    manifest: manifestParam = 1,
-  } = fromQuery(context.query);
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    setCacheControl(context.res);
+    const serverData = await getServerData(context);
+    const {
+      workId,
+      canvas: canvasParam = 1,
+      manifest: manifestParam = 1,
+    } = fromQuery(context.query);
 
-  if (!looksLikeCanonicalId(workId)) {
-    return { notFound: true };
-  }
-
-  const pageview: Pageview = {
-    name: 'item',
-    properties: {},
-  };
-
-  const pageIndex = page - 1;
-  // Canvas and manifest params should be 0 indexed as they reference elements in an array
-  // We've chosen not to do this for some reason lost to time, but felt it better to stick
-  // to the same buggy implementation than have 2 implementations
-
-  // I imagine a fix for this could be having new parameters `m&c`
-  // and then redirecting to those once we have em fixed.
-  const canvasIndex = canvas - 1;
-  const manifestIndex = manifestParam - 1;
-
-  const work = await getWork({
-    id: workId,
-    toggles: serverData.toggles,
-    include: ['items', 'languages', 'contributors', 'production'],
-  });
-
-  if (work.type === 'Error') {
-    return appError(context, work.httpStatus, work.description);
-  }
-
-  if (work.type === 'Redirect') {
-    // This ensures that any query parameters are preserved on redirect,
-    // e.g. if you have a link to /works/$oldId/items?canvas=10, then
-    // you'll go to /works/$newId/items?canvas=10
-    const destination = isNotUndefined(context.req.url)
-      ? context.req.url.replace(workId, work.redirectToId)
-      : `/works/${work.redirectToId}/items`;
-
-    return {
-      redirect: {
-        destination,
-        permanent: work.status === 301,
-      },
-    };
-  }
-
-  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
-  const iiifManifest =
-    iiifPresentationLocation &&
-    (await fetchIIIFPresentationManifest(
-      iiifPresentationLocation.url,
-      serverData.toggles
-    ));
-
-  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
-
-  const { isCollectionManifest, manifests } = { ...transformedManifest };
-  // If the manifest is actually a Collection, .i.e. a manifest of manifests,
-  // then we get the first child manifest and use the data from that
-  // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302
-  // from: https://wellcomecollection.org/works/f6qp7m32/items
-  async function getDisplayManifest(
-    transformedManifest: TransformedManifest,
-    manifestIndex: number
-  ): Promise<TransformedManifest> {
-    if (isCollectionManifest) {
-      const selectedCollectionManifestLocation = manifests?.[manifestIndex]?.id;
-      const selectedCollectionManifest = selectedCollectionManifestLocation
-        ? await fetchIIIFPresentationManifest(
-            selectedCollectionManifestLocation,
-            serverData.toggles
-          )
-        : undefined;
-      const firstChildTransformedManifest =
-        selectedCollectionManifest &&
-        transformManifest(selectedCollectionManifest);
-      return firstChildTransformedManifest || transformedManifest;
-    } else {
-      return transformedManifest;
+    if (!looksLikeCanonicalId(workId)) {
+      return { notFound: true };
     }
-  }
 
-  if (transformedManifest) {
-    const displayManifest = await getDisplayManifest(
-      transformedManifest,
-      manifestIndex
+    const pageview: Pageview = {
+      name: 'item',
+      properties: {},
+    };
+
+    const work = await getWork({
+      id: workId,
+      toggles: serverData.toggles,
+      include: ['items', 'languages', 'contributors', 'production'],
+    });
+
+    if (work.type === 'Error') {
+      return appError(context, work.httpStatus, work.description);
+    }
+
+    if (work.type === 'Redirect') {
+      // This ensures that any query parameters are preserved on redirect,
+      // e.g. if you have a link to /works/$oldId/items?canvas=10, then
+      // you'll go to /works/$newId/items?canvas=10
+      const destination = isNotUndefined(context.req.url)
+        ? context.req.url.replace(workId, work.redirectToId)
+        : `/works/${work.redirectToId}/items`;
+
+      return {
+        redirect: {
+          destination,
+          permanent: work.status === 301,
+        },
+      };
+    }
+
+    const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+    const iiifPresentationLocation = getDigitalLocationOfType(
+      work,
+      'iiif-presentation'
     );
-    const { canvases } = displayManifest;
-    const currentCanvas = canvases[canvasIndex];
-    const canvasOcrText = await fetchCanvasOcr(currentCanvas);
-    const canvasOcr = transformCanvasOcr(canvasOcrText);
+    const iiifManifest =
+      iiifPresentationLocation &&
+      (await fetchIIIFPresentationManifest(
+        iiifPresentationLocation.url,
+        serverData.toggles
+      ));
+
+    const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+
+    const { isCollectionManifest, manifests } = { ...transformedManifest };
+    // If the manifest is actually a Collection, .i.e. a manifest of manifests,
+    // then we get the first child manifest and use the data from that
+    // see: https://iiif.wellcomecollection.org/presentation/v2/b21293302
+    // from: https://wellcomecollection.org/works/f6qp7m32/items
+    async function getDisplayManifest(
+      transformedManifest: TransformedManifest,
+      manifestIndex: number
+    ): Promise<TransformedManifest> {
+      if (isCollectionManifest) {
+        const selectedCollectionManifestLocation =
+          manifests?.[manifestIndex]?.id;
+        const selectedCollectionManifest = selectedCollectionManifestLocation
+          ? await fetchIIIFPresentationManifest(
+              selectedCollectionManifestLocation,
+              serverData.toggles
+            )
+          : undefined;
+        const firstChildTransformedManifest =
+          selectedCollectionManifest &&
+          transformManifest(selectedCollectionManifest);
+        return firstChildTransformedManifest || transformedManifest;
+      } else {
+        return transformedManifest;
+      }
+    }
+
+    if (transformedManifest) {
+      const displayManifest = await getDisplayManifest(
+        transformedManifest,
+        queryParamToArrayIndex(manifestParam)
+      );
+      const { canvases } = displayManifest;
+      const currentCanvas = canvases[queryParamToArrayIndex(canvasParam)];
+      const canvasOcrText = await fetchCanvasOcr(currentCanvas);
+      const canvasOcr = transformCanvasOcr(canvasOcrText);
+
+      return {
+        props: serialiseProps({
+          transformedManifest: displayManifest,
+          canvasOcr,
+          work,
+          canvasParam,
+          iiifImageLocation,
+          pageview,
+          serverData,
+        }),
+      };
+    }
+
+    if (iiifImageLocation) {
+      return {
+        props: serialiseProps({
+          transformedManifest: undefined,
+          work,
+          canvasParam,
+          canvases: [],
+          iiifImageLocation,
+          pageview,
+          serverData,
+        }),
+      };
+    }
 
     return {
-      props: serialiseProps({
-        transformedManifest: displayManifest,
-        manifestIndex,
-        pageIndex,
-        canvasIndex,
-        canvasOcr,
-        work,
-        currentCanvas,
-        iiifImageLocation,
-        pageview,
-        serverData,
-      }),
+      notFound: true,
     };
-  }
-
-  if (iiifImageLocation) {
-    return {
-      props: serialiseProps({
-        transformedManifest: createDefaultTransformedManifest(),
-        pageIndex,
-        canvasIndex,
-        work,
-        canvases: [],
-        iiifImageLocation,
-        pageview,
-        serverData,
-      }),
-    };
-  }
-
-  return {
-    notFound: true,
   };
-};
 
 export default ItemPage;

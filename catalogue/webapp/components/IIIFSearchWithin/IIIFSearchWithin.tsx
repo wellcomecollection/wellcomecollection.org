@@ -1,25 +1,24 @@
-import {
-  useState,
-  useContext,
-  FunctionComponent,
-  RefObject,
-  useRef,
-} from 'react';
+import { useState, useContext, FunctionComponent, useRef } from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
+import NextLink from 'next/link';
+import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
+import { TransformedCanvas } from '@weco/catalogue/types/manifest';
 
-type Props = {
-  mainViewerRef: RefObject<FixedSizeList>;
-};
+const Highlight = styled.span`
+  background: ${props => props.theme.color('accent.purple')};
+  color: ${props => props.theme.color('white')};
+`;
 
 const SearchForm = styled.form`
   position: relative;
@@ -91,18 +90,51 @@ const Loading = () => (
   </div>
 );
 
-const IIIFSearchWithin: FunctionComponent<Props> = ({ mainViewerRef }) => {
+type HitProps = {
+  hit: SearchResults['hits'][0];
+  matchingCanvas: TransformedCanvas | undefined;
+  matchingCanvasParam: number;
+  totalCanvases: number | undefined;
+};
+
+const Hit: FunctionComponent<HitProps> = ({
+  hit,
+  matchingCanvas,
+  matchingCanvasParam,
+  totalCanvases,
+}: HitProps) => {
+  const label =
+    matchingCanvas?.label && matchingCanvas.label.trim() !== '-'
+      ? ` (page ${matchingCanvas?.label})`
+      : '';
+  return (
+    <>
+      <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
+        {`Found on image ${matchingCanvasParam}${
+          totalCanvases ? ` / ${totalCanvases}` : ''
+        }`}
+        {label}
+      </HitData>
+      <span role="presentation">…{hit.before}</span>
+      <Highlight>{hit.match}</Highlight>
+      <span role="presentation">{hit.after}...</span>
+    </>
+  );
+};
+
+const IIIFSearchWithin: FunctionComponent = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const {
-    setActiveIndex,
     transformedManifest,
     searchResults,
     setSearchResults,
     setIsMobileSidebarActive,
+    query,
+    work,
   } = useContext(ItemViewerContext);
-  const { searchService, canvases } = transformedManifest;
+  const { searchService, canvases } = { ...transformedManifest };
 
   async function getSearchResults() {
     if (searchService) {
@@ -178,49 +210,35 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({ mainViewerRef }) => {
               .filter(Boolean)
               .filter(resource => resource?.resource?.chars);
             // Get the index of the canvas the hits appear on
-            const index = canvases.findIndex(canvas => {
+            const index = canvases?.findIndex(canvas => {
               const matchingPathname = matchingResources?.[0]?.on || '';
               return (
                 new URL(matchingPathname).pathname ===
                 new URL(canvas.id).pathname
               );
             });
-            const matchingCanvas = (index && canvases[index]) || undefined;
+            const matchingCanvas = (index && canvases?.[index]) || undefined;
             return (
               <ListItem key={i}>
-                <SearchResult
-                  onClick={() => {
-                    if (index) {
-                      setIsMobileSidebarActive(false);
-                      setActiveIndex(index || 0);
-                      mainViewerRef &&
-                        mainViewerRef.current &&
-                        mainViewerRef.current.scrollToItem(index || 0, 'start');
-                    }
-                  }}
-                >
-                  <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
-                    {`${
-                      index &&
-                      `Found on image ${index + 1} / ${
-                        canvases && canvases.length
-                      }`
-                    } ${
-                      matchingCanvas?.label?.trim() !== '-'
-                        ? ` (page ${matchingCanvas?.label})`
-                        : ''
-                    }`}
-                  </HitData>
-                  <span role="presentation">…{hit.before}</span>
-                  <span
-                    style={{
-                      background: '#944aa0',
-                      color: 'white',
-                    }}
+                <SearchResult>
+                  <NextLink
+                    {...itemLink(
+                      {
+                        workId: work.id,
+                        manifest: query.manifestParam,
+                        canvas: arrayIndexToQueryParam(index || 0),
+                      },
+                      'search_within_result'
+                    )}
+                    onClick={() => setIsMobileSidebarActive(false)}
                   >
-                    {hit.match}
-                  </span>
-                  <span role="presentation">{hit.after}...</span>
+                    <Hit
+                      hit={hit}
+                      matchingCanvas={matchingCanvas}
+                      matchingCanvasParam={arrayIndexToQueryParam(index || 0)}
+                      totalCanvases={canvases?.length}
+                    />
+                  </NextLink>
                 </SearchResult>
               </ListItem>
             );

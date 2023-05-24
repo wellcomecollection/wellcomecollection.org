@@ -2,12 +2,11 @@ import {
   FunctionComponent,
   useState,
   useContext,
-  RefObject,
+  useEffect,
   PropsWithChildren,
 } from 'react';
 import NextLink from 'next/link';
 import WorkLink from '../WorkLink';
-import { FixedSizeList } from 'react-window';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
@@ -16,7 +15,7 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
-} from '../../utils/works';
+} from '@weco/catalogue/utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -26,6 +25,7 @@ import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
+import { getMultiVolumeLabel } from '@weco/catalogue/utils/iiif/v3';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -119,14 +119,14 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
     </Item>
   );
 };
-type Props = {
-  mainViewerRef: RefObject<FixedSizeList>;
-};
 
-const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
-  const { work, transformedManifest, parentManifest, currentManifestLabel } =
+const ViewerSidebar: FunctionComponent = () => {
+  const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
-  const { iiifCredit, structures, searchService } = transformedManifest;
+  const [currentManifestLabel, setCurrentManifestLabel] = useState<
+    string | undefined
+  >();
+  const { iiifCredit, structures, searchService } = { ...transformedManifest };
   const productionDates = getProductionDates(work);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -142,6 +142,21 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
     getCatalogueLicenseData(digitalLocation.license);
 
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
+
+  useEffect(() => {
+    const matchingManifest =
+      parentManifest?.items &&
+      parentManifest.items.find(canvas => {
+        return !transformedManifest
+          ? false
+          : canvas.id === transformedManifest.id;
+      });
+
+    const manifestLabel =
+      matchingManifest?.label &&
+      getMultiVolumeLabel(matchingManifest.label, work?.title || '');
+    manifestLabel && setCurrentManifestLabel(manifestLabel);
+  }, [transformedManifest, parentManifest]);
 
   return (
     <>
@@ -223,9 +238,9 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </div>
         </AccordionItem>
 
-        {structures.length > 0 && (
+        {Boolean(structures && structures.length > 0) && (
           <AccordionItem title="Contents">
-            <ViewerStructures mainViewerRef={mainViewerRef} />
+            <ViewerStructures />
           </AccordionItem>
         )}
         {parentManifest &&
@@ -238,7 +253,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
       </Inner>
       {searchService && (
         <Inner>
-          <IIIFSearchWithin mainViewerRef={mainViewerRef} />
+          <IIIFSearchWithin />
         </Inner>
       )}
     </>

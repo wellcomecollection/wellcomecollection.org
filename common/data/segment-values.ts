@@ -35,10 +35,7 @@ export type ConceptLinkSource =
   | 'work_details/subjects'
   | 'work_details/genres';
 
-export type ImageLinkSource =
-  | 'images_search_result'
-  | 'viewer/paginator'
-  | 'unknown';
+export type ImageLinkSource = 'images_search_result' | 'viewer/paginator';
 
 export type ImagesLinkSource =
   | 'search/paginator'
@@ -54,9 +51,12 @@ export type ItemLinkSource =
   | 'work'
   | 'images_search_result'
   | 'viewer/paginator'
+  | 'viewer/thumbnail'
+  | 'viewer/scroll'
+  | 'viewer/resize'
   | 'manifests_navigation'
   | 'search_within_result'
-  | 'unknown';
+  | 'contents_nav';
 
 export type WorkLinkSource =
   | 'works_search_result'

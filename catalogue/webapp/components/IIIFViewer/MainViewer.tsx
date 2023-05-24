@@ -2,7 +2,6 @@ import {
   memo,
   useState,
   useRef,
-  RefObject,
   CSSProperties,
   FunctionComponent,
   useEffect,
@@ -12,19 +11,20 @@ import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
 import LL from '@weco/common/views/components/styled/LL';
-import useScrollVelocity from '../../hooks/useScrollVelocity';
+import useScrollVelocity from '@weco/catalogue/hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
+import { convertIiifUriToInfoUri } from '@weco/catalogue/utils/convert-iiif-uri';
 import IIIFViewerImage from './IIIFViewerImage';
 import { missingAltTextMessage } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { font } from '@weco/common/utils/classnames';
-import { SearchResults } from '../../services/iiif/types/search/v3';
+import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
-import { TransformedCanvas } from '../../types/manifest';
-import { fetchCanvasOcr } from '../../services/iiif/fetch/canvasOcr';
-import { transformCanvasOcr } from '../../services/iiif/transformers/canvasOcr';
+import { TransformedCanvas } from '@weco/catalogue/types/manifest';
+import { fetchCanvasOcr } from '@weco/catalogue/services/iiif/fetch/canvasOcr';
+import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/canvasOcr';
 import { AuthExternalService } from '@iiif/presentation-3';
+import { queryParamToArrayIndex } from './IIIFViewer';
 
 type SearchTermHighlightProps = {
   top: number;
@@ -80,20 +80,17 @@ type ItemRendererProps = {
   index: number;
   data: {
     scrollVelocity: number;
-    mainAreaRef: RefObject<HTMLDivElement>;
-    setActiveIndex: (i: number) => void;
     canvases: TransformedCanvas[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rotatedImages: any[];
-    setIsLoading: (value: boolean) => void;
     errorHandler?: () => void;
     restrictedService: AuthExternalService | undefined;
   };
 };
 
 function getPositionData(
-  imageContainerRect: ClientRect,
-  imageRect: ClientRect,
+  imageContainerRect: DOMRect,
+  imageRect: DOMRect,
   currentCanvas: TransformedCanvas,
   searchResults: SearchResults,
   canvases: TransformedCanvas[]
@@ -138,14 +135,7 @@ function getPositionData(
   return highlightsPositioningData;
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const {
-    scrollVelocity,
-    canvases,
-    rotatedImages,
-    setIsLoading,
-    mainAreaRef,
-    restrictedService,
-  } = data;
+  const { scrollVelocity, canvases, restrictedService } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
   const currentCanvas = canvases[index];
@@ -155,14 +145,12 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     : undefined;
   const infoUrl =
     mainImageService['@id'] && convertIiifUriToInfoUri(mainImageService['@id']);
-  const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);
-  const rotation = matching ? matching.rotation : 0;
   const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
   const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults } = useContext(ItemViewerContext);
-  const [imageRect, setImageRect] = useState<ClientRect | undefined>();
+  const [imageRect, setImageRect] = useState<DOMRect | undefined>();
   const [imageContainerRect, setImageContainerRect] = useState<
-    ClientRect | undefined
+    DOMRect | undefined
   >();
   const [ocrText, setOcrText] = useState(missingAltTextMessage);
 
@@ -233,7 +221,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         </MessageContainer>
       ) : (
         <>
-          <LL lighten={true} />
+          {!mainLoaded && <LL lighten={true} />}
           {!mainLoaded && currentCanvas.thumbnailImage && (
             <ThumbnailWrapper imageLoaded={thumbLoaded}>
               <IIIFViewerImage
@@ -250,44 +238,38 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
               />
             </ThumbnailWrapper>
           )}
-          {(imageType === 'main' || mainLoaded) &&
-            urlTemplateMain &&
-            infoUrl && (
-              <>
-                {rotation === 0 &&
-                  overlayPositionData &&
-                  overlayPositionData.map((item, i) => {
-                    return (
-                      <SearchTermHighlight
-                        key={i}
-                        top={item.overlayStartTop + item.highlight.y}
-                        left={item.overlayStartLeft + item.highlight.x}
-                        width={item.highlight.w}
-                        height={item.highlight.h}
-                      />
-                    );
-                  })}
-                <div data-test-id={`canvas-${index}`}>
-                  <ImageViewer
-                    id="item-page"
-                    infoUrl={infoUrl}
-                    width={currentCanvas.width || 0}
-                    height={currentCanvas.height || 0}
-                    alt={ocrText}
-                    urlTemplate={urlTemplateMain}
-                    rotation={rotation}
-                    index={index}
-                    loadHandler={() => {
-                      setMainLoaded(true);
-                      setIsLoading(false);
-                    }}
-                    mainAreaRef={mainAreaRef}
-                    setImageRect={setImageRect}
-                    setImageContainerRect={setImageContainerRect}
-                  />
-                </div>
-              </>
-            )}
+          {(imageType === 'main' || mainLoaded) && urlTemplateMain && infoUrl && (
+            <>
+              {overlayPositionData &&
+                overlayPositionData.map((item, i) => {
+                  return (
+                    <SearchTermHighlight
+                      key={i}
+                      top={item.overlayStartTop + item.highlight.y}
+                      left={item.overlayStartLeft + item.highlight.x}
+                      width={item.highlight.w}
+                      height={item.highlight.h}
+                    />
+                  );
+                })}
+              <div data-test-id={`canvas-${index}`}>
+                <ImageViewer
+                  id="item-page"
+                  infoUrl={infoUrl}
+                  width={currentCanvas.width || 0}
+                  height={currentCanvas.height || 0}
+                  alt={ocrText}
+                  urlTemplate={urlTemplateMain}
+                  index={index}
+                  loadHandler={() => {
+                    setMainLoaded(true);
+                  }}
+                  setImageRect={setImageRect}
+                  setImageContainerRect={setImageContainerRect}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
@@ -296,12 +278,17 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 
 ItemRenderer.displayName = 'ItemRenderer';
 
-export function scrollViewer(
-  currentCanvas: TransformedCanvas | undefined,
-  canvasIndex: number,
-  viewer: FixedSizeList | null,
-  mainAreaWidth: number
-): void {
+function scrollViewer({
+  currentCanvas,
+  canvasParam,
+  viewer,
+  mainAreaWidth,
+}: {
+  currentCanvas: TransformedCanvas | undefined;
+  canvasParam: number;
+  viewer: FixedSizeList | null;
+  mainAreaWidth: number;
+}): void {
   const isLandscape =
     currentCanvas?.width && currentCanvas?.height
       ? currentCanvas.width > currentCanvas.height
@@ -320,39 +307,31 @@ export function scrollViewer(
         ? currentCanvas.height / currentCanvas.width
         : 1;
     const renderedHeight = mainAreaWidth * ratio * 0.8; // TODO: 0.8 = 80% max-width image in container. Variable.
-    const heightOfPreviousItems = canvasIndex * (viewer?.props.itemSize || 0);
+    const heightOfPreviousItems =
+      queryParamToArrayIndex(canvasParam) * (viewer?.props.itemSize || 0);
     const distanceToScroll =
       heightOfPreviousItems +
       ((viewer?.props.itemSize || 0) - renderedHeight) / 2;
     viewer?.scrollTo(distanceToScroll);
   } else {
     // 4. Otherwise, if it's portrait, we go to the start of the image
-    viewer?.scrollToItem(canvasIndex, 'start');
+    viewer?.scrollToItem(queryParamToArrayIndex(canvasParam), 'start');
   }
 }
 
-type Props = {
-  mainViewerRef: RefObject<FixedSizeList>;
-  mainAreaRef: RefObject<HTMLDivElement>;
-};
-
-const MainViewer: FunctionComponent<Props> = ({
-  mainViewerRef,
-  mainAreaRef,
-}: Props) => {
+const MainViewer: FunctionComponent = () => {
   const {
-    setActiveIndex,
     mainAreaHeight,
     mainAreaWidth,
     transformedManifest,
-    canvasIndex,
+    query,
     setShowZoomed,
-    setZoomInfoUrl,
-    setIsLoading,
     rotatedImages,
     setShowControls,
     errorHandler,
   } = useContext(ItemViewerContext);
+  const { shouldScrollToCanvas, canvasParam } = query;
+  const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
   const firstRenderRef = useRef(firstRender);
@@ -362,8 +341,9 @@ const MainViewer: FunctionComponent<Props> = ({
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const { canvases, restrictedService } = transformedManifest;
+  const { canvases, restrictedService } = { ...transformedManifest };
 
+  // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {
     timer.current && clearTimeout(timer.current);
     setShowControls(false);
@@ -374,25 +354,31 @@ const MainViewer: FunctionComponent<Props> = ({
     }, 500);
   }
 
+  // We display the canvas indicated by the canvasParam when the page first loads
   function handleOnItemsRendered() {
     let currentCanvas: TransformedCanvas | undefined;
     if (firstRenderRef.current) {
-      setActiveIndex(canvasIndex);
-      currentCanvas = canvases?.[canvasIndex];
+      currentCanvas = canvases?.[queryParamToArrayIndex(canvasParam)];
       const viewer = mainViewerRef?.current;
-
-      scrollViewer(currentCanvas, canvasIndex, viewer, mainAreaWidth);
+      scrollViewer({ currentCanvas, canvasParam, viewer, mainAreaWidth });
       setFirstRender(false);
-      const mainImageService = {
-        '@id': currentCanvas ? currentCanvas.imageServiceId : '',
-      };
-      const infoUrl = convertIiifUriToInfoUri(mainImageService['@id'] || '');
-      if (infoUrl) {
-        setZoomInfoUrl(infoUrl);
-      }
       setShowControls(true);
     }
   }
+
+  // Scroll to the correct canvas  when the canvasParam changes.
+  // But we don't want this to happen if the canvasParam changes as a result of the viewer being scrolled,
+  // so ItemLink href prop can include a shouldScrollToCanvas query param on the href object to prevent this.
+  useEffect(() => {
+    if (shouldScrollToCanvas) {
+      scrollViewer({
+        currentCanvas: canvases?.[queryParamToArrayIndex(canvasParam)],
+        canvasParam,
+        viewer: mainViewerRef?.current,
+        mainAreaWidth,
+      });
+    }
+  }, [canvasParam]);
 
   return (
     <div data-test-id="main-viewer">
@@ -403,15 +389,12 @@ const MainViewer: FunctionComponent<Props> = ({
         itemCount={canvases?.length || 0}
         itemData={{
           scrollVelocity,
-          canvases,
+          canvases: canvases || [],
           setShowZoomed,
-          setZoomInfoUrl,
           rotatedImages,
-          setActiveIndex,
-          setIsLoading,
-          mainAreaRef,
           errorHandler,
           restrictedService,
+          canvasParam,
         }}
         itemSize={mainAreaWidth}
         onItemsRendered={debounceHandleOnItemsRendered.current}
