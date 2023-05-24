@@ -38,7 +38,7 @@ type Props = {
 
 const SectionHeader: FunctionComponent<Props> = ({ title }) => {
   return (
-    <div className={`row ${font('wb', 2)}`}>
+    <div className={font('wb', 2)}>
       <Layout12>
         <YellowBox />
         <TitleWrapper as="h2">

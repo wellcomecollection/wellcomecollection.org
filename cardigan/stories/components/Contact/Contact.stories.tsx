@@ -13,3 +13,4 @@ basic.args = {
   email: 'j.bloggs@wellcome.ac.uk',
 };
 basic.storyName = 'Contact';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

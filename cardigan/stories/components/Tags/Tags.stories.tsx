@@ -41,3 +41,4 @@ basic.args = {
   ],
 };
 basic.storyName = 'Tags';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };

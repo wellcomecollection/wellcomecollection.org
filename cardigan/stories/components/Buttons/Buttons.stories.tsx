@@ -17,6 +17,7 @@ buttonSolid.args = {
   text: 'Click me',
 };
 buttonSolid.storyName = 'ButtonSolid';
+buttonSolid.parameters = { chromatic: { viewports: [375, 1200] } };
 
 const ControlTemplate = args => (
   <ReadmeDecorator
@@ -32,6 +33,7 @@ control.args = {
   colorScheme: 'light',
 };
 control.storyName = 'Control';
+control.parameters = { chromatic: { viewports: [375, 1200] } };
 
 const ToolbarSegmentedControlTemplate = args => {
   const [activeId, setActiveId] = useState('page');
@@ -64,6 +66,7 @@ toolbarSegmentedControl.args = {
   hideLabels: true,
 };
 toolbarSegmentedControl.storyName = 'ToolbarSegmentedControl';
+toolbarSegmentedControl.parameters = { chromatic: { viewports: [375, 1200] } };
 
 const DropdownButtonTemplate = args => {
   return (
@@ -116,3 +119,4 @@ dropdownButton.args = {
   isInline: false,
 };
 dropdownButton.storyName = 'DropdownButton';
+dropdownButton.parameters = { chromatic: { viewports: [375, 1200] } };

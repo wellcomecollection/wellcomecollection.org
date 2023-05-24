@@ -11,3 +11,4 @@ basic.args = {
   url: 'https://wellcomecollection.org/works/t59c279p',
 };
 basic.storyName = 'CopyUrl';
+basic.parameters = { chromatic: { viewports: [375, 1200] } };
