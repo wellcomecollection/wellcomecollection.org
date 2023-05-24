@@ -13,6 +13,11 @@ import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import NextLink from 'next/link';
 import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
+const Highlight = styled.span`
+  background: ${props => props.theme.color('accent.purple')};
+  color: ${props => props.theme.color('white')};
+`;
+
 const SearchForm = styled.form`
   position: relative;
   display: flex;
@@ -206,14 +211,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                       }`}
                     </HitData>
                     <span role="presentation">…{hit.before}</span>
-                    <span
-                      style={{
-                        background: '#944aa0',
-                        color: 'white',
-                      }}
-                    >
-                      {hit.match}
-                    </span>
+                    <Highlight>{hit.match}</Highlight>
                     <span role="presentation">{hit.after}...</span>
                   </NextLink>
                 </SearchResult>
