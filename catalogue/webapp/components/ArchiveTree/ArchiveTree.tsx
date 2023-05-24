@@ -762,7 +762,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
       }
       tabIndex={level === 1 && isEnhanced ? 0 : undefined}
       role={isEnhanced ? (level === 1 ? 'tree' : 'group') : undefined}
-      className="font-size-5"
+      className={font('intr', 5)}
     >
       {archiveTree &&
         archiveTree.map((item, i) => {
