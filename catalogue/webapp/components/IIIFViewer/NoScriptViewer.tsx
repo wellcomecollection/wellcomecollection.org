@@ -254,7 +254,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                       {...itemLink({
                         workId: work.id,
                         props: {
-                          canvas: query.canvas,
+                          canvas: canvasParam,
                           page: arrayIndexToQueryParam(pageIndex),
                         },
                         source: 'viewer/paginator',
