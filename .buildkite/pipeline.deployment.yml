@@ -29,6 +29,14 @@ steps:
     agents:
       queue: nano
 
+    # This means that each set of e2e tests will run with one deployment.
+    #
+    # This avoids any issues with the deployment changing as the e2e tests
+    # are running, which we believe might be the source of some instability
+    # and flakiness -- stuff changing as the tests are running.
+    concurrency: 1
+    concurrency_group: "experience-deploy"
+
     soft_fail:
       - exit_status: 1
 
