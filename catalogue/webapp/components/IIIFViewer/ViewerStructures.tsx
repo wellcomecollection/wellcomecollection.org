@@ -66,6 +66,7 @@ const ViewerStructuresPrototype: FunctionComponent = () => {
             isActive={canvas === arrayIndexToQueryParam(canvasIndex)}
           >
             <NextLink
+              replace={true}
               {...itemLink({
                 workId: work.id,
                 props: {

@@ -84,6 +84,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
         currentCanvas && (
           <ThumbnailSpacer>
             <NextLink
+              replace={true}
               {...itemLink({
                 workId,
                 props: {

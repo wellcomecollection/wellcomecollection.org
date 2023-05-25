@@ -21,6 +21,7 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
         {parentManifest?.items.map((manifest, i) => (
           <li key={manifest.id}>
             <NextLink
+              replace={true}
               {...itemLink({
                 workId: work.id,
                 props: {
