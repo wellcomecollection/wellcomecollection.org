@@ -15,6 +15,7 @@ const Button = styled.button`
 type Props = {
   inputRef: RefObject<HTMLInputElement>;
   setValue: Dispatch<SetStateAction<string>>;
+  clickHandler?: () => void;
   gaEvent?: GaEvent;
   right?: number;
 };
@@ -24,6 +25,7 @@ const ClearSearch: FunctionComponent<Props> = ({
   setValue,
   gaEvent,
   right,
+  clickHandler,
 }: Props) => {
   return (
     <Button
@@ -31,6 +33,7 @@ const ClearSearch: FunctionComponent<Props> = ({
       onClick={() => {
         gaEvent && trackGaEvent(gaEvent);
         setValue('');
+        clickHandler && clickHandler();
         inputRef?.current?.focus();
       }}
       type="button"

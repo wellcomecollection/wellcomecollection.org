@@ -1,9 +1,18 @@
-import { useState, useContext, FunctionComponent, useRef } from 'react';
+import { useRouter } from 'next/router';
+import {
+  useState,
+  useContext,
+  useEffect,
+  FunctionComponent,
+  useRef,
+} from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext, {
+  results,
+} from '../ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
@@ -122,9 +131,8 @@ const Hit: FunctionComponent<HitProps> = ({
 };
 
 const IIIFSearchWithin: FunctionComponent = () => {
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const {
     transformedManifest,
     searchResults,
@@ -133,29 +141,62 @@ const IIIFSearchWithin: FunctionComponent = () => {
     query,
     work,
   } = useContext(ItemViewerContext);
+  const [value, setValue] = useState(query.query);
+  const [isLoading, setIsLoading] = useState(false);
   const { searchService, canvases } = { ...transformedManifest };
 
+  function handleClearResults() {
+    const link = itemLink({
+      workId: work.id,
+      props: {
+        manifest: query.manifest,
+        canvas: query.canvas,
+      },
+      source: 'search_within_clear',
+    });
+    setSearchResults(results);
+    router.replace(link.href, link.as);
+  }
+
   async function getSearchResults() {
-    if (searchService) {
+    if (searchService && query.query.length > 0) {
       setIsLoading(true);
       try {
         const results = await (
-          await fetch(`${searchService['@id']}?q=${value}`)
+          await fetch(`${searchService['@id']}?q=${query.query}`)
         ).json();
         setIsLoading(false);
         setSearchResults(results);
       } catch (error) {}
+    } else {
+      setSearchResults(results);
     }
   }
+
+  useEffect(() => {
+    getSearchResults();
+  }, [query.query, query.manifest]);
+
   return (
     <>
       <SearchForm
-        action="/"
+        action={router.asPath}
         onSubmit={event => {
           event.preventDefault();
-          getSearchResults();
+          const link = itemLink({
+            workId: work.id,
+            props: {
+              canvas: query.canvas,
+              manifest: query.manifest,
+              query: value,
+            },
+            source: 'search_within_submit',
+          });
+          router.replace(link.href, link.as);
         }}
       >
+        <input type="hidden" name="canvas" value={query.canvas} />
+        <input type="hidden" name="manifest" value={query.manifest} />
         <SearchInputWrapper>
           <TextInput
             id="searchWithin"
@@ -175,6 +216,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                 action: 'clear search',
                 label: 'item-search-within',
               }}
+              clickHandler={handleClearResults}
               setValue={setValue}
               right={10}
             />
@@ -191,7 +233,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
       </SearchForm>
       <div aria-live="polite">
         {isLoading && <Loading />}
-        {searchResults.within.total !== null && (
+        {Boolean(searchResults.within.total !== null && query.query) && (
           <ResultsHeader data-test-id="results-header">
             {searchResults.within.total}{' '}
             {searchResults.within.total === 1 ? 'result' : 'results'}
@@ -221,14 +263,15 @@ const IIIFSearchWithin: FunctionComponent = () => {
               <ListItem key={i}>
                 <SearchResult>
                   <NextLink
-                    {...itemLink(
-                      {
-                        workId: work.id,
-                        manifest: query.manifestParam,
+                    {...itemLink({
+                      workId: work.id,
+                      props: {
+                        manifest: query.manifest,
+                        query: query.query,
                         canvas: arrayIndexToQueryParam(index || 0),
                       },
-                      'search_within_result'
-                    )}
+                      source: 'search_within_result',
+                    })}
                     onClick={() => setIsMobileSidebarActive(false)}
                   >
                     <Hit

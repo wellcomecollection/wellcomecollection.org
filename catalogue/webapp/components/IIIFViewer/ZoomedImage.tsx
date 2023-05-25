@@ -52,7 +52,7 @@ const ZoomedImage: FunctionComponent<Props> = ({
   const { transformedManifest, query, setShowZoomed } =
     useContext(ItemViewerContext);
   const currentCanvas =
-    transformedManifest?.canvases[queryParamToArrayIndex(query.canvasParam)];
+    transformedManifest?.canvases[queryParamToArrayIndex(query.canvas)];
   const mainImageService = {
     '@id': currentCanvas?.imageServiceId || '',
   };

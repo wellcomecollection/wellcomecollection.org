@@ -84,17 +84,18 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
         currentCanvas && (
           <ThumbnailSpacer>
             <NextLink
-              {...itemLink(
-                {
-                  workId,
-                  manifest: query.manifestParam,
+              {...itemLink({
+                workId,
+                props: {
+                  manifest: query.manifest,
+                  query: query.query,
                   canvas: arrayIndexToQueryParam(canvasIndex),
                 },
-                'viewer/thumbnail'
-              )}
+                source: 'viewer/thumbnail',
+              })}
               passHref={true}
               aria-current={
-                canvasIndex === queryParamToArrayIndex(query.canvasParam)
+                canvasIndex === queryParamToArrayIndex(query.canvas)
               }
               onClick={() => {
                 setGridVisible(false);
@@ -102,9 +103,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
             >
               <IIIFCanvasThumbnail
                 canvas={currentCanvas}
-                isActive={
-                  canvasIndex === queryParamToArrayIndex(query.canvasParam)
-                }
+                isActive={canvasIndex === queryParamToArrayIndex(query.canvas)}
                 thumbNumber={arrayIndexToQueryParam(canvasIndex)}
                 isFocusable={gridVisible}
                 highlightImage={hasSearchResults}
@@ -160,10 +159,10 @@ const GridViewer: FunctionComponent = () => {
 
   useEffect(() => {
     const rowIndex = Math.floor(
-      queryParamToArrayIndex(query.canvasParam) / columnCount
+      queryParamToArrayIndex(query.canvas) / columnCount
     );
     grid.current?.scrollToItem({ align: 'start', rowIndex });
-  }, [query.canvasParam]);
+  }, [query.canvas]);
 
   useEffect(() => {
     // required to be set as we are setting the body to overflow hidden to stop multiple scrolls in view bug issue.

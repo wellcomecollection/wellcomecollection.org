@@ -94,7 +94,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       .join(',')
   );
   const matching = rotatedImages.find(
-    canvas => queryParamToArrayIndex(canvas.canvasParam) === index
+    canvas => queryParamToArrayIndex(canvas.canvas) === index
   );
 
   const rotation = matching ? matching.rotation : 0;
@@ -122,15 +122,16 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   // we update the canvas param to match
   useSkipInitialEffect(() => {
     if (isOnScreen && transformedManifest) {
-      const link = itemLink(
-        {
-          workId: work.id,
-          manifest: query.manifestParam,
+      const link = itemLink({
+        workId: work.id,
+        props: {
+          manifest: query.manifest,
+          query: query.query,
           canvas: arrayIndexToQueryParam(index),
           shouldScrollToCanvas: false,
         },
-        'viewer/scroll'
-      );
+        source: 'viewer/scroll',
+      });
       Router.replace(link.href, link.as);
     }
   }, [isOnScreen]);

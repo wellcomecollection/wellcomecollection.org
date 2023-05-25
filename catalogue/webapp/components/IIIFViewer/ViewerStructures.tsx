@@ -44,7 +44,7 @@ const Item = styled(Space).attrs({
 const ViewerStructuresPrototype: FunctionComponent = () => {
   const { transformedManifest, setIsMobileSidebarActive, query, work } =
     useContext(ItemViewerContext);
-  const { canvasParam, manifestParam } = query;
+  const { canvas } = query;
   const { structures, canvases } = { ...transformedManifest };
   const groupedStructures = groupStructures(canvases || [], structures || []);
 
@@ -63,19 +63,20 @@ const ViewerStructuresPrototype: FunctionComponent = () => {
         return (
           <Item
             key={i}
-            isActive={canvasParam === arrayIndexToQueryParam(canvasIndex)}
+            isActive={canvas === arrayIndexToQueryParam(canvasIndex)}
           >
             <NextLink
-              {...itemLink(
-                {
-                  workId: work.id,
-                  manifest: manifestParam,
+              {...itemLink({
+                workId: work.id,
+                props: {
+                  manifest: query.manifest,
+                  query: query.query,
                   canvas: arrayIndexToQueryParam(canvasIndex),
                 },
-                'contents_nav'
-              )}
+                source: 'contents_nav',
+              })}
               data-gtm-trigger="contents_nav"
-              aria-current={canvasParam === arrayIndexToQueryParam(canvasIndex)}
+              aria-current={canvas === arrayIndexToQueryParam(canvasIndex)}
               onClick={() => {
                 setIsMobileSidebarActive(false);
               }}

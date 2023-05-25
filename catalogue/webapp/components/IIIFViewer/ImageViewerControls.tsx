@@ -53,7 +53,7 @@ function updateRotatedImages({
   canvasParam: number;
 }): RotatedImage[] {
   const matchingIndex = rotatedImages.findIndex(
-    rotation => rotation.canvasParam === canvasParam
+    rotation => rotation.canvas === canvasParam
   );
   if (matchingIndex >= 0) {
     return rotatedImages.map((rotatedImage, i) => {
@@ -62,7 +62,7 @@ function updateRotatedImages({
         const newRotationValue =
           currentRotationValue < 270 ? currentRotationValue + 90 : 0;
         return {
-          canvasParam: rotatedImage.canvasParam,
+          canvas: rotatedImage.canvas,
           rotation: newRotationValue,
         };
       } else {
@@ -73,7 +73,7 @@ function updateRotatedImages({
     return [
       ...rotatedImages,
       {
-        canvasParam,
+        canvas: canvasParam,
         rotation: 90,
       },
     ];
@@ -88,7 +88,7 @@ const ImageViewerControls: FunctionComponent = () => {
     setRotatedImages,
     setShowZoomed,
   } = useContext(ItemViewerContext);
-  const { canvasParam } = query;
+  const { canvas } = query;
 
   return (
     <ImageViewerControlsEl showControls={showControls}>
@@ -117,7 +117,7 @@ const ImageViewerControls: FunctionComponent = () => {
             setRotatedImages(
               updateRotatedImages({
                 rotatedImages,
-                canvasParam,
+                canvasParam: canvas,
               })
             );
           }}

@@ -4,12 +4,13 @@ import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import { Manifest } from '@iiif/presentation-3';
 import { TransformedManifest } from '../../types/manifest';
 
-export type RotatedImage = { canvasParam: number; rotation: number };
+export type RotatedImage = { canvas: number; rotation: number };
 
 export type Query = {
-  pageParam: number;
-  canvasParam: number;
-  manifestParam: number;
+  canvas: number;
+  manifest: number;
+  query: string;
+  page: number;
   shouldScrollToCanvas: boolean;
 };
 
@@ -59,9 +60,10 @@ export const results = {
 };
 
 const query = {
-  canvasParam: 1,
-  pageParam: 1,
-  manifestParam: 1,
+  canvas: 1,
+  manifest: 1,
+  query: '',
+  page: 1,
   shouldScrollToCanvas: true,
 };
 

@@ -21,24 +21,23 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
         {parentManifest?.items.map((manifest, i) => (
           <li key={manifest.id}>
             <NextLink
-              {...itemLink(
-                {
-                  workId: work.id,
-                  manifest: i + 1,
+              {...itemLink({
+                workId: work.id,
+                props: {
                   canvas: 1,
+                  query: query.query,
+                  manifest: i + 1,
                 },
-                'manifests_navigation'
-              )}
+                source: 'manifests_navigation',
+              })}
               passHref={true}
               legacyBehavior
             >
               <Anchor
                 data-gtm-trigger="volumes_nav_link"
-                isManifestIndex={
-                  i === queryParamToArrayIndex(query.manifestParam)
-                }
+                isManifestIndex={i === queryParamToArrayIndex(query.manifest)}
                 aria-current={
-                  i === queryParamToArrayIndex(query.manifestParam)
+                  i === queryParamToArrayIndex(query.manifest)
                     ? 'page'
                     : undefined
                 }
