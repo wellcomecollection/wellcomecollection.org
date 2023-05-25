@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import {
+  JSX,
   FunctionComponent,
   PropsWithChildren,
   ReactElement,

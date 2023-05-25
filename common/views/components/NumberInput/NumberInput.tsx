@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, ForwardRefRenderFunction } from 'react';
+import { ForwardedRef, forwardRef, ForwardRefRenderFunction, JSX } from 'react';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 
