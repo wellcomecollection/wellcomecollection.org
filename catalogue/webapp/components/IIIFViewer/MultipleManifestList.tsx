@@ -7,6 +7,10 @@ import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
 import { getMultiVolumeLabel } from '@weco/catalogue/utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { queryParamToArrayIndex } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import {
+  List,
+  Item,
+} from '@weco/catalogue/components/IIIFViewer/ViewerStructures';
 
 const Anchor = styled.a<{ isManifestIndex: boolean }>`
   ${props => props.isManifestIndex && `color: ${props.theme.color('yellow')};`};
@@ -17,9 +21,12 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
     useContext(ItemViewerContext);
   return (
     <nav>
-      <PlainList aria-label={volumesNavigationLabel}>
+      <List aria-label={volumesNavigationLabel}>
         {parentManifest?.items.map((manifest, i) => (
-          <li key={manifest.id}>
+          <Item
+            key={manifest.id}
+            isActive={i === queryParamToArrayIndex(query.manifest)}
+          >
             <NextLink
               {...itemLink({
                 workId: work.id,
@@ -33,9 +40,8 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
               passHref={true}
               legacyBehavior
             >
-              <Anchor
+              <a
                 data-gtm-trigger="volumes_nav_link"
-                isManifestIndex={i === queryParamToArrayIndex(query.manifest)}
                 aria-current={
                   i === queryParamToArrayIndex(query.manifest)
                     ? 'page'
@@ -48,11 +54,11 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
                 {(manifest?.label &&
                   getMultiVolumeLabel(manifest.label, work?.title || '')) ||
                   'Unknown'}
-              </Anchor>
+              </a>
             </NextLink>
-          </li>
+          </Item>
         ))}
-      </PlainList>
+      </List>
     </nav>
   );
 };

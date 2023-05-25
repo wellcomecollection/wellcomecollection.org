@@ -12,11 +12,11 @@ import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import NextLink from 'next/link';
 import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
-const List = styled(PlainList)`
+export const List = styled(PlainList)`
   border-left: 1px solid ${props => props.theme.color('neutral.600')};
 `;
 
-const Item = styled(Space).attrs({
+export const Item = styled(Space).attrs({
   as: 'li',
   v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
