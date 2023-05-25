@@ -14,7 +14,6 @@ import LL from '@weco/common/views/components/styled/LL';
 import useScrollVelocity from '@weco/catalogue/hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { convertIiifUriToInfoUri } from '@weco/catalogue/utils/convert-iiif-uri';
-import IIIFViewerImage from './IIIFViewerImage';
 import { missingAltTextMessage } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { font } from '@weco/common/utils/classnames';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
@@ -53,26 +52,6 @@ const MessageContainer = styled.div`
   margin-top: 50%;
   transform: translateY(-50%);
   padding: 10%;
-`;
-
-const ThumbnailWrapper = styled.div<{ imageLoaded?: boolean }>`
-  opacity: ${props => (props.imageLoaded ? 1 : 0)};
-  transition: opacity 500ms ease;
-  position: absolute;
-  width: calc(100% - 20px);
-  height: 100%;
-
-  img {
-    position: relative;
-    display: block;
-    margin: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    max-width: 95%;
-    max-height: 95%;
-    width: auto;
-    height: inherit;
-  }
 `;
 
 type ItemRendererProps = {
@@ -137,7 +116,6 @@ function getPositionData(
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const { scrollVelocity, canvases, restrictedService } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
-  const [thumbLoaded, setThumbLoaded] = useState(false);
   const currentCanvas = canvases[index];
   const mainImageService = { '@id': currentCanvas.imageServiceId };
   const urlTemplateMain = mainImageService['@id']
@@ -145,7 +123,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     : undefined;
   const infoUrl =
     mainImageService['@id'] && convertIiifUriToInfoUri(mainImageService['@id']);
-  const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
+  const imageType = scrollVelocity >= 1 ? 'none' : 'main';
   const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults } = useContext(ItemViewerContext);
   const [imageRect, setImageRect] = useState<DOMRect | undefined>();
@@ -222,57 +200,38 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
       ) : (
         <>
           {!mainLoaded && <LL lighten={true} />}
-          {!mainLoaded && currentCanvas.thumbnailImage && (
-            <ThumbnailWrapper imageLoaded={thumbLoaded}>
-              <IIIFViewerImage
-                width={currentCanvas.width || 0}
-                height={currentCanvas.height || 0}
-                src={currentCanvas.thumbnailImage.url}
-                srcSet=""
-                sizes=""
-                alt=""
-                lang={undefined}
-                loadHandler={() => {
-                  setThumbLoaded(true);
-                }}
-                zoomOnClick={true}
-              />
-            </ThumbnailWrapper>
+          {(imageType === 'main' || mainLoaded) && urlTemplateMain && infoUrl && (
+            <>
+              {overlayPositionData &&
+                overlayPositionData.map((item, i) => {
+                  return (
+                    <SearchTermHighlight
+                      key={i}
+                      top={item.overlayStartTop + item.highlight.y}
+                      left={item.overlayStartLeft + item.highlight.x}
+                      width={item.highlight.w}
+                      height={item.highlight.h}
+                    />
+                  );
+                })}
+              <div data-test-id={`canvas-${index}`}>
+                <ImageViewer
+                  id="item-page"
+                  infoUrl={infoUrl}
+                  width={currentCanvas.width || 0}
+                  height={currentCanvas.height || 0}
+                  alt={ocrText}
+                  urlTemplate={urlTemplateMain}
+                  index={index}
+                  loadHandler={() => {
+                    setMainLoaded(true);
+                  }}
+                  setImageRect={setImageRect}
+                  setImageContainerRect={setImageContainerRect}
+                />
+              </div>
+            </>
           )}
-          {(imageType === 'main' || mainLoaded) &&
-            urlTemplateMain &&
-            infoUrl && (
-              <>
-                {overlayPositionData &&
-                  overlayPositionData.map((item, i) => {
-                    return (
-                      <SearchTermHighlight
-                        key={i}
-                        top={item.overlayStartTop + item.highlight.y}
-                        left={item.overlayStartLeft + item.highlight.x}
-                        width={item.highlight.w}
-                        height={item.highlight.h}
-                      />
-                    );
-                  })}
-                <div data-test-id={`canvas-${index}`}>
-                  <ImageViewer
-                    id="item-page"
-                    infoUrl={infoUrl}
-                    width={currentCanvas.width || 0}
-                    height={currentCanvas.height || 0}
-                    alt={ocrText}
-                    urlTemplate={urlTemplateMain}
-                    index={index}
-                    loadHandler={() => {
-                      setMainLoaded(true);
-                    }}
-                    setImageRect={setImageRect}
-                    setImageContainerRect={setImageContainerRect}
-                  />
-                </div>
-              </>
-            )}
         </>
       )}
     </div>
