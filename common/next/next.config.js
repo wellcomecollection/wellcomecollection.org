@@ -3,6 +3,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const apmConfig = require('../services/apm/apmConfig');
 const { vanityUrls } = require('../data/vanity-urls');
+const { homepageId } = require('../data/hardcoded-ids');
 
 const defaultConfigOptions = {
   applicationName: 'test',
@@ -51,13 +52,13 @@ const createConfig =
       },
       async redirects() {
         const vanityRedirects = vanityUrls.map(path => ({
-          source: `/pages/${path.prismicId}`,
-          destination: path.url,
+          destination: `/pages/${path.prismicId}`,
+          source: path.url,
           permanent: true,
         }));
         return [
           {
-            source: `/pages/XphUbREAACMAgRNP`, // homepage redirect
+            source: `/pages/${homepageId}`,
             destination: '/',
             permanent: true,
           },
