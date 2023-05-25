@@ -3,6 +3,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const apmConfig = require('../services/apm/apmConfig');
 const { vanityUrls } = require('../data/vanity-urls');
+const { homepageId } = require('../data/hardcoded-ids');
 
 const defaultConfigOptions = {
   applicationName: 'test',
@@ -38,10 +39,6 @@ const createConfig =
         apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
       },
       async rewrites() {
-        const vanityRewrites = vanityUrls.map(path => ({
-          source: path.url,
-          destination: `/pages/${path.prismicId}`,
-        }));
         if (phase === PHASE_DEVELOPMENT_SERVER) {
           return [
             {
@@ -49,20 +46,19 @@ const createConfig =
               destination: `${identityHost}/account/:path*`,
             },
             ...rewriteEntries,
-            ...vanityRewrites,
           ];
         }
-        return [...rewriteEntries, ...vanityRewrites];
+        return [...rewriteEntries];
       },
       async redirects() {
         const vanityRedirects = vanityUrls.map(path => ({
-          source: `/pages/:pageId(${path.prismicId})`,
-          destination: path.url,
+          destination: `/pages/${path.prismicId}`,
+          source: path.url,
           permanent: true,
         }));
         return [
           {
-            source: `/pages/XphUbREAACMAgRNP`, // homepage redirect
+            source: `/pages/${homepageId}`,
             destination: '/',
             permanent: true,
           },
