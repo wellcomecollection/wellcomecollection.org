@@ -21,5 +21,5 @@
     "downlevelIteration": true
   },
   "exclude": ["node_modules", "lib"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "data/vanity-urls.js", "data/hardcoded-ids.js"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
