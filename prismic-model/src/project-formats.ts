@@ -7,6 +7,7 @@ const projectFormat: CustomType = {
   repeatable: true,
   status: true,
   json: label('Project format'),
+  format: 'custom',
 };
 
 export default projectFormat;

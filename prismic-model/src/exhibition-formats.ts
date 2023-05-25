@@ -7,6 +7,7 @@ const exhibitionFormats: CustomType = {
   repeatable: true,
   status: true,
   json: label('Exhibition format'),
+  format: 'custom',
 };
 
 export default exhibitionFormats;

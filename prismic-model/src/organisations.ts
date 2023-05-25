@@ -14,7 +14,7 @@ const organisations: CustomType = {
   json: {
     Organisation: {
       name: title,
-      description: description,
+      description,
       image: image('Image'),
       sameAs: list('Same as', {
         link: keyword('Link', {
@@ -26,6 +26,7 @@ const organisations: CustomType = {
       }),
     },
   },
+  format: 'custom',
 };
 
 export default organisations;

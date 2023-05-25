@@ -25,6 +25,7 @@ const globalAlert: CustomType = {
       ),
     },
   },
+  format: 'custom',
 };
 
 export default globalAlert;

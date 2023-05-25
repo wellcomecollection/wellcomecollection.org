@@ -19,6 +19,7 @@ const popupDialog: CustomType = {
       isShown: boolean('Is shown?', { defaultValue: false }),
     },
   },
+  format: 'custom',
 };
 
 export default popupDialog;

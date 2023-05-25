@@ -4,4 +4,5 @@ export type CustomType = {
   repeatable: boolean;
   status: boolean;
   json: unknown;
+  format: 'custom';
 };

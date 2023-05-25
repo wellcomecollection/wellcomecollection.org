@@ -13,6 +13,7 @@ const audiences: CustomType = {
       description: singleLineText('Description'),
     },
   },
+  format: 'custom',
 };
 
 export default audiences;

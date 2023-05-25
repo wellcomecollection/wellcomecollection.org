@@ -32,6 +32,7 @@ const featuredBooks: CustomType = {
       }),
     },
   },
+  format: 'custom',
 };
 
 export default featuredBooks;

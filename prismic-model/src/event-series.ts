@@ -27,6 +27,7 @@ const eventSeries: CustomType = {
       metadataDescription: singleLineText('Metadata description'),
     },
   },
+  format: 'custom',
 };
 
 export default eventSeries;

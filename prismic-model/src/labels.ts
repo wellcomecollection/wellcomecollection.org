@@ -7,6 +7,7 @@ const labels: CustomType = {
   repeatable: true,
   status: true,
   json: label('Label'),
+  format: 'custom',
 };
 
 export default labels;

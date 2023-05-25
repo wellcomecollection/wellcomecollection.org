@@ -7,6 +7,7 @@ const articleFormats: CustomType = {
   repeatable: true,
   status: true,
   json: label('Article format'),
+  format: 'custom',
 };
 
 export default articleFormats;

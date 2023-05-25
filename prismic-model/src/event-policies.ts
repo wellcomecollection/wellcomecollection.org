@@ -7,6 +7,7 @@ const eventPolicies: CustomType = {
   repeatable: true,
   status: true,
   json: label('Event policy'),
+  format: 'custom',
 };
 
 export default eventPolicies;

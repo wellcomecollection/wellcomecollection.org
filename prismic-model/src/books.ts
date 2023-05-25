@@ -19,7 +19,7 @@ const books: CustomType = {
     Book: {
       title,
       subtitle: singleLineText('Subtitle'),
-      body: body,
+      body,
       orderLink: webLink('Order link'),
       price: keyword('Price'),
       format: keyword('Format'),
@@ -54,6 +54,7 @@ const books: CustomType = {
       }),
     },
   },
+  format: 'custom',
 };
 
 export default books;
