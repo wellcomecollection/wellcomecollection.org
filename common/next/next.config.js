@@ -38,6 +38,10 @@ const createConfig =
         apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
       },
       async rewrites() {
+        const vanityRewrites = vanityUrls.map(path => ({
+          source: path.url,
+          destination: `/pages/${path.prismicId}`,
+        }));
         if (phase === PHASE_DEVELOPMENT_SERVER) {
           return [
             {
@@ -45,13 +49,14 @@ const createConfig =
               destination: `${identityHost}/account/:path*`,
             },
             ...rewriteEntries,
+            ...vanityRewrites,
           ];
         }
-        return [...rewriteEntries];
+        return [...rewriteEntries, ...vanityRewrites];
       },
       async redirects() {
         const vanityRedirects = vanityUrls.map(path => ({
-          source: `/pages/${path.prismicId}`,
+          source: `/pages/:pageId(${path.prismicId})`,
           destination: path.url,
           permanent: true,
         }));
