@@ -39,10 +39,6 @@ const Item = styled(Space).attrs({
         background: ${props.theme.color('yellow')};
       }
     `}
-
-  button {
-    cursor: pointer;
-  }
 `;
 
 const ViewerStructuresPrototype: FunctionComponent = () => {

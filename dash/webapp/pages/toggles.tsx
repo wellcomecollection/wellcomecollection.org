@@ -18,7 +18,6 @@ const Button = styled.button<{ opaque?: boolean }>`
   border-radius: 2px;
   padding: 6px 10px;
   transition: background 150ms ease;
-  cursor: pointer;
   margin-right: 18px;
 `;
 

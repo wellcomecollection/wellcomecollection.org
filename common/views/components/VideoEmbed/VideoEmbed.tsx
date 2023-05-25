@@ -28,7 +28,6 @@ const VideoEmbedWrapper = styled.figure`
 `;
 
 const VideoTrigger = styled.button<{ hasFullSizePoster?: boolean }>`
-  cursor: pointer;
   position: absolute;
   padding-bottom: 56.25%; /* 16:9 */
   width: 100%;

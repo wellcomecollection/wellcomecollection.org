@@ -10,7 +10,6 @@ import * as prismic from '@prismicio/client';
 const HeadingLink = styled.a.attrs({
   className: font('intb', 4),
 })`
-  cursor: pointer;
   text-decoration: underline;
   color: ${props => props.theme.color('accent.green')};
 `;

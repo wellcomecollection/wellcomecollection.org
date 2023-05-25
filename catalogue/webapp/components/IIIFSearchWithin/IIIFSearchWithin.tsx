@@ -54,7 +54,6 @@ const ListItem = styled.li`
 const SearchResult = styled.button.attrs({
   className: font('intr', 6),
 })`
-  cursor: pointer;
   display: block;
   padding: ${props => `${props.theme.spacingUnit * 2}px 0`};
   color: ${props => props.theme.color('white')};
