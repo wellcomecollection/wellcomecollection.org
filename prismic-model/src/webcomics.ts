@@ -46,6 +46,7 @@ const webcomics: CustomType = {
       },
     },
   },
+  format: 'custom',
 };
 
 export default webcomics;

@@ -69,6 +69,7 @@ const articles: CustomType = {
       },
     },
   },
+  format: 'custom',
 };
 
 export default articles;

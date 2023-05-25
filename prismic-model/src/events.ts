@@ -110,6 +110,7 @@ const events: CustomType = {
       }),
     },
   },
+  format: 'custom',
 };
 
 export default events;

@@ -19,6 +19,7 @@ const interpretationTypes: CustomType = {
       primaryDescription: multiLineText('Message if primary interpretation'),
     },
   },
+  format: 'custom',
 };
 
 export default interpretationTypes;

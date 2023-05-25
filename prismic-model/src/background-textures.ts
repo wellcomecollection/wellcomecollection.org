@@ -18,6 +18,7 @@ const backgroundTexture: CustomType = {
       },
     },
   },
+  format: 'custom',
 };
 
 export default backgroundTexture;

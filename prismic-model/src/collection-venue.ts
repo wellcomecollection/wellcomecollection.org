@@ -126,6 +126,7 @@ const collectionVenue: CustomType = {
       },
     },
   },
+  format: 'custom',
 };
 
 export default collectionVenue;

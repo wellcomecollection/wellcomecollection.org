@@ -20,6 +20,7 @@ const Season: CustomType = {
       promo,
     },
   },
+  format: 'custom',
 };
 
 export default Season;

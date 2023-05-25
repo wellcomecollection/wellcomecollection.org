@@ -20,6 +20,7 @@ const places: CustomType = {
       body,
     },
   },
+  format: 'custom',
 };
 
 export default places;

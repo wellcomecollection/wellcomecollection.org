@@ -13,7 +13,7 @@ const people: CustomType = {
   json: {
     Person: {
       name: keyword('Full name'),
-      description: description,
+      description,
       pronouns: keyword('Pronouns'),
       image: image('Image'),
       sameAs: list('Same as', {
@@ -26,6 +26,7 @@ const people: CustomType = {
       }),
     },
   },
+  format: 'custom',
 };
 
 export default people;

@@ -75,6 +75,7 @@ const exhibitions: CustomType = {
       }),
     },
   },
+  format: 'custom',
 };
 
 export default exhibitions;

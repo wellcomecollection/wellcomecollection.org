@@ -30,6 +30,7 @@ const guides: CustomType = {
       metadataDescription: singleLineText('Metadata description'),
     },
   },
+  format: 'custom',
 };
 
 export default guides;

@@ -56,6 +56,7 @@ const exhibitionGuides: CustomType = {
       }),
     },
   },
+  format: 'custom',
 };
 
 export default exhibitionGuides;

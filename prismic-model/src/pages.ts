@@ -49,6 +49,7 @@ const pages: CustomType = {
     },
     Contributors: contributorsWithTitle(),
   },
+  format: 'custom',
 };
 
 export default pages;

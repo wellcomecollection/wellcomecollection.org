@@ -52,6 +52,7 @@ const articleSeries: CustomType = {
       }),
     },
   },
+  format: 'custom',
 };
 
 export default articleSeries;

@@ -15,6 +15,7 @@ const exhibitionResources: CustomType = {
       icon: select('Icon type', { options: ['information', 'family'] }),
     },
   },
+  format: 'custom',
 };
 
 export default exhibitionResources;

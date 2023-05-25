@@ -7,6 +7,7 @@ const guideFormat: CustomType = {
   repeatable: true,
   status: true,
   json: label('Guide format'),
+  format: 'custom',
 };
 
 export default guideFormat;
