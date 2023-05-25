@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { isEventPast } from '../../services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
 import HTMLTime from '@weco/common/views/components/HTMLTime/HTMLTime';
+import { Place } from '@weco/content/types/places';
 
 type Props = {
   event: Event;
@@ -62,6 +63,35 @@ const EventTimesWrapper = styled(Space).attrs({
   }
 `;
 
+const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
+  if (isHybridEvent) return null; // if it's a hybrid event the location is displayed with the buttons
+  if (locations.length === 0) return null;
+
+  return (
+    <Space
+      v={{ size: 's', properties: ['margin-bottom'] }}
+      className={font('intr', 5)}
+      style={{ display: 'flex', alignItems: 'center' }}
+    >
+      {locations.map((l, i) => {
+        return (
+          <>
+            <span>{l.title}</span>
+            {i !== locations.length - 1 && (
+              <Space
+                aria-hidden="true"
+                h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+              >
+                |
+              </Space>
+            )}
+          </>
+        );
+      })}
+    </Space>
+  );
+};
+
 const EventScheduleItem: FunctionComponent<Props> = ({
   event,
   isNotLinked,
@@ -103,16 +133,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               {event.title}
             </Space>
 
-            {event.locations[0] &&
-              !isHybridEvent && ( // if it's a hybrid event the location is displayed with the buttons
-                <Space
-                  v={{ size: 's', properties: ['margin-bottom'] }}
-                  as="p"
-                  className={font('intr', 5)}
-                >
-                  {event.locations[0].title}
-                </Space>
-              )}
+            {eventLocations(event.locations, Boolean(isHybridEvent))}
 
             {event.promo?.caption && (
               <Space
