@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, JSX } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Link, { LinkProps } from 'next/link';
 

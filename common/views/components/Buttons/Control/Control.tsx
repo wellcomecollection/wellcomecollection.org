@@ -1,9 +1,9 @@
-import { forwardRef, ForwardRefRenderFunction } from 'react';
+import { forwardRef, ForwardRefRenderFunction, JSX } from 'react';
 import NextLink from 'next/link';
-import { LinkProps } from '../../../../model/link-props';
-import Icon from '../../Icon/Icon';
-import { GaEvent, trackGaEvent } from '../../../../utils/ga';
 import styled from 'styled-components';
+import { LinkProps } from '@weco/common/model/link-props';
+import Icon from '../../Icon/Icon';
+import { GaEvent, trackGaEvent } from '@weco/common/utils/ga';
 import { IconSvg } from '@weco/common/icons';
 
 const ControlInner = styled.div`
