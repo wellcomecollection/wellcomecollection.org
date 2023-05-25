@@ -1,4 +1,6 @@
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext, {
+  RotatedImage,
+} from '../ItemViewerContext/ItemViewerContext';
 import { useContext, FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
@@ -43,19 +45,53 @@ const ImageViewerControlsEl = styled.div<{ showControls?: boolean }>`
   }
 `;
 
+function updateRotatedImages({
+  rotatedImages,
+  canvasParam,
+}: {
+  rotatedImages: RotatedImage[];
+  canvasParam: number;
+}): RotatedImage[] {
+  const matchingIndex = rotatedImages.findIndex(
+    rotation => rotation.canvas === canvasParam
+  );
+  if (matchingIndex >= 0) {
+    return rotatedImages.map((rotatedImage, i) => {
+      if (matchingIndex === i) {
+        const currentRotationValue = rotatedImages[matchingIndex].rotation;
+        const newRotationValue =
+          currentRotationValue < 270 ? currentRotationValue + 90 : 0;
+        return {
+          canvas: rotatedImage.canvas,
+          rotation: newRotationValue,
+        };
+      } else {
+        return rotatedImage;
+      }
+    });
+  } else {
+    return [
+      ...rotatedImages,
+      {
+        canvas: canvasParam,
+        rotation: 90,
+      },
+    ];
+  }
+}
+
 const ImageViewerControls: FunctionComponent = () => {
   const {
     showControls,
     rotatedImages,
-    activeIndex,
-    urlTemplate,
+    query,
     setRotatedImages,
-    setIsLoading,
     setShowZoomed,
   } = useContext(ItemViewerContext);
+  const { canvas } = query;
 
   return (
-    <ImageViewerControlsEl showControls={showControls || urlTemplate}>
+    <ImageViewerControlsEl showControls={showControls}>
       <Space
         h={{ size: 's', properties: ['margin-left'] }}
         v={{ size: 'l', properties: ['margin-bottom'] }}
@@ -78,25 +114,12 @@ const ImageViewerControls: FunctionComponent = () => {
           text="Rotate"
           icon={rotateRight}
           clickHandler={() => {
-            const matchingIndex = rotatedImages.findIndex(
-              image => image.canvasIndex === activeIndex
+            setRotatedImages(
+              updateRotatedImages({
+                rotatedImages,
+                canvasParam: canvas,
+              })
             );
-            if (matchingIndex >= 0) {
-              rotatedImages[matchingIndex] = {
-                canvasIndex: rotatedImages[matchingIndex].canvasIndex,
-                rotation:
-                  rotatedImages[matchingIndex].rotation < 270
-                    ? rotatedImages[matchingIndex].rotation + 90
-                    : 0,
-              };
-            } else {
-              rotatedImages.push({
-                canvasIndex: activeIndex,
-                rotation: 90,
-              });
-            }
-            setRotatedImages([...rotatedImages]);
-            setIsLoading(true);
           }}
         />
       </Space>

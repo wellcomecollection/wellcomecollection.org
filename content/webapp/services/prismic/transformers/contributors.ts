@@ -1,4 +1,7 @@
-import { FilledContentRelationshipField, PrismicDocument } from '@prismicio/types';
+import {
+  FilledContentRelationshipField,
+  PrismicDocument,
+} from '@prismicio/client';
 import {
   WithContributors,
   isFilledLinkToOrganisationField,

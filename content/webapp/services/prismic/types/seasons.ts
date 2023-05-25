@@ -1,4 +1,4 @@
-import { TimestampField, PrismicDocument } from '@prismicio/types';
+import { TimestampField, PrismicDocument } from '@prismicio/client';
 import { CommonPrismicFields } from '.';
 
 const typeEnum = 'seasons';

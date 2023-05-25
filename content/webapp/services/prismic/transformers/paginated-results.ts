@@ -1,4 +1,4 @@
-import { PrismicDocument, Query } from '@prismicio/types';
+import { PrismicDocument, Query } from '@prismicio/client';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 
 export function transformQuery<Doc extends PrismicDocument, Result>(

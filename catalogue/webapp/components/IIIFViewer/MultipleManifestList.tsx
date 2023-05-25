@@ -4,45 +4,62 @@ import NextLink from 'next/link';
 import { toLink as itemLink } from '../ItemLink';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
-import { getMultiVolumeLabel } from '../../utils/iiif/v3';
+import { getMultiVolumeLabel } from '@weco/catalogue/utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
+import { queryParamToArrayIndex } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import {
+  List,
+  Item,
+} from '@weco/catalogue/components/IIIFViewer/ViewerStructures';
 
 const Anchor = styled.a<{ isManifestIndex: boolean }>`
   ${props => props.isManifestIndex && `color: ${props.theme.color('yellow')};`};
 `;
 
 const MultipleManifestListPrototype: FunctionComponent = () => {
-  const { parentManifest, work, manifestIndex } = useContext(ItemViewerContext);
+  const { parentManifest, work, query, setIsMobileSidebarActive } =
+    useContext(ItemViewerContext);
   return (
     <nav>
-      <PlainList aria-label={volumesNavigationLabel}>
+      <List aria-label={volumesNavigationLabel}>
         {parentManifest?.items.map((manifest, i) => (
-          <li key={manifest.id}>
+          <Item
+            key={manifest.id}
+            isActive={i === queryParamToArrayIndex(query.manifest)}
+          >
             <NextLink
-              {...itemLink(
-                {
-                  workId: work.id,
-                  manifest: i + 1,
+              replace={true}
+              {...itemLink({
+                workId: work.id,
+                props: {
                   canvas: 1,
+                  query: query.query,
+                  manifest: i + 1,
                 },
-                'manifests_navigation'
-              )}
+                source: 'manifests_navigation',
+              })}
               passHref={true}
               legacyBehavior
             >
-              <Anchor
+              <a
                 data-gtm-trigger="volumes_nav_link"
-                isManifestIndex={i === manifestIndex}
-                aria-current={i === manifestIndex ? 'page' : undefined}
+                aria-current={
+                  i === queryParamToArrayIndex(query.manifest)
+                    ? 'page'
+                    : undefined
+                }
+                onClick={() => {
+                  setIsMobileSidebarActive(false);
+                }}
               >
                 {(manifest?.label &&
                   getMultiVolumeLabel(manifest.label, work?.title || '')) ||
                   'Unknown'}
-              </Anchor>
+              </a>
             </NextLink>
-          </li>
+          </Item>
         ))}
-      </PlainList>
+      </List>
     </nav>
   );
 };

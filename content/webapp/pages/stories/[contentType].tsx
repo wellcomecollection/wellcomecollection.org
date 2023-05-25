@@ -22,6 +22,7 @@ import {
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import * as prismic from '@prismicio/client';
 import { articleSeriesLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const contentTypes = ['comic'] as const;
 type ContentType = (typeof contentTypes)[number];
@@ -56,6 +57,7 @@ function isContentType(x: any): x is ContentType {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
 
   const page = getPage(context.query);
@@ -74,12 +76,14 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
   const seriesQuery = await fetchSeries(client, {
-    predicates: prismic.predicate.at('my.series.format', contentTypeInfo.id),
+    filters: prismic.filter.at('my.series.format', contentTypeInfo.id),
     page,
-    orderings: {
-      field: 'document.first_publication_date',
-      direction: 'desc',
-    },
+    orderings: [
+      {
+        field: 'document.first_publication_date',
+        direction: 'desc',
+      },
+    ],
   });
   const series = transformQuery(seriesQuery, transformSeries);
   const basicSeries = {

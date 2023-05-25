@@ -37,6 +37,7 @@ import {
   ContentResultsList,
 } from '@weco/catalogue/services/wellcome/content/types';
 import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -198,6 +199,7 @@ SearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const query = context.query;
   const params = fromQuery(query);

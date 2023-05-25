@@ -12,7 +12,6 @@ export default function useOnScreen({
   threshold,
 }: UseOnScreenProps) {
   const [isIntersecting, setIsIntersecting] = useState(false);
-  const rootMargin = '0px';
   useEffect(() => {
     const observer = new window.IntersectionObserver(
       ([entry]) => {
@@ -35,11 +34,10 @@ export default function useOnScreen({
       },
       {
         root,
-        rootMargin,
         threshold,
       }
     );
-    if (ref && ref.current) {
+    if (ref?.current) {
       observer.observe(ref.current);
     }
     return () => {

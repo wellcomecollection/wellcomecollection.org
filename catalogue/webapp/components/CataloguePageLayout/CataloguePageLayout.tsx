@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { RichTextNodeType } from '@prismicio/types';
+import { RichTextNodeType } from '@prismicio/client';
 import PageLayout, {
   Props as PageLayoutProps,
 } from '@weco/common/views/components/PageLayout/PageLayout';

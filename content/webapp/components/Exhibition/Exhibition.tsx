@@ -37,7 +37,7 @@ import {
 } from '../../types/exhibitions';
 
 import { EventBasic } from '../../types/events';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
@@ -79,7 +79,7 @@ function getadmissionObject(): ExhibitionItem {
 function getTodaysHoursObject(): ExhibitionItem {
   const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
 
-  const link: prismicT.RTLinkNode = {
+  const link: prismic.RTLinkNode = {
     type: 'hyperlink',
     start: todaysHoursText.length - 'Opening times'.length,
     end: todaysHoursText.length,

@@ -15,6 +15,7 @@ const teams = {
       url: keyword('URL'),
     },
   },
+  format: 'custom',
 };
 
 export default teams;

@@ -55,8 +55,6 @@ const test = base.extend({
   },
 });
 
-test.describe.configure({ mode: 'parallel' });
-
 test.describe('Scenario 1: A user wants a large-scale view of an item', () => {
   test('the images are scalable', async ({ page, context }) => {
     await multiVolumeItem(context, page);
@@ -312,6 +310,7 @@ test.describe(
   () => {
     test('the main viewer can be scrolled', async ({ page, context }) => {
       await itemWithSearchAndStructures(context, page);
+      await page.waitForSelector(mainViewer);
       await scrollToBottom(mainViewer, page);
 
       // In this test, we're loading an item with 68 pages, scrolling to the

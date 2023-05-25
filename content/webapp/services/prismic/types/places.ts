@@ -3,7 +3,7 @@ import {
   GeoPointField,
   NumberField,
   PrismicDocument,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { Body } from './body';
 import { CommonPrismicFields, FetchLinks } from '.';
 

@@ -8,7 +8,7 @@ import {
   ExhibitionPrismicDocument,
   ExhibitionRelatedContentPrismicDocument,
 } from '../types/exhibitions';
-import { Query } from '@prismicio/types';
+import { Query } from '@prismicio/client';
 import { fetchPages } from './pages';
 import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
@@ -16,8 +16,8 @@ import {
   eventAccessOptionsFields,
   exhibitionResourcesFields,
 } from '../fetch-links';
-import { Period } from '../../../types/periods';
-import { getExhibitionPeriodPredicates } from '../types/predicates';
+import { Period } from '@weco/common/types/periods';
+import { getExhibitionPeriodFilters } from '../types/filters';
 import {
   Exhibition,
   ExhibitionRelatedContent,
@@ -70,7 +70,7 @@ export async function fetchExhibition(
 ): Promise<FetchExhibitionResult> {
   const exhibitionPromise = exhibitionsFetcher.getById(client, id);
   const pageQueryPromise = fetchPages(client, {
-    predicates: [prismic.predicate.at('my.pages.parents.parent', id)],
+    filters: [prismic.filter.at('my.pages.parents.parent', id)],
   });
 
   const [exhibition, pages] = await Promise.all([
@@ -89,7 +89,7 @@ const endField = 'my.exhibitions.end';
 
 type Order = 'desc' | 'asc';
 type GetExhibitionsProps = {
-  predicates?: string[];
+  filters?: string[];
   order?: Order;
   period?: Period;
   page?: number;
@@ -97,24 +97,19 @@ type GetExhibitionsProps = {
 
 export const fetchExhibitions = (
   client: GetServerSidePropsPrismicClient,
-  {
-    predicates = [],
-    order = 'desc',
-    period,
-    page = 1,
-  }: GetExhibitionsProps = {}
+  { filters = [], order = 'desc', period, page = 1 }: GetExhibitionsProps = {}
 ): Promise<Query<ExhibitionPrismicDocument>> => {
   const orderings: prismic.Ordering[] = [
     { field: 'my.exhibitions.isPermament', direction: 'desc' },
     { field: endField, direction: order },
   ];
 
-  const periodPredicates = period
-    ? getExhibitionPeriodPredicates({ period, startField, endField })
+  const periodFilters = period
+    ? getExhibitionPeriodFilters({ period, startField, endField })
     : [];
 
   return exhibitionsFetcher.getByType(client, {
-    predicates: [...predicates, ...periodPredicates],
+    filters: [...filters, ...periodFilters],
     orderings,
     page,
   });
@@ -126,11 +121,11 @@ const fetchExhibitionsClientSide =
 export const fetchExhibitExhibition = async (
   exhibitId: string
 ): Promise<Exhibition | undefined> => {
-  const predicates = [
-    prismic.predicate.at('my.exhibitions.exhibits.item', exhibitId),
+  const filters = [
+    prismic.filter.at('my.exhibitions.exhibits.item', exhibitId),
   ];
 
-  const response = await fetchExhibitionsClientSide({ predicates });
+  const response = await fetchExhibitionsClientSide({ filters });
 
   return response && response.results.length > 0
     ? response.results[0]

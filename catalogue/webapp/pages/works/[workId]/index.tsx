@@ -7,6 +7,7 @@ import { getServerData } from '@weco/common/server-data';
 import Work from '@weco/catalogue/components/Work/Work';
 import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   work: WorkType;
@@ -23,6 +24,7 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { workId } = context.query;
 

@@ -39,7 +39,7 @@ const WorkHeader: FunctionComponent<Props> = ({ work }) => {
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
   const manifestData = useTransformedManifest(work, useToggles());
-  const { collectionManifestsCount } = manifestData;
+  const { collectionManifestsCount } = { ...manifestData };
 
   const primaryContributorLabel = work.contributors.find(
     contributor => contributor.primary
@@ -111,12 +111,14 @@ const WorkHeader: FunctionComponent<Props> = ({ work }) => {
               </Space>
             )}
 
-            {collectionManifestsCount > 0 && (
+            {Boolean(
+              collectionManifestsCount && collectionManifestsCount > 0
+            ) && (
               <Space v={{ size: 'm', properties: ['margin-top'] }}>
                 <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
                   <Number
                     backgroundColor="yellow"
-                    number={collectionManifestsCount}
+                    number={collectionManifestsCount as number}
                   />
                   {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
                   online

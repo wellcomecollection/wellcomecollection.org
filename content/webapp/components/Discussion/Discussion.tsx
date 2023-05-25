@@ -4,7 +4,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
 import { plus, minus } from '@weco/common/icons';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 const ButtonContainer = styled.div`
   position: absolute;
@@ -15,7 +15,7 @@ const ButtonContainer = styled.div`
 
 export type Props = {
   title: string | null;
-  text: prismicT.RichTextField;
+  text: prismic.RichTextField;
 };
 
 const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
@@ -31,7 +31,7 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
     if (isActive) {
       setTextToShow(text);
     } else {
-      setTextToShow(firstPartOfText as [prismicT.RTNode, ...prismicT.RTNode[]]);
+      setTextToShow(firstPartOfText as [prismic.RTNode, ...prismic.RTNode[]]);
     }
   }, [isActive]);
 

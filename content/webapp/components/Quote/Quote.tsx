@@ -2,12 +2,12 @@ import { FunctionComponent } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 
 export type Props = {
-  text: prismicT.RichTextField;
-  citation?: prismicT.RichTextField;
+  text: prismic.RichTextField;
+  citation?: prismic.RichTextField;
   isPullOrReview: boolean;
 };
 

@@ -12,4 +12,3 @@ basic.args = {
   ],
 };
 basic.storyName = 'Select';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

@@ -1,12 +1,12 @@
 import { FunctionComponent, useState, useEffect } from 'react';
 import Caption from '../Caption/Caption';
 import { IframeContainer } from '../Iframe/Iframe';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 
 export type Props = {
   embedUrl: string;
-  caption?: prismicT.RichTextField;
+  caption?: prismic.RichTextField;
   hasFullSizePoster?: boolean;
 };
 
@@ -28,7 +28,6 @@ const VideoEmbedWrapper = styled.figure`
 `;
 
 const VideoTrigger = styled.button<{ hasFullSizePoster?: boolean }>`
-  cursor: pointer;
   position: absolute;
   padding-bottom: 56.25%; /* 16:9 */
   width: 100%;

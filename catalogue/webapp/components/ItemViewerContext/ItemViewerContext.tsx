@@ -1,55 +1,49 @@
-import { createContext } from 'react';
+import { createContext, RefObject } from 'react';
 import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import { Manifest } from '@iiif/presentation-3';
-import {
-  DownloadOption,
-  TransformedManifest,
-  createDefaultTransformedManifest,
-} from '../../types/manifest';
-import { UrlTemplate } from 'url-template';
+import { TransformedManifest } from '../../types/manifest';
 
-export type RotatedImage = { canvasIndex: number; rotation: number };
+export type RotatedImage = { canvas: number; rotation: number };
+
+export type Query = {
+  canvas: number;
+  manifest: number;
+  query: string;
+  page: number;
+  shouldScrollToCanvas: boolean;
+};
 
 type Props = {
+  // DATA props:
+  query: Query;
   work: Work;
-  transformedManifest: TransformedManifest;
-  manifestIndex: number | undefined;
-  activeIndex: number;
-  setActiveIndex: (i: number) => void;
-  canvasIndex: number;
-  gridVisible: boolean;
-  setGridVisible: (v: boolean) => void;
-  currentManifestLabel?: string;
-  iiifImageLocationCredit: string | undefined;
-  downloadOptions: DownloadOption[]; // This can be downloads from a manifest or created from a iiif-image location
+  transformedManifest: TransformedManifest | undefined;
   parentManifest: Manifest | undefined;
-  lang: string;
+  searchResults: SearchResults;
+  setSearchResults: (v) => void;
+
+  // UI props:
+  viewerRef: RefObject<HTMLDivElement> | undefined;
+  mainAreaRef: RefObject<HTMLDivElement> | undefined;
   mainAreaWidth: number;
   mainAreaHeight: number;
+  gridVisible: boolean;
+  setGridVisible: (v: boolean) => void;
   isFullscreen: boolean;
-  isResizing: boolean;
-  urlTemplate?: UrlTemplate;
-  setShowZoomed: (v: boolean) => void;
+  setIsFullscreen: (v: boolean) => void;
   isDesktopSidebarActive: boolean;
   setIsDesktopSidebarActive: (v: boolean) => void;
   isMobileSidebarActive: boolean;
   setIsMobileSidebarActive: (v: boolean) => void;
   showZoomed: boolean;
-  setZoomInfoUrl: (v: string) => void;
-  setIsFullscreen: (v: boolean) => void;
-  zoomInfoUrl: string | undefined;
-  setRotatedImages: (v: RotatedImage[]) => void;
+  setShowZoomed: (v: boolean) => void;
   showControls: boolean;
-  isLoading: boolean;
-  setIsLoading: (v: boolean) => void;
-  setParentManifest: (v: Manifest) => void;
-  rotatedImages: { canvasIndex: number; rotation: number }[];
   setShowControls: (v: boolean) => void;
+  rotatedImages: RotatedImage[];
+  setRotatedImages: (v: RotatedImage[]) => void;
+  isResizing: boolean;
   errorHandler?: () => void;
-  setCurrentManifestLabel: (v: string) => void;
-  searchResults: SearchResults;
-  setSearchResults: (v) => void;
 };
 
 export const results = {
@@ -65,71 +59,72 @@ export const results = {
   hits: [],
 };
 
-const ItemViewerContext = createContext<Props>({
-  work: {
-    type: 'Work',
+const query = {
+  canvas: 1,
+  manifest: 1,
+  query: '',
+  page: 1,
+  shouldScrollToCanvas: true,
+};
+
+const work = {
+  type: 'Work',
+  id: '',
+  title: '',
+  alternativeTitles: [],
+  physicalDescription: '',
+  workType: {
     id: '',
-    title: '',
-    alternativeTitles: [],
-    physicalDescription: '',
-    workType: {
-      id: '',
-      label: '',
-      type: 'Format',
-    },
-    contributors: [],
-    identifiers: [],
-    subjects: [],
-    genres: [],
-    production: [],
-    languages: [],
-    notes: [],
-    formerFrequency: [],
-    designation: [],
-    parts: [],
-    partOf: [],
-    precededBy: [],
-    succeededBy: [],
-    availabilities: [],
-    availableOnline: false,
-    holdings: [],
+    label: '',
+    type: 'Format',
   },
-  transformedManifest: createDefaultTransformedManifest(),
-  manifestIndex: undefined,
-  activeIndex: 0,
-  canvasIndex: 0,
-  gridVisible: false,
-  currentManifestLabel: undefined,
-  iiifImageLocationCredit: '',
-  downloadOptions: [],
+  contributors: [],
+  identifiers: [],
+  subjects: [],
+  genres: [],
+  production: [],
+  languages: [],
+  notes: [],
+  formerFrequency: [],
+  designation: [],
+  parts: [],
+  partOf: [],
+  precededBy: [],
+  succeededBy: [],
+  availabilities: [],
+  availableOnline: false,
+  holdings: [],
+} as Work;
+
+const ItemViewerContext = createContext<Props>({
+  // DATA props:
+  query,
+  work,
+  transformedManifest: undefined,
   parentManifest: undefined,
-  lang: '',
+  searchResults: results,
+  setSearchResults: () => undefined,
+
+  // UI props:
+  viewerRef: undefined,
+  mainAreaRef: undefined,
   mainAreaWidth: 1000,
   mainAreaHeight: 500,
-  isFullscreen: false,
-  isDesktopSidebarActive: true,
-  isMobileSidebarActive: false,
-  showZoomed: false,
-  zoomInfoUrl: '',
-  showControls: false,
-  isLoading: false,
-  rotatedImages: [],
-  urlTemplate: undefined,
-  searchResults: results,
-  isResizing: false,
-  setZoomInfoUrl: () => undefined,
-  setActiveIndex: () => undefined,
+  gridVisible: false,
   setGridVisible: () => false,
-  setShowZoomed: () => undefined,
-  setIsDesktopSidebarActive: () => undefined,
-  setIsMobileSidebarActive: () => undefined,
+  isFullscreen: false,
   setIsFullscreen: () => undefined,
-  setRotatedImages: () => undefined,
-  setIsLoading: () => undefined,
-  setParentManifest: () => undefined,
+  isDesktopSidebarActive: true,
+  setIsDesktopSidebarActive: () => undefined,
+  isMobileSidebarActive: false,
+  setIsMobileSidebarActive: () => undefined,
+  showZoomed: false,
+  setShowZoomed: () => undefined,
+  showControls: false,
   setShowControls: () => undefined,
+  rotatedImages: [],
+  setRotatedImages: () => undefined,
+  isResizing: false,
   errorHandler: () => undefined,
-  setCurrentManifestLabel: () => undefined,
-  setSearchResults: () => undefined,
 });
 export default ItemViewerContext;

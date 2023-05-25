@@ -38,4 +38,3 @@ basic.args = {
   ],
 };
 basic.storyName = 'Discussion';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

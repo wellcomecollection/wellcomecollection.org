@@ -1,14 +1,14 @@
 import { GenericContentFields } from './generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { Contributor } from './contributors';
 import { Season } from './seasons';
 import { ImagePromo } from './image-promo';
 import { Label } from '@weco/common/model/labels';
 
 type Review = {
-  text: prismicT.RichTextField;
-  citation: prismicT.RichTextField;
+  text: prismic.RichTextField;
+  citation: prismic.RichTextField;
 };
 
 export type BookBasic = {

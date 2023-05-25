@@ -46,6 +46,8 @@ import { Series } from '@weco/content/types/series';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import * as prismic from '@prismicio/client';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   season: Season;
@@ -112,6 +114,7 @@ const SeasonPage = ({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const { seasonId } = context.query;
   if (!looksLikePrismicId(seasonId)) {
     return { notFound: true };
@@ -119,30 +122,28 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
-  // TODO: Is there a reason we're hard-coding predicates here, and not
-  // using the Prismic library helpers as on the other pages?
   const booksQueryPromise = fetchBooks(client, {
-    predicates: [`[at(my.books.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.books.seasons.season', seasonId)],
   });
   const articlesQueryPromise = fetchArticles(client, {
-    predicates: [`[at(my.articles.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.articles.seasons.season', seasonId)],
   });
   const eventsQueryPromise = fetchEvents(client, {
-    predicates: [`[at(my.events.seasons.season, "${seasonId}")]`],
-    orderings: ['my.events.times.startDateTime'],
+    filters: [prismic.filter.at('my.events.seasons.season', seasonId)],
+    orderings: [{ field: 'my.events.times.startDateTime', direction: 'desc' }],
   });
   const exhibitionsQueryPromise = fetchExhibitions(client, {
-    predicates: [`[at(my.exhibitions.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.exhibitions.seasons.season', seasonId)],
     order: 'desc',
   });
   const pagesQueryPromise = fetchPages(client, {
-    predicates: [`[at(my.pages.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.pages.seasons.season', seasonId)],
   });
   const projectsQueryPromise = fetchProjects(client, {
-    predicates: [`[at(my.projects.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.projects.seasons.season', seasonId)],
   });
   const seriesQueryPromise = fetchSeries(client, {
-    predicates: [`[at(my.series.seasons.season, "${seasonId}")]`],
+    filters: [prismic.filter.at('my.series.seasons.season', seasonId)],
   });
 
   const seasonDocPromise = fetchSeason(client, seasonId);

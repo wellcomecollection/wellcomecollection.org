@@ -1,4 +1,4 @@
-import { KeyTextField, RichTextField, PrismicDocument } from '@prismicio/types';
+import { KeyTextField, RichTextField, PrismicDocument } from '@prismicio/client';
 import { CommonPrismicFields, FetchLinks } from '.';
 
 export type TeamPrismicDocument = PrismicDocument<

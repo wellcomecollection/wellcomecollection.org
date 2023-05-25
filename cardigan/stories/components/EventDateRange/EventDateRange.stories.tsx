@@ -50,4 +50,3 @@ basic.args = {
   event: { times },
 };
 basic.storyName = 'EventDateRange';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

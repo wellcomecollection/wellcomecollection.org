@@ -80,6 +80,7 @@ const ItemsApi = async (
   });
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
+  // we are forcing revalidation at all times because this is to do with item availability, so it must be up to date
   res.setHeader(
     'Cache-Control',
     'private, no-cache, no-store, max-age=0, must-revalidate'

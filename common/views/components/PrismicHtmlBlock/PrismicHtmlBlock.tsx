@@ -1,10 +1,10 @@
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { JSXFunctionSerializer, PrismicRichText } from '@prismicio/react';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 
 type Props = {
-  html: prismicT.RichTextField;
+  html: prismic.RichTextField;
   htmlSerializer?: JSXFunctionSerializer;
 };
 

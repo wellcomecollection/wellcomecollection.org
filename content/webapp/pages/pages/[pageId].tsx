@@ -46,6 +46,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 export type Props = {
   page: PageType;
@@ -117,6 +118,7 @@ function getFeaturedPictureWithTasl(
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { pageId } = context.query;
 

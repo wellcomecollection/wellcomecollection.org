@@ -33,10 +33,6 @@ const WorksApi = async (
 
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Cache-Control',
-    'private, no-cache, no-store, max-age=0, must-revalidate'
-  );
 
   if (response.type === 'Error') {
     res.status(response.httpStatus);

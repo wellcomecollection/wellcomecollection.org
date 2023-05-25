@@ -39,6 +39,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import styled from 'styled-components';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const ContentTypeWrapper = styled.div`
   display: flex;
@@ -67,6 +68,7 @@ function articleHasOutro(article: Article) {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const { articleId } = context.query;
   if (!looksLikePrismicId(articleId)) {
     return { notFound: true };
@@ -176,12 +178,12 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             : 'my.articles.series.series';
 
         // Note: we deliberately use a hard-coded string here instead of the
-        // predicate DSL in the Prismic client library, because it means we don't
+        // filter DSL in the Prismic client library, because it means we don't
         // send the Prismic client library as part of the browser bundle.
-        const predicates = [`[at(${seriesField}, "${series.id}")]`];
+        const filters = [`[at(${seriesField}, "${series.id}")]`];
 
         const articlesInSeries = series
-          ? await fetchArticlesClientSide({ predicates })
+          ? await fetchArticlesClientSide({ filters })
           : undefined;
 
         const articles = articlesInSeries?.results ?? [];

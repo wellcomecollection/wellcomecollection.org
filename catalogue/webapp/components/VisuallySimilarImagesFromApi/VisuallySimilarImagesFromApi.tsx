@@ -52,16 +52,6 @@ const Wrapper = styled(Space).attrs({
   }
 `;
 
-const LoaderWrapper = styled.div`
-  height: 120px;
-`;
-
-const SectionTitle = styled.h3.attrs({
-  className: font('wb', 5),
-})`
-  color: ${props => props.theme.color('black')};
-`;
-
 const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
   originalId,
   onClickImage,
@@ -91,15 +81,15 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
   if (requestState === 'loading' && !similarImages.length)
     return (
       <Space v={{ size: 'xl', properties: ['margin-bottom', 'margin-top'] }}>
-        <LoaderWrapper>
+        <div style={{ height: '120px' }}>
           <LL small position="relative" />
-        </LoaderWrapper>
+        </div>
       </Space>
     );
 
   return similarImages.length === 0 ? null : (
     <>
-      <SectionTitle>Visually similar images</SectionTitle>
+      <h3 className={font('wb', 5)}>Visually similar images</h3>
 
       <Wrapper>
         {similarImages.map(related => (

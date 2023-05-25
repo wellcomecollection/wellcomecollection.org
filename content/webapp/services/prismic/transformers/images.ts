@@ -1,11 +1,11 @@
 import { Image, PromoSliceZone } from '../types';
-import { RichTextField } from '@prismicio/types';
+import { RichTextField } from '@prismicio/client';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { Crop, ImageType } from '@weco/common/model/image';
 import { ImagePromo } from '../../../types/image-promo';
 import { asRichText, asText } from '.';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 export const placeHolderImage: ImageType = {
@@ -80,7 +80,7 @@ export function transformImagePromo(
 ): ImagePromo | undefined {
   const promoSlice =
     zone &&
-    zone.find((slice: prismicT.Slice) => slice.slice_type === 'editorialImage');
+    zone.find((slice: prismic.Slice) => slice.slice_type === 'editorialImage');
   const link = promoSlice && promoSlice.primary.link;
   // We introduced enforcing 16:9 half way through, so we have to do a check for it.
   const promoImage =

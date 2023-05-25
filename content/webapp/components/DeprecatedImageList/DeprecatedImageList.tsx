@@ -2,14 +2,14 @@ import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
 import { FunctionComponent } from 'react';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 export type Props = {
   items: {
     title: string;
     subtitle: string;
     image: CaptionedImageType;
-    description: prismicT.RichTextField;
+    description: prismic.RichTextField;
   }[];
 };
 const DeprecatedImageList: FunctionComponent<Props> = ({ items }: Props) => {

@@ -98,4 +98,3 @@ basic.argTypes = {
 };
 
 basic.storyName = 'TabNav';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

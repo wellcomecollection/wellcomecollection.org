@@ -19,5 +19,5 @@ basic.args = {
 basic.storyName = 'BookPromo';
 basic.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
-  chromatic: { diffThreshold: 0.2, viewports: [375, 1200] },
+  chromatic: { diffThreshold: 0.2 },
 };

@@ -3,7 +3,7 @@ import {
   KeyTextField,
   RichTextField,
   GroupField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { Image } from '.';
 
 /**

@@ -58,7 +58,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   shouldShowItemLink,
 }: Props) => {
   const isArchive = useContext(IsArchiveContext);
-  const itemUrl = itemLink({ workId: work.id }, 'work');
+  const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const transformedIIIFManifest = useTransformedManifest(work, useToggles());
   const {
@@ -71,7 +71,7 @@ const WorkDetails: FunctionComponent<Props> = ({
     audio,
     clickThroughService,
     tokenService,
-  } = transformedIIIFManifest;
+  } = { ...transformedIIIFManifest };
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -96,7 +96,7 @@ const WorkDetails: FunctionComponent<Props> = ({
     : [];
 
   const downloadOptions = [
-    ...manifestDownloadOptions,
+    ...(manifestDownloadOptions || []),
     ...iiifImageDownloadOptions,
   ];
 
@@ -373,7 +373,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                     />
                   )}
                 </div>
-                {(collectionManifestsCount > 0 || canvasCount > 0) && (
+                {((collectionManifestsCount && collectionManifestsCount > 0) ||
+                  (canvasCount && canvasCount > 0)) && (
                   <Space
                     v={{
                       size: 'm',
@@ -385,13 +386,13 @@ const WorkDetails: FunctionComponent<Props> = ({
                       style={{ marginBottom: 0 }}
                     >
                       Contains:{' '}
-                      {collectionManifestsCount > 0
+                      {collectionManifestsCount && collectionManifestsCount > 0
                         ? `${collectionManifestsCount} ${
                             collectionManifestsCount === 1
                               ? 'volume'
                               : 'volumes'
                           }`
-                        : canvasCount > 0
+                        : canvasCount && canvasCount > 0
                         ? `${canvasCount} ${
                             canvasCount === 1 ? 'image' : 'images'
                           }`
@@ -648,12 +649,12 @@ const WorkDetails: FunctionComponent<Props> = ({
          A simple genre contains just one concept in its concepts list,
          whereas a compound genre may contain many.
 
-         In both cases, the first concept is the "important" one that 
+         In both cases, the first concept is the "important" one that
          should be used to link to a concepts page.
 
          Compound genres behave more like contributors than subjects.
          The additional information imparted by the subsequent concepts
-         are more relevant to Genre as it relates to the Work in question 
+         are more relevant to Genre as it relates to the Work in question
          than the Genre as its own thing.
          */}
         {work.genres.length > 0 && (

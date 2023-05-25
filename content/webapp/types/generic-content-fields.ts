@@ -1,7 +1,7 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { BodySlice } from './body';
 
 export type GenericContentFields = {
@@ -9,7 +9,7 @@ export type GenericContentFields = {
   title: string;
   promo?: ImagePromo;
   body: BodySlice[];
-  standfirst?: prismicT.RichTextField;
+  standfirst?: prismic.RichTextField;
   image?: ImageType;
   metadataDescription?: string;
   labels: Label[];

@@ -7,12 +7,12 @@ import { getCrop, ImageType } from '@weco/common/model/image';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';
 import { grid, font } from '@weco/common/utils/classnames';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 
 export type Props = {
   title: string;
-  text?: prismicT.RichTextField;
+  text?: prismic.RichTextField;
   image: ImageType;
 };
 

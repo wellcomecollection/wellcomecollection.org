@@ -21,7 +21,7 @@ function getNextDateInFuture(event: HasTimes): Date | undefined {
 
   if (futureTimes.length === 0) {
     // Events which don't have any future times should have been filtered
-    // out by the time we call this function (e.g. the period predicates
+    // out by the time we call this function (e.g. the period filters
     // mean we shouldn't have fetched them from Prismic).
     //
     // If we do return an empty list here, it implies there's a mismatch

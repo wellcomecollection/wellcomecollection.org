@@ -10,4 +10,3 @@ basic.args = {
   text: 'Just turn up',
 };
 basic.storyName = 'Message';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

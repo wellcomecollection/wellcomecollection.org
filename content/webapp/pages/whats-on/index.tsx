@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
-import { Period } from '@weco/content/types/periods';
+import { Period, isOfTypePeriod } from '@weco/common/types/periods';
 import { font, grid, cssGrid } from '@weco/common/utils/classnames';
 import {
   getPageFeaturedText,
@@ -20,7 +20,10 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+import SegmentedControl, {
+  Item,
+  ItemID,
+} from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -79,8 +82,9 @@ import {
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import styled from 'styled-components';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
-const segmentedControlItems = [
+const segmentedControlItems: Item[] = [
   {
     id: 'current-and-coming-up',
     url: '/whats-on',
@@ -102,7 +106,7 @@ export type Props = {
   exhibitions: ExhibitionBasic[];
   events: EventBasic[];
   availableOnlineEvents: EventBasic[];
-  period: string;
+  period: Period;
   dateRange: { start: Date; end?: Date };
   featuredText?: FeaturedTextType;
   tryTheseToo: FacilityPromoType[];
@@ -201,7 +205,7 @@ const OpeningTimes = styled.div`
 `;
 
 type HeaderProps = {
-  activeId: string;
+  activeId: ItemID;
   todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
   featuredText?: FeaturedTextType;
 };
@@ -309,13 +313,23 @@ const Header: FunctionComponent<HeaderProps> = ({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
 
   const client = createClient(context);
 
-  const period = context.query.period
-    ? context.query.period.toString()
-    : 'current-and-coming-up';
+  let period: Period;
+
+  if (context.query.period) {
+    const test = context.query.period.toString();
+    if (isOfTypePeriod(test)) {
+      period = test;
+    } else {
+      return { notFound: true };
+    }
+  } else {
+    period = 'current-and-coming-up';
+  }
 
   const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 

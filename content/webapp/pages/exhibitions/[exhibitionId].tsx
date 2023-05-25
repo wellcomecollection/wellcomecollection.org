@@ -19,8 +19,9 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
-type Props = {
+type ExhibitionProps = {
   exhibition: ExhibitionType;
   jsonLd: JsonLdObj;
   pages: PageType[];
@@ -28,7 +29,12 @@ type Props = {
   pageview: Pageview;
 };
 
-const ExhibitionPage: FunctionComponent<Props> = ({
+/**
+ * Please note that the /exhibitions/{period} routes do not arrive here
+ * but instead are rewritten to the index file. Please observe
+ * this setup in the next.config file for this app
+ */
+const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
   exhibition,
   pages,
   jsonLd,
@@ -54,8 +60,9 @@ const ExhibitionPage: FunctionComponent<Props> = ({
 );
 
 export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+  ExhibitionProps | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { exhibitionId } = context.query;
 

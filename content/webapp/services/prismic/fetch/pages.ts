@@ -62,10 +62,10 @@ export const fetchChildren = async (
   client: GetServerSidePropsPrismicClient,
   page: Page
 ): Promise<PagePrismicDocument[]> => {
-  const predicates = [prismic.predicate.at('my.pages.parents.parent', page.id)];
+  const filters = [prismic.filter.at('my.pages.parents.parent', page.id)];
 
   try {
-    const pages = await fetchPages(client, { predicates });
+    const pages = await fetchPages(client, { filters });
     return pages.results;
   } catch (e) {
     console.warn(`Error trying to fetch children on page ${page.id}: ${e}`);

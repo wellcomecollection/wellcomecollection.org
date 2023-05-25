@@ -5,33 +5,35 @@ import {
   useEffect,
   useRef,
   useContext,
-  RefObject,
   FunctionComponent,
   CSSProperties,
 } from 'react';
-import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
-import useScrollVelocity from '../../hooks/useScrollVelocity';
+import { FixedSizeGrid, areEqual } from 'react-window';
+import useScrollVelocity from '@weco/catalogue/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
-import { SearchResults } from '../../services/iiif/types/search/v3';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
+import ItemViewerContext, {
+  Query,
+} from '../ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { scrollViewer } from './MainViewer';
-import { TransformedCanvas } from '../../types/manifest';
-
-const Defs = styled.svg`
-  position: absolute;
-  height: 0;
-  width: 0;
-  left: -100%;
-`;
+import { TransformedCanvas } from '@weco/catalogue/types/manifest';
+import NextLink from 'next/link';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
+import {
+  arrayIndexToQueryParam,
+  queryParamToArrayIndex,
+} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   height: 400px;
+  a {
+    text-decoration: none;
+  }
 `;
 
 type CellProps = {
@@ -44,30 +46,26 @@ type CellProps = {
     columnCount: number;
     gridVisible: boolean;
     setGridVisible: (value: boolean) => void;
-    mainViewerRef: RefObject<FixedSizeList>;
-    activeIndex: number;
-    setActiveIndex: (i: number) => void;
     canvases: TransformedCanvas[];
     searchResults: SearchResults;
-    mainAreaWidth: number;
+    query: Query;
+    workId: string;
   };
 };
 
 const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   const {
     columnCount,
-    mainViewerRef,
     gridVisible,
     setGridVisible,
     scrollVelocity,
-    activeIndex,
-    setActiveIndex,
     canvases,
     searchResults,
-    mainAreaWidth,
+    query,
+    workId,
   } = data;
-  const itemIndex = rowIndex * columnCount + columnIndex;
-  const currentCanvas = canvases[itemIndex];
+  const canvasIndex = rowIndex * columnCount + columnIndex;
+  const currentCanvas = canvases[canvasIndex];
   const hasSearchResults = Boolean(
     searchResults.resources.find(
       resource =>
@@ -85,23 +83,33 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
       ) : (
         currentCanvas && (
           <ThumbnailSpacer>
-            <IIIFCanvasThumbnail
-              canvas={currentCanvas}
-              clickHandler={() => {
-                scrollViewer(
-                  currentCanvas,
-                  itemIndex,
-                  mainViewerRef?.current,
-                  mainAreaWidth
-                );
-                setActiveIndex(itemIndex);
+            <NextLink
+              replace={true}
+              {...itemLink({
+                workId,
+                props: {
+                  manifest: query.manifest,
+                  query: query.query,
+                  canvas: arrayIndexToQueryParam(canvasIndex),
+                },
+                source: 'viewer/thumbnail',
+              })}
+              passHref={true}
+              aria-current={
+                canvasIndex === queryParamToArrayIndex(query.canvas)
+              }
+              onClick={() => {
                 setGridVisible(false);
               }}
-              isActive={activeIndex === itemIndex}
-              thumbNumber={itemIndex + 1}
-              isFocusable={gridVisible}
-              highlightImage={hasSearchResults}
-            />
+            >
+              <IIIFCanvasThumbnail
+                canvas={currentCanvas}
+                isActive={canvasIndex === queryParamToArrayIndex(query.canvas)}
+                thumbNumber={arrayIndexToQueryParam(canvasIndex)}
+                isFocusable={gridVisible}
+                highlightImage={hasSearchResults}
+              />
+            </NextLink>
           </ThumbnailSpacer>
         )
       )}
@@ -115,7 +123,6 @@ type GridViewerElProps = {
   isVisible?: boolean;
   isFullscreen?: boolean;
   infoBarIsVisible?: boolean;
-  viewerRef: RefObject<HTMLElement>;
 };
 
 const GridViewerEl = styled.div<GridViewerElProps>`
@@ -129,27 +136,17 @@ const GridViewerEl = styled.div<GridViewerElProps>`
   transition: top 500ms ease;
 `;
 
-type Props = {
-  gridViewerRef: RefObject<HTMLDivElement>;
-  mainViewerRef: RefObject<FixedSizeList>;
-  viewerRef: RefObject<HTMLElement>;
-};
-
-const GridViewer: FunctionComponent<Props> = ({
-  gridViewerRef,
-  mainViewerRef,
-  viewerRef,
-}: Props) => {
+const GridViewer: FunctionComponent = () => {
   const {
     mainAreaHeight,
     mainAreaWidth,
     gridVisible,
     setGridVisible,
-    setActiveIndex,
-    activeIndex,
     transformedManifest,
     isFullscreen,
     searchResults,
+    query,
+    work,
   } = useContext(ItemViewerContext);
   const { windowSize } = useContext(AppContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -159,12 +156,14 @@ const GridViewer: FunctionComponent<Props> = ({
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
   const { isVisible } = useContext(GlobalInfoBarContext);
-  const { canvases } = transformedManifest;
+  const { canvases } = { ...transformedManifest } || [];
 
   useEffect(() => {
-    const rowIndex = Math.floor(activeIndex / columnCount);
+    const rowIndex = Math.floor(
+      queryParamToArrayIndex(query.canvas) / columnCount
+    );
     grid.current?.scrollToItem({ align: 'start', rowIndex });
-  }, [activeIndex]);
+  }, [query.canvas]);
 
   useEffect(() => {
     // required to be set as we are setting the body to overflow hidden to stop multiple scrolls in view bug issue.
@@ -187,61 +186,36 @@ const GridViewer: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <>
-      {searchResults.resources.length > 0 && (
-        <Defs>
-          <filter
-            id="purpleFilter"
-            colorInterpolationFilters="sRGB"
-            x="0"
-            y="0"
-            height="100%"
-            width="100%"
-          >
-            <feColorMatrix
-              type="matrix"
-              values="0.48 0 0 0 0
-            0 0.29 0 0 0
-            0 0 0.7 0 0
-            0 0 0 1 0"
-            />
-          </filter>
-        </Defs>
-      )}
-      <GridViewerEl
-        isVisible={gridVisible}
-        isFullscreen={isFullscreen}
-        ref={gridViewerRef}
-        viewerRef={viewerRef}
-        tabIndex={0}
-        infoBarIsVisible={isVisible}
+    <GridViewerEl
+      isVisible={gridVisible}
+      isFullscreen={isFullscreen}
+      tabIndex={0}
+      infoBarIsVisible={isVisible}
+    >
+      <FixedSizeGrid
+        columnCount={columnCount}
+        columnWidth={columnWidth}
+        height={mainAreaHeight}
+        rowCount={canvases ? canvases.length / columnCount + 1 : 0}
+        rowHeight={450}
+        width={mainAreaWidth}
+        itemData={{
+          columnCount,
+          gridVisible,
+          setGridVisible,
+          scrollVelocity,
+          canvases,
+          searchResults,
+          mainAreaWidth,
+          query,
+          workId: work.id,
+        }}
+        onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
+        ref={grid}
       >
-        <FixedSizeGrid
-          columnCount={columnCount}
-          columnWidth={columnWidth}
-          height={mainAreaHeight}
-          rowCount={canvases ? canvases.length / columnCount + 1 : 0}
-          rowHeight={450}
-          width={mainAreaWidth}
-          itemData={{
-            columnCount,
-            mainViewerRef,
-            gridVisible,
-            setGridVisible,
-            scrollVelocity,
-            activeIndex,
-            setActiveIndex,
-            canvases,
-            searchResults,
-            mainAreaWidth,
-          }}
-          onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
-          ref={grid}
-        >
-          {Cell}
-        </FixedSizeGrid>
-      </GridViewerEl>
-    </>
+        {Cell}
+      </FixedSizeGrid>
+    </GridViewerEl>
   );
 };
 

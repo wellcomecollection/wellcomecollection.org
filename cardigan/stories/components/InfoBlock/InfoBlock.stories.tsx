@@ -23,4 +23,3 @@ basic.args = {
   slink: { link_type: 'Web', url: '/covid-book-your-ticket' },
 };
 basic.storyName = 'InfoBlock';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

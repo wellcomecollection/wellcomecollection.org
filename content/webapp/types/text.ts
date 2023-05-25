@@ -1,7 +1,7 @@
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 export type FeaturedText = {
   type: 'text';
   weight: 'featured';
-  value: prismicT.RichTextField;
+  value: prismic.RichTextField;
 };

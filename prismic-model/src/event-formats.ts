@@ -7,6 +7,7 @@ const eventFormats: CustomType = {
   repeatable: true,
   status: true,
   json: label('Event format'),
+  format: 'custom',
 };
 
 export default eventFormats;

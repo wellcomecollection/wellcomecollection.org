@@ -1,10 +1,10 @@
-import * as prismicH from '@prismicio/helpers';
+import * as prismic from '@prismicio/client';
 import {
   PrismicDocument,
   FilledContentRelationshipField,
   KeyTextField,
   RichTextField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { CommonPrismicFields, WithArticleFormat } from '../types';
 import {
   InferDataInterface,
@@ -23,7 +23,7 @@ import { Format } from '../../../types/format';
 import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
-import * as prismicT from '@prismicio/types';
+
 import { transformBody } from './body';
 import { isStandfirst } from '../../../types/body';
 
@@ -64,7 +64,7 @@ export function asText(
   } else {
     // RichTextField
     const output =
-      field && field.length > 0 ? prismicH.asText(field).trim() : undefined;
+      field && field.length > 0 ? prismic.asText(field).trim() : undefined;
     return output && output.length > 0 ? output : undefined;
   }
 }
@@ -80,7 +80,7 @@ export function asRichText(field: RichTextField): RichTextField | undefined {
 }
 
 export function asHtml(field?: RichTextField): string | undefined {
-  return nonEmpty(field) ? prismicH.asHTML(field).trim() : undefined;
+  return nonEmpty(field) ? prismic.asHTML(field).trim() : undefined;
 }
 
 export function asTitle(title: RichTextField): string {
@@ -120,7 +120,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
   const primaryPromo =
     data.promo && data.promo.length > 0
       ? data.promo
-          .filter((slice: prismicT.Slice) => slice.primary.image)
+          .filter((slice: prismic.Slice) => slice.primary.image)
           .find(_ => _)
       : undefined;
 

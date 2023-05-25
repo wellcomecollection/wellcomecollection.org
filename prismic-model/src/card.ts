@@ -20,6 +20,7 @@ const card: CustomType = {
       link: link('Link'),
     },
   },
+  format: 'custom',
 };
 
 export default card;

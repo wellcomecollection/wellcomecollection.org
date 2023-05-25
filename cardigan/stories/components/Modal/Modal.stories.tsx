@@ -36,6 +36,5 @@ basic.storyName = 'Modal';
 basic.parameters = {
   chromatic: {
     delay: 500, // Allow the button to get clicked
-    viewports: [375, 1200],
   },
 };

@@ -40,4 +40,3 @@ basic.args = {
   ],
 };
 basic.storyName = 'OnThisPageAnchors';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

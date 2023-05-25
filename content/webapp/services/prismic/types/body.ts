@@ -11,7 +11,7 @@ import {
   GeoPointField,
   EmbedField,
   ContentRelationshipField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { isUndefined } from '@weco/common/utils/type-guards';
 import { Image } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';

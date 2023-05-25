@@ -4,7 +4,7 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import { dasherize } from '@weco/common/utils/grammar';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { themeValues } from '@weco/common/views/themes/config';
 
 const Wrapper = styled(Space).attrs({
@@ -15,7 +15,7 @@ const Wrapper = styled(Space).attrs({
 
 export type Props = {
   title: string;
-  text: prismicT.RichTextField;
+  text: prismic.RichTextField;
   linkText: string | null;
   link?: string;
 };

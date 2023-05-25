@@ -4,10 +4,12 @@ import CollectionsStaticContent from 'components/Body/CollectionsStaticContent';
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 import * as page from './pages/[pageId]';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   return page.getServerSideProps({
     ...context,
     query: { pageId: prismicPageIds.collections },

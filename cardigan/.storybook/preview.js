@@ -65,6 +65,9 @@ export const parameters = {
       ],
     },
   },
+  chromatic: {
+    viewports: [375, 1200] 
+  },
   nextRouter: {
     Provider: RouterContext.Provider,
   },

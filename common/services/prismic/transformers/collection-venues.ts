@@ -10,7 +10,7 @@ import {
   ModifiedDayOpeningTime,
 } from '../documents';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import * as prismicH from '@prismicio/helpers';
+import * as prismic from '@prismicio/client';
 import { transformImage } from './images';
 import { transformTimestamp } from '.';
 
@@ -93,7 +93,7 @@ export function transformCollectionVenue(
     },
     image: 'image' in data ? transformImage(data.image) : undefined,
     url: 'link' in data && 'url' in data.link ? data.link.url : undefined,
-    linkText: 'linkText' in data ? prismicH.asText(data.linkText) : undefined,
+    linkText: 'linkText' in data ? prismic.asText(data.linkText) : undefined,
   };
 }
 

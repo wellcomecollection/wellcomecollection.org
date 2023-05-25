@@ -15,6 +15,7 @@ import { toLink as toImagesLink } from '@weco/catalogue/components/ImagesLink';
 import { toLink as toWorksLink } from '@weco/catalogue/components/WorksLink';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { capitalize, formatNumber } from '@weco/common/utils/grammar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 // Components
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
@@ -451,6 +452,7 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const { conceptId } = context.query;
 

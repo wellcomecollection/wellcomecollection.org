@@ -1,5 +1,4 @@
-import { useContext, FunctionComponent, RefObject } from 'react';
-import { FixedSizeList } from 'react-window';
+import { useContext, FunctionComponent } from 'react';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -7,14 +6,17 @@ import styled from 'styled-components';
 import {
   getEnFromInternationalString,
   groupStructures,
-} from '../../utils/iiif/v3';
+} from '@weco/catalogue/utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
+import NextLink from 'next/link';
+import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
-const List = styled(PlainList)`
+export const List = styled(PlainList)`
   border-left: 1px solid ${props => props.theme.color('neutral.600')};
 `;
 
-const Item = styled(Space).attrs({
+export const Item = styled(Space).attrs({
   as: 'li',
   v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -37,26 +39,14 @@ const Item = styled(Space).attrs({
         background: ${props.theme.color('yellow')};
       }
     `}
-
-  button {
-    cursor: pointer;
-  }
 `;
 
-type Props = {
-  mainViewerRef: RefObject<FixedSizeList>;
-};
-const ViewerStructuresPrototype: FunctionComponent<Props> = ({
-  mainViewerRef,
-}: Props) => {
-  const {
-    transformedManifest,
-    setActiveIndex,
-    activeIndex,
-    setIsMobileSidebarActive,
-  } = useContext(ItemViewerContext);
-  const { structures, canvases } = transformedManifest;
-  const groupedStructures = groupStructures(canvases, structures);
+const ViewerStructuresPrototype: FunctionComponent = () => {
+  const { transformedManifest, setIsMobileSidebarActive, query, work } =
+    useContext(ItemViewerContext);
+  const { canvas } = query;
+  const { structures, canvases } = { ...transformedManifest };
+  const groupedStructures = groupStructures(canvases || [], structures || []);
 
   return groupedStructures.length > 0 ? (
     <List>
@@ -66,25 +56,34 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
           typeof maybeFirstCanvasInRange !== 'string'
             ? maybeFirstCanvasInRange
             : undefined;
-        const canvasIndex = canvases.findIndex(
-          canvas => canvas.id === firstCanvasInRange?.id
-        );
+        const canvasIndex =
+          canvases?.findIndex(canvas => canvas.id === firstCanvasInRange?.id) ||
+          0;
 
         return (
-          <Item key={i} isActive={activeIndex === canvasIndex}>
-            <button
+          <Item
+            key={i}
+            isActive={canvas === arrayIndexToQueryParam(canvasIndex)}
+          >
+            <NextLink
+              replace={true}
+              {...itemLink({
+                workId: work.id,
+                props: {
+                  manifest: query.manifest,
+                  query: query.query,
+                  canvas: arrayIndexToQueryParam(canvasIndex),
+                },
+                source: 'contents_nav',
+              })}
               data-gtm-trigger="contents_nav"
-              type="button"
+              aria-current={canvas === arrayIndexToQueryParam(canvasIndex)}
               onClick={() => {
-                mainViewerRef &&
-                  mainViewerRef.current &&
-                  mainViewerRef.current.scrollToItem(canvasIndex, 'start');
-                setActiveIndex(canvasIndex);
                 setIsMobileSidebarActive(false);
               }}
             >
               {getEnFromInternationalString(structure.label)}
-            </button>
+            </NextLink>
           </Item>
         );
       })}

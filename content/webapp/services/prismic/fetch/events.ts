@@ -8,8 +8,8 @@ import {
   interpretationTypeFetchLinks,
   teamFetchLinks,
 } from '../types/events';
-import { Query } from '@prismicio/types';
-import { getEventPredicates } from '../types/predicates';
+import { Query } from '@prismicio/client';
+import { getEventFilters } from '../types/filters';
 import * as prismic from '@prismicio/client';
 import { EventBasic } from '../../../types/events';
 import {
@@ -53,7 +53,7 @@ export const fetchEventScheduleItems = async (
 };
 
 type FetchEventsQueryParams = {
-  predicates?: string[];
+  filters?: string[];
   period?: 'current-and-coming-up' | 'past';
   isOnline?: boolean;
   availableOnline?: boolean;
@@ -141,7 +141,7 @@ export const graphQuery = `{
 export const fetchEvents = (
   client: GetServerSidePropsPrismicClient,
   {
-    predicates = [],
+    filters = [],
     period,
     isOnline,
     availableOnline,
@@ -158,31 +158,24 @@ export const fetchEvents = (
         ] as prismic.Ordering[])
       : [];
 
-  const dateRangePredicates = period
-    ? getEventPredicates({ period, startField, endField })
+  const dateRangeFilters = period
+    ? getEventFilters({ period, startField, endField })
     : [];
 
-  // NOTE: Ideally we'd use the Prismic DSL to construct these predicates rather
-  // than dropping in raw strings, but they interfere with the type checker.
-  //
-  // The current version of the Prismic libraries require the second argument of
-  // the 'at()' predicate to be a `string | number | (string | number)[]`, but they
-  // need to be booleans.
-  //
-  // TODO: When we upgrade the Prismic client libraries, convert these to the DSL.
-  //
-  const onlinePredicates = isOnline ? ['[at(my.events.isOnline, true)]'] : [];
+  const onlineFilters = isOnline
+    ? [prismic.filter.at('my.events.isOnline', true)]
+    : [];
 
-  const availableOnlinePredicates = availableOnline
-    ? ['[at(my.events.availableOnline, true)]']
+  const availableOnlineFilters = availableOnline
+    ? [prismic.filter.at('my.events.availableOnline', true)]
     : [];
 
   return eventsFetcher.getByType(client, {
-    predicates: [
-      ...dateRangePredicates,
-      ...onlinePredicates,
-      ...availableOnlinePredicates,
-      ...predicates,
+    filters: [
+      ...dateRangeFilters,
+      ...onlineFilters,
+      ...availableOnlineFilters,
+      ...filters,
     ],
     orderings: [...orderings, ...startTimeOrderings],
     page,

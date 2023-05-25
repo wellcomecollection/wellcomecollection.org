@@ -47,4 +47,3 @@ basic.args = {
   ],
 };
 basic.storyName = 'TagsGroup';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

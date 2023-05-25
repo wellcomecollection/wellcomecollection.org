@@ -67,31 +67,3 @@ export type TransformedManifest = {
     | undefined;
   tokenService: AuthAccessTokenService | undefined;
 };
-
-export function createDefaultTransformedManifest(): TransformedManifest {
-  return {
-    id: '',
-    title: '',
-    canvasCount: 0,
-    collectionManifestsCount: 0,
-    downloadEnabled: true,
-    downloadOptions: [],
-    pdf: undefined,
-    tokenService: undefined,
-    isAnyImageOpen: true,
-    isTotallyRestricted: false,
-    isCollectionManifest: false,
-    manifests: [],
-    canvases: [],
-    parentManifestUrl: undefined,
-    needsModal: false,
-    searchService: undefined,
-    structures: [],
-    audio: {
-      sounds: [],
-    },
-    services: [],
-    restrictedService: undefined,
-    clickThroughService: undefined,
-  };
-}

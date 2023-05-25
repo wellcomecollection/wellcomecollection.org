@@ -6,4 +6,3 @@ basic.args = {
   labels: [{ text: 'Gallery tour' }, { text: 'Audio described' }],
 };
 basic.storyName = 'LabelsList';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

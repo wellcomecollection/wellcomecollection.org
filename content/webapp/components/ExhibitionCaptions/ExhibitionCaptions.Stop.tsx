@@ -2,7 +2,7 @@ import { FunctionComponent, useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -255,7 +255,7 @@ const Stop: FunctionComponent<{
                       {title}
                     </ContextTitle>
                   )}
-                  <PrismicHtmlBlock html={context as prismicT.RichTextField} />
+                  <PrismicHtmlBlock html={context as prismic.RichTextField} />
                 </>
               )}
 
@@ -279,7 +279,7 @@ const Stop: FunctionComponent<{
                   </TranscriptTitle>
                   <div id={`transcription-text-${index}`}>
                     <PrismicHtmlBlock
-                      html={transcriptionText as prismicT.RichTextField}
+                      html={transcriptionText as prismic.RichTextField}
                     />
                   </div>
                   {hasShowFullTranscriptionButton && (

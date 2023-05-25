@@ -38,6 +38,7 @@ import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/tra
 import { Series, SeriesBasic } from '@weco/content/types/series';
 import * as prismic from '@prismicio/client';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type Props = {
   articles: ArticleBasic[];
@@ -67,21 +68,16 @@ const StoryPromoContainer = styled.div.attrs({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const client = createClient(context);
   const articlesQueryPromise = fetchArticles(client, {
-    predicates: prismic.predicate.not(
-      'my.articles.format',
-      ArticleFormatIds.Comic
-    ),
+    filters: prismic.filter.not('my.articles.format', ArticleFormatIds.Comic),
   });
 
   const comicsQueryPromise = fetchArticles(client, {
     pageSize: 100, // we need enough comics to make sure we have at least one from three different series
-    predicates: prismic.predicate.at(
-      'my.articles.format',
-      ArticleFormatIds.Comic
-    ),
+    filters: prismic.filter.at('my.articles.format', ArticleFormatIds.Comic),
   });
 
   const storiesLandingPromise = fetchStoriesLanding(client);

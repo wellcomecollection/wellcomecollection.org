@@ -28,6 +28,7 @@ import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/catalogue/services/wellcome/catalogue/filters';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 // Types
 import {
@@ -180,6 +181,7 @@ ImagesSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
+  setCacheControl(context.res);
   const serverData = await getServerData(context);
   const query = context.query;
   const params = fromQuery(query);

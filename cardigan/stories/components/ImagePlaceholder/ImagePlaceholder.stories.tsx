@@ -14,4 +14,3 @@ basic.args = {
   backgroundColor: 'accent.blue',
 };
 basic.storyName = 'ImagePlaceholder';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

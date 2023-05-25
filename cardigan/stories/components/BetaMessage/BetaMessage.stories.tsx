@@ -6,4 +6,3 @@ basic.args = {
   message: 'We are working to make this item available online by July 2022.',
 };
 basic.storyName = 'BetaMessage';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

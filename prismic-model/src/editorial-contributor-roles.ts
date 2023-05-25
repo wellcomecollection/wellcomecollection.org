@@ -15,6 +15,7 @@ const editorialContributorRoles: CustomType = {
       describedBy: keyword('Word to describe output of the role'),
     },
   },
+  format: 'custom',
 };
 
 export default editorialContributorRoles;

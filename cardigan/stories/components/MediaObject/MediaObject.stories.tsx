@@ -14,4 +14,3 @@ basic.args = {
   image: mockImage,
 };
 basic.storyName = 'MediaObject';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

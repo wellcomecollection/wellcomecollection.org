@@ -1,16 +1,13 @@
-import { Period } from '@weco/content/types/periods';
-import {
-  getExhibitionPeriodPredicates,
-  getEventPredicates,
-} from './predicates';
+import { Period } from '@weco/common/types/periods';
+import { getExhibitionPeriodFilters, getEventFilters } from './filters';
 import * as dateUtils from '@weco/common/utils/dates';
 
-describe('getPeriodPredicates', () => {
+describe('getPeriodFilters', () => {
   it('uses the current time for current-and-coming-up', () => {
     const spyOnToday = jest.spyOn(dateUtils, 'today');
     spyOnToday.mockImplementation(() => new Date('2022-09-19T00:00:00Z'));
 
-    const result = getEventPredicates({
+    const result = getEventFilters({
       period: 'current-and-coming-up',
       startField: 'example.events.startDateTime',
       endField: 'example.events.endDateTime',
@@ -25,7 +22,7 @@ describe('getPeriodPredicates', () => {
     const spyOnToday = jest.spyOn(dateUtils, 'today');
     spyOnToday.mockImplementation(() => new Date('2022-09-19T00:00:00Z'));
 
-    const result = getEventPredicates({
+    const result = getEventFilters({
       period: 'past',
       startField: 'example.events.startDateTime',
       endField: 'example.events.endDateTime',
@@ -37,67 +34,67 @@ describe('getPeriodPredicates', () => {
   });
 });
 
-describe('getExhibitionPeriodPredicates', () => {
+describe('getExhibitionPeriodFilters', () => {
   test.each([
     {
       period: 'current-and-coming-up',
-      expectedPredicates: [
+      expectedFilters: [
         '[date.after(example.exhibitions.endDateTime, "2023-04-23")]',
       ],
     },
     {
       period: 'past',
-      expectedPredicates: [
+      expectedFilters: [
         '[date.before(example.exhibitions.endDateTime, "2023-04-24")]',
       ],
     },
     {
       period: 'coming-up',
-      expectedPredicates: [
+      expectedFilters: [
         '[date.after(example.exhibitions.startDateTime, "2023-04-24")]',
       ],
     },
     {
       period: 'today',
-      expectedPredicates: [
+      expectedFilters: [
         '[date.before(example.exhibitions.startDateTime, "2023-04-25")]',
         '[date.after(example.exhibitions.endDateTime, "2023-04-23")]',
       ],
     },
     {
       period: 'this-weekend',
-      expectedPredicates: [
+      expectedFilters: [
         '[date.before(example.exhibitions.startDateTime, "2023-05-01")]',
         '[date.after(example.exhibitions.endDateTime, "2023-04-27")]',
       ],
     },
     {
       period: 'this-week',
-      expectedPredicates: [
+      expectedFilters: [
         '[date.before(example.exhibitions.startDateTime, "2023-04-30")]',
         '[date.after(example.exhibitions.endDateTime, "2023-04-22")]',
       ],
     },
     {
       period: 'next-seven-days',
-      expectedPredicates: [
+      expectedFilters: [
         '[date.before(example.exhibitions.startDateTime, "2023-05-01")]',
         '[date.after(example.exhibitions.endDateTime, "2023-04-23")]',
       ],
     },
   ])(
-    'the exhibition period predicate for `$period` is $expectedPredicates',
-    ({ period, expectedPredicates }) => {
+    'the exhibition period filter for `$period` is $expectedFilters',
+    ({ period, expectedFilters }) => {
       const spyOnToday = jest.spyOn(dateUtils, 'today');
       spyOnToday.mockImplementation(() => new Date('2023-04-24T12:00:00Z'));
 
-      const result = getExhibitionPeriodPredicates({
+      const result = getExhibitionPeriodFilters({
         period: period as Period,
         startField: 'example.exhibitions.startDateTime',
         endField: 'example.exhibitions.endDateTime',
       });
 
-      expect(result).toStrictEqual(expectedPredicates);
+      expect(result).toStrictEqual(expectedFilters);
     }
   );
 });

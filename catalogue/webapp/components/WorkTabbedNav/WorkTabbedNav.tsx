@@ -9,7 +9,7 @@ type Props = {
   selected: 'catalogueDetails' | 'imageViewer';
 };
 const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
-  const itemUrl = itemLink({ workId: work.id }, 'work');
+  const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   return (
     <SubNavigation
       label="Search Categories"

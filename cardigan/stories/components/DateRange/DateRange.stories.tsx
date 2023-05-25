@@ -13,7 +13,6 @@ sameDay.args = {
   end: oneHourFromNow,
 };
 sameDay.storyName = 'Same day';
-sameDay.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const acrossMultipleDays = Template.bind({});
 acrossMultipleDays.args = {
@@ -21,7 +20,6 @@ acrossMultipleDays.args = {
   end: oneWeekFromNow,
 };
 acrossMultipleDays.storyName = 'Across multiple days';
-acrossMultipleDays.parameters = { chromatic: { viewports: [375, 1200] } };
 
 export const withSplit = Template.bind({});
 withSplit.args = {
@@ -30,4 +28,3 @@ withSplit.args = {
   splitTime: true,
 };
 withSplit.storyName = 'With date/time on separate lines';
-withSplit.parameters = { chromatic: { viewports: [375, 1200] } };

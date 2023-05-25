@@ -9,7 +9,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';
 import { grid, font } from '@weco/common/utils/classnames';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 const getBaseTitleClass = number => {
   return `font-wb font-size-${number}`;
@@ -143,7 +143,7 @@ describe('MediaObjectBase', () => {
     it('only render one p tag if description is a PrismicHtmlBlock', async () => {
       const Description = (
         <PrismicHtmlBlock
-          html={mockDataWithPrismicText.text as prismicT.RichTextField}
+          html={mockDataWithPrismicText.text as prismic.RichTextField}
         />
       );
 

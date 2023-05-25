@@ -4,7 +4,6 @@ import {
   useRef,
   useContext,
   FunctionComponent,
-  RefObject,
 } from 'react';
 import styled from 'styled-components';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
@@ -12,6 +11,13 @@ import { imageSizes } from '@weco/common/utils/image-sizes';
 import IIIFViewerImage from './IIIFViewerImage';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import Router from 'next/router';
+import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
+import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
+import {
+  arrayIndexToQueryParam,
+  queryParamToArrayIndex,
+} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 
 const ImageWrapper = styled.div`
   position: absolute;
@@ -42,12 +48,10 @@ type ImageViewerProps = {
   infoUrl: string;
   alt: string;
   urlTemplate: (v: IIIFUriProps) => string;
-  rotation: number;
   loadHandler?: () => void;
-  mainAreaRef?: RefObject<HTMLDivElement>;
-  index?: number;
-  setImageRect: (v: ClientRect) => void;
-  setImageContainerRect: (v: ClientRect) => void;
+  index: number;
+  setImageRect: (v: DOMRect) => void;
+  setImageContainerRect: (v: DOMRect) => void;
 };
 
 const ImageViewer: FunctionComponent<ImageViewerProps> = ({
@@ -56,15 +60,20 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   alt,
   infoUrl,
   urlTemplate,
-  rotation,
   loadHandler,
-  index = 0,
-  mainAreaRef,
+  index,
   setImageRect,
   setImageContainerRect,
 }: ImageViewerProps) => {
-  const { lang, setActiveIndex, errorHandler, setZoomInfoUrl, setShowZoomed } =
-    useContext(ItemViewerContext);
+  const {
+    work,
+    errorHandler,
+    setShowZoomed,
+    mainAreaRef,
+    query,
+    rotatedImages,
+    transformedManifest,
+  } = useContext(ItemViewerContext);
   const imageViewer = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const isOnScreen = useOnScreen({
@@ -84,6 +93,12 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       })
       .join(',')
   );
+  const matching = rotatedImages.find(
+    canvas => queryParamToArrayIndex(canvas.canvas) === index
+  );
+
+  const rotation = matching ? matching.rotation : 0;
+  const lang = (work.languages.length === 1 && work.languages[0]?.id) || '';
 
   function updateImagePosition() {
     const imageRect = imageRef?.current?.getBoundingClientRect();
@@ -103,10 +118,21 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     return () => window.removeEventListener('resize', updateImagePosition);
   }, []);
 
-  useEffect(() => {
-    if (setActiveIndex && isOnScreen) {
-      setActiveIndex(index);
-      setZoomInfoUrl && setZoomInfoUrl(infoUrl);
+  // If the visible canvas changes because it is scrolled into view
+  // we update the canvas param to match
+  useSkipInitialEffect(() => {
+    if (isOnScreen && transformedManifest) {
+      const link = itemLink({
+        workId: work.id,
+        props: {
+          manifest: query.manifest,
+          query: query.query,
+          canvas: arrayIndexToQueryParam(index),
+          shouldScrollToCanvas: false,
+        },
+        source: 'viewer/scroll',
+      });
+      Router.replace(link.href, link.as);
     }
   }, [isOnScreen]);
 
@@ -151,13 +177,13 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         lang={lang}
         alt={alt}
         clickHandler={() => {
-          setZoomInfoUrl && setZoomInfoUrl(infoUrl);
           setShowZoomed(true);
         }}
         loadHandler={() => {
           updateImagePosition();
         }}
         errorHandler={errorHandler}
+        zoomOnClick={true}
       />
     </ImageWrapper>
   );

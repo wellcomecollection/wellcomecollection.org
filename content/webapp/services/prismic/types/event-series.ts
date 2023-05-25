@@ -1,4 +1,4 @@
-import { ContentRelationshipField, PrismicDocument } from '@prismicio/types';
+import { ContentRelationshipField, PrismicDocument } from '@prismicio/client';
 import { BackgroundTexturesDocument } from './background-textures';
 import { CommonPrismicFields, WithContributors } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';

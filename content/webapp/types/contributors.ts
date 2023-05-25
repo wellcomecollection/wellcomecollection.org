@@ -1,5 +1,5 @@
 import { ImageType } from '@weco/common/model/image';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 type SameAs = {
   link: string;
@@ -10,7 +10,7 @@ type Person = {
   type: 'people';
   id: string;
   name?: string;
-  description?: prismicT.RichTextField;
+  description?: prismic.RichTextField;
   image: ImageType;
   sameAs: SameAs;
   pronouns?: string;
@@ -20,7 +20,7 @@ type Organisation = {
   type: 'organisations';
   id: string;
   name?: string;
-  description?: prismicT.RichTextField;
+  description?: prismic.RichTextField;
   image: ImageType;
   sameAs: SameAs;
 };
@@ -34,7 +34,7 @@ type ContributorRole = {
 export type Contributor = {
   contributor: Person | Organisation;
   role?: ContributorRole;
-  description?: prismicT.RichTextField;
+  description?: prismic.RichTextField;
 };
 
 export type ContributorBasic = {

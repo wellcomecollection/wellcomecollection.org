@@ -3,4 +3,3 @@ import NewsletterSignup from '@weco/content/components/NewsletterSignup/Newslett
 const Template = args => <NewsletterSignup {...args} />;
 export const basic = Template.bind({});
 basic.storyName = 'NewsletterSignup';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

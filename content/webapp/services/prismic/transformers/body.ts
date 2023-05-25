@@ -41,7 +41,7 @@ import {
   LinkField,
   ContentRelationshipField,
   RichTextField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { BodySlice, Weight } from '../../../types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';

@@ -9,4 +9,3 @@ basic.args = {
   children: <p style={{ marginTop: '30px' }}>{singleLineOfText()}</p>,
 };
 basic.storyName = 'ExplanatoryText';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

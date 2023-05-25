@@ -10,7 +10,7 @@ import {
   FilledContentRelationshipField,
   NumberField,
   EmptyLinkField,
-} from '@prismicio/types';
+} from '@prismicio/client';
 import { ArticleFormat } from './article-format';
 import { ExhibitionFormat } from './exhibition-format';
 import { ProjectFormat } from './project-format';

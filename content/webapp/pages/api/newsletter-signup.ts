@@ -1,5 +1,6 @@
+import { NextApiRequest, NextApiResponse } from 'next';
+
 import { isUndefined } from '@weco/common/utils/type-guards';
-import fetch from 'node-fetch';
 
 const dotdigitalUsername = process.env.dotdigital_username;
 const dotdigitalPassword = process.env.dotdigital_password;
@@ -49,7 +50,7 @@ async function createSubscription({
     `${newsletterApiUrl}/address-books/${addressBookId}/contacts`,
     {
       method: 'POST',
-      headers: headers,
+      headers,
       body: newBody,
     }
   );
@@ -65,7 +66,7 @@ async function createSubscription({
       `${newsletterApiUrl}/contacts/resubscribe`,
       {
         method: 'POST',
-        headers: headers,
+        headers,
         body: resubscribeBody,
       }
     );
@@ -88,16 +89,22 @@ async function createSubscription({
   }
 }
 
-async function handleNewsletterSignup(ctx, next): Promise<void> {
-  const { addressBookId, emailAddress } = ctx.request.body;
-  const result = await createSubscription({
-    emailAddress,
-    addressBookId,
-  });
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'POST') {
+    try {
+      const { addressBookId, emailAddress } = req.body;
+      const result = await createSubscription({
+        emailAddress,
+        addressBookId,
+      });
 
-  ctx.body = { result };
+      res.status(200).json({ result });
+    } catch (error) {
+      res.status(500).json({ error: 'failed to load data' });
+    }
+  } else {
+    res.status(405).send('Method Not Allowed');
+  }
+};
 
-  next();
-}
-
-export default handleNewsletterSignup;
+export default handler;

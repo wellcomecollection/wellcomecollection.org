@@ -42,4 +42,3 @@ basic.args = {
   ],
 };
 basic.storyName = 'Body';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

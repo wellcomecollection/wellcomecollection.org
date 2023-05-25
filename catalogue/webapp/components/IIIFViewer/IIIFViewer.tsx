@@ -8,22 +8,15 @@ import {
 import styled from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { Work, Image } from '@weco/catalogue/services/wellcome/catalogue/types';
-import {
-  getDigitalLocationOfType,
-  getDownloadOptionsFromImageUrl,
-} from '../../utils/works';
-import { getMultiVolumeLabel } from '../../utils/iiif/v3';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import ViewerSidebar from './ViewerSidebar';
-import MainViewer, { scrollViewer } from './MainViewer';
+import MainViewer from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
 import ItemViewerContext, {
   results,
   RotatedImage,
 } from '../ItemViewerContext/ItemViewerContext';
-import { FixedSizeList } from 'react-window';
-import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import GridViewer from './GridViewer';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
@@ -34,23 +27,24 @@ import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
-import { TransformedCanvas, TransformedManifest } from '../../types/manifest';
-import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
-import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
-import { toLink as imageLink } from '@weco/catalogue/components/ImageLink';
+import { TransformedManifest } from '@weco/catalogue/types/manifest';
+import { fromQuery } from '@weco/catalogue/components/ItemLink';
+
+// canvas and manifest params use 1-based indexing, but are used to access items in 0 indexed arrays,
+// so we need to convert it in various places
+export function queryParamToArrayIndex(canvas: number): number {
+  return canvas - 1;
+}
+
+export function arrayIndexToQueryParam(canvasIndex: number): number {
+  return canvasIndex + 1;
+}
 
 type IIIFViewerProps = {
-  title: string;
-  currentCanvas?: TransformedCanvas;
-  lang: string;
-  canvasOcr?: string;
-  pageIndex: number;
-  canvasIndex: number;
   work: Work;
-  image?: Image;
-  iiifImageLocation?: DigitalLocation;
-  transformedManifest: TransformedManifest;
-  manifestIndex?: number;
+  iiifImageLocation: DigitalLocation | undefined;
+  transformedManifest?: TransformedManifest;
+  canvasOcr?: string;
   handleImageError?: () => void;
 };
 
@@ -140,7 +134,6 @@ const Topbar = styled.div<{
 `;
 
 const Main = styled.div<{
-  isResizing: boolean;
   isDesktopSidebarActive: boolean;
 }>`
   background: ${props => props.theme.color('black')};
@@ -150,7 +143,6 @@ const Main = styled.div<{
 
   img {
     transition: filter ${props => props.theme.transitionProperties};
-    filter: blur(${props => (props.isResizing ? '5px' : '0')});
   }
 
   grid-area: desktop-main-start / left-edge / mobile-main-end / right-edge;
@@ -204,72 +196,49 @@ const Thumbnails = styled.div<{
 `;
 
 const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
-  currentCanvas,
-  lang,
-  canvasIndex,
   work,
-  image,
   iiifImageLocation,
   transformedManifest,
-  manifestIndex,
-  pageIndex,
   canvasOcr,
   handleImageError,
 }: IIIFViewerProps) => {
+  const router = useRouter();
+  const {
+    page = 1,
+    canvas = 1,
+    manifest = 1,
+    shouldScrollToCanvas = true,
+    query = '',
+  } = fromQuery(router.query);
   const [gridVisible, setGridVisible] = useState(false);
   const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
-  const [currentManifestLabel, setCurrentManifestLabel] = useState<
-    string | undefined
-  >();
   const { isFullSupportBrowser } = useContext(AppContext);
-  const viewToggleRef = useRef<HTMLButtonElement>(null);
-  const gridViewerRef = useRef<HTMLDivElement>(null);
-  const mainViewerRef = useRef<FixedSizeList>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false); // don't show sidebar by default on mobile
-  const [activeIndex, setActiveIndex] = useState(0);
   const [showZoomed, setShowZoomed] = useState(false);
-  const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
   const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
-  const [showControls, setShowControls] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [searchResults, setSearchResults] = useState(results);
   const [isResizing, setIsResizing] = useState(false);
-  const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
-  const firstRotatedImage = rotatedImages.find(
-    image => image.canvasIndex === 0
-  );
-  const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
-  const activeIndexRef = useRef(activeIndex);
-  const previousManifestIndex = useRef(manifestIndex);
-  const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
-  const transformedIIIFImage = useTransformedIIIFImage(work);
-
+  const hasIiifImage = imageUrl && iiifImageLocation;
+  const currentCanvas =
+    transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
+  const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const hasImageService = mainImageService['@id'] && currentCanvas;
-  const {
-    canvases,
-    downloadEnabled,
-    downloadOptions: manifestDownloadOptions,
-    parentManifestUrl,
-    iiifCredit,
-  } = transformedManifest;
-
-  useEffect(() => {
-    activeIndexRef.current = activeIndex;
-  }, [activeIndex]);
+  const { parentManifestUrl } = { ...transformedManifest };
+  const [showControls, setShowControls] = useState(
+    Boolean(hasIiifImage && !hasImageService)
+  );
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    let previousActiveIndex;
-
     const mainAreaObserver = new ResizeObserver(([mainArea]) => {
       clearTimeout(timer);
 
@@ -277,137 +246,22 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setIsResizing(true);
       }
 
-      // Store a reference to where we were
-      if (!previousActiveIndex) {
-        previousActiveIndex = activeIndexRef.current;
-      }
-
       timer = setTimeout(() => {
-        // If we've changed index as a result of the
-        // mainArea changing size, reset it to what
-        // it was before and scroll to the right place.
-        if (previousActiveIndex !== activeIndex) {
-          setActiveIndex(previousActiveIndex);
-          canvases &&
-            scrollViewer(
-              canvases[previousActiveIndex],
-              previousActiveIndex,
-              mainViewerRef?.current,
-              mainArea.contentRect.width
-            );
-        }
-
-        previousActiveIndex = undefined;
         setIsResizing(false);
+        setMainAreaWidth(mainArea.contentRect.width);
+        setMainAreaHeight(mainArea.contentRect.height);
       }, 500); // Debounce
-
-      setMainAreaWidth(mainArea.contentRect.width);
-      setMainAreaHeight(mainArea.contentRect.height);
     });
 
-    mainAreaRef &&
-      mainAreaRef.current &&
-      mainAreaObserver.observe(mainAreaRef.current);
+    mainAreaRef?.current && mainAreaObserver.observe(mainAreaRef.current);
 
     return () => mainAreaObserver.disconnect();
   }, []);
 
   useEffect(() => {
-    const matchingManifest =
-      parentManifest &&
-      parentManifest.items &&
-      parentManifest.items.find(canvas => {
-        return !transformedManifest
-          ? false
-          : canvas.id === transformedManifest.id;
-      });
-
-    const manifestLabel =
-      matchingManifest?.label &&
-      getMultiVolumeLabel(matchingManifest.label, work?.title || '');
-    manifestLabel && setCurrentManifestLabel(manifestLabel);
-  }, [transformedManifest, parentManifest]);
-
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
-
-  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
-  // we use the former
-  const digitalLocation: DigitalLocation | undefined =
-    iiifPresentationLocation || iiifImageLocation;
-
-  // iiif-image locations have credit info.
-  // iiif-presentation locations don't have credit info, so we fall back to the data in the manifest
-  const iiifImageLocationCredit = digitalLocation?.credit || iiifCredit;
-
-  // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
-  // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
-  // For a iiif-image DigitalLocation we create the download options
-  // from a combination of the DigitalLocation and the iiif-image json to which it points.
-  // The json provides the image width and height used in the link text.
-  // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
-  // gets this data client side.
-  const iiifImageDownloadOptions = iiifImageLocation
-    ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocation.url,
-        width: transformedIIIFImage.width,
-        height: transformedIIIFImage.height,
-      })
-    : [];
-
-  // We also want to offer download options for each canvas image
-  // in the iiif-presentation manifest when it is being viewed.
-  const canvasImageDownloads = mainImageService['@id']
-    ? getDownloadOptionsFromImageUrl({
-        url: mainImageService['@id'],
-        width: currentCanvas && currentCanvas.width,
-        height: currentCanvas && currentCanvas.height,
-      })
-    : [];
-
-  const downloadOptions = [
-    ...iiifImageDownloadOptions,
-    ...canvasImageDownloads,
-    ...manifestDownloadOptions,
-  ];
-
-  useSkipInitialEffect(() => {
-    const link = image
-      ? imageLink(
-          {
-            workId: work.id,
-            id: image.id,
-          },
-          'unknown'
-        )
-      : itemLink(
-          {
-            workId: work.id,
-            page: pageIndex + 1,
-            canvas: activeIndex + 1,
-            manifest: manifestIndex ? manifestIndex + 1 : undefined,
-          },
-          'unknown'
-        );
-    Router.replace(link.href, link.as);
-  }, [activeIndex]);
-
-  useEffect(() => {
-    if (previousManifestIndex.current === manifestIndex) return;
-
-    // If we change manifests, it's not enough to rely on the next/link
-    // to scroll us to the first canvas, because it's being handled by
-    // react window
-    mainViewerRef?.current?.scrollToItem(0, 'start');
-    previousManifestIndex.current = manifestIndex;
-  }, [manifestIndex]);
-
-  useEffect(() => {
     const fetchParentManifest = async () => {
       const parentManifest =
-        transformedManifest.parentManifestUrl &&
+        transformedManifest?.parentManifestUrl &&
         (await fetchJson(parentManifestUrl as string));
 
       parentManifest && setParentManifest(parentManifest);
@@ -416,124 +270,101 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     fetchParentManifest();
   }, []);
 
-  return isFullSupportBrowser ? (
+  return (
     <ItemViewerContext.Provider
       value={{
+        // DATA props:
+        query: {
+          page,
+          canvas,
+          manifest,
+          shouldScrollToCanvas,
+          query,
+        },
         work,
         transformedManifest,
-        manifestIndex,
-        lang,
-        canvasIndex,
-        activeIndex,
-        gridVisible,
-        currentManifestLabel,
-        iiifImageLocationCredit,
-        downloadOptions: downloadEnabled ? downloadOptions : [],
         parentManifest,
+        searchResults,
+        setSearchResults,
+
+        // UI Props:
+        viewerRef,
+        mainAreaRef,
         mainAreaWidth,
         mainAreaHeight,
-        showZoomed,
-        zoomInfoUrl,
-        rotatedImages,
-        showControls,
-        isLoading,
-        isFullscreen,
-        isDesktopSidebarActive,
-        urlTemplate,
-        isMobileSidebarActive,
-        searchResults,
-        isResizing,
-        setSearchResults,
-        setIsMobileSidebarActive,
-        setIsDesktopSidebarActive,
-        setActiveIndex,
+        gridVisible,
         setGridVisible,
-        setShowZoomed,
+        isFullscreen,
         setIsFullscreen,
-        setZoomInfoUrl,
-        setIsLoading,
+        isDesktopSidebarActive,
+        setIsDesktopSidebarActive,
+        isMobileSidebarActive,
+        setIsMobileSidebarActive,
+        showZoomed,
+        setShowZoomed,
+        showControls,
         setShowControls,
-        errorHandler: handleImageError,
+        rotatedImages,
         setRotatedImages,
-        setParentManifest,
-        setCurrentManifestLabel,
+        isResizing,
+        errorHandler: handleImageError,
       }}
     >
-      <Grid ref={viewerRef}>
-        <Sidebar
-          data-test-id="viewer-sidebar"
-          isActiveMobile={isMobileSidebarActive}
-          isActiveDesktop={isDesktopSidebarActive}
-        >
-          <ViewerSidebar mainViewerRef={mainViewerRef} />
-        </Sidebar>
-        <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
-          <ViewerTopBar viewToggleRef={viewToggleRef} viewerRef={viewerRef} />
-        </Topbar>
-        <Main
-          isDesktopSidebarActive={isDesktopSidebarActive}
-          isResizing={isResizing}
-          ref={mainAreaRef}
-        >
-          {!showZoomed && <ImageViewerControls />}
-          {hasIiifImage && !hasImageService && (
-            <ImageViewer
-              infoUrl={iiifImageLocation.url}
-              id={imageUrl}
-              width={800}
-              alt={work?.description || work?.title || ''}
-              urlTemplate={urlTemplate}
-              rotation={firstRotation}
-              loadHandler={() => {
-                setZoomInfoUrl(iiifImageLocation.url);
-                setIsLoading(false);
-              }}
-              setImageRect={() => undefined}
-              setImageContainerRect={() => undefined}
-            />
+      {isFullSupportBrowser ? (
+        <Grid ref={viewerRef}>
+          <Sidebar
+            data-test-id="viewer-sidebar"
+            isActiveMobile={isMobileSidebarActive}
+            isActiveDesktop={isDesktopSidebarActive}
+          >
+            <ViewerSidebar />
+          </Sidebar>
+          <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
+            <ViewerTopBar />
+          </Topbar>
+          <Main
+            isDesktopSidebarActive={isDesktopSidebarActive}
+            ref={mainAreaRef}
+          >
+            {!showZoomed && <ImageViewerControls />}
+            {hasIiifImage && !hasImageService && (
+              <ImageViewer
+                infoUrl={iiifImageLocation.url}
+                id={imageUrl}
+                width={800}
+                index={0}
+                alt={work?.description || work?.title || ''}
+                urlTemplate={urlTemplate}
+                setImageRect={() => undefined}
+                setImageContainerRect={() => undefined}
+              />
+            )}
+            {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
+            {hasImageService && !isResizing && <MainViewer />}
+          </Main>
+          {showZoomed && (
+            <Zoom>
+              <ZoomedImage iiifImageLocation={iiifImageLocation} />
+            </Zoom>
           )}
-          {hasImageService && (
-            <MainViewer
-              mainViewerRef={mainViewerRef}
-              mainAreaRef={mainAreaRef}
-            />
-          )}
-        </Main>
-        {showZoomed && (
-          <Zoom>
-            <ZoomedImage />
-          </Zoom>
-        )}
-        <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
-          <ViewerBottomBar
-            viewToggleRef={viewToggleRef}
-            viewerRef={viewerRef}
-          />
-        </BottomBar>
-        <Thumbnails
-          isActive={gridVisible}
-          isDesktopSidebarActive={isDesktopSidebarActive}
-        >
-          <GridViewer
-            mainViewerRef={mainViewerRef}
-            gridViewerRef={gridViewerRef}
-            viewerRef={viewerRef}
-          />
-        </Thumbnails>
-      </Grid>
+          <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
+            <ViewerBottomBar />
+          </BottomBar>
+          <Thumbnails
+            isActive={gridVisible}
+            isDesktopSidebarActive={isDesktopSidebarActive}
+          >
+            <GridViewer />
+          </Thumbnails>
+        </Grid>
+      ) : (
+        <NoScriptViewer
+          imageUrl={imageUrl}
+          iiifImageLocation={iiifImageLocation}
+          canvasOcr={canvasOcr}
+        />
+      )}
     </ItemViewerContext.Provider>
-  ) : (
-    <NoScriptViewer
-      imageUrl={imageUrl}
-      iiifImageLocation={iiifImageLocation}
-      currentCanvas={currentCanvas}
-      canvasOcr={canvasOcr}
-      lang={lang}
-      workId={work.id}
-      canvases={canvases || []}
-      canvasIndex={canvasIndex}
-      pageIndex={pageIndex}
-    />
   );
 };
 

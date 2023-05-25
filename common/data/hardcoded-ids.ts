@@ -53,7 +53,7 @@ export const eventPolicyIds = {
   schoolBooking: 'W4Vx5h4AACIAehqz',
 };
 
-export const getNameFromCollectionVenue = (id: string): string | undefined => {
+export const getNameFromCollectionVenue = id => {
   // check the keys and returns back name based on id
   for (const [key, value] of Object.entries(collectionVenueId)) {
     if (value && value.id === id) {

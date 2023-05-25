@@ -7,6 +7,7 @@ const pageFormats: CustomType = {
   repeatable: true,
   status: true,
   json: label('Page format'),
+  format: 'custom',
 };
 
 export default pageFormats;

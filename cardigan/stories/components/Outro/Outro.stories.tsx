@@ -25,4 +25,3 @@ basic.args = {
   },
 };
 basic.storyName = 'Outro';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };

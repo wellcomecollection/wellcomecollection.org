@@ -25,6 +25,7 @@ import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
+import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type CreditProps = {
   workId: string;
@@ -170,6 +171,7 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    setCacheControl(context.res);
     const serverData = await getServerData(context);
     const { workId } = context.query;
 
@@ -201,7 +203,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     );
     const iiifManifest =
       manifestLocation &&
-      (await fetchIIIFPresentationManifest(manifestLocation.url, serverData.toggles));
+      (await fetchIIIFPresentationManifest(
+        manifestLocation.url,
+        serverData.toggles
+      ));
     const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
     return {

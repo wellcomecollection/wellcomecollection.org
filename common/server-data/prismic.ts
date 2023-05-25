@@ -1,4 +1,4 @@
-import { Query, RichTextField } from '@prismicio/types';
+import { Query, RichTextField } from '@prismicio/client';
 import {
   CollectionVenuePrismicDocument,
   PopupDialogPrismicDocument,
@@ -70,9 +70,7 @@ const fetchers: Record<Key, (client: prismic.Client) => unknown> = {
 
   collectionVenues: async client =>
     client.get({
-      predicates: [
-        prismic.predicate.any('document.type', ['collection-venue']),
-      ],
+      filters: [prismic.filter.any('document.type', ['collection-venue'])],
     }),
 };
 

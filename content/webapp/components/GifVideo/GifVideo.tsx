@@ -8,7 +8,7 @@ import Caption from '@weco/common/views/components/Caption/Caption';
 import { Tasl as TaslType } from '@weco/common/model/tasl';
 import styled from 'styled-components';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 
 const Video = styled.video`
   max-height: 80vh;
@@ -54,7 +54,7 @@ const Wrapper = styled.div`
 export type Props = {
   playbackRate: number;
   videoUrl: string;
-  caption?: prismicT.RichTextField;
+  caption?: prismic.RichTextField;
   tasl?: TaslType;
   autoPlay: boolean;
   loop: boolean;

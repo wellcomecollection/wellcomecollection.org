@@ -54,7 +54,7 @@ import FeaturedCard, {
 import ImageGallery from '../ImageGallery/ImageGallery';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
-import * as prismicT from '@prismicio/types';
+import * as prismic from '@prismicio/client';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -360,12 +360,12 @@ const Body: FunctionComponent<Props> = ({
                                 so we have to split out the first paragraph here.
                               */}
                             <PrismicHtmlBlock
-                              html={[slice.value[0]] as prismicT.RichTextField}
+                              html={[slice.value[0]] as prismic.RichTextField}
                               htmlSerializer={dropCapSerializer}
                             />
                             <PrismicHtmlBlock
                               html={
-                                slice.value.slice(1) as prismicT.RichTextField
+                                slice.value.slice(1) as prismic.RichTextField
                               }
                               htmlSerializer={defaultSerializer}
                             />

@@ -1,4 +1,4 @@
-import { Query, PrismicDocument } from '@prismicio/types';
+import { Query, PrismicDocument } from '@prismicio/client';
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
@@ -15,9 +15,7 @@ export type GetServerSidePropsPrismicClient = {
   client: prismic.Client;
 };
 
-export const delistPredicate = prismic.predicate.not('document.tags', [
-  'delist',
-]);
+export const delistFilter = prismic.filter.not('document.tags', ['delist']);
 
 /**
  * We require the `GetServerSidePropsContext` or `NextApiRequest` here to esure that
@@ -82,13 +80,13 @@ export function fetcher<Document extends PrismicDocument>(
         // it matches the content type.  So e.g. going to /events/<exhibition ID> will
         // return a 404, rather than a 500 as we find we're missing a bunch of fields
         // we need to render the page.
-        const predicates = isString(contentType)
-          ? [prismic.predicate.at('document.type', contentType)]
-          : [prismic.predicate.any('document.type', contentType)];
+        const filters = isString(contentType)
+          ? [prismic.filter.at('document.type', contentType)]
+          : [prismic.filter.any('document.type', contentType)];
 
         return await client.getByID<Document>(id, {
           fetchLinks,
-          predicates,
+          filters,
         });
       } catch {}
     },
@@ -103,25 +101,25 @@ export function fetcher<Document extends PrismicDocument>(
       { client }: GetServerSidePropsPrismicClient,
       params: GetByTypeParams = {}
     ): Promise<Query<Document>> => {
-      const predicates = isString(params.predicates)
-        ? [params.predicates]
-        : Array.isArray(params.predicates)
-        ? params.predicates
+      const filters = isString(params.filters)
+        ? [params.filters]
+        : Array.isArray(params.filters)
+        ? params.filters
         : [];
 
       const response = isString(contentType)
         ? await client.getByType<Document>(contentType, {
             ...params,
             fetchLinks,
-            predicates: [...predicates, delistPredicate],
+            filters: [...filters, delistFilter],
           })
         : await client.get<Document>({
             ...params,
             fetchLinks,
-            predicates: [
-              ...predicates,
-              delistPredicate,
-              prismic.predicate.any('document.type', contentType),
+            filters: [
+              ...filters,
+              delistFilter,
+              prismic.filter.any('document.type', contentType),
             ],
           });
 

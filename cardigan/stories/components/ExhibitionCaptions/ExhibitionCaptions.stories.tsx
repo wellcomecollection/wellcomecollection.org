@@ -38,4 +38,3 @@ basic.args = {
   ],
 };
 basic.storyName = 'ExhibitionCaptions';
-basic.parameters = { chromatic: { viewports: [375, 1200] } };
