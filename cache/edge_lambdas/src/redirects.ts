@@ -15,7 +15,7 @@
  *    - User needs to remember to write it down
  *    - Print to digital transmission
  *
- * See https://www.notion.so/wellcometrust/URLs-on-wellcomecollection-org-26f1c2fc1cce43ca98c9b616de13c2d7
+ * See https://app.gitbook.com/o/-LumfFcEMKx4gYXKAZTQ/s/DPDDj27NI2F2kPukWrC1/developer-handbook/urls-on-wellcomecollection.org
  *
  */
 export const literalRedirects: Record<string, string> = {
