@@ -1,4 +1,24 @@
-const contentRedirects: Record<string, string> = {
+/** This defines the vanity URLs for pages on wellcomecollection.org.
+ *
+ * == What it looks like for users ==
+ *
+ * When a user visits a vanity URL, they will be redirected to the appropriate page.
+ *
+ * e.g. if somebody visits /about-us, they'll be redirected to /pages/Wuw2MSIAACtd3Stq
+ *
+ * == When we use vanity URLs ==
+ *
+ * We can set up a vanity/marketing redirect in these cases:
+ *
+ *    - It’s a key landing page
+ *    - It’s meant to be read aloud
+ *    - User needs to remember to write it down
+ *    - Print to digital transmission
+ *
+ * See https://www.notion.so/wellcometrust/URLs-on-wellcomecollection-org-26f1c2fc1cce43ca98c9b616de13c2d7
+ *
+ */
+export const literalRedirects: Record<string, string> = {
   '/event-series/Wo1YeCoAACoAZFoN': '/events/Wqkd1yUAAB8sW4By',
   '/explore': '/stories',
   '/eventspaces': '/venue-hire',
@@ -166,9 +186,22 @@ const contentRedirects: Record<string, string> = {
   '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
   '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
   '/eat-me': '/books/WwVK3CAAAHm5ExxF',
-
   '/exhibitions/medicine-man': '/exhibitions/Weoe4SQAAKJwjcDC',
   '/graphicdesign': '/exhibitions/WZwh4ioAAJ3usf86',
+
+  '/about-us': '/pages/Wuw2MSIAACtd3Stq',
+  '/access': '/pages/Wvm2uiAAAIYQ4FHP',
+  '/get-involved': '/pages/YDaZmxMAACIAT9u8',
+  '/opening-times': '/pages/WwQHTSAAANBfDYXU',
+  '/press': '/pages/WuxrKCIAAP9h3hmw',
+  '/schools': '/pages/Wuw2MSIAACtd3StS',
+  '/user-panel': '/pages/YH17kRAAACoAyWTB',
+  '/venue-hire': '/pages/Wuw2MSIAACtd3SsC',
+  '/what-we-do': '/pages/WwLGFCAAAPMiB_Ps',
+  '/youth': '/pages/Wuw2MSIAACtd3Ssg',
+
+  // This is the Prismic page for the homepage
+  '/pages/XphUbREAACMAgRNP': '/',
 
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1656920569188629
   '/events/YrCXAREAACEAFSTW': '/events/Yqcv7xEAACEA61Co',
@@ -203,29 +236,6 @@ const contentRedirects: Record<string, string> = {
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/9765
   '/lbe-festival': '/event-series/ZFt3UBQAAMFmEIya',
 };
-
-/**
- * These are URLs that we expect to be served from a human-readable path
- * Redirecting the prismic path ensures we aren't serving the same content
- * from two paths, losing Google juice
- **/
-const vanityUrls: Record<string, string> = {
-  '/pages/WwQHTSAAANBfDYXU': '/opening-times',
-  '/pages/WwLGFCAAAPMiB_Ps': '/what-we-do',
-  '/pages/WuxrKCIAAP9h3hmw': '/press',
-  '/pages/Wuw2MSIAACtd3SsC': '/venue-hire',
-  '/pages/Wvm2uiAAAIYQ4FHP': '/access',
-  '/pages/Wuw2MSIAACtd3Ste': '/youth',
-  '/pages/Wuw2MSIAACtd3StS': '/schools',
-  '/pages/X5amzBIAAB0Aq6Gm': '/covid-welcome-back',
-  '/pages/X5aomxIAAB8Aq6n5': '/covid-book-your-ticket',
-  '/pages/X8ZTSBIAACQAiDzY': '/visit-us',
-  '/pages/Wuw2MSIAACtd3Stq': '/about-us',
-  '/pages/YDaZmxMAACIAT9u8': '/get-involved',
-  '/pages/YH17kRAAACoAyWTB': '/user-panel',
-};
-
-export const literalRedirects = { ...contentRedirects, ...vanityUrls };
 
 // Query redirects have the form:
 // {
