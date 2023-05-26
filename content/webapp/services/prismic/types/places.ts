@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import { Body } from './body';
 import { CommonPrismicFields, FetchLinks } from '.';
 

@@ -74,7 +74,9 @@ type Promo = {
   image: Image;
   link: prismic.KeyTextField;
 };
-export type PromoSliceZone = SliceZone<Slice<'editorialImage', Promo>>;
+export type PromoSliceZone = prismic.SliceZone<
+  prismic.Slice<'editorialImage', Promo>
+>;
 
 export type CommonPrismicFields = {
   title: prismic.RichTextField;

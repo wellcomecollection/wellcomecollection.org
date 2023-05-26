@@ -26,12 +26,12 @@ const defaultContributorImage: ImageType = {
 
 function transformCommonFields(
   agent:
-    | (FilledContentRelationshipField<
+    | (prismic.FilledContentRelationshipField<
         'people',
         'en-gb',
         InferDataInterface<Person>
       > & { data: Person })
-    | (FilledContentRelationshipField<
+    | (prismic.FilledContentRelationshipField<
         'organisations',
         'en-gb',
         InferDataInterface<Organisation>
