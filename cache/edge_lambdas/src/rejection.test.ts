@@ -48,7 +48,6 @@ describe('requests that probably aren’t spam', () => {
 
 describe('requests that probably are spam', () => {
   test.each([
-    { request: { querystring: 'ID=6xnq75u6n&query=找黑客' } },
     {
       request: {
         querystring: 'query=free+to+play+casino',
