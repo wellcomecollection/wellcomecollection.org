@@ -27,7 +27,7 @@
     "lodash.throttle": "^4.1.1",
     "next": "^13.2.3",
     "next-router-mock": "^0.9.3",
-    "node-fetch": "^2.6.2",
+    "node-fetch": "^3.3.1",
     "nodemon": "^2.0.22",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
