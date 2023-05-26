@@ -1,4 +1,4 @@
-import { Query } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { exhibitionsFetchLinks, contributorFetchLinks } from '../types';
@@ -15,7 +15,7 @@ export const fetchExhibitionGuide = exhibitionGuidesFetcher.getById;
 export const fetchExhibitionGuides = (
   client: GetServerSidePropsPrismicClient,
   { ...opts }: GetByTypeParams
-): Promise<Query<ExhibitionGuidePrismicDocument>> => {
+): Promise<prismic.Query<ExhibitionGuidePrismicDocument>> => {
   return exhibitionGuidesFetcher.getByType(client, {
     fetchLinks,
     ...opts,

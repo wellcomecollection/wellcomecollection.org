@@ -1,5 +1,4 @@
 import { Image, PromoSliceZone } from '../types';
-import { RichTextField } from '@prismicio/client';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { Crop, ImageType } from '@weco/common/model/image';
@@ -19,7 +18,11 @@ export const placeHolderImage: ImageType = {
 };
 
 export function transformCaptionedImage(
-  frag: { image: Image; caption: RichTextField; hasRoundedCorners?: boolean },
+  frag: {
+    image: Image;
+    caption: prismic.RichTextField;
+    hasRoundedCorners?: boolean;
+  },
   crop?: Crop
 ): CaptionedImage {
   if (isEmptyObj(frag.image)) {

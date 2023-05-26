@@ -1,5 +1,5 @@
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
-import { EmptyImageFieldImage, FilledImageFieldImage } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 
 export type ContentApiProps = {
   query?: string;
@@ -20,7 +20,7 @@ export type Content = {
   publicationDate: string;
   contributors: Contributor[];
   format: ArticleFormat;
-  image?: EmptyImageFieldImage | FilledImageFieldImage; // TODO
+  image?: prismic.EmptyImageFieldImage | prismic.FilledImageFieldImage; // TODO
   caption?: string;
   type: 'Article';
 };

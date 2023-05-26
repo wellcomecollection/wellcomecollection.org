@@ -1,10 +1,4 @@
-import {
-  TimestampField,
-  PrismicDocument,
-  ContentRelationshipField,
-  RichTextField,
-  BooleanField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import {
   CommonPrismicFields,
   FetchLinks,
@@ -15,10 +9,10 @@ import {
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 const typeEnum = 'pages';
 
-type PageFormat = PrismicDocument<
+type PageFormat = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    description: prismic.RichTextField;
   },
   'page-formats'
 >;
@@ -29,19 +23,19 @@ export const pageFormatsFetchLinks: FetchLinks<PageFormat> = [
 ];
 
 export type WithPageFormat = {
-  format: ContentRelationshipField<
+  format: prismic.ContentRelationshipField<
     'page-formats',
     'en-gb',
     InferDataInterface<PageFormat>
   >;
 };
 
-export type PagePrismicDocument = PrismicDocument<
+export type PagePrismicDocument = prismic.PrismicDocument<
   {
-    datePublished: TimestampField;
-    isOnline: BooleanField;
-    availableOnline: BooleanField;
-    showOnThisPage: BooleanField;
+    datePublished: prismic.TimestampField;
+    isOnline: prismic.BooleanField;
+    availableOnline: prismic.BooleanField;
+    showOnThisPage: prismic.BooleanField;
   } & WithContributors &
     WithExhibitionParents &
     WithSeasons &

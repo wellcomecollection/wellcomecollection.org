@@ -1,4 +1,4 @@
-import { Query } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import {
   GetServerSidePropsPrismicClient,
   GetByTypeParams,
@@ -342,7 +342,7 @@ export const graphQuery = `{
 export const fetchArticles = (
   client: GetServerSidePropsPrismicClient,
   params: GetByTypeParams = {}
-): Promise<Query<ArticlePrismicDocument>> => {
+): Promise<prismic.Query<ArticlePrismicDocument>> => {
   return articlesFetcher.getByType(client, {
     ...params,
     orderings: [

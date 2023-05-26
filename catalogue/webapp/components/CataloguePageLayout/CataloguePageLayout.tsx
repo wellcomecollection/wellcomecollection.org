@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { RichTextNodeType } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import PageLayout, {
   Props as PageLayoutProps,
 } from '@weco/common/views/components/PageLayout/PageLayout';
@@ -35,7 +35,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
                   routeRegex: null,
                   text: [
                     {
-                      type: RichTextNodeType.paragraph,
+                      type: prismic.RichTextNodeType.paragraph,
                       text: wellcomeImagesRedirectBanner,
                       spans: [],
                     },

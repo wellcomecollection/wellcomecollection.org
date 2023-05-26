@@ -1,16 +1,4 @@
-import {
-  FilledImageFieldImage,
-  KeyTextField,
-  RichTextField,
-  Slice,
-  SliceZone,
-  PrismicDocument,
-  GroupField,
-  ContentRelationshipField,
-  FilledContentRelationshipField,
-  NumberField,
-  EmptyLinkField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { ArticleFormat } from './article-format';
 import { ExhibitionFormat } from './exhibition-format';
 import { ProjectFormat } from './project-format';
@@ -24,7 +12,7 @@ import {
   InferDataInterface,
 } from '@weco/common/services/prismic/types';
 
-export type InferCustomType<T> = T extends PrismicDocument<
+export type InferCustomType<T> = T extends prismic.PrismicDocument<
   any,
   infer CustomType
 >
@@ -33,7 +21,7 @@ export type InferCustomType<T> = T extends PrismicDocument<
 
 /** This gives us type checking on fetch links.  e.g. if you have a type
  *
- *      type ShapePrismicDocument = { sides: NumberField, colour: KeyTextField };
+ *      type ShapePrismicDocument = { sides: prismic.NumberField, colour: prismic.KeyTextField };
  *
  * and you wanted to create fetchLinks, you could write:
  *
@@ -49,7 +37,7 @@ export type InferCustomType<T> = T extends PrismicDocument<
  * document, this is better.
  *
  */
-export type FetchLinks<T extends PrismicDocument> = {
+export type FetchLinks<T extends prismic.PrismicDocument> = {
   [D in keyof InferDataInterface<T>]: D extends string
     ? `${InferCustomType<T>}.${D}`
     : never;
@@ -62,8 +50,8 @@ type Dimension = {
 
 // Currently the Prismic types only allow you to specify 1 image
 type ThumbnailedImageField<Thumbnails extends Record<string, Dimension>> =
-  FilledImageFieldImage & {
-    [Property in keyof Thumbnails]?: FilledImageFieldImage;
+  prismic.FilledImageFieldImage & {
+    [Property in keyof Thumbnails]?: prismic.FilledImageFieldImage;
   };
 
 export type Image = ThumbnailedImageField<{
@@ -81,14 +69,18 @@ export type Image = ThumbnailedImageField<{
   };
 }>;
 
-type Promo = { caption: RichTextField; image: Image; link: KeyTextField };
+type Promo = {
+  caption: prismic.RichTextField;
+  image: Image;
+  link: prismic.KeyTextField;
+};
 export type PromoSliceZone = SliceZone<Slice<'editorialImage', Promo>>;
 
 export type CommonPrismicFields = {
-  title: RichTextField;
+  title: prismic.RichTextField;
   body: Body;
   promo: PromoSliceZone;
-  metadataDescription: KeyTextField;
+  metadataDescription: prismic.KeyTextField;
 };
 // We need these for links in the `contentList` slice
 export const commonPrismicFieldsFetchLinks = [
@@ -106,8 +98,8 @@ export const commonPrismicFieldsFetchLinks = [
 // These fields are shared amongst a lot of types, but not all
 
 export type WithEventSeries = {
-  series: GroupField<{
-    series: ContentRelationshipField<
+  series: prismic.GroupField<{
+    series: prismic.ContentRelationshipField<
       'series',
       'en-gb',
       InferDataInterface<EventSeriesPrismicDocument>
@@ -121,8 +113,8 @@ export const eventSeriesFetchLinks: FetchLinks<EventSeriesPrismicDocument> = [
 ];
 
 export type WithSeasons = {
-  seasons: GroupField<{
-    season: ContentRelationshipField<
+  seasons: prismic.GroupField<{
+    season: prismic.ContentRelationshipField<
       'seasons',
       'en-gb',
       InferDataInterface<SeasonPrismicDocument>
@@ -137,7 +129,7 @@ export const seasonsFetchLinks: FetchLinks<SeasonPrismicDocument> = [
 ];
 
 export type WithArticleFormat = {
-  format: ContentRelationshipField<
+  format: prismic.ContentRelationshipField<
     'article-formats',
     'en-gb',
     InferDataInterface<ArticleFormat>
@@ -157,9 +149,9 @@ export const projectFormatsFetchLinks: FetchLinks<ProjectFormat> = [
 ];
 
 export type WithExhibitionParents = {
-  parents: GroupField<{
-    order: NumberField;
-    parent: ContentRelationshipField<
+  parents: prismic.GroupField<{
+    order: prismic.NumberField;
+    parent: prismic.ContentRelationshipField<
       'exhibitions',
       // We know this is an ExhibitionPrismicDocument, but the type checker gets
       // unhappy about the circular reference:
@@ -179,24 +171,28 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
 ];
 
 type Contributor =
-  | EmptyLinkField<'Document'>
-  | FilledContentRelationshipField<'people', 'en-gb', InferDataInterface<Person>>
-  | FilledContentRelationshipField<
+  | prismic.EmptyLinkField<'Document'>
+  | prismic.FilledContentRelationshipField<
+      'people',
+      'en-gb',
+      InferDataInterface<Person>
+    >
+  | prismic.FilledContentRelationshipField<
       'organisations',
       'en-gb',
       InferDataInterface<Organisation>
     >;
 
 export type WithContributors = {
-  contributorsTitle: RichTextField;
-  contributors: GroupField<{
-    role: ContentRelationshipField<
+  contributorsTitle: prismic.RichTextField;
+  contributors: prismic.GroupField<{
+    role: prismic.ContentRelationshipField<
       'editorial-contributor-roles',
       'en-gb',
       InferDataInterface<EditorialContributorRole>
     >;
     contributor: Contributor;
-    description: RichTextField;
+    description: prismic.RichTextField;
   }>;
 };
 
@@ -229,7 +225,7 @@ export const contributorFetchLinks = [
 // Guards
 export function isFilledLinkToPersonField(
   field: Contributor
-): field is FilledContentRelationshipField<
+): field is prismic.FilledContentRelationshipField<
   'people',
   'en-gb',
   InferDataInterface<Person>
@@ -239,7 +235,7 @@ export function isFilledLinkToPersonField(
 
 export function isFilledLinkToOrganisationField(
   field: Contributor
-): field is FilledContentRelationshipField<
+): field is prismic.FilledContentRelationshipField<
   'organisations',
   'en-gb',
   InferDataInterface<Organisation>

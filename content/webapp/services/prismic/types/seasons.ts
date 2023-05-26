@@ -1,12 +1,12 @@
-import { TimestampField, PrismicDocument } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { CommonPrismicFields } from '.';
 
 const typeEnum = 'seasons';
 
-export type SeasonPrismicDocument = PrismicDocument<
+export type SeasonPrismicDocument = prismic.PrismicDocument<
   {
-    start: TimestampField;
-    end: TimestampField;
+    start: prismic.TimestampField;
+    end: prismic.TimestampField;
   } & CommonPrismicFields,
   typeof typeEnum
 >;

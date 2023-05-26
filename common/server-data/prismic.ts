@@ -1,4 +1,3 @@
-import { Query, RichTextField } from '@prismicio/client';
 import {
   CollectionVenuePrismicDocument,
   PopupDialogPrismicDocument,
@@ -27,7 +26,7 @@ export const defaultValue = {
     data: {
       isShown: null,
       routeRegex: null,
-      text: [] as RichTextField,
+      text: [] as prismic.RichTextField,
     },
   },
   popupDialog: {
@@ -36,7 +35,7 @@ export const defaultValue = {
       link: { link_type: 'Web' },
       linkText: null,
       openButtonText: null,
-      text: [] as RichTextField,
+      text: [] as prismic.RichTextField,
       title: null,
     },
   },
@@ -49,7 +48,7 @@ type Key = keyof typeof defaultValue;
 export type PrismicData = {
   globalAlert: GlobalAlertPrismicDocument;
   popupDialog: PopupDialogPrismicDocument;
-  collectionVenues: Query<CollectionVenuePrismicDocument>;
+  collectionVenues: prismic.Query<CollectionVenuePrismicDocument>;
 };
 
 export type SimplifiedPrismicData = {

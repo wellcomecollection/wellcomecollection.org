@@ -1,9 +1,4 @@
-import {
-  PrismicDocument,
-  KeyTextField,
-  RichTextField,
-  GroupField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { Image } from '.';
 
 /**
@@ -12,38 +7,38 @@ import { Image } from '.';
  * See {@link https://community.prismic.io/t/import-export-change-type-of-imported-document/7814}
  */
 const editorialContributorRoleType = 'editorial-contributor-roles';
-export type EditorialContributorRole = PrismicDocument<
+export type EditorialContributorRole = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    describedBy: KeyTextField;
+    title: prismic.RichTextField;
+    describedBy: prismic.KeyTextField;
   },
   typeof editorialContributorRoleType
 >;
 
 const personType = 'people';
-export type Person = PrismicDocument<
+export type Person = prismic.PrismicDocument<
   {
-    name: KeyTextField;
-    description: RichTextField;
-    pronouns: KeyTextField;
+    name: prismic.KeyTextField;
+    description: prismic.RichTextField;
+    pronouns: prismic.KeyTextField;
     image: Image;
-    sameAs: GroupField<{
-      link: KeyTextField;
-      title: RichTextField;
+    sameAs: prismic.GroupField<{
+      link: prismic.KeyTextField;
+      title: prismic.RichTextField;
     }>;
   },
   typeof personType
 >;
 
 const organisationType = 'organisations';
-export type Organisation = PrismicDocument<
+export type Organisation = prismic.PrismicDocument<
   {
-    name: RichTextField;
-    description: RichTextField;
+    name: prismic.RichTextField;
+    description: prismic.RichTextField;
     image: Image;
-    sameAs: GroupField<{
-      link: KeyTextField;
-      title: KeyTextField;
+    sameAs: prismic.GroupField<{
+      link: prismic.KeyTextField;
+      title: prismic.KeyTextField;
     }>;
   },
   typeof organisationType

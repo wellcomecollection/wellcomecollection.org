@@ -4,7 +4,7 @@ import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
 } from '@weco/common/services/prismic/types';
-import { LinkField } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { transformMultiContent } from './multi-content';
 import {
   asText,
@@ -30,7 +30,9 @@ import {
   showReadingTime,
 } from '@weco/content/utils/reading-time';
 
-function transformContentLink(document?: LinkField): MultiContent | undefined {
+function transformContentLink(
+  document?: prismic.LinkField
+): MultiContent | undefined {
   if (!document) {
     return;
   }

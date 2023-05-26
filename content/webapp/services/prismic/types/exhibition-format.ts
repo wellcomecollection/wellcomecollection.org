@@ -1,8 +1,8 @@
-import { RichTextField, PrismicDocument } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 
-export type ExhibitionFormat = PrismicDocument<
+export type ExhibitionFormat = prismic.PrismicDocument<
   {
-    title: RichTextField;
+    title: prismic.RichTextField;
   },
   'exhibition-formats'
 >;

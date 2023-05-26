@@ -1,15 +1,4 @@
-import {
-  GroupField,
-  TimestampField,
-  PrismicDocument,
-  ContentRelationshipField,
-  RichTextField,
-  SelectField,
-  BooleanField,
-  EmbedField,
-  KeyTextField,
-  LinkField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { BackgroundTexturesDocument } from './background-textures';
 import { PlacePrismicDocument } from './places';
 import {
@@ -24,10 +13,10 @@ import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 const typeEnum = 'events';
 
-export type EventFormat = PrismicDocument<
+export type EventFormat = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    description: prismic.RichTextField;
   },
   'event-formats'
 >;
@@ -36,12 +25,12 @@ export const eventFormatFetchLinks: FetchLinks<EventFormat> = [
   'event-formats.description',
 ];
 
-type InterpretationType = PrismicDocument<
+type InterpretationType = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    abbreviation: RichTextField;
-    description: RichTextField;
-    primaryDescription: RichTextField;
+    title: prismic.RichTextField;
+    abbreviation: prismic.RichTextField;
+    description: prismic.RichTextField;
+    primaryDescription: prismic.RichTextField;
   },
   'interpretation-types'
 >;
@@ -52,10 +41,10 @@ export const interpretationTypeFetchLinks: FetchLinks<InterpretationType> = [
   'interpretation-types.primaryDescription',
 ];
 
-type Audience = PrismicDocument<
+type Audience = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    description: prismic.RichTextField;
   },
   'audiences'
 >;
@@ -64,10 +53,10 @@ export const audienceFetchLinks: FetchLinks<Audience> = [
   'audiences.description',
 ];
 
-export type EventPolicy = PrismicDocument<
+export type EventPolicy = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    description: prismic.RichTextField;
   },
   'event-policies'
 >;
@@ -76,13 +65,13 @@ export const eventPolicyFetchLinks: FetchLinks<EventPolicy> = [
   'event-policies.description',
 ];
 
-export type Team = PrismicDocument<
+export type Team = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    subtitle: RichTextField;
-    email: KeyTextField;
-    phone: KeyTextField;
-    url: KeyTextField;
+    title: prismic.RichTextField;
+    subtitle: prismic.RichTextField;
+    email: prismic.KeyTextField;
+    phone: prismic.KeyTextField;
+    url: prismic.KeyTextField;
   },
   'teams'
 >;
@@ -95,7 +84,7 @@ export const teamFetchLinks: FetchLinks<Team> = [
 ];
 
 export type WithEventFormat = {
-  format: ContentRelationshipField<
+  format: prismic.ContentRelationshipField<
     'event-formats',
     'en-gb',
     InferDataInterface<EventFormat>
@@ -103,62 +92,62 @@ export type WithEventFormat = {
 };
 
 export type EventTimePrismicDocument = {
-  startDateTime: TimestampField;
-  endDateTime: TimestampField;
-  isFullyBooked: BooleanField;
-  onlineIsFullyBooked: BooleanField;
+  startDateTime: prismic.TimestampField;
+  endDateTime: prismic.TimestampField;
+  isFullyBooked: prismic.BooleanField;
+  onlineIsFullyBooked: prismic.BooleanField;
 };
 
-export type EventPrismicDocument = PrismicDocument<
+export type EventPrismicDocument = prismic.PrismicDocument<
   {
-    locations: GroupField<{
-      location: ContentRelationshipField<
+    locations: prismic.GroupField<{
+      location: prismic.ContentRelationshipField<
         'place',
         'en-gb',
         InferDataInterface<PlacePrismicDocument>
       >;
     }>;
-    isOnline: BooleanField;
-    availableOnline: BooleanField;
-    times: GroupField<EventTimePrismicDocument>;
-    isRelaxedPerformance: SelectField<'yes'>;
-    interpretations: GroupField<{
-      interpretationType: ContentRelationshipField<
+    isOnline: prismic.BooleanField;
+    availableOnline: prismic.BooleanField;
+    times: prismic.GroupField<EventTimePrismicDocument>;
+    isRelaxedPerformance: prismic.SelectField<'yes'>;
+    interpretations: prismic.GroupField<{
+      interpretationType: prismic.ContentRelationshipField<
         'interpretation-types',
         'en-gb',
         InferDataInterface<InterpretationType>
       >;
-      isPrimary: SelectField<'yes'>;
-      extraInformation: RichTextField;
+      isPrimary: prismic.SelectField<'yes'>;
+      extraInformation: prismic.RichTextField;
     }>;
-    audiences: GroupField<{
-      audience: ContentRelationshipField<
+    audiences: prismic.GroupField<{
+      audience: prismic.ContentRelationshipField<
         'audiences',
         'en-gb',
         InferDataInterface<Audience>
       >;
     }>;
-    ticketSalesStart: TimestampField;
-    bookingEnquiryTeam: ContentRelationshipField<
+    ticketSalesStart: prismic.TimestampField;
+    bookingEnquiryTeam: prismic.ContentRelationshipField<
       'teams',
       'en-gb',
       InferDataInterface<Team>
     >;
-    eventbriteEvent: EmbedField;
-    thirdPartyBookingName: KeyTextField;
-    thirdPartyBookingUrl: LinkField;
-    bookingInformation: RichTextField;
-    policies: GroupField<{
-      policy: ContentRelationshipField<
+    eventbriteEvent: prismic.EmbedField;
+    thirdPartyBookingName: prismic.KeyTextField;
+    thirdPartyBookingUrl: prismic.LinkField;
+    bookingInformation: prismic.RichTextField;
+    policies: prismic.GroupField<{
+      policy: prismic.ContentRelationshipField<
         'event-policy',
         'en-gb',
         InferDataInterface<EventPolicy>
       >;
     }>;
-    hasEarlyRegistration: SelectField<'yes'>;
-    cost: KeyTextField;
-    schedule: GroupField<{
-      event: ContentRelationshipField<
+    hasEarlyRegistration: prismic.SelectField<'yes'>;
+    cost: prismic.KeyTextField;
+    schedule: prismic.GroupField<{
+      event: prismic.ContentRelationshipField<
         'events',
         'en-gb',
         // We know this is an EventPrismicDocument, but the type checker gets
@@ -169,32 +158,32 @@ export type EventPrismicDocument = PrismicDocument<
         // TODO: Find a better way to do this which doesn't upset the type checker.
         InferDataInterface<any>
       >;
-      isNotLinked: SelectField<'yes'>;
+      isNotLinked: prismic.SelectField<'yes'>;
     }>;
-    backgroundTexture: ContentRelationshipField<
+    backgroundTexture: prismic.ContentRelationshipField<
       'background-textures',
       'en-gb',
       InferDataInterface<BackgroundTexturesDocument>
     >;
-    onlineTicketSalesStart: TimestampField;
-    onlineBookingEnquiryTeam: ContentRelationshipField<
+    onlineTicketSalesStart: prismic.TimestampField;
+    onlineBookingEnquiryTeam: prismic.ContentRelationshipField<
       'teams',
       'en-gb',
       InferDataInterface<Team>
     >;
-    onlineEventbriteEvent: EmbedField;
-    onlineThirdPartyBookingName: KeyTextField;
-    onlineThirdPartyBookingUrl: LinkField;
-    onlineBookingInformation: RichTextField;
-    onlinePolicies: GroupField<{
-      policy: ContentRelationshipField<
+    onlineEventbriteEvent: prismic.EmbedField;
+    onlineThirdPartyBookingName: prismic.KeyTextField;
+    onlineThirdPartyBookingUrl: prismic.LinkField;
+    onlineBookingInformation: prismic.RichTextField;
+    onlinePolicies: prismic.GroupField<{
+      policy: prismic.ContentRelationshipField<
         'event-policy',
         'en-gb',
         InferDataInterface<EventPolicy>
       >;
     }>;
-    onlineHasEarlyRegistration: SelectField<'yes'>;
-    onlineCost: KeyTextField;
+    onlineHasEarlyRegistration: prismic.SelectField<'yes'>;
+    onlineCost: prismic.KeyTextField;
   } & WithContributors &
     WithEventSeries &
     WithExhibitionParents &

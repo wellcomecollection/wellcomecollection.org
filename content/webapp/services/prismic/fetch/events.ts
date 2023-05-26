@@ -8,7 +8,6 @@ import {
   interpretationTypeFetchLinks,
   teamFetchLinks,
 } from '../types/events';
-import { Query } from '@prismicio/client';
 import { getEventFilters } from '../types/filters';
 import * as prismic from '@prismicio/client';
 import { EventBasic } from '../../../types/events';
@@ -45,7 +44,7 @@ export const fetchEvent = eventsFetcher.getById;
 export const fetchEventScheduleItems = async (
   { client }: GetServerSidePropsPrismicClient,
   scheduleIds: string[]
-): Promise<Query<EventPrismicDocument>> => {
+): Promise<prismic.Query<EventPrismicDocument>> => {
   return client.getByIDs(scheduleIds, {
     fetchLinks,
     pageSize: 40,

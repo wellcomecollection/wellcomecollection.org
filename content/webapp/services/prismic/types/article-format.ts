@@ -1,9 +1,9 @@
-import { RichTextField, PrismicDocument } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 
-export type ArticleFormat = PrismicDocument<
+export type ArticleFormat = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    description: prismic.RichTextField;
   },
   'article-formats'
 >;

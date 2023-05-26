@@ -1,10 +1,4 @@
 import * as prismic from '@prismicio/client';
-import {
-  PrismicDocument,
-  FilledContentRelationshipField,
-  KeyTextField,
-  RichTextField,
-} from '@prismicio/client';
 import { CommonPrismicFields, WithArticleFormat } from '../types';
 import {
   InferDataInterface,
@@ -27,7 +21,7 @@ import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { transformBody } from './body';
 import { isStandfirst } from '../../../types/body';
 
-type Doc = PrismicDocument<CommonPrismicFields>;
+type Doc = prismic.PrismicDocument<CommonPrismicFields>;
 
 export function transformFormat(document: {
   data:
@@ -56,13 +50,13 @@ export function transformFormat(document: {
  * they add extra validation steps, e.g. removing stray whitespace or null values.
  */
 export function asText(
-  field: KeyTextField | RichTextField
+  field: prismic.KeyTextField | prismic.RichTextField
 ): string | undefined {
   if (isString(field)) {
-    // KeyTextField
+    // prismic.KeyTextField
     return field.trim().length > 0 ? field.trim() : undefined;
   } else {
-    // RichTextField
+    // prismic.RichTextField
     const output =
       field && field.length > 0 ? prismic.asText(field).trim() : undefined;
     return output && output.length > 0 ? output : undefined;
@@ -71,19 +65,23 @@ export function asText(
 
 // Prismic adds `[ { type: 'paragraph', text: '', spans: [] } ]` when you
 // insert text, then remove it, so we check for that and remove it.
-function nonEmpty(field?: RichTextField): field is RichTextField {
+function nonEmpty(
+  field?: prismic.RichTextField
+): field is prismic.RichTextField {
   return isNotUndefined(field) && (asText(field) || '').trim() !== '';
 }
 
-export function asRichText(field: RichTextField): RichTextField | undefined {
+export function asRichText(
+  field: prismic.RichTextField
+): prismic.RichTextField | undefined {
   return nonEmpty(field) ? field : undefined;
 }
 
-export function asHtml(field?: RichTextField): string | undefined {
+export function asHtml(field?: prismic.RichTextField): string | undefined {
   return nonEmpty(field) ? prismic.asHTML(field).trim() : undefined;
 }
 
-export function asTitle(title: RichTextField): string {
+export function asTitle(title: prismic.RichTextField): string {
   // We always need a title - blunt validation, but validation none the less
   return asText(title) || '';
 }
@@ -100,7 +98,7 @@ export function transformSingleLevelGroup(
 }
 
 export function transformLabelType(
-  format: FilledContentRelationshipField<
+  format: prismic.FilledContentRelationshipField<
     'article-formats',
     'en-gb',
     InferDataInterface<ArticleFormat>

@@ -1,7 +1,4 @@
-import {
-  FilledContentRelationshipField,
-  PrismicDocument,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import {
   WithContributors,
   isFilledLinkToOrganisationField,
@@ -79,7 +76,7 @@ export function transformContributorAgent(
 }
 
 export function transformContributors(
-  document: PrismicDocument<WithContributors>
+  document: prismic.PrismicDocument<WithContributors>
 ): Contributor[] {
   const { data } = document;
   const contributors = (data.contributors ?? [])

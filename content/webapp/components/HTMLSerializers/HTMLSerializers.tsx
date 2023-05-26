@@ -2,7 +2,6 @@ import { Fragment } from 'react';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { JSXFunctionSerializer } from '@prismicio/react';
-import { RichTextNodeType } from '@prismicio/client';
 import * as prismic from '@prismicio/client';
 import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
@@ -20,43 +19,43 @@ export const defaultSerializer: JSXFunctionSerializer = (
   key
 ) => {
   switch (element.type) {
-    case RichTextNodeType.heading1:
+    case prismic.RichTextNodeType.heading1:
       return <h1 key={key}>{children}</h1>;
-    case RichTextNodeType.heading2:
+    case prismic.RichTextNodeType.heading2:
       return (
         <h2 key={key} id={dasherize(element.text)}>
           {children}
         </h2>
       );
-    case RichTextNodeType.heading3:
+    case prismic.RichTextNodeType.heading3:
       return (
         <h3 key={key} id={dasherize(element.text)}>
           {children}
         </h3>
       );
-    case RichTextNodeType.heading4:
+    case prismic.RichTextNodeType.heading4:
       return <h4 key={key}>{children}</h4>;
-    case RichTextNodeType.heading5:
+    case prismic.RichTextNodeType.heading5:
       return <h5 key={key}>{children}</h5>;
-    case RichTextNodeType.heading6:
+    case prismic.RichTextNodeType.heading6:
       return <h6 key={key}>{children}</h6>;
-    case RichTextNodeType.paragraph:
+    case prismic.RichTextNodeType.paragraph:
       return <p key={key}>{children}</p>;
-    case RichTextNodeType.preformatted:
+    case prismic.RichTextNodeType.preformatted:
       return <pre key={key}>{children}</pre>;
-    case RichTextNodeType.strong:
+    case prismic.RichTextNodeType.strong:
       return <strong key={key}>{children}</strong>;
-    case RichTextNodeType.em:
+    case prismic.RichTextNodeType.em:
       return <em key={key}>{children}</em>;
-    case RichTextNodeType.listItem:
+    case prismic.RichTextNodeType.listItem:
       return <li key={key}>{children}</li>;
-    case RichTextNodeType.oListItem:
+    case prismic.RichTextNodeType.oListItem:
       return <li key={key}>{children}</li>;
-    case RichTextNodeType.list:
+    case prismic.RichTextNodeType.list:
       return <ul key={key}>{children}</ul>;
-    case RichTextNodeType.oList:
+    case prismic.RichTextNodeType.oList:
       return <ol key={key}>{children}</ol>;
-    case RichTextNodeType.image: {
+    case prismic.RichTextNodeType.image: {
       const url = element.linkTo
         ? prismic.asLink(element.linkTo, { linkResolver })
         : null;
@@ -81,7 +80,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
       );
     }
 
-    case RichTextNodeType.embed:
+    case prismic.RichTextNodeType.embed:
       return (
         <div
           key={key}
@@ -92,7 +91,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
           {element.oembed.html}
         </div>
       );
-    case RichTextNodeType.hyperlink: {
+    case prismic.RichTextNodeType.hyperlink: {
       const target =
         'target' in element.data ? element.data.target || undefined : undefined;
       const rel = target ? 'noopener' : undefined;
@@ -145,7 +144,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
       }
     }
 
-    case RichTextNodeType.label: {
+    case prismic.RichTextNodeType.label: {
       const labelClass = element.data.label || undefined;
       return (
         <span key={key} className={labelClass}>
@@ -153,7 +152,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
         </span>
       );
     }
-    case RichTextNodeType.span:
+    case prismic.RichTextNodeType.span:
       return content ? (
         <Fragment key={key}>
           {content
@@ -181,7 +180,10 @@ export const dropCapSerializer: JSXFunctionSerializer = (
   children,
   key
 ) => {
-  if (type === RichTextNodeType.paragraph && children[0] !== undefined) {
+  if (
+    type === prismic.RichTextNodeType.paragraph &&
+    children[0] !== undefined
+  ) {
     const firstChild = children[0];
     const firstCharacters =
       firstChild.props &&

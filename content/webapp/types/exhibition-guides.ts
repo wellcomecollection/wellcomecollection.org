@@ -1,14 +1,14 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
-import { RichTextField } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 
 type CaptionsOrTranscripts = {
   title: string;
   standaloneTitle: string;
-  tombstone?: RichTextField;
-  caption?: RichTextField;
-  transcription?: RichTextField;
-  context?: RichTextField;
+  tombstone?: prismic.RichTextField;
+  caption?: prismic.RichTextField;
+  transcription?: prismic.RichTextField;
+  context?: prismic.RichTextField;
 };
 
 export type ExhibitionGuideComponent = {
@@ -32,7 +32,7 @@ export type RelatedExhibition = {
 
 export type ExhibitionGuideBasic = {
   title: string;
-  introText: RichTextField;
+  introText: prismic.RichTextField;
   type: 'exhibition-guides' | 'exhibition-guides-links';
   id: string;
   image?: ImageType;
@@ -56,7 +56,7 @@ const typeNames = [
   'audio-without-descriptions',
   'captions-and-transcripts',
 ] as const;
-export type ExhibitionGuideType = typeof typeNames[number];
+export type ExhibitionGuideType = (typeof typeNames)[number];
 
 export function isValidType(
   type: string | string[] | undefined

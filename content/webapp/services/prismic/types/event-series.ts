@@ -1,11 +1,11 @@
-import { ContentRelationshipField, PrismicDocument } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { BackgroundTexturesDocument } from './background-textures';
 import { CommonPrismicFields, WithContributors } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 
-export type EventSeriesPrismicDocument = PrismicDocument<
+export type EventSeriesPrismicDocument = prismic.PrismicDocument<
   {
-    backgroundTexture: ContentRelationshipField<
+    backgroundTexture: prismic.ContentRelationshipField<
       'background-textures',
       'en-gb',
       InferDataInterface<BackgroundTexturesDocument>
