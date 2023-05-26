@@ -42,15 +42,6 @@ import {
   CloudFrontRequestEvent,
   CloudFrontResponse,
 } from 'aws-lambda';
-import { redirect301 } from './redirector';
-
-const countChineseCharacters = (s: string) => {
-  const chineseCharCount = s
-    .split('')
-    .map(c => c.charCodeAt(0))
-    .filter(code => code >= 13312 && code <= 64255).length;
-  return chineseCharCount / s.length;
-};
 
 // Returns true if this request looks like a bot.
 //
