@@ -110,22 +110,13 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
   //
   // In my analysis, this flagged ~41% of all search traffic.
   const spamKeywords = [
-    'cash',
     'casino',
     'chatgpt',
     'crypto',
     'ddos',
-    'free',
-    'fun',
-    'game',
-    'give away',
-    'give-away',
-    'giveaway',
-    'play',
     'poker',
     'telegram',
     'whatsapp',
-    'win',
     '➡️',
     '☀️',
     '⏩',
@@ -139,25 +130,13 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
     '⭐',
     '👈',
     '👉',
+    '㊙️',
   ];
 
   if (
     isBotRequest(request) &&
     spamKeywords.some(kw => query.toLowerCase().includes(kw))
   ) {
-    return true;
-  }
-
-  // Look for query parameters that we don't use.
-  //
-  // I noticed that a lot of search requests include query parameters that we don't
-  // define in our apps, and with values that aren't meaningful.  If one of these are
-  // present, it suggests you're probably not a real person.
-  //
-  // In my analysis, this flagged ~4% of all search traffic.
-  const unrecognisedParams = ['ID', 'news', 'action', 'cat', 'token', 'type'];
-
-  if (unrecognisedParams.some(name => requestParams.get(name) !== null)) {
     return true;
   }
 
