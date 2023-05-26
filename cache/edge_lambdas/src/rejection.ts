@@ -57,8 +57,31 @@ const isBotRequest = (request: CloudFrontRequest): boolean => {
   );
 };
 
-// 253,376 requests rejected
-// 6,688,393 requests accepted
+const isUnusualCharacter = (c: string): boolean => {
+  const code = c.charCodeAt(0);
+
+  return (
+    // This is based on the ranges for Han (Chinese) ideographs; see
+    // this answer on Stack Overflow: https://stackoverflow.com/a/1366113/1558022
+    //
+    // We're not being super precise here because anything high-Unicode is probably
+    // a bit suspicious here.
+    (code >= 0x4e00 && code <= 0xfaff) ||
+    //
+    // This covers Hiragana (Japanese) characters; see the table describing
+    // the Unicode block on Wikipedia: https://en.wikipedia.org/wiki/Hiragana_(Unicode_block)
+    (code >= 0x3041 && code <= 0x309f) ||
+    //
+    // These are the two parts of ㊙️, which is sometimes sent as a combination
+    // of two characters:
+    //
+    //    U+3299 Circled Ideograph Secret
+    //    U+FE0F Variation Selector-16 (which triggers Unicode)
+    //
+    code === 0x3299 ||
+    code === 0xfe0f
+  );
+};
 
 export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
   const cf = event.Records[0].cf;
@@ -164,33 +187,17 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
   const maxUnusualCharsAllowed = isBotRequest(request) ? 10 : 30;
 
   if (query.length >= maxUnusualCharsAllowed) {
-    const unusualCharacterCount = query
-      .split('')
-      .map(c => c.charCodeAt(0))
-      .filter(
-        code =>
-          // This is based on the ranges for Han (Chinese) ideographs; see
-          // this answer on Stack Overflow: https://stackoverflow.com/a/1366113/1558022
-          //
-          // We're not being super precise here because anything high-Unicode is probably
-          // a bit suspicious here.
-          (code >= 0x4e00 && code <= 0xfaff) ||
-          //
-          // This covers Hiragana (Japanese) characters; see the table describing
-          // the Unicode block on Wikipedia: https://en.wikipedia.org/wiki/Hiragana_(Unicode_block)
-          (code >= 0x3041 && code <= 0x309f) ||
-          //
-          // These are the two parts of ㊙️, which is sometimes sent as a combination
-          // of two characters:
-          //
-          //    U+3299 Circled Ideograph Secret
-          //    U+FE0F Variation Selector-16 (which triggers Unicode)
-          //
-          code === 0x3299 ||
-          code === 0xfe0f
-      ).length;
+    let unusualCharacterCount = 0;
 
-    if (unusualCharacterCount >= maxUnusualCharsAllowed) {
+    const tooManyUnusualCharacters = query.split('').some(char => {
+      if (isUnusualCharacter(char)) {
+        unusualCharacterCount += 1;
+      }
+
+      return unusualCharacterCount >= maxUnusualCharsAllowed;
+    });
+
+    if (tooManyUnusualCharacters) {
       return true;
     }
   }
