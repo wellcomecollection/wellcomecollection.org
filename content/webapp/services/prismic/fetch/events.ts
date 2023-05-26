@@ -148,7 +148,7 @@ export const fetchEvents = (
     pageSize,
     orderings = [],
   }: FetchEventsQueryParams
-): Promise<Query<EventPrismicDocument>> => {
+): Promise<prismic.Query<EventPrismicDocument>> => {
   const order = period === 'past' ? 'desc' : 'asc';
   const startTimeOrderings =
     order === 'desc'
