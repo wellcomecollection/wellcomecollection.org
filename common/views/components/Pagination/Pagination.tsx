@@ -1,19 +1,25 @@
 import { useEffect, useState, FunctionComponent, useContext } from 'react';
 import Link from 'next/link';
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { formatNumber } from '@weco/common/utils/grammar';
 import { font } from '@weco/common/utils/classnames';
+import { formatNumber } from '@weco/common/utils/grammar';
+
+export type Props = {
+  totalPages: number;
+  ariaLabel: string;
+  hasDarkBg?: boolean;
+  isHiddenMobile?: boolean;
+  isLoading?: boolean;
+};
 
 const Container = styled.nav.attrs({
   className: `${font('intr', 6)} is-hidden-print`,
-})<{
-  isHiddenMobile?: boolean;
-}>`
+})<{ isHiddenMobile?: boolean }>`
   display: flex;
   align-items: center;
 
@@ -23,14 +29,11 @@ const Container = styled.nav.attrs({
       'medium',
       'max-width'
     )(`
-      ${props.isHiddenMobile && 'display: none;'}; 
-    `)}
+    ${props.isHiddenMobile && 'display: none;'}; 
+  `)}
 `;
 
-const ChevronWrapper = styled.button<{
-  prev?: boolean;
-  hasDarkBg?: boolean;
-}>`
+const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -39,11 +42,11 @@ const ChevronWrapper = styled.button<{
   border-radius: 100%;
   margin: 0 0 0 1rem;
   cursor: pointer;
-  transition: background ${props => props.theme.transitionProperties};
+  transition: background-color ${props => props.theme.transitionProperties};
 
   /* This is required to make the icon be the right size on iOS.  If this class
-    has 'position: relative', then iOS will give it an incorrect height and
-    it will appear super small.  Illegible! */
+  has 'position: relative', then iOS will give it an incorrect height and
+  it will appear super small.  Illegible! */
   .icon {
     position: absolute;
   }
@@ -59,18 +62,18 @@ const ChevronWrapper = styled.button<{
   ${props => props.prev && `margin: 0 1rem 0 0;`}
 
   ${props => `
-      color: ${props.theme.color(props.hasDarkBg ? 'white' : 'black')};
-      border: 1px solid ${props.theme.color(
-        props.hasDarkBg ? 'neutral.400' : 'neutral.600'
+    color: ${props.theme.color(props.hasDarkBg ? 'white' : 'black')};
+    border: 1px solid ${props.theme.color(
+      props.hasDarkBg ? 'neutral.400' : 'neutral.600'
+    )};
+    transform: rotate(${props.prev ? '90' : '270'}deg);
+
+    &:hover, &:focus {
+      background-color: ${props.theme.color(
+        props.hasDarkBg ? 'neutral.600' : 'neutral.300'
       )};
-      transform: rotate(${props.prev ? '90' : '270'}deg);
-  
-      &:hover, &:focus {
-        background-color: ${props.theme.color(
-          props.hasDarkBg ? 'neutral.600' : 'neutral.300'
-        )};
-      }
-    `}
+    }
+  `}
 `;
 
 const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
@@ -85,14 +88,6 @@ const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
   text-align: center;
   margin: 0 10px;
 `;
-
-export type Props = {
-  totalPages: number;
-  ariaLabel: string;
-  hasDarkBg?: boolean;
-  isHiddenMobile?: boolean;
-  isLoading?: boolean;
-};
 
 export const Pagination: FunctionComponent<Props> = ({
   totalPages,
