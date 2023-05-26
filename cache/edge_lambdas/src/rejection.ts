@@ -185,6 +185,7 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
           //
           //    U+3299 Circled Ideograph Secret
           //    U+FE0F Variation Selector-16 (which triggers Unicode)
+          //
           code === 0x3299 ||
           code === 0xfe0f
       ).length;
