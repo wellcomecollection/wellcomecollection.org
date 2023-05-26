@@ -138,7 +138,7 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
     return true;
   }
 
-  // Count Chinese characters in the query string.
+  // Count unusual characters in the query string.
   //
   // A lot of our spam queries feature a long string of Chinese, with links to
   // sketchy-looking sites mixed in the middle.  This is a clue!
@@ -150,8 +150,8 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
   //
   // So we implement this check as follows:
   //
-  //    - Pick a threshold for most Chinese characters allowed in a query.
-  //    - Count the number of Chinese characters in the query.
+  //    - Pick a threshold for most unusual characters allowed in a query.
+  //    - Count the number of unusual characters in the query.
   //    - If it's higher than the threshold, mark the request as spam.
   //
   // The threshold is significantly lower for users that self-identify as bots
@@ -161,18 +161,35 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
   // if the query is too short to exceed the threshold.
   //
   // In my analysis, this flagged ~70% of all search traffic.
-  const maxChineseCharsAllowed = isBotRequest(request) ? 10 : 30;
+  const maxUnusualCharsAllowed = isBotRequest(request) ? 10 : 30;
 
-  if (query.length >= maxChineseCharsAllowed) {
-    const chineseCharacterCount = query
+  if (query.length >= maxUnusualCharsAllowed) {
+    const unusualCharacterCount = query
       .split('')
       .map(c => c.charCodeAt(0))
       .filter(
         code =>
-          (code >= 12353 && code <= 12446) || (code >= 13312 && code <= 64255)
+          // This is based on the ranges for Han (Chinese) ideographs; see
+          // this answer on Stack Overflow: https://stackoverflow.com/a/1366113/1558022
+          //
+          // We're not being super precise here because anything high-Unicode is probably
+          // a bit suspicious here.
+          (code >= 0x4e00 && code <= 0xfaff) ||
+          //
+          // This covers Hiragana (Japanese) characters; see the table describing
+          // the Unicode block on Wikipedia: https://en.wikipedia.org/wiki/Hiragana_(Unicode_block)
+          (code >= 0x3041 && code <= 0x309f) ||
+          //
+          // These are the two parts of ㊙️, which is sometimes sent as a combination
+          // of two characters:
+          //
+          //    U+3299 Circled Ideograph Secret
+          //    U+FE0F Variation Selector-16 (which triggers Unicode)
+          code === 0x3299 ||
+          code === 0xfe0f
       ).length;
 
-    if (chineseCharacterCount >= maxChineseCharsAllowed) {
+    if (unusualCharacterCount >= maxUnusualCharsAllowed) {
       return true;
     }
   }
