@@ -1,13 +1,16 @@
 import { useEffect, useState, FunctionComponent, useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
 
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { font } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
+import {
+  ChevronWrapper,
+  Container,
+  PageSelectorInput,
+} from './Pagination.styles';
 
 export type Props = {
   totalPages: number;
@@ -16,80 +19,6 @@ export type Props = {
   isHiddenMobile?: boolean;
   isLoading?: boolean;
 };
-
-const Container = styled.nav.attrs({
-  className: `${font('intr', 6)} is-hidden-print`,
-})<{
-  isHiddenMobile?: boolean;
-}>`
-  display: flex;
-  align-items: center;
-
-  /* We're removing the top pagination on mobile to avoid the controls getting too crowded. */
-  ${props =>
-    props.theme.media(
-      'medium',
-      'max-width'
-    )(`
-    ${props.isHiddenMobile && 'display: none;'}; 
-  `)}
-`;
-
-const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 34px;
-  width: 34px;
-  border-radius: 100%;
-  margin: 0 0 0 1rem;
-  cursor: pointer;
-  transition: background ${props => props.theme.transitionProperties};
-
-  /* This is required to make the icon be the right size on iOS.  If this class
-  has 'position: relative', then iOS will give it an incorrect height and
-  it will appear super small.  Illegible! */
-  .icon {
-    position: absolute;
-  }
-
-  &[disabled] {
-    pointer-events: none;
-    color: ${props =>
-      props.theme.color(props.hasDarkBg ? 'neutral.300' : 'neutral.500')};
-    border-color: ${props =>
-      props.theme.color(props.hasDarkBg ? 'neutral.300' : 'neutral.500')};
-  }
-
-  ${props => props.prev && `margin: 0 1rem 0 0;`}
-
-  ${props => `
-    color: ${props.theme.color(props.hasDarkBg ? 'white' : 'black')};
-    border: 1px solid ${props.theme.color(
-      props.hasDarkBg ? 'neutral.400' : 'neutral.600'
-    )};
-    transform: rotate(${props.prev ? '90' : '270'}deg);
-
-    &:hover, &:focus {
-      background-color: ${props.theme.color(
-        props.hasDarkBg ? 'neutral.600' : 'neutral.300'
-      )};
-    }
-  `}
-`;
-
-const PageSelectorInput = styled.input<{ darkBg?: boolean }>`
-  height: 36px;
-  width: 36px;
-  max-width: 50px;
-  background: none;
-  color: ${({ darkBg, theme }) => theme.color(darkBg ? 'white' : 'black')};
-  border: ${({ darkBg, theme }) =>
-      theme.color(darkBg ? 'neutral.300' : 'neutral.600')}
-    1px solid;
-  text-align: center;
-  margin: 0 10px;
-`;
 
 export const Pagination: FunctionComponent<Props> = ({
   totalPages,
@@ -151,15 +80,14 @@ export const Pagination: FunctionComponent<Props> = ({
       {isEnhanced ? (
         <>
           <span aria-hidden>Showing page</span>
-          <span id="searchInputLabel" className="visually-hidden">
-            {`Showing page ${currentPage} / ${formatNumber(totalPages)}`}
-          </span>
           <PageSelectorInput
             name="page"
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             form={isFocused ? 'search-page-form' : ''}
-            aria-labelledby="searchInputLabel"
+            aria-label={`Showing page ${currentPage} / ${formatNumber(
+              totalPages
+            )}`}
             value={currentPage}
             onChange={e => setCurrentPage(Number(e.target.value))}
             darkBg={hasDarkBg}
