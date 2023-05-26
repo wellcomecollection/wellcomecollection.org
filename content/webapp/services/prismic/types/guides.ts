@@ -1,10 +1,4 @@
-import {
-  TimestampField,
-  PrismicDocument,
-  ContentRelationshipField,
-  RichTextField,
-  BooleanField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import {
   CommonPrismicFields,
   FetchLinks,
@@ -16,10 +10,10 @@ import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 const typeEnum = 'guides';
 
-export type GuideFormatPrismicDocument = PrismicDocument<
+export type GuideFormatPrismicDocument = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    description: prismic.RichTextField;
   },
   'guide-formats'
 >;
@@ -30,18 +24,18 @@ export const guideFormatsFetchLinks: FetchLinks<GuideFormatPrismicDocument> = [
 ];
 
 export type WithGuideFormat = {
-  format: ContentRelationshipField<
+  format: prismic.ContentRelationshipField<
     'guide-formats',
     'en-gb',
     InferDataInterface<GuideFormatPrismicDocument>
   >;
 };
 
-export type GuidePrismicDocument = PrismicDocument<
+export type GuidePrismicDocument = prismic.PrismicDocument<
   {
-    datePublished: TimestampField;
-    availableOnline: BooleanField;
-    showOnThisPage: BooleanField;
+    datePublished: prismic.TimestampField;
+    availableOnline: prismic.BooleanField;
+    showOnThisPage: prismic.BooleanField;
   } & WithContributors &
     WithExhibitionParents &
     WithSeasons &

@@ -1,10 +1,4 @@
-import {
-  PrismicDocument,
-  RichTextField,
-  NumberField,
-  LinkField,
-  ContentRelationshipField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import {
   Image,
   CommonPrismicFields,
@@ -18,33 +12,37 @@ import { EventFormat } from './events';
 import { ArticleFormat } from './article-format';
 
 type Label = {
-  title: RichTextField;
-  description: RichTextField;
+  title: prismic.RichTextField;
+  description: prismic.RichTextField;
 };
 const typeEnum = 'card';
 
 export type WithCardFormat = {
   format:
-    | ContentRelationshipField<
+    | prismic.ContentRelationshipField<
         'article-formats',
         'en-gb',
         InferDataInterface<ArticleFormat>
       >
-    | ContentRelationshipField<
+    | prismic.ContentRelationshipField<
         'event-formats',
         'en-gb',
         InferDataInterface<EventFormat>
       >
-    | ContentRelationshipField<'labels', 'en-gb', InferDataInterface<Label>>;
+    | prismic.ContentRelationshipField<
+        'labels',
+        'en-gb',
+        InferDataInterface<Label>
+      >;
 };
 
-export type CardPrismicDocument = PrismicDocument<
+export type CardPrismicDocument = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    description: prismic.RichTextField;
     image: Image;
-    link: LinkField;
-    order: NumberField;
+    link: prismic.LinkField;
+    order: prismic.NumberField;
   } & WithContributors &
     WithExhibitionParents &
     WithSeasons &

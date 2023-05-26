@@ -16,13 +16,6 @@ import {
 } from '../types/events';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
-  GroupField,
-  Query,
-  ContentRelationshipField,
-  LinkField,
-  KeyTextField,
-} from '@prismicio/client';
-import {
   getDatesBetween,
   isPast,
   isSameDay,
@@ -80,8 +73,8 @@ export function getLastEndTime(times: EventTime[]): Date | undefined {
 }
 
 export function transformEventPolicyLabels(
-  fragment: GroupField<{
-    policy: ContentRelationshipField<
+  fragment: prismic.GroupField<{
+    policy: prismic.ContentRelationshipField<
       'event-policy',
       'en-gb',
       InferDataInterface<EventPolicyPrismicDocument>
@@ -104,7 +97,11 @@ export function getEventbriteId(url: string): string | undefined {
 }
 
 function transformBookingEnquiryTeam(
-  team: ContentRelationshipField<'teams', 'en-gb', InferDataInterface<PrismicTeam>>
+  team: prismic.ContentRelationshipField<
+    'teams',
+    'en-gb',
+    InferDataInterface<PrismicTeam>
+  >
 ): Team | undefined {
   return isFilledLinkToDocumentWithData(team)
     ? {
@@ -118,8 +115,8 @@ function transformBookingEnquiryTeam(
 }
 
 function transformThirdPartyBooking(
-  thirdPartyUrl: LinkField,
-  thirdPartyName: KeyTextField
+  thirdPartyUrl: prismic.LinkField,
+  thirdPartyName: prismic.KeyTextField
 ): ThirdPartyBooking | undefined {
   return isFilledLinkToWebField(thirdPartyUrl)
     ? {
@@ -131,7 +128,7 @@ function transformThirdPartyBooking(
 
 function transformEventTimes(
   id: string,
-  times: GroupField<EventTimePrismicDocument>
+  times: prismic.GroupField<EventTimePrismicDocument>
 ): EventTime[] {
   return times
     .map(
@@ -168,7 +165,7 @@ function transformEventTimes(
 
 export function transformEvent(
   document: EventPrismicDocument,
-  scheduleQuery?: Query<EventPrismicDocument>
+  scheduleQuery?: prismic.Query<EventPrismicDocument>
 ): Event {
   const data = document.data;
   const genericFields = transformGenericFields(document);

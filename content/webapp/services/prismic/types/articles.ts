@@ -1,11 +1,4 @@
-import {
-  LinkField,
-  RichTextField,
-  TimestampField,
-  PrismicDocument,
-  GroupField,
-  ContentRelationshipField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { SeriesPrismicDocument } from './series';
 import {
   CommonPrismicFields,
@@ -18,8 +11,8 @@ import {
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 type WithSeries = {
-  series: GroupField<{
-    series: ContentRelationshipField<
+  series: prismic.GroupField<{
+    series: prismic.ContentRelationshipField<
       'series',
       'en-gb',
       InferDataInterface<SeriesPrismicDocument>
@@ -27,15 +20,15 @@ type WithSeries = {
   }>;
 };
 
-export type ArticlePrismicDocument = PrismicDocument<
+export type ArticlePrismicDocument = prismic.PrismicDocument<
   {
-    publishDate: TimestampField;
-    outroResearchItem: LinkField;
-    outroResearchLinkText: RichTextField;
-    outroReadItem: LinkField;
-    outroReadLinkText: RichTextField;
-    outroVisitItem: LinkField;
-    outroVisitLinkText: RichTextField;
+    publishDate: prismic.TimestampField;
+    outroResearchItem: prismic.LinkField;
+    outroResearchLinkText: prismic.RichTextField;
+    outroReadItem: prismic.LinkField;
+    outroReadLinkText: prismic.RichTextField;
+    outroVisitItem: prismic.LinkField;
+    outroVisitLinkText: prismic.RichTextField;
   } & WithSeries &
     WithContributors &
     WithSeasons &

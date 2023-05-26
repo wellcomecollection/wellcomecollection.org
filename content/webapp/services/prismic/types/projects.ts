@@ -1,9 +1,4 @@
-import {
-  TimestampField,
-  PrismicDocument,
-  ContentRelationshipField,
-  RichTextField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import {
   CommonPrismicFields,
   WithContributors,
@@ -13,23 +8,23 @@ import {
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 const typeEnum = 'projects';
 
-type ProjectFormat = PrismicDocument<
+type ProjectFormat = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    description: prismic.RichTextField;
   },
   'project-formats'
 >;
 
-export type ProjectPrismicDocument = PrismicDocument<
+export type ProjectPrismicDocument = prismic.PrismicDocument<
   {
-    format: ContentRelationshipField<
+    format: prismic.ContentRelationshipField<
       'project-formats',
       'en-gb',
       InferDataInterface<ProjectFormat>
     >;
-    start: TimestampField;
-    end: TimestampField;
+    start: prismic.TimestampField;
+    end: prismic.TimestampField;
   } & WithContributors &
     WithExhibitionParents &
     WithSeasons &

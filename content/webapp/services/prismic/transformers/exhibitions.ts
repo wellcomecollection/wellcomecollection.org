@@ -10,7 +10,6 @@ import {
   ExhibitionRelatedContentPrismicDocument,
   ExhibitionFormat as ExhibitionFormatPrismicDocument,
 } from '../types/exhibitions';
-import { Query } from '@prismicio/client';
 import {
   PaginatedResults,
   isFilledLinkToDocumentWithData,
@@ -200,7 +199,7 @@ export function transformExhibitionToExhibitionBasic(
 }
 
 export function transformExhibitionsQuery(
-  query: Query<ExhibitionPrismicDocument>
+  query: prismic.Query<ExhibitionPrismicDocument>
 ): PaginatedResults<ExhibitionBasic> {
   const paginatedResult = transformQuery(query, exhibition =>
     transformExhibitionToExhibitionBasic(transformExhibition(exhibition))
@@ -252,7 +251,7 @@ function putPermanentAfterCurrentExhibitions(
 }
 
 export const transformExhibitionRelatedContent = (
-  query: Query<ExhibitionRelatedContentPrismicDocument>
+  query: prismic.Query<ExhibitionRelatedContentPrismicDocument>
 ): ExhibitionRelatedContent => {
   const parsedContent = transformQuery(
     query,

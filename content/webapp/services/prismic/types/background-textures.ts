@@ -1,10 +1,10 @@
-import { PrismicDocument, ImageField, KeyTextField } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { FetchLinks } from '.';
 
-export type BackgroundTexturesDocument = PrismicDocument<
+export type BackgroundTexturesDocument = prismic.PrismicDocument<
   {
-    image: ImageField;
-    name: KeyTextField;
+    image: prismic.ImageField;
+    name: prismic.KeyTextField;
   },
   'background-textures'
 >;

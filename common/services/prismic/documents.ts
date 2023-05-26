@@ -2,44 +2,32 @@
  * Most documents would live in the content app, but because these are universal,
  * i.e opening times, global alert, and the popup dialog, we have them in common
  */
-import {
-  Query,
-  PrismicDocument,
-  NumberField,
-  RichTextField,
-  LinkField,
-  GroupField,
-  TimestampField,
-  SelectField,
-  KeyTextField,
-  ImageField,
-  BooleanField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 
-export type DayField = GroupField<{
-  startDateTime: TimestampField;
-  endDateTime: TimestampField;
+export type DayField = prismic.GroupField<{
+  startDateTime: prismic.TimestampField;
+  endDateTime: prismic.TimestampField;
 }>;
 
 export type ModifiedDayOpeningTime = {
-  overrideDate: TimestampField;
-  type: SelectField<
+  overrideDate: prismic.TimestampField;
+  type: prismic.SelectField<
     | 'Bank holiday'
     | 'Easter'
     | 'Christmas and New Year'
     | 'Late Spectacular'
     | 'other'
   >;
-  startDateTime: TimestampField;
-  endDateTime: TimestampField;
+  startDateTime: prismic.TimestampField;
+  endDateTime: prismic.TimestampField;
 };
 
-export type CollectionVenuePrismicDocument = PrismicDocument<{
-  title: KeyTextField;
-  order: NumberField;
-  image: ImageField;
-  link: LinkField;
-  linkText: RichTextField;
+export type CollectionVenuePrismicDocument = prismic.PrismicDocument<{
+  title: prismic.KeyTextField;
+  order: prismic.NumberField;
+  image: prismic.ImageField;
+  link: prismic.LinkField;
+  linkText: prismic.RichTextField;
   monday: DayField;
   tuesday: DayField;
   wednesday: DayField;
@@ -47,25 +35,27 @@ export type CollectionVenuePrismicDocument = PrismicDocument<{
   friday: DayField;
   saturday: DayField;
   sunday: DayField;
-  modifiedDayOpeningTimes: GroupField<ModifiedDayOpeningTime>;
+  modifiedDayOpeningTimes: prismic.GroupField<ModifiedDayOpeningTime>;
 }>;
 
-export type GlobalAlertPrismicDocument = PrismicDocument<{
-  text: RichTextField;
-  isShown: SelectField<'hide' | 'show'>;
-  routeRegex: KeyTextField;
+export type GlobalAlertPrismicDocument = prismic.PrismicDocument<{
+  text: prismic.RichTextField;
+  isShown: prismic.SelectField<'hide' | 'show'>;
+  routeRegex: prismic.KeyTextField;
 }>;
 
-export type PopupDialogPrismicDocument = PrismicDocument<{
-  openButtonText: KeyTextField;
-  title: KeyTextField;
-  text: RichTextField;
-  linkText: KeyTextField;
-  link: LinkField;
-  isShown: BooleanField;
+export type PopupDialogPrismicDocument = prismic.PrismicDocument<{
+  openButtonText: prismic.KeyTextField;
+  title: prismic.KeyTextField;
+  text: prismic.RichTextField;
+  linkText: prismic.KeyTextField;
+  link: prismic.LinkField;
+  isShown: prismic.BooleanField;
 }>;
 
-export function emptyPrismicQuery<T extends PrismicDocument>(): Query<T> {
+export function emptyPrismicQuery<
+  T extends prismic.PrismicDocument
+>(): prismic.Query<T> {
   return {
     page: 1,
     results_per_page: 0,
@@ -78,9 +68,9 @@ export function emptyPrismicQuery<T extends PrismicDocument>(): Query<T> {
   };
 }
 
-export function emptyDocument<T extends PrismicDocument>(
+export function emptyDocument<T extends prismic.PrismicDocument>(
   data: T['data']
-): PrismicDocument<T['data']> {
+): prismic.PrismicDocument<T['data']> {
   return {
     id: '',
     uid: null,

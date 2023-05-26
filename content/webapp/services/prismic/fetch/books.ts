@@ -1,4 +1,4 @@
-import { Query } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient, GetByTypeParams } from '.';
 import { commonPrismicFieldsFetchLinks, contributorFetchLinks } from '../types';
 import { BookPrismicDocument } from '../types/books';
@@ -12,7 +12,7 @@ export const fetchBook = booksFetcher.getById;
 export const fetchBooks = (
   client: GetServerSidePropsPrismicClient,
   params: GetByTypeParams
-): Promise<Query<BookPrismicDocument>> => {
+): Promise<prismic.Query<BookPrismicDocument>> => {
   return booksFetcher.getByType(client, {
     ...params,
     orderings: [

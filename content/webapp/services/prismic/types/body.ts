@@ -1,112 +1,99 @@
-import {
-  SliceZone,
-  Slice,
-  RichTextField,
-  KeyTextField,
-  LinkToMediaField,
-  LinkField,
-  SelectField,
-  BooleanField,
-  ImageField,
-  GeoPointField,
-  EmbedField,
-  ContentRelationshipField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { isUndefined } from '@weco/common/utils/type-guards';
 import { Image } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { TeamPrismicDocument } from './teams';
 
-export type TextSlice = Slice<'text', { text: RichTextField }>;
+export type TextSlice = prismic.Slice<'text', { text: prismic.RichTextField }>;
 
-export type EditorialImageSlice = Slice<
+export type EditorialImageSlice = prismic.Slice<
   'editorialImage',
-  { image: Image; caption: RichTextField }
+  { image: Image; caption: prismic.RichTextField }
 >;
 
-export type EditorialImageGallerySlice = Slice<
+export type EditorialImageGallerySlice = prismic.Slice<
   'editorialImageGallery',
-  { title: RichTextField },
-  { image: Image; caption: RichTextField }
+  { title: prismic.RichTextField },
+  { image: Image; caption: prismic.RichTextField }
 >;
 
-export type GifVideoSlice = Slice<
+export type GifVideoSlice = prismic.Slice<
   'gifVideo',
   {
-    caption: RichTextField;
-    tasl: KeyTextField;
-    video: LinkToMediaField;
-    playbackRate: SelectField<
+    caption: prismic.RichTextField;
+    tasl: prismic.KeyTextField;
+    video: prismic.LinkToMediaField;
+    playbackRate: prismic.SelectField<
       '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
     >;
-    autoPlay: BooleanField;
-    loop: BooleanField;
-    mute: BooleanField;
-    showControls: BooleanField;
+    autoPlay: prismic.BooleanField;
+    loop: prismic.BooleanField;
+    mute: prismic.BooleanField;
+    showControls: prismic.BooleanField;
   }
 >;
 
-export type Iframe = Slice<
+export type Iframe = prismic.Slice<
   'iframe',
   {
-    iframeSrc: KeyTextField;
+    iframeSrc: prismic.KeyTextField;
     // TODO: Why don't we use the Weco Image type?
-    previewImage: ImageField;
+    previewImage: prismic.ImageField;
   }
 >;
 
 type QuotePrimaryFields = {
-  text: RichTextField;
-  citation: RichTextField;
+  text: prismic.RichTextField;
+  citation: prismic.RichTextField;
 };
 
-export type Quote = Slice<'quote', QuotePrimaryFields>;
-export type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
+export type Quote = prismic.Slice<'quote', QuotePrimaryFields>;
+export type QuoteV2 = prismic.Slice<'quoteV2', QuotePrimaryFields>;
 
-export type Standfirst = Slice<
+export type Standfirst = prismic.Slice<
   'standfirst',
   {
-    text: RichTextField;
+    text: prismic.RichTextField;
   }
 >;
 
-export type Table = Slice<
+export type Table = prismic.Slice<
   'table',
   {
-    caption: KeyTextField;
-    tableData: KeyTextField;
-    hasRowHeaders: BooleanField;
+    caption: prismic.KeyTextField;
+    tableData: prismic.KeyTextField;
+    hasRowHeaders: prismic.BooleanField;
   }
 >;
 
-export type Embed = Slice<
+export type Embed = prismic.Slice<
   'embed',
   {
-    embed: EmbedField;
-    caption: RichTextField;
+    embed: prismic.EmbedField;
+    caption: prismic.RichTextField;
   }
 >;
 
-export type Map = Slice<
+export type Map = prismic.Slice<
   'map',
   {
-    title: KeyTextField;
-    geolocation: GeoPointField;
+    title: prismic.KeyTextField;
+    geolocation: prismic.GeoPointField;
   }
 >;
 
-export type CollectionVenue = Slice<
+export type CollectionVenue = prismic.Slice<
   'collectionVenue',
   {
-    content: ContentRelationshipField<'collection-venue'>;
-    showClosingTimes: SelectField<'yes'>;
+    content: prismic.ContentRelationshipField<'collection-venue'>;
+    showClosingTimes: prismic.SelectField<'yes'>;
   }
 >;
 
-export type Contact = Slice<
+export type Contact = prismic.Slice<
   'contact',
   {
-    content: ContentRelationshipField<
+    content: prismic.ContentRelationshipField<
       'teams',
       'en-us',
       InferDataInterface<Partial<TeamPrismicDocument>>
@@ -114,59 +101,59 @@ export type Contact = Slice<
   }
 >;
 
-export type Discussion = Slice<
+export type Discussion = prismic.Slice<
   'discussion',
   {
-    title: RichTextField;
-    text: RichTextField;
+    title: prismic.RichTextField;
+    text: prismic.RichTextField;
   }
 >;
 
-export type TagList = Slice<
+export type TagList = prismic.Slice<
   'tagList',
   {
-    title: RichTextField;
+    title: prismic.RichTextField;
   },
   {
-    link: LinkField;
-    linkText: KeyTextField;
+    link: prismic.LinkField;
+    linkText: prismic.KeyTextField;
   }
 >;
 
-export type AudioPlayer = Slice<
+export type AudioPlayer = prismic.Slice<
   'audioPlayer',
   {
-    title: RichTextField;
-    audio: LinkToMediaField;
+    title: prismic.RichTextField;
+    audio: prismic.LinkToMediaField;
   }
 >;
 
-export type InfoBlock = Slice<
+export type InfoBlock = prismic.Slice<
   'infoBlock',
   {
-    title: RichTextField;
-    text: RichTextField;
-    link: LinkField;
-    linkText: KeyTextField;
+    title: prismic.RichTextField;
+    text: prismic.RichTextField;
+    link: prismic.LinkField;
+    linkText: prismic.KeyTextField;
   }
 >;
 
-export type TitledTextList = Slice<
+export type TitledTextList = prismic.Slice<
   'titledTextList',
   Record<string, never>,
   {
-    title: RichTextField;
-    text: RichTextField;
-    link: LinkField;
-    label: ContentRelationshipField<'labels'>;
+    title: prismic.RichTextField;
+    text: prismic.RichTextField;
+    link: prismic.LinkField;
+    label: prismic.ContentRelationshipField<'labels'>;
   }
 >;
 
-export type ContentList = Slice<
+export type ContentList = prismic.Slice<
   'contentList',
-  { title: RichTextField },
+  { title: prismic.RichTextField },
   {
-    content: ContentRelationshipField<
+    content: prismic.ContentRelationshipField<
       | 'pages'
       | 'event-series'
       | 'books'
@@ -181,26 +168,26 @@ export type ContentList = Slice<
   }
 >;
 
-export type SearchResults = Slice<
+export type SearchResults = prismic.Slice<
   'searchResults',
-  { title: RichTextField; query: KeyTextField }
+  { title: prismic.RichTextField; query: prismic.KeyTextField }
 >;
 
-export type DeprecatedImageList = Slice<
+export type DeprecatedImageList = prismic.Slice<
   'imageList',
   Record<string, never>,
   {
-    title: RichTextField;
-    subtitle: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    subtitle: prismic.RichTextField;
+    description: prismic.RichTextField;
     image: Image;
   }
 >;
 
-export type MediaObjectList = Slice<
+export type MediaObjectList = prismic.Slice<
   'mediaObjectList',
   Record<string, never>,
-  { title: RichTextField; text: RichTextField; image: Image }
+  { title: prismic.RichTextField; text: prismic.RichTextField; image: Image }
 >;
 
 export type SliceTypes =
@@ -226,11 +213,11 @@ export type SliceTypes =
   | MediaObjectList
   | DeprecatedImageList;
 
-export type Body = SliceZone<SliceTypes>;
+export type Body = prismic.SliceZone<SliceTypes>;
 
 // This generates a map of { [key: SliceKey]: SliceType }
 type SliceMap = {
-  [S in SliceTypes as S extends Slice<infer X> ? X : never]: S;
+  [S in SliceTypes as S extends prismic.Slice<infer X> ? X : never]: S;
 };
 
 export function isSliceType<SliceType extends keyof SliceMap>(

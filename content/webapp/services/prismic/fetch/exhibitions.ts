@@ -8,7 +8,6 @@ import {
   ExhibitionPrismicDocument,
   ExhibitionRelatedContentPrismicDocument,
 } from '../types/exhibitions';
-import { Query } from '@prismicio/client';
 import { fetchPages } from './pages';
 import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
@@ -61,7 +60,7 @@ const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(
 
 export type FetchExhibitionResult = {
   exhibition?: ExhibitionPrismicDocument;
-  pages: Query<PagePrismicDocument>;
+  pages: prismic.Query<PagePrismicDocument>;
 };
 
 export async function fetchExhibition(
@@ -98,7 +97,7 @@ type GetExhibitionsProps = {
 export const fetchExhibitions = (
   client: GetServerSidePropsPrismicClient,
   { filters = [], order = 'desc', period, page = 1 }: GetExhibitionsProps = {}
-): Promise<Query<ExhibitionPrismicDocument>> => {
+): Promise<prismic.Query<ExhibitionPrismicDocument>> => {
   const orderings: prismic.Ordering[] = [
     { field: 'my.exhibitions.isPermament', direction: 'desc' },
     { field: endField, direction: order },
@@ -135,7 +134,7 @@ export const fetchExhibitExhibition = async (
 export const fetchExhibitionRelatedContent = async (
   { client }: GetServerSidePropsPrismicClient,
   ids: string[]
-): Promise<Query<ExhibitionRelatedContentPrismicDocument>> => {
+): Promise<prismic.Query<ExhibitionRelatedContentPrismicDocument>> => {
   const fetchLinks = [
     ...eventAccessOptionsFields,
     ...teamsFetchLinks,

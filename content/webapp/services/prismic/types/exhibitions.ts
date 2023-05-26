@@ -1,11 +1,4 @@
-import {
-  GroupField,
-  TimestampField,
-  PrismicDocument,
-  ContentRelationshipField,
-  RichTextField,
-  SelectField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import {
   CommonPrismicFields,
   WithContributors,
@@ -19,31 +12,31 @@ import { EventPrismicDocument } from './events';
 
 const typeEnum = 'exhibitions';
 
-export type ExhibitionFormat = PrismicDocument<
+export type ExhibitionFormat = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    description: RichTextField;
+    title: prismic.RichTextField;
+    description: prismic.RichTextField;
   },
   'exhibition-formats'
 >;
 
-export type ExhibitionPrismicDocument = PrismicDocument<
+export type ExhibitionPrismicDocument = prismic.PrismicDocument<
   {
-    format: ContentRelationshipField<
+    format: prismic.ContentRelationshipField<
       'exhibition-formats',
       'en-gb',
       InferDataInterface<ExhibitionFormat>
     >;
-    shortTitle: RichTextField;
-    start: TimestampField;
-    end: TimestampField;
-    isPermanent: SelectField<'yes'>;
-    statusOverride: RichTextField;
-    bslInfo: RichTextField;
-    audioDescriptionInfo: RichTextField;
-    place: ContentRelationshipField<'place'>;
-    exhibits: GroupField<{
-      item: ContentRelationshipField<
+    shortTitle: prismic.RichTextField;
+    start: prismic.TimestampField;
+    end: prismic.TimestampField;
+    isPermanent: prismic.SelectField<'yes'>;
+    statusOverride: prismic.RichTextField;
+    bslInfo: prismic.RichTextField;
+    audioDescriptionInfo: prismic.RichTextField;
+    place: prismic.ContentRelationshipField<'place'>;
+    exhibits: prismic.GroupField<{
+      item: prismic.ContentRelationshipField<
         'exhibitions',
         'en-gb',
         // We know this is an ExhibitionPrismicDocument, but the type checker gets
@@ -55,14 +48,14 @@ export type ExhibitionPrismicDocument = PrismicDocument<
         InferDataInterface<any>
       >;
     }>;
-    events: GroupField<{
-      item: ContentRelationshipField<'events'>;
+    events: prismic.GroupField<{
+      item: prismic.ContentRelationshipField<'events'>;
     }>;
-    articles: GroupField<{
-      item: ContentRelationshipField<'articles'>;
+    articles: prismic.GroupField<{
+      item: prismic.ContentRelationshipField<'articles'>;
     }>;
-    resources: GroupField<{
-      item: ContentRelationshipField<'resources'>;
+    resources: prismic.GroupField<{
+      item: prismic.ContentRelationshipField<'resources'>;
     }>;
   } & WithContributors &
     WithExhibitionParents &

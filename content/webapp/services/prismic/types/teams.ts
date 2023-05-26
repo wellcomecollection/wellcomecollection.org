@@ -1,13 +1,13 @@
-import { KeyTextField, RichTextField, PrismicDocument } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { CommonPrismicFields, FetchLinks } from '.';
 
-export type TeamPrismicDocument = PrismicDocument<
+export type TeamPrismicDocument = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    subtitle: RichTextField;
-    email: KeyTextField;
-    phone: KeyTextField;
-    url: KeyTextField;
+    title: prismic.RichTextField;
+    subtitle: prismic.RichTextField;
+    email: prismic.KeyTextField;
+    phone: prismic.KeyTextField;
+    url: prismic.KeyTextField;
   } & CommonPrismicFields,
   'teams'
 >;

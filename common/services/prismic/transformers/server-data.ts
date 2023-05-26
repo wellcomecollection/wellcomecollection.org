@@ -1,4 +1,4 @@
-import { Query } from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { ServerData, SimplifiedServerData } from '../../../server-data/types';
 import { InferDataInterface } from '../types';
 import {
@@ -40,7 +40,7 @@ function simplifyPopupDialog(doc: PopupDialogPrismicDocument): {
 }
 
 function simplifyCollectionVenues(
-  doc: Query<CollectionVenuePrismicDocument>
+  doc: prismic.Query<CollectionVenuePrismicDocument>
 ): ResultsLite {
   return {
     results: doc.results.map(doc => {

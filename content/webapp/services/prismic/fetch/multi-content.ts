@@ -3,7 +3,6 @@ import {
   delistFilter,
   fetchFromClientSide,
 } from '.';
-import { Query } from '@prismicio/client';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   MultiContentPrismicDocument,
@@ -32,7 +31,7 @@ import { articlesFetchLinks } from '../types/articles';
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
   structuredSearchQuery: StructuredSearchQuery
-): Promise<Query<MultiContentPrismicDocument>> => {
+): Promise<prismic.Query<MultiContentPrismicDocument>> => {
   const { types, type, id, ids, tags, tag, pageSize, orderings } =
     structuredSearchQuery;
 

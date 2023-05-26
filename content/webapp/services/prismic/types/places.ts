@@ -1,19 +1,14 @@
-import {
-  RichTextField,
-  GeoPointField,
-  NumberField,
-  PrismicDocument,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { Body } from './body';
 import { CommonPrismicFields, FetchLinks } from '.';
 
-export type PlacePrismicDocument = PrismicDocument<
+export type PlacePrismicDocument = prismic.PrismicDocument<
   {
-    title: RichTextField;
-    geolocation: GeoPointField;
-    level: NumberField;
-    capacity: NumberField;
-    locationInformation: RichTextField;
+    title: prismic.RichTextField;
+    geolocation: prismic.GeoPointField;
+    level: prismic.NumberField;
+    capacity: prismic.NumberField;
+    locationInformation: prismic.RichTextField;
     body: Body;
   } & CommonPrismicFields,
   'places'

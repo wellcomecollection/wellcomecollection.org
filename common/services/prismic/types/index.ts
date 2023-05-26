@@ -1,13 +1,3 @@
-import {
-  PrismicDocument,
-  ContentRelationshipField,
-  FilledContentRelationshipField,
-  FilledLinkToWebField,
-  LinkField,
-  AnyRegularField,
-  GroupField,
-  SliceZone,
-} from '@prismicio/client';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import * as prismic from '@prismicio/client';
 
@@ -16,16 +6,16 @@ import * as prismic from '@prismicio/client';
  */
 export type DataInterface = Record<
   string,
-  AnyRegularField | GroupField | SliceZone
+  prismic.AnyRegularField | prismic.GroupField | prismic.SliceZone
 >;
 /**
- * This allows us to get the DataInterface from PrismicDocuments when we
+ * This allows us to get the DataInterface from prismic.PrismicDocuments when we
  * Need them for `ContentRelationshipField`s e.g.
- * type Doc = PrismicDocument<{ title: RichTextField }>
- * type DataInterface = InferDataInterface<Doc> // { title: RichTextField }
- * ContentRelationshipField<'formats', 'en-gb', DataInterface>
+ * type Doc = prismic.PrismicDocument<{ title: prismic.RichTextField }>
+ * type DataInterface = InferDataInterface<Doc> // { title: prismic.RichTextField }
+ * prismic.ContentRelationshipField<'formats', 'en-gb', DataInterface>
  */
-export type InferDataInterface<T> = T extends PrismicDocument<
+export type InferDataInterface<T> = T extends prismic.PrismicDocument<
   infer DataInterface
 >
   ? DataInterface
@@ -43,28 +33,30 @@ export type PaginatedResults<T> = {
 
 // Guards
 export function isFilledLinkToDocument<T, L, D extends DataInterface>(
-  field: ContentRelationshipField<T, L, D> | undefined
-): field is FilledContentRelationshipField<T, L, D> {
+  field: prismic.ContentRelationshipField<T, L, D> | undefined
+): field is prismic.FilledContentRelationshipField<T, L, D> {
   return isNotUndefined(field) && 'id' in field && field.isBroken === false;
 }
 
 export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
-  field: ContentRelationshipField<T, L, D> | undefined
-): field is FilledContentRelationshipField<T, L, D> & { data: DataInterface } {
+  field: prismic.ContentRelationshipField<T, L, D> | undefined
+): field is prismic.FilledContentRelationshipField<T, L, D> & {
+  data: DataInterface;
+} {
   return isFilledLinkToDocument(field) && 'data' in field;
 }
 
 export function isFilledLinkToWebField(
-  field: LinkField
-): field is FilledLinkToWebField {
+  field: prismic.LinkField
+): field is prismic.FilledLinkToWebField {
   return (
     prismic.isFilled.link(field) && field.link_type === 'Web' && 'url' in field
   );
 }
 
 export function isFilledLinkToMediaField(
-  field: LinkField
-): field is FilledLinkToWebField {
+  field: prismic.LinkField
+): field is prismic.FilledLinkToWebField {
   return (
     prismic.isFilled.link(field) &&
     field.link_type === 'Media' &&

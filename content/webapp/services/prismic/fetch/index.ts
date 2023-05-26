@@ -1,4 +1,3 @@
-import { Query, PrismicDocument } from '@prismicio/client';
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
@@ -66,7 +65,7 @@ export type GetByTypeParams = Parameters<
   GetServerSidePropsPrismicClient['client']['getByType']
 >[1];
 
-export function fetcher<Document extends PrismicDocument>(
+export function fetcher<Document extends prismic.PrismicDocument>(
   contentType: ContentType | ContentType[],
   fetchLinks: string[]
 ) {
@@ -100,7 +99,7 @@ export function fetcher<Document extends PrismicDocument>(
     getByType: async (
       { client }: GetServerSidePropsPrismicClient,
       params: GetByTypeParams = {}
-    ): Promise<Query<Document>> => {
+    ): Promise<prismic.Query<Document>> => {
       const filters = isString(params.filters)
         ? [params.filters]
         : Array.isArray(params.filters)

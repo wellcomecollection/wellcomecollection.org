@@ -1,11 +1,4 @@
-import {
-  GroupField,
-  LinkField,
-  RichTextField,
-  TimestampField,
-  PrismicDocument,
-  KeyTextField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import {
   CommonPrismicFields,
   FetchLinks,
@@ -14,19 +7,19 @@ import {
   WithSeasons,
 } from '.';
 
-export type BookPrismicDocument = PrismicDocument<
+export type BookPrismicDocument = prismic.PrismicDocument<
   {
-    subtitle: RichTextField;
-    orderLink: LinkField;
-    price: KeyTextField;
-    format: KeyTextField;
-    extent: KeyTextField;
-    isbn: KeyTextField;
-    reviews: GroupField<{
-      text: RichTextField;
-      citation: RichTextField;
+    subtitle: prismic.RichTextField;
+    orderLink: prismic.LinkField;
+    price: prismic.KeyTextField;
+    format: prismic.KeyTextField;
+    extent: prismic.KeyTextField;
+    isbn: prismic.KeyTextField;
+    reviews: prismic.GroupField<{
+      text: prismic.RichTextField;
+      citation: prismic.RichTextField;
     }>;
-    datePublished: TimestampField;
+    datePublished: prismic.TimestampField;
   } & WithContributors &
     WithSeasons &
     WithExhibitionParents &

@@ -1,38 +1,30 @@
-import {
-  PrismicDocument,
-  RichTextField,
-  ContentRelationshipField,
-  GroupField,
-  NumberField,
-  LinkToMediaField,
-  EmbedField,
-} from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { Image } from '.';
 import { ExhibitionPrismicDocument } from './exhibitions';
 
 export type ExhibitionGuideComponentPrismicDocument = {
-  number: NumberField;
-  standaloneTitle: RichTextField;
-  title: RichTextField;
-  tombstone: RichTextField;
+  number: prismic.NumberField;
+  standaloneTitle: prismic.RichTextField;
+  title: prismic.RichTextField;
+  tombstone: prismic.RichTextField;
   image: Image;
-  description: RichTextField;
-  audioWithDescription: LinkToMediaField;
-  audioWithoutDescription: LinkToMediaField;
-  bslVideo: EmbedField;
-  context?: RichTextField;
-  caption?: RichTextField;
-  transcript?: RichTextField;
+  description: prismic.RichTextField;
+  audioWithDescription: prismic.LinkToMediaField;
+  audioWithoutDescription: prismic.LinkToMediaField;
+  bslVideo: prismic.EmbedField;
+  context?: prismic.RichTextField;
+  caption?: prismic.RichTextField;
+  transcript?: prismic.RichTextField;
 };
 
-export type ExhibitionGuidePrismicDocument = PrismicDocument<{
-  title: RichTextField;
-  introText: RichTextField;
-  'related-exhibition': ContentRelationshipField<
+export type ExhibitionGuidePrismicDocument = prismic.PrismicDocument<{
+  title: prismic.RichTextField;
+  introText: prismic.RichTextField;
+  'related-exhibition': prismic.ContentRelationshipField<
     'exhibitions',
     'en-gb',
     InferDataInterface<ExhibitionPrismicDocument>
   >;
-  components: GroupField<ExhibitionGuideComponentPrismicDocument>;
+  components: prismic.GroupField<ExhibitionGuideComponentPrismicDocument>;
 }>;
