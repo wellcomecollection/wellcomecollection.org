@@ -41,7 +41,7 @@ export const Item = styled(Space).attrs({
     `}
 `;
 
-const ViewerStructuresPrototype: FunctionComponent = () => {
+const ViewerStructures: FunctionComponent = () => {
   const { transformedManifest, setIsMobileSidebarActive, query, work } =
     useContext(ItemViewerContext);
   const { canvas } = query;
@@ -91,4 +91,4 @@ const ViewerStructuresPrototype: FunctionComponent = () => {
   ) : null;
 };
 
-export default ViewerStructuresPrototype;
+export default ViewerStructures;
