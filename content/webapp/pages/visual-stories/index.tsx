@@ -3,9 +3,8 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 
 export const getServerSideProps = async context => {
   const serverData = await getServerData(context);
-  const { visualStories } = serverData?.toggles;
 
-  if (!visualStories) {
+  if (!serverData?.toggles?.visualStories) {
     return { notFound: true };
   }
 
