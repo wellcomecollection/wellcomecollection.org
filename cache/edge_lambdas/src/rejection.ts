@@ -100,6 +100,7 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
     'giveaway',
     'play',
     'poker',
+    'telegram',
     'whatsapp',
     'win',
     '➡️',
