@@ -132,19 +132,17 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
-        <PlainList data-test-id="image-search-results-container">
-          <GalleryContainer>
-            <PhotoAlbum
-              photos={imagesWithDimensions}
-              renderPhoto={imageRenderer}
-              renderRowContainer={renderRowContainer}
-              layout="rows"
-              spacing={0}
-              padding={12}
-              targetRowHeight={200}
-            />
-          </GalleryContainer>
-        </PlainList>
+        <GalleryContainer data-test-id="image-search-results-container">
+          <PhotoAlbum
+            photos={imagesWithDimensions}
+            renderPhoto={imageRenderer}
+            renderRowContainer={renderRowContainer}
+            layout="rows"
+            spacing={0}
+            padding={12}
+            targetRowHeight={200}
+          />
+        </GalleryContainer>
       )}
       {(!isFullSupportBrowser || isSmallGallery) && (
         <ImageCardList data-test-id="image-search-results-container">
