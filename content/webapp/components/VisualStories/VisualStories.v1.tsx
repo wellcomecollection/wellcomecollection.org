@@ -3,8 +3,8 @@ import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { anchorLinks } from './VisualStories.data';
 import Contact from '@weco/common/views/components/Contact/Contact';
 
