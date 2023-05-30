@@ -337,8 +337,7 @@ const ViewerTopBar: FunctionComponent = () => {
               <span data-test-id="active-index">{`${canvas || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}
               {!(
-                canvases[queryParamToArrayIndex(canvas)]?.label?.trim() ===
-                '-'
+                canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
               ) &&
                 `(page ${canvases[
                   queryParamToArrayIndex(canvas)
