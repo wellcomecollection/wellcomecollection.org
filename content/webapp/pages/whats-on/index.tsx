@@ -26,7 +26,7 @@ import SegmentedControl, {
 } from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';

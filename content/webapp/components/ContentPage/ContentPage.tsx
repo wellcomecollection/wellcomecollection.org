@@ -18,7 +18,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageHeader, {
   headerSpaceSize,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import CompactCard from '../CompactCard/CompactCard';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';

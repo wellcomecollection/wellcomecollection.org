@@ -15,7 +15,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsText from '@weco/catalogue/components/WorkDetailsText/WorkDetailsText';
 import { serialiseProps } from '@weco/common/utils/json';

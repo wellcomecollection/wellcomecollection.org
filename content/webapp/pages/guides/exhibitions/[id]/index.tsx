@@ -23,7 +23,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';

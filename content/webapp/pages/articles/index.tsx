@@ -11,7 +11,7 @@ import {
 import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';

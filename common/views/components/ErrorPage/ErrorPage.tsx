@@ -19,10 +19,11 @@ import Icon from '../Icon/Icon';
 import Layout8 from '../Layout8/Layout8';
 import PageHeader, { headerSpaceSize } from '../PageHeader/PageHeader';
 import PageLayout from '../PageLayout/PageLayout';
-import SpacingSection from '../SpacingSection/SpacingSection';
+import SpacingSection from '../styled/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Space from '../styled/Space';
 import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
+
 const ToggleMessageBar = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },

@@ -18,7 +18,7 @@ import {
   prismicPageIds,
   sectionLevelPages,
 } from '@weco/common/data/hardcoded-ids';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { PageFormatIds } from '@weco/common/data/content-format-ids';
