@@ -35,32 +35,32 @@
  * I ran this multiple times to refine the heuristic, until a good number of the sample
  * of accepted requests looked like bona-fide traffic.
  *
+ * Note: the original implementation of this heuristic ran in CloudFront, where we have
+ * access to the User-Agent header, and could detect self-identified bot traffic
+ * (a lot of spammers would impersonate Googlebot/Bingbot).  We would then apply
+ * stricter heuristics for those self-identified bots.  When we moved this into the
+ * Next.js app, we lost easy access to that header, and we switched everything to the
+ * more permissive heuristic used for people.
+ *
+ * It would be possible to pass the User-Agent header (or some approximation of it)
+ * if we think it's necessary, but we'd need to be careful about how that affects our
+ * caching.  For now we haven't done that, but it remains an option.
+ *
  */
 
-import {
-  CloudFrontRequest,
-  CloudFrontRequestEvent,
-  CloudFrontResponse,
-} from 'aws-lambda';
-
-// Returns true if this request looks like a bot.
-//
-// A lot of spam requests will spoof their User-Agent header to look like a popular
-// web crawler, e.g. Googlebot or Bingbot.  Because a person would never spoof their
-// User-Agent this way, we can use this as an excuse to apply more stringent checks.
-const isBotRequest = (request: CloudFrontRequest): boolean => {
-  const userAgent = request.headers['user-agent']?.[0]?.value || '';
-
-  return (
-    userAgent.toLowerCase().includes('bot') ||
-    userAgent.toLowerCase().includes('search.yahoo')
-  );
-};
+import { isString, isUndefined } from '@weco/common/utils/type-guards';
 
 const isUnusualCharacter = (c: string): boolean => {
   const code = c.charCodeAt(0);
 
   return (
+    // This are the character ä/å.  On their own not especially suspicious, but
+    // they appear a lot in queries for Chinese characters that are improperly encoded.
+    //
+    // e.g. "我们" gets encoded as "æä»¬"
+    //
+    code === 0xe4 ||
+    code === 0xe5 ||
     // This is based on the ranges for Han (Chinese) ideographs; see
     // this answer on Stack Overflow: https://stackoverflow.com/a/1366113/1558022
     //
@@ -83,62 +83,14 @@ const isUnusualCharacter = (c: string): boolean => {
   );
 };
 
-export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
-  const cf = event.Records[0].cf;
-  const request = cf.request;
-
-  const requestParams = new URLSearchParams(request.querystring);
-  const query = requestParams.getAll('query').join(' ');
-
-  // Look for the `query` URL parameter.
-  //
-  // The majority of our spam comes from people plugging in values to the
-  // search form and stuffing bogus values into the query parameter.
-  // If there isn't a query parameter on this request, it's probably not spam.
-  if (query === '') {
+export const looksLikeSpam = (
+  queryValue: string | string[] | undefined
+): boolean => {
+  if (isUndefined(queryValue)) {
     return false;
   }
 
-  // Look for spammy keywords and emoji.
-  //
-  // We can't solely rely on the presence of these words/characters to indicate spam,
-  // but they're a clue -- usually accompanied by long strings of Chinese characters
-  // and a URL to a sketchy-looking site.
-  //
-  // To avoid penalising real users, we only treat this text as spam if the user
-  // has self-identified as a bot/crawler in their User-Agent header.
-  //
-  // In my analysis, this flagged ~41% of all search traffic.
-  const spamKeywords = [
-    'casino',
-    'chatgpt',
-    'crypto',
-    'ddos',
-    'poker',
-    'telegram',
-    'whatsapp',
-    '➡️',
-    '☀️',
-    '⏩',
-    '⛔',
-    '⚽',
-    '✅',
-    '🐯',
-    '🍀',
-    '㊙',
-    '✔️',
-    '⭐',
-    '👈',
-    '👉',
-    '㊙️',
-  ];
-
-  if (
-    isBotRequest(request) &&
-    spamKeywords.some(kw => query.toLowerCase().includes(kw))
-  ) {
-    return true;
-  }
+  const query = isString(queryValue) ? queryValue : queryValue.join(' ');
 
   // Count unusual characters in the query string.
   //
@@ -161,9 +113,7 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
   //
   // Implementation note: this check is somewhat expensive, so we skip running it
   // if the query is too short to exceed the threshold.
-  //
-  // In my analysis, this flagged ~70% of all search traffic.
-  const maxUnusualCharsAllowed = isBotRequest(request) ? 10 : 30;
+  const maxUnusualCharsAllowed = 25;
 
   if (query.length >= maxUnusualCharsAllowed) {
     let unusualCharacterCount = 0;
@@ -182,10 +132,4 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
   }
 
   return false;
-};
-
-export const getRejection = (
-  event: CloudFrontRequestEvent
-): CloudFrontResponse | undefined => {
-  return undefined;
 };
