@@ -3,6 +3,7 @@ name: Performance
 on:
   pull_request:
     paths-ignore:
+      - '.buildkite/**'
       - 'assets/**'
       - 'cache/**'
       - 'cardigan/**'

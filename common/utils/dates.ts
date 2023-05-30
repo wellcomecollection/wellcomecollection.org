@@ -43,6 +43,8 @@ type ComparisonMode = 'UTC' | 'London';
  *
  * If we get to a point where every comparison uses London, we should delete the
  * mode argument and document that requirement explicitly.
+ *
+ * TODO: This should really be London-only.  See https://github.com/wellcomecollection/wellcomecollection.org/issues/9874
  */
 export function isSameDay(
   date1: Date,
@@ -76,16 +78,6 @@ export function isSameDay(
  */
 export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
   return isSameDay(date1, date2, 'London') || date1 <= date2;
-}
-
-// Returns true if 'date' falls on a past day; false otherwise.
-export function isDayPast(date: Date): boolean {
-  const now = new Date();
-  if (isSameDay(date, now, 'UTC') || date > now) {
-    return false;
-  } else {
-    return true;
-  }
 }
 
 type LondonTZ = 'GMT' | 'BST';

@@ -21,7 +21,7 @@ import { usePageTitle } from '@weco/identity/src/frontend/hooks/usePageTitle';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';

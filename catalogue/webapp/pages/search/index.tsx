@@ -38,6 +38,7 @@ import {
 } from '@weco/catalogue/services/wellcome/content/types';
 import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -214,6 +215,19 @@ export const getServerSideProps: GetServerSideProps<
     query,
     pageview,
   });
+
+  // If the request looks like spam, return a 400 error and skip actually fetching
+  // the data from the APIs.
+  //
+  // Users will still see a meaningful error page with instructions about tweaking
+  // their query/telling us if they expected results, but they won't be causing load
+  // on our back-end APIs.
+  //
+  // The status code will also allow us to filter out spam-like requests from our analytics.
+  if (looksLikeSpam(query.query)) {
+    context.res.statusCode = 400;
+    return { props: defaultProps };
+  }
 
   try {
     // Stories

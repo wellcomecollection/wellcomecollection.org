@@ -222,6 +222,7 @@ const ViewerTopBar: FunctionComponent = () => {
   // The json provides the image width and height used in the link text.
   // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
   // gets this data client side.
+
   const iiifImageDownloadOptions = iiifImageLocation
     ? getDownloadOptionsFromImageUrl({
         url: iiifImageLocation.url,
@@ -240,13 +241,16 @@ const ViewerTopBar: FunctionComponent = () => {
       })
     : [];
 
-  const downloadOptions = downloadEnabled
-    ? [
-        ...iiifImageDownloadOptions,
-        ...canvasImageDownloads,
-        ...(manifestDownloadOptions || []),
-      ]
-    : [];
+  // If there is no manifest we show the downloads
+  // If there is one we use the downloadEnabled value it contains to determine download visibility
+  const downloadOptions =
+    !transformedManifest || downloadEnabled
+      ? [
+          ...iiifImageDownloadOptions,
+          ...canvasImageDownloads,
+          ...(manifestDownloadOptions || []),
+        ]
+      : [];
   return (
     <TopBar
       isZooming={showZoomed}
@@ -337,8 +341,7 @@ const ViewerTopBar: FunctionComponent = () => {
               <span data-test-id="active-index">{`${canvas || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}
               {!(
-                canvases[queryParamToArrayIndex(canvas)]?.label?.trim() ===
-                '-'
+                canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
               ) &&
                 `(page ${canvases[
                   queryParamToArrayIndex(canvas)

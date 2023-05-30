@@ -6,7 +6,7 @@ import { font } from '@weco/common/utils/classnames';
 import DownloadLink, {
   DownloadFormat,
 } from '@weco/common/views/components/DownloadLink/DownloadLink';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
