@@ -29,7 +29,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
   return (
     <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <div className="grid">
-        <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+        <div className={grid({ s: 12, m: 10, l: 10, xl: 10 })}>
           <Copy data-test-id="search-no-results" textColor={textColor}>
             We couldn&rsquo;t find anything that matched{' '}
             {query ? <QuerySpan>{query}</QuerySpan> : 'your search'}
