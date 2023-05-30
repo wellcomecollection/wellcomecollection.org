@@ -50,10 +50,25 @@ export const V1Prototype = () => {
 
             <h3>Quieter times to visit</h3>
             <TwoUp>
-              <div>one</div>
-              <div>two</div>
+              <div>
+                <img
+                  style={{ width: '247px' }}
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/6-quieter-morning.png"
+                />
+                <p>Mornings are usually the quietest times to visit.</p>
+              </div>
+              <div>
+                <img
+                  style={{ width: '302px' }}
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/7-louder-weekend.png"
+                />
+                <p>Weekends are much busier and louder than weekdays.</p>
+              </div>
             </TwoUp>
           </SpacingComponent>
+          <SpacingComponent></SpacingComponent>
         </div>
       </Layout8>
     </>
