@@ -22,8 +22,6 @@ steps:
           volumes:
             - "./.buildkite/urls:/usr/src/app/webapp/playwright/urls"
           command: ["bash", "check_urls.sh"]
-    retry:
-      automatic: true
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
     plugins:
@@ -40,8 +38,6 @@ steps:
           command: ["yarn", "test"]
     agents:
       queue: scala # High parallelism for expensive tests
-    retry:
-      automatic: true
 
   - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
     plugins:
@@ -58,5 +54,3 @@ steps:
           command: ["yarn", "test:mobile"]
     agents:
       queue: scala # High parallelism for expensive tests
-    retry:
-      automatic: true
