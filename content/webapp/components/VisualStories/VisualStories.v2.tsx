@@ -9,11 +9,11 @@ import { anchorLinks } from './VisualStories.data';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
-const Division = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})`
+const Division = styled(Space)`
   display: flex;
+  align-items: center;
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
+  padding: 40px 0;
 
   p {
     margin: 0 45px 0 0;
@@ -111,6 +111,28 @@ export const V2Prototype = () => {
                 />
               </span>
             </Division>
+          </SpacingComponent>
+
+          <SpacingComponent>
+            <h3 id="quieter-times-to-visit">Quieter times to visit</h3>
+            <div style={{ display: 'flex' }}>
+              <div>
+                <img
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/6-quieter-morning.png"
+                  alt=""
+                  style={{ maxWidth: '200px' }}
+                />
+                <p>Mornings are usually the quietest times to visit.</p>
+              </div>
+              <div>
+                <img
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/7-louder-weekend.png"
+                  alt=""
+                  style={{ maxWidth: '200px' }}
+                />
+                <p>Weekends are much busier and louder than weekdays.</p>
+              </div>
+            </div>
           </SpacingComponent>
         </div>
       </Layout8>
