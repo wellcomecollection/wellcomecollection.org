@@ -1,4 +1,4 @@
-import { Work } from '@weco/common/model/catalogue';
+import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 
 const collectionTree: Work = {
   id: 'mrhxzfyr',
@@ -12,7 +12,7 @@ const collectionTree: Work = {
   workType: {
     id: 'archive-item',
     label: 'Archive item',
-    type: 'WorkType',
+    type: 'Format',
   },
   contributors: [],
   identifiers: [
@@ -293,6 +293,10 @@ const collectionTree: Work = {
     },
   ],
   type: 'Work',
+  formerFrequency: [],
+  designation: [],
+  languages: [],
+  holdings: [],
 };
 
 export default collectionTree;

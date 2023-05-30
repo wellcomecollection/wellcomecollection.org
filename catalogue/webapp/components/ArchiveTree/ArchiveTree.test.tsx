@@ -1,4 +1,4 @@
-import { getTabbableIds } from './ArchiveTree';
+import { getTabbableIds } from './ArchiveTree.helpers';
 
 describe('getTabbableIds', () => {
   it('finds all IDs', () => {

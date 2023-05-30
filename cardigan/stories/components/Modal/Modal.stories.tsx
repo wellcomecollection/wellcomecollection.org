@@ -1,10 +1,16 @@
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const Template = () => {
   const [isActive, setIsActive] = useState(false);
   const openButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!isActive) {
+      openButtonRef.current.click();
+    }
+  }, []);
 
   return (
     <div style={{ padding: '50px' }}>
@@ -27,3 +33,8 @@ const Template = () => {
 
 export const basic = Template.bind({});
 basic.storyName = 'Modal';
+basic.parameters = {
+  chromatic: {
+    delay: 500, // Allow the button to get clicked
+  },
+};
