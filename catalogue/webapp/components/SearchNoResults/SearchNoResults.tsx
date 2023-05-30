@@ -33,8 +33,14 @@ const SearchNoResults: FunctionComponent<Props> = ({
           <Copy data-test-id="search-no-results" textColor={textColor}>
             We couldn&rsquo;t find anything that matched{' '}
             {query ? <QuerySpan>{query}</QuerySpan> : 'your search'}
-            {hasFilters ? ' with the filters you have selected.' : '.'} Please
-            try again.
+            {hasFilters ? ' with the filters you have selected.' : '.'}
+          </Copy>
+          <Copy>
+            Please adjust your search terms and try again. If you think this
+            search should show some results, please email{' '}
+            <a href="mailto:digital@wellcomecollection.org">
+              digital@wellcomecollection.org
+            </a>
           </Copy>
         </div>
       </div>
