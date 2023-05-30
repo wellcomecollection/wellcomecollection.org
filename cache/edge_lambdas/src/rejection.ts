@@ -184,8 +184,6 @@ export const looksLikeSpam = (event: CloudFrontRequestEvent): boolean => {
   return false;
 };
 
-export const getRejection = (
-  event: CloudFrontRequestEvent
-): CloudFrontResponse | undefined => {
+export const getRejection = (): CloudFrontResponse | undefined => {
   return undefined;
 };

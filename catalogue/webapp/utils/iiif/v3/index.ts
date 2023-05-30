@@ -98,7 +98,7 @@ export function getAudio(manifest: Manifest): Audio {
   );
   const thumbnail = placeholderCanvasAnnotation?.body as ContentResource;
   const transcript = manifest.rendering?.find(
-    i => i?.['format'] === 'application/pdf'
+    i => i?.['format'] === 'application/pdf' //eslint-disable-line
   );
 
   return { title, sounds, thumbnail, transcript };

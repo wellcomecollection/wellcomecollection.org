@@ -123,12 +123,12 @@ export const image = (
   height = 360
 ) => {
   return {
-    contentUrl: contentUrl,
+    contentUrl,
     width,
     height,
     alt: 'an image with some alt text',
     tasl: {
-      contentUrl: contentUrl,
+      contentUrl,
       title: 'The title of the image',
       author: 'The author',
       sourceName: 'Wellcome Collection',
@@ -486,7 +486,7 @@ export const imageGallery = () => {
   return {
     id: '123',
     title: singleLineOfText(),
-    items: items,
+    items,
   };
 };
 
@@ -537,7 +537,7 @@ export function person() {
         title: 'Avatar',
       },
     },
-    sameAs: sameAs,
+    sameAs,
   };
 }
 

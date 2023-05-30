@@ -34,11 +34,12 @@ export type Check = {
 } & CheckOptions;
 
 let client: UpdownClient;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 secretsManager
   .getSecretValue(getSecretParams)
   .promise()
   .then(secretData => {
-    client = new UpdownClient(secretData['SecretString'] as string);
+    client = new UpdownClient(secretData.SecretString as string);
     return client.getChecks();
   })
   .then(async checkData => {
@@ -112,6 +113,7 @@ secretsManager
     await Promise.all(updatesRequests);
     await Promise.all(additionsRequests);
   })
-  .catch(error => {
+  .catch((error: any) => {
     console.error(error);
   });
+/* eslint-enable @typescript-eslint/no-explicit-any */
