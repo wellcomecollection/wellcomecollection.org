@@ -10,3 +10,9 @@ export const TwoUp = styled.div`
     grid-template-columns: 1fr 1fr;
   `}
 `;
+
+export const NoSpacedText = styled.div`
+  & * + * {
+    margin-top: revert;
+  }
+`;
