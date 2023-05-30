@@ -5,7 +5,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { serialiseProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';

@@ -19,7 +19,7 @@ import PageHeader, {
   headerSpaceSize,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import CompactCard from '../CompactCard/CompactCard';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';

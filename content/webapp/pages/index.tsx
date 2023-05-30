@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { ArticleBasic } from '@weco/content/types/articles';
 import Space from '@weco/common/views/components/styled/Space';

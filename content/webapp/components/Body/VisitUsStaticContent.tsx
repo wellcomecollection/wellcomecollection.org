@@ -2,7 +2,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';

@@ -14,7 +14,7 @@ import {
 } from '../HTMLSerializers/HTMLSerializers';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import Quote from '../Quote/Quote';

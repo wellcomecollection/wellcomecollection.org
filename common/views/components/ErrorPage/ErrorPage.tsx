@@ -20,7 +20,7 @@ import Layout8 from '../Layout8/Layout8';
 import PageHeader, { headerSpaceSize } from '../PageHeader/PageHeader';
 import PageLayout from '../PageLayout/PageLayout';
 import SpacingSection from '../styled/SpacingSection';
-import SpacingComponent from '../SpacingComponent/SpacingComponent';
+import SpacingComponent from '../styled/SpacingComponent';
 import Space from '../styled/Space';
 import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
 

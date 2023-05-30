@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { Series } from '../../types/series';
 import { ArticleBasic } from '../../types/articles';

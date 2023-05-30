@@ -30,7 +30,7 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import {

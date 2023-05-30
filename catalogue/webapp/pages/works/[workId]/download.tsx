@@ -14,7 +14,7 @@ import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download from '@weco/catalogue/components/Download/Download';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsText from '@weco/catalogue/components/WorkDetailsText/WorkDetailsText';
