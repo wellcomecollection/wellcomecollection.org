@@ -43,6 +43,8 @@ type ComparisonMode = 'UTC' | 'London';
  *
  * If we get to a point where every comparison uses London, we should delete the
  * mode argument and document that requirement explicitly.
+ *
+ * TODO: This should really be London-only.  See https://github.com/wellcomecollection/wellcomecollection.org/issues/9874
  */
 export function isSameDay(
   date1: Date,
