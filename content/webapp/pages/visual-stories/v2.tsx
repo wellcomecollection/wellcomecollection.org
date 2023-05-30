@@ -1,6 +1,7 @@
 import { getServerData } from '@weco/common/server-data';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
+import { V2Prototype } from '@weco/content/components/VisualStories';
 
 export const getServerSideProps = async context => {
   const serverData = await getServerData(context);
@@ -16,12 +17,12 @@ export const getServerSideProps = async context => {
   };
 };
 
-const VisualStory = () => {
+const VisualStoryV2 = () => {
   return (
     <PageLayout
-      title="Visual stories"
+      title="Visual stories - V2"
       description="TODO" // TODO
-      url={{ pathname: '/visual-stories' }}
+      url={{ pathname: '/visual-stories/v2' }}
       jsonLd={[]}
       openGraphType="website"
       siteSection={null}
@@ -29,19 +30,11 @@ const VisualStory = () => {
     >
       <Space v={{ size: 'xl', properties: ['padding-bottom', 'padding-top'] }}>
         <div className="container">
-          <h1 className="h1">Visual Stories prototypes</h1>
-          <ul>
-            <li>
-              <a href="/visual-stories/v1">Version 1</a>
-            </li>
-            <li>
-              <a href="/visual-stories/v2">Version 2</a>
-            </li>
-          </ul>
+          <V2Prototype />
         </div>
       </Space>
     </PageLayout>
   );
 };
 
-export default VisualStory;
+export default VisualStoryV2;
