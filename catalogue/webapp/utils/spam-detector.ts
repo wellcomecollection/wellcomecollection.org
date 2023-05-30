@@ -48,10 +48,19 @@
  *
  */
 
+import { isString, isUndefined } from '@weco/common/utils/type-guards';
+
 const isUnusualCharacter = (c: string): boolean => {
   const code = c.charCodeAt(0);
 
   return (
+    // This are the character ä/å.  On their own not especially suspicious, but
+    // they appear a lot in queries for Chinese characters that are improperly encoded.
+    //
+    // e.g. "我们" gets encoded as "æä»¬"
+    //
+    code === 0xe4 ||
+    code === 0xe5 ||
     // This is based on the ranges for Han (Chinese) ideographs; see
     // this answer on Stack Overflow: https://stackoverflow.com/a/1366113/1558022
     //
@@ -74,7 +83,15 @@ const isUnusualCharacter = (c: string): boolean => {
   );
 };
 
-export const looksLikeSpam = (query: string): boolean => {
+export const looksLikeSpam = (
+  queryValue: string | string[] | undefined
+): boolean => {
+  if (isUndefined(queryValue)) {
+    return false;
+  }
+
+  const query = isString(queryValue) ? queryValue : queryValue.join(' ');
+
   // Count unusual characters in the query string.
   //
   // A lot of our spam queries feature a long string of Chinese, with links to
@@ -96,7 +113,7 @@ export const looksLikeSpam = (query: string): boolean => {
   //
   // Implementation note: this check is somewhat expensive, so we skip running it
   // if the query is too short to exceed the threshold.
-  const maxUnusualCharsAllowed = 30;
+  const maxUnusualCharsAllowed = 25;
 
   if (query.length >= maxUnusualCharsAllowed) {
     let unusualCharacterCount = 0;

@@ -20,6 +20,7 @@ import { pluralize } from '@weco/common/utils/grammar';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
 // Types
 import { Query } from '@weco/catalogue/types/search';
@@ -156,13 +157,27 @@ export const getServerSideProps: GetServerSideProps<
   const query = context.query;
   const defaultProps = serialiseProps({
     serverData,
-    storyResponseList: { totalResults: 0 },
     query,
     pageview: {
       name: 'stories',
       properties: {},
     },
   });
+
+  // If the request looks like spam, return a 400 error and skip actually fetching
+  // the data from the APIs.
+  //
+  // Users will still see a meaningful error page with instructions about tweaking
+  // their query/telling us if they expected results, but they won't be causing load
+  // on our back-end APIs.
+  //
+  // The status code will also allow us to filter out spam-like requests from our analytics.
+  if (looksLikeSpam(query.query)) {
+    context.res.statusCode = 400;
+    return {
+      props: { ...defaultProps, storyResponseList: { totalResults: 0 } },
+    };
+  }
 
   // Sending page=1 to Prismic skips the two first results, which seems to have to do with the cursor work
   // This is a workaround that ensures we only send the page if relevant

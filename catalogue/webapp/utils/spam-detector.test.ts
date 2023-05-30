@@ -2,6 +2,7 @@ import { looksLikeSpam } from './spam-detector';
 
 describe('requests that probably aren’t spam', () => {
   test.each([
+    { query: undefined },
     { query: 'history of play' },
     { query: '生殖健康问题 Reproductive health matters' },
   ])(`$query`, ({ query }) => {
