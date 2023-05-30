@@ -6,7 +6,7 @@ import {
   getArchiveLabels,
   getCardLabels,
 } from '../../utils/works';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import Space from '@weco/common/views/components/styled/Space';
 import Number from '@weco/common/views/components/Number/Number';

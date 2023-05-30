@@ -17,7 +17,7 @@ import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/j
 import { getPage } from '@weco/content/utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';

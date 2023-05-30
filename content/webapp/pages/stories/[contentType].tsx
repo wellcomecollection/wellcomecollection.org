@@ -5,7 +5,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
