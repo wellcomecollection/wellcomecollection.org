@@ -3,6 +3,7 @@ import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 export const V1Prototype = () => {
   const links = [
@@ -37,7 +38,17 @@ export const V1Prototype = () => {
         </p>
       </Layout>
       <Layout8>
-        <OnThisPageAnchors links={links} />
+        <div className="body-text">
+          <SpacingComponent>
+            <OnThisPageAnchors links={links} />
+          </SpacingComponent>
+
+          <SpacingComponent>
+            <h2 id="introduction-to-wellcome-collection">
+              Introduction to Wellcome Collection
+            </h2>
+          </SpacingComponent>
+        </div>
       </Layout8>
     </>
   );
