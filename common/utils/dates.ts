@@ -80,16 +80,6 @@ export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
   return isSameDay(date1, date2, 'London') || date1 <= date2;
 }
 
-// Returns true if 'date' falls on a past day; false otherwise.
-export function isDayPast(date: Date): boolean {
-  const now = new Date();
-  if (isSameDay(date, now, 'UTC') || date > now) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
 type LondonTZ = 'GMT' | 'BST';
 
 /** Returns the current timezone in London. */
