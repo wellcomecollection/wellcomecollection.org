@@ -158,10 +158,6 @@ export const getServerSideProps: GetServerSideProps<
   const defaultProps = serialiseProps({
     serverData,
     query,
-    pageview: {
-      name: 'stories',
-      properties: {},
-    },
   });
 
   // If the request looks like spam, return a 400 error and skip actually fetching
@@ -175,7 +171,15 @@ export const getServerSideProps: GetServerSideProps<
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
     return {
-      props: { ...defaultProps, storyResponseList: { totalResults: 0 } },
+      props: {
+        ...defaultProps,
+        storyResponseList: { totalResults: 0 } as any,
+        pageview: {
+          name: 'stories',
+          properties: {},
+        },
+        apiToolbarLinks: [],
+      },
     };
   }
 
