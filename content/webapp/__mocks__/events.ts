@@ -50,7 +50,7 @@ const baseEvent: Event = {
     description: undefined,
   },
   body: [],
-  image: image,
+  image,
   hasEarlyRegistration: false,
   labels: [
     {
@@ -60,7 +60,7 @@ const baseEvent: Event = {
   primaryLabels: [],
   secondaryLabels: [],
   promo: {
-    image: image,
+    image,
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
   seasons: [],

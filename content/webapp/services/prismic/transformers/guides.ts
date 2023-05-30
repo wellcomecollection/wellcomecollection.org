@@ -29,7 +29,7 @@ export function transformGuide(document: GuidePrismicDocument): Guide {
     datePublished: data.datePublished
       ? transformTimestamp(data.datePublished)
       : undefined,
-    siteSection: siteSection,
+    siteSection,
   };
 }
 

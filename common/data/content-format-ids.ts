@@ -20,6 +20,7 @@ export const GuideFormatIds = {
 };
 
 export type ArticleFormatId =
-  typeof ArticleFormatIds[keyof typeof ArticleFormatIds];
-export type PageFormatId = typeof PageFormatIds[keyof typeof PageFormatIds];
-export type GuideFormatId = typeof GuideFormatIds[keyof typeof GuideFormatIds];
+  (typeof ArticleFormatIds)[keyof typeof ArticleFormatIds];
+export type PageFormatId = (typeof PageFormatIds)[keyof typeof PageFormatIds];
+export type GuideFormatId =
+  (typeof GuideFormatIds)[keyof typeof GuideFormatIds];
