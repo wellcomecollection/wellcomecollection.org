@@ -101,7 +101,7 @@ test.describe('Search page interactions', () => {
     const query = 'gisjdabasdf;o';
     await gotoSearchResultPage({ url: imagesUrl, query }, page);
     expect(await page.innerText(searchNoResults)).toBe(
-      `We couldn’t find anything that matched ${query}. Please try again.`
+      `We couldn’t find anything that matched ${query}.`
     );
   });
 });
