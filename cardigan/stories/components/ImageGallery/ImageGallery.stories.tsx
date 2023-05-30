@@ -35,5 +35,5 @@ frames.args = {
   isFrames: true,
 };
 frames.parameters = {
-  chromatic: { diffThreshold: 0.3 },
+  chromatic: { diffThreshold: 0.2, delay: 1000 },
 };
