@@ -1,28 +1,13 @@
-import { PrototypeH1 } from './VisualStories.styles';
+import { PrototypeH1, TwoUp } from './VisualStories.styles';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import { anchorLinks } from './VisualStories.data';
 
 export const V1Prototype = () => {
-  const links = [
-    {
-      text: 'Introduction to Wellcome Collection',
-      url: '#introduction-to-wellcome-collection',
-    },
-    { text: 'Quieter times to visit', url: '#quieter-times-to-visit' },
-    {
-      text: 'Getting to Wellcome Collection',
-      url: '#getting-to-wellcome-collection',
-    },
-    { text: 'Arriving by tube or train', url: '#arriving-by-tube-or-train' },
-    { text: 'Arriving by bus', url: '#arriving-by-bus' },
-    { text: 'Arriving by bike', url: '#arriving-by-bike' },
-    { text: 'Arriving by car', url: '#arriving-by-car' },
-    { text: 'Access when you arrive', url: '#access-when-you-arrive' },
-    { text: 'Gallery access provisions', url: '#gallery-access-provisions' },
-  ];
   return (
     <>
       <Layout12>
@@ -36,15 +21,38 @@ export const V1Prototype = () => {
         </p>
       </Layout>
       <Layout8>
+        <SpacingSection>
+          <OnThisPageAnchors links={anchorLinks} />
+        </SpacingSection>
         <div className="body-text">
-          <SpacingComponent>
-            <OnThisPageAnchors links={links} />
-          </SpacingComponent>
-
           <SpacingComponent>
             <h2 id="introduction-to-wellcome-collection">
               Introduction to Wellcome Collection
             </h2>
+          </SpacingComponent>
+          <SpacingComponent>
+            <img
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/1-building-entrance.png"
+            />
+            <img
+              style={{ width: '100px' }}
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/2-free-icon.png"
+            />
+            <p>Wellcome Collection is a free museum.</p>
+            <p>It is closed on Mondays.</p>
+            <p>
+              It is open from 10am to 6pm on Tuesdays, Wednesdays, Fridays,
+              Saturdays and Sundays.
+            </p>
+            <p>It is open from 10am to 8pm on Thursdays.</p>
+
+            <h3>Quieter times to visit</h3>
+            <TwoUp>
+              <div>one</div>
+              <div>two</div>
+            </TwoUp>
           </SpacingComponent>
         </div>
       </Layout8>
