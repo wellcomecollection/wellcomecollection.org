@@ -53,7 +53,7 @@ export const V1Prototype = () => {
             <TwoUp>
               <div>
                 <img
-                  style={{ width: '247px' }}
+                  style={{ width: '295px' }}
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/6-quieter-morning.png"
                 />
@@ -61,7 +61,7 @@ export const V1Prototype = () => {
               </div>
               <div>
                 <img
-                  style={{ width: '302px' }}
+                  style={{ width: '303px' }}
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/7-louder-weekend.png"
                 />
@@ -166,10 +166,10 @@ export const V1Prototype = () => {
               If you are arriving by taxi, please ask to be dropped off at 42
               Gower Place London WC1E 2BN
             </p>
-            <TwoUp>
-              <div>Map 1</div>
-              <div>Map 2</div>
-            </TwoUp>
+            <img
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/19-a-maps.png"
+            />
             <p>
               Gower Place is at the back of the Wellcome Collection building.
             </p>
@@ -191,6 +191,87 @@ export const V1Prototype = () => {
                 subtitle=""
               />
             </NoSpacedText>
+            <h2 id="access-when-you-arrive">Access when you arrive</h2>
+            <p>
+              When you enter the building, there is a short flight of steps or a
+              platform lift up to level 0, where there is a café and shop, and
+              an Information Point. The entrance is bright and can sometimes be
+              noisy and busy.
+            </p>
+            <img
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/20-2-up-bag-check.png"
+            />
+            <p>
+              A member of our security team may ask to check your bag when you
+              enter.
+            </p>
+            <img
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/21-info-point.png"
+            />
+            <p>This is what the information point looks like.</p>
+            <img
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/22-vea.png"
+            />
+            <p>
+              Members of our Visitor Experience Team will be at the Information
+              Point and work throughout the building.
+            </p>
+            <p>
+              They wear black tops with the words “Ask me” on them. You can ask
+              them for directions or assistance at any time.
+            </p>
+            <img
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/23-lifts-stairs.png"
+            />
+            <img
+              style={{ width: '200px' }}
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/24-wheelchair-lift-icons.png"
+            />
+            <p>
+              There is step-free and level access to all floors of the building
+              via the lifts.{' '}
+            </p>
+            <img
+              style={{ width: '50%' }}
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/25-accessible-toilet.png"
+            />
+            <br />
+            <img
+              style={{ width: '100px' }}
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/26-access-baby-change-icon.png"
+            />
+            <p>There are accessible toilets on all floors of the building.</p>
+            <p>There is a Changing Places toilet on level 0.</p>
+            <h3 id="gallery-access-provisions">Gallery access provisions</h3>
+            <img
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/27-access-provision-icons.png"
+            />
+            <p>
+              Ear defenders, tinted glasses, tinted visors and weighted lap pads
+              are available.
+            </p>
+            <p>
+              Please ask a member of gallery staff if you would like any of
+              these things.
+            </p>
+            <img
+              style={{ width: '100px' }}
+              alt=""
+              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/28-wheelchair-icon.png"
+            />
+            <p>You can borrow a wheelchair during your visit.</p>
+            <p>
+              To borrow a wheelchair, contact our Visitor Experience Team or ask
+              at the Information Point on level 0.
+            </p>
           </SpacingComponent>
         </div>
       </Layout8>

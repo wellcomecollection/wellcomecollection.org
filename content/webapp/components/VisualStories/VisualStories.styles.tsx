@@ -13,6 +13,6 @@ export const TwoUp = styled.div`
 
 export const NoSpacedText = styled.div`
   & * + * {
-    margin-top: revert;
+    margin-top: revert !important; /* TODO: sack me */
   }
 `;
