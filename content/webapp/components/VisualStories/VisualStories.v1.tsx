@@ -58,7 +58,7 @@ export const V1Prototype = () => {
             <TwoUp>
               <div>
                 <img
-                  style={{ width: '295px' }}
+                  style={{ width: '295px', maxWidth: '100%' }}
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/6-quieter-morning.png"
                 />
@@ -66,7 +66,7 @@ export const V1Prototype = () => {
               </div>
               <div>
                 <img
-                  style={{ width: '303px' }}
+                  style={{ width: '303px', maxWidth: '100%' }}
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/7-louder-weekend.png"
                 />
