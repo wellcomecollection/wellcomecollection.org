@@ -36,6 +36,6 @@
     "styled-components": "^5.3.8",
     "supertest": "^6.3.3",
     "ts-jest": "29.1.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.4"
   }
 }
