@@ -224,12 +224,7 @@ export const getServerSideProps: GetServerSideProps<
   const defaultProps = serialiseProps({
     serverData,
     worksRouteProps: params,
-    apiToolbarLinks: [],
     query,
-    pageview: {
-      name: 'works',
-      properties: {},
-    },
   });
 
   // If the request looks like spam, return a 400 error and skip actually fetching
@@ -242,7 +237,17 @@ export const getServerSideProps: GetServerSideProps<
   // The status code will also allow us to filter out spam-like requests from our analytics.
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
-    return { props: { ...defaultProps, works: { totalResults: 0 } as any } };
+    return {
+      props: {
+        ...defaultProps,
+        works: { totalResults: 0 } as any,
+        pageview: {
+          name: 'works',
+          properties: {},
+        },
+        apiToolbarLinks: [],
+      },
+    };
   }
 
   const aggregations = [
@@ -275,6 +280,7 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: serialiseProps({
+      ...defaultProps,
       works,
       pageview: {
         name: 'works',

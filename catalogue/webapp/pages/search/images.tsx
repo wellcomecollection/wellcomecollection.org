@@ -191,10 +191,6 @@ export const getServerSideProps: GetServerSideProps<
     imagesRouteProps: params,
     serverData,
     query,
-    pageview: {
-      name: 'images',
-      properties: {},
-    },
   });
 
   // If the request looks like spam, return a 400 error and skip actually fetching
@@ -207,7 +203,17 @@ export const getServerSideProps: GetServerSideProps<
   // The status code will also allow us to filter out spam-like requests from our analytics.
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
-    return { props: { ...defaultProps, images: { totalResults: 0 } as any } };
+    return {
+      props: serialiseProps({
+        ...defaultProps,
+        pageview: {
+          name: 'images',
+          properties: {},
+        },
+        images: { totalResults: 0 } as any,
+        apiToolbarLinks: [],
+      }),
+    };
   }
 
   /**
