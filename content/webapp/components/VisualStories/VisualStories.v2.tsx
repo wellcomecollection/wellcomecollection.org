@@ -4,10 +4,7 @@ import {
   YellowBox,
   YellowBoxInner,
   TODO,
-  Division,
-  LeftHandSide,
-  RightHandSide,
-  Flex,
+  InfoBlock,
 } from './VisualStories.styles';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
@@ -57,75 +54,74 @@ export const V2Prototype = () => {
                 />
               </span>
 
-              <Division>
-                <LeftHandSide>
+              <InfoBlock hasBorder>
+                <div>
                   <p>Wellcome Collection is a free museum.</p>
-                </LeftHandSide>
+                </div>
 
-                <RightHandSide>
+                <div>
                   <img
                     src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/2-free-icon.png"
                     alt=""
                     style={{ maxWidth: '100px' }}
                   />
-                </RightHandSide>
-              </Division>
+                </div>
+              </InfoBlock>
 
-              <Division>
-                <LeftHandSide>
+              <InfoBlock hasBorder>
+                <div>
                   <p>It is closed on Mondays.</p>
-                </LeftHandSide>
+                </div>
 
-                <RightHandSide>
+                <div>
                   <img
                     src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/3-closed-monday.png"
                     alt=""
                     style={{ maxWidth: '200px' }}
                   />
-                </RightHandSide>
-              </Division>
+                </div>
+              </InfoBlock>
 
-              <Division>
-                <LeftHandSide>
+              <InfoBlock hasBorder>
+                <div>
                   <p>
                     It is open from 10am to 6pm on Tuesdays, Wednesdays,
                     Fridays, Saturdays and Sundays.
                   </p>
-                </LeftHandSide>
+                </div>
 
-                <RightHandSide>
+                <div>
                   <img
                     src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/4-open-normal.png"
                     alt=""
                     style={{ maxWidth: '300px' }}
                   />
-                </RightHandSide>
-              </Division>
+                </div>
+              </InfoBlock>
 
-              <Division>
-                <LeftHandSide>
+              <InfoBlock hasBorder>
+                <div>
                   <p>It is open from 10am to 8pm on Thursdays.</p>
-                </LeftHandSide>
+                </div>
 
-                <RightHandSide>
+                <div>
                   <img
                     src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/5-open-thursday.png"
                     alt=""
                     style={{ maxWidth: '300px' }}
                   />
-                </RightHandSide>
-              </Division>
+                </div>
+              </InfoBlock>
             </SpacingComponent>
 
             <SpacingComponent>
               <h3 id="quieter-times-to-visit">Quieter times to visit</h3>
-              <Division
+              <InfoBlock
+                hasBorder
                 borderColor="black"
-                style={{
-                  padding: '0 0 40px',
-                }}
+                style={{ paddingTop: '0' }}
               >
-                <LeftHandSide
+                <div
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -138,8 +134,9 @@ export const V2Prototype = () => {
                     style={{ maxWidth: '200px' }}
                   />
                   <p>Mornings are usually the quietest times to visit.</p>
-                </LeftHandSide>
-                <RightHandSide
+                </div>
+
+                <div
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -152,8 +149,8 @@ export const V2Prototype = () => {
                     style={{ maxWidth: '200px' }}
                   />
                   <p>Weekends are much busier and louder than weekdays.</p>
-                </RightHandSide>
-              </Division>
+                </div>
+              </InfoBlock>
             </SpacingComponent>
           </SpacingSection>
 
@@ -163,95 +160,94 @@ export const V2Prototype = () => {
               Getting to Wellcome Collection
             </h2>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <p>
                   Our address is Wellcome Collection, 183 Euston Road, London
                   NW1 2BE.
                 </p>
-              </LeftHandSide>
+              </div>
 
-              <RightHandSide>
+              <div>
                 <img
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/8-location-icon.png"
                   alt=""
                   style={{ maxWidth: '100px' }}
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <p>
                   We are a big stone building on Euston Road. This is what the
                   building looks like from the outside.{' '}
                 </p>
-              </LeftHandSide>
+              </div>
 
-              <RightHandSide>
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/9-building.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <p>You can enter through the two revolving doors.</p>
-              </LeftHandSide>
+              </div>
 
-              <RightHandSide>
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/10-building-revolving-doors.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <p>Or via the accessible door in between them.</p>
-              </LeftHandSide>
+              </div>
 
-              <RightHandSide>
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/11-building-accessible-door.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <p>You can reach us by train, Underground, bus, bike or car.</p>
-              </LeftHandSide>
+              </div>
 
-              <RightHandSide>
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-transport.png"
                   style={{ maxWidth: '300px' }}
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Flex>
-              <LeftHandSide>
+            <InfoBlock>
+              <div>
                 <h3 id="arriving-by-tube-or-train">
-                  Arriving by tube{' '}
-                  <span style={{ fontWeight: 'normal' }}>or</span> train
+                  Arriving by tube or train
                 </h3>
-              </LeftHandSide>
+              </div>
 
-              <RightHandSide>
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-a-train-tube.png"
                   style={{ maxWidth: '200px' }}
                 />
-              </RightHandSide>
-            </Flex>
+              </div>
+            </InfoBlock>
 
             <span>
               <p>The nearest tube and train stations are:</p>
@@ -273,20 +269,26 @@ export const V2Prototype = () => {
                   our <strong>Visitor Experience Team</strong>.
                 </p>
 
-                <Flex style={{ padding: '0 0 1rem', alignItems: 'flex-start' }}>
+                <InfoBlock
+                  style={{
+                    padding: '0 0 1rem',
+                    alignItems: 'flex-start',
+                    flexDirection: 'row',
+                  }}
+                >
                   <img
                     alt=""
                     style={{ width: '75px' }}
                     src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-b-location-to-location-icon.png"
                   />
                   <p>They can help you make your way to our building.</p>
-                </Flex>
+                </InfoBlock>
 
                 <p>
                   <strong>Contact our Visitor Experience Team:</strong>
                 </p>
 
-                <Flex style={{ padding: '0' }}>
+                <InfoBlock style={{ padding: '0', flexDirection: 'row' }}>
                   <img
                     alt=""
                     style={{ width: '50px' }}
@@ -297,9 +299,13 @@ export const V2Prototype = () => {
                     <br />
                     +44 (0)20 7611 2222
                   </p>
-                </Flex>
+                </InfoBlock>
 
-                <Flex>
+                <InfoBlock
+                  style={{
+                    flexDirection: 'row',
+                  }}
+                >
                   <img
                     alt=""
                     style={{ width: '50px' }}
@@ -310,7 +316,7 @@ export const V2Prototype = () => {
                     <br />
                     info@wellcomecollection.org
                   </p>
-                </Flex>
+                </InfoBlock>
                 <TODO>Discuss image centering</TODO>
               </YellowBoxInner>
             </YellowBox>
@@ -318,8 +324,8 @@ export const V2Prototype = () => {
 
           {/* Arriving by bus/bike/car */}
           <SpacingSection>
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <h3 id="arriving-by-bus">Arriving by bus</h3>
 
                 <p>
@@ -327,9 +333,9 @@ export const V2Prototype = () => {
                   Road: 18, 30, 73, 205, 390.
                 </p>
                 <p>This is what the nearest bus stop looks like.</p>
-              </LeftHandSide>
+              </div>
 
-              <RightHandSide>
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/14-bus-stop.png"
@@ -339,19 +345,20 @@ export const V2Prototype = () => {
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/14-a-bus-icon.png"
                   style={{ width: '100px' }}
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <h3 id="arriving-by-bike">Arriving by bike</h3>
                 <p>
                   There are folding bike lockers in the locker room on level 0
                   of Wellcome Collection.
                 </p>
                 <p>You can park non-folding bikes at Euston Station.</p>
-              </LeftHandSide>
-              <RightHandSide>
+              </div>
+
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/15-bike-lockers.png"
@@ -361,34 +368,36 @@ export const V2Prototype = () => {
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/16-bike-icons.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <h3 id="arriving-by-car">Arriving by car</h3>
                 <p>
                   There are parking spaces for Blue Badge holders. To book a
                   space, contact the Visitor Experience Team.
                 </p>
-              </LeftHandSide>
-              <RightHandSide>
+              </div>
+
+              <div>
                 <img
                   style={{ width: '200px' }}
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/17-car-icons.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Flex>
-              <LeftHandSide>
+            <InfoBlock>
+              <div>
                 <p>
                   If you are arriving by taxi, please ask to be dropped off at:
                 </p>
                 <p>42 Gower Place London WC1E 2BN</p>
-              </LeftHandSide>
-              <RightHandSide>
+              </div>
+
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/18-back-entrance.png"
@@ -398,10 +407,10 @@ export const V2Prototype = () => {
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/19-taxi-location-icons.png"
                 />
-              </RightHandSide>
-            </Flex>
-            <Division borderColor="black">
-              <LeftHandSide>
+              </div>
+            </InfoBlock>
+            <InfoBlock hasBorder borderColor="black">
+              <div>
                 <p>
                   Gower Place is at the back of the Wellcome Collection
                   building.
@@ -416,14 +425,14 @@ export const V2Prototype = () => {
                   Place and take you to the main entrance, please contact our
                   Visitor Experience Team.
                 </p>
-              </LeftHandSide>
-              <RightHandSide>
+              </div>
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/19-b-maps.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
           </SpacingSection>
 
           {/* Access when you arrive */}
@@ -453,17 +462,18 @@ export const V2Prototype = () => {
               </p>
             </div>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <p>This is what the information point looks like.</p>
-              </LeftHandSide>
-              <RightHandSide>
+              </div>
+
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/21-info-point.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
             <div
               style={{
@@ -485,14 +495,15 @@ export const V2Prototype = () => {
               </p>
             </div>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <p>
                   There is step-free and level access to all floors of the
                   building via the lifts.{' '}
                 </p>
-              </LeftHandSide>
-              <RightHandSide>
+              </div>
+
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/23-lifts-stairs.png"
@@ -502,17 +513,18 @@ export const V2Prototype = () => {
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/24-wheelchair-lift-icons.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <p>
                   There are accessible toilets on all floors of the building.
                 </p>
                 <p>There is a Changing Places toilet on level 0.</p>
-              </LeftHandSide>
-              <RightHandSide>
+              </div>
+
+              <div>
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/25-accessible-toilet.png"
@@ -522,11 +534,11 @@ export const V2Prototype = () => {
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/26-access-baby-change-icon.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <h3 id="gallery-access-provisions">
                   Gallery access provisions
                 </h3>
@@ -538,34 +550,42 @@ export const V2Prototype = () => {
                   Please ask a member of gallery staff if you would like any of
                   these things.
                 </p>
-              </LeftHandSide>
-              <RightHandSide>
+              </div>
+
+              <div>
                 <img
                   alt=""
                   style={{ maxWidth: '200px' }}
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/27-v2-access-provisions.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
 
-            <Division>
-              <LeftHandSide>
+            <InfoBlock hasBorder>
+              <div>
                 <p>You can borrow a wheelchair during your visit.</p>
                 <p>
                   To borrow a wheelchair, contact our Visitor Experience Team or
                   ask at the Information Point on level 0.
                 </p>
-              </LeftHandSide>
-              <RightHandSide>
+              </div>
+
+              <div>
                 <img
                   style={{ width: '100px' }}
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/28-wheelchair-icon.png"
                 />
-              </RightHandSide>
-            </Division>
+              </div>
+            </InfoBlock>
           </SpacingSection>
+
           <TODO>Access content?</TODO>
+          <TODO>
+            Discuss portrait images on mobile and how to align their icons as
+            they are not full-width, but centered
+          </TODO>
+          <TODO>Border logic to be border top? e.g. H2 gets black over it</TODO>
           <TODO>
             Current Spacing rules are 32px or 64px, mockups are 40px between
             divisions
