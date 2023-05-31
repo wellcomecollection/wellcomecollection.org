@@ -3,6 +3,7 @@ import {
   NoSpacedText,
   YellowBox,
   YellowBoxInner,
+  // BigIcon,
 } from './VisualStories.styles';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
@@ -12,6 +13,8 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { anchorLinks } from './VisualStories.data';
 import Contact from '@weco/common/views/components/Contact/Contact';
+// import Icon from '@weco/common/views/components/Icon/Icon';
+// import { archive, folder } from '@weco/common/icons';
 
 export const V1Prototype = () => {
   return (
@@ -46,6 +49,13 @@ export const V1Prototype = () => {
               alt=""
               src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/2-free-icon.png"
             />
+
+            {/* <NoSpacedText>
+              <BigIcon>
+                <Icon icon={archive} matchText={true} />
+              </BigIcon>
+            </NoSpacedText> */}
+
             <p>Wellcome Collection is a free museum.</p>
             <p>It is closed on Mondays.</p>
             <p>

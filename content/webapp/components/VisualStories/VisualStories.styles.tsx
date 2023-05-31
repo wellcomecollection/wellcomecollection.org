@@ -40,3 +40,8 @@ export const NoSpacedText = styled.div`
     margin-top: revert !important; /* TODO: sack me */
   }
 `;
+
+export const BigIcon = styled.div`
+  font-size: 6rem;
+  line-height: 0;
+`;
