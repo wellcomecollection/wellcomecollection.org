@@ -51,3 +51,31 @@ export const TODO = styled.p`
   padding: 2px;
   font-family: 'Comic Sans MS'; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
 `;
+
+// V2
+
+export const Flex = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top'] },
+})`
+  display: flex;
+  align-items: flex-start;
+`;
+
+export const Division = styled(Flex).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})<{ borderColor?: 'black' }>`
+  border-bottom: 1px solid
+    ${props => props.theme.color(props.borderColor || 'warmNeutral.400')};
+`;
+
+export const LeftHandSide = styled(Space).attrs({
+  h: { size: 'l', properties: ['margin-right'] },
+})`
+  flex: 1 1 50%;
+`;
+
+export const RightHandSide = styled(Space).attrs({
+  h: { size: 'l', properties: ['margin-left'] },
+})`
+  flex: 1 1 50%;
+`;

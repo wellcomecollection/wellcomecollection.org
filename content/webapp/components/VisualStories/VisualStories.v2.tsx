@@ -1,10 +1,13 @@
-import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import {
   PrototypeH1,
   YellowBox,
   YellowBoxInner,
   TODO,
+  Division,
+  LeftHandSide,
+  RightHandSide,
+  Flex,
 } from './VisualStories.styles';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
@@ -14,27 +17,7 @@ import { anchorLinks } from './VisualStories.data';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import theme from '@weco/common/views/themes/default';
-
-const Flex = styled.div`
-  display: flex;
-  padding-top: 40px;
-  align-items: flex-start;
-`;
-
-const Division = styled(Flex)`
-  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  padding-bottom: 40px;
-`;
-
-const LeftHandSide = styled.div`
-  margin: 0 45px 0 0;
-  flex: 1 1 calc(50% - 45px);
-`;
-
-const RightHandSide = styled.div`
-  margin-left: 45px;
-  flex: 1 1 calc(50% - 45px);
-`;
+import { font } from '@weco/common/utils/classnames';
 
 export const V2Prototype = () => {
   return (
@@ -43,13 +26,16 @@ export const V2Prototype = () => {
         <PrototypeH1>Wellcome Collection visual story</PrototypeH1>
       </Layout12>
 
-      <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
-        <p>
-          This visual story is designed to help you prepare for your visit and
-          to help you know what to expect upon arrival if you have autism and/or
-          sensory sensitivities.
-        </p>
-      </Layout>
+      <SpacingSection>
+        <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
+          <p style={{ marginBottom: '1rem' }}>
+            This visual story is designed to help you prepare for your visit and
+            to help you know what to expect upon arrival if you have autism
+            and/or sensory sensitivities.
+          </p>
+          <p className={font('intr', 6)}>Updated DD Month 2023</p>
+        </Layout>
+      </SpacingSection>
 
       <Layout8>
         <SpacingSection>
@@ -134,8 +120,8 @@ export const V2Prototype = () => {
             <SpacingComponent>
               <h3 id="quieter-times-to-visit">Quieter times to visit</h3>
               <Division
+                borderColor="black"
                 style={{
-                  borderColor: theme.color('black'),
                   padding: '0 0 40px',
                 }}
               >
@@ -414,7 +400,7 @@ export const V2Prototype = () => {
                 />
               </RightHandSide>
             </Flex>
-            <Division style={{ borderColor: theme.color('black') }}>
+            <Division borderColor="black">
               <LeftHandSide>
                 <p>
                   Gower Place is at the back of the Wellcome Collection
@@ -579,6 +565,11 @@ export const V2Prototype = () => {
               </RightHandSide>
             </Division>
           </SpacingSection>
+          <TODO>Access content?</TODO>
+          <TODO>
+            Current Spacing rules are 32px or 64px, mockups are 40px between
+            divisions
+          </TODO>
         </div>
       </Layout8>
     </>
