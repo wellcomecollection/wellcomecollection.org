@@ -5,7 +5,8 @@
 #     - e2e tests can only run against one PR at a time
 #
 # See https://buildkite.com/blog/concurrency-gates
-- command: echo "--> Start of concurrency gate"
+- label: "🔒 lock"
+  command: echo "--> Start of concurrency gate"
   concurrency_group: "dotorg-e2e-on-pull-requests-gate"
   concurrency: 1
   key: start-gate
@@ -41,9 +42,15 @@
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
 
+  - label: "Trigger e2e tests"
+    command: ".buildkite/scripts/trigger-e2e-on-pull-request.sh"
+    agents:
+      queue: nano
+
 - wait
 
-- command: echo "End of concurrency gate <--"
+- label: "🔓 unlock"
+  command: echo "End of concurrency gate <--"
   concurrency_group: "dotorg-e2e-on-pull-requests-gate"
   concurrency: 1
   key: end-gate
