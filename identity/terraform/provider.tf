@@ -26,7 +26,7 @@ provider "aws" {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
   }
 
-  region = var.aws_region
+  region = "eu-west-1"
 
   default_tags {
     tags = local.default_prod_tags
@@ -40,7 +40,7 @@ provider "aws" {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
   }
 
-  region = var.aws_region
+  region = "eu-west-1"
 
   default_tags {
     tags = local.default_stage_tags
