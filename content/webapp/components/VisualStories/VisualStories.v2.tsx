@@ -11,7 +11,6 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 
 const Division = styled(Space)`
   display: flex;
-  align-items: center;
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   padding: 40px 0;
 `;
@@ -59,11 +58,9 @@ export const V2Prototype = () => {
         <div className="body-text">
           {/* Introduction to Wellcome Collection */}
           <SpacingSection>
-            <SpacingComponent>
-              <h2 id="introduction-to-wellcome-collection">
-                Introduction to Wellcome Collection
-              </h2>
-            </SpacingComponent>
+            <h2 id="introduction-to-wellcome-collection">
+              Introduction to Wellcome Collection
+            </h2>
 
             <SpacingComponent>
               <span>
@@ -170,115 +167,112 @@ export const V2Prototype = () => {
 
           {/* Getting to Wellcome Collection */}
           <SpacingSection>
-            <SpacingComponent>
-              <h2 id="getting-to-wellcome-collection">
-                Getting to Wellcome Collection
-              </h2>
+            <h2 id="getting-to-wellcome-collection">
+              Getting to Wellcome Collection
+            </h2>
 
-              <Division>
-                <LeftHandSide>
-                  <p>
-                    Our address is Wellcome Collection, 183 Euston Road, London
-                    NW1 2BE.
-                  </p>
-                </LeftHandSide>
+            <Division>
+              <LeftHandSide>
+                <p>
+                  Our address is Wellcome Collection, 183 Euston Road, London
+                  NW1 2BE.
+                </p>
+              </LeftHandSide>
 
-                <RightHandSide>
-                  <img
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/8-location-icon.png"
-                    alt=""
-                    style={{ maxWidth: '100px' }}
-                  />
-                </RightHandSide>
-              </Division>
+              <RightHandSide>
+                <img
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/8-location-icon.png"
+                  alt=""
+                  style={{ maxWidth: '100px' }}
+                />
+              </RightHandSide>
+            </Division>
 
-              <Division>
-                <LeftHandSide>
-                  <p>
-                    We are a big stone building on Euston Road. This is what the
-                    building looks like from the outside.{' '}
-                  </p>
-                </LeftHandSide>
+            <Division>
+              <LeftHandSide>
+                <p>
+                  We are a big stone building on Euston Road. This is what the
+                  building looks like from the outside.{' '}
+                </p>
+              </LeftHandSide>
 
-                <RightHandSide>
-                  <img
-                    alt=""
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/9-building.png"
-                  />
-                </RightHandSide>
-              </Division>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/9-building.png"
+                />
+              </RightHandSide>
+            </Division>
 
-              <Division>
-                <LeftHandSide>
-                  <p>You can enter through the two revolving doors.</p>
-                </LeftHandSide>
+            <Division>
+              <LeftHandSide>
+                <p>You can enter through the two revolving doors.</p>
+              </LeftHandSide>
 
-                <RightHandSide>
-                  <img
-                    alt=""
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/10-building-revolving-doors.png"
-                  />
-                </RightHandSide>
-              </Division>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/10-building-revolving-doors.png"
+                />
+              </RightHandSide>
+            </Division>
 
-              <Division>
-                <LeftHandSide>
-                  <p>Or via the accessible door in between them.</p>
-                </LeftHandSide>
+            <Division>
+              <LeftHandSide>
+                <p>Or via the accessible door in between them.</p>
+              </LeftHandSide>
 
-                <RightHandSide>
-                  <img
-                    alt=""
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/11-building-accessible-door.png"
-                  />
-                </RightHandSide>
-              </Division>
-              <Division>
-                <LeftHandSide>
-                  <p>
-                    You can reach us by train, Underground, bus, bike or car.
-                  </p>
-                </LeftHandSide>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/11-building-accessible-door.png"
+                />
+              </RightHandSide>
+            </Division>
 
-                <RightHandSide>
-                  <img
-                    alt=""
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-transport.png"
-                    style={{ maxWidth: '300px' }}
-                  />
-                </RightHandSide>
-              </Division>
+            <Division>
+              <LeftHandSide>
+                <p>You can reach us by train, Underground, bus, bike or car.</p>
+              </LeftHandSide>
 
-              <Flex>
-                <LeftHandSide>
-                  <h3 id="arriving-by-tube-or-train">
-                    Arriving by tube{' '}
-                    <span style={{ fontWeight: 'normal' }}>or</span> train
-                  </h3>
-                </LeftHandSide>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-transport.png"
+                  style={{ maxWidth: '300px' }}
+                />
+              </RightHandSide>
+            </Division>
 
-                <RightHandSide>
-                  <img
-                    alt=""
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-a-train-tube.png"
-                    style={{ maxWidth: '200px' }}
-                  />
-                </RightHandSide>
-              </Flex>
-              <SpacingComponent>
-                <span>
-                  <p>The nearest tube and train stations are:</p>
-                  <img
-                    alt=""
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/13-3-up-train-stations.png"
-                  />
-                </span>
-                <TODO>TODO add station names or discuss with Dom</TODO>
-              </SpacingComponent>
-            </SpacingComponent>
+            <Flex>
+              <LeftHandSide>
+                <h3 id="arriving-by-tube-or-train">
+                  Arriving by tube{' '}
+                  <span style={{ fontWeight: 'normal' }}>or</span> train
+                </h3>
+              </LeftHandSide>
+
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-a-train-tube.png"
+                  style={{ maxWidth: '200px' }}
+                />
+              </RightHandSide>
+            </Flex>
+
+            <span>
+              <p>The nearest tube and train stations are:</p>
+              <img
+                alt=""
+                src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/13-3-up-train-stations.png"
+              />
+            </span>
+            <TODO>TODO add station names or discuss with Dom</TODO>
           </SpacingSection>
 
-          <SpacingComponent>
+          {/* Yellow box */}
+          <SpacingSection>
             <YellowBox>
               <YellowBoxInner>
                 <p>
@@ -303,7 +297,117 @@ export const V2Prototype = () => {
                 <TODO>Add icons</TODO>
               </YellowBoxInner>
             </YellowBox>
-          </SpacingComponent>
+          </SpacingSection>
+
+          {/* Arriving by bus/bike/car */}
+          <SpacingSection>
+            <Division>
+              <LeftHandSide>
+                <h3 id="arriving-by-bus">Arriving by bus</h3>
+
+                <p>
+                  These buses stop close to our main entrance at 183 Euston
+                  Road: 18, 30, 73, 205, 390.
+                </p>
+                <p>This is what the nearest bus stop looks like.</p>
+              </LeftHandSide>
+
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/14-bus-stop.png"
+                />
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/14-a-bus-icon.png"
+                  style={{ width: '100px' }}
+                />
+              </RightHandSide>
+            </Division>
+
+            <Division>
+              <LeftHandSide>
+                <h3 id="arriving-by-bike">Arriving by bike</h3>
+                <p>
+                  There are folding bike lockers in the locker room on level 0
+                  of Wellcome Collection.
+                </p>
+                <p>You can park non-folding bikes at Euston Station.</p>
+              </LeftHandSide>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/15-bike-lockers.png"
+                />
+                <img
+                  style={{ width: '200px' }}
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/16-bike-icons.png"
+                />
+              </RightHandSide>
+            </Division>
+
+            <Division>
+              <LeftHandSide>
+                <h3 id="arriving-by-car">Arriving by car</h3>
+                <p>
+                  There are parking spaces for Blue Badge holders. To book a
+                  space, contact the Visitor Experience Team.
+                </p>
+              </LeftHandSide>
+              <RightHandSide>
+                <img
+                  style={{ width: '200px' }}
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/17-car-icons.png"
+                />
+              </RightHandSide>
+            </Division>
+
+            <Flex>
+              <LeftHandSide>
+                <p>
+                  If you are arriving by taxi, please ask to be dropped off at:
+                </p>
+                <p>42 Gower Place London WC1E 2BN</p>
+              </LeftHandSide>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/18-back-entrance.png"
+                />
+                <img
+                  style={{ width: '200px' }}
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/19-taxi-location-icons.png"
+                />
+              </RightHandSide>
+            </Flex>
+            <Division>
+              <LeftHandSide>
+                <p>
+                  Gower Place is at the back of the Wellcome Collection
+                  building.
+                </p>
+                <p>
+                  You will need to enter via the main entrance which is at 183
+                  Euston Road.
+                </p>
+                <p>The main entrance is around the corner from Gower Place.</p>
+                <p>
+                  If you would like one of our staff to meet you at a Gower
+                  Place and take you to the main entrance, please contact our
+                  Visitor Experience Team.
+                </p>
+              </LeftHandSide>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/19-b-maps.png"
+                />
+              </RightHandSide>
+            </Division>
+          </SpacingSection>
         </div>
       </Layout8>
     </>
