@@ -29,9 +29,7 @@ const VisualStoryV1 = () => {
       hideNewsletterPromo={true}
     >
       <Space v={{ size: 'xl', properties: ['padding-bottom', 'padding-top'] }}>
-        <div className="container">
-          <V1Prototype />
-        </div>
+        <V1Prototype />
       </Space>
     </PageLayout>
   );
