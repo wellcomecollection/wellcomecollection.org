@@ -1,3 +1,7 @@
 - label: 'get started'
   commands:
     ENV_TAG=content-env.e2e LATEST=wc-dot-org-build-plus-test-content-build-11582 .buildkite/scripts/update_ecr_image_tag.sh buildkite
+
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
