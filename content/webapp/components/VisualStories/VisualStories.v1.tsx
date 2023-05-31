@@ -3,6 +3,7 @@ import {
   NoSpacedText,
   YellowBox,
   YellowBoxInner,
+  PrototypeH2,
   TODO,
   BigIcon,
 } from './VisualStories.styles';
@@ -16,6 +17,7 @@ import { anchorLinks } from './VisualStories.data';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { a11Y } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
 
 export const V1Prototype = () => {
   return (
@@ -24,21 +26,29 @@ export const V1Prototype = () => {
         <h1 className="h0">Wellcome Collection visual story</h1>
       </Layout12>
       <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
-        <p>
+        <p style={{ marginBottom: '1rem' }}>
           This visual story is designed to help you prepare for your visit and
           to help you know what to expect upon arrival if you have autism and/or
           sensory sensitivities.
         </p>
+        <p className={font('intr', 6)}>Updated DD Month 2023</p>
       </Layout>
       <Layout8>
         <SpacingSection>
+          <TODO>
+            The OnThisPageAnchors component currently only links to h2s but
+            we&apos;re linking to h2s and h3s here
+          </TODO>
           <OnThisPageAnchors links={anchorLinks} />
         </SpacingSection>
         <div className="body-text spaced-text">
           <SpacingComponent>
-            <h2 id="introduction-to-wellcome-collection">
+            <PrototypeH2
+              isFirst={true}
+              id="introduction-to-wellcome-collection"
+            >
               Introduction to Wellcome Collection
-            </h2>
+            </PrototypeH2>
           </SpacingComponent>
           <SpacingComponent>
             <img
@@ -94,9 +104,9 @@ export const V1Prototype = () => {
             </TwoUp>
           </SpacingComponent>
           <SpacingComponent>
-            <h2 id="getting-to-wellcome-collection">
+            <PrototypeH2 id="getting-to-wellcome-collection">
               Getting to Wellcome Collection
-            </h2>
+            </PrototypeH2>
             <p>
               Our address is Wellcome Collection, 183 Euston Road, London NW1
               2BE.
@@ -249,7 +259,9 @@ export const V1Prototype = () => {
                 subtitle=""
               />
             </NoSpacedText>
-            <h2 id="access-when-you-arrive">Access when you arrive</h2>
+            <PrototypeH2 id="access-when-you-arrive">
+              Access when you arrive
+            </PrototypeH2>
             <p>
               When you enter the building, there is a short flight of steps or a
               platform lift up to level 0, where there is a café and shop, and

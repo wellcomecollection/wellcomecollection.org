@@ -83,3 +83,21 @@ export const RightHandSide = styled(Space).attrs({
 })`
   flex: 1 1 50%;
 `;
+
+export const PrototypeH2 = styled(Space).attrs<{ isFirst?: boolean }>({
+  as: 'h2',
+  classNames: 'h2',
+  v: { size: 'l', properties: ['padding-top'] },
+})<{ isFirst?: boolean }>`
+  border-top: 1px solid ${props => props.theme.color('neutral.400')};
+
+  ${props =>
+    props.isFirst &&
+    `
+    border-top: 0;
+  `}
+
+  ${props => props.theme.media('medium')`
+    border-top: 0;
+  `}
+`;
