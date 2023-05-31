@@ -1,6 +1,10 @@
 locals {
   cname_records = {
     "www-e2e.wellcomecollection.org" = module.e2e_wc_org_cloudfront_distribution.domain_name
+    "works.www-e2e.wellcomecollection.org" = module.e2e_wc_org_cloudfront_distribution.domain_name
+    "content.www-e2e.wellcomecollection.org" = module.e2e_wc_org_cloudfront_distribution.domain_name
+    "identity.www-e2e.wellcomecollection.org" = module.e2e_wc_org_cloudfront_distribution.domain_name
+
   }
 }
 
