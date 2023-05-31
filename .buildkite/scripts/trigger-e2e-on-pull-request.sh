@@ -3,7 +3,7 @@
 set -o errexit
 set -o nounset
 
-ENVIRONMENT_URL="https://e2e-www.wellcomecollection.org"
+ENVIRONMENT_URL="https://www-e2e.wellcomecollection.org"
 
 # https://buildkite.com/docs/pipelines/block-step#passing-block-step-data-to-other-steps-passing-meta-data-to-trigger-steps
 TRIGGER_STEP="steps:
