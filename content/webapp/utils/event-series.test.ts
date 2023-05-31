@@ -1,4 +1,71 @@
-import { getUpcomingEvents } from './event-series';
+import { HasTimes } from '@weco/content/types/events';
+import { getUpcomingEvents, isUpcoming } from './event-series';
+import * as dateUtils from '@weco/common/utils/dates';
+
+function createEvent({
+  startDateTime,
+  endDateTime,
+}: {
+  startDateTime: Date;
+  endDateTime: Date;
+}): HasTimes {
+  return {
+    times: [
+      {
+        range: {
+          startDateTime,
+          endDateTime,
+        },
+        isFullyBooked: { inVenue: false, online: false },
+      },
+    ],
+  };
+}
+
+describe('isUpcoming', () => {
+  it('an event which finished in the past is not upcoming', () => {
+    const event = createEvent({
+      startDateTime: new Date(2001, 1, 1, 1, 1, 1),
+      endDateTime: new Date(2002, 1, 1, 1, 1, 1),
+    });
+
+    expect(isUpcoming(event)).toBeFalsy();
+  });
+
+  it('an event which started earlier today and finishes today is not upcoming', () => {
+    const mondayAt7am = new Date('2007-01-01T07:00:00Z');
+    const mondayAt9am = new Date('2007-01-01T09:00:00Z');
+    const mondayAt11am = new Date('2007-01-01T11:00:00Z');
+
+    jest
+      .spyOn(dateUtils, 'isFuture')
+      .mockImplementation((d: Date) => d > mondayAt9am);
+
+    const event = createEvent({
+      startDateTime: mondayAt7am,
+      endDateTime: mondayAt11am,
+    });
+
+    expect(isUpcoming(event)).toBeFalsy();
+  });
+
+  it('an event which started earlier today and finishes tomorrow is upcoming', () => {
+    const mondayAt7am = new Date('2007-01-01T07:00:00Z');
+    const mondayAt9am = new Date('2007-01-01T09:00:00Z');
+    const tuesdayAt76am = new Date('2007-01-02T07:00:00Z');
+
+    jest
+      .spyOn(dateUtils, 'isFuture')
+      .mockImplementation((d: Date) => d > mondayAt9am);
+
+    const event = createEvent({
+      startDateTime: mondayAt7am,
+      endDateTime: tuesdayAt76am,
+    });
+
+    expect(isUpcoming(event)).toBeTruthy();
+  });
+});
 
 describe('getUpcomingEvents', () => {
   it('picks out events that start after today', () => {
@@ -8,15 +75,7 @@ describe('getUpcomingEvents', () => {
       { id: '2200', startDateTime: new Date(2200, 1, 1, 0, 0, 0) },
     ].map(({ id, startDateTime }) => ({
       id,
-      times: [
-        {
-          range: {
-            startDateTime,
-            endDateTime: startDateTime,
-          },
-          isFullyBooked: { inVenue: false, online: false },
-        },
-      ],
+      ...createEvent({ startDateTime, endDateTime: startDateTime }),
     }));
 
     const upcomingEvents = getUpcomingEvents(events);
@@ -28,6 +87,7 @@ describe('getUpcomingEvents', () => {
     const january = new Date(2100, 1, 1, 0, 0, 0);
     const february = new Date(2100, 2, 1, 0, 0, 0);
     const march = new Date(2100, 3, 1, 0, 0, 0);
+    const april = new Date(2100, 4, 1, 0, 0, 0);
 
     const events = [
       { id: 'jan', startDateTime: january },
@@ -35,15 +95,7 @@ describe('getUpcomingEvents', () => {
       { id: 'feb', startDateTime: february },
     ].map(({ id, startDateTime }) => ({
       id,
-      times: [
-        {
-          range: {
-            startDateTime,
-            endDateTime: new Date(2100, 3, 25, 16, 30, 0),
-          },
-          isFullyBooked: { inVenue: false, online: false },
-        },
-      ],
+      ...createEvent({ startDateTime, endDateTime: april }),
     }));
 
     const upcomingEvents = getUpcomingEvents(events);
@@ -58,15 +110,7 @@ describe('getUpcomingEvents', () => {
     const events = [
       {
         id: 'my-long-running-event',
-        times: [
-          {
-            range: {
-              startDateTime: pastDate,
-              endDateTime: futureDate,
-            },
-            isFullyBooked: { inVenue: false, online: false },
-          },
-        ],
+        ...createEvent({ startDateTime: pastDate, endDateTime: futureDate }),
       },
     ];
 

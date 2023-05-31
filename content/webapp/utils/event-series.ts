@@ -6,7 +6,7 @@ import {
 } from '@weco/common/utils/dates';
 import { HasTimes } from 'types/events';
 
-function isUpcoming<T extends HasTimes>(event: T): boolean {
+export function isUpcoming<T extends HasTimes>(event: T): boolean {
   const startsInFuture = event.times.some(t => isFuture(t.range.startDateTime));
 
   // This is to account for events that span multiple days.
