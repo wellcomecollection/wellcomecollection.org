@@ -25,10 +25,14 @@ describe('getUpcomingEvents', () => {
   });
 
   it('sorts upcoming events by their start date', () => {
+    const january = new Date(2100, 1, 1, 0, 0, 0);
+    const february = new Date(2100, 2, 1, 0, 0, 0);
+    const march = new Date(2100, 3, 1, 0, 0, 0);
+
     const events = [
-      { id: '1', startDateTime: new Date(2100, 1, 1, 0, 0, 0) },
-      { id: '3', startDateTime: new Date(2100, 3, 1, 0, 0, 0) },
-      { id: '2', startDateTime: new Date(2100, 2, 1, 0, 0, 0) },
+      { id: 'jan', startDateTime: january },
+      { id: 'mar', startDateTime: march },
+      { id: 'feb', startDateTime: february },
     ].map(({ id, startDateTime }) => ({
       id,
       times: [
@@ -44,18 +48,21 @@ describe('getUpcomingEvents', () => {
 
     const upcomingEvents = getUpcomingEvents(events);
 
-    expect(upcomingEvents.map(ev => ev.id)).toEqual(['1', '2', '3']);
+    expect(upcomingEvents.map(ev => ev.id)).toEqual(['jan', 'feb', 'mar']);
   });
 
   it('includes an event as upcoming if a multi-day event hasn’t finished yet', () => {
+    const pastDate = new Date(2001, 3, 25, 16, 30, 0);
+    const futureDate = new Date(2100, 3, 25, 17, 30);
+
     const events = [
       {
-        id: 'YjyVoREAACAAhUvk',
+        id: 'my-long-running-event',
         times: [
           {
             range: {
-              startDateTime: new Date(2001, 3, 25, 16, 30, 0),
-              endDateTime: new Date(2100, 3, 25, 17, 30),
+              startDateTime: pastDate,
+              endDateTime: futureDate,
             },
             isFullyBooked: { inVenue: false, online: false },
           },
@@ -65,6 +72,6 @@ describe('getUpcomingEvents', () => {
 
     const upcomingEvents = getUpcomingEvents(events);
 
-    expect(upcomingEvents.map(ev => ev.id)).toEqual(['YjyVoREAACAAhUvk']);
+    expect(upcomingEvents.map(ev => ev.id)).toEqual(['my-long-running-event']);
   });
 });
