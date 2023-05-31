@@ -29,3 +29,21 @@ module "content-stage" {
     aws = aws.stage
   }
 }
+
+// The service should be available at: "content.www-e2e.wellcomecollection.org"
+
+module "content-e2e" {
+  source = "./stack"
+
+  environment = data.terraform_remote_state.experience_shared.outputs.e2e
+
+  container_image = local.e2e_app_image
+  nginx_image     = local.nginx_image
+  env_suffix      = "e2e"
+
+  subdomain = "content.www-e2e"
+
+  providers = {
+    aws = aws.stage
+  }
+}

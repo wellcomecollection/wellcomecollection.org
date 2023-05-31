@@ -41,3 +41,28 @@ module "identity-stage" {
     aws = aws.stage
   }
 }
+
+
+// The service should be available at: "https://identity.www-e2e.wellcomecollection.org"
+
+module "identity-e2e" {
+  source = "./stack"
+
+  container_image = local.e2e_app_image
+  nginx_image     = local.nginx_image
+  env_suffix      = "e2e"
+
+  environment = data.terraform_remote_state.experience_shared.outputs.e2e
+
+  env_vars = merge(
+    local.service_env["stage"]["env_vars"],
+    { SITE_BASE_URL = "https://www-e2e.wellcomecollection.org" }
+  )
+  secret_env_vars = local.service_env["stage"]["secret_env_vars"]
+
+  subdomain = "identity.www-e2e"
+
+  providers = {
+    aws = aws.stage
+  }
+}

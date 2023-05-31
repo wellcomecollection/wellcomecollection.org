@@ -29,3 +29,22 @@ module "catalogue-stage" {
     aws = aws.stage
   }
 }
+
+
+// The service should be available at: "works.www-e2e.wellcomecollection.org/works"
+
+module "catalogue-e2e" {
+  source = "./stack"
+
+  container_image = local.e2e_app_image
+  nginx_image     = local.nginx_image
+  env_suffix      = "e2e"
+
+  environment = data.terraform_remote_state.experience_shared.outputs.e2e
+
+  subdomain = "works.www-e2e"
+
+  providers = {
+    aws = aws.stage
+  }
+}

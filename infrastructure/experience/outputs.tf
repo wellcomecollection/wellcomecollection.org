@@ -17,3 +17,7 @@ output "prod" {
 output "stage" {
   value = module.stage
 }
+
+output "e2e" {
+  value = module.e2e
+}
