@@ -9,12 +9,20 @@ variable "environment" {
   })
 }
 
-variable "env_suffix" {}
+variable "env_suffix" {
+  type = string
+}
 
-variable "subdomain" {}
+variable "subdomain" {
+  type = string
+}
 
-variable "container_image" {}
-variable "nginx_image" {}
+variable "container_image" {
+  type = string
+}
+variable "nginx_image" {
+  type = string
+}
 
 variable "aws_region" {
   default = "eu-west-1"
