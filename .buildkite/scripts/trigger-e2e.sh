@@ -21,14 +21,6 @@ TRIGGER_STEP="steps:
       env:
         DEPLOYMENT_ENVIRONMENT: ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}
         PLAYWRIGHT_BASE_URL: ${ENVIRONMENT_URL}
-
-    # This means that each set of e2e tests will run with one deployment.
-    #
-    # This avoids any issues with the deployment changing as the e2e tests
-    # are running, which we believe might be the source of some instability
-    # and flakiness -- stuff changing as the tests are running.
-    concurrency: 1
-    concurrency_group: "experience-deploy"
 "
 
 echo "$TRIGGER_STEP" | buildkite-agent pipeline upload
