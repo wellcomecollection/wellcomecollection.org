@@ -58,28 +58,30 @@ export const TODO = styled.p`
 
 // V2
 
-export const Flex = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top'] },
-})`
+export const InfoBlock = styled(Space).attrs<{ hasBorder?: boolean }>(
+  props => ({
+    v: {
+      size: 'l',
+      properties: ['padding-top', props.hasBorder ? 'padding-bottom' : ''],
+    },
+  })
+)<{ hasBorder?: boolean; borderColor?: 'black' }>`
   display: flex;
   align-items: flex-start;
-`;
+  flex-direction: column-reverse;
+  gap: 32px;
 
-export const Division = styled(Flex).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})<{ borderColor?: 'black' }>`
-  border-bottom: 1px solid
-    ${props => props.theme.color(props.borderColor || 'warmNeutral.400')};
-`;
+  ${props => props.theme.media('medium')`
+    flex-direction: row;
+  `}
 
-export const LeftHandSide = styled(Space).attrs({
-  h: { size: 'l', properties: ['margin-right'] },
-})`
-  flex: 1 1 50%;
-`;
+  ${props =>
+    props.hasBorder
+      ? `border-bottom: 1px solid
+    ${props.theme.color(props.borderColor || 'warmNeutral.400')}`
+      : null};
 
-export const RightHandSide = styled(Space).attrs({
-  h: { size: 'l', properties: ['margin-left'] },
-})`
-  flex: 1 1 50%;
+  & > div {
+    flex-basis: 50%;
+  }
 `;
