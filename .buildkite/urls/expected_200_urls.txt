@@ -10,6 +10,7 @@
 /stories
 /whats-on
 /collections
+/press
 
 # Catalogue URLs
 /search?query=human
