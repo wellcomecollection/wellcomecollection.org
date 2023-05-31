@@ -1,3 +1,8 @@
+- command: echo "--> Start of concurrency gate"
+  concurrency: 1
+  concurrency_group: "dotorg-e2e-on-pull-requests-gate"
+  key: start-gate
+
 - label: 'Deploy to e2e'
   commands: |
     ENV_TAG=content-env.e2e \
@@ -20,9 +25,11 @@
       "catalogue-17092020-e2e" \
       "identity-18012021-e2e"
 
-  concurrency: 1
-  concurrency_group: "dotorg-e2e-on-pull-requests"
+  depends_on: start-gate
 
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
+
+- wait
+- command: echo
