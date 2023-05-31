@@ -581,6 +581,10 @@ export const V2Prototype = () => {
           </SpacingSection>
 
           <TODO>Access content?</TODO>
+          <TODO>
+            Discuss portrait images on mobile and how to align their icons as
+            they are not full-width, but centered
+          </TODO>
           <TODO>Border logic to be border top? e.g. H2 gets black over it</TODO>
           <TODO>
             Current Spacing rules are 32px or 64px, mockups are 40px between
