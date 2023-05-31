@@ -1,6 +1,11 @@
+variable "environment" {
+  type = object({
+    cluster_arn  = string
+    namespace_id = string
+  })
+}
+
 variable "env_suffix" {}
-variable "namespace_id" {}
-variable "cluster_arn" {}
 
 variable "interservice_security_group_id" {}
 variable "service_egress_security_group_id" {}
