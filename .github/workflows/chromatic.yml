@@ -4,6 +4,7 @@ name: 'Chromatic'
 on:
   push:
     paths-ignore:
+      - '.buildkite/**'
       - 'assets/**'
       - 'cache/**'
       - 'cardigan/**'

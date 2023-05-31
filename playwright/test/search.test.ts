@@ -46,7 +46,7 @@ async function gotoSearchResultPage(
 }
 
 const imageSearchResultsContainer =
-  'ul[data-test-id="image-search-results-container"]';
+  '[data-test-id="image-search-results-container"]';
 const imagesResultsListItem = `${imageSearchResultsContainer} li`;
 
 const subNavigationContainer = 'div[data-test-id="sub-nav-tab-container"]';
@@ -101,7 +101,7 @@ test.describe('Search page interactions', () => {
     const query = 'gisjdabasdf;o';
     await gotoSearchResultPage({ url: imagesUrl, query }, page);
     expect(await page.innerText(searchNoResults)).toBe(
-      `We couldn’t find anything that matched ${query}. Please try again.`
+      `We couldn’t find anything that matched ${query}.`
     );
   });
 });

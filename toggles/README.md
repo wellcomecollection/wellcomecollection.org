@@ -12,13 +12,15 @@ We currently use three categories of toggles:
 Used to release a feature early, generally internally. We then develop the feature until
 we are happy for it to be released to the public. These should expire over time.
 
-* create new toggle with `initialValue: false`
-* run `yarn deploy` and merge your code in `main`
-* let internal users know they can turn this feature on via the [toggles dashboard][toggles-dashboard]
-* iterate!
-* once you're happy with releasing the feature publicly, run `yarn setDefaultValueFor --{toggle_id}=true`
-* if anything goes wrong, you can run `yarn setDefaultValueFor --{toggle_id}=false`
-* once you're completely happy with it, remove the toggle from the code
+* Go to `toggles/webapp/toggles.ts`.
+* Create new toggle with `initialValue: false`.
+* log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard][toggles-dashboard].
+* If required, create a PR. Ensure you merge your code in `main`.
+* Let internal users know they can turn this feature on via the [toggles dashboard][toggles-dashboard].
+* Iterate!
+* Once you're happy with releasing the feature publicly, run `yarn setDefaultValueFor --{toggle_id}=true`.
+* If anything goes wrong, you can run `yarn setDefaultValueFor --{toggle_id}=false`.
+* Once you're completely happy with it, remove the toggle from the code.
 
 ### 2. Feature toggle
 

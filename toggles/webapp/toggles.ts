@@ -58,6 +58,12 @@ const toggles = {
       description:
         'Fetch IIIF manifests from iiif-test.wellcomecollection.org for new DLCS testing.',
     },
+    {
+      id: 'visualStories',
+      title: 'Visual Stories Prototype',
+      initialValue: false,
+      description: 'Allows access to visual stories pages.',
+    },
   ] as const,
   tests: [] as ABTest[],
 };

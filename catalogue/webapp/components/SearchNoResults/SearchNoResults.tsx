@@ -29,12 +29,18 @@ const SearchNoResults: FunctionComponent<Props> = ({
   return (
     <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <div className="grid">
-        <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+        <div className={grid({ s: 12, m: 10, l: 10, xl: 10 })}>
           <Copy data-test-id="search-no-results" textColor={textColor}>
             We couldn&rsquo;t find anything that matched{' '}
             {query ? <QuerySpan>{query}</QuerySpan> : 'your search'}
-            {hasFilters ? ' with the filters you have selected.' : '.'} Please
-            try again.
+            {hasFilters ? ' with the filters you have selected.' : '.'}
+          </Copy>
+          <Copy>
+            Please adjust your search terms and try again. If you think this
+            search should show some results, please email{' '}
+            <a href="mailto:digital@wellcomecollection.org">
+              digital@wellcomecollection.org
+            </a>
           </Copy>
         </div>
       </div>

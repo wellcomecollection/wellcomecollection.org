@@ -26,7 +26,7 @@ const searchBarInput = `#search-searchbar`;
 const colourSelectorFilterDropDown = `button[aria-controls="images.color"]`;
 const colourSelector = `button[data-test-id="swatch-green"]`;
 const imageSearchResultsContainer =
-  'ul[data-test-id="image-search-results-container"]';
+  '[data-test-id="image-search-results-container"]';
 const imagesResultsListItem = `${imageSearchResultsContainer} li`;
 
 const fillActionSearchInput = async (

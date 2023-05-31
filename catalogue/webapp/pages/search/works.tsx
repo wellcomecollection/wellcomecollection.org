@@ -33,6 +33,7 @@ import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
 // Types
 import {
@@ -220,6 +221,35 @@ export const getServerSideProps: GetServerSideProps<
   const query = context.query;
   const params = fromQuery(query);
 
+  const defaultProps = serialiseProps({
+    serverData,
+    worksRouteProps: params,
+    query,
+  });
+
+  // If the request looks like spam, return a 400 error and skip actually fetching
+  // the data from the APIs.
+  //
+  // Users will still see a meaningful error page with instructions about tweaking
+  // their query/telling us if they expected results, but they won't be causing load
+  // on our back-end APIs.
+  //
+  // The status code will also allow us to filter out spam-like requests from our analytics.
+  if (looksLikeSpam(query.query)) {
+    context.res.statusCode = 400;
+    return {
+      props: {
+        ...defaultProps,
+        works: { totalResults: 0 } as any,
+        pageview: {
+          name: 'works',
+          properties: {},
+        },
+        apiToolbarLinks: [],
+      },
+    };
+  }
+
   const aggregations = [
     'workType',
     'availabilities',
@@ -250,10 +280,8 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: serialiseProps({
+      ...defaultProps,
       works,
-      worksRouteProps: params,
-      serverData,
-      query,
       pageview: {
         name: 'works',
         properties: { totalResults: works.totalResults },

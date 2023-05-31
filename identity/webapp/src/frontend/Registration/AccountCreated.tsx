@@ -1,5 +1,5 @@
 import React from 'react';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { PageWrapper } from '../components/PageWrapper';
 import { SuccessMessage } from './Registration.style';
