@@ -317,7 +317,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             isActiveMobile={isMobileSidebarActive}
             isActiveDesktop={isDesktopSidebarActive}
           >
-            <ViewerSidebar />
+            <ViewerSidebar iiifImageLocation={iiifImageLocation} />
           </Sidebar>
           <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
             <ViewerTopBar iiifImageLocation={iiifImageLocation} />

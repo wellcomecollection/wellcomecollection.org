@@ -9,6 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { DigitalLocation } from '@weco/common/model/catalogue';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import {
@@ -189,7 +190,7 @@ const RightZone = styled.div`
 `;
 
 const ViewerTopBar: FunctionComponent<{
-  iiifImageLocation?: { url: string };
+  iiifImageLocation?: DigitalLocation;
 }> = ({ iiifImageLocation }) => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();

@@ -5,6 +5,7 @@ import {
   useEffect,
   PropsWithChildren,
 } from 'react';
+import { DigitalLocation } from '@weco/common/model/catalogue';
 import NextLink from 'next/link';
 import WorkLink from '../WorkLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -19,7 +20,6 @@ import {
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestList from './MultipleManifestList';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
@@ -120,7 +120,9 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
   );
 };
 
-const ViewerSidebar: FunctionComponent = () => {
+const ViewerSidebar: FunctionComponent<{
+  iiifImageLocation?: DigitalLocation;
+}> = ({ iiifImageLocation }) => {
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
@@ -129,13 +131,14 @@ const ViewerSidebar: FunctionComponent = () => {
   const { iiifCredit, structures, searchService } = { ...transformedManifest };
   const productionDates = getProductionDates(work);
   // Determine digital location
-  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const imageLocation =
+    iiifImageLocation || getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
   );
   const digitalLocation: DigitalLocation | undefined =
-    iiifPresentationLocation || iiifImageLocation;
+    iiifPresentationLocation || imageLocation;
 
   const license =
     digitalLocation?.license &&
