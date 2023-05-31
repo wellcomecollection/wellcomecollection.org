@@ -23,8 +23,6 @@ provider "aws" {
   }
 }
 
-provider "template" {}
-
 provider "aws" {
   alias  = "platform"
   region = "eu-west-1"
