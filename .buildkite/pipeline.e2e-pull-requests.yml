@@ -5,7 +5,7 @@
 #     - e2e tests can only run against one PR at a time
 #
 # See https://buildkite.com/blog/concurrency-gates
-- label: "🔒 lock"
+- label: "🔒 lock pipeline"
   command: echo "--> Start of concurrency gate"
   concurrency_group: "dotorg-e2e-on-pull-requests-gate"
   concurrency: 1
@@ -56,7 +56,7 @@
 
 - wait
 
-- label: "🔓 unlock"
+- label: "🔓 unlock pipeline"
   command: echo "End of concurrency gate <--"
   concurrency_group: "dotorg-e2e-on-pull-requests-gate"
   concurrency: 1
