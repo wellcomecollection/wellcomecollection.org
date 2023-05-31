@@ -274,7 +274,7 @@ export const V2Prototype = () => {
                 src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/13-3-up-train-stations.png"
               />
             </span>
-            <TODO>TODO add station names or discuss with Dom</TODO>
+            <TODO>Add station names or discuss with Dom</TODO>
           </SpacingSection>
 
           {/* Yellow box */}
