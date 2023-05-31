@@ -92,6 +92,7 @@ do
 
   if [[ "$LATEST_MANIFEST" != "$TAGGED_MANIFEST" ]]
   then
+    echo "Updating image tag for $LATEST_TAG to $ENV_TAG"
     aws ecr put-image \
       --repository-name "$repositoryName" \
       --image-tag "$ENV_TAG" \
