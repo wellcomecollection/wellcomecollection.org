@@ -1,6 +1,6 @@
 - label: 'get started'
   commands:
-    ENV_TAG=content-env.e2e LATEST_TAG=wc-dot-org-build-plus-test-content-build-11582 .buildkite/scripts/update_ecr_image_tag.sh uk.ac.wellcome/buildkite
+    bash .buildkite/scripts/run-e2e-on-pull-requests.sh
 
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
