@@ -9,7 +9,7 @@ module "e2e_cert" {
     "identity.www-e2e.wellcomecollection.org"
   ]
 
-  zone_id = "Z0902614YH73JBCZG1MA"
+  zone_id = data.aws_route53_zone.zone.id
 
   # The `aws.dns` provider should be a provider with permission to modify
   # DNS records in the `zone_id` Hosted Zone.
