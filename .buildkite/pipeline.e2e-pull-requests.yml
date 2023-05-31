@@ -1,7 +1,17 @@
+# This step (and the final step) implement a Buildkite "concurrency gate".
+# This means that:
+#
+#     - we can run the e2e tests themselves in parallel
+#     - e2e tests can only run against one PR at a time
+#
+# See https://buildkite.com/blog/concurrency-gates
 - command: echo "--> Start of concurrency gate"
-  concurrency: 1
   concurrency_group: "dotorg-e2e-on-pull-requests-gate"
+  concurrency: 1
   key: start-gate
+
+  agents:
+    queue: nano
 
 - label: 'Deploy to e2e'
   commands: |
@@ -32,4 +42,8 @@
         role: 'arn:aws:iam::130871440101:role/experience-ci'
 
 - wait
-- command: echo
+
+- command: echo "End of concurrency gate <--"
+  concurrency_group: "dotorg-e2e-on-pull-requests-gate"
+  concurrency: 1
+  key: end-gate
