@@ -16,7 +16,7 @@ const contentTypes = [
   'stories-landing',
 ] as const;
 
-export type ContentType = typeof contentTypes[number];
+export type ContentType = (typeof contentTypes)[number];
 
 export function isContentType(type: any): type is ContentType {
   return typeof type && contentTypes.includes(type);

@@ -45,7 +45,7 @@ const handlers = {
 } as const;
 
 type Key = keyof typeof handlers;
-type DefaulVal<K extends Key> = typeof handlers[K]['defaultValue'];
+type DefaulVal<K extends Key> = (typeof handlers)[K]['defaultValue'];
 
 async function read(key: Key, defaultValue: DefaulVal<Key>) {
   const fileName = path.join(pathName, `${key}.json`);

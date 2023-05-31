@@ -3,7 +3,7 @@ import { withPrismicPreviewStatus } from './withPrismicPreviewStatus';
 import { IncomingMessage, ServerResponse } from 'http';
 import Router from 'koa-router';
 import { NextServer } from 'next/dist/server/next';
-import { parse, UrlWithParsedQuery } from 'url'; // eslint-disable-line node/no-deprecated-api
+import { parse, UrlWithParsedQuery } from 'url'; // eslint-disable-line n/no-deprecated-api
 
 export const withCachedValues = compose([withPrismicPreviewStatus]);
 

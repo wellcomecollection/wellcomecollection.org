@@ -182,178 +182,155 @@ test.describe('Scenario 1: The person is looking for an archive', () => {
   });
 });
 
-test.describe(
-  'Scenario 2: The person is searching for a work on open shelves',
-  () => {
-    test('the work should be browsable to from the search results', async ({
-      page,
-      context,
-    }) => {
-      await newWorksSearch(context, page);
-      await searchFor('eyes', page);
-      await openDropdown('Locations', page);
-      await selectCheckbox('Open shelves', page);
-      await navigateToNextPage(page);
+test.describe('Scenario 2: The person is searching for a work on open shelves', () => {
+  test('the work should be browsable to from the search results', async ({
+    page,
+    context,
+  }) => {
+    await newWorksSearch(context, page);
+    await searchFor('eyes', page);
+    await openDropdown('Locations', page);
+    await selectCheckbox('Open shelves', page);
+    await navigateToNextPage(page);
 
-      expectSearchParam('availabilities', 'open-shelves', page);
+    expectSearchParam('availabilities', 'open-shelves', page);
 
-      await navigateToResult(6, page);
-    });
-  }
-);
+    await navigateToResult(6, page);
+  });
+});
 
-test.describe(
-  'Scenario 3: The person is searching for a work that is available online',
-  () => {
-    test('the work should be browsable to from the search results', async ({
-      page,
-      context,
-    }) => {
-      await newWorksSearch(context, page);
-      await searchFor('skin', page);
-      await openDropdown('Locations', page);
-      await selectCheckbox('Online', page);
-      await navigateToNextPage(page);
+test.describe('Scenario 3: The person is searching for a work that is available online', () => {
+  test('the work should be browsable to from the search results', async ({
+    page,
+    context,
+  }) => {
+    await newWorksSearch(context, page);
+    await searchFor('skin', page);
+    await openDropdown('Locations', page);
+    await selectCheckbox('Online', page);
+    await navigateToNextPage(page);
 
-      expectSearchParam('availabilities', 'online', page);
+    expectSearchParam('availabilities', 'online', page);
 
-      await navigateToResult(8, page);
-    });
-  }
-);
+    await navigateToResult(8, page);
+  });
+});
 
-test.describe(
-  'Scenario 4: The person is searching for a work from Wellcome Images',
-  () => {
-    test('the work should be browsable to from the search results', async ({
-      page,
-      context,
-    }) => {
-      await newWorksSearch(context, page);
-      await searchFor('skeleton', page);
-      await openDropdown('Formats', page);
-      await selectCheckbox('Digital images', page);
-      await navigateToNextPage(page);
+test.describe('Scenario 4: The person is searching for a work from Wellcome Images', () => {
+  test('the work should be browsable to from the search results', async ({
+    page,
+    context,
+  }) => {
+    await newWorksSearch(context, page);
+    await searchFor('skeleton', page);
+    await openDropdown('Formats', page);
+    await selectCheckbox('Digital images', page);
+    await navigateToNextPage(page);
 
-      expectSearchParam('workType', 'q', page);
+    expectSearchParam('workType', 'q', page);
 
-      await navigateToResult(1, page);
-    });
-  }
-);
+    await navigateToResult(1, page);
+  });
+});
 
-test.describe(
-  'Scenario 5: The person is searching for a work in closed stores',
-  () => {
-    test('the work should be browsable to from the search results', async ({
-      page,
-      context,
-    }) => {
-      await newWorksSearch(context, page);
-      await searchFor('brain', page);
-      await openDropdown('Locations', page);
-      await selectCheckbox('Closed stores', page);
-      await navigateToNextPage(page);
+test.describe('Scenario 5: The person is searching for a work in closed stores', () => {
+  test('the work should be browsable to from the search results', async ({
+    page,
+    context,
+  }) => {
+    await newWorksSearch(context, page);
+    await searchFor('brain', page);
+    await openDropdown('Locations', page);
+    await selectCheckbox('Closed stores', page);
+    await navigateToNextPage(page);
 
-      expectSearchParam('availabilities', 'closed-stores', page);
+    expectSearchParam('availabilities', 'closed-stores', page);
 
-      await navigateToResult(6, page);
-    });
-  }
-);
+    await navigateToResult(6, page);
+  });
+});
 
-test.describe(
-  'Scenario 6: The reader is searching for works from a particular year',
-  () => {
-    test('the work should be browsable to from the search results', async ({
-      page,
-      context,
-    }) => {
-      await newWorksSearch(context, page);
-      await searchFor('brain', page);
-      await openDropdown('Dates', page);
+test.describe('Scenario 6: The reader is searching for works from a particular year', () => {
+  test('the work should be browsable to from the search results', async ({
+    page,
+    context,
+  }) => {
+    await newWorksSearch(context, page);
+    await searchFor('brain', page);
+    await openDropdown('Dates', page);
 
-      // Note: if you put both `page.locator(…).fill(…)` commands in a
-      // single Promise.all(), they can interfere in such a way that only
-      // one of them ends up in the final URL. :-/
+    // Note: if you put both `page.locator(…).fill(…)` commands in a
+    // single Promise.all(), they can interfere in such a way that only
+    // one of them ends up in the final URL. :-/
 
-      await Promise.all([
-        page
-          .locator(
-            'input[form="search-page-form"][name="production.dates.from"]'
-          )
-          .fill('1939'),
-        safeWaitForNavigation(page),
-      ]);
+    await Promise.all([
+      page
+        .locator('input[form="search-page-form"][name="production.dates.from"]')
+        .fill('1939'),
+      safeWaitForNavigation(page),
+    ]);
 
-      await Promise.all([
-        page
-          .locator('input[form="search-page-form"][name="production.dates.to"]')
-          .fill('2001'),
-        safeWaitForNavigation(page),
-      ]);
+    await Promise.all([
+      page
+        .locator('input[form="search-page-form"][name="production.dates.to"]')
+        .fill('2001'),
+      safeWaitForNavigation(page),
+    ]);
 
-      if (isMobile(page)) {
-        await page.click(`"Show results"`);
-      }
+    if (isMobile(page)) {
+      await page.click(`"Show results"`);
+    }
 
-      expectSearchParam('production.dates.from', '1939', page);
-      expectSearchParam('production.dates.to', '2001', page);
+    expectSearchParam('production.dates.from', '1939', page);
+    expectSearchParam('production.dates.to', '2001', page);
 
-      // This is a check that we have actually loaded some results from
-      // the API, and the API hasn't just errored out.
-      await navigateToResult(6, page);
-    });
-  }
-);
+    // This is a check that we have actually loaded some results from
+    // the API, and the API hasn't just errored out.
+    await navigateToResult(6, page);
+  });
+});
 
-test.describe(
-  'Scenario 7: The user is sorting by production dates in search',
-  () => {
-    test('Sort updates URL query and goes back to the first page', async ({
-      context,
-      page,
-    }) => {
-      await newWorksSearch(context, page);
+test.describe('Scenario 7: The user is sorting by production dates in search', () => {
+  test('Sort updates URL query and goes back to the first page', async ({
+    context,
+    page,
+  }) => {
+    await newWorksSearch(context, page);
 
-      const select = page.locator('select[name="sortOrder"]');
-      await select.selectOption({ index: 2 });
+    const select = page.locator('select[name="sortOrder"]');
+    await select.selectOption({ index: 2 });
 
-      await safeWaitForNavigation(page);
-      await navigateToNextPage(page);
+    await safeWaitForNavigation(page);
+    await navigateToNextPage(page);
 
-      expectSearchParam('sortOrder', 'desc', page);
-      expectSearchParam('sort', 'production.dates', page);
-      expectSearchParam('page', '2', page);
+    expectSearchParam('sortOrder', 'desc', page);
+    expectSearchParam('sort', 'production.dates', page);
+    expectSearchParam('page', '2', page);
 
-      await select.selectOption({ index: 1 });
-      await safeWaitForNavigation(page);
+    await select.selectOption({ index: 1 });
+    await safeWaitForNavigation(page);
 
-      expectSearchParam('sortOrder', 'asc', page);
-      expectSearchParam('page', undefined, page);
-    });
-  }
-);
+    expectSearchParam('sortOrder', 'asc', page);
+    expectSearchParam('page', undefined, page);
+  });
+});
 
-test.describe(
-  'Scenario 8: The user is coming from a prefiltered series search',
-  () => {
-    test('The user should be able to add more filters', async ({
-      context,
-      page,
-    }) => {
-      await workWithDigitalLocationAndLocationNote(context, page);
+test.describe('Scenario 8: The user is coming from a prefiltered series search', () => {
+  test('The user should be able to add more filters', async ({
+    context,
+    page,
+  }) => {
+    await workWithDigitalLocationAndLocationNote(context, page);
 
-      await page.click('a >> text="Medical Heritage LIbrary"'); // Medical Heritage LIbrary
-      await safeWaitForNavigation(page);
+    await page.click('a >> text="Medical Heritage LIbrary"'); // Medical Heritage LIbrary
+    await safeWaitForNavigation(page);
 
-      expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
+    expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
 
-      await openDropdown('Formats', page);
-      await selectCheckbox('Books', page);
+    await openDropdown('Formats', page);
+    await selectCheckbox('Books', page);
 
-      expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
-      expectSearchParam('workType', 'a', page);
-    });
-  }
-);
+    expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
+    expectSearchParam('workType', 'a', page);
+  });
+});

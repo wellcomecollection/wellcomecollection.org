@@ -20,7 +20,7 @@ import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 export function transformOnThisPage(body: Body): Link[] {
   return flattenDeep(
-    body.map(slice => slice.primary['title'] || slice.primary['text'] || [])
+    body.map(slice => slice.primary.title || slice.primary.text || [])
   )
     .filter(text => text.type === 'heading2')
     .map(item => {
@@ -97,7 +97,7 @@ export function transformPage(document: PagePrismicDocument): Page {
     datePublished: data.datePublished
       ? transformTimestamp(data.datePublished)
       : undefined,
-    siteSection: siteSection,
+    siteSection,
   };
 }
 

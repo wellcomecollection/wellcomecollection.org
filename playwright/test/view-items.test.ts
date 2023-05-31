@@ -48,7 +48,7 @@ const test = base.extend({
   context: async ({ context }, use) => {
     const defaultToggleAndTestCookies = await makeDefaultToggleCookies(domain);
     await context.addCookies([
-      { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
+      { name: 'WC_cookiesAccepted', value: 'true', domain, path: '/' },
       ...defaultToggleAndTestCookies,
     ]);
     await use(context);
@@ -147,81 +147,67 @@ test.describe('Scenario 2: A user wants to use the content offline', () => {
   });
 });
 
-test.describe(
-  'Scenario 3: A user wants information about the item they are viewing',
-  () => {
-    test('the item has a title', async ({ page, context }) => {
-      await multiVolumeItem(context, page);
-      const title = await page.textContent('h1');
-      expect(title).toBe(
-        'Practica seu Lilium medicinae / [Bernard de Gordon].'
+test.describe('Scenario 3: A user wants information about the item they are viewing', () => {
+  test('the item has a title', async ({ page, context }) => {
+    await multiVolumeItem(context, page);
+    const title = await page.textContent('h1');
+    expect(title).toBe('Practica seu Lilium medicinae / [Bernard de Gordon].');
+  });
+
+  test('the item has contributor information', async ({ page, context }) => {
+    await multiVolumeItem(context, page);
+    const contributors = await page.textContent(workContributors);
+    expect(contributors).toBe(
+      'Bernard, de Gordon, approximately 1260-approximately 1318'
+    );
+  });
+
+  test('the item has date information', async ({ page, context }) => {
+    await multiVolumeItem(context, page);
+    const dates = await page.textContent(workDates);
+    // TODO: this text isn't very explanitory and should probably be updated in the DOM
+    expect(dates).toBe('Date:1496[7]');
+  });
+
+  test('the item has reference number information', async ({
+    page,
+    context,
+  }) => {
+    await itemWithReferenceNumber(context, page);
+    const dates = await page.textContent(referenceNumber);
+    expect(dates).toBe('Reference:WA/HMM/BU/1');
+  });
+});
+
+test.describe('Scenario 4: A user wants to know how they can make use of an item', () => {
+  test('licence information should be available', async ({ page, context }) => {
+    await itemWithSearchAndStructures(context, page);
+    if (isMobile(page)) {
+      await page.click('text="Show info"');
+    }
+    await page.click('text="Licence and credit"');
+    await page.waitForSelector(`css=body >> text="Licence:"`);
+    await page.waitForSelector(`css=body >> text="Credit:"`);
+  });
+});
+
+test.describe('Scenario 5: A user wants to view an item in a different orientation', () => {
+  test('the image should rotate', async ({ page, context }) => {
+    await itemWithSearchAndStructures(context, page);
+    await page.waitForSelector(rotateButton);
+    await page.click(rotateButton);
+    if (!isMobile(page)) {
+      const currentIndex = await page.textContent(
+        '[data-test-id=active-index]'
       );
-    });
-
-    test('the item has contributor information', async ({ page, context }) => {
-      await multiVolumeItem(context, page);
-      const contributors = await page.textContent(workContributors);
-      expect(contributors).toBe(
-        'Bernard, de Gordon, approximately 1260-approximately 1318'
+      const currentImageSrc = await page.getAttribute(
+        `[data-test-id=canvas-${Number(currentIndex) - 1}] img`,
+        'src'
       );
-    });
-
-    test('the item has date information', async ({ page, context }) => {
-      await multiVolumeItem(context, page);
-      const dates = await page.textContent(workDates);
-      // TODO: this text isn't very explanitory and should probably be updated in the DOM
-      expect(dates).toBe('Date:1496[7]');
-    });
-
-    test('the item has reference number information', async ({
-      page,
-      context,
-    }) => {
-      await itemWithReferenceNumber(context, page);
-      const dates = await page.textContent(referenceNumber);
-      expect(dates).toBe('Reference:WA/HMM/BU/1');
-    });
-  }
-);
-
-test.describe(
-  'Scenario 4: A user wants to know how they can make use of an item',
-  () => {
-    test('licence information should be available', async ({
-      page,
-      context,
-    }) => {
-      await itemWithSearchAndStructures(context, page);
-      if (isMobile(page)) {
-        await page.click('text="Show info"');
-      }
-      await page.click('text="Licence and credit"');
-      await page.waitForSelector(`css=body >> text="Licence:"`);
-      await page.waitForSelector(`css=body >> text="Credit:"`);
-    });
-  }
-);
-
-test.describe(
-  'Scenario 5: A user wants to view an item in a different orientation',
-  () => {
-    test('the image should rotate', async ({ page, context }) => {
-      await itemWithSearchAndStructures(context, page);
-      await page.waitForSelector(rotateButton);
-      await page.click(rotateButton);
-      if (!isMobile(page)) {
-        const currentIndex = await page.textContent(
-          '[data-test-id=active-index]'
-        );
-        const currentImageSrc = await page.getAttribute(
-          `[data-test-id=canvas-${Number(currentIndex) - 1}] img`,
-          'src'
-        );
-        expect(currentImageSrc).toContain('/90/default.jpg');
-      }
-    });
-  }
-);
+      expect(currentImageSrc).toContain('/90/default.jpg');
+    }
+  });
+});
 
 test.describe('Scenario 6: Item has multiple volumes', () => {
   test('the volumes should be browsable', async ({ page, context }) => {
@@ -276,28 +262,23 @@ test.describe('Scenario 6: Item has multiple volumes', () => {
   });
 });
 
-test.describe(
-  'Scenario 7: A user wants to navigate an item by its parts',
-  () => {
-    test('the structured parts should be browseable', async ({
-      page,
-      context,
-    }) => {
-      await itemWithSearchAndStructures(context, page);
-      if (isMobile(page)) {
-        await page.click('text="Show info"');
-      }
-      await page.click('css=body >> text="Contents"');
-      await page.waitForSelector('css=body >> text="Title Page"');
-      await page.click('text="Title Page"');
-      if (!isMobile(page)) {
-        await page.waitForSelector(
-          `css=[data-test-id=active-index] >> text="5"`
-        );
-      }
-    });
-  }
-);
+test.describe('Scenario 7: A user wants to navigate an item by its parts', () => {
+  test('the structured parts should be browseable', async ({
+    page,
+    context,
+  }) => {
+    await itemWithSearchAndStructures(context, page);
+    if (isMobile(page)) {
+      await page.click('text="Show info"');
+    }
+    await page.click('css=body >> text="Contents"');
+    await page.waitForSelector('css=body >> text="Title Page"');
+    await page.click('text="Title Page"');
+    if (!isMobile(page)) {
+      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+    }
+  });
+});
 
 const scrollToBottom = async (selector: string, page: Page) => {
   await page.$eval(selector, (element: HTMLElement) => {
@@ -305,134 +286,120 @@ const scrollToBottom = async (selector: string, page: Page) => {
   });
 };
 
-test.describe(
-  'Scenario 8: A user wants to be able to see all the images for an item',
-  () => {
-    test('the main viewer can be scrolled', async ({ page, context }) => {
-      await itemWithSearchAndStructures(context, page);
-      await page.waitForSelector(mainViewer);
-      await scrollToBottom(mainViewer, page);
+test.describe('Scenario 8: A user wants to be able to see all the images for an item', () => {
+  test('the main viewer can be scrolled', async ({ page, context }) => {
+    await itemWithSearchAndStructures(context, page);
+    await page.waitForSelector(mainViewer);
+    await scrollToBottom(mainViewer, page);
 
-      // In this test, we're loading an item with 68 pages, scrolling to the
-      // bottom, then looking for the "68/68" text on the page.
-      //
-      // This text is hidden whenever the window is being scrolled, zoomed,
-      // or resized, because that might affect what the "current" page is.
-      //
-      // We've had issues with this test being flaky, because we don't wait
-      // long enough after we finish scrolling to look for this "68/68" --
-      // tossing in this wait seems to fix that.
-      await safeWaitForNavigation(page);
+    // In this test, we're loading an item with 68 pages, scrolling to the
+    // bottom, then looking for the "68/68" text on the page.
+    //
+    // This text is hidden whenever the window is being scrolled, zoomed,
+    // or resized, because that might affect what the "current" page is.
+    //
+    // We've had issues with this test being flaky, because we don't wait
+    // long enough after we finish scrolling to look for this "68/68" --
+    // tossing in this wait seems to fix that.
+    await safeWaitForNavigation(page);
 
-      await page.waitForSelector(
-        `css=[data-test-id=active-index] >> text="68"`,
+    await page.waitForSelector(
+      `css=[data-test-id=active-index] >> text="68"`,
 
-        // The "68/68" label isn't visible on small screens, but the element
-        // will still be on the page.
-        { state: isMobile(page) ? 'attached' : 'visible' }
-      );
-    });
-  }
-);
+      // The "68/68" label isn't visible on small screens, but the element
+      // will still be on the page.
+      { state: isMobile(page) ? 'attached' : 'visible' }
+    );
+  });
+});
 
-test.describe(
-  "Scenario 9: A user wants to be able to search inside an item's text",
-  () => {
-    test('the item should be searchable', async ({ page, context }) => {
-      await itemWithSearchAndStructures(context, page);
-      if (isMobile(page)) {
-        await page.click('text="Show info"');
-      }
-      await searchWithin('darwin', page);
-      await page.waitForSelector(searchWithinResultsHeader);
-      await page.click(
-        `${searchWithinResultsHeader} + ul li:first-of-type button`
-      );
-      if (!isMobile(page)) {
-        await page.waitForSelector(
-          `css=[data-test-id=active-index] >> text="5"`
-        );
-      }
-    });
-  }
-);
+test.describe("Scenario 9: A user wants to be able to search inside an item's text", () => {
+  test('the item should be searchable', async ({ page, context }) => {
+    await itemWithSearchAndStructures(context, page);
+    if (isMobile(page)) {
+      await page.click('text="Show info"');
+    }
+    await searchWithin('darwin', page);
+    await page.waitForSelector(searchWithinResultsHeader);
+    await page.click(
+      `${searchWithinResultsHeader} + ul li:first-of-type button`
+    );
+    if (!isMobile(page)) {
+      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+    }
+  });
+});
 
-test.describe(
-  'Scenario 10: A user wants to be able to access alt text for the images',
-  () => {
-    test('images should have alt text', async ({ page, context }) => {
-      await itemWithAltText({ canvasNumber: 2 }, context, page);
-      await page.waitForSelector(`img[alt='22102033982']`);
-    });
+test.describe('Scenario 10: A user wants to be able to access alt text for the images', () => {
+  test('images should have alt text', async ({ page, context }) => {
+    await itemWithAltText({ canvasNumber: 2 }, context, page);
+    await page.waitForSelector(`img[alt='22102033982']`);
+  });
 
-    test('image alt text should be unique', async ({ page, context }) => {
-      await itemWithAltText({ canvasNumber: 2 }, context, page);
-      await page.waitForSelector(`img[alt='22102033982']`);
-      const imagesWithSameText = await page.$$(`img[alt='22102033982']`);
-      expect(imagesWithSameText.length).toBe(1);
-    });
-  }
-);
+  test('image alt text should be unique', async ({ page, context }) => {
+    await itemWithAltText({ canvasNumber: 2 }, context, page);
+    await page.waitForSelector(`img[alt='22102033982']`);
+    const imagesWithSameText = await page.$$(`img[alt='22102033982']`);
+    expect(imagesWithSameText.length).toBe(1);
+  });
+});
 
-test.describe(
-  'Scenario 11: A user wants to view an item with access restrictions',
-  () => {
-    test('an item with only open access items will not display a modal', async ({
-      page,
-      context,
-    }) => {
-      await itemWithOnlyOpenAccess(context, page);
-      await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
-      expect(
-        await page.isVisible(`button:has-text('Show the content')`)
-      ).toBeFalsy();
-    });
+test.describe('Scenario 11: A user wants to view an item with access restrictions', () => {
+  test('an item with only open access items will not display a modal', async ({
+    page,
+    context,
+  }) => {
+    await itemWithOnlyOpenAccess(context, page);
+    await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
+    expect(
+      await page.isVisible(`button:has-text('Show the content')`)
+    ).toBeFalsy();
+  });
 
-    test('an item with a mix of restricted and open access items will not display a modal', async ({
-      page,
-      context,
-    }) => {
-      await itemWithRestrictedAndOpenAccess(context, page);
-      await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
-      expect(
-        await page.isVisible(`button:has-text('Show the content')`)
-      ).toBeFalsy();
-    });
+  test('an item with a mix of restricted and open access items will not display a modal', async ({
+    page,
+    context,
+  }) => {
+    await itemWithRestrictedAndOpenAccess(context, page);
+    await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
+    expect(
+      await page.isVisible(`button:has-text('Show the content')`)
+    ).toBeFalsy();
+  });
 
-    test('an item with only restricted access items will display a modal with no option to view the content', async ({
-      page,
-      context,
-    }) => {
-      await itemWithOnlyRestrictedAccess(context, page);
-      await page.waitForSelector(`h2:has-text('Restricted material')`);
-      expect(
-        await page.isVisible(`button:has-text('Show the content')`)
-      ).toBeFalsy();
-      expect(
-        await page.isVisible(`css=[data-test-id="canvas-0"] img`)
-      ).toBeFalsy();
-    });
+  test('an item with only restricted access items will display a modal with no option to view the content', async ({
+    page,
+    context,
+  }) => {
+    await itemWithOnlyRestrictedAccess(context, page);
+    await page.waitForSelector(`h2:has-text('Restricted material')`);
+    expect(
+      await page.isVisible(`button:has-text('Show the content')`)
+    ).toBeFalsy();
+    expect(
+      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
+    ).toBeFalsy();
+  });
 
-    test('an item with a mix of restricted and non-restricted access items will display a modal', async ({
-      page,
-      context,
-    }) => {
-      await itemWithRestrictedAndNonRestrictedAccess(context, page);
-      await page.waitForSelector(`button:has-text('Show the content')`);
-      expect(
-        await page.isVisible(`css=[data-test-id="canvas-0"] img`)
-      ).toBeFalsy();
-    });
+  test('an item with a mix of restricted and non-restricted access items will display a modal', async ({
+    page,
+    context,
+  }) => {
+    await itemWithRestrictedAndNonRestrictedAccess(context, page);
+    await page.waitForSelector(`button:has-text('Show the content')`);
+    expect(
+      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
+    ).toBeFalsy();
+  });
 
-    test('an item with a mix of non-restricted and open access items will display a modal', async ({
-      page,
-      context,
-    }) => {
-      await itemWithNonRestrictedAndOpenAccess(context, page);
-      await page.waitForSelector(`button:has-text('Show the content')`);
-      expect(
-        await page.isVisible(`css=[data-test-id="canvas-0"] img`)
-      ).toBeFalsy();
-    });
-  }
-);
+  test('an item with a mix of non-restricted and open access items will display a modal', async ({
+    page,
+    context,
+  }) => {
+    await itemWithNonRestrictedAndOpenAccess(context, page);
+    await page.waitForSelector(`button:has-text('Show the content')`);
+    expect(
+      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
+    ).toBeFalsy();
+  });
+});
