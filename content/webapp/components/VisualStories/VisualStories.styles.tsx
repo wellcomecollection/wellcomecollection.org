@@ -50,4 +50,8 @@ export const TODO = styled.p`
   background-color: yellow;
   padding: 2px;
   font-family: 'Comic Sans MS'; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+
+  &::before {
+    content: 'TODO: ';
+  }
 `;

@@ -3,7 +3,8 @@ import {
   NoSpacedText,
   YellowBox,
   YellowBoxInner,
-  // BigIcon,
+  TODO,
+  BigIcon,
 } from './VisualStories.styles';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
@@ -13,8 +14,8 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { anchorLinks } from './VisualStories.data';
 import Contact from '@weco/common/views/components/Contact/Contact';
-// import Icon from '@weco/common/views/components/Icon/Icon';
-// import { archive, folder } from '@weco/common/icons';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { a11Y } from '@weco/common/icons';
 
 export const V1Prototype = () => {
   return (
@@ -50,11 +51,15 @@ export const V1Prototype = () => {
               src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/2-free-icon.png"
             />
 
-            {/* <NoSpacedText>
-              <BigIcon>
-                <Icon icon={archive} matchText={true} />
-              </BigIcon>
-            </NoSpacedText> */}
+            <TODO>
+              Think about how to do big icons (this one is a styled svg from our
+              icon set)
+              <NoSpacedText>
+                <BigIcon>
+                  <Icon icon={a11Y} matchText={true} />
+                </BigIcon>
+              </NoSpacedText>
+            </TODO>
 
             <p>Wellcome Collection is a free museum.</p>
             <p>It is closed on Mondays.</p>
@@ -65,6 +70,10 @@ export const V1Prototype = () => {
             <p>It is open from 10am to 8pm on Thursdays.</p>
 
             <h3 id="quieter-times-to-visit">Quieter times to visit</h3>
+            <TODO>
+              Work out what kind of thing this 2-up image/text thing would be as
+              a component
+            </TODO>
             <TwoUp>
               <div>
                 <img
@@ -116,6 +125,11 @@ export const V1Prototype = () => {
             />
             <p>You can reach us by train, Underground, bus, bike or car.</p>
 
+            <TODO>
+              The mix of bold/regular text within an h3 would be very tricky
+              without making an arguably highly over-engineered specific heading
+              component
+            </TODO>
             <h3 id="arriving-by-tube-or-train">Arriving by tube or train</h3>
             <p>
               The nearest tube and train stations are Euston Square, Euston and
@@ -125,6 +139,7 @@ export const V1Prototype = () => {
               alt=""
               src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/13-3-up-train-stations.png"
             />
+            <TODO>Work out how to add station names below if required</TODO>
           </SpacingComponent>
           <SpacingComponent>
             <YellowBox>
@@ -134,7 +149,10 @@ export const V1Prototype = () => {
                   station, our <strong>Visitor Experience team</strong> can help
                   you make your way to our building.
                 </p>
-
+                <TODO>
+                  Work out if we can use the pre-existing Contact component for
+                  this
+                </TODO>
                 <NoSpacedText>
                   <Contact
                     email="info@wellcomecollection.org"
@@ -178,6 +196,10 @@ export const V1Prototype = () => {
             </p>
             <p>You can park non-folding bikes at Euston Station.</p>
             <h3 id="arriving-by-car">Arriving by car</h3>
+            <TODO>
+              If/when we figure out how to do big svg icons, not sure how/if
+              this blue-badge image would work in the same way
+            </TODO>
             <img
               style={{ width: '200px' }}
               alt=""
@@ -200,6 +222,7 @@ export const V1Prototype = () => {
               If you are arriving by taxi, please ask to be dropped off at 42
               Gower Place London WC1E 2BN
             </p>
+            <TODO>Should these be real (live) maps?</TODO>
             <img
               alt=""
               src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/19-a-maps.png"
@@ -217,6 +240,7 @@ export const V1Prototype = () => {
               and take you to the main entrance, please contact our Visitor
               Experience Team.
             </p>
+            <TODO>Same again for the Contact component</TODO>
             <NoSpacedText>
               <Contact
                 email="info@wellcomecollection.org"
