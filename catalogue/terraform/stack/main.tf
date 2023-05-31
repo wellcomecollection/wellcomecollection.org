@@ -3,8 +3,8 @@ module "catalogue-service-17092020" {
 
   namespace = "catalogue-17092020-${var.env_suffix}"
 
-  namespace_id = var.namespace_id
-  cluster_arn  = var.cluster_arn
+  namespace_id = var.environment["namespace_id"]
+  cluster_arn  = var.environment["cluster_arn"]
 
   healthcheck_path = "/management/healthcheck"
 
@@ -12,8 +12,8 @@ module "catalogue-service-17092020" {
   container_port  = 3000
 
   security_group_ids = [
-    var.interservice_security_group_id,
-    var.service_egress_security_group_id
+    var.environment["interservice_security_group_id"],
+    var.environment["service_egress_security_group_id"]
   ]
 
   # Note: in September 2022, we were running with 0.5 vCPU and 1 GB of memory;
@@ -56,8 +56,8 @@ locals {
 module "path_listener" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   path_patterns = ["/works*"]
@@ -67,8 +67,8 @@ module "path_listener" {
 module "api_path_listener" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   path_patterns = ["/api/works*"]
@@ -80,8 +80,8 @@ module "api_path_listener" {
 module "subdomain_listener" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   priority     = "201"
@@ -91,8 +91,8 @@ module "subdomain_listener" {
 module "embed_path_rule" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   priority      = "202"
@@ -102,8 +102,8 @@ module "embed_path_rule" {
 module "images_search_rule" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   priority      = "203"
@@ -113,8 +113,8 @@ module "images_search_rule" {
 module "concepts_search_rule" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   priority      = "204"
@@ -124,8 +124,8 @@ module "concepts_search_rule" {
 module "search_rule" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   priority      = "205"
@@ -143,8 +143,8 @@ module "search_rule" {
 module "any_search_data_listener" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   priority      = "206"
@@ -182,8 +182,8 @@ module "works_data_listener" {
   source   = "../../../infrastructure/modules/alb_listener_rule"
   for_each = local.works_data_path_sets
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   path_patterns = each.value
