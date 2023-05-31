@@ -14,6 +14,7 @@ on:
       - 'infrastructure/**'
       - 'playwright/**'
       - 'prismic-model/**'
+      - 'preview/**'
 
 jobs:
   bundle_size_diff:

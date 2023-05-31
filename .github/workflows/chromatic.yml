@@ -15,6 +15,7 @@ on:
       - 'infrastructure/**'
       - 'playwright/**'
       - 'prismic-model/**'
+      - 'preview/**'
 
 jobs:
   chromatic-deployment:
