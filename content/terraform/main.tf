@@ -3,12 +3,11 @@
 module "content-prod" {
   source = "./stack"
 
+  environment = data.terraform_remote_state.experience_shared.outputs.prod
+
   container_image = local.prod_app_image
   nginx_image     = local.nginx_image
   env_suffix      = "prod"
-
-  cluster_arn  = local.prod_cluster_arn
-  namespace_id = local.prod_namespace_id
 
   alb_listener_http_arn  = local.prod_alb_listener_http_arn
   alb_listener_https_arn = local.prod_alb_listener_https_arn
@@ -24,12 +23,11 @@ module "content-prod" {
 module "content-stage" {
   source = "./stack"
 
+  environment = data.terraform_remote_state.experience_shared.outputs.stage
+
   container_image = local.stage_app_image
   nginx_image     = local.nginx_image
   env_suffix      = "stage"
-
-  cluster_arn  = local.stage_cluster_arn
-  namespace_id = local.stage_namespace_id
 
   alb_listener_http_arn  = local.stage_alb_listener_http_arn
   alb_listener_https_arn = local.stage_alb_listener_https_arn

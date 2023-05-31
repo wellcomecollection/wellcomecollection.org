@@ -3,8 +3,8 @@ module "content-service-17092020" {
 
   namespace = "content-17092020-${var.env_suffix}"
 
-  namespace_id = var.namespace_id
-  cluster_arn  = var.cluster_arn
+  namespace_id = var.environment["namespace_id"]
+  cluster_arn  = var.environment["cluster_arn"]
 
   healthcheck_path = "/management/healthcheck"
 
