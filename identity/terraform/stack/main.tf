@@ -11,8 +11,8 @@ module "identity-service-18012021" {
   container_image = var.container_image
   container_port  = 3000
 
-  cpu    = 512
-  memory = 1024
+  cpu    = var.env_suffix == "prod" ? 512 : 256
+  memory = var.env_suffix == "prod" ? 1024 : 512
 
   security_group_ids = [
     var.environment["interservice_security_group_id"],
@@ -38,6 +38,8 @@ module "identity-service-18012021" {
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
+
+  allow_scaling_to_zero = var.env_suffix != "prod"
 }
 
 locals {

@@ -28,7 +28,7 @@ module "catalogue-service-17092020" {
   #
   # We're increasing vCPU to 1 in prod to see if this is addressed
   cpu    = var.env_suffix == "prod" ? 1024 : 512
-  memory = 2048
+  memory = var.env_suffix == "prod" ? 2048 : 1024
 
   env_vars = {
     PROD_SUBDOMAIN  = var.subdomain
@@ -47,6 +47,8 @@ module "catalogue-service-17092020" {
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
+
+  allow_scaling_to_zero = var.env_suffix != "prod"
 }
 
 locals {
