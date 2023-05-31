@@ -25,6 +25,25 @@ provider "aws" {
   }
 }
 
+provider "aws" {
+  region = "eu-west-1"
+  alias  = "dns"
+
+  assume_role {
+    role_arn = "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update"
+  }
+
+  default_tags {
+    tags = {
+      TerraformConfigurationURL = "https://github.com/wellcomecollection/wellcomecollection.org/tree/main/cache"
+      Department                = "Digital Platform"
+      Division                  = "Culture and Society"
+      Use                       = "Front-end CloudFront distributions"
+    }
+  }
+}
+
+
 # Making the router state outputs available
 # e.g. ${data.terraform_remote_state.router.alb_dns_name}
 data "terraform_remote_state" "router" {
