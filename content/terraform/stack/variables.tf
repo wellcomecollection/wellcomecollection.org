@@ -23,7 +23,3 @@ variable "container_image" {
 variable "nginx_image" {
   type = string
 }
-
-variable "aws_region" {
-  default = "eu-west-1"
-}
