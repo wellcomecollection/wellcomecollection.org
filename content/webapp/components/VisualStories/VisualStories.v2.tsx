@@ -236,8 +236,7 @@ export const V2Prototype = () => {
             <InfoBlock>
               <div>
                 <h3 id="arriving-by-tube-or-train">
-                  Arriving by tube{' '}
-                  <span style={{ fontWeight: 'normal' }}>or</span> train
+                  Arriving by tube or train
                 </h3>
               </div>
 
