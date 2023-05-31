@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { PrototypeH1, YellowBox, YellowBoxInner } from './VisualStories.styles';
+import {
+  PrototypeH1,
+  YellowBox,
+  YellowBoxInner,
+  TODO,
+} from './VisualStories.styles';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
@@ -29,11 +34,6 @@ const RightHandSide = styled.div`
 const Flex = styled.div`
   display: flex;
   padding-top: 40px;
-`;
-
-const TODO = styled.p`
-  background-color: yellow;
-  padding: 2px;
 `;
 
 export const V2Prototype = () => {
