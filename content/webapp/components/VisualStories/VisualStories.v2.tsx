@@ -10,10 +10,15 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import theme from '@weco/common/views/themes/default';
 
-const Division = styled(Space)`
+const Flex = styled.div`
   display: flex;
+  padding-top: 40px;
+  align-items: flex-start;
+`;
+
+const Division = styled(Flex)`
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  padding: 40px 0;
+  padding-bottom: 40px;
 `;
 
 const LeftHandSide = styled.div`
@@ -24,11 +29,6 @@ const LeftHandSide = styled.div`
 const RightHandSide = styled.div`
   margin-left: 45px;
   flex: 1 1 calc(50% - 45px);
-`;
-
-const Flex = styled.div`
-  display: flex;
-  padding-top: 40px;
 `;
 
 const TODO = styled.p`
@@ -286,21 +286,46 @@ export const V2Prototype = () => {
                   <strong>meet you</strong> at a nearby station, please contact
                   our <strong>Visitor Experience Team</strong>.
                 </p>
-                <p>They can help you make your way to our building.</p>
+
+                <Flex style={{ padding: '0 0 1rem', alignItems: 'flex-start' }}>
+                  <img
+                    alt=""
+                    style={{ width: '75px' }}
+                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-b-location-to-location-icon.png"
+                  />
+                  <p>They can help you make your way to our building.</p>
+                </Flex>
+
                 <p>
                   <strong>Contact our Visitor Experience Team:</strong>
                 </p>
 
-                <p style={{ marginBottom: 0 }}>
-                  <strong>By phone</strong>
-                </p>
-                <p>+44 (0)20 7611 2222</p>
+                <Flex style={{ padding: '0' }}>
+                  <img
+                    alt=""
+                    style={{ width: '50px' }}
+                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-c-phone-icon.png"
+                  />
+                  <p style={{ marginBottom: 0 }}>
+                    <strong>By phone</strong>
+                    <br />
+                    +44 (0)20 7611 2222
+                  </p>
+                </Flex>
 
-                <p style={{ marginBottom: 0 }}>
-                  Or <strong>by email</strong>
-                </p>
-                <p>info@wellcomecollection.org</p>
-                <TODO>Add icons</TODO>
+                <Flex>
+                  <img
+                    alt=""
+                    style={{ width: '50px' }}
+                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-d-email-icon.png"
+                  />
+                  <p style={{ marginBottom: 0 }}>
+                    Or <strong>by email</strong>
+                    <br />
+                    info@wellcomecollection.org
+                  </p>
+                </Flex>
+                <TODO>Discuss image centering</TODO>
               </YellowBoxInner>
             </YellowBox>
           </SpacingSection>
