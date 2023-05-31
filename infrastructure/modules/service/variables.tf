@@ -62,3 +62,9 @@ variable "healthcheck_path" {}
 variable "use_fargate_spot" {
   default = false
 }
+
+variable "allow_scaling_to_zero" {
+  description = "Whether to allow this service to scale to zero (causing an outage) during deployments"
+  type        = bool
+  default     = false
+}
