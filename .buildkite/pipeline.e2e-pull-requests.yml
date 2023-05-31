@@ -1,0 +1,3 @@
+- label: 'get started'
+  steps:
+    echo 'hello world'
