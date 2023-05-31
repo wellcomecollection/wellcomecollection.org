@@ -16,7 +16,7 @@ module "prod_wc_org_cloudfront_distribution" {
     bucket_endpoint = data.terraform_remote_state.assets.outputs.bucket_domain_name
     website_uri     = data.terraform_remote_state.assets.outputs.website_uri
   }
-  load_balancer_dns = data.terraform_remote_state.experience.outputs.prod_alb_dns
+  load_balancer_dns = data.terraform_remote_state.experience.outputs.prod["alb_dns_name"]
 
   certificate_arn = local.wellcome_cdn_cert_arn
   lambda_arns = {
