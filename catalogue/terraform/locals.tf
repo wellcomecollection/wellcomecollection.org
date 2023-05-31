@@ -21,6 +21,7 @@ locals {
     }
   )
 
+  e2e_app_image   = "${data.terraform_remote_state.experience_shared.outputs.catalogue_webapp_ecr_uri}:env.e2e"
   stage_app_image = "${data.terraform_remote_state.experience_shared.outputs.catalogue_webapp_ecr_uri}:env.stage"
   prod_app_image  = "${data.terraform_remote_state.experience_shared.outputs.catalogue_webapp_ecr_uri}:env.prod"
 
