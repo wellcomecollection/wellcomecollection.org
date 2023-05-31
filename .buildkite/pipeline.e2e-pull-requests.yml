@@ -37,13 +37,20 @@
       "identity-18012021-e2e"
 
   depends_on: start-gate
+  key: deploy-to-e2e-environment
 
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
 
+  agents:
+    queue: nano
+
 - label: "Trigger e2e tests"
   command: ".buildkite/scripts/trigger-e2e-on-pull-request.sh"
+
+  depends_on: deploy-to-e2e-environment
+
   agents:
     queue: nano
 
