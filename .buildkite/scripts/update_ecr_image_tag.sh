@@ -67,6 +67,8 @@ EOF
 set -o errexit
 set -o nounset
 
+# In most of our apps, we just use the latest tag, but we can override
+# this if necessary (and in particular for end-to-end tests on PRs)
 LATEST_TAG=${LATEST_TAG:-latest}
 
 for repositoryName in "$@"
