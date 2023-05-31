@@ -8,6 +8,7 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import { anchorLinks } from './VisualStories.data';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import theme from '@weco/common/views/themes/default';
 
 const Division = styled(Space)`
   display: flex;
@@ -132,7 +133,12 @@ export const V2Prototype = () => {
 
             <SpacingComponent>
               <h3 id="quieter-times-to-visit">Quieter times to visit</h3>
-              <Division style={{ borderColor: 'black', padding: '0 0 40px' }}>
+              <Division
+                style={{
+                  borderColor: theme.color('black'),
+                  padding: '0 0 40px',
+                }}
+              >
                 <LeftHandSide
                   style={{
                     display: 'flex',
@@ -383,7 +389,7 @@ export const V2Prototype = () => {
                 />
               </RightHandSide>
             </Flex>
-            <Division>
+            <Division style={{ borderColor: theme.color('black') }}>
               <LeftHandSide>
                 <p>
                   Gower Place is at the back of the Wellcome Collection
@@ -404,6 +410,146 @@ export const V2Prototype = () => {
                 <img
                   alt=""
                   src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/19-b-maps.png"
+                />
+              </RightHandSide>
+            </Division>
+          </SpacingSection>
+
+          {/* Access when you arrive */}
+          <SpacingSection>
+            <h2 id="access-when-you-arrive">Access when you arrive</h2>
+
+            <div
+              style={{
+                borderBottom: `1px solid ${theme.color('warmNeutral.400')}`,
+              }}
+            >
+              <p>
+                When you enter the building, there is a short flight of steps or
+                a platform lift up to level 0, where there is a café and shop,
+                and an Information Point. The entrance is bright and can
+                sometimes be noisy and busy.
+              </p>
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/20-2-up-bag-check.png"
+                />
+              </Space>
+              <p>
+                A member of our security team may ask to check your bag when you
+                enter.
+              </p>
+            </div>
+
+            <Division>
+              <LeftHandSide>
+                <p>This is what the information point looks like.</p>
+              </LeftHandSide>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/21-info-point.png"
+                />
+              </RightHandSide>
+            </Division>
+
+            <div
+              style={{
+                marginTop: '40px',
+                borderBottom: `1px solid ${theme.color('warmNeutral.400')}`,
+              }}
+            >
+              <img
+                alt=""
+                src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/22-vea.png"
+              />
+              <p>
+                Members of our Visitor Experience Team will be at the
+                Information Point and work throughout the building.
+              </p>
+              <p>
+                They wear black tops with the words “Ask me” on them. You can
+                ask them for directions or assistance at any time.
+              </p>
+            </div>
+
+            <Division>
+              <LeftHandSide>
+                <p>
+                  There is step-free and level access to all floors of the
+                  building via the lifts.{' '}
+                </p>
+              </LeftHandSide>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/23-lifts-stairs.png"
+                />
+                <img
+                  style={{ width: '200px' }}
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/24-wheelchair-lift-icons.png"
+                />
+              </RightHandSide>
+            </Division>
+
+            <Division>
+              <LeftHandSide>
+                <p>
+                  There are accessible toilets on all floors of the building.
+                </p>
+                <p>There is a Changing Places toilet on level 0.</p>
+              </LeftHandSide>
+              <RightHandSide>
+                <img
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/25-accessible-toilet.png"
+                />
+                <img
+                  style={{ width: '100px' }}
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/26-access-baby-change-icon.png"
+                />
+              </RightHandSide>
+            </Division>
+
+            <Division>
+              <LeftHandSide>
+                <h3 id="gallery-access-provisions">
+                  Gallery access provisions
+                </h3>
+                <p>
+                  Ear defenders, tinted glasses, tinted visors and weighted lap
+                  pads are available.
+                </p>
+                <p>
+                  Please ask a member of gallery staff if you would like any of
+                  these things.
+                </p>
+              </LeftHandSide>
+              <RightHandSide>
+                <img
+                  alt=""
+                  style={{ maxWidth: '200px' }}
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/27-v2-access-provisions.png"
+                />
+              </RightHandSide>
+            </Division>
+
+            <Division>
+              <LeftHandSide>
+                <p>You can borrow a wheelchair during your visit.</p>
+                <p>
+                  To borrow a wheelchair, contact our Visitor Experience Team or
+                  ask at the Information Point on level 0.
+                </p>
+              </LeftHandSide>
+              <RightHandSide>
+                <img
+                  style={{ width: '100px' }}
+                  alt=""
+                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/28-wheelchair-icon.png"
                 />
               </RightHandSide>
             </Division>
