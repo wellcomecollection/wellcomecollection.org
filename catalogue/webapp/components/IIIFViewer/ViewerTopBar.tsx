@@ -188,7 +188,9 @@ const RightZone = styled.div`
   align-items: center;
 `;
 
-const ViewerTopBar: FunctionComponent = () => {
+const ViewerTopBar: FunctionComponent<{
+  iiifImageLocation?: { url: string };
+}> = ({ iiifImageLocation }) => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
@@ -214,7 +216,8 @@ const ViewerTopBar: FunctionComponent = () => {
   const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const transformedIIIFImage = useTransformedIIIFImage(work);
-  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const imageLocation =
+    iiifImageLocation || getDigitalLocationOfType(work, 'iiif-image');
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
   // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
   // For a iiif-image DigitalLocation we create the download options
@@ -222,10 +225,12 @@ const ViewerTopBar: FunctionComponent = () => {
   // The json provides the image width and height used in the link text.
   // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
   // gets this data client side.
+  // Sometimes we render images for works that have neither a iiif-image or a iiif-presentation location type.
+  // In this case we use the iiifImageLocation passed from the serverSideProps of the /images.tsx
 
-  const iiifImageDownloadOptions = iiifImageLocation
+  const iiifImageDownloadOptions = imageLocation
     ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocation.url,
+        url: imageLocation.url,
         width: transformedIIIFImage.width,
         height: transformedIIIFImage.height,
       })
