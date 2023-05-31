@@ -23,7 +23,7 @@ type Props = {
 const defaultUserContext: Props = {
   user: undefined,
   state: 'initial',
-  reload: async () => void 0,
+  reload: async () => undefined,
 };
 
 export const UserContext = createContext<Props>(defaultUserContext);
@@ -52,7 +52,7 @@ const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
           setState('signedout');
           break;
 
-        case 200:
+        case 200: {
           const data = await resp.json();
           if (isFullAuth0Profile(data)) {
             // There is a race condition here where the cancel can happen
@@ -69,6 +69,7 @@ const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
             setState('failed');
           }
           break;
+        }
 
         default:
           console.error('Failed fetching user', resp.status);

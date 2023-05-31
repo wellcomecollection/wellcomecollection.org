@@ -23,7 +23,7 @@ export function workLd(work: WorkType): JsonLdObj {
       alternativeHeadline: undefined, // TODO: needs API
       publishedBy: undefined, // TODO: needs API
       creator: creators,
-      keywords: keywords,
+      keywords,
       name: work.title,
       description: work.description,
 

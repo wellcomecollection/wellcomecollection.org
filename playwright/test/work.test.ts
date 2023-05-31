@@ -23,54 +23,51 @@ const getAvailableOnline = async (page: Page) => {
   return availableOnline;
 };
 
-test.describe(
-  `Scenario 1: a user wants to see relevant information about where a work's items are located`,
-  () => {
-    test(`works that have a physical item location display a 'Where to find it' section with a link`, async ({
-      page,
-      context,
-    }) => {
-      await workWithPhysicalLocationOnly(context, page);
-      const { whereToFindIt, encoreLink, unavailableBanner } =
-        await getWhereToFindItAndEncoreLink(page);
-      expect(whereToFindIt).toBeTruthy();
-      expect(encoreLink || unavailableBanner).toBeTruthy();
-    });
+test.describe(`Scenario 1: a user wants to see relevant information about where a work's items are located`, () => {
+  test(`works that have a physical item location display a 'Where to find it' section with a link`, async ({
+    page,
+    context,
+  }) => {
+    await workWithPhysicalLocationOnly(context, page);
+    const { whereToFindIt, encoreLink, unavailableBanner } =
+      await getWhereToFindItAndEncoreLink(page);
+    expect(whereToFindIt).toBeTruthy();
+    expect(encoreLink || unavailableBanner).toBeTruthy();
+  });
 
-    test(`works with only a physical location don't display an 'Available online' section`, async ({
-      page,
-      context,
-    }) => {
-      await workWithPhysicalLocationOnly(context, page);
-      const availableOnline = await getAvailableOnline(page);
-      expect(availableOnline).toBeNull();
-    });
+  test(`works with only a physical location don't display an 'Available online' section`, async ({
+    page,
+    context,
+  }) => {
+    await workWithPhysicalLocationOnly(context, page);
+    const availableOnline = await getAvailableOnline(page);
+    expect(availableOnline).toBeNull();
+  });
 
-    test(`works with a digital item display an 'Available online' section`, async ({
-      page,
-      context,
-    }) => {
-      await workWithDigitalLocationAndLocationNote(context, page);
-      const availableOnline = await getAvailableOnline(page);
-      expect(availableOnline).toBeTruthy();
-    });
+  test(`works with a digital item display an 'Available online' section`, async ({
+    page,
+    context,
+  }) => {
+    await workWithDigitalLocationAndLocationNote(context, page);
+    const availableOnline = await getAvailableOnline(page);
+    expect(availableOnline).toBeTruthy();
+  });
 
-    test(`works with only a digital location don't display a 'Where to find it' section`, async ({
-      page,
-      context,
-    }) => {
-      await workWithDigitalLocationOnly(context, page);
-      const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
-      expect(whereToFindIt).toBeNull();
-    });
+  test(`works with only a digital location don't display a 'Where to find it' section`, async ({
+    page,
+    context,
+  }) => {
+    await workWithDigitalLocationOnly(context, page);
+    const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
+    expect(whereToFindIt).toBeNull();
+  });
 
-    test(`works that have a note with a noteType.id of 'location-of-original', display a 'Where to find it' section`, async ({
-      page,
-      context,
-    }) => {
-      await workWithDigitalLocationAndLocationNote(context, page);
-      const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
-      expect(whereToFindIt).toBeTruthy();
-    });
-  }
-);
+  test(`works that have a note with a noteType.id of 'location-of-original', display a 'Where to find it' section`, async ({
+    page,
+    context,
+  }) => {
+    await workWithDigitalLocationAndLocationNote(context, page);
+    const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
+    expect(whereToFindIt).toBeTruthy();
+  });
+});

@@ -5,7 +5,7 @@ const useIsFullscreenEnabled = (): boolean => {
 
   useEffect(() => {
     setIsFullscreenEnabled(
-      document?.fullscreenEnabled || document?.['webkitFullscreenEnabled']
+      document?.fullscreenEnabled || document?.['webkitFullscreenEnabled'] //eslint-disable-line
     );
   }, []);
 

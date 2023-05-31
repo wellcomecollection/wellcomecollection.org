@@ -343,7 +343,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
   it("doesn't return a date if no start date is provided", () => {
     const result = extendEndDate({
       endDate: new Date('2020-01-10'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      exceptionalClosedDates,
       regularClosedDays: ['Sunday'],
     });
 

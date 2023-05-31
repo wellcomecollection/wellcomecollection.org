@@ -2,7 +2,6 @@ import {
   b28462270,
   b2846235x,
 } from '@weco/catalogue/test/fixtures/iiif/manifests';
-import exp from 'constants';
 import { getPdf, transformLabel } from '.';
 
 describe('getPDF', () => {

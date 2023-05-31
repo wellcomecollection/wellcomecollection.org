@@ -26,7 +26,7 @@ export async function makeDefaultToggleCookies(
     return {
       name: `${togglePrefix}${t.id}`,
       value: t.defaultValue.toString(),
-      domain: domain,
+      domain,
       path: '/',
     };
   });

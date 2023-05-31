@@ -3,8 +3,8 @@ import toggleConfig, { ABTest, PublishedToggle } from './toggles';
 const toggleIds = toggleConfig.toggles.map(toggle => toggle.id);
 const testIds = toggleConfig.tests.map(test => test.id);
 
-type ToggleId = typeof toggleIds[number];
-type TestId = typeof testIds[number];
+type ToggleId = (typeof toggleIds)[number];
+type TestId = (typeof testIds)[number];
 
 // As togglesConfig is what is served at https://toggles.wellcomecollection.org/toggles.json
 // This allows methods fetching that URL to type the data fetched

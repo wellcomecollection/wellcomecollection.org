@@ -8,4 +8,4 @@ export const ColorSelections = {
 } as const;
 
 export type ColorSelection =
-  typeof ColorSelections[keyof typeof ColorSelections];
+  (typeof ColorSelections)[keyof typeof ColorSelections];

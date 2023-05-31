@@ -54,7 +54,7 @@ export const gotoWithoutCache = async (
 
 const createCookie = (name: string) => {
   return {
-    name: name,
+    name,
     value: 'true',
     path: '/',
     domain: new URL(baseUrl).host,

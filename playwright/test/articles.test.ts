@@ -10,7 +10,7 @@ const test = base.extend({
   context: async ({ context }, use) => {
     const defaultToggleCookies = await makeDefaultToggleCookies(domain);
     await context.addCookies([
-      { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
+      { name: 'WC_cookiesAccepted', value: 'true', domain, path: '/' },
       ...defaultToggleCookies,
     ]);
     await use(context);
