@@ -56,8 +56,6 @@ export const TODO = styled.p`
   }
 `;
 
-// V2
-
 export const InfoBlock = styled(Space).attrs<{ hasBorder?: boolean }>(
   props => ({
     v: {
@@ -67,11 +65,11 @@ export const InfoBlock = styled(Space).attrs<{ hasBorder?: boolean }>(
   })
 )<{ hasBorder?: boolean; borderColor?: 'black' }>`
   display: flex;
-  align-items: flex-start;
   flex-direction: column-reverse;
   gap: 32px;
 
   ${props => props.theme.media('medium')`
+    align-items: flex-start;
     flex-direction: row;
   `}
 
@@ -83,6 +81,10 @@ export const InfoBlock = styled(Space).attrs<{ hasBorder?: boolean }>(
 
   & > div {
     flex-basis: 50%;
+
+    &:nth-child(2) {
+      text-align: center;
+    }
   }
 `;
 
