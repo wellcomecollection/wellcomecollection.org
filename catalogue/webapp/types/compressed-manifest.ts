@@ -65,18 +65,13 @@ export function toCompressedTransformedManifest(
     canvases: canvases.map(canvas => {
       const { hasRestrictedImage, label, ...canvasFields } = canvas;
 
-      const compressedLabel =
-        label?.length === labelPrefix.length
-          ? undefined
-          : label?.slice(labelPrefix.length);
-
       return {
         ...canvasFields,
         id: canvas.id.slice(idPrefix.length),
         imageServiceId: canvas.imageServiceId?.slice(
           imageServiceIdPrefix.length
         ),
-        label: compressedLabel,
+        label: canvas.label?.slice(labelPrefix.length),
         textServiceId: canvas.textServiceId?.slice(textServiceIdPrefix.length),
         thumbnailImage: canvas.thumbnailImage
           ? {
@@ -115,10 +110,7 @@ export function fromCompressedManifest(
     id: idPrefix + canvas.id,
     imageServiceId:
       canvas.imageServiceId && imageServiceIdPrefix + canvas.imageServiceId,
-    label:
-      canvas.label || labelPrefix.length > 0
-        ? labelPrefix + (canvas.label || '')
-        : undefined,
+    label: canvas.label && labelPrefix + canvas.label,
     textServiceId:
       canvas.textServiceId && textServiceIdPrefix + canvas.textServiceId,
     thumbnailImage: canvas.thumbnailImage && {
