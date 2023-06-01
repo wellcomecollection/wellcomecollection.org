@@ -1,9 +1,33 @@
 steps:
   - label: "Deploy to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
+
+    # These three lines create a "lock" around this pipeline.
+    #
+    # This means that once a deployment starts to an environment,
+    # no other builds will deploy to that environment until this
+    # deployment is complete and has run the end-to-end tests.
+    #
+    # == How it works ==
+    #
+    # This uses the "concurrency gate" pattern described in the Buildkite blog
+    # here: https://buildkite.com/blog/concurrency-gates
+    #
+    # Once this job starts running, this build has to either:
+    #
+    #   1)  fail, or
+    #   2)  complete all the other tasks in this concurrency group -- which is
+    #       just the "Complete!" task at the end of the pipeline
+    #
+    # before any other build is allowed to run tasks in this concurrency group.
+    # This means no other build can start a new deployment until this deployment
+    # is complete.
+    #
+    # Note: we have separate concurrency groups for stage/prod, because it's okay
+    # to deploy to them both simultaneously.
+    concurrency_group: "front-end-deployment-${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}-gate"
     concurrency: 1
-    concurrency_group: "experience-deploy"
-    command: ".buildkite/scripts/deploy_all_apps.sh"
+    key: start-deployment
 
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
@@ -19,14 +43,6 @@ steps:
     command: ".buildkite/scripts/trigger-e2e.sh"
     agents:
       queue: nano
-
-    # This means that each set of e2e tests will run with one deployment.
-    #
-    # This avoids any issues with the deployment changing as the e2e tests
-    # are running, which we believe might be the source of some instability
-    # and flakiness -- stuff changing as the tests are running.
-    concurrency: 1
-    concurrency_group: "experience-deploy"
 
     soft_fail:
       - exit_status: 1
@@ -45,6 +61,21 @@ steps:
             - AWS_ACCESS_KEY_ID
             - AWS_SECRET_ACCESS_KEY
             - AWS_SESSION_TOKEN
+
+  - wait
+
+  - label: "Complete ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT} deployment"
+    command: echo "Stage ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT} complete!"
+
+    # This is the second half of the concurrency gate that "locks" the deployment.
+    #
+    # When this step completes, it "unlocks" the deployment and allows other
+    # deployments to stage to begin.
+    concurrency_group: "front-end-deployment-${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}-gate"
+    concurrency: 1
+
+    agents:
+      queue: nano
 
   - block: ":rocket: Trigger prod deployment"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
