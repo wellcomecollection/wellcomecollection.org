@@ -250,13 +250,16 @@ export const V2Prototype = () => {
             </InfoBlock>
 
             <span>
-              <p>The nearest tube and train stations are:</p>
+              <p>
+                The nearest tube and train stations are Euston Square, Euston
+                and Warren Street.
+              </p>
               <img
                 alt=""
                 src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/13-3-up-train-stations.png"
               />
             </span>
-            <TODO>Add station names or discuss with Dom</TODO>
+            <TODO>How does this behave on mobile? Grid component?</TODO>
           </SpacingSection>
 
           {/* Yellow box */}
@@ -317,7 +320,6 @@ export const V2Prototype = () => {
                     info@wellcomecollection.org
                   </p>
                 </InfoBlock>
-                <TODO>Discuss image centering</TODO>
               </YellowBoxInner>
             </YellowBox>
           </SpacingSection>
@@ -475,9 +477,9 @@ export const V2Prototype = () => {
               </div>
             </InfoBlock>
 
-            <div
+            <Space
+              v={{ size: 'l', properties: ['margin-top'] }}
               style={{
-                marginTop: '40px',
                 borderBottom: `1px solid ${theme.color('warmNeutral.400')}`,
               }}
             >
@@ -493,7 +495,7 @@ export const V2Prototype = () => {
                 They wear black tops with the words “Ask me” on them. You can
                 ask them for directions or assistance at any time.
               </p>
-            </div>
+            </Space>
 
             <InfoBlock hasBorder>
               <div>
@@ -579,17 +581,6 @@ export const V2Prototype = () => {
               </div>
             </InfoBlock>
           </SpacingSection>
-
-          <TODO>Access content?</TODO>
-          <TODO>
-            Discuss portrait images on mobile and how to align their icons as
-            they are not full-width, but centered
-          </TODO>
-          <TODO>Border logic to be border top? e.g. H2 gets black over it</TODO>
-          <TODO>
-            Current Spacing rules are 32px or 64px, mockups are 40px between
-            divisions
-          </TODO>
         </div>
       </Layout8>
     </>
