@@ -1,6 +1,7 @@
 steps:
   - label: "Deploy to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
+    command: ".buildkite/scripts/deploy_all_apps.sh"
 
     # These three lines create a "lock" around this pipeline.
     #
