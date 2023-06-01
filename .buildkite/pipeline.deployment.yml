@@ -78,7 +78,7 @@ steps:
     agents:
       queue: nano
 
-  - block: ":rocket: Trigger prod deployment"
+  - block: ":rocket: Allow prod deployment?"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
     prompt: "Have you checked the change and main landing pages on staging?"
 
