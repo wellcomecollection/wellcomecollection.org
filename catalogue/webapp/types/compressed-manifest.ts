@@ -12,7 +12,8 @@ type CompressedTransformedCanvases = {
   textServiceIdPrefix: string;
   thumbnailImageUrlPrefix: string;
   thumbnailImageUrlSuffix: string;
-  canvases: TransformedCanvas[];
+  restrictedImageIds: string[];
+  canvases: Omit<TransformedCanvas, 'hasRestrictedImage'>[];
 };
 
 export type CompressedTransformedManifest = Omit<
@@ -28,6 +29,7 @@ export function toCompressedTransformedManifest(
   const { canvases, ...otherFields } = manifest;
 
   const idPrefix = longestCommonPrefix(canvases.map(({ id }) => id));
+
   const imageServiceIdPrefix = longestCommonPrefix(
     canvases.map(({ imageServiceId }) => imageServiceId).filter(isNotUndefined)
   );
@@ -48,6 +50,10 @@ export function toCompressedTransformedManifest(
       .filter(isNotUndefined)
   );
 
+  const restrictedImageIds = canvases
+    .filter(c => c.hasRestrictedImage)
+    .map(c => c.id);
+
   const compressedCanvases = {
     idPrefix,
     imageServiceIdPrefix,
@@ -55,22 +61,35 @@ export function toCompressedTransformedManifest(
     textServiceIdPrefix,
     thumbnailImageUrlPrefix,
     thumbnailImageUrlSuffix,
-    canvases: canvases.map(canvas => ({
-      ...canvas,
-      id: canvas.id.slice(idPrefix.length),
-      imageServiceId: canvas.imageServiceId?.slice(imageServiceIdPrefix.length),
-      label: canvas.label?.slice(labelPrefix.length),
-      textServiceId: canvas.textServiceId?.slice(textServiceIdPrefix.length),
-      thumbnailImage: canvas.thumbnailImage
-        ? {
-            ...canvas.thumbnailImage,
-            url: canvas.thumbnailImage.url.slice(
-              thumbnailImageUrlPrefix.length,
-              canvas.thumbnailImage.url.length - thumbnailImageUrlSuffix.length
-            ),
-          }
-        : undefined,
-    })),
+    restrictedImageIds,
+    canvases: canvases.map(canvas => {
+      const { hasRestrictedImage, label, ...canvasFields } = canvas;
+
+      const compressedLabel =
+        label?.length === labelPrefix.length
+          ? undefined
+          : label?.slice(labelPrefix.length);
+
+      return {
+        ...canvasFields,
+        id: canvas.id.slice(idPrefix.length),
+        imageServiceId: canvas.imageServiceId?.slice(
+          imageServiceIdPrefix.length
+        ),
+        label: compressedLabel,
+        textServiceId: canvas.textServiceId?.slice(textServiceIdPrefix.length),
+        thumbnailImage: canvas.thumbnailImage
+          ? {
+              ...canvas.thumbnailImage,
+              url: canvas.thumbnailImage.url.slice(
+                thumbnailImageUrlPrefix.length,
+                canvas.thumbnailImage.url.length -
+                  thumbnailImageUrlSuffix.length
+              ),
+            }
+          : undefined,
+      };
+    }),
   };
 
   return { ...otherFields, canvases: compressedCanvases };
@@ -88,6 +107,7 @@ export function fromCompressedManifest(
     textServiceIdPrefix,
     thumbnailImageUrlPrefix,
     thumbnailImageUrlSuffix,
+    restrictedImageIds,
   } = canvases;
 
   const uncompressedCanvases = canvases.canvases.map(canvas => ({
@@ -95,7 +115,10 @@ export function fromCompressedManifest(
     id: idPrefix + canvas.id,
     imageServiceId:
       canvas.imageServiceId && imageServiceIdPrefix + canvas.imageServiceId,
-    label: canvas.label && labelPrefix + canvas.label,
+    label:
+      canvas.label || labelPrefix.length > 0
+        ? labelPrefix + (canvas.label || '')
+        : undefined,
     textServiceId:
       canvas.textServiceId && textServiceIdPrefix + canvas.textServiceId,
     thumbnailImage: canvas.thumbnailImage && {
@@ -105,6 +128,7 @@ export function fromCompressedManifest(
         canvas.thumbnailImage.url +
         thumbnailImageUrlSuffix,
     },
+    hasRestrictedImage: restrictedImageIds.includes(idPrefix + canvas.id),
   }));
 
   return { ...otherFields, canvases: uncompressedCanvases };
