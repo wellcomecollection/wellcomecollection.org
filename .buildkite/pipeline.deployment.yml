@@ -3,16 +3,7 @@ steps:
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
     concurrency: 1
     concurrency_group: "experience-deploy"
-    command: |
-      ENV_TAG="env.$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" .buildkite/scripts/update_ecr_image_tag.sh \
-        uk.ac.wellcome/content_webapp \
-        uk.ac.wellcome/catalogue_webapp \
-        uk.ac.wellcome/identity_webapp
-
-      CLUSTER="experience-frontend-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" .buildkite/scripts/deploy_ecs_services.sh \
-        "content-17092020-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
-        "catalogue-17092020-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT" \
-        "identity-18012021-$BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+    command: ".buildkite/scripts/deploy_all_apps.sh"
 
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
