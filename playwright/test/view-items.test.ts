@@ -237,6 +237,7 @@ test.describe('Scenario 6: Item has multiple volumes', () => {
       );
 
       await page.click(nextManifestLinkSelector);
+      await safeWaitForNavigation(page);
 
       await page.waitForSelector(
         `css=[data-test-id=current-manifest] >> text="${nextManifestLinkLabel}"`
