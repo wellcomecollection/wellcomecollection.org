@@ -60,7 +60,7 @@ describe('isUpcoming', () => {
 
     const event = createEvent({
       startDateTime: mondayAt7am,
-      endDateTime: tuesdayAt76am,
+      endDateTime: tuesdayAt7am,
     });
 
     expect(isUpcoming(event)).toBeTruthy();
