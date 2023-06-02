@@ -3,6 +3,7 @@
 set -o errexit
 # set -o nounset
 set -o verbose
+set -o xtrace
 
 docker-compose run \
   --env CI=true \
