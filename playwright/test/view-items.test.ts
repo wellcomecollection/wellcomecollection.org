@@ -319,6 +319,18 @@ test.describe("Scenario 9: A user wants to be able to search inside an item's te
     if (isMobile(page)) {
       await page.click('text="Show info"');
     }
+
+    // In this test, we're loading an item with 68 pages, scrolling to the
+    // bottom, then looking for the "68/68" text on the page.
+    //
+    // This text is hidden whenever the window is being scrolled, zoomed,
+    // or resized, because that might affect what the "current" page is.
+    //
+    // We've had issues with this test being flaky, because we don't wait
+    // long enough after we finish scrolling to look for this "68/68" --
+    // tossing in this wait seems to fix that.
+    await safeWaitForNavigation(page);
+
     await searchWithin('darwin', page);
     await page.waitForSelector(searchWithinResultsHeader);
     await page.click(
