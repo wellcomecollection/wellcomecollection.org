@@ -6,7 +6,7 @@ import {
 } from '@weco/common/utils/dates';
 import { HasTimes } from 'types/events';
 
-function isUpcoming<T extends HasTimes>(event: T): boolean {
+export function isUpcoming<T extends HasTimes>(event: T): boolean {
   const startsInFuture = event.times.some(t => isFuture(t.range.startDateTime));
 
   // This is to account for events that span multiple days.
@@ -42,7 +42,7 @@ function isUpcoming<T extends HasTimes>(event: T): boolean {
   const latestEndTime = maxDate(event.times.map(t => t.range.endDateTime));
 
   const isMultiDayEvent = !isSameDay(earliestStartTime, latestEndTime, 'UTC');
-  const isUnfinished = latestEndTime > new Date();
+  const isUnfinished = isFuture(latestEndTime);
   const endsOnAFutureDay = isMultiDayEvent && isUnfinished;
 
   return startsInFuture || endsOnAFutureDay;
