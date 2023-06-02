@@ -3,8 +3,8 @@ module "content-service-17092020" {
 
   namespace = "content-17092020-${var.env_suffix}"
 
-  namespace_id = var.namespace_id
-  cluster_arn  = var.cluster_arn
+  namespace_id = var.environment["namespace_id"]
+  cluster_arn  = var.environment["cluster_arn"]
 
   healthcheck_path = "/management/healthcheck"
 
@@ -12,8 +12,8 @@ module "content-service-17092020" {
   container_port  = 3000
 
   security_group_ids = [
-    var.interservice_security_group_id,
-    var.service_egress_security_group_id
+    var.environment["interservice_security_group_id"],
+    var.environment["service_egress_security_group_id"]
   ]
 
   env_vars = {
@@ -41,8 +41,8 @@ locals {
 module "path_listener" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   path_patterns = ["/*"]
@@ -54,8 +54,8 @@ module "path_listener" {
 module "subdomain_listener" {
   source = "../../../infrastructure/modules/alb_listener_rule"
 
-  alb_listener_https_arn = var.alb_listener_https_arn
-  alb_listener_http_arn  = var.alb_listener_http_arn
+  alb_listener_https_arn = var.environment["listener_https_arn"]
+  alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
   host_headers = ["${var.subdomain}.wellcomecollection.org"]

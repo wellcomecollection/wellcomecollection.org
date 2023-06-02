@@ -1,5 +1,5 @@
 provider "aws" {
-  region = var.aws_region
+  region = "eu-west-1"
 
   default_tags {
     tags = local.default_prod_tags
@@ -12,7 +12,7 @@ provider "aws" {
 
 provider "aws" {
   alias  = "stage"
-  region = var.aws_region
+  region = "eu-west-1"
 
   default_tags {
     tags = local.default_stage_tags
@@ -23,11 +23,9 @@ provider "aws" {
   }
 }
 
-provider "template" {}
-
 provider "aws" {
   alias  = "platform"
-  region = var.aws_region
+  region = "eu-west-1"
 
   assume_role {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
