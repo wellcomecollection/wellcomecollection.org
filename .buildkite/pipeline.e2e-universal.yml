@@ -1,13 +1,13 @@
 steps:
-  - label: "build e2e test image"
-    command: ./playwright/get_playwright_image.sh
-    plugins:
-      - wellcomecollection/aws-assume-role#v0.2.2:
-          role: "arn:aws:iam::130871440101:role/experience-ci"
-      - ecr#v2.1.1:
-          login: true
+  # - label: "build e2e test image"
+  #   command: ./playwright/get_playwright_image.sh
+  #   plugins:
+  #     - wellcomecollection/aws-assume-role#v0.2.2:
+  #         role: "arn:aws:iam::130871440101:role/experience-ci"
+  #     - ecr#v2.1.1:
+  #         login: true
 
-  - wait
+  # - wait
 
   - label: "Check URLs"
     plugins:
@@ -24,33 +24,17 @@ steps:
           command: ["bash", "check_urls.sh"]
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
+    commands: cd playwright && yarn && yarn test
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
           role: "arn:aws:iam::130871440101:role/experience-ci"
-      - ecr#v2.1.1:
-          login: true
-      - docker-compose#v3.5.0:
-          run: e2e
-          env:
-            - CI=true
-            - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
-            - USE_STAGE_APIS=$USE_STAGE_APIS
-          command: ["yarn", "test"]
     agents:
       queue: scala # High parallelism for expensive tests
 
   - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
+    commands: cd playwright && yarn && yarn test:mobile
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
           role: "arn:aws:iam::130871440101:role/experience-ci"
-      - ecr#v2.1.1:
-          login: true
-      - docker-compose#v3.5.0:
-          run: e2e
-          env:
-            - CI=true
-            - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
-            - USE_STAGE_APIS=$USE_STAGE_APIS
-          command: ["yarn", "test:mobile"]
     agents:
       queue: scala # High parallelism for expensive tests
