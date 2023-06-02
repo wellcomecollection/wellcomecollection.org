@@ -1,13 +1,18 @@
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { findLongestCommonParts, CommonParts } from '@weco/common/utils/array';
+import {
+  findLongestCommonParts,
+  CommonParts,
+  removeCommonParts,
+  restoreCommonParts,
+} from '@weco/common/utils/array';
 import { TransformedCanvas, TransformedManifest } from './manifest';
 
 type CompressedTransformedCanvases = {
-  id: CommonParts;
-  imageServiceId: CommonParts;
-  label: CommonParts;
-  textServiceId: CommonParts;
-  thumbnailImageUrl: CommonParts;
+  idCommonParts: CommonParts;
+  imageServiceIdCommonParts: CommonParts;
+  labelCommonParts: CommonParts;
+  textServiceIdCommonParts: CommonParts;
+  thumbnailImageUrlCommonParts: CommonParts;
   restrictedImageIds: string[];
   canvases: Omit<TransformedCanvas, 'hasRestrictedImage'>[];
 };
@@ -24,23 +29,17 @@ export function toCompressedTransformedManifest(
 ): CompressedTransformedManifest {
   const { canvases, ...otherFields } = manifest;
 
-  const idPrefix = longestCommonPrefix(canvases.map(({ id }) => id));
-
-  const imageServiceIdPrefix = longestCommonPrefix(
+  const idCommonParts = findLongestCommonParts(canvases.map(({ id }) => id));
+  const imageServiceIdCommonParts = findLongestCommonParts(
     canvases.map(({ imageServiceId }) => imageServiceId).filter(isNotUndefined)
   );
-  const labelPrefix = longestCommonPrefix(
+  const labelCommonParts = findLongestCommonParts(
     canvases.map(({ label }) => label).filter(isNotUndefined)
   );
-  const textServiceIdPrefix = longestCommonPrefix(
+  const textServiceIdCommonParts = findLongestCommonParts(
     canvases.map(({ textServiceId }) => textServiceId).filter(isNotUndefined)
   );
-  const thumbnailImageUrlPrefix = longestCommonPrefix(
-    canvases
-      .map(({ thumbnailImage }) => thumbnailImage?.url)
-      .filter(isNotUndefined)
-  );
-  const thumbnailImageUrlSuffix = longestCommonSuffix(
+  const thumbnailImageUrlCommonParts = findLongestCommonParts(
     canvases
       .map(({ thumbnailImage }) => thumbnailImage?.url)
       .filter(isNotUndefined)
@@ -51,31 +50,32 @@ export function toCompressedTransformedManifest(
     .map(c => c.id);
 
   const compressedCanvases = {
-    idPrefix,
-    imageServiceIdPrefix,
-    labelPrefix,
-    textServiceIdPrefix,
-    thumbnailImageUrlPrefix,
-    thumbnailImageUrlSuffix,
+    idCommonParts,
+    imageServiceIdCommonParts,
+    labelCommonParts,
+    textServiceIdCommonParts,
+    thumbnailImageUrlCommonParts,
     restrictedImageIds,
     canvases: canvases.map(canvas => {
       const { hasRestrictedImage, label, ...canvasFields } = canvas;
 
       return {
         ...canvasFields,
-        id: canvas.id.slice(idPrefix.length),
-        imageServiceId: canvas.imageServiceId?.slice(
-          imageServiceIdPrefix.length
-        ),
-        label: canvas.label?.slice(labelPrefix.length),
-        textServiceId: canvas.textServiceId?.slice(textServiceIdPrefix.length),
+        id: removeCommonParts(canvas.id, idCommonParts),
+        imageServiceId:
+          canvas.imageServiceId &&
+          removeCommonParts(canvas.imageServiceId, imageServiceIdCommonParts),
+        label:
+          canvas.label && removeCommonParts(canvas.label, labelCommonParts),
+        textServiceId:
+          canvas.textServiceId &&
+          removeCommonParts(canvas.textServiceId, textServiceIdCommonParts),
         thumbnailImage: canvas.thumbnailImage
           ? {
               ...canvas.thumbnailImage,
-              url: canvas.thumbnailImage.url.slice(
-                thumbnailImageUrlPrefix.length,
-                canvas.thumbnailImage.url.length -
-                  thumbnailImageUrlSuffix.length
+              url: removeCommonParts(
+                canvas.thumbnailImage.url,
+                thumbnailImageUrlCommonParts
               ),
             }
           : undefined,
@@ -92,32 +92,37 @@ export function fromCompressedManifest(
   const { canvases, ...otherFields } = manifest;
 
   const {
-    idPrefix,
-    imageServiceIdPrefix,
-    labelPrefix,
-    textServiceIdPrefix,
-    thumbnailImageUrlPrefix,
-    thumbnailImageUrlSuffix,
+    idCommonParts,
+    imageServiceIdCommonParts,
+    labelCommonParts,
+    textServiceIdCommonParts,
+    thumbnailImageUrlCommonParts,
     restrictedImageIds,
   } = canvases;
 
-  const uncompressedCanvases = canvases.canvases.map(canvas => ({
-    ...canvas,
-    id: idPrefix + canvas.id,
-    imageServiceId:
-      canvas.imageServiceId && imageServiceIdPrefix + canvas.imageServiceId,
-    label: canvas.label && labelPrefix + canvas.label,
-    textServiceId:
-      canvas.textServiceId && textServiceIdPrefix + canvas.textServiceId,
-    thumbnailImage: canvas.thumbnailImage && {
-      ...canvas.thumbnailImage,
-      url:
-        thumbnailImageUrlPrefix +
-        canvas.thumbnailImage.url +
-        thumbnailImageUrlSuffix,
-    },
-    hasRestrictedImage: restrictedImageIds.includes(idPrefix + canvas.id),
-  }));
+  const uncompressedCanvases = canvases.canvases.map(canvas => {
+    const canvasId = restoreCommonParts(canvas.id, idCommonParts);
+
+    return {
+      ...canvas,
+      id: canvasId,
+      imageServiceId:
+        canvas.imageServiceId &&
+        restoreCommonParts(canvas.imageServiceId, imageServiceIdCommonParts),
+      label: canvas.label && restoreCommonParts(canvas.label, labelCommonParts),
+      textServiceId:
+        canvas.textServiceId &&
+        restoreCommonParts(canvas.textServiceId, textServiceIdCommonParts),
+      thumbnailImage: canvas.thumbnailImage && {
+        ...canvas.thumbnailImage,
+        url: restoreCommonParts(
+          canvas.thumbnailImage.url,
+          thumbnailImageUrlCommonParts
+        ),
+      },
+      hasRestrictedImage: restrictedImageIds.includes(canvasId),
+    };
+  });
 
   return { ...otherFields, canvases: uncompressedCanvases };
 }

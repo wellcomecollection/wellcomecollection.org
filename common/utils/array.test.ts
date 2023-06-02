@@ -1,26 +1,10 @@
-import { findLongestCommonParts } from './array';
+import {
+  findLongestCommonParts,
+  removeCommonParts,
+  restoreCommonParts,
+} from './array';
 
 test.each([]);
-
-// import {
-//   commonPrefix,
-//   longestCommonPrefix,
-//   longestCommonSuffix,
-// } from './array';
-
-// test.each([
-//   { s1: 'duck', s2: 'goose', expectedPrefix: '' },
-//   { s1: 'this', s2: 'that', expectedPrefix: 'th' },
-//   { s1: 'this', s2: 'this', expectedPrefix: 'this' },
-//   { s1: 'drag', s2: 'dragon', expectedPrefix: 'drag' },
-//   { s1: 'dragon', s2: 'drag', expectedPrefix: 'drag' },
-//   { s1: 'linger', s2: 'longer', expectedPrefix: 'l' },
-// ])(
-//   'the common prefix of $s1 and $s2 is $expectedPrefix',
-//   ({ s1, s2, expectedPrefix }) => {
-//     expect(commonPrefix(s1, s2)).toBe(expectedPrefix);
-//   }
-// );
 
 test.each([
   { strings: [], expectedCommonParts: { prefix: '', suffix: '' } },
@@ -39,8 +23,52 @@ test.each([
   },
 ])(
   'the common parts of $strings are $expectedCommonParts',
-  ({ strings, expectedCommonParts }) =>
-    expect(findLongestCommonParts(strings)).toStrictEqual(expectedCommonParts)
+  ({ strings, expectedCommonParts }) => {
+    const actualCommonParts = findLongestCommonParts(strings);
+    expect(actualCommonParts).toStrictEqual(expectedCommonParts);
+
+    strings.forEach(s => {
+      const remainingString = removeCommonParts(s, actualCommonParts);
+      const restoredString = restoreCommonParts(
+        remainingString,
+        actualCommonParts
+      );
+
+      expect(s).toBe(restoredString);
+    });
+  }
+);
+
+test.each([
+  {
+    s: 'catastrophe',
+    commonParts: { prefix: 'cata', suffix: '' },
+    reducedString: 'strophe',
+  },
+  {
+    s: 'catastrophe',
+    commonParts: { prefix: '', suffix: 'rophe' },
+    reducedString: 'catast',
+  },
+  {
+    s: 'catastrophe',
+    commonParts: { prefix: '', suffix: '' },
+    reducedString: 'catastrophe',
+  },
+  {
+    s: 'catastrophe',
+    commonParts: { prefix: 'cata', suffix: 'rophe' },
+    reducedString: 'st',
+  },
+])(
+  '$s with common parts $commonParts is reduced to $reducedString',
+  ({ s, commonParts, reducedString }) => {
+    expect(removeCommonParts(s, commonParts)).toBe(reducedString);
+
+    expect(
+      restoreCommonParts(removeCommonParts(s, commonParts), commonParts)
+    ).toBe(s);
+  }
 );
 
 // test.each([

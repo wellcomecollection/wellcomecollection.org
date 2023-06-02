@@ -37,7 +37,6 @@ function longestCommonSuffix(strings: string[]): string {
 export type CommonParts = {
   prefix: string;
   suffix: string;
-  remainingStrings: string[];
 };
 
 export function findLongestCommonParts(strings: string[]): CommonParts {
@@ -48,4 +47,18 @@ export function findLongestCommonParts(strings: string[]): CommonParts {
   const suffix = longestCommonSuffix(unprefixedStrings);
 
   return { prefix, suffix };
+}
+
+export function removeCommonParts(s: string, commonParts: CommonParts): string {
+  return s.slice(
+    commonParts.prefix.length,
+    s.length - commonParts.suffix.length
+  );
+}
+
+export function restoreCommonParts(
+  s: string,
+  commonParts: CommonParts
+): string {
+  return commonParts.prefix + s + commonParts.suffix;
 }
