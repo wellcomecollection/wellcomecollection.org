@@ -19,9 +19,7 @@ export type Props = {
 
 const Container = styled.nav.attrs({
   className: `${font('intr', 6)} is-hidden-print`,
-})<{
-  isHiddenMobile?: boolean;
-}>`
+})<{ isHiddenMobile?: boolean }>`
   display: flex;
   align-items: center;
 
@@ -44,7 +42,7 @@ const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
   border-radius: 100%;
   margin: 0 0 0 1rem;
   cursor: pointer;
-  transition: background ${props => props.theme.transitionProperties};
+  transition: background-color ${props => props.theme.transitionProperties};
 
   /* This is required to make the icon be the right size on iOS.  If this class
   has 'position: relative', then iOS will give it an incorrect height and
@@ -151,15 +149,14 @@ export const Pagination: FunctionComponent<Props> = ({
       {isEnhanced ? (
         <>
           <span aria-hidden>Showing page</span>
-          <span id="searchInputLabel" className="visually-hidden">
-            {`Showing page ${currentPage} / ${formatNumber(totalPages)}`}
-          </span>
           <PageSelectorInput
             name="page"
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             form={isFocused ? 'search-page-form' : ''}
-            aria-labelledby="searchInputLabel"
+            aria-label={`Jump to page ${currentPage} of ${formatNumber(
+              totalPages
+            )}`}
             value={currentPage}
             onChange={e => setCurrentPage(Number(e.target.value))}
             darkBg={hasDarkBg}
