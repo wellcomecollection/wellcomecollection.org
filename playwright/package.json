@@ -4,6 +4,7 @@
   "scripts": {
     "test": "playwright test",
     "test:mobile": "NODE_ENV=test platform=mobile yarn test",
+    "test:desktop:shard": "playwright test --shard=$(( BUILDKITE_PARALLEL_JOB + 1 ))/$BUILDKITE_PARALLEL_JOB_COUNT",
     "test:debug:mobile": "NODE_ENV=test debug=true platform=mobile yarn test",
     "test:debug": "NODE_ENV=test debug=true yarn test",
     "test:debug:all": "NODE_ENV=test debug=true browsers=all yarn test",
