@@ -35,17 +35,12 @@ steps:
       queue: scala # High parallelism for expensive tests
 
   - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
+    command: ./.buildkite/scripts/run_e2e_mobile.sh
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
           role: "arn:aws:iam::130871440101:role/experience-ci"
       - ecr#v2.1.1:
           login: true
-      - docker-compose#v3.5.0:
-          run: e2e
-          env:
-            - CI=true
-            - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
-            - USE_STAGE_APIS=$USE_STAGE_APIS
-          command: ["yarn", "test:mobile"]
+    parallelism: 3
     agents:
       queue: scala # High parallelism for expensive tests
