@@ -1,13 +1,13 @@
 steps:
-  # - label: "build e2e test image"
-  #   command: ./playwright/get_playwright_image.sh
-  #   plugins:
-  #     - wellcomecollection/aws-assume-role#v0.2.2:
-  #         role: "arn:aws:iam::130871440101:role/experience-ci"
-  #     - ecr#v2.1.1:
-  #         login: true
-  #
-  # - wait
+  - label: "build e2e test image"
+    command: ./playwright/get_playwright_image.sh
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+      - ecr#v2.1.1:
+          login: true
+  
+  - wait
   #
   # - label: "Check URLs"
   #   plugins:
