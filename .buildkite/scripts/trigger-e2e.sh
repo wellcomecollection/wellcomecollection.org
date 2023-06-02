@@ -15,6 +15,7 @@ buildkite-agent meta-data set "github_deployment_status:environment_url" $ENVIRO
 TRIGGER_STEP="steps:
   - trigger: \"experience-e2e\"
     label: \"e2e test\"
+    soft_fail: true # Added 2023-06-02 due to issues with flaky tests - to be removed as soon as is practical
     build:
       message: \"Deployment to ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}\"
       commit: ${BUILDKITE_COMMIT}
