@@ -1,3 +1,7 @@
+output "buildkite_ecr_uri" {
+  value = aws_ecr_repository.buildkite.repository_url
+}
+
 output "content_webapp_ecr_uri" {
   value = aws_ecr_repository.content_webapp.repository_url
 }
@@ -16,4 +20,8 @@ output "prod" {
 
 output "stage" {
   value = module.stage
+}
+
+output "e2e" {
+  value = module.e2e
 }

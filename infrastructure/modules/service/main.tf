@@ -98,4 +98,6 @@ module "service" {
   container_port = module.nginx_container.container_port
 
   propagate_tags = "SERVICE"
+
+  deployment_minimum_healthy_percent = var.allow_scaling_to_zero ? 0 : 100
 }

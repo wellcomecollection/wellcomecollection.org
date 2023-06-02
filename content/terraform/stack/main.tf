@@ -11,6 +11,9 @@ module "content-service-17092020" {
   container_image = var.container_image
   container_port  = 3000
 
+  cpu    = var.env_suffix == "prod" ? 1024 : 512
+  memory = var.env_suffix == "prod" ? 2048 : 1024
+
   security_group_ids = [
     var.environment["interservice_security_group_id"],
     var.environment["service_egress_security_group_id"]
@@ -32,6 +35,8 @@ module "content-service-17092020" {
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
+
+  allow_scaling_to_zero = var.env_suffix != "prod"
 }
 
 locals {
