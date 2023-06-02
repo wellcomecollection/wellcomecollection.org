@@ -38,7 +38,7 @@ steps:
             - BUILDKITE_PARALLEL_JOB=$BUILDKITE_PARALLEL_JOB
             - BUILDKITE_PARALLEL_JOB_COUNT=$BUILDKITE_PARALLEL_JOB_COUNT
           command: ["yarn", "test:desktop:shard"]
-    parallelism: 5
+    parallelism: 3
     agents:
       queue: scala # High parallelism for expensive tests
 
