@@ -9,6 +9,4 @@ docker-compose run \
   -e CI=true \
   -e PLAYWRIGHT_BASE_URL=https://wellcomecollection.org \
   -e USE_STAGE_APIS="$USE_STAGE_APIS" \
-  -e BUILDKITE_PARALLEL_JOB="$(( BUILDKITE_PARALLEL_JOB + 1 ))" \
-  -e BUILDKITE_PARALLEL_JOB_COUNT="$BUILDKITE_PARALLEL_JOB_COUNT" \
-  e2e yarn test
+  e2e yarn test --shard="$(( BUILDKITE_PARALLEL_JOB + 1 ))/$BUILDKITE_PARALLEL_JOB_COUNT"
