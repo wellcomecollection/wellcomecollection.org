@@ -52,7 +52,7 @@ describe('isUpcoming', () => {
   it('an event which started earlier today and finishes tomorrow is upcoming', () => {
     const mondayAt7am = new Date('2007-01-01T07:00:00Z');
     const mondayAt9am = new Date('2007-01-01T09:00:00Z');
-    const tuesdayAt76am = new Date('2007-01-02T07:00:00Z');
+    const tuesdayAt7am = new Date('2007-01-02T07:00:00Z');
 
     jest
       .spyOn(dateUtils, 'isFuture')
