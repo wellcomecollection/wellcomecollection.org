@@ -28,7 +28,6 @@ steps:
     # to deploy to them both simultaneously.
     concurrency_group: "front-end-deployment-${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}-gate"
     concurrency: 1
-    key: start-deployment
 
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
@@ -66,12 +65,15 @@ steps:
   - wait
 
   - label: "Complete ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT} deployment"
-    command: echo "Stage ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT} complete!"
+    command: echo "${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT} complete!"
 
-    # This is the second half of the concurrency gate that "locks" the deployment.
+    # This is the second half of the concurrency gate described above.
+    #
+    # Buildkite won't let any other pipelines run in this concurrency group until
+    # this step has run (or the entire deployment has failed).
     #
     # When this step completes, it "unlocks" the deployment and allows other
-    # deployments to stage to begin.
+    # deployments to begin.
     concurrency_group: "front-end-deployment-${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}-gate"
     concurrency: 1
 
