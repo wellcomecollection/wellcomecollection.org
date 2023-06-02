@@ -1,13 +1,13 @@
 steps:
-  - label: "build e2e test image"
-    command: ./playwright/get_playwright_image.sh
-    plugins:
-      - wellcomecollection/aws-assume-role#v0.2.2:
-          role: "arn:aws:iam::130871440101:role/experience-ci"
-      - ecr#v2.1.1:
-          login: true
+  # - label: "build e2e test image"
+  #   command: ./playwright/get_playwright_image.sh
+  #   plugins:
+  #     - wellcomecollection/aws-assume-role#v0.2.2:
+  #         role: "arn:aws:iam::130871440101:role/experience-ci"
+  #     - ecr#v2.1.1:
+  #         login: true
   
-  - wait
+  # - wait
   #
   # - label: "Check URLs"
   #   plugins:
@@ -24,14 +24,7 @@ steps:
   #         command: ["bash", "check_urls.sh"]
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
-    command: |
-      docker-compose run \
-        --env CI=true \
-        --env PLAYWRIGHT_BASE_URL=https://wellcomecollection.org \
-        --env USE_STAGE_APIS="$$USE_STAGE_APIS" \
-        --env BUILDKITE_PARALLEL_JOB=$(( BUILDKITE_PARALLEL_JOB + 1 )) \
-        --env BUILDKITE_PARALLEL_JOB_COUNT="$$BUILDKITE_PARALLEL_JOB_COUNT" \
-        e2e yarn test
+    command: ./.buildkite/scripts/run_e2e_desktop.sh
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
           role: "arn:aws:iam::130871440101:role/experience-ci"
