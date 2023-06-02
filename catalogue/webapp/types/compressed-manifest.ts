@@ -1,17 +1,13 @@
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import {
-  longestCommonPrefix,
-  longestCommonSuffix,
-} from '@weco/common/utils/array';
+import { findLongestCommonParts, CommonParts } from '@weco/common/utils/array';
 import { TransformedCanvas, TransformedManifest } from './manifest';
 
 type CompressedTransformedCanvases = {
-  idPrefix: string;
-  imageServiceIdPrefix: string;
-  labelPrefix: string;
-  textServiceIdPrefix: string;
-  thumbnailImageUrlPrefix: string;
-  thumbnailImageUrlSuffix: string;
+  id: CommonParts;
+  imageServiceId: CommonParts;
+  label: CommonParts;
+  textServiceId: CommonParts;
+  thumbnailImageUrl: CommonParts;
   restrictedImageIds: string[];
   canvases: Omit<TransformedCanvas, 'hasRestrictedImage'>[];
 };

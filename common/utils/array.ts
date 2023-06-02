@@ -34,7 +34,11 @@ function longestCommonSuffix(strings: string[]): string {
   return reverse(longestCommonPrefix(reversedStrings));
 }
 
-export type CommonParts = { prefix: string; suffix: string };
+export type CommonParts = {
+  prefix: string;
+  suffix: string;
+  remainingStrings: string[];
+};
 
 export function findLongestCommonParts(strings: string[]): CommonParts {
   const prefix = longestCommonPrefix(strings);
