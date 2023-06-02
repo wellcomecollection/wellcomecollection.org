@@ -33,7 +33,7 @@ steps:
           run: e2e
           env:
             - CI=true
-            - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
+            - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
             - USE_STAGE_APIS=$USE_STAGE_APIS
             - BUILDKITE_PARALLEL_JOB=$BUILDKITE_PARALLEL_JOB
             - BUILDKITE_PARALLEL_JOB_COUNT=$BUILDKITE_PARALLEL_JOB_COUNT
@@ -52,7 +52,7 @@ steps:
           run: e2e
           env:
             - CI=true
-            - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
+            - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
             - USE_STAGE_APIS=$USE_STAGE_APIS
           command: ["yarn", "test:mobile"]
     agents:
