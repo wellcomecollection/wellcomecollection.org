@@ -154,7 +154,7 @@ export const Pagination: FunctionComponent<Props> = ({
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             form={isFocused ? 'search-page-form' : ''}
-            aria-label={`Showing page ${currentPage} / ${formatNumber(
+            aria-label={`Jump to page ${currentPage} of ${formatNumber(
               totalPages
             )}`}
             value={currentPage}
