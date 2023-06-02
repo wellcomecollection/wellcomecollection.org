@@ -24,20 +24,19 @@ steps:
   #         command: ["bash", "check_urls.sh"]
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
+    command: |
+      docker-compose run \
+        --env CI=true \
+        --env PLAYWRIGHT_BASE_URL=https://wellcomecollection.org \
+        --env USE_STAGE_APIS="$USE_STAGE_APIS" \
+        --env BUILDKITE_PARALLEL_JOB=$(( BUILDKITE_PARALLEL_JOB + 1 )) \
+        --env BUILDKITE_PARALLEL_JOB_COUNT="$BUILDKITE_PARALLEL_JOB_COUNT" \
+        e2e yarn test
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
           role: "arn:aws:iam::130871440101:role/experience-ci"
       - ecr#v2.1.1:
           login: true
-      - docker-compose#v3.5.0:
-          run: e2e
-          env:
-            - CI=true
-            - PLAYWRIGHT_BASE_URL=https://wellcomecollection.org
-            - USE_STAGE_APIS=$USE_STAGE_APIS
-            - BUILDKITE_PARALLEL_JOB=$BUILDKITE_PARALLEL_JOB
-            - BUILDKITE_PARALLEL_JOB_COUNT=$BUILDKITE_PARALLEL_JOB_COUNT
-          command: ["yarn", "test:desktop:shard"]
     parallelism: 3
     agents:
       queue: scala # High parallelism for expensive tests
