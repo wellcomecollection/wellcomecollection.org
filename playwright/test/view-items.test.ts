@@ -237,6 +237,8 @@ test.describe('Scenario 6: Item has multiple volumes', () => {
       );
 
       await page.click(nextManifestLinkSelector);
+
+      // This is an attempt to make this test a bit less flaky.
       await safeWaitForNavigation(page);
 
       await page.waitForSelector(
@@ -293,15 +295,7 @@ test.describe('Scenario 8: A user wants to be able to see all the images for an 
     await page.waitForSelector(mainViewer);
     await scrollToBottom(mainViewer, page);
 
-    // In this test, we're loading an item with 68 pages, scrolling to the
-    // bottom, then looking for the "68/68" text on the page.
-    //
-    // This text is hidden whenever the window is being scrolled, zoomed,
-    // or resized, because that might affect what the "current" page is.
-    //
-    // We've had issues with this test being flaky, because we don't wait
-    // long enough after we finish scrolling to look for this "68/68" --
-    // tossing in this wait seems to fix that.
+    // This is an attempt to make this test a bit less flaky.
     await safeWaitForNavigation(page);
 
     await page.waitForSelector(
