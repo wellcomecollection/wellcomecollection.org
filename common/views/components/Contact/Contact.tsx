@@ -4,6 +4,7 @@ import { font } from '@weco/common/utils/classnames';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { useToggles } from '@weco/common/server-data/Context';
 import Space from '../styled/Space';
+import ContactV2 from './Contact.V2';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left'] },
@@ -28,17 +29,6 @@ const PhoneNumber = styled.span.attrs({ className: font('intr', 4) })`
   display: block;
 `;
 
-const WithIconWrapper = styled.div`
-  align-items: flex-start;
-  display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
 export type Props = {
   title: string;
   subtitle: string | null;
@@ -53,6 +43,17 @@ const Contact: FunctionComponent<Props> = ({
   email,
 }: Props): ReactElement => {
   const { visualStories } = useToggles();
+
+  if (visualStories)
+    return (
+      <ContactV2
+        title={title}
+        subtitle={subtitle}
+        phone={phone}
+        email={email}
+      />
+    );
+
   return (
     <Wrapper>
       <TitleWrapper>
@@ -64,53 +65,14 @@ const Contact: FunctionComponent<Props> = ({
           <span className="visually-hidden">
             {createScreenreaderLabel(phone)}
           </span>
-          {visualStories ? (
-            <>
-              <WithIconWrapper>
-                <img
-                  alt=""
-                  style={{ width: '50px' }}
-                  src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-c-phone-icon.png"
-                />
-                <div>
-                  <strong>By phone</strong>
-                  <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
-                </div>
-              </WithIconWrapper>
-            </>
-          ) : (
-            <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
-          )}
+          <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
         </>
       )}
       {email && (
         <div>
-          {visualStories ? (
-            <WithIconWrapper style={{}}>
-              <img
-                alt=""
-                style={{ width: '50px' }}
-                src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-d-email-icon.png"
-              />
-              <div>
-                <span>
-                  {phone ? 'Or ' : ''}
-                  <strong>by email</strong>
-                </span>
-                <a
-                  style={{ display: 'block' }}
-                  className={font('intr', 4)}
-                  href={`mailto:${email}`}
-                >
-                  {email}
-                </a>
-              </div>
-            </WithIconWrapper>
-          ) : (
-            <a className={font('intr', 4)} href={`mailto:${email}`}>
-              {email}
-            </a>
-          )}
+          <a className={font('intr', 4)} href={`mailto:${email}`}>
+            {email}
+          </a>
         </div>
       )}
     </Wrapper>
