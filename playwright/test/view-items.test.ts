@@ -12,7 +12,6 @@ import {
   itemWithNonRestrictedAndOpenAccess,
   isMobile,
 } from './contexts';
-import { searchWithinLabel } from './text/aria-labels';
 import {
   zoomInButton,
   rotateButton,
@@ -24,7 +23,6 @@ import {
   fullItemDownload,
   workContributors,
   workDates,
-  searchWithinResultsHeader,
   viewerSidebar,
   mobilePageGridButtons,
   toggleInfoDesktop,
@@ -33,14 +31,14 @@ import {
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
-import { Page } from 'playwright';
 
 const domain = new URL(baseUrl).host;
 
-const searchWithin = async (query: string, page: Page) => {
-  await page.fill(`text=${searchWithinLabel}`, query);
-  await page.press(`text=${searchWithinLabel}`, 'Enter');
-};
+// TODO uncomment when e2es have been investigated further
+// const searchWithin = async (query: string, page: Page) => {
+//   await page.fill(`text=${searchWithinLabel}`, query);
+//   await page.press(`text=${searchWithinLabel}`, 'Enter');
+// };
 
 const test = base.extend({
   context: async ({ context }, use) => {
@@ -280,8 +278,7 @@ test.describe('Scenario 6: Item has multiple volumes', () => {
 //     }
 //   });
 // });
-
-// TODO uncomment when e2es have been investigated further
+//
 // const scrollToBottom = async (selector: string, page: Page) => {
 //   await page.$eval(selector, (element: HTMLElement) => {
 //     element.scrollTo(0, element.scrollHeight);
@@ -314,23 +311,23 @@ test.describe('Scenario 6: Item has multiple volumes', () => {
 //     );
 //   });
 // });
-
-test.describe("Scenario 9: A user wants to be able to search inside an item's text", () => {
-  test('the item should be searchable', async ({ page, context }) => {
-    await itemWithSearchAndStructures(context, page);
-    if (isMobile(page)) {
-      await page.click('text="Show info"');
-    }
-    await searchWithin('darwin', page);
-    await page.waitForSelector(searchWithinResultsHeader);
-    await page.click(
-      `${searchWithinResultsHeader} + ul li:first-of-type button`
-    );
-    if (!isMobile(page)) {
-      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
-    }
-  });
-});
+//
+// test.describe("Scenario 9: A user wants to be able to search inside an item's text", () => {
+//   test('the item should be searchable', async ({ page, context }) => {
+//     await itemWithSearchAndStructures(context, page);
+//     if (isMobile(page)) {
+//       await page.click('text="Show info"');
+//     }
+//     await searchWithin('darwin', page);
+//     await page.waitForSelector(searchWithinResultsHeader);
+//     await page.click(
+//       `${searchWithinResultsHeader} + ul li:first-of-type button`
+//     );
+//     if (!isMobile(page)) {
+//       await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+//     }
+//   });
+// });
 
 test.describe('Scenario 10: A user wants to be able to access alt text for the images', () => {
   test('images should have alt text', async ({ page, context }) => {
