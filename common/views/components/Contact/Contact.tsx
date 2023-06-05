@@ -60,6 +60,7 @@ const Contact: FunctionComponent<Props> = ({
         <Title>{title}</Title>
         {subtitle && <Subtitle>{subtitle}</Subtitle>}
       </TitleWrapper>
+
       {phone && (
         <>
           <span className="visually-hidden">
@@ -68,6 +69,7 @@ const Contact: FunctionComponent<Props> = ({
           <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
         </>
       )}
+
       {email && (
         <div>
           <a className={font('intr', 4)} href={`mailto:${email}`}>
