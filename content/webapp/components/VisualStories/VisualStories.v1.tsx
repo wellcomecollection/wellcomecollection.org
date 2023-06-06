@@ -1,8 +1,6 @@
 import {
   TwoUp,
   NoSpacedText,
-  YellowBox,
-  YellowBoxInner,
   PrototypeH2,
   TODO,
   BigIcon,
@@ -152,27 +150,19 @@ export const V1Prototype = () => {
             <TODO>Work out how to add station names below if required</TODO>
           </SpacingComponent>
           <SpacingComponent>
-            <YellowBox>
-              <YellowBoxInner>
-                <p>
-                  If you would like one of our staff to meet you at a nearby
-                  station, our <strong>Visitor Experience team</strong> can help
-                  you make your way to our building.
-                </p>
-                <TODO>
-                  Work out if we can use the pre-existing Contact component for
-                  this
-                </TODO>
-                <NoSpacedText>
-                  <Contact
-                    email="info@wellcomecollection.org"
-                    phone="+44 (0)20 7611 2222"
-                    title="Visitor experience"
-                    subtitle=""
-                  />
-                </NoSpacedText>
-              </YellowBoxInner>
-            </YellowBox>
+            <p>
+              If you would like one of our staff to meet you at a nearby
+              station, our <strong>Visitor Experience team</strong> can help you
+              make your way to our building.
+            </p>
+            <NoSpacedText>
+              <Contact
+                email="info@wellcomecollection.org"
+                phone="+44 (0)20 7611 2222"
+                title="Visitor experience"
+                subtitle=""
+              />
+            </NoSpacedText>
           </SpacingComponent>
           <SpacingComponent>
             <h3 id="arriving-by-bus">Arriving by bus</h3>

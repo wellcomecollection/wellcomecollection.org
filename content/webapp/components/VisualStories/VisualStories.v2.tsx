@@ -1,11 +1,5 @@
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import {
-  PrototypeH1,
-  YellowBox,
-  YellowBoxInner,
-  TODO,
-  InfoBlock,
-} from './VisualStories.styles';
+import { PrototypeH1, TODO, InfoBlock } from './VisualStories.styles';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
@@ -264,64 +258,47 @@ export const V2Prototype = () => {
 
           {/* Yellow box */}
           <SpacingSection>
-            <YellowBox>
-              <YellowBoxInner>
-                <p>
-                  If you would like one of <strong>our staff</strong> to{' '}
-                  <strong>meet you</strong> at a nearby station, please contact
-                  our <strong>Visitor Experience Team</strong>.
-                </p>
+            <p>
+              If you would like one of <strong>our staff</strong> to{' '}
+              <strong>meet you</strong> at a nearby station, please contact our{' '}
+              <strong>Visitor Experience Team</strong>.
+            </p>
 
-                <InfoBlock
-                  style={{
-                    padding: '0 0 1rem',
-                    alignItems: 'flex-start',
-                    flexDirection: 'row',
-                  }}
-                >
-                  <img
-                    alt=""
-                    style={{ width: '75px' }}
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-b-location-to-location-icon.png"
-                  />
-                  <p>They can help you make your way to our building.</p>
-                </InfoBlock>
+            <p>They can help you make your way to our building.</p>
 
-                <p>
-                  <strong>Contact our Visitor Experience Team:</strong>
-                </p>
+            <p>
+              <strong>Contact our Visitor Experience Team:</strong>
+            </p>
 
-                <InfoBlock style={{ padding: '0', flexDirection: 'row' }}>
-                  <img
-                    alt=""
-                    style={{ width: '50px' }}
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-c-phone-icon.png"
-                  />
-                  <p style={{ marginBottom: 0 }}>
-                    <strong>By phone</strong>
-                    <br />
-                    +44 (0)20 7611 2222
-                  </p>
-                </InfoBlock>
+            <InfoBlock style={{ padding: '0', flexDirection: 'row' }}>
+              <img
+                alt=""
+                style={{ width: '50px' }}
+                src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-c-phone-icon.png"
+              />
+              <p style={{ marginBottom: 0 }}>
+                <strong>By phone</strong>
+                <br />
+                +44 (0)20 7611 2222
+              </p>
+            </InfoBlock>
 
-                <InfoBlock
-                  style={{
-                    flexDirection: 'row',
-                  }}
-                >
-                  <img
-                    alt=""
-                    style={{ width: '50px' }}
-                    src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-d-email-icon.png"
-                  />
-                  <p style={{ marginBottom: 0 }}>
-                    Or <strong>by email</strong>
-                    <br />
-                    info@wellcomecollection.org
-                  </p>
-                </InfoBlock>
-              </YellowBoxInner>
-            </YellowBox>
+            <InfoBlock
+              style={{
+                flexDirection: 'row',
+              }}
+            >
+              <img
+                alt=""
+                style={{ width: '50px' }}
+                src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-d-email-icon.png"
+              />
+              <p style={{ marginBottom: 0 }}>
+                Or <strong>by email</strong>
+                <br />
+                info@wellcomecollection.org
+              </p>
+            </InfoBlock>
           </SpacingSection>
 
           {/* Arriving by bus/bike/car */}
