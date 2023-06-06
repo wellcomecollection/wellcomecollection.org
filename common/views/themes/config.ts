@@ -306,6 +306,7 @@ export const themeValues = {
     yellowYellowBlack,
     whiteWhiteCharcoal,
   },
+  spacedTextTopMargin: '1.55em',
 };
 
 export type Breakpoint = keyof typeof sizes;

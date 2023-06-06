@@ -29,11 +29,11 @@ const SpacingComponent = styled.div.attrs({
     .spaced-text, and if so, override the SpacingComponent spacing in favour of
     the .spaced-text spacing. Firefox currently (June 2023) doesn't support
     :has(). Hopefully this will change soon.  */
-    &:has(.spaced-text) + .spacing-component:has(.spaced-text) {
+    &:has(.spaced-text) + &:has(.spaced-text) {
       margin-top: 0;
 
       .spaced-text > *:first-child {
-        margin-top: 1.55em;
+        margin-top: ${props => props.theme.spacedTextTopMargin};
       }
     }
   }

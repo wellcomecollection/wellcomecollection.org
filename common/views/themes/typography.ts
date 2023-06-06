@@ -210,7 +210,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     * + * {
-      margin-top: 1.55em;
+      margin-top: ${themeValues.spacedTextTopMargin};
     }
 
     li + li {
