@@ -1,5 +1,6 @@
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import * as prismic from '@prismicio/client';
+import { WellcomeAggregation, WellcomeResultList } from '../../index';
 
 export type ContentApiProps = {
   query?: string;
@@ -14,7 +15,7 @@ export type ArticleFormat = {
   label: string;
 };
 
-export type Content = {
+export type Article = {
   id: string;
   title: string;
   publicationDate: string;
@@ -40,3 +41,16 @@ type Contributor = {
     type: 'EditorialContributorRole';
   };
 };
+
+type ArticleAggregations = {
+  format: WellcomeAggregation;
+  'contributors.contributor': WellcomeAggregation;
+  type: 'Aggregations';
+};
+
+export type ResultType = Article;
+
+export type ContentResultsList<Result extends ResultType> = WellcomeResultList<
+  Result,
+  Result extends Article ? ArticleAggregations : null
+>;

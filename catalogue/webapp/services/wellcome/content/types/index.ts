@@ -1,5 +1,5 @@
 import { DigitalLocation, Contributor } from '@weco/common/model/catalogue';
-import { Content, ContentApiProps } from './api';
+import { Article, ContentApiProps } from './api';
 
 export type { ContentApiProps };
 
@@ -26,7 +26,7 @@ export type Image = {
   aspectRatio?: number;
 };
 
-export type ContentResultsList<Result extends Content> = {
+export type ContentResultsList<Result extends Article> = {
   type: 'ResultList';
   totalResults: number;
   totalPages: number;

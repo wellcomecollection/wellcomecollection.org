@@ -36,7 +36,7 @@ import {
   ContentApiError,
   ContentResultsList,
 } from '@weco/catalogue/services/wellcome/content/types';
-import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
+import { Article } from '@weco/catalogue/services/wellcome/content/types/api';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
@@ -51,7 +51,7 @@ const fromQuery: (params: ParsedUrlQuery) => CodecMapProps = params => {
 type Props = {
   works?: ResultsProps<Work>;
   images?: ResultsProps<Image>;
-  stories?: ResultsProps<Content>;
+  stories?: ResultsProps<Article>;
   query: Query;
   pageview: Pageview;
 };
@@ -246,7 +246,7 @@ export const getServerSideProps: GetServerSideProps<
     const stories = getQueryResults({
       categoryName: 'stories',
       queryResults: storiesResults as
-        | ContentResultsList<Content>
+        | ContentResultsList<Article>
         | ContentApiError,
     });
 

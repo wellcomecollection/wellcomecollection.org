@@ -1,4 +1,4 @@
-import { Content } from './types/api';
+import { Article } from './types/api';
 import {
   ContentApiError,
   ContentResultsList,
@@ -9,7 +9,7 @@ import { QueryProps } from '..';
 
 export async function getArticles(
   props: QueryProps<ContentApiProps>
-): Promise<ContentResultsList<Content> | ContentApiError> {
+): Promise<ContentResultsList<Article> | ContentApiError> {
   const getArticlesResult = await contentQuery('articles', props);
 
   return getArticlesResult;

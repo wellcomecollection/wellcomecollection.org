@@ -24,12 +24,13 @@ import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
 // Types
 import { Query } from '@weco/catalogue/types/search';
-import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
+import { Article } from '@weco/catalogue/services/wellcome/content/types/api';
 import { ContentResultsList } from '@weco/catalogue/services/wellcome/content/types';
+import { emptyResultList } from '@weco/catalogue/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {
-  storyResponseList?: ContentResultsList<Content>;
+  storyResponseList?: ContentResultsList<Article>;
   query: Query;
   pageview: Pageview;
   apiToolbarLinks: ApiToolbarLink[];
@@ -173,7 +174,7 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: {
         ...defaultProps,
-        storyResponseList: { totalResults: 0 } as any,
+        storyResponseList: emptyResultList(),
         pageview: {
           name: 'stories',
           properties: {},
