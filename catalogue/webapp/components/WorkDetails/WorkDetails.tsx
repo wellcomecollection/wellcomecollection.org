@@ -122,6 +122,16 @@ const WorkDetails: FunctionComponent<Props> = ({
   const issnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'issn';
   });
+
+  const accessionNumberIdentifiers = work.identifiers.filter(id => {
+    return id.identifierType.id === 'wellcome-accession-number';
+  });
+
+  const hasIdentifiers =
+    isbnIdentifiers.length > 0 ||
+    issnIdentifiers.length > 0 ||
+    accessionNumberIdentifiers.length > 0;
+
   const seriesPartOfs = work.partOf.filter(p => !p.id);
 
   const physicalItems = getItemsWithPhysicalLocation(work.items ?? []);
@@ -735,7 +745,7 @@ const WorkDetails: FunctionComponent<Props> = ({
         </div>
       </WorkDetailsSection>
 
-      {isbnIdentifiers.length > 0 && (
+      {hasIdentifiers && (
         <WorkDetailsSection headingText="Identifiers">
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList
@@ -747,6 +757,12 @@ const WorkDetails: FunctionComponent<Props> = ({
             <WorkDetailsList
               title="ISSN"
               list={issnIdentifiers.map(id => id.value)}
+            />
+          )}
+          {accessionNumberIdentifiers.length > 0 && (
+            <WorkDetailsList
+              title="Accession number"
+              list={accessionNumberIdentifiers.map(id => id.value)}
             />
           )}
         </WorkDetailsSection>
