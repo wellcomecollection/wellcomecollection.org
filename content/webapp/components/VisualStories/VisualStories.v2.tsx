@@ -9,6 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import theme from '@weco/common/views/themes/default';
 import { font } from '@weco/common/utils/classnames';
+import Contact from '@weco/common/views/components/Contact/Contact';
 
 export const V2Prototype = () => {
   return (
@@ -261,44 +262,16 @@ export const V2Prototype = () => {
             <p>
               If you would like one of <strong>our staff</strong> to{' '}
               <strong>meet you</strong> at a nearby station, please contact our{' '}
-              <strong>Visitor Experience Team</strong>.
+              <strong>Visitor Experience Team</strong>. They can help you make
+              your way to our building.
             </p>
 
-            <p>They can help you make your way to our building.</p>
-
-            <p>
-              <strong>Contact our Visitor Experience Team:</strong>
-            </p>
-
-            <InfoBlock style={{ padding: '0', flexDirection: 'row' }}>
-              <img
-                alt=""
-                style={{ width: '50px' }}
-                src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-c-phone-icon.png"
-              />
-              <p style={{ marginBottom: 0 }}>
-                <strong>By phone</strong>
-                <br />
-                +44 (0)20 7611 2222
-              </p>
-            </InfoBlock>
-
-            <InfoBlock
-              style={{
-                flexDirection: 'row',
-              }}
-            >
-              <img
-                alt=""
-                style={{ width: '50px' }}
-                src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/12-v2-d-email-icon.png"
-              />
-              <p style={{ marginBottom: 0 }}>
-                Or <strong>by email</strong>
-                <br />
-                info@wellcomecollection.org
-              </p>
-            </InfoBlock>
+            <Contact
+              title="Visitor Experience"
+              subtitle=""
+              email="info@wellcomecollection.org"
+              phone="+44 (0)20 7611 2222"
+            />
           </SpacingSection>
 
           {/* Arriving by bus/bike/car */}

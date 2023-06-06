@@ -1,8 +1,10 @@
-import { font } from '../../../utils/classnames';
-import Space from '../styled/Space';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
-import { createScreenreaderLabel } from '../../../utils/telephone-numbers';
+import { font } from '@weco/common/utils/classnames';
+import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
+import { useToggles } from '@weco/common/server-data/Context';
+import Space from '../styled/Space';
+import ContactV2 from './Contact.V2';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left'] },
@@ -40,12 +42,25 @@ const Contact: FunctionComponent<Props> = ({
   phone,
   email,
 }: Props): ReactElement => {
+  const { visualStories } = useToggles();
+
+  if (visualStories)
+    return (
+      <ContactV2
+        title={title}
+        subtitle={subtitle}
+        phone={phone}
+        email={email}
+      />
+    );
+
   return (
     <Wrapper>
       <TitleWrapper>
         <Title>{title}</Title>
         {subtitle && <Subtitle>{subtitle}</Subtitle>}
       </TitleWrapper>
+
       {phone && (
         <>
           <span className="visually-hidden">
@@ -54,6 +69,7 @@ const Contact: FunctionComponent<Props> = ({
           <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
         </>
       )}
+
       {email && (
         <div>
           <a className={font('intr', 4)} href={`mailto:${email}`}>
