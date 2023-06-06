@@ -53,13 +53,17 @@ yarn install
 # yarn {appName = content|catalogue|identity}
 # e.g.
 yarn catalogue
+# you may also run all of them concurrently.
+# this may add a prefix to the URL such as `/catalogue/`
+# and is only for local cross projects development
+yarn run-concurrently
 ```
 ### Port
 By default webapps will run on port `3000`.
 
 You can specify a port by setting the `PORT` in your `.env.development`.
 
-This is useful if you want to run webapps simultaneously.
+This is useful if you want to run webapps simultaneously, or you may just use `yarn run-concurrently` as explained above.
 
 ### Running CI steps locally
 
@@ -127,6 +131,8 @@ docker-compose edge_lambdas run
 
 We use [`ESLint`](https://eslint.org/) to lint the project. [The config is global](./eslintrc.js).
 
+We use [`stylelint`](https://stylelint.io/) to lint styled-components.  [The config is global](./.stylelintrc.js).
+
 We extend a few configs, including prettier, [which we configure separately](./prettierrs.js).
 
 ### VSCode setup
@@ -140,7 +146,8 @@ Linting does not happen in CI, so to enable linting on save, you can add this to
 {
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "stylelint.validate": ["typescriptreact"],
 }
 ```
 
