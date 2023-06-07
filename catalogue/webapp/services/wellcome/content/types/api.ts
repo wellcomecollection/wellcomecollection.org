@@ -7,6 +7,7 @@ export type ContentApiProps = {
   page?: number;
   sort?: string;
   sortOrder?: string;
+  aggregations?: string[];
 };
 
 export type ArticleFormat = {

@@ -14,7 +14,7 @@ type Props = {
   query?: string;
   searchFormId?: string;
   changeHandler: () => void;
-  filters: Filter[];
+  filters: Filter<string>[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
   hasNoResults?: boolean;
 };
