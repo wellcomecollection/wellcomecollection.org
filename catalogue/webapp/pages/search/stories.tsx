@@ -24,8 +24,10 @@ import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
 // Types
 import { Query } from '@weco/catalogue/types/search';
-import { Article } from '@weco/catalogue/services/wellcome/content/types/api';
-import { ContentResultsList } from '@weco/catalogue/services/wellcome/content/types';
+import {
+  Article,
+  ContentResultsList,
+} from '@weco/catalogue/services/wellcome/content/types/api';
 import { emptyResultList } from '@weco/catalogue/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 

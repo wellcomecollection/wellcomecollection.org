@@ -1,10 +1,11 @@
-import {
-  ContentApiError,
-  ContentResultsList,
-} from '@weco/catalogue/services/wellcome/content/types';
 import { propsToQuery } from '@weco/common/utils/routes';
-import { ResultType } from './types/api';
-import { QueryProps, globalApiOptions, wellcomeApiQuery } from '..';
+import { ContentResultsList, ResultType } from './types/api';
+import {
+  QueryProps,
+  globalApiOptions,
+  wellcomeApiQuery,
+  WellcomeApiError,
+} from '..';
 
 const rootUris = {
   prod: 'https://api.wellcomecollection.org/content',
@@ -14,7 +15,7 @@ const rootUris = {
 export async function contentQuery<Params, Result extends ResultType>(
   endpoint: string,
   { params, toggles, pageSize }: QueryProps<Params>
-): Promise<ContentResultsList<Result> | ContentApiError> {
+): Promise<ContentResultsList<Result> | WellcomeApiError> {
   const apiOptions = globalApiOptions(toggles);
   const extendedParams = {
     ...params,
