@@ -84,3 +84,5 @@ export type WorksLinkSource =
   | 'work_details/languages'
   | Prefix<'cancel_filter/'>
   | 'unknown';
+
+export type StoriesLinkSource = 'unknown';

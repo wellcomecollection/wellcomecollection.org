@@ -10,6 +10,12 @@ import { ImagesProps } from '@weco/catalogue/components/ImagesLink';
 import { WorksProps } from '@weco/catalogue/components/WorksLink';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { formatNumber } from '@weco/common/utils/grammar';
+import { StoriesProps } from '@weco/catalogue/components/StoriesLink';
+import CheckboxFilter from 'components/SearchFilters/SearchFilters.Desktop.CheckboxFilter';
+import {
+  Article,
+  ContentResultsList,
+} from '@weco/catalogue/services/wellcome/content/types/api';
 
 export type DateRangeFilter<
   Ids extends string = keyof WorksProps | keyof ImagesProps
@@ -133,6 +139,11 @@ type WorksFilterProps = {
 type ImagesFilterProps = {
   images: CatalogueResultsList<Image>;
   props: ImagesProps;
+};
+
+type StoriesFilterProps = {
+  stories: ContentResultsList<Article>;
+  props: StoriesProps;
 };
 
 const productionDatesFilter = ({
@@ -454,9 +465,47 @@ const sourceContributorAgentsFilter = ({
   }),
 });
 
-const imagesFilters: (
-  props: ImagesFilterProps
-) => Filter<keyof ImagesProps>[] = props =>
+const storiesFormatFilter = ({
+  stories,
+  props,
+}: StoriesFilterProps): CheckboxFilter<keyof StoriesProps> => ({
+  type: 'checkbox',
+  id: 'format',
+  label: 'Format',
+  options: filterOptionsWithNonAggregates({
+    options: stories?.aggregations?.format?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.format.includes(bucket.data.id),
+    })),
+    selectedValues: props.format,
+  }),
+});
+
+const storiesContributorFilter = ({
+  stories,
+  props,
+}: StoriesFilterProps): CheckboxFilter<keyof StoriesProps> => ({
+  type: 'checkbox',
+  id: 'contributors.contributor',
+  label: 'Contributor',
+  options: filterOptionsWithNonAggregates({
+    options: stories?.aggregations?.['contributors.contributor'].buckets.map(
+      bucket => ({
+        id: bucket.data.id,
+        value: bucket.data.id,
+        count: bucket.count,
+        label: bucket.data.label,
+        selected: props['contributors.contributor'].includes(bucket.data.id),
+      })
+    ),
+    selectedValues: props['contributors.contributor'],
+  }),
+});
+
+const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
     colorFilter,
     licensesFilter,
@@ -479,4 +528,9 @@ const worksFilters: (
     partOfFilter,
   ].map(f => f(props));
 
-export { worksFilters, imagesFilters };
+const storiesFilters: (
+  props: StoriesFilterProps
+) => Filter<keyof StoriesProps>[] = props =>
+  [storiesFormatFilter, storiesContributorFilter].map(f => f(props));
+
+export { worksFilters, imagesFilters, storiesFilters };

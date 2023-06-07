@@ -9,6 +9,7 @@ import Sort from '@weco/catalogue/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
 import Space from '@weco/common/views/components/styled/Space';
+import SearchFilters from '@weco/catalogue/components/SearchFilters';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -77,6 +78,33 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
   return (
     <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
+      {true && (
+        <>
+          <Space
+            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <SearchFilters
+              query={queryString}
+              linkResolver={params =>
+                linkResolver({ params, pathname: '/search/stories' })
+              }
+              searchFormId="search-page-form"
+              changeHandler={() => {
+                const form = document.getElementById('search-page-form');
+                form &&
+                  form.dispatchEvent(
+                    new window.Event('submit', {
+                      cancelable: true,
+                      bubbles: true,
+                    })
+                  );
+              }}
+              filters={filters}
+              hasNoResults={hasNoResults}
+            />
+          </Space>
+        </>
+      )}
       {storyResponseList && (
         <>
           {storyResponseList.totalResults === 0 ? (
