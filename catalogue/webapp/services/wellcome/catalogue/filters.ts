@@ -11,24 +11,28 @@ import { WorksProps } from '@weco/catalogue/components/WorksLink';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { formatNumber } from '@weco/common/utils/grammar';
 
-export type DateRangeFilter = {
+export type DateRangeFilter<
+  Ids extends string = keyof WorksProps | keyof ImagesProps
+> = {
   type: 'dateRange';
   id: string;
   label: string;
   to: {
-    id: keyof WorksProps;
+    id: Ids;
     value: string | undefined;
   };
   from: {
-    id: keyof WorksProps;
+    id: Ids;
     value: string | undefined;
   };
   excludeFromMoreFilters?: boolean;
 };
 
-export type CheckboxFilter = {
+export type CheckboxFilter<
+  Id extends string = keyof WorksProps | keyof ImagesProps
+> = {
   type: 'checkbox';
-  id: keyof WorksProps | keyof ImagesProps;
+  id: Id;
   label: string;
   showEmptyBuckets?: boolean;
   options: FilterOption[];
@@ -46,7 +50,10 @@ export type ColorFilter = {
   excludeFromMoreFilters?: boolean;
 };
 
-export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
+export type Filter<Id extends string = keyof WorksProps | keyof ImagesProps> =
+  | CheckboxFilter<Id>
+  | DateRangeFilter<Id>
+  | ColorFilter;
 
 type FilterOption = {
   id: string;
@@ -130,7 +137,7 @@ type ImagesFilterProps = {
 
 const productionDatesFilter = ({
   props,
-}: WorksFilterProps): DateRangeFilter => ({
+}: WorksFilterProps): DateRangeFilter<keyof WorksProps> => ({
   type: 'dateRange',
   id: 'production.dates',
   label: 'Dates',
@@ -147,7 +154,7 @@ const productionDatesFilter = ({
 const workTypeFilter = ({
   works,
   props,
-}: WorksFilterProps): CheckboxFilter => ({
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
   type: 'checkbox',
   id: 'workType',
   label: 'Formats',
@@ -166,7 +173,7 @@ const workTypeFilter = ({
 const subjectsFilter = ({
   works,
   props,
-}: WorksFilterProps): CheckboxFilter => ({
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
   type: 'checkbox',
   id: 'subjects.label',
   label: 'Subjects',
@@ -185,7 +192,10 @@ const subjectsFilter = ({
   }),
 });
 
-const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
+const genresFilter = ({
+  works,
+  props,
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
   type: 'checkbox',
   id: 'genres.label',
   label: 'Types/Techniques',
@@ -207,7 +217,7 @@ const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
 const contributorsAgentFilter = ({
   works,
   props,
-}: WorksFilterProps): CheckboxFilter => {
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => {
   return {
     type: 'checkbox',
     id: 'contributors.agent.label',
@@ -235,7 +245,7 @@ const contributorsAgentFilter = ({
 const languagesFilter = ({
   works,
   props,
-}: WorksFilterProps): CheckboxFilter => ({
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
   type: 'checkbox',
   id: 'languages',
   label: 'Languages',
@@ -263,7 +273,9 @@ Because of this, it only requires the one filter option, generated
 directly from the selected partOf value, rather than fetching
 an aggregation of all partOfs via the API.
 */
-const partOfFilter = ({ props }: WorksFilterProps): CheckboxFilter => ({
+const partOfFilter = ({
+  props,
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
   type: 'checkbox',
   id: 'partOf.title',
   label: 'Series',
@@ -287,7 +299,7 @@ const partOfFilter = ({ props }: WorksFilterProps): CheckboxFilter => ({
 const availabilitiesFilter = ({
   works,
   props,
-}: WorksFilterProps): CheckboxFilter => ({
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
   type: 'checkbox',
   id: 'availabilities',
   label: 'Locations',
@@ -351,7 +363,7 @@ const licenseLabels = {
 const licensesFilter = ({
   images,
   props,
-}: ImagesFilterProps): CheckboxFilter => ({
+}: ImagesFilterProps): CheckboxFilter<keyof ImagesProps> => ({
   type: 'checkbox',
   id: 'locations.license',
   label: 'Licences', // UK spelling for UI
@@ -371,7 +383,7 @@ const licensesFilter = ({
 const sourceGenresFilter = ({
   images,
   props,
-}: ImagesFilterProps): CheckboxFilter => ({
+}: ImagesFilterProps): CheckboxFilter<keyof ImagesProps> => ({
   type: 'checkbox',
   id: 'source.genres.label',
   label: 'Types/Techniques',
@@ -395,7 +407,7 @@ const sourceGenresFilter = ({
 const sourceSubjectsFilter = ({
   images,
   props,
-}: ImagesFilterProps): CheckboxFilter => ({
+}: ImagesFilterProps): CheckboxFilter<keyof ImagesProps> => ({
   type: 'checkbox',
   id: 'source.subjects.label',
   label: 'Subjects',
@@ -419,7 +431,7 @@ const sourceSubjectsFilter = ({
 const sourceContributorAgentsFilter = ({
   images,
   props,
-}: ImagesFilterProps): CheckboxFilter => ({
+}: ImagesFilterProps): CheckboxFilter<keyof ImagesProps> => ({
   type: 'checkbox',
   id: 'source.contributors.agent.label',
   label: 'Contributors',
@@ -442,7 +454,9 @@ const sourceContributorAgentsFilter = ({
   }),
 });
 
-const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
+const imagesFilters: (
+  props: ImagesFilterProps
+) => Filter<keyof ImagesProps>[] = props =>
   [
     colorFilter,
     licensesFilter,
@@ -451,7 +465,9 @@ const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
     sourceContributorAgentsFilter,
   ].map(f => f(props));
 
-const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
+const worksFilters: (
+  props: WorksFilterProps
+) => Filter<keyof WorksProps>[] = props =>
   [
     workTypeFilter,
     productionDatesFilter,
