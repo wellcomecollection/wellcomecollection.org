@@ -28,7 +28,9 @@ const SpacingComponent = styled.div.attrs({
     for this, we check if the two adjacent SpacingComponents contain
     .spaced-text, and if so, override the SpacingComponent spacing in favour of
     the .spaced-text spacing. Firefox currently (June 2023) doesn't support
-    :has(). Hopefully this will change soon.  */
+    :has(). Hopefully this will change soon
+    (https://connect.mozilla.org/t5/ideas/when-is-has-css-selector-going-to-be-fully-implemented-in/idi-p/23794/page/2#comments)
+    */
     &:has(.spaced-text) + &:has(.spaced-text) {
       margin-top: 0;
 
