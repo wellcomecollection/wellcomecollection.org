@@ -10,8 +10,6 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchFilters from '@weco/catalogue/components/SearchFilters';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import { DividerWrapper } from '@weco/common/views/components/SubNavigation/SubNavigation.styles';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -98,7 +96,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   ];
 
   return (
-    <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
+    <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
       {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
         <>
           <div className="container">
@@ -125,15 +123,11 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 hasNoResults={hasNoResults}
               />
             </Space>
-
-            <DividerWrapper>
-              <Divider lineColor="neutral.300" />
-            </DividerWrapper>
           </div>
         </>
       )}
       {storyResponseList && (
-        <>
+        <Wrapper>
           {storyResponseList.totalResults === 0 ? (
             <div className="container">
               <SearchNoResults query={queryString} />
@@ -199,9 +193,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               </PaginationWrapper>
             </div>
           )}
-        </>
+        </Wrapper>
       )}
-    </Wrapper>
+    </Space>
   );
 };
 
