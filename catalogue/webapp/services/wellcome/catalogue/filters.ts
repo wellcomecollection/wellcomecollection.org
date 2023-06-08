@@ -479,27 +479,6 @@ const storiesFormatFilter = ({
   }),
 });
 
-const storiesContributorFilter = ({
-  stories,
-  props,
-}: StoriesFilterProps): CheckboxFilter<keyof StoriesProps> => ({
-  type: 'checkbox',
-  id: 'contributors.contributor',
-  label: 'Contributor',
-  options: filterOptionsWithNonAggregates({
-    options: stories?.aggregations?.['contributors.contributor'].buckets.map(
-      bucket => ({
-        id: bucket.data.id,
-        value: bucket.data.id,
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: props['contributors.contributor'].includes(bucket.data.id),
-      })
-    ),
-    selectedValues: props['contributors.contributor'],
-  }),
-});
-
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
     colorFilter,
@@ -526,6 +505,6 @@ const worksFilters: (
 const storiesFilters: (
   props: StoriesFilterProps
 ) => Filter<keyof StoriesProps>[] = props =>
-  [storiesFormatFilter, storiesContributorFilter].map(f => f(props));
+  [storiesFormatFilter].map(f => f(props));
 
 export { worksFilters, imagesFilters, storiesFilters };
