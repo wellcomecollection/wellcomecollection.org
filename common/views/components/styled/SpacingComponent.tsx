@@ -31,10 +31,12 @@ const SpacingComponent = styled.div.attrs({
     :has(). Hopefully this will change soon
     (https://connect.mozilla.org/t5/ideas/when-is-has-css-selector-going-to-be-fully-implemented-in/idi-p/23794/page/2#comments)
     */
-    &:has(.spaced-text) + &:has(.spaced-text) {
+
+    /* .body-text was added to ensure this only happened in Body slices */
+    &:has(.spaced-text.body-text) + &:has(.spaced-text.body-text) {
       margin-top: 0;
 
-      .spaced-text > *:first-child {
+      .spaced-text.body-text > *:first-child {
         margin-top: ${props => props.theme.spacedTextTopMargin};
       }
     }
