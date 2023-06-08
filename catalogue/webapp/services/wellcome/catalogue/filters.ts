@@ -4,18 +4,17 @@ import {
   Work,
   Image,
 } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { quoteVal } from '@weco/common/utils/csv';
-import { toHtmlId } from '@weco/common/utils/string';
-import { ImagesProps } from '@weco/catalogue/components/ImagesLink';
-import { WorksProps } from '@weco/catalogue/components/WorksLink';
-import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
-import { formatNumber } from '@weco/common/utils/grammar';
-import { StoriesProps } from '@weco/catalogue/components/StoriesLink';
-import CheckboxFilter from 'components/SearchFilters/SearchFilters.Desktop.CheckboxFilter';
 import {
   Article,
   ContentResultsList,
 } from '@weco/catalogue/services/wellcome/content/types/api';
+import { quoteVal } from '@weco/common/utils/csv';
+import { toHtmlId } from '@weco/common/utils/string';
+import { ImagesProps } from '@weco/catalogue/components/ImagesLink';
+import { WorksProps } from '@weco/catalogue/components/WorksLink';
+import { StoriesProps } from '@weco/catalogue/components/StoriesLink';
+import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
+import { formatNumber } from '@weco/common/utils/grammar';
 
 export type DateRangeFilter<Ids extends string = string> = {
   type: 'dateRange';
