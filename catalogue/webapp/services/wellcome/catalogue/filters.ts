@@ -17,9 +17,7 @@ import {
   ContentResultsList,
 } from '@weco/catalogue/services/wellcome/content/types/api';
 
-export type DateRangeFilter<
-  Ids extends string = keyof WorksProps | keyof ImagesProps
-> = {
+export type DateRangeFilter<Ids extends string = string> = {
   type: 'dateRange';
   id: string;
   label: string;
@@ -34,9 +32,7 @@ export type DateRangeFilter<
   excludeFromMoreFilters?: boolean;
 };
 
-export type CheckboxFilter<
-  Id extends string = keyof WorksProps | keyof ImagesProps
-> = {
+export type CheckboxFilter<Id extends string = string> = {
   type: 'checkbox';
   id: Id;
   label: string;
@@ -56,7 +52,7 @@ export type ColorFilter = {
   excludeFromMoreFilters?: boolean;
 };
 
-export type Filter<Id extends string = keyof WorksProps | keyof ImagesProps> =
+export type Filter<Id extends string = string> =
   | CheckboxFilter<Id>
   | DateRangeFilter<Id>
   | ColorFilter;
