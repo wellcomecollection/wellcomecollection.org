@@ -10,6 +10,8 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchFilters from '@weco/catalogue/components/SearchFilters';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import { DividerWrapper } from '@weco/common/views/components/SubNavigation/SubNavigation.styles';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -99,29 +101,35 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
       {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
         <>
-          <Space
-            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <SearchFilters
-              query={queryString}
-              linkResolver={params =>
-                linkResolver({ params, pathname: '/search/stories' })
-              }
-              searchFormId="search-page-form"
-              changeHandler={() => {
-                const form = document.getElementById('search-page-form');
-                form &&
-                  form.dispatchEvent(
-                    new window.Event('submit', {
-                      cancelable: true,
-                      bubbles: true,
-                    })
-                  );
-              }}
-              filters={filters}
-              hasNoResults={hasNoResults}
-            />
-          </Space>
+          <div className="container">
+            <Space
+              v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            >
+              <SearchFilters
+                query={queryString}
+                linkResolver={params =>
+                  linkResolver({ params, pathname: '/search/stories' })
+                }
+                searchFormId="search-page-form"
+                changeHandler={() => {
+                  const form = document.getElementById('search-page-form');
+                  form &&
+                    form.dispatchEvent(
+                      new window.Event('submit', {
+                        cancelable: true,
+                        bubbles: true,
+                      })
+                    );
+                }}
+                filters={filters}
+                hasNoResults={hasNoResults}
+              />
+            </Space>
+
+            <DividerWrapper>
+              <Divider lineColor="neutral.300" />
+            </DividerWrapper>
+          </div>
         </>
       )}
       {storyResponseList && (
