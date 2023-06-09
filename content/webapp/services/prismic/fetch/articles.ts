@@ -136,12 +136,6 @@ export const graphQuery = `{
           caption
         }
       }
-      ...on youtubeVideoEmbed {
-        non-repeat {
-          embed
-          caption
-        }
-      }
       ...on discussion {
         non-repeat {
           title

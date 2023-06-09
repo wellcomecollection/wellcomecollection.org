@@ -41,20 +41,6 @@ export default {
           display: 'Standalone',
         },
       ],
-      youtubeVideoEmbed: [
-        {
-          name: 'featured',
-          display: 'Featured',
-        },
-        {
-          name: 'supporting',
-          display: 'Supporting',
-        },
-        {
-          name: 'standalone',
-          display: 'Standalone',
-        },
-      ],
       editorialImageGallery: [
         {
           name: 'standalone',
@@ -134,20 +120,6 @@ export default {
           embed: {
             type: 'Embed',
             fieldset: 'Embed',
-          },
-          caption: singleLineText('Caption', {
-            placeholder: 'Caption',
-            overrideTextOptions: ['hyperlink', 'em'],
-          }),
-        },
-      },
-      youtubeVideoEmbed: {
-        type: 'Slice',
-        fieldset: '[Deprecated] YouTube video (please use embed)',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'YouTube embed',
           },
           caption: singleLineText('Caption', {
             placeholder: 'Caption',
