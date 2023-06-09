@@ -41,20 +41,6 @@ export default {
           display: 'Standalone',
         },
       ],
-      vimeoVideoEmbed: [
-        {
-          name: 'featured',
-          display: 'Featured',
-        },
-        {
-          name: 'supporting',
-          display: 'Supporting',
-        },
-        {
-          name: 'standalone',
-          display: 'Standalone',
-        },
-      ],
       youtubeVideoEmbed: [
         {
           name: 'featured',
@@ -153,48 +139,6 @@ export default {
             placeholder: 'Caption',
             overrideTextOptions: ['hyperlink', 'em'],
           }),
-        },
-      },
-      soundcloudEmbed: {
-        type: 'Slice',
-        fieldset: 'SoundCloud embed',
-        'non-repeat': {
-          iframeSrc: {
-            type: 'Text',
-            config: {
-              label: 'iframe src',
-            },
-          },
-        },
-      },
-      vimeoVideoEmbed: {
-        type: 'Slice',
-        fieldset: 'Vimeo video',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'Vimeo embed',
-          },
-        },
-      },
-      instagramEmbed: {
-        type: 'Slice',
-        fieldset: 'Instagram embed',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'Instagram embed',
-          },
-        },
-      },
-      twitterEmbed: {
-        type: 'Slice',
-        fieldset: 'Twitter embed',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'Twitter embed',
-          },
         },
       },
       youtubeVideoEmbed: {
