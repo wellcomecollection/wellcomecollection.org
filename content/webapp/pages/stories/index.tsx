@@ -98,11 +98,11 @@ export const getServerSideProps: GetServerSideProps<
   const comics = transformQuery(comicsQuery, transformArticle);
 
   const comicSeriesIds = [
-    ...new Set(comics.results.map(item => item.series[0].id)),
+    ...new Set(comics.results.flatMap(item => item.series[0]?.id ?? [])),
   ].slice(0, 3); // Set limits to unique values, of which we want the first three
 
   const comicSeries = comicSeriesIds.map(
-    id => comics.results.find(item => item.series[0].id === id)?.series[0]
+    id => comics.results.find(item => item.series[0]?.id === id)?.series[0]
   ) as Series[];
 
   const basicComicSeries = comicSeries.map(transformSeriesToSeriesBasic);
