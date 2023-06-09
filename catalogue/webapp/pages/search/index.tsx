@@ -33,10 +33,10 @@ import theme from '@weco/common/views/themes/default';
 import { formatNumber } from '@weco/common/utils/grammar';
 import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
 import {
-  ContentApiError,
+  Article,
   ContentResultsList,
-} from '@weco/catalogue/services/wellcome/content/types';
-import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
+} from '@weco/catalogue/services/wellcome/content/types/api';
+import { WellcomeApiError } from '@weco/catalogue/services/wellcome';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
@@ -51,7 +51,7 @@ const fromQuery: (params: ParsedUrlQuery) => CodecMapProps = params => {
 type Props = {
   works?: ResultsProps<Work>;
   images?: ResultsProps<Image>;
-  stories?: ResultsProps<Content>;
+  stories?: ResultsProps<Article>;
   query: Query;
   pageview: Pageview;
 };
@@ -246,8 +246,8 @@ export const getServerSideProps: GetServerSideProps<
     const stories = getQueryResults({
       categoryName: 'stories',
       queryResults: storiesResults as
-        | ContentResultsList<Content>
-        | ContentApiError,
+        | ContentResultsList<Article>
+        | WellcomeApiError,
     });
 
     // Works

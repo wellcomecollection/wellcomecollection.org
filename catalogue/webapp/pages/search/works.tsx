@@ -28,6 +28,7 @@ import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { worksFilters } from '@weco/catalogue/services/wellcome/catalogue/filters';
+import { emptyResultList } from '@weco/catalogue/services/wellcome';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
@@ -240,7 +241,7 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: {
         ...defaultProps,
-        works: { totalResults: 0 } as any,
+        works: emptyResultList(),
         pageview: {
           name: 'works',
           properties: {},

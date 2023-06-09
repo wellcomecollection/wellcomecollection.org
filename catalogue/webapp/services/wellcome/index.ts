@@ -11,6 +11,63 @@ export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
   env: toggles?.stagingApi ? 'stage' : 'prod',
 });
 
+// Used as a helper to return a typesafe empty results list
+export const emptyResultList = <
+  Result,
+  Aggregations extends { type: 'Aggregations' } | null
+>(): WellcomeResultList<Result, Aggregations> => ({
+  type: 'ResultList',
+  totalResults: 0,
+  totalPages: 0,
+  results: [],
+  pageSize: 100,
+  prevPage: null,
+  nextPage: null,
+  _requestUrl: '',
+});
+
+export type WellcomeResultList<
+  Result,
+  Aggregations extends { type: 'Aggregations' } | null
+> = {
+  type: 'ResultList';
+  totalResults: number;
+  totalPages: number;
+  results: Result[];
+  pageSize: number;
+  prevPage: string | null;
+  nextPage: string | null;
+  aggregations?: Aggregations;
+
+  // We include the URL used to fetch data from the catalogue API for
+  // debugging purposes.
+  _requestUrl: string;
+};
+
+export type IdentifiedBucketData = {
+  id: string;
+  label: string;
+  type: string;
+};
+
+export type UnidentifiedBucketData = {
+  label: string;
+  type: string;
+};
+
+export type WellcomeAggregation<
+  BucketData extends
+    | IdentifiedBucketData
+    | UnidentifiedBucketData = IdentifiedBucketData
+> = {
+  buckets: {
+    count: number;
+    data: BucketData;
+    type: 'AggregationBucket';
+  }[];
+  type: 'Aggregation';
+};
+
 export type QueryProps<Params> = {
   params: Params;
   pageSize?: number;

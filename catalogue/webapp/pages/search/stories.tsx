@@ -9,6 +9,7 @@ import Sort from '@weco/catalogue/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
 import Space from '@weco/common/views/components/styled/Space';
+import SearchFilters from '@weco/catalogue/components/SearchFilters';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -17,22 +18,32 @@ import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
-import { getQueryPropertyValue } from '@weco/common/utils/search';
+import {
+  getQueryPropertyValue,
+  hasFilters,
+  linkResolver,
+} from '@weco/common/utils/search';
 import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
 // Types
 import { Query } from '@weco/catalogue/types/search';
-import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
-import { ContentResultsList } from '@weco/catalogue/services/wellcome/content/types';
+import {
+  Article,
+  ContentResultsList,
+} from '@weco/catalogue/services/wellcome/content/types/api';
+import { emptyResultList } from '@weco/catalogue/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import { fromQuery, StoriesProps } from 'components/StoriesLink';
+import { storiesFilters } from 'services/wellcome/catalogue/filters';
 
 type Props = {
-  storyResponseList?: ContentResultsList<Content>;
+  storyResponseList: ContentResultsList<Article>;
   query: Query;
   pageview: Pageview;
   apiToolbarLinks: ApiToolbarLink[];
+  storiesRouteProps: StoriesProps;
 };
 
 const Wrapper = styled(Space)`
@@ -53,8 +64,20 @@ const SortPaginationWrapper = styled.div`
 export const SearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
   query,
+  storiesRouteProps,
 }) => {
   const { query: queryString } = query;
+
+  const filters = storiesFilters({
+    stories: storyResponseList,
+    props: storiesRouteProps,
+  });
+
+  const hasNoResults = storyResponseList.totalResults === 0;
+  const hasActiveFilters = hasFilters({
+    filters: filters.map(f => f.id),
+    queryParams: Object.keys(query),
+  });
 
   const sortOptions = [
     // Default value to be left empty as to not be reflected in URL query
@@ -73,9 +96,38 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   ];
 
   return (
-    <Wrapper v={{ size: 'l', properties: ['padding-bottom'] }}>
-      {storyResponseList && (
+    <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+      {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
         <>
+          <div className="container">
+            <Space
+              v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            >
+              <SearchFilters
+                query={queryString}
+                linkResolver={params =>
+                  linkResolver({ params, pathname: '/search/stories' })
+                }
+                searchFormId="search-page-form"
+                changeHandler={() => {
+                  const form = document.getElementById('search-page-form');
+                  form &&
+                    form.dispatchEvent(
+                      new window.Event('submit', {
+                        cancelable: true,
+                        bubbles: true,
+                      })
+                    );
+                }}
+                filters={filters}
+                hasNoResults={hasNoResults}
+              />
+            </Space>
+          </div>
+        </>
+      )}
+      {storyResponseList && (
+        <Wrapper>
           {storyResponseList.totalResults === 0 ? (
             <div className="container">
               <SearchNoResults query={queryString} />
@@ -141,9 +193,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               </PaginationWrapper>
             </div>
           )}
-        </>
+        </Wrapper>
       )}
-    </Wrapper>
+    </Space>
   );
 };
 
@@ -155,7 +207,9 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
   const query = context.query;
+  const params = fromQuery(query);
   const defaultProps = serialiseProps({
+    storiesRouteProps: params,
     serverData,
     query,
   });
@@ -173,7 +227,7 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: {
         ...defaultProps,
-        storyResponseList: { totalResults: 0 } as any,
+        storyResponseList: emptyResultList(),
         pageview: {
           name: 'stories',
           properties: {},
@@ -194,6 +248,7 @@ export const getServerSideProps: GetServerSideProps<
       sort: getQueryPropertyValue(query.sort),
       sortOrder: getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
+      aggregations: ['format', 'contributors.contributor'],
     },
     pageSize: 6,
     toggles: serverData.toggles,

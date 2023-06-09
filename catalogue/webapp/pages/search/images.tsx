@@ -26,6 +26,7 @@ import {
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/catalogue/services/wellcome/catalogue/filters';
+import { emptyResultList } from '@weco/catalogue/services/wellcome';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
@@ -210,7 +211,7 @@ export const getServerSideProps: GetServerSideProps<
           name: 'images',
           properties: {},
         },
-        images: { totalResults: 0 } as any,
+        images: emptyResultList(),
         apiToolbarLinks: [],
       }),
     };
