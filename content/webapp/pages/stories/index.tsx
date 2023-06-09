@@ -96,16 +96,20 @@ export const getServerSideProps: GetServerSideProps<
   // way we can be confident each of the three series that we have contains at
   // least one comic.
   const comics = transformQuery(comicsQuery, transformArticle);
+  const comicSeries = new Map<string, Series>();
+  for (const comic of comics.results) {
+    const series = comic.series[0];
+    if (series?.id && !comicSeries.has(series.id)) {
+      comicSeries.set(series.id, series);
+    }
+    if (comicSeries.size === 3) {
+      break;
+    }
+  }
 
-  const comicSeriesIds = [
-    ...new Set(comics.results.flatMap(item => item.series[0]?.id ?? [])),
-  ].slice(0, 3); // Set limits to unique values, of which we want the first three
-
-  const comicSeries = comicSeriesIds.map(
-    id => comics.results.find(item => item.series[0]?.id === id)?.series[0]
-  ) as Series[];
-
-  const basicComicSeries = comicSeries.map(transformSeriesToSeriesBasic);
+  const basicComicSeries = Array.from(comicSeries.values()).map(
+    transformSeriesToSeriesBasic
+  );
 
   const jsonLd = articles.results.map(articleLd);
   const basicArticles = articles.results.map(transformArticleToArticleBasic);
