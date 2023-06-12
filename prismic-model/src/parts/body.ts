@@ -87,7 +87,7 @@ export default {
       table: table(),
       embed: slice('Embed', {
         nonRepeat: {
-          embed: embed('Embed (Youtube, Vimeo etc)'),
+          embed: embed('Embed (Youtube, SoundCloud, etc)'),
           caption: singleLineText('Caption'),
         },
       }),

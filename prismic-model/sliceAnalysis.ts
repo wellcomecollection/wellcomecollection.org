@@ -78,8 +78,10 @@ async function main() {
     }
   }
 
-  console.info('=== Slice count ==');
-  Array.from(sliceCounter.entries())
+  const slicesArray = Array.from(sliceCounter.entries());
+
+  console.info(`=== Slice count (${slicesArray.length}) ==`);
+  slicesArray
     .sort((a, b) => a[1] - b[1])
     .forEach(entry =>
       console.info(`${String(entry[1]).padStart(6, ' ')}\t${entry[0]}`)
