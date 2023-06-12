@@ -185,7 +185,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id            = var.cache_policies["toggle-cookies-only"]
+    cache_policy_id            = var.cache_policies["weco-apps"]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
   }

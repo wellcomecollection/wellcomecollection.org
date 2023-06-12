@@ -1,7 +1,6 @@
 output "cache_policies" {
   value = {
     for policy in [
-      aws_cloudfront_cache_policy.toggle_cookies_only,
       aws_cloudfront_cache_policy.static_content,
       aws_cloudfront_cache_policy.weco_apps,
       aws_cloudfront_cache_policy.short_lived_toggles_only,
