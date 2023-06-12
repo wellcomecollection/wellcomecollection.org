@@ -358,6 +358,14 @@ function isInterestingError(hit) {
     return false;
   }
 
+  // These are hits from the CloudFront distribution we use for end-to-end
+  // tests.  Any errors here are either opportunistic bots we don't care
+  // about, or a failure which will be surfaced elsewhere by the end-to-end
+  // test results.  We don't need to hear about them in Slack.
+  if (hit.host.includes('.www-e2e.')) {
+    return false;
+  }
+
   return true;
 }
 
