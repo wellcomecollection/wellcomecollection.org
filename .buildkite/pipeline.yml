@@ -1,2 +1,15 @@
 - label: "placeholder"
   command: echo "(this is a placeholder for e2es on PRs, nothing to see here)"
+
+- input: "Do you want to run end-to-end tests on this pull request?"
+  fields:
+    - select: "Stream"
+      key: "should-run-e2es"
+      required: false
+      options:
+        - label: "Yes, run e2e tests now"
+          value: "yes"
+        - label: "Not now, maybe later"
+          value: "maybe-later"
+        - label: "No, not needed for this PR"
+          value: "no"
