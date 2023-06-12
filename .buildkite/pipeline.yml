@@ -13,3 +13,5 @@
           value: "maybe-later"
         - label: "No, not needed for this PR"
           value: "no"
+
+- command: "buildkite-agent meta-data get should-run-e2es"
