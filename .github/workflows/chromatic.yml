@@ -20,19 +20,4 @@ jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      # TODO: Remove this line when we can safely upgrade all our packages
-      # to versions that support Node 16.
-      # See https://github.com/wellcomecollection/wellcomecollection.org/pull/9324
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install dependencies
-        run: yarn
-      - name: Publish to Chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          onlyChanged: true
-          workingDir: cardigan
-          buildScriptName: build
+      - run: "Hello world!"
