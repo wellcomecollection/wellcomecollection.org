@@ -67,6 +67,8 @@ EOF
 set -o errexit
 set -o nounset
 
+LATEST_TAG=${LATEST_TAG:-latest}
+
 for repositoryName in "$@"
 do
   # These commands are based on an AWS ECR guide:
@@ -75,7 +77,7 @@ do
   LATEST_MANIFEST=$(
     aws ecr batch-get-image \
       --repository-name "$repositoryName" \
-      --image-ids imageTag=latest --output json \
+      --image-ids imageTag="$LATEST_TAG" --output json \
       | jq --raw-output --join-output '.images[0].imageManifest'
   )
 
@@ -85,6 +87,12 @@ do
       --image-ids imageTag="$ENV_TAG" --output json \
       | jq --raw-output --join-output '.images[0].imageManifest'
   )
+
+  if [[ "$LATEST_MANIFEST" == "null" ]]
+  then
+    echo "Could not find $LATEST_TAG"
+    exit 1
+  fi
 
   if [[ "$LATEST_MANIFEST" != "$TAGGED_MANIFEST" ]]
   then
