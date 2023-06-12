@@ -20,7 +20,8 @@
         - label: "No, not needed for this PR"
           value: "no"
 
-- command: "buildkite-agent meta-data get should-run-e2es"
+- label: "end-to-end tests"
+  command: ".buildkite/scripts/react_to_user_choice_about_e2e_on_pull_request.sh"
   depends_on: "ask-user-if-should-run-e2es"
 
   agents:
