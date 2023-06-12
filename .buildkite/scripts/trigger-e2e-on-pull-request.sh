@@ -12,6 +12,7 @@ TRIGGER_STEP="steps:
    build:
      message: \"e2e tests on pull request ${BUILDKITE_PULL_REQUEST}\"
      commit: ${BUILDKITE_COMMIT}
+     branch: ${BUILDKITE_BRANCH}
      env:
        DEPLOYMENT_ENVIRONMENT: e2e
        PLAYWRIGHT_BASE_URL: ${ENVIRONMENT_URL}
