@@ -1,7 +1,10 @@
 - label: "placeholder"
   command: echo "(this is a placeholder for e2es on PRs, nothing to see here)"
 
+- wait
+
 - input: "Do you want to run end-to-end tests on this pull request?"
+  key: "ask-user-if-should-run-e2es"
   fields:
     - select: "Run e2es?"
       key: "should-run-e2es"
@@ -15,3 +18,4 @@
           value: "no"
 
 - command: "buildkite-agent meta-data get should-run-e2es"
+  depends_on: "ask-user-if-should-run-e2es"
