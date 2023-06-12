@@ -16,7 +16,7 @@ HAS_SKIP_E2E_LABEL=$(
     | jq '. | map(select(.name == "e2es not required")) | length'
 )
 
-if (( HAS_SKIP_E2E_LABEL == 0 ))
+if (( HAS_SKIP_E2E_LABEL == 1 ))
 then
   exit 0
 fi
