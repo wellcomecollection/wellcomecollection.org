@@ -5,7 +5,7 @@ set -o nounset
 
 if [[ "$(buildkite-agent meta-data get should-run-e2es)" == "yes" ]]
 then
-  buildkite-agent pipeline upload .buildkite/pipeline.e2e-pull-requests.yml
+  buildkite-agent pipeline upload .buildkite/e2e_on_pull_requests/pipeline.e2e-pull-requests.yml
 fi
 
 if [[ "$(buildkite-agent meta-data get should-run-e2es)" == "no" ]]

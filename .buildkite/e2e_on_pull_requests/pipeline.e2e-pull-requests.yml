@@ -1,0 +1,36 @@
+- label: 'Deploy to e2e'
+  commands: .buildkite/e2e_on_pull_requests/deploy_to_e2e_environment.sh
+
+  # This implements a lock around the pipeline, which means only one PR
+  # can be running e2e tests at a time.
+  #
+  # See the comment about "concurrency gates" in the deployment pipeline.
+  concurrency_group: "dotorg-e2e-on-pull-requests-gate"
+  concurrency: 1
+  key: deploy-to-e2e-environment
+
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
+
+  agents:
+    queue: nano
+
+  concurrency_group: "front-end-deployment-${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}-gate"
+  concurrency: 1
+
+- label: "Trigger e2e tests"
+  command: ".buildkite/e2e_on_pull_requests/run_e2e_tests.sh.sh"
+
+  depends_on: deploy-to-e2e-environment
+
+  agents:
+    queue: nano
+
+- wait
+
+- label: "complete e2e tests on PR"
+  command: echo "done with e2e tests!"
+
+  concurrency_group: "dotorg-e2e-on-pull-requests-gate"
+  concurrency: 1
