@@ -7,7 +7,6 @@ on:
       - '.buildkite/**'
       - 'assets/**'
       - 'cache/**'
-      - 'cardigan/**'
       - 'catalogue/terraform/**'
       - 'content/terraform/**'
       - 'docs/**'
