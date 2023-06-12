@@ -10,5 +10,5 @@ export const setCacheControl = (res: ServerResponse) => {
    * Our cache policies:
    * https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/modules/cloudfront_policies/cache_policies.tf
    */
-  res.removeHeader('Cache-Control');
+  res.setHeader('Cache-Control', 'max-age=3600');
 };
