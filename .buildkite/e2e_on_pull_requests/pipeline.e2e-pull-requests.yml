@@ -1,4 +1,4 @@
-- label: 'Deploy to e2e'
+- label: "Deploy to e2e environment"
   commands: .buildkite/e2e_on_pull_requests/deploy_to_e2e_environment.sh
 
   # This implements a lock around the pipeline, which means only one PR
