@@ -12,19 +12,7 @@ const Template = args => (
 );
 export const basic = Template.bind({});
 basic.args = {
-  items: [
-    {
-      icons: mockIcons,
-      text: 'This is some text',
-    },
-    {
-      icons: [mockIcons[0]],
-      text: 'Only one icon here',
-    },
-    {
-      icons: mockIcons.slice(1, 3),
-      text: 'A couple of icons',
-    },
-  ],
+  icons: mockIcons,
+  text: 'This is some text',
 };
 basic.storyName = 'IconsAndText';

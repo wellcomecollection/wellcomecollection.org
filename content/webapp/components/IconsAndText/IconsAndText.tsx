@@ -10,47 +10,39 @@ const Icons = styled.div`
   grid-template-columns: repeat(5, minmax(0, 100px));
 `;
 
-type IconsAndText = {
+type Props = {
   icons: ImageType[];
   text: string;
 };
 
-type Props = {
-  items: IconsAndText[];
-};
-
-const IconsWithText: FunctionComponent<Props> = ({ items }) => {
+const IconsWithText: FunctionComponent<Props> = ({ icons, text }) => {
   return (
-    <div>
-      {items.map((item, index) => (
-        <SpacingComponent key={index}>
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <Icons>
-              {item.icons.map((icon, index) => {
-                const squareCrop = getCrop(icon, 'square');
-                if (!squareCrop) return null;
+    <SpacingComponent>
+      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Icons>
+          {icons.map((icon, index) => {
+            const squareCrop = getCrop(icon, 'square');
+            if (!squareCrop) return null;
 
-                return (
-                  <div key={index}>
-                    <PrismicImage
-                      image={squareCrop}
-                      sizes={{
-                        xlarge: 1 / 10,
-                        large: 1 / 10,
-                        medium: 1 / 10,
-                        small: 1 / 10,
-                      }}
-                      quality="low"
-                    />
-                  </div>
-                );
-              })}
-            </Icons>
-          </Space>
-          <div>{item.text}</div>
-        </SpacingComponent>
-      ))}
-    </div>
+            return (
+              <div key={index}>
+                <PrismicImage
+                  image={squareCrop}
+                  sizes={{
+                    xlarge: 1 / 10,
+                    large: 1 / 10,
+                    medium: 1 / 10,
+                    small: 1 / 10,
+                  }}
+                  quality="low"
+                />
+              </div>
+            );
+          })}
+        </Icons>
+      </Space>
+      <div>{text}</div>
+    </SpacingComponent>
   );
 };
 
