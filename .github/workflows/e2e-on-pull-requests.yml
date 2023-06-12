@@ -1,0 +1,22 @@
+name: Performance
+
+on:
+  check_run:
+    types: [completed]
+    paths-ignore:
+      - 'assets/**'
+      - 'cardigan/**'
+      - 'catalogue/terraform/**'
+      - 'content/terraform/**'
+      - 'docs/**'
+      - 'identity/terraform/**'
+      - 'infrastructure/**'
+      - 'prismic-model/**'
+      - 'preview/**'
+
+jobs:
+  trigger_e2e_on_pull_requests:
+    name: Trigger e2e on pull requests
+    runs-on: ubuntu-20.04
+    steps:
+      - run: "Hello world!"
