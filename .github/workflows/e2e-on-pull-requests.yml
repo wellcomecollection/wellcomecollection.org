@@ -1,4 +1,4 @@
-name: Performance
+name: Trigger e2e on pull requests
 
 on:
   check_run:
