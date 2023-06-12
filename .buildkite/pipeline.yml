@@ -3,7 +3,7 @@
 
 - input: "Do you want to run end-to-end tests on this pull request?"
   fields:
-    - select: "Stream"
+    - select: "Run e2es?"
       key: "should-run-e2es"
       required: false
       options:
