@@ -142,9 +142,15 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   });
 
   useEffect(() => {
-    dropdownRef &&
-      dropdownRef.current &&
-      setFocusables(getFocusableElements(dropdownRef.current));
+    if (dropdownRef && dropdownRef.current) {
+      const focusableElements = getFocusableElements(
+        dropdownRef.current
+      ) as HTMLElement[];
+      setFocusables(focusableElements);
+      focusableElements.forEach(focusable =>
+        focusable.setAttribute('tabIndex', '-1')
+      );
+    }
   }, [children]);
 
   useEffect(() => {
