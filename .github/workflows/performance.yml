@@ -25,13 +25,13 @@ jobs:
       # TODO: Remove this line when we can safely upgrade all our packages
       # to versions that support Node 16.
       # See https://github.com/wellcomecollection/wellcomecollection.org/pull/9324
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - uses: preactjs/compressed-size-action@v2
-        with:
-          build-script: "build-webapps"
-          clean-script: "clean"
-          pattern: "**/webapp/{.next/static/chunks,lib/frontend/build}/**/*.js"
-          strip-hash: "\\b[-\\.](\\w{20})\\.js$"
-          minimum-change-threshold: 512 # Only report changes for > 0.5kb
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16
+      # - uses: preactjs/compressed-size-action@v2
+      #   with:
+      #     build-script: "build-webapps"
+      #     clean-script: "clean"
+      #     pattern: "**/webapp/{.next/static/chunks,lib/frontend/build}/**/*.js"
+      #     strip-hash: "\\b[-\\.](\\w{20})\\.js$"
+      #     minimum-change-threshold: 512 # Only report changes for > 0.5kb
