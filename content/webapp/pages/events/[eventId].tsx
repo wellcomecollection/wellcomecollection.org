@@ -64,7 +64,7 @@ import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { AppErrorProps } from '@weco/common/services/app';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
@@ -456,7 +456,7 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
 export const getServerSideProps: GetServerSideProps<
   EventProps | AppErrorProps
 > = async context => {
-  setCacheControl(context.res);
+  setCacheControl(context.res, cacheTTL.events);
   const serverData = await getServerData(context);
   const { eventId } = context.query;
 
