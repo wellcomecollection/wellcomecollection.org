@@ -508,3 +508,15 @@ export function groupStructures(
     }
   ).groupedArray;
 }
+
+export function getCollectionManifests(manifest: Manifest) {
+  const firstLevelManifests =
+    manifest.items.filter(c => c.type === 'Manifest') || [];
+  const collections = manifest.items.filter(c => c.type === 'Collection') || [];
+  const collectionManifests = collections
+    .map(collection => {
+      return collection.items?.filter(c => c.type === 'Manifest') || [];
+    })
+    .flat();
+  return [...firstLevelManifests, ...collectionManifests];
+}
