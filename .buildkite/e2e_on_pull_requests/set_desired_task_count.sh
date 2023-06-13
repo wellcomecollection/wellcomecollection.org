@@ -13,6 +13,6 @@ for service in content-17092020-e2e catalogue-17092020-e2e identity-18012021-e2e
 do
   aws ecs update-service \
     --cluster experience-frontend-e2e \
-    --service "$service"
+    --service "$service" \
     --desired-count "$DESIRED_COUNT"
 done
