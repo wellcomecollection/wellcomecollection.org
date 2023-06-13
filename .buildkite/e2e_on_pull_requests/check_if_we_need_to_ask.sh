@@ -48,7 +48,7 @@ buildkite-agent pipeline upload << EOF
         - label: "No, not needed for this PR"
           value: "no"
 
-- label: "add steps for e2e tests (if necessary)"
+- label: "Add steps for e2e tests (if necessary)"
   command: ".buildkite/e2e_on_pull_requests/react_to_user_choice_about_e2e_on_pull_request.sh"
   depends_on: "ask-user-if-should-run-e2es"
 
