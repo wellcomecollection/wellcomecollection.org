@@ -1,5 +1,6 @@
 import { Audio, Video } from '../../../services/iiif/types/manifest/v3';
 import {
+  AnnotationPage,
   AnnotationBody,
   ChoiceBody,
   ContentResource,
@@ -515,8 +516,12 @@ export function getCollectionManifests(manifest: Manifest) {
   const collections = manifest.items.filter(c => c.type === 'Collection') || [];
   const collectionManifests = collections
     .map(collection => {
-      return collection.items?.filter(c => c.type === 'Manifest') || [];
+      return (
+        collection.items?.filter(
+          c => c.type === ('Manifest' as AnnotationPage & { type: 'Manifest' })
+        ) || []
+      );
     })
     .flat();
-  return [...firstLevelManifests, ...collectionManifests];
+  return [...firstLevelManifests, ...collectionManifests] as Canvas[];
 }
