@@ -11,37 +11,17 @@ const Template = args => (
   />
 );
 
-const BackToBackIconsAndText = args => (
-  <>
-    <IconsAndText {...args.one} />
-    <IconsAndText {...args.two} />
-  </>
-);
-
-const BackToBackTemplate = args => (
-  <ReadmeDecorator
-    WrappedComponent={BackToBackIconsAndText}
-    args={args}
-    Readme={Readme}
-  />
-);
-
 export const basic = Template.bind({});
 basic.args = {
-  icons: mockIcons,
-  text: 'This is some text',
+  items: [
+    {
+      icons: mockIcons,
+      text: 'Sit amet consectetur adipisicing elit. Reiciendis porro, officiis ut quia libero, numquam, id saepe aperiam rem ex nemo tempore laboriosam. Officiis facilis assumenda corporis magni dolores illo.',
+    },
+    {
+      icons: mockIcons,
+      text: 'Dolorem recusandae distinctio magni aperiam itaque voluptas delectus tempora nostrum sed aliquid quis fugiat alias vitae velit, saepe, voluptatum nihil, impedit ratione.',
+    },
+  ],
 };
 basic.storyName = 'IconsAndText';
-
-export const backToBack = BackToBackTemplate.bind({});
-backToBack.args = {
-  one: {
-    icons: mockIcons,
-    text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi consectetur voluptatibus natus maxime voluptatem, optio, dolor, architecto dolore ipsa repudiandae perferendis at doloribus recusandae. Unde pariatur omnis tempora at eius?',
-  },
-  two: {
-    icons: mockIcons.slice(2, 5),
-    text: 'Animi consectetur voluptatibus natus maxime voluptatem, optio, dolor, architecto dolore ipsa repudiandae perferendis at doloribus recusandae. Unde pariatur omnis',
-  },
-};
-backToBack.storyName = 'backToBack';
