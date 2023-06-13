@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-import { camelToKebab } from 'utils/grammar';
+import { camelToKebab } from '@weco/common/utils/grammar';
 
 const SpacingComponent = styled.div.attrs<{ sliceType?: string }>(props => ({
   className: `spacing-component ${
     props.sliceType ? `slice-type-${camelToKebab(props.sliceType)}` : ''
   }`,
-  'data-slice-type': props.sliceType,
 }))<{ sliceType?: string }>`
   &:empty,
   & + .spacing-component {
