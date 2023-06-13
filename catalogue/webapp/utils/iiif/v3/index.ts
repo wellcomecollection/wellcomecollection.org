@@ -1,5 +1,6 @@
 import { Audio, Video } from '../../../services/iiif/types/manifest/v3';
 import {
+  AnnotationPage,
   AnnotationBody,
   ChoiceBody,
   ContentResource,
@@ -507,4 +508,20 @@ export function groupStructures(
       groupedArray: Range[];
     }
   ).groupedArray;
+}
+
+export function getCollectionManifests(manifest: Manifest) {
+  const firstLevelManifests =
+    manifest.items.filter(c => c.type === 'Manifest') || [];
+  const collections = manifest.items.filter(c => c.type === 'Collection') || [];
+  const collectionManifests = collections
+    .map(collection => {
+      return (
+        collection.items?.filter(
+          c => c.type === ('Manifest' as AnnotationPage & { type: 'Manifest' })
+        ) || []
+      );
+    })
+    .flat();
+  return [...firstLevelManifests, ...collectionManifests] as Canvas[];
 }
