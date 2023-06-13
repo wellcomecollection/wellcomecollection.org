@@ -9,12 +9,6 @@ steps:
 
   - wait
 
-  - label: "run tests"
-    command: 'echo "totally running tests"'
-    
-    agents:
-      queue: nano
-
   - label: "Check URLs"
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
