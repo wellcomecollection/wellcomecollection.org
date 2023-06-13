@@ -138,6 +138,14 @@
         run: edge_lambdas
         command: ['yarn', 'test']
 
+# This step kicks of the "end-to-end on pull requests" flow.
+#
+# It doesn't run on main, because we run e2es on main by deploying
+# into our stage/prod environments instead.
+- label: "check if we need to run e2es"
+  command: .buildkite/e2e_on_pull_requests/check_if_we_need_to_ask.sh
+  if: build.branch != "main"
+
 - wait
 
 - label: 'deploy catalogue (ecr image)'
@@ -284,7 +292,3 @@
         ref: '${BUILDKITE_COMMIT}'
   agents:
     queue: nano
-
-- label: "check if we need to run e2es"
-  command: .buildkite/e2e_on_pull_requests/check_if_we_need_to_ask.sh
-  if: build.branch != "main"

@@ -1,5 +1,16 @@
+# These Buildkite pipeline steps actually run the end-to-end tests on
+# pull requests.  This includes deploying the container images into
+# our e2e environment and running the tests.
+
 - label: "Deploy to e2e environment"
   commands: .buildkite/e2e_on_pull_requests/deploy_to_e2e_environment.sh
+
+  # Note: these steps can't run until all three "build image" tasks
+  # are done, because we don't have access to the images until this point.
+  depends_on:
+    - 'build_catalogue'
+    - 'build_content'
+    - 'build_identity'
 
   # This implements a lock around the pipeline, which means only one PR
   # can be running e2e tests at a time.
