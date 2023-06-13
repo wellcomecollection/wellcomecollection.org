@@ -12,8 +12,6 @@ COPY content/webapp/package.json ./
 RUN yarn --frozen-lockfile && yarn cache clean
 
 COPY content/webapp .
-ENV BUILD_HASH=latest
-ENV BUNDLE_ANALYZE=both
 
 RUN yarn build && yarn cache clean
 

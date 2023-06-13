@@ -9,15 +9,11 @@ COPY toggles/webapp ./toggles/webapp
 
 WORKDIR identity/webapp
 COPY identity/webapp/package.json ./
-RUN yarn --frozen-lockfile && \
-    yarn cache clean
+RUN yarn --frozen-lockfile && yarn cache clean
 
 COPY identity/webapp .
-ENV BUILD_HASH=latest
-ENV BUNDLE_ANALYZE=both
 
-RUN yarn build && \
-    yarn cache clean
+RUN yarn build && yarn cache clean
 
 EXPOSE 3000
 CMD ["yarn", "start"]
