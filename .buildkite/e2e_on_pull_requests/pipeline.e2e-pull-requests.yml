@@ -20,7 +20,7 @@
   concurrency: 1
 
 - label: "Trigger e2e tests"
-  command: ".buildkite/e2e_on_pull_requests/run_e2e_tests.sh.sh"
+  command: ".buildkite/e2e_on_pull_requests/run_e2e_tests.sh"
 
   depends_on: deploy-to-e2e-environment
 
