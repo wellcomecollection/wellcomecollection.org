@@ -25,7 +25,10 @@ import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
-import { getMultiVolumeLabel } from '@weco/catalogue/utils/iiif/v3';
+import {
+  getMultiVolumeLabel,
+  getCollectionManifests,
+} from '@weco/catalogue/utils/iiif/v3';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -147,13 +150,14 @@ const ViewerSidebar: FunctionComponent<{
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
 
   useEffect(() => {
-    const matchingManifest =
-      parentManifest?.items &&
-      parentManifest.items.find(canvas => {
-        return !transformedManifest
-          ? false
-          : canvas.id === transformedManifest.id;
-      });
+    const manifests = parentManifest
+      ? getCollectionManifests(parentManifest)
+      : [];
+    const matchingManifest = manifests.find(canvas => {
+      return !transformedManifest
+        ? false
+        : canvas.id === transformedManifest.id;
+    });
 
     const manifestLabel =
       matchingManifest?.label &&

@@ -15,6 +15,7 @@ import {
   hasPdfDownload,
   getClickThroughService,
   getTokenService,
+  getCollectionManifests,
   checkModalRequired,
   checkIsTotallyRestricted,
 } from '../../../utils/iiif/v3';
@@ -29,7 +30,7 @@ export function transformManifest(manifestV3: Manifest): TransformedManifest {
   const pdf = getPdf(manifestV3);
   const id = manifestV3.id || '';
   const parentManifestUrl = manifestV3.partOf?.[0].id;
-  const manifests = manifestV3.items.filter(c => c.type === 'Manifest') || [];
+  const manifests = getCollectionManifests(manifestV3);
   const collectionManifestsCount = manifests.length;
   const transformedCanvases = getTransformedCanvases(manifestV3);
   const canvasCount = transformedCanvases.length;
@@ -54,7 +55,6 @@ export function transformManifest(manifestV3: Manifest): TransformedManifest {
   const structures = manifestV3.structures || [];
   const isCollectionManifest = manifestV3.type === 'Collection';
   const downloadEnabled = hasPdfDownload(manifestV3);
-
   return {
     id,
     firstCollectionManifestLocation,
