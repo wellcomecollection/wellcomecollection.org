@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { dasherize } from 'utils/grammar';
 
 const SpacingComponent = styled.div.attrs<{ sliceType?: string }>(props => ({
   className: `spacing-component ${
-    props.sliceType ? `slice-type-${props.sliceType}` : ''
+    props.sliceType ? `slice-type-${dasherize(props.sliceType)}` : ''
   }`,
   'data-slice-type': props.sliceType,
 }))<{ sliceType?: string }>`
