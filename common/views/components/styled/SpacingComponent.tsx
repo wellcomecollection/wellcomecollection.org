@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { camelToKebab } from '@weco/common/utils/grammar';
 
 const SpacingComponent = styled.div.attrs<{ sliceType?: string }>(props => ({
-  className: `spacing-component ${
-    props.sliceType ? `slice-type-${camelToKebab(props.sliceType)}` : ''
-  }`,
+  className: props.sliceType
+    ? `slice-type-${camelToKebab(props.sliceType)}`
+    : undefined,
 }))<{ sliceType?: string }>`
-  &:empty,
-  & + .spacing-component {
+  & + &,
+  &:empty {
     margin-top: ${props => props.theme.spaceAtBreakpoints.small.l}px;
 
     ${props =>
