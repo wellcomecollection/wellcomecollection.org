@@ -46,5 +46,3 @@ See the individual scripts/YAML files for more explanatory comments.
 ## Implementation notes
 
 *   We use GitHub labels to track when a dev has declined to run e2es, because they're easily visible and use an interface we're already familiar with.
-
-*   We only turn on the e2e cluster when we're running tests, to reduce costs.
