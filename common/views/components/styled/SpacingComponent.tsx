@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 const SpacingComponent = styled.div.attrs<{ sliceType?: string }>(props => ({
-  className: `spacing-component ${props.sliceType ? props.sliceType : ''}`,
+  className: `spacing-component ${
+    props.sliceType ? `slice-type-${props.sliceType}` : ''
+  }`,
   'data-slice-type': props.sliceType,
 }))<{ sliceType?: string }>`
   &:empty,
@@ -19,7 +21,7 @@ const SpacingComponent = styled.div.attrs<{ sliceType?: string }>(props => ({
       `)}
   }
 
-  &.text + &.text {
+  &.slice-type-text + &.slice-type-text {
     /* The SpacingComponent spaces adjacent components vertically by an amount
     of pixels. Elements within a single block of .spaced-text are spaced
     vertically by an amount of ems. In Prismic, it is possible to create a new
