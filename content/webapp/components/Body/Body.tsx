@@ -346,7 +346,7 @@ const Body: FunctionComponent<Props> = ({
           ) && (
             <>
               {slice.type === 'text' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <div className="body-text spaced-text">
                       {slice.weight !== 'featured' &&
@@ -384,28 +384,28 @@ const Body: FunctionComponent<Props> = ({
               {/* TODO: use one layout for all image weights if/when it's established
               that width isn't an adequate means to illustrate a difference */}
               {slice.type === 'picture' && slice.weight === 'default' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <Layout10>
                     <CaptionedImage {...slice.value} />
                   </Layout10>
                 </SpacingComponent>
               )}
               {slice.type === 'picture' && slice.weight === 'standalone' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <Layout12>
                     <CaptionedImage {...slice.value} />
                   </Layout12>
                 </SpacingComponent>
               )}
               {slice.type === 'picture' && slice.weight === 'supporting' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <CaptionedImage {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'imageGallery' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <ImageGallery
                     {...slice.value}
                     id={imageGalleryIdCount++}
@@ -414,21 +414,21 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
               {slice.type === 'quote' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <Quote {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'titledTextList' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <TitledTextList {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'contentList' && !isLanding && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     {/* FIXME: this makes what-we-do contentLists synchronous, but it's hacky. */}
                     {pageId === prismicPageIds.whatWeDo ? (
@@ -452,14 +452,14 @@ const Body: FunctionComponent<Props> = ({
               )}
               {/* TODO: remove this slice type if we're not using it? */}
               {slice.type === 'searchResults' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <AsyncSearchResults {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'videoEmbed' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={isShortFilm ? 12 : minWidth}>
                     <VideoEmbed
                       {...slice.value}
@@ -469,42 +469,42 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
               {slice.type === 'soundcloudEmbed' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <SoundCloudEmbed {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'map' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <Map {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'gifVideo' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <Layout10>
                     <GifVideo {...slice.value} />
                   </Layout10>
                 </SpacingComponent>
               )}
               {slice.type === 'iframe' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <Layout10>
                     <Iframe {...slice.value} />
                   </Layout10>
                 </SpacingComponent>
               )}
               {slice.type === 'contact' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <Contact {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'collectionVenue' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   {slice.value.showClosingTimes ? (
                     <LayoutWidth width={minWidth}>
                       <VenueClosedPeriods venue={slice.value.content} />
@@ -541,21 +541,21 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
               {slice.type === 'table' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <Table {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'infoBlock' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <InfoBlock {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'discussion' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <WobblyEdgedContainer>
                     <Discussion
                       title={slice.value.title}
@@ -565,7 +565,7 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
               {slice.type === 'tagList' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <TagsGroup {...slice.value} />
                   </LayoutWidth>
@@ -573,21 +573,21 @@ const Body: FunctionComponent<Props> = ({
               )}
               {/* deprecated */}
               {slice.type === 'deprecatedImageList' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <DeprecatedImageList {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'mediaObjectList' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <MediaObjectList {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'audioPlayer' && (
-                <SpacingComponent>
+                <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <AudioPlayer {...slice.value} />
                   </LayoutWidth>
