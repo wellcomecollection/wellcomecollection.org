@@ -32,7 +32,6 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
-import Table from '@weco/common/views/components/Table/Table';
 import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import TitledTextList from '../TitledTextList/TitledTextList';
@@ -538,13 +537,6 @@ const Body: FunctionComponent<Props> = ({
                       />
                     </Layout>
                   )}
-                </SpacingComponent>
-              )}
-              {slice.type === 'table' && (
-                <SpacingComponent>
-                  <LayoutWidth width={minWidth}>
-                    <Table {...slice.value} />
-                  </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'infoBlock' && (
