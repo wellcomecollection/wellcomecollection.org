@@ -28,7 +28,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isFuture } from '@weco/common/utils/dates';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 
 export type ExhibitionsProps = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -40,7 +40,7 @@ export type ExhibitionsProps = {
 export const getServerSideProps: GetServerSideProps<
   ExhibitionsProps | AppErrorProps
 > = async context => {
-  setCacheControl(context.res);
+  setCacheControl(context.res, cacheTTL.events);
   const serverData = await getServerData(context);
   const client = createClient(context);
 

@@ -33,7 +33,7 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
 // Types
@@ -217,7 +217,7 @@ CatalogueSearchPage.getLayout = getSearchLayout;
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  setCacheControl(context.res);
+  setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
   const query = context.query;
   const params = fromQuery(query);
