@@ -2,12 +2,12 @@
 # pull requests.  This includes deploying the container images into
 # our e2e environment and running the tests.
 
-- label: "Deploy to e2e environment"
+- label: "Scale up and deploy into e2e environment"
   commands: |
     .buildkite/e2e_on_pull_requests/set_desired_task_count.sh 3
     .buildkite/e2e_on_pull_requests/deploy_to_e2e_environment.sh
 
-  # Note: these steps can't run until all three "build image" tasks
+  # Note: we can't run until all three "build image" tasks
   # are done, because we don't have access to the images until this point.
   depends_on:
     - 'build_catalogue'
@@ -43,8 +43,7 @@
 - wait
 
 - label: "scale down e2e environment"
-  command: |
-    .buildkite/e2e_on_pull_requests/set_desired_task_count.sh 0
+  command: .buildkite/e2e_on_pull_requests/set_desired_task_count.sh 0
 
   concurrency_group: "dotorg-e2e-on-pull-requests-gate"
   concurrency: 1
