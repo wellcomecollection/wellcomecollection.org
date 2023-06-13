@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const SpacingComponent = styled.div.attrs<{ sliceType?: string }>(props => ({
-  className: 'spacing-component' + props.sliceType ? ` ${props.sliceType}` : '',
+  className: `spacing-component ${props.sliceType ? props.sliceType : ''}`,
   'data-slice-type': props.sliceType,
 }))<{ sliceType?: string }>`
   &:empty,
