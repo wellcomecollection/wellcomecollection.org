@@ -22,9 +22,11 @@ export function transformOnThisPage(body: Body): Link[] {
   return flattenDeep(
     body.map(slice => slice.primary.title || slice.primary.text || [])
   )
-    .filter(text => text.type === 'heading2')
+    .filter(text => text.type.startsWith('heading'))
     .map(item => {
+      const level = parseInt(item.type.slice(-1), 10);
       return {
+        level,
         text: item.text,
         url: `#${dasherize(item.text)}`,
       };
