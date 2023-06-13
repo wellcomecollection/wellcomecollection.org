@@ -68,6 +68,6 @@ export function pluralize(count: number, noun: string, suffix = 's'): string {
   return `${formatNumber(count)} ${noun}${count !== 1 ? suffix : ''}`;
 }
 
-export function unCamelCase(words: string): string {
-  return words.split(/(?=[A-Z])/).join(' ');
+export function camelToKebab(words: string): string {
+  return words.split(/(?=[A-Z])/).join('-');
 }
