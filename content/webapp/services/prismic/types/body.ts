@@ -57,15 +57,6 @@ export type Standfirst = prismic.Slice<
   }
 >;
 
-export type Table = prismic.Slice<
-  'table',
-  {
-    caption: prismic.KeyTextField;
-    tableData: prismic.KeyTextField;
-    hasRowHeaders: prismic.BooleanField;
-  }
->;
-
 export type Embed = prismic.Slice<
   'embed',
   {
@@ -199,7 +190,6 @@ export type SliceTypes =
   | Quote
   | QuoteV2
   | Standfirst
-  | Table
   | Embed
   | Map
   | CollectionVenue
