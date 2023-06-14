@@ -1,3 +1,4 @@
+import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
@@ -82,6 +83,7 @@ export type BodySlice =
   | Slice<'standfirst', prismic.RichTextField>
   | Slice<'text', prismic.RichTextField>
   | Slice<'map', MapProps>
+  | Slice<'table', TableProps>
   | Slice<'mediaObjectList', MediaObjectListProps>
   | Slice<'contact', ContactProps>
   | Slice<'picture', CaptionedImage>

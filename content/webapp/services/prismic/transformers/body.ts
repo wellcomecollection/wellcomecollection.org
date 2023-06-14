@@ -13,6 +13,7 @@ import {
   QuoteV2 as QuoteV2Slice,
   SearchResults as SearchResultsSlice,
   Standfirst as StandfirstSlice,
+  Table as TableSlice,
   TagList as TagListSlice,
   TextSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
@@ -95,6 +96,26 @@ function transformMapSlice(slice: MapSlice): BodySlice {
   };
 }
 
+function transformTableCsv(tableData: string): string[][] {
+  return tableData
+    .trim()
+    .split(/[\r\n]+/)
+    .map(row => row.split('|').map(cell => cell.trim()));
+}
+
+function transformTableSlice(slice: TableSlice): BodySlice {
+  return {
+    type: 'table',
+    value: {
+      rows: slice.primary.tableData
+        ? transformTableCsv(slice.primary.tableData)
+        : [],
+      caption: slice.primary.caption || undefined,
+      hasRowHeaders: slice.primary.hasRowHeaders,
+    },
+  };
+}
+
 function transformMediaObjectListSlice(slice: MediaObjectListSlice): BodySlice {
   return {
     type: 'mediaObjectList',
@@ -111,7 +132,6 @@ function transformMediaObjectListSlice(slice: MediaObjectListSlice): BodySlice {
               image: transformImage(mediaObject.image)!,
             };
           }
-          return undefined;
         })
         .filter(isNotUndefined),
     },
@@ -416,8 +436,6 @@ function transformContentListSlice(slice: ContentListSlice): BodySlice {
               return transformSeason(content);
             case 'card':
               return transformCard(content);
-            default:
-              return undefined;
           }
         })
         .filter(isNotUndefined),
@@ -472,6 +490,9 @@ export function transformBody(body: Body): BodySlice[] {
         case 'embed':
           return transformEmbedSlice(slice);
 
+        case 'table':
+          return transformTableSlice(slice);
+
         case 'infoBlock':
           return transformInfoBlockSlice(slice);
 
@@ -490,9 +511,6 @@ export function transformBody(body: Body): BodySlice[] {
 
         case 'mediaObjectList':
           return transformMediaObjectListSlice(slice);
-
-        default:
-          return undefined;
       }
     })
     .filter(isNotUndefined);
