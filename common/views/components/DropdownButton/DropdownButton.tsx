@@ -153,7 +153,7 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
     } else {
       focusables.forEach(focusable => focusable.setAttribute('tabIndex', '-1'));
     }
-  }, [isActive, children]);
+  }, [isActive, children, focusables]);
 
   const buttonProps = {
     isActive,
