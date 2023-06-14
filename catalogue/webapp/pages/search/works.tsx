@@ -92,7 +92,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             href={convertUrlToString(
               toLink(
                 { ...worksRouteProps, page: (worksRouteProps.page || 1) - 1 },
-                'unknown'
+                'search/paginator'
               ).as
             )}
           />
@@ -103,7 +103,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             href={convertUrlToString(
               toLink(
                 { ...worksRouteProps, page: worksRouteProps.page + 1 },
-                'unknown'
+                'search/paginator'
               ).as
             )}
           />

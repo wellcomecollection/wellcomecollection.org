@@ -91,7 +91,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
             href={convertUrlToString(
               toLink(
                 { ...imagesRouteProps, page: (imagesRouteProps.page || 1) - 1 },
-                'unknown'
+                'search/paginator'
               ).as
             )}
           />
@@ -102,7 +102,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
             href={convertUrlToString(
               toLink(
                 { ...imagesRouteProps, page: imagesRouteProps.page + 1 },
-                'unknown'
+                'search/paginator'
               ).as
             )}
           />
