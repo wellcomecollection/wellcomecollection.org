@@ -43,8 +43,7 @@
 - wait
 
 - label: "Scale down e2e environment"
-  command: echo "stop!"
-  # .buildkite/e2e_on_pull_requests/set_desired_task_count.sh 0
+  command: .buildkite/e2e_on_pull_requests/set_desired_task_count.sh 0
 
   concurrency_group: "dotorg-e2e-on-pull-requests-gate"
   concurrency: 1
