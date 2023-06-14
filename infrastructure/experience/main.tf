@@ -25,5 +25,5 @@ module "e2e" {
 
   vpc_id   = local.vpc_id
   subnets  = local.public_subnets
-  cert_arn = module.wellcomecollection_cert.arn
+  cert_arn = module.wellcomecollection_e2e_cert.arn
 }

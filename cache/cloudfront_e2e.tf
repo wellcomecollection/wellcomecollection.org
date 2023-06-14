@@ -6,7 +6,8 @@ module "e2e_cert" {
   subject_alternative_names = [
     "content.www-e2e.wellcomecollection.org",
     "works.www-e2e.wellcomecollection.org",
-    "identity.www-e2e.wellcomecollection.org"
+    "identity.www-e2e.wellcomecollection.org",
+    "*.www-e2e.wellcomecollection.org",
   ]
 
   zone_id = data.aws_route53_zone.zone.id
