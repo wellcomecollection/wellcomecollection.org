@@ -146,6 +146,9 @@
   command: .buildkite/e2e_on_pull_requests/check_if_we_need_to_ask.sh
   if: build.branch != "main"
 
+  agent:
+    queue: nano
+
 - wait
 
 - label: 'deploy catalogue (ecr image)'
