@@ -5,7 +5,7 @@ import { getCrop, ImageType } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
-const IconsAndTextWrap = styled.div`
+const MediaAndTextWrap = styled.div`
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
@@ -48,16 +48,18 @@ const Text = styled.div`
   `}
 `;
 
-type IconsAndText = {
-  icons: ImageType[];
+type Item = {
   text: string;
-};
+} & (
+  | { type: 'icons'; icons: ImageType[] }
+  | { type: 'image'; image: ImageType }
+);
 
 type Props = {
-  items: IconsAndText[];
+  items: Item[];
 };
 
-const IconsWithText: FunctionComponent<Props> = ({ items }) => {
+const ImageOrIconsAndText: FunctionComponent<Props> = ({ items }) => {
   return (
     <>
       {items.map((item, index) => (
@@ -68,34 +70,42 @@ const IconsWithText: FunctionComponent<Props> = ({ items }) => {
             <PreviousSiblingWrapper>{children}</PreviousSiblingWrapper>
           )}
         >
-          <IconsAndTextWrap>
-            <Icons>
-              {item.icons.map((icon, index) => {
-                const squareCrop = getCrop(icon, 'square');
-                if (!squareCrop) return null;
+          <MediaAndTextWrap>
+            {item.type === 'icons' && (
+              <Icons>
+                {item.icons.map((icon, index) => {
+                  const squareCrop = getCrop(icon, 'square');
 
-                return (
-                  <div key={index}>
-                    <PrismicImage
-                      image={squareCrop}
-                      sizes={{
-                        xlarge: 1 / 10,
-                        large: 1 / 10,
-                        medium: 1 / 10,
-                        small: 1 / 10,
-                      }}
-                      quality="low"
-                    />
-                  </div>
-                );
-              })}
-            </Icons>
+                  if (!squareCrop) return null;
+
+                  return (
+                    <div key={index}>
+                      <PrismicImage
+                        image={squareCrop}
+                        sizes={{
+                          xlarge: 1 / 10,
+                          large: 1 / 10,
+                          medium: 1 / 10,
+                          small: 1 / 10,
+                        }}
+                        quality="low"
+                      />
+                    </div>
+                  );
+                })}
+              </Icons>
+            )}
+
+            {item.type === 'image' && (
+              <PrismicImage image={item.image} quality="low" />
+            )}
+
             <Text>{item.text}</Text>
-          </IconsAndTextWrap>
+          </MediaAndTextWrap>
         </ConditionalWrapper>
       ))}
     </>
   );
 };
 
-export default IconsWithText;
+export default ImageOrIconsAndText;
