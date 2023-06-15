@@ -47,3 +47,10 @@
 
   concurrency_group: "dotorg-e2e-on-pull-requests-gate"
   concurrency: 1
+
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
+
+  agents:
+    queue: nano
