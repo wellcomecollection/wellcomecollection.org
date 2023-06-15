@@ -237,26 +237,37 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     Boolean(hasIiifImage && !hasImageService)
   );
 
+  // We need to reset the MainAreaWidth and MainAreaHeight
+  // when the available space changes.
+  // This can happen when the browser is resized
+  // or if the sidebar is collapsed/expanded.
+  // Previously, we used a ResizeObserver on the mainAreaRef.current
+  // which took care of both these scenarios.
+  // However, in Safari when 'Show scroll bars' was set to always in the system settings
+  // the viewer would constantly reload itself.
+  // To fix this we now reset the MainAreaWidth and MainAreaHeight
+  // when the window is resized or the isDesktopSidebarActive value changes
+  let timeout;
+  const handleResize = () => {
+    setIsResizing(true);
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      setIsResizing(false);
+      setMainAreaWidth(mainAreaRef.current?.clientWidth || 0);
+      setMainAreaHeight(mainAreaRef.current?.clientHeight || 0);
+    }, 500); // debounce
+  };
+
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    const mainAreaObserver = new ResizeObserver(([mainArea]) => {
-      clearTimeout(timer);
-
-      if (!isResizing) {
-        setIsResizing(true);
-      }
-
-      timer = setTimeout(() => {
-        setIsResizing(false);
-        setMainAreaWidth(mainArea.contentRect.width);
-        setMainAreaHeight(mainArea.contentRect.height);
-      }, 500); // Debounce
-    });
-
-    mainAreaRef?.current && mainAreaObserver.observe(mainAreaRef.current);
-
-    return () => mainAreaObserver.disconnect();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
+
+  useEffect(() => {
+    handleResize();
+  }, [isDesktopSidebarActive]);
 
   useEffect(() => {
     const fetchParentManifest = async () => {
