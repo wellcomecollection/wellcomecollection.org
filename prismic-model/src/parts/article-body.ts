@@ -41,34 +41,6 @@ export default {
           display: 'Standalone',
         },
       ],
-      vimeoVideoEmbed: [
-        {
-          name: 'featured',
-          display: 'Featured',
-        },
-        {
-          name: 'supporting',
-          display: 'Supporting',
-        },
-        {
-          name: 'standalone',
-          display: 'Standalone',
-        },
-      ],
-      youtubeVideoEmbed: [
-        {
-          name: 'featured',
-          display: 'Featured',
-        },
-        {
-          name: 'supporting',
-          display: 'Supporting',
-        },
-        {
-          name: 'standalone',
-          display: 'Standalone',
-        },
-      ],
       editorialImageGallery: [
         {
           name: 'standalone',
@@ -148,62 +120,6 @@ export default {
           embed: {
             type: 'Embed',
             fieldset: 'Embed',
-          },
-          caption: singleLineText('Caption', {
-            placeholder: 'Caption',
-            overrideTextOptions: ['hyperlink', 'em'],
-          }),
-        },
-      },
-      soundcloudEmbed: {
-        type: 'Slice',
-        fieldset: 'SoundCloud embed',
-        'non-repeat': {
-          iframeSrc: {
-            type: 'Text',
-            config: {
-              label: 'iframe src',
-            },
-          },
-        },
-      },
-      vimeoVideoEmbed: {
-        type: 'Slice',
-        fieldset: 'Vimeo video',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'Vimeo embed',
-          },
-        },
-      },
-      instagramEmbed: {
-        type: 'Slice',
-        fieldset: 'Instagram embed',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'Instagram embed',
-          },
-        },
-      },
-      twitterEmbed: {
-        type: 'Slice',
-        fieldset: 'Twitter embed',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'Twitter embed',
-          },
-        },
-      },
-      youtubeVideoEmbed: {
-        type: 'Slice',
-        fieldset: '[Deprecated] YouTube video (please use embed)',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'YouTube embed',
           },
           caption: singleLineText('Caption', {
             placeholder: 'Caption',

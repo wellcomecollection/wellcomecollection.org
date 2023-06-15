@@ -1,15 +1,14 @@
-import { Content } from './types/api';
+import { Article } from './types/api';
 import {
-  ContentApiError,
-  ContentResultsList,
   ContentApiProps,
-} from '@weco/catalogue/services/wellcome/content/types';
+  ContentResultsList,
+} from '@weco/catalogue/services/wellcome/content/types/api';
 import { contentQuery } from '.';
-import { QueryProps } from '..';
+import { QueryProps, WellcomeApiError } from '..';
 
 export async function getArticles(
   props: QueryProps<ContentApiProps>
-): Promise<ContentResultsList<Content> | ContentApiError> {
+): Promise<ContentResultsList<Article> | WellcomeApiError> {
   const getArticlesResult = await contentQuery('articles', props);
 
   return getArticlesResult;

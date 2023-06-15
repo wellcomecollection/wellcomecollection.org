@@ -27,9 +27,9 @@ if [[ "$clean_flag" = "true" ]]; then
     echo done installing apps
 fi
 
-echo running 'aws-azure-login --no-prompt'
+echo running 'aws-azure-login --mode=gui'
 echo if this fails, you will not be able to run the identity app, please communicate with team members
-aws-azure-login --no-prompt
+aws-azure-login --mode=gui
 
 echo Starting the applications
 

@@ -1,7 +1,7 @@
 locals {
-  toggles_cookies = ["toggles", "toggle_*"]
+  toggles_cookies        = ["toggles", "toggle_*"]
   userpreference_cookies = ["WC_*"]
-  ga_cookies = ["_ga"]
+  ga_cookies             = ["_ga"]
 
   content_query_params = [
     "cachebust",
@@ -10,6 +10,7 @@ locals {
     "result",
     "toggle",
     "uri",
+    "format",
 
     # This is used to fetch articles client-side, e.g. related stories.
     # When it's missing, we may show the wrong stories as "read this next"

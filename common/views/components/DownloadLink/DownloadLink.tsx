@@ -27,7 +27,6 @@ const DownloadLinkStyle = styled.a.attrs({
 
 const DownloadLinkUnStyled = styled.a`
   position: relative;
-  white-space: nowrap;
 `;
 
 const Format = styled(Space).attrs({

@@ -7,7 +7,7 @@ import {
 } from '.';
 import { ArticlePrismicDocument } from '../types/articles';
 import { ContentType } from '@weco/common/services/prismic/content-types';
-import { ArticleBasic } from '../../../types/articles';
+import { ArticleBasic } from '@weco/content/types/articles';
 import {
   articleFormatsFetchLinks,
   commonPrismicFieldsFetchLinks,
@@ -131,32 +131,6 @@ export const graphQuery = `{
         }
       }
       ...on embed {
-        non-repeat {
-          embed
-          caption
-        }
-      }
-      ...on soundcloudEmbed {
-        non-repeat {
-          iframeSrc
-        }
-      }
-      ...on vimeoVideoEmbed {
-        non-repeat {
-          embed
-        }
-      }
-      ...on instagramEmbed {
-        non-repeat {
-          embed
-        }
-      }
-      ...on twitterEmbed {
-        non-repeat {
-          embed
-        }
-      }
-      ...on youtubeVideoEmbed {
         non-repeat {
           embed
           caption

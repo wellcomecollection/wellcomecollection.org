@@ -82,7 +82,7 @@ import {
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import styled from 'styled-components';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const segmentedControlItems: Item[] = [
   {
@@ -313,7 +313,7 @@ const Header: FunctionComponent<HeaderProps> = ({
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  setCacheControl(context.res);
+  setCacheControl(context.res, cacheTTL.events);
   const serverData = await getServerData(context);
 
   const client = createClient(context);

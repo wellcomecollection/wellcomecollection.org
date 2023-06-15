@@ -1,15 +1,6 @@
 import styled from 'styled-components';
-import {
-  Children,
-  Fragment,
-  createContext,
-  ReactNode,
-  ReactElement,
-} from 'react';
-import {
-  prismicPageIds,
-  sectionLevelPages,
-} from '@weco/common/data/hardcoded-ids';
+import { Children, createContext, ReactNode, ReactElement } from 'react';
+import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
 import { Season } from '../../types/seasons';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import { MultiContent } from '../../types/multi-content';
@@ -20,13 +11,10 @@ import PageHeader, {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import CompactCard from '../CompactCard/CompactCard';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import BannerCard from '../BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
 import Outro from '../Outro/Outro';
-import { pageDescriptions } from '@weco/common/data/microcopy';
 import { Contributor } from '../../types/contributors';
 
 export const PageBackgroundContext = createContext<'warmNeutral.300' | 'white'>(
@@ -62,49 +50,6 @@ const Wrapper = styled.div<{ isCreamy: boolean }>`
     props.isCreamy &&
     `background-color: ${props.theme.color('warmNeutral.300')}`};
 `;
-
-const ShameBorder = styled(Space).attrs({
-  v: { size: 'l', properties: ['margin-top'] },
-})`
-  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
-`;
-// FIXME: obviously we can't carry on like this!
-const ShameWhatWeDoHack = () => (
-  <Layout8>
-    <ShameBorder />
-    <CompactCard
-      url="/user-panel"
-      title="Join our user panel"
-      primaryLabels={[]}
-      secondaryLabels={[]}
-      description={pageDescriptions.userPanel}
-      Image={
-        <PrismicImage
-          image={{
-            // We intentionally omit the alt text on promos, so screen reader
-            // users don't have to listen to the alt text before hearing the
-            // title of the item in the list.
-            //
-            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-            contentUrl:
-              'https://images.prismic.io/wellcomecollection/65334f9d-50d0-433f-a4ac-a780eef352e3_user_research_square.jpg',
-            width: 3200,
-            height: 3200,
-            alt: '',
-          }}
-          sizes={{
-            xlarge: 1 / 6,
-            large: 1 / 6,
-            medium: 1 / 5,
-            small: 1 / 4,
-          }}
-          quality="low"
-        />
-      }
-      xOfY={{ x: 1, y: 1 }}
-    />
-  </Layout8>
-);
 
 const ContentPage = ({
   id,
@@ -147,25 +92,18 @@ const ContentPage = ({
           </Space>
         )}
         <Wrapper isCreamy={isCreamy}>
-          {shouldRenderBody() && (
-            <SpacingSection>
-              <div>
-                <Fragment>{Body}</Fragment>
-                {id === prismicPageIds.whatWeDo && <ShameWhatWeDoHack />}
-              </div>
-            </SpacingSection>
-          )}
+          {shouldRenderBody() && <SpacingSection>{Body}</SpacingSection>}
 
           {children && (
             <SpacingSection>
               {Children.map(children, child => (
-                <Fragment>
+                <>
                   {child && (
                     <SpacingComponent>
                       <Layout8>{child}</Layout8>
                     </SpacingComponent>
                   )}
-                </Fragment>
+                </>
               ))}
             </SpacingSection>
           )}
@@ -186,7 +124,7 @@ const ContentPage = ({
         {RelatedContent.length > 0 && (
           <SpacingSection>
             {Children.map(RelatedContent, child => (
-              <Fragment>{child}</Fragment>
+              <>{child}</>
             ))}
           </SpacingSection>
         )}

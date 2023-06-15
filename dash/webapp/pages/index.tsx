@@ -75,16 +75,6 @@ const IndexPage: FunctionComponent = () => {
               </a>
             </li>
             <li>
-              <a href="https://dash.wellcomecollection.org/bundles/content.browser.latest.html">
-                Content app bundle size
-              </a>
-            </li>
-            <li>
-              <a href="https://dash.wellcomecollection.org/bundles/catalogue.browser.latest.html">
-                Catalogue app bundle size
-              </a>
-            </li>
-            <li>
               <a href="https://updown.io/2cep" rel="uptime">
                 Uptime: Homepage
               </a>

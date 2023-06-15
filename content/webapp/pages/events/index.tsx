@@ -24,7 +24,7 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { EventBasic } from '@weco/content/types/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 import { Period } from '@weco/common/types/periods';
 
 export type Props = {
@@ -37,7 +37,7 @@ export type Props = {
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
-  setCacheControl(context.res);
+  setCacheControl(context.res, cacheTTL.events);
   const page = getPage(context.query);
 
   if (typeof page !== 'number') {

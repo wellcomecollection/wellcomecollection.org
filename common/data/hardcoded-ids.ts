@@ -39,7 +39,7 @@ export const prismicPageIds = {
   bookingAndAttendingOurEvents: 'Wuw19yIAAK1Z3Sng',
   contactUs: 'YVMbEBAAAPaMBrz7',
   dailyGuidedTours: 'Wuw19yIAAK1Z3Sma',
-  gettingHere: 'WwabUiAAAHQXGNHB',
+  gettingHere: 'X0TZOhAAACkAPkxz',
   library: 'Wuw19yIAAK1Z3Smm',
   openingTimes: 'WwQHTSAAANBfDYXU',
   press: 'WuxrKCIAAP9h3hmw',

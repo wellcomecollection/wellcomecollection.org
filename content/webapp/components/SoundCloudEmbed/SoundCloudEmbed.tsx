@@ -5,6 +5,10 @@ import styled from 'styled-components';
 
 const Figure = styled.figure`
   margin: 0;
+
+  iframe {
+    border: 0;
+  }
 `;
 
 export type Props = {
@@ -17,7 +21,6 @@ const SoundCloudEmbed: FunctionComponent<Props> = ({ embedUrl, caption }) => (
     <iframe
       width="100%"
       height="140"
-      frameBorder="no"
       title="soundcloud player"
       src={embedUrl}
     />

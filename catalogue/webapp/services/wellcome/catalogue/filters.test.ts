@@ -2,7 +2,10 @@ import worksAggregations from './fixtures/works-aggregations';
 import imagesAggregations from './fixtures/images-aggregations';
 import { CheckboxFilter, imagesFilters, worksFilters } from './filters';
 import { fromQuery as fromWorksQuery } from '@weco/catalogue/components/WorksLink';
-import { fromQuery as fromImagesQuery } from '@weco/catalogue/components/ImagesLink';
+import {
+  fromQuery as fromImagesQuery,
+  ImagesProps,
+} from '@weco/catalogue/components/ImagesLink';
 
 // These tests require some knowledge of the fixture data.
 // A bit odd, but it works.
@@ -60,7 +63,9 @@ describe('filter options', () => {
       props: fromImagesQuery({
         'locations.license': '"Non existent"',
       }),
-    }).find(f => f.id === 'locations.license') as CheckboxFilter;
+    }).find(f => f.id === 'locations.license') as CheckboxFilter<
+      keyof ImagesProps
+    >;
 
     expect(filter.options.length).toBe(7);
   });

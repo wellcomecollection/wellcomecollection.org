@@ -9,7 +9,7 @@ import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
-import { Content } from '@weco/catalogue/services/wellcome/content/types/api';
+import { Article } from '@weco/catalogue/services/wellcome/content/types/api';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -96,7 +96,7 @@ const StoryInformationItemSeparator = styled.span`
 `;
 
 type Props = {
-  articles: Content[];
+  articles: Article[];
   dynamicImageSizes?: BreakpointSizes;
   isDetailed?: boolean;
 };

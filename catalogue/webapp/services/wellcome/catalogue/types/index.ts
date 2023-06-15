@@ -11,6 +11,11 @@ import {
   CatalogueImagesApiProps,
   CatalogueConceptsApiProps,
 } from './api';
+import {
+  UnidentifiedBucketData,
+  WellcomeAggregation,
+  WellcomeResultList,
+} from '../../index';
 
 export type {
   CatalogueWorksApiProps,
@@ -210,50 +215,21 @@ export type Image = {
   aspectRatio?: number;
 };
 
-type CatalogueAggregationBucket = {
-  count: number;
-  data: {
-    id: string;
-    label: string;
-    type: string;
-  };
-  type: 'AggregationBucket';
-};
-
-type CatalogueAggregationBucketNoId = {
-  count: number;
-  data: {
-    label: string;
-    type: string;
-  };
-  type: 'AggregationBucket';
-};
-
-type CatalogueAggregation = {
-  buckets: CatalogueAggregationBucket[];
-  type: 'Aggregation';
-};
-
-type CatalogueAggregationNoId = {
-  buckets: CatalogueAggregationBucketNoId[];
-  type: 'Aggregation';
-};
-
 type WorkAggregations = {
-  workType: CatalogueAggregation;
-  availabilities: CatalogueAggregation;
-  languages?: CatalogueAggregation;
-  'genres.label'?: CatalogueAggregationNoId;
-  'subjects.label'?: CatalogueAggregationNoId;
-  'contributors.agent.label'?: CatalogueAggregationNoId;
+  workType: WellcomeAggregation;
+  availabilities: WellcomeAggregation;
+  languages?: WellcomeAggregation;
+  'genres.label'?: WellcomeAggregation<UnidentifiedBucketData>;
+  'subjects.label'?: WellcomeAggregation<UnidentifiedBucketData>;
+  'contributors.agent.label'?: WellcomeAggregation<UnidentifiedBucketData>;
   type: 'Aggregations';
 };
 
 type ImageAggregations = {
-  license?: CatalogueAggregation;
-  'source.genres.label'?: CatalogueAggregation;
-  'source.subjects.label'?: CatalogueAggregation;
-  'source.contributors.agent.label'?: CatalogueAggregation;
+  license?: WellcomeAggregation;
+  'source.genres.label'?: WellcomeAggregation;
+  'source.subjects.label'?: WellcomeAggregation;
+  'source.contributors.agent.label'?: WellcomeAggregation;
   type: 'Aggregations';
 };
 
@@ -261,23 +237,13 @@ type ConceptAggregations = null;
 
 export type ResultType = Work | Image | Concept;
 
-export type CatalogueResultsList<Result extends ResultType> = {
-  type: 'ResultList';
-  totalResults: number;
-  totalPages: number;
-  results: Result[];
-  pageSize: number;
-  prevPage: string | null;
-  nextPage: string | null;
-  aggregations?: Result extends Work
-    ? WorkAggregations
-    : Result extends Image
-    ? ImageAggregations
-    : Result extends Concept
-    ? ConceptAggregations
-    : null;
+type CatalogueAggregations<Result extends ResultType> = Result extends Work
+  ? WorkAggregations
+  : Result extends Image
+  ? ImageAggregations
+  : Result extends Concept
+  ? ConceptAggregations
+  : null;
 
-  // We include the URL used to fetch data from the catalogue API for
-  // debugging purposes.
-  _requestUrl: string;
-};
+export type CatalogueResultsList<Result extends ResultType> =
+  WellcomeResultList<Result, CatalogueAggregations<Result>>;
