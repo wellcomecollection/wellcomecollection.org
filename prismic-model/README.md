@@ -13,9 +13,24 @@ To deploy a type:
 You'll then be given a diff to validate, and deploy. We have no test environment for Prismic.
 
 **WARNING:**
-If you are **removing fields from a custom type**, you must remove any queries for those fields from the content app and **deploy the changes to the content app first**, before deploying the changes to Prismic.
+If you are **removing fields from a custom type**, if those are referenced in a query, you must remove any reference to those fields from the content app queries and **deploy the changes to the content app first**, before deploying the changes to Prismic.
 
-If you are **adding fields to a custom type**, you must **deploy the changes to Prismic first**, before deploying queries to those fields in the content app.
+1. Make PR (`A`) that only removes fields from queries
+2. Prepare a second PR (`B`) that removes slices/fields completely 
+3. Merge and deploy `A` all the way to prod
+4. Whilst running `B` locally, run `yarn deployType` command lines
+5. Publish something in Prismic to ensure it uses the new types
+6. Merge and deploy `B` all the way to Prod
+
+
+If you are **adding fields to a custom type** and it needs to be specifically referenced in a query, you must **deploy the changes to Prismic first**, before deploying queries to those fields in the content app.
+
+1. Make PR (`A`) that adds slices to the system
+2. Whilst running `A` locally, run `yarn deployType` command lines
+3. Publish something in Prismic to ensure it uses the new types
+4. Merge and deploy `A` all the way to prod
+5. Make a second PR (`B`) that adds what you need to queries
+6. Merge and deploy `B` all the way to Prod
 
 If you change [a part](./src/parts) included in multiple types, e.g. [`body`](./src/parts/body.ts),
 you will have to remember to deploy all affected types.
