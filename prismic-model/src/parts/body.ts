@@ -3,7 +3,6 @@ import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
 import gifVideoSlice from './gif-video-slice';
 import iframeSlice from './iframe-slice';
-import table from './table';
 import title from './title';
 import link, { documentLink, mediaLink, webLink } from './link';
 import text from './keyword';
@@ -84,7 +83,6 @@ export default {
           text: singleLineText('Standfirst'),
         },
       }),
-      table: table(),
       embed: slice('Embed', {
         nonRepeat: {
           embed: embed('Embed (Youtube, SoundCloud, etc)'),
