@@ -54,13 +54,16 @@ const isUnusualCharacter = (c: string): boolean => {
   const code = c.charCodeAt(0);
 
   return (
-    // This are the character ä/å.  On their own not especially suspicious, but
-    // they appear a lot in queries for Chinese characters that are improperly encoded.
+    // This is a couple of accented characters which aren't especially suspicious
+    // on their own, but they appear a lot in queries for Chinese characters that
+    // are improperly encoded.
     //
     // e.g. "我们" gets encoded as "æä»¬"
     //
-    code === 0xe4 ||
-    code === 0xe5 ||
+    code === 0xc2 || // Â
+    code === 0xc3 || // Ã
+    code === 0xe4 || // ä
+    code === 0xe5 || // å
     // This is based on the ranges for Han (Chinese) ideographs; see
     // this answer on Stack Overflow: https://stackoverflow.com/a/1366113/1558022
     //
@@ -91,6 +94,19 @@ export const looksLikeSpam = (
   }
 
   const query = isString(queryValue) ? queryValue : queryValue.join(' ');
+
+  // Reject any queries which are incredibly long.
+  //
+  // The load balancers in front of the API have a limit of 2048 characters in a URI;
+  // any more than that, and they return an HTTP 414 URI Too Long error.  We use some
+  // characters for the API hostname, path, etc.; this limit should reject anything
+  // ridiculously long before it goes to the API.
+  //
+  // As a bonus, if any legitimate user types in a super-long query, they'll be prompted
+  // to adjust their query rather than shown a generic error page.
+  if (query.length > 2000) {
+    return true;
+  }
 
   // Count unusual characters in the query string.
   //
