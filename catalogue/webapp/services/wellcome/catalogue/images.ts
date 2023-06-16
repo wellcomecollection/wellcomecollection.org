@@ -14,6 +14,7 @@ import {
   wellcomeApiFetch,
   WellcomeApiError,
 } from '..';
+import { imagesFilters } from './filters';
 
 type ImageInclude =
   | 'visuallySimilar'
@@ -28,6 +29,30 @@ type GetImageProps = {
   toggles: Toggles;
   include?: ImageInclude[];
 };
+
+/** Creates the YYYY-MM-DD date string we pass to the API.
+ *
+ * Note: the filter GUI expects users to enter dates as a four-digit year (e.g. 1939).
+ * We pin to the start/end of the year so that the range is inclusive.
+ *
+ * e.g. a user who searches for works 'to 2001' should find works created in 2001.
+ */
+function toIsoDateString(
+  s: string | undefined,
+  range: 'to' | 'from'
+): string | undefined {
+  if (s) {
+    try {
+      const d = new Date(s);
+      const year = d.getUTCFullYear().toString().padStart(4, '0');
+
+      return range === 'from' ? `${year}-01-01` : `${year}-12-31`;
+    } catch (e) {
+      return undefined;
+    }
+  }
+  return undefined;
+}
 
 /** Run a query with the images API.
  *
@@ -50,6 +75,14 @@ export async function getImages(
   const extendedParams = {
     ...params,
     ...query,
+    'source.production.dates.from': toIsoDateString(
+      query['source.production.dates.from'] as string,
+      'from'
+    ),
+    'source.production.dates.to': toIsoDateString(
+      query['source.production.dates.to'] as string,
+      'to'
+    ),
   };
 
   return catalogueQuery('images', { ...props, params: extendedParams });

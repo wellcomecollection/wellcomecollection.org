@@ -394,11 +394,11 @@ const sourceDatesFilter = ({
   label: 'Dates',
   from: {
     id: 'source.production.dates.from',
-    value: props['production.dates.from'],
+    value: props['source.production.dates.from'],
   },
   to: {
     id: 'source.production.dates.to',
-    value: props['production.dates.to'],
+    value: props['source.production.dates.to'],
   },
 });
 
