@@ -95,6 +95,19 @@ export const looksLikeSpam = (
 
   const query = isString(queryValue) ? queryValue : queryValue.join(' ');
 
+  // Reject any queries which are incredibly long.
+  //
+  // The load balancers in front of the API have a limit of 2048 characters in a URI;
+  // any more than that, and they return an HTTP 414 URI Too Long error.  We use some
+  // characters for the API hostname, path, etc.; this limit should reject anything
+  // ridiculously long before it goes to the API.
+  //
+  // As a bonus, if any legitimate user types in a super-long query, they'll be prompted
+  // to adjust their query rather than shown a generic error page.
+  if (query.length > 2000) {
+    return true;
+  }
+
   // Count unusual characters in the query string.
   //
   // A lot of our spam queries feature a long string of Chinese, with links to
