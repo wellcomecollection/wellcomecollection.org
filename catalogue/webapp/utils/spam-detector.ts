@@ -54,13 +54,16 @@ const isUnusualCharacter = (c: string): boolean => {
   const code = c.charCodeAt(0);
 
   return (
-    // This are the character ä/å.  On their own not especially suspicious, but
-    // they appear a lot in queries for Chinese characters that are improperly encoded.
+    // This is a couple of accented characters which aren't especially suspicious
+    // on their own, but they appear a lot in queries for Chinese characters that
+    // are improperly encoded.
     //
     // e.g. "我们" gets encoded as "æä»¬"
     //
-    code === 0xe4 ||
-    code === 0xe5 ||
+    code === 0xc2 || // Â
+    code === 0xc3 || // Ã
+    code === 0xe4 || // ä
+    code === 0xe5 || // å
     // This is based on the ranges for Han (Chinese) ideographs; see
     // this answer on Stack Overflow: https://stackoverflow.com/a/1366113/1558022
     //
