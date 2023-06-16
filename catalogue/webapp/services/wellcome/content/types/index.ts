@@ -1,7 +1,4 @@
 import { DigitalLocation, Contributor } from '@weco/common/model/catalogue';
-import { Article, ContentApiProps } from './api';
-
-export type { ContentApiProps };
 
 // Response objects
 export type ContentApiError = {

@@ -14,7 +14,6 @@ import {
   wellcomeApiFetch,
   WellcomeApiError,
 } from '..';
-import { imagesFilters } from './filters';
 
 type ImageInclude =
   | 'visuallySimilar'
