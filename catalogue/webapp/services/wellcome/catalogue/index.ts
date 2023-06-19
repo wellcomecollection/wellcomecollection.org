@@ -58,3 +58,25 @@ export const looksLikeCanonicalId = (
 ): id is string => {
   return isString(id) && /^([a-z0-9]+)$/.test(id);
 };
+
+// Creates the YYYY-MM-DD date string we pass to the API.
+//
+// Note: the filter GUI expects users to enter dates as a four-digit year (e.g. 1939).
+//  We pin to the start/end of the year so that the range is inclusive.
+// e.g. a user who searches for works 'to 2001' should find works created in 2001.
+export const toIsoDateString = (
+  s: string | undefined,
+  range: 'to' | 'from'
+): string | undefined => {
+  if (s) {
+    try {
+      const d = new Date(s);
+      const year = d.getUTCFullYear().toString().padStart(4, '0');
+
+      return range === 'from' ? `${year}-01-01` : `${year}-12-31`;
+    } catch (e) {
+      return undefined;
+    }
+  }
+  return undefined;
+};
