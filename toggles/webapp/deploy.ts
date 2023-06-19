@@ -40,9 +40,7 @@ export const withDefaultValuesUnmodified = (
         : toggle.initialValue;
 
     return {
-      id: toggle.id,
-      description: toggle.description,
-      title: toggle.title,
+      ...toggle,
       defaultValue,
     };
   });
