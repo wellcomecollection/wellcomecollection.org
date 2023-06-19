@@ -85,7 +85,7 @@ type ItemRendererProps = {
   };
 };
 
-function getHighlightStartPositions({
+function getOverlayTopLeft({
   imageContainerRect,
   imageRect,
   rotation,
@@ -188,7 +188,7 @@ function getPositionData({
       const y = coords ? Math.round(Number(coords[1]) * scale) : 0;
       const w = coords ? Math.round(Number(coords[2]) * scale) : 0;
       const h = coords ? Math.round(Number(coords[3]) * scale) : 0;
-      const { overlayTop, overlayLeft } = getHighlightStartPositions({
+      const { overlayTop, overlayLeft } = getOverlayTopLeft({
         imageContainerRect,
         imageRect,
         rotation: (matchingRotation?.rotation || 0) as RotationValue,
