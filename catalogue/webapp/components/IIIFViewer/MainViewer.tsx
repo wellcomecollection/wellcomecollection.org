@@ -46,6 +46,8 @@ type SearchTermHighlightProps = {
   rotation: number;
 };
 
+type RotationValue = 0 | 90 | 180 | 270;
+
 const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   background: ${props => props.theme.color('accent.purple')};
   opacity: 0.5;
@@ -92,7 +94,7 @@ function getHighlightStartPositions({
 }: {
   imageContainerRect: DOMRect;
   imageRect: DOMRect;
-  rotation?: 0 | 90 | 180 | 270;
+  rotation: RotationValue;
   x: number;
   y: number;
 }): {
@@ -135,7 +137,7 @@ function getScale({
 }: {
   imageRect: DOMRect;
   currentCanvas: TransformedCanvas;
-  rotation: 0 | 90 | 180 | 270;
+  rotation: RotationValue;
 }): number {
   if (!rotation || rotation === 180) {
     return imageRect && currentCanvas.width
@@ -178,7 +180,7 @@ function getPositionData({
       const scale = getScale({
         imageRect,
         currentCanvas,
-        rotation: matchingRotation?.rotation,
+        rotation: (matchingRotation?.rotation || 0) as RotationValue,
       });
       const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
       const coords = coordsMatch && coordsMatch[2].split(',');
@@ -189,7 +191,7 @@ function getPositionData({
       const { overlayTop, overlayLeft } = getHighlightStartPositions({
         imageContainerRect,
         imageRect,
-        rotation: matchingRotation?.rotation,
+        rotation: (matchingRotation?.rotation || 0) as RotationValue,
         x,
         y,
       });
