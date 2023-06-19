@@ -106,7 +106,10 @@ async function run() {
   );
 
   if (response.status === 204) {
-    success(`Updated ${id} successfully`);
+    success(
+      `Updated ${id} successfully.
+      To ensure Prismic uses this new model, go make a small change to a page and publish it. e.g. https://wellcomecollection.prismic.io/documents~k=pages&w=test&b=working&c=unclassified&l=en-gb/YB3RoRIAACQATXTn/`
+    );
 
     await checkForOtherDiffs(credentials);
   } else {
