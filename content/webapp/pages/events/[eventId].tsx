@@ -269,10 +269,7 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
           <EventDateList event={event} />
         </DateWrapper>
         {event.schedule && event.schedule.length > 0 && (
-          <>
-            <h2 className="h2">Events</h2>
-            <EventSchedule schedule={event.schedule} />
-          </>
+          <EventSchedule schedule={event.schedule} />
         )}
         {event.ticketSalesStart &&
           showTicketSalesStart(event.ticketSalesStart) && (

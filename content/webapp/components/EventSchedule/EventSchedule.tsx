@@ -21,6 +21,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
 
   return (
     <>
+      <h2 className="h2">Events</h2>
       {groupedEvents.map(
         eventsGroup =>
           eventsGroup.events.length > 0 && (
