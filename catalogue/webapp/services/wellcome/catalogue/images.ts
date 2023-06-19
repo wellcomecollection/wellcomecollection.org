@@ -14,6 +14,7 @@ import {
   wellcomeApiFetch,
   WellcomeApiError,
 } from '..';
+import { toIsoDateString } from '@weco/catalogue/services/wellcome/catalogue/index';
 
 type ImageInclude =
   | 'visuallySimilar'
@@ -50,6 +51,14 @@ export async function getImages(
   const extendedParams = {
     ...params,
     ...query,
+    'source.production.dates.from': toIsoDateString(
+      query['source.production.dates.from'] as string,
+      'from'
+    ),
+    'source.production.dates.to': toIsoDateString(
+      query['source.production.dates.to'] as string,
+      'to'
+    ),
   };
 
   return catalogueQuery('images', { ...props, params: extendedParams });

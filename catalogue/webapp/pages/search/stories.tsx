@@ -35,8 +35,11 @@ import {
 } from '@weco/catalogue/services/wellcome/content/types/api';
 import { emptyResultList } from '@weco/catalogue/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { fromQuery, StoriesProps } from 'components/StoriesLink';
-import { storiesFilters } from 'services/wellcome/catalogue/filters';
+import {
+  fromQuery,
+  StoriesProps,
+} from '@weco/catalogue/components/StoriesLink';
+import { storiesFilters } from '@weco/catalogue/services/wellcome/catalogue/filters';
 
 type Props = {
   storyResponseList: ContentResultsList<Article>;

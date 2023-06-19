@@ -386,6 +386,22 @@ const licensesFilter = ({
   }),
 });
 
+const sourceDatesFilter = ({
+  props,
+}: ImagesFilterProps): DateRangeFilter<keyof ImagesProps> => ({
+  type: 'dateRange',
+  id: 'production.dates',
+  label: 'Dates',
+  from: {
+    id: 'source.production.dates.from',
+    value: props['source.production.dates.from'],
+  },
+  to: {
+    id: 'source.production.dates.to',
+    value: props['source.production.dates.to'],
+  },
+});
+
 const sourceGenresFilter = ({
   images,
   props,
@@ -483,6 +499,7 @@ const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
     colorFilter,
     licensesFilter,
+    sourceDatesFilter,
     sourceGenresFilter,
     sourceSubjectsFilter,
     sourceContributorAgentsFilter,
