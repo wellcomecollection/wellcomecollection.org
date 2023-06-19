@@ -27,11 +27,23 @@ import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/c
 import { AuthExternalService } from '@iiif/presentation-3';
 import { queryParamToArrayIndex } from './IIIFViewer';
 
+type OverlayPositionData = {
+  canvasNumber: number;
+  overlayTop: number;
+  overlayLeft: number;
+  highlight: {
+    w: number;
+    h: number;
+  };
+  rotation: number;
+};
+
 type SearchTermHighlightProps = {
   top: number;
   left: number;
   width: number;
   height: number;
+  rotation: number;
 };
 
 const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
@@ -43,6 +55,8 @@ const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   left: ${props => `${props.left}px`};
   width: ${props => `${props.width}px`};
   height: ${props => `${props.height}px`};
+  transform-origin: 0 0;
+  transform: ${props => `rotate(${props.rotation}deg)`};
 `;
 
 const MessageContainer = styled.div`
@@ -69,23 +83,86 @@ type ItemRendererProps = {
   };
 };
 
-function getPositionData(
-  imageContainerRect: DOMRect,
-  imageRect: DOMRect,
-  currentCanvas: TransformedCanvas,
-  searchResults: SearchResults,
-  canvases: TransformedCanvas[]
-) {
+function getHighlightStartPositions({
+  imageContainerRect,
+  imageRect,
+  rotation,
+  x,
+  y,
+}: {
+  imageContainerRect: DOMRect;
+  imageRect: DOMRect;
+  rotation?: 0 | 90 | 180 | 270;
+  x: number;
+  y: number;
+}): {
+  overlayTop: number;
+  overlayLeft: number;
+} {
   const imageContainerTop = imageContainerRect?.top || 0;
   const imageTop = imageRect?.top || 0;
   const imageContainerLeft = imageContainerRect?.left || 0;
   const imageLeft = imageRect?.left || 0;
-  const overlayStartTop = imageTop - imageContainerTop;
-  const overlayStartLeft = imageLeft - imageContainerLeft;
-  const scale =
-    imageRect && currentCanvas.width
+  const startTop = imageTop - imageContainerTop;
+  const startLeft = imageLeft - imageContainerLeft;
+  if (rotation === 90) {
+    return {
+      overlayTop: startTop + x,
+      overlayLeft: startLeft + imageRect.width - y,
+    };
+  } else if (rotation === 180) {
+    return {
+      overlayTop: startTop + imageRect.height - y,
+      overlayLeft: startLeft + imageRect.width - x,
+    };
+  } else if (rotation === 270) {
+    return {
+      overlayTop: imageTop - imageContainerTop + imageRect.height - x,
+      overlayLeft: imageLeft - imageContainerLeft + y,
+    };
+  } else {
+    return {
+      overlayTop: imageTop - imageContainerTop + y,
+      overlayLeft: imageLeft - imageContainerLeft + x,
+    };
+  }
+}
+
+function getScale({
+  imageRect,
+  currentCanvas,
+  rotation,
+}: {
+  imageRect: DOMRect;
+  currentCanvas: TransformedCanvas;
+  rotation: 0 | 90 | 180 | 270;
+}): number {
+  if (!rotation || rotation === 180) {
+    return imageRect && currentCanvas.width
       ? imageRect.width / currentCanvas.width
       : 1;
+  } else {
+    return imageRect && currentCanvas.height
+      ? imageRect.width / currentCanvas.height
+      : 1;
+  }
+}
+
+function getPositionData({
+  imageContainerRect,
+  imageRect,
+  currentCanvas,
+  searchResults,
+  canvases,
+  rotatedImages,
+}: {
+  imageContainerRect: DOMRect;
+  imageRect: DOMRect;
+  currentCanvas: TransformedCanvas;
+  searchResults: SearchResults;
+  canvases: TransformedCanvas[];
+  rotatedImages: RotatedImage[];
+}): OverlayPositionData[] {
   const highlightsPositioningData =
     searchResults &&
     searchResults?.resources.map(resource => {
@@ -95,22 +172,37 @@ function getPositionData(
       const canvasNumber = canvases.findIndex(canvas => {
         return new URL(resource.on).pathname === new URL(canvas.id).pathname;
       });
+      const matchingRotation = rotatedImages.find(image => {
+        return queryParamToArrayIndex(image.canvas) === canvasNumber;
+      });
+      const scale = getScale({
+        imageRect,
+        currentCanvas,
+        rotation: matchingRotation?.rotation,
+      });
       const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
       const coords = coordsMatch && coordsMatch[2].split(',');
       const x = coords ? Math.round(Number(coords[0]) * scale) : 0;
       const y = coords ? Math.round(Number(coords[1]) * scale) : 0;
       const w = coords ? Math.round(Number(coords[2]) * scale) : 0;
       const h = coords ? Math.round(Number(coords[3]) * scale) : 0;
+      const { overlayTop, overlayLeft } = getHighlightStartPositions({
+        imageContainerRect,
+        imageRect,
+        rotation: matchingRotation?.rotation,
+        x,
+        y,
+      });
+
       return {
         canvasNumber: Number(canvasNumber),
-        overlayStartTop,
-        overlayStartLeft,
+        overlayTop,
+        overlayLeft,
         highlight: {
-          x,
-          y,
           w,
           h,
         },
+        rotation: matchingRotation?.rotation || 0,
       };
     });
   return highlightsPositioningData;
@@ -127,24 +219,12 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     mainImageService['@id'] && convertIiifUriToInfoUri(mainImageService['@id']);
   const imageType = scrollVelocity >= 1 ? 'none' : 'main';
   const isRestricted = currentCanvas.hasRestrictedImage;
-  const { searchResults } = useContext(ItemViewerContext);
+  const { searchResults, rotatedImages } = useContext(ItemViewerContext);
   const [imageRect, setImageRect] = useState<DOMRect | undefined>();
   const [imageContainerRect, setImageContainerRect] = useState<
     DOMRect | undefined
   >();
   const [ocrText, setOcrText] = useState(missingAltTextMessage);
-
-  type OverlayPositionData = {
-    canvasNumber: number;
-    overlayStartTop: number;
-    overlayStartLeft: number;
-    highlight: {
-      x: number;
-      y: number;
-      w: number;
-      h: number;
-    };
-  };
 
   const [overlayPositionData, setOverlayPositionData] = useState<
     OverlayPositionData[]
@@ -161,19 +241,22 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
-    // We need to get the position of the image relative to the container and the display scale of the image relative to the full size
-    // in order to display the highlights correctly over the search hits.
-    // This needs to be recalculated whenever the image changes size for whatever reason.
+    // The highlights are positioned relative to the image container.
+    // Therefore, in order to display the highlights correctly over the search hits,
+    // we need to get the position of the image relative to the container and the display scale of the image relative to the full size.
+    // We then need to calculate the position of the highlight factoring in the orientation of the image.
+    // This needs to be recalculated whenever the image changes size or orientation.
     const highlightsPositioningData =
       imageContainerRect &&
       imageRect &&
-      getPositionData(
+      getPositionData({
         imageContainerRect,
         imageRect,
         currentCanvas,
         searchResults,
-        canvases
-      );
+        canvases,
+        rotatedImages,
+      });
     if (highlightsPositioningData) {
       setOverlayPositionData(
         highlightsPositioningData.filter(item => {
@@ -211,10 +294,11 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     return (
                       <SearchTermHighlight
                         key={i}
-                        top={item.overlayStartTop + item.highlight.y}
-                        left={item.overlayStartLeft + item.highlight.x}
+                        top={item.overlayTop}
+                        left={item.overlayLeft}
                         width={item.highlight.w}
                         height={item.highlight.h}
+                        rotation={item.rotation}
                       />
                     );
                   })}
