@@ -5,7 +5,7 @@ import {
   useEffect,
   useContext,
 } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
@@ -39,6 +39,26 @@ export function queryParamToArrayIndex(canvas: number): number {
 export function arrayIndexToQueryParam(canvasIndex: number): number {
   return canvasIndex + 1;
 }
+
+const show = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+// The <NoScriptViewer /> will display before the enhanced viewer takes it's place.
+// This is necessary for it to be available to visitors without javascript,
+// but would normally result in a large and noticeable change to the page which is jarring.
+// In order to prevent that, we wrap the <NoScriptViewer /> in a DelayVisibility styled component.
+// This delays the visibility of the <NoScriptViewer /> long enough
+// that the enhanced viewer will usually have replaced it, if javascript is available, and so it will never be seen.
+// The trade off is that if javascript isn't available there will be a slight delay before seeing the <NoScriptViewer />.
+const DelayVisibility = styled.div`
+  opacity: 0;
+  animation: 0.5s ${show} 2s forwards;
+`;
 
 type IIIFViewerProps = {
   work: Work;
@@ -369,11 +389,13 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           </Thumbnails>
         </Grid>
       ) : (
-        <NoScriptViewer
-          imageUrl={imageUrl}
-          iiifImageLocation={iiifImageLocation}
-          canvasOcr={canvasOcr}
-        />
+        <DelayVisibility>
+          <NoScriptViewer
+            imageUrl={imageUrl}
+            iiifImageLocation={iiifImageLocation}
+            canvasOcr={canvasOcr}
+          />
+        </DelayVisibility>
       )}
     </ItemViewerContext.Provider>
   );

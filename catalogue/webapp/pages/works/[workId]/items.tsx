@@ -101,7 +101,7 @@ const ItemPage: NextPage<Props> = ({
   const workId = work.id;
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
-  const [showViewer, setShowViewer] = useState(false);
+  const [showViewer, setShowViewer] = useState(true);
   const { worksTabbedNav } = useToggles();
   const {
     title,
@@ -126,6 +126,13 @@ const ItemPage: NextPage<Props> = ({
   const mainImageService = imageServiceId && {
     '@id': imageServiceId,
   };
+
+  // showViewer is true by default, so the noScriptViewer is available without javascript
+  // if javascript is available we set it to false and then determine whether the clickthrough modal is required
+  // before setting it to true
+  useEffect(() => {
+    setShowViewer(false);
+  }, []);
 
   useEffect(() => {
     setOrigin(`${window.location.protocol}//${window.location.hostname}`);
