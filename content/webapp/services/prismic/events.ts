@@ -90,7 +90,7 @@ export function orderEventsByNextAvailableDate<T extends HasTimes>(
     .map(({ event }) => event);
 }
 
-type EventsGroup<T> = {
+export type EventsGroup<T> = {
   label: string;
   start: Date;
   end: Date;
