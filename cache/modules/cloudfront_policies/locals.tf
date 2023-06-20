@@ -67,6 +67,8 @@ locals {
     "source.genres.label",
     "source.subjects.label",
     "source.contributors.agent.label",
+    "source.production.dates.to",
+    "source.production.dates.from",
     "page",
 
     # All other parameters
