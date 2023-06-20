@@ -1,4 +1,10 @@
-import { FunctionComponent, useMemo, useState, useContext } from 'react';
+import {
+  FunctionComponent,
+  useMemo,
+  useState,
+  useContext,
+  useEffect,
+} from 'react';
 import PhotoAlbum, {
   RenderPhotoProps,
   RenderRowContainer,
@@ -14,6 +20,8 @@ import ImageCard from '../ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import { useRouter } from 'next/router';
+import { parse, stringify } from 'querystring';
 
 type Props = {
   images: Image[];
@@ -71,6 +79,55 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const [isActive, setIsActive] = useState(false);
+  const router = useRouter();
+
+  const getImage = async routerImageId => {
+    const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${routerImageId}`;
+    const image: Image = await fetch(apiUrl).then(res => res.json());
+
+    if (image) {
+      setExpandedImage(image);
+      setIsActive(true);
+    }
+  };
+
+  const encodeDecodeImageIdInUrl = (mode: 'encode' | 'decode') => {
+    const searchTest = window.location.search;
+    const search = searchTest?.slice(1) || '';
+    const params = parse(search);
+
+    if (mode === 'encode') {
+      params.imageId = expandedImage?.id;
+    }
+    if (mode === 'decode') {
+      delete params.imageId;
+    }
+
+    router.push(`${router.pathname}?${stringify(params)}`, undefined, {
+      shallow: true,
+    });
+  };
+
+  useEffect(() => {
+    if (isActive) {
+      encodeDecodeImageIdInUrl('encode');
+    } else {
+      encodeDecodeImageIdInUrl('decode');
+    }
+  }, [isActive, expandedImage]);
+
+  useEffect(() => {
+    if (isActive) {
+      const routerImageId = router.query.imageId;
+      if (routerImageId && routerImageId !== expandedImage?.id) {
+        getImage(routerImageId);
+      }
+      if (!routerImageId) {
+        setExpandedImage(undefined);
+        setIsActive(false);
+      }
+    }
+  }, [router.query]);
 
   // In the case that the modal changes the expanded image to
   // be one that isn't on this results page, this index will be -1
