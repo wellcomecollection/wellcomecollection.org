@@ -4,6 +4,7 @@ import {
   useState,
   useContext,
   useEffect,
+  useRef,
 } from 'react';
 import PhotoAlbum, {
   RenderPhotoProps,
@@ -79,9 +80,11 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const [isActive, setIsActive] = useState(false);
+  const fetching = useRef(false);
   const router = useRouter();
 
   const getImage = async routerImageId => {
+    fetching.current = true;
     const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${routerImageId}`;
     const image: Image = await fetch(apiUrl).then(res => res.json());
 
@@ -89,6 +92,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       setExpandedImage(image);
       setIsActive(true);
     }
+    fetching.current = false;
   };
 
   const encodeDecodeImageIdInUrl = (mode: 'encode' | 'decode') => {
@@ -109,14 +113,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    if (isActive) {
-      encodeDecodeImageIdInUrl('encode');
-    } else {
-      encodeDecodeImageIdInUrl('decode');
-    }
-  }, [isActive, expandedImage]);
-
-  useEffect(() => {
     const routerImageId = router.query.imageId;
     if (!routerImageId) {
       setExpandedImage(undefined);
@@ -127,6 +123,16 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       }
     }
   }, [router.query]);
+
+  useEffect(() => {
+    if (isActive) {
+      encodeDecodeImageIdInUrl('encode');
+    } else {
+      if (!fetching.current) {
+        encodeDecodeImageIdInUrl('decode');
+      }
+    }
+  }, [isActive, expandedImage]);
 
   // In the case that the modal changes the expanded image to
   // be one that isn't on this results page, this index will be -1
