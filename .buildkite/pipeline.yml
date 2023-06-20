@@ -151,7 +151,7 @@
 
 - wait
 
-- label: 'deploy catalogue (ecr image)'
+- label: 'deploy catalogue'
   branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -163,22 +163,7 @@
           - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:ref.${BUILDKITE_COMMIT}
           - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
 
-- label: 'deploy catalogue (bundle analysis)'
-  branches: 'main'
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: catalogue
-        command: ['yarn', 'deployBundleAnalysis']
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: 'deploy content (ecr image)'
+- label: 'deploy content'
   branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -190,22 +175,7 @@
           - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:ref.${BUILDKITE_COMMIT}
           - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
 
-- label: 'deploy content (bundle analysis)'
-  branches: 'main'
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: content
-        command: ['yarn', 'deployBundleAnalysis']
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: 'deploy identity (ecr image)'
+- label: 'deploy identity'
   branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -216,21 +186,6 @@
         push:
           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:ref.${BUILDKITE_COMMIT}
           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
-
-# - label: "deploy identity (bundle analysis)"
-#   branches: "main"
-#   plugins:
-#     - wellcomecollection/aws-assume-role#v0.2.2:
-#         role: "arn:aws:iam::130871440101:role/experience-ci"
-#     - ecr#v2.1.1:
-#         login: true
-#     - docker-compose#v3.5.0:
-#         run: identity
-#         command: [ "yarn", "deployBundleAnalysis" ]
-#         env:
-#           - AWS_ACCESS_KEY_ID
-#           - AWS_SECRET_ACCESS_KEY
-#           - AWS_SESSION_TOKEN
 
 - label: 'deploy dash'
   branches: 'main'
