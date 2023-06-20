@@ -1,8 +1,43 @@
 import { Fragment, FunctionComponent } from 'react';
-import type { EventSchedule as EventScheduleType } from '../../types/events';
+import type {
+  EventSchedule as EventScheduleType,
+  Event as EventType,
+} from '../../types/events';
 import EventScheduleItem from './EventScheduleItem';
-import { groupEventsByDay } from '../../services/prismic/events';
+import { EventsGroup, groupEventsByDay } from '../../services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
+import { isPast } from '@weco/common/utils/dates';
+
+const EventScheduleList: FunctionComponent<{
+  groupedEvents: EventsGroup<EventType>[];
+  isNotLinkedIds: string[];
+}> = ({ groupedEvents, isNotLinkedIds }) => (
+  <>
+    {groupedEvents.map(
+      eventsGroup =>
+        eventsGroup.events.length > 0 && (
+          <Fragment key={eventsGroup.label}>
+            {groupedEvents.length > 1 && (
+              <Space
+                v={{ size: 'm', properties: ['margin-bottom'] }}
+                as="h3"
+                className="h3"
+              >
+                {eventsGroup.label}
+              </Space>
+            )}
+            {eventsGroup.events.map(event => (
+              <EventScheduleItem
+                key={event.id}
+                event={event}
+                isNotLinked={isNotLinkedIds.indexOf(event.id) > -1}
+              />
+            ))}
+          </Fragment>
+        )
+    )}
+  </>
+);
 
 type Props = {
   schedule: EventScheduleType;
@@ -19,30 +54,37 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
     .filter(({ isNotLinked }) => isNotLinked)
     .map(({ event }) => event.id);
 
+  // We split scheduled events into two headings: Events and Past Events.
+  //
+  // This is primarily for the benefit of long-running, repeating events
+  // like the Lights Up sessions for Milk.  There are lots of events in
+  // the schedule, but we want future/upcoming events to be prioritised
+  // on the page; readers shouldn't have to scroll past half a dozen past
+  // events to find the ticket link for the next event.
+  //
+  // See e.g. https://wellcomecollection.org/events/ZCRYYRQAAB3ySUc2
+  const pastEvents = groupedEvents.filter(group => isPast(group.end));
+  const futureEvents = groupedEvents.filter(group => !isPast(group.end));
+
   return (
     <>
-      {groupedEvents.map(
-        eventsGroup =>
-          eventsGroup.events.length > 0 && (
-            <Fragment key={eventsGroup.label}>
-              {groupedEvents.length > 1 && (
-                <Space
-                  v={{ size: 'm', properties: ['margin-bottom'] }}
-                  as="h3"
-                  className="h3"
-                >
-                  {eventsGroup.label}
-                </Space>
-              )}
-              {eventsGroup.events.map(event => (
-                <EventScheduleItem
-                  key={event.id}
-                  event={event}
-                  isNotLinked={isNotLinkedIds.indexOf(event.id) > -1}
-                />
-              ))}
-            </Fragment>
-          )
+      {futureEvents.length > 0 && (
+        <>
+          <h2 className="h2">Events</h2>
+          <EventScheduleList
+            groupedEvents={futureEvents}
+            isNotLinkedIds={isNotLinkedIds}
+          />
+        </>
+      )}
+      {pastEvents.length > 0 && (
+        <>
+          <h2 className="h2">Past events</h2>
+          <EventScheduleList
+            groupedEvents={pastEvents}
+            isNotLinkedIds={isNotLinkedIds}
+          />
+        </>
       )}
     </>
   );
