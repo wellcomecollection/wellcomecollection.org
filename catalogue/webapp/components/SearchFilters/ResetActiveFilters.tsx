@@ -93,7 +93,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       }
 
       if (filter.to.value) {
-        filterStateMap.set(filter.from.id, filter.to.value);
+        filterStateMap.set(filter.to.id, filter.to.value);
       }
     }
 
