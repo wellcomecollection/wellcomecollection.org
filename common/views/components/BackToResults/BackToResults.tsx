@@ -6,7 +6,8 @@ import SearchContext from '../SearchContext/SearchContext';
 
 const BackToResults: FunctionComponent = () => {
   const { link } = useContext(SearchContext);
-  const query = link.href?.query?.query;
+  const query = link.href?.query;
+  const queryString = link.href?.query?.query;
   const page = link.href?.query?.page;
 
   if (!query) return null;
@@ -19,7 +20,7 @@ const BackToResults: FunctionComponent = () => {
         trackGaEvent({
           category: 'BackToResults',
           action: 'follow link',
-          label: `${query} | page: ${page || 1}`,
+          label: `${queryString || ''} | page: ${page || 1}`,
         });
       }}
       className={font('intr', 5)}
