@@ -117,14 +117,13 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   }, [isActive, expandedImage]);
 
   useEffect(() => {
-    if (isActive) {
-      const routerImageId = router.query.imageId;
-      if (routerImageId && routerImageId !== expandedImage?.id) {
+    const routerImageId = router.query.imageId;
+    if (!routerImageId) {
+      setExpandedImage(undefined);
+      setIsActive(false);
+    } else {
+      if (routerImageId !== expandedImage?.id) {
         getImage(routerImageId);
-      }
-      if (!routerImageId) {
-        setExpandedImage(undefined);
-        setIsActive(false);
       }
     }
   }, [router.query]);
