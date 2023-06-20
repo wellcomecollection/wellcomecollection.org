@@ -39,7 +39,6 @@ buildkite-agent pipeline upload << EOF
   fields:
     - select: "Run e2es?"
       key: "should-run-e2es"
-      required: false
       options:
         - label: "Yes, run e2e tests now"
           value: "yes"

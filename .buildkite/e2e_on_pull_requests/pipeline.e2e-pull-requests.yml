@@ -29,9 +29,6 @@
   agents:
     queue: nano
 
-  concurrency_group: "front-end-deployment-${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT}-gate"
-  concurrency: 1
-
 - label: "Trigger e2e tests"
   command: ".buildkite/e2e_on_pull_requests/run_e2e_tests.sh"
 
