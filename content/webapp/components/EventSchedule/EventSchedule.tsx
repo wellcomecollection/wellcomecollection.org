@@ -61,6 +61,8 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
   // the schedule, but we want future/upcoming events to be prioritised
   // on the page; readers shouldn't have to scroll past half a dozen past
   // events to find the ticket link for the next event.
+  //
+  // See e.g. https://wellcomecollection.org/events/ZCRYYRQAAB3ySUc2
   const pastEvents = groupedEvents.filter(group => isPast(group.end));
   const futureEvents = groupedEvents.filter(group => !isPast(group.end));
 
