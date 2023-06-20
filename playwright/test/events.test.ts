@@ -22,7 +22,7 @@ test.describe('events', () => {
     context,
   }) => {
     await event('XagmOxAAACIAo0v8', context, page);
-    await page.waitForSelector('h2 >> text="Events"');
+    await page.waitForSelector('h2 >> text="Past events"');
     await page.waitForSelector('h3 >> text="Saturday 30 November 2019"');
     await page.waitForSelector('h5 >> text="Heart n Soul Radio"');
   });
