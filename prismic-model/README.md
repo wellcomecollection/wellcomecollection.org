@@ -17,10 +17,11 @@ If you are **removing fields from a custom type**, if those are referenced in a 
 
 1. Make PR (`A`) that only removes fields from queries
 2. Prepare a second PR (`B`) that removes slices/fields completely 
-3. Merge and deploy `A` all the way to prod
-4. Whilst running `B` locally, run `yarn deployType` command lines
-5. Publish something in Prismic to ensure it uses the new types
-6. Merge and deploy `B` all the way to Prod
+3. Get both `A` and `B` approved before moving on.
+4. Merge and deploy `A` all the way to prod
+5. Whilst running `B` locally, run `yarn deployType` command lines
+6. Publish something in Prismic to ensure it uses the new types
+7. Merge and deploy `B` all the way to Prod
 
 
 If you are **adding fields to a custom type** and it needs to be specifically referenced in a query, you must **deploy the changes to Prismic first**, before deploying queries to those fields in the content app.
