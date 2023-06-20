@@ -69,5 +69,8 @@ export function pluralize(count: number, noun: string, suffix = 's'): string {
 }
 
 export function camelToKebab(words: string): string {
-  return words.split(/(?=[A-Z])/).join('-');
+  return words
+    .split(/(?=[A-Z])/)
+    .join('-')
+    .toLowerCase();
 }

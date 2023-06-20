@@ -1,8 +1,7 @@
 import ImageOrIconsAndText from '@weco/content/components/ImageOrIconsAndText/ImageOrIconsAndText';
 import Readme from '@weco/content/components/ImageOrIconsAndText/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { mockIcons } from '@weco/common/test/fixtures/components/icons-and-text';
-// import { mockImage } from '@weco/common/test/fixtures/components/compact-card';
+import { mockImage } from '@weco/common/test/fixtures/components/compact-card';
 
 const Template = args => (
   <ReadmeDecorator
@@ -11,6 +10,8 @@ const Template = args => (
     Readme={Readme}
   />
 );
+
+const mockIcons = ['a11YVisual', 'a11Y', 'audioDescribed', 'lifts'];
 
 export const icons = Template.bind({});
 icons.args = {
@@ -22,21 +23,21 @@ icons.args = {
     },
     {
       type: 'icons',
-      icons: mockIcons,
+      icons: mockIcons.slice(2, 4),
       text: 'Dolorem recusandae distinctio magni aperiam itaque voluptas delectus tempora nostrum sed aliquid quis fugiat alias vitae velit, saepe, voluptatum nihil, impedit ratione.',
     },
   ],
 };
-icons.storyName = 'basic';
+icons.storyName = 'IconsAndText';
 
-// export const image = Template.bind({});
-// image.args = {
-//   items: [
-//     {
-//       type: 'image',
-//       image: mockImage,
-//       text: 'Non saepe maxime quasi quos doloribus dolorum praesentium obcaecati officiis qui repellat, nihil esse corrupti dolores iusto ab quod libero ullam hic.',
-//     },
-//   ],
-// };
-// image.storyName = 'ImageAndText';
+export const image = Template.bind({});
+image.args = {
+  items: [
+    {
+      type: 'image',
+      image: mockImage,
+      text: 'Non saepe maxime quasi quos doloribus dolorum praesentium obcaecati officiis qui repellat, nihil esse corrupti dolores iusto ab quod libero ullam hic.',
+    },
+  ],
+};
+image.storyName = 'ImageAndText';

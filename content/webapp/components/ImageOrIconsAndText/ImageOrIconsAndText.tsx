@@ -1,9 +1,10 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { getCrop, ImageType } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { ImageType } from '@weco/common/model/image';
+import * as icons from '@weco/common/icons';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 const MediaAndTextWrap = styled.div`
   display: flex;
@@ -18,25 +19,40 @@ const MediaAndTextWrap = styled.div`
   `}
 `;
 
-const PreviousSiblingWrapper = styled(Space).attrs({
+const IconWrapper = styled.div`
+  font-size: 100px;
+  line-height: 0;
+`;
+
+const DividingLine = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top', 'padding-top'] },
 })`
   border-top: 1px solid ${props => props.theme.color('neutral.400')};
+
+  &:first-child {
+    border: 0;
+  }
+
+  .slice-type-image-or-icons-and-text + .slice-type-image-or-icons-and-text & {
+    border-top: 1px solid ${props => props.theme.color('neutral.400')};
+  }
 `;
 
-const Icons = styled.div`
+const ImageOrIcons = styled.div<{ isIcons?: boolean; isPortrait?: boolean }>`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  flex: 0 0 60%;
+  flex: 0 0 ${props => (props.isIcons || props.isPortrait ? '60%' : '100%')};
 
-  ${props => props.theme.media('medium')`
+  ${props =>
+    props.theme.media('medium')(`
     flex: 1;
-  `}
+  `)}
 
   > * {
-    flex: 0 0 30%;
+    flex: ${props => (props.isIcons ? '0 0 30%' : undefined)};
+    width: ${props => (props.isPortrait ? '85%' : undefined)};
   }
 `;
 
@@ -50,10 +66,7 @@ const Text = styled.div`
 
 type Item = {
   text: string;
-} & (
-  | { type: 'icons'; icons: ImageType[] }
-  | { type: 'image'; image: ImageType }
-);
+} & ({ type: 'icons'; icons: string[] } | { type: 'image'; image: ImageType });
 
 type Props = {
   items: Item[];
@@ -63,46 +76,29 @@ const ImageOrIconsAndText: FunctionComponent<Props> = ({ items }) => {
   return (
     <>
       {items.map((item, index) => (
-        <ConditionalWrapper
-          key={index}
-          condition={index > 0}
-          wrapper={children => (
-            <PreviousSiblingWrapper>{children}</PreviousSiblingWrapper>
-          )}
-        >
+        <DividingLine key={index}>
           <MediaAndTextWrap>
             {item.type === 'icons' && (
-              <Icons>
+              <ImageOrIcons isIcons={true}>
                 {item.icons.map((icon, index) => {
-                  const squareCrop = getCrop(icon, 'square');
-
-                  if (!squareCrop) return null;
-
                   return (
-                    <div key={index}>
-                      <PrismicImage
-                        image={squareCrop}
-                        sizes={{
-                          xlarge: 1 / 10,
-                          large: 1 / 10,
-                          medium: 1 / 10,
-                          small: 1 / 10,
-                        }}
-                        quality="low"
-                      />
-                    </div>
+                    <IconWrapper key={index}>
+                      <Icon icon={icons[icon]} matchText={true} />
+                    </IconWrapper>
                   );
                 })}
-              </Icons>
+              </ImageOrIcons>
             )}
 
             {item.type === 'image' && (
-              <PrismicImage image={item.image} quality="low" />
+              <ImageOrIcons isPortrait={item.image.width < item.image.height}>
+                <PrismicImage image={item.image} quality="low" />
+              </ImageOrIcons>
             )}
 
             <Text>{item.text}</Text>
           </MediaAndTextWrap>
-        </ConditionalWrapper>
+        </DividingLine>
       ))}
     </>
   );
