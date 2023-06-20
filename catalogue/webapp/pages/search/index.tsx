@@ -39,6 +39,8 @@ import {
 import { WellcomeApiError } from '@weco/catalogue/services/wellcome';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import { useContext, useEffect } from 'react';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -99,6 +101,22 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   query,
 }) => {
   const { query: queryString } = query;
+  const { setLink } = useContext(SearchContext);
+
+  useEffect(() => {
+    const pathname = '/search';
+    const link = {
+      href: {
+        pathname,
+        query,
+      },
+      as: {
+        pathname,
+        query,
+      },
+    };
+    setLink(link);
+  }, [query]);
 
   const SeeMoreButton = ({
     text,
