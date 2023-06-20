@@ -39,8 +39,10 @@ export const withDefaultValuesUnmodified = (
         ? matchingToggle?.defaultValue
         : toggle.initialValue;
 
+    const { initialValue, ...otherFields } = toggle;
+
     return {
-      ...toggle,
+      ...otherFields,
       defaultValue,
     };
   });
