@@ -1,5 +1,0 @@
-- label: "placeholder"
-  command: echo "(this is a placeholder for e2es on PRs, nothing to see here)"
-
-  agents:
-     queue: nano

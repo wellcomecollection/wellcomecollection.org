@@ -1,0 +1,53 @@
+# These Buildkite pipeline steps actually run the end-to-end tests on
+# pull requests.  This includes deploying the container images into
+# our e2e environment and running the tests.
+
+- label: "Scale up + deploy into e2e environment"
+  commands: |
+    .buildkite/e2e_on_pull_requests/set_desired_task_count.sh 3
+    .buildkite/e2e_on_pull_requests/deploy_to_e2e_environment.sh
+
+  # Note: we can't run until all three "build image" tasks
+  # are done, because we don't have access to the images until this point.
+  depends_on:
+    - 'build_catalogue'
+    - 'build_content'
+    - 'build_identity'
+
+  # This implements a lock around the pipeline, which means only one PR
+  # can be running e2e tests at a time.
+  #
+  # See the comment about "concurrency gates" in the deployment pipeline.
+  concurrency_group: "dotorg-e2e-on-pull-requests-gate"
+  concurrency: 1
+  key: deploy-to-e2e-environment
+
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
+
+  agents:
+    queue: nano
+
+- label: "Trigger e2e tests"
+  command: ".buildkite/e2e_on_pull_requests/run_e2e_tests.sh"
+
+  depends_on: deploy-to-e2e-environment
+
+  agents:
+    queue: nano
+
+- wait
+
+- label: "Scale down e2e environment"
+  command: .buildkite/e2e_on_pull_requests/set_desired_task_count.sh 0
+
+  concurrency_group: "dotorg-e2e-on-pull-requests-gate"
+  concurrency: 1
+
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
+
+  agents:
+    queue: nano
