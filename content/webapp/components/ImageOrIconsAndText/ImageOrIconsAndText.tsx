@@ -5,6 +5,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { ImageType } from '@weco/common/model/image';
 import * as icons from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import ZoomedPrismicImage from 'components/ZoomedPrismicImage/ZoomedPrismicImage';
 
 const MediaAndTextWrap = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ const DividingLine = styled(Space).attrs({
 `;
 
 const ImageOrIcons = styled.div<{ isIcons?: boolean; isPortrait?: boolean }>`
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -92,6 +94,7 @@ const ImageOrIconsAndText: FunctionComponent<Props> = ({ items }) => {
 
             {item.type === 'image' && (
               <ImageOrIcons isPortrait={item.image.width < item.image.height}>
+                <ZoomedPrismicImage image={item.image} />
                 <PrismicImage image={item.image} quality="low" />
               </ImageOrIcons>
             )}

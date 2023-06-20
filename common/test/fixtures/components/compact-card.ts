@@ -2,7 +2,7 @@ import { ImageType } from '../../../model/image';
 
 export const mockImage: ImageType = {
   contentUrl:
-    'https://images.prismic.io/wellcomecollection/c8f7b7f4-d455-4c3f-ae65-9dc7428ae60a_EP001430_0001.jpg?auto=compress,format',
+    'https://images.prismic.io/wellcomecollection/f16b826e-9f68-4cda-ac26-641098fe8081_WELL-10129+Mary+Lowndes.jpg',
   width: 3630,
   height: 2836,
   alt: 'Two St. Bernard dogs with an avalanche victim, one tries to revive him while the other alerts the rescue party.',
