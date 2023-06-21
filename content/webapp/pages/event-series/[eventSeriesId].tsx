@@ -164,7 +164,7 @@ const EventSeriesPage: FunctionComponent<Props> = ({
 
         {pastEvents.length > 0 && (
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <SearchResults items={pastEvents} title="What we've done before" />
+            <SearchResults items={pastEvents} title="Past events" />
           </Space>
         )}
       </ContentPage>
