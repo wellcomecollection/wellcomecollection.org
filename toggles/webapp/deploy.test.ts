@@ -7,6 +7,7 @@ function getPublishedToggle(id: number): PublishedToggle {
     title: `title-${id}`,
     description: `description-${id}`,
     defaultValue: true,
+    type: 'permanent',
   };
 }
 
@@ -16,6 +17,7 @@ function getToggleDefinition(id: number): ToggleDefinition {
     title: `title-${id}`,
     description: `description-${id}`,
     initialValue: true,
+    type: 'permanent',
   };
 }
 
@@ -49,45 +51,51 @@ it('removes tests', () => {
 });
 
 it('updates existing toggles leaving defaultValue unmodified', () => {
-  const remote = [
+  const remote: PublishedToggle[] = [
     {
       id: 'id-1',
       title: 'title1',
       description: 'description1',
       defaultValue: true,
+      type: 'permanent',
     },
     {
       id: 'id-2',
       title: 'title2',
       description: 'description2',
       defaultValue: true,
+      type: 'permanent',
     },
     {
       id: 'id-3',
       title: 'title3',
       description: 'description3',
       defaultValue: true,
+      type: 'permanent',
     },
   ];
 
-  const definitions = [
+  const definitions: ToggleDefinition[] = [
     {
       id: 'id-1',
       title: 'updated title1',
       description: 'updated description1',
       initialValue: false,
+      type: 'permanent',
     },
     {
       id: 'id-2',
       title: 'updated title2',
       description: 'updated description2',
       initialValue: false,
+      type: 'permanent',
     },
     {
       id: 'id-3',
       title: 'title3',
       description: 'description3',
       initialValue: true,
+      type: 'permanent',
     },
   ];
 

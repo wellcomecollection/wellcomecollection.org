@@ -4,6 +4,7 @@ type ToggleBase = {
   id: string;
   title: string;
   description: string;
+  type: 'permanent' | 'experimental';
 };
 
 export type ToggleDefinition = ToggleBase & {
@@ -31,18 +32,21 @@ const toggles = {
         'Replaces the "sign into your library account to request items" message, with "requesting is currently unavailable". Adds a note to say when requesting will be available again.' +
         'See documentation link (tbc).',
       initialValue: false,
+      type: 'permanent',
     },
     {
       id: 'stagingApi',
       title: 'Staging API',
       initialValue: false,
       description: 'Use the staging catalogue API',
+      type: 'permanent',
     },
     {
       id: 'apiToolbar',
       title: 'API toolbar',
       initialValue: false,
       description: 'A toolbar to help us navigate the secret depths of the API',
+      type: 'permanent',
     },
     {
       id: 'worksTabbedNav',
@@ -50,6 +54,7 @@ const toggles = {
       initialValue: false,
       description:
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
+      type: 'experimental',
     },
     {
       id: 'useIIIFTest',
@@ -57,12 +62,14 @@ const toggles = {
       initialValue: false,
       description:
         'Fetch IIIF manifests from iiif-test.wellcomecollection.org for new DLCS testing.',
+      type: 'experimental',
     },
     {
       id: 'visualStories',
       title: 'Visual Stories Prototype',
       initialValue: false,
       description: 'Allows access to visual stories pages.',
+      type: 'experimental',
     },
   ] as const,
   tests: [] as ABTest[],

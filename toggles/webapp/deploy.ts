@@ -39,10 +39,10 @@ export const withDefaultValuesUnmodified = (
         ? matchingToggle?.defaultValue
         : toggle.initialValue;
 
+    const { initialValue, ...otherFields } = toggle;
+
     return {
-      id: toggle.id,
-      description: toggle.description,
-      title: toggle.title,
+      ...otherFields,
       defaultValue,
     };
   });

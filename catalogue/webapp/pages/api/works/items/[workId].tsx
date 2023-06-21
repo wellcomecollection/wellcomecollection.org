@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ItemsList } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { rootUris } from '@weco/catalogue/services/wellcome/catalogue';
-import { Toggles } from '@weco/toggles';
+import { Toggles, TogglesResp } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString, isUndefined } from '@weco/common/utils/type-guards';
 import {
@@ -57,13 +57,14 @@ const ItemsApi = async (
   // As the only toggle we care about here for now is the stagingApi
   // this is a mega hack to get this working so we can remove toggles from the query
   // TODO : get toggles working here
-  const togglesResp = {
+  const togglesResp: TogglesResp = {
     toggles: [
       {
         id: 'stagingApi',
         title: 'Staging API',
         defaultValue: false,
         description: 'Use the staging catalogue API',
+        type: 'permanent',
       },
     ],
     tests: [],

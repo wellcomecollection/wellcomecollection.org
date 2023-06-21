@@ -45,6 +45,89 @@ const TextBox = styled.p`
   margin: 0;
 `;
 
+type ListOfTogglesProps = {
+  toggles: Toggle[];
+  toggleStates: ToggleStates;
+  setToggleStates: React.Dispatch<React.SetStateAction<ToggleStates>>;
+};
+
+const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
+  toggles,
+  toggleStates,
+  setToggleStates,
+}) => (
+  <>
+    {toggles.length > 0 && (
+      <ul
+        style={{
+          listStyle: 'none',
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        {toggles.map(toggle => (
+          <li
+            key={toggle.id}
+            style={{
+              marginTop: '18px',
+              borderTop: '1px solid #d9d6ce',
+              paddingTop: '6px',
+            }}
+          >
+            <h3
+              style={{ marginRight: '6px', marginBottom: '5px' }}
+              id={`toggle-${toggle.id}`}
+            >
+              {toggle.title}
+            </h3>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '12px',
+                color: 'grey',
+              }}
+            >
+              Public status: <Status active={toggle.defaultValue} />{' '}
+              {toggle.defaultValue === true ? 'on' : 'off'}
+            </div>
+            <p>{toggle.description}</p>
+            <Button
+              onClick={() => {
+                setCookie(toggle.id, 'true');
+                setToggleStates(() => ({
+                  ...toggleStates,
+                  [toggle.id]: true,
+                }));
+              }}
+              style={{
+                opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
+              }}
+            >
+              👍 On
+            </Button>
+            <Button
+              onClick={() => {
+                setCookie(toggle.id, 'false');
+                setToggleStates(() => ({
+                  ...toggleStates,
+                  [toggle.id]: false,
+                }));
+              }}
+              style={{
+                opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
+              }}
+            >
+              👎 Off
+            </Button>
+          </li>
+        ))}
+      </ul>
+    )}
+    {toggles.length === 0 && <p>None for now, check back later…</p>}
+  </>
+);
+
 const aYear = 31536000;
 function setCookie(name, value) {
   const expiration = value
@@ -60,6 +143,7 @@ type Toggle = {
   title: string;
   defaultValue: boolean;
   description: string;
+  type: 'permanent' | 'experimental';
 };
 
 type ToggleStates = { [id: string]: boolean | undefined };
@@ -146,76 +230,28 @@ const IndexPage: FunctionComponent = () => {
           <ResetButton onClick={reset}>
             🗑&nbsp;&nbsp;Reset all toggles to default&nbsp;&nbsp;🔄
           </ResetButton>
-          {toggles.length > 0 && (
-            <ul
-              style={{
-                listStyle: 'none',
-                margin: 0,
-                padding: 0,
-              }}
-            >
-              {toggles.map(toggle => (
-                <li
-                  key={toggle.id}
-                  style={{
-                    marginTop: '18px',
-                    borderTop: '1px solid #d9d6ce',
-                    paddingTop: '6px',
-                  }}
-                >
-                  <h3
-                    style={{ marginRight: '6px', marginBottom: '5px' }}
-                    id={`toggle-${toggle.id}`}
-                  >
-                    {toggle.title}
-                  </h3>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      fontSize: '12px',
-                      color: 'grey',
-                    }}
-                  >
-                    Public status: <Status active={toggle.defaultValue} />{' '}
-                    {toggle.defaultValue === true ? 'on' : 'off'}
-                  </div>
-                  <p>{toggle.description}</p>
-                  <Button
-                    onClick={() => {
-                      setCookie(toggle.id, 'true');
-                      setToggleStates(() => ({
-                        ...toggleStates,
-                        [toggle.id]: true,
-                      }));
-                    }}
-                    style={{
-                      opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
-                    }}
-                  >
-                    👍 On
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setCookie(toggle.id, 'false');
-                      setToggleStates(() => ({
-                        ...toggleStates,
-                        [toggle.id]: false,
-                      }));
-                    }}
-                    style={{
-                      opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
-                    }}
-                  >
-                    👎 Off
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          )}
-          {toggles.length === 0 && <p>None for now, check back later…</p>}
 
-          <hr />
+          <hr style={{ margin: '3em' }} />
+
+          <h2>Permanent toggles</h2>
+
+          <ListOfToggles
+            toggles={toggles.filter(t => t.type === 'permanent')}
+            toggleStates={toggleStates}
+            setToggleStates={setToggleStates}
+          />
+
+          <hr style={{ margin: '3em' }} />
+
+          <h2>Experiments</h2>
+
+          <ListOfToggles
+            toggles={toggles.filter(t => t.type === 'experimental')}
+            toggleStates={toggleStates}
+            setToggleStates={setToggleStates}
+          />
+
+          <hr style={{ margin: '3em' }} />
 
           <h2>A/B tests</h2>
           <TextBox>
