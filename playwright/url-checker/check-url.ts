@@ -1,4 +1,4 @@
-import { Browser } from 'playwright';
+import { Browser, Request } from 'playwright';
 import {
   ignoreErrorLog,
   ignoreMimeTypeMismatch,
@@ -73,17 +73,24 @@ export const urlChecker =
         description: `Request made by page failed with ${errorText}: ${request.method()} ${request.url()}`,
       });
     });
+
+    // Keep track of requests that are being processed in order to prevent the page being closed while this async
+    // function is running - don't believe it's needed for the other (sync) event handlers.
+    const inFlight = new Set<Request>();
     page.on('requestfinished', async request => {
+      inFlight.add(request);
       // https://playwright.dev/docs/api/class-request#request-resource-type
       const resourceType = request.resourceType();
       if (resourceType === 'document') {
         // This is the page itself, and is handled below
+        inFlight.delete(request);
         return;
       }
 
       const response = await request.response();
       if (response === null) {
         // This will be handled by the requestfailed listener
+        inFlight.delete(request);
         return;
       }
       const responseStatus = response.status();
@@ -113,6 +120,7 @@ export const urlChecker =
           });
         }
       }
+      inFlight.delete(request);
     });
 
     try {
@@ -166,6 +174,19 @@ export const urlChecker =
       };
     }
 
+    // Wait for the number of in-flight checks (see above) to drop to zero before
+    // closing the page. If there are any, check again in the next iteration of the
+    // event loop.
+    await new Promise<void>(resolve => {
+      const checkInFlight = () => {
+        if (inFlight.size === 0) {
+          resolve();
+        } else {
+          setImmediate(checkInFlight);
+        }
+      };
+      checkInFlight();
+    });
     await page.close({ runBeforeUnload: true });
 
     if (failures.length !== 0) {
