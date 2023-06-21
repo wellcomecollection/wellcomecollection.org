@@ -50,7 +50,7 @@ export function isUpcoming<T extends HasTimes>(event: T): boolean {
 
 // Returns all the upcoming events from a given list.
 //
-// This is used to populate the "What's next" list on event series pages.
+// This is used to populate the "Coming up" list on event series pages.
 //
 export function getUpcomingEvents<T extends HasTimes>(events: T[]): T[] {
   return events.filter(isUpcoming).sort((a, b) => {
