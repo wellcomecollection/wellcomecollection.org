@@ -31,7 +31,10 @@ const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   height: 400px;
+
   a {
+    display: block;
+    height: 100%;
     text-decoration: none;
   }
 `;
@@ -94,19 +97,17 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                 },
                 source: 'viewer/thumbnail',
               })}
-              passHref={true}
               aria-current={
                 canvasIndex === queryParamToArrayIndex(query.canvas)
               }
               onClick={() => {
                 setGridVisible(false);
               }}
+              tabIndex={gridVisible ? 0 : -1}
             >
               <IIIFCanvasThumbnail
                 canvas={currentCanvas}
-                isActive={canvasIndex === queryParamToArrayIndex(query.canvas)}
                 thumbNumber={arrayIndexToQueryParam(canvasIndex)}
-                isFocusable={gridVisible}
                 highlightImage={hasSearchResults}
               />
             </NextLink>
