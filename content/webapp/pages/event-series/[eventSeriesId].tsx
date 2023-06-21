@@ -159,9 +159,7 @@ const EventSeriesPage: FunctionComponent<Props> = ({
         {upcomingEvents.length > 0 ? (
           <SearchResults items={upcomingEvents} title="Coming up" />
         ) : (
-          <h2 className="h2">
-            No events scheduled at the moment, check back soon…
-          </h2>
+          <h2 className="h2">No upcoming events</h2>
         )}
 
         {pastEvents.length > 0 && (
