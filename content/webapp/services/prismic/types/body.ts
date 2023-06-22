@@ -52,6 +52,8 @@ type QuotePrimaryFields = {
 // They both use the same renderer - we just need to still support legacy Quote
 // TODO: One day, manually move them all over to use QuoteV2 and clear out any
 //       old reference to Quote. Ideally rename QuoteV2 to Quote.
+//       The best way to do this is up for debate:
+//       https://github.com/wellcomecollection/wellcomecollection.org/pull/9979#issuecomment-1602448601
 export type Quote = prismic.Slice<'quote', QuotePrimaryFields>;
 export type QuoteV2 = prismic.Slice<'quoteV2', QuotePrimaryFields>;
 
