@@ -47,6 +47,11 @@ type QuotePrimaryFields = {
   citation: prismic.RichTextField;
 };
 
+// Quote used to be the one we offered - it still exists in 189 instances
+// We now offer QuoteV2 instead, which has the same fields.
+// They both use the same renderer - we just need to still support legacy Quote
+// TODO: One day, manually move them all over to use QuoteV2 and clear out any
+//       old reference to Quote. Ideally rename QuoteV2 to Quote.
 export type Quote = prismic.Slice<'quote', QuotePrimaryFields>;
 export type QuoteV2 = prismic.Slice<'quoteV2', QuotePrimaryFields>;
 
