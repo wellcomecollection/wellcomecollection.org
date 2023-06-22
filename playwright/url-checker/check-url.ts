@@ -31,6 +31,24 @@ export type Failures = {
 
 export type Result = Success | Failures;
 
+const waitUntilEmpty = <T>(set: Set<T>, timeout = 5000): Promise<void> =>
+  new Promise((resolve, reject) => {
+    let cancelled = false;
+    const rejectionTimer = setTimeout(() => {
+      cancelled = true;
+      reject(new Error(`Did not empty in ${timeout}ms`));
+    }, timeout);
+    const checkIfEmpty = () => {
+      if (set.size === 0) {
+        clearTimeout(rejectionTimer);
+        resolve();
+      } else if (!cancelled) {
+        setImmediate(checkIfEmpty);
+      }
+    };
+    checkIfEmpty();
+  });
+
 const cachebustUrl = (url: string): string => {
   const parsedUrl = new URL(url);
   parsedUrl.searchParams.set('cachebust', Date.now().toString());
@@ -177,16 +195,7 @@ export const urlChecker =
     // Wait for the number of in-flight checks (see above) to drop to zero before
     // closing the page. If there are any, check again in the next iteration of the
     // event loop.
-    await new Promise<void>(resolve => {
-      const checkInFlight = () => {
-        if (inFlight.size === 0) {
-          resolve();
-        } else {
-          setImmediate(checkInFlight);
-        }
-      };
-      checkInFlight();
-    });
+    await waitUntilEmpty(inFlight);
     await page.close({ runBeforeUnload: true });
 
     if (failures.length !== 0) {
