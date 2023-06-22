@@ -55,20 +55,20 @@ const ResultsHeader = styled(Space).attrs({
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
 `;
 
-const ListItem = styled.li`
-  list-style: none;
-  border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
-`;
-
-const SearchResult = styled.button.attrs({
+const ListItem = styled.li.attrs({
   className: font('intr', 6),
 })`
-  display: block;
-  padding: ${props => `${props.theme.spacingUnit * 2}px 0`};
-  color: ${props => props.theme.color('white')};
+  list-style: none;
+  border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
 
-  &:hover {
-    background: ${props => props.theme.color('black')};
+  a {
+    display: block;
+    padding: ${props => `${props.theme.spacingUnit * 2}px`};
+    color: ${props => props.theme.color('white')};
+
+    &:hover {
+      background: ${props => props.theme.color('black')};
+    }
   }
 `;
 
@@ -77,8 +77,6 @@ const HitData = styled(Space).attrs({
   className: font('intb', 6),
 })`
   display: block;
-  background: ${props => props.theme.color('neutral.700')};
-  padding: ${props => `0 ${props.theme.spacingUnit}px`};
 `;
 
 const ResultsList = styled.ul`
@@ -261,28 +259,26 @@ const IIIFSearchWithin: FunctionComponent = () => {
             const matchingCanvas = (index && canvases?.[index]) || undefined;
             return (
               <ListItem key={i}>
-                <SearchResult>
-                  <NextLink
-                    replace={true}
-                    {...itemLink({
-                      workId: work.id,
-                      props: {
-                        manifest: query.manifest,
-                        query: query.query,
-                        canvas: arrayIndexToQueryParam(index || 0),
-                      },
-                      source: 'search_within_result',
-                    })}
-                    onClick={() => setIsMobileSidebarActive(false)}
-                  >
-                    <Hit
-                      hit={hit}
-                      matchingCanvas={matchingCanvas}
-                      matchingCanvasParam={arrayIndexToQueryParam(index || 0)}
-                      totalCanvases={canvases?.length}
-                    />
-                  </NextLink>
-                </SearchResult>
+                <NextLink
+                  replace={true}
+                  {...itemLink({
+                    workId: work.id,
+                    props: {
+                      manifest: query.manifest,
+                      query: query.query,
+                      canvas: arrayIndexToQueryParam(index || 0),
+                    },
+                    source: 'search_within_result',
+                  })}
+                  onClick={() => setIsMobileSidebarActive(false)}
+                >
+                  <Hit
+                    hit={hit}
+                    matchingCanvas={matchingCanvas}
+                    matchingCanvasParam={arrayIndexToQueryParam(index || 0)}
+                    totalCanvases={canvases?.length}
+                  />
+                </NextLink>
               </ListItem>
             );
           })}

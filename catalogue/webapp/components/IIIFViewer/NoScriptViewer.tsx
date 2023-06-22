@@ -264,10 +264,11 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                       passHref
                       legacyBehavior
                     >
-                      <ThumbnailLink>
+                      <ThumbnailLink
+                        aria-current={canvasParam === query.canvas}
+                      >
                         <IIIFCanvasThumbnail
                           canvas={canvas}
-                          isActive={canvasParam === query.canvas}
                           thumbNumber={canvasParam}
                         />
                       </ThumbnailLink>

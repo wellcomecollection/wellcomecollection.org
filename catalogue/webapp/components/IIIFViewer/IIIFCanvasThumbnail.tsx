@@ -7,25 +7,21 @@ import LL from '@weco/common/views/components/styled/LL';
 import Padlock from './Padlock';
 import Space from '@weco/common/views/components/styled/Space';
 
-type ViewerThumbProps = {
-  isFocusable?: boolean;
-  isActive?: boolean;
-};
-
-const IIIFViewerThumb = styled.button.attrs<ViewerThumbProps>(props => ({
-  tabIndex: props.isFocusable ? 0 : -1,
-}))<ViewerThumbProps>`
+const IIIFViewerThumb = styled.span`
   cursor: pointer;
   display: block;
   height: 100%;
   width: 300px;
   max-width: 90%;
   border-radius: 8px;
-  background: ${props =>
-    props.theme.color(props.isActive ? 'neutral.700' : 'black')};
+  background: ${props => props.theme.color('black')};
   padding: 12px 16px;
   text-align: center;
   margin: auto;
+
+  [aria-current='true'] & {
+    background: ${props => props.theme.color('neutral.700')};
+  }
 
   &:focus {
     outline: ${props => `1px solid ${props.theme.color('yellow')}`};
@@ -38,7 +34,7 @@ const IIIFViewerThumbInner = styled.span`
   height: 100%;
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.span`
   flex-grow: 1;
   position: relative;
 
@@ -54,51 +50,36 @@ const ImageContainer = styled.div`
   }
 `;
 
-const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>({
+const IIIFViewerThumbNumber = styled.span.attrs({
   className: font('intb', 6),
-})<ViewerThumbProps>`
+})`
   padding: 3px 6px;
   border-radius: 3px;
   line-height: 1;
+  color: ${props => props.theme.color('white')};
 
-  ${props =>
-    props.isActive
-      ? `
-    color: ${props.theme.color('black')};
-    background-color: ${props.theme.color('yellow')};`
-      : `
-    color: ${props.theme.color('white')};
-
-    `};
+  [aria-current='true'] & {
+    color: ${props => props.theme.color('black')};
+    background-color: ${props => props.theme.color('yellow')};
+  }
 `;
 
 type IIIFCanvasThumbnailProps = {
   canvas: TransformedCanvas;
-  isActive: boolean;
   thumbNumber: number;
-  clickHandler?: () => void;
-  isFocusable?: boolean;
   highlightImage?: boolean;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   canvas,
-  clickHandler,
-  isActive,
   thumbNumber,
-  isFocusable,
   highlightImage,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const isRestricted = canvas.hasRestrictedImage;
 
   return (
-    <IIIFViewerThumb
-      onClick={clickHandler}
-      isActive={isActive}
-      isFocusable={isFocusable}
-      className={isActive ? 'activeThumbnail' : undefined}
-    >
+    <IIIFViewerThumb>
       <IIIFViewerThumbInner>
         <ImageContainer>
           {!thumbnailLoaded && !isRestricted && (
@@ -128,12 +109,12 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
         <div>
           <>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <IIIFViewerThumbNumber isActive={isActive}>
+              <IIIFViewerThumbNumber>
                 {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
               </IIIFViewerThumbNumber>
             </Space>
             <div>
-              <IIIFViewerThumbNumber isActive={isActive}>
+              <IIIFViewerThumbNumber>
                 <span style={{ fontSize: '11px' }}>{`${thumbNumber}`}</span>
               </IIIFViewerThumbNumber>
             </div>
