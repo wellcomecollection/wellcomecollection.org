@@ -5,13 +5,11 @@ import { transformManifest } from '../services/iiif/transformers/manifest';
 import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';
 import { TransformedManifest } from '../types/manifest';
 import { getDigitalLocationOfType } from '../utils/works';
-import { Toggles } from '@weco/toggles';
 
 const manifestPromises: Map<string, Promise<Manifest | undefined>> = new Map();
 const cachedTransformedManifest: Map<string, TransformedManifest> = new Map();
 const useTransformedManifest = (
-  work: Work,
-  toggles: Toggles
+  work: Work
 ): TransformedManifest | undefined => {
   const [transformedManifest, setTransformedManifest] = useState<
     TransformedManifest | undefined
@@ -41,7 +39,7 @@ const useTransformedManifest = (
         if (!iiifPresentationLocation) return;
         manifestPromises.set(
           work.id,
-          fetchIIIFPresentationManifest(iiifPresentationLocation.url, toggles)
+          fetchIIIFPresentationManifest(iiifPresentationLocation.url)
         );
         const iiifManifest = await manifestPromises.get(work.id);
         iiifManifest && transformAndUpdate(iiifManifest, work.id);

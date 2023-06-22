@@ -376,10 +376,7 @@ export const getServerSideProps: GetServerSideProps<
   );
   const iiifManifest =
     iiifPresentationLocation &&
-    (await fetchIIIFPresentationManifest(
-      iiifPresentationLocation.url,
-      serverData.toggles
-    ));
+    (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
 
   const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
@@ -396,8 +393,7 @@ export const getServerSideProps: GetServerSideProps<
       const selectedCollectionManifestLocation = manifests?.[manifestIndex]?.id;
       const selectedCollectionManifest = selectedCollectionManifestLocation
         ? await fetchIIIFPresentationManifest(
-            selectedCollectionManifestLocation,
-            serverData.toggles
+            selectedCollectionManifestLocation
           )
         : undefined;
       const firstChildTransformedManifest =
