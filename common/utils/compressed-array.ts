@@ -18,7 +18,7 @@
  *
  */
 
-import { isNotUndefined } from './type-guards';
+import { isNotUndefined, isString } from './type-guards';
 
 function commonPrefix(s1: string, s2: string): string {
   // Find the position of the first character where the two strings
@@ -59,7 +59,7 @@ function longestCommonSuffix(strings: string[]): string {
 export type CommonParts = {
   prefix: string;
   suffix: string;
-  remainders: (string | undefined)[];
+  remainders: (string | undefined | null)[];
 };
 
 export function toCommonParts(strings: (string | undefined)[]): CommonParts {
@@ -93,6 +93,6 @@ export function fromCommonParts(
   commonParts: CommonParts
 ): (string | undefined)[] {
   return commonParts.remainders.map(r =>
-    isNotUndefined(r) ? commonParts.prefix + r + commonParts.suffix : undefined
+    isString(r) ? commonParts.prefix + r + commonParts.suffix : undefined
   );
 }
