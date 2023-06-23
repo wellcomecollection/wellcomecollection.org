@@ -4,7 +4,6 @@ import {
   useState,
   useContext,
   useEffect,
-  useRef,
 } from 'react';
 import PhotoAlbum, {
   RenderPhotoProps,
@@ -22,7 +21,8 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { useRouter } from 'next/router';
-import { parse, stringify } from 'querystring';
+import { getImage } from 'services/wellcome/catalogue/images';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   images: Image[];
@@ -80,57 +80,53 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const [isActive, setIsActive] = useState(false);
-  const fetching = useRef(false);
   const router = useRouter();
+  const toggles = useToggles();
 
-  const getImage = async routerImageId => {
-    fetching.current = true;
-    const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${routerImageId}`;
-    const image: Image = await fetch(apiUrl).then(res => res.json());
+  const imageMap: Record<string, Image> = images.reduce(
+    (a, image) => ({ ...a, [image.id]: image }),
+    {}
+  );
 
-    if (image) {
-      setExpandedImage(image);
-      setIsActive(true);
-    }
-    fetching.current = false;
-  };
-
-  const encodeDecodeImageIdInUrl = (mode: 'encode' | 'decode') => {
-    const searchTest = window.location.search;
-    const search = searchTest?.slice(1) || '';
-    const params = parse(search);
-
-    if (mode === 'encode') {
-      params.imageId = expandedImage?.id;
-    }
-    if (mode === 'decode') {
-      delete params.imageId;
-    }
-
-    router.push(`${router.pathname}?${stringify(params)}`, undefined, {
-      shallow: true,
-    });
+  const setImageIdInURL = (id: string) => {
+    window.location.hash = id;
   };
 
   useEffect(() => {
-    const routerImageId = router.query.imageId;
-    if (!routerImageId) {
-      setExpandedImage(undefined);
-      setIsActive(false);
-    } else {
-      if (routerImageId !== expandedImage?.id) {
-        getImage(routerImageId);
+    const onHashChanged = async () => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) {
+        setIsActive(false);
+        setExpandedImage(undefined);
       }
-    }
-  }, [router.query]);
+      // see if the new hash is already in the imageMap
+      if (imageMap[hash]) {
+        // if it is, update the expanded image
+        setExpandedImage(imageMap[hash]);
+        setIsActive(true);
+      } else {
+        // if it's not, fetch the image and then update
+        const { image } = await getImage({ id: hash, toggles });
+        if (image.type === 'Image') {
+          imageMap[image.id] = image;
+          setExpandedImage(image);
+        }
+      }
+    };
+    onHashChanged();
+    window.addEventListener('hashchange', onHashChanged);
+    return () => {
+      window.removeEventListener('hashchange', onHashChanged);
+    };
+  }, []);
 
   useEffect(() => {
     if (isActive) {
-      encodeDecodeImageIdInUrl('encode');
+      setImageIdInURL(expandedImage?.id || '');
     } else {
-      if (!fetching.current) {
-        encodeDecodeImageIdInUrl('decode');
-      }
+      router.push(router.asPath, undefined, {
+        shallow: true,
+      });
     }
   }, [isActive, expandedImage]);
 
