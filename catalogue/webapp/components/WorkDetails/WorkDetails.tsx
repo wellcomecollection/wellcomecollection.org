@@ -46,7 +46,6 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
-import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -60,7 +59,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const isArchive = useContext(IsArchiveContext);
   const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   const transformedIIIFImage = useTransformedIIIFImage(work);
-  const transformedIIIFManifest = useTransformedManifest(work, useToggles());
+  const transformedIIIFManifest = useTransformedManifest(work);
   const {
     video,
     iiifCredit,
@@ -441,50 +440,67 @@ const WorkDetails: FunctionComponent<Props> = ({
                   />
                 </Space>
               )}
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top'],
-                }}
-              >
-                <ExplanatoryText
-                  id="licenseDetail"
-                  controlText="Can I use this?"
+              {/* TODO remove this hack once we figure out a better way to display copyrights
+              This was a sensitive issue to fix asap 
+              https://github.com/wellcomecollection/wellcomecollection.org/issues/9964 */}
+              {![
+                'wys2bdym',
+                'avqn5jd8',
+                'vsp8ce9z',
+                'a3v24ekj',
+                'ex597wgz',
+                'erqm9zxq',
+                'y2w42fqa',
+                'uzcvr64w',
+                'b5m8zwvd',
+              ].includes(work.id) && (
+                <Space
+                  v={{
+                    size: 'l',
+                    properties: ['margin-top'],
+                  }}
                 >
-                  <>
-                    {digitalLocationInfo.license.humanReadableText && (
+                  <ExplanatoryText
+                    id="licenseDetail"
+                    controlText="Can I use this?"
+                  >
+                    <>
+                      {digitalLocationInfo.license.humanReadableText && (
+                        <WorkDetailsText
+                          contents={
+                            digitalLocationInfo.license.humanReadableText
+                          }
+                        />
+                      )}
                       <WorkDetailsText
-                        contents={digitalLocationInfo.license.humanReadableText}
-                      />
-                    )}
-                    <WorkDetailsText
-                      contents={
-                        <>
-                          Credit: {work.title.replace(/\.$/g, '')}.
-                          {credit && (
-                            <>
-                              {' '}
-                              <a
-                                href={`https://wellcomecollection.org/works/${work.id}`}
-                              >
-                                {credit}
+                        contents={
+                          <>
+                            Credit: {work.title.replace(/\.$/g, '')}.
+                            {credit && (
+                              <>
+                                {' '}
+                                <a
+                                  href={`https://wellcomecollection.org/works/${work.id}`}
+                                >
+                                  {credit}
+                                </a>
+                                .
+                              </>
+                            )}{' '}
+                            {digitalLocationInfo.license.url ? (
+                              <a href={digitalLocationInfo.license.url}>
+                                {digitalLocationInfo.license.label}
                               </a>
-                              .
-                            </>
-                          )}{' '}
-                          {digitalLocationInfo.license.url ? (
-                            <a href={digitalLocationInfo.license.url}>
-                              {digitalLocationInfo.license.label}
-                            </a>
-                          ) : (
-                            digitalLocationInfo.license.label
-                          )}
-                        </>
-                      }
-                    />
-                  </>
-                </ExplanatoryText>
-              </Space>
+                            ) : (
+                              digitalLocationInfo.license.label
+                            )}
+                          </>
+                        }
+                      />
+                    </>
+                  </ExplanatoryText>
+                </Space>
+              )}
             </>
           )}
         </WorkDetailsSection>

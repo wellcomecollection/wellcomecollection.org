@@ -21,7 +21,6 @@ import {
   TransformedCanvas,
   AuthClickThroughServiceWithPossibleServiceArray,
 } from '../../../types/manifest';
-import cloneDeep from 'lodash.clonedeep';
 import { getThumbnailImage } from './canvas';
 
 // The label we want to use to distinguish between parts of a multi-volume work
@@ -461,11 +460,7 @@ export function groupStructures(
   items: TransformedCanvas[],
   structures: Range[]
 ): Range[] {
-  // TODO: Do we actually need to clone the `structures` array here?
-  // It doesn't look like it's being mutated anywhere, so can't we just
-  // pass it directly to `reduce`?
-  const clonedStructures: Range[] = cloneDeep(structures);
-  return clonedStructures.reduce(
+  return structures.reduce(
     (acc, structure) => {
       if (!structure.items) return acc;
 

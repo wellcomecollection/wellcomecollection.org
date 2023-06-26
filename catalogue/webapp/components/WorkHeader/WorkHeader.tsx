@@ -16,7 +16,6 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import { useToggles } from '@weco/common/server-data/Context';
 
 const WorkHeaderContainer = styled.div`
   display: flex;
@@ -38,7 +37,7 @@ const WorkHeader: FunctionComponent<Props> = ({ work }) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
-  const manifestData = useTransformedManifest(work, useToggles());
+  const manifestData = useTransformedManifest(work);
   const { collectionManifestsCount } = { ...manifestData };
 
   const primaryContributorLabel = work.contributors.find(

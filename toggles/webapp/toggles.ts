@@ -57,14 +57,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'useIIIFTest',
-      title: 'Use iiif-test.wellcomecollection.org for IIIF URLs',
-      initialValue: false,
-      description:
-        'Fetch IIIF manifests from iiif-test.wellcomecollection.org for new DLCS testing.',
-      type: 'experimental',
-    },
-    {
       id: 'visualStories',
       title: 'Visual Stories Prototype',
       initialValue: false,
