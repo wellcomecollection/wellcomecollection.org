@@ -5,7 +5,7 @@ import { CaptionedImage as CaptionedImageType } from '@weco/common/model/caption
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
-import ZoomedPrismicImage from 'components/ZoomedPrismicImage/ZoomedPrismicImage';
+import ZoomedPrismicImage from '../ZoomedPrismicImage/ZoomedPrismicImage';
 
 type CaptionedImageFigureProps = {
   isBody?: boolean;

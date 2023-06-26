@@ -4,7 +4,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { ImageType } from '@weco/common/model/image';
 import * as icons from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import CaptionedImage from 'components/CaptionedImage/CaptionedImage';
+import CaptionedImage from '../CaptionedImage/CaptionedImage';
 
 const MediaAndTextWrap = styled.div`
   display: flex;
@@ -44,7 +44,8 @@ const ImageOrIcons = styled.div<{ isIcons?: boolean; isPortrait?: boolean }>`
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  flex: 0 0 ${props => (props.isIcons || props.isPortrait ? '60%' : '100%')};
+  flex: 0 0
+    ${props => (props.isIcons || props.isPortrait ? 'max(60%, 300px)' : '100%')};
 
   ${props =>
     props.theme.media('medium')(`
