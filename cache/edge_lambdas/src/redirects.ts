@@ -315,4 +315,10 @@ export const queryRedirects: Record<string, QueryRedirect[]> = {
       ]),
     },
   ],
+  '/account/search': [
+    {
+      redirectPath: '/search',
+      forwardParams: new Set(['query']),
+    },
+  ],
 };

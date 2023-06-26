@@ -48,15 +48,6 @@ const createConfig =
         }
         return [...rewriteEntries];
       },
-      async redirects() {
-        return [
-          {
-            source: `/account/search`,
-            destination: '/search',
-            permanent: true,
-          },
-        ];
-      },
       webpack: (config, { isServer, webpack }) => {
         config.plugins.push(
           new webpack.NormalModuleReplacementPlugin(
