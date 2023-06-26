@@ -157,16 +157,14 @@ const EventSeriesPage: FunctionComponent<Props> = ({
         contributors={series.contributors}
       >
         {upcomingEvents.length > 0 ? (
-          <SearchResults items={upcomingEvents} title="What's next" />
+          <SearchResults items={upcomingEvents} title="Coming up" />
         ) : (
-          <h2 className="h2">
-            No events scheduled at the moment, check back soon…
-          </h2>
+          <h2 className="h2">No upcoming events</h2>
         )}
 
         {pastEvents.length > 0 && (
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <SearchResults items={pastEvents} title="What we've done before" />
+            <SearchResults items={pastEvents} title="Past events" />
           </Space>
         )}
       </ContentPage>
