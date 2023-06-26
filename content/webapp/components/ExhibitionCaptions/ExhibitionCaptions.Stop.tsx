@@ -265,6 +265,7 @@ const Stop: FunctionComponent<{
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <PrismicImageWrapper>
                         <ZoomedPrismicImage image={image} />
+                        <PrismicImage image={image} sizes={{}} quality="low" />
                       </PrismicImageWrapper>
                     </Space>
                   )}

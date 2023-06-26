@@ -56,8 +56,6 @@ import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismic from '@prismicio/client';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import ImageOrIconsAndText from 'components/ImageOrIconsAndText/ImageOrIconsAndText';
-import { mockImage } from '@weco/common/test/fixtures/components/compact-card';
 
 const BodyWrapper = styled.div<{ splitBackground: boolean }>`
   ${props =>
@@ -152,32 +150,6 @@ const Body: FunctionComponent<Props> = ({
     // The standfirst is now put into the header
     // and used exclusively by articles / article series
     .filter(slice => slice.type !== 'standfirst');
-
-  // TODO: ideo 1: pass a `previousSibling` prop to a component that needs to know about it
-  // const previousSliceTypes = [
-  //   '',
-  //   ...filteredBody.slice(0, -1).map(slice => slice.type),
-  // ];
-
-  // TODO: idea 2: group certain types of things before sending them to components
-  // const typesToGroup = ['text', 'imageOrIconsAndText'];
-  // const dedupedFilteredBody = filteredBody.reduce((acc, curr) => {
-  //   if (
-  //     typesToGroup.includes(curr.type) &&
-  //     curr.type === prevSlice?.type &&
-  //     curr?.weight === prevSlice?.weight
-  //   ) {
-  //     const prevSlice = acc.at(-1);
-  //     const newLastSlice = {
-  //       ...curr,
-  //       value: [...prevSlice.value, ...curr.value],
-  //     };
-
-  //     return [...acc.slice(0, -1), newLastSlice];
-  //   } else {
-  //     return [...acc, curr];
-  //   }
-  // }, []);
 
   const firstTextSliceIndex = filteredBody
     .map(slice => slice.type)
@@ -329,8 +301,6 @@ const Body: FunctionComponent<Props> = ({
     }
   };
 
-  const mockIcons = ['a11YVisual', 'a11Y', 'audioDescribed', 'lifts'];
-
   return (
     <BodyWrapper splitBackground={isShortFilm}>
       {filteredBody.length < 1 && (
@@ -341,38 +311,6 @@ const Body: FunctionComponent<Props> = ({
           staticContent={staticContent}
         />
       )}
-
-      <SpacingComponent sliceType="image-or-icons-and-text">
-        <Layout10>
-          <ImageOrIconsAndText
-            items={[
-              {
-                type: 'icons',
-                icons: mockIcons,
-                text: 'Sit amet consectetur adipisicing elit. Reiciendis porro, officiis ut quia libero, numquam, id saepe aperiam rem ex nemo tempore laboriosam. Officiis facilis assumenda corporis magni dolores illo.',
-              },
-              {
-                type: 'icons',
-                icons: mockIcons.slice(2, 4),
-                text: 'Dolorem recusandae distinctio magni aperiam itaque voluptas delectus tempora nostrum sed aliquid quis fugiat alias vitae velit, saepe, voluptatum nihil, impedit ratione.',
-              },
-            ]}
-          />
-        </Layout10>
-      </SpacingComponent>
-      <SpacingComponent sliceType="image-or-icons-and-text">
-        <Layout10>
-          <ImageOrIconsAndText
-            items={[
-              {
-                type: 'image',
-                image: mockImage,
-                text: 'Sit amet consectetur adipisicing elit. Reiciendis porro, officiis ut quia libero, numquam, id saepe aperiam rem ex nemo tempore laboriosam. Officiis facilis assumenda corporis magni dolores illo.',
-              },
-            ]}
-          />
-        </Layout10>
-      </SpacingComponent>
 
       {filteredBody.map((slice, i) => (
         <Fragment key={i}>
