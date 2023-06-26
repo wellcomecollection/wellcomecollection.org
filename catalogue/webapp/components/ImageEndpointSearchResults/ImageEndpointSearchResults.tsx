@@ -83,9 +83,9 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const router = useRouter();
   const toggles = useToggles();
 
-  const imageMap: Record<string, Image> = images.reduce(
-    (a, image) => ({ ...a, [image.id]: image }),
-    {}
+  const imageMap = useMemo<Record<string, Image>>(
+    () => images.reduce((a, image) => ({ ...a, [image.id]: image }), {}),
+    [images]
   );
 
   const setImageIdInURL = (id: string) => {
@@ -94,6 +94,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const onHashChanged = async () => {
+      // to trim the '#' symbol
       const hash = window.location.hash.slice(1);
       if (!hash) {
         setIsActive(false);
@@ -110,6 +111,9 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
         if (image.type === 'Image') {
           imageMap[image.id] = image;
           setExpandedImage(image);
+        } else if (image.type === 'Error') {
+          setExpandedImage(undefined);
+          setIsActive(false);
         }
       }
     };
@@ -118,12 +122,13 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     return () => {
       window.removeEventListener('hashchange', onHashChanged);
     };
-  }, []);
+  }, [imageMap]);
 
   useEffect(() => {
     if (isActive) {
       setImageIdInURL(expandedImage?.id || '');
     } else {
+      // clear the url of the fragments and also removes the # symbol
       router.push(router.asPath, undefined, {
         shallow: true,
       });
