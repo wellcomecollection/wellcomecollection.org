@@ -14,7 +14,7 @@ export const mockImage: ImageType = {
     copyrightLink: 'copyrightLink',
     license: 'CC-0',
   },
-  alt: 'Two St. Bernard dogs with an avalanche victim, one tries to revive him while the other alerts the rescue party.',
+  alt: 'A sketch depicting a Lady Justice in a red robe with a sword by Mary Lowndes',
 };
 
 export const mockData = {
