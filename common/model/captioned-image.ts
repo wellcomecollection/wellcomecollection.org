@@ -5,4 +5,5 @@ export type CaptionedImage = {
   caption: prismic.RichTextField;
   image: ImageType;
   hasRoundedCorners: boolean;
+  isZoomable?: boolean;
 };

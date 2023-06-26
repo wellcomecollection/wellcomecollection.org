@@ -1,11 +1,10 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ImageType } from '@weco/common/model/image';
 import * as icons from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import ZoomedPrismicImage from 'components/ZoomedPrismicImage/ZoomedPrismicImage';
+import CaptionedImage from 'components/CaptionedImage/CaptionedImage';
 
 const MediaAndTextWrap = styled.div`
   display: flex;
@@ -54,7 +53,7 @@ const ImageOrIcons = styled.div<{ isIcons?: boolean; isPortrait?: boolean }>`
 
   > * {
     flex: ${props => (props.isIcons ? '0 0 30%' : undefined)};
-    width: ${props => (props.isPortrait ? '85%' : undefined)};
+    flex: ${props => (props.isPortrait ? '0 0 85%' : undefined)};
   }
 `;
 
@@ -94,8 +93,12 @@ const ImageOrIconsAndText: FunctionComponent<Props> = ({ items }) => {
 
             {item.type === 'image' && (
               <ImageOrIcons isPortrait={item.image.width < item.image.height}>
-                <ZoomedPrismicImage image={item.image} />
-                <PrismicImage image={item.image} quality="low" />
+                <CaptionedImage
+                  image={item.image}
+                  caption={[]}
+                  hasRoundedCorners={false}
+                  isZoomable={true}
+                />
               </ImageOrIcons>
             )}
 
