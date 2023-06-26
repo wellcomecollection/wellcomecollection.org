@@ -1,4 +1,10 @@
-import { FunctionComponent, useMemo, useState, useContext } from 'react';
+import {
+  FunctionComponent,
+  useMemo,
+  useState,
+  useContext,
+  useEffect,
+} from 'react';
 import PhotoAlbum, {
   RenderPhotoProps,
   RenderRowContainer,
@@ -14,6 +20,9 @@ import ImageCard from '../ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import { useRouter } from 'next/router';
+import { getImage } from 'services/wellcome/catalogue/images';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   images: Image[];
@@ -71,6 +80,60 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const [isActive, setIsActive] = useState(false);
+  const router = useRouter();
+  const toggles = useToggles();
+
+  const imageMap = useMemo<Record<string, Image>>(
+    () => images.reduce((a, image) => ({ ...a, [image.id]: image }), {}),
+    [images]
+  );
+
+  const setImageIdInURL = (id: string) => {
+    window.location.hash = id;
+  };
+
+  useEffect(() => {
+    const onHashChanged = async () => {
+      // to trim the '#' symbol
+      const hash = window.location.hash.slice(1);
+      if (!hash) {
+        setIsActive(false);
+        setExpandedImage(undefined);
+      }
+      // see if the new hash is already in the imageMap
+      if (imageMap[hash]) {
+        // if it is, update the expanded image
+        setExpandedImage(imageMap[hash]);
+        setIsActive(true);
+      } else {
+        // if it's not, fetch the image and then update
+        const { image } = await getImage({ id: hash, toggles });
+        if (image.type === 'Image') {
+          imageMap[image.id] = image;
+          setExpandedImage(image);
+        } else if (image.type === 'Error') {
+          setExpandedImage(undefined);
+          setIsActive(false);
+        }
+      }
+    };
+    onHashChanged();
+    window.addEventListener('hashchange', onHashChanged);
+    return () => {
+      window.removeEventListener('hashchange', onHashChanged);
+    };
+  }, [imageMap]);
+
+  useEffect(() => {
+    if (isActive) {
+      setImageIdInURL(expandedImage?.id || '');
+    } else {
+      // clear the url of the fragments and also removes the # symbol
+      router.push(router.asPath, undefined, {
+        shallow: true,
+      });
+    }
+  }, [isActive, expandedImage]);
 
   // In the case that the modal changes the expanded image to
   // be one that isn't on this results page, this index will be -1

@@ -108,7 +108,6 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
                 },
               });
             }}
-            href="#"
           >
             <IIIFImage
               layout="raw"
