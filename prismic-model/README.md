@@ -7,12 +7,12 @@ We use the [Custom types API][custom-types-api] to deploy types into Prismic.
 As these deploys could potentially take the website down, we deploy locally and not through CI.
 
 **Actions**
-- [Update a custom type](#update-a-custom-type)
-- [Add or delete a custom type](#add-or-delete-a-custom-type)
-- [Find where slices are used](#find-where-slices-are-used)
+- [Updating an existing custom type](#updating-an-existing-custom-type)
+- [Adding or deleting a custom type](#adding-or-deleting-a-custom-type)
+- [Finding where slices are used](#finding-where-slices-are-used)
 - [Analysing our Prismic content in bulk](#analysing-our-prismic-content-in-bulk)
 
-## Update a custom type
+## Updating an existing custom type
 To deploy a type:
 
     yarn deployType --id {custom_type_id}
@@ -54,8 +54,8 @@ If a model change has caused the site to error. The quickest fix is to revert th
 
 ----
 
-## Add or delete a custom type
-### Add new custom type
+## Adding or deleting a custom type
+### Adding a new custom type
 To first create a new type, go through the [Custom Type UI](https://wellcomecollection.prismic.io/masks/). Ensure the API ID follows our kebab-case naming convention.
 
 As for the rest, we need to have the custom type definition in our codebase in order to use `deployType` efficiently in the future.
@@ -65,7 +65,7 @@ In the `./src/` folder, create a new file (`[api-id].ts`). If you want a custom 
 
 You can then use `yarn deployType --id [your-type]` to update the model.
 
-### Delete custom type
+### Deleting a custom type
 Go through the [Custom Type UI](https://wellcomecollection.prismic.io/masks/) for this, you'll have to first disable it, which won't delete the instances, only remove it as an active option. Then, _if there are no instances of it anymore_, you can then delete it from the "Disabled" section.
 
 Ensure you remove references to the type in the codebase for maintenance purposes.
@@ -73,7 +73,7 @@ Ensure you remove references to the type in the codebase for maintenance purpose
 
 ----
 
-## Find where slices are used
+## Finding where slices are used
 
 The body of a Prismic document is made of "slices" (e.g. quote, paragraph, image).
 
