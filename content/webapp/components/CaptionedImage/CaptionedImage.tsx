@@ -96,7 +96,9 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
             idSuffix: dasherizeShorten(image.contentUrl),
           }}
         />
-        <Caption caption={caption} preCaptionNode={preCaptionNode} />
+        {caption.length > 0 && (
+          <Caption caption={caption} preCaptionNode={preCaptionNode} />
+        )}
       </ImageContainerInner>
     </CaptionedImageFigure>
   );
