@@ -12,6 +12,7 @@ As these deploys could potentially take the website down, we deploy locally and 
 - [Finding where slices are used](#finding-where-slices-are-used)
 - [Analysing our Prismic content in bulk](#analysing-our-prismic-content-in-bulk)
 
+
 ## Updating an existing custom type
 To deploy a type:
 
@@ -52,7 +53,9 @@ Reading between the lines in the [Prismic docs](https://prismic.io/docs/core-con
 **Rolling back:**
 If a model change has caused the site to error. The quickest fix is to revert the model change and publish a piece of content in Prismic, so the model change is reflected in the Prismic response.
 
+
 ----
+
 
 ## Adding or deleting a custom type
 ### Adding a new custom type
@@ -61,7 +64,6 @@ To first create a new type, go through the [Custom Type UI](https://wellcomecoll
 As for the rest, we need to have the custom type definition in our codebase in order to use `deployType` efficiently in the future.
 
 In the `./src/` folder, create a new file (`[api-id].ts`). If you want a custom body, this gets created in `./src/parts/`. You may look at other types in those folders for inspiration of refer to the [Custom types API][custom-types-api] documentation.
-
 
 You can then use `yarn deployType --id [your-type]` to update the model.
 
@@ -72,6 +74,7 @@ Ensure you remove references to the type in the codebase for maintenance purpose
 
 
 ----
+
 
 ## Finding where slices are used
 
@@ -88,7 +91,9 @@ $ ts-node sliceAnalysis --type embed
 
 See the file comment on [sliceAnalysis.ts](./sliceAnalysis.ts)
 
+
 ----
+
 
 ## Analysing our Prismic content in bulk
 
