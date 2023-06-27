@@ -107,6 +107,13 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cache_policy_id            = var.cache_policies["Managed-CachingDisabled"]
     origin_request_policy_id   = var.request_policies["Managed-AllViewer"]
     response_headers_policy_id = var.response_policies["weco-security"]
+
+    # Note: we deliberately omit the Lambda function association here; this avoids the
+    # Edge Lambdas having access to access tokens or other potentially sensitive information.
+    #
+    # We could revisit this decision at some point -- it's possible to do this securely,
+    # but since we don't expect to have many redirects under the `/account` prefix it
+    # was easier to bypass the Lambdas for now.
   }
 
   # Images
