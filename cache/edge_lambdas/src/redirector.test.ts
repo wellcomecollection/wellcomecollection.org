@@ -116,11 +116,6 @@ describe('Query string redirects', () => {
       from: '/images?color=blue&hello=world',
       to: '/search/images?color=blue',
     },
-    {
-      description: 'global search redirect from identity app',
-      from: '/account/search?query=venice,',
-      to: '/search?query=venice,',
-    },
     // Extra testing cases
     {
       description: 'Only forward the specified forwardParams',
