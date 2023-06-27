@@ -38,7 +38,7 @@ const DividingLine = styled(Space).attrs({
   .slice-type-text-and-image + .slice-type-text-and-icons &,
   .slice-type-text-and-icons + .slice-type-text-and-image &,
   .slice-type-text-and-image + .slice-type-text-and-image &,
-  .slice-type-text-and-icons + .slice-type-text-and-icons {
+  .slice-type-text-and-icons + .slice-type-text-and-icons & {
     border-top: 1px solid ${props => props.theme.color('neutral.400')};
   }
 `;
