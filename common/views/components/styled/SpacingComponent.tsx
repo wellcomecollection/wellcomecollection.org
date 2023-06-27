@@ -39,7 +39,10 @@ const SpacingComponent = styled.div.attrs<{ sliceType?: string }>(props => ({
     }
   }
 
-  &.slice-type-image-or-icons-and-text + &.slice-type-image-or-icons-and-text {
+  &.slice-type-text-and-image + &.slice-type-text-and-image,
+  &.slice-type-text-and-icons + &.slice-type-text-and-icons,
+  &.slice-type-text-and-image + &.slice-type-text-and-icons,
+  &.slice-type-text-and-icons + &.slice-type-text-and-image {
     margin-top: 0;
   }
 `;
