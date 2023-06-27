@@ -35,7 +35,10 @@ const DividingLine = styled(Space).attrs({
     border: 0;
   }
 
-  .slice-type-image-or-icons-and-text + .slice-type-image-or-icons-and-text & {
+  .slice-type-image-and-text + .slice-type-icons-and-text &,
+  .slice-type-icons-and-text + .slice-type-image-and-text &,
+  .slice-type-image-and-text + .slice-type-image-and-text &,
+  .slice-type-icons-and-text + .slice-type-icons-and-text {
     border-top: 1px solid ${props => props.theme.color('neutral.400')};
   }
 `;
@@ -76,7 +79,7 @@ type Props = {
   items: Item[];
 };
 
-const ImageOrIconsAndText: FunctionComponent<Props> = ({ items }) => {
+const TextAndImageOrIcons: FunctionComponent<Props> = ({ items }) => {
   return (
     <>
       {items.map((item, index) => (
@@ -115,4 +118,4 @@ const ImageOrIconsAndText: FunctionComponent<Props> = ({ items }) => {
   );
 };
 
-export default ImageOrIconsAndText;
+export default TextAndImageOrIcons;

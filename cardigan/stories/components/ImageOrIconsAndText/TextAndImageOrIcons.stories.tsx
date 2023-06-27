@@ -1,12 +1,12 @@
-import ImageOrIconsAndText from '@weco/content/components/ImageOrIconsAndText/ImageOrIconsAndText';
-import Readme from '@weco/content/components/ImageOrIconsAndText/README.md';
+import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons/TextAndImageOrIcons';
+import Readme from '@weco/content/components/TextAndImageOrIcons/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { mockImage } from '@weco/common/test/fixtures/components/compact-card';
 import { smallText } from '../../content';
 
 const Template = args => (
   <ReadmeDecorator
-    WrappedComponent={ImageOrIconsAndText}
+    WrappedComponent={TextAndImageOrIcons}
     args={args}
     Readme={Readme}
   />
@@ -27,7 +27,7 @@ icons.args = {
     },
   ],
 };
-icons.storyName = 'IconsAndText';
+icons.storyName = 'TextAndIcons';
 
 export const image = Template.bind({});
 image.args = {
@@ -39,4 +39,4 @@ image.args = {
     },
   ],
 };
-image.storyName = 'ImageAndText';
+image.storyName = 'TextAndImage';
