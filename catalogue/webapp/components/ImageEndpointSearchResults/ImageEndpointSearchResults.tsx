@@ -20,7 +20,6 @@ import ImageCard from '../ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { useRouter } from 'next/router';
 import { getImage } from 'services/wellcome/catalogue/images';
 import { useToggles } from '@weco/common/server-data/Context';
 
@@ -80,7 +79,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const [isActive, setIsActive] = useState(false);
-  const router = useRouter();
   const toggles = useToggles();
 
   const imageMap = useMemo<Record<string, Image>>(
@@ -125,13 +123,11 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   }, [imageMap]);
 
   useEffect(() => {
-    if (isActive) {
+    if (isActive && expandedImage !== undefined) {
       setImageIdInURL(expandedImage?.id || '');
     } else {
       // clear the url of the fragments and also removes the # symbol
-      router.push(router.asPath, undefined, {
-        shallow: true,
-      });
+      setImageIdInURL('');
     }
   }, [isActive, expandedImage]);
 
