@@ -5,6 +5,8 @@ import { ImageType } from '@weco/common/model/image';
 import * as icons from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import * as prismic from '@prismicio/client';
 
 const MediaAndTextWrap = styled.div`
   display: flex;
@@ -67,7 +69,7 @@ const Text = styled.div`
 `;
 
 type Item = {
-  text: string;
+  text: prismic.RichTextField;
 } & ({ type: 'icons'; icons: string[] } | { type: 'image'; image: ImageType });
 
 type Props = {
@@ -103,7 +105,9 @@ const ImageOrIconsAndText: FunctionComponent<Props> = ({ items }) => {
               </ImageOrIcons>
             )}
 
-            <Text>{item.text}</Text>
+            <Text>
+              <PrismicHtmlBlock html={item.text} />
+            </Text>
           </MediaAndTextWrap>
         </DividingLine>
       ))}

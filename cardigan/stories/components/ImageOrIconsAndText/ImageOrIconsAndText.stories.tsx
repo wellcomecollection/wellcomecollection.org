@@ -2,6 +2,7 @@ import ImageOrIconsAndText from '@weco/content/components/ImageOrIconsAndText/Im
 import Readme from '@weco/content/components/ImageOrIconsAndText/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { mockImage } from '@weco/common/test/fixtures/components/compact-card';
+import { smallText } from '../../content';
 
 const Template = args => (
   <ReadmeDecorator
@@ -11,20 +12,18 @@ const Template = args => (
   />
 );
 
-const mockIcons = ['a11YVisual', 'a11Y', 'audioDescribed', 'lifts'];
-
 export const icons = Template.bind({});
 icons.args = {
   items: [
     {
       type: 'icons',
-      icons: mockIcons,
-      text: 'Sit amet consectetur adipisicing elit. Reiciendis porro, officiis ut quia libero, numquam, id saepe aperiam rem ex nemo tempore laboriosam. Officiis facilis assumenda corporis magni dolores illo.',
+      icons: ['a11YVisual', 'a11Y', 'audioDescribed', 'lifts'],
+      text: smallText(),
     },
     {
       type: 'icons',
-      icons: mockIcons.slice(2, 4),
-      text: 'Dolorem recusandae distinctio magni aperiam itaque voluptas delectus tempora nostrum sed aliquid quis fugiat alias vitae velit, saepe, voluptatum nihil, impedit ratione.',
+      icons: ['a11Y', 'lifts'],
+      text: smallText(),
     },
   ],
 };
@@ -36,7 +35,7 @@ image.args = {
     {
       type: 'image',
       image: mockImage,
-      text: 'Non saepe maxime quasi quos doloribus dolorum praesentium obcaecati officiis qui repellat, nihil esse corrupti dolores iusto ab quod libero ullam hic.',
+      text: smallText(),
     },
   ],
 };

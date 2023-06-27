@@ -309,7 +309,7 @@ export const text = () =>
       spans: [],
     }));
 
-const smallText = () => [
+export const smallText = () => [
   {
     type: 'paragraph',
     text: `${faker.random.words(20)}`,
