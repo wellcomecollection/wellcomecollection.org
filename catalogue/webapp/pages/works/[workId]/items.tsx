@@ -88,7 +88,7 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
 }
 
 type Props = {
-  transformedManifest?: CompressedTransformedManifest;
+  compressedTransformedManifest?: CompressedTransformedManifest;
   work: Work;
   canvas: number;
   canvasOcr?: string;
@@ -97,7 +97,7 @@ type Props = {
 };
 
 const ItemPage: NextPage<Props> = ({
-  transformedManifest: compressedTransformedManifest,
+  compressedTransformedManifest,
   work,
   canvasOcr,
   iiifImageLocation,
@@ -427,7 +427,7 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       props: serialiseProps({
-        transformedManifest: toCompressedTransformedManifest(displayManifest),
+        compressedTransformedManifest: toCompressedTransformedManifest(displayManifest),
         canvasOcr,
         work,
         canvas,
@@ -441,7 +441,7 @@ export const getServerSideProps: GetServerSideProps<
   if (iiifImageLocation) {
     return {
       props: serialiseProps({
-        transformedManifest: undefined,
+        compressedTransformedManifest: undefined,
         work,
         canvas,
         canvases: [],
