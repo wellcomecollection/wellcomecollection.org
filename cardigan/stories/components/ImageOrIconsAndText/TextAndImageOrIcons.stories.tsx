@@ -36,6 +36,7 @@ image.args = {
     {
       type: 'image',
       image: mockImage,
+      isZoomable: true,
       text: smallText(),
     },
   ],

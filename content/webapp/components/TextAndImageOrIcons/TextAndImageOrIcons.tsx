@@ -69,7 +69,7 @@ type Item = {
   text: prismic.RichTextField;
 } & (
   | { type: 'icons'; icons: ImageType[] }
-  | { type: 'image'; image: ImageType }
+  | { type: 'image'; image: ImageType; isZoomable: boolean }
 );
 
 type Props = {
@@ -100,7 +100,7 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ items }) => {
                   image={item.image}
                   caption={[]}
                   hasRoundedCorners={false}
-                  isZoomable={true}
+                  isZoomable={item.isZoomable}
                 />
               </ImageOrIcons>
             )}
