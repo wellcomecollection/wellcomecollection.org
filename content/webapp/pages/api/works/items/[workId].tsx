@@ -23,8 +23,8 @@ function getApiKey(apiOptions: GlobalApiOptions): string {
 
   if (isUndefined(key)) {
     console.warn('No API key provided for items API!');
+    return '';
   }
-
   return key;
 }
 

@@ -64,14 +64,6 @@ const rewriteEntries = localConcurrentDevelopment
         source: '/item',
         destination: `${CATALOGUE_URL}/item`,
       },
-      {
-        source: '/api/works',
-        destination: `${CATALOGUE_URL}/api/works`,
-      },
-      {
-        source: '/api/works/:path*',
-        destination: `${CATALOGUE_URL}/api/works/:path*`,
-      },
     ]
   : [...apiRewrites, ...periodTypeRoutes];
 
