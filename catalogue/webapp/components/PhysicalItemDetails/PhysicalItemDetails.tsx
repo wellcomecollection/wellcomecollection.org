@@ -12,7 +12,7 @@ import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import {
   PhysicalItem,
   Work,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import {
   getLocationLabel,
   getLocationShelfmark,

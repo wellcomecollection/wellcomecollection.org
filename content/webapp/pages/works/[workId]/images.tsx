@@ -13,12 +13,12 @@ import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
 import IIIFViewer from '@weco/catalogue/components/IIIFViewer';
 import { serialiseProps } from '@weco/common/utils/json';
-import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
-import { getImage } from '@weco/catalogue/services/wellcome/catalogue/images';
+import { getWork } from '@weco/content/services/wellcome/catalogue/works';
+import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import {
   ApiToolbarLink,
   setTzitzitParams,

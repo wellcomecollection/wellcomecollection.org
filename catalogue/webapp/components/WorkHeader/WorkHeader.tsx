@@ -103,17 +103,17 @@ const WorkHeader: FunctionComponent<Props> = ({
             {Boolean(
               collectionManifestsCount && collectionManifestsCount > 0
             ) && (
-              <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
-                  <Number
-                    backgroundColor="yellow"
-                    number={collectionManifestsCount as number}
-                  />
-                  {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
-                  online
-                </p>
-              </Space>
-            )}
+                <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                  <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
+                    <Number
+                      backgroundColor="yellow"
+                      number={collectionManifestsCount as number}
+                    />
+                    {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
+                    online
+                  </p>
+                </Space>
+              )}
           </SpacingComponent>
         </Space>
       </WorkHeaderContainer>

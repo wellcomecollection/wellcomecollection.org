@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import { Manifest } from '@iiif/presentation-3';
 import { transformManifest } from '../services/iiif/transformers/manifest';
 import { fetchIIIFPresentationManifest } from '../services/iiif/fetch/manifest';

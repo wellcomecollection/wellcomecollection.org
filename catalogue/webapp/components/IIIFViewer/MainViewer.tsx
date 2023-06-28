@@ -14,16 +14,16 @@ import LL from '@weco/common/views/components/styled/LL';
 import useScrollVelocity from '@weco/catalogue/hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { convertIiifUriToInfoUri } from '@weco/catalogue/utils/convert-iiif-uri';
-import { missingAltTextMessage } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
 import { font } from '@weco/common/utils/classnames';
-import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import ItemViewerContext, {
   RotatedImage,
 } from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 import { TransformedCanvas } from '@weco/catalogue/types/manifest';
-import { fetchCanvasOcr } from '@weco/catalogue/services/iiif/fetch/canvasOcr';
-import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/canvasOcr';
+import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
+import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { AuthExternalService } from '@iiif/presentation-3';
 import { queryParamToArrayIndex } from '.';
 
@@ -78,7 +78,7 @@ type ItemRendererProps = {
   data: {
     scrollVelocity: number;
     canvases: TransformedCanvas[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     rotatedImages: RotatedImage[];
     errorHandler?: () => void;
     restrictedService: AuthExternalService | undefined;

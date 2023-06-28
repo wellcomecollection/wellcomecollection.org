@@ -21,7 +21,7 @@ import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import NextLink from 'next/link';
 import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer';
-import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/catalogue/types/manifest';
 import { thumbnailsPageSize } from '@weco/catalogue/components/IIIFViewer/Paginators';
 
@@ -117,9 +117,8 @@ const Hit: FunctionComponent<HitProps> = ({
   return (
     <>
       <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
-        {`Found on image ${matchingCanvasParam}${
-          totalCanvases ? ` / ${totalCanvases}` : ''
-        }`}
+        {`Found on image ${matchingCanvasParam}${totalCanvases ? ` / ${totalCanvases}` : ''
+          }`}
         {label}
       </HitData>
       <span role="presentation">…{hit.before}</span>
@@ -167,7 +166,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         ).json();
         setIsLoading(false);
         setSearchResults && setSearchResults(results);
-      } catch (error) {}
+      } catch (error) { }
     } else {
       setSearchResults && setSearchResults(results);
     }

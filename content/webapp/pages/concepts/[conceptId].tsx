@@ -7,10 +7,10 @@ import Link, { LinkProps } from 'next/link';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
-import { getConcept } from '@weco/catalogue/services/wellcome/catalogue/concepts';
-import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
-import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
+import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
+import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
+import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { toLink as toImagesLink } from '@weco/catalogue/components/ImagesLink';
 import { toLink as toWorksLink } from '@weco/catalogue/components/WorksLink';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
@@ -33,7 +33,7 @@ import {
   toWorkBasic,
   WorkBasic,
   Work as WorkType,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 
 // Styles
 import Space from '@weco/common/views/components/styled/Space';

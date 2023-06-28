@@ -1,4 +1,4 @@
-import { Work as WorkType } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 

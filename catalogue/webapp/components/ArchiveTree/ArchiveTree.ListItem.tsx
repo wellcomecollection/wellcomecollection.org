@@ -12,7 +12,7 @@ import {
   getTabbableIds,
   updateChildren,
 } from './ArchiveTree.helpers';
-import { getWorkClientSide } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NestedList from './ArchiveTree.NestedList';

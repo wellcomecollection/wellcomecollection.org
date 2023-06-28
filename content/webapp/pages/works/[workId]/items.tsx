@@ -12,7 +12,7 @@ import {
 import { Manifest } from '@iiif/presentation-3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
-import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer, {
@@ -35,11 +35,11 @@ import { getServerData } from '@weco/common/server-data';
 import AudioList from '@weco/catalogue/components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
-import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
-import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
-import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
-import { fetchCanvasOcr } from '@weco/catalogue/services/iiif/fetch/canvasOcr';
-import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/canvasOcr';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
+import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
+import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
+import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
+import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import WorkHeader from '@weco/catalogue/components/WorkHeader/WorkHeader';
 import WorkTabbedNav from '@weco/catalogue/components/WorkTabbedNav/WorkTabbedNav';
@@ -436,8 +436,8 @@ export const getServerSideProps: GetServerSideProps<
       const selectedCollectionManifestLocation = manifests?.[manifestIndex]?.id;
       const selectedCollectionManifest = selectedCollectionManifestLocation
         ? await fetchIIIFPresentationManifest(
-            selectedCollectionManifestLocation
-          )
+          selectedCollectionManifestLocation
+        )
         : undefined;
       const firstChildTransformedManifest =
         selectedCollectionManifest &&

@@ -3,7 +3,7 @@ import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
 import {
   PhysicalItem,
   Work,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import {
   useAbortSignalEffect,
@@ -15,7 +15,7 @@ import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
-import { getWorkItemsClientSide } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { getWorkItemsClientSide } from '@weco/content/services/wellcome/catalogue/works';
 
 type Props = {
   work: Work;

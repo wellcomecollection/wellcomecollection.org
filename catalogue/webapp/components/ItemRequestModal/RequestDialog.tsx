@@ -12,7 +12,7 @@ import ButtonSolid, {
 import {
   PhysicalItem,
   Work,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import styled from 'styled-components';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';

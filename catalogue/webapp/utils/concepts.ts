@@ -1,5 +1,5 @@
 import { IdentifierType } from '@weco/common/model/catalogue';
-import { Concept as ConceptType } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Concept as ConceptType } from '@weco/content/services/wellcome/catalogue/types';
 
 export function getDisplayIdentifierType(
   identifierType: IdentifierType

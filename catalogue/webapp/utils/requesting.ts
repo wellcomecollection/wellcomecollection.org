@@ -1,4 +1,4 @@
-import { PhysicalItem } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { PhysicalItem } from '@weco/content/services/wellcome/catalogue/types';
 import { PhysicalLocation } from '@weco/common/model/catalogue';
 import { getFirstAccessCondition, getFirstPhysicalLocation } from './works';
 

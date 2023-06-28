@@ -14,7 +14,7 @@ import Sort from '@weco/catalogue/components/Sort/Sort';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
+import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -25,8 +25,8 @@ import {
 } from '@weco/catalogue/components/ImagesLink';
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
-import { imagesFilters } from '@weco/catalogue/services/wellcome/catalogue/filters';
-import { emptyResultList } from '@weco/catalogue/services/wellcome';
+import { imagesFilters } from '@weco/content/services/wellcome/catalogue/filters';
+import { emptyResultList } from '@weco/content/services/wellcome';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
@@ -36,7 +36,7 @@ import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 import {
   CatalogueResultsList,
   Image,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Query } from '@weco/catalogue/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';

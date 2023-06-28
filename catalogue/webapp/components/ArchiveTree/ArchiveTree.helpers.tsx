@@ -1,5 +1,5 @@
 import { RefObject } from 'react';
-import { RelatedWork } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
 
 export const instructions =
   'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';

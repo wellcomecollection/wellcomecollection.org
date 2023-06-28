@@ -10,11 +10,11 @@ import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import {
   Image as ImageType,
   Work,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
-import { getWorkClientSide } from '@weco/catalogue/services/wellcome/catalogue/works';
+} from '@weco/content/services/wellcome/catalogue/types';
+import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { expandedViewImageButton } from '@weco/common/text/aria-labels';
-import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
-import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
+import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
+import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 
 import { eye } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';

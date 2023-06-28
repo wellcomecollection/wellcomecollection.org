@@ -8,13 +8,13 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import {
   PhysicalItem,
   Work,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import LL from '@weco/common/views/components/styled/LL';
 import RequestDialog from './RequestDialog';
 import ConfirmedDialog from './ConfirmedDialog';
 import ErrorDialog from './ErrorDialog';
 import { formatDateForRequestsAPI } from './format-date';
-import { WellcomeApiError } from '@weco/catalogue/services/wellcome';
+import { WellcomeApiError } from '@weco/content/services/wellcome';
 
 type Props = {
   work: Work;

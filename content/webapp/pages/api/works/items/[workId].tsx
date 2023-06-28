@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ItemsList } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { rootUris } from '@weco/catalogue/services/wellcome/catalogue';
+import { ItemsList } from '@weco/content/services/wellcome/catalogue/types';
+import { rootUris } from '@weco/content/services/wellcome/catalogue';
 import { Toggles, TogglesResp } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString, isUndefined } from '@weco/common/utils/type-guards';
@@ -9,7 +9,7 @@ import {
   globalApiOptions,
   wellcomeApiError,
   WellcomeApiError,
-} from '@weco/catalogue/services/wellcome';
+} from '@weco/content/services/wellcome';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env]}/v2/works/${workId}/items`;

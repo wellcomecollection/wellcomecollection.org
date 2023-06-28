@@ -9,7 +9,7 @@ import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
-import { Article } from '@weco/catalogue/services/wellcome/content/types/api';
+import { Article } from '@weco/content/services/wellcome/content/types/api';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';

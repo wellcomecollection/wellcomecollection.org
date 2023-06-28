@@ -1,7 +1,7 @@
 import {
   CheckboxFilter as CheckboxFilterType,
   filterLabel,
-} from '@weco/catalogue/services/wellcome/catalogue/filters';
+} from '@weco/content/services/wellcome/catalogue/filters';
 
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';

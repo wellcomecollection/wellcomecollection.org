@@ -1,6 +1,6 @@
 import ArchiveBreadcrumb from './ArchiveBreadcrumb';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 describe('ArchiveBreadcrumb', () => {

@@ -6,14 +6,14 @@ import {
   FunctionComponent,
 } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { getWorkClientSide } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 import { getArchiveAncestorArray } from '../../utils/works';
 import {
   RelatedWork,
   Work,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';

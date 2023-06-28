@@ -12,7 +12,7 @@ import PhotoAlbum, {
 import styled from 'styled-components';
 
 import { hexToRgb } from '@weco/common/utils/convert-colors';
-import { Image } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
@@ -20,7 +20,7 @@ import ImageCard from '../ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { getImage } from '@weco/catalogue/services/wellcome/catalogue/images';
+import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {

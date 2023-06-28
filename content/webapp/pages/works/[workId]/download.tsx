@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
@@ -10,7 +10,7 @@ import {
   LicenseData,
 } from '@weco/common/utils/licenses';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
-import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download from '@weco/catalogue/components/Download/Download';
@@ -22,9 +22,9 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import { looksLikeCanonicalId } from '@weco/catalogue/services/wellcome/catalogue';
-import { fetchIIIFPresentationManifest } from '@weco/catalogue/services/iiif/fetch/manifest';
-import { transformManifest } from '@weco/catalogue/services/iiif/transformers/manifest';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
+import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
+import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 type CreditProps = {

@@ -1,4 +1,4 @@
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Work } from '@weco/content/services/wellcome/catalogue/types';
 
 const collectionTree: Work = {
   id: 'mrhxzfyr',

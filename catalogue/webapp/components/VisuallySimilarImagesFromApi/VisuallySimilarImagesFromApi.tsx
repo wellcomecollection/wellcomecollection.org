@@ -2,8 +2,8 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { Image as ImageType } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { getImage } from '@weco/catalogue/services/wellcome/catalogue/images';
+import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
+import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
 import IIIFImage from '@weco/catalogue/components/IIIFImage/IIIFImage';

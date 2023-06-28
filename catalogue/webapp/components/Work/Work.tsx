@@ -91,10 +91,10 @@ function createApiToolbarLinks(
 
   const iiifLink = iiifItem &&
     iiifItem.type === 'DigitalLocation' && {
-      id: 'iiif',
-      label: 'IIIF',
-      link: iiifItem.url.replace('/v2/', '/v3/'),
-    };
+    id: 'iiif',
+    label: 'IIIF',
+    link: iiifItem.url.replace('/v2/', '/v3/'),
+  };
 
   const links = [
     apiLink,
@@ -156,12 +156,12 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
 
   const image = imageUrl
     ? {
-        contentUrl: imageUrl,
-        alt: title,
-        width: 0,
-        height: 0,
-        crops: {},
-      }
+      contentUrl: imageUrl,
+      alt: title,
+      width: 0,
+      height: 0,
+      crops: {},
+    }
     : undefined;
 
   const { collectionManifestsCount } = { ...transformedIIIFManifest };

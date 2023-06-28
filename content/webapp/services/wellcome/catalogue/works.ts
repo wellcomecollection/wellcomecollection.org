@@ -20,7 +20,7 @@ import {
   wellcomeApiFetch,
   WellcomeApiError,
 } from '..';
-import { toIsoDateString } from '@weco/catalogue/services/wellcome/catalogue/index';
+import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
 
 type GetWorkProps = {
   id: string;

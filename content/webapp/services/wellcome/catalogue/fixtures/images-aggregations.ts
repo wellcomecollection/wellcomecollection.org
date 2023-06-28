@@ -1,4 +1,16 @@
-const aggregations = {
+import {
+  CatalogueResultsList,
+  Image,
+} from '@weco/content/services/wellcome/catalogue/types';
+
+const aggregations: CatalogueResultsList<Image> = {
+  type: 'ResultList',
+  pageSize: 10,
+  totalPages: 0,
+  totalResults: 0,
+  results: [],
+  nextPage: null,
+  prevPage: null,
   aggregations: {
     license: {
       buckets: [
@@ -32,8 +44,7 @@ const aggregations = {
         {
           data: {
             id: 'cc-by-nc-nd',
-            label:
-              'Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)',
+            label: 'Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)',
             type: 'License',
           },
           count: 0,
@@ -62,6 +73,7 @@ const aggregations = {
     },
     type: 'Aggregations',
   },
+  _requestUrl: ''
 };
 
 export default aggregations;

@@ -1,4 +1,4 @@
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import styled from 'styled-components';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import Icon from '@weco/common/views/components/Icon/Icon';

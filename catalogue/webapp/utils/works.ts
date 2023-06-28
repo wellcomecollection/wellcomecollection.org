@@ -10,7 +10,7 @@ import {
   Holding,
   PhysicalItem,
   RelatedWork,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import { DownloadOption } from '../types/manifest';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { Label } from '@weco/common/model/labels';

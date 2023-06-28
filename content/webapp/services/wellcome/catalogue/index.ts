@@ -1,7 +1,7 @@
 import {
   CatalogueResultsList,
   ResultType,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { isString } from '@weco/common/utils/type-guards';
 import {

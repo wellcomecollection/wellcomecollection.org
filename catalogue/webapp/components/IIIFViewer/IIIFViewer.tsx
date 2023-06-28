@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { WorkBasic } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -26,7 +26,7 @@ import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
-import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { NoScriptImage } from '@weco/catalogue/components/IIIFViewer/NoScriptImage';
 import { queryParamToArrayIndex, DelayVisibility } from '.';
 

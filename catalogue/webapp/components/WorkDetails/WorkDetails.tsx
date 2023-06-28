@@ -91,10 +91,10 @@ const WorkDetails: FunctionComponent<Props> = ({
   const iiifImageLocationUrl = iiifImageLocation?.url;
   const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocationUrl,
-        width: transformedIIIFImage?.width,
-        height: transformedIIIFImage?.height,
-      })
+      url: iiifImageLocationUrl,
+      width: transformedIIIFImage?.width,
+      height: transformedIIIFImage?.height,
+    })
     : [];
 
   const downloadOptions = [
@@ -187,10 +187,10 @@ const WorkDetails: FunctionComponent<Props> = ({
         {physicalItems.some(
           item => itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
         ) && (
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <LibraryMembersBar />
-          </Space>
-        )}
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <LibraryMembersBar />
+            </Space>
+          )}
         {locationOfWork && (
           <WorkDetailsText
             title={locationOfWork.noteType.label}
@@ -387,31 +387,29 @@ const WorkDetails: FunctionComponent<Props> = ({
                 </div>
                 {((collectionManifestsCount && collectionManifestsCount > 0) ||
                   (canvasCount && canvasCount > 0)) && (
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['margin-top'],
-                    }}
-                  >
-                    <p
-                      className={`${font('lr', 6)}`}
-                      style={{ marginBottom: 0 }}
+                    <Space
+                      v={{
+                        size: 'm',
+                        properties: ['margin-top'],
+                      }}
                     >
-                      Contains:{' '}
-                      {collectionManifestsCount && collectionManifestsCount > 0
-                        ? `${collectionManifestsCount} ${
-                            collectionManifestsCount === 1
-                              ? 'volume'
-                              : 'volumes'
+                      <p
+                        className={`${font('lr', 6)}`}
+                        style={{ marginBottom: 0 }}
+                      >
+                        Contains:{' '}
+                        {collectionManifestsCount && collectionManifestsCount > 0
+                          ? `${collectionManifestsCount} ${collectionManifestsCount === 1
+                            ? 'volume'
+                            : 'volumes'
                           }`
-                        : canvasCount && canvasCount > 0
-                        ? `${canvasCount} ${
-                            canvasCount === 1 ? 'image' : 'images'
-                          }`
-                        : ''}
-                    </p>
-                  </Space>
-                )}
+                          : canvasCount && canvasCount > 0
+                            ? `${canvasCount} ${canvasCount === 1 ? 'image' : 'images'
+                            }`
+                            : ''}
+                      </p>
+                    </Space>
+                  )}
               </>
             )}
           </ConditionalWrapper>
@@ -459,53 +457,53 @@ const WorkDetails: FunctionComponent<Props> = ({
                 'bbbwbh85',
                 'y6ntecuu',
               ].includes(work.id) && (
-                <Space
-                  v={{
-                    size: 'l',
-                    properties: ['margin-top'],
-                  }}
-                >
-                  <ExplanatoryText
-                    id="licenseDetail"
-                    controlText="Can I use this?"
+                  <Space
+                    v={{
+                      size: 'l',
+                      properties: ['margin-top'],
+                    }}
                   >
-                    <>
-                      {digitalLocationInfo.license.humanReadableText && (
+                    <ExplanatoryText
+                      id="licenseDetail"
+                      controlText="Can I use this?"
+                    >
+                      <>
+                        {digitalLocationInfo.license.humanReadableText && (
+                          <WorkDetailsText
+                            contents={
+                              digitalLocationInfo.license.humanReadableText
+                            }
+                          />
+                        )}
                         <WorkDetailsText
                           contents={
-                            digitalLocationInfo.license.humanReadableText
+                            <>
+                              Credit: {work.title.replace(/\.$/g, '')}.
+                              {credit && (
+                                <>
+                                  {' '}
+                                  <a
+                                    href={`https://wellcomecollection.org/works/${work.id}`}
+                                  >
+                                    {credit}
+                                  </a>
+                                  .
+                                </>
+                              )}{' '}
+                              {digitalLocationInfo.license.url ? (
+                                <a href={digitalLocationInfo.license.url}>
+                                  {digitalLocationInfo.license.label}
+                                </a>
+                              ) : (
+                                digitalLocationInfo.license.label
+                              )}
+                            </>
                           }
                         />
-                      )}
-                      <WorkDetailsText
-                        contents={
-                          <>
-                            Credit: {work.title.replace(/\.$/g, '')}.
-                            {credit && (
-                              <>
-                                {' '}
-                                <a
-                                  href={`https://wellcomecollection.org/works/${work.id}`}
-                                >
-                                  {credit}
-                                </a>
-                                .
-                              </>
-                            )}{' '}
-                            {digitalLocationInfo.license.url ? (
-                              <a href={digitalLocationInfo.license.url}>
-                                {digitalLocationInfo.license.label}
-                              </a>
-                            ) : (
-                              digitalLocationInfo.license.label
-                            )}
-                          </>
-                        }
-                      />
-                    </>
-                  </ExplanatoryText>
-                </Space>
-              )}
+                      </>
+                    </ExplanatoryText>
+                  </Space>
+                )}
             </>
           )}
         </WorkDetailsSection>
@@ -621,21 +619,21 @@ const WorkDetails: FunctionComponent<Props> = ({
               */
               return contributor.agent.id
                 ? {
-                    textParts,
-                    linkAttributes: conceptLink(
-                      { conceptId: contributor.agent.id },
-                      'work_details/contributors'
-                    ),
-                  }
+                  textParts,
+                  linkAttributes: conceptLink(
+                    { conceptId: contributor.agent.id },
+                    'work_details/contributors'
+                  ),
+                }
                 : {
-                    textParts,
-                    linkAttributes: worksLink(
-                      {
-                        'contributors.agent.label': [contributor.agent.label],
-                      },
-                      'work_details/contributors'
-                    ),
-                  };
+                  textParts,
+                  linkAttributes: worksLink(
+                    {
+                      'contributors.agent.label': [contributor.agent.label],
+                    },
+                    'work_details/contributors'
+                  ),
+                };
             })}
             separator=""
           />
@@ -731,23 +729,23 @@ const WorkDetails: FunctionComponent<Props> = ({
               */
               return s.id
                 ? {
-                    textParts: [s.concepts[0].label].concat(
-                      s.concepts.slice(1).map(c => c.label)
-                    ),
-                    linkAttributes: conceptLink(
-                      { conceptId: s.id },
-                      'work_details/subjects'
-                    ),
-                  }
+                  textParts: [s.concepts[0].label].concat(
+                    s.concepts.slice(1).map(c => c.label)
+                  ),
+                  linkAttributes: conceptLink(
+                    { conceptId: s.id },
+                    'work_details/subjects'
+                  ),
+                }
                 : {
-                    textParts: s.concepts.map(c => c.label),
-                    linkAttributes: worksLink(
-                      {
-                        'subjects.label': [s.label],
-                      },
-                      'work_details/subjects'
-                    ),
-                  };
+                  textParts: s.concepts.map(c => c.label),
+                  linkAttributes: worksLink(
+                    {
+                      'subjects.label': [s.label],
+                    },
+                    'work_details/subjects'
+                  ),
+                };
             })}
           />
         </WorkDetailsSection>

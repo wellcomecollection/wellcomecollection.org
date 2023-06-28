@@ -24,7 +24,7 @@ import {
   hasFilters,
   linkResolver,
 } from '@weco/common/utils/search';
-import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
+import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 
@@ -33,14 +33,14 @@ import { Query } from '@weco/catalogue/types/search';
 import {
   Article,
   ContentResultsList,
-} from '@weco/catalogue/services/wellcome/content/types/api';
-import { emptyResultList } from '@weco/catalogue/services/wellcome';
+} from '@weco/content/services/wellcome/content/types/api';
+import { emptyResultList } from '@weco/content/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import {
   fromQuery,
   StoriesProps,
 } from '@weco/catalogue/components/StoriesLink';
-import { storiesFilters } from '@weco/catalogue/services/wellcome/catalogue/filters';
+import { storiesFilters } from '@weco/content/services/wellcome/catalogue/filters';
 
 type Props = {
   storyResponseList: ContentResultsList<Article>;

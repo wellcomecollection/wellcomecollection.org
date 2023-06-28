@@ -17,7 +17,7 @@ import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
-import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
+import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
 import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
 import {
@@ -37,12 +37,12 @@ import {
 } from '@weco/common/utils/routes';
 import theme from '@weco/common/views/themes/default';
 import { formatNumber } from '@weco/common/utils/grammar';
-import { getArticles } from '@weco/catalogue/services/wellcome/content/articles';
+import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import {
   Article,
   ContentResultsList,
-} from '@weco/catalogue/services/wellcome/content/types/api';
-import { WellcomeApiError } from '@weco/catalogue/services/wellcome';
+} from '@weco/content/services/wellcome/content/types/api';
+import { WellcomeApiError } from '@weco/content/services/wellcome';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
