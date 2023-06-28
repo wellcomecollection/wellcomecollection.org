@@ -11,8 +11,8 @@ const CaptionText = styled(Space).attrs({
   text-align: left;
   border-left: 1px solid currentColor;
 
-  p {
-    display: inline;
+  p:last-child {
+    margin-bottom: 0;
   }
 `;
 
