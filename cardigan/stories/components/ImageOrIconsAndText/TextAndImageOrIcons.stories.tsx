@@ -3,6 +3,7 @@ import Readme from '@weco/content/components/TextAndImageOrIcons/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { mockImage } from '@weco/common/test/fixtures/components/compact-card';
 import { smallText } from '../../content';
+import { mockIcons } from '@weco/common/test/fixtures/components/text-and-icons';
 
 const Template = args => (
   <ReadmeDecorator
@@ -17,12 +18,12 @@ icons.args = {
   items: [
     {
       type: 'icons',
-      icons: ['a11YVisual', 'a11Y', 'audioDescribed', 'lifts'],
+      icons: mockIcons,
       text: smallText(),
     },
     {
       type: 'icons',
-      icons: ['a11Y', 'lifts'],
+      icons: mockIcons.slice(2, 4),
       text: smallText(),
     },
   ],

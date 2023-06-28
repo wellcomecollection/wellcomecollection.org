@@ -2,11 +2,10 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { ImageType } from '@weco/common/model/image';
-import * as icons from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import * as prismic from '@prismicio/client';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 const MediaAndTextWrap = styled.div`
   display: flex;
@@ -19,11 +18,6 @@ const MediaAndTextWrap = styled.div`
     flex-wrap: nowrap;
     flex-direction: row-reverse;
   `}
-`;
-
-const IconWrapper = styled.div`
-  font-size: 100px;
-  line-height: 0;
 `;
 
 const DividingLine = styled(Space).attrs({
@@ -73,7 +67,10 @@ const Text = styled.div`
 
 type Item = {
   text: prismic.RichTextField;
-} & ({ type: 'icons'; icons: string[] } | { type: 'image'; image: ImageType });
+} & (
+  | { type: 'icons'; icons: ImageType[] }
+  | { type: 'image'; image: ImageType }
+);
 
 type Props = {
   items: Item[];
@@ -89,9 +86,9 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ items }) => {
               <ImageOrIcons isIcons={true}>
                 {item.icons.map((icon, index) => {
                   return (
-                    <IconWrapper key={index}>
-                      <Icon icon={icons[icon]} matchText={true} />
-                    </IconWrapper>
+                    <div key={index}>
+                      <PrismicImage image={icon} quality="low" maxWidth={100} />
+                    </div>
                   );
                 })}
               </ImageOrIcons>
