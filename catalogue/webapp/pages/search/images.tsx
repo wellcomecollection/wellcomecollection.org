@@ -62,6 +62,12 @@ const Wrapper = styled(Space).attrs<{ hasNoResults: boolean }>(props => ({
         `}
 `;
 
+const SortPaginationWrapper = styled.div`
+  display: flex;
+  align-items;
+  flex-wrap: wrap;
+`;
+
 const ImagesSearchPage: NextPageWithLayout<Props> = ({
   images,
   imagesRouteProps,
@@ -167,6 +173,33 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
             <>
               <PaginationWrapper verticalSpacing="l">
                 <span>{pluralize(images.totalResults, 'result')}</span>
+
+                <SortPaginationWrapper>
+                  <Sort
+                    formId="search-page-form"
+                    options={sortOptions}
+                    jsLessOptions={{
+                      sort: [
+                        {
+                          value: '',
+                          text: 'Relevance',
+                        },
+                        {
+                          value: 'source.production.dates',
+                          text: 'Production dates',
+                        },
+                      ],
+                      sortOrder: [
+                        { value: 'asc', text: 'Ascending' },
+                        { value: 'desc', text: 'Descending' },
+                      ],
+                    }}
+                    defaultValues={{
+                      sort: query.sort,
+                      sortOrder: query.sortOrder,
+                    }}
+                  />
+                </SortPaginationWrapper>
                 <Pagination
                   totalPages={images.totalPages}
                   ariaLabel="Image search pagination"
