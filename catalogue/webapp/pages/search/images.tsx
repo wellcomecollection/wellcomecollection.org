@@ -11,6 +11,7 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchFilters from '@weco/catalogue/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Sort from '@weco/catalogue/components/Sort/Sort';
 
 // Utils & Helpers
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -81,6 +82,21 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
     filters: filters.map(f => f.id),
     queryParams: Object.keys(query),
   });
+
+  const sortOptions = [
+    {
+      value: '',
+      text: 'Relevance',
+    },
+    {
+      value: 'source.production.dates.asc',
+      text: 'Oldest to newest',
+    },
+    {
+      value: 'source.production.dates.desc',
+      text: 'Newest to oldest',
+    },
+  ];
 
   return (
     <>
