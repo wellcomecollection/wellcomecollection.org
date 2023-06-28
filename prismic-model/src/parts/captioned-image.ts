@@ -6,7 +6,6 @@ export default function () {
   return {
     image: image('Image'),
     caption: multiLineText('Caption'),
-
     hasRoundedCorners: boolean('round image corners'),
   };
 }
