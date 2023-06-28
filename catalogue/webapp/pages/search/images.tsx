@@ -199,13 +199,14 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                       sortOrder: query.sortOrder,
                     }}
                   />
+
+                  <Pagination
+                    totalPages={images.totalPages}
+                    ariaLabel="Image search pagination"
+                    hasDarkBg
+                    isHiddenMobile
+                  />
                 </SortPaginationWrapper>
-                <Pagination
-                  totalPages={images.totalPages}
-                  ariaLabel="Image search pagination"
-                  hasDarkBg
-                  isHiddenMobile
-                />
               </PaginationWrapper>
 
               <main>
