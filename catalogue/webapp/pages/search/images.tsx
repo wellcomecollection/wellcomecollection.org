@@ -195,8 +195,8 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                       ],
                     }}
                     defaultValues={{
-                      sort: query.sort,
-                      sortOrder: query.sortOrder,
+                      sort: imagesRouteProps.sort,
+                      sortOrder: imagesRouteProps.sortOrder,
                     }}
                   />
 
