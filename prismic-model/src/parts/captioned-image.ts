@@ -1,11 +1,12 @@
-import { singleLineText } from './text';
+import { multiLineText } from './text';
 import image from './image';
 import boolean from './boolean';
 
 export default function () {
   return {
     image: image('Image'),
-    caption: singleLineText('Caption'),
+    caption: multiLineText('Caption'),
+
     hasRoundedCorners: boolean('round image corners'),
   };
 }

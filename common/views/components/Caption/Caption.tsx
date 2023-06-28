@@ -10,10 +10,6 @@ const CaptionText = styled(Space).attrs({
 })`
   text-align: left;
   border-left: 1px solid currentColor;
-
-  p {
-    display: inline;
-  }
 `;
 
 const CaptionWrapper = styled.div`
