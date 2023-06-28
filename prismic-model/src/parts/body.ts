@@ -100,7 +100,7 @@ export default {
           },
         },
       }),
-      collectionVenue: slice('Collection venue', {
+      collectionVenue: slice("Collection venue's hours", {
         nonRepeat: {
           content: documentLink('Content item', {
             linkedType: 'collection-venue',
