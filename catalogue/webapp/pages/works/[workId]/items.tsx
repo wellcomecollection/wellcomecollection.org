@@ -45,6 +45,11 @@ import {
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import {
+  CompressedTransformedManifest,
+  fromCompressedManifest,
+  toCompressedTransformedManifest,
+} from '@weco/catalogue/types/compressed-manifest';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -83,7 +88,7 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
 }
 
 type Props = {
-  transformedManifest: TransformedManifest | undefined;
+  compressedTransformedManifest?: CompressedTransformedManifest;
   work: Work;
   canvas: number;
   canvasOcr?: string;
@@ -92,12 +97,16 @@ type Props = {
 };
 
 const ItemPage: NextPage<Props> = ({
-  transformedManifest,
+  compressedTransformedManifest,
   work,
   canvasOcr,
   iiifImageLocation,
   canvas,
 }) => {
+  const transformedManifest =
+    compressedTransformedManifest &&
+    fromCompressedManifest(compressedTransformedManifest);
+
   const workId = work.id;
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
@@ -418,7 +427,7 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       props: serialiseProps({
-        transformedManifest: displayManifest,
+        compressedTransformedManifest: toCompressedTransformedManifest(displayManifest),
         canvasOcr,
         work,
         canvas,
@@ -432,7 +441,7 @@ export const getServerSideProps: GetServerSideProps<
   if (iiifImageLocation) {
     return {
       props: serialiseProps({
-        transformedManifest: undefined,
+        compressedTransformedManifest: undefined,
         work,
         canvas,
         canvases: [],
