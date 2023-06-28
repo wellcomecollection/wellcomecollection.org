@@ -2,12 +2,12 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 
 // Components
-import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
+import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
-import Sort from '@weco/catalogue/components/Sort/Sort';
+import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
+import Sort from '@weco/content/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
+import StoriesGrid from '@weco/content/components/StoriesGrid';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchFilters from '@weco/catalogue/components/SearchFilters';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -26,20 +26,17 @@ import {
 } from '@weco/common/utils/search';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
-import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
+import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
 // Types
-import { Query } from '@weco/catalogue/types/search';
+import { Query } from '@weco/content/types/search';
 import {
   Article,
   ContentResultsList,
 } from '@weco/content/services/wellcome/content/types/api';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import {
-  fromQuery,
-  StoriesProps,
-} from '@weco/catalogue/components/StoriesLink';
+import { fromQuery, StoriesProps } from '@weco/content/components/StoriesLink';
 import { storiesFilters } from '@weco/content/services/wellcome/catalogue/filters';
 
 type Props = {

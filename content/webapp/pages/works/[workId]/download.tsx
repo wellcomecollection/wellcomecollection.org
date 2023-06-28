@@ -4,20 +4,20 @@ import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-} from '@weco/catalogue/utils/works';
+} from '@weco/content/utils/works';
 import {
   getCatalogueLicenseData,
   LicenseData,
 } from '@weco/common/utils/licenses';
-import { TransformedManifest } from '@weco/catalogue/types/manifest';
+import { TransformedManifest } from '@weco/content/types/manifest';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import Download from '@weco/catalogue/components/Download/Download';
+import Download from '@weco/content/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
-import WorkDetailsText from '@weco/catalogue/components/WorkDetailsText/WorkDetailsText';
+import WorkDetailsText from '@weco/content/components/WorkDetailsText/WorkDetailsText';
 import { serialiseProps } from '@weco/common/utils/json';
 import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -89,10 +89,10 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
 
   const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocationUrl,
-        width: undefined,
-        height: undefined,
-      })
+      url: iiifImageLocationUrl,
+      width: undefined,
+      height: undefined,
+    })
     : [];
 
   const allDownloadOptions = [

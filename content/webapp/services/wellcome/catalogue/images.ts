@@ -6,7 +6,7 @@ import {
   emptyImagesProps,
   ImagesProps,
   toQuery,
-} from '@weco/catalogue/components/ImagesLink';
+} from '@weco/content/components/ImagesLink';
 import {
   QueryProps,
   globalApiOptions,

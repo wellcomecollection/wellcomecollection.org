@@ -11,18 +11,18 @@ import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue'
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
-import { toLink as toImagesLink } from '@weco/catalogue/components/ImagesLink';
-import { toLink as toWorksLink } from '@weco/catalogue/components/WorksLink';
+import { toLink as toImagesLink } from '@weco/content/components/ImagesLink';
+import { toLink as toWorksLink } from '@weco/content/components/WorksLink';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { capitalize, formatNumber } from '@weco/common/utils/grammar';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 
 // Components
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
-import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
-import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
+import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
-import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
+import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 // Types
@@ -47,8 +47,8 @@ import {
   conceptTypeDisplayName,
   getDisplayIdentifierType,
   queryParams,
-} from '@weco/catalogue/utils/concepts';
-import { emptyResultList } from '@weco/catalogue/services/wellcome';
+} from '@weco/content/utils/concepts';
+import { emptyResultList } from '@weco/content/services/wellcome';
 import { getQueryResults, ReturnedResults } from '@weco/common/utils/search';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
@@ -101,9 +101,10 @@ type ConceptWorksHeaderProps = {
 };
 const ConceptWorksHeader = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top'] },
-})<ConceptWorksHeaderProps>`
-  background-color: ${({ hasWorksTabs, theme }) =>
-    theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};
+}) <ConceptWorksHeaderProps>`
+background - color: ${({ hasWorksTabs, theme }) =>
+    theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')
+  };
 `;
 
 const withSelectedStatus = (selectedTab: string, tabDefinition) => {
@@ -127,7 +128,7 @@ function currentTabPanel<T>(
     }
   }
   throw new Error(
-    `Unexpected selected tab ${selectedTab} not found in ${tabDefinitions}`
+    `Unexpected selected tab ${selectedTab} not found in ${tabDefinitions} `
   );
 }
 
@@ -141,7 +142,8 @@ const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
   <MoreLink
     name={`${text} (${formatNumber(totalResults, {
       isCompact: true,
-    })})`}
+    })
+      })`}
     url={link}
     colors={theme.buttonColors.yellowYellowBlack}
     hoverUnderline
@@ -170,7 +172,7 @@ const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
   results,
 }) => {
   return (
-    <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
+    <div role="tabpanel" id={`tabpanel - ${id} `} aria-labelledby={`tab - ${id} `}>
       <ImageEndpointSearchResults images={results.pageResults} />
       <Space v={{ size: 'm', properties: ['margin-top'] }}>
         <SeeMoreButton
@@ -195,7 +197,7 @@ const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
 }) => {
   return (
     <Container>
-      <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
+      <div role="tabpanel" id={`tabpanel - ${id} `} aria-labelledby={`tab - ${id} `}>
         <WorksSearchResults works={results.pageResults} />
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
           <SeeMoreButton
@@ -237,16 +239,16 @@ function toPageSectionDefinition<T>({
 }: PageSectionDefinitionProps<T>): PageSectionDefinition<T> | undefined {
   return resultsGroup?.totalResults
     ? {
+      id: tabId,
+      tab: {
         id: tabId,
-        tab: {
-          id: tabId,
-          text: TabLabel({
-            text: tabLabelText,
-            totalResults: resultsGroup.totalResults,
-          }),
-        },
-        panel: { id: tabId, link, results: resultsGroup },
-      }
+        text: TabLabel({
+          text: tabLabelText,
+          totalResults: resultsGroup.totalResults,
+        }),
+      },
+      panel: { id: tabId, link, results: resultsGroup },
+    }
     : undefined;
 }
 
@@ -276,7 +278,7 @@ export const ConceptPage: NextPage<Props> = ({
 }) => {
   const worksTabs = tabOrder
     .map(relationship => {
-      const tabId = `works${capitalize(relationship)}`;
+      const tabId = `works${capitalize(relationship)} `;
 
       const data = sectionsData[relationship] as SectionData;
 
@@ -299,7 +301,8 @@ export const ConceptPage: NextPage<Props> = ({
     .map(relationship => {
       const tabId = `images${relationship
         .charAt(0)
-        .toUpperCase()}${relationship.slice(1)}`;
+        .toUpperCase()
+        }${relationship.slice(1)} `;
       return toPageSectionDefinition({
         tabId,
         resultsGroup: sectionsData[relationship].images,
@@ -330,7 +333,7 @@ export const ConceptPage: NextPage<Props> = ({
     <CataloguePageLayout
       title={conceptResponse.label}
       description={pageDescriptionConcepts(conceptResponse.label)}
-      url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
+      url={{ pathname: `/ concepts / ${conceptResponse.id} `, query: {} }}
       openGraphType="website"
       siteSection="collections"
       jsonLd={{ '@type': 'WebPage' }}
@@ -435,14 +438,14 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   const identifiers = (concept.identifiers || []).map(id =>
     id.identifierType.id === 'label-derived'
       ? {
-          id: id.value,
-          label: 'Label-derived identifier',
-        }
+        id: id.value,
+        label: 'Label-derived identifier',
+      }
       : {
-          id: id.value,
-          label: getDisplayIdentifierType(id.identifierType),
-          value: id.value,
-        }
+        id: id.value,
+        label: getDisplayIdentifierType(id.identifierType),
+        value: id.value,
+      }
   );
 
   return [apiLink, ...identifiers];

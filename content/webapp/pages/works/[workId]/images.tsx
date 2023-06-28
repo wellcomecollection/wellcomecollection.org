@@ -11,7 +11,7 @@ import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFViewer from '@weco/catalogue/components/IIIFViewer';
+import IIIFViewer from '@weco/content/components/IIIFViewer';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';

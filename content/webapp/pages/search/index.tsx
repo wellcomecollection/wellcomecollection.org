@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
 
 import Space from '@weco/common/views/components/styled/Space';
-import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
-import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
-import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
+import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
+import StoriesGrid from '@weco/content/components/StoriesGrid';
+import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
@@ -44,7 +44,7 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { WellcomeApiError } from '@weco/content/services/wellcome';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
-import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
+import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 // Creating this version of fromQuery for the overview page only

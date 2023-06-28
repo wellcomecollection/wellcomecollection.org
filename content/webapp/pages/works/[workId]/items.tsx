@@ -13,12 +13,12 @@ import { Manifest } from '@iiif/presentation-3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
-import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer, {
   queryParamToArrayIndex,
-} from '@weco/catalogue/components/IIIFViewer';
-import VideoPlayer from '@weco/catalogue/components/VideoPlayer/VideoPlayer';
+} from '@weco/content/components/IIIFViewer';
+import VideoPlayer from '@weco/content/components/VideoPlayer/VideoPlayer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
@@ -29,10 +29,10 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { fromQuery } from '@weco/catalogue/components/ItemLink';
-import WorkLink from '@weco/catalogue/components/WorkLink';
+import { fromQuery } from '@weco/content/components/ItemLink';
+import WorkLink from '@weco/content/components/WorkLink';
 import { getServerData } from '@weco/common/server-data';
-import AudioList from '@weco/catalogue/components/AudioList/AudioList';
+import AudioList from '@weco/content/components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
@@ -363,12 +363,11 @@ const ItemPage: NextPage<Props> = ({
 
 async function getParentManifest(parentManifestUrl) {
   try {
-    return parentManifestUrl &&
-        (await fetchJson(parentManifestUrl as string));
-    } catch (error) {
-      return undefined;
-    }
-};
+    return parentManifestUrl && (await fetchJson(parentManifestUrl as string));
+  } catch (error) {
+    return undefined;
+  }
+}
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -436,8 +435,8 @@ export const getServerSideProps: GetServerSideProps<
       const selectedCollectionManifestLocation = manifests?.[manifestIndex]?.id;
       const selectedCollectionManifest = selectedCollectionManifestLocation
         ? await fetchIIIFPresentationManifest(
-          selectedCollectionManifestLocation
-        )
+            selectedCollectionManifestLocation
+          )
         : undefined;
       const firstChildTransformedManifest =
         selectedCollectionManifest &&

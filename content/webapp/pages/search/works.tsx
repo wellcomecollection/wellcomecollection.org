@@ -6,15 +6,15 @@ import styled from 'styled-components';
 // Components
 import Space from '@weco/common/views/components/styled/Space';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
-import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
-import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
+import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
+import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import Sort from '@weco/catalogue/components/Sort/Sort';
-import SearchFilters from '@weco/catalogue/components/SearchFilters';
+import Sort from '@weco/content/components/Sort/Sort';
+import SearchFilters from '@weco/content/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { DividerWrapper } from '@weco/common/views/components/SubNavigation/SubNavigation.styles';
-import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
+import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import {
   fromQuery,
   toLink,
@@ -38,7 +38,7 @@ import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
-import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
+import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
 // Types
 import {

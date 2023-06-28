@@ -1,4 +1,4 @@
-import { palette } from '@weco/catalogue/components/PaletteColorPicker';
+import { palette } from '@weco/content/components/PaletteColorPicker';
 import {
   ImageAggregations,
   WorkAggregations,
@@ -6,9 +6,9 @@ import {
 import { ArticleAggregations } from '@weco/content/services/wellcome/content/types';
 import { quoteVal } from '@weco/common/utils/csv';
 import { toHtmlId } from '@weco/common/utils/string';
-import { ImagesProps } from '@weco/catalogue/components/ImagesLink';
-import { WorksProps } from '@weco/catalogue/components/WorksLink';
-import { StoriesProps } from '@weco/catalogue/components/StoriesLink';
+import { ImagesProps } from '@weco/content/components/ImagesLink';
+import { WorksProps } from '@weco/content/components/WorksLink';
+import { StoriesProps } from '@weco/content/components/StoriesLink';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { formatNumber } from '@weco/common/utils/grammar';
 

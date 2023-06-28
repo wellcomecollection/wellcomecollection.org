@@ -1,4 +1,4 @@
-import ExplanatoryText from '@weco/catalogue/components/WorkDetails/ExplanatoryText';
+import ExplanatoryText from '@weco/content/components/WorkDetails/ExplanatoryText';
 import { singleLineOfText } from '@weco/cardigan/stories/content';
 
 const Template = args => <ExplanatoryText {...args} />;

@@ -5,10 +5,10 @@ import Head from 'next/head';
 
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import Space from '@weco/common/views/components/styled/Space';
-import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
+import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import SearchFilters from '@weco/catalogue/components/SearchFilters';
+import SearchFilters from '@weco/content/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -22,15 +22,15 @@ import {
   fromQuery,
   ImagesProps,
   toLink,
-} from '@weco/catalogue/components/ImagesLink';
+} from '@weco/content/components/ImagesLink';
 import { getServerData } from '@weco/common/server-data';
-import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
+import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/content/services/wellcome/catalogue/filters';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
-import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
+import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
 // Types
 import {
@@ -38,7 +38,7 @@ import {
   Image,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { Query } from '@weco/catalogue/types/search';
+import { Query } from '@weco/content/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {

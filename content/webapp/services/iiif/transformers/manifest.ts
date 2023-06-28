@@ -1,4 +1,7 @@
-import { TransformedManifest, DownloadOption } from '../../../types/manifest';
+import {
+  TransformedManifest,
+  DownloadOption,
+} from '@weco/content/types/manifest';
 import { Manifest } from '@iiif/presentation-3';
 import {
   getAudio,
@@ -18,7 +21,7 @@ import {
   getCollectionManifests,
   checkModalRequired,
   checkIsTotallyRestricted,
-} from '../../../utils/iiif/v3';
+} from '@weco/content/utils/v3';
 
 export function transformManifest(manifestV3: Manifest): TransformedManifest {
   const title = getTitle(manifestV3.label);
