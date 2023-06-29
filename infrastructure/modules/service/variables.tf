@@ -60,6 +60,12 @@ variable "desired_task_count" {
 variable "healthcheck_path" {}
 
 variable "use_fargate_spot" {
+  type    = bool
+  default = false
+}
+
+variable "turn_off_outside_office_hours" {
+  type    = bool
   default = false
 }
 

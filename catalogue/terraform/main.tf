@@ -25,6 +25,9 @@ module "catalogue-stage" {
 
   subdomain = "works.www-stage"
 
+  use_fargate_spot              = true
+  turn_off_outside_office_hours = true
+
   providers = {
     aws = aws.stage
   }
@@ -43,6 +46,8 @@ module "catalogue-e2e" {
   environment = data.terraform_remote_state.experience_shared.outputs.e2e
 
   subdomain = "works.www-e2e"
+
+  use_fargate_spot              = true
 
   providers = {
     aws = aws.stage

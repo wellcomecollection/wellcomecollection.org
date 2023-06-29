@@ -37,6 +37,9 @@ module "identity-stage" {
 
   subdomain = "identity.www-stage"
 
+  use_fargate_spot              = true
+  turn_off_outside_office_hours = true
+
   providers = {
     aws = aws.stage
   }
@@ -61,6 +64,8 @@ module "identity-e2e" {
   secret_env_vars = local.service_env["stage"]["secret_env_vars"]
 
   subdomain = "identity.www-e2e"
+
+  use_fargate_spot = true
 
   providers = {
     aws = aws.stage

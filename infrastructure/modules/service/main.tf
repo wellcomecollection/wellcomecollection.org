@@ -23,18 +23,18 @@ resource "aws_lb_target_group" "http" {
 }
 
 module "log_router_container" {
-  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/firelens?ref=v3.13.1"
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/firelens?ref=v3.15.3"
   namespace = var.namespace
 }
 
 module "log_router_container_secrets_permissions" {
-  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v3.13.1"
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v3.15.3"
   secrets   = module.log_router_container.shared_secrets_logging
   role_name = module.task_definition.task_execution_role_name
 }
 
 module "nginx_container" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=v3.13.1"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=v3.15.3"
 
   forward_port      = var.container_port
   log_configuration = module.log_router_container.container_log_configuration
@@ -44,7 +44,7 @@ module "nginx_container" {
 }
 
 module "app_container" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/container_definition?ref=v3.13.1"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/container_definition?ref=v3.15.3"
   name   = "app"
 
   image = var.container_image
@@ -56,13 +56,13 @@ module "app_container" {
 }
 
 module "app_container_secrets_permissions" {
-  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v3.13.1"
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v3.15.3"
   secrets   = var.secret_env_vars
   role_name = module.task_definition.task_execution_role_name
 }
 
 module "task_definition" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/task_definition?ref=v3.13.1"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/task_definition?ref=v3.15.3"
 
   cpu    = var.cpu
   memory = var.memory
@@ -77,7 +77,7 @@ module "task_definition" {
 }
 
 module "service" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/service?ref=v3.13.0"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/service?ref=v3.15.3"
 
   cluster_arn  = var.cluster_arn
   service_name = var.namespace
@@ -90,7 +90,6 @@ module "service" {
   security_group_ids = var.security_group_ids
 
   desired_task_count = var.desired_task_count
-  use_fargate_spot   = var.use_fargate_spot
 
   target_group_arn = aws_lb_target_group.http.arn
 
@@ -100,4 +99,7 @@ module "service" {
   propagate_tags = "SERVICE"
 
   deployment_minimum_healthy_percent = var.allow_scaling_to_zero ? 0 : 100
+
+  use_fargate_spot              = var.use_fargate_spot
+  turn_off_outside_office_hours = var.turn_off_outside_office_hours
 }
