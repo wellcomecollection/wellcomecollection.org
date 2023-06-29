@@ -147,7 +147,7 @@ export default {
           link: link('Link'),
         },
       }),
-      contentList: slice('(β) Content list', {
+      contentList: slice('Content list', {
         nonRepeat: {
           title,
         },
@@ -168,7 +168,7 @@ export default {
           }),
         },
       }),
-      searchResults: slice('(β) Search results', {
+      searchResults: slice('Search results', {
         nonRepeat: {
           title,
           query: text('Query'),
