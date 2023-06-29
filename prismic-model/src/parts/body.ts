@@ -141,9 +141,7 @@ export default {
       titledTextList: slice('Descriptive links list', {
         repeat: {
           title: heading('Title', { level: 3 }),
-          text: multiLineText('Text', {
-            extraTextOptions: ['list-item'],
-          }),
+          text: multiLineText('Text'),
           link: link('Link'),
         },
       }),
