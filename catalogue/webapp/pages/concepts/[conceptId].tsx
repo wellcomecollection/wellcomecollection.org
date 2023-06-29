@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, JSX } from 'react';
+import { useState, JSX, FunctionComponent } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Link, { LinkProps } from 'next/link';
 
@@ -47,6 +47,7 @@ import {
   queryParams,
 } from '@weco/catalogue/utils/concepts';
 import { emptyResultList } from '@weco/catalogue/services/wellcome';
+import { getQueryResults, ReturnedResults } from '@weco/common/utils/search';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 
@@ -156,12 +157,16 @@ const TabLabel = ({ text, totalResults }: TabLabelProps) => (
 type ImagesTabPanelProps = {
   id: string;
   link: LinkProps;
-  results: CatalogueResultsList<ImageType>;
+  results: ReturnedResults<ImageType>;
 };
-const ImagesTabPanel = ({ id, link, results }: ImagesTabPanelProps) => {
+const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
+  id,
+  link,
+  results,
+}) => {
   return (
     <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
-      <ImageEndpointSearchResults images={results.results} />
+      <ImageEndpointSearchResults images={results.pageResults} />
       <Space v={{ size: 'm', properties: ['margin-top'] }}>
         <SeeMoreButton
           text="All images"
@@ -176,13 +181,17 @@ const ImagesTabPanel = ({ id, link, results }: ImagesTabPanelProps) => {
 type WorksTabPanelProps = {
   id: string;
   link: LinkProps;
-  results: CatalogueResultsList<WorkType>;
+  results: ReturnedResults<WorkType>;
 };
-const WorksTabPanel = ({ id, link, results }: WorksTabPanelProps) => {
+const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
+  id,
+  link,
+  results,
+}) => {
   return (
     <div className="container">
       <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
-        <WorksSearchResults works={results.results} />
+        <WorksSearchResults works={results.pageResults} />
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
           <SeeMoreButton
             text="All works"
@@ -205,12 +214,12 @@ type PageSectionDefinition<T extends ResultType> = {
   panel: {
     id: string;
     link: LinkProps;
-    results: CatalogueResultsList<T>;
+    results: ReturnedResults<T>;
   };
 };
 type PageSectionDefinitionProps<T extends ResultType> = {
   tabId: string;
-  resultsGroup: CatalogueResultsList<T> | undefined;
+  resultsGroup: ReturnedResults<T> | undefined;
   tabLabelText: string;
   link: LinkProps;
 };
@@ -238,8 +247,8 @@ function toPageSectionDefinition<T extends ResultType>({
 
 type SectionData = {
   label: string;
-  works: CatalogueResultsList<WorkType> | undefined;
-  images: CatalogueResultsList<ImageType> | undefined;
+  works: ReturnedResults<WorkType> | undefined;
+  images: ReturnedResults<ImageType> | undefined;
 };
 
 type SectionsData = {
@@ -264,10 +273,12 @@ export const ConceptPage: NextPage<Props> = ({
     .map(relationship => {
       const tabId = `works${capitalize(relationship)}`;
 
+      const data = sectionsData[relationship] as SectionData;
+
       return toPageSectionDefinition<WorkType>({
         tabId,
-        resultsGroup: sectionsData[relationship].works,
-        tabLabelText: sectionsData[relationship].label,
+        resultsGroup: data.works,
+        tabLabelText: data.label,
         link: toWorksLink(
           allRecordsLinkParams(tabId, conceptResponse),
           linkSources[tabId]
@@ -522,18 +533,30 @@ export const getServerSideProps: GetServerSideProps<
     imagesInPromise,
   ]);
 
-  const worksAbout =
-    worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
-  const worksBy =
-    worksByResponse.type === 'Error' ? undefined : worksByResponse;
-  const imagesAbout =
-    imagesAboutResponse.type === 'Error' ? undefined : imagesAboutResponse;
-  const imagesBy =
-    imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
-  const worksIn =
-    worksInResponse.type === 'Error' ? undefined : worksInResponse;
-  const imagesIn =
-    imagesInResponse.type === 'Error' ? undefined : imagesInResponse;
+  const worksAbout = getQueryResults({
+    categoryName: 'works about',
+    queryResults: worksAboutResponse,
+  });
+  const worksBy = getQueryResults({
+    categoryName: 'works by',
+    queryResults: worksByResponse,
+  });
+  const imagesAbout = getQueryResults({
+    categoryName: 'images about',
+    queryResults: imagesAboutResponse,
+  });
+  const imagesBy = getQueryResults({
+    categoryName: 'images by',
+    queryResults: imagesByResponse,
+  });
+  const worksIn = getQueryResults({
+    categoryName: 'works in',
+    queryResults: worksInResponse,
+  });
+  const imagesIn = getQueryResults({
+    categoryName: 'images in',
+    queryResults: imagesInResponse,
+  });
 
   const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
 
