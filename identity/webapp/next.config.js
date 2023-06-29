@@ -30,15 +30,26 @@ const config = function () {
   });
 
   return {
-    // We handle compression in the nginx sidecar
-    // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
-    compress: false,
     assetPrefix:
       isProd && prodSubdomain
         ? `https://${prodSubdomain}.wellcomecollection.org${basePath}`
         : '',
     basePath,
+    // We handle compression in the nginx sidecar
+    // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
+    compress: false,
     publicRuntimeConfig: { apmConfig: apmConfig.client('identity-webapp') },
+    async redirects() {
+      return [
+        {
+          // does not add /docs since basePath: false is set
+          source: '/account/search',
+          destination: '/search',
+          basePath: false,
+          permanent: true,
+        },
+      ];
+    },
     serverRuntimeConfig: getConfig(),
     transpilePackages: ['@weco/common'],
     ...withBundleAnalyzerConfig,
