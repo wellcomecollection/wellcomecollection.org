@@ -15,6 +15,7 @@ type Props = {
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   isPill?: boolean;
   form?: string;
+  darkBg?: boolean;
 };
 
 const Select: FunctionComponent<Props> = ({
@@ -26,9 +27,15 @@ const Select: FunctionComponent<Props> = ({
   onChange,
   isPill,
   form,
+  darkBg,
 }) => {
   return (
-    <SelectContainer label={label} hideLabel={hideLabel} isPill={isPill}>
+    <SelectContainer
+      label={label}
+      hideLabel={hideLabel}
+      isPill={isPill}
+      darkBg={darkBg}
+    >
       <select name={name} onChange={onChange} value={value} form={form}>
         {options.map(option => {
           return (

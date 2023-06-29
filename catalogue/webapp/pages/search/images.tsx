@@ -198,6 +198,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                       sort: imagesRouteProps.sort,
                       sortOrder: imagesRouteProps.sortOrder,
                     }}
+                    darkBg
                   />
 
                   <Pagination

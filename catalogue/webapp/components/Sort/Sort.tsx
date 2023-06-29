@@ -28,6 +28,7 @@ type Props = {
   options: Option[];
   jsLessOptions: JsLessOptions;
   defaultValues?: DefaultSortValuesType;
+  darkBg?: boolean;
 };
 
 type JsLessOptions = {
@@ -45,6 +46,7 @@ const Sort: FunctionComponent<Props> = ({
   options,
   jsLessOptions,
   defaultValues,
+  darkBg,
 }) => {
   const router = useRouter();
   const { isEnhanced } = useContext(AppContext);
@@ -123,6 +125,7 @@ const Sort: FunctionComponent<Props> = ({
           options={options}
           isPill
           hideLabel
+          darkBg={darkBg}
         />
       )}
     </Wrapper>
