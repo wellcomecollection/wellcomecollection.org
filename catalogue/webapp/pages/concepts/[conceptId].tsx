@@ -46,28 +46,11 @@ import {
   getDisplayIdentifierType,
   queryParams,
 } from '@weco/catalogue/utils/concepts';
+import { emptyResultList } from '@weco/catalogue/services/wellcome';
 
-const emptyImageResults: CatalogueResultsList<ImageType> = {
-  type: 'ResultList',
-  pageSize: 10,
-  totalPages: 0,
-  totalResults: 0,
-  results: [],
-  nextPage: null,
-  prevPage: null,
-  _requestUrl: '',
-};
+const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 
-const emptyWorkResults: CatalogueResultsList<WorkType> = {
-  type: 'ResultList',
-  pageSize: 10,
-  totalPages: 0,
-  totalResults: 0,
-  results: [],
-  nextPage: null,
-  prevPage: null,
-  _requestUrl: '',
-};
+const emptyWorkResults: CatalogueResultsList<WorkType> = emptyResultList();
 
 const tabOrder = ['by', 'in', 'about'];
 
