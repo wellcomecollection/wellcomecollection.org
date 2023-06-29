@@ -138,14 +138,13 @@ export default {
           linkText: text('Button text'),
         },
       }),
-      titledTextList: slice('Titled text list', {
+      titledTextList: slice('Descriptive links list', {
         repeat: {
           title: heading('Title', { level: 3 }),
           text: multiLineText('Text', {
-            extraTextOptions: ['heading4', 'list-item'],
+            extraTextOptions: ['list-item'],
           }),
           link: link('Link'),
-          label: documentLink('tag', { linkedType: 'labels' }),
         },
       }),
       contentList: slice('(β) Content list', {
