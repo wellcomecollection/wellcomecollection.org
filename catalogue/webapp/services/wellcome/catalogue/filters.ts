@@ -1,13 +1,9 @@
 import { palette } from '@weco/catalogue/components/PaletteColorPicker';
 import {
-  CatalogueResultsList,
-  Work,
-  Image,
+  ImageAggregations,
+  WorkAggregations,
 } from '@weco/catalogue/services/wellcome/catalogue/types';
-import {
-  Article,
-  ContentResultsList,
-} from '@weco/catalogue/services/wellcome/content/types/api';
+import { ArticleAggregations } from '@weco/catalogue/services/wellcome/content/types/api';
 import { quoteVal } from '@weco/common/utils/csv';
 import { toHtmlId } from '@weco/common/utils/string';
 import { ImagesProps } from '@weco/catalogue/components/ImagesLink';
@@ -127,17 +123,17 @@ export const filterLabel = ({
 }): string => (count ? `${label} (${formatNumber(count)})` : label);
 
 type WorksFilterProps = {
-  works: CatalogueResultsList<Work>;
+  works: { aggregations?: WorkAggregations };
   props: WorksProps;
 };
 
 type ImagesFilterProps = {
-  images: CatalogueResultsList<Image>;
+  images: { aggregations?: ImageAggregations };
   props: ImagesProps;
 };
 
 type StoriesFilterProps = {
-  stories: ContentResultsList<Article>;
+  stories: { aggregations?: ArticleAggregations };
   props: StoriesProps;
 };
 

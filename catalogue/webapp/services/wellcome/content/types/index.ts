@@ -1,4 +1,7 @@
 import { DigitalLocation, Contributor } from '@weco/common/model/catalogue';
+import { ArticleAggregations } from './api';
+
+export type { ArticleAggregations };
 
 // Response objects
 export type ContentApiError = {

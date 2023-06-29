@@ -12,15 +12,19 @@ import {
   CatalogueConceptsApiProps,
 } from './api';
 import {
-  UnidentifiedBucketData,
-  WellcomeAggregation,
-  WellcomeResultList,
-} from '../../index';
+  ConceptAggregations,
+  ImageAggregations,
+  WorkAggregations,
+} from './aggregations';
+import { WellcomeResultList } from '../../index';
 
 export type {
   CatalogueWorksApiProps,
   CatalogueImagesApiProps,
   CatalogueConceptsApiProps,
+  ConceptAggregations,
+  ImageAggregations,
+  WorkAggregations,
 };
 
 export type Work = {
@@ -214,26 +218,6 @@ export type Image = {
   visuallySimilar?: Image[];
   aspectRatio?: number;
 };
-
-type WorkAggregations = {
-  workType: WellcomeAggregation;
-  availabilities: WellcomeAggregation;
-  languages?: WellcomeAggregation;
-  'genres.label'?: WellcomeAggregation<UnidentifiedBucketData>;
-  'subjects.label'?: WellcomeAggregation<UnidentifiedBucketData>;
-  'contributors.agent.label'?: WellcomeAggregation<UnidentifiedBucketData>;
-  type: 'Aggregations';
-};
-
-type ImageAggregations = {
-  license?: WellcomeAggregation;
-  'source.genres.label'?: WellcomeAggregation;
-  'source.subjects.label'?: WellcomeAggregation;
-  'source.contributors.agent.label'?: WellcomeAggregation;
-  type: 'Aggregations';
-};
-
-type ConceptAggregations = null;
 
 export type ResultType = Work | Image | Concept;
 
