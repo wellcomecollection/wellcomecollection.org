@@ -50,6 +50,7 @@ describe('fetchExhibitions', () => {
         { id: 'Y8VNbhEAAPJM-oki', title: 'Milk' },
         { id: 'Yzv9ChEAABfUrkVp', title: 'The Healing Pavilion' },
         { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
+        { id: 'ZJ1zCxAAACMAczPA', title: 'The Cult of Beauty' },
       ]);
 
       spyOnToday.mockImplementation(() => new Date('2023-04-24T12:00:00Z'));
@@ -69,6 +70,7 @@ describe('fetchExhibitions', () => {
         { id: 'XNFfsxAAANwqbNWD', title: 'Being Human' },
         { id: 'Y8VNbhEAAPJM-oki', title: 'Milk' },
         { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
+        { id: 'ZJ1zCxAAACMAczPA', title: 'The Cult of Beauty' },
       ]);
     },
     timeout
