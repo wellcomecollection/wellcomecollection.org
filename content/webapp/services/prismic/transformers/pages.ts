@@ -17,6 +17,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 export function transformOnThisPage(body: Body): Link[] {
   return flattenDeep(
@@ -49,7 +50,9 @@ export function transformPage(document: PagePrismicDocument): Page {
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
   const siteSections = headerLinks.map(link => link.siteSection);
-  const siteSection = document.tags.find(tag => siteSections.includes(tag));
+  const siteSection = document.tags.find(tag =>
+    siteSections.includes(tag as SiteSection)
+  ) as SiteSection;
 
   const promoField = genericFields.promo;
   const promo = promoField?.image ? promoField : undefined;
