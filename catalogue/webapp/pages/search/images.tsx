@@ -64,7 +64,7 @@ const Wrapper = styled(Space).attrs<{ hasNoResults: boolean }>(props => ({
 
 const SortPaginationWrapper = styled.div`
   display: flex;
-  align-items;
+  align-items: center;
   flex-wrap: wrap;
 `;
 
