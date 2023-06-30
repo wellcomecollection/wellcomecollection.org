@@ -62,6 +62,8 @@ locals {
     # From /images -> /search/images.
     # This matches the order in redirects.ts
     "query",
+    "sort",
+    "sortOrder",
     "color",
     "locations.license",
     "source.genres.label",
