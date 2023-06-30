@@ -33,6 +33,7 @@ import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
 import { searchPlaceholderText } from '@weco/common/data/microcopy';
+import { SiteSection } from '../PageLayout/PageLayout';
 
 const NoJSIconWrapper = styled.div`
   padding: 5px 8px 0;
@@ -42,11 +43,11 @@ const NoJSIconWrapper = styled.div`
 export type NavLink = {
   href: string;
   title: string;
-  siteSection?: string;
+  siteSection?: SiteSection;
 };
 
 type Props = {
-  siteSection: string | null;
+  siteSection: SiteSection | null;
   customNavLinks?: NavLink[];
   isMinimalHeader?: boolean;
 };

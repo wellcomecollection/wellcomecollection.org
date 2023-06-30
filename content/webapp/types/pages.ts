@@ -3,6 +3,7 @@ import { Link } from './link';
 import { Season } from './seasons';
 import { Format } from './format';
 import { Contributor } from './contributors';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 export type ParentPage = Page & {
   order: number;
@@ -16,7 +17,7 @@ export type Page = GenericContentFields & {
   parentPages: ParentPage[];
   onThisPage: Link[];
   datePublished?: Date;
-  siteSection?: string;
+  siteSection?: SiteSection;
   showOnThisPage: boolean;
   contributors: Contributor[];
 };
