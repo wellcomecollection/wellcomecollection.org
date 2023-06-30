@@ -1,29 +1,3 @@
-/**
- * The Prismic API allows you to query your custom types in multiple ways†.
- * There is a limitation that you cannot query what content has what contentTypes.
- * This is useful for finding where we have used contentTypes, generally with the
- * aim to deprecate them.
- *
- * We use contentTypes exclusively on the `body` property of our custom types,
- * so this script queries that.
- *
- * e.g. we notice we have a "Discussion" contentType, but need to know if it's used.
- *
- * yarn contentTypeAnalysis --type discussion.
- *
- * Another aspect to contentTypes is that you can label them. For instance we label images
- * in order to give them different weighting on the page. For this we run:
- *
- * yarn contentTypeAnalysis --label standalone
- *
- * This will return the IDs and titles of the content that use these contentTypes, as well as the
- * number of matching pieces of content.
- *
- * This script will also give you a map of contentType types => contentType usage count
- *
- * †: https://prismic.io/docs/technologies/query-predicates-reference-rest-api
- * see: https://prismic.io/docs/core-concepts/contentTypes
- */
 import yargs from 'yargs';
 import {
   downloadPrismicSnapshot,
