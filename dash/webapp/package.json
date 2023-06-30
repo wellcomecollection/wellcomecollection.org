@@ -6,7 +6,6 @@
     "dev": "next",
     "build": "next build",
     "export": "next export",
-    "write-report": "node write-report.js",
     "deploy": "aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors --acl public-read && aws cloudfront create-invalidation --distribution-id EIOS79GG23UUY --paths '/*'"
   },
   "dependencies": {

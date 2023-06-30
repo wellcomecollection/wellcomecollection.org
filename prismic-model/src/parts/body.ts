@@ -100,7 +100,7 @@ export default {
           },
         },
       }),
-      collectionVenue: slice('Collection venue', {
+      collectionVenue: slice("Collection venue's hours", {
         nonRepeat: {
           content: documentLink('Content item', {
             linkedType: 'collection-venue',
@@ -138,17 +138,14 @@ export default {
           linkText: text('Button text'),
         },
       }),
-      titledTextList: slice('Titled text list', {
+      titledTextList: slice('Descriptive links list', {
         repeat: {
           title: heading('Title', { level: 3 }),
-          text: multiLineText('Text', {
-            extraTextOptions: ['heading4', 'list-item'],
-          }),
+          text: multiLineText('Text'),
           link: link('Link'),
-          label: documentLink('tag', { linkedType: 'labels' }),
         },
       }),
-      contentList: slice('(β) Content list', {
+      contentList: slice('Content list', {
         nonRepeat: {
           title,
         },
@@ -169,7 +166,7 @@ export default {
           }),
         },
       }),
-      searchResults: slice('(β) Search results', {
+      searchResults: slice('Search results', {
         nonRepeat: {
           title,
           query: text('Query'),
