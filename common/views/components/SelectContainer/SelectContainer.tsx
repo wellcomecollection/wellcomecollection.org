@@ -35,7 +35,8 @@ const StyledSelect = styled.div.attrs({
         props.theme.color(props.darkBg ? 'neutral.300' : 'neutral.600')};
     border-radius: ${props =>
       props.isPill ? 20 : props.theme.borderRadiusUnit}px;
-    background-color: ${props => props.theme.color('transparent')};
+    background-color: ${props =>
+      props.theme.color(props.darkBg ? 'black' : 'transparent')};
     color: ${props =>
       props.theme.color(
         props.darkBg ? 'white' : 'black'
