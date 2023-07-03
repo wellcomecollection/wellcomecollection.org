@@ -96,6 +96,7 @@ type Props = {
   canvas: number;
   canvasOcr?: string;
   iiifImageLocation?: DigitalLocation;
+  iiifPresentationLocation?: DigitalLocation;
   pageview: Pageview;
 };
 
@@ -329,7 +330,7 @@ const ItemPage: NextPage<Props> = ({
       {showViewer &&
         ((mainImageService && currentCanvas) || iiifImageLocation) && (
           <IIIFViewer
-            work={work}
+            work={toWorkBasic(work)}
             transformedManifest={transformedManifest}
             canvasOcr={canvasOcr}
             iiifImageLocation={iiifImageLocation}
@@ -440,6 +441,7 @@ export const getServerSideProps: GetServerSideProps<
         work,
         canvas,
         iiifImageLocation,
+        iiifPresentationLocation,
         pageview,
         serverData,
       }),
@@ -454,6 +456,7 @@ export const getServerSideProps: GetServerSideProps<
         canvas,
         canvases: [],
         iiifImageLocation,
+        iiifPresentationLocation,
         pageview,
         serverData,
       }),

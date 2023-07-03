@@ -216,9 +216,8 @@ const ViewerTopBar: FunctionComponent<{
   } = { ...transformedManifest };
   const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
-  const transformedIIIFImage = useTransformedIIIFImage(work);
-  const imageLocation =
-    iiifImageLocation || getDigitalLocationOfType(work, 'iiif-image');
+  const transformedIIIFImage = useTransformedIIIFImage(work, iiifImageLocation);
+
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
   // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
   // For a iiif-image DigitalLocation we create the download options
@@ -229,9 +228,9 @@ const ViewerTopBar: FunctionComponent<{
   // Sometimes we render images for works that have neither a iiif-image or a iiif-presentation location type.
   // In this case we use the iiifImageLocation passed from the serverSideProps of the /images.tsx
 
-  const iiifImageDownloadOptions = imageLocation
+  const iiifImageDownloadOptions = iiifImageLocation
     ? getDownloadOptionsFromImageUrl({
-        url: imageLocation.url,
+        url: iiifImageLocation.url,
         width: transformedIIIFImage.width,
         height: transformedIIIFImage.height,
       })

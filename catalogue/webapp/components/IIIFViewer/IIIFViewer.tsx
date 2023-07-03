@@ -8,7 +8,7 @@ import {
 import styled, { keyframes } from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { WorkBasic } from '@weco/catalogue/services/wellcome/catalogue/types';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -61,8 +61,9 @@ const DelayVisibility = styled.div`
 `;
 
 type IIIFViewerProps = {
-  work: Work;
-  iiifImageLocation: DigitalLocation | undefined;
+  work: WorkBasic;
+  iiifImageLocation?: DigitalLocation;
+  iiifPresentationLocation?: DigitalLocation;
   transformedManifest?: TransformedManifest;
   canvasOcr?: string;
   handleImageError?: () => void;
@@ -218,6 +219,7 @@ const Thumbnails = styled.div<{
 const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   work,
   iiifImageLocation,
+  iiifPresentationLocation,
   transformedManifest,
   canvasOcr,
   handleImageError,
@@ -348,7 +350,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             isActiveMobile={isMobileSidebarActive}
             isActiveDesktop={isDesktopSidebarActive}
           >
-            <ViewerSidebar iiifImageLocation={iiifImageLocation} />
+            <ViewerSidebar
+              iiifImageLocation={iiifImageLocation}
+              iiifPresentationLocation={iiifPresentationLocation}
+            />
           </Sidebar>
           <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
             <ViewerTopBar iiifImageLocation={iiifImageLocation} />

@@ -98,7 +98,6 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   );
 
   const rotation = matching ? matching.rotation : 0;
-  const lang = (work.languages.length === 1 && work.languages[0]?.id) || '';
 
   function updateImagePosition() {
     const imageRect = imageRef?.current?.getBoundingClientRect();
@@ -174,7 +173,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         height={height}
         srcSet={imageSrcSet}
         sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-        lang={lang}
+        lang={work.languageId}
         alt={alt}
         clickHandler={() => {
           setShowZoomed(true);

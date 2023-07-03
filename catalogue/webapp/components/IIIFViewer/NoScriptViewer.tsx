@@ -155,7 +155,6 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   canvasOcr,
 }: NoScriptViewerProps) => {
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
-  const lang = (work.languages.length === 1 && work.languages[0].id) || '';
   const { canvases } = { ...transformedManifest };
   const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
@@ -211,7 +210,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               src={imageUrl}
               srcSet={srcSet}
               sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
-              lang={lang}
+              lang={work.languageId}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
                 'no text alternative'
@@ -224,7 +223,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               src={urlTemplate && urlTemplate({ size: '800,' })}
               srcSet={srcSet}
               sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
-              lang={lang}
+              lang={work.languageId}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
                 'no text alternative'
