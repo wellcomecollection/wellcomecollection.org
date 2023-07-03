@@ -33,12 +33,14 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 export type SiteSection =
-  | 'collections'
-  | 'what-we-do'
   | 'visit-us'
-  | 'stories'
   | 'whats-on'
-  | 'identity'
+  | 'stories'
+  | 'collections'
+  | 'get-involved'
+  | 'about-us'
+  | 'what-we-do' // TODO: to remove? Not in menu anymore
+  | 'identity' // TODO: is this used? No menu on login page
   | 'exhibition-guides';
 
 type HeaderProps = {
@@ -57,7 +59,7 @@ export type Props = PropsWithChildren<{
   url: Url;
   jsonLd: JsonLdObj | JsonLdObj[];
   openGraphType: 'website' | 'article' | 'book' | 'profile' | 'video' | 'music';
-  siteSection: SiteSection | null;
+  siteSection?: SiteSection;
   image?: ImageType;
   rssUrl?: string;
   hideNewsletterPromo?: boolean;

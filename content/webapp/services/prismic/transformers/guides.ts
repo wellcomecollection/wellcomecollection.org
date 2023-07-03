@@ -1,5 +1,5 @@
-import { Guide } from '../../../types/guides';
-import { Format } from '../../../types/format';
+import { Guide } from '@weco/content/types/guides';
+import { Format } from '@weco/content/types/format';
 import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
@@ -8,6 +8,7 @@ import { asHtml, asTitle, transformFormat, transformGenericFields } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformOnThisPage } from './pages';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 export function transformGuide(document: GuidePrismicDocument): Guide {
   const { data } = document;
@@ -16,7 +17,9 @@ export function transformGuide(document: GuidePrismicDocument): Guide {
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
   const siteSections = headerLinks.map(link => link.siteSection);
-  const siteSection = document.tags.find(tag => siteSections.includes(tag));
+  const siteSection = document.tags.find(tag =>
+    siteSections.includes(tag as SiteSection)
+  ) as SiteSection;
 
   const promo = genericFields.promo;
   return {

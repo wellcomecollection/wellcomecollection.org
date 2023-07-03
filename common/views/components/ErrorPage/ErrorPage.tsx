@@ -113,7 +113,6 @@ const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       hideNewsletterPromo={true}
-      siteSection={null}
     >
       <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader

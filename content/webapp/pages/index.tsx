@@ -189,7 +189,6 @@ const Homepage: FunctionComponent<Props> = ({
         url={{ pathname: '/' }}
         jsonLd={jsonLd}
         openGraphType="website"
-        siteSection={null}
         image={pageImage}
         apiToolbarLinks={[createPrismicLink(homepageId)]}
       >
