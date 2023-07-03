@@ -43,7 +43,7 @@ type Contributor = {
   };
 };
 
-type ArticleAggregations = {
+export type ArticleAggregations = {
   format: WellcomeAggregation;
   'contributors.contributor': WellcomeAggregation;
   type: 'Aggregations';

@@ -1,16 +1,4 @@
-import {
-  CatalogueResultsList,
-  Image,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
-
-const aggregations: CatalogueResultsList<Image> = {
-  type: 'ResultList',
-  pageSize: 10,
-  totalPages: 0,
-  totalResults: 0,
-  results: [],
-  nextPage: null,
-  prevPage: null,
+const aggregations = {
   aggregations: {
     license: {
       buckets: [
@@ -74,7 +62,6 @@ const aggregations: CatalogueResultsList<Image> = {
     },
     type: 'Aggregations',
   },
-  _requestUrl: 'https://api.wellcomecollection.org/catalogue/v2/images',
 };
 
 export default aggregations;
