@@ -38,7 +38,6 @@ import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/c
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import WorkHeader from '@weco/catalogue/components/WorkHeader/WorkHeader';
 import WorkTabbedNav from '@weco/catalogue/components/WorkTabbedNav/WorkTabbedNav';
-import { Container, Grid } from '@weco/catalogue/components/Work/Work';
 import { useToggles } from '@weco/common/server-data/Context';
 import {
   ApiToolbarLink,
@@ -197,12 +196,12 @@ const ItemPage: NextPage<Props> = ({
 
       {worksTabbedNav && (
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
-          <Container>
-            <Grid>
+          <div className="container">
+            <div className="grid">
               <WorkHeader work={work} />
-            </Grid>
+            </div>
             <WorkTabbedNav work={work} selected="imageViewer" />
-          </Container>
+          </div>
         </Space>
       )}
 
@@ -427,7 +426,8 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       props: serialiseProps({
-        compressedTransformedManifest: toCompressedTransformedManifest(displayManifest),
+        compressedTransformedManifest:
+          toCompressedTransformedManifest(displayManifest),
         canvasOcr,
         work,
         canvas,
