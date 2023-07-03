@@ -7,10 +7,26 @@ We use the [Custom types API][custom-types-api] to deploy types into Prismic.
 As these deploys could potentially take the website down, we deploy locally and not through CI.
 
 **Actions**
+- [Fetching content type information](#fetching-content-type-information)
 - [Updating an existing custom type](#updating-an-existing-custom-type)
 - [Adding or deleting a custom type](#adding-or-deleting-a-custom-type)
 - [Finding where slices are used](#finding-where-slices-are-used)
 - [Analysing our Prismic content in bulk](#analysing-our-prismic-content-in-bulk)
+
+
+## Fetching content type information
+It might be useful to find out more about a content/custom type, like how often it is used and what kind of content it has. You can run:
+
+`yarn contentAnalysis`
+
+to get a very basic report listing how often each type is used. You might want to add flags for more information, though:
+
+`--type [content type name]` will print out more information about a specific type. There might be a lot of them and it can't print them all, so...
+`--report` will create a `contentReport.json` file with the full list.
+`--printUrl` will also try to give you relevant URLs based on the type and ID.
+
+
+----
 
 
 ## Updating an existing custom type
