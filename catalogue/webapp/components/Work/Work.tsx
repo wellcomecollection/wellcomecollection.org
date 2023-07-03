@@ -1,6 +1,10 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { Work as WorkType } from '@weco/catalogue/services/wellcome/catalogue/types';
+import {
+  Work as WorkType,
+  Work as WorkType,
+  toWorkBasic,
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   Location as LocationType,
   DigitalLocation,
@@ -161,6 +165,8 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
       }
     : undefined;
 
+  const { collectionManifestsCount } = { ...transformedIIIFManifest };
+
   return (
     <IsArchiveContext.Provider value={isArchive}>
       <CataloguePageLayout
@@ -216,7 +222,10 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
             </Container>
             <Container>
               <Grid>
-                <WorkHeader work={work} />
+                <WorkHeader
+                  work={toWorkBasic(work)}
+                  collectionManifestsCount={collectionManifestsCount}
+                />
               </Grid>
               {showTabbedNav && (
                 <WorkTabbedNav work={work} selected="catalogueDetails" />
@@ -240,7 +249,10 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
           <>
             <Container>
               <Grid>
-                <WorkHeader work={work} />
+                <WorkHeader
+                  work={toWorkBasic(work)}
+                  collectionManifestsCount={collectionManifestsCount}
+                />
               </Grid>
               {showTabbedNav && (
                 <WorkTabbedNav work={work} selected="catalogueDetails" />
