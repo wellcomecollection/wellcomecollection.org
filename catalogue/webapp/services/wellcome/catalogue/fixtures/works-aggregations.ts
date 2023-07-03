@@ -1,16 +1,4 @@
-import {
-  CatalogueResultsList,
-  Work,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
-
-const aggregations: CatalogueResultsList<Work> = {
-  type: 'ResultList',
-  pageSize: 10,
-  totalPages: 13771,
-  totalResults: 137701,
-  nextPage: null,
-  prevPage: null,
-  results: [],
+const aggregations = {
   aggregations: {
     workType: {
       buckets: [
@@ -2504,7 +2492,6 @@ const aggregations: CatalogueResultsList<Work> = {
     },
     type: 'Aggregations',
   },
-  _requestUrl: 'https://api.wellcomecollection.org/catalogue/v2/works',
 };
 
 export default aggregations;
