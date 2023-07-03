@@ -228,7 +228,10 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
                 />
               </Grid>
               {showTabbedNav && (
-                <WorkTabbedNav work={work} selected="catalogueDetails" />
+                <WorkTabbedNav
+                  work={toWorkBasic(work)}
+                  selected="catalogueDetails"
+                />
               )}
             </Container>
 
@@ -255,7 +258,10 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
                 />
               </Grid>
               {showTabbedNav && (
-                <WorkTabbedNav work={work} selected="catalogueDetails" />
+                <WorkTabbedNav
+                  work={toWorkBasic(work)}
+                  selected="catalogueDetails"
+                />
               )}
             </Container>
             <WorkDetails work={work} shouldShowItemLink={shouldShowItemLink} />
