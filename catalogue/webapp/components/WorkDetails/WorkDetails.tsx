@@ -453,6 +453,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                 'y2w42fqa',
                 'uzcvr64w',
                 'b5m8zwvd',
+                'bbbwbh85',
+                'y6ntecuu',
               ].includes(work.id) && (
                 <Space
                   v={{
