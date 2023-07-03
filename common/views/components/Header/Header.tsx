@@ -47,7 +47,7 @@ export type NavLink = {
 };
 
 type Props = {
-  siteSection: SiteSection | null;
+  siteSection?: SiteSection;
   customNavLinks?: NavLink[];
   isMinimalHeader?: boolean;
 };

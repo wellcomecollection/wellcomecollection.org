@@ -59,7 +59,7 @@ export type Props = PropsWithChildren<{
   url: Url;
   jsonLd: JsonLdObj | JsonLdObj[];
   openGraphType: 'website' | 'article' | 'book' | 'profile' | 'video' | 'music';
-  siteSection: SiteSection | null;
+  siteSection?: SiteSection;
   image?: ImageType;
   rssUrl?: string;
   hideNewsletterPromo?: boolean;

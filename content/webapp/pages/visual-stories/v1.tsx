@@ -25,7 +25,6 @@ const VisualStoryV1 = () => {
       url={{ pathname: '/visual-stories/v1' }}
       jsonLd={[]}
       openGraphType="website"
-      siteSection={null}
       hideNewsletterPromo={true}
     >
       <Space v={{ size: 'xl', properties: ['padding-bottom', 'padding-top'] }}>
