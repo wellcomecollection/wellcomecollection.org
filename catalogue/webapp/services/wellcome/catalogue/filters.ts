@@ -3,7 +3,7 @@ import {
   ImageAggregations,
   WorkAggregations,
 } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { ArticleAggregations } from '@weco/catalogue/services/wellcome/content/types/api';
+import { ArticleAggregations } from '@weco/catalogue/services/wellcome/content/types';
 import { quoteVal } from '@weco/common/utils/csv';
 import { toHtmlId } from '@weco/common/utils/string';
 import { ImagesProps } from '@weco/catalogue/components/ImagesLink';
