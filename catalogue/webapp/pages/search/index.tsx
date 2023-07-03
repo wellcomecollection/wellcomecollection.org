@@ -23,6 +23,7 @@ import { Image, Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   getQueryResults,
   getQueryPropertyValue,
+  ReturnedResults,
 } from '@weco/common/utils/search';
 import {
   decodeQuery,
@@ -51,16 +52,11 @@ const fromQuery: (params: ParsedUrlQuery) => CodecMapProps = params => {
 };
 
 type Props = {
-  works?: ResultsProps<Work>;
-  images?: ResultsProps<Image>;
-  stories?: ResultsProps<Article>;
+  works?: ReturnedResults<Work>;
+  images?: ReturnedResults<Image>;
+  stories?: ReturnedResults<Article>;
   query: Query;
   pageview: Pageview;
-};
-
-type ResultsProps<T> = {
-  pageResults: T[];
-  totalResults: number;
 };
 
 type SeeMoreButtonProps = {

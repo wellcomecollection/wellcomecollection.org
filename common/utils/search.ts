@@ -17,7 +17,7 @@ type ApiError = {
   label: string;
 };
 
-type ReturnedResults<T> = {
+export type ReturnedResults<T> = {
   pageResults: T[];
   totalResults: number;
 };
