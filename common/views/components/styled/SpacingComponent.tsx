@@ -38,6 +38,13 @@ const SpacingComponent = styled.div.attrs<{ sliceType?: string }>(props => ({
       margin-top: ${props => props.theme.spacedTextTopMargin};
     }
   }
+
+  &.slice-type-text-and-image + &.slice-type-text-and-image,
+  &.slice-type-text-and-icons + &.slice-type-text-and-icons,
+  &.slice-type-text-and-image + &.slice-type-text-and-icons,
+  &.slice-type-text-and-icons + &.slice-type-text-and-image {
+    margin-top: 0;
+  }
 `;
 
 export default SpacingComponent;

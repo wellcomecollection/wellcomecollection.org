@@ -5,6 +5,7 @@ import { CaptionedImage as CaptionedImageType } from '@weco/common/model/caption
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import ZoomedPrismicImage from '../ZoomedPrismicImage/ZoomedPrismicImage';
 
 type CaptionedImageFigureProps = {
   isBody?: boolean;
@@ -69,6 +70,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
   image,
   isBody,
   hasRoundedCorners,
+  isZoomable,
 }) => {
   // Note: the default quality here was originally 45, but this caused images to
   // appear very fuzzy on stories.
@@ -86,6 +88,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
         aspectRatio={image.width / image.height}
         hasRoundedCorners={hasRoundedCorners}
       >
+        {isZoomable && <ZoomedPrismicImage image={image} />}
         <ImageWithTasl
           Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={{
@@ -93,7 +96,9 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
             idSuffix: dasherizeShorten(image.contentUrl),
           }}
         />
-        <Caption caption={caption} preCaptionNode={preCaptionNode} />
+        {caption.length > 0 && (
+          <Caption caption={caption} preCaptionNode={preCaptionNode} />
+        )}
       </ImageContainerInner>
     </CaptionedImageFigure>
   );
