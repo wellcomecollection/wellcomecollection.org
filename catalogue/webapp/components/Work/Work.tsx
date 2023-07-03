@@ -45,14 +45,6 @@ const WorkDetailsWrapper = styled(Space).attrs({
   flex: 1;
 `;
 
-export const Container = styled.div.attrs({
-  className: 'container',
-})``;
-
-export const Grid = styled.div.attrs({
-  className: 'grid',
-})``;
-
 function showItemLink({
   digitalLocation,
   accessCondition,
@@ -177,8 +169,8 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
         apiToolbarLinks={createApiToolbarLinks(work, apiUrl)}
         hideNewsletterPromo={true}
       >
-        <Container>
-          <Grid>
+        <div className="container">
+          <div className="grid">
             <Space
               v={{
                 size: 'l',
@@ -188,8 +180,8 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
             >
               <SearchForm searchCategory="works" location="page" />
             </Space>
-          </Grid>
-          <Grid>
+          </div>
+          <div className="grid">
             <Space
               v={{
                 size: 's',
@@ -199,13 +191,13 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
             >
               <BackToResults />
             </Space>
-          </Grid>
-        </Container>
+          </div>
+        </div>
 
         {isArchive ? (
           <>
-            <Container>
-              <Grid>
+            <div className="container">
+              <div className="grid">
                 <Space
                   v={{
                     size: 's',
@@ -215,18 +207,18 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
                 >
                   <ArchiveBreadcrumb work={work} />
                 </Space>
-              </Grid>
-            </Container>
-            <Container>
-              <Grid>
+              </div>
+            </div>
+            <div className="container">
+              <div className="grid">
                 <WorkHeader work={work} />
-              </Grid>
+              </div>
               {showTabbedNav && (
                 <WorkTabbedNav work={work} selected="catalogueDetails" />
               )}
-            </Container>
+            </div>
 
-            <Container>
+            <div className="container">
               <Divider />
               <ArchiveDetailsContainer>
                 <ArchiveTree work={work} />
@@ -237,18 +229,18 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
                   />
                 </WorkDetailsWrapper>
               </ArchiveDetailsContainer>
-            </Container>
+            </div>
           </>
         ) : (
           <>
-            <Container>
-              <Grid>
+            <div className="container">
+              <div className="grid">
                 <WorkHeader work={work} />
-              </Grid>
+              </div>
               {showTabbedNav && (
                 <WorkTabbedNav work={work} selected="catalogueDetails" />
               )}
-            </Container>
+            </div>
             <WorkDetails work={work} shouldShowItemLink={shouldShowItemLink} />
           </>
         )}
