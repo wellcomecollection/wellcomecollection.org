@@ -4,7 +4,10 @@ import {
   DigitalLocation,
   isDigitalLocation,
 } from '@weco/common/model/catalogue';
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import {
+  Work,
+  toWorkBasic,
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
@@ -124,6 +127,7 @@ const ItemPage: NextPage<Props> = ({
     restrictedService,
     isTotallyRestricted,
     canvases,
+    collectionManifestsCount,
   } = { ...transformedManifest };
 
   const authService = clickThroughService || restrictedService;
@@ -199,7 +203,10 @@ const ItemPage: NextPage<Props> = ({
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
           <Container>
             <Grid>
-              <WorkHeader work={work} />
+              <WorkHeader
+                work={toWorkBasic(work)}
+                collectionManifestsCount={collectionManifestsCount}
+              />
             </Grid>
             <WorkTabbedNav work={work} selected="imageViewer" />
           </Container>
@@ -427,7 +434,8 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       props: serialiseProps({
-        compressedTransformedManifest: toCompressedTransformedManifest(displayManifest),
+        compressedTransformedManifest:
+          toCompressedTransformedManifest(displayManifest),
         canvasOcr,
         work,
         canvas,
