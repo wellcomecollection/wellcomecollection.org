@@ -25,6 +25,9 @@ module "content-stage" {
 
   subdomain = "content.www-stage"
 
+  use_fargate_spot              = true
+  turn_off_outside_office_hours = true
+
   providers = {
     aws = aws.stage
   }
@@ -42,6 +45,8 @@ module "content-e2e" {
   env_suffix      = "e2e"
 
   subdomain = "content.www-e2e"
+
+  use_fargate_spot = true
 
   providers = {
     aws = aws.stage

@@ -15,3 +15,13 @@ variable "subdomain" {}
 
 variable "container_image" {}
 variable "nginx_image" {}
+
+variable "use_fargate_spot" {
+  type    = bool
+  default = false
+}
+
+variable "turn_off_outside_office_hours" {
+  type    = bool
+  default = false
+}
