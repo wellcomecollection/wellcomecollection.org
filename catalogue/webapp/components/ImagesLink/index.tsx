@@ -28,6 +28,8 @@ const emptyImagesProps: ImagesProps = {
   'source.subjects.label': [],
   'source.contributors.agent.label': [],
   color: undefined,
+  sort: undefined,
+  sortOrder: undefined,
 };
 
 const codecMap = {
@@ -41,6 +43,8 @@ const codecMap = {
   'source.subjects.label': quotedCsvCodec,
   'source.contributors.agent.label': quotedCsvCodec,
   color: maybeStringCodec,
+  sort: maybeStringCodec,
+  sortOrder: maybeStringCodec,
 };
 
 const fromQuery: (params: ParsedUrlQuery) => ImagesProps = params => {

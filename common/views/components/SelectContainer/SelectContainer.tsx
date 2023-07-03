@@ -30,14 +30,15 @@ const StyledSelect = styled.div.attrs({
     font-weight: inherit;
     appearance: none;
     padding: 8px 42px 8px 16px;
-    border: 1px solid ${props => props.theme.color('neutral.600')};
+    border: 1px solid
+      ${props =>
+        props.theme.color(props.darkBg ? 'neutral.300' : 'neutral.600')};
     border-radius: ${props =>
       props.isPill ? 20 : props.theme.borderRadiusUnit}px;
-    background-color: ${props =>
-      props.theme.color(props.darkBg ? 'white' : 'transparent')};
+    background-color: ${props => props.theme.color('transparent')};
     color: ${props =>
       props.theme.color(
-        'black'
+        props.darkBg ? 'white' : 'black'
       )}; /* This avoids the default blue links on iOS */
     width: 100%;
     ${props => (props.isPill ? 'line-height: 1;' : '')}
