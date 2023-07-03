@@ -14,10 +14,10 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import SearchNavigation from './SearchNavigation';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 type PageLayoutMetadata = {
   openGraphType: 'website';
-  siteSection: null;
   jsonLd: { '@type': 'WebPage' };
   hideNewsletterPromo: true;
   excludeRoleMain: true;
@@ -27,6 +27,7 @@ type PageLayoutMetadata = {
     pathname: string;
     query: Record<string, string | string[] | undefined>;
   };
+  siteSection?: SiteSection;
   apiToolbarLinks?: ApiToolbarLink[];
 };
 
@@ -50,7 +51,6 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
   const basePageMetadata: PageLayoutMetadata = {
     apiToolbarLinks,
     openGraphType: 'website',
-    siteSection: null, // We don't want search to display under any menu section
     jsonLd: { '@type': 'WebPage' },
     hideNewsletterPromo: true,
     excludeRoleMain: true,
