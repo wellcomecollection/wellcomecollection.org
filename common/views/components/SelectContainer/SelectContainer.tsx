@@ -44,6 +44,12 @@ const StyledSelect = styled.div.attrs({
     width: 100%;
     ${props => (props.isPill ? 'line-height: 1;' : '')}
 
+    option {
+      background-color: ${props => props.theme.color('white')};
+      color: ${props => props.theme.color('black')};
+      /* This allows Windows users to see <Select> dropdown options on a darkBg theme */
+    }
+
     &::-ms-expand {
       display: none;
     }
