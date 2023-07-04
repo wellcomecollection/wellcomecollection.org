@@ -99,7 +99,7 @@ type Props = {
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
   pageview: Pageview;
-  apiToolbarLinks: ApiToolbarLink[];
+  apiToolbarLinks: (ApiToolbarLink | undefined)[];
 };
 
 const ItemPage: NextPage<Props> = ({
