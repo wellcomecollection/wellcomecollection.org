@@ -62,6 +62,19 @@ export default {
         },
         'Side-by-side'
       ),
+      textAndIcons: slice('Text and icons', {
+        nonRepeat: {
+          text: multiLineText('Text'),
+        },
+        repeat: {
+          icon: {
+            type: 'Image',
+            config: {
+              label: 'Icon (will display at 100px wide)',
+            },
+          },
+        },
+      }),
     },
   },
 };
