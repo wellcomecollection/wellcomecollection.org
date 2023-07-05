@@ -15,30 +15,21 @@ const Template = args => (
 
 export const icons = Template.bind({});
 icons.args = {
-  items: [
-    {
-      type: 'icons',
-      icons: mockIcons,
-      text: smallText(),
-    },
-    {
-      type: 'icons',
-      icons: mockIcons.slice(2, 4),
-      text: smallText(),
-    },
-  ],
+  item: {
+    type: 'icons',
+    icons: mockIcons,
+    text: smallText(),
+  },
 };
 icons.storyName = 'TextAndIcons';
 
 export const image = Template.bind({});
 image.args = {
-  items: [
-    {
-      type: 'image',
-      image: mockImage,
-      isZoomable: true,
-      text: smallText(),
-    },
-  ],
+  item: {
+    type: 'image',
+    image: mockImage,
+    isZoomable: true,
+    text: smallText(),
+  },
 };
 image.storyName = 'TextAndImage';

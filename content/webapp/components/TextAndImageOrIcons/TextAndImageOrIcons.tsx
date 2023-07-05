@@ -73,44 +73,42 @@ type Item = {
 );
 
 type Props = {
-  items: Item[];
+  item: Item;
 };
 
-const TextAndImageOrIcons: FunctionComponent<Props> = ({ items }) => {
+const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
   return (
     <>
-      {items.map((item, index) => (
-        <DividingLine key={index}>
-          <MediaAndTextWrap>
-            {item.type === 'icons' && (
-              <ImageOrIcons isIcons={true}>
-                {item.icons.map((icon, index) => {
-                  return (
-                    <div key={index}>
-                      <PrismicImage image={icon} quality="low" maxWidth={100} />
-                    </div>
-                  );
-                })}
-              </ImageOrIcons>
-            )}
+      <DividingLine>
+        <MediaAndTextWrap>
+          {item.type === 'icons' && (
+            <ImageOrIcons isIcons={true}>
+              {item.icons.map((icon, index) => {
+                return (
+                  <div key={index}>
+                    <PrismicImage image={icon} quality="low" maxWidth={100} />
+                  </div>
+                );
+              })}
+            </ImageOrIcons>
+          )}
 
-            {item.type === 'image' && (
-              <ImageOrIcons isPortrait={item.image.width < item.image.height}>
-                <CaptionedImage
-                  image={item.image}
-                  caption={[]}
-                  hasRoundedCorners={false}
-                  isZoomable={item.isZoomable}
-                />
-              </ImageOrIcons>
-            )}
+          {item.type === 'image' && (
+            <ImageOrIcons isPortrait={item.image.width < item.image.height}>
+              <CaptionedImage
+                image={item.image}
+                caption={[]}
+                hasRoundedCorners={false}
+                isZoomable={item.isZoomable}
+              />
+            </ImageOrIcons>
+          )}
 
-            <Text>
-              <PrismicHtmlBlock html={item.text} />
-            </Text>
-          </MediaAndTextWrap>
-        </DividingLine>
-      ))}
+          <Text>
+            <PrismicHtmlBlock html={item.text} />
+          </Text>
+        </MediaAndTextWrap>
+      </DividingLine>
     </>
   );
 };
