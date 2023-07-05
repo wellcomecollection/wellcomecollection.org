@@ -59,6 +59,20 @@ export default {
           isZoomable: boolean('Allow image to be zoomed to fill viewport?'),
         },
       }),
+      textAndIcons: slice('Text and icons', {
+        description: 'Side-by-side',
+        nonRepeat: {
+          text: multiLineText('Text'),
+        },
+        repeat: {
+          icon: {
+            type: 'Image',
+            config: {
+              label: 'Icon (will display at 100px wide)',
+            },
+          },
+        },
+      }),
     },
   },
 };
