@@ -15,12 +15,12 @@ import booleanDeprecated from './boolean-deprecated';
 type SliceProps = {
   nonRepeat?: Record<string, unknown>;
   repeat?: Record<string, unknown>;
+  description?: string;
 };
 
 export function slice(
   label: string,
-  { nonRepeat, repeat }: SliceProps,
-  description?: string
+  { nonRepeat, repeat, description }: SliceProps
 ) {
   return {
     type: 'Slice',
