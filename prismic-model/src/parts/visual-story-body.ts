@@ -49,7 +49,7 @@ export default {
       textAndImage: slice(
         'Text and image',
         {
-          repeat: {
+          nonRepeat: {
             text: multiLineText('Text'),
             image: {
               type: 'Image',
