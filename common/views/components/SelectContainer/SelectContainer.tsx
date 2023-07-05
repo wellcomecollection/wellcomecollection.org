@@ -35,13 +35,20 @@ const StyledSelect = styled.div.attrs({
         props.theme.color(props.darkBg ? 'neutral.300' : 'neutral.600')};
     border-radius: ${props =>
       props.isPill ? 20 : props.theme.borderRadiusUnit}px;
-    background-color: ${props => props.theme.color('transparent')};
+    background-color: ${props =>
+      props.theme.color(props.darkBg ? 'black' : 'transparent')};
     color: ${props =>
       props.theme.color(
         props.darkBg ? 'white' : 'black'
       )}; /* This avoids the default blue links on iOS */
     width: 100%;
     ${props => (props.isPill ? 'line-height: 1;' : '')}
+
+    option {
+      background-color: ${props => props.theme.color('white')};
+      color: ${props => props.theme.color('black')};
+      /* This allows Windows users to see <Select> dropdown options on a darkBg theme */
+    }
 
     &::-ms-expand {
       display: none;
