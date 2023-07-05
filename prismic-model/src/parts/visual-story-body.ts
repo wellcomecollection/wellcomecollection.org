@@ -1,4 +1,5 @@
 import body, { slice } from './body';
+import boolean from './boolean';
 import { documentLink } from './link';
 import { multiLineText, singleLineText } from './text';
 
@@ -45,6 +46,18 @@ export default {
           }),
         },
       },
+      textAndImage: slice('Text and image (side-by-side)', {
+        repeat: {
+          text: multiLineText('Text'),
+          image: {
+            type: 'Image',
+            config: {
+              label: 'Image',
+            },
+          },
+          isZoomable: boolean('Allow image to be zoomed to fill viewport?'),
+        },
+      }),
     },
   },
 };
