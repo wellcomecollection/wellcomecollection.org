@@ -46,18 +46,22 @@ export default {
           }),
         },
       },
-      textAndImage: slice('Text and image (side-by-side)', {
-        repeat: {
-          text: multiLineText('Text'),
-          image: {
-            type: 'Image',
-            config: {
-              label: 'Image',
+      textAndImage: slice(
+        'Text and image',
+        {
+          repeat: {
+            text: multiLineText('Text'),
+            image: {
+              type: 'Image',
+              config: {
+                label: 'Image',
+              },
             },
+            isZoomable: boolean('Allow image to be zoomed to fill viewport?'),
           },
-          isZoomable: boolean('Allow image to be zoomed to fill viewport?'),
         },
-      }),
+        'Side-by-side'
+      ),
     },
   },
 };
