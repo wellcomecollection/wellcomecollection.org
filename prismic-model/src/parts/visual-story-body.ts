@@ -46,23 +46,21 @@ export default {
           }),
         },
       },
-      textAndImage: slice(
-        'Text and image',
-        {
-          nonRepeat: {
-            text: multiLineText('Text'),
-            image: {
-              type: 'Image',
-              config: {
-                label: 'Image',
-              },
+      textAndImage: slice('Text and image', {
+        description: 'Side-by-side',
+        nonRepeat: {
+          text: multiLineText('Text'),
+          image: {
+            type: 'Image',
+            config: {
+              label: 'Image',
             },
-            isZoomable: boolean('Allow image to be zoomed to fill viewport?'),
           },
+          isZoomable: boolean('Allow image to be zoomed to fill viewport?'),
         },
-        'Side-by-side'
-      ),
+      }),
       textAndIcons: slice('Text and icons', {
+        description: 'Side-by-side',
         nonRepeat: {
           text: multiLineText('Text'),
         },
