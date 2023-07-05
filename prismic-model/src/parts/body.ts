@@ -17,10 +17,15 @@ type SliceProps = {
   repeat?: Record<string, unknown>;
 };
 
-export function slice(label: string, { nonRepeat, repeat }: SliceProps) {
+export function slice(
+  label: string,
+  { nonRepeat, repeat }: SliceProps,
+  description?: string
+) {
   return {
     type: 'Slice',
     fieldset: label,
+    description,
     'non-repeat': nonRepeat,
     repeat,
   };
