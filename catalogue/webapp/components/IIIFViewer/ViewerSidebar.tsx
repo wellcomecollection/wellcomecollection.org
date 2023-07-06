@@ -13,10 +13,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import {
-  getProductionDates,
-  getDigitalLocationOfType,
-} from '@weco/catalogue/utils/works';
+import { getProductionDates } from '@weco/catalogue/utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -126,9 +123,13 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
 
 type Props = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
+  iiifPresentationLocation?: DigitalLocation;
 }>;
 
-const ViewerSidebar: FunctionComponent<Props> = ({ iiifImageLocation }) => {
+const ViewerSidebar: FunctionComponent<Props> = ({
+  iiifImageLocation,
+  iiifPresentationLocation,
+}) => {
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
@@ -136,11 +137,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ iiifImageLocation }) => {
   >();
   const { iiifCredit, structures, searchService } = { ...transformedManifest };
   const productionDates = getProductionDates(work);
-  // Determine digital location
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
+
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
 

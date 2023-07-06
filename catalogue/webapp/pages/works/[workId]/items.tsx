@@ -93,6 +93,7 @@ type Props = {
   canvas: number;
   canvasOcr?: string;
   iiifImageLocation?: DigitalLocation;
+  iiifPresentationLocation?: DigitalLocation;
   pageview: Pageview;
 };
 
@@ -101,6 +102,7 @@ const ItemPage: NextPage<Props> = ({
   work,
   canvasOcr,
   iiifImageLocation,
+  iiifPresentationLocation,
   canvas,
 }) => {
   const transformedManifest =
@@ -326,6 +328,7 @@ const ItemPage: NextPage<Props> = ({
             transformedManifest={transformedManifest}
             canvasOcr={canvasOcr}
             iiifImageLocation={iiifImageLocation}
+            iiifPresentationLocation={iiifPresentationLocation}
             handleImageError={() => {
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
               reloadAuthIframe(document, iframeId);
@@ -427,11 +430,13 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       props: serialiseProps({
-        compressedTransformedManifest: toCompressedTransformedManifest(displayManifest),
+        compressedTransformedManifest:
+          toCompressedTransformedManifest(displayManifest),
         canvasOcr,
         work,
         canvas,
         iiifImageLocation,
+        iiifPresentationLocation,
         pageview,
         serverData,
       }),
@@ -446,6 +451,7 @@ export const getServerSideProps: GetServerSideProps<
         canvas,
         canvases: [],
         iiifImageLocation,
+        iiifPresentationLocation,
         pageview,
         serverData,
       }),

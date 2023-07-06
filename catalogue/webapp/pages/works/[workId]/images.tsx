@@ -48,6 +48,10 @@ const ImagePage: FunctionComponent<Props> = ({
   const title = work.title || '';
   const iiifImageLocation =
     image.locations[0] || getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
 
   const apiLink = {
     id: 'json',
@@ -72,7 +76,11 @@ const ImagePage: FunctionComponent<Props> = ({
       hideTopContent={true}
     >
       {iiifImageLocation ? (
-        <IIIFViewer work={work} iiifImageLocation={iiifImageLocation} />
+        <IIIFViewer
+          work={work}
+          iiifImageLocation={iiifImageLocation}
+          iiifPresentationLocation={iiifPresentationLocation}
+        />
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
