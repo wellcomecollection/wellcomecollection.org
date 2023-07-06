@@ -46,9 +46,7 @@ type Props = {
   iiifImageLocation: DigitalLocation | undefined;
 };
 
-const ZoomedImage: FunctionComponent<Props> = ({
-  iiifImageLocation,
-}: Props) => {
+const ZoomedImage: FunctionComponent<Props> = ({ iiifImageLocation }) => {
   const { transformedManifest, query, setShowZoomed } =
     useContext(ItemViewerContext);
   const currentCanvas =
