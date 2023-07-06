@@ -15,6 +15,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { cross, minus, plus, rotateRight } from '@weco/common/icons';
 import { convertIiifUriToInfoUri } from '@weco/catalogue/utils/convert-iiif-uri';
 import { queryParamToArrayIndex } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const ZoomedImageContainer = styled.div`
   position: relative;
@@ -42,9 +43,9 @@ const ErrorMessage = () => (
   </div>
 );
 
-type Props = {
-  iiifImageLocation: DigitalLocation | undefined;
-};
+type Props = OptionalToUndefined<{
+  iiifImageLocation?: DigitalLocation;
+}>;
 
 const ZoomedImage: FunctionComponent<Props> = ({ iiifImageLocation }) => {
   const { transformedManifest, query, setShowZoomed } =
