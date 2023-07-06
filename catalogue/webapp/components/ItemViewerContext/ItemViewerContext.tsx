@@ -20,7 +20,7 @@ type Props = {
   work: Work;
   transformedManifest: TransformedManifest | undefined;
   parentManifest: Manifest | undefined;
-  searchResults: SearchResults;
+  searchResults: SearchResults | undefined;
   setSearchResults: (v) => void;
 
   // UI props:
