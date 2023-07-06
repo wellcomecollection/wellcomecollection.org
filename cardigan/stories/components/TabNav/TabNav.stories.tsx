@@ -6,11 +6,10 @@ import Readme from '@weco/common/views/components/TabNav/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { Container } from '@weco/common/views/components/styled/Container';
 
-type Props = { backgroundColor: 'white' | 'black' };
-
+type WrapperProps = { backgroundColor: 'white' | 'black' };
 const Wrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-bottom'] },
-})<Props>`
+})<WrapperProps>`
   ${props =>
     props.backgroundColor &&
     `background-color: ${props.theme.color(props.backgroundColor)}`};
