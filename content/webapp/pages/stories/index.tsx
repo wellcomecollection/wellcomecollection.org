@@ -52,9 +52,32 @@ const ArticlesContainer = styled.div`
 `;
 
 const StoryPromoContainer = styled.div.attrs({
-  className: 'container container--scroll',
+  className: 'container',
 })`
   -webkit-overflow-scrolling: touch;
+
+  /* former .container--scroll */
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'medium'
+    )(`
+    max-width: none;
+    width: auto;
+    overflow: auto;
+    padding: 0;
+
+    &::-webkit-scrollbar {
+      height: 18px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 0;
+      border-style: solid;
+      border-width: 0 ${props.theme.containerPadding.small}px 12px;
+      background: ${props.theme.color('neutral.400')};
+    }
+  `)}
 
   &::-webkit-scrollbar {
     background: ${props => props.theme.color('warmNeutral.300')};
