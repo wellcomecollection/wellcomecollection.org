@@ -15,10 +15,7 @@ import { FunctionComponent, useContext } from 'react';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import { arrow } from '@weco/common/icons';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import {
-  arrayIndexToQueryParam,
-  queryParamToArrayIndex,
-} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const NoScriptViewerEl = styled.div`
