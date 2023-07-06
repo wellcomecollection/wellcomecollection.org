@@ -23,6 +23,7 @@ import NextLink from 'next/link';
 import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/catalogue/types/manifest';
+import { thumbnailsPageSize } from '@weco/catalogue/components/IIIFViewer/Paginators';
 
 const Highlight = styled.span`
   background: ${props => props.theme.color('accent.purple')};
@@ -149,6 +150,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
       props: {
         manifest: query.manifest,
         canvas: query.canvas,
+        page: query.page
       },
       source: 'search_within_clear',
     });
@@ -187,6 +189,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
               canvas: query.canvas,
               manifest: query.manifest,
               query: value,
+              page: query.page,
             },
             source: 'search_within_submit',
           });
@@ -195,6 +198,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
       >
         <input type="hidden" name="canvas" value={query.canvas} />
         <input type="hidden" name="manifest" value={query.manifest} />
+        <input type="hidden" name="page" value={query.page} />
         <SearchInputWrapper>
           <TextInput
             id="searchWithin"
@@ -267,6 +271,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                       manifest: query.manifest,
                       query: query.query,
                       canvas: arrayIndexToQueryParam(index || 0),
+                      page: Math.ceil(arrayIndexToQueryParam(index || 0) / thumbnailsPageSize),
                     },
                     source: 'search_within_result',
                   })}
