@@ -12,7 +12,7 @@ import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer, {
   queryParamToArrayIndex,
-} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+} from '@weco/catalogue/components/IIIFViewer';
 import VideoPlayer from '@weco/catalogue/components/VideoPlayer/VideoPlayer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';

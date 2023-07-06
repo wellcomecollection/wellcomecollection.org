@@ -19,7 +19,7 @@ import {
   gridView,
   singlePage,
 } from '@weco/common/icons';
-import { queryParamToArrayIndex } from './IIIFViewer';
+import { queryParamToArrayIndex } from '.';
 import { getDownloadOptionsFromImageUrl } from '@weco/catalogue/utils/works';
 import useTransformedIIIFImage from '@weco/catalogue/hooks/useTransformedIIIFImage';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';

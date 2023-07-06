@@ -25,7 +25,7 @@ import { TransformedCanvas } from '@weco/catalogue/types/manifest';
 import { fetchCanvasOcr } from '@weco/catalogue/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/canvasOcr';
 import { AuthExternalService } from '@iiif/presentation-3';
-import { queryParamToArrayIndex } from './IIIFViewer';
+import { queryParamToArrayIndex } from '.';
 
 type OverlayPositionData = {
   canvasNumber: number;

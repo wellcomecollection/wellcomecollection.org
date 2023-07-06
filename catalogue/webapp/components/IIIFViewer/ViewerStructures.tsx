@@ -10,7 +10,7 @@ import {
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import NextLink from 'next/link';
-import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { arrayIndexToQueryParam } from '.';
 
 export const List = styled(PlainList)`
   border-left: 1px solid ${props => props.theme.color('neutral.600')};

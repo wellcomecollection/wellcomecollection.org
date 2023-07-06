@@ -14,7 +14,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { cross, minus, plus, rotateRight } from '@weco/common/icons';
 import { convertIiifUriToInfoUri } from '@weco/catalogue/utils/convert-iiif-uri';
-import { queryParamToArrayIndex } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { queryParamToArrayIndex } from '.';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const ZoomedImageContainer = styled.div`
