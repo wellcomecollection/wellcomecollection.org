@@ -28,7 +28,11 @@ describe('WorkDetailsText', () => {
       <WorkDetailsText
         contents={
           <>
-            This is a <ul>React</ul> element
+            This is a{' '}
+            <ul>
+              <li>React</li>
+            </ul>{' '}
+            element
           </>
         }
       />
