@@ -187,11 +187,13 @@ const RightZone = styled.div`
   align-items: center;
 `;
 
-type Props = OptionalToUndefined<{
+type ViewerTopBarProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
 }>;
 
-const ViewerTopBar: FunctionComponent<Props> = ({ iiifImageLocation }) => {
+const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
+  iiifImageLocation,
+}) => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {

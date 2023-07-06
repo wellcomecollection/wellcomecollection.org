@@ -43,11 +43,13 @@ const ErrorMessage = () => (
   </div>
 );
 
-type Props = OptionalToUndefined<{
+type ZoomedImageProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
 }>;
 
-const ZoomedImage: FunctionComponent<Props> = ({ iiifImageLocation }) => {
+const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
+  iiifImageLocation,
+}) => {
   const { transformedManifest, query, setShowZoomed } =
     useContext(ItemViewerContext);
   const currentCanvas =

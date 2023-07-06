@@ -121,12 +121,12 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
   );
 };
 
-type Props = OptionalToUndefined<{
+type ViewerSidebarProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
 }>;
 
-const ViewerSidebar: FunctionComponent<Props> = ({
+const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifImageLocation,
   iiifPresentationLocation,
 }) => {
