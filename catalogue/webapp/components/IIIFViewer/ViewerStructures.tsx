@@ -11,6 +11,7 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import NextLink from 'next/link';
 import { arrayIndexToQueryParam } from '.';
+import { thumbnailsPageSize } from '@weco/catalogue/components/IIIFViewer/Paginators';
 
 export const List = styled(PlainList)`
   border-left: 1px solid ${props => props.theme.color('neutral.600')};
@@ -73,6 +74,7 @@ const ViewerStructures: FunctionComponent = () => {
                   manifest: query.manifest,
                   query: query.query,
                   canvas: arrayIndexToQueryParam(canvasIndex),
+                  page: Math.ceil(arrayIndexToQueryParam(canvasIndex) / thumbnailsPageSize),
                 },
                 source: 'contents_nav',
               })}
