@@ -221,7 +221,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   transformedManifest,
   canvasOcr,
   handleImageError,
-}: IIIFViewerProps) => {
+}) => {
   const router = useRouter();
   const {
     page = 1,

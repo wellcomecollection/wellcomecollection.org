@@ -64,7 +64,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   index,
   setImageRect,
   setImageContainerRect,
-}: ImageViewerProps) => {
+}) => {
   const {
     work,
     errorHandler,

@@ -29,6 +29,7 @@ import {
   getMultiVolumeLabel,
   getCollectionManifests,
 } from '@weco/catalogue/utils/iiif/v3';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -123,9 +124,11 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
   );
 };
 
-const ViewerSidebar: FunctionComponent<{
+type Props = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
-}> = ({ iiifImageLocation }) => {
+}>;
+
+const ViewerSidebar: FunctionComponent<Props> = ({ iiifImageLocation }) => {
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
@@ -134,14 +137,12 @@ const ViewerSidebar: FunctionComponent<{
   const { iiifCredit, structures, searchService } = { ...transformedManifest };
   const productionDates = getProductionDates(work);
   // Determine digital location
-  const imageLocation =
-    iiifImageLocation || getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
   );
   const digitalLocation: DigitalLocation | undefined =
-    iiifPresentationLocation || imageLocation;
+    iiifPresentationLocation || iiifImageLocation;
 
   const license =
     digitalLocation?.license &&

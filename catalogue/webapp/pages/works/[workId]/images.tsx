@@ -19,6 +19,7 @@ import {
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { getDigitalLocationOfType } from 'utils/works';
 
 function createTzitzitImageLink(
   work: Work,
@@ -45,7 +46,8 @@ const ImagePage: FunctionComponent<Props> = ({
   catalogueApiUrl,
 }) => {
   const title = work.title || '';
-  const iiifImageLocation = image.locations[0];
+  const iiifImageLocation =
+    image.locations[0] || getDigitalLocationOfType(work, 'iiif-image');
 
   const apiLink = {
     id: 'json',

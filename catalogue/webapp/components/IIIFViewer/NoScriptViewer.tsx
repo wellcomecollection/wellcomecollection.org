@@ -19,6 +19,7 @@ import {
   arrayIndexToQueryParam,
   queryParamToArrayIndex,
 } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const NoScriptViewerEl = styled.div`
   display: flex;
@@ -143,17 +144,17 @@ const PaginatorButtons = (
 };
 /* eslint-enable react/display-name */
 
-type NoScriptViewerProps = {
+type NoScriptViewerProps = OptionalToUndefined<{
   imageUrl?: string;
   iiifImageLocation?: { url: string };
   canvasOcr?: string;
-};
+}>;
 
 const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
   imageUrl,
   iiifImageLocation,
   canvasOcr,
-}: NoScriptViewerProps) => {
+}) => {
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
   const lang = (work.languages.length === 1 && work.languages[0].id) || '';
   const { canvases } = { ...transformedManifest };
