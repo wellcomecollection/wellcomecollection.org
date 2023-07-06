@@ -63,7 +63,7 @@ const ZoomedImage: FunctionComponent<Props> = ({ iiifImageLocation }) => {
   const firstControl = useRef<HTMLButtonElement>(null);
   const lastControl = useRef<HTMLButtonElement>(null);
   const zoomedImage = useRef<HTMLDivElement>(null);
-  function setupViewer(imageInfoSrc, viewerId) {
+  function setupViewer(imageInfoSrc: string, viewerId: string) {
     fetch(imageInfoSrc)
       .then(response => response.json())
       .then(response => {
