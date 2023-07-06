@@ -91,7 +91,12 @@ type AccordionItemProps = PropsWithChildren<{
 }>;
 
 const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
+
+  useEffect(() => {
+    setIsActive(false);
+  }, []);
+
   return (
     <Item data-test-id={testId}>
       <AccordionInner onClick={() => setIsActive(!isActive)}>
