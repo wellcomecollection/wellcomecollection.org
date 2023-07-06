@@ -50,6 +50,7 @@ import {
   fromCompressedManifest,
   toCompressedTransformedManifest,
 } from '@weco/catalogue/types/compressed-manifest';
+import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -95,6 +96,7 @@ type Props = {
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
   pageview: Pageview;
+  serverSearchResults?: SearchResults;
 };
 
 const ItemPage: NextPage<Props> = ({
@@ -104,6 +106,7 @@ const ItemPage: NextPage<Props> = ({
   iiifImageLocation,
   iiifPresentationLocation,
   canvas,
+  serverSearchResults
 }) => {
   const transformedManifest =
     compressedTransformedManifest &&
@@ -128,6 +131,7 @@ const ItemPage: NextPage<Props> = ({
     canvases,
   } = { ...transformedManifest };
 
+  const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authService = clickThroughService || restrictedService;
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
@@ -333,11 +337,13 @@ const ItemPage: NextPage<Props> = ({
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
               reloadAuthIframe(document, iframeId);
             }}
+          resultsState={{ searchResults, setSearchResults }}
           />
         )}
     </CataloguePageLayout>
   );
 };
+
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -428,6 +434,20 @@ export const getServerSideProps: GetServerSideProps<
     const canvasOcrText = await fetchCanvasOcr(currentCanvas);
     const canvasOcr = transformCanvasOcr(canvasOcrText);
 
+    const serverSearchResults = async () => {
+      if (displayManifest.searchService && context.query?.query?.length) {
+        try {
+          return await (
+            await fetch(`${displayManifest.searchService['@id']}?q=${context.query.query}`)
+          ).json();
+        } catch (error) {
+          return null
+        }
+      } else {
+        return null;
+      }
+    }
+
     return {
       props: serialiseProps({
         compressedTransformedManifest:
@@ -439,6 +459,7 @@ export const getServerSideProps: GetServerSideProps<
         iiifPresentationLocation,
         pageview,
         serverData,
+        serverSearchResults: await serverSearchResults()
       }),
     };
   }

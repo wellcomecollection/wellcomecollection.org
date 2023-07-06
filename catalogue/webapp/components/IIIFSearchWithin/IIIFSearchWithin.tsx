@@ -231,18 +231,18 @@ const IIIFSearchWithin: FunctionComponent = () => {
       </SearchForm>
       <div aria-live="polite">
         {isLoading && <Loading />}
-        {Boolean(searchResults.within.total !== null && query.query) && (
+        {Boolean(searchResults?.within?.total !== null && query.query) && (
           <ResultsHeader data-test-id="results-header">
-            {searchResults.within.total}{' '}
-            {searchResults.within.total === 1 ? 'result' : 'results'}
+            {searchResults?.within?.total}{' '}
+            {searchResults?.within?.total === 1 ? 'result' : 'results'}
           </ResultsHeader>
         )}
         <ResultsList>
-          {searchResults.hits.map((hit, i) => {
+          {searchResults?.hits?.map((hit, i) => {
             // We need the matching resource for each hit to get the canvas it appears on
             const matchingResources = hit.annotations
               .map(annotation => {
-                return searchResults.resources.find(
+                return searchResults?.resources?.find(
                   resource => resource['@id'] === annotation
                 );
               })
