@@ -6,6 +6,7 @@ import {
 } from '@weco/common/model/catalogue';
 import {
   Work,
+  WorkBasic,
   toWorkBasic,
 } from '@weco/catalogue/services/wellcome/catalogue/types';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
@@ -94,11 +95,12 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
 
 type Props = {
   compressedTransformedManifest?: CompressedTransformedManifest;
-  work: Work;
+  work: WorkBasic;
   canvas: number;
   canvasOcr?: string;
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
+  apiToolbarLinks: ApiToolbarLink[];
   pageview: Pageview;
   serverSearchResults: SearchResults | null;
 };
@@ -109,6 +111,7 @@ const ItemPage: NextPage<Props> = ({
   canvasOcr,
   iiifImageLocation,
   iiifPresentationLocation,
+  apiToolbarLinks,
   canvas,
   serverSearchResults
 }) => {
@@ -194,7 +197,7 @@ const ItemPage: NextPage<Props> = ({
       openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
-      apiToolbarLinks={[createTzitzitWorkLink(work)]}
+      apiToolbarLinks={apiToolbarLinks}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
@@ -211,11 +214,11 @@ const ItemPage: NextPage<Props> = ({
           <Container>
             <Grid>
               <WorkHeader
-                work={toWorkBasic(work)}
+                work={work}
                 collectionManifestsCount={collectionManifestsCount}
               />
             </Grid>
-            <WorkTabbedNav work={toWorkBasic(work)} selected="imageViewer" />
+            <WorkTabbedNav work={work} selected="imageViewer" />
           </Container>
         </Space>
       )}
@@ -432,6 +435,8 @@ export const getServerSideProps: GetServerSideProps<
     }
   }
 
+  const apiToolbarLinks = [createTzitzitWorkLink(work)].filter(isNotUndefined);
+
   if (transformedManifest) {
     const displayManifest = await getDisplayManifest(
       transformedManifest,
@@ -464,10 +469,11 @@ export const getServerSideProps: GetServerSideProps<
         compressedTransformedManifest:
           toCompressedTransformedManifest(displayManifest),
         canvasOcr,
-        work,
+        work: toWorkBasic(work),
         canvas,
         iiifImageLocation,
         iiifPresentationLocation,
+        apiToolbarLinks,
         pageview,
         serverData,
         serverSearchResults,
@@ -479,11 +485,12 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: serialiseProps({
         compressedTransformedManifest: undefined,
-        work,
+        work: toWorkBasic(work),
         canvas,
         canvases: [],
         iiifImageLocation,
         iiifPresentationLocation,
+        apiToolbarLinks,
         pageview,
         serverData,
         serverSearchResults: null

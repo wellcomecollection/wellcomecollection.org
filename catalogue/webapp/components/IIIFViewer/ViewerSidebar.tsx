@@ -141,7 +141,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     string | undefined
   >();
   const { iiifCredit, structures, searchService } = { ...transformedManifest };
-  const productionDates = getProductionDates(work);
 
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
@@ -180,18 +179,21 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           <WorkTitle title={work.title} />
         </h1>
 
-        {work.contributors.length > 0 && (
+        {work.primaryContributorLabel && (
           <Space
             h={{ size: 'm', properties: ['margin-right'] }}
             data-test-id="work-contributors"
           >
-            <LinkLabels items={[{ text: work.contributors[0].agent.label }]} />
+            <LinkLabels items={[{ text: work.primaryContributorLabel }]} />
           </Space>
         )}
 
-        {productionDates.length > 0 && (
+        {work.productionDates.length > 0 && (
           <div data-test-id="work-dates">
-            <LinkLabels heading="Date" items={[{ text: productionDates[0] }]} />
+            <LinkLabels
+              heading="Date"
+              items={[{ text: work.productionDates[0] }]}
+            />
           </div>
         )}
 
