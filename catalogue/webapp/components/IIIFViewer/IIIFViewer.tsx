@@ -29,7 +29,6 @@ import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
-import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 // canvas and manifest params use 1-based indexing, but are used to access items in 0 indexed arrays,
 // so we need to convert it in various places
@@ -61,14 +60,14 @@ const DelayVisibility = styled.div`
   animation: 0.5s ${show} 2s forwards;
 `;
 
-type IIIFViewerProps = OptionalToUndefined<{
+type IIIFViewerProps = {
   work: Work;
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
   transformedManifest?: TransformedManifest;
   canvasOcr?: string;
   handleImageError?: () => void;
-}>;
+};
 
 const LoadingComponent = () => (
   <div
