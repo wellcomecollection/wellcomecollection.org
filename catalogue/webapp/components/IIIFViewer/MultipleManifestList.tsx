@@ -7,7 +7,7 @@ import {
   getMultiVolumeLabel,
   getCollectionManifests,
 } from '@weco/catalogue/utils/iiif/v3';
-import { queryParamToArrayIndex } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { queryParamToArrayIndex } from '.';
 import {
   List,
   Item,

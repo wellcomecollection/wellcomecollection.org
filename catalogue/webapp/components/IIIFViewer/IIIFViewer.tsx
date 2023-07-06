@@ -29,16 +29,7 @@ import NoScriptViewer from './NoScriptViewer';
 import { fetchJson } from '@weco/common/utils/http';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
-
-// canvas and manifest params use 1-based indexing, but are used to access items in 0 indexed arrays,
-// so we need to convert it in various places
-export function queryParamToArrayIndex(canvas: number): number {
-  return canvas - 1;
-}
-
-export function arrayIndexToQueryParam(canvasIndex: number): number {
-  return canvasIndex + 1;
-}
+import { queryParamToArrayIndex } from '.';
 
 const show = keyframes`
   from {
@@ -62,7 +53,8 @@ const DelayVisibility = styled.div`
 
 type IIIFViewerProps = {
   work: Work;
-  iiifImageLocation: DigitalLocation | undefined;
+  iiifImageLocation?: DigitalLocation;
+  iiifPresentationLocation?: DigitalLocation;
   transformedManifest?: TransformedManifest;
   canvasOcr?: string;
   handleImageError?: () => void;
@@ -218,10 +210,11 @@ const Thumbnails = styled.div<{
 const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   work,
   iiifImageLocation,
+  iiifPresentationLocation,
   transformedManifest,
   canvasOcr,
   handleImageError,
-}: IIIFViewerProps) => {
+}) => {
   const router = useRouter();
   const {
     page = 1,
@@ -348,7 +341,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             isActiveMobile={isMobileSidebarActive}
             isActiveDesktop={isDesktopSidebarActive}
           >
-            <ViewerSidebar iiifImageLocation={iiifImageLocation} />
+            <ViewerSidebar
+              iiifImageLocation={iiifImageLocation}
+              iiifPresentationLocation={iiifPresentationLocation}
+            />
           </Sidebar>
           <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
             <ViewerTopBar iiifImageLocation={iiifImageLocation} />

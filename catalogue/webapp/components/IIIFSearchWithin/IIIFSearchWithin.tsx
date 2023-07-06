@@ -20,7 +20,7 @@ import { search } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import NextLink from 'next/link';
-import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { arrayIndexToQueryParam } from '@weco/catalogue/components/IIIFViewer';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/catalogue/types/manifest';
 

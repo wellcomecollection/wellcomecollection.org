@@ -22,10 +22,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { TransformedCanvas } from '@weco/catalogue/types/manifest';
 import NextLink from 'next/link';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
-import {
-  arrayIndexToQueryParam,
-  queryParamToArrayIndex,
-} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
