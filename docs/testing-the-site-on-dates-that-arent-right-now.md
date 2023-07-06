@@ -9,11 +9,11 @@ To help us test date logic, you can make the site think it's running at a partic
     ```typescript
     import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
     import { today } from '@weco/common/utils/dates';
+    import { Container } from '@weco/common/views/components/styled/Container';
 
     …
 
-    <div
-      className="container"
+    <Container
       style={{
         background: 'red',
         fontSize: '1.2em',
@@ -23,7 +23,7 @@ To help us test date logic, you can make the site think it's running at a partic
     >
       the site as it will look on {formatDayDate(today())} at{' '}
       {formatTime(today())}
-    </div>
+    </Container>
     ```
 
 <img src="./screenshots/datetime-banner.png">

@@ -110,10 +110,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      <Space
-        className="container"
-        v={{ size: 'l', properties: ['padding-bottom'] }}
-      >
+      <Space isContainer v={{ size: 'l', properties: ['padding-bottom'] }}>
         {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
           <>
             <Space

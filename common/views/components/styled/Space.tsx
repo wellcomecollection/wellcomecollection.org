@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { containerStyles } from './Container';
+
 // This component will output horizontal/vertical space from one of five pre-defined sizes: xs, s, m, l, and xl.
 // Each of these sizes has a pixel value for each of the three breakpoints, 'small', 'medium', and 'large'.
 // The component can receive `h` and/or `v` props to determine the horizontal/vertical space respectively.
@@ -52,9 +54,12 @@ type HorizontalSpaceProps = {
 export type SpaceComponentProps = {
   v?: VerticalSpaceProps;
   h?: HorizontalSpaceProps;
+  isContainer?: boolean;
 };
 
 const Space = styled.div<SpaceComponentProps>`
+  ${props => (props.isContainer ? containerStyles : ``)}
+
   ${props =>
     props.v &&
     props.theme.makeSpacePropertyValues(

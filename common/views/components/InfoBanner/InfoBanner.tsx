@@ -1,15 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import cookies from '@weco/common/data/cookies';
+import styled from 'styled-components';
 import { getCookie, setCookie } from 'cookies-next';
-import { font } from '../../../utils/classnames';
+import cookies from '@weco/common/data/cookies';
+import { font } from '@weco/common/utils/classnames';
 import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
-import usePrevious from '../../../hooks/usePrevious';
-import { cross, information } from '../../../icons';
-import { GlobalAlertPrismicDocument } from '../../../services/prismic/documents';
-import { InferDataInterface } from '../../../services/prismic/types';
-import styled from 'styled-components';
+import usePrevious from '@weco/common/hooks/usePrevious';
+import { cross, information } from '@weco/common/icons';
+import { GlobalAlertPrismicDocument } from '@weco/common/services/prismic/documents';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 type Props = {
   cookieName: string;
@@ -24,9 +25,7 @@ const BannerContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color('yellow')};
 `;
 
-const BannerWrapper = styled.div.attrs({
-  className: 'container',
-})`
+const BannerWrapper = styled(Container)`
   display: flex;
   justify-content: space-between;
 `;

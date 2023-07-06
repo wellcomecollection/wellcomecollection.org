@@ -1,8 +1,8 @@
 import { FunctionComponent, useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import * as prismic from '@prismicio/client';
 import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import * as prismic from '@prismicio/client';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -15,7 +15,8 @@ import { font } from '@weco/common/utils/classnames';
 import {
   ExhibitionGuideComponent,
   ExhibitionGuideType,
-} from 'types/exhibition-guides';
+} from '@weco/content/types/exhibition-guides';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
@@ -34,33 +35,37 @@ const StandaloneTitle = styled(Space).attrs({
     props.theme.color(getTypeColor('captions-and-transcripts'))};
 `;
 
-const ContextTitle = styled(Space).attrs<{ level: number }>(props => ({
+type LevelProps = { level: number };
+
+const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.level}`,
   className: font('wb', 3),
   v: { size: 'm', properties: ['margin-bottom'] },
-}))<{ level: number }>``;
+}))<LevelProps>``;
 
-const TranscriptTitle = styled(Space).attrs<{ level: number }>(props => ({
+const TranscriptTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.level}`,
   className: font('wb', 4),
   v: { size: 'm', properties: ['margin-bottom'] },
-}))<{ level: number }>``;
+}))<LevelProps>``;
 
-const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
-  props => ({
-    v: props.hasPadding
-      ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
-      : null,
-  })
-)<{ backgroundColor: PaletteColor; hasPadding: boolean }>`
+type ContextContainerProps = {
+  hasPadding: boolean;
+  backgroundColor: PaletteColor;
+};
+const ContextContainer = styled(Space).attrs<ContextContainerProps>(props => ({
+  v: props.hasPadding
+    ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
+    : null,
+}))<ContextContainerProps>`
   background: ${props => props.theme.color(props.backgroundColor)};
 `;
 
-const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
+const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.level}`,
   className: font('wb', 3),
   v: { size: 's', properties: ['margin-bottom'] },
-}))<{ level: number }>``;
+}))<LevelProps>``;
 
 const Tombstone = styled(Space).attrs({
   className: font('intr', 4),
@@ -192,7 +197,7 @@ const Stop: FunctionComponent<{
   return (
     <>
       {hasStandaloneTitle && (
-        <div className="container">
+        <Container>
           {!isFirstStop && (
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}></Space>
           )}
@@ -210,7 +215,7 @@ const Stop: FunctionComponent<{
               </StandaloneTitle>
             </Space>
           </div>
-        </div>
+        </Container>
       )}
       <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
         <ConditionalWrapper
@@ -224,10 +229,7 @@ const Stop: FunctionComponent<{
             </ContextContainer>
           )}
         >
-          <div
-            className="container"
-            style={{ display: 'flex', flexWrap: 'wrap' }}
-          >
+          <Container style={{ display: 'flex', flexWrap: 'wrap' }}>
             <Tombstone>
               {!hasContext && title && (
                 <TombstoneTitle
@@ -314,7 +316,7 @@ const Stop: FunctionComponent<{
                 </Transcription>
               )}
             </CaptionTranscription>
-          </div>
+          </Container>
         </ConditionalWrapper>
       </Space>
     </>

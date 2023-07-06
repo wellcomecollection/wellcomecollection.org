@@ -10,6 +10,7 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchFilters from '@weco/catalogue/components/SearchFilters';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 // Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -102,7 +103,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
       {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
         <>
-          <div className="container">
+          <Container>
             <Space
               v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
             >
@@ -126,17 +127,17 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 hasNoResults={hasNoResults}
               />
             </Space>
-          </div>
+          </Container>
         </>
       )}
       {storyResponseList && (
         <Wrapper>
           {storyResponseList.totalResults === 0 ? (
-            <div className="container">
+            <Container>
               <SearchNoResults query={queryString} />
-            </div>
+            </Container>
           ) : (
-            <div className="container">
+            <Container>
               <PaginationWrapper verticalSpacing="l">
                 <span>
                   {pluralize(storyResponseList.totalResults, 'result')}
@@ -194,7 +195,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                   ariaLabel="Stories search pagination"
                 />
               </PaginationWrapper>
-            </div>
+            </Container>
           )}
         </Wrapper>
       )}

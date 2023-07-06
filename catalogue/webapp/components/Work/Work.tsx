@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { Work as WorkType } from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   Location as LocationType,
@@ -8,11 +9,11 @@ import { grid } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   getDigitalLocationInfo,
-} from '../../utils/works';
+} from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '../CataloguePageLayout/CataloguePageLayout';
-import { workLd } from '../../utils/json-ld';
+import { workLd } from '@weco/catalogue/utils/json-ld';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '../WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '../ArchiveBreadcrumb/ArchiveBreadcrumb';
@@ -21,13 +22,13 @@ import WorkDetails from '../WorkDetails/WorkDetails';
 import ArchiveTree from '../ArchiveTree';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import styled from 'styled-components';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import { useToggles } from '@weco/common/server-data/Context';
-import useTransformedManifest from '../../hooks/useTransformedManifest';
+import useTransformedManifest from '@weco/catalogue/hooks/useTransformedManifest';
 import { Audio, Video } from 'services/iiif/types/manifest/v3';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -44,10 +45,6 @@ const WorkDetailsWrapper = styled(Space).attrs({
 })`
   flex: 1;
 `;
-
-export const Container = styled.div.attrs({
-  className: 'container',
-})``;
 
 export const Grid = styled.div.attrs({
   className: 'grid',

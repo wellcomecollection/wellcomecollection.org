@@ -12,6 +12,7 @@ import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchFilters from '@weco/catalogue/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Sort from '@weco/catalogue/components/Sort/Sort';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 // Utils & Helpers
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -50,9 +51,12 @@ type Props = {
   apiToolbarLinks: ApiToolbarLink[];
 };
 
-const Wrapper = styled(Space).attrs<{ hasNoResults: boolean }>(props => ({
+type WrapperProps = {
+  hasNoResults: boolean;
+};
+const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   v: { size: 'xl', properties: [props.hasNoResults ? '' : 'margin-bottom'] },
-}))<{ hasNoResults: boolean }>`
+}))<WrapperProps>`
   ${props =>
     props.hasNoResults
       ? ``
@@ -132,7 +136,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       </Head>
 
       {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
-        <div className="container">
+        <Container>
           <Space
             v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
@@ -156,14 +160,11 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               hasNoResults={hasNoResults}
             />
           </Space>
-        </div>
+        </Container>
       )}
 
       <Wrapper hasNoResults={hasNoResults}>
-        <Space
-          className="container"
-          v={{ size: 'l', properties: ['padding-bottom'] }}
-        >
+        <Space isContainer v={{ size: 'l', properties: ['padding-bottom'] }}>
           {hasNoResults ? (
             <SearchNoResults
               query={queryString}

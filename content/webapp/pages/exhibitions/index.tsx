@@ -29,6 +29,7 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isFuture } from '@weco/common/utils/dates';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 export type ExhibitionsProps = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -160,14 +161,14 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
               itemsPerRow={3}
             />
             {exhibitions.totalPages > 1 && (
-              <div className="container">
+              <Container>
                 <PaginationWrapper verticalSpacing="m" alignRight>
                   <Pagination
                     totalPages={exhibitions.totalPages}
                     ariaLabel="Exhibitions pagination"
                   />
                 </PaginationWrapper>
-              </div>
+              </Container>
             )}
           </SpacingSection>
         </>

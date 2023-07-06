@@ -1,13 +1,14 @@
 import { useState, useContext, FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font } from '@weco/common/utils/classnames';
 import Space from '../styled/Space';
-import styled from 'styled-components';
 import TextInput from '../TextInput/TextInput';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 const FormElementWrapper = styled.div`
   display: flex;
@@ -152,7 +153,7 @@ const NewsletterPromo: FunctionComponent = () => {
 
   return (
     <div className="is-hidden-print">
-      <div className="container">
+      <Container>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div>
             <YellowBox>
@@ -249,7 +250,7 @@ const NewsletterPromo: FunctionComponent = () => {
             </Space>
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

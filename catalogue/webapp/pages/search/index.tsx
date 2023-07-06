@@ -1,3 +1,4 @@
+import { useContext, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
@@ -8,7 +9,7 @@ import StoriesGrid from '@weco/catalogue/components/StoriesGrid';
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
-
+import { Container } from '@weco/common/views/components/styled/Container';
 import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -41,7 +42,6 @@ import { WellcomeApiError } from '@weco/catalogue/services/wellcome';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/catalogue/utils/spam-detector';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
-import { useContext, useEffect } from 'react';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -138,14 +138,14 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     <main>
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
         {!stories && !images && !works ? (
-          <div className="container">
+          <Container>
             <SearchNoResults query={queryString} />
-          </div>
+          </Container>
         ) : (
           <>
             {stories && (
               <StoriesSection as="section">
-                <div className="container">
+                <Container>
                   <SectionTitle sectionName="Stories" />
                   <StoriesGrid
                     articles={stories.pageResults}
@@ -163,13 +163,13 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       totalResults={stories.totalResults}
                     />
                   </Space>
-                </div>
+                </Container>
               </StoriesSection>
             )}
 
             {images && (
               <ImagesSection>
-                <div className="container">
+                <Container>
                   <SectionTitle sectionName="Images" />
 
                   <ImageEndpointSearchResults images={images.pageResults} />
@@ -181,13 +181,13 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       totalResults={images.totalResults}
                     />
                   </Space>
-                </div>
+                </Container>
               </ImagesSection>
             )}
 
             {works && (
               <WorksSection>
-                <div className="container">
+                <Container>
                   <SectionTitle sectionName="Catalogue" />
 
                   <WorksSearchResults works={works.pageResults} />
@@ -199,7 +199,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       totalResults={works.totalResults}
                     />
                   </Space>
-                </div>
+                </Container>
               </WorksSection>
             )}
           </>

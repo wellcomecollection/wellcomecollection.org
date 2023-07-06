@@ -9,7 +9,6 @@ import { utilityClasses } from './utility-classes';
 import { normalize } from './base/normalize';
 import { wellcomeNormalize } from './base/wellcome-normalize';
 import { layout } from './base/layout';
-import { container } from './base/container';
 import { row } from './base/row';
 import { inlineFonts } from './base/inline-fonts';
 import { fonts } from './base/fonts';
@@ -130,7 +129,6 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${normalize}
   ${wellcomeNormalize}
   ${layout}
-  ${container}
   ${row}
   ${inlineFonts}
   ${fonts}

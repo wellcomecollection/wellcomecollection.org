@@ -60,7 +60,8 @@ const FrameGridWrap = styled(Space).attrs({
   `)}
 `;
 
-const FrameGrid = styled.div<{ isThreeUp: boolean }>`
+type FrameGridProps = { isThreeUp: boolean };
+const FrameGrid = styled.div<FrameGridProps>`
   display: grid;
   width: 100%;
   grid-template-columns: 1fr;
@@ -94,13 +95,12 @@ const GalleryTitle = styled(Space).attrs({
   }
 `;
 
-const Gallery = styled.div.attrs({
-  className: 'row',
-})<{
+type GalleryProps = {
   isActive: boolean;
   isStandalone: boolean;
   pageBackground: 'warmNeutral.300' | 'white';
-}>`
+};
+const Gallery = styled.div<GalleryProps>`
   position: relative;
 
   .caption {
@@ -227,7 +227,8 @@ const WobblyEdgeWrapper = styled.div`
   width: 100%;
 `;
 
-const ButtonContainer = styled.div<{ isHidden: boolean }>`
+type ButtonContainerProps = { isHidden: boolean };
+const ButtonContainer = styled.div<ButtonContainerProps>`
   display: ${props => (props.isHidden ? 'none' : 'block')};
   position: absolute;
   bottom: 24px;
@@ -237,7 +238,6 @@ const ButtonContainer = styled.div<{ isHidden: boolean }>`
 `;
 
 type ControlContainerProps = { isActive: boolean };
-
 const ControlContainer = styled(Space).attrs<ControlContainerProps>(props => ({
   v: {
     size: 'm',

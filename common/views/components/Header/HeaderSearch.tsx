@@ -4,12 +4,14 @@ import { useRouter } from 'next/router';
 import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
+import { Container } from '@weco/common/views/components/styled/Container';
 
-const Overlay = styled.div.attrs<{ isActive: boolean }>(props => ({
+type OverlayProps = { isActive: boolean };
+const Overlay = styled.div.attrs<OverlayProps>(props => ({
   className: classNames({
     'is-hidden': !props.isActive,
   }),
-}))<{ isActive: boolean }>`
+}))<OverlayProps>`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -82,9 +84,9 @@ const HeaderSearch = ({
         ref={isActive ? wrapperRef : undefined}
         onClick={e => e.stopPropagation()}
       >
-        <div className="container">
+        <Container>
           <SearchForm inputRef={inputRef} />
-        </div>
+        </Container>
       </SearchBarWrapper>
     </Overlay>
   );

@@ -1,6 +1,7 @@
 import { getServerData } from '@weco/common/server-data';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 export const getServerSideProps = async context => {
   const serverData = await getServerData(context);
@@ -27,7 +28,7 @@ const VisualStory = () => {
       hideNewsletterPromo={true}
     >
       <Space v={{ size: 'xl', properties: ['padding-bottom', 'padding-top'] }}>
-        <div className="container">
+        <Container>
           <h1 className="h1">Visual Stories prototypes</h1>
           <ul>
             <li>
@@ -37,7 +38,7 @@ const VisualStory = () => {
               <a href="/visual-stories/v2">Version 2</a>
             </li>
           </ul>
-        </div>
+        </Container>
       </Space>
     </PageLayout>
   );

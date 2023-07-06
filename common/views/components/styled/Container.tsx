@@ -1,7 +1,7 @@
-import { themeValues } from '../config';
+import { themeValues } from '@weco/common/views/themes/config';
+import styled, { css } from 'styled-components';
 
-export const container = `
-.container {
+export const containerStyles = css`
   margin: 0 auto;
   width: 100%;
   max-width: ${themeValues.sizes.xlarge}px;
@@ -14,7 +14,8 @@ export const container = `
   ${themeValues.media('large')(`
     padding: 0 ${themeValues.containerPadding.large}px;
   `)}
+`;
 
-
-}
+export const Container = styled.div`
+  ${containerStyles}
 `;
