@@ -206,7 +206,7 @@ function getPositionData({
         rotation: matchingRotation?.rotation || 0,
       };
     });
-  return highlightsPositioningData;
+  return highlightsPositioningData || [];
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const { scrollVelocity, canvases, restrictedService } = data;
