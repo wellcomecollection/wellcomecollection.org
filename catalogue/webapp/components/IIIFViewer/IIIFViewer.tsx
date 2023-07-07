@@ -39,7 +39,7 @@ type IIIFViewerProps = {
   canvasOcr?: string;
   handleImageError?: () => void;
   resultsState: {
-    searchResults: SearchResults;
+    searchResults?: SearchResults;
     setSearchResults: (v) => void;
   }
 };
