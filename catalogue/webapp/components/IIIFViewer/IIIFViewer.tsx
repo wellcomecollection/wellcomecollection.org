@@ -63,7 +63,7 @@ type IIIFViewerProps = {
   canvasOcr?: string;
   handleImageError?: () => void;
   resultsState: {
-    searchResults: SearchResults | undefined;
+    searchResults: SearchResults;
     setSearchResults: (v) => void;
   }
 };
@@ -255,19 +255,18 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     shouldScrollToCanvas = true,
     query = '',
   } = fromQuery(router.query);
-  const [gridVisible, setGridVisible] = useState(false); // TODO put back to false - then change how tabs are done
+  const [gridVisible, setGridVisible] = useState(false);
   const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
   const { isFullSupportBrowser } = useContext(AppContext);
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
-  const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false); // TODO put back to false - then change how tabs are done // don't show sidebar by default on mobile
+  const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false);
   const [showZoomed, setShowZoomed] = useState(false);
   const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
-  // const [searchResults, setSearchResults] = useState(results);
   const [isResizing, setIsResizing] = useState(false);
   const currentCanvas =
   transformedManifest?.canvases[queryParamToArrayIndex(canvas)];

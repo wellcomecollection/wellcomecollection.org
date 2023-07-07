@@ -7,6 +7,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { useContext } from 'react';
 import { arrow } from '@weco/common/icons';
+import { LinkProps } from '@weco/common/model/link-props';
 
 const PaginatorWrapper = styled.div`
   display: flex;
@@ -29,9 +30,9 @@ const PaginatorButtons = ({
   nextLink,
 }: {
   workId: string,
-  currentPage: any, // TODO
-  prevLink: any, // TODO
-  nextLink: any, // TODO
+  currentPage: number,
+  prevLink?: LinkProps,
+  nextLink?: LinkProps,
 }) => {
     return (
       <PaginatorWrapper>
