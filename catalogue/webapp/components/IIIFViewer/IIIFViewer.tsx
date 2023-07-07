@@ -5,13 +5,12 @@ import {
   useEffect,
   useContext,
 } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
-import IIIFViewerImage from './IIIFViewerImage';
 import ViewerTopBar from './ViewerTopBar';
 import ItemViewerContext, {
   RotatedImage,
@@ -27,33 +26,10 @@ import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { fetchJson } from '@weco/common/utils/http';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
-import { fromQuery, toLink as itemLink } from '@weco/catalogue/components/ItemLink';
-import { imageSizes } from '@weco/common/utils/image-sizes';
+import { fromQuery } from '@weco/catalogue/components/ItemLink';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
-import { CanvasPaginator, ThumbnailsPaginator } from '@weco/catalogue/components/IIIFViewer/Paginators';
-import { Thumbnails } from '@weco/catalogue/components/IIIFViewer/Thumbnails';
-import { queryParamToArrayIndex } from '.';
-
-const show = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
-// Certain parts of the viewer will display before the enhanced versions take their place.
-// This is necessary for them to be available to visitors without javascript,
-// but would normally result in a large and noticeable change to the page which is jarring.
-// In order to prevent that, we wrap those elements in a DelayVisibility styled component.
-// This delays the visibility of them long enough
-// that the enhanced versions will usually have replaced them, if javascript is available, and so they will never be seen.
-// The trade off is that if javascript isn't available there will be a slight delay before seeing all the parts of the viewer.
-const DelayVisibility = styled.div`
-  opacity: 0;
-  animation: 0.2s ${show} 1.5s forwards;
-`;
+import { NoScriptImage } from '@weco/catalogue/components/IIIFViewer/NoScriptImage';
+import { queryParamToArrayIndex, DelayVisibility } from '.';
 
 type IIIFViewerProps = {
   work: Work;
@@ -85,21 +61,6 @@ const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
   ssr: false,
   loading: LoadingComponent,
 });
-
-const NoScriptImageWrapper = styled.div`
-  img {
-
-    display: block;
-    width : 66vw;
-    height: auto;
-    margin: 5vh auto;
-  }
-`;
-const NoScriptLoadingWrapper = styled.div`
-position: absolute;
-width: 100%;
-height: calc(100vh - ${props => props.theme.navHeight}px);
-`;
 
 type GridProps = {
   isFullSupportBrowser: boolean;
@@ -282,48 +243,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     Boolean(hasIiifImage && !hasImageService)
   );
   const { searchResults, setSearchResults } = { ...resultsState };
-  const srcSet =
-  urlTemplate &&
-  imageSizes(2048)
-    .map(width => `${urlTemplate({ size: `${width},` })} ${width}w`)
-      .join(',');
-  const lang = (work.languages.length === 1 && work.languages[0].id) || undefined;
-
-  const pageIndex = queryParamToArrayIndex(page);
-  const pageSize = 4;
-  const { canvases } = { ...transformedManifest };
-  const navigationCanvases = canvases
-  ? [...Array(pageSize)]
-      .map((_, i) => pageSize * queryParamToArrayIndex(page) + i)
-      .map(i => canvases?.[i])
-      .filter(Boolean)
-  : [];
-  const thumbnailsRequired = Boolean(navigationCanvases?.length);
-
-
-  const sharedPaginatorProps = {
-    totalResults: transformedManifest?.canvases?.length || 1,
-    link: itemLink({
-      workId: work.id,
-      props: {
-        canvas: canvas,
-        page: page,
-      },
-      source: 'viewer/paginator',
-    }),
-  };
-  const mainPaginatorProps = {
-    currentPage: canvas,
-    pageSize: 1,
-    linkKey: 'canvas',
-    ...sharedPaginatorProps,
-  };
-  const thumbsPaginatorProps = {
-    currentPage: page,
-    pageSize: 4,
-    linkKey: 'page',
-    ...sharedPaginatorProps,
-  };
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.
@@ -449,34 +368,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
                 )}
 
             {imageUrl && !isFullSupportBrowser && (
-              <>
-                {/* TODO move to own file */}
-                <NoScriptLoadingWrapper>
-                    <LL lighten={true} />
-                </NoScriptLoadingWrapper>
-                <DelayVisibility>
-                <CanvasPaginator />
-                <NoScriptImageWrapper id="canvas">
-                    <IIIFViewerImage
-                        width={800}
-                        src={imageUrl}
-                        srcSet={srcSet}
-                        sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
-                        lang={lang}
-                        alt={
-                          (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-                          'no text alternative'
-                        }
-                        />
-                  </NoScriptImageWrapper>
-                {thumbnailsRequired &&
-                  <div style={{position: 'relative'}}>
-                    <Thumbnails />
-                    <ThumbnailsPaginator />
-                  </div>
-                }
-              </DelayVisibility>
-            </>
+              <NoScriptImage urlTemplate={urlTemplate} canvasOcr={canvasOcr} />
             )}
 
             {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
