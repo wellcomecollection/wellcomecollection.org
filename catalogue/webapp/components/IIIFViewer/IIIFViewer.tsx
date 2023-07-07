@@ -32,6 +32,7 @@ import { imageSizes } from '@weco/common/utils/image-sizes';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 import { CanvasPaginator, ThumbnailsPaginator } from '@weco/catalogue/components/IIIFViewer/Paginators';
 import { Thumbnails } from '@weco/catalogue/components/IIIFViewer/Thumbnails';
+import { queryParamToArrayIndex } from '.';
 
 const show = keyframes`
   from {

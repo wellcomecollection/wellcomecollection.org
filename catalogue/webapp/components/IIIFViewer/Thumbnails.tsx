@@ -5,7 +5,7 @@ import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import { thumbnailsPageSize } from './Paginators'
 import {
   queryParamToArrayIndex,
-} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+} from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import styled from 'styled-components';
 
