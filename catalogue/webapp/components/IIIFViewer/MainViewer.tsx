@@ -161,7 +161,7 @@ function getPositionData({
   imageContainerRect: DOMRect;
   imageRect: DOMRect;
   currentCanvas: TransformedCanvas;
-  searchResults: SearchResults | undefined;
+  searchResults: SearchResults | null;
   canvases: TransformedCanvas[];
   rotatedImages: RotatedImage[];
 }): OverlayPositionData[] {
