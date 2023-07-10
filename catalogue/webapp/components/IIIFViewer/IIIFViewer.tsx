@@ -38,10 +38,8 @@ type IIIFViewerProps = {
   transformedManifest?: TransformedManifest;
   canvasOcr?: string;
   handleImageError?: () => void;
-  resultsState: {
-    searchResults?: SearchResults;
-    setSearchResults: (v) => void;
-  }
+  searchResults: SearchResults | null;
+  setSearchResults: (v) => void;
 };
 
 const LoadingComponent = () => (
@@ -206,7 +204,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   transformedManifest,
   canvasOcr,
   handleImageError,
-  resultsState,
+  searchResults,
+  setSearchResults,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -242,7 +241,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [showControls, setShowControls] = useState(
     Boolean(hasIiifImage && !hasImageService)
   );
-  const { searchResults, setSearchResults } = { ...resultsState };
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.

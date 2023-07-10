@@ -154,7 +154,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
       },
       source: 'search_within_clear',
     });
-    setSearchResults(results);
+    setSearchResults && setSearchResults(results);
     router.replace(link.href, link.as);
   }
 
@@ -166,10 +166,10 @@ const IIIFSearchWithin: FunctionComponent = () => {
           await fetch(`${searchService['@id']}?q=${query.query}`)
         ).json();
         setIsLoading(false);
-        setSearchResults(results);
+        setSearchResults && setSearchResults(results);
       } catch (error) {}
     } else {
-      setSearchResults(results);
+      setSearchResults && setSearchResults(results);
     }
   }
 

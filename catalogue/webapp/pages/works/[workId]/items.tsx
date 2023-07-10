@@ -96,7 +96,7 @@ type Props = {
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
   pageview: Pageview;
-  serverSearchResults?: SearchResults;
+  serverSearchResults: SearchResults | null;
 };
 
 const ItemPage: NextPage<Props> = ({
@@ -337,7 +337,8 @@ const ItemPage: NextPage<Props> = ({
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
               reloadAuthIframe(document, iframeId);
             }}
-          resultsState={{ searchResults, setSearchResults }}
+          searchResults={searchResults}
+          setSearchResults={setSearchResults}
           />
         )}
     </CataloguePageLayout>
@@ -434,19 +435,21 @@ export const getServerSideProps: GetServerSideProps<
     const canvasOcrText = await fetchCanvasOcr(currentCanvas);
     const canvasOcr = transformCanvasOcr(canvasOcrText);
 
-    const serverSearchResults = async () => {
+    const getSearchResults = async () => {
       if (displayManifest.searchService && context.query?.query?.length) {
         try {
           return await (
             await fetch(`${displayManifest.searchService['@id']}?q=${context.query.query}`)
           ).json();
         } catch (error) {
-          return null
+          return undefined;
         }
       } else {
-        return null;
+        return undefined;
       }
     }
+
+    const serverSearchResults = await getSearchResults();
 
     return {
       props: serialiseProps({
@@ -459,7 +462,7 @@ export const getServerSideProps: GetServerSideProps<
         iiifPresentationLocation,
         pageview,
         serverData,
-        serverSearchResults: await serverSearchResults()
+        serverSearchResults,
       }),
     };
   }
@@ -475,6 +478,7 @@ export const getServerSideProps: GetServerSideProps<
         iiifPresentationLocation,
         pageview,
         serverData,
+        serverSearchResults: null
       }),
     };
   }
