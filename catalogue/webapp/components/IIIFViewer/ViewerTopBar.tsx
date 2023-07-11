@@ -105,6 +105,7 @@ const TopBar = styled.div<{
   isDesktopSidebarActive: boolean;
 }>`
   display: ${props => (props.isZooming ? 'none' : 'grid')};
+  min-height: 52px;
   position: relative;
   z-index: 3;
   background: ${props => props.theme.color('neutral.700')};
@@ -194,7 +195,8 @@ type ViewerTopBarProps = OptionalToUndefined<{
 const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
 }) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced, isFullSupportBrowser } = useContext(AppContext);
+
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     gridVisible,
@@ -305,7 +307,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       </Sidebar>
       <Main>
         <LeftZone className="viewer-desktop">
-          {!showZoomed && canvases && canvases.length > 1 && (
+          {!showZoomed && canvases && canvases.length > 1 && isFullSupportBrowser && (
             <ToolbarSegmentedControl
               hideLabels={true}
               items={[

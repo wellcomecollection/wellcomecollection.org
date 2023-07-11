@@ -161,12 +161,11 @@ function getPositionData({
   imageContainerRect: DOMRect;
   imageRect: DOMRect;
   currentCanvas: TransformedCanvas;
-  searchResults: SearchResults;
+  searchResults: SearchResults | null;
   canvases: TransformedCanvas[];
   rotatedImages: RotatedImage[];
 }): OverlayPositionData[] {
   const highlightsPositioningData =
-    searchResults &&
     searchResults?.resources.map(resource => {
       // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
       // OR
@@ -207,7 +206,7 @@ function getPositionData({
         rotation: matchingRotation?.rotation || 0,
       };
     });
-  return highlightsPositioningData;
+  return highlightsPositioningData || [];
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const { scrollVelocity, canvases, restrictedService } = data;

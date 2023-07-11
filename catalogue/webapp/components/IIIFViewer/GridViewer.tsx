@@ -67,7 +67,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   const canvasIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[canvasIndex];
   const hasSearchResults = Boolean(
-    searchResults.resources.find(
+    searchResults?.resources.find(
       resource =>
         currentCanvas &&
         new URL(currentCanvas.id).pathname === new URL(resource.on).pathname

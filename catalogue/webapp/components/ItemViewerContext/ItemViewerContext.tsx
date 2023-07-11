@@ -20,8 +20,8 @@ type Props = {
   work: Work;
   transformedManifest: TransformedManifest | undefined;
   parentManifest: Manifest | undefined;
-  searchResults: SearchResults;
-  setSearchResults: (v) => void;
+  searchResults: SearchResults | null;
+  setSearchResults: ((v) => void);
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement> | undefined;
