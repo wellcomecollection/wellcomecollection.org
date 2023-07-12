@@ -81,9 +81,10 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
     <>
       <DividingLine>
         <MediaAndTextWrap>
-          {item.type === 'icons' && (
+          {item.type === 'icons' && item.icons.length > 0 && (
             <ImageOrIcons isIcons={true}>
-              {item.icons.map((icon, index) => {
+              {/* We're enforcing a maximum of 6 icons within a slice */}
+              {item.icons.slice(0, 6).map((icon, index) => {
                 return (
                   <div key={index}>
                     <PrismicImage image={icon} quality="low" maxWidth={100} />
@@ -93,7 +94,7 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
             </ImageOrIcons>
           )}
 
-          {item.type === 'image' && (
+          {item.type === 'image' && item.image && (
             <ImageOrIcons isPortrait={item.image.width < item.image.height}>
               <CaptionedImage
                 image={item.image}
