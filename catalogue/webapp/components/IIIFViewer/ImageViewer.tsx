@@ -14,10 +14,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import Router from 'next/router';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
-import {
-  arrayIndexToQueryParam,
-  queryParamToArrayIndex,
-} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 
 const ImageWrapper = styled.div`
   position: absolute;
@@ -64,7 +61,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   index,
   setImageRect,
   setImageContainerRect,
-}: ImageViewerProps) => {
+}) => {
   const {
     work,
     errorHandler,

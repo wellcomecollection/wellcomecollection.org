@@ -14,7 +14,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { cross, minus, plus, rotateRight } from '@weco/common/icons';
 import { convertIiifUriToInfoUri } from '@weco/catalogue/utils/convert-iiif-uri';
-import { queryParamToArrayIndex } from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { queryParamToArrayIndex } from '.';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const ZoomedImageContainer = styled.div`
   position: relative;
@@ -42,13 +43,13 @@ const ErrorMessage = () => (
   </div>
 );
 
-type Props = {
-  iiifImageLocation: DigitalLocation | undefined;
-};
+type ZoomedImageProps = OptionalToUndefined<{
+  iiifImageLocation?: DigitalLocation;
+}>;
 
-const ZoomedImage: FunctionComponent<Props> = ({
+const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   iiifImageLocation,
-}: Props) => {
+}) => {
   const { transformedManifest, query, setShowZoomed } =
     useContext(ItemViewerContext);
   const currentCanvas =
@@ -65,7 +66,7 @@ const ZoomedImage: FunctionComponent<Props> = ({
   const firstControl = useRef<HTMLButtonElement>(null);
   const lastControl = useRef<HTMLButtonElement>(null);
   const zoomedImage = useRef<HTMLDivElement>(null);
-  function setupViewer(imageInfoSrc, viewerId) {
+  function setupViewer(imageInfoSrc: string, viewerId: string) {
     fetch(imageInfoSrc)
       .then(response => response.json())
       .then(response => {

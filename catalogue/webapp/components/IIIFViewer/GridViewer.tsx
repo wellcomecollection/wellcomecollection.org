@@ -22,10 +22,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { TransformedCanvas } from '@weco/catalogue/types/manifest';
 import NextLink from 'next/link';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
-import {
-  arrayIndexToQueryParam,
-  queryParamToArrayIndex,
-} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
@@ -70,7 +67,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   const canvasIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[canvasIndex];
   const hasSearchResults = Boolean(
-    searchResults.resources.find(
+    searchResults?.resources.find(
       resource =>
         currentCanvas &&
         new URL(currentCanvas.id).pathname === new URL(resource.on).pathname

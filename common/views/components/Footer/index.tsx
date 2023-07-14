@@ -23,6 +23,7 @@ type Props = {
 const Wrapper = styled(Space).attrs({
   className: `${font('intr', 5)} is-hidden-print`,
   v: { size: 'xl', properties: ['padding-top'] },
+  as: 'footer',
 })`
   position: relative;
   background-color: ${props => props.theme.color('black')};

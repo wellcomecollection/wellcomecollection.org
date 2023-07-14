@@ -12,7 +12,7 @@ import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer, {
   queryParamToArrayIndex,
-} from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+} from '@weco/catalogue/components/IIIFViewer';
 import VideoPlayer from '@weco/catalogue/components/VideoPlayer/VideoPlayer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
@@ -51,6 +51,7 @@ import {
   fromCompressedManifest,
   toCompressedTransformedManifest,
 } from '@weco/catalogue/types/compressed-manifest';
+import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -94,7 +95,9 @@ type Props = {
   canvas: number;
   canvasOcr?: string;
   iiifImageLocation?: DigitalLocation;
+  iiifPresentationLocation?: DigitalLocation;
   pageview: Pageview;
+  serverSearchResults: SearchResults | null;
 };
 
 const ItemPage: NextPage<Props> = ({
@@ -102,7 +105,9 @@ const ItemPage: NextPage<Props> = ({
   work,
   canvasOcr,
   iiifImageLocation,
+  iiifPresentationLocation,
   canvas,
+  serverSearchResults
 }) => {
   const transformedManifest =
     compressedTransformedManifest &&
@@ -127,6 +132,7 @@ const ItemPage: NextPage<Props> = ({
     canvases,
   } = { ...transformedManifest };
 
+  const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authService = clickThroughService || restrictedService;
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
@@ -327,15 +333,19 @@ const ItemPage: NextPage<Props> = ({
             transformedManifest={transformedManifest}
             canvasOcr={canvasOcr}
             iiifImageLocation={iiifImageLocation}
+            iiifPresentationLocation={iiifPresentationLocation}
             handleImageError={() => {
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
               reloadAuthIframe(document, iframeId);
             }}
+          searchResults={searchResults}
+          setSearchResults={setSearchResults}
           />
         )}
     </CataloguePageLayout>
   );
 };
+
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -426,6 +436,22 @@ export const getServerSideProps: GetServerSideProps<
     const canvasOcrText = await fetchCanvasOcr(currentCanvas);
     const canvasOcr = transformCanvasOcr(canvasOcrText);
 
+    const getSearchResults = async () => {
+      if (displayManifest.searchService && context.query?.query?.length) {
+        try {
+          return await (
+            await fetch(`${displayManifest.searchService['@id']}?q=${context.query.query}`)
+          ).json();
+        } catch (error) {
+          return undefined;
+        }
+      } else {
+        return undefined;
+      }
+    }
+
+    const serverSearchResults = await getSearchResults();
+
     return {
       props: serialiseProps({
         compressedTransformedManifest:
@@ -434,8 +460,10 @@ export const getServerSideProps: GetServerSideProps<
         work,
         canvas,
         iiifImageLocation,
+        iiifPresentationLocation,
         pageview,
         serverData,
+        serverSearchResults,
       }),
     };
   }
@@ -448,8 +476,10 @@ export const getServerSideProps: GetServerSideProps<
         canvas,
         canvases: [],
         iiifImageLocation,
+        iiifPresentationLocation,
         pageview,
         serverData,
+        serverSearchResults: null
       }),
     };
   }

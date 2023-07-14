@@ -13,10 +13,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import {
-  getProductionDates,
-  getDigitalLocationOfType,
-} from '@weco/catalogue/utils/works';
+import { getProductionDates } from '@weco/catalogue/utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -29,6 +26,7 @@ import {
   getMultiVolumeLabel,
   getCollectionManifests,
 } from '@weco/catalogue/utils/iiif/v3';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -93,7 +91,12 @@ type AccordionItemProps = PropsWithChildren<{
 }>;
 
 const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
+
+  useEffect(() => {
+    setIsActive(false);
+  }, []);
+
   return (
     <Item data-test-id={testId}>
       <AccordionInner onClick={() => setIsActive(!isActive)}>
@@ -123,9 +126,15 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
   );
 };
 
-const ViewerSidebar: FunctionComponent<{
+type ViewerSidebarProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
-}> = ({ iiifImageLocation }) => {
+  iiifPresentationLocation?: DigitalLocation;
+}>;
+
+const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
+  iiifImageLocation,
+  iiifPresentationLocation,
+}) => {
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
   const [currentManifestLabel, setCurrentManifestLabel] = useState<
@@ -133,15 +142,9 @@ const ViewerSidebar: FunctionComponent<{
   >();
   const { iiifCredit, structures, searchService } = { ...transformedManifest };
   const productionDates = getProductionDates(work);
-  // Determine digital location
-  const imageLocation =
-    iiifImageLocation || getDigitalLocationOfType(work, 'iiif-image');
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
+
   const digitalLocation: DigitalLocation | undefined =
-    iiifPresentationLocation || imageLocation;
+    iiifPresentationLocation || iiifImageLocation;
 
   const license =
     digitalLocation?.license &&

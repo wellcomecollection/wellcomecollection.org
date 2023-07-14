@@ -19,12 +19,10 @@ import {
   gridView,
   singlePage,
 } from '@weco/common/icons';
-import { queryParamToArrayIndex } from './IIIFViewer';
-import {
-  getDownloadOptionsFromImageUrl,
-  getDigitalLocationOfType,
-} from '@weco/catalogue/utils/works';
+import { queryParamToArrayIndex } from '.';
+import { getDownloadOptionsFromImageUrl } from '@weco/catalogue/utils/works';
 import useTransformedIIIFImage from '@weco/catalogue/hooks/useTransformedIIIFImage';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs({
@@ -107,6 +105,7 @@ const TopBar = styled.div<{
   isDesktopSidebarActive: boolean;
 }>`
   display: ${props => (props.isZooming ? 'none' : 'grid')};
+  min-height: 52px;
   position: relative;
   z-index: 3;
   background: ${props => props.theme.color('neutral.700')};
@@ -189,10 +188,15 @@ const RightZone = styled.div`
   align-items: center;
 `;
 
-const ViewerTopBar: FunctionComponent<{
+type ViewerTopBarProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
-}> = ({ iiifImageLocation }) => {
-  const { isEnhanced } = useContext(AppContext);
+}>;
+
+const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
+  iiifImageLocation,
+}) => {
+  const { isEnhanced, isFullSupportBrowser } = useContext(AppContext);
+
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     gridVisible,
@@ -217,8 +221,7 @@ const ViewerTopBar: FunctionComponent<{
   const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const transformedIIIFImage = useTransformedIIIFImage(work);
-  const imageLocation =
-    iiifImageLocation || getDigitalLocationOfType(work, 'iiif-image');
+
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
   // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
   // For a iiif-image DigitalLocation we create the download options
@@ -229,9 +232,9 @@ const ViewerTopBar: FunctionComponent<{
   // Sometimes we render images for works that have neither a iiif-image or a iiif-presentation location type.
   // In this case we use the iiifImageLocation passed from the serverSideProps of the /images.tsx
 
-  const iiifImageDownloadOptions = imageLocation
+  const iiifImageDownloadOptions = iiifImageLocation
     ? getDownloadOptionsFromImageUrl({
-        url: imageLocation.url,
+        url: iiifImageLocation.url,
         width: transformedIIIFImage.width,
         height: transformedIIIFImage.height,
       })
@@ -304,7 +307,7 @@ const ViewerTopBar: FunctionComponent<{
       </Sidebar>
       <Main>
         <LeftZone className="viewer-desktop">
-          {!showZoomed && canvases && canvases.length > 1 && (
+          {!showZoomed && canvases && canvases.length > 1 && isFullSupportBrowser && (
             <ToolbarSegmentedControl
               hideLabels={true}
               items={[

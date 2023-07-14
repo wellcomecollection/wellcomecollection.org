@@ -124,7 +124,7 @@ const Header: FunctionComponent<Props> = ({
       active={searchDropdownIsActive || burgerMenuIsActive}
       focusTrapOptions={{ preventScroll: true }}
     >
-      <div className="is-hidden-print">
+      <header className="is-hidden-print">
         <Wrapper isBurgerOpen={burgerMenuIsActive}>
           <GridCell>
             <HeaderContainer>
@@ -226,7 +226,7 @@ const Header: FunctionComponent<Props> = ({
             searchButtonRef={searchButtonRef}
           />
         )}
-      </div>
+      </header>
     </FocusTrap>
   );
 };

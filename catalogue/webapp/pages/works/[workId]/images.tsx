@@ -6,7 +6,7 @@ import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
+import IIIFViewer from '@weco/catalogue/components/IIIFViewer';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { getImage } from '@weco/catalogue/services/wellcome/catalogue/images';
@@ -19,6 +19,7 @@ import {
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { getDigitalLocationOfType } from 'utils/works';
 
 function createTzitzitImageLink(
   work: Work,
@@ -45,7 +46,12 @@ const ImagePage: FunctionComponent<Props> = ({
   catalogueApiUrl,
 }) => {
   const title = work.title || '';
-  const iiifImageLocation = image.locations[0];
+  const iiifImageLocation =
+    image.locations[0] || getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
 
   const apiLink = {
     id: 'json',
@@ -70,7 +76,7 @@ const ImagePage: FunctionComponent<Props> = ({
       hideTopContent={true}
     >
       {iiifImageLocation ? (
-        <IIIFViewer work={work} iiifImageLocation={iiifImageLocation} />
+        <IIIFViewer work={work} iiifImageLocation={iiifImageLocation} iiifPresentationLocation={iiifPresentationLocation} searchResults={null} setSearchResults={() => null} />
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
