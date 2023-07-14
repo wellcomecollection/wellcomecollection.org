@@ -164,66 +164,68 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       )}
 
       <Wrapper hasNoResults={hasNoResults}>
-        <Space isContainer v={{ size: 'l', properties: ['padding-bottom'] }}>
-          {hasNoResults ? (
-            <SearchNoResults
-              query={queryString}
-              hasFilters={hasActiveFilters}
-            />
-          ) : (
-            <>
-              <PaginationWrapper verticalSpacing="l">
-                <span>{pluralize(images.totalResults, 'result')}</span>
+        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+          <Container>
+            {hasNoResults ? (
+              <SearchNoResults
+                query={queryString}
+                hasFilters={hasActiveFilters}
+              />
+            ) : (
+              <>
+                <PaginationWrapper verticalSpacing="l">
+                  <span>{pluralize(images.totalResults, 'result')}</span>
 
-                <SortPaginationWrapper>
-                  <Sort
-                    formId="search-page-form"
-                    options={sortOptions}
-                    jsLessOptions={{
-                      sort: [
-                        {
-                          value: '',
-                          text: 'Relevance',
-                        },
-                        {
-                          value: 'source.production.dates',
-                          text: 'Production dates',
-                        },
-                      ],
-                      sortOrder: [
-                        { value: 'asc', text: 'Ascending' },
-                        { value: 'desc', text: 'Descending' },
-                      ],
-                    }}
-                    defaultValues={{
-                      sort: imagesRouteProps.sort,
-                      sortOrder: imagesRouteProps.sortOrder,
-                    }}
-                    darkBg
-                  />
+                  <SortPaginationWrapper>
+                    <Sort
+                      formId="search-page-form"
+                      options={sortOptions}
+                      jsLessOptions={{
+                        sort: [
+                          {
+                            value: '',
+                            text: 'Relevance',
+                          },
+                          {
+                            value: 'source.production.dates',
+                            text: 'Production dates',
+                          },
+                        ],
+                        sortOrder: [
+                          { value: 'asc', text: 'Ascending' },
+                          { value: 'desc', text: 'Descending' },
+                        ],
+                      }}
+                      defaultValues={{
+                        sort: imagesRouteProps.sort,
+                        sortOrder: imagesRouteProps.sortOrder,
+                      }}
+                      darkBg
+                    />
 
+                    <Pagination
+                      totalPages={images.totalPages}
+                      ariaLabel="Image search pagination"
+                      hasDarkBg
+                      isHiddenMobile
+                    />
+                  </SortPaginationWrapper>
+                </PaginationWrapper>
+
+                <main>
+                  <ImageEndpointSearchResults images={images.results} />
+                </main>
+
+                <PaginationWrapper verticalSpacing="l" alignRight>
                   <Pagination
                     totalPages={images.totalPages}
                     ariaLabel="Image search pagination"
                     hasDarkBg
-                    isHiddenMobile
                   />
-                </SortPaginationWrapper>
-              </PaginationWrapper>
-
-              <main>
-                <ImageEndpointSearchResults images={images.results} />
-              </main>
-
-              <PaginationWrapper verticalSpacing="l" alignRight>
-                <Pagination
-                  totalPages={images.totalPages}
-                  ariaLabel="Image search pagination"
-                  hasDarkBg
-                />
-              </PaginationWrapper>
-            </>
-          )}
+                </PaginationWrapper>
+              </>
+            )}
+          </Container>
         </Space>
       </Wrapper>
     </>
