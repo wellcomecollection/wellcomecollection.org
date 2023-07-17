@@ -228,11 +228,11 @@ export const getServerSideProps: GetServerSideProps<
     properties: {},
   };
 
-  const defaultProps = serialiseProps({
+  const defaultProps = {
     serverData,
     query,
     pageview,
-  });
+  };
 
   // If the request looks like spam, return a 400 error and skip actually fetching
   // the data from the APIs.
@@ -244,7 +244,7 @@ export const getServerSideProps: GetServerSideProps<
   // The status code will also allow us to filter out spam-like requests from our analytics.
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
-    return { props: defaultProps };
+    return { props: serialiseProps(defaultProps) };
   }
 
   try {
@@ -300,7 +300,7 @@ export const getServerSideProps: GetServerSideProps<
     }
 
     return {
-      props: {
+      props: serialiseProps({
         ...defaultProps,
         ...(stories && stories.pageResults?.length && { stories }),
         ...(images?.pageResults.length && { images }),
@@ -310,7 +310,7 @@ export const getServerSideProps: GetServerSideProps<
               pageResults: works.pageResults.map(toWorkBasic),
             }
           : {}),
-      },
+      }),
     };
   } catch (error) {
     console.error(error);
