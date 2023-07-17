@@ -2,7 +2,6 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import {
   Work as WorkType,
-  Work as WorkType,
   toWorkBasic,
 } from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
