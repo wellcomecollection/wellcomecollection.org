@@ -63,6 +63,14 @@ const toggles = {
       description: 'Allows access to visual stories pages.',
       type: 'experimental',
     },
+    {
+      id: 'polly',
+      title: 'Text-to-speech Amazon Polly',
+      initialValue: false,
+      description:
+        'Displays an audio player with text-to-speech audio on selected articles',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
