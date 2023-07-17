@@ -1,44 +1,25 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  FunctionComponent,
-  Ref,
-  SyntheticEvent,
-  useContext,
-} from 'react';
+import { useEffect, useRef, useState, FunctionComponent } from 'react';
 import { dasherize } from '@weco/common/utils/grammar';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import {
-  play,
-  pause,
-  volumeMuted,
-  volume as volumeIcon,
-} from '@weco/common/icons';
+import { play, pause } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { useAVTracking } from '@weco/common/hooks/useAVTracking';
-
-const VolumeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-
-  input {
-    width: 60px;
-  }
-`;
+import Volume from './AudioPlayer.Volume';
+import PlayRate from './AudioPlayer.PlayRate';
+import Scrubber from './AudioPlayer.Scrubber';
+import { formatPlayerTime } from './AudioPlayer.formatters';
 
 const AudioPlayerWrapper = styled.figure`
   margin: 0;
 `;
 
-const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
+type PlayPauseButtonProps = { isPlaying: boolean };
+const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(props => ({
   ariaPressed: props.isPlaying,
-}))<{ isPlaying: boolean }>`
+}))<PlayPauseButtonProps>`
   padding: 0;
 
   svg {
@@ -56,19 +37,6 @@ const PlayPauseInner = styled.div`
   justify-content: center;
 `;
 
-const MuteUnmuteButton = styled.button.attrs<{ isMuted: boolean }>(props => ({
-  ariaPressed: props.isMuted,
-}))`
-  padding: 0;
-`;
-
-const PlayRateWrapper = styled.div.attrs({
-  className: font('intr', 6),
-})`
-  display: flex;
-  gap: 5px;
-`;
-
 const AudioPlayerGrid = styled.div`
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -79,234 +47,6 @@ const AudioPlayerGrid = styled.div`
 const SecondRow = styled.div`
   grid-column: 1 / -1;
 `;
-
-const PlayRateRadio = styled.input.attrs({
-  type: 'radio',
-})`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  appearance: none;
-`;
-
-const PlayRateLabel = styled.label<{ isActive: boolean }>`
-  position: relative;
-  padding: 0 4px;
-  border-radius: 5px;
-  text-align: center;
-  background: ${props =>
-    props.isActive ? props.theme.color('yellow') : undefined};
-`;
-
-const formatVolume = (vol: number): string => {
-  return `${Math.floor(vol * 100)}`;
-};
-
-const formatTime = (secs: number): { visual: string; nonVisual: string } => {
-  const minutes = Math.floor(secs / 60);
-  const seconds = Math.floor(secs % 60);
-
-  const nonVisualMinutes = (minutes: number): string => {
-    switch (minutes) {
-      case 0:
-        return '';
-      case 1:
-        return '1 minute and';
-      default:
-        return `${minutes} minutes and`;
-    }
-  };
-
-  return {
-    visual: `${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`,
-    nonVisual: `${nonVisualMinutes(minutes)} ${seconds} seconds`,
-  };
-};
-
-type PlayRateProps = {
-  audioPlayer: HTMLAudioElement;
-  id: string;
-};
-
-const PlayRate: FunctionComponent<PlayRateProps> = ({ audioPlayer, id }) => {
-  const { audioPlaybackRate, setAudioPlaybackRate } = useContext(AppContext);
-  const speeds = [0.5, 1, 1.5, 2];
-
-  useEffect(() => {
-    audioPlayer.playbackRate = audioPlaybackRate;
-  }, [audioPlaybackRate]);
-
-  function updatePlaybackRate(speed: number) {
-    trackGaEvent({
-      category: 'Audio',
-      action: `set speed to ${speed}x`,
-      label: id,
-    });
-
-    setAudioPlaybackRate(speed);
-    audioPlayer.playbackRate = speed;
-  }
-
-  return (
-    <PlayRateWrapper
-      // This ARIA role -- combined with the shared `name` on the individual buttons --
-      // tells screen readers that these radio buttons are part of a single group, and
-      // separate from the other buttons on the page.
-      //
-      // e.g. a screen reader will say "1 of 4" instead of "1 of 112" on an exhibition guide.
-      role="radiogroup"
-    >
-      <span className="visually-hidden">playback rate:</span>
-      {speeds.map(speed => {
-        // We construct this string here rather than directly in the component so these
-        // become a single element on the page.
-        //
-        // If we had them directly in the component, the iOS screen reader would read
-        // the two parts separately,
-        // e.g. "one point five (pause) ex" rather than "one point five ex".
-        const label = `${speed}x`;
-
-        return (
-          <PlayRateLabel
-            key={speed}
-            htmlFor={`playrate-${speed}-${id}`}
-            isActive={audioPlaybackRate === speed}
-          >
-            <PlayRateRadio
-              id={`playrate-${speed}-${id}`}
-              onClick={() => updatePlaybackRate(speed)}
-              name={`playrate-${id}`}
-            />
-            {label}
-          </PlayRateLabel>
-        );
-      })}
-    </PlayRateWrapper>
-  );
-};
-
-type VolumeProps = {
-  audioPlayer: HTMLAudioElement;
-  id: string;
-};
-
-const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id }) => {
-  const [volume, setVolume] = useState(audioPlayer.volume);
-  const [isMuted, setIsMuted] = useState(audioPlayer.muted);
-  const [showVolume, setShowVolume] = useState(false);
-
-  // iOS doesn't allow for programmatic volume control changes. Rather than
-  // sniffing for iOS, we can check if a volumechange event is fired and decide
-  // whether to show the volume controls accordingly
-  useEffect(() => {
-    function handleVolumeChange() {
-      if (audioPlayer.muted) return; // Muting _does_ work on iOS and also triggers a volumechange event
-      setShowVolume(true);
-    }
-
-    audioPlayer.addEventListener('volumechange', handleVolumeChange, {
-      once: true,
-    });
-    audioPlayer.volume = 0.9;
-    audioPlayer.volume = 1;
-
-    return () =>
-      audioPlayer.removeEventListener('volumechange', handleVolumeChange);
-  }, []);
-
-  useEffect(() => {
-    audioPlayer.volume = volume;
-    audioPlayer.muted = isMuted;
-  }, [volume, isMuted]);
-
-  const onChange = (event: SyntheticEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(event.currentTarget.value);
-
-    if (newValue > 0) {
-      setIsMuted(false);
-    }
-
-    setVolume(newValue);
-  };
-
-  const onVolumeButtonClick = () => {
-    trackGaEvent({
-      category: 'Audio',
-      action: `${isMuted ? 'unmute' : 'mute'} audio`,
-      label: id,
-    });
-    setIsMuted(!isMuted);
-  };
-  return (
-    <VolumeWrapper>
-      <MuteUnmuteButton onClick={onVolumeButtonClick}>
-        <span className="visually-hidden">
-          {isMuted ? 'Unmute player' : 'Mute player'}
-        </span>
-        <Icon
-          iconColor="neutral.600"
-          icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
-        />
-      </MuteUnmuteButton>
-      {showVolume && (
-        <div style={{ lineHeight: 0 }}>
-          <label htmlFor={`volume-${id}`}>
-            <span className="visually-hidden">volume control</span>
-          </label>
-          <input
-            aria-valuetext={`volume: ${formatVolume(volume)}`}
-            id={`volume-${id}`}
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            value={isMuted ? 0 : volume}
-            onChange={onChange}
-          />
-        </div>
-      )}
-    </VolumeWrapper>
-  );
-};
-
-type ScrubberProps = {
-  startTime: number;
-  duration: number;
-  onChange: () => void;
-  id: string;
-  progressBarRef: Ref<HTMLInputElement>;
-};
-
-const Scrubber: FunctionComponent<ScrubberProps> = ({
-  startTime,
-  duration,
-  onChange,
-  id,
-  progressBarRef,
-}) => {
-  return (
-    <div style={{ lineHeight: 0 }}>
-      <label className="visually-hidden" htmlFor={`scrubber-${id}`}>
-        Audio time scrubber
-      </label>
-      <input
-        style={{ width: '100%' }}
-        aria-valuetext={`Elapsed time: ${
-          formatTime(startTime).nonVisual
-        }, duration ${formatTime(duration).nonVisual}`}
-        defaultValue="0"
-        id={`scrubber-${id}`}
-        min={0}
-        onChange={onChange}
-        ref={progressBarRef}
-        step="any"
-        type="range"
-      />
-    </div>
-  );
-};
 
 export type AudioPlayerProps = {
   audioFile: string;
@@ -458,9 +198,11 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
             >
               <span>
                 <span className="visually-hidden">
-                  Elapsed time: {formatTime(currentTime).nonVisual}
+                  Elapsed time: {formatPlayerTime(currentTime).nonVisual}
                 </span>
-                <span aria-hidden="true">{formatTime(currentTime).visual}</span>
+                <span aria-hidden="true">
+                  {formatPlayerTime(currentTime).visual}
+                </span>
               </span>
               {!Number.isNaN(duration) && (
                 <>
@@ -468,10 +210,10 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
                   <span aria-hidden="true">/</span>{' '}
                   <span>
                     <span className="visually-hidden">
-                      Total time: {formatTime(duration).nonVisual}
+                      Total time: {formatPlayerTime(duration).nonVisual}
                     </span>
                     <span aria-hidden="true">
-                      {formatTime(duration).visual}
+                      {formatPlayerTime(duration).visual}
                     </span>
                   </span>
                 </>
