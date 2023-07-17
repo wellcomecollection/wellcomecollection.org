@@ -11,6 +11,7 @@ locals {
     "toggle",
     "uri",
     "format",
+    "contributors.contributor",
 
     # This is used to fetch articles client-side, e.g. related stories.
     # When it's missing, we may show the wrong stories as "read this next"
