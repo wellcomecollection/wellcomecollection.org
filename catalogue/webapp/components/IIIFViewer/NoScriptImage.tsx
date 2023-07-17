@@ -46,7 +46,6 @@ export const NoScriptImage = ({urlTemplate, canvasOcr}) => { // TODO type
   imageSizes(2048)
     .map(width => `${urlTemplate({ size: `${width},` })} ${width}w`)
       .join(',');
-  const lang = (work.languages.length === 1 && work.languages[0].id) || undefined;
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
   const navigationCanvases = canvases
   ? [...Array(pageSize)]
@@ -91,7 +90,7 @@ export const NoScriptImage = ({urlTemplate, canvasOcr}) => { // TODO type
             src={imageUrl}
             srcSet={srcSet}
             sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
-            lang={lang}
+            lang={work.languageId}
             alt={
               (canvasOcr && canvasOcr.replace(/"/g, '')) ||
               'no text alternative'
