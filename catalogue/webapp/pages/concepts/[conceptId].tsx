@@ -23,6 +23,7 @@ import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import WorksSearchResults from '@weco/catalogue/components/WorksSearchResults/WorksSearchResults';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 // Types
 import {
@@ -94,9 +95,12 @@ const ConceptImages = styled(Space).attrs({
   }
 `;
 
+type ConceptWorksHeaderProps = {
+  hasWorksTabs: boolean;
+};
 const ConceptWorksHeader = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top'] },
-})<{ hasWorksTabs: boolean }>`
+})<ConceptWorksHeaderProps>`
   background-color: ${({ hasWorksTabs, theme }) =>
     theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};
 `;
@@ -189,7 +193,7 @@ const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
   results,
 }) => {
   return (
-    <div className="container">
+    <Container>
       <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
         <WorksSearchResults works={results.pageResults} />
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
@@ -200,7 +204,7 @@ const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
           />
         </Space>
       </div>
-    </div>
+    </Container>
   );
 };
 
@@ -333,7 +337,7 @@ export const ConceptPage: NextPage<Props> = ({
       apiToolbarLinks={apiToolbarLinks}
     >
       <ConceptHero>
-        <div className="container">
+        <Container>
           <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
           <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
             <HeroTitle>{conceptResponse.label}</HeroTitle>
@@ -353,13 +357,13 @@ export const ConceptPage: NextPage<Props> = ({
               />
             </ConceptDescription>
           </Space>
-        </div>
+        </Container>
       </ConceptHero>
 
       {/* Images */}
       {hasImages && (
         <ConceptImages as="section">
-          <div className="container">
+          <Container>
             <h2 className="h2 sectionTitle">Images</h2>
             {hasImagesTabs && (
               <TabNav
@@ -378,7 +382,7 @@ export const ConceptPage: NextPage<Props> = ({
                 {...currentTabPanel(selectedImagesTab, imagesTabs)}
               />
             </Space>
-          </div>
+          </Container>
         </ConceptImages>
       )}
 
@@ -386,7 +390,7 @@ export const ConceptPage: NextPage<Props> = ({
       {hasWorks && (
         <>
           <ConceptWorksHeader hasWorksTabs={hasWorksTabs}>
-            <div className="container">
+            <Container>
               <h2 className="h2">Catalogue</h2>
 
               {hasWorksTabs && (
@@ -400,7 +404,7 @@ export const ConceptPage: NextPage<Props> = ({
                   trackWithSegment={true}
                 />
               )}
-            </div>
+            </Container>
           </ConceptWorksHeader>
 
           <Space

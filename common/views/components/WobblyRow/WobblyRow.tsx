@@ -1,8 +1,9 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import { grid } from '../../../utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-import { repeatingLsBlack } from '../../../utils/backgrounds';
+import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 const WobblyRowContainer = styled.div`
   position: relative;
@@ -26,7 +27,7 @@ const WobblyRowPattern = styled.div`
 const WobblyRow: FunctionComponent<PropsWithChildren> = ({ children }) => (
   <WobblyRowContainer>
     <WobblyRowPattern />
-    <div className="container">
+    <Container>
       <div className="grid" style={{ marginTop: '50px' }}>
         <div
           className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
@@ -35,7 +36,7 @@ const WobblyRow: FunctionComponent<PropsWithChildren> = ({ children }) => (
           {children}
         </div>
       </div>
-    </div>
+    </Container>
     <WobblyEdge isValley={false} intensity={35} backgroundColor="white" />
   </WobblyRowContainer>
 );

@@ -1,6 +1,7 @@
 import { FunctionComponent, ReactElement } from 'react';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 type Grid = {
   s: number;
@@ -63,7 +64,7 @@ const GridFactory: FunctionComponent<Props> = ({
   const gridSizes = gridSizesMap[items?.length] || gridSizesMap.default;
 
   return (
-    <div className="container">
+    <Container>
       <div className="grid">
         {items.map((item, index) => (
           <Space
@@ -75,7 +76,7 @@ const GridFactory: FunctionComponent<Props> = ({
           </Space>
         ))}
       </div>
-    </div>
+    </Container>
   );
 };
 

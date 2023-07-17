@@ -28,12 +28,13 @@ describe('WorkDetailsText', () => {
       <WorkDetailsText
         contents={
           <>
-            This is a <ul>React</ul> element
+            This is a <p>React</p>
+            element
           </>
         }
       />
     );
 
-    expect(container.outerHTML.includes('<ul>React</ul>')).toBe(true);
+    expect(container.outerHTML.includes('<p>React</p>')).toBe(true);
   });
 });

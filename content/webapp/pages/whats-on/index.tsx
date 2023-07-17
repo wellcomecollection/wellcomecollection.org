@@ -1,4 +1,6 @@
+import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import NextLink from 'next/link';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
@@ -46,7 +48,6 @@ import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTML
 import { FeaturedText as FeaturedTextType } from '@weco/content/types/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -81,8 +82,8 @@ import {
 } from '@weco/content/services/prismic/transformers/whats-on';
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import styled from 'styled-components';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 const segmentedControlItems: Item[] = [
   {
@@ -223,7 +224,7 @@ const Header: FunctionComponent<HeaderProps> = ({
       }}
       className="row"
     >
-      <div className="container">
+      <Container>
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <OpeningTimesWrapper>
@@ -305,7 +306,7 @@ const Header: FunctionComponent<HeaderProps> = ({
             />
           </Space>
         </div>
-      </div>
+      </Container>
     </Space>
   );
 };

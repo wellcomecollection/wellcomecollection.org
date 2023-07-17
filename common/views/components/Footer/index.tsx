@@ -9,6 +9,7 @@ import FindUs from '../FindUs/FindUs';
 import FooterNav from './Footer.Nav';
 import FooterSocial from './Footer.Social';
 import FooterWellcomeLogo from './Footer.WellcomeLogo';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 // Utils / Types
 import { font } from '@weco/common/utils/classnames';
@@ -162,7 +163,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
 
   return (
     <Wrapper ref={footer}>
-      <div className="container">
+      <Container>
         <FooterBasicSection as="h3">
           <FooterWellcomeLogo />
         </FooterBasicSection>
@@ -224,7 +225,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
             Back to top
           </BackToTopButton>
         </FooterBottom>
-      </div>
+      </Container>
     </Wrapper>
   );
 };

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable/BorderlessClickable';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 export const NavLoginWrapper = styled.div`
   display: flex;
@@ -265,9 +266,7 @@ export const GridCell = styled.div.attrs({
   position: relative;
 `;
 
-export const Container = styled.div.attrs({
-  className: 'container',
-})`
+export const HeaderContainer = styled(Container)`
   display: flex;
   align-items: center;
 `;

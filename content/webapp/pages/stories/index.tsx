@@ -1,5 +1,7 @@
 import { FunctionComponent } from 'react';
+import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
+import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -11,7 +13,6 @@ import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -36,9 +37,9 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/transformers/series';
 import { Series, SeriesBasic } from '@weco/content/types/series';
-import * as prismic from '@prismicio/client';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 type Props = {
   articles: ArticleBasic[];
@@ -51,10 +52,31 @@ const ArticlesContainer = styled.div`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const StoryPromoContainer = styled.div.attrs({
-  className: 'container container--scroll',
-})`
+const StoryPromoContainer = styled(Container)`
   -webkit-overflow-scrolling: touch;
+
+  /* former .container--scroll */
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'medium'
+    )(`
+    max-width: none;
+    width: auto;
+    overflow: auto;
+    padding: 0;
+
+    &::-webkit-scrollbar {
+      height: 18px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 0;
+      border-style: solid;
+      border-width: 0 ${props.theme.containerPadding.small}px 12px;
+      background: ${props.theme.color('neutral.400')};
+    }
+  `)}
 
   &::-webkit-scrollbar {
     background: ${props => props.theme.color('warmNeutral.300')};

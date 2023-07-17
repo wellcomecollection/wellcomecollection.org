@@ -20,6 +20,7 @@ import {
   toLink,
   WorksProps as WorksRouteProps,
 } from '@weco/catalogue/components/WorksLink';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 // Utils & Helpers
 import { serialiseProps } from '@weco/common/utils/json';
@@ -110,103 +111,105 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      <Space
-        className="container"
-        v={{ size: 'l', properties: ['padding-bottom'] }}
-      >
-        {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
-          <>
-            <Space
-              v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
-            >
-              <SearchFilters
-                query={queryString}
-                linkResolver={params =>
-                  linkResolver({ params, pathname: '/search/works' })
-                }
-                searchFormId="search-page-form"
-                changeHandler={() => {
-                  const form = document.getElementById('search-page-form');
-                  form &&
-                    form.dispatchEvent(
-                      new window.Event('submit', {
-                        cancelable: true,
-                        bubbles: true,
-                      })
-                    );
-                }}
-                filters={filters}
-                hasNoResults={hasNoResults}
-              />
-            </Space>
+      <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+        <Container>
+          {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
+            <>
+              <Space
+                v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+              >
+                <SearchFilters
+                  query={queryString}
+                  linkResolver={params =>
+                    linkResolver({ params, pathname: '/search/works' })
+                  }
+                  searchFormId="search-page-form"
+                  changeHandler={() => {
+                    const form = document.getElementById('search-page-form');
+                    form &&
+                      form.dispatchEvent(
+                        new window.Event('submit', {
+                          cancelable: true,
+                          bubbles: true,
+                        })
+                      );
+                  }}
+                  filters={filters}
+                  hasNoResults={hasNoResults}
+                />
+              </Space>
 
-            <DividerWrapper>
-              <Divider lineColor="neutral.300" />
-            </DividerWrapper>
-          </>
-        )}
+              <DividerWrapper>
+                <Divider lineColor="neutral.300" />
+              </DividerWrapper>
+            </>
+          )}
 
-        {hasNoResults ? (
-          <SearchNoResults query={queryString} hasFilters={hasActiveFilters} />
-        ) : (
-          <>
-            <PaginationWrapper verticalSpacing="l">
-              <span>{pluralize(works.totalResults, 'result')}</span>
+          {hasNoResults ? (
+            <SearchNoResults
+              query={queryString}
+              hasFilters={hasActiveFilters}
+            />
+          ) : (
+            <>
+              <PaginationWrapper verticalSpacing="l">
+                <span>{pluralize(works.totalResults, 'result')}</span>
 
-              <SortPaginationWrapper>
-                <Sort
-                  formId="search-page-form"
-                  options={[
-                    // Default value to be left empty so it's not added to the URL query
-                    { value: '', text: 'Relevance' },
-                    {
-                      value: 'production.dates.asc',
-                      text: 'Oldest to newest',
-                    },
-                    {
-                      value: 'production.dates.desc',
-                      text: 'Newest to oldest',
-                    },
-                  ]}
-                  jsLessOptions={{
-                    sort: [
+                <SortPaginationWrapper>
+                  <Sort
+                    formId="search-page-form"
+                    options={[
+                      // Default value to be left empty so it's not added to the URL query
                       { value: '', text: 'Relevance' },
                       {
-                        value: 'production.dates',
-                        text: 'Production dates',
+                        value: 'production.dates.asc',
+                        text: 'Oldest to newest',
                       },
-                    ],
-                    sortOrder: [
-                      { value: 'asc', text: 'Ascending' },
-                      { value: 'desc', text: 'Descending' },
-                    ],
-                  }}
-                  defaultValues={{
-                    sort: worksRouteProps.sort,
-                    sortOrder: worksRouteProps.sortOrder,
-                  }}
-                />
+                      {
+                        value: 'production.dates.desc',
+                        text: 'Newest to oldest',
+                      },
+                    ]}
+                    jsLessOptions={{
+                      sort: [
+                        { value: '', text: 'Relevance' },
+                        {
+                          value: 'production.dates',
+                          text: 'Production dates',
+                        },
+                      ],
+                      sortOrder: [
+                        { value: 'asc', text: 'Ascending' },
+                        { value: 'desc', text: 'Descending' },
+                      ],
+                    }}
+                    defaultValues={{
+                      sort: worksRouteProps.sort,
+                      sortOrder: worksRouteProps.sortOrder,
+                    }}
+                  />
 
+                  <Pagination
+                    totalPages={works.totalPages}
+                    ariaLabel="Catalogue search pagination"
+                    isHiddenMobile
+                  />
+                </SortPaginationWrapper>
+              </PaginationWrapper>
+
+              <main>
+                <WorksSearchResults works={works.results} />
+              </main>
+
+              <PaginationWrapper verticalSpacing="l" alignRight>
                 <Pagination
                   totalPages={works.totalPages}
                   ariaLabel="Catalogue search pagination"
-                  isHiddenMobile
                 />
-              </SortPaginationWrapper>
-            </PaginationWrapper>
-
-            <main>
-              <WorksSearchResults works={works.results} />
-            </main>
-
-            <PaginationWrapper verticalSpacing="l" alignRight>
-              <Pagination
-                totalPages={works.totalPages}
-                ariaLabel="Catalogue search pagination"
-              />
-            </PaginationWrapper>
-          </>
-        )}
+              </PaginationWrapper>
+            </>
+          )}
+        </Container>
       </Space>
     </>
   );

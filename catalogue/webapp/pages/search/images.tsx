@@ -12,6 +12,7 @@ import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchFilters from '@weco/catalogue/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Sort from '@weco/catalogue/components/Sort/Sort';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 // Utils & Helpers
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -50,9 +51,12 @@ type Props = {
   apiToolbarLinks: ApiToolbarLink[];
 };
 
-const Wrapper = styled(Space).attrs<{ hasNoResults: boolean }>(props => ({
+type WrapperProps = {
+  hasNoResults: boolean;
+};
+const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   v: { size: 'xl', properties: [props.hasNoResults ? '' : 'margin-bottom'] },
-}))<{ hasNoResults: boolean }>`
+}))<WrapperProps>`
   ${props =>
     props.hasNoResults
       ? ``
@@ -132,7 +136,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       </Head>
 
       {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
-        <div className="container">
+        <Container>
           <Space
             v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
@@ -156,73 +160,72 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               hasNoResults={hasNoResults}
             />
           </Space>
-        </div>
+        </Container>
       )}
 
       <Wrapper hasNoResults={hasNoResults}>
-        <Space
-          className="container"
-          v={{ size: 'l', properties: ['padding-bottom'] }}
-        >
-          {hasNoResults ? (
-            <SearchNoResults
-              query={queryString}
-              hasFilters={hasActiveFilters}
-            />
-          ) : (
-            <>
-              <PaginationWrapper verticalSpacing="l">
-                <span>{pluralize(images.totalResults, 'result')}</span>
+        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+          <Container>
+            {hasNoResults ? (
+              <SearchNoResults
+                query={queryString}
+                hasFilters={hasActiveFilters}
+              />
+            ) : (
+              <>
+                <PaginationWrapper verticalSpacing="l">
+                  <span>{pluralize(images.totalResults, 'result')}</span>
 
-                <SortPaginationWrapper>
-                  <Sort
-                    formId="search-page-form"
-                    options={sortOptions}
-                    jsLessOptions={{
-                      sort: [
-                        {
-                          value: '',
-                          text: 'Relevance',
-                        },
-                        {
-                          value: 'source.production.dates',
-                          text: 'Production dates',
-                        },
-                      ],
-                      sortOrder: [
-                        { value: 'asc', text: 'Ascending' },
-                        { value: 'desc', text: 'Descending' },
-                      ],
-                    }}
-                    defaultValues={{
-                      sort: imagesRouteProps.sort,
-                      sortOrder: imagesRouteProps.sortOrder,
-                    }}
-                    darkBg
-                  />
+                  <SortPaginationWrapper>
+                    <Sort
+                      formId="search-page-form"
+                      options={sortOptions}
+                      jsLessOptions={{
+                        sort: [
+                          {
+                            value: '',
+                            text: 'Relevance',
+                          },
+                          {
+                            value: 'source.production.dates',
+                            text: 'Production dates',
+                          },
+                        ],
+                        sortOrder: [
+                          { value: 'asc', text: 'Ascending' },
+                          { value: 'desc', text: 'Descending' },
+                        ],
+                      }}
+                      defaultValues={{
+                        sort: imagesRouteProps.sort,
+                        sortOrder: imagesRouteProps.sortOrder,
+                      }}
+                      darkBg
+                    />
 
+                    <Pagination
+                      totalPages={images.totalPages}
+                      ariaLabel="Image search pagination"
+                      hasDarkBg
+                      isHiddenMobile
+                    />
+                  </SortPaginationWrapper>
+                </PaginationWrapper>
+
+                <main>
+                  <ImageEndpointSearchResults images={images.results} />
+                </main>
+
+                <PaginationWrapper verticalSpacing="l" alignRight>
                   <Pagination
                     totalPages={images.totalPages}
                     ariaLabel="Image search pagination"
                     hasDarkBg
-                    isHiddenMobile
                   />
-                </SortPaginationWrapper>
-              </PaginationWrapper>
-
-              <main>
-                <ImageEndpointSearchResults images={images.results} />
-              </main>
-
-              <PaginationWrapper verticalSpacing="l" alignRight>
-                <Pagination
-                  totalPages={images.totalPages}
-                  ariaLabel="Image search pagination"
-                  hasDarkBg
-                />
-              </PaginationWrapper>
-            </>
-          )}
+                </PaginationWrapper>
+              </>
+            )}
+          </Container>
         </Space>
       </Wrapper>
     </>

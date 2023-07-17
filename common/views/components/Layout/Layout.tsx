@@ -1,15 +1,16 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
-import { grid, SizeMap } from '../../../utils/classnames';
+import { grid, SizeMap } from '@weco/common/utils/classnames';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 type Props = PropsWithChildren<{
   gridSizes: SizeMap;
 }>;
 
 const Layout: FunctionComponent<Props> = ({ gridSizes, children }) => (
-  <div className="container">
+  <Container>
     <div className="grid">
       <div className={grid(gridSizes)}>{children}</div>
     </div>
-  </div>
+  </Container>
 );
 export default Layout;

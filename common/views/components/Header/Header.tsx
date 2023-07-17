@@ -17,7 +17,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import {
   Wrapper,
   GridCell,
-  Container,
+  HeaderContainer,
   Burger,
   BurgerTrigger,
   HeaderBrand,
@@ -127,7 +127,7 @@ const Header: FunctionComponent<Props> = ({
       <header className="is-hidden-print">
         <Wrapper isBurgerOpen={burgerMenuIsActive}>
           <GridCell>
-            <Container>
+            <HeaderContainer>
               <Burger>
                 <BurgerTrigger
                   burgerMenuisActive={burgerMenuIsActive}
@@ -215,7 +215,7 @@ const Header: FunctionComponent<Props> = ({
                   {!isMinimalHeader && <DesktopSignIn />}
                 </HeaderActions>
               </NavLoginWrapper>
-            </Container>
+            </HeaderContainer>
           </GridCell>
         </Wrapper>
 

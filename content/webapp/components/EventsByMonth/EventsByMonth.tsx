@@ -12,6 +12,7 @@ import SegmentedControl, {
   ItemID,
 } from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import Space from '@weco/common/views/components/styled/Space';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 // Types
 import { EventBasic } from '@weco/content/types/events';
@@ -69,15 +70,15 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
             'is-hidden': Boolean(activeId) && activeId !== id,
           })}
         >
-          <h2
+          <Container
+            as="h2"
             className={classNames({
-              container: true,
               'is-hidden': Boolean(activeId),
             })}
             id={id}
           >
             {month.month}
-          </h2>
+          </Container>
           <CardGrid
             items={events}
             itemsPerRow={3}

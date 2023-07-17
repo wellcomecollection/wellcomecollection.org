@@ -38,7 +38,8 @@ import { transformCanvasOcr } from '@weco/catalogue/services/iiif/transformers/c
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import WorkHeader from '@weco/catalogue/components/WorkHeader/WorkHeader';
 import WorkTabbedNav from '@weco/catalogue/components/WorkTabbedNav/WorkTabbedNav';
-import { Container, Grid } from '@weco/catalogue/components/Work/Work';
+import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid } from '@weco/catalogue/components/Work/Work';
 import { useToggles } from '@weco/common/server-data/Context';
 import {
   ApiToolbarLink,

@@ -8,13 +8,13 @@ import {
   useState,
 } from 'react';
 
-import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-
+import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import SearchNavigation from './SearchNavigation';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 type PageLayoutMetadata = {
   openGraphType: 'website';
@@ -121,12 +121,12 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
 
   return (
     <CataloguePageLayout {...pageLayoutMetadata}>
-      <div className="container">
+      <Container>
         <SearchNavigation
           currentSearchCategory={currentSearchCategory}
           currentQueryValue={queryValue}
         />
-      </div>
+      </Container>
       {children}
     </CataloguePageLayout>
   );
