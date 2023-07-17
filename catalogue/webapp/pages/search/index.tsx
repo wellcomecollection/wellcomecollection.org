@@ -20,7 +20,11 @@ import { font } from '@weco/common/utils/classnames';
 import { getWorks } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { Query } from '@weco/catalogue/types/search';
 import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
-import { Image, Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import {
+  Image,
+  toWorkBasic,
+  WorkBasic,
+} from '@weco/catalogue/services/wellcome/catalogue/types';
 import {
   getQueryResults,
   getQueryPropertyValue,
@@ -52,7 +56,7 @@ const fromQuery: (params: ParsedUrlQuery) => CodecMapProps = params => {
 };
 
 type Props = {
-  works?: ReturnedResults<Work>;
+  works?: ReturnedResults<WorkBasic>;
   images?: ReturnedResults<Image>;
   stories?: ReturnedResults<Article>;
   query: Query;
@@ -224,11 +228,11 @@ export const getServerSideProps: GetServerSideProps<
     properties: {},
   };
 
-  const defaultProps = serialiseProps({
+  const defaultProps = {
     serverData,
     query,
     pageview,
-  });
+  };
 
   // If the request looks like spam, return a 400 error and skip actually fetching
   // the data from the APIs.
@@ -240,7 +244,7 @@ export const getServerSideProps: GetServerSideProps<
   // The status code will also allow us to filter out spam-like requests from our analytics.
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
-    return { props: defaultProps };
+    return { props: serialiseProps(defaultProps) };
   }
 
   try {
@@ -296,12 +300,17 @@ export const getServerSideProps: GetServerSideProps<
     }
 
     return {
-      props: {
+      props: serialiseProps({
         ...defaultProps,
         ...(stories && stories.pageResults?.length && { stories }),
         ...(images?.pageResults.length && { images }),
-        ...(works?.pageResults.length && { works }),
-      },
+        works: works
+          ? {
+              ...works,
+              pageResults: works.pageResults.map(toWorkBasic),
+            }
+          : {},
+      }),
     };
   } catch (error) {
     console.error(error);

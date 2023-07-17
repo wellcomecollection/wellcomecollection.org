@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
-import { Work } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { WorkBasic } from '@weco/catalogue/services/wellcome/catalogue/types';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 type Props = {
-  works: Work[];
+  works: WorkBasic[];
 };
 
 const SearchResultUnorderedList = styled(PlainList)`
@@ -31,7 +31,7 @@ const SearchResultListItem = styled.li`
   }
 `;
 
-const WorksSearchResults: FunctionComponent<Props> = ({ works }: Props) => {
+const WorksSearchResults: FunctionComponent<Props> = ({ works }) => {
   return (
     <SearchResultUnorderedList data-test-id="works-search-results-container">
       {works.map((result, i) => (

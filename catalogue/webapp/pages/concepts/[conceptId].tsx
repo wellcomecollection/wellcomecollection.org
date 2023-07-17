@@ -30,7 +30,8 @@ import {
   CatalogueResultsList,
   Concept as ConceptType,
   Image as ImageType,
-  ResultType,
+  toWorkBasic,
+  WorkBasic,
   Work as WorkType,
 } from '@weco/catalogue/services/wellcome/catalogue/types';
 
@@ -113,7 +114,7 @@ const withSelectedStatus = (selectedTab: string, tabDefinition) => {
 // tabDefinitions is an ordered list of the image or works tabs in a page.
 // (hence not just having an object and doing a [selectedTab] lookup)
 // Return the currently selected one.
-function currentTabPanel<T extends ResultType>(
+function currentTabPanel<T>(
   selectedTab: string,
   tabDefinitions: PageSectionDefinition<T>[]
 ) {
@@ -185,7 +186,7 @@ const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
 type WorksTabPanelProps = {
   id: string;
   link: LinkProps;
-  results: ReturnedResults<WorkType>;
+  results: ReturnedResults<WorkBasic>;
 };
 const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
   id,
@@ -209,7 +210,7 @@ const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
 };
 
 // Represents the data for a single tab/tab panel combination.
-type PageSectionDefinition<T extends ResultType> = {
+type PageSectionDefinition<T> = {
   id: string;
   tab: {
     id: string;
@@ -221,14 +222,14 @@ type PageSectionDefinition<T extends ResultType> = {
     results: ReturnedResults<T>;
   };
 };
-type PageSectionDefinitionProps<T extends ResultType> = {
+type PageSectionDefinitionProps<T> = {
   tabId: string;
   resultsGroup: ReturnedResults<T> | undefined;
   tabLabelText: string;
   link: LinkProps;
 };
 
-function toPageSectionDefinition<T extends ResultType>({
+function toPageSectionDefinition<T>({
   tabId,
   resultsGroup,
   tabLabelText,
@@ -251,7 +252,7 @@ function toPageSectionDefinition<T extends ResultType>({
 
 type SectionData = {
   label: string;
-  works: ReturnedResults<WorkType> | undefined;
+  works: ReturnedResults<WorkBasic> | undefined;
   images: ReturnedResults<ImageType> | undefined;
 };
 
@@ -279,7 +280,7 @@ export const ConceptPage: NextPage<Props> = ({
 
       const data = sectionsData[relationship] as SectionData;
 
-      return toPageSectionDefinition<WorkType>({
+      return toPageSectionDefinition<WorkBasic>({
         tabId,
         resultsGroup: data.works,
         tabLabelText: data.label,
@@ -289,7 +290,7 @@ export const ConceptPage: NextPage<Props> = ({
         ),
       });
     })
-    .filter(e => !!e) as PageSectionDefinition<WorkType>[];
+    .filter(e => !!e) as PageSectionDefinition<WorkBasic>[];
 
   const hasWorks = worksTabs.length > 0;
   const hasWorksTabs = worksTabs.length > 1;
@@ -569,17 +570,26 @@ export const getServerSideProps: GetServerSideProps<
   const sectionsData = {
     about: {
       label: `About this ${conceptTypeName}`,
-      works: worksAbout,
+      works: worksAbout && {
+        ...worksAbout,
+        pageResults: worksAbout.pageResults.map(toWorkBasic),
+      },
       images: imagesAbout,
     },
     by: {
       label: `By this ${conceptTypeName}`,
-      works: worksBy,
+      works: worksBy && {
+        ...worksBy,
+        pageResults: worksBy.pageResults.map(toWorkBasic),
+      },
       images: imagesBy,
     },
     in: {
       label: `Using this ${conceptTypeName}`,
-      works: worksIn,
+      works: worksIn && {
+        ...worksIn,
+        pageResults: worksIn.pageResults.map(toWorkBasic),
+      },
       images: imagesIn,
     },
   };
