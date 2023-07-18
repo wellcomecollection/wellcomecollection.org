@@ -15,7 +15,9 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 const StoriesContainer = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
-  className: props.isDetailed ? '' : 'grid',
+  className: props.isDetailed
+    ? ''
+    : 'grid grid--scroll grid--theme-4 card-theme card-theme--transparent',
 }))<{ isDetailed?: boolean }>``;
 
 const StoryWrapper = styled(Space).attrs<{

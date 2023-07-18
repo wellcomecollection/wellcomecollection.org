@@ -94,6 +94,40 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   );
 };
 
+const StoryPromoContainer = styled(Container)`
+${props =>
+    props.theme.mediaBetween(
+      'small',
+      'medium'
+    )(`
+  max-width: none;
+  width: auto;
+  overflow: auto;
+  padding: 0;
+
+  &::-webkit-scrollbar {
+    height: 18px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    border-style: solid;
+    border-width: 0 ${props.theme.containerPadding.small}px 12px;
+    background: ${props.theme.color('neutral.400')};
+  }
+`)}
+
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    background: ${props => props.theme.color('neutral.200')};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-color: ${props => props.theme.color('neutral.200')};
+  }
+`;
+
 export const SearchPage: NextPageWithLayout<Props> = ({
   works,
   images,
@@ -149,8 +183,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           <>
             {stories && (
               <StoriesSection as="section">
-                <Container>
-                  <SectionTitle sectionName="Stories" />
+                <StoryPromoContainer>
+                  <Container>
+                    <SectionTitle sectionName="Stories" />
+                  </Container>
                   <StoriesGrid
                     articles={stories.pageResults}
                     dynamicImageSizes={{
@@ -160,6 +196,8 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       small: 1 / 2,
                     }}
                   />
+                </StoryPromoContainer>
+                <Container>
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text="All stories"
@@ -306,9 +344,9 @@ export const getServerSideProps: GetServerSideProps<
         ...(images?.pageResults.length && { images }),
         works: works
           ? {
-              ...works,
-              pageResults: works.pageResults.map(toWorkBasic),
-            }
+            ...works,
+            pageResults: works.pageResults.map(toWorkBasic),
+          }
           : {},
       }),
     };
