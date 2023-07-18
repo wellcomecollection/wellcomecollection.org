@@ -478,7 +478,7 @@ const storiesFormatFilter = ({
 }: StoriesFilterProps): CheckboxFilter<keyof StoriesProps> => ({
   type: 'checkbox',
   id: 'format',
-  label: 'Format',
+  label: 'Formats',
   options: filterOptionsWithNonAggregates({
     options: stories?.aggregations?.format?.buckets.map(bucket => ({
       id: bucket.data.id,
