@@ -15,9 +15,10 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 const StoriesContainer = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
-  className: props.isDetailed ? '' : 'grid grid--scroll grid--theme-4 card-theme card-theme--transparent',
-})) <{ isDetailed?: boolean }>`
-`;
+  className: props.isDetailed
+    ? ''
+    : 'grid grid--scroll grid--theme-4 card-theme card-theme--transparent',
+}))<{ isDetailed?: boolean }>``;
 
 const StoryWrapper = styled(Space).attrs<{
   isDetailed?: boolean;
@@ -26,7 +27,7 @@ const StoryWrapper = styled(Space).attrs<{
     ? { size: 'xl', properties: ['padding-bottom'] }
     : undefined,
   className: props.isDetailed ? 'grid' : grid({ s: 6, m: 6, l: 3, xl: 3 }),
-})) <{ isDetailed?: boolean }>`
+}))<{ isDetailed?: boolean }>`
   text-decoration: none;
 
   &:last-child {
@@ -42,14 +43,14 @@ const StoryWrapper = styled(Space).attrs<{
 
 const ImageWrapper = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
   className: props.isDetailed ? grid({ s: 12, m: 6, l: 4, xl: 4 }) : '',
-})) <{ isDetailed?: boolean }>`
+}))<{ isDetailed?: boolean }>`
   position: relative;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
 `;
 
 const Details = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
   className: props.isDetailed ? grid({ s: 12, m: 6, l: 8, xl: 8 }) : '',
-})) <{ isDetailed?: boolean }>``;
+}))<{ isDetailed?: boolean }>``;
 
 const DesktopLabel = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
