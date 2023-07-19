@@ -18,21 +18,6 @@ export const NoSpacedText = styled.div`
   }
 `;
 
-export const BigIcon = styled.div`
-  font-size: 6rem;
-  line-height: 0;
-`;
-
-export const TODO = styled.p`
-  background-color: yellow;
-  padding: 2px;
-  font-family: 'Comic Sans MS'; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-
-  &::before {
-    content: 'TODO: ';
-  }
-`;
-
 export const InfoBlock = styled(Space).attrs<{ hasBorder?: boolean }>(
   props => ({
     v: {
