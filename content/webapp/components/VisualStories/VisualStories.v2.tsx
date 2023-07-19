@@ -1,5 +1,5 @@
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { PrototypeH1, TODO, InfoBlock } from './VisualStories.styles';
+import { PrototypeH1, InfoBlock } from './VisualStories.styles';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
@@ -254,7 +254,6 @@ export const V2Prototype = () => {
                 src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/13-3-up-train-stations.png"
               />
             </span>
-            <TODO>How does this behave on mobile? Grid component?</TODO>
           </SpacingSection>
 
           {/* Yellow box */}
