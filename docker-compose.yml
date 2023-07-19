@@ -9,7 +9,7 @@ services:
     image: uk.ac.wellcome/catalogue_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
-      dockerfile: content/Dockerfile
+      dockerfile: catalogue/Dockerfile
   content:
     image: uk.ac.wellcome/content_webapp:${CONTAINER_TAG:-test}
     build:
