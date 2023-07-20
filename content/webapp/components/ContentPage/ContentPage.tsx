@@ -30,6 +30,16 @@ const pollyRecordings = [
     audioUrl:
       'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/42235d89-05f4-40f5-899d-4e61a7a4b15a.mp3',
   },
+  {
+    articleId: 'W88vXBIAAOEyzwO_',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/a088b205-4736-404c-96c8-c485c7fc0aa5.mp3',
+  },
+  {
+    articleId: 'W_v8XxQAACgA_WKS',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/7e178861-37bb-4e64-a5b8-93745501dc27.mp3',
+  },
 ];
 
 type Props = {
@@ -116,7 +126,7 @@ const ContentPage = ({
                 <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <Layout8>
                     <AudioPlayer
-                      title="Text to speech"
+                      title="Listen to this article"
                       audioFile={hasPollyRecording.audioUrl}
                     />
                   </Layout8>
