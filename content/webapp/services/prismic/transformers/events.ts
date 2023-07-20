@@ -173,46 +173,50 @@ export function transformEvent(
     scheduleQuery && scheduleQuery.results
       ? scheduleQuery.results.map(doc => transformEvent(doc))
       : [];
-  const interpretations: Interpretation[] = data.interpretations
-    .map(interpretation =>
-      prismic.isFilled.link(interpretation.interpretationType)
-        ? {
-            interpretationType: {
-              id: interpretation.interpretationType.id,
-              title: asTitle(
-                interpretation.interpretationType.data?.title || []
-              ),
-              abbreviation: interpretation.interpretationType.data?.abbreviation
-                ? asText(interpretation.interpretationType.data?.abbreviation)
-                : undefined,
-              description: interpretation.interpretationType.data?.description,
-              primaryDescription:
-                interpretation.interpretationType.data?.primaryDescription,
-            },
-            isPrimary: Boolean(interpretation.isPrimary),
-            extraInformation: interpretation.extraInformation,
-          }
-        : undefined
-    )
-    .filter(isNotUndefined);
+  const interpretations: Interpretation[] =
+    data?.interpretations
+      ?.map(interpretation =>
+        prismic.isFilled.link(interpretation.interpretationType)
+          ? {
+              interpretationType: {
+                id: interpretation.interpretationType.id,
+                title: asTitle(
+                  interpretation.interpretationType.data?.title || []
+                ),
+                abbreviation: interpretation.interpretationType.data
+                  ?.abbreviation
+                  ? asText(interpretation.interpretationType.data?.abbreviation)
+                  : undefined,
+                description:
+                  interpretation.interpretationType.data?.description,
+                primaryDescription:
+                  interpretation.interpretationType.data?.primaryDescription,
+              },
+              isPrimary: Boolean(interpretation.isPrimary),
+              extraInformation: interpretation.extraInformation,
+            }
+          : undefined
+      )
+      .filter(isNotUndefined) || [];
 
   const eventbriteId = data.eventbriteEvent?.embed_url
     ? getEventbriteId(data.eventbriteEvent.embed_url)
     : undefined;
 
-  const audiences: Audience[] = data.audiences
-    .map(audience =>
-      prismic.isFilled.link(audience.audience)
-        ? {
-            id: audience.audience.id,
-            title: audience.audience.data?.title
-              ? asTitle(audience.audience.data?.title)
-              : '',
-            description: audience.audience.data?.description,
-          }
-        : undefined
-    )
-    .filter(isNotUndefined);
+  const audiences: Audience[] =
+    data?.audiences
+      ?.map(audience =>
+        prismic.isFilled.link(audience.audience)
+          ? {
+              id: audience.audience.id,
+              title: audience.audience.data?.title
+                ? asTitle(audience.audience.data?.title)
+                : '',
+              description: audience.audience.data?.description,
+            }
+          : undefined
+      )
+      .filter(isNotUndefined) || [];
 
   const bookingEnquiryTeam = transformBookingEnquiryTeam(
     data.bookingEnquiryTeam
@@ -414,11 +418,12 @@ export function transformEventBasicTimes(
   // These rules are likely incomplete, but they're directionally correct and fix a
   // timely issue with the "Lights Up" event that spans multiple months.
   //
-  const scheduleTimes = document.data.schedule.flatMap(s =>
-    isFilledLinkToDocumentWithData(s.event)
-      ? transformEventTimes(s.event.id, s.event.data.times || [])
-      : []
-  );
+  const scheduleTimes =
+    document.data?.schedule?.flatMap(s =>
+      isFilledLinkToDocumentWithData(s.event)
+        ? transformEventTimes(s.event.id, s.event.data.times || [])
+        : []
+    ) || [];
 
   // Case 1: if the event has no schedule, use the 'times' on the event
   if (scheduleTimes.length === 0) {
