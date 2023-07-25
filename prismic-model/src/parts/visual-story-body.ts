@@ -8,6 +8,15 @@ export default {
   type: 'Slices',
   config: {
     choices: {
+      standfirst: {
+        type: 'Slice',
+        fieldset: 'Standfirst',
+        'non-repeat': {
+          text: singleLineText('Standfirst', {
+            overrideTextOptions: ['strong', 'em', 'hyperlink'],
+          }),
+        },
+      },
       contact: slice('Contact', {
         nonRepeat: {
           content: documentLink('Content item', { linkedType: 'teams' }),
