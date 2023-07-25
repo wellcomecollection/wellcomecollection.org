@@ -1,10 +1,14 @@
 import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient, GetByTypeParams } from '.';
-import { commonPrismicFieldsFetchLinks } from '../types';
+import { commonPrismicFieldsFetchLinks, contributorFetchLinks } from '../types';
 import { VisualStoriesDocument } from '../types/visual-stories';
 import { teamsFetchLinks } from '../types/teams';
 
-const fetchLinks = [...commonPrismicFieldsFetchLinks, ...teamsFetchLinks];
+const fetchLinks = [
+  ...commonPrismicFieldsFetchLinks,
+  ...teamsFetchLinks,
+  ...contributorFetchLinks,
+];
 
 const visualStoriesFetcher = fetcher<VisualStoriesDocument>(
   'visual-stories',
