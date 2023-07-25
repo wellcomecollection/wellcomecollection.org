@@ -12,6 +12,7 @@ import { Props as MapProps } from '../components/Map/Map';
 import { Props as DiscussionProps } from '../components/Discussion/Discussion';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { Props as MediaObjectListProps } from '../components/MediaObjectList/MediaObjectList';
+import { Props as TextAndImageOrIconsProps } from '../components/TextAndImageOrIcons/TextAndImageOrIcons';
 import { AudioPlayerProps } from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import * as prismic from '@prismicio/client';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
@@ -80,6 +81,8 @@ export function isStandfirst(
 
 export type BodySlice =
   | Slice<'standfirst', prismic.RichTextField>
+  | Slice<'textAndImage', TextAndImageOrIconsProps>
+  | Slice<'textAndIcons', TextAndImageOrIconsProps>
   | Slice<'text', prismic.RichTextField>
   | Slice<'map', MapProps>
   | Slice<'mediaObjectList', MediaObjectListProps>

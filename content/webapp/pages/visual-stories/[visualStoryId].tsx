@@ -33,7 +33,6 @@ export const getServerSideProps = async context => {
   }
 
   const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
-  console.log(visualStoryDocument);
   if (visualStoryDocument) {
     const visualStory = transformVisualStory(visualStoryDocument);
     return {
@@ -81,6 +80,7 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory }) => {
             showOnThisPage={visualStory.showOnThisPage}
           />
         }
+        contributors={visualStory.contributors}
       />
     </PageLayout>
   );

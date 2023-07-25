@@ -72,7 +72,7 @@ type Item = {
   | { type: 'image'; image: ImageType; isZoomable: boolean }
 );
 
-type Props = {
+export type Props = {
   item: Item;
 };
 
