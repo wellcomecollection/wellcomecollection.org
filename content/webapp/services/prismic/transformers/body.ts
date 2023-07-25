@@ -84,6 +84,29 @@ function transformTextSlice(slice: TextSlice): BodySlice {
   };
 }
 
+function transformTextAndImage(slice: any): BodySlice {
+  return {
+    type: 'textAndImage',
+    value: {
+      type: 'image',
+      text: slice.primary.text,
+      image: transformImage(slice.primary.image),
+      isZoomable: slice.primary.isZoomable,
+    },
+  };
+}
+
+function transformTextAndIcons(slice: any): BodySlice {
+  return {
+    type: 'textAndIcons',
+    value: {
+      type: 'icons',
+      text: slice.primary.text,
+      icons: slice.items.map(({ icon }) => transformImage(icon)),
+    },
+  };
+}
+
 function transformMapSlice(slice: MapSlice): BodySlice {
   return {
     type: 'map',
@@ -429,6 +452,10 @@ export function transformBody(body: Body): BodySlice[] {
   return body
     .map(slice => {
       switch (slice.slice_type) {
+        case 'textAndImage':
+          return transformTextAndImage(slice);
+        case 'textAndIcons':
+          return transformTextAndIcons(slice);
         case 'standfirst':
           return transformStandfirstSlice(slice);
 

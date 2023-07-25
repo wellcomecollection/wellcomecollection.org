@@ -14,6 +14,7 @@ const contentTypes = [
   'guide-formats',
   'exhibition-guides',
   'stories-landing',
+  'visual-stories',
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];

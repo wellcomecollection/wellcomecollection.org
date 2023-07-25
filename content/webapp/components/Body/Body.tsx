@@ -56,6 +56,7 @@ import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismic from '@prismicio/client';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import TextAndImageOrIcons from '../TextAndImageOrIcons/TextAndImageOrIcons';
 
 const BodyWrapper = styled.div<{ splitBackground: boolean }>`
   ${props =>
@@ -377,6 +378,22 @@ const Body: FunctionComponent<Props> = ({
                         ))}
                     </div>
                   </LayoutWidth>
+                </SpacingComponent>
+              )}
+
+              {slice.type === 'textAndImage' && (
+                <SpacingComponent sliceType={slice.type}>
+                  <Layout10>
+                    <TextAndImageOrIcons item={slice.value} />
+                  </Layout10>
+                </SpacingComponent>
+              )}
+
+              {slice.type === 'textAndIcons' && (
+                <SpacingComponent sliceType={slice.type}>
+                  <Layout10>
+                    <TextAndImageOrIcons item={slice.value} />
+                  </Layout10>
                 </SpacingComponent>
               )}
 

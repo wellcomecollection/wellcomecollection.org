@@ -93,7 +93,6 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
               })}
             </ImageOrIcons>
           )}
-
           {item.type === 'image' && item.image && (
             <ImageOrIcons isPortrait={item.image.width < item.image.height}>
               <CaptionedImage
@@ -104,7 +103,6 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
               />
             </ImageOrIcons>
           )}
-
           <Text>
             <PrismicHtmlBlock html={item.text} />
           </Text>
