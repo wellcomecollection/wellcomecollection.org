@@ -78,6 +78,7 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory }) => {
             pageId={visualStory.id}
             onThisPage={visualStory.onThisPage}
             showOnThisPage={visualStory.showOnThisPage}
+            contentType="visual-story"
           />
         }
         contributors={visualStory.contributors}

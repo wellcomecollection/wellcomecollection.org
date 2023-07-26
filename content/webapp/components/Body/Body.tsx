@@ -105,7 +105,7 @@ type Props = {
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
-  isShortFilm?: boolean;
+  contentType?: 'short-film' | 'visual-story';
 };
 
 type SectionTheme = {
@@ -144,7 +144,7 @@ const Body: FunctionComponent<Props> = ({
   sectionLevelPage = false,
   staticContent = null,
   comicPreviousNext,
-  isShortFilm = false,
+  contentType,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -301,9 +301,14 @@ const Body: FunctionComponent<Props> = ({
       return null;
     }
   };
+  const isShortFilm = contentType === 'short-film';
+  const isVisualStory = contentType === 'visual-story';
 
   return (
-    <BodyWrapper splitBackground={isShortFilm}>
+    <BodyWrapper
+      splitBackground={isShortFilm}
+      className={`content-type-${contentType}`}
+    >
       {filteredBody.length < 1 && (
         <AdditionalContent
           index={0}
@@ -401,9 +406,9 @@ const Body: FunctionComponent<Props> = ({
               that width isn't an adequate means to illustrate a difference */}
               {slice.type === 'picture' && slice.weight === 'default' && (
                 <SpacingComponent sliceType={slice.type}>
-                  <Layout10>
+                  <LayoutWidth width={isVisualStory ? 8 : 10}>
                     <CaptionedImage {...slice.value} />
-                  </Layout10>
+                  </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'picture' && slice.weight === 'standalone' && (
