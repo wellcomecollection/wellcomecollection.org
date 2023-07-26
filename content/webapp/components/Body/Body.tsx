@@ -353,7 +353,12 @@ const Body: FunctionComponent<Props> = ({
               {slice.type === 'text' && (
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
-                    <div className="body-text spaced-text">
+                    <div
+                      className={classNames({
+                        'body-text spaced-text': true,
+                        'first-text-slice': firstTextSliceIndex === i,
+                      })}
+                    >
                       {slice.weight !== 'featured' &&
                         (firstTextSliceIndex === i && isDropCapped ? (
                           <>

@@ -242,6 +242,17 @@ export const typography = css<GlobalStyleProps>`
       ${fontSizeMixin(2)}
     }
 
+    .content-type-visual-story & h2 {
+      padding-top: 2em;
+      margin-top: 1.5em;
+      border-top: 1px solid black;
+    }
+
+    .content-type-visual-story &.first-text-slice h2 {
+      border-top: 0;
+      padding-top: 0;
+    }
+
     h3 {
       ${fontFamilyMixin('intb', true)}
       ${fontSizeMixin(3)}
