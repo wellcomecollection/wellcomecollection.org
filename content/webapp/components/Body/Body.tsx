@@ -383,17 +383,17 @@ const Body: FunctionComponent<Props> = ({
 
               {slice.type === 'textAndImage' && (
                 <SpacingComponent sliceType={slice.type}>
-                  <Layout10>
+                  <Layout8>
                     <TextAndImageOrIcons item={slice.value} />
-                  </Layout10>
+                  </Layout8>
                 </SpacingComponent>
               )}
 
               {slice.type === 'textAndIcons' && (
                 <SpacingComponent sliceType={slice.type}>
-                  <Layout10>
+                  <Layout8>
                     <TextAndImageOrIcons item={slice.value} />
-                  </Layout10>
+                  </Layout8>
                 </SpacingComponent>
               )}
 
