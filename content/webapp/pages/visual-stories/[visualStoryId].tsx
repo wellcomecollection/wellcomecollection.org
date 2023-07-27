@@ -62,7 +62,7 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory }) => {
 
   return (
     <PageLayout
-      title="Visual stories"
+      title={visualStory.title}
       description="TODO" // TODO
       url={{ pathname: '/visual-stories' }}
       jsonLd={[]}
@@ -81,7 +81,6 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory }) => {
             contentType="visual-story"
           />
         }
-        contributors={visualStory.contributors}
       />
     </PageLayout>
   );
