@@ -2,7 +2,6 @@ import title from './parts/title';
 import visualStoryBody from './parts/visual-story-body';
 import timestamp from './parts/timestamp';
 import boolean from './parts/boolean';
-import contributorsWithTitle from './parts/contributorsWithTitle';
 import { CustomType } from './types/CustomType';
 
 const visualStories: CustomType = {
@@ -20,7 +19,6 @@ const visualStories: CustomType = {
       ),
       body: visualStoryBody,
     },
-    Contributors: contributorsWithTitle(),
   },
   format: 'custom',
 };
