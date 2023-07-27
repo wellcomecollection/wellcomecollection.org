@@ -6,6 +6,21 @@ import { TeamPrismicDocument } from './teams';
 
 export type TextSlice = prismic.Slice<'text', { text: prismic.RichTextField }>;
 
+export type TextAndImageSlice = prismic.Slice<
+  'textAndImage',
+  {
+    text: prismic.RichTextField;
+    image: prismic.ImageField;
+    isZoomable: prismic.BooleanField;
+  }
+>;
+
+export type TextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  { text: prismic.RichTextField },
+  { icon: prismic.ImageField }
+>;
+
 export type EditorialImageSlice = prismic.Slice<
   'editorialImage',
   { image: Image; caption: prismic.RichTextField }

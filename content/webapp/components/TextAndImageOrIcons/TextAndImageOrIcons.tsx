@@ -64,15 +64,21 @@ const Text = styled.div`
   `}
 `;
 
-type Item = {
+export type TextAndImageItem = {
   text: prismic.RichTextField;
-} & (
-  | { type: 'icons'; icons: ImageType[] }
-  | { type: 'image'; image: ImageType; isZoomable: boolean }
-);
+  type: 'image';
+  image: ImageType;
+  isZoomable: boolean;
+};
+
+export type TextAndIconsItem = {
+  text: prismic.RichTextField;
+  type: 'icons';
+  icons: ImageType[];
+};
 
 export type Props = {
-  item: Item;
+  item: TextAndImageItem | TextAndIconsItem;
 };
 
 const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {

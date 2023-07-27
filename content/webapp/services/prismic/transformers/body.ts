@@ -21,6 +21,8 @@ import {
   Discussion as DiscussionSlice,
   AudioPlayer as AudioPlayerSlice,
   Body,
+  TextAndImageSlice,
+  TextAndIconsSlice,
 } from '../types/body';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -84,25 +86,27 @@ function transformTextSlice(slice: TextSlice): BodySlice {
   };
 }
 
-function transformTextAndImage(slice: any): BodySlice {
+function transformTextAndImage(slice: TextAndImageSlice): BodySlice {
   return {
     type: 'textAndImage',
     value: {
       type: 'image',
       text: slice.primary.text,
-      image: transformImage(slice.primary.image),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      image: transformImage(slice.primary.image)!,
       isZoomable: slice.primary.isZoomable,
     },
   };
 }
 
-function transformTextAndIcons(slice: any): BodySlice {
+function transformTextAndIcons(slice: TextAndIconsSlice): BodySlice {
   return {
     type: 'textAndIcons',
     value: {
       type: 'icons',
       text: slice.primary.text,
-      icons: slice.items.map(({ icon }) => transformImage(icon)),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      icons: slice.items.map(({ icon }) => transformImage(icon)!),
     },
   };
 }
