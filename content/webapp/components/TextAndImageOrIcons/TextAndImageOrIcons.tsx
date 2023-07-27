@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
 import { ImageType } from '@weco/common/model/image';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -20,9 +19,7 @@ const MediaAndTextWrap = styled.div`
   `}
 `;
 
-const DividingLine = styled(Space).attrs({
-  v: { size: 'l', properties: ['margin-top', 'padding-top'] },
-})`
+const DividingLine = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.400')};
 
   &:first-child {
@@ -34,6 +31,8 @@ const DividingLine = styled(Space).attrs({
   .slice-type-text-and-image + .slice-type-text-and-image &,
   .slice-type-text-and-icons + .slice-type-text-and-icons & {
     border-top: 1px solid ${props => props.theme.color('neutral.400')};
+    ${props =>
+      props.theme.makeSpacePropertyValues('l', ['margin-top', 'padding-top'])};
   }
 `;
 
