@@ -13,12 +13,14 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { Pageview } from '@weco/common/services/conversion/track';
 
 import Body from '@weco/content/components/Body/Body';
 
 type Props = {
   visualStory: VisualStory;
   jsonLd: JsonLdObj;
+  pageview: Pageview;
 };
 
 export const getServerSideProps = async context => {
@@ -45,6 +47,10 @@ export const getServerSideProps = async context => {
         visualStory,
         serverData,
         jsonLd,
+        pageview: {
+          name: 'visual-story',
+          properties: {},
+        },
       }),
     };
   } else {
