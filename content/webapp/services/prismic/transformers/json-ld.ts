@@ -1,4 +1,5 @@
 import { Event } from '../../../types/events';
+import { VisualStory } from '../../../types/visual-stories';
 import {
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
@@ -132,6 +133,21 @@ export function articleSeriesLd(series: Series): JsonLdObj {
       url: `https://wellcomecollection.org/series/${series.id}`,
     },
     { type: 'Series' }
+  );
+}
+
+export function visualStoryLd(visualStory: VisualStory): JsonLdObj {
+  return objToJsonLd(
+    {
+      dateCreated: visualStory.datePublished,
+      datePublished: visualStory.datePublished,
+      headline: visualStory.title,
+      publisher: orgLd(wellcomeCollectionGallery),
+      url: `https://wellcomecollection.org/visual-stories/${visualStory.id}`,
+    },
+    {
+      type: 'WebPage',
+    }
   );
 }
 

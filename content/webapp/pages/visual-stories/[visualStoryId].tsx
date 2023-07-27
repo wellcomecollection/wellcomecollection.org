@@ -11,11 +11,14 @@ import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import { VisualStory } from '@weco/content/types/visual-stories';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 import Body from '@weco/content/components/Body/Body';
 
 type Props = {
   visualStory: VisualStory;
+  jsonLd: JsonLdObj;
 };
 
 export const getServerSideProps = async context => {
@@ -35,10 +38,13 @@ export const getServerSideProps = async context => {
   const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
   if (visualStoryDocument) {
     const visualStory = transformVisualStory(visualStoryDocument);
+    const jsonLd = visualStoryLd(visualStory);
+
     return {
       props: serialiseProps({
         visualStory,
         serverData,
+        jsonLd,
       }),
     };
   } else {
@@ -46,7 +52,7 @@ export const getServerSideProps = async context => {
   }
 };
 
-const VisualStory: FunctionComponent<Props> = ({ visualStory }) => {
+const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
   const ContentTypeInfo = visualStory.standfirst && (
     <PageHeaderStandfirst html={visualStory.standfirst} />
   );
@@ -65,7 +71,7 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory }) => {
       title={visualStory.title}
       description="TODO" // TODO
       url={{ pathname: '/visual-stories' }}
-      jsonLd={[]}
+      jsonLd={jsonLd}
       openGraphType="website"
       hideNewsletterPromo={true}
     >
