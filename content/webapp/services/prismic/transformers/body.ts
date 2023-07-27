@@ -397,6 +397,7 @@ function transformContentListSlice(slice: ContentListSlice): BodySlice {
       // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
       // but that doesn't exist in our Prismic model.
       // hasFeatured: slice.primary.hasFeatured,
+      // TODO should other types be added? For example, books are allowed in Content Lists
       items: contents
         .map(content => {
           switch (content.type) {
