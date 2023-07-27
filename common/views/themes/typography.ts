@@ -248,7 +248,7 @@ export const typography = css<GlobalStyleProps>`
       border-top: 1px solid black;
     }
 
-    .content-type-visual-story &.first-text-slice h2 {
+    .content-type-visual-story &.first-text-slice h2:first-of-type {
       border-top: 0;
       padding-top: 0;
     }
