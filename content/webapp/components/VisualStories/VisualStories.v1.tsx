@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { TwoUp, NoSpacedText, PrototypeH2 } from './VisualStories.styles';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
@@ -9,17 +8,8 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import { anchorLinks } from './VisualStories.data';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import { font } from '@weco/common/utils/classnames';
-import * as prismic from '@prismicio/client';
-import Body from '@weco/content/components/Body/Body';
-import { transformBody } from 'services/prismic/transformers/body';
+
 export const V1Prototype = () => {
-  const client = prismic.createClient('wellcomecollection');
-  const [visualStory, setVisualStory] = useState();
-  useEffect(() => {
-    client.getAllByType('visual-stories').then(vs => {
-      setVisualStory(transformBody(vs[0].data.body));
-    });
-  }, []);
   return (
     <>
       <Layout12>
@@ -31,12 +21,9 @@ export const V1Prototype = () => {
           to help you know what to expect upon arrival if you have autism and/or
           sensory sensitivities.
         </p>
-        {/* <p className={font('intr', 6)}>Updated DD Month 2023</p> */}
+        <p className={font('intr', 6)}>Updated DD Month 2023</p>
       </Layout>
-
-      <Body pageId="test" body={visualStory} showOnThisPage={true} />
-
-      {/* <Layout8>
+      <Layout8>
         <SpacingSection>
           <OnThisPageAnchors links={anchorLinks} />
         </SpacingSection>
@@ -309,7 +296,7 @@ export const V1Prototype = () => {
             </p>
           </SpacingComponent>
         </div>
-      </Layout8> */}
+      </Layout8>
     </>
   );
 };
