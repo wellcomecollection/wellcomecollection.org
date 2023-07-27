@@ -24,11 +24,67 @@ export const PageBackgroundContext = createContext<'warmNeutral.300' | 'white'>(
 );
 
 // TODO delete once we get rid of the Polly Experiment
-const pollyRecordings = [
+const pollyRecordings: { articleId: string; audioUrl: string }[] = [
+  // A brief history of tattoos
   {
     articleId: 'W9m2QxcAAF8AFvE5',
     audioUrl:
       'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/42235d89-05f4-40f5-899d-4e61a7a4b15a.mp3',
+  },
+  // History of condoms from animal to rubbers
+  {
+    articleId: 'W88vXBIAAOEyzwO_',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/a088b205-4736-404c-96c8-c485c7fc0aa5.mp3',
+  },
+  // TODO: The shocking ‘treatment’ to make lesbians straight
+  // A lot of quotes + how to treat intonation when a word is in quotes
+  {
+    articleId: 'XhWjZhAAACUAOpV2',
+    audioUrl: '',
+  },
+  // Nymphomania and hypersexuality in women and men
+  {
+    articleId: 'W_v8XxQAACgA_WKS',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/7e178861-37bb-4e64-a5b8-93745501dc27.mp3',
+  },
+  // TODO: Getting sexy with cinnamon
+  // How to do item list?
+  {
+    articleId: 'WilSbykAANoWFUhP',
+    audioUrl: '',
+  },
+  // TODO: Befriending heavy breathers
+  //
+  {
+    articleId: 'XqKkYxAAACMATUnN',
+    audioUrl: '',
+  },
+  // The side effects of lithium mining
+  {
+    articleId: 'YTdnPhIAACIAGuF3',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/9d05c353-948f-496e-8a9a-740d81d13962.mp3',
+  },
+  // Drugs in Victorian Britain
+  {
+    articleId: 'W87wthIAACQizfap',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/c98f030e-1fd2-4442-add8-e1fb45acb95a.mp3',
+  },
+  // TODO: What is hysteria?
+  // How to do list items
+  {
+    articleId: 'W89GZBIAAN4yz1hQ',
+    audioUrl: '',
+  },
+  // Race, religion and the Black Madonna
+  // A lot of copy in the image captions that isn't being read
+  {
+    articleId: 'WpmW_yUAAKUUF6mV',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/adb5e6fd-601b-45cc-80ae-c838f4f42cfe.mp3',
   },
 ];
 
@@ -92,7 +148,7 @@ const ContentPage = ({
   }
 
   const hasPollyRecording = pollyRecordings.find(
-    ({ articleId }) => articleId === id
+    ({ articleId, audioUrl }) => articleId === id && !!audioUrl
   );
 
   return (
@@ -116,7 +172,7 @@ const ContentPage = ({
                 <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <Layout8>
                     <AudioPlayer
-                      title="Text to speech"
+                      title="Listen to this article"
                       audioFile={hasPollyRecording.audioUrl}
                     />
                   </Layout8>

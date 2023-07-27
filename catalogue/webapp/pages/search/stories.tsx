@@ -254,7 +254,7 @@ export const getServerSideProps: GetServerSideProps<
       ...(pageNumber && { page: Number(pageNumber) }),
       aggregations: ['format', 'contributors.contributor'],
     },
-    pageSize: 6,
+    pageSize: 25,
     toggles: serverData.toggles,
   });
 

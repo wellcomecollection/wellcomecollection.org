@@ -8,6 +8,15 @@ export default {
   type: 'Slices',
   config: {
     choices: {
+      standfirst: {
+        type: 'Slice',
+        fieldset: 'Standfirst',
+        'non-repeat': {
+          text: singleLineText('Standfirst', {
+            overrideTextOptions: ['strong', 'em', 'hyperlink'],
+          }),
+        },
+      },
       contact: slice('Contact', {
         nonRepeat: {
           content: documentLink('Content item', { linkedType: 'teams' }),
@@ -49,7 +58,7 @@ export default {
       textAndImage: slice('Text and image', {
         description: 'Side-by-side',
         nonRepeat: {
-          text: multiLineText('Text'),
+          text: multiLineText('Text', { extraTextOptions: ['heading3'] }),
           image: {
             type: 'Image',
             config: {
@@ -62,7 +71,7 @@ export default {
       textAndIcons: slice('Text and icons', {
         description: 'Side-by-side',
         nonRepeat: {
-          text: multiLineText('Text'),
+          text: multiLineText('Text', { extraTextOptions: ['heading3'] }),
         },
         repeat: {
           icon: {
