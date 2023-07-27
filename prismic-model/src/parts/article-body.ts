@@ -103,6 +103,16 @@ export default {
           },
         },
       },
+      infoBlock: slice('Info block', {
+        nonRepeat: {
+          title: heading('Title', { level: 2 }),
+          text: multiLineText('Text', {
+            extraTextOptions: ['heading3', 'list-item'],
+          }),
+          link: webLink('Button link'),
+          linkText: keyword('Button text'),
+        },
+      }),
       standfirst: {
         type: 'Slice',
         fieldset: 'Standfirst',
