@@ -75,8 +75,8 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
   return (
     <PageLayout
       title={visualStory.title}
-      description="TODO" // TODO
-      url={{ pathname: '/visual-stories' }}
+      description="TODO" // TODO: will there be promos/cards for visual stories?
+      url={{ pathname: `/visual-stories/${visualStory.id}` }}
       jsonLd={jsonLd}
       openGraphType="website"
       hideNewsletterPromo={true}
