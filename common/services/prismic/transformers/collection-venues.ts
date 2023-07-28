@@ -72,7 +72,9 @@ export function transformCollectionVenue(
               isClosed,
             };
           }
+          return undefined;
         })
+        .filter(isNotUndefined)
     : [];
 
   return {

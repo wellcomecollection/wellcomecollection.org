@@ -106,6 +106,7 @@ export function getItemsWithPhysicalLocation(
       ) {
         return item as PhysicalItem;
       }
+      return undefined;
     })
     .filter((item?: PhysicalItem): item is PhysicalItem => Boolean(item));
 }

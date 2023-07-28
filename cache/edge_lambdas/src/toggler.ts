@@ -41,6 +41,7 @@ function parseToggleCookies(
               return { key, value };
             }
           }
+          return false;
         })
         .filter((x): x is { key: string; value: string } => Boolean(x))
     : [];
@@ -78,6 +79,7 @@ export const request = (event: CloudFrontRequestEvent): void => {
           const val = Math.random() >= 0.5;
           return { key: `toggle_${test.id}`, value: val };
         }
+        return false;
       } catch (error) {
         console.log(
           `Toggles request: a/b test when() broke with error:`,
@@ -87,6 +89,7 @@ export const request = (event: CloudFrontRequestEvent): void => {
         if (process.env.NODE_ENV === 'test') {
           throw error;
         }
+        return false;
       }
     })
     .filter((x): x is { key: string; value: boolean } => Boolean(x));
