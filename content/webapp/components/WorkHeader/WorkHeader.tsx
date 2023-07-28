@@ -1,5 +1,5 @@
 import { FunctionComponent, useContext } from 'react';
-import { WorkBasic } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { font, grid } from '@weco/common/utils/classnames';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
@@ -103,17 +103,17 @@ const WorkHeader: FunctionComponent<Props> = ({
             {Boolean(
               collectionManifestsCount && collectionManifestsCount > 0
             ) && (
-                <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                  <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
-                    <Number
-                      backgroundColor="yellow"
-                      number={collectionManifestsCount as number}
-                    />
-                    {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
-                    online
-                  </p>
-                </Space>
-              )}
+              <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
+                  <Number
+                    backgroundColor="yellow"
+                    number={collectionManifestsCount as number}
+                  />
+                  {collectionManifestsCount === 1 ? ' volume ' : ' volumes '}
+                  online
+                </p>
+              </Space>
+            )}
           </SpacingComponent>
         </Space>
       </WorkHeaderContainer>

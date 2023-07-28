@@ -6,8 +6,8 @@ import {
   Image,
   WorkBasic,
   toWorkBasic,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
-import CataloguePageLayout from '@weco/catalogue/components/CataloguePageLayout/CataloguePageLayout';
+} from '@weco/content/services/wellcome/catalogue/types';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -161,11 +161,12 @@ export const getServerSideProps: GetServerSideProps<
       iiifPresentationLocation,
       // We know we'll get a catalogue API URL for a non-error response, but
       // this isn't (currently) asserted by the type system.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       apiToolbarLinks: [
         {
           id: 'json',
           label: 'JSON',
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           link: catalogueApiUrl!,
         },
         createTzitzitImageLink(work, image),

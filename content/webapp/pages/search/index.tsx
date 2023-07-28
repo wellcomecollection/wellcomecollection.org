@@ -10,7 +10,7 @@ import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSe
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
+import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
@@ -18,13 +18,13 @@ import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
-import { Query } from '@weco/catalogue/types/search';
-import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
+import { Query } from '@weco/content/types/search';
+import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   Image,
   toWorkBasic,
   WorkBasic,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import {
   getQueryResults,
   getQueryPropertyValue,

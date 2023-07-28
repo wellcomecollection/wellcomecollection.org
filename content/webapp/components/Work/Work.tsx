@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   Work as WorkType,
   toWorkBasic,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import {
   Location as LocationType,
   DigitalLocation,
@@ -12,11 +12,11 @@ import { grid } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   getDigitalLocationInfo,
-} from '@weco/catalogue/utils/works';
+} from '@weco/content/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '../CataloguePageLayout/CataloguePageLayout';
-import { workLd } from '@weco/catalogue/utils/json-ld';
+import { workLd } from '@weco/content/utils/json-ld';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '../WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '../ArchiveBreadcrumb/ArchiveBreadcrumb';
@@ -91,10 +91,10 @@ function createApiToolbarLinks(
 
   const iiifLink = iiifItem &&
     iiifItem.type === 'DigitalLocation' && {
-    id: 'iiif',
-    label: 'IIIF',
-    link: iiifItem.url.replace('/v2/', '/v3/'),
-  };
+      id: 'iiif',
+      label: 'IIIF',
+      link: iiifItem.url.replace('/v2/', '/v3/'),
+    };
 
   const links = [
     apiLink,
@@ -156,12 +156,12 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
 
   const image = imageUrl
     ? {
-      contentUrl: imageUrl,
-      alt: title,
-      width: 0,
-      height: 0,
-      crops: {},
-    }
+        contentUrl: imageUrl,
+        alt: title,
+        width: 0,
+        height: 0,
+        crops: {},
+      }
     : undefined;
 
   const { collectionManifestsCount } = { ...transformedIIIFManifest };

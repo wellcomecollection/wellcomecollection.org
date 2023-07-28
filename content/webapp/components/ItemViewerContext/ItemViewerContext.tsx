@@ -1,6 +1,6 @@
 import { createContext, RefObject } from 'react';
-import { WorkBasic } from '@weco/catalogue/services/wellcome/catalogue/types';
-import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { Manifest } from '@iiif/presentation-3';
 import { TransformedManifest } from '../../types/manifest';
 

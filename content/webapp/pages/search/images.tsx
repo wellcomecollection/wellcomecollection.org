@@ -10,7 +10,7 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import Sort from '@weco/catalogue/components/Sort/Sort';
+import Sort from '@weco/content/components/Sort/Sort';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
