@@ -170,11 +170,7 @@ const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
   results,
 }) => {
   return (
-    <div
-      role="tabpanel"
-      id={`tabpanel - ${id} `}
-      aria-labelledby={`tab - ${id} `}
-    >
+    <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
       <ImageEndpointSearchResults images={results.pageResults} />
       <Space v={{ size: 'm', properties: ['margin-top'] }}>
         <SeeMoreButton
@@ -199,11 +195,7 @@ const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
 }) => {
   return (
     <Container>
-      <div
-        role="tabpanel"
-        id={`tabpanel - ${id} `}
-        aria-labelledby={`tab - ${id} `}
-      >
+      <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
         <WorksSearchResults works={results.pageResults} />
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
           <SeeMoreButton
