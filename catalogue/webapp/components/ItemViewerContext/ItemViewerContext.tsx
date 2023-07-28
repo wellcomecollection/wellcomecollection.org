@@ -21,7 +21,7 @@ type Props = {
   transformedManifest: TransformedManifest | undefined;
   parentManifest: Manifest | undefined;
   searchResults: SearchResults | null;
-  setSearchResults: ((v) => void);
+  setSearchResults: (v) => void;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement> | undefined;

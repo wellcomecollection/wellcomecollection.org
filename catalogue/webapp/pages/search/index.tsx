@@ -95,7 +95,7 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
 };
 
 const StoryPromoContainer = styled(Container)`
-${props =>
+  ${props =>
     props.theme.mediaBetween(
       'small',
       'medium'
@@ -344,9 +344,9 @@ export const getServerSideProps: GetServerSideProps<
         ...(images?.pageResults.length && { images }),
         works: works
           ? {
-            ...works,
-            pageResults: works.pageResults.map(toWorkBasic),
-          }
+              ...works,
+              pageResults: works.pageResults.map(toWorkBasic),
+            }
           : {},
       }),
     };

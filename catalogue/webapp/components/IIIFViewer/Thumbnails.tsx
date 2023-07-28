@@ -2,10 +2,8 @@ import NextLink from 'next/link';
 import { useContext } from 'react';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { toLink as itemLink } from '@weco/catalogue/components/ItemLink';
-import { thumbnailsPageSize } from './Paginators'
-import {
-  queryParamToArrayIndex,
-} from '.';
+import { thumbnailsPageSize } from './Paginators';
+import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import styled from 'styled-components';
 
@@ -34,20 +32,23 @@ export const Thumbnails = () => {
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
   const { canvases } = { ...transformedManifest };
   const navigationCanvases = canvases
-  ? [...Array(thumbnailsPageSize)]
-      .map((_, i) => thumbnailsPageSize * queryParamToArrayIndex(query.page) + i)
-      .map(i => canvases?.[i])
-      .filter(Boolean)
-  : [];
+    ? [...Array(thumbnailsPageSize)]
+        .map(
+          (_, i) => thumbnailsPageSize * queryParamToArrayIndex(query.page) + i
+        )
+        .map(i => canvases?.[i])
+        .filter(Boolean)
+    : [];
   return (
     <ThumbnailsContainer id="xyz">
       {navigationCanvases &&
         navigationCanvases.map((canvas, i) => {
-          const canvasParam = thumbnailsPageSize * queryParamToArrayIndex(query.page) + (i + 1);
+          const canvasParam =
+            thumbnailsPageSize * queryParamToArrayIndex(query.page) + (i + 1);
           return (
             <NextLink
-              {
-              ...itemLink({
+              key={work.id}
+              {...itemLink({
                 workId: work.id,
                 props: {
                   canvas: canvasParam,
@@ -55,27 +56,23 @@ export const Thumbnails = () => {
                   query: query.query,
                 },
                 source: 'viewer/paginator',
-              })
-              }
+              })}
               scroll={false}
               replace
               passHref
               legacyBehavior
             >
-              <ThumbnailLink
-                aria-current={canvasParam === query.canvas}
-              >
+              <ThumbnailLink aria-current={canvasParam === query.canvas}>
                 <IIIFCanvasThumbnail
                   canvas={canvas}
                   thumbNumber={canvasParam}
                 />
               </ThumbnailLink>
             </NextLink>
-          )
-        })
-      }
-  </ThumbnailsContainer>
-  )
-}
+          );
+        })}
+    </ThumbnailsContainer>
+  );
+};
 
 export default Thumbnails;
