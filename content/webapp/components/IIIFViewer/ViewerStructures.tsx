@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {
   getEnFromInternationalString,
   groupStructures,
-} from '@weco/content/utils/v3';
+} from '@weco/content/utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import NextLink from 'next/link';
@@ -22,7 +22,7 @@ export const Item = styled(Space).attrs({
   v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: font('intr', 5),
-}) <{ isActive: boolean }>`
+})<{ isActive: boolean }>`
   position: relative;
 
   ${props =>

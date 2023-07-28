@@ -162,6 +162,7 @@ export function getPdf(iiifManifest: Manifest): DownloadOption | undefined {
 
   const rendering = renderingFromItem || renderingFromAnnotations || {};
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { id, label, format } = rendering as any;
 
   if (id) {

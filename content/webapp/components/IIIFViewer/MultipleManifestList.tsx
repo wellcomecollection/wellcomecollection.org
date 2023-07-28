@@ -6,7 +6,7 @@ import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
 import {
   getMultiVolumeLabel,
   getCollectionManifests,
-} from '@weco/content/utils/v3';
+} from '@weco/content/utils/iiif/v3';
 import { queryParamToArrayIndex } from '.';
 import {
   List,

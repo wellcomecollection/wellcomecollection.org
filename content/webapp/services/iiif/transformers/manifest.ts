@@ -21,7 +21,7 @@ import {
   getCollectionManifests,
   checkModalRequired,
   checkIsTotallyRestricted,
-} from '@weco/content/utils/v3';
+} from '@weco/content/utils/iiif/v3';
 
 export function transformManifest(manifestV3: Manifest): TransformedManifest {
   const title = getTitle(manifestV3.label);

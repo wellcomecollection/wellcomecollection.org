@@ -55,7 +55,7 @@ const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 
 const emptyWorkResults: CatalogueResultsList<WorkType> = emptyResultList();
 
-const tabOrder = ['by', 'in', 'about'];
+const tabOrder = ['by', 'in', 'about'] as const;
 
 const linkSources = new Map([
   ['worksAbout', 'concept/works_about'],
@@ -101,10 +101,9 @@ type ConceptWorksHeaderProps = {
 };
 const ConceptWorksHeader = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top'] },
-}) <ConceptWorksHeaderProps>`
-background - color: ${({ hasWorksTabs, theme }) =>
-    theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')
-  };
+})<ConceptWorksHeaderProps>`
+  background-color: ${({ hasWorksTabs, theme }) =>
+    theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};
 `;
 
 const withSelectedStatus = (selectedTab: string, tabDefinition) => {
@@ -142,8 +141,7 @@ const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
   <MoreLink
     name={`${text} (${formatNumber(totalResults, {
       isCompact: true,
-    })
-      })`}
+    })})`}
     url={link}
     colors={theme.buttonColors.yellowYellowBlack}
     hoverUnderline
@@ -172,7 +170,11 @@ const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
   results,
 }) => {
   return (
-    <div role="tabpanel" id={`tabpanel - ${id} `} aria-labelledby={`tab - ${id} `}>
+    <div
+      role="tabpanel"
+      id={`tabpanel - ${id} `}
+      aria-labelledby={`tab - ${id} `}
+    >
       <ImageEndpointSearchResults images={results.pageResults} />
       <Space v={{ size: 'm', properties: ['margin-top'] }}>
         <SeeMoreButton
@@ -197,7 +199,11 @@ const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
 }) => {
   return (
     <Container>
-      <div role="tabpanel" id={`tabpanel - ${id} `} aria-labelledby={`tab - ${id} `}>
+      <div
+        role="tabpanel"
+        id={`tabpanel - ${id} `}
+        aria-labelledby={`tab - ${id} `}
+      >
         <WorksSearchResults works={results.pageResults} />
         <Space v={{ size: 'l', properties: ['padding-top'] }}>
           <SeeMoreButton
@@ -239,16 +245,16 @@ function toPageSectionDefinition<T>({
 }: PageSectionDefinitionProps<T>): PageSectionDefinition<T> | undefined {
   return resultsGroup?.totalResults
     ? {
-      id: tabId,
-      tab: {
         id: tabId,
-        text: TabLabel({
-          text: tabLabelText,
-          totalResults: resultsGroup.totalResults,
-        }),
-      },
-      panel: { id: tabId, link, results: resultsGroup },
-    }
+        tab: {
+          id: tabId,
+          text: TabLabel({
+            text: tabLabelText,
+            totalResults: resultsGroup.totalResults,
+          }),
+        },
+        panel: { id: tabId, link, results: resultsGroup },
+      }
     : undefined;
 }
 
@@ -271,6 +277,8 @@ type Props = {
   pageview: Pageview;
 };
 
+// type TabId = `works${capitalize(tabOrder)}`
+
 export const ConceptPage: NextPage<Props> = ({
   conceptResponse,
   sectionsData,
@@ -278,7 +286,7 @@ export const ConceptPage: NextPage<Props> = ({
 }) => {
   const worksTabs = tabOrder
     .map(relationship => {
-      const tabId = `works${capitalize(relationship)} `;
+      const tabId = `works${capitalize(relationship)}`;
 
       const data = sectionsData[relationship] as SectionData;
 
@@ -299,10 +307,7 @@ export const ConceptPage: NextPage<Props> = ({
 
   const imagesTabs: PageSectionDefinition<ImageType>[] = tabOrder
     .map(relationship => {
-      const tabId = `images${relationship
-        .charAt(0)
-        .toUpperCase()
-        }${relationship.slice(1)} `;
+      const tabId = `images${capitalize(relationship)}`;
       return toPageSectionDefinition({
         tabId,
         resultsGroup: sectionsData[relationship].images,
@@ -438,14 +443,14 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   const identifiers = (concept.identifiers || []).map(id =>
     id.identifierType.id === 'label-derived'
       ? {
-        id: id.value,
-        label: 'Label-derived identifier',
-      }
+          id: id.value,
+          label: 'Label-derived identifier',
+        }
       : {
-        id: id.value,
-        label: getDisplayIdentifierType(id.identifierType),
-        value: id.value,
-      }
+          id: id.value,
+          label: getDisplayIdentifierType(id.identifierType),
+          value: id.value,
+        }
   );
 
   return [apiLink, ...identifiers];

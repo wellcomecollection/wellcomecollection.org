@@ -24,7 +24,7 @@ import { arrow, chevron } from '@weco/common/icons';
 import {
   getMultiVolumeLabel,
   getCollectionManifests,
-} from '@weco/content/utils/v3';
+} from '@weco/content/utils/iiif/v3';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const Inner = styled(Space).attrs({

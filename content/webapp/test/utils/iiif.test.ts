@@ -8,7 +8,7 @@ import {
   getTransformedCanvases,
   getMultiVolumeLabel,
   groupStructures,
-} from '../../utils/v3';
+} from '../../utils/iiif/v3';
 import {
   manifest,
   manifestWithAudioTitles,
