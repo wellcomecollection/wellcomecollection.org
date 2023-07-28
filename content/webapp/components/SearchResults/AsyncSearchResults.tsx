@@ -18,6 +18,9 @@ class AsyncSearchResults extends Component<Props, State> {
   };
 
   async componentDidMount(): Promise<void> {
+    // Something happens here that reorders results and I'm not sure that's
+    // always useful (see content lists). I dug for a while but am thinking one
+    // day we'd use the content API.
     const multiContentQuery = await fetchMultiContentClientSide(
       this.props.query
     );
