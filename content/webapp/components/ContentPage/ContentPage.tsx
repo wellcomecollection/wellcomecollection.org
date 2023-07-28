@@ -175,7 +175,7 @@ const ContentPage = ({
                 <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <Layout8>
                     <AudioPlayer
-                      title="Listen to this article"
+                      title="Listen to this story"
                       audioFile={hasPollyRecording.audioUrl}
                     />
                   </Layout8>
