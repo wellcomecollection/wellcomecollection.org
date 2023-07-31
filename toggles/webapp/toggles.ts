@@ -71,6 +71,14 @@ const toggles = {
         'Displays an audio player with text-to-speech audio on selected articles',
       type: 'experimental',
     },
+    {
+      id: 'headingSizes',
+      title: 'Align headings',
+      initialValue: false,
+      description:
+        'Try to align body-text headings with general content ones (#10022)',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };

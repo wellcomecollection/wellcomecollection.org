@@ -1,31 +1,36 @@
+import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import React, { useEffect, FunctionComponent, ReactElement } from 'react';
+import ReactGA from 'react-ga';
 import { ThemeProvider } from 'styled-components';
-import theme, { GlobalStyle } from '../../views/themes/default';
-import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
-import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
+
+import theme, { GlobalStyle } from '@weco/common/views/themes/default';
+import { GlobalStyle as AlignedHeadingsGlobalStyle } from '@weco/common/views/themes/defaultV2';
+import OutboundLinkTracker from '@weco/common/views/components/OutboundLinkTracker/OutboundLinkTracker';
+import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
 import { AppContextProvider } from '../components/AppContext/AppContext';
 import ErrorPage from '../components/ErrorPage/ErrorPage';
-import { Pageview, trackPageview } from '../../services/conversion/track';
-import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
+import {
+  Pageview,
+  trackPageview,
+} from '@weco/common/services/conversion/track';
+import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import {
   isServerData,
   defaultServerData,
   ServerData,
-} from '../../server-data/types';
-import { ServerDataContext } from '../../server-data/Context';
+} from '@weco/common/server-data/types';
+import { ServerDataContext } from '@weco/common/server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
-import { AppErrorProps } from '../../services/app';
-import usePrismicPreview from '../../services/app/usePrismicPreview';
-import useMaintainPageHeight from '../../services/app/useMaintainPageHeight';
+import { AppErrorProps } from '@weco/common/services/app';
+import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
+import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import {
   GaDimensions,
   useGoogleAnalyticsUA,
-} from '../../services/app/google-analytics';
-import { useOnPageLoad } from '../../services/app/useOnPageLoad';
-import ReactGA from 'react-ga';
-import { NextPage } from 'next';
+} from '@weco/common/services/app/google-analytics';
+import { useOnPageLoad } from '@weco/common/services/app/useOnPageLoad';
 import { deserialiseProps } from '@weco/common/utils/json';
 
 // Error pages can't send anything via the data fetching methods as
@@ -115,6 +120,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const getLayout = Component.getLayout || (page => <>{page}</>);
 
+  const isFontsLoaded = useIsFontsLoaded();
+
   return (
     <>
       <ApmContextProvider>
@@ -122,10 +129,17 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
           <UserProvider>
             <AppContextProvider>
               <ThemeProvider theme={theme}>
-                <GlobalStyle
-                  toggles={serverData.toggles}
-                  isFontsLoaded={useIsFontsLoaded()}
-                />
+                {serverData.toggles.headingSizes ? (
+                  <AlignedHeadingsGlobalStyle
+                    toggles={serverData.toggles}
+                    isFontsLoaded={isFontsLoaded}
+                  />
+                ) : (
+                  <GlobalStyle
+                    toggles={serverData.toggles}
+                    isFontsLoaded={isFontsLoaded}
+                  />
+                )}
                 <OutboundLinkTracker>
                   <LoadingIndicator />
                   {!pageProps.err &&
