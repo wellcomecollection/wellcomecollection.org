@@ -5,6 +5,7 @@ import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import * as prismic from '@prismicio/client';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { defaultSerializer } from '../HTMLSerializers/HTMLSerializers';
 
 const MediaAndTextWrap = styled.div`
   display: flex;
@@ -109,7 +110,10 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
             </ImageOrIcons>
           )}
           <Text>
-            <PrismicHtmlBlock html={item.text} />
+            <PrismicHtmlBlock
+              html={item.text}
+              htmlSerializer={defaultSerializer}
+            />
           </Text>
         </MediaAndTextWrap>
       </DividingLine>
