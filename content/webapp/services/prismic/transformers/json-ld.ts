@@ -142,6 +142,7 @@ export function visualStoryLd(visualStory: VisualStory): JsonLdObj {
       dateCreated: visualStory.datePublished,
       datePublished: visualStory.datePublished,
       headline: visualStory.title,
+      image: visualStory.promo?.image?.contentUrl,
       publisher: orgLd(wellcomeCollectionGallery),
       url: `https://wellcomecollection.org/visual-stories/${visualStory.id}`,
     },
