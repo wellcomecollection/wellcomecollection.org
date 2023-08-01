@@ -45,7 +45,7 @@ export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
       size: 'm',
       properties: props.addBottomPadding ? ['padding-bottom'] : [],
     },
-    className: font('wb', 3),
+    className: 'h2',
   })
 )<SectionHeadingProps>`
   font-weight: bold;

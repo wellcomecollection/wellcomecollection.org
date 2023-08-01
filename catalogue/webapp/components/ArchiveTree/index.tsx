@@ -5,7 +5,6 @@ import {
   useRef,
   FunctionComponent,
 } from 'react';
-import { font } from '@weco/common/utils/classnames';
 import { getWorkClientSide } from '@weco/catalogue/services/wellcome/catalogue/works';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
@@ -276,7 +275,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Space
             v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h2 className={font('wb', 4)}>Collection contents</h2>
+            <h2 className="h3">Collection contents</h2>
             <Tree isEnhanced={isEnhanced}>
               {isEnhanced && (
                 <TreeInstructions>{instructions}</TreeInstructions>

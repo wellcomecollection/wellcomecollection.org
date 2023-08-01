@@ -8,7 +8,7 @@ import {
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';
-import { grid, font } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import * as prismic from '@prismicio/client';
 
 const getBaseTitleClass = number => {
@@ -46,7 +46,7 @@ const TextWrapper = styled.div.attrs<HasImageProps>(props => {
 })<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: font('wb', 4),
+  className: 'h3',
 })``;
 
 const extraClass = 'my_extra_extra_class';

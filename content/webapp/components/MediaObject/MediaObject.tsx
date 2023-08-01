@@ -6,7 +6,7 @@ import MediaObjectBase, {
 import { getCrop, ImageType } from '@weco/common/model/image';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';
-import { grid, font } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import * as prismic from '@prismicio/client';
 import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 
@@ -33,7 +33,7 @@ const TextWrapper = styled.div.attrs<HasImageProps>(props => ({
 }))<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: font('wb', 4),
+  className: 'h3',
 })``;
 
 export const MediaObject: FunctionComponent<Props> = ({

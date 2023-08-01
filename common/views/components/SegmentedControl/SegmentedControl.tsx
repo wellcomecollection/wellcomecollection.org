@@ -31,7 +31,7 @@ const DrawerItem = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom'],
   },
   as: 'li',
-  className: font('wb', 4),
+  className: 'h3',
 })<DrawerItemProps>`
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 
@@ -124,7 +124,7 @@ const Drawer = styled.div`
 const MobileControlsContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: font('wb', 4),
+  className: 'h3',
 })`
   display: flex;
   color: ${props => props.theme.color('white')};

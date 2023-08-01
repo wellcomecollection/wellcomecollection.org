@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -194,12 +193,9 @@ const Homepage: FunctionComponent<Props> = ({
       >
         <Layout10 isCentered={false}>
           <SpacingSection>
-            <Space
-              v={{ size: 'l', properties: ['margin-top'] }}
-              className={font('wb', 1)}
-            >
+            <Space v={{ size: 'l', properties: ['margin-top'] }}>
               <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <h1>{homepageHeading}</h1>
+                <h1 className="h0">{homepageHeading}</h1>
               </Space>
             </Space>
             {standfirst && (

@@ -25,7 +25,7 @@ const StandaloneTitle = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom'],
   },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: `${font('wb', 2)}`,
+  className: 'h1',
 })`
   display: inline-block;
   position: relative;
@@ -39,13 +39,13 @@ type LevelProps = { level: number };
 
 const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.level}`,
-  className: font('wb', 3),
+  className: 'h2',
   v: { size: 'm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 const TranscriptTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.level}`,
-  className: font('wb', 4),
+  className: 'h3',
   v: { size: 'm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
@@ -63,7 +63,7 @@ const ContextContainer = styled(Space).attrs<ContextContainerProps>(props => ({
 
 const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.level}`,
-  className: font('wb', 3),
+  className: 'h2',
   v: { size: 's', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 

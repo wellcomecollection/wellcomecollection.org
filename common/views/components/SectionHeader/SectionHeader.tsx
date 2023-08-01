@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
-import { font } from '../../../utils/classnames';
-import Space from '../styled/Space';
 import styled from 'styled-components';
+import Space from '../styled/Space';
 import Layout12 from '../Layout12/Layout12';
 
 const YellowBox = styled.div`
@@ -38,10 +37,10 @@ type Props = {
 
 const SectionHeader: FunctionComponent<Props> = ({ title }) => {
   return (
-    <div className={font('wb', 2)}>
+    <div>
       <Layout12>
         <YellowBox />
-        <TitleWrapper as="h2">
+        <TitleWrapper as="h2" className="h1">
           <Title>{title}</Title>
         </TitleWrapper>
       </Layout12>

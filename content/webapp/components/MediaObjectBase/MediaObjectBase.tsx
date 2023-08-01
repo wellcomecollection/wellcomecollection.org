@@ -45,7 +45,7 @@ const BaseImageWrapper = styled.div.attrs({
 })``;
 
 const BaseTitleWrapper = styled.h3.attrs({
-  className: font('wb', 3),
+  className: 'h2',
 })`
   margin: 0;
 `;

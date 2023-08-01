@@ -113,7 +113,7 @@ const FeaturedCardArticleBody: FunctionComponent<
           backgroundColor={seriesColor}
         />
       )}
-      <h2 className={font('wb', 2)}>{article.title}</h2>
+      <h2 className="h1">{article.title}</h2>
       {article.promo?.caption && (
         <p className={font('intr', 5)}>{article.promo?.caption}</p>
       )}
@@ -157,7 +157,7 @@ const FeaturedCardExhibitionBody = ({
 }: FeaturedCardExhibitionBodyProps) => {
   return (
     <div data-test-id="featured-exhibition">
-      <h2 className={font('wb', 2)}>{exhibition.title}</h2>
+      <h2 className="h1">{exhibition.title}</h2>
       {!exhibition.statusOverride && exhibition.start && exhibition.end && (
         <DateWrapper as="p">
           <DateRange start={exhibition.start} end={exhibition.end} />

@@ -1,5 +1,4 @@
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent, PropsWithChildren, useContext } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
@@ -9,9 +8,10 @@ type Props = PropsWithChildren<{
   headingText?: string;
 }>;
 
+type SectionWithDividerProps = { isArchive: boolean };
 const SectionWithDivider = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top'] },
-})<{ isArchive: boolean }>`
+})<SectionWithDividerProps>`
   ${props =>
     props.isArchive &&
     `
@@ -33,7 +33,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
   return (
     <SectionWithDivider isArchive={isArchive}>
       <SpacingSection>
-        {headingText && <h2 className={font('wb', 4)}>{headingText}</h2>}
+        {headingText && <h2 className="h3">{headingText}</h2>}
 
         {children}
       </SpacingSection>

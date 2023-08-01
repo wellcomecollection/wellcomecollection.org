@@ -93,7 +93,7 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
             properties: ['margin-top', 'margin-bottom'],
           }}
           as="h3"
-          className={font('wb', 3)}
+          className="h2"
         >
           {exhibitionGuide.title}
         </Space>

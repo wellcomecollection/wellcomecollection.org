@@ -160,7 +160,7 @@ const Description = styled.p.attrs({
 export const CardTitle = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
   as: 'h3',
-  className: font('wb', 3),
+  className: 'h2',
 })`
   transition: color 400ms ease;
 `;

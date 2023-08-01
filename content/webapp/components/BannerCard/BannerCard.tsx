@@ -148,7 +148,7 @@ const BannerCard: FunctionComponent<Props> = ({
         <Space
           v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           as="h2"
-          className={font('wb', 2)}
+          className="h1"
         >
           {title}
         </Space>

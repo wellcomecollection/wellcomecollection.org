@@ -122,10 +122,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     >
       <Layout10 isCentered={false}>
         <SpacingSection>
-          <Space
-            v={{ size: 'l', properties: ['margin-top'] }}
-            className={font('wb', 1)}
-          >
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
             <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
               <h1
                 className={font('wb', 0)}

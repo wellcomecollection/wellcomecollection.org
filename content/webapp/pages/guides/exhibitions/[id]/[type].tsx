@@ -42,12 +42,13 @@ const ButtonWrapper = styled(Space).attrs({
   display: inline-block;
 `;
 
+type HeaderProps = { backgroundColor: PaletteColor };
 const Header = styled(Space).attrs({
   v: {
     size: 'xl',
     properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
   },
-})<{ backgroundColor: PaletteColor }>`
+})<HeaderProps>`
   background: ${props => props.theme.color(props.backgroundColor)};
 `;
 

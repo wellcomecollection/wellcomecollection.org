@@ -14,20 +14,22 @@ import { Article } from '@weco/catalogue/services/wellcome/content/types/api';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
-const StoriesContainer = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
+type IsDetailedProps = {
+  isDetailed?: boolean;
+};
+
+const StoriesContainer = styled.div.attrs<IsDetailedProps>(props => ({
   className: props.isDetailed
     ? ''
     : 'grid grid--scroll grid--theme-4 card-theme card-theme--transparent',
-}))<{ isDetailed?: boolean }>``;
+}))<IsDetailedProps>``;
 
-const StoryWrapper = styled(Space).attrs<{
-  isDetailed?: boolean;
-}>(props => ({
+const StoryWrapper = styled(Space).attrs<IsDetailedProps>(props => ({
   v: props.isDetailed
     ? { size: 'xl', properties: ['padding-bottom'] }
     : undefined,
   className: props.isDetailed ? 'grid' : grid({ s: 6, m: 6, l: 3, xl: 3 }),
-}))<{ isDetailed?: boolean }>`
+}))<IsDetailedProps>`
   text-decoration: none;
 
   &:last-child {
@@ -41,16 +43,16 @@ const StoryWrapper = styled(Space).attrs<{
   }
 `;
 
-const ImageWrapper = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
+const ImageWrapper = styled.div.attrs<IsDetailedProps>(props => ({
   className: props.isDetailed ? grid({ s: 12, m: 6, l: 4, xl: 4 }) : '',
-}))<{ isDetailed?: boolean }>`
+}))<IsDetailedProps>`
   position: relative;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
 `;
 
-const Details = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
+const Details = styled.div.attrs<IsDetailedProps>(props => ({
   className: props.isDetailed ? grid({ s: 12, m: 6, l: 8, xl: 8 }) : '',
-}))<{ isDetailed?: boolean }>``;
+}))<IsDetailedProps>``;
 
 const DesktopLabel = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
@@ -147,7 +149,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
                 <LabelsList labels={[{ text: article.format.label }]} />
               </DesktopLabel>
 
-              <h3 className={font('wb', 4)}>{article.title}</h3>
+              <h3 className="h3">{article.title}</h3>
 
               {isDetailed &&
                 (article.publicationDate || !!article.contributors.length) && (

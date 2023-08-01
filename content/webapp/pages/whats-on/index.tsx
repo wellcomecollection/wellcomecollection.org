@@ -138,7 +138,7 @@ export function getRangeForPeriod(period: Period): { start: Date; end?: Date } {
 //         properties: ['margin-bottom'],
 //       }}
 //       as="p"
-//       className={font('wb', 2)}
+//       className="h1"
 //     >
 //       Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a>{' '}
 //       and <a href={shopPromo.url}>shop</a> are open for your visit.
