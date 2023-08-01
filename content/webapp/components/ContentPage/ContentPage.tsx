@@ -29,19 +29,20 @@ const pollyRecordings: { articleId: string; audioUrl: string }[] = [
   {
     articleId: 'W9m2QxcAAF8AFvE5',
     audioUrl:
-      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/42235d89-05f4-40f5-899d-4e61a7a4b15a.mp3',
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/b1f894e8-4f9f-49e7-a316-609695d84a9d.mp3',
   },
-  // History of condoms from animal to rubbers
+  // History of condoms from animal to rubber
   {
     articleId: 'W88vXBIAAOEyzwO_',
     audioUrl:
-      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/a088b205-4736-404c-96c8-c485c7fc0aa5.mp3',
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/1dc31cd0-17fd-4dab-ae31-f4a3981c9949.mp3',
   },
-  // TODO: The shocking ‘treatment’ to make lesbians straight
-  // A lot of quotes + how to treat intonation when a word is in quotes
+  // The shocking ‘treatment’ to make lesbians straight
+  // A lot of quotes, only the ones in a blockquote will be read as different. A word in quotes won't be.
   {
     articleId: 'XhWjZhAAACUAOpV2',
-    audioUrl: '',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/7650fe7f-303e-4124-ab87-5699d7469a7b.mp3',
   },
   // Nymphomania and hypersexuality in women and men
   {
@@ -49,17 +50,19 @@ const pollyRecordings: { articleId: string; audioUrl: string }[] = [
     audioUrl:
       'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/7e178861-37bb-4e64-a5b8-93745501dc27.mp3',
   },
-  // TODO: Getting sexy with cinnamon
-  // How to do item list?
+  // Getting sexy with cinnamon
+  // The addendum at the bottom of the article is read out as is, since it's rich text.
   {
     articleId: 'WilSbykAANoWFUhP',
-    audioUrl: '',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/674123cd-33a0-4c0c-8556-a2ce7257b1a1.mp3',
   },
-  // TODO: Befriending heavy breathers
-  //
+  // Befriending heavy breathers
+  // Quotes with newscaster voice
   {
     articleId: 'XqKkYxAAACMATUnN',
-    audioUrl: '',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/5a9868db-31ed-475a-890b-b6d6aa712cae.mp3',
   },
   // The side effects of lithium mining
   {
@@ -73,14 +76,14 @@ const pollyRecordings: { articleId: string; audioUrl: string }[] = [
     audioUrl:
       'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/c98f030e-1fd2-4442-add8-e1fb45acb95a.mp3',
   },
-  // TODO: What is hysteria?
-  // How to do list items
+  // What is hysteria?
   {
     articleId: 'W89GZBIAAN4yz1hQ',
-    audioUrl: '',
+    audioUrl:
+      'https://wellcomecollection-polly.s3.eu-west-1.amazonaws.com/e9894177-8290-4912-a5ef-dd73ff092ac1.mp3',
   },
   // Race, religion and the Black Madonna
-  // A lot of copy in the image captions that isn't being read
+  // There is a lot of copy in the image captions that isn't being read.
   {
     articleId: 'WpmW_yUAAKUUF6mV',
     audioUrl:
@@ -172,7 +175,7 @@ const ContentPage = ({
                 <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <Layout8>
                     <AudioPlayer
-                      title="Listen to this article"
+                      title="Listen to this story"
                       audioFile={hasPollyRecording.audioUrl}
                     />
                   </Layout8>
