@@ -145,7 +145,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             value=""
           />
 
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <TextInput
               id="email"
               label="Your email address"
@@ -157,18 +157,6 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               setValue={setEmailValue}
               errorMessage="Enter a valid email address."
               {...emailValidation}
-            />
-          </Space>
-
-          <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-            <CheckboxRadio
-              id="whats_on"
-              type="checkbox"
-              text="I'd like to receive regular updates from Wellcome Collection"
-              value="addressbook_40131"
-              name="addressbook_40131"
-              checked={checkedInputs.includes('whats_on')}
-              onChange={updateCheckedInputs}
             />
           </Space>
 
@@ -213,17 +201,16 @@ const NewsletterSignup: FunctionComponent<Props> = ({
           )}
 
           <p className={font('intr', 6)}>
-            We use a third-party provider,{' '}
-            <a href="https://dotdigital.com/terms/privacy-policy/">
-              dotdigital
+            By clicking subscribe, you agree to receive this newsletter. You can
+            unsubscribe any time. For information about how we handle your data,{' '}
+            <a
+              href="https://wellcome.org/who-we-are/privacy-and-terms"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              please read our privacy notice
             </a>
-            , to deliver our newsletters. For information about how we handle
-            your data, please read our{' '}
-            <a href="https://wellcome.org/who-we-are/privacy-and-terms">
-              privacy notice
-            </a>
-            . You can unsubscribe at any time using links in the emails you
-            receive.
+            .
           </p>
         </form>
       )}
