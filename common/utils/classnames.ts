@@ -62,6 +62,7 @@ function conditionalClassNames(obj: Record<string, boolean>): string {
       if (obj[key]) {
         return key;
       }
+      return false;
     })
     .filter(Boolean)
     .join(' ');

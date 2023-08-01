@@ -75,7 +75,13 @@ const ImagePage: FunctionComponent<Props> = ({
       hideTopContent={true}
     >
       {iiifImageLocation ? (
-        <IIIFViewer work={work} iiifImageLocation={iiifImageLocation} iiifPresentationLocation={iiifPresentationLocation} searchResults={null} setSearchResults={() => null} />
+        <IIIFViewer
+          work={work}
+          iiifImageLocation={iiifImageLocation}
+          iiifPresentationLocation={iiifPresentationLocation}
+          searchResults={null}
+          setSearchResults={() => null}
+        />
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
