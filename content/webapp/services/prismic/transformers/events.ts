@@ -92,8 +92,12 @@ export function transformEventPolicyLabels(
 
 export function getEventbriteId(url: string): string | undefined {
   const match = /\/e\/(.+)/.exec(url);
+  const fullId = match?.[1];
 
-  return match?.[1];
+  // Replace other parameters with ours, or just make sure ours is added
+  if (fullId) {
+    return `${fullId.slice(0, fullId.indexOf('?'))}?aff=WCWebsitelink`;
+  }
 }
 
 function transformBookingEnquiryTeam(
