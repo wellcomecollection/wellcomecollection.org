@@ -107,15 +107,20 @@ describe('Events', () => {
     expect(lastEndTime).toStrictEqual(expectedEndTime);
   });
 
-  it('gets Eventbrite IDs from embed URLs', () => {
+  it('gets Eventbrite IDs from embed URLs and adds the "aff" parameter', () => {
     const embedUrl1 =
       'https://www.eventbrite.com/e/test-event-1-tickets-5398972389';
     const embedUrl2 = 'https://www.eventbrite.com/e/5398972389';
-    const embedUrl3 = 'https://www.eventbrite.com';
+    const embedUrl3 =
+      'https://www.eventbrite.com/e/5398972389?aff=oddtdtcreator';
+    const embedUrl4 = 'https://www.eventbrite.com';
 
-    expect(getEventbriteId(embedUrl1)).toBe('test-event-1-tickets-5398972389');
-    expect(getEventbriteId(embedUrl2)).toBe('5398972389');
-    expect(getEventbriteId(embedUrl3)).toBeUndefined();
+    expect(getEventbriteId(embedUrl1)).toBe(
+      'test-event-1-tickets-5398972389?aff=WCWebsitelink'
+    );
+    expect(getEventbriteId(embedUrl2)).toBe('5398972389?aff=WCWebsitelink');
+    expect(getEventbriteId(embedUrl3)).toBe('5398972389?aff=WCWebsitelink');
+    expect(getEventbriteId(embedUrl4)).toBeUndefined();
   });
 });
 

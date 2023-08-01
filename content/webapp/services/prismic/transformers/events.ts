@@ -96,7 +96,11 @@ export function getEventbriteId(url: string): string | undefined {
 
   // Replace other parameters with ours, or just make sure ours is added
   if (fullId) {
-    return `${fullId.slice(0, fullId.indexOf('?'))}?aff=WCWebsitelink`;
+    const hasExistingParams = fullId.indexOf('?') > 0;
+
+    return `${
+      hasExistingParams ? fullId.slice(0, fullId.indexOf('?')) : fullId
+    }?aff=WCWebsitelink`;
   }
 }
 
