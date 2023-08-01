@@ -1,4 +1,3 @@
-// Exists for #10022 toggle test
 import { themeValues } from './config';
 import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
@@ -235,17 +234,17 @@ export const typography = css<GlobalStyleProps>`
 
     h1 {
       ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(2)}
+      ${fontSizeMixin(1)}
     }
 
     h2 {
       ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(3)}
+      ${fontSizeMixin(2)}
     }
 
     h3 {
       ${fontFamilyMixin('intb', true)}
-      ${fontSizeMixin(4)}
+      ${fontSizeMixin(3)}
     }
 
     *::selection {
