@@ -224,7 +224,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
 
     if (
       dialog &&
-      isActiveRef.current &&
+      !isActiveRef.current &&
       !dialog.contains(event.target as HTMLDivElement)
     ) {
       setIsActive(false);
