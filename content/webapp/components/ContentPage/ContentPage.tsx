@@ -186,7 +186,6 @@ const ContentPage = ({
               {Body}
             </SpacingSection>
           )}
-
           {children && (
             <SpacingSection>
               {Children.map(children, child => (
@@ -200,7 +199,6 @@ const ContentPage = ({
               ))}
             </SpacingSection>
           )}
-
           {!hideContributors && contributors && contributors.length > 0 && (
             <SpacingSection>
               <Layout8>
