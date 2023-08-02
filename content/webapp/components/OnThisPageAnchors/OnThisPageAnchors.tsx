@@ -29,7 +29,9 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ links }) => {
       <PlainList>
         {links.map((link: Link) => (
           <li key={link.url}>
-            <Anchor href={link.url}>{link.text}</Anchor>
+            <Anchor data-gtm-trigger="link_click_page_position" href={link.url}>
+              {link.text}
+            </Anchor>
           </li>
         ))}
       </PlainList>
