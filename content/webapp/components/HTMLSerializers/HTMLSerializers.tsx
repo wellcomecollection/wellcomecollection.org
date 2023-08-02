@@ -109,11 +109,6 @@ export const defaultSerializer: JSXFunctionSerializer = (
 
       const fileExtension = linkUrl.match(/\.[0-9a-z]+$/i);
 
-      const showForwardArrowUrls = ['eventbrite.com'];
-      const showForwardArrow = showForwardArrowUrls.some(link =>
-        linkUrl.match(link)
-      );
-
       const documentType =
         fileExtension && fileExtension[0].substring(1).toUpperCase();
 
@@ -145,7 +140,6 @@ export const defaultSerializer: JSXFunctionSerializer = (
         return (
           <a key={key} target={target} href={linkUrl}>
             {children}
-            {showForwardArrow && '→'}
           </a>
         );
       }
