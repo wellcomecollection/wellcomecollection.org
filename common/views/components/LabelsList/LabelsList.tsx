@@ -7,26 +7,16 @@ import styled from 'styled-components';
 const List = styled(Space).attrs({
   v: {
     size: 'xs',
-    properties: ['margin-bottom'],
-    negative: true,
+    properties: ['row-gap'],
   },
-  h: { size: 'm', properties: ['padding-right'] },
+  h: { size: 'xs', properties: ['column-gap'] },
 })`
   display: flex;
   padding: 0;
-  margin-left: 0;
-  margin-top: 0;
+  margin: 0;
   flex-wrap: wrap;
   list-style: none;
 `;
-
-const ListItem = styled(Space).attrs({
-  v: {
-    size: 'xs',
-    properties: ['margin-bottom'],
-  },
-  h: { size: 'xs', properties: ['margin-right'] },
-})``;
 
 export type Props = {
   labels: LabelType[];
@@ -37,13 +27,15 @@ const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',
 }: Props) => (
-  <List as="ul">
-    {labels.filter(Boolean).map((label, i) => (
-      <ListItem as="li" key={`${label.text}-${i}`}>
-        <Label label={label} defaultLabelColor={defaultLabelColor} />
-      </ListItem>
-    ))}
-  </List>
+  <Space h={{ size: 'm', properties: ['padding-right'] }}>
+    <List as="ul">
+      {labels.filter(Boolean).map((label, i) => (
+        <li key={`${label.text}-${i}`}>
+          <Label label={label} defaultLabelColor={defaultLabelColor} />
+        </li>
+      ))}
+    </List>
+  </Space>
 );
 
 export default LabelsList;

@@ -28,7 +28,9 @@ type SpaceProperty =
   | 'padding-left'
   | 'padding-right'
   | 'left'
-  | 'right';
+  | 'right'
+  | 'row-gap'
+  | 'column-gap';
 
 const breakpointNames = ['small', 'medium', 'large'];
 
