@@ -150,7 +150,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
       props: {
         manifest: query.manifest,
         canvas: query.canvas,
-        page: query.page
+        page: query.page,
       },
       source: 'search_within_clear',
     });
@@ -271,7 +271,9 @@ const IIIFSearchWithin: FunctionComponent = () => {
                       manifest: query.manifest,
                       query: query.query,
                       canvas: arrayIndexToQueryParam(index || 0),
-                      page: Math.ceil(arrayIndexToQueryParam(index || 0) / thumbnailsPageSize),
+                      page: Math.ceil(
+                        arrayIndexToQueryParam(index || 0) / thumbnailsPageSize
+                      ),
                     },
                     source: 'search_within_result',
                   })}

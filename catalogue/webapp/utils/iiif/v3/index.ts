@@ -508,7 +508,8 @@ export function groupStructures(
 export function getCollectionManifests(manifest: Manifest) {
   const firstLevelManifests =
     manifest.items?.filter(c => c.type === 'Manifest') || [];
-  const collections = manifest.items?.filter(c => c.type === 'Collection') || [];
+  const collections =
+    manifest.items?.filter(c => c.type === 'Collection') || [];
   const collectionManifests = collections
     .map(collection => {
       return (

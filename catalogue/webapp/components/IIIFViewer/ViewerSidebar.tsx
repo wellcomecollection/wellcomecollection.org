@@ -13,7 +13,6 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import { getProductionDates } from '@weco/catalogue/utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';

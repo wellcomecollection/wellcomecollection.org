@@ -165,47 +165,46 @@ function getPositionData({
   canvases: TransformedCanvas[];
   rotatedImages: RotatedImage[];
 }): OverlayPositionData[] {
-  const highlightsPositioningData =
-    searchResults?.resources.map(resource => {
-      // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
-      // OR
-      // on: https://iiif.wellcomecollection.org/presentation/b29338062/canvases/b29338062_0031.jp2#xywh=148,2277,259,59"
-      const canvasNumber = canvases.findIndex(canvas => {
-        return new URL(resource.on).pathname === new URL(canvas.id).pathname;
-      });
-      const matchingRotation = rotatedImages.find(image => {
-        return queryParamToArrayIndex(image.canvas) === canvasNumber;
-      });
-      const scale = getScale({
-        imageRect,
-        currentCanvas,
-        rotation: (matchingRotation?.rotation || 0) as RotationValue,
-      });
-      const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
-      const coords = coordsMatch && coordsMatch[2].split(',');
-      const x = coords ? Math.round(Number(coords[0]) * scale) : 0;
-      const y = coords ? Math.round(Number(coords[1]) * scale) : 0;
-      const w = coords ? Math.round(Number(coords[2]) * scale) : 0;
-      const h = coords ? Math.round(Number(coords[3]) * scale) : 0;
-      const { overlayTop, overlayLeft } = getOverlayTopLeft({
-        imageContainerRect,
-        imageRect,
-        rotation: (matchingRotation?.rotation || 0) as RotationValue,
-        x,
-        y,
-      });
-
-      return {
-        canvasNumber: Number(canvasNumber),
-        overlayTop,
-        overlayLeft,
-        highlight: {
-          w,
-          h,
-        },
-        rotation: matchingRotation?.rotation || 0,
-      };
+  const highlightsPositioningData = searchResults?.resources.map(resource => {
+    // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
+    // OR
+    // on: https://iiif.wellcomecollection.org/presentation/b29338062/canvases/b29338062_0031.jp2#xywh=148,2277,259,59"
+    const canvasNumber = canvases.findIndex(canvas => {
+      return new URL(resource.on).pathname === new URL(canvas.id).pathname;
     });
+    const matchingRotation = rotatedImages.find(image => {
+      return queryParamToArrayIndex(image.canvas) === canvasNumber;
+    });
+    const scale = getScale({
+      imageRect,
+      currentCanvas,
+      rotation: (matchingRotation?.rotation || 0) as RotationValue,
+    });
+    const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
+    const coords = coordsMatch && coordsMatch[2].split(',');
+    const x = coords ? Math.round(Number(coords[0]) * scale) : 0;
+    const y = coords ? Math.round(Number(coords[1]) * scale) : 0;
+    const w = coords ? Math.round(Number(coords[2]) * scale) : 0;
+    const h = coords ? Math.round(Number(coords[3]) * scale) : 0;
+    const { overlayTop, overlayLeft } = getOverlayTopLeft({
+      imageContainerRect,
+      imageRect,
+      rotation: (matchingRotation?.rotation || 0) as RotationValue,
+      x,
+      y,
+    });
+
+    return {
+      canvasNumber: Number(canvasNumber),
+      overlayTop,
+      overlayLeft,
+      highlight: {
+        w,
+        h,
+      },
+      rotation: matchingRotation?.rotation || 0,
+    };
+  });
   return highlightsPositioningData || [];
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
