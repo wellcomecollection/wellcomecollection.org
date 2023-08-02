@@ -342,12 +342,13 @@ export const getServerSideProps: GetServerSideProps<
         ...defaultProps,
         ...(stories && stories.pageResults?.length && { stories }),
         ...(images?.pageResults.length && { images }),
-        works: works
-          ? {
-              ...works,
-              pageResults: works.pageResults.map(toWorkBasic),
-            }
-          : {},
+        works:
+          works && works.pageResults.length
+            ? {
+                ...works,
+                pageResults: works.pageResults.map(toWorkBasic),
+              }
+            : undefined,
       }),
     };
   } catch (error) {
