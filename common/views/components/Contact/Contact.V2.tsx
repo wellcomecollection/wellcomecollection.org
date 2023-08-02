@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import Space from '../styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { phone as phoneIcon, email as emailIcon } from '@weco/common/icons';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left'] },
@@ -35,20 +37,27 @@ const PhoneNumber = styled.span.attrs({ className: font('intr', 4) })`
 const WithIconWrapper = styled.div`
   align-items: flex-start;
   display: flex;
-  gap: 15px;
+  gap: 10px;
   margin-bottom: 15px;
 
   &:last-child {
     margin-bottom: 0;
   }
 
-  img {
-    width: 35px;
-
-    ${props => props.theme.media('medium')`
-        width: 50px;   
-    `}
+  .icon {
+    margin-top: 5px;
+    width: 25px;
+    height: 25px;
   }
+
+  ${props => props.theme.media('medium')`
+    gap: 15px;
+
+    .icon {
+      width: 35px;
+      height: 35px;
+    }
+  `}
 `;
 
 export type Props = {
@@ -78,10 +87,7 @@ const ContactV2: FunctionComponent<Props> = ({
           </span>
           <>
             <WithIconWrapper>
-              <img
-                alt=""
-                src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/contact/phone-icon.png"
-              />
+              <Icon icon={phoneIcon} />
               <div>
                 <strong>By phone</strong>
                 <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
@@ -94,10 +100,7 @@ const ContactV2: FunctionComponent<Props> = ({
       {email && (
         <div>
           <WithIconWrapper>
-            <img
-              alt=""
-              src="https://s3.eu-west-1.amazonaws.com/i.wellcomecollection.org/assets/images/visual-stories/contact/email-icon.png"
-            />
+            <Icon icon={emailIcon} />
             <div>
               <span>
                 {phone ? 'Or ' : ''}
