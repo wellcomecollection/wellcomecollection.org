@@ -7,20 +7,23 @@ type Props = {
   isStub?: boolean;
 };
 
-const Rule = styled.div<Props>`
+const Rule = styled.div<{
+  $lineColor?: PaletteColor;
+  $isStub?: boolean;
+}>`
   text-align: left;
   border: 0;
   height: 1px;
   ${props =>
-    props.lineColor &&
-    `background-color: ${props.theme.color(props.lineColor)};`};
+    props.$lineColor &&
+    `background-color: ${props.theme.color(props.$lineColor)};`};
 
-  ${props => props.isStub && 'width: 60px; height: 5px;'}
+  ${props => props.$isStub && 'width: 60px; height: 5px;'}
 `;
 
 const Divider: FunctionComponent<Props> = ({
   lineColor = 'warmNeutral.400',
   isStub,
-}: Props): ReactElement => <Rule lineColor={lineColor} isStub={isStub} />;
+}: Props): ReactElement => <Rule $lineColor={lineColor} $isStub={isStub} />;
 
 export default Divider;

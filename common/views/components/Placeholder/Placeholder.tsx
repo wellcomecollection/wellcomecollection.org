@@ -4,7 +4,6 @@ import styled, { keyframes } from 'styled-components';
 type Props = {
   isLoading: boolean;
   nRows?: number;
-  lineSpacing?: number;
   maxWidth?: string;
 };
 
@@ -34,8 +33,7 @@ const backgroundAnimation = keyframes`
 `;
 
 const PlaceholderRow = styled.div<{
-  lineSpacing: number;
-  percentWidth: number;
+  $percentWidth: number;
 }>`
   background: ${({ theme }) => getGradient(theme)};
 
@@ -43,7 +41,7 @@ const PlaceholderRow = styled.div<{
   background-size: 200%;
   background-repeat: repeat-x;
   animation: ${backgroundAnimation} 1.2s ease-in infinite;
-  width: ${({ percentWidth }) => percentWidth.toFixed(2)}%;
+  width: ${({ $percentWidth }) => $percentWidth.toFixed(2)}%;
 
   /* These should sum to 1.5rem to reflect the usual line-height of inline text */
   height: 1rem;
@@ -64,7 +62,6 @@ const Placeholder: FunctionComponent<PropsWithChildren<Props>> = ({
   isLoading,
   maxWidth,
   nRows,
-  lineSpacing,
 }) => {
   if (isLoading) {
     return (
@@ -72,8 +69,7 @@ const Placeholder: FunctionComponent<PropsWithChildren<Props>> = ({
         {Array.from({ length: nRows || 1 }).map((_, i) => (
           <PlaceholderRow
             key={`row-${i}`}
-            lineSpacing={lineSpacing ?? 0.5}
-            percentWidth={randomWidth({ min: 95, i })}
+            $percentWidth={randomWidth({ min: 95, i })}
           />
         ))}
       </Wrapper>

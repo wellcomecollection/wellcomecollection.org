@@ -21,18 +21,18 @@ const TagInner = styled.span`
 `;
 
 type PartWithSeparatorProps = {
-  separator: string;
-  isLast: boolean;
+  $separator: string;
+  $isLast: boolean;
 };
 
 const PartWithSeparator = styled.span.attrs({
   className: font('intr', 5),
 })<PartWithSeparatorProps>`
   &::after {
-    display: ${props => (props.isLast ? 'none' : 'inline')};
+    display: ${props => (props.$isLast ? 'none' : 'inline')};
 
     /* non-breaking space (\u00A0) keeps characters that would otherwise break (e.g. hyphens) stuck to the preceding text */
-    content: '\u00A0${props => props.separator}\u00A0';
+    content: '\u00A0${props => props.$separator}\u00A0';
   }
 `;
 
@@ -73,8 +73,8 @@ const Tags: FunctionComponent<Props> = ({
                     {textParts.map((part, i, arr) => (
                       <PartWithSeparator
                         key={part}
-                        separator={i === 0 ? '|' : separator}
-                        isLast={i === arr.length - 1}
+                        $separator={i === 0 ? '|' : separator}
+                        $isLast={i === arr.length - 1}
                       >
                         <span
                           className={

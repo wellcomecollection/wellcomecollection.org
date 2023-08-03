@@ -19,7 +19,7 @@ type Props = {
 
 type LinkOrSpanSpaceAttrs = {
   url?: string;
-  addBorder: boolean;
+  $addBorder: boolean;
 };
 
 const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
@@ -27,15 +27,14 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   href: props.url || undefined,
   h: {
     size: 's',
-    properties: [
-      'margin-right',
-      props.addBorder ? 'padding-left' : undefined,
-    ].filter(Boolean),
+    properties: props.$addBorder
+      ? ['margin-right', 'padding-left']
+      : ['margin-right'],
   },
   className: font('intr', 5),
 }))<LinkOrSpanSpaceAttrs>`
   ${props =>
-    props.addBorder &&
+    props.$addBorder &&
     `
     border-left: 1px solid ${props.theme.color('neutral.500')};
   `}
@@ -76,7 +75,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
       </ListWithHeadingItem>
       {items.map(({ url, text }, i) => (
         <dd key={`${url || text}-${i}`} style={{ margin: 0 }}>
-          <ItemText url={url} addBorder={i !== 0}>
+          <ItemText url={url} $addBorder={i !== 0}>
             {text}
           </ItemText>
         </dd>
@@ -86,7 +85,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
     <PlainItemList>
       {items.map(({ url, text }, i) => (
         <li key={`${url || text}-${i}`}>
-          <ItemText url={url} addBorder={i !== 0}>
+          <ItemText url={url} $addBorder={i !== 0}>
             {text}
           </ItemText>
         </li>

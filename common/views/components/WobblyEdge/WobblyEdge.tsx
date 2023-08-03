@@ -11,22 +11,24 @@ import { prefixedPropertyStyleObject } from '../../../utils/prefixed-property-st
 import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
-const Edge = styled.div.attrs({
+const Edge = styled.div.attrs<{ 'data-chromatic'?: string }>({
   // This edge is deliberately random. We don't want Chromatic shout when
   // there's inevitably a visual difference between builds.
   // https://www.chromatic.com/docs/ignoring-elements#ignore-dom-elements
   'data-chromatic': 'ignore',
 })<{
-  backgroundColor: PaletteColor;
-  isRotated: boolean;
-  isEnhanced: boolean;
+  $backgroundColor: PaletteColor;
+  $isRotated: boolean;
+  $isEnhanced: boolean;
 }>`
   height: 10vw;
   margin-top: -10vw;
   position: relative;
   top: 2px;
   z-index: 2;
-  transition: -webkit-clip-path 2000ms ease-in-out, clip-path 2000ms ease-in-out;
+  transition:
+    -webkit-clip-path 2000ms ease-in-out,
+    clip-path 2000ms ease-in-out;
   display: none;
 
   ${props => props.theme.media('large')`
@@ -35,7 +37,7 @@ const Edge = styled.div.attrs({
   `}
 
   ${props =>
-    props.isEnhanced &&
+    props.$isEnhanced &&
     `
     @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
       display: block;
@@ -46,10 +48,10 @@ const Edge = styled.div.attrs({
     }
   `}
 
-  background: ${props => props.theme.color(props.backgroundColor)};
+  background: ${props => props.theme.color(props.$backgroundColor)};
 
   ${props =>
-    props.isRotated &&
+    props.$isRotated &&
     `
     transform: rotate(180deg);
     margin-top: 0;
@@ -150,10 +152,10 @@ const WobblyEdge: FunctionComponent<Props> = ({
 
   return (
     <Edge
-      backgroundColor={backgroundColor}
-      isRotated={isRotated || false}
+      $backgroundColor={backgroundColor}
+      $isRotated={isRotated || false}
       style={styleObject}
-      isEnhanced={isEnhanced}
+      $isEnhanced={isEnhanced}
     />
   );
 };

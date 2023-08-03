@@ -18,8 +18,8 @@ const TimeWrapper = styled(Space).attrs({
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
 
-const DateRangeWrapper = styled.div<{ isPast: boolean }>`
-  ${props => props.isPast && `color: ${props.theme.color('neutral.600')};`};
+const DateRangeWrapper = styled.div<{ $isPast: boolean }>`
+  ${props => props.$isPast && `color: ${props.theme.color('neutral.600')};`};
   flex: 1;
 `;
 
@@ -29,7 +29,7 @@ const EventDateList: FunctionComponent<{ event: HasTimes }> = ({ event }) => {
       {event.times.map((eventTime, index) => {
         return (
           <TimeWrapper key={index}>
-            <DateRangeWrapper isPast={isPast(eventTime.range.endDateTime)}>
+            <DateRangeWrapper $isPast={isPast(eventTime.range.endDateTime)}>
               <DateRange
                 start={eventTime.range.startDateTime}
                 end={eventTime.range.endDateTime}

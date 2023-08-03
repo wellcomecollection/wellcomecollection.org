@@ -114,10 +114,10 @@ type Props = {
   hideContributors?: true;
 };
 
-const Wrapper = styled.div<{ isCreamy: boolean }>`
+const Wrapper = styled.div<{ $isCreamy: boolean }>`
   overflow: auto;
   ${props =>
-    props.isCreamy &&
+    props.$isCreamy &&
     `background-color: ${props.theme.color('warmNeutral.300')}`};
 `;
 
@@ -167,7 +167,7 @@ const ContentPage = ({
             {Header}
           </Space>
         )}
-        <Wrapper isCreamy={isCreamy}>
+        <Wrapper $isCreamy={isCreamy}>
           {shouldRenderBody() && (
             <SpacingSection>
               {/* TODO: Remove after Polly Experiment */}
@@ -211,7 +211,7 @@ const ContentPage = ({
           )}
         </Wrapper>
       </article>
-      <Wrapper isCreamy={isCreamy}>
+      <Wrapper $isCreamy={isCreamy}>
         {RelatedContent.length > 0 && (
           <SpacingSection>
             {Children.map(RelatedContent, child => (

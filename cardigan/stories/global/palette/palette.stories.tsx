@@ -48,7 +48,7 @@ const PaletteBlock = styled.div`
 `;
 
 const PaletteName = styled.h3.attrs({
-  classname: font('lr', 6),
+  className: font('lr', 6),
 })``;
 
 const PaletteColor = styled.div<{ hasBorder: boolean }>`

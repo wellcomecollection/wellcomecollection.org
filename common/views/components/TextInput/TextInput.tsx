@@ -11,17 +11,17 @@ import { check } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 
 type TextInputWrapProps = {
-  hasErrorBorder: boolean;
-  big?: boolean;
-  darkBg?: boolean;
+  $hasErrorBorder: boolean;
+  $big?: boolean;
+  $darkBg?: boolean;
 };
 export const TextInputWrap = styled.div.attrs<TextInputWrapProps>(props => ({
-  className: props.big ? font('intr', 4) : font('intr', 5),
+  className: props.$big ? font('intr', 4) : font('intr', 5),
 }))<TextInputWrapProps>`
   display: flex;
   position: relative;
   border: 2px solid
-    ${props => props.theme.color(props.darkBg ? 'white' : 'neutral.600')};
+    ${props => props.theme.color(props.$darkBg ? 'white' : 'neutral.600')};
 
   &:focus-within {
     box-shadow: ${props => props.theme.focusBoxShadow};
@@ -35,7 +35,7 @@ export const TextInputWrap = styled.div.attrs<TextInputWrapProps>(props => ({
   overflow: hidden;
 
   ${props =>
-    props.hasErrorBorder &&
+    props.$hasErrorBorder &&
     `
     box-shadow: 0 0 0 1px ${props.theme.color('validation.red')};
   `}
@@ -65,7 +65,8 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
 
   color: ${props => props.theme.color('neutral.600')};
   white-space: nowrap;
-  transition: top ${props => props.theme.transitionProperties},
+  transition:
+    top ${props => props.theme.transitionProperties},
     font-size ${props => props.theme.transitionProperties},
     transform ${props => props.theme.transitionProperties};
   pointer-events: none;
@@ -113,7 +114,7 @@ export const TextInputInput = styled.input.attrs(props => ({
     `}
 `;
 
-const TextInputCheckmark = styled.span.attrs({
+const TextInputCheckmark = styled.span.attrs<{ 'data-testid'?: string }>({
   'data-testid': 'TextInputCheckmark',
 })`
   position: absolute;
@@ -207,9 +208,9 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   return (
     <div>
       <TextInputWrap
-        hasErrorBorder={!!(!isValid && showValidity)}
-        darkBg={darkBg}
-        big={!!big}
+        $hasErrorBorder={!!(!isValid && showValidity)}
+        $darkBg={darkBg}
+        $big={!!big}
       >
         <label className="visually-hidden" htmlFor={id}>
           {label}

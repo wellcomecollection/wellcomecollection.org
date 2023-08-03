@@ -228,7 +228,7 @@ const Header: FunctionComponent<HeaderProps> = ({
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <OpeningTimesWrapper>
-              <SectionPageHeader sectionLevelPage={true}>
+              <SectionPageHeader $sectionLevelPage={true}>
                 What’s on
               </SectionPageHeader>
               <OpeningTimes>

@@ -13,7 +13,7 @@ export const NavLoginWrapper = styled.div`
 `;
 
 type WrapperProps = {
-  isBurgerOpen: boolean;
+  $isBurgerOpen: boolean;
 };
 export const Wrapper = styled.div.attrs({
   className: 'grid',
@@ -26,7 +26,7 @@ export const Wrapper = styled.div.attrs({
   height: ${props => props.theme.navHeight}px;
 
   ${props =>
-    props.isBurgerOpen &&
+    props.$isBurgerOpen &&
     `${props.theme.mediaBetween(
       'small',
       'headerMedium'
@@ -194,7 +194,7 @@ export const HeaderItem = styled.li`
 `}
 `;
 
-export const HeaderLink = styled.a.attrs({
+export const HeaderLink = styled.a.attrs<{ 'data-gtm-trigger'?: string }>({
   'data-gtm-trigger': 'header_nav_link',
 })<{ burgerMenuisActive: boolean }>`
   padding: 1.4rem 0.3rem;

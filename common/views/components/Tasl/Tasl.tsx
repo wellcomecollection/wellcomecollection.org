@@ -10,31 +10,31 @@ import { cross, information } from '@weco/common/icons';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 type StyledTaslProps = {
-  positionAtTop: boolean;
-  isEnhanced: boolean;
+  $positionAtTop: boolean;
+  $isEnhanced: boolean;
 };
 
 const StyledTasl = styled.div.attrs({
   className: `${font('lr', 6)} plain-text tasl`, // Need the tasl class as it's used with ImageGallery styled components
 })<StyledTaslProps>`
   text-align: right;
-  top: ${props => (props.positionAtTop ? 0 : 'auto')};
-  bottom: ${props => (props.positionAtTop ? 'auto' : 0)};
+  top: ${props => (props.$positionAtTop ? 0 : 'auto')};
+  bottom: ${props => (props.$positionAtTop ? 'auto' : 0)};
   left: 0;
   right: 0;
   z-index: 2;
-  position: ${props => (props.isEnhanced ? 'absolute' : 'static')};
+  position: ${props => (props.$isEnhanced ? 'absolute' : 'static')};
 `;
 
 type TaslButtonProps = {
-  positionAtTop: boolean;
+  $positionAtTop: boolean;
 };
 
 const TaslButton = styled.button<TaslButtonProps>`
   position: absolute;
   right: 0;
-  top: ${props => (props.positionAtTop ? '2px' : 'auto')};
-  bottom: ${props => (props.positionAtTop ? 'auto' : '2px')};
+  top: ${props => (props.$positionAtTop ? '2px' : 'auto')};
+  bottom: ${props => (props.$positionAtTop ? 'auto' : '2px')};
 `;
 
 type TaslIconProps = {
@@ -226,10 +226,10 @@ const Tasl: FunctionComponent<Props> = ({
   const idWithSuffix = `${id}${idSuffix}`;
 
   return [title, sourceName, copyrightHolder].some(_ => _) ? (
-    <StyledTasl positionAtTop={positionTop} isEnhanced={isEnhanced}>
+    <StyledTasl $positionAtTop={positionTop} $isEnhanced={isEnhanced}>
       <TaslButton
         onClick={toggleWithAnalytics}
-        positionAtTop={positionTop}
+        $positionAtTop={positionTop}
         aria-expanded={isActive}
         aria-controls={idWithSuffix}
       >

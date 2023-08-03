@@ -32,7 +32,8 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   line-height: 1;
   text-decoration: none;
   text-align: center;
-  transition: background ${props => props.theme.transitionProperties},
+  transition:
+    background ${props => props.theme.transitionProperties},
     border-color ${props => props.theme.transitionProperties};
   white-space: nowrap;
   cursor: pointer;
@@ -136,7 +137,7 @@ type SolidButtonProps = {
   size?: ButtonSize;
   hoverUnderline?: boolean;
   isPill?: boolean;
-  hasIcon?: boolean;
+  $hasIcon?: boolean;
   isIconAfter?: boolean;
 };
 
@@ -175,7 +176,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         border-radius: 20px;
         border: 1px solid ${props.theme.color('black')};
         padding: ${
-          props.hasIcon
+          props.$hasIcon
             ? `8px ${props.isIconAfter ? '8px' : '16px'} 8px ${
                 props.isIconAfter ? '16px' : '8px'
               }`
@@ -245,7 +246,7 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
       ref={ref}
       form={form}
       isPill={isPill}
-      hasIcon={!!icon}
+      $hasIcon={!!icon}
       isIconAfter={isIconAfter}
     >
       <BaseButtonInner isInline={size === 'small'} isPill={isPill}>

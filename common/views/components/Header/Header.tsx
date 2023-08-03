@@ -125,7 +125,7 @@ const Header: FunctionComponent<Props> = ({
       focusTrapOptions={{ preventScroll: true }}
     >
       <header className="is-hidden-print">
-        <Wrapper isBurgerOpen={burgerMenuIsActive}>
+        <Wrapper $isBurgerOpen={burgerMenuIsActive}>
           <GridCell>
             <HeaderContainer>
               <Burger>

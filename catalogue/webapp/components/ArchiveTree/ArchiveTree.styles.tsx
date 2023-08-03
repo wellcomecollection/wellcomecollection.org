@@ -66,7 +66,7 @@ export const ButtonWrap = styled(Space).attrs({
 `;
 
 export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
-  className: props.showGuideline ? 'guideline' : null,
+  className: props.showGuideline ? 'guideline' : undefined,
 }))<TreeItemProps>`
   position: relative;
   list-style: ${props => (props.isEnhanced ? 'none' : 'disc')};

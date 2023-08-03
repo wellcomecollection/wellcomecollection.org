@@ -6,8 +6,8 @@ import Space from '../styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 type LabelContainerProps = {
-  fontColor: PaletteColor;
-  labelColor: PaletteColor;
+  $fontColor: PaletteColor;
+  $labelColor: PaletteColor;
 };
 
 const LabelContainer = styled(Space).attrs({
@@ -15,14 +15,14 @@ const LabelContainer = styled(Space).attrs({
 })<LabelContainerProps>`
   white-space: nowrap;
   line-height: 1;
-  color: ${props => props.theme.color(props.fontColor)};
-  background-color: ${props => props.theme.color(props.labelColor)};
+  color: ${props => props.theme.color(props.$fontColor)};
+  background-color: ${props => props.theme.color(props.$labelColor)};
 
   ${props => {
-    if (props.labelColor === 'white' || props.labelColor === 'transparent') {
+    if (props.$labelColor === 'white' || props.$labelColor === 'transparent') {
       return `border: 1px solid ${props.theme.color('neutral.500')};`;
     } else {
-      return `border: 1px solid ${props.theme.color(props.labelColor)};`;
+      return `border: 1px solid ${props.theme.color(props.$labelColor)};`;
     }
   }}
 `;
@@ -46,13 +46,13 @@ const Label: FunctionComponent<Props> = ({
         size: 'xs',
         properties: ['padding-left', 'padding-right'],
       }}
-      fontColor={
+      $fontColor={
         label.textColor ||
         (label.labelColor === 'black' || defaultLabelColor === 'black'
           ? 'yellow'
           : 'black')
       }
-      labelColor={label.labelColor || defaultLabelColor}
+      $labelColor={label.labelColor || defaultLabelColor}
     >
       {label.text}
     </LabelContainer>

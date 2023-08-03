@@ -32,9 +32,9 @@ import { themeValues } from '@weco/common/views/themes/config';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
-})<{ underline: boolean }>`
+})<{ $underline: boolean }>`
   ${props =>
-    props.underline &&
+    props.$underline &&
     `
     border-bottom: 1px solid ${props.theme.color('warmNeutral.400')};
   `}
@@ -236,7 +236,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           openButtonRef={requestButtonRef}
         />
       )}
-      <Wrapper underline={!isLast}>
+      <Wrapper $underline={!isLast}>
         {(title || itemNote) && (
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <DetailHeading>{title}</DetailHeading>

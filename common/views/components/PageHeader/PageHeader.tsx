@@ -133,7 +133,7 @@ const PageHeader: FunctionComponent<Props> = ({
     highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
     ) : (
-      <SectionPageHeader sectionLevelPage={sectionLevelPage ?? false}>
+      <SectionPageHeader $sectionLevelPage={sectionLevelPage ?? false}>
         {title}
       </SectionPageHeader>
     );

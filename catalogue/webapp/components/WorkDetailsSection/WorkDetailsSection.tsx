@@ -11,9 +11,9 @@ type Props = PropsWithChildren<{
 
 const SectionWithDivider = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top'] },
-})<{ isArchive: boolean }>`
+})<{ $isArchive: boolean }>`
   ${props =>
-    props.isArchive &&
+    props.$isArchive &&
     `
     &:nth-child(1) {
       padding-top: 0;
@@ -31,7 +31,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
   const isArchive = useContext(IsArchiveContext);
 
   return (
-    <SectionWithDivider isArchive={isArchive}>
+    <SectionWithDivider $isArchive={isArchive}>
       <SpacingSection>
         {headingText && <h2 className={font('wb', 4)}>{headingText}</h2>}
 
