@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { Fragment, FunctionComponent } from 'react';
 import { grid, font } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
 import EventbriteButtons from '../EventbriteButtons/EventbriteButtons';
@@ -75,7 +75,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
     >
       {locations.map((l, i) => {
         return (
-          <>
+          <Fragment key={l.id}>
             <span>{l.title}</span>
             {i !== locations.length - 1 && (
               <Space
@@ -85,7 +85,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
                 |
               </Space>
             )}
-          </>
+          </Fragment>
         );
       })}
     </Space>
