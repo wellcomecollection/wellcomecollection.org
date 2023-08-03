@@ -221,10 +221,13 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
 
   function handleBodyClick(event: MouseEvent) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
+    const openDialog = openDialogRef && openDialogRef.current;
+
+    if (openDialog === event.target) return;
 
     if (
       dialog &&
-      !isActiveRef.current &&
+      isActiveRef.current &&
       !dialog.contains(event.target as HTMLDivElement)
     ) {
       setIsActive(false);
