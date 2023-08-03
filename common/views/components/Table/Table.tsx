@@ -71,7 +71,8 @@ const TableWrap = styled.div`
   position: relative;
   max-width: 100%;
   overflow: scroll;
-  background: linear-gradient(to right, white 30%, rgba(255, 255, 255, 0)),
+  background:
+    linear-gradient(to right, white 30%, rgba(255, 255, 255, 0)),
     linear-gradient(to right, rgba(255, 255, 255, 0), white 70%) 0 100%,
     radial-gradient(
       farthest-side at 0% 50%,
@@ -86,8 +87,16 @@ const TableWrap = styled.div`
       0 100%;
   background-repeat: no-repeat;
   background-color: white;
-  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
-  background-position: 0 0, 100%, 0 0, 100%;
+  background-size:
+    40px 100%,
+    40px 100%,
+    14px 100%,
+    14px 100%;
+  background-position:
+    0 0,
+    100%,
+    0 0,
+    100%;
   background-attachment: local, local, scroll, scroll;
 `;
 
