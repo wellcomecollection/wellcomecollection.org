@@ -16,17 +16,16 @@ describe('Pagination', () => {
     expect(container.innerHTML.includes('Previous')).toBe(false);
   });
 
-  it('include the "Previous" button if we’re after page 1', () => {
+  it('include the "Previous" button if we’re after page 1', async () => {
     useRouter.mockImplementationOnce(() => ({ query: { page: '5' } }));
 
     const { container, getByRole } = renderWithTheme(
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
     expect(container.innerHTML.includes('Previous')).toBe(true);
-    expect(getByRole('button', { name: 'Previous (page 4)' })).toHaveAttribute(
-      'href',
-      '?page=4'
-    );
+    await expect(
+      getByRole('button', { name: 'Previous (page 4)' })
+    ).toHaveAttribute('href', '?page=4');
   });
 
   it('omits the "Next" button if we’re on the last page', () => {
@@ -38,20 +37,19 @@ describe('Pagination', () => {
     expect(container.innerHTML.includes('Next')).toBe(false);
   });
 
-  it('includes the "Next" button if we’re not on the last page', () => {
+  it('includes the "Next" button if we’re not on the last page', async () => {
     useRouter.mockImplementationOnce(() => ({ query: { page: '5' } }));
 
     const { container, getByRole } = renderWithTheme(
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
     expect(container.innerHTML.includes('Next')).toBe(true);
-    expect(getByRole('button', { name: 'Next (page 6)' })).toHaveAttribute(
-      'href',
-      '?page=6'
-    );
+    await expect(
+      getByRole('button', { name: 'Next (page 6)' })
+    ).toHaveAttribute('href', '?page=6');
   });
 
-  it('includes the pathname and query parameters when linking to the next/previous pages', () => {
+  it('includes the pathname and query parameters when linking to the next/previous pages', async () => {
     useRouter.mockImplementationOnce(() => ({
       pathname: '/search/works',
       query: { page: '5', locations: 'available-online' },
@@ -60,11 +58,15 @@ describe('Pagination', () => {
     const { getByRole } = renderWithTheme(
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
-    expect(getByRole('button', { name: 'Previous (page 4)' })).toHaveAttribute(
+    await expect(
+      getByRole('button', { name: 'Previous (page 4)' })
+    ).toHaveAttribute(
       'href',
       '/search/works?page=4&locations=available-online'
     );
-    expect(getByRole('button', { name: 'Next (page 6)' })).toHaveAttribute(
+    await expect(
+      getByRole('button', { name: 'Next (page 6)' })
+    ).toHaveAttribute(
       'href',
       '/search/works?page=6&locations=available-online'
     );

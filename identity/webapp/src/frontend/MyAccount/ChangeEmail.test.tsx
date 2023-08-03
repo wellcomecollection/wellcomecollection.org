@@ -39,7 +39,9 @@ describe('ChangeEmail', () => {
 
   it('displays an empty text input for the new email', async () => {
     renderComponent();
-    expect(await screen.findByLabelText(/email address/i)).toHaveValue('');
+    await expect(await screen.findByLabelText(/email address/i)).toHaveValue(
+      ''
+    );
   });
 
   it('allows the user to enter an email address', async () => {
@@ -111,7 +113,7 @@ describe('ChangeEmail', () => {
         </UserProvider>
       </ThemeProvider>
     );
-    expect(emailAddressInput).toHaveValue('');
+    await expect(emailAddressInput).toHaveValue('');
   });
 
   describe('shows an error on submission', () => {

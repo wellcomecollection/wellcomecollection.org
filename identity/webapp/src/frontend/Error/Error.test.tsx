@@ -31,13 +31,12 @@ describe('ErrorPage', () => {
     expect(screen.getByText("Uh-oh, spaghetti-O's!")).toBeInTheDocument();
   });
 
-  it('displays an email link for the library.', () => {
+  it('displays an email link for the library.', async () => {
     renderComponent(
       `/error?error_description=${encodeURI("Uh-oh, spaghetti-O's!")}`
     );
-    expect(screen.getByRole('link', { name: /Contact us/ })).toHaveAttribute(
-      'href',
-      'mailto:library@wellcomecollection.org'
-    );
+    await expect(
+      screen.getByRole('link', { name: /Contact us/ })
+    ).toHaveAttribute('href', 'mailto:library@wellcomecollection.org');
   });
 });
