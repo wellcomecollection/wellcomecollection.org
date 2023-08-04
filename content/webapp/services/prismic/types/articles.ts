@@ -21,15 +21,7 @@ type WithSeries = {
 };
 
 export type ArticlePrismicDocument = prismic.PrismicDocument<
-  {
-    publishDate: prismic.TimestampField;
-    outroResearchItem: prismic.LinkField;
-    outroResearchLinkText: prismic.RichTextField;
-    outroReadItem: prismic.LinkField;
-    outroReadLinkText: prismic.RichTextField;
-    outroVisitItem: prismic.LinkField;
-    outroVisitLinkText: prismic.RichTextField;
-  } & WithSeries &
+  WithSeries &
     WithContributors &
     WithSeasons &
     WithArticleFormat &

@@ -118,6 +118,7 @@ const ContentPage = ({
   Body,
   children,
   RelatedContent = [],
+  postOutroContent,
   seasons = [],
   contributors,
   contributorTitle,
@@ -207,6 +208,7 @@ const ContentPage = ({
             ))}
           </SpacingSection>
         )}
+        {postOutroContent && <Layout8>{postOutroContent}</Layout8>}
         {seasons.length > 0 &&
           seasons.map(season => (
             <SpacingSection key={season.id}>
