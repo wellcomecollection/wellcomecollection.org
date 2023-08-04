@@ -234,7 +234,9 @@ export const getServerSideProps: GetServerSideProps<
         storyResponseList: emptyResultList(),
         pageview: {
           name: 'stories',
-          properties: {},
+          properties: {
+            looksLikeSpam: 'true',
+          },
         },
         apiToolbarLinks: [],
       },

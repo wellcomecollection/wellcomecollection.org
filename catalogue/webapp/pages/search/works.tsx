@@ -251,7 +251,9 @@ export const getServerSideProps: GetServerSideProps<
         works: emptyResultList(),
         pageview: {
           name: 'works',
-          properties: {},
+          properties: {
+            looksLikeSpam: 'true',
+          },
         },
         apiToolbarLinks: [],
       },
