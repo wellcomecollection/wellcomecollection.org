@@ -21,7 +21,9 @@ type WithSeries = {
 };
 
 export type ArticlePrismicDocument = prismic.PrismicDocument<
-  WithSeries &
+  {
+    publishDate: prismic.TimestampField;
+  } & WithSeries &
     WithContributors &
     WithSeasons &
     WithArticleFormat &
