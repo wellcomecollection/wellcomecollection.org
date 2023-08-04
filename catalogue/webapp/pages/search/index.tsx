@@ -282,7 +282,17 @@ export const getServerSideProps: GetServerSideProps<
   // The status code will also allow us to filter out spam-like requests from our analytics.
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
-    return { props: serialiseProps(defaultProps) };
+    return {
+      props: serialiseProps({
+        ...defaultProps,
+        pageview: {
+          name: 'search',
+          properties: {
+            looksLikeSpam: 'true',
+          },
+        },
+      }),
+    };
   }
 
   try {
