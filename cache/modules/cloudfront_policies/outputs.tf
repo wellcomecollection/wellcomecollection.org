@@ -3,6 +3,7 @@ output "cache_policies" {
     for policy in [
       aws_cloudfront_cache_policy.static_content,
       aws_cloudfront_cache_policy.weco_apps,
+      aws_cloudfront_cache_policy.weco_apps_all_params,
       aws_cloudfront_cache_policy.short_lived_toggles_only,
       data.aws_cloudfront_cache_policy.managed_caching_disabled
     ]
