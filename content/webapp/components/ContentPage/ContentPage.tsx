@@ -14,7 +14,6 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import Space from '@weco/common/views/components/styled/Space';
 import BannerCard from '../BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
-import Outro from '../Outro/Outro';
 import { Contributor } from '@weco/content/types/contributors';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -128,8 +127,6 @@ const ContentPage = ({
   Body,
   children,
   RelatedContent = [],
-  outroProps,
-  postOutroContent,
   seasons = [],
   contributors,
   contributorTitle,
@@ -219,17 +216,6 @@ const ContentPage = ({
             ))}
           </SpacingSection>
         )}
-
-        {outroProps && (
-          <SpacingSection>
-            <Layout8>
-              <Outro {...outroProps} />
-            </Layout8>
-          </SpacingSection>
-        )}
-
-        {postOutroContent && <Layout8>{postOutroContent}</Layout8>}
-
         {seasons.length > 0 &&
           seasons.map(season => (
             <SpacingSection key={season.id}>

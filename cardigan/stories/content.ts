@@ -804,9 +804,6 @@ export const article: Article = {
     },
   ],
   seasons: [],
-  outroResearchLinkText: '',
-  outroReadLinkText: '',
-  outroVisitLinkText: '',
 };
 
 export const articleBasic = {
