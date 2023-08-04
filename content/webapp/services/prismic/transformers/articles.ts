@@ -1,18 +1,11 @@
 import { Article, ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
+import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import {
-  isFilledLinkToDocumentWithData,
-  isFilledLinkToWebField,
-} from '@weco/common/services/prismic/types';
-import * as prismic from '@prismicio/client';
-import { transformMultiContent } from './multi-content';
-import {
-  asText,
   transformGenericFields,
   transformLabelType,
   transformSingleLevelGroup,
 } from '.';
-import { MultiContent } from '../../../types/multi-content';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Label } from '@weco/common/model/labels';
 import { Series } from '../../../types/series';
@@ -24,38 +17,10 @@ import { Format } from '../../../types/format';
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { transformContributors } from './contributors';
 import { noAltTextBecausePromo } from './images';
-import { MultiContentPrismicDocument } from '../types/multi-content';
 import {
   calculateReadingTime,
   showReadingTime,
 } from '@weco/content/utils/reading-time';
-
-function transformContentLink(
-  document?: prismic.LinkField
-): MultiContent | undefined {
-  if (!document) {
-    return;
-  }
-
-  if (isFilledLinkToWebField(document)) {
-    return document.url
-      ? {
-          type: 'weblinks',
-          id: document.url,
-          url: document.url,
-        }
-      : undefined;
-  }
-
-  if (isFilledLinkToDocumentWithData(document)) {
-    return transformMultiContent(
-      // for some reason, the type od document and the type od MCPD do not overlap
-      // so to type it correctly, I must frist convert it to unknown then the
-      // correct type
-      document as unknown as MultiContentPrismicDocument
-    );
-  }
-}
 
 export function transformArticleToArticleBasic(article: Article): ArticleBasic {
   // returns what is required to render StoryPromos and story JSON-LD
@@ -142,11 +107,5 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
       transformSeason(season as SeasonPrismicDocument)
     ),
-    outroResearchLinkText: asText(data.outroResearchLinkText),
-    outroResearchItem: transformContentLink(data.outroResearchItem),
-    outroReadLinkText: asText(data.outroReadLinkText),
-    outroReadItem: transformContentLink(data.outroReadItem),
-    outroVisitLinkText: asText(data.outroVisitLinkText),
-    outroVisitItem: transformContentLink(data.outroVisitItem),
   };
 }

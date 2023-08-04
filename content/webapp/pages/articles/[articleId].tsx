@@ -59,12 +59,6 @@ type Props = {
   pageview: Pageview;
 };
 
-function articleHasOutro(article: Article) {
-  return Boolean(
-    article.outroResearchItem || article.outroReadItem || article.outroVisitItem
-  );
-}
-
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
@@ -349,18 +343,6 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
         }
         RelatedContent={Siblings}
         contributors={article.contributors}
-        outroProps={
-          articleHasOutro(article)
-            ? {
-                researchLinkText: article.outroResearchLinkText,
-                researchItem: article.outroResearchItem,
-                readLinkText: article.outroReadLinkText,
-                readItem: article.outroReadItem,
-                visitLinkText: article.outroVisitLinkText,
-                visitItem: article.outroVisitItem,
-              }
-            : undefined
-        }
         seasons={article.seasons}
       />
     </PageLayout>
