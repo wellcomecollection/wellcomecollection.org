@@ -3,7 +3,6 @@ import { Children, createContext, ReactNode, ReactElement } from 'react';
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
 import { Season } from '@weco/content/types/seasons';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
-import { MultiContent } from '@weco/content/types/multi-content';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageHeader, {
@@ -98,14 +97,6 @@ type Props = {
   // This is used for content type specific components e.g. InfoBox
   children?: ReactNode;
   RelatedContent?: ReactNode[];
-  outroProps?: {
-    researchLinkText?: string;
-    researchItem?: MultiContent;
-    readLinkText?: string;
-    readItem?: MultiContent;
-    visitLinkText?: string;
-    visitItem?: MultiContent;
-  };
   postOutroContent?: ReactNode;
   seasons?: Season[];
   contributors?: Contributor[];
