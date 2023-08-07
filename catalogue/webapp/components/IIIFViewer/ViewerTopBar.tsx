@@ -307,42 +307,45 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       </Sidebar>
       <Main>
         <LeftZone className="viewer-desktop">
-          {!showZoomed && canvases && canvases.length > 1 && isFullSupportBrowser && (
-            <ToolbarSegmentedControl
-              hideLabels={true}
-              items={[
-                {
-                  id: 'pageView',
-                  label: 'Page',
-                  icon: singlePage,
-                  dataGtmTrigger: 'item_view_page_button',
-                  clickHandler() {
-                    setGridVisible(false);
-                    trackGaEvent({
-                      category: 'Control',
-                      action: 'clicked work viewer Detail view button',
-                      label: `${work.id}`,
-                    });
+          {!showZoomed &&
+            canvases &&
+            canvases.length > 1 &&
+            isFullSupportBrowser && (
+              <ToolbarSegmentedControl
+                hideLabels={true}
+                items={[
+                  {
+                    id: 'pageView',
+                    label: 'Page',
+                    icon: singlePage,
+                    dataGtmTrigger: 'item_view_page_button',
+                    clickHandler() {
+                      setGridVisible(false);
+                      trackGaEvent({
+                        category: 'Control',
+                        action: 'clicked work viewer Detail view button',
+                        label: `${work.id}`,
+                      });
+                    },
                   },
-                },
-                {
-                  id: 'gridView',
-                  label: 'Grid',
-                  icon: gridView,
-                  dataGtmTrigger: 'item_view_grid_button',
-                  clickHandler() {
-                    setGridVisible(true);
-                    trackGaEvent({
-                      category: 'Control',
-                      action: 'clicked work viewer Grid view button',
-                      label: `${work.id}`,
-                    });
+                  {
+                    id: 'gridView',
+                    label: 'Grid',
+                    icon: gridView,
+                    dataGtmTrigger: 'item_view_grid_button',
+                    clickHandler() {
+                      setGridVisible(true);
+                      trackGaEvent({
+                        category: 'Control',
+                        action: 'clicked work viewer Grid view button',
+                        label: `${work.id}`,
+                      });
+                    },
                   },
-                },
-              ]}
-              activeId={gridVisible ? 'gridView' : 'pageView'}
-            />
-          )}
+                ]}
+                activeId={gridVisible ? 'gridView' : 'pageView'}
+              />
+            )}
         </LeftZone>
         <MiddleZone className="viewer-desktop">
           {canvases && canvases.length > 1 && !showZoomed && !isResizing && (

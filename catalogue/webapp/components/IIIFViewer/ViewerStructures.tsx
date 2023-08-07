@@ -74,7 +74,9 @@ const ViewerStructures: FunctionComponent = () => {
                   manifest: query.manifest,
                   query: query.query,
                   canvas: arrayIndexToQueryParam(canvasIndex),
-                  page: Math.ceil(arrayIndexToQueryParam(canvasIndex) / thumbnailsPageSize),
+                  page: Math.ceil(
+                    arrayIndexToQueryParam(canvasIndex) / thumbnailsPageSize
+                  ),
                 },
                 source: 'contents_nav',
               })}

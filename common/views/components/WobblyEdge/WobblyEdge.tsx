@@ -26,7 +26,9 @@ const Edge = styled.div.attrs({
   position: relative;
   top: 2px;
   z-index: 2;
-  transition: -webkit-clip-path 2000ms ease-in-out, clip-path 2000ms ease-in-out;
+  transition:
+    -webkit-clip-path 2000ms ease-in-out,
+    clip-path 2000ms ease-in-out;
   display: none;
 
   ${props => props.theme.media('large')`

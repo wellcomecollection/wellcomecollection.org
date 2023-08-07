@@ -6,7 +6,8 @@ export const fonts = css<GlobalStyleProps>`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
-    src: url('https://i.wellcomecollection.org/assets/fonts/Inter-Regular.woff2')
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-Regular.woff2')
         format('woff2'),
       url('https://i.wellcomecollection.org/assets/fonts/Inter-Regular.woff')
         format('woff');
@@ -17,7 +18,8 @@ export const fonts = css<GlobalStyleProps>`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
-    src: url('https://i.wellcomecollection.org/assets/fonts/Inter-Bold.woff2')
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-Bold.woff2')
         format('woff2'),
       url('https://i.wellcomecollection.org/assets/fonts/Inter-Bold.woff')
         format('woff');
@@ -26,7 +28,8 @@ export const fonts = css<GlobalStyleProps>`
 
   @font-face {
     font-family: 'Wellcome Bold Web';
-    src: url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff2')
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff2')
         format('woff2'),
       url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff')
         format('woff');
@@ -49,7 +52,8 @@ export const fonts = css<GlobalStyleProps>`
  */
   @font-face {
     font-family: 'Lettera Regular Web';
-    src: url('https://i.wellcomecollection.org/assets/fonts/lineto-lettera-regular.woff2')
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/lineto-lettera-regular.woff2')
         format('woff2'),
       url('https://i.wellcomecollection.org/assets/fonts/lineto-lettera-regular.woff')
         format('woff');

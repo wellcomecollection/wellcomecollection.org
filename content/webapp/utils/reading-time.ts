@@ -22,12 +22,12 @@ function allArticleText(genericBody: BodySlice[]) {
     .join(' ');
 }
 
-export function calculateReadingTime(body: BodySlice[]): string {
+export function calculateReadingTime(body: BodySlice[]): string | undefined {
   const articleText = allArticleText(body);
 
   const minutes = Math.ceil(readingTime(articleText).minutes);
 
-  return pluralize(minutes, 'minute');
+  return minutes === 0 ? undefined : pluralize(minutes, 'minute');
 }
 
 export function showReadingTime(

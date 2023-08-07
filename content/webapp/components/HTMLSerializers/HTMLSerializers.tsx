@@ -108,6 +108,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
       const hashLink = isInPage && isInPage[1];
 
       const fileExtension = linkUrl.match(/\.[0-9a-z]+$/i);
+
       const documentType =
         fileExtension && fileExtension[0].substring(1).toUpperCase();
 

@@ -74,7 +74,8 @@ export const getRedirect = (
     requestHost &&
     requestHost.indexOf('www-stage.wellcomecollection.org') !== -1
       ? 'www-stage.wellcomecollection.org'
-      : requestHost && requestHost.indexOf('www-e2e.wellcomecollection.org') !== -1
+      : requestHost &&
+        requestHost.indexOf('www-e2e.wellcomecollection.org') !== -1
       ? 'www-e2e.wellcomecollection.org'
       : 'wellcomecollection.org';
 

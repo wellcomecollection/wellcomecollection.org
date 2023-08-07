@@ -73,6 +73,10 @@ module.exports = {
           'error',
           { ignoreRestSiblings: true },
         ],
+        'jest/no-standalone-expect': [
+          'error',
+          { additionalTestBlockFunctions: ['each.test'] },
+        ],
         // This rule does not support FunctionComponent<Props> and so
         // makes using (eg) children props more of a pain than it should be
         'react/prop-types': 'off',

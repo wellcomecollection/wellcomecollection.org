@@ -28,7 +28,7 @@ describe('CardGrid', () => {
   ];
 
   describe('Links inside CardGrid', () => {
-    it('renders multiple links within CardGrid component', () => {
+    it('renders multiple links within CardGrid component', async () => {
       const mockLinks = [
         {
           text: 'View all exhibitions',
@@ -44,14 +44,12 @@ describe('CardGrid', () => {
         <CardGrid itemsPerRow={3} items={mockItems} links={mockLinks} />
       );
 
-      expect(getByRole('link', { name: mockLinks[0].text })).toHaveAttribute(
-        'href',
-        mockLinks[0].url
-      );
-      expect(getByRole('link', { name: mockLinks[1].text })).toHaveAttribute(
-        'href',
-        mockLinks[1].url
-      );
+      await expect(
+        getByRole('link', { name: mockLinks[0].text })
+      ).toHaveAttribute('href', mockLinks[0].url);
+      await expect(
+        getByRole('link', { name: mockLinks[1].text })
+      ).toHaveAttribute('href', mockLinks[1].url);
     });
   });
 });

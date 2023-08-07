@@ -1,9 +1,4 @@
-import {
-  isFuture,
-  isSameDay,
-  maxDate,
-  minDate,
-} from '@weco/common/utils/dates';
+import { isFuture } from '@weco/common/utils/dates';
 import { HasTimes } from 'types/events';
 
 export function isUpcoming<T extends HasTimes>(event: T): boolean {

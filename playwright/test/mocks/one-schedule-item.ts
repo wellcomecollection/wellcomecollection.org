@@ -418,18 +418,6 @@ export const oneScheduleItem = {
             },
           },
         ],
-        outroResearchItem: {
-          link_type: 'Any',
-        },
-        outroResearchLinkText: [],
-        outroReadItem: {
-          link_type: 'Any',
-        },
-        outroReadLinkText: [],
-        outroVisitItem: {
-          link_type: 'Any',
-        },
-        outroVisitLinkText: [],
         contributors: [
           {
             role: {

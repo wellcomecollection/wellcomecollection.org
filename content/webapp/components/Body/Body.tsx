@@ -56,6 +56,7 @@ import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismic from '@prismicio/client';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import TextAndImageOrIcons from '../TextAndImageOrIcons/TextAndImageOrIcons';
 
 const BodyWrapper = styled.div<{ splitBackground: boolean }>`
   ${props =>
@@ -104,7 +105,7 @@ type Props = {
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
-  isShortFilm?: boolean;
+  contentType?: 'short-film' | 'visual-story';
 };
 
 type SectionTheme = {
@@ -143,7 +144,7 @@ const Body: FunctionComponent<Props> = ({
   sectionLevelPage = false,
   staticContent = null,
   comicPreviousNext,
-  isShortFilm = false,
+  contentType,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -300,9 +301,14 @@ const Body: FunctionComponent<Props> = ({
       return null;
     }
   };
+  const isShortFilm = contentType === 'short-film';
+  const isVisualStory = contentType === 'visual-story';
 
   return (
-    <BodyWrapper splitBackground={isShortFilm}>
+    <BodyWrapper
+      splitBackground={isShortFilm}
+      className={`content-type-${contentType}`}
+    >
       {filteredBody.length < 1 && (
         <AdditionalContent
           index={0}
@@ -347,7 +353,12 @@ const Body: FunctionComponent<Props> = ({
               {slice.type === 'text' && (
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
-                    <div className="body-text spaced-text">
+                    <div
+                      className={classNames({
+                        'body-text spaced-text': true,
+                        'first-text-slice': firstTextSliceIndex === i,
+                      })}
+                    >
                       {slice.weight !== 'featured' &&
                         (firstTextSliceIndex === i && isDropCapped ? (
                           <>
@@ -380,13 +391,29 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
 
+              {slice.type === 'textAndImage' && (
+                <SpacingComponent sliceType={slice.type}>
+                  <Layout8>
+                    <TextAndImageOrIcons item={slice.value} />
+                  </Layout8>
+                </SpacingComponent>
+              )}
+
+              {slice.type === 'textAndIcons' && (
+                <SpacingComponent sliceType={slice.type}>
+                  <Layout8>
+                    <TextAndImageOrIcons item={slice.value} />
+                  </Layout8>
+                </SpacingComponent>
+              )}
+
               {/* TODO: use one layout for all image weights if/when it's established
               that width isn't an adequate means to illustrate a difference */}
               {slice.type === 'picture' && slice.weight === 'default' && (
                 <SpacingComponent sliceType={slice.type}>
-                  <Layout10>
+                  <LayoutWidth width={isVisualStory ? 8 : 10}>
                     <CaptionedImage {...slice.value} />
-                  </Layout10>
+                  </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'picture' && slice.weight === 'standalone' && (

@@ -54,7 +54,7 @@ export type PopupDialogPrismicDocument = prismic.PrismicDocument<{
 }>;
 
 export function emptyPrismicQuery<
-  T extends prismic.PrismicDocument
+  T extends prismic.PrismicDocument,
 >(): prismic.Query<T> {
   return {
     page: 1,

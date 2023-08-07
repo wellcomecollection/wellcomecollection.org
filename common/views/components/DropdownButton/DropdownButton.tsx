@@ -36,7 +36,9 @@ const Dropdown = styled(Space).attrs({
   z-index: ${props => (props.isActive ? 2 : 1)};
   overflow: auto;
   white-space: nowrap;
-  transition: opacity 350ms ease, transform 350ms ease;
+  transition:
+    opacity 350ms ease,
+    transform 350ms ease;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   box-shadow: ${props => props.theme.basicBoxShadow};
 

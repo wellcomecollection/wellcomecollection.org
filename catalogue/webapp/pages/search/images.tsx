@@ -263,7 +263,9 @@ export const getServerSideProps: GetServerSideProps<
         ...defaultProps,
         pageview: {
           name: 'images',
-          properties: {},
+          properties: {
+            looksLikeSpam: 'true',
+          },
         },
         images: emptyResultList(),
         apiToolbarLinks: [],

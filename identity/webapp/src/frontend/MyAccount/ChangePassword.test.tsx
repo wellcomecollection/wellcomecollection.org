@@ -34,14 +34,14 @@ describe('ChangePassword', () => {
     renderComponent();
     const currentPasswordInput = screen.getByLabelText(/current password/i);
     await act(async () => userEvent.type(currentPasswordInput, 'hunter2'));
-    expect(currentPasswordInput).toHaveValue('hunter2');
+    await expect(currentPasswordInput).toHaveValue('hunter2');
   });
 
   it('allows the user to enter a new password', async () => {
     renderComponent();
     const newPasswordInput = screen.getByLabelText(/^create new password/i);
     await act(async () => userEvent.type(newPasswordInput, 'hunter2'));
-    expect(newPasswordInput).toHaveValue('hunter2');
+    await expect(newPasswordInput).toHaveValue('hunter2');
   });
 
   it('allows the user to confirm the new password', async () => {
@@ -50,7 +50,7 @@ describe('ChangePassword', () => {
       /re-enter new password/i
     );
     await act(async () => userEvent.type(confirmPasswordInput, 'hunter2'));
-    expect(confirmPasswordInput).toHaveValue('hunter2');
+    await expect(confirmPasswordInput).toHaveValue('hunter2');
   });
 
   it('submits a complete and valid form to the API', async () => {
@@ -102,9 +102,9 @@ describe('ChangePassword', () => {
         <ChangePassword {...defaultProps} isActive={true} />
       </ThemeProvider>
     );
-    expect(currentPasswordInput).toHaveValue('');
-    expect(newPasswordInput).toHaveValue('');
-    expect(confirmPasswordInput).toHaveValue('');
+    await expect(currentPasswordInput).toHaveValue('');
+    await expect(newPasswordInput).toHaveValue('');
+    await expect(confirmPasswordInput).toHaveValue('');
   });
 
   describe('shows an error on submission', () => {
