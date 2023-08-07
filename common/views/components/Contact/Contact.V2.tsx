@@ -13,13 +13,10 @@ const Wrapper = styled(Space).attrs({
   border-left: 5px solid ${props => props.theme.color('accent.turquoise')};
 `;
 
-const TitleWrapper = styled.span`
+const TitleWrapper = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-bottom'] },
+})`
   display: block;
-  margin-bottom: 15px;
-
-  ${props => props.theme.media('medium')`
-    margin-bottom: 30px;
-  `}
 `;
 
 const Title = styled.span.attrs({ className: font('intb', 4) })``;
@@ -34,11 +31,12 @@ const PhoneNumber = styled.span.attrs({ className: font('intr', 4) })`
   display: block;
 `;
 
-const WithIconWrapper = styled.div`
-  align-items: flex-start;
+const WithIconWrapper = styled(Space).attrs({
+  v: { size: 's', properties: ['margin-bottom'] },
+})`
   display: flex;
+  align-items: center;
   gap: 10px;
-  margin-bottom: 15px;
 
   &:last-child {
     margin-bottom: 0;
@@ -81,41 +79,28 @@ const ContactV2: FunctionComponent<Props> = ({
       </TitleWrapper>
 
       {phone && (
-        <>
-          <span className="visually-hidden">
-            {createScreenreaderLabel(phone)}
-          </span>
-          <>
-            <WithIconWrapper>
-              <Icon icon={phoneIcon} />
-              <div>
-                <strong>By phone</strong>
-                <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
-              </div>
-            </WithIconWrapper>
-          </>
-        </>
+        <WithIconWrapper>
+          <Icon icon={phoneIcon} />
+          <div>
+            <span className="visually-hidden">
+              {createScreenreaderLabel(phone)}
+            </span>
+            <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
+          </div>
+        </WithIconWrapper>
       )}
 
       {email && (
-        <div>
-          <WithIconWrapper>
-            <Icon icon={emailIcon} />
-            <div>
-              <span>
-                {phone ? 'Or ' : ''}
-                <strong>by email</strong>
-              </span>
-              <a
-                style={{ display: 'block' }}
-                className={font('intr', 4)}
-                href={`mailto:${email}`}
-              >
-                {email}
-              </a>
-            </div>
-          </WithIconWrapper>
-        </div>
+        <WithIconWrapper>
+          <Icon icon={emailIcon} />
+          <a
+            style={{ display: 'block' }}
+            className={font('intr', 4)}
+            href={`mailto:${email}`}
+          >
+            {email}
+          </a>
+        </WithIconWrapper>
       )}
     </Wrapper>
   );
