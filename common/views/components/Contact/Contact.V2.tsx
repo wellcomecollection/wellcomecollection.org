@@ -32,11 +32,10 @@ const PhoneNumber = styled.span.attrs({ className: font('intr', 4) })`
 `;
 
 const WithIconWrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom'] },
+  v: { size: 's', properties: ['margin-bottom', 'column-gap'] },
 })`
   display: flex;
   align-items: center;
-  gap: 10px;
 
   &:last-child {
     margin-bottom: 0;
@@ -46,16 +45,12 @@ const WithIconWrapper = styled(Space).attrs({
     margin-top: 5px;
     width: 25px;
     height: 25px;
+
+    ${props => props.theme.media('medium')`
+        width: 35px;
+        height: 35px;
+    `}
   }
-
-  ${props => props.theme.media('medium')`
-    gap: 15px;
-
-    .icon {
-      width: 35px;
-      height: 35px;
-    }
-  `}
 `;
 
 export type Props = {
