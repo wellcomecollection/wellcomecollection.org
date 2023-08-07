@@ -22,12 +22,12 @@ function allArticleText(genericBody: BodySlice[]) {
     .join(' ');
 }
 
-export function calculateReadingTime(body: BodySlice[]): string {
+export function calculateReadingTime(body: BodySlice[]): string | undefined {
   const articleText = allArticleText(body);
 
   const minutes = Math.ceil(readingTime(articleText).minutes);
 
-  return pluralize(minutes, 'minute');
+  return minutes === 0 ? undefined : pluralize(minutes, 'minute');
 }
 
 export function showReadingTime(
@@ -38,6 +38,7 @@ export function showReadingTime(
   // are a few formats we consider to be 'articles' even if their Prismic 'format'
   // doesn't return them as 'Article' e.g. Book extracts
   // TODO: get definitive list of what we consider to be article and refactor the below function to account for that
+  // console.log(format.title === 'Photo story');
   return format
     ? Boolean(
         format?.title === 'Article' ||
