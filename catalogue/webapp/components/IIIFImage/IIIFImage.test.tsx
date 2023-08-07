@@ -10,11 +10,11 @@ describe('IIIFImage', () => {
     alt: '',
   };
 
-  it('renders a IIIF image URL', () => {
+  it('renders a IIIF image URL', async () => {
     const { getByRole } = renderWithTheme(
       <IIIFImage image={props} priority={true} layout="fixed" />
     );
-    expect(getByRole('img')).toHaveAttribute(
+    await expect(getByRole('img')).toHaveAttribute(
       'src',
       'https://iiif.wellcomecollection.org/image/V0043039/full/640%2C/0/default.jpg'
     );

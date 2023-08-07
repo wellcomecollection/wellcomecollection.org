@@ -98,14 +98,17 @@ export function groupOverrideDates(dates: OverrideDate[]): ExceptionalPeriod[] {
   dates.sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate));
 
   const groupedExceptionalPeriods: Record<OverrideType, OverrideDate[]> =
-    dates.reduce((acc, date) => {
-      if (Object.keys(acc).includes(date.overrideType)) {
-        acc[date.overrideType].push(date);
-      } else {
-        acc[date.overrideType] = [date];
-      }
-      return acc;
-    }, {} as Record<OverrideType, OverrideDate[]>);
+    dates.reduce(
+      (acc, date) => {
+        if (Object.keys(acc).includes(date.overrideType)) {
+          acc[date.overrideType].push(date);
+        } else {
+          acc[date.overrideType] = [date];
+        }
+        return acc;
+      },
+      {} as Record<OverrideType, OverrideDate[]>
+    );
 
   const exceptionalPeriods = Object.values(groupedExceptionalPeriods).flat();
 

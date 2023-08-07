@@ -99,7 +99,7 @@ describe('MyAccount', () => {
   it("shows the user's email address", async () => {
     renderComponent();
     const email = await screen.findAllByText(mockUser.email);
-    expect(email[0]).toBeVisible();
+    await expect(email[0]).toBeVisible();
   });
 
   it("shows the user's item requests", async () => {
