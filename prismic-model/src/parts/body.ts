@@ -10,6 +10,7 @@ import embed from './embed';
 import mediaObject from './media-object';
 import heading from './heading';
 import booleanDeprecated from './boolean-deprecated';
+import { textAndIconsSlice } from './textAndIcons';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {
@@ -182,20 +183,7 @@ export default {
           ...mediaObject,
         },
       }),
-      textAndIcons: slice('Text and icons', {
-        description: 'Side-by-side',
-        nonRepeat: {
-          text: multiLineText('Text', { extraTextOptions: ['heading3'] }),
-        },
-        repeat: {
-          icon: {
-            type: 'Image',
-            config: {
-              label: 'Icon (will display at 100px wide)',
-            },
-          },
-        },
-      }),
+      textAndIcons: textAndIconsSlice(),
       audioPlayer: slice('Audio Player', {
         nonRepeat: {
           title,

@@ -2,6 +2,7 @@ import body, { slice } from './body';
 import boolean from './boolean';
 import { documentLink } from './link';
 import { multiLineText, singleLineText } from './text';
+import { textAndIconsSlice } from './textAndIcons';
 
 export default {
   fieldset: 'Slice zone',
@@ -68,20 +69,7 @@ export default {
           isZoomable: boolean('Allow image to be zoomed to fill viewport?'),
         },
       }),
-      textAndIcons: slice('Text and icons', {
-        description: 'Side-by-side',
-        nonRepeat: {
-          text: multiLineText('Text', { extraTextOptions: ['heading3'] }),
-        },
-        repeat: {
-          icon: {
-            type: 'Image',
-            config: {
-              label: 'Icon (will display at 100px wide)',
-            },
-          },
-        },
-      }),
+      textAndIcons: textAndIconsSlice(),
     },
   },
 };
