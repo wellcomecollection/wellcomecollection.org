@@ -24,7 +24,7 @@ import {
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
-import { getDigitalLocationOfType } from 'utils/works';
+import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 

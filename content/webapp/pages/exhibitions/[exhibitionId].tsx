@@ -1,11 +1,11 @@
+import { FunctionComponent } from 'react';
+import { GetServerSideProps } from 'next';
 import { Page as PageType } from '@weco/content/types/pages';
 import Exhibition from '@weco/content/components/Exhibition/Exhibition';
 import { Exhibition as ExhibitionType } from '@weco/content/types/exhibitions';
 import Installation from '@weco/content/components/Installation/Installation';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
-import { FunctionComponent } from 'react';
-import { GetServerSideProps } from 'next';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { createClient } from '@weco/content/services/prismic/fetch';
@@ -14,7 +14,7 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { exhibitionLd } from 'services/prismic/transformers/json-ld';
+import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';

@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { getCrop } from '@weco/common/model/image';
 import { breakpoints } from '@weco/common/utils/breakpoints';
 import ImageWithTasl from '../components/ImageWithTasl/ImageWithTasl';
@@ -5,8 +6,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { FeaturedMedia } from '@weco/common/views/components/PageHeader/PageHeader';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import { ReactElement } from 'react';
-import { isVideoEmbed } from 'types/body';
+import { isVideoEmbed } from '@weco/content/types/body';
 import { GenericContentFields } from '../types/generic-content-fields';
 
 export function getFeaturedMedia(

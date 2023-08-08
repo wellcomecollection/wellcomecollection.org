@@ -29,7 +29,7 @@ import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import { useToggles } from '@weco/common/server-data/Context';
 import useTransformedManifest from '@weco/catalogue/hooks/useTransformedManifest';
-import { Audio, Video } from 'services/iiif/types/manifest/v3';
+import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 

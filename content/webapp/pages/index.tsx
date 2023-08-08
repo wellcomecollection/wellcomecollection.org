@@ -1,5 +1,7 @@
 import { FunctionComponent } from 'react';
+import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
+import Head from 'next/head';
 import { font } from '@weco/common/utils/classnames';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -17,7 +19,6 @@ import {
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
 import { convertItemToCardProps } from '@weco/content/types/card';
-import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -41,10 +42,13 @@ import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitio
 import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { BodySlice, isContentList, isStandfirst } from 'types/body';
+import {
+  BodySlice,
+  isContentList,
+  isStandfirst,
+} from '@weco/content/types/body';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import Head from 'next/head';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
 const CreamBox = styled(Space).attrs({

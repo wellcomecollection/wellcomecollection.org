@@ -1,21 +1,21 @@
-import { Event } from '../../../types/events';
-import { VisualStory } from '../../../types/visual-stories';
+import { Event } from '@weco/content/types/events';
+import { VisualStory } from '@weco/content/types/visual-stories';
 import {
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
 } from '@weco/common/data/organization';
 import { Organization } from '@weco/common/model/organization';
 import { getImageUrlAtSize } from '../types/images';
-import { Article } from '../../../types/articles';
-import { Contributor } from '../../../types/contributors';
+import { Article } from '@weco/content/types/articles';
+import { Contributor } from '@weco/content/types/contributors';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { Page } from '../../../types/pages';
-import { Season } from '../../../types/seasons';
+import { Page } from '@weco/content/types/pages';
+import { Season } from '@weco/content/types/seasons';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
-import { Exhibition } from '../../../types/exhibitions';
-import { ExhibitionGuide } from '../../../types/exhibition-guides';
+import { Exhibition } from '@weco/content/types/exhibitions';
+import { ExhibitionGuide } from '@weco/content/types/exhibition-guides';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { Series } from 'types/series';
+import { Series } from '@weco/content/types/series';
 
 // Guide from schema.org
 // https://schema.org/Thing
