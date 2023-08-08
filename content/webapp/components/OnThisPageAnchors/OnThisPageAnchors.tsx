@@ -25,7 +25,7 @@ type Props = {
 const OnThisPageAnchors: FunctionComponent<Props> = ({ links }) => {
   return (
     <Root>
-      <h2 className="h3">What’s on this page</h2>
+      <h2 className={font('wb', 4)}>What’s on this page</h2>
       <PlainList>
         {links.map((link: Link) => (
           <li key={link.url}>

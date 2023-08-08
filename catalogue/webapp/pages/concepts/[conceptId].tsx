@@ -365,7 +365,7 @@ export const ConceptPage: NextPage<Props> = ({
       {hasImages && (
         <ConceptImages as="section">
           <Container>
-            <h2 className="h2 sectionTitle">Images</h2>
+            <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
             {hasImagesTabs && (
               <TabNav
                 id="images"
@@ -392,7 +392,7 @@ export const ConceptPage: NextPage<Props> = ({
         <>
           <ConceptWorksHeader hasWorksTabs={hasWorksTabs}>
             <Container>
-              <h2 className="h2">Catalogue</h2>
+              <h2 className={font('wb', 3)}>Catalogue</h2>
 
               {hasWorksTabs && (
                 <TabNav

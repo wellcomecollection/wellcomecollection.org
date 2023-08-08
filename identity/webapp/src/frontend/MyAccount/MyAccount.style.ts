@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
+import { font } from '@weco/common/utils/classnames';
 
 export const ProgressBar = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -59,7 +60,7 @@ export const ItemPickup = styled.span`
 export const ModalTitle = styled(Space).attrs({
   as: 'h2',
   h: { size: 'l', properties: ['margin-bottom'] },
-  className: 'h2',
+  className: font('wb', 3),
 })``;
 
 const colours = {

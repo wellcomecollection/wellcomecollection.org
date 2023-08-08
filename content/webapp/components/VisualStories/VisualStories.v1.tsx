@@ -13,7 +13,7 @@ export const V1Prototype = () => {
   return (
     <>
       <Layout12>
-        <h1 className="h0">Wellcome Collection visual story</h1>
+        <h1 className={font('wb', 1)}>Wellcome Collection visual story</h1>
       </Layout12>
       <Layout gridSizes={{ s: 12, m: 10, l: 8, xl: 8 }}>
         <p style={{ marginBottom: '1rem' }}>

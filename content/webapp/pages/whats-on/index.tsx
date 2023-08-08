@@ -559,7 +559,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                       justifyContent: 'space-between',
                     }}
                   >
-                    <h2 className="h1">Exhibitions and Events</h2>
+                    <h2 className={font('wb', 2)}>Exhibitions and Events</h2>
                     <span className={font('intb', 4)}>Free admission</span>
                   </div>
                 </Layout12>

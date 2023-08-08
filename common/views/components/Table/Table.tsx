@@ -314,7 +314,7 @@ const Table: FunctionComponent<Props> = ({
   return (
     <>
       {caption && (
-        <h2 className="h2" aria-hidden="true">
+        <h2 className={font('wb', 3)} aria-hidden="true">
           {caption}
         </h2>
       )}

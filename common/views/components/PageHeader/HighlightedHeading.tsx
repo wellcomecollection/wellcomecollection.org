@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
+import { font } from '@weco/common/utils/classnames';
 
 const Heading = styled(Space)`
   display: block;
@@ -19,7 +20,7 @@ type Props = {
 
 const HighlightedHeading: FunctionComponent<Props> = ({ text }: Props) => {
   return (
-    <h1 className="h1">
+    <h1 className={font('wb', 2)}>
       <Heading
         v={{
           size: 's',

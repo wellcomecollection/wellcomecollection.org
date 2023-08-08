@@ -33,7 +33,7 @@ const InfoIconWrapper = styled(Space).attrs({
 const InfoBox: FunctionComponent<Props> = ({ title, items, children }) => {
   return (
     <>
-      <h2 className="h2">{title}</h2>
+      <h2 className={font('wb', 3)}>{title}</h2>
       <InfoContainer>
         {items.map(({ title, description, icon }, i) => (
           <div key={i}>
