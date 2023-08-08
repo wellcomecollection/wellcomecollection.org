@@ -437,14 +437,6 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
             titlePrefix="About your"
           />
         )}
-        {event.audiences.map(audience =>
-          audience.description ? (
-            <div className="body-text" key={audience.title}>
-              <h2>For {audience.title}</h2>
-              <PrismicHtmlBlock html={audience.description} />
-            </div>
-          ) : null
-        )}
       </ContentPage>
     </PageLayout>
   );
