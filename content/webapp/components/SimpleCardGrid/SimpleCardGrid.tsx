@@ -1,4 +1,4 @@
-import { cssGrid } from '@weco/common/utils/classnames';
+import { cssGrid, font } from '@weco/common/utils/classnames';
 import { Card as CardType } from '../../types/card';
 import Card from '../Card/Card';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -55,9 +55,9 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
         background="neutral.700"
         textColor="white"
       >
-        {item.title && <h2 className="font-wb font-size-2">{item.title}</h2>}
+        {item.title && <h2 className={font('wb', 2)}>{item.title}</h2>}
         {item.description && (
-          <p className="font-intr font-size-5">{item.description}</p>
+          <p className={font('intr', 5)}>{item.description}</p>
         )}
       </FeaturedCard>
     </Layout12>
