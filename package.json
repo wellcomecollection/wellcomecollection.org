@@ -8,7 +8,7 @@
     "cardigan": "yarn workspace @weco/cardigan run dev",
     "catalogue": "yarn workspace @weco/catalogue run dev",
     "content": "yarn workspace @weco/content run dev",
-    "build-webapps": "echo '@weco/catalogue @weco/content @weco/identity' | xargs -n 1 | xargs -I% yarn workspace % run build",
+    "build-webapps": "echo '@weco/content @weco/identity' | xargs -n 1 | xargs -I% yarn workspace % run build",
     "clean": "rimraf --glob **/.next **/.server-data",
     "clean-deps": "rimraf --glob **/node_modules",
     "test:common": "echo \"⭕️ Running common tests...\" && cd common && NODE_ENV=test jest --no-cache && echo \"✅️ common tests finished\"",
