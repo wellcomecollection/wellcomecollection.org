@@ -7,7 +7,6 @@ import title from './title';
 import link, { documentLink, mediaLink, webLink } from './link';
 import text from './keyword';
 import embed from './embed';
-import mediaObject from './media-object';
 import heading from './heading';
 import booleanDeprecated from './boolean-deprecated';
 import { textAndIconsSlice } from './textAndIcons';
@@ -176,11 +175,6 @@ export default {
         nonRepeat: {
           title,
           query: text('Query'),
-        },
-      }),
-      mediaObjectList: slice('Media Object List', {
-        repeat: {
-          ...mediaObject,
         },
       }),
       textAndIcons: textAndIconsSlice(),
