@@ -25,7 +25,6 @@ import GifVideo from '../GifVideo/GifVideo';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
-import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -586,14 +585,6 @@ const Body: FunctionComponent<Props> = ({
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <TagsGroup {...slice.value} />
-                  </LayoutWidth>
-                </SpacingComponent>
-              )}
-              {/* deprecated */}
-              {slice.type === 'deprecatedImageList' && (
-                <SpacingComponent sliceType={slice.type}>
-                  <LayoutWidth width={minWidth}>
-                    <DeprecatedImageList {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}

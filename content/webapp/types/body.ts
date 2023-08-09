@@ -4,7 +4,6 @@ import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock
 import { Props as AsyncSearchResultsProps } from '../components/SearchResults/AsyncSearchResults';
 import { Props as QuoteProps } from '../components/Quote/Quote';
 import { Props as ImageGalleryProps } from '../components/ImageGallery/ImageGallery';
-import { Props as DeprecatedImageListProps } from '../components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '../components/TitledTextList/TitledTextList';
 import { Props as TagsGroupProps } from '@weco/common/views/components/TagsGroup/TagsGroup';
@@ -90,7 +89,6 @@ export type BodySlice =
   | Slice<'contact', ContactProps>
   | Slice<'picture', CaptionedImage>
   | Slice<'imageGallery', ImageGalleryProps>
-  | Slice<'deprecatedImageList', DeprecatedImageListProps>
   | Slice<'gifVideo', GifVideoProps>
   | Slice<'titledTextList', TitledTextListProps>
   | Slice<'discussion', DiscussionProps>

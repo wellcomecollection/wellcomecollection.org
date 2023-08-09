@@ -151,19 +151,6 @@ export const graphQuery = `{
           linkText
         }
       }
-      ...on imageList {
-        non-repeat {
-          listStyle
-          description
-        }
-        repeat {
-          title
-          subtitle
-          image
-          caption
-          description
-        }
-      }
     }
     contributors {
       ...contributorsFields
