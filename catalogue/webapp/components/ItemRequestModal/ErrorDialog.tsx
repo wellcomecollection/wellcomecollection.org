@@ -3,6 +3,7 @@ import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { CTAs, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
+import { font } from '@weco/common/utils/classnames';
 
 type ErrorDialogProps = {
   setIsActive: (value: boolean) => void;
@@ -15,7 +16,7 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({
 }) => (
   <>
     <Header>
-      <span className="h2">Request failed</span>
+      <span className={font('wb', 3)}>Request failed</span>
     </Header>
     <p style={{ marginBottom: 0 }}>
       {errorMessage || defaultRequestErrorMessage}

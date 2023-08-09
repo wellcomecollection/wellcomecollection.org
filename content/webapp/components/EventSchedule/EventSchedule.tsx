@@ -7,6 +7,7 @@ import EventScheduleItem from './EventScheduleItem';
 import { EventsGroup, groupEventsByDay } from '../../services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
 import { isPast } from '@weco/common/utils/dates';
+import { font } from '@weco/common/utils/classnames';
 
 const EventScheduleList: FunctionComponent<{
   groupedEvents: EventsGroup<EventType>[];
@@ -21,7 +22,7 @@ const EventScheduleList: FunctionComponent<{
               <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
                 as="h3"
-                className="h3"
+                className={font('wb', 4)}
               >
                 {eventsGroup.label}
               </Space>
@@ -70,7 +71,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
     <>
       {futureEvents.length > 0 && (
         <>
-          <h2 className="h2">Events</h2>
+          <h2 className={font('wb', 3)}>Events</h2>
           <EventScheduleList
             groupedEvents={futureEvents}
             isNotLinkedIds={isNotLinkedIds}
@@ -79,7 +80,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
       )}
       {pastEvents.length > 0 && (
         <>
-          <h2 className="h2">Past events</h2>
+          <h2 className={font('wb', 3)}>Past events</h2>
           <EventScheduleList
             groupedEvents={pastEvents}
             isNotLinkedIds={isNotLinkedIds}

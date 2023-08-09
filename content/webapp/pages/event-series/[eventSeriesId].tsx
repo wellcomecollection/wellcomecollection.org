@@ -30,6 +30,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { getUpcomingEvents } from '@weco/content/utils/event-series';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   series: EventSeries;
@@ -159,7 +160,7 @@ const EventSeriesPage: FunctionComponent<Props> = ({
         {upcomingEvents.length > 0 ? (
           <SearchResults items={upcomingEvents} title="Coming up" />
         ) : (
-          <h2 className="h2">No upcoming events</h2>
+          <h2 className={font('wb', 3)}>No upcoming events</h2>
         )}
 
         {pastEvents.length > 0 && (

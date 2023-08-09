@@ -204,7 +204,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         <Space
           as="h2"
           h={{ size: 'm', properties: ['padding-right'] }}
-          className="h2"
+          className={font('wb', 3)}
         >
           {isFeatured ? venue.name : 'Opening hours'}
         </Space>

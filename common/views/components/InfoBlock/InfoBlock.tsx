@@ -1,11 +1,12 @@
+import { FunctionComponent, ReactElement } from 'react';
+import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import { dasherize } from '@weco/common/utils/grammar';
-import { FunctionComponent, ReactElement } from 'react';
-import styled from 'styled-components';
 import * as prismic from '@prismicio/client';
 import { themeValues } from '@weco/common/views/themes/config';
+import { font } from '@weco/common/utils/classnames';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -28,7 +29,7 @@ const InfoBlock: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   return (
     <Wrapper>
-      <h2 id={dasherize(title)} className="h2">
+      <h2 id={dasherize(title)} className={font('wb', 3)}>
         {title}
       </h2>
       <div className="spaced-text body-text">

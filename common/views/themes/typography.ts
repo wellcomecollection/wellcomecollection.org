@@ -129,26 +129,6 @@ export const typography = css<GlobalStyleProps>`
     -o-font-smoothing: antialiased;
   }
 
-  .h0 {
-    ${fontFamilyMixin('wb', true)}
-    ${fontSizeMixin(1)}
-  }
-
-  .h1 {
-    ${fontFamilyMixin('wb', true)}
-    ${fontSizeMixin(2)}
-  }
-
-  .h2 {
-    ${fontFamilyMixin('wb', true)}
-    ${fontSizeMixin(3)}
-  }
-
-  .h3 {
-    ${fontFamilyMixin('wb', true)}
-    ${fontSizeMixin(4)}
-  }
-
   h1,
   h2,
   h3,

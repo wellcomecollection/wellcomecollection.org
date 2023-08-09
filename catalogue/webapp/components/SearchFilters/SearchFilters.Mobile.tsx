@@ -27,6 +27,7 @@ import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PaletteColorPicker from '@weco/catalogue/components/PaletteColorPicker';
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
+import { font } from '@weco/common/utils/classnames';
 
 const SearchFiltersContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -234,7 +235,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
       >
         <FiltersScrollable>
           <FiltersHeader>
-            <h2 className="h2">Filters</h2>
+            <h2 className={font('wb', 3)}>Filters</h2>
           </FiltersHeader>
 
           <FiltersBody>
@@ -255,7 +256,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
                 // as we now sometimes get "Warning: Encountered two children with the same key" console errors
                 <FilterSection key={`${f.id}-${i}`}>
-                  <h3 className="h3">
+                  <h3 className={font('wb', 4)}>
                     {f.type === 'color' ? 'Colours' : f.label}
                   </h3>
                   {f.type === 'checkbox' && (

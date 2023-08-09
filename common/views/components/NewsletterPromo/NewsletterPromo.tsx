@@ -160,7 +160,7 @@ const NewsletterPromo: FunctionComponent = () => {
               <BoxInner>
                 <CopyWrap>
                   <h2
-                    className="h2"
+                    className={font('wb', 3)}
                     style={{ marginBottom: !isSuccess ? 0 : undefined }}
                   >
                     {isSuccess ? 'Thank you for signing up!' : headingText}

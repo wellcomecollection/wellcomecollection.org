@@ -18,6 +18,7 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import { LinkProps } from '@weco/common/model/link-props';
 import { DateRangeFilter } from '../SearchFilters';
 import PaletteColorPicker from '../PaletteColorPicker';
+import { font } from '@weco/common/utils/classnames';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -166,7 +167,9 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
           // as we now sometimes get "Warning: Encountered two children with the same key" console errors
           <FilterSection key={`${f.id}-${i}`}>
-            <h3 className="h3">{f.type === 'color' ? 'Colours' : f.label}</h3>
+            <h3 className={font('wb', 4)}>
+              {f.type === 'color' ? 'Colours' : f.label}
+            </h3>
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <PlainList as="div">
                 <section aria-label={f.label}>
@@ -237,7 +240,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         modalStyle="filters"
       >
         <FiltersHeader>
-          <h3 className="h3">All filters</h3>
+          <h3 className={font('wb', 4)}>All filters</h3>
         </FiltersHeader>
 
         <ModalInner>

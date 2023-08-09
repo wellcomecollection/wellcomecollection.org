@@ -36,7 +36,7 @@ const SectionWrapper = styled.div`
   margin: 1rem 0;
 `;
 
-const SectionTitle = styled.h2.attrs({ className: 'h2' })`
+const SectionTitle = styled.h2.attrs({ className: font('wb', 3) })`
   padding: 2rem 0 0;
 `;
 

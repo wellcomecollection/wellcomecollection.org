@@ -121,7 +121,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   return (
     <Request onSubmit={handleConfirmRequest}>
       <Header>
-        <span className="h2">Request item</span>
+        <span className={font('wb', 3)}>Request item</span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}
