@@ -152,43 +152,6 @@ export default {
           linkText: keyword('Link text'),
         },
       }),
-      imageList: {
-        type: 'Slice',
-        fieldset:
-          '[Deprecated] Image list (please use captioned image or image gallery)',
-        'non-repeat': {
-          listStyle: {
-            type: 'Select',
-            config: {
-              options: ['numeric'],
-              label: 'List style',
-            },
-          },
-          description: multiLineText('Description', {
-            overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
-          }),
-        },
-        repeat: {
-          title: singleLineText('Title', {
-            overrideTextOptions: ['heading1'],
-          }),
-          subtitle: singleLineText('Subtitle', {
-            overrideTextOptions: ['heading2'],
-          }),
-          image: {
-            type: 'Image',
-            config: {
-              label: 'Image',
-            },
-          },
-          caption: singleLineText('Caption', {
-            overrideTextOptions: ['strong', 'em', 'hyperlink'],
-          }),
-          description: multiLineText('Description', {
-            overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
-          }),
-        },
-      },
       audioPlayer: slice('Audio Player', {
         nonRepeat: {
           title,
