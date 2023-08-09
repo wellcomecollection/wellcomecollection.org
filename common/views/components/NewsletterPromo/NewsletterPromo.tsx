@@ -105,7 +105,7 @@ const NewsletterPromo: FunctionComponent = () => {
 
   const headingText = 'Stay in the know';
   const bodyText =
-    'Find out what’s on, read our latest stories and get involved.';
+    'Sign up to our newsletter to find out what’s on, read our latest stories and get involved.';
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -166,7 +166,10 @@ const NewsletterPromo: FunctionComponent = () => {
                     {isSuccess ? 'Thank you for signing up!' : headingText}
                   </h2>
                   {!isSuccess && (
-                    <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+                    <p
+                      className={font('intr', 5)}
+                      style={{ marginBottom: 0, maxWidth: '500px' }}
+                    >
                       {bodyText}
                     </p>
                   )}
