@@ -31,7 +31,6 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
-import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import TitledTextList from '../TitledTextList/TitledTextList';
 import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
@@ -586,13 +585,6 @@ const Body: FunctionComponent<Props> = ({
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <TagsGroup {...slice.value} />
-                  </LayoutWidth>
-                </SpacingComponent>
-              )}
-              {slice.type === 'mediaObjectList' && (
-                <SpacingComponent sliceType={slice.type}>
-                  <LayoutWidth width={minWidth}>
-                    <MediaObjectList {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
