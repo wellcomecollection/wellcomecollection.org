@@ -105,7 +105,7 @@ type Props = {
   apiToolbarLinks: ApiToolbarLink[];
   pageview: Pageview;
   serverSearchResults: SearchResults | null;
-  parentManifest: Manifest | undefined;
+  parentManifest?: Manifest;
 };
 
 const ItemPage: NextPage<Props> = ({

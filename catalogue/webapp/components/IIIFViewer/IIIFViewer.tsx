@@ -24,7 +24,6 @@ import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { fetchJson } from '@weco/common/utils/http';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
@@ -40,6 +39,7 @@ type IIIFViewerProps = {
   handleImageError?: () => void;
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
+  parentManifest?: Manifest;
 };
 
 const LoadingComponent = () => (
