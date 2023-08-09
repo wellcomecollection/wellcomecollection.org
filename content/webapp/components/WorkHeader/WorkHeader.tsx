@@ -1,5 +1,5 @@
 import { FunctionComponent, useContext } from 'react';
-import { WorkBasic } from '@weco/content/rvices/wellcome/catalogue/types';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { font, grid } from '@weco/common/utils/classnames';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';

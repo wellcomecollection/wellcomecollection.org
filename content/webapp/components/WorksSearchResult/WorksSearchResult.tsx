@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 // Types
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { WorkBasic } from '@weco/content/rvices/wellcome/catalogue/types';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 
 // Helpers/Utils
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';

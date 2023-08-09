@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
-import { WorkBasic } from '@weco/content/rvices/wellcome/catalogue/types';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 type Props = {

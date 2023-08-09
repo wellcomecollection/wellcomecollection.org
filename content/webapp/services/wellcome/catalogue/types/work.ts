@@ -3,7 +3,7 @@ import {
   getArchiveLabels,
   getCardLabels,
   getProductionDates,
-} from '@weco/content/ils/works';
+} from '@weco/content/utils/works';
 import { Work } from '.';
 import { Label } from '@weco/common/model/labels';
 import { DigitalLocation } from '@weco/common/model/catalogue';

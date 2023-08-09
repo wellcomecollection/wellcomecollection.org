@@ -34,7 +34,7 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import {
   Work,
   toWorkBasic,
-} from '@weco/content/rvices/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';

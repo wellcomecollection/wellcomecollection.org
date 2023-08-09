@@ -6,8 +6,8 @@ import {
   Image,
   WorkBasic,
   toWorkBasic,
-} from '@weco/content/rvices/wellcome/catalogue/types';
-import CataloguePageLayout from '@weco/content/mponents/CataloguePageLayout/CataloguePageLayout';
+} from '@weco/content/services/wellcome/catalogue/types';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
