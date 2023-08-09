@@ -9,6 +9,7 @@ import {
   WorkBasic,
   toWorkBasic,
 } from '@weco/catalogue/services/wellcome/catalogue/types';
+import { Manifest } from '@iiif/presentation-3';
 import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { getWork } from '@weco/catalogue/services/wellcome/catalogue/works';
@@ -56,6 +57,7 @@ import {
   toCompressedTransformedManifest,
 } from '@weco/catalogue/types/compressed-manifest';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
+import { fetchJson } from '@weco/common/utils/http';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -103,6 +105,7 @@ type Props = {
   apiToolbarLinks: ApiToolbarLink[];
   pageview: Pageview;
   serverSearchResults: SearchResults | null;
+  parentManifest: Manifest | undefined;
 };
 
 const ItemPage: NextPage<Props> = ({
@@ -114,6 +117,7 @@ const ItemPage: NextPage<Props> = ({
   apiToolbarLinks,
   canvas,
   serverSearchResults,
+  parentManifest,
 }) => {
   const transformedManifest =
     compressedTransformedManifest &&
@@ -350,10 +354,20 @@ const ItemPage: NextPage<Props> = ({
             }}
             searchResults={searchResults}
             setSearchResults={setSearchResults}
+            parentManifest={parentManifest}
           />
         )}
     </CataloguePageLayout>
   );
+};
+
+async function getParentManifest(parentManifestUrl) {
+  try {
+    return parentManifestUrl &&
+        (await fetchJson(parentManifestUrl as string));
+    } catch (error) {
+      return undefined;
+    }
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -442,7 +456,10 @@ export const getServerSideProps: GetServerSideProps<
       queryParamToArrayIndex(manifest)
     );
 
-    const { canvases } = displayManifest;
+    const { canvases, parentManifestUrl } = displayManifest;
+
+    const parentManifest = await getParentManifest(parentManifestUrl);
+
     const currentCanvas = canvases[queryParamToArrayIndex(canvas)];
     const canvasOcrText = await fetchCanvasOcr(currentCanvas);
     const canvasOcr = transformCanvasOcr(canvasOcrText);
@@ -478,6 +495,7 @@ export const getServerSideProps: GetServerSideProps<
         pageview,
         serverData,
         serverSearchResults,
+        parentManifest,
       }),
     };
   }
