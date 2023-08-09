@@ -1,7 +1,7 @@
 import { ReactElement, FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
-import { Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
+import { Video } from '@weco/content/services/iiif/types/manifest/v3';
 
 type Props = {
   media: Video;

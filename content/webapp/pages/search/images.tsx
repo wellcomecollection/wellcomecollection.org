@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import Head from 'next/head';
 
-import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';

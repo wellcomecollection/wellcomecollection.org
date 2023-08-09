@@ -28,8 +28,8 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import { useToggles } from '@weco/common/server-data/Context';
-import useTransformedManifest from '@weco/catalogue/hooks/useTransformedManifest';
-import { Audio, Video } from '@weco/catalogue/services/iiif/types/manifest/v3';
+import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
+import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 

@@ -9,7 +9,7 @@ import Sort from '@weco/content/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import Space from '@weco/common/views/components/styled/Space';
-import SearchFilters from '@weco/content/components/SearchFilters';
+import SearchFilters from '@weco/content/mponents/SearchFilters';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 // Utils & Helpers

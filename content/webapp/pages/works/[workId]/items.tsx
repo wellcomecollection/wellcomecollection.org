@@ -40,11 +40,11 @@ import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
-import { TransformedManifest } from '@weco/content/types/manifest';
-import WorkHeader from '@weco/content/components/WorkHeader/WorkHeader';
-import WorkTabbedNav from '@weco/content/components/WorkTabbedNav/WorkTabbedNav';
+import { TransformedManifest } from '@weco/content/pes/manifest';
+import WorkHeader from '@weco/content/mponents/WorkHeader/WorkHeader';
+import WorkTabbedNav from '@weco/content/mponents/WorkTabbedNav/WorkTabbedNav';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { Grid } from '@weco/content/components/Work/Work';
+import { Grid } from '@weco/content/mponents/Work/Work';
 import { useToggles } from '@weco/common/server-data/Context';
 import {
   ApiToolbarLink,

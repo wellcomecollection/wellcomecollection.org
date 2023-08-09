@@ -6,7 +6,7 @@ import { Thumbnails } from '@weco/content/components/IIIFViewer/Thumbnails';
 import {
   CanvasPaginator,
   ThumbnailsPaginator,
-} from '@weco/content/components/IIIFViewer/Paginators';
+} from '@weco/content/mponents/IIIFViewer/Paginators';
 import LL from '@weco/common/views/components/styled/LL';
 import { DelayVisibility, queryParamToArrayIndex } from '.';
 import { imageSizes } from '@weco/common/utils/image-sizes';

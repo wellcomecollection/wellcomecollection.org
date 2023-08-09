@@ -19,7 +19,7 @@ import {
   fromQuery,
   toLink,
   WorksProps as WorksRouteProps,
-} from '@weco/content/components/WorksLink';
+} from '@weco/content/mponents/WorksLink';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 // Utils & Helpers
@@ -27,12 +27,12 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
-import { worksFilters } from '@weco/content/services/wellcome/catalogue/filters';
+import { getWorks } from '@weco/content/rvices/wellcome/catalogue/works';
+import { worksFilters } from '@weco/content/rvices/wellcome/catalogue/filters';
 import {
   emptyResultList,
   WellcomeResultList,
-} from '@weco/content/services/wellcome';
+} from '@weco/content/rvices/wellcome';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
@@ -45,8 +45,8 @@ import {
   toWorkBasic,
   WorkAggregations,
   WorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
-import { Query } from '@weco/content/types/search';
+} from '@weco/content/rvices/wellcome/catalogue/types';
+import { Query } from '@weco/content/pes/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 
 type Props = {

@@ -6,8 +6,8 @@ import {
   Image,
   WorkBasic,
   toWorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
+} from '@weco/content/rvices/wellcome/catalogue/types';
+import CataloguePageLayout from '@weco/content/mponents/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -24,7 +24,7 @@ import {
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
-import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
+import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
