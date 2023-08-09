@@ -8,7 +8,6 @@ import {
   Iframe as IframeSlice,
   InfoBlock as InfoBlockSlice,
   Map as MapSlice,
-  MediaObjectList as MediaObjectListSlice,
   Quote as QuoteSlice,
   QuoteV2 as QuoteV2Slice,
   SearchResults as SearchResultsSlice,
@@ -118,29 +117,6 @@ function transformMapSlice(slice: MapSlice): BodySlice {
       title: asText(slice.primary.title) || '',
       latitude: slice.primary.geolocation.latitude,
       longitude: slice.primary.geolocation.longitude,
-    },
-  };
-}
-
-function transformMediaObjectListSlice(slice: MediaObjectListSlice): BodySlice {
-  return {
-    type: 'mediaObjectList',
-    value: {
-      items: slice.items
-        .map(mediaObject => {
-          if (mediaObject) {
-            return {
-              title: asTitle(mediaObject.title),
-              text: mediaObject.text.length
-                ? asRichText(mediaObject.text)
-                : undefined,
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              image: transformImage(mediaObject.image)!,
-            };
-          }
-          return undefined;
-        })
-        .filter(isNotUndefined),
     },
   };
 }
@@ -526,9 +502,6 @@ export function transformBody(body: Body): BodySlice[] {
         // Deprecated
         case 'imageList':
           return transformDeprecatedImageListSlice(slice);
-
-        case 'mediaObjectList':
-          return transformMediaObjectListSlice(slice);
 
         default:
           return undefined;

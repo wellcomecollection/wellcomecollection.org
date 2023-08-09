@@ -11,7 +11,6 @@ import { Props as TagsGroupProps } from '@weco/common/views/components/TagsGroup
 import { Props as MapProps } from '../components/Map/Map';
 import { Props as DiscussionProps } from '../components/Discussion/Discussion';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import { Props as MediaObjectListProps } from '../components/MediaObjectList/MediaObjectList';
 import {
   TextAndIconsItem,
   TextAndImageItem,
@@ -88,7 +87,6 @@ export type BodySlice =
   | Slice<'textAndIcons', TextAndIconsItem>
   | Slice<'text', prismic.RichTextField>
   | Slice<'map', MapProps>
-  | Slice<'mediaObjectList', MediaObjectListProps>
   | Slice<'contact', ContactProps>
   | Slice<'picture', CaptionedImage>
   | Slice<'imageGallery', ImageGalleryProps>
