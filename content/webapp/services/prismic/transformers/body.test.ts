@@ -1,4 +1,4 @@
-import { Embed, MediaObjectList as MediaObjectListSlice } from '../types/body';
+import { Embed } from '../types/body';
 import * as prismic from '@prismicio/client';
 import { transformBody } from './body';
 
@@ -10,45 +10,6 @@ export const sameAs = [
     title: [{ type: 'heading1', text: 'This is it!', spans: [] }],
   },
 ];
-
-describe('media object list slices', () => {
-  const missingImageTextSlice: MediaObjectListSlice = {
-    items: [
-      {
-        title: [
-          {
-            type: prismic.RichTextNodeType.oListItem,
-            text: 'Only book for your household or bubble',
-            spans: [],
-          },
-        ],
-        text: [],
-        image: null,
-      },
-    ],
-    slice_type: 'mediaObjectList',
-    slice_label: null,
-    primary: {},
-  };
-
-  it('returns data structure if missing image and title content', () => {
-    const mediaObjectList = transformBody([missingImageTextSlice]);
-    expect(mediaObjectList).toEqual([
-      {
-        type: 'mediaObjectList',
-        value: {
-          items: [
-            {
-              title: 'Only book for your household or bubble',
-              text: undefined,
-              image: undefined,
-            },
-          ],
-        },
-      },
-    ]);
-  });
-});
 
 describe('transformBody', () => {
   it("creates a no-cookie YouTube embed when there's an existing query parameter", () => {
