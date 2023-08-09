@@ -53,6 +53,7 @@ export const Thumbnails = () => {
                 props: {
                   canvas: canvasParam,
                   page: query.page,
+                  manifest: query.manifest,
                   query: query.query,
                 },
                 source: 'viewer/paginator',

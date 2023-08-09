@@ -95,6 +95,7 @@ export const CanvasPaginator = () => {
     props: {
       canvas: query.canvas,
       page: query.page,
+      manifest: query.manifest,
       query: query.query,
     },
     source: 'viewer/paginator',
@@ -170,6 +171,7 @@ export const ThumbnailsPaginator = () => {
     props: {
       canvas: query.canvas,
       page: query.page,
+      manifest: query.manifest,
       query: query.query,
     },
     source: 'viewer/paginator',
