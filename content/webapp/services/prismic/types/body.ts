@@ -186,17 +186,6 @@ export type SearchResults = prismic.Slice<
   { title: prismic.RichTextField; query: prismic.KeyTextField }
 >;
 
-export type DeprecatedImageList = prismic.Slice<
-  'imageList',
-  Record<string, never>,
-  {
-    title: prismic.RichTextField;
-    subtitle: prismic.RichTextField;
-    description: prismic.RichTextField;
-    image: Image;
-  }
->;
-
 export type MediaObjectList = prismic.Slice<
   'mediaObjectList',
   Record<string, never>,
@@ -222,8 +211,7 @@ export type SliceTypes =
   | TitledTextList
   | ContentList
   | SearchResults
-  | MediaObjectList
-  | DeprecatedImageList;
+  | MediaObjectList;
 
 export type Body = prismic.SliceZone<SliceTypes>;
 

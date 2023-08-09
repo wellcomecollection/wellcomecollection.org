@@ -15,7 +15,6 @@ import {
   Standfirst as StandfirstSlice,
   TagList as TagListSlice,
   TextSlice,
-  DeprecatedImageList as DeprecatedImageListSlice,
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
   Discussion as DiscussionSlice,
@@ -185,29 +184,6 @@ function transformEditorialImageGallerySlice(
       items: slice.items.map(item => transformCaptionedImage(item)),
       isStandalone: getWeight(slice.slice_label) === 'standalone',
       isFrames: getWeight(slice.slice_label) === 'frames',
-    },
-  };
-}
-
-function transformDeprecatedImageListSlice(
-  slice: DeprecatedImageListSlice
-): BodySlice {
-  return {
-    type: 'deprecatedImageList',
-    weight: getWeight(slice.slice_label),
-    value: {
-      items: slice.items.map(item => ({
-        title: asTitle(item.title),
-        subtitle: asTitle(item.subtitle),
-        // TODO: It's questionable whether we should be assigning a 'caption'
-        // here or using a different transform function, but as this slice is
-        // deprecated I don't really care.  Hopefully we'll just delete this
-        // whole function soon.
-        //
-        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7680
-        image: transformCaptionedImage({ ...item, caption: [] }),
-        description: asRichText(item.description) || [],
-      })),
     },
   };
 }
@@ -522,10 +498,6 @@ export function transformBody(body: Body): BodySlice[] {
 
         case 'audioPlayer':
           return transformAudioPlayerSlice(slice);
-
-        // Deprecated
-        case 'imageList':
-          return transformDeprecatedImageListSlice(slice);
 
         case 'mediaObjectList':
           return transformMediaObjectListSlice(slice);
