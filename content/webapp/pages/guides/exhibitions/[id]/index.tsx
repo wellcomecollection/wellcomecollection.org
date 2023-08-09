@@ -1,8 +1,9 @@
+import { GetServerSideProps } from 'next';
+import { FunctionComponent } from 'react';
 import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
 } from '@weco/content/types/exhibition-guides';
-import { FunctionComponent } from 'react';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -24,11 +25,10 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import OtherExhibitionGuides from 'components/OtherExhibitionGuides/OtherExhibitionGuides';
-import ExhibitionGuideLinks from 'components/ExhibitionGuideLinks/ExhibitionGuideLinks';
+import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides/OtherExhibitionGuides';
+import ExhibitionGuideLinks from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 

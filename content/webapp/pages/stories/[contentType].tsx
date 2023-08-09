@@ -1,26 +1,26 @@
-import { SeriesBasic } from '@weco/content/types/series';
+import { GetServerSideProps } from 'next';
+import { FunctionComponent } from 'react';
 import Head from 'next/head';
+import * as prismic from '@prismicio/client';
+import { SeriesBasic } from '@weco/content/types/series';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { FunctionComponent } from 'react';
-import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { getPage } from '@weco/content/utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { fetchSeries } from 'services/prismic/fetch/series';
+import { fetchSeries } from '@weco/content/services/prismic/fetch/series';
 import {
   transformSeries,
   transformSeriesToSeriesBasic,
-} from 'services/prismic/transformers/series';
+} from '@weco/content/services/prismic/transformers/series';
 import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
-import * as prismic from '@prismicio/client';
 import { articleSeriesLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 
