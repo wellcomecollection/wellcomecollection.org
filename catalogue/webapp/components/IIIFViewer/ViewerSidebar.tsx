@@ -136,9 +136,17 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 }) => {
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
-  const [currentManifestLabel, setCurrentManifestLabel] = useState<
-    string | undefined
-  >();
+
+  const matchingManifest = parentManifest && getCollectionManifests(parentManifest).find(canvas => {
+    return !transformedManifest
+      ? false
+      : canvas.id === transformedManifest.id;
+  });
+
+  const manifestLabel =
+  matchingManifest?.label &&
+    getMultiVolumeLabel(matchingManifest.label, work?.title || '');
+
   const { iiifCredit, structures, searchService } = { ...transformedManifest };
 
   const digitalLocation: DigitalLocation | undefined =
@@ -150,28 +158,12 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
 
-  useEffect(() => {
-    const manifests = parentManifest
-      ? getCollectionManifests(parentManifest)
-      : [];
-    const matchingManifest = manifests.find(canvas => {
-      return !transformedManifest
-        ? false
-        : canvas.id === transformedManifest.id;
-    });
-
-    const manifestLabel =
-      matchingManifest?.label &&
-      getMultiVolumeLabel(matchingManifest.label, work?.title || '');
-    manifestLabel && setCurrentManifestLabel(manifestLabel);
-  }, [transformedManifest, parentManifest]);
-
   return (
     <>
       <Inner className={font('intb', 5)}>
-        {currentManifestLabel && (
+        {manifestLabel && (
           <span data-test-id="current-manifest" className={font('intr', 5)}>
-            {currentManifestLabel}
+            {manifestLabel}
           </span>
         )}
         <h1>

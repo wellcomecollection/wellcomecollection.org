@@ -24,7 +24,6 @@ import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { fetchJson } from '@weco/common/utils/http';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
@@ -40,6 +39,7 @@ type IIIFViewerProps = {
   handleImageError?: () => void;
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
+  parentManifest?: Manifest;
 };
 
 const LoadingComponent = () => (
@@ -213,6 +213,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   handleImageError,
   searchResults,
   setSearchResults,
+  parentManifest,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -223,7 +224,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     query = '',
   } = fromQuery(router.query);
   const [gridVisible, setGridVisible] = useState(false);
-  const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
   const { isFullSupportBrowser } = useContext(AppContext);
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
@@ -244,7 +244,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
   const hasIiifImage = imageUrl && iiifImageLocation;
   const hasImageService = Boolean(mainImageService['@id'] && currentCanvas);
-  const { parentManifestUrl } = { ...transformedManifest };
   const [showControls, setShowControls] = useState(
     Boolean(hasIiifImage && !hasImageService)
   );
@@ -280,18 +279,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     handleResize();
   }, [isDesktopSidebarActive]);
-
-  useEffect(() => {
-    const fetchParentManifest = async () => {
-      const parentManifest =
-        transformedManifest?.parentManifestUrl &&
-        (await fetchJson(parentManifestUrl as string));
-
-      parentManifest && setParentManifest(parentManifest);
-    };
-
-    fetchParentManifest();
-  }, []);
 
   return (
     <ItemViewerContext.Provider
