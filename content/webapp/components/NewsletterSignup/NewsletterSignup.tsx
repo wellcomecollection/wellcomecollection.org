@@ -1,32 +1,20 @@
 import { SyntheticEvent, useState, useEffect, FunctionComponent } from 'react';
+import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import styled from 'styled-components';
-import { secondaryAddressBooks } from '@weco/common/data/dotdigital';
-
-const ErrorBox = styled(Space).attrs({
-  v: {
-    size: 's',
-    properties: [
-      'padding-top',
-      'padding-bottom',
-      'margin-top',
-      'margin-bottom',
-    ],
-  },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})`
-  border: 1px solid ${props => props.theme.color('validation.red')};
-  color: ${props => props.theme.color('validation.red')};
-`;
+import {
+  newsletterAddressBook,
+  secondaryAddressBooks,
+} from '@weco/common/data/dotdigital';
 
 const PlainList = styled.ul`
   list-style: none;
   padding: 0;
+  margin-top: 0;
 `;
 
 type Props = {
@@ -41,9 +29,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
   isConfirmed,
 }: Props) => {
   const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
-  const [isCheckboxError, setIsCheckboxError] = useState(true);
   const [noValidate, setNoValidate] = useState(false);
-  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
   const [emailValue, setEmailValue] = useState('');
   const emailValidation = useValidation();
 
@@ -55,21 +41,16 @@ const NewsletterSignup: FunctionComponent<Props> = ({
       ? checkedInputs.concat(id)
       : checkedInputs.filter(c => c !== id);
     setCheckedInputs(newInputs);
-    setIsCheckboxError(newInputs.length === 0);
   }
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    setIsSubmitAttempted(true);
-
     emailValidation.setShowValidity(true);
 
     if (!emailValidation.isValid) return;
 
-    if (!isCheckboxError) {
-      event.currentTarget.submit();
-    }
+    event.currentTarget.submit();
   }
 
   useEffect(() => {
@@ -118,9 +99,18 @@ const NewsletterSignup: FunctionComponent<Props> = ({
       )}
 
       {!isConfirmed && !isSuccess && !isError && (
-        <div className="body-text">
-          <p className={font('intb', 3)}>Want to hear more from us?</p>
-        </div>
+        <Space
+          className="body-text"
+          v={{ size: 'm', properties: ['margin-bottom'] }}
+        >
+          <p className={font('intb', 3)} style={{ marginBottom: '1rem' }}>
+            Want to hear more from us?
+          </p>
+          <p>
+            Sign up to our newsletter to find out what’s on, read our latest
+            stories and get involved.
+          </p>
+        </Space>
       )}
 
       {!isConfirmed && !isSuccess && (
@@ -145,7 +135,14 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             value=""
           />
 
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          {/* Subscribes user to What's On/default newsletter */}
+          <input
+            type="hidden"
+            name="addressBookId"
+            value={newsletterAddressBook.id}
+          />
+
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <TextInput
               id="email"
               label="Your email address"
@@ -160,20 +157,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             />
           </Space>
 
-          <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-            <CheckboxRadio
-              id="whats_on"
-              type="checkbox"
-              text="I'd like to receive regular updates from Wellcome Collection"
-              value="addressbook_40131"
-              name="addressbook_40131"
-              checked={checkedInputs.includes('whats_on')}
-              onChange={updateCheckedInputs}
-            />
-          </Space>
-
           <Space v={{ size: 's', properties: ['margin-bottom'] }} as="fieldset">
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
               <legend className={font('intb', 4)}>
                 You might also be interested in receiving updates on:
               </legend>
@@ -189,8 +174,11 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                     id={addressBook.slug}
                     type="checkbox"
                     text={addressBook.label}
-                    value={`address_${addressBook.id}`}
-                    name={`address_${addressBook.id}`}
+                    // This might benefit from a review once in a while, it seems that the name
+                    // of the field has changed sometime between 2022 and 2023, which stopped new
+                    // subscriptions
+                    value={`addressbooK_${addressBook.id}`}
+                    name={`addressbooK_${addressBook.id}`}
                     checked={checkedInputs.includes(addressBook.slug)}
                     onChange={updateCheckedInputs}
                   />
@@ -206,24 +194,17 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             />
           </Space>
 
-          {isCheckboxError && isSubmitAttempted && (
-            <div role="status">
-              <ErrorBox as="p">Please select at least one option.</ErrorBox>
-            </div>
-          )}
-
           <p className={font('intr', 6)}>
-            We use a third-party provider,{' '}
-            <a href="https://dotdigital.com/terms/privacy-policy/">
-              dotdigital
+            By clicking subscribe, you agree to receive this newsletter. You can
+            unsubscribe any time. For information about how we handle your data,{' '}
+            <a
+              href="https://wellcome.org/who-we-are/privacy-and-terms"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              please read our privacy notice
             </a>
-            , to deliver our newsletters. For information about how we handle
-            your data, please read our{' '}
-            <a href="https://wellcome.org/who-we-are/privacy-and-terms">
-              privacy notice
-            </a>
-            . You can unsubscribe at any time using links in the emails you
-            receive.
+            .
           </p>
         </form>
       )}

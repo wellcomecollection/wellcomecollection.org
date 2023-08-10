@@ -105,7 +105,7 @@ const NewsletterPromo: FunctionComponent = () => {
 
   const headingText = 'Stay in the know';
   const bodyText =
-    'Find out what’s on, read our latest stories and get involved.';
+    'Sign up to our newsletter to find out what’s on, read our latest stories and get involved.';
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -166,7 +166,10 @@ const NewsletterPromo: FunctionComponent = () => {
                     {isSuccess ? 'Thank you for signing up!' : headingText}
                   </h2>
                   {!isSuccess && (
-                    <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+                    <p
+                      className={font('intr', 5)}
+                      style={{ marginBottom: 0, maxWidth: '500px' }}
+                    >
                       {bodyText}
                     </p>
                   )}
@@ -235,17 +238,17 @@ const NewsletterPromo: FunctionComponent = () => {
               style={{ flexBasis: '100%' }}
             >
               <p className={font('intr', 6)} style={{ maxWidth: '800px' }}>
-                We use a third party provider,{' '}
-                <a href="https://dotdigital.com/terms/privacy-policy/">
-                  dotdigital
+                By clicking subscribe, you agree to receive this newsletter. You
+                can unsubscribe any time. For information about how we handle
+                your data,{' '}
+                <a
+                  href="https://wellcome.org/who-we-are/privacy-and-terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  please read our privacy notice
                 </a>
-                , to deliver our newsletters. For information about how we
-                handle your data, please read our{' '}
-                <a href="https://wellcome.org/who-we-are/privacy-and-terms">
-                  privacy notice
-                </a>
-                . You can unsubscribe at any time using links in the emails you
-                receive.
+                .
               </p>
             </Space>
           </div>
