@@ -8,6 +8,7 @@ import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
 import { Season } from './seasons';
 import { ImagePromo } from './image-promo';
+import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
 import * as prismic from '@prismicio/client';
 
@@ -25,6 +26,7 @@ export type ExhibitionBasic = {
   id: string;
   title: string;
   promo?: ImagePromo;
+  image?: ImageType;
   format?: ExhibitionFormat;
   start: Date;
   end?: Date;
