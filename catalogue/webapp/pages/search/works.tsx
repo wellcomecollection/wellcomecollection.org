@@ -246,15 +246,17 @@ export const getServerSideProps: GetServerSideProps<
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
     return {
-      props: {
+      props: serialiseProps({
         ...defaultProps,
         works: emptyResultList(),
         pageview: {
           name: 'works',
-          properties: {},
+          properties: {
+            looksLikeSpam: 'true',
+          },
         },
         apiToolbarLinks: [],
-      },
+      }),
     };
   }
 

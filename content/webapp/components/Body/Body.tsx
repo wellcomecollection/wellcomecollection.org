@@ -25,14 +25,12 @@ import GifVideo from '../GifVideo/GifVideo';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
-import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
-import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import TitledTextList from '../TitledTextList/TitledTextList';
 import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
@@ -56,6 +54,7 @@ import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismic from '@prismicio/client';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import TextAndImageOrIcons from '../TextAndImageOrIcons/TextAndImageOrIcons';
 
 const BodyWrapper = styled.div<{ splitBackground: boolean }>`
   ${props =>
@@ -104,7 +103,7 @@ type Props = {
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
-  isShortFilm?: boolean;
+  contentType?: 'short-film' | 'visual-story';
 };
 
 type SectionTheme = {
@@ -143,7 +142,7 @@ const Body: FunctionComponent<Props> = ({
   sectionLevelPage = false,
   staticContent = null,
   comicPreviousNext,
-  isShortFilm = false,
+  contentType,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -232,7 +231,7 @@ const Body: FunctionComponent<Props> = ({
                     textColor={sectionTheme.featuredCardText}
                     isReversed={false}
                   >
-                    <h2 className="font-wb font-size-2">{firstItem.title}</h2>
+                    <h2 className={font('wb', 2)}>{firstItem.title}</h2>
                     {isCardType && firstItem.description && (
                       <p className={font('intr', 5)}>{firstItem.description}</p>
                     )}
@@ -300,9 +299,14 @@ const Body: FunctionComponent<Props> = ({
       return null;
     }
   };
+  const isShortFilm = contentType === 'short-film';
+  const isVisualStory = contentType === 'visual-story';
 
   return (
-    <BodyWrapper splitBackground={isShortFilm}>
+    <BodyWrapper
+      splitBackground={isShortFilm}
+      className={`content-type-${contentType}`}
+    >
       {filteredBody.length < 1 && (
         <AdditionalContent
           index={0}
@@ -347,7 +351,12 @@ const Body: FunctionComponent<Props> = ({
               {slice.type === 'text' && (
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
-                    <div className="body-text spaced-text">
+                    <div
+                      className={classNames({
+                        'body-text spaced-text': true,
+                        'first-text-slice': firstTextSliceIndex === i,
+                      })}
+                    >
                       {slice.weight !== 'featured' &&
                         (firstTextSliceIndex === i && isDropCapped ? (
                           <>
@@ -380,13 +389,29 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
 
+              {slice.type === 'textAndImage' && (
+                <SpacingComponent sliceType={slice.type}>
+                  <Layout8>
+                    <TextAndImageOrIcons item={slice.value} />
+                  </Layout8>
+                </SpacingComponent>
+              )}
+
+              {slice.type === 'textAndIcons' && (
+                <SpacingComponent sliceType={slice.type}>
+                  <Layout8>
+                    <TextAndImageOrIcons item={slice.value} />
+                  </Layout8>
+                </SpacingComponent>
+              )}
+
               {/* TODO: use one layout for all image weights if/when it's established
               that width isn't an adequate means to illustrate a difference */}
               {slice.type === 'picture' && slice.weight === 'default' && (
                 <SpacingComponent sliceType={slice.type}>
-                  <Layout10>
+                  <LayoutWidth width={isVisualStory ? 8 : 10}>
                     <CaptionedImage {...slice.value} />
-                  </Layout10>
+                  </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'picture' && slice.weight === 'standalone' && (
@@ -560,21 +585,6 @@ const Body: FunctionComponent<Props> = ({
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <TagsGroup {...slice.value} />
-                  </LayoutWidth>
-                </SpacingComponent>
-              )}
-              {/* deprecated */}
-              {slice.type === 'deprecatedImageList' && (
-                <SpacingComponent sliceType={slice.type}>
-                  <LayoutWidth width={minWidth}>
-                    <DeprecatedImageList {...slice.value} />
-                  </LayoutWidth>
-                </SpacingComponent>
-              )}
-              {slice.type === 'mediaObjectList' && (
-                <SpacingComponent sliceType={slice.type}>
-                  <LayoutWidth width={minWidth}>
-                    <MediaObjectList {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}

@@ -13,12 +13,13 @@ import {
   Item,
 } from '@weco/catalogue/components/IIIFViewer/ViewerStructures';
 
-const MultipleManifestListPrototype: FunctionComponent = () => {
+const MultipleManifestList: FunctionComponent = () => {
   const { parentManifest, work, query, setIsMobileSidebarActive } =
     useContext(ItemViewerContext);
   const manifests = parentManifest
     ? getCollectionManifests(parentManifest)
     : [];
+
   return (
     <nav>
       <List aria-label={volumesNavigationLabel}>
@@ -64,4 +65,4 @@ const MultipleManifestListPrototype: FunctionComponent = () => {
   );
 };
 
-export default MultipleManifestListPrototype;
+export default MultipleManifestList;

@@ -95,7 +95,7 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
 };
 
 const StoryPromoContainer = styled(Container)`
-${props =>
+  ${props =>
     props.theme.mediaBetween(
       'small',
       'medium'
@@ -282,7 +282,17 @@ export const getServerSideProps: GetServerSideProps<
   // The status code will also allow us to filter out spam-like requests from our analytics.
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
-    return { props: serialiseProps(defaultProps) };
+    return {
+      props: serialiseProps({
+        ...defaultProps,
+        pageview: {
+          name: 'search',
+          properties: {
+            looksLikeSpam: 'true',
+          },
+        },
+      }),
+    };
   }
 
   try {
@@ -342,12 +352,13 @@ export const getServerSideProps: GetServerSideProps<
         ...defaultProps,
         ...(stories && stories.pageResults?.length && { stories }),
         ...(images?.pageResults.length && { images }),
-        works: works
-          ? {
-            ...works,
-            pageResults: works.pageResults.map(toWorkBasic),
-          }
-          : {},
+        works:
+          works && works.pageResults.length
+            ? {
+                ...works,
+                pageResults: works.pageResults.map(toWorkBasic),
+              }
+            : undefined,
       }),
     };
   } catch (error) {

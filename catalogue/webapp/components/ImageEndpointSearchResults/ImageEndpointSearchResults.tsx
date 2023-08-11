@@ -20,7 +20,7 @@ import ImageCard from '../ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { getImage } from 'services/wellcome/catalogue/images';
+import { getImage } from '@weco/catalogue/services/wellcome/catalogue/images';
 import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {

@@ -14,7 +14,7 @@ export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
 // Used as a helper to return a typesafe empty results list
 export const emptyResultList = <
   Result,
-  Aggregations extends { type: 'Aggregations' } | null
+  Aggregations extends { type: 'Aggregations' } | null,
 >(): WellcomeResultList<Result, Aggregations> => ({
   type: 'ResultList',
   totalResults: 0,
@@ -28,7 +28,7 @@ export const emptyResultList = <
 
 export type WellcomeResultList<
   Result,
-  Aggregations extends { type: 'Aggregations' } | null
+  Aggregations extends { type: 'Aggregations' } | null,
 > = {
   type: 'ResultList';
   totalResults: number;
@@ -58,7 +58,7 @@ export type UnidentifiedBucketData = {
 export type WellcomeAggregation<
   BucketData extends
     | IdentifiedBucketData
-    | UnidentifiedBucketData = IdentifiedBucketData
+    | UnidentifiedBucketData = IdentifiedBucketData,
 > = {
   buckets: {
     count: number;

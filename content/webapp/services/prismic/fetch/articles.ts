@@ -151,19 +151,6 @@ export const graphQuery = `{
           linkText
         }
       }
-      ...on imageList {
-        non-repeat {
-          listStyle
-          description
-        }
-        repeat {
-          title
-          subtitle
-          image
-          caption
-          description
-        }
-      }
     }
     contributors {
       ...contributorsFields
@@ -207,84 +194,6 @@ export const graphQuery = `{
             }
           }
         }
-      }
-    }
-    outroResearchItem {
-      ... on events {
-        ...eventsFields
-      }
-      ... on exhibitions {
-        title
-      }
-      ... on books {
-        title
-      }
-      ... on articles {
-        title
-      }
-      ... on webcomics {
-        title
-      }
-      ... on series {
-        title
-      }
-      ... on event-series {
-        title
-      }
-      ... on pages {
-        title
-      }
-    }
-    outroReadItem {
-      ... on events {
-        ...eventsFields
-      }
-      ... on exhibitions {
-        title
-      }
-      ... on books {
-        title
-      }
-      ... on articles {
-        title
-      }
-      ... on webcomics {
-        title
-      }
-      ... on series {
-        title
-      }
-      ... on event-series {
-        title
-      }
-      ... on pages {
-        title
-      }
-    }
-    outroVisitItem {
-      ... on events {
-        ...eventsFields
-      }
-      ... on exhibitions {
-        title
-      }
-      ... on books {
-        title
-      }
-      ... on articles {
-        title
-      }
-      ... on webcomics {
-        title
-      }
-      ... on series {
-        title
-      }
-      ... on event-series {
-        title
-      }
-      ... on pages {
-        title
       }
     }
     promo {

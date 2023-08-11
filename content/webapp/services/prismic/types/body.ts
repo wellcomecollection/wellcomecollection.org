@@ -6,6 +6,21 @@ import { TeamPrismicDocument } from './teams';
 
 export type TextSlice = prismic.Slice<'text', { text: prismic.RichTextField }>;
 
+export type TextAndImageSlice = prismic.Slice<
+  'textAndImage',
+  {
+    text: prismic.RichTextField;
+    image: prismic.ImageField;
+    isZoomable: prismic.BooleanField;
+  }
+>;
+
+export type TextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  { text: prismic.RichTextField },
+  { icon: prismic.ImageField }
+>;
+
 export type EditorialImageSlice = prismic.Slice<
   'editorialImage',
   { image: Image; caption: prismic.RichTextField }
@@ -171,23 +186,6 @@ export type SearchResults = prismic.Slice<
   { title: prismic.RichTextField; query: prismic.KeyTextField }
 >;
 
-export type DeprecatedImageList = prismic.Slice<
-  'imageList',
-  Record<string, never>,
-  {
-    title: prismic.RichTextField;
-    subtitle: prismic.RichTextField;
-    description: prismic.RichTextField;
-    image: Image;
-  }
->;
-
-export type MediaObjectList = prismic.Slice<
-  'mediaObjectList',
-  Record<string, never>,
-  { title: prismic.RichTextField; text: prismic.RichTextField; image: Image }
->;
-
 export type SliceTypes =
   | TextSlice
   | EditorialImageSlice
@@ -206,9 +204,7 @@ export type SliceTypes =
   | InfoBlock
   | TitledTextList
   | ContentList
-  | SearchResults
-  | MediaObjectList
-  | DeprecatedImageList;
+  | SearchResults;
 
 export type Body = prismic.SliceZone<SliceTypes>;
 

@@ -19,20 +19,6 @@ const articles: CustomType = {
       format: documentLink('Format', { linkedType: 'article-formats' }),
       body: articleBody,
     },
-    Outro: {
-      outroResearchItem: link('Outro: Research item'),
-      outroResearchLinkText: singleLineText('Outro: Research link text', {
-        overrideTextOptions: ['paragraph'],
-      }),
-      outroReadItem: link('Outro: Read item'),
-      outroReadLinkText: singleLineText('Outro: Read link text', {
-        overrideTextOptions: ['paragraph'],
-      }),
-      outroVisitItem: link('Outro: Visit item'),
-      outroVisitLinkText: singleLineText('Outro: Visit link text', {
-        overrideTextOptions: ['paragraph'],
-      }),
-    },
     Contributors: contributorsWithTitle(),
     Promo: {
       promo,

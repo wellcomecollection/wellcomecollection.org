@@ -2,7 +2,6 @@ import { ColorSelection } from './color-selections';
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { Format } from './format';
 import { GenericContentFields } from './generic-content-fields';
-import { MultiContent } from './multi-content';
 import { Contributor } from './contributors';
 import { Season } from './seasons';
 import { Series, SeriesBasic } from './series';
@@ -33,12 +32,6 @@ export type Article = GenericContentFields & {
   series: Series[];
   seasons: Season[];
   color?: ColorSelection;
-  outroResearchLinkText?: string;
-  outroResearchItem?: MultiContent;
-  outroReadLinkText?: string;
-  outroReadItem?: MultiContent;
-  outroVisitLinkText?: string;
-  outroVisitItem?: MultiContent;
   contributors: Contributor[];
 };
 

@@ -26,7 +26,8 @@ const LoadingIndicatorWrapper = styled.div.attrs({
     right: 0;
     width: 100px;
     height: 100%;
-    box-shadow: 0 0 10px ${props => props.theme.color('yellow')},
+    box-shadow:
+      0 0 10px ${props => props.theme.color('yellow')},
       0 0 5px ${props => props.theme.color('yellow')};
     opacity: 1;
     transform: rotate(3deg) translate(0, -4px);

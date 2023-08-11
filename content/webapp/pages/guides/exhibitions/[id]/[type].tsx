@@ -34,6 +34,7 @@ import { getTypeColor } from '@weco/content/components/ExhibitionCaptions/Exhibi
 import useHotjar from '@weco/common/hooks/useHotjar';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { font } from '@weco/common/utils/classnames';
 
 const ButtonWrapper = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
@@ -209,9 +210,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       <Header backgroundColor={typeColor}>
         <Layout8 shift={false}>
           <>
-            <h1 className="h0">
+            <h1 className={font('wb', 1)}>
               {exhibitionGuide.title}{' '}
-              <div className="h1">{getTypeTitle(type)}</div>
+              <div className={font('wb', 2)}>{getTypeTitle(type)}</div>
             </h1>
 
             {exhibitionGuide.introText?.length > 0 ? (

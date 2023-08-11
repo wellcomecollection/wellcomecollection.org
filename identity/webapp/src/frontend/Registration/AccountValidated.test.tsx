@@ -86,19 +86,19 @@ describe('AccountValidated', () => {
     expect(screen.queryByTestId('new-sign-up')).toBeFalsy();
   });
 
-  it('shows a link to login on success', () => {
+  it('shows a link to login on success', async () => {
     renderPage('/validated?success=true&supportSignUp=true');
     const links = screen.getAllByRole('link');
     const link = links.find(lk => lk.textContent === 'Sign in');
     expect(link).toBeDefined();
-    expect(link).toHaveAttribute('href', '/account');
+    await expect(link).toHaveAttribute('href', '/account');
   });
 
-  it('shows a link to customer support on failure', () => {
+  it('shows a link to customer support on failure', async () => {
     renderPage('/validated?success=false');
     const link = screen.getByRole('link');
     expect(link).toHaveTextContent(/contact the library/i);
-    expect(link).toHaveAttribute(
+    await expect(link).toHaveAttribute(
       'href',
       'mailto:library@wellcomecollection.org'
     );

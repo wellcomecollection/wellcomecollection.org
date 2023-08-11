@@ -55,7 +55,7 @@ const TypeOption: FunctionComponent<Props> = ({
         v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       >
-        <h2 className="h2">{title}</h2>
+        <h2 className={font('wb', 3)}>{title}</h2>
         <p className={font('intr', 5)}>{text}</p>
         {icon && <Icon icon={icon} />}
       </Space>

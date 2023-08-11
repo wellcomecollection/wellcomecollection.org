@@ -346,7 +346,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
               <Icon icon={gallery} />
             </Space>
-            <h2 id={`gallery-${id}`} className="h2" ref={headingRef}>
+            <h2 id={`gallery-${id}`} className={font('wb', 3)} ref={headingRef}>
               {title || 'In pictures'}
             </h2>
           </GalleryTitle>

@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
 import { ImageType } from '@weco/common/model/image';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import * as prismic from '@prismicio/client';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { defaultSerializer } from '../HTMLSerializers/HTMLSerializers';
 
 const MediaAndTextWrap = styled.div`
   display: flex;
@@ -20,9 +20,7 @@ const MediaAndTextWrap = styled.div`
   `}
 `;
 
-const DividingLine = styled(Space).attrs({
-  v: { size: 'l', properties: ['margin-top', 'padding-top'] },
-})`
+const DividingLine = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.400')};
 
   &:first-child {
@@ -34,6 +32,8 @@ const DividingLine = styled(Space).attrs({
   .slice-type-text-and-image + .slice-type-text-and-image &,
   .slice-type-text-and-icons + .slice-type-text-and-icons & {
     border-top: 1px solid ${props => props.theme.color('neutral.400')};
+    ${props =>
+      props.theme.makeSpacePropertyValues('l', ['margin-top', 'padding-top'])};
   }
 `;
 
@@ -65,15 +65,21 @@ const Text = styled.div`
   `}
 `;
 
-type Item = {
+export type TextAndImageItem = {
   text: prismic.RichTextField;
-} & (
-  | { type: 'icons'; icons: ImageType[] }
-  | { type: 'image'; image: ImageType; isZoomable: boolean }
-);
+  type: 'image';
+  image: ImageType;
+  isZoomable: boolean;
+};
 
-type Props = {
-  item: Item;
+export type TextAndIconsItem = {
+  text: prismic.RichTextField;
+  type: 'icons';
+  icons: ImageType[];
+};
+
+export type Props = {
+  item: TextAndImageItem | TextAndIconsItem;
 };
 
 const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
@@ -93,7 +99,6 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
               })}
             </ImageOrIcons>
           )}
-
           {item.type === 'image' && item.image && (
             <ImageOrIcons isPortrait={item.image.width < item.image.height}>
               <CaptionedImage
@@ -104,9 +109,11 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
               />
             </ImageOrIcons>
           )}
-
           <Text>
-            <PrismicHtmlBlock html={item.text} />
+            <PrismicHtmlBlock
+              html={item.text}
+              htmlSerializer={defaultSerializer}
+            />
           </Text>
         </MediaAndTextWrap>
       </DividingLine>

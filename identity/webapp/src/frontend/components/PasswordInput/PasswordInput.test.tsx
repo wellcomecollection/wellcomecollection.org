@@ -47,26 +47,26 @@ describe('PasswordInput', () => {
       await userEvent.type(input, 'hunter2');
     });
 
-    expect(input).toHaveValue('hunter2');
+    await expect(input).toHaveValue('hunter2');
   });
 
   it('hides the password by default, and can reveal the characters', async () => {
     renderComponent();
     const input = screen.getByLabelText(/^password$/i);
-    expect(input).toHaveAttribute('type', 'password');
+    await expect(input).toHaveAttribute('type', 'password');
 
     await act(async () => {
       await userEvent.click(
         screen.getByRole('button', { name: /show password/i })
       );
     });
-    expect(input).toHaveAttribute('type', 'text');
+    await expect(input).toHaveAttribute('type', 'text');
 
     await act(async () => {
       await userEvent.click(
         screen.getByRole('button', { name: /hide password/i })
       );
     });
-    expect(input).toHaveAttribute('type', 'password');
+    await expect(input).toHaveAttribute('type', 'password');
   });
 });

@@ -95,7 +95,9 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   right: 0;
   position: fixed;
   overflow: auto;
-  transition: opacity 350ms ease, transform 350ms ease;
+  transition:
+    opacity 350ms ease,
+    transform 350ms ease;
   background-color: ${props => props.theme.color('white')};
   box-shadow: ${props => props.theme.basicBoxShadow};
 

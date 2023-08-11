@@ -35,33 +35,6 @@ import * as prismic from '@prismicio/client';
 import { noAltTextBecausePromo } from './images';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
-// TODO: Use better types than Record<string, any>.
-//
-// This was lifted directly from a JavaScript implementation when we converted the
-// codebase to TypeScript (previously it was `Object`), but I can't find any exhibition
-// pages where we actually define/use any resources (or at least not any picked up by
-// the previous implementation), so I couldn't test it.
-function transformResourceTypeList(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fragment: Record<string, any>[],
-  labelKey: string
-): Resource[] {
-  return fragment
-    .map(label => label[labelKey])
-    .filter(label => label && label.isBroken === false)
-    .map(label => transformResourceType(label.data));
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function transformResourceType(fragment: Record<string, any>): Resource {
-  return {
-    id: fragment.id,
-    title: asText(fragment.title),
-    description: fragment.description,
-    icon: fragment.icon,
-  };
-}
-
 function transformExhibitionFormat(
   format: ExhibitionFormatPrismicDocument
 ): ExhibitionFormat {
@@ -136,9 +109,6 @@ export function transformExhibition(
     place,
     exhibits,
     contributors,
-    resources: Array.isArray(data.resources)
-      ? transformResourceTypeList(data.resources, 'resource')
-      : [],
     relatedIds,
     seasons,
   };

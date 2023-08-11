@@ -12,7 +12,7 @@ import { grid, font } from '@weco/common/utils/classnames';
 import * as prismic from '@prismicio/client';
 
 const getBaseTitleClass = number => {
-  return `font-wb font-size-${number}`;
+  return font('wb', number);
 };
 
 const mockOnClick = jest.fn();

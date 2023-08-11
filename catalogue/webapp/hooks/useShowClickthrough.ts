@@ -18,7 +18,7 @@ const useShowClickthrough = (
         serviceOrigin &&
         `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
       ) {
-        if (data.hasOwnProperty('accessToken')) {
+        if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setShowClickthrough(false);
         } else {
           setShowClickthrough(true);

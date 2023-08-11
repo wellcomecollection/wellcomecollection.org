@@ -34,7 +34,7 @@ describe('DeleteAccount', () => {
     renderComponent();
     const currentPasswordInput = screen.getByLabelText(/^password$/i);
     await act(async () => userEvent.type(currentPasswordInput, 'hunter2'));
-    expect(currentPasswordInput).toHaveValue('hunter2');
+    await expect(currentPasswordInput).toHaveValue('hunter2');
   });
 
   it('allows the user to request account deletion after confirming their password', async () => {
@@ -78,7 +78,7 @@ describe('DeleteAccount', () => {
       </ThemeProvider>
     );
 
-    expect(passwordInput).toHaveValue('');
+    await expect(passwordInput).toHaveValue('');
   });
 
   describe('shows an error on submission', () => {

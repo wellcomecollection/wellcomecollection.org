@@ -1,9 +1,10 @@
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
-import cookies from '@weco/common/data/cookies';
 import { getCookie, setCookie } from 'cookies-next';
-import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
-import { Contributor, License } from '../../../model/catalogue';
+import cookies from '@weco/common/data/cookies';
+import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
+import { Contributor, License } from '@weco/common/model/catalogue';
+import { font } from '@weco/common/utils/classnames';
 
 export type ApiToolbarLink = {
   id: string;
@@ -142,12 +143,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
       >
         {!mini && (
           <>
-            <span
-              className="h3"
-              style={{
-                marginLeft: '10px',
-              }}
-            >
+            <span className={font('wb', 4)} style={{ marginLeft: '10px' }}>
               API toolbar
             </span>
             <LinkList>

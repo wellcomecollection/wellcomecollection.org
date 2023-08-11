@@ -5,6 +5,7 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
 import { plus, minus } from '@weco/common/icons';
 import * as prismic from '@prismicio/client';
+import { font } from '@weco/common/utils/classnames';
 
 const ButtonContainer = styled.div`
   position: absolute;
@@ -37,7 +38,7 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
 
   return (
     <>
-      {title && <h2 className="h2">{title}</h2>}
+      {title && <h2 className={font('wb', 3)}>{title}</h2>}
       {textToShow && (
         <div id="discussion-container" aria-live="polite">
           <PrismicHtmlBlock html={textToShow} />

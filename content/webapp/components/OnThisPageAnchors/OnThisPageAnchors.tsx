@@ -25,11 +25,13 @@ type Props = {
 const OnThisPageAnchors: FunctionComponent<Props> = ({ links }) => {
   return (
     <Root>
-      <h2 className="h3">What’s on this page</h2>
+      <h2 className={font('wb', 4)}>What’s on this page</h2>
       <PlainList>
         {links.map((link: Link) => (
           <li key={link.url}>
-            <Anchor href={link.url}>{link.text}</Anchor>
+            <Anchor data-gtm-trigger="link_click_page_position" href={link.url}>
+              {link.text}
+            </Anchor>
           </li>
         ))}
       </PlainList>

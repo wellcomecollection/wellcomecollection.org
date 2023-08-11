@@ -1,7 +1,7 @@
 import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { MultiContent } from '../../types/multi-content';
-import { grid } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
@@ -34,7 +34,7 @@ const SearchResults: FunctionComponent<Props> = ({
       >
         <div className="grid">
           <div className={grid({ s: 12 })}>
-            <h2 className="h2">{title}</h2>
+            <h2 className={font('wb', 3)}>{title}</h2>
           </div>
         </div>
       </Space>
@@ -203,7 +203,7 @@ const SearchResults: FunctionComponent<Props> = ({
                 secondaryLabels={[]}
                 description={item.promo?.caption}
                 Image={
-                  getCrop(item.promo?.image, 'square') && (
+                  getCrop(item.image, 'square') && (
                     <PrismicImage
                       image={{
                         // We intentionally omit the alt text on promos, so screen reader
@@ -211,7 +211,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        ...getCrop(item.promo?.image, 'square')!,
+                        ...getCrop(item.image, 'square')!,
                         alt: '',
                       }}
                       sizes={{

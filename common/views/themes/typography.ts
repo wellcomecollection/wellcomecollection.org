@@ -129,26 +129,6 @@ export const typography = css<GlobalStyleProps>`
     -o-font-smoothing: antialiased;
   }
 
-  .h0 {
-    ${fontFamilyMixin('wb', true)}
-    ${fontSizeMixin(1)}
-  }
-
-  .h1 {
-    ${fontFamilyMixin('wb', true)}
-    ${fontSizeMixin(2)}
-  }
-
-  .h2 {
-    ${fontFamilyMixin('wb', true)}
-    ${fontSizeMixin(3)}
-  }
-
-  .h3 {
-    ${fontFamilyMixin('wb', true)}
-    ${fontSizeMixin(4)}
-  }
-
   h1,
   h2,
   h3,
@@ -240,6 +220,18 @@ export const typography = css<GlobalStyleProps>`
     h2 {
       ${fontFamilyMixin('wb', true)}
       ${fontSizeMixin(2)}
+    }
+
+    /* Visual stories have their own h2 styling that involves more space and a border above */
+    .content-type-visual-story & h2 {
+      padding-top: 2em;
+      margin-top: 1.5em;
+      border-top: 1px solid ${props => props.theme.color('black')};
+    }
+
+    .content-type-visual-story &.first-text-slice h2:first-of-type {
+      border-top: 0;
+      padding-top: 0;
     }
 
     h3 {

@@ -65,7 +65,8 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
 
   color: ${props => props.theme.color('neutral.600')};
   white-space: nowrap;
-  transition: top ${props => props.theme.transitionProperties},
+  transition:
+    top ${props => props.theme.transitionProperties},
     font-size ${props => props.theme.transitionProperties},
     transform ${props => props.theme.transitionProperties};
   pointer-events: none;

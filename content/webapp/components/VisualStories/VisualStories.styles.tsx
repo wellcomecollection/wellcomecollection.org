@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
+import { font } from '@weco/common/utils/classnames';
 
-export const PrototypeH1 = styled.h1.attrs({ className: 'h0' })``;
+export const PrototypeH1 = styled.h1.attrs({ className: font('wb', 1) })``;
 
 export const TwoUp = styled.div`
   display: grid;
@@ -52,7 +53,7 @@ export const InfoBlock = styled(Space).attrs<{ hasBorder?: boolean }>(
 
 export const PrototypeH2 = styled(Space).attrs<{ isFirst?: boolean }>({
   as: 'h2',
-  classNames: 'h2',
+  classNames: font('wb', 3),
   v: { size: 'l', properties: ['padding-top'] },
 })<{ isFirst?: boolean }>`
   border-top: 1px solid ${props => props.theme.color('neutral.400')};

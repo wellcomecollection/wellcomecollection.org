@@ -3,6 +3,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Space from '@weco/common/views/components/styled/Space';
 import Contributor from './Contributor';
 import { Contributor as ContributorType } from '../../types/contributors';
+import { font } from '@weco/common/utils/classnames';
 
 export type Props = {
   titlePrefix?: string;
@@ -71,7 +72,7 @@ const Contributors: FunctionComponent<Props> = ({
 
   return (
     <>
-      <h2 className="h2">
+      <h2 className={font('wb', 3)}>
         {isNotUndefined(titleOverride)
           ? titleOverride
           : getContributorsTitle(roles, titlePrefix)}

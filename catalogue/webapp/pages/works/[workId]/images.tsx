@@ -24,7 +24,7 @@ import {
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
-import { getDigitalLocationOfType } from 'utils/works';
+import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
@@ -75,7 +75,13 @@ const ImagePage: FunctionComponent<Props> = ({
       hideTopContent={true}
     >
       {iiifImageLocation ? (
-        <IIIFViewer work={work} iiifImageLocation={iiifImageLocation} iiifPresentationLocation={iiifPresentationLocation} searchResults={null} setSearchResults={() => null} />
+        <IIIFViewer
+          work={work}
+          iiifImageLocation={iiifImageLocation}
+          iiifPresentationLocation={iiifPresentationLocation}
+          searchResults={null}
+          setSearchResults={() => null}
+        />
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>

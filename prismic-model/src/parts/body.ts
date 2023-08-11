@@ -7,9 +7,9 @@ import title from './title';
 import link, { documentLink, mediaLink, webLink } from './link';
 import text from './keyword';
 import embed from './embed';
-import mediaObject from './media-object';
 import heading from './heading';
 import booleanDeprecated from './boolean-deprecated';
+import { textAndIconsSlice } from './textAndIcons';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {
@@ -177,11 +177,7 @@ export default {
           query: text('Query'),
         },
       }),
-      mediaObjectList: slice('Media Object List', {
-        repeat: {
-          ...mediaObject,
-        },
-      }),
+      textAndIcons: textAndIconsSlice(),
       audioPlayer: slice('Audio Player', {
         nonRepeat: {
           title,

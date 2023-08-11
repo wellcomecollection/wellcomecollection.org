@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 import { CTAs, CurrentRequests, Header } from './common';
 import { allowedRequests } from '@weco/common/values/requests';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import { font } from '@weco/common/utils/classnames';
 
 type ConfirmedDialogProps = {
   currentHoldNumber?: number;
@@ -13,7 +14,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
   return (
     <>
       <Header>
-        <span className="h2">Request confirmed</span>
+        <span className={font('wb', 3)}>Request confirmed</span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}

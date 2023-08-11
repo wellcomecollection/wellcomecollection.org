@@ -3,7 +3,6 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import Head from 'next/head';
 
-// Components
 import ImageEndpointSearchResults from '@weco/catalogue/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/catalogue/components/SearchNoResults/SearchNoResults';
@@ -14,7 +13,6 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Sort from '@weco/catalogue/components/Sort/Sort';
 import { Container } from '@weco/common/views/components/styled/Container';
 
-// Utils & Helpers
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { getImages } from '@weco/catalogue/services/wellcome/catalogue/images';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -26,7 +24,7 @@ import {
   toLink,
 } from '@weco/catalogue/components/ImagesLink';
 import { getServerData } from '@weco/common/server-data';
-import { getSearchLayout } from 'components/SearchPageLayout/SearchPageLayout';
+import { getSearchLayout } from '@weco/catalogue/components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/catalogue/services/wellcome/catalogue/filters';
 import { emptyResultList } from '@weco/catalogue/services/wellcome';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
@@ -263,7 +261,9 @@ export const getServerSideProps: GetServerSideProps<
         ...defaultProps,
         pageview: {
           name: 'images',
-          properties: {},
+          properties: {
+            looksLikeSpam: 'true',
+          },
         },
         images: emptyResultList(),
         apiToolbarLinks: [],

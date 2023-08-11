@@ -8,19 +8,19 @@ import {
   Iframe as IframeSlice,
   InfoBlock as InfoBlockSlice,
   Map as MapSlice,
-  MediaObjectList as MediaObjectListSlice,
   Quote as QuoteSlice,
   QuoteV2 as QuoteV2Slice,
   SearchResults as SearchResultsSlice,
   Standfirst as StandfirstSlice,
   TagList as TagListSlice,
   TextSlice,
-  DeprecatedImageList as DeprecatedImageListSlice,
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
   Discussion as DiscussionSlice,
   AudioPlayer as AudioPlayerSlice,
   Body,
+  TextAndImageSlice,
+  TextAndIconsSlice,
 } from '../types/body';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -84,6 +84,31 @@ function transformTextSlice(slice: TextSlice): BodySlice {
   };
 }
 
+function transformTextAndImage(slice: TextAndImageSlice): BodySlice {
+  return {
+    type: 'textAndImage',
+    value: {
+      type: 'image',
+      text: slice.primary.text,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      image: transformImage(slice.primary.image)!,
+      isZoomable: slice.primary.isZoomable,
+    },
+  };
+}
+
+function transformTextAndIcons(slice: TextAndIconsSlice): BodySlice {
+  return {
+    type: 'textAndIcons',
+    value: {
+      type: 'icons',
+      text: slice.primary.text,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      icons: slice.items.map(({ icon }) => transformImage(icon)!),
+    },
+  };
+}
+
 function transformMapSlice(slice: MapSlice): BodySlice {
   return {
     type: 'map',
@@ -91,29 +116,6 @@ function transformMapSlice(slice: MapSlice): BodySlice {
       title: asText(slice.primary.title) || '',
       latitude: slice.primary.geolocation.latitude,
       longitude: slice.primary.geolocation.longitude,
-    },
-  };
-}
-
-function transformMediaObjectListSlice(slice: MediaObjectListSlice): BodySlice {
-  return {
-    type: 'mediaObjectList',
-    value: {
-      items: slice.items
-        .map(mediaObject => {
-          if (mediaObject) {
-            return {
-              title: asTitle(mediaObject.title),
-              text: mediaObject.text.length
-                ? asRichText(mediaObject.text)
-                : undefined,
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              image: transformImage(mediaObject.image)!,
-            };
-          }
-          return undefined;
-        })
-        .filter(isNotUndefined),
     },
   };
 }
@@ -158,29 +160,6 @@ function transformEditorialImageGallerySlice(
       items: slice.items.map(item => transformCaptionedImage(item)),
       isStandalone: getWeight(slice.slice_label) === 'standalone',
       isFrames: getWeight(slice.slice_label) === 'frames',
-    },
-  };
-}
-
-function transformDeprecatedImageListSlice(
-  slice: DeprecatedImageListSlice
-): BodySlice {
-  return {
-    type: 'deprecatedImageList',
-    weight: getWeight(slice.slice_label),
-    value: {
-      items: slice.items.map(item => ({
-        title: asTitle(item.title),
-        subtitle: asTitle(item.subtitle),
-        // TODO: It's questionable whether we should be assigning a 'caption'
-        // here or using a different transform function, but as this slice is
-        // deprecated I don't really care.  Hopefully we'll just delete this
-        // whole function soon.
-        //
-        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7680
-        image: transformCaptionedImage({ ...item, caption: [] }),
-        description: asRichText(item.description) || [],
-      })),
     },
   };
 }
@@ -430,6 +409,10 @@ export function transformBody(body: Body): BodySlice[] {
   return body
     .map(slice => {
       switch (slice.slice_type) {
+        case 'textAndImage':
+          return transformTextAndImage(slice);
+        case 'textAndIcons':
+          return transformTextAndIcons(slice);
         case 'standfirst':
           return transformStandfirstSlice(slice);
 
@@ -491,13 +474,6 @@ export function transformBody(body: Body): BodySlice[] {
 
         case 'audioPlayer':
           return transformAudioPlayerSlice(slice);
-
-        // Deprecated
-        case 'imageList':
-          return transformDeprecatedImageListSlice(slice);
-
-        case 'mediaObjectList':
-          return transformMediaObjectListSlice(slice);
 
         default:
           return undefined;

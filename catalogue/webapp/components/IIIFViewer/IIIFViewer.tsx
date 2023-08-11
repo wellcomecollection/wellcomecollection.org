@@ -24,7 +24,6 @@ import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBar from './ViewerBottomBar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { fetchJson } from '@weco/common/utils/http';
 import { TransformedManifest } from '@weco/catalogue/types/manifest';
 import { fromQuery } from '@weco/catalogue/components/ItemLink';
 import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
@@ -40,6 +39,7 @@ type IIIFViewerProps = {
   handleImageError?: () => void;
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
+  parentManifest?: Manifest;
 };
 
 const LoadingComponent = () => (
@@ -62,11 +62,14 @@ const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
 
 type GridProps = {
   isFullSupportBrowser: boolean;
-}
+};
 
 const Grid = styled.div<GridProps>`
   display: grid;
-  height: ${ props => props.isFullSupportBrowser ? `calc(100vh - ${props.theme.navHeight}px)` : 'auto' };
+  height: ${props =>
+    props.isFullSupportBrowser
+      ? `calc(100vh - ${props.theme.navHeight}px)`
+      : 'auto'};
   overflow: hidden;
   grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [mobile-bottombar-start mobile-main-end] min-content [bottom-edge];
@@ -95,7 +98,8 @@ const Sidebar = styled.div<{
   isActiveDesktop: boolean;
   isFullSupportBrowser: boolean;
 }>`
-  display: ${props => (props.isActiveMobile || !props.isFullSupportBrowser ? 'inherit' : 'none')};
+  display: ${props =>
+    props.isActiveMobile || !props.isFullSupportBrowser ? 'inherit' : 'none'};
   align-content: start;
 
   ${props =>
@@ -145,8 +149,11 @@ const Main = styled.div<{
     transition: filter ${props => props.theme.transitionProperties};
   }
 
-  width: ${props => props.isFullSupportBrowser ? 'auto' : '100vw'};
-  grid-area: ${props => props.isFullSupportBrowser ? 'desktop-main-start / left-edge / mobile-main-end / right-edge' : 'auto'};
+  width: ${props => (props.isFullSupportBrowser ? 'auto' : '100vw')};
+  grid-area: ${props =>
+    props.isFullSupportBrowser
+      ? 'desktop-main-start / left-edge / mobile-main-end / right-edge'
+      : 'auto'};
 
   ${props =>
     props.theme.media('medium')(`
@@ -206,6 +213,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   handleImageError,
   searchResults,
   setSearchResults,
+  parentManifest,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -216,7 +224,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     query = '',
   } = fromQuery(router.query);
   const [gridVisible, setGridVisible] = useState(false);
-  const [parentManifest, setParentManifest] = useState<Manifest | undefined>();
   const { isFullSupportBrowser } = useContext(AppContext);
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
@@ -229,15 +236,14 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
   const currentCanvas =
-  transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
+    transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
   const urlTemplate =
-  (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
-  (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
+    (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
+    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
   const hasIiifImage = imageUrl && iiifImageLocation;
   const hasImageService = Boolean(mainImageService['@id'] && currentCanvas);
-  const { parentManifestUrl } = { ...transformedManifest };
   const [showControls, setShowControls] = useState(
     Boolean(hasIiifImage && !hasImageService)
   );
@@ -273,18 +279,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     handleResize();
   }, [isDesktopSidebarActive]);
-
-  useEffect(() => {
-    const fetchParentManifest = async () => {
-      const parentManifest =
-        transformedManifest?.parentManifestUrl &&
-        (await fetchJson(parentManifestUrl as string));
-
-      parentManifest && setParentManifest(parentManifest);
-    };
-
-    fetchParentManifest();
-  }, []);
 
   return (
     <ItemViewerContext.Provider
@@ -326,34 +320,34 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         errorHandler: handleImageError,
       }}
     >
-        <Grid ref={viewerRef} isFullSupportBrowser={isFullSupportBrowser}>
-          <Sidebar
-            data-test-id="viewer-sidebar"
-            isActiveMobile={isMobileSidebarActive}
-            isActiveDesktop={isDesktopSidebarActive}
-            isFullSupportBrowser={isFullSupportBrowser}
+      <Grid ref={viewerRef} isFullSupportBrowser={isFullSupportBrowser}>
+        <Sidebar
+          data-test-id="viewer-sidebar"
+          isActiveMobile={isMobileSidebarActive}
+          isActiveDesktop={isDesktopSidebarActive}
+          isFullSupportBrowser={isFullSupportBrowser}
         >
-            <DelayVisibility>
+          <DelayVisibility>
             <ViewerSidebar
               iiifImageLocation={iiifImageLocation}
               iiifPresentationLocation={iiifPresentationLocation}
             />
-            </DelayVisibility>
-          </Sidebar>
-          <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
-            <DelayVisibility>
-              <ViewerTopBar iiifImageLocation={iiifImageLocation} />
-            </DelayVisibility>
-          </Topbar>
-          <Main
-            isDesktopSidebarActive={isDesktopSidebarActive}
-            isFullSupportBrowser={isFullSupportBrowser}
-            ref={mainAreaRef}
+          </DelayVisibility>
+        </Sidebar>
+        <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
+          <DelayVisibility>
+            <ViewerTopBar iiifImageLocation={iiifImageLocation} />
+          </DelayVisibility>
+        </Topbar>
+        <Main
+          isDesktopSidebarActive={isDesktopSidebarActive}
+          isFullSupportBrowser={isFullSupportBrowser}
+          ref={mainAreaRef}
         >
           <DelayVisibility>
             {!showZoomed && <ImageViewerControls />}
             {hasIiifImage && !hasImageService && isFullSupportBrowser && (
-                <ImageViewer
+              <ImageViewer
                 infoUrl={iiifImageLocation.url}
                 id={imageUrl}
                 width={800}
@@ -362,23 +356,25 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
                 urlTemplate={urlTemplate}
                 setImageRect={() => undefined}
                 setImageContainerRect={() => undefined}
-                />
-                )}
+              />
+            )}
 
             {imageUrl && !isFullSupportBrowser && (
               <NoScriptImage urlTemplate={urlTemplate} canvasOcr={canvasOcr} />
             )}
 
             {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
-            {hasImageService && !isResizing && isFullSupportBrowser && <MainViewer />}
+            {hasImageService && !isResizing && isFullSupportBrowser && (
+              <MainViewer />
+            )}
           </DelayVisibility>
         </Main>
-          {showZoomed && isFullSupportBrowser && (
-            <Zoom>
-              <ZoomedImage iiifImageLocation={iiifImageLocation} />
-            </Zoom>
+        {showZoomed && isFullSupportBrowser && (
+          <Zoom>
+            <ZoomedImage iiifImageLocation={iiifImageLocation} />
+          </Zoom>
         )}
-        {isFullSupportBrowser &&
+        {isFullSupportBrowser && (
           <>
             <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
               <ViewerBottomBar />
@@ -390,8 +386,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               {<GridViewer />}
             </ThumbnailsWrapper>
           </>
-        }
-        </Grid>
+        )}
+      </Grid>
     </ItemViewerContext.Provider>
   );
 };

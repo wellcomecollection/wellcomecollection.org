@@ -54,7 +54,10 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   z-index: 3;
   background: ${props => props.theme.color('white')};
   opacity: ${props => (props.isActive || !props.shouldStartAnimation ? 0 : 1)};
-  transition: opacity 500ms ease, filter 500ms ease, transform 500ms ease;
+  transition:
+    opacity 500ms ease,
+    filter 500ms ease,
+    transform 500ms ease;
   transition-delay: ${props => (props.isActive ? '0ms' : '500ms')};
   border-radius: 9999px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
@@ -97,7 +100,9 @@ const PopupDialogWindow = styled(Space).attrs({
   pointer-events: ${props => (props.isActive ? 'all' : 'none')};
   transform: ${props =>
     props.isActive ? 'translateY(0)' : 'translateY(10px)'};
-  transition: opacity 500ms ease, transform 500ms ease;
+  transition:
+    opacity 500ms ease,
+    transform 500ms ease;
   transition-delay: ${props => (props.isActive ? '500ms' : '0ms')};
   position: fixed;
   bottom: 20px;
@@ -221,6 +226,9 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
 
   function handleBodyClick(event: MouseEvent) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
+    const openDialog = openDialogRef && openDialogRef.current;
+
+    if (openDialog === event.target) return;
 
     if (
       dialog &&
