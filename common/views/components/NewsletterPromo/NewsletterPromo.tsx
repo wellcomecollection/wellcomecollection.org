@@ -9,33 +9,9 @@ import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import { Container } from '@weco/common/views/components/styled/Container';
-
-const FormElementWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 10px;
-
-  > * {
-    width: 100%;
-  }
-
-  ${props => props.theme.media('medium')`
-    flex-wrap: nowrap;
-    align-items: stretch;
-
-    > * {
-      width: auto;
-    }
-  `}
-`;
-
-const ButtonWrap = styled.div`
-  button {
-    height: 100%;
-    width: 100%;
-  }
-`;
+import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
+import theme from '@weco/common/views/themes/default';
+import Layout8 from '../Layout8/Layout8';
 
 const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',
@@ -43,69 +19,38 @@ const NewsletterForm = styled.form.attrs({
   action: 'https://r1-t.trackedlink.net/signup.ashx',
   method: 'post',
 })`
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-  align-items: flex-start;
   position: relative;
-
-  label {
-    flex: 1;
-  }
 
   ${props => props.theme.makeSpacePropertyValues('m', ['margin-bottom'])}
 
   ${props => props.theme.media('medium')`
-    flex-wrap: nowrap;
     min-width: 300px;
   `}
 `;
 
-const YellowBox = styled(Space).attrs({
-  h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  'aria-live': 'polite',
-})`
-  border: 12px solid ${props => props.theme.color('yellow')};
-
-  p {
-    max-width: 600px;
-  }
-`;
-
-const BoxInner = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-
-  ${props => props.theme.media('xlarge')`
-    flex-wrap: nowrap;
-  `}
-`;
-
-const CopyWrap = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-right'] },
-  v: { size: 'm', properties: ['margin-bottom'] },
-})`
-  flex-basis: 100%;
-
-  ${props => props.theme.media('medium')`
-    flex-basis: auto;
-  `}
-`;
+const PrivacyNotice = () => (
+  <p className={font('intr', 6)}>
+    By clicking subscribe, you agree to receive this newsletter. You can
+    unsubscribe any time. For information about how we handle your data,{' '}
+    <a
+      href="https://wellcome.org/who-we-are/privacy-and-terms"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      please read our privacy notice
+    </a>
+    .
+  </p>
+);
 
 const NewsletterPromo: FunctionComponent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitError, setIsSubmitError] = useState(false);
+  const [hasCheckedMarketing, setHasCheckedMarketing] = useState(false);
   const [value, setValue] = useState('');
   const { isEnhanced } = useContext(AppContext);
   const emailValidation = useValidation();
-
-  const headingText = 'Stay in the know';
-  const bodyText =
-    'Sign up to our newsletter to find out what’s on, read our latest stories and get involved.';
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -152,109 +97,99 @@ const NewsletterPromo: FunctionComponent = () => {
   }
 
   return (
-    <div className="is-hidden-print">
+    <Space
+      className="is-hidden-print"
+      style={{ backgroundColor: theme.color('lightYellow') }}
+      v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+    >
       <Container>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div>
-            <YellowBox>
-              <BoxInner>
-                <CopyWrap>
-                  <h2
-                    className={font('wb', 3)}
-                    style={{ marginBottom: !isSuccess ? 0 : undefined }}
-                  >
-                    {isSuccess ? 'Thank you for signing up!' : headingText}
-                  </h2>
-                  {!isSuccess && (
-                    <p
-                      className={font('intr', 5)}
-                      style={{ marginBottom: 0, maxWidth: '500px' }}
-                    >
-                      {bodyText}
-                    </p>
-                  )}
-                  {isSuccess && (
-                    <div className={`${font('intr', 5)} spaced-text`}>
-                      <p>
-                        If this is the first time you have subscribed to one of
-                        our newsletters, you will receive an email asking you to
-                        confirm your subscription.
-                      </p>
-                      <p>
-                        To find out more about our Access events, and activities
-                        for Young People and Schools, see our{' '}
-                        <a href="/newsletter">full list of newsletters</a>.
-                      </p>
-                    </div>
-                  )}
-                </CopyWrap>
-                {!isSuccess && (
-                  <>
-                    <NewsletterForm
-                      onSubmit={handleSubmit}
-                      noValidate={isEnhanced}
-                    >
-                      <input
-                        type="hidden"
-                        name="addressBookId"
-                        value={newsletterAddressBook.id}
-                      />
-                      <FormElementWrapper>
-                        <TextInput
-                          required={true}
-                          id="newsletter-input"
-                          type="email"
-                          name="email"
-                          label="Your email address"
-                          errorMessage={
-                            isSubmitError
-                              ? 'There was a problem. Please try again.'
-                              : 'Enter a valid email address.'
-                          }
-                          value={value}
-                          setValue={setValue}
-                          {...emailValidation}
-                        />
-                        <ButtonWrap>
-                          <ButtonSolid
-                            dataGtmTrigger="newsletter_promo_subscribe"
-                            text={isSubmitting ? 'Sending…' : 'Subscribe'}
-                            disabled={isSubmitting}
-                          />
-                        </ButtonWrap>
-                      </FormElementWrapper>
-                    </NewsletterForm>
-                  </>
-                )}
-              </BoxInner>
-              {!isSuccess && (
-                <p className={font('intr', 6)} style={{ marginBottom: 0 }}>
+        <Layout8>
+          <h2 className={font('wb', 3)} style={{ textAlign: 'center' }}>
+            {isSuccess ? 'Thank you for signing up!' : 'Stay in the know'}
+          </h2>
+          {!isSuccess && (
+            <>
+              <p className={font('intr', 5)} style={{ marginBottom: '1rem' }}>
+                Sign up to our newsletter to find out what’s on, read our latest
+                stories and get involved.
+              </p>
+
+              <NewsletterForm onSubmit={handleSubmit} noValidate={isEnhanced}>
+                <input
+                  type="hidden"
+                  name="addressBookId"
+                  value={newsletterAddressBook.id}
+                />
+                <TextInput
+                  required={true}
+                  id="newsletter-input"
+                  type="email"
+                  name="email"
+                  label="Your email address"
+                  errorMessage={
+                    isSubmitError
+                      ? 'There was a problem. Please try again.'
+                      : 'Enter a valid email address.'
+                  }
+                  value={value}
+                  setValue={setValue}
+                  {...emailValidation}
+                />
+
+                <p
+                  className={font('intr', 6)}
+                  style={{ marginBottom: 0, marginTop: '1rem' }}
+                >
                   <a href="/newsletter">All our newsletters</a>
                 </p>
-              )}
-            </YellowBox>
-            <Space
-              v={{ size: 'l', properties: ['margin-top'] }}
-              style={{ flexBasis: '100%' }}
-            >
-              <p className={font('intr', 6)} style={{ maxWidth: '800px' }}>
-                By clicking subscribe, you agree to receive this newsletter. You
-                can unsubscribe any time. For information about how we handle
-                your data,{' '}
-                <a
-                  href="https://wellcome.org/who-we-are/privacy-and-terms"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  please read our privacy notice
-                </a>
-                .
+
+                <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                  <CheckboxRadio
+                    id="marketingPermissions"
+                    type="checkbox"
+                    checked={hasCheckedMarketing}
+                    onChange={() => {
+                      setHasCheckedMarketing(currentValue => !currentValue);
+                    }}
+                    text={
+                      <p className={font('intr', 6)}>
+                        Tick this box if you’re happy to receive other emails
+                        about Wellcome Collection, upcoming events and
+                        exhibitions and/or other relevant opportunities.
+                      </p>
+                    }
+                  />
+                </Space>
+
+                <PrivacyNotice />
+
+                <ButtonSolid
+                  dataGtmTrigger="newsletter_promo_subscribe"
+                  text={isSubmitting ? 'Sending…' : 'Subscribe'}
+                  disabled={isSubmitting}
+                />
+              </NewsletterForm>
+            </>
+          )}
+
+          {isSuccess && (
+            <div className={`${font('intr', 5)} spaced-text`}>
+              <p>
+                If this is the first time you have subscribed to one of our
+                newsletters, you will receive an email asking you to confirm
+                your subscription.
               </p>
-            </Space>
-          </div>
-        </div>
+              <p>
+                To find out more about our Access events, and activities for
+                Young People and Schools, see our{' '}
+                <a href="/newsletter">full list of newsletters</a>.
+              </p>
+              <PrivacyNotice />
+            </div>
+          )}
+        </Layout8>
       </Container>
-    </div>
+    </Space>
   );
 };
 
