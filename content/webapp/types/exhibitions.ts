@@ -49,7 +49,6 @@ export type Exhibition = GenericContentFields & {
   audioDescriptionInfo?: prismic.RichTextField;
   place?: Place;
   exhibits: Exhibit[];
-  resources: Resource[];
   relatedIds: string[];
   seasons: Season[];
   contributors: Contributor[];

@@ -124,15 +124,6 @@ const resourceIcons: { [key: string]: IconSvg } = {
   family,
 };
 
-function getResourcesItems(exhibition: ExhibitionType): ExhibitionItem[] {
-  return exhibition.resources.map(resource => {
-    return {
-      description: resource.description,
-      icon: resource.icon ? resourceIcons[resource.icon] : undefined,
-    };
-  });
-}
-
 function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [exhibition.bslInfo, exhibition.audioDescriptionInfo]
     .filter(Boolean)
@@ -176,7 +167,6 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
     getadmissionObject(),
     getTodaysHoursObject(),
     getPlaceObject(exhibition),
-    ...getResourcesItems(exhibition),
     ...getAccessibilityItems(),
     ...getBslAdItems(exhibition),
   ].filter(isNotUndefined);
