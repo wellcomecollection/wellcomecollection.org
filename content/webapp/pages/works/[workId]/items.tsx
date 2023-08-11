@@ -8,9 +8,9 @@ import {
   Work,
   WorkBasic,
   toWorkBasic,
-} from '@weco/catalogue/services/wellcome/catalogue/types';
+} from '@weco/content/services/wellcome/catalogue/types';
 import { Manifest } from '@iiif/presentation-3';
-import { getDigitalLocationOfType } from '@weco/catalogue/utils/works';
+import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
@@ -55,8 +55,8 @@ import {
   CompressedTransformedManifest,
   fromCompressedManifest,
   toCompressedTransformedManifest,
-} from '@weco/catalogue/types/compressed-manifest';
-import { SearchResults } from '@weco/catalogue/services/iiif/types/search/v3';
+} from '@weco/content/types/compressed-manifest';
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { fetchJson } from '@weco/common/utils/http';
 
 const IframeAuthMessage = styled.iframe`
