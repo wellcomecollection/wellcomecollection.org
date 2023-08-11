@@ -11,20 +11,20 @@ import { check, indicator } from '@weco/common/icons';
 
 const CheckboxRadioLabel = styled.label`
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   cursor: pointer;
 `;
 
-const CheckboxRadioBoxSpan = styled.span<{ type: string }>``;
-const CheckboxRadioBox = styled(CheckboxRadioBoxSpan)`
+const CheckboxRadioBox = styled.span<{ type: string }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   position: relative;
   width: 1.3em;
   height: 1.3em;
-  border: 2px solid ${props => props.theme.color('warmNeutral.400')};
+  border: 1px solid ${props => props.theme.color('black')};
   border-radius: ${props => (props.type === 'radio' ? '50%' : '0')};
 
   .icon {
@@ -43,17 +43,16 @@ const CheckboxRadioInput = styled.input.attrs(props => ({
   z-index: 1;
   width: 1em;
   height: 1em;
+  cursor: pointer;
 
   &:checked ~ ${CheckboxRadioBox} {
-    border-color: ${props => props.theme.color('black')};
-
     .icon {
       opacity: 1;
     }
   }
 
   &:hover ~ ${CheckboxRadioBox} {
-    border-color: ${props => props.theme.color('black')};
+    border-width: 2px;
   }
 
   &:focus-visible ~ ${CheckboxRadioBox}, &:focus ~ ${CheckboxRadioBox} {
@@ -98,7 +97,7 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
           <Icon icon={type === 'checkbox' ? check : indicator} />
         </CheckboxRadioBox>
       </CheckBoxWrapper>
-      <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
+      <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
         {text}
       </Space>
     </CheckboxRadioLabel>
