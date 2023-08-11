@@ -145,7 +145,8 @@ const NewsletterPromo: FunctionComponent = () => {
 
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   <CheckboxRadio
-                    id="marketingPermissions"
+                    id="MARKETINGPERMISSIONS"
+                    name="cd_MARKETINGPERMISSIONS"
                     type="checkbox"
                     checked={hasCheckedMarketing}
                     onChange={() => {
