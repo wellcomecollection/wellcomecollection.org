@@ -5,6 +5,7 @@ import { EventPrismicDocument } from '../types/events';
 import { ArticlePrismicDocument } from '../types/articles';
 import { ExhibitionPrismicDocument } from '../types/exhibitions';
 import { SeriesPrismicDocument } from '../types/series';
+import { CardPrismicDocument } from '../types/card';
 
 export type StructuredSearchQuery = {
   types: string[];
@@ -26,4 +27,5 @@ export type MultiContentPrismicDocument =
   | EventPrismicDocument
   | ArticlePrismicDocument
   | ExhibitionPrismicDocument
-  | SeriesPrismicDocument;
+  | SeriesPrismicDocument
+  | CardPrismicDocument;

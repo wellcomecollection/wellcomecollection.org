@@ -3,14 +3,13 @@ import { transformImage } from '@weco/common/services/prismic/transformers/image
 import { Card } from '../../../types/card';
 import { asText, asTitle, transformFormat } from '.';
 import { transformLink } from '@weco/common/services/prismic/transformers';
-import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 
 export function transformCard(document: CardPrismicDocument): Card {
   const { title, description, image, link } = document.data;
 
   return {
     type: 'card',
-    id: isFilledLinkToDocument(link) ? link.id : undefined,
+    id: document.id,
     title: asTitle(title),
     format: transformFormat(document),
     description: asText(description),

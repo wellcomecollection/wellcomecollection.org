@@ -18,6 +18,7 @@ import {
   exhibitionsFetchLinks,
   seasonsFetchLinks,
 } from '../types';
+import { cardFetchLinks } from '../types/card';
 import { placesFetchLinks } from '../types/places';
 import { backgroundTexturesFetchLink } from '../types/background-textures';
 
@@ -35,6 +36,7 @@ const fetchLinks = [
   ...backgroundTexturesFetchLink,
   ...seasonsFetchLinks,
   ...eventsFetchLinks,
+  ...cardFetchLinks,
 ];
 
 const eventsFetcher = fetcher<EventPrismicDocument>('events', fetchLinks);
