@@ -11,6 +11,7 @@ import { transformEventBasic } from './events';
 import { transformExhibition } from './exhibitions';
 import { transformPage } from './pages';
 import { MultiContent } from '../../../types/multi-content';
+import { transformCard } from './card';
 
 // TODO:
 // * free text search
@@ -75,5 +76,7 @@ export const transformMultiContent = (
       return transformExhibition(document);
     case 'series':
       return transformSeries(document);
+    case 'card':
+      return transformCard(document);
   }
 };
