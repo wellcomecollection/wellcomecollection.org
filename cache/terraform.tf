@@ -44,19 +44,6 @@ provider "aws" {
 }
 
 
-# Making the router state outputs available
-# e.g. ${data.terraform_remote_state.router.alb_dns_name}
-data "terraform_remote_state" "router" {
-  backend = "s3"
-
-  config = {
-    bucket   = "wellcomecollection-infra"
-    key      = "build-state/router.tfstate"
-    region   = "eu-west-1"
-    role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
-  }
-}
-
 data "terraform_remote_state" "experience" {
   backend = "s3"
 
@@ -76,17 +63,6 @@ data "terraform_remote_state" "assets" {
     key      = "build-state/client.tfstate"
     region   = "eu-west-1"
     role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
-  }
-}
-
-data "terraform_remote_state" "monitoring" {
-  backend = "s3"
-
-  config = {
-    bucket   = "wellcomecollection-platform-infra"
-    key      = "terraform/monitoring.tfstate"
-    region   = "eu-west-1"
-    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
   }
 }
 

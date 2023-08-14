@@ -2,11 +2,6 @@ variable "name" {
   description = "Name of the Lambda"
 }
 
-variable "module_name" {
-  description = "Name of the python module where the handler function lives"
-  default     = ""
-}
-
 variable "handler" {
   type = string
 }
