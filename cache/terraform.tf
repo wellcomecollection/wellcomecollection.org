@@ -71,7 +71,7 @@ data "terraform_remote_state" "platform_account" {
 
   config = {
     bucket   = "wellcomecollection-platform-infra"
-    key      = "terraform/platform-infrastructure/accounts/platform.tfstate"
+    key      = "terraform/aws-account-infrastructure/platform.tfstate"
     region   = "eu-west-1"
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
   }
