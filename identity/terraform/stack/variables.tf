@@ -14,7 +14,6 @@ variable "env_suffix" {}
 variable "subdomain" {}
 
 variable "container_image" {}
-variable "nginx_image" {}
 
 variable "env_vars" {
   type = map(string)

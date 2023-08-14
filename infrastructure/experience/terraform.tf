@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 terraform {
   backend "s3" {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
@@ -17,7 +15,7 @@ data "terraform_remote_state" "accounts_experience" {
   config = {
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
     bucket   = "wellcomecollection-platform-infra"
-    key      = "terraform/platform-infrastructure/accounts/experience.tfstate"
+    key      = "terraform/aws-account-infrastructure/experience.tfstate"
     region   = "eu-west-1"
   }
 }
