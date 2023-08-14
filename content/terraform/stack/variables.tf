@@ -20,9 +20,6 @@ variable "subdomain" {
 variable "container_image" {
   type = string
 }
-variable "nginx_image" {
-  type = string
-}
 
 variable "use_fargate_spot" {
   type    = bool
