@@ -19,7 +19,7 @@ const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
     <EventDateRange event={event} />
   );
 
-  const squareImage = getCrop(event.promo?.image, 'square');
+  const squareImage = getCrop(event.image, 'square');
   const ImageComponent = squareImage && (
     <PrismicImage
       image={{
