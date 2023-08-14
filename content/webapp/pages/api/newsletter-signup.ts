@@ -10,9 +10,11 @@ type Status = 'ok' | 'error';
 async function createSubscription({
   emailAddress,
   addressBookId,
+  marketingPermissions,
 }: {
   emailAddress: string;
   addressBookId: string;
+  marketingPermissions: boolean;
 }): Promise<Status> {
   const newsletterApiUrl = 'https://r1-api.dotmailer.com/v2';
 
@@ -39,12 +41,19 @@ async function createSubscription({
   const newBody = JSON.stringify({
     Email: emailAddress,
     OptInType: 'VerifiedDouble',
+    ...(marketingPermissions && {
+      dataFields: [{ key: 'MARKETINGPERMISSIONS', value: 'on' }],
+    }),
   });
   const resubscribeBody = JSON.stringify({
     UnsubscribedContact: {
       Email: emailAddress,
+      ...(marketingPermissions && {
+        dataFields: [{ key: 'MARKETINGPERMISSIONS', value: 'on' }],
+      }),
     },
   });
+
   // …and try to add it to the correct address book
   const newResponse = await fetch(
     `${newsletterApiUrl}/address-books/${addressBookId}/contacts`,
@@ -92,10 +101,11 @@ async function createSubscription({
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
-      const { addressBookId, emailAddress } = req.body;
+      const { addressBookId, emailAddress, marketingPermissions } = req.body;
       const result = await createSubscription({
         emailAddress,
         addressBookId,
+        marketingPermissions,
       });
 
       res.status(200).json({ result });

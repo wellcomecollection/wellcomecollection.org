@@ -70,6 +70,7 @@ const NewsletterPromo: FunctionComponent = () => {
     const data = {
       addressBookId: formEls.find(el => el.name === 'addressBookId').value,
       emailAddress: formEls.find(el => el.name === 'email').value,
+      marketingPermissions: hasCheckedMarketing,
     };
 
     const response = await fetch('/api/newsletter-signup', {
