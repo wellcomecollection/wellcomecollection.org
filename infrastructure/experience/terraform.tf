@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 terraform {
   backend "s3" {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
