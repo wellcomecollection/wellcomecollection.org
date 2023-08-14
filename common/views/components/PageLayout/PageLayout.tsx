@@ -10,7 +10,6 @@ import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
-import Space from '../styled/Space';
 import {
   museumLd,
   libraryLd,
@@ -300,7 +299,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           <ApiToolbar links={apiToolbarLinks.filter(isNotUndefined)} />
         )}
         <CookieNotice source={url.pathname || ''} />
-
         {skipToContentLinks.map(({ anchorId, label }) => (
           <a
             className="visually-hidden visually-hidden-focusable"
@@ -310,13 +308,10 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             {label}
           </a>
         ))}
-
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-
         <Header siteSection={siteSection} {...headerProps} />
-
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
@@ -341,16 +336,9 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         >
           {children}
         </div>
-        {!hideNewsletterPromo && (
-          <Space
-            v={{
-              size: 'xl',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
-          >
-            <NewsletterPromo />
-          </Space>
-        )}
+
+        {!hideNewsletterPromo && <NewsletterPromo />}
+
         {/* The no javascript version of the burger menu relies on the footer being present on the page,
         as we then use an anchor link to take people to the navigation links in the footer.
         We only completely remove the footer if you've got JS. */}

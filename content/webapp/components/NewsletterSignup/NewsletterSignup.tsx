@@ -29,6 +29,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
   isConfirmed,
 }: Props) => {
   const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
+  const [hasCheckedMarketing, setHasCheckedMarketing] = useState(false);
   const [noValidate, setNoValidate] = useState(false);
   const [emailValue, setEmailValue] = useState('');
   const emailValidation = useValidation();
@@ -185,6 +186,25 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 </Space>
               ))}
             </PlainList>
+
+            <Space v={{ size: 'l', properties: ['margin-top'] }}>
+              <CheckboxRadio
+                id="MARKETINGPERMISSIONS"
+                name="cd_MARKETINGPERMISSIONS"
+                type="checkbox"
+                checked={hasCheckedMarketing}
+                onChange={() => {
+                  setHasCheckedMarketing(currentValue => !currentValue);
+                }}
+                text={
+                  <p className={font('intr', 6)}>
+                    Tick this box if you’re happy to receive other emails about
+                    Wellcome Collection, upcoming events and exhibitions and/or
+                    other relevant opportunities.
+                  </p>
+                }
+              />
+            </Space>
           </Space>
 
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
