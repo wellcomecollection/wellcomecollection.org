@@ -14,7 +14,6 @@ variable "env_suffix" {}
 variable "subdomain" {}
 
 variable "container_image" {}
-variable "nginx_image" {}
 
 variable "use_fargate_spot" {
   type    = bool
