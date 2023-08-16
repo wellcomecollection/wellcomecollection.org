@@ -38,7 +38,6 @@ import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
 const domain = new URL(baseUrl).host;
 
-// TODO uncomment when e2es have been investigated further
 const searchWithin = async (query: string, page: Page) => {
   await page.fill(`text=${searchWithinLabel}`, query);
   await page.press(`text=${searchWithinLabel}`, 'Enter');
@@ -210,11 +209,10 @@ test.describe('Scenario 5: A user wants to view an item in a different orientati
 });
 
 test.describe('Scenario 6: Item has multiple volumes', () => {
-  // TODO uncomment when e2es have been investigated further
-  // Worth noting that this one might genuinely be broken as it's the one that seems to always fail on desktop
   test('the volumes should be browsable', async ({ page, context }) => {
     if (!isMobile(page)) {
       await multiVolumeItem(context, page);
+      await safeWaitForNavigation(page);
       await page.waitForSelector(`css=body >> text="Volumes"`);
       await page.click('text="Volumes"');
       const navigationSelector = `nav [aria-label="${volumesNavigationLabel}"]`;
@@ -264,13 +262,13 @@ test.describe('Scenario 6: Item has multiple volumes', () => {
   });
 });
 
-// TODO uncomment when e2es have been investigated further
 test.describe('Scenario 7: A user wants to navigate an item by its parts', () => {
   test('the structured parts should be browseable', async ({
     page,
     context,
   }) => {
     await itemWithSearchAndStructures(context, page);
+    await safeWaitForNavigation(page);
     if (isMobile(page)) {
       await page.click('text="Show info"');
     }
@@ -319,14 +317,13 @@ test.describe('Scenario 8: A user wants to be able to see all the images for an 
 test.describe("Scenario 9: A user wants to be able to search inside an item's text", () => {
   test('the item should be searchable', async ({ page, context }) => {
     await itemWithSearchAndStructures(context, page);
+    await safeWaitForNavigation(page);
     if (isMobile(page)) {
       await page.click('text="Show info"');
     }
     await searchWithin('darwin', page);
     await page.waitForSelector(searchWithinResultsHeader);
-    await page.click(
-      `${searchWithinResultsHeader} + ul li:first-of-type button`
-    );
+    await page.click(`${searchWithinResultsHeader} + ul li:first-of-type a`);
     if (!isMobile(page)) {
       await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
     }
