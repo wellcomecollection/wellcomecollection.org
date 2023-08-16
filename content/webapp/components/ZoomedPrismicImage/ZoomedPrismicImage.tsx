@@ -14,7 +14,9 @@ import Image from 'next/image';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { trackGaEvent } from '@weco/common/utils/ga';
 
-const ZoomButton = styled.button`
+const ZoomButton = styled.button.attrs({
+  'data-gtm-trigger': 'zoom_prismic_image_button',
+})`
   position: absolute;
   top: 10px;
   right: 10px;
