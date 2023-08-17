@@ -48,7 +48,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                   <ButtonSolid disabled={true} text="Fully booked" />
                 ) : (
                   <ButtonSolidLink
-                    link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
+                    link={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
                     trackingEvent={{
                       category: 'component',
                       action: 'booking-tickets:click',
@@ -72,7 +72,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                   <ButtonSolid disabled={true} text="Fully booked" />
                 ) : (
                   <ButtonSolidLink
-                    link={`https://www.eventbrite.com/e/${event.onlineEventbriteId}`}
+                    link={`https://www.eventbrite.com/e/${event.onlineEventbriteId}/`}
                     trackingEvent={{
                       category: 'component',
                       action: 'booking-tickets:click',
