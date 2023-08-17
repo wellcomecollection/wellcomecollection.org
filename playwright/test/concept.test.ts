@@ -48,7 +48,7 @@ const conceptIds = {
   'John, the Baptist, Saint': 'qd86ycny',
 
   // Chosen because there are works both about and by this person
-  'Stephens, Joanna': 'pg43g9hn',
+  'Nightingale, Florence, 1820-1910': 'gk2eca5r',
 
   // Chosen because there are images both about and by this person
   'Darwin, Charles, 1809-1882': 'v3m7uhy9',
@@ -75,7 +75,11 @@ test.describe('concepts @conceptPage', () => {
   }) => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
-    await concept(conceptIds['Stephens, Joanna'], context, page);
+    await concept(
+      conceptIds['Nightingale, Florence, 1820-1910'],
+      context,
+      page
+    );
     await page.click(worksAboutThisPerson);
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
@@ -88,7 +92,7 @@ test.describe('concepts @conceptPage', () => {
 
     expect(content?.startsWith('All works')).toBe(true);
     expect(await aboutThisPerson.getAttribute('href')).toBe(
-      '/search/works?subjects.label=%22Stephens%2C+Joanna%22'
+      '/search/works?subjects.label=%22Nightingale%2C+Florence%2C+1820-1910%22'
     );
   });
 
@@ -98,7 +102,11 @@ test.describe('concepts @conceptPage', () => {
   }) => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
-    await concept(conceptIds['Stephens, Joanna'], context, page);
+    await concept(
+      conceptIds['Nightingale, Florence, 1820-1910'],
+      context,
+      page
+    );
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
@@ -110,7 +118,7 @@ test.describe('concepts @conceptPage', () => {
 
     expect(content?.startsWith('All works')).toBe(true);
     expect(await byThisPerson.getAttribute('href')).toBe(
-      '/search/works?contributors.agent.label=%22Stephens%2C+Joanna%22'
+      '/search/works?contributors.agent.label=%22Nightingale%2C+Florence%2C+1820-1910%22'
     );
   });
 
