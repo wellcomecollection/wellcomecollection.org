@@ -43,10 +43,6 @@ const conceptIds = {
   // the search properly.
   'Thackrah, Charles Turner, 1795-1833': 'd46ea7yk',
 
-  // Chosen because there are no associated images if you don't quote
-  // the search properly.
-  'John, the Baptist, Saint': 'qd86ycny',
-
   // Chosen because there are works both about and by this person
   'Nightingale, Florence, 1820-1910': 'gk2eca5r',
 
@@ -128,7 +124,11 @@ test.describe('concepts @conceptPage', () => {
   }) => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the query we send to the images API.
-    await concept(conceptIds['John, the Baptist, Saint'], context, page);
+    await concept(
+      conceptIds['Nightingale, Florence, 1820-1910'],
+      context,
+      page
+    );
     await page.waitForSelector('h2 >> text="Images"');
   });
 
