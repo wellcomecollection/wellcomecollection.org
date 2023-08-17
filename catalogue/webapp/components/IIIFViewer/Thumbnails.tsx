@@ -39,6 +39,7 @@ export const Thumbnails = () => {
         .map(i => canvases?.[i])
         .filter(Boolean)
     : [];
+
   return (
     <ThumbnailsContainer id="xyz">
       {navigationCanvases &&
@@ -47,7 +48,7 @@ export const Thumbnails = () => {
             thumbnailsPageSize * queryParamToArrayIndex(query.page) + (i + 1);
           return (
             <NextLink
-              key={work.id}
+              key={canvas.id}
               {...itemLink({
                 workId: work.id,
                 props: {

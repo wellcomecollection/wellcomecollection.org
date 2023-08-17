@@ -1,4 +1,4 @@
-import { test as base, expect } from '@playwright/test';
+import { Page, test as base, expect } from '@playwright/test';
 import {
   multiVolumeItem,
   multiVolumeItem2,
@@ -28,17 +28,20 @@ import {
   toggleInfoDesktop,
   toggleInfoMobile,
   referenceNumber,
+  mainViewer,
+  searchWithinResultsHeader,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
+import { searchWithinLabel, volumesNavigationLabel } from './text/aria-labels';
+import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
 const domain = new URL(baseUrl).host;
 
-// TODO uncomment when e2es have been investigated further
-// const searchWithin = async (query: string, page: Page) => {
-//   await page.fill(`text=${searchWithinLabel}`, query);
-//   await page.press(`text=${searchWithinLabel}`, 'Enter');
-// };
+const searchWithin = async (query: string, page: Page) => {
+  await page.fill(`text=${searchWithinLabel}`, query);
+  await page.press(`text=${searchWithinLabel}`, 'Enter');
+};
 
 const test = base.extend({
   context: async ({ context }, use) => {
@@ -206,41 +209,40 @@ test.describe('Scenario 5: A user wants to view an item in a different orientati
 });
 
 test.describe('Scenario 6: Item has multiple volumes', () => {
-  // TODO uncomment when e2es have been investigated further
-  // Worth noting that this one might genuinely be broken as it's the one that seems to always fail on desktop
-  // test('the volumes should be browsable', async ({ page, context }) => {
-  //   if (!isMobile(page)) {
-  //     await multiVolumeItem(context, page);
-  //     await page.waitForSelector(`css=body >> text="Volumes"`);
-  //     await page.click('text="Volumes"');
-  //     const navigationSelector = `nav [aria-label="${volumesNavigationLabel}"]`;
-  //     await page.waitForSelector(navigationSelector);
+  test('the volumes should be browsable', async ({ page, context }) => {
+    if (!isMobile(page)) {
+      await multiVolumeItem(context, page);
+      await safeWaitForNavigation(page);
+      await page.waitForSelector(`css=body >> text="Volumes"`);
+      await page.click('text="Volumes"');
+      const navigationSelector = `nav [aria-label="${volumesNavigationLabel}"]`;
+      await page.waitForSelector(navigationSelector);
 
-  //     const navigationVisible = await page.isVisible(navigationSelector);
-  //     expect(navigationVisible).toBeTruthy();
+      const navigationVisible = await page.isVisible(navigationSelector);
+      expect(navigationVisible).toBeTruthy();
 
-  //     const currentManifestLinkLabel = await page.textContent(
-  //       `${navigationSelector} a[aria-current="page"]`
-  //     );
+      const currentManifestLinkLabel = await page.textContent(
+        `${navigationSelector} a[aria-current="page"]`
+      );
 
-  //     const currentManifestLabel = await page.textContent(
-  //       '[data-test-id=current-manifest]'
-  //     );
+      const currentManifestLabel = await page.textContent(
+        '[data-test-id=current-manifest]'
+      );
 
-  //     expect(currentManifestLinkLabel).toEqual(currentManifestLabel);
+      expect(currentManifestLinkLabel).toEqual(currentManifestLabel);
 
-  //     const nextManifestLinkSelector = `${navigationSelector} a:not([aria-current="page"])`;
-  //     const nextManifestLinkLabel = await page.textContent(
-  //       nextManifestLinkSelector
-  //     );
+      const nextManifestLinkSelector = `${navigationSelector} a:not([aria-current="page"])`;
+      const nextManifestLinkLabel = await page.textContent(
+        nextManifestLinkSelector
+      );
 
-  //     await page.click(nextManifestLinkSelector);
+      await page.click(nextManifestLinkSelector);
 
-  //     await page.waitForSelector(
-  //       `css=[data-test-id=current-manifest] >> text="${nextManifestLinkLabel}"`
-  //     );
-  //   }
-  // });
+      await page.waitForSelector(
+        `css=[data-test-id=current-manifest] >> text="${nextManifestLinkLabel}"`
+      );
+    }
+  });
 
   test('the multi-volume label should be appropriate', async ({
     page,
@@ -260,74 +262,73 @@ test.describe('Scenario 6: Item has multiple volumes', () => {
   });
 });
 
-// TODO uncomment when e2es have been investigated further
-// test.describe('Scenario 7: A user wants to navigate an item by its parts', () => {
-//   test('the structured parts should be browseable', async ({
-//     page,
-//     context,
-//   }) => {
-//     await itemWithSearchAndStructures(context, page);
-//     if (isMobile(page)) {
-//       await page.click('text="Show info"');
-//     }
-//     await page.click('css=body >> text="Contents"');
-//     await page.waitForSelector('css=body >> text="Title Page"');
-//     await page.click('text="Title Page"');
-//     if (!isMobile(page)) {
-//       await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
-//     }
-//   });
-// });
-//
-// const scrollToBottom = async (selector: string, page: Page) => {
-//   await page.$eval(selector, (element: HTMLElement) => {
-//     element.scrollTo(0, element.scrollHeight);
-//   });
-// };
+test.describe('Scenario 7: A user wants to navigate an item by its parts', () => {
+  test('the structured parts should be browseable', async ({
+    page,
+    context,
+  }) => {
+    await itemWithSearchAndStructures(context, page);
+    await safeWaitForNavigation(page);
+    if (isMobile(page)) {
+      await page.click('text="Show info"');
+    }
+    await page.click('css=body >> text="Contents"');
+    await page.waitForSelector('css=body >> text="Title Page"');
+    await page.click('text="Title Page"');
+    if (!isMobile(page)) {
+      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+    }
+  });
+});
 
-// test.describe('Scenario 8: A user wants to be able to see all the images for an item', () => {
-//   test('the main viewer can be scrolled', async ({ page, context }) => {
-//     await itemWithSearchAndStructures(context, page);
-//     await page.waitForSelector(mainViewer);
-//     await scrollToBottom(mainViewer, page);
+const scrollToBottom = async (selector: string, page: Page) => {
+  await page.$eval(selector, (element: HTMLElement) => {
+    element.scrollTo(0, element.scrollHeight);
+  });
+};
 
-//     // In this test, we're loading an item with 68 pages, scrolling to the
-//     // bottom, then looking for the "68/68" text on the page.
-//     //
-//     // This text is hidden whenever the window is being scrolled, zoomed,
-//     // or resized, because that might affect what the "current" page is.
-//     //
-//     // We've had issues with this test being flaky, because we don't wait
-//     // long enough after we finish scrolling to look for this "68/68" --
-//     // tossing in this wait seems to fix that.
-//     await safeWaitForNavigation(page);
+test.describe('Scenario 8: A user wants to be able to see all the images for an item', () => {
+  test('the main viewer can be scrolled', async ({ page, context }) => {
+    await itemWithSearchAndStructures(context, page);
+    await page.waitForSelector(mainViewer);
+    await scrollToBottom(mainViewer, page);
 
-//     await page.waitForSelector(
-//       `css=[data-test-id=active-index] >> text="68"`,
+    // In this test, we're loading an item with 68 pages, scrolling to the
+    // bottom, then looking for the "68/68" text on the page.
+    //
+    // This text is hidden whenever the window is being scrolled, zoomed,
+    // or resized, because that might affect what the "current" page is.
+    //
+    // We've had issues with this test being flaky, because we don't wait
+    // long enough after we finish scrolling to look for this "68/68" --
+    // tossing in this wait seems to fix that.
+    await safeWaitForNavigation(page);
 
-//       // The "68/68" label isn't visible on small screens, but the element
-//       // will still be on the page.
-//       { state: isMobile(page) ? 'attached' : 'visible' }
-//     );
-//   });
-// });
-//
-// test.describe("Scenario 9: A user wants to be able to search inside an item's text", () => {
-//   test('the item should be searchable', async ({ page, context }) => {
-//     await itemWithSearchAndStructures(context, page);
-//     if (isMobile(page)) {
-//       await page.click('text="Show info"');
-//     }
-//     await searchWithin('darwin', page);
-//     await page.waitForSelector(searchWithinResultsHeader);
-//     await page.click(
-//       `${searchWithinResultsHeader} + ul li:first-of-type button`
-//     );
-//     if (!isMobile(page)) {
-//       await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
-//     }
-//   });
-// });
+    await page.waitForSelector(
+      `css=[data-test-id=active-index] >> text="68"`,
+
+      // The "68/68" label isn't visible on small screens, but the element
+      // will still be on the page.
+      { state: isMobile(page) ? 'attached' : 'visible' }
+    );
+  });
+});
+
+test.describe("Scenario 9: A user wants to be able to search inside an item's text", () => {
+  test('the item should be searchable', async ({ page, context }) => {
+    await itemWithSearchAndStructures(context, page);
+    await safeWaitForNavigation(page);
+    if (isMobile(page)) {
+      await page.click('text="Show info"');
+    }
+    await searchWithin('darwin', page);
+    await page.waitForSelector(searchWithinResultsHeader);
+    await page.click(`${searchWithinResultsHeader} + ul li:first-of-type a`);
+    if (!isMobile(page)) {
+      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
+    }
+  });
+});
 
 test.describe('Scenario 10: A user wants to be able to access alt text for the images', () => {
   test('images should have alt text', async ({ page, context }) => {
