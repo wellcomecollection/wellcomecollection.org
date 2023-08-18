@@ -77,78 +77,10 @@ export const graphQuery = `{
   }
   articles {
     ...articlesFields
-    format {
-      ...formatFields
-    }
     body {
-      ...on text {
-        non-repeat {
-          text
-        }
-      }
-      ...on editorialImage {
-        non-repeat {
-          image
-          caption
-        }
-      }
-      ...on editorialImageGallery {
-        non-repeat {
-          title
-        }
-        repeat {
-          image
-          caption
-        }
-      }
-      ...on gifVideo {
-        non-repeat {
-          caption
-          tasl
-          video
-          playbackRate
-          autoPlay
-          loop
-          mute
-          showControls
-        }
-      }
-      ...on iframe {
-        non-repeat {
-          iframeSrc
-          previewImage
-        }
-      }
       ...on standfirst {
         non-repeat {
           text
-        }
-      }
-      ...on quoteV2 {
-        non-repeat {
-          text
-          citation
-        }
-      }
-      ...on embed {
-        non-repeat {
-          embed
-          caption
-        }
-      }
-      ...on discussion {
-        non-repeat {
-          title
-          text
-        }
-      }
-      ...on tagList {
-        non-repeat {
-          title
-        }
-        repeat {
-          link
-          linkText
         }
       }
     }
