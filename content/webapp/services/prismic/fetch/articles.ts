@@ -33,37 +33,12 @@ const articlesFetcher = fetcher<ArticlePrismicDocument>(
 
 export const fetchArticle = articlesFetcher.getById;
 
-export const graphQuery = `{
+const graphQuery = `{
   webcomics {
-    ...webcomicsFields
+    title
     format {
-      ...formatFields
-    }
-    body {
-      ...on editorialImageGallery {
-        non-repeat {
-          title
-        }
-        repeat {
-          image
-          caption
-        }
-      }
-    }
-    series {
-      series {
-        ...seriesFields
-      }
-    }
-    contributors {
-      ...contributorsFields
-      role {
-        ...roleFields
-      }
-      contributor {
-        ... on people {
-          ...peopleFields
-        }
+      ... on article-formats {
+        title
       }
     }
     promo {
@@ -74,50 +49,9 @@ export const graphQuery = `{
         }
       }
     }
-  }
-  articles {
-    ...articlesFields
-    body {
-      ...on standfirst {
-        non-repeat {
-          text
-        }
-      }
-    }
-    contributors {
-      ...contributorsFields
-      role {
-        ...roleFields
-      }
-      contributor {
-        ... on people {
-          ...peopleFields
-        }
-        ... on organisations {
-          ...organisationsFields
-        }
-      }
-    }
     series {
       series {
-        ...seriesFields
-        schedule {
-          ...scheduleFields
-        }
-        contributors {
-          ...contributorsFields
-          role {
-            ...roleFields
-          }
-          contributor {
-            ... on people {
-              ...peopleFields
-            }
-            ... on organisations {
-              ...organisationsFields
-            }
-          }
-        }
+        title
         promo {
           ... on editorialImage {
             non-repeat {
@@ -128,6 +62,14 @@ export const graphQuery = `{
         }
       }
     }
+  }
+  articles {
+    title
+    format {
+      ... on article-formats {
+        title
+      }
+    }
     promo {
       ... on editorialImage {
         non-repeat {
@@ -136,16 +78,14 @@ export const graphQuery = `{
         }
       }
     }
-    seasons {
-      season {
-        ... on seasons {
-          title
-          promo {
-            ... on editorialImage {
-              non-repeat {
-                caption
-                image
-              }
+    series {
+      series {
+        title
+        promo {
+          ... on editorialImage {
+            non-repeat {
+              caption
+              image
             }
           }
         }
