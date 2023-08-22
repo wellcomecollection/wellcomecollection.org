@@ -1,6 +1,6 @@
 import title from './parts/title';
 import promo from './parts/promo';
-import visualStoryBody from './parts/bodies/visual-story-body';
+import { visualStoryBody } from './parts/bodies';
 import timestamp from './parts/timestamp';
 import boolean from './parts/boolean';
 import { CustomType } from './types/CustomType';

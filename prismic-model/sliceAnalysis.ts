@@ -25,9 +25,7 @@
  * see: https://prismic.io/docs/core-concepts/slices
  */
 import yargs from 'yargs';
-import body from './src/parts/bodies/body';
-import articleBody from './src/parts/bodies/article-body';
-import visualStoryBody from './src/parts/bodies/visual-story-body';
+import { body, articleBody, visualStoryBody } from './src/parts/bodies';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,

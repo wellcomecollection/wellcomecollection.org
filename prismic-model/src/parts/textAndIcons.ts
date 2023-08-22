@@ -1,8 +1,8 @@
 import { multiLineText } from './text';
-import { slice } from './bodies/body';
+import { body } from './bodies';
 
 export const textAndIconsSlice = () => {
-  return slice('Text and icons', {
+  return body.slice('Text and icons', {
     description: 'Side-by-side',
     nonRepeat: {
       text: multiLineText('Text', { extraTextOptions: ['heading3'] }),

@@ -1,7 +1,7 @@
 import title from './parts/title';
 import geolocation from './parts/geolocation';
 import number from './parts/number';
-import body from './parts/bodies/body';
+import { body } from './parts/bodies';
 import { multiLineText } from './parts/text';
 import { CustomType } from './types/CustomType';
 

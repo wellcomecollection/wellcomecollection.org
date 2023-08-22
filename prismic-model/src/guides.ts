@@ -1,5 +1,5 @@
 import title from './parts/title';
-import body from './parts/bodies/body';
+import { body } from './parts/bodies';
 import promo from './parts/promo';
 import { documentLink } from './parts/link';
 import timestamp from './parts/timestamp';
