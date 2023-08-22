@@ -43,8 +43,8 @@ const conceptIds = {
   // the search properly.
   'Thackrah, Charles Turner, 1795-1833': 'd46ea7yk',
 
-  // Chosen because there are works both about and by this person
-  'Nightingale, Florence, 1820-1910': 'gk2eca5r',
+  // Chosen because there are works both about and by this organisation
+  'Great Britain. Army': 'ck4h8gj9',
 
   // Chosen because there are images both about and by this organisation
   'Physiological Society (Great Britain)': 'gdhn3r7q',
@@ -71,11 +71,7 @@ test.describe('concepts @conceptPage', () => {
   }) => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
-    await concept(
-      conceptIds['Nightingale, Florence, 1820-1910'],
-      context,
-      page
-    );
+    await concept(conceptIds['Great Britain. Army'], context, page);
     await page.click(worksAboutThisPerson);
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
@@ -88,7 +84,7 @@ test.describe('concepts @conceptPage', () => {
 
     expect(content?.startsWith('All works')).toBe(true);
     expect(await aboutThisPerson.getAttribute('href')).toBe(
-      '/search/works?subjects.label=%22Nightingale%2C+Florence%2C+1820-1910%22'
+      '/search/works?subjects.label=%22Great+Britain.+Army%22'
     );
   });
 
@@ -98,11 +94,7 @@ test.describe('concepts @conceptPage', () => {
   }) => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
-    await concept(
-      conceptIds['Nightingale, Florence, 1820-1910'],
-      context,
-      page
-    );
+    await concept(conceptIds['Great Britain. Army'], context, page);
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
@@ -114,7 +106,7 @@ test.describe('concepts @conceptPage', () => {
 
     expect(content?.startsWith('All works')).toBe(true);
     expect(await byThisPerson.getAttribute('href')).toBe(
-      '/search/works?contributors.agent.label=%22Nightingale%2C+Florence%2C+1820-1910%22'
+      '/search/works?contributors.agent.label=%22Great+Britain.+Army%22'
     );
   });
 
@@ -124,11 +116,7 @@ test.describe('concepts @conceptPage', () => {
   }) => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the query we send to the images API.
-    await concept(
-      conceptIds['Nightingale, Florence, 1820-1910'],
-      context,
-      page
-    );
+    await concept(conceptIds['Great Britain. Army'], context, page);
     await page.waitForSelector('h2 >> text="Images"');
   });
 
