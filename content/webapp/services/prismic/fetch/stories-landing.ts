@@ -8,7 +8,7 @@ const graphQuery = `{
     storiesDescription
     stories {
       story {
-        ...on articles {
+        ... on articles {
           title
           format {
             ... on article-formats {
