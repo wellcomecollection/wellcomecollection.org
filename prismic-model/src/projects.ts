@@ -1,5 +1,5 @@
 import title from './parts/title';
-import body from './parts/body';
+import body from './parts/bodies/body';
 import promo from './parts/promo';
 import { singleLineText } from './parts/text';
 import contributorsWithTitle from './parts/contributorsWithTitle';

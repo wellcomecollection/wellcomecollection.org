@@ -6,7 +6,7 @@ import { documentLink } from './parts/link';
 import list from './parts/list';
 import { singleLineText } from './parts/text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import body from './parts/body';
+import body from './parts/bodies/body';
 import booleanDeprecated from './parts/boolean-deprecated';
 import number from './parts/number';
 import { CustomType } from './types/CustomType';

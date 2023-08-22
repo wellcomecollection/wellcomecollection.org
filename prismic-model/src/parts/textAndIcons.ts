@@ -1,5 +1,5 @@
 import { multiLineText } from './text';
-import { slice } from './body';
+import { slice } from './bodies/body';
 
 export const textAndIconsSlice = () => {
   return slice('Text and icons', {

@@ -1,15 +1,15 @@
-import { multiLineText, singleLineText } from './text';
-import captionedImageSlice from './captioned-image-slice';
-import captionedImageGallerySlice from './captioned-image-gallery-slice';
-import gifVideoSlice from './gif-video-slice';
-import iframeSlice from './iframe-slice';
-import title from './title';
-import link, { documentLink, mediaLink, webLink } from './link';
-import text from './keyword';
-import embed from './embed';
-import heading from './heading';
-import booleanDeprecated from './boolean-deprecated';
-import { textAndIconsSlice } from './textAndIcons';
+import { multiLineText, singleLineText } from '../text';
+import captionedImageSlice from '../captioned-image-slice';
+import captionedImageGallerySlice from '../captioned-image-gallery-slice';
+import gifVideoSlice from '../gif-video-slice';
+import iframeSlice from '../iframe-slice';
+import title from '../title';
+import link, { documentLink, mediaLink, webLink } from '../link';
+import text from '../keyword';
+import embed from '../embed';
+import heading from '../heading';
+import booleanDeprecated from '../boolean-deprecated';
+import { textAndIconsSlice } from '../textAndIcons';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {

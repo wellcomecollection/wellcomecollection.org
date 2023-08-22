@@ -25,8 +25,9 @@
  * see: https://prismic.io/docs/core-concepts/slices
  */
 import yargs from 'yargs';
-import body from './src/parts/body';
-import articleBody from './src/parts/article-body';
+import body from './src/parts/bodies/body';
+import articleBody from './src/parts/bodies/article-body';
+import visualStoryBody from './src/parts/bodies/visual-story-body';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
@@ -42,7 +43,8 @@ const { label, type } = yargs(process.argv.slice(2))
 
 async function main() {
   const sliceNames = Object.keys(articleBody.config.choices).concat(
-    Object.keys(body.config.choices)
+    Object.keys(body.config.choices),
+    Object.keys(visualStoryBody.config.choices)
   );
 
   const sliceCounter = new Map(sliceNames.map(sliceName => [sliceName, 0]));

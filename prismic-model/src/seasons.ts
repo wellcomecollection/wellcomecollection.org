@@ -1,6 +1,6 @@
 import title from './parts/title';
 import promo from './parts/promo';
-import body from './parts/body';
+import body from './parts/bodies/body';
 import timestamp from './parts/timestamp';
 import { CustomType } from './types/CustomType';
 

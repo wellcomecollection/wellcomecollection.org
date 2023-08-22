@@ -1,6 +1,6 @@
 import title from './parts/title';
 import { multiLineText, singleLineText } from './parts/text';
-import body from './parts/body';
+import body from './parts/bodies/body';
 import { documentLink, webLink } from './parts/link';
 import keyword from './parts/keyword';
 import list from './parts/list';

@@ -5,6 +5,7 @@ import {
 } from './downloadSnapshot';
 import fs from 'fs';
 import { success } from './console';
+import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 
 const { type, report, printUrl } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --type [string] --report [boolean] --printUrl [boolean]')
@@ -15,20 +16,23 @@ const { type, report, printUrl } = yargs(process.argv.slice(2))
   })
   .parseSync();
 
+async function getContentTypes(): Promise<string[]> {
+  const client = createPrismicClient();
+
+  const ref = await client.getRepository();
+
+  const contentTypes = Object.keys(ref.types).map(k => k);
+
+  return contentTypes;
+}
+
 async function main() {
+  const contentTypesList = await getContentTypes();
   const snapshotDir = await downloadPrismicSnapshot();
   const matches = [];
-  const contentTypeNamesOnPlatform = [];
-
-  for (const result of getPrismicDocuments(snapshotDir)) {
-    if (result.type) {
-      if (!contentTypeNamesOnPlatform.includes(result.type))
-        contentTypeNamesOnPlatform.push(result.type);
-    }
-  }
 
   const contentTypeCounter = new Map(
-    contentTypeNamesOnPlatform.map(contentTypeName => [contentTypeName, 0])
+    contentTypesList.map(contentTypeName => [contentTypeName, 0])
   );
 
   for (const result of getPrismicDocuments(snapshotDir)) {

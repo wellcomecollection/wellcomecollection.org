@@ -1,10 +1,10 @@
 import body, { slice } from './body';
-import heading from './heading';
-import { mediaLink, webLink } from './link';
-import keyword from './keyword';
-import { multiLineText, singleLineText } from './text';
-import gifVideoSlice from './gif-video-slice';
-import title from './title';
+import heading from '../heading';
+import { mediaLink, webLink } from '../link';
+import keyword from '../keyword';
+import { multiLineText, singleLineText } from '../text';
+import gifVideoSlice from '../gif-video-slice';
+import title from '../title';
 
 export default {
   fieldset: 'Body content',
