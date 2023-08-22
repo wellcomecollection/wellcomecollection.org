@@ -14,9 +14,7 @@ import Image from 'next/image';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { trackGaEvent } from '@weco/common/utils/ga';
 
-const ZoomButton = styled.button.attrs({
-  'data-gtm-trigger': 'zoom_prismic_image_button',
-})`
+const ZoomButton = styled.button`
   position: absolute;
   top: 10px;
   right: 10px;
@@ -127,7 +125,10 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
 
   return canShowZoom ? (
     <>
-      <ZoomButton onClick={openDialog}>
+      <ZoomButton
+        data-gtm-trigger="zoom_prismic_image_button"
+        onClick={openDialog}
+      >
         <span className="visually-hidden">Zoom image</span>
         <Icon icon={expand} iconColor="white" />
       </ZoomButton>
