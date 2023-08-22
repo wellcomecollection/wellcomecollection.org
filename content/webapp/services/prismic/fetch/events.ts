@@ -66,66 +66,44 @@ type FetchEventsQueryParams = {
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
 
-export const graphQuery = `{
+const graphQuery = `{
   events {
-    ...eventsFields
+    title
+    isOnline
+    availableOnline
+    isRelaxedPerformance
     format {
-      ...formatFields
-    }
-    series {
-      series {
-        ...seriesFields
-        contributors {
-          ...contributorsFields
-          role {
-            ...roleFields
-          }
-          contributor {
-            ... on people {
-              ...peopleFields
-            }
-            ... on organisations {
-              ...organisationsFields
-            }
-          }
-        }
-        promo {
-          ... on editorialImage {
-            non-repeat {
-              caption
-              image
-            }
-          }
-        }
+      ... on event-formats {
+        title
       }
     }
     interpretations {
       interpretationType {
-        ...interpretationTypeFields
+        title
       }
     }
-    policies {
-      policy {
-        ...policyFields
-      }
+    times {
+      startDateTime
+      endDateTime
     }
     audiences {
       audience {
-        ...audienceFields
+        title
       }
     }
-    contributors {
-      ...contributorsFields
-      role {
-        ...roleFields
+    schedule {
+      event {
+        title
+        times {
+          startDateTime
+          endDateTime
+        }
       }
-      contributor {
-        ... on people {
-          ...peopleFields
-        }
-        ... on organisations {
-          ...organisationsFields
-        }
+      isNotLinked
+    }
+    locations {
+      location {
+        title
       }
     }
     promo {
@@ -136,8 +114,21 @@ export const graphQuery = `{
         }
       }
     }
+    series {
+      series {
+        title
+        promo {
+          ... on editorialImage {
+            non-repeat {
+              caption
+              image
+            }
+          }
+        }
+      }
+    }
   }
-}`;
+}`.replace(/\n(\s+)/g, '\n');
 
 export const fetchEvents = (
   client: GetServerSidePropsPrismicClient,

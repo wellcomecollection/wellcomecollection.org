@@ -7,7 +7,6 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
 import Message from '@weco/common/views/components/Message/Message';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
