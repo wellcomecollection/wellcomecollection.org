@@ -14,30 +14,23 @@ set -o errexit
 set -o nounset
 
 GITHUB_API_TOKEN=$(aws secretsmanager get-secret-value \
-  --secret-id builds/github_wecobot/e2e_pull_request_labels \
-  | jq -r .SecretString)
-
-    curl -L \
-      -H 'Accept: application/vnd.github+json' \
-      -H "Authorization: Bearer $GITHUB_API_TOKEN" \
-      -H "X-GitHub-Api-Version: 2022-11-28" \
-      "https://api.github.com/repos/wellcomecollection/wellcomecollection.org/issues/$BUILDKITE_PULL_REQUEST/labels" | jq .
+  --secret-id builds/github_wecobot/e2e_pull_request_labels |
+  jq -r .SecretString)
 
 HAS_SKIP_E2E_LABEL=$(
   curl -L \
     -H 'Accept: application/vnd.github+json' \
     -H "Authorization: Bearer $GITHUB_API_TOKEN" \
     -H "X-GitHub-Api-Version: 2022-11-28" \
-    "https://api.github.com/repos/wellcomecollection/wellcomecollection.org/issues/$BUILDKITE_PULL_REQUEST/labels" \
-    | jq '. | map(select(.name == "e2es not required")) | length'
+    "https://api.github.com/repos/wellcomecollection/wellcomecollection.org/issues/$BUILDKITE_PULL_REQUEST/labels" |
+    jq '. | map(select(.name == "e2es not required")) | length'
 )
 
-if (( HAS_SKIP_E2E_LABEL == 1 ))
-then
+if ((HAS_SKIP_E2E_LABEL == 1)); then
   exit 0
 fi
 
-buildkite-agent pipeline upload << EOF
+buildkite-agent pipeline upload <<EOF
 - wait
 
 - input: "Do you want to run end-to-end tests on this pull request?"
