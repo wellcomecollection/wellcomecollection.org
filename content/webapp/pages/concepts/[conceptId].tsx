@@ -127,7 +127,7 @@ function currentTabPanel<T>(
     }
   }
   throw new Error(
-    `Unexpected selected tab ${selectedTab} not found in ${tabDefinitions} `
+    `Unexpected selected tab ${selectedTab} not found in ${tabDefinitions}`
   );
 }
 
@@ -297,7 +297,9 @@ export const ConceptPage: NextPage<Props> = ({
 
   const imagesTabs: PageSectionDefinition<ImageType>[] = tabOrder
     .map(relationship => {
-      const tabId = `images${capitalize(relationship)}`;
+      const tabId = `images${relationship
+        .charAt(0)
+        .toUpperCase()}${relationship.slice(1)}`;
       return toPageSectionDefinition({
         tabId,
         resultsGroup: sectionsData[relationship].images,
@@ -328,7 +330,7 @@ export const ConceptPage: NextPage<Props> = ({
     <CataloguePageLayout
       title={conceptResponse.label}
       description={pageDescriptionConcepts(conceptResponse.label)}
-      url={{ pathname: `/ concepts / ${conceptResponse.id} `, query: {} }}
+      url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
       openGraphType="website"
       siteSection="collections"
       jsonLd={{ '@type': 'WebPage' }}
