@@ -8,19 +8,26 @@ const graphQuery = `{
     storiesDescription
     stories {
       story {
-        ...on articles {
-          ...articlesFields
+        ... on articles {
+          title
           format {
-            ...formatFields
+            ... on article-formats {
+              title
+            }
+          }
+          promo {
+            ... on editorialImage {
+              non-repeat {
+                caption
+                image
+              }
+            }
           }
           series {
             series {
-              ...seriesFields
+              title
             }
           }
-        }
-        ...on series {
-          ...seriesFields
         }
       }
     }
@@ -28,11 +35,20 @@ const graphQuery = `{
     booksDescription
     books {
       book {
-        ...bookFields
+        title
+        subtitle
+        promo {
+          ... on editorialImage {
+            non-repeat {
+              caption
+              image
+            }
+          }
+        }
       }
     }
   }
-}`;
+}`.replace(/\n(\s+)/g, '\n');
 
 export const fetchStoriesLanding = ({
   client,
