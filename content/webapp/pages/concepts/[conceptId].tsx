@@ -269,8 +269,6 @@ type Props = {
   pageview: Pageview;
 };
 
-// type TabId = `works${capitalize(tabOrder)}`
-
 export const ConceptPage: NextPage<Props> = ({
   conceptResponse,
   sectionsData,

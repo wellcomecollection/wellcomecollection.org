@@ -78,7 +78,6 @@ type ItemRendererProps = {
   data: {
     scrollVelocity: number;
     canvases: TransformedCanvas[];
-
     rotatedImages: RotatedImage[];
     errorHandler?: () => void;
     restrictedService: AuthExternalService | undefined;
