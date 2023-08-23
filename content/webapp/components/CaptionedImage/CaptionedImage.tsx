@@ -43,7 +43,7 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
   ${props =>
     props.hasRoundedCorners &&
     `
-    > div {
+    > div:first-child {
       border-radius:  clamp(10px, 2vw, 26px);
       overflow: hidden;
     }
