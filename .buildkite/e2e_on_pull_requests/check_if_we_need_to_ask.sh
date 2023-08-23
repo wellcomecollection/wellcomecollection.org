@@ -26,12 +26,12 @@ HAS_SKIP_E2E_LABEL=$(
     | jq '. | map(select(.name == "e2es not required")) | length'
 )
 
-if ((HAS_SKIP_E2E_LABEL == 1))
+if (( HAS_SKIP_E2E_LABEL == 1 ))
 then
   exit 0
 fi
 
-buildkite-agent pipeline upload <<EOF
+buildkite-agent pipeline upload << EOF
 - wait
 
 - input: "Do you want to run end-to-end tests on this pull request?"
