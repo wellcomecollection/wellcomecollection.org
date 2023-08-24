@@ -7,7 +7,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
 import Space from '@weco/common/views/components/styled/Space';
-import { AppErrorProps } from '@weco/common/services/app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '@weco/content/components/Body/Body';
@@ -31,12 +31,17 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 import { font } from '@weco/common/utils/classnames';
 import { today } from '@weco/common/utils/dates';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import { getPage } from '@weco/content/utils/query-params';
 
 type Props = {
   series: EventSeries;
   jsonLd: JsonLdObj[];
-  pastEvents: EventBasic[];
+  pastEvents: PaginatedResults<EventBasic>;
   upcomingEvents: EventBasic[];
+  page: number;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -52,6 +57,12 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
+  const page = getPage(context.query);
+
+  if (typeof page !== 'number') {
+    return appError(context, 400, page.message);
+  }
+
   const upcomingEventsQueryPromise = fetchEvents(client, {
     filters: [
       prismic.filter.at('my.events.series.series', eventSeriesId),
@@ -65,7 +76,8 @@ export const getServerSideProps: GetServerSideProps<
       prismic.filter.at('my.events.series.series', eventSeriesId),
       prismic.filter.dateBefore('my.events.times.endDateTime', today()),
     ],
-    pageSize: 10,
+    page,
+    pageSize: 20,
   });
 
   const seriesPromise = fetchEventSeriesById(client, eventSeriesId);
@@ -89,10 +101,7 @@ export const getServerSideProps: GetServerSideProps<
       transformEventBasic
     ).results;
 
-    const pastEvents = transformQuery(
-      pastEventsQuery,
-      transformEventBasic
-    ).results;
+    const pastEvents = transformQuery(pastEventsQuery, transformEventBasic);
 
     const jsonLd = upcomingEventsFull.flatMap(eventLd);
 
@@ -103,6 +112,7 @@ export const getServerSideProps: GetServerSideProps<
         pastEvents,
         jsonLd,
         serverData,
+        page,
       }),
     };
   } else {
@@ -115,6 +125,7 @@ const EventSeriesPage: FunctionComponent<Props> = ({
   jsonLd,
   pastEvents,
   upcomingEvents,
+  page,
 }) => {
   const breadcrumbs = {
     items: [
@@ -155,19 +166,35 @@ const EventSeriesPage: FunctionComponent<Props> = ({
       <ContentPage
         id={series.id}
         Header={Header}
-        Body={<Body body={series.body} pageId={series.id} />}
+        Body={
+          page === 1 ? (
+            <Body body={series.body} pageId={series.id} />
+          ) : undefined
+        }
         contributors={series.contributors}
       >
-        {upcomingEvents.length > 0 ? (
-          <SearchResults items={upcomingEvents} title="Coming up" />
-        ) : (
-          <h2 className={font('wb', 3)}>No upcoming events</h2>
+        {page === 1 && (
+          <>
+            {upcomingEvents.length > 0 ? (
+              <SearchResults items={upcomingEvents} title="Coming up" />
+            ) : (
+              <h2 className={font('wb', 3)}>No upcoming events</h2>
+            )}
+          </>
         )}
 
-        {pastEvents.length > 0 && (
+        {pastEvents.results.length > 0 && (
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <SearchResults items={pastEvents} title="Past events" />
+            <SearchResults items={pastEvents.results} title="Past events" />
           </Space>
+        )}
+        {pastEvents.totalPages > 1 && (
+          <PaginationWrapper verticalSpacing="m" alignRight>
+            <Pagination
+              totalPages={pastEvents.totalPages}
+              ariaLabel="Series pagination"
+            />
+          </PaginationWrapper>
         )}
       </ContentPage>
     </PageLayout>
