@@ -53,8 +53,7 @@ function getPastEvents(
         ...b.times.map(bTime => bTime.range.startDateTime.valueOf())
       );
       return bStartTime - aStartTime;
-    })
-    .slice(0, 3);
+    });
 }
 
 export const getServerSideProps: GetServerSideProps<
