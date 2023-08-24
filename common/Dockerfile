@@ -8,7 +8,6 @@ ADD ./package.json ./package.json
 ADD ./yarn.lock ./yarn.lock
 ADD ./common ./common
 
-ADD ./catalogue/webapp ./catalogue/webapp
 ADD ./content/webapp ./content/webapp
 ADD ./toggles/webapp ./toggles/webapp
 ADD ./identity/webapp ./identity/webapp
