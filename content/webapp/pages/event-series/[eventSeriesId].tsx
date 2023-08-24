@@ -27,10 +27,10 @@ import {
   transformEventBasic,
 } from '@weco/content/services/prismic/transformers/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { getUpcomingEvents } from '@weco/content/utils/event-series';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/common/utils/setCacheControl';
 import { font } from '@weco/common/utils/classnames';
+import { today } from '@weco/common/utils/dates';
 
 type Props = {
   series: EventSeries;
@@ -38,23 +38,6 @@ type Props = {
   pastEvents: EventBasic[];
   upcomingEvents: EventBasic[];
 };
-
-function getPastEvents(
-  events: EventBasic[],
-  upcomingEventsIds: Set<string>
-): EventBasic[] {
-  return events
-    .filter(event => !upcomingEventsIds.has(event.id))
-    .sort((a, b) => {
-      const aStartTime = Math.min(
-        ...a.times.map(aTime => aTime.range.startDateTime.valueOf())
-      );
-      const bStartTime = Math.min(
-        ...b.times.map(bTime => bTime.range.startDateTime.valueOf())
-      );
-      return bStartTime - aStartTime;
-    });
-}
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -69,30 +52,49 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
-  const eventsQueryPromise = fetchEvents(client, {
-    filters: [prismic.filter.at('my.events.series.series', eventSeriesId)],
+  const upcomingEventsQueryPromise = fetchEvents(client, {
+    filters: [
+      prismic.filter.at('my.events.series.series', eventSeriesId),
+      prismic.filter.dateAfter('my.events.times.endDateTime', today()),
+    ],
     pageSize: 100,
+  });
+
+  const pastEventsQueryPromise = fetchEvents(client, {
+    filters: [
+      prismic.filter.at('my.events.series.series', eventSeriesId),
+      prismic.filter.dateBefore('my.events.times.endDateTime', today()),
+    ],
+    pageSize: 10,
   });
 
   const seriesPromise = fetchEventSeriesById(client, eventSeriesId);
 
-  const [eventsQuery, seriesDocument] = await Promise.all([
-    eventsQueryPromise,
-    seriesPromise,
-  ]);
+  const [upcomingEventsQuery, pastEventsQuery, seriesDocument] =
+    await Promise.all([
+      upcomingEventsQueryPromise,
+      pastEventsQueryPromise,
+      seriesPromise,
+    ]);
 
   if (isNotUndefined(seriesDocument)) {
     const series = transformEventSeries(seriesDocument);
 
-    const fullEvents = transformQuery(eventsQuery, transformEvent).results;
-    const events = transformQuery(eventsQuery, transformEventBasic).results;
+    const upcomingEventsFull = transformQuery(
+      upcomingEventsQuery,
+      transformEvent
+    ).results;
+    const upcomingEvents = transformQuery(
+      upcomingEventsQuery,
+      transformEventBasic
+    ).results;
 
-    const upcomingEvents = getUpcomingEvents(events);
-    const upcomingEventsIds = new Set(upcomingEvents.map(event => event.id));
+    const pastEvents = transformQuery(
+      pastEventsQuery,
+      transformEventBasic
+    ).results;
 
-    const pastEvents = getPastEvents(events, upcomingEventsIds);
-
-    const jsonLd = fullEvents.flatMap(eventLd);
+    const jsonLd = upcomingEventsFull.flatMap(eventLd);
 
     return {
       props: serialiseProps({
