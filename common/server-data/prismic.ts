@@ -44,7 +44,6 @@ export const defaultValue = {
   },
 };
 
-type Key = keyof typeof defaultValue;
 export type PrismicData = {
   globalAlert: GlobalAlertPrismicDocument;
   popupDialog: PopupDialogPrismicDocument;
@@ -62,49 +61,49 @@ export const handler: Handler<SimplifiedPrismicData, PrismicData> = {
   fetch: fetchPrismicValues,
 };
 
-const fetchers: Record<Key, (client: prismic.Client) => unknown> = {
-  globalAlert: async client => client.getSingle('global-alert'),
-
-  popupDialog: async client => client.getSingle('popup-dialog'),
-
-  collectionVenues: async client =>
-    client.get({
-      filters: [prismic.filter.any('document.type', ['collection-venue'])],
-    }),
-};
-
 async function fetchPrismicValues(): Promise<PrismicData> {
   const client = createPrismicClient();
 
-  const keys = Object.keys(fetchers);
-  const values = await Promise.allSettled(
-    Object.values(fetchers).map(fetcher => fetcher(client))
-  );
-
-  const zipped = keys.reduce((acc, key, i) => {
-    const result = values[i];
-
-    // If we don't get a result from Prismic, we want to bail out immediately,
-    // rather than writing bad server data.
-    //
-    // e.g. if Prismic times out sometimes we'll get `undefined` for the collectionVenues,
-    // which throws a TypeError when we try to render it on a page.  Better to wait for
-    // the next interval, and use the cached version of the data, than 500.
-    //
-    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7954
-    if (result.status !== 'fulfilled') {
+  // If we don't get a result from Prismic for collectionVenues, we want to
+  // bail out immediately, rather than writing bad server data.
+  //
+  // e.g. if Prismic times out sometimes we'll get `undefined` for the
+  // collectionVenues, which throws a TypeError when we try to render it on a
+  // page.  Better to wait for the next interval, and use the cached version
+  // of the data, than 500.
+  const collectionVenuesResult = await client
+    .get({
+      filters: [prismic.filter.any('document.type', ['collection-venue'])],
+    })
+    .catch(error => {
       throw new Error(
-        `Failed to fetch ${keys[i]} from Prismic: ${result.reason}`
+        `Failed to fetch 'collection venues' from Prismic: ${error}`
       );
-    }
+    });
 
-    return {
-      ...acc,
-      [key]: result.value,
-    };
-  }, {});
+  const globalAlertResultPromise = client.getSingle('global-alert');
+  const popupDialogResultPromise = client.getSingle('popup-dialog');
 
-  return zipped as PrismicData;
+  const [globalAlertResult, popupDialogResult] = await Promise.all([
+    globalAlertResultPromise,
+    popupDialogResultPromise,
+  ]);
+
+  // If we don't get data from Prismic for either the popupDialog or the
+  // globalAlert, we just send the defaultValue (which is hidden for both). See
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/10157
+  // for the rationale behind treating these two and collectionVenues
+  // differently.
+  return {
+    globalAlert: globalAlertResult.data
+      ? globalAlertResult
+      : defaultValue.globalAlert,
+    popupDialog: popupDialogResult.data
+      ? popupDialogResult
+      : defaultValue.popupDialog,
+    collectionVenues:
+      collectionVenuesResult as prismic.Query<CollectionVenuePrismicDocument>,
+  } as PrismicData;
 }
 
 export default handler;
