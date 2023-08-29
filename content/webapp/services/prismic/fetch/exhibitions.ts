@@ -13,7 +13,6 @@ import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
 import {
   eventAccessOptionsFields,
-  exhibitionResourcesFields,
 } from '../fetch-links';
 import { Period } from '@weco/common/types/periods';
 import { getExhibitionPeriodFilters } from '../types/filters';
@@ -46,7 +45,6 @@ const fetchLinks = [
   ...exhibitionsFetchLinks,
   ...contributorFetchLinks,
   ...placesFetchLinks,
-  ...exhibitionResourcesFields,
   ...eventSeriesFetchLinks,
   ...articlesFetchLinks,
   ...eventsFetchLinks,
