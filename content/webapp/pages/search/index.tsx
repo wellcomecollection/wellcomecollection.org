@@ -183,10 +183,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           <>
             {stories && (
               <StoriesSection as="section">
+                <Container>
+                  <SectionTitle sectionName="Stories" />
+                </Container>
                 <StoryPromoContainer>
-                  <Container>
-                    <SectionTitle sectionName="Stories" />
-                  </Container>
                   <StoriesGrid
                     articles={stories.pageResults}
                     dynamicImageSizes={{
