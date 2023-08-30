@@ -6,10 +6,13 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import * as prismic from '@prismicio/client';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { defaultSerializer } from '../HTMLSerializers/HTMLSerializers';
+import Space from '@weco/common/views/components/styled/Space';
 
-const MediaAndTextWrap = styled.div`
+const MediaAndTextWrap = styled(Space).attrs({
+  h: { size: 'l', properties: ['column-gap'] },
+  v: { size: 'l', properties: ['row-gap'] },
+})`
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
