@@ -40,11 +40,13 @@ const DividingLine = styled.div`
   }
 `;
 
-const ImageOrIcons = styled.div<{ isIcons?: boolean; isPortrait?: boolean }>`
+const ImageOrIcons = styled(Space).attrs({
+  h: { size: 'm', properties: ['column-gap'] },
+  v: { size: 'm', properties: ['row-gap'] },
+})<{ isIcons?: boolean; isPortrait?: boolean }>`
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   justify-content: center;
   flex: 0 0
     ${props => (props.isIcons || props.isPortrait ? 'max(60%, 300px)' : '100%')};
