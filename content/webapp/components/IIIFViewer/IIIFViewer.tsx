@@ -142,7 +142,6 @@ const Main = styled.div<{
 }>`
   background: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
-  overflow: auto;
   position: relative;
 
   img {
