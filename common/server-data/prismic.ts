@@ -64,6 +64,19 @@ export const handler: Handler<SimplifiedPrismicData, PrismicData> = {
 async function fetchPrismicValues(): Promise<PrismicData> {
   const client = createPrismicClient();
 
+  const collectionVenuesResultPromise = client.get({
+    filters: [prismic.filter.any('document.type', ['collection-venue'])],
+  });
+  const globalAlertResultPromise = client.getSingle('global-alert');
+  const popupDialogResultPromise = client.getSingle('popup-dialog');
+
+  const [collectionVenuesResult, globalAlertResult, popupDialogResult] =
+    await Promise.allSettled([
+      collectionVenuesResultPromise,
+      globalAlertResultPromise,
+      popupDialogResultPromise,
+    ]);
+
   // If we don't get a result from Prismic for collectionVenues, we want to
   // bail out immediately, rather than writing bad server data.
   //
@@ -71,23 +84,11 @@ async function fetchPrismicValues(): Promise<PrismicData> {
   // collectionVenues, which throws a TypeError when we try to render it on a
   // page.  Better to wait for the next interval, and use the cached version
   // of the data, than 500.
-  const collectionVenuesResult = await client
-    .get({
-      filters: [prismic.filter.any('document.type', ['collection-venue'])],
-    })
-    .catch(error => {
-      throw new Error(
-        `Failed to fetch 'collection venues' from Prismic: ${error}`
-      );
-    });
-
-  const globalAlertResultPromise = client.getSingle('global-alert');
-  const popupDialogResultPromise = client.getSingle('popup-dialog');
-
-  const [globalAlertResult, popupDialogResult] = await Promise.all([
-    globalAlertResultPromise,
-    popupDialogResultPromise,
-  ]);
+  if (collectionVenuesResult.status !== 'fulfilled') {
+    throw new Error(
+      `Failed to fetch collection venues from Prismic: ${collectionVenuesResult.reason}`
+    );
+  }
 
   // If we don't get data from Prismic for either the popupDialog or the
   // globalAlert, we just send the defaultValue (which is hidden for both). See
@@ -95,14 +96,15 @@ async function fetchPrismicValues(): Promise<PrismicData> {
   // for the rationale behind treating these two and collectionVenues
   // differently.
   return {
-    globalAlert: globalAlertResult.data
-      ? globalAlertResult
-      : defaultValue.globalAlert,
-    popupDialog: popupDialogResult.data
-      ? popupDialogResult
-      : defaultValue.popupDialog,
-    collectionVenues:
-      collectionVenuesResult as prismic.Query<CollectionVenuePrismicDocument>,
+    globalAlert:
+      globalAlertResult.status === 'fulfilled'
+        ? globalAlertResult.value
+        : defaultValue.globalAlert,
+    popupDialog:
+      popupDialogResult.status === 'fulfilled'
+        ? popupDialogResult.value
+        : defaultValue.popupDialog,
+    collectionVenues: collectionVenuesResult.value,
   } as PrismicData;
 }
 
