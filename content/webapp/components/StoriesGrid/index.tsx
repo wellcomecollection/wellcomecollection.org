@@ -70,6 +70,11 @@ const MobileLabel = styled(Space)`
   `}
 `;
 
+const SearchAllLabel = styled(Space)`
+  position: absolute;
+  bottom: 0;
+`;
+
 const StoryInformation = styled(Space).attrs({
   className: font('intr', 5),
   v: { size: 'xs', properties: ['margin-bottom'] },
@@ -101,12 +106,14 @@ type Props = {
   articles: Article[];
   dynamicImageSizes?: BreakpointSizes;
   isDetailed?: boolean;
+  showSearchLabel?: boolean;
 };
 
 const StoriesGrid: FunctionComponent<Props> = ({
   articles,
   dynamicImageSizes,
   isDetailed,
+  showSearchLabel,
 }: Props) => {
   return (
     <StoriesContainer isDetailed={isDetailed}>
@@ -136,16 +143,31 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   sizes={dynamicImageSizes}
                   quality="low"
                 />
-
-                <MobileLabel>
-                  <LabelsList labels={[{ text: article.format.label }]} />
-                </MobileLabel>
+                {showSearchLabel ? (
+                  <SearchAllLabel>
+                    <LabelsList labels={[{ text: article.format.label }]} />
+                  </SearchAllLabel>
+                ) : (
+                  <>
+                    <MobileLabel>
+                      <LabelsList labels={[{ text: article.format.label }]} />
+                    </MobileLabel>
+                  </>
+                )}
               </ImageWrapper>
             )}
             <Details isDetailed={isDetailed}>
-              <DesktopLabel>
-                <LabelsList labels={[{ text: article.format.label }]} />
-              </DesktopLabel>
+              {showSearchLabel ? (
+                <SearchAllLabel>
+                  <LabelsList labels={[{ text: article.format.label }]} />
+                </SearchAllLabel>
+              ) : (
+                <>
+                  <DesktopLabel>
+                    <LabelsList labels={[{ text: article.format.label }]} />
+                  </DesktopLabel>
+                </>
+              )}
 
               <h3 className={font('wb', 4)}>{article.title}</h3>
 
