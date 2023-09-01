@@ -341,9 +341,6 @@ export const ConceptPage: NextPage<Props> = ({
           <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
           <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
             <HeroTitle>{conceptResponse.label}</HeroTitle>
-            <ConceptDescription
-              className={font('intr', 5)}
-            ></ConceptDescription>
           </Space>
         </Container>
       </ConceptHero>
