@@ -30,6 +30,9 @@ module "content-service-17092020" {
     dotdigital_username = "content/dotdigital/username"
     dotdigital_password = "content/dotdigital/password"
 
+    items_api_key_prod   = "catalogue_api/items/prod/api_key"
+    items_api_key_stage  = "catalogue_api/items/stage/api_key"
+
     PRISMIC_ACCESS_TOKEN = "prismic-model/prod/access-token"
   }
 
