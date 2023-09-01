@@ -81,10 +81,6 @@ const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
   padding: 5px;
 `;
 
-const ConceptDescription = styled.section`
-  max-width: 600px;
-`;
-
 const ConceptImages = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
