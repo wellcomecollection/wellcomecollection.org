@@ -10,18 +10,6 @@
           - common
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
-- label: ':docker: build catalogue'
-  key: 'build_catalogue'
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        build:
-          - catalogue
-        image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
-
 - label: ':docker: build content'
   key: 'build_content'
   plugins:
@@ -94,17 +82,6 @@
         run: common
         command: ['yarn', 'test']
 
-- label: 'test catalogue'
-  depends_on: 'build_catalogue'
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: catalogue
-        command: ['yarn', 'test']
-
 - label: 'test content'
   depends_on: 'build_content'
   plugins:
@@ -150,18 +127,6 @@
     queue: nano
 
 - wait
-
-- label: 'deploy catalogue'
-  branches: 'main'
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        push:
-          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:ref.${BUILDKITE_COMMIT}
-          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
 
 - label: 'deploy content'
   branches: 'main'
