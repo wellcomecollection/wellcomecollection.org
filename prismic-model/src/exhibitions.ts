@@ -46,10 +46,11 @@ const exhibitions: CustomType = {
       }),
     },
     'Access content': {
-      pdfs: list('Exhibition pdfs', {
-        pdf: mediaLink('Pdf'),
+      accessResourcesPdfs: list('Access pdfs', {
+        linkText: singleLineText('Link text'),
+        documentLink: mediaLink('Document link'),
       }),
-      accompanyingText: multiLineText('Accompanying text and links'),
+      accessResourcesText: multiLineText('Text and links'),
     },
     Contributors: contributorsWithTitle(),
     Promo: {
