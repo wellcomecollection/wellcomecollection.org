@@ -148,11 +148,9 @@ const StoriesGrid: FunctionComponent<Props> = ({
                     <LabelsList labels={[{ text: article.format.label }]} />
                   </SearchAllLabel>
                 ) : (
-                  <>
-                    <MobileLabel>
-                      <LabelsList labels={[{ text: article.format.label }]} />
-                    </MobileLabel>
-                  </>
+                  <MobileLabel>
+                    <LabelsList labels={[{ text: article.format.label }]} />
+                  </MobileLabel>
                 )}
               </ImageWrapper>
             )}
@@ -162,11 +160,9 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </SearchAllLabel>
               ) : (
-                <>
-                  <DesktopLabel>
-                    <LabelsList labels={[{ text: article.format.label }]} />
-                  </DesktopLabel>
-                </>
+                <DesktopLabel>
+                  <LabelsList labels={[{ text: article.format.label }]} />
+                </DesktopLabel>
               )}
 
               <h3 className={font('wb', 4)}>{article.title}</h3>
