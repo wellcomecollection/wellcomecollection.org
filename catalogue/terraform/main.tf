@@ -34,8 +34,8 @@ module "catalogue-stage" {
 
 // The service should be available at: "works.www-e2e.wellcomecollection.org/works"
 
-module "catalogue-e2e" {
-  source = "./stack"
+/*module "catalogue-e2e" {
+  source = "./stack-new"
 
   container_image = local.e2e_app_image
   env_suffix      = "e2e"
@@ -49,4 +49,4 @@ module "catalogue-e2e" {
   providers = {
     aws = aws.stage
   }
-}
+}*/
