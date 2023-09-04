@@ -1,5 +1,9 @@
 import { FunctionComponent } from 'react';
-import { Work } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  Work,
+  WorkBasic,
+  toWorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
@@ -67,7 +71,7 @@ type Props = {
     TransformedManifest,
     'title' | 'downloadEnabled' | 'downloadOptions' | 'iiifCredit'
   >;
-  work: Work;
+  work: WorkBasic & Pick<Work, 'items'>;
 };
 
 const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
@@ -210,14 +214,16 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: serialiseProps({
       serverData,
-      workId,
       transformedManifest: transformedManifest && {
         title: transformedManifest.title,
         downloadEnabled: transformedManifest.downloadEnabled,
         downloadOptions: transformedManifest.downloadOptions,
         iiifCredit: transformedManifest.iiifCredit,
       },
-      work,
+      work: {
+        ...toWorkBasic(work),
+        items: work.items,
+      },
     }),
   };
 };
