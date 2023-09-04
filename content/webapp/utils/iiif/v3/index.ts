@@ -506,7 +506,7 @@ export function groupStructures(
   ).groupedArray;
 }
 
-export function getCollectionManifests(manifest: Manifest) {
+export function getCollectionManifests(manifest: Manifest): Canvas[] {
   const firstLevelManifests =
     manifest.items?.filter(c => c.type === 'Manifest') || [];
   const collections =
