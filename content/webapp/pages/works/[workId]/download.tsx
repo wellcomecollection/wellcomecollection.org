@@ -214,7 +214,6 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: serialiseProps({
       serverData,
-      workId,
       transformedManifest: transformedManifest && {
         title: transformedManifest.title,
         downloadEnabled: transformedManifest.downloadEnabled,
