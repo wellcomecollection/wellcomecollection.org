@@ -490,7 +490,6 @@ export const getServerSideProps: GetServerSideProps<
         compressedTransformedManifest:
           toCompressedTransformedManifest(displayManifest),
         canvasOcr,
-        work: toWorkBasic(work),
         canvas,
         iiifImageLocation,
         iiifPresentationLocation,
@@ -498,6 +497,14 @@ export const getServerSideProps: GetServerSideProps<
         pageview,
         serverData,
         serverSearchResults,
+        // Note: the `description` field on works can be large, which is why we omit it
+        // from the standard WorkBasic model.  We include it here because we use it for
+        // alt text in the IIIFViewer component, but we don't want it in other places
+        // where we use WorkBasic.
+        work: {
+          ...toWorkBasic(work),
+          description: work.description,
+        },
         // Note: the parentManifest data can be enormous; for /works/cf4mdjzg/items it's
         // over 12MB in size (!).
         //

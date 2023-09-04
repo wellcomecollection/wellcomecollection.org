@@ -1,5 +1,8 @@
 import { createContext, RefObject } from 'react';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { Canvas, Manifest } from '@iiif/presentation-3';
 import { TransformedManifest } from '../../types/manifest';
@@ -21,7 +24,7 @@ export type ParentManifest = Pick<Manifest, 'behavior'> & {
 type Props = {
   // DATA props:
   query: Query;
-  work: WorkBasic;
+  work: WorkBasic & Pick<Work, 'description'>;
   transformedManifest: TransformedManifest | undefined;
   parentManifest: ParentManifest | undefined;
   searchResults: SearchResults | null;
@@ -71,7 +74,7 @@ const query = {
   shouldScrollToCanvas: true,
 };
 
-const work: WorkBasic = {
+const work: WorkBasic & Pick<Work, 'description'> = {
   id: '',
   title: '',
   description: undefined,

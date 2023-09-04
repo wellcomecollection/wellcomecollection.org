@@ -7,7 +7,10 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
@@ -31,7 +34,7 @@ import { NoScriptImage } from '@weco/content/components/IIIFViewer/NoScriptImage
 import { queryParamToArrayIndex, DelayVisibility } from '.';
 
 type IIIFViewerProps = {
-  work: WorkBasic;
+  work: WorkBasic & Pick<Work, 'description'>;
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
   transformedManifest?: TransformedManifest;
