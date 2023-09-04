@@ -63,7 +63,10 @@ const Credit: FunctionComponent<CreditProps> = ({
 };
 
 type Props = {
-  transformedManifest?: TransformedManifest;
+  transformedManifest?: Pick<
+    TransformedManifest,
+    'title' | 'downloadEnabled' | 'downloadOptions' | 'iiifCredit'
+  >;
   work: Work;
 };
 
@@ -89,10 +92,10 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
 
   const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl({
-      url: iiifImageLocationUrl,
-      width: undefined,
-      height: undefined,
-    })
+        url: iiifImageLocationUrl,
+        width: undefined,
+        height: undefined,
+      })
     : [];
 
   const allDownloadOptions = [
@@ -208,7 +211,12 @@ export const getServerSideProps: GetServerSideProps<
     props: serialiseProps({
       serverData,
       workId,
-      transformedManifest,
+      transformedManifest: transformedManifest && {
+        title: transformedManifest.title,
+        downloadEnabled: transformedManifest.downloadEnabled,
+        downloadOptions: transformedManifest.downloadOptions,
+        iiifCredit: transformedManifest.iiifCredit,
+      },
       work,
     }),
   };
