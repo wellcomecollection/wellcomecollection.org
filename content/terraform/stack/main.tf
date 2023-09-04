@@ -11,8 +11,8 @@ module "content-service-17092020" {
   container_image = var.container_image
   container_port  = 3000
 
-  cpu    = var.env_suffix == "prod" ? 1024 : 512
-  memory = var.env_suffix == "prod" ? 2048 : 1024
+  cpu    = var.env_suffix == "prod" ? 2048 : 512
+  memory = var.env_suffix == "prod" ? 4096 : 1024
 
   security_group_ids = [
     var.environment["interservice_security_group_id"],
