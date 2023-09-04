@@ -53,7 +53,7 @@ const MultipleManifestList: FunctionComponent = () => {
                   setIsMobileSidebarActive(false);
                 }}
               >
-                {(manifest?.label &&
+                {(manifest.label &&
                   getMultiVolumeLabel(manifest.label, work?.title || '')) ||
                   'Unknown'}
               </a>
