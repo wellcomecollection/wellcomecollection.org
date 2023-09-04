@@ -3,10 +3,7 @@ import NextLink from 'next/link';
 import { toLink as itemLink } from '../ItemLink';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
-import {
-  getMultiVolumeLabel,
-  getCollectionManifests,
-} from '@weco/content/utils/iiif/v3';
+import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { queryParamToArrayIndex } from '.';
 import {
   List,
@@ -16,9 +13,7 @@ import {
 const MultipleManifestList: FunctionComponent = () => {
   const { parentManifest, work, query, setIsMobileSidebarActive } =
     useContext(ItemViewerContext);
-  const manifests = parentManifest
-    ? getCollectionManifests(parentManifest)
-    : [];
+  const manifests = parentManifest?.canvases || [];
 
   return (
     <nav>

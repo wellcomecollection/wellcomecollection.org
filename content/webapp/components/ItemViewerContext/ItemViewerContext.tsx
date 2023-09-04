@@ -1,7 +1,7 @@
 import { createContext, RefObject } from 'react';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
-import { Manifest } from '@iiif/presentation-3';
+import { Canvas, Manifest } from '@iiif/presentation-3';
 import { TransformedManifest } from '../../types/manifest';
 
 export type RotatedImage = { canvas: number; rotation: number };
@@ -14,12 +14,16 @@ export type Query = {
   shouldScrollToCanvas: boolean;
 };
 
+export type ParentManifest = Pick<Manifest, 'behavior'> & {
+  canvases: Pick<Canvas, 'id' | 'label'>[];
+};
+
 type Props = {
   // DATA props:
   query: Query;
   work: WorkBasic;
   transformedManifest: TransformedManifest | undefined;
-  parentManifest: Manifest | undefined;
+  parentManifest: ParentManifest | undefined;
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
 
