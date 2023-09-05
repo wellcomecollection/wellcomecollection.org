@@ -136,9 +136,6 @@ export const looksLikeSpam = (
   //    - Count the number of unusual characters in the query.
   //    - If it's higher than the threshold, mark the request as spam.
   //
-  // The threshold is significantly lower for users that self-identify as bots
-  // in their User-Agent header.
-  //
   // Implementation note: this check is somewhat expensive, so we skip running it
   // if the query is too short to exceed the threshold.
   const maxUnusualCharsAllowed = 25;
