@@ -49,6 +49,13 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'aggregationsInSearch',
+      title: 'Aggregations in search',
+      initialValue: true,
+      description: 'Whether to enable aggregations in search. Aggregations are an expensive part of the query, and they can be temporarily disabled if the API is having performance issues.',
+      type: 'permanent',
+    },
+    {
       id: 'worksTabbedNav',
       title: 'Works page: Tabbed navigation',
       initialValue: false,

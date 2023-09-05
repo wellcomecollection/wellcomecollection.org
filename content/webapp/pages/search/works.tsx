@@ -260,14 +260,16 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const aggregations = [
-    'workType',
-    'availabilities',
-    'genres.label',
-    'languages',
-    'subjects.label',
-    'contributors.agent.label',
-  ];
+  const aggregations = serverData.toggles.aggregationsInSearch
+    ? [
+      'workType',
+      'availabilities',
+      'genres.label',
+      'languages',
+      'subjects.label',
+      'contributors.agent.label',
+    ]
+    : [];
 
   const worksApiProps = {
     ...params,
