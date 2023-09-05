@@ -60,10 +60,20 @@ const isUnusualCharacter = (c: string): boolean => {
     //
     // e.g. "我们" gets encoded as "æä»¬"
     //
-    code === 0xc2 || // Â
-    code === 0xc3 || // Ã
-    code === 0xe4 || // ä
-    code === 0xe5 || // å
+    // The choices here are loosely based on
+    // https://utf8-chartable.de/unicode-utf8-table.pl?start=28480&names=-&utf8=string-literal
+    // https://utf8-chartable.de/unicode-utf8-table.pl?start=38144&utf8=0x
+    //
+    code === 0xc2 ||
+    code === 0xc3 ||
+    (code >= 0xe4 && code <= 0xe9) ||
+    code === 0x80 ||
+    code === 0xb3 ||
+    code === 0xb6 ||
+    code === 0xbd ||
+    code === 0xbe ||
+    code === 0xbf ||
+    (code >= 0x94 && code <= 0x97) ||
     // This is based on the ranges for Han (Chinese) ideographs; see
     // this answer on Stack Overflow: https://stackoverflow.com/a/1366113/1558022
     //
@@ -89,6 +99,8 @@ const isUnusualCharacter = (c: string): boolean => {
 export const looksLikeSpam = (
   queryValue: string | string[] | undefined
 ): boolean => {
+  console.log(queryValue);
+
   if (isUndefined(queryValue)) {
     return false;
   }
