@@ -99,8 +99,6 @@ const isUnusualCharacter = (c: string): boolean => {
 export const looksLikeSpam = (
   queryValue: string | string[] | undefined
 ): boolean => {
-  console.log(queryValue);
-
   if (isUndefined(queryValue)) {
     return false;
   }
