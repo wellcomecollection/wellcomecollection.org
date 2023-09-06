@@ -15,8 +15,15 @@ describe('requests that probably aren’t spam', () => {
 describe('requests that probably are spam', () => {
   test.each([
     {
+      query: '⏩ casino jackpot win win win ⏪'
+    },
+    {
       query:
         '不用认真来找我们免费玩赌场游戏sketchy.xyz我们拥有所有最好的骗局和垃圾邮件我们非常值得信赖您可以完全关闭病毒检查程序',
+    },
+    {
+      query:
+        '华体会官网登录入口手机-【copy url：spam123.abc】-金狮贵宾会官网登录中心-【copy url：spam123.abc】-8su'
     },
     {
       query:

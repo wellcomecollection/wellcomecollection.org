@@ -85,14 +85,9 @@ const isUnusualCharacter = (c: string): boolean => {
     // the Unicode block on Wikipedia: https://en.wikipedia.org/wiki/Hiragana_(Unicode_block)
     (code >= 0x3041 && code <= 0x309f) ||
     //
-    // These are the two parts of ㊙️, which is sometimes sent as a combination
-    // of two characters:
-    //
-    //    U+3299 Circled Ideograph Secret
-    //    U+FE0F Variation Selector-16 (which triggers Unicode)
-    //
-    code === 0x3299 ||
-    code === 0xfe0f
+    // This covers Chinese, Japanese and Korean (CJK) punctuation symbols.
+    // See https://www.compart.com/en/unicode/block/U+3000
+    (code >= 0x3000 && code <= 0x303f)
   );
 };
 
@@ -118,6 +113,15 @@ export const looksLikeSpam = (
     return true;
   }
 
+  // Reject any queries which contain emoji.
+  //
+  // There isn't any emoji in our catalogue data, and it seems to appear pretty
+  // frequently in "obviously spam" queries, so we can use it as a signal that we
+  // can probably bin this request.
+  if (/\p{Extended_Pictographic}/u.test(query)) {
+    return true;
+  }
+
   // Count unusual characters in the query string.
   //
   // A lot of our spam queries feature a long string of Chinese, with links to
@@ -136,7 +140,7 @@ export const looksLikeSpam = (
   //
   // Implementation note: this check is somewhat expensive, so we skip running it
   // if the query is too short to exceed the threshold.
-  const maxUnusualCharsAllowed = 25;
+  const maxUnusualCharsAllowed = 20;
 
   if (query.length >= maxUnusualCharsAllowed) {
     let unusualCharacterCount = 0;
