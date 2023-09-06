@@ -54,9 +54,11 @@ export type ExhibitionPrismicDocument = prismic.PrismicDocument<
     articles: prismic.GroupField<{
       item: prismic.ContentRelationshipField<'articles'>;
     }>;
-    resources: prismic.GroupField<{
-      item: prismic.ContentRelationshipField<'resources'>;
+    accessResourcesPdfs: prismic.GroupField<{
+      linkText: prismic.RichTextField;
+      documentLink: prismic.LinkToMediaField;
     }>;
+    accessResourcesText: prismic.RichTextField;
   } & WithContributors &
     WithExhibitionParents &
     WithSeasons &
