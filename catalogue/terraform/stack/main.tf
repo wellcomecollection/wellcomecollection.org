@@ -26,9 +26,13 @@ module "catalogue-service-17092020" {
   # we saw latency spikes and CPUUtilization maxima often in the 80-100% region.
   # These would occasionally result in 502s and so on.
   #
-  # We're increasing vCPU to 1 in prod to see if this is addressed
-  cpu    = var.env_suffix == "prod" ? 1024 : 512
-  memory = var.env_suffix == "prod" ? 2048 : 1024
+  # We're increasing vCPU to 1 in prod to see if this is addressed.
+  #
+  # Note 3: in September 2023, we were running with 1 vCPU and 2 GB of memory.
+  # The app's latency was exploding, possibly caused by a memory leak of
+  # as-yet undetermined cause.
+  cpu    = var.env_suffix == "prod" ? 2048 : 512
+  memory = var.env_suffix == "prod" ? 4096 : 1024
 
   env_vars = {
     PROD_SUBDOMAIN  = var.subdomain

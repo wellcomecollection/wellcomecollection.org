@@ -121,7 +121,7 @@ export function getItemsByLocationType(
 }
 
 export function getDigitalLocationOfType(
-  work: Work,
+  work: Pick<Work, 'items'>,
   locationType: string
 ): DigitalLocation | undefined {
   const [location] = (work.items ?? [])

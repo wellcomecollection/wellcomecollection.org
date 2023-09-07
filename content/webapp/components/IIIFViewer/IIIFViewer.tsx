@@ -6,13 +6,16 @@ import {
   useContext,
 } from 'react';
 import styled from 'styled-components';
-import { Manifest } from '@iiif/presentation-3';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
 import ItemViewerContext, {
+  ParentManifest,
   RotatedImage,
 } from '../ItemViewerContext/ItemViewerContext';
 import { useRouter } from 'next/router';
@@ -31,7 +34,7 @@ import { NoScriptImage } from '@weco/content/components/IIIFViewer/NoScriptImage
 import { queryParamToArrayIndex, DelayVisibility } from '.';
 
 type IIIFViewerProps = {
-  work: WorkBasic;
+  work: WorkBasic & Pick<Work, 'description'>;
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
   transformedManifest?: TransformedManifest;
@@ -39,7 +42,7 @@ type IIIFViewerProps = {
   handleImageError?: () => void;
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
-  parentManifest?: Manifest;
+  parentManifest?: ParentManifest;
 };
 
 const LoadingComponent = () => (
