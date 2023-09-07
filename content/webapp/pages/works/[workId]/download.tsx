@@ -1,5 +1,9 @@
 import { FunctionComponent } from 'react';
-import { Work } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  Work,
+  WorkBasic,
+  toWorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
@@ -63,8 +67,11 @@ const Credit: FunctionComponent<CreditProps> = ({
 };
 
 type Props = {
-  transformedManifest?: TransformedManifest;
-  work: Work;
+  transformedManifest?: Pick<
+    TransformedManifest,
+    'title' | 'downloadEnabled' | 'downloadOptions' | 'iiifCredit'
+  >;
+  work: WorkBasic & Pick<Work, 'items'>;
 };
 
 const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
@@ -89,10 +96,10 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
 
   const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl({
-      url: iiifImageLocationUrl,
-      width: undefined,
-      height: undefined,
-    })
+        url: iiifImageLocationUrl,
+        width: undefined,
+        height: undefined,
+      })
     : [];
 
   const allDownloadOptions = [
@@ -207,9 +214,16 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: serialiseProps({
       serverData,
-      workId,
-      transformedManifest,
-      work,
+      transformedManifest: transformedManifest && {
+        title: transformedManifest.title,
+        downloadEnabled: transformedManifest.downloadEnabled,
+        downloadOptions: transformedManifest.downloadOptions,
+        iiifCredit: transformedManifest.iiifCredit,
+      },
+      work: {
+        ...toWorkBasic(work),
+        items: work.items,
+      },
     }),
   };
 };

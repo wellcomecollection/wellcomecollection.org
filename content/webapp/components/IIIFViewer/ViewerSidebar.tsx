@@ -21,10 +21,7 @@ import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
-import {
-  getMultiVolumeLabel,
-  getCollectionManifests,
-} from '@weco/content/utils/iiif/v3';
+import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const Inner = styled(Space).attrs({
@@ -137,14 +134,16 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
 
-  const matchingManifest = parentManifest && getCollectionManifests(parentManifest).find(canvas => {
-    return !transformedManifest
-      ? false
-      : canvas.id === transformedManifest.id;
-  });
+  const matchingManifest =
+    parentManifest &&
+    parentManifest.canvases.find(canvas => {
+      return !transformedManifest
+        ? false
+        : canvas.id === transformedManifest.id;
+    });
 
   const manifestLabel =
-  matchingManifest?.label &&
+    matchingManifest?.label &&
     getMultiVolumeLabel(matchingManifest.label, work?.title || '');
 
   const { iiifCredit, structures, searchService } = { ...transformedManifest };
@@ -246,9 +245,15 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
             <ViewerStructures />
           </AccordionItem>
         )}
+        {/* 
+          Note: this check for `behavior === 'multi-part'` is repeated in items.tsx to
+          avoid sending unnecessary data about parent manifests that we're not going
+          to render.  If you change the display condition here, you'll likely want to
+          update it there also.
+        */}
         {parentManifest &&
           parentManifest.behavior?.[0] === 'multi-part' &&
-          parentManifest.items && (
+          parentManifest.canvases && (
             <AccordionItem title="Volumes">
               <MultipleManifestList />
             </AccordionItem>
