@@ -43,7 +43,6 @@ Digital Platform:
  Tacey Kobayashi
  Gareth Estchild
  David McCormick
- Dominique Marshall
  Jamie Parkinson
  Jonathan Tweed
  Jenn Phillips-Bacher
@@ -61,6 +60,7 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Dominique Marshall
  Tom Scott
  Harrison Pim
  Alice Richmond
