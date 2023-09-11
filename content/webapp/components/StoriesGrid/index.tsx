@@ -155,11 +155,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
               </ImageWrapper>
             )}
             <Details isDetailed={isDetailed}>
-              {showSearchLabel ? (
-                <SearchAllLabel>
-                  <LabelsList labels={[{ text: article.format.label }]} />
-                </SearchAllLabel>
-              ) : (
+              {!showSearchLabel && (
                 <DesktopLabel>
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </DesktopLabel>
