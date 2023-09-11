@@ -12,7 +12,6 @@ import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 export type WorkBasic = OptionalToUndefined<{
   id: string;
   title: string;
-  description?: string;
   languageId?: string;
   thumbnail?: DigitalLocation;
   referenceNumber?: string;
@@ -23,7 +22,7 @@ export type WorkBasic = OptionalToUndefined<{
 }>;
 
 export function toWorkBasic(work: Work): WorkBasic {
-  const { id, title, description, thumbnail, referenceNumber } = work;
+  const { id, title, thumbnail, referenceNumber } = work;
 
   // We only send a lang if it's unambiguous -- better to send
   // no language than the wrong one.
@@ -35,7 +34,6 @@ export function toWorkBasic(work: Work): WorkBasic {
   return {
     id,
     title,
-    description,
     thumbnail,
     referenceNumber,
     languageId,
