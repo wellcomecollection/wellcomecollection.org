@@ -11,8 +11,8 @@ module "content-service-17092020" {
   container_image = var.container_image
   container_port  = 3000
 
-  cpu    = var.env_suffix == "prod" ? 1024 : 512
-  memory = var.env_suffix == "prod" ? 2048 : 1024
+  cpu    = var.env_suffix == "prod" ? 2048 : 512
+  memory = var.env_suffix == "prod" ? 4096 : 1024
 
   security_group_ids = [
     var.environment["interservice_security_group_id"],
@@ -29,6 +29,9 @@ module "content-service-17092020" {
     APM_SECRET          = "elasticsearch/logging/apm_secret"
     dotdigital_username = "content/dotdigital/username"
     dotdigital_password = "content/dotdigital/password"
+
+    items_api_key_prod  = "catalogue_api/items/prod/api_key"
+    items_api_key_stage = "catalogue_api/items/stage/api_key"
 
     PRISMIC_ACCESS_TOKEN = "prismic-model/prod/access-token"
   }

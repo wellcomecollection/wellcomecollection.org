@@ -60,10 +60,20 @@ const isUnusualCharacter = (c: string): boolean => {
     //
     // e.g. "我们" gets encoded as "æä»¬"
     //
-    code === 0xc2 || // Â
-    code === 0xc3 || // Ã
-    code === 0xe4 || // ä
-    code === 0xe5 || // å
+    // The choices here are loosely based on
+    // https://utf8-chartable.de/unicode-utf8-table.pl?start=28480&names=-&utf8=string-literal
+    // https://utf8-chartable.de/unicode-utf8-table.pl?start=38144&utf8=0x
+    //
+    code === 0xc2 ||
+    code === 0xc3 ||
+    (code >= 0xe4 && code <= 0xe9) ||
+    code === 0x80 ||
+    code === 0xb3 ||
+    code === 0xb6 ||
+    code === 0xbd ||
+    code === 0xbe ||
+    code === 0xbf ||
+    (code >= 0x94 && code <= 0x97) ||
     // This is based on the ranges for Han (Chinese) ideographs; see
     // this answer on Stack Overflow: https://stackoverflow.com/a/1366113/1558022
     //
@@ -75,14 +85,9 @@ const isUnusualCharacter = (c: string): boolean => {
     // the Unicode block on Wikipedia: https://en.wikipedia.org/wiki/Hiragana_(Unicode_block)
     (code >= 0x3041 && code <= 0x309f) ||
     //
-    // These are the two parts of ㊙️, which is sometimes sent as a combination
-    // of two characters:
-    //
-    //    U+3299 Circled Ideograph Secret
-    //    U+FE0F Variation Selector-16 (which triggers Unicode)
-    //
-    code === 0x3299 ||
-    code === 0xfe0f
+    // This covers Chinese, Japanese and Korean (CJK) punctuation symbols.
+    // See https://www.compart.com/en/unicode/block/U+3000
+    (code >= 0x3000 && code <= 0x303f)
   );
 };
 
@@ -108,6 +113,15 @@ export const looksLikeSpam = (
     return true;
   }
 
+  // Reject any queries which contain emoji.
+  //
+  // There isn't any emoji in our catalogue data, and it seems to appear pretty
+  // frequently in "obviously spam" queries, so we can use it as a signal that we
+  // can probably bin this request.
+  if (/\p{Extended_Pictographic}/u.test(query)) {
+    return true;
+  }
+
   // Count unusual characters in the query string.
   //
   // A lot of our spam queries feature a long string of Chinese, with links to
@@ -124,12 +138,9 @@ export const looksLikeSpam = (
   //    - Count the number of unusual characters in the query.
   //    - If it's higher than the threshold, mark the request as spam.
   //
-  // The threshold is significantly lower for users that self-identify as bots
-  // in their User-Agent header.
-  //
   // Implementation note: this check is somewhat expensive, so we skip running it
   // if the query is too short to exceed the threshold.
-  const maxUnusualCharsAllowed = 25;
+  const maxUnusualCharsAllowed = 20;
 
   if (query.length >= maxUnusualCharsAllowed) {
     let unusualCharacterCount = 0;

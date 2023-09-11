@@ -43,13 +43,11 @@ Digital Platform:
  Tacey Kobayashi
  Gareth Estchild
  David McCormick
- Dominique Marshall
  Jamie Parkinson
  Jonathan Tweed
  Jenn Phillips-Bacher
  Natalie Pollecutt
  Alex Chan
- Harrison Pim
  Paul Butcher
  Raphaëlle Cantin
  Adilson Mendes Bacelar
@@ -62,7 +60,9 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Dominique Marshall
  Tom Scott
+ Harrison Pim
  Alice Richmond
  Mel Rogan
  Gareth Ormerod

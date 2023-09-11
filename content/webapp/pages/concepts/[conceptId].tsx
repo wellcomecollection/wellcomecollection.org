@@ -18,7 +18,6 @@ import { capitalize, formatNumber } from '@weco/common/utils/grammar';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 
 // Components
-import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -80,10 +79,6 @@ const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
 const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
   padding: 5px;
-`;
-
-const ConceptDescription = styled.section`
-  max-width: 600px;
 `;
 
 const ConceptImages = styled(Space).attrs({
@@ -342,21 +337,6 @@ export const ConceptPage: NextPage<Props> = ({
           <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
           <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
             <HeroTitle>{conceptResponse.label}</HeroTitle>
-            <ConceptDescription className={font('intr', 5)}>
-              <BetaMessage
-                message={
-                  <>
-                    We&rsquo;re working to improve the information on this page.
-                    You can <Link href="/user-panel">join our user panel</Link>{' '}
-                    or{' '}
-                    <Link href="https://roadmap.wellcomecollection.org/">
-                      submit an idea
-                    </Link>{' '}
-                    that would help you use our website.
-                  </>
-                }
-              />
-            </ConceptDescription>
           </Space>
         </Container>
       </ConceptHero>

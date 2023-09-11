@@ -58,6 +58,8 @@ import {
 } from '@weco/content/types/compressed-manifest';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { fetchJson } from '@weco/common/utils/http';
+import { ParentManifest } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import { getCollectionManifests } from '@weco/content/utils/iiif/v3';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -105,7 +107,7 @@ type Props = {
   apiToolbarLinks: ApiToolbarLink[];
   pageview: Pageview;
   serverSearchResults: SearchResults | null;
-  parentManifest?: Manifest;
+  parentManifest?: ParentManifest;
 };
 
 const ItemPage: NextPage<Props> = ({
@@ -361,9 +363,11 @@ const ItemPage: NextPage<Props> = ({
   );
 };
 
-async function getParentManifest(parentManifestUrl) {
+async function getParentManifest(
+  parentManifestUrl: string | undefined
+): Promise<Manifest | undefined> {
   try {
-    return parentManifestUrl && (await fetchJson(parentManifestUrl as string));
+    return parentManifestUrl && (await fetchJson(parentManifestUrl));
   } catch (error) {
     return undefined;
   }
@@ -486,7 +490,6 @@ export const getServerSideProps: GetServerSideProps<
         compressedTransformedManifest:
           toCompressedTransformedManifest(displayManifest),
         canvasOcr,
-        work: toWorkBasic(work),
         canvas,
         iiifImageLocation,
         iiifPresentationLocation,
@@ -494,7 +497,33 @@ export const getServerSideProps: GetServerSideProps<
         pageview,
         serverData,
         serverSearchResults,
-        parentManifest,
+        // Note: the `description` field on works can be large, which is why we omit it
+        // from the standard WorkBasic model.  We include it here because we use it for
+        // alt text in the IIIFViewer component, but we don't want it in other places
+        // where we use WorkBasic.
+        work: {
+          ...toWorkBasic(work),
+          description: work.description,
+        },
+        // Note: the parentManifest data can be enormous; for /works/cf4mdjzg/items it's
+        // over 12MB in size (!).
+        //
+        // We only use it to render the MultipleManifestList component in ViewerSidebar, and
+        // that component isn't always displayed.  Replicating the `behaviour === 'multi-part'`
+        // check here is an attempt to reduce the amount of unnecessary data we send on the
+        // page, which we believe is hurting app performance in these pathological cases.
+        parentManifest:
+          parentManifest && parentManifest.behavior?.[0] === 'multi-part'
+            ? {
+                behavior: parentManifest.behavior,
+                canvases: getCollectionManifests(parentManifest).map(
+                  canvas => ({
+                    id: canvas.id,
+                    label: canvas.label,
+                  })
+                ),
+              }
+            : undefined,
       }),
     };
   }
