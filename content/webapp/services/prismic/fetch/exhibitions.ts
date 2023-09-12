@@ -9,8 +9,11 @@ import {
   ExhibitionRelatedContentPrismicDocument,
 } from '../types/exhibitions';
 import { fetchPages } from './pages';
+import { fetchVisualStories } from './visual-stories';
+import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
+import { VisualStoryDocument } from '../types/visual-stories';
 import {
   eventAccessOptionsFields,
 } from '../fetch-links';
@@ -20,6 +23,7 @@ import {
   Exhibition,
   ExhibitionRelatedContent,
 } from '../../../types/exhibitions';
+import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import {
   articleFormatsFetchLinks,
   contributorFetchLinks,
@@ -59,6 +63,8 @@ const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(
 export type FetchExhibitionResult = {
   exhibition?: ExhibitionPrismicDocument;
   pages: prismic.Query<PagePrismicDocument>;
+  visualStories: prismic.Query<VisualStoryDocument>;
+  exhibitionGuides: prismic.Query<ExhibitionGuidePrismicDocument>;
 };
 
 export async function fetchExhibition(
@@ -70,14 +76,25 @@ export async function fetchExhibition(
     filters: [prismic.filter.at('my.pages.parents.parent', id)],
   });
 
-  const [exhibition, pages] = await Promise.all([
+  const visualStoriesQueryPromise = fetchVisualStories(client, {
+    filters: [prismic.filter.at('my.visual-stories.related-exhibition', id)],
+  });
+  const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
+    filters: [prismic.filter.at('my.exhibition-guides.related-exhibition', id)],
+  });
+
+  const [exhibition, pages, visualStories, exhibitionGuides] = await Promise.all([
     exhibitionPromise,
     pageQueryPromise,
+    visualStoriesQueryPromise,
+    exhibitionGuidesQueryPromise
   ]);
 
   return {
     exhibition,
     pages,
+    visualStories,
+    exhibitionGuides,
   };
 }
 
