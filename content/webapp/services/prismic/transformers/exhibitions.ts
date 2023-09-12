@@ -65,12 +65,16 @@ export function transformExhibition(
     Boolean
   );
   const accessResourcesPdfs = data.accessResourcesPdfs.map(i => {
+    const text = asText(i.linkText) || '';
+    const url = transformLink(i.documentLink) || '';
+    const size = Math.round(parseInt(i.documentLink.size) / 1000) || 0;
     return ({
-      text: asText(i.linkText),
-      url: transformLink(i.documentLink),
-      size: Math.round(parseInt(i.documentLink.size) / 1000)
+      text,
+      url,
+      size,
     })
-  });
+  })
+
   const accessResourcesText = asRichText(data.accessResourcesText);
 
   // TODO: Work out how to get this to type check without the 'as any'.

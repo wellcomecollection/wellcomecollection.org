@@ -52,7 +52,7 @@ export type Exhibition = GenericContentFields & {
   relatedIds: string[];
   seasons: Season[];
   contributors: Contributor[];
-  accessResourcesPdfs: (Link & { size: string })[];
+  accessResourcesPdfs: (Link & { size: number })[];
   accessResourcesText?: prismic.RichTextField;
 };
 
