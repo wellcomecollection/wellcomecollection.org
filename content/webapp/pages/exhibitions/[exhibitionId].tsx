@@ -20,6 +20,10 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { Link } from '../../types/link';
+import { visualStoryLinkText, exhibitionGuideLinkText } from '@weco/common/data/microcopy';
+
 
 type ExhibitionProps = {
   exhibition: ExhibitionType;
@@ -27,6 +31,7 @@ type ExhibitionProps = {
   pages: PageType[];
   gaDimensions: GaDimensions;
   pageview: Pageview;
+  accessResourceLinks: (Link & { type: string })[];
 };
 
 /**
@@ -37,6 +42,7 @@ type ExhibitionProps = {
 const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
   exhibition,
   pages,
+  accessResourceLinks,
   jsonLd,
 }) => (
   <PageLayout
@@ -54,7 +60,7 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
     {exhibition.format && exhibition.format.title === 'Installation' ? (
       <Installation installation={exhibition} />
     ) : (
-      <Exhibition exhibition={exhibition} pages={pages} />
+      <Exhibition exhibition={exhibition} pages={pages} accessResourceLinks={accessResourceLinks} />
     )}
   </PageLayout>
 );
@@ -71,17 +77,35 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const client = createClient(context);
-  const { exhibition, pages } = await fetchExhibition(client, exhibitionId);
+  const { exhibition, pages, visualStories, exhibitionGuides } = await fetchExhibition(client, exhibitionId);
 
   if (exhibition) {
     const exhibitionDoc = transformExhibition(exhibition);
     const relatedPages = transformQuery(pages, transformPage);
+    const visualStoriesLinks = visualStories.results.map(visualStory => {
+      const url = linkResolver(visualStory);
+      return {
+        text: visualStoryLinkText,
+        url,
+        type: 'visual-story',
+      }
+    })
+    const exhibitionGuidesLinks = exhibitionGuides.results.map(exhibitionGuide => {
+      const url = linkResolver(exhibitionGuide);
+      return {
+        text: exhibitionGuideLinkText,
+        url,
+        type: 'exhibition-guide',
+      }
+    })
+
     const jsonLd = exhibitionLd(exhibitionDoc);
 
     return {
       props: serialiseProps({
         exhibition: exhibitionDoc,
         pages: relatedPages?.results || [],
+        accessResourceLinks: [...exhibitionGuidesLinks, ...visualStoriesLinks],
         jsonLd,
         serverData,
         gaDimensions: {
