@@ -19,10 +19,8 @@ import { themeValues } from '@weco/common/views/themes/config';
 import { dateAsValue, dateFromValue } from './format-date';
 
 const PickUpDate = styled(Space).attrs({
-  v: {
-    size: 'l',
-    properties: ['padding-top', 'padding-bottom'],
-  },
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'l', properties: ['column-gap'] },
 })`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
@@ -30,7 +28,6 @@ const PickUpDate = styled(Space).attrs({
   @media (min-width: 800px) {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
     min-width: min(80vw, 700px);
   }
 `;

@@ -6,10 +6,13 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import * as prismic from '@prismicio/client';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { defaultSerializer } from '../HTMLSerializers/HTMLSerializers';
+import Space from '@weco/common/views/components/styled/Space';
 
-const MediaAndTextWrap = styled.div`
+const MediaAndTextWrap = styled(Space).attrs({
+  h: { size: 'l', properties: ['column-gap'] },
+  v: { size: 'l', properties: ['row-gap'] },
+})`
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
@@ -37,11 +40,13 @@ const DividingLine = styled.div`
   }
 `;
 
-const ImageOrIcons = styled.div<{ isIcons?: boolean; isPortrait?: boolean }>`
+const ImageOrIcons = styled(Space).attrs({
+  h: { size: 'm', properties: ['column-gap'] },
+  v: { size: 'm', properties: ['row-gap'] },
+})<{ isIcons?: boolean; isPortrait?: boolean }>`
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   justify-content: center;
   flex: 0 0
     ${props => (props.isIcons || props.isPortrait ? 'max(60%, 300px)' : '100%')};
