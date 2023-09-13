@@ -1,8 +1,8 @@
 import body, { slice } from './body';
-import boolean from './boolean';
-import { documentLink } from './link';
-import { multiLineText, singleLineText } from './text';
-import { textAndIconsSlice } from './textAndIcons';
+import boolean from '../boolean';
+import { documentLink } from '../link';
+import { multiLineText, singleLineText } from '../text';
+import { textAndIconsSlice } from '../textAndIcons';
 
 export default {
   fieldset: 'Slice zone',

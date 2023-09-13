@@ -1,6 +1,6 @@
 import title from './parts/title';
 import promo from './parts/promo';
-import body from './parts/body';
+import { body } from './parts/bodies';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import { documentLink } from './parts/link';
 import { singleLineText } from './parts/text';
