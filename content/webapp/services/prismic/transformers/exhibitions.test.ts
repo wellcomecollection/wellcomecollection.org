@@ -65,7 +65,7 @@ const doc = {
     exhibits: [],
     events: [],
     articles: [],
-    resources: [],
+    accessResourcesPdfs: [],
     contributors: [],
     contributorsTitle: [],
     promo: [
