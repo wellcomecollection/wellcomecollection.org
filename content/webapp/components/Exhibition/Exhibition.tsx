@@ -42,7 +42,6 @@ import { EventBasic } from '../../types/events';
 import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
-// TODO move to own component?
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
