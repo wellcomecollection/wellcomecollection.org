@@ -30,12 +30,18 @@ import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
 } from './downloadSnapshot';
+import fs from 'fs';
+import { success } from './console';
 
-const { label, type } = yargs(process.argv.slice(2))
-  .usage('Usage: $0 --label [string] --type [string]')
+const { label, type, printUrl, report } = yargs(process.argv.slice(2))
+  .usage(
+    'Usage: $0 --label [string] --type [string] --printUrl [boolean] --report [boolean]'
+  )
   .options({
     label: { type: 'string' },
     type: { type: 'string' },
+    report: { type: 'boolean' },
+    printUrl: { type: 'boolean' },
   })
   .parseSync();
 
@@ -73,9 +79,22 @@ async function main() {
           type: result.type,
           format: result.data.format?.slug,
           title: result.data.title[0].text,
+          ...(printUrl && {
+            url: `http://wellcomecollection.org/${result.type}/${result.id}`,
+          }),
         });
       }
     }
+  }
+
+  if (report) {
+    await fs.writeFile('./sliceReport.json', JSON.stringify(matches), err => {
+      if (err) console.log(err);
+      else {
+        success('File written successfully');
+      }
+    });
+    success('Reporting done!');
   }
 
   const slicesArray = Array.from(sliceCounter.entries());

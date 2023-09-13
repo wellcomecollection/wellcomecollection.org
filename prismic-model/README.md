@@ -98,12 +98,17 @@ The body of a Prismic document is made of "slices" (e.g. quote, paragraph, image
 
 We have a tool that shows you examples of where a slice is used.
 This is useful if you want to know if a slice can be safely deleted from the model, or to find an example for testing.
+You can run:
 
-For example:
+`yarn sliceAnalysis`
 
-```console
-$ ts-node sliceAnalysis --type embed
-```
+You might want to add flags for more information, though, such as:
+
+`--label [slice format label name]` will print out more information about a specific format label.
+`--type [slice type name]` will print out more information about a specific type. There might be a lot of them and it can't print them all, so...
+`--report` will create a `sliceReport.json` file with the full list.
+`--printUrl` will also try to give you relevant URLs based on the type and ID.
+
 
 See the file comment on [sliceAnalysis.ts](./sliceAnalysis.ts)
 
