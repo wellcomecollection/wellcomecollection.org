@@ -17,6 +17,9 @@ import {
 import { transformQuery } from './paginated-results';
 import { transformMultiContent } from './multi-content';
 import {
+  transformLink,
+} from '@weco/common/services/prismic/transformers';
+import {
   asHtml,
   asRichText,
   asText,
@@ -25,7 +28,6 @@ import {
 } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
-import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
 import {
   transformContributors,
@@ -62,6 +64,18 @@ export function transformExhibition(
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
   );
+  const accessResourcesPdfs = data.accessResourcesPdfs.map(i => {
+    const text = asText(i.linkText) || '';
+    const url = transformLink(i.documentLink) || '';
+    const size = Math.round(parseInt(i.documentLink.size) / 1000) || 0;
+    return ({
+      text,
+      url,
+      size,
+    })
+  })
+
+  const accessResourcesText = asRichText(data.accessResourcesText);
 
   // TODO: Work out how to get this to type check without the 'as any'.
   const format = isFilledLinkToDocumentWithData(data.format)
@@ -111,6 +125,8 @@ export function transformExhibition(
     contributors,
     relatedIds,
     seasons,
+    accessResourcesPdfs,
+    accessResourcesText,
   };
 
   const labels = exhibition.isPermanent
