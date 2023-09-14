@@ -107,7 +107,6 @@ type Props = {
   articles: Article[];
   dynamicImageSizes?: BreakpointSizes;
   isDetailed?: boolean;
-  isOverviewCard?: boolean;
 };
 
 const StoriesGrid: FunctionComponent<Props> = ({
