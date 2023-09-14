@@ -195,7 +195,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                       medium: 1 / 2,
                       small: 1 / 2,
                     }}
-                    showSearchLabel={true}
                   />
                 </StoryPromoContainer>
                 <Container>
