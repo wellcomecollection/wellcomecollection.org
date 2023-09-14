@@ -60,19 +60,20 @@ const DesktopLabel = styled(Space).attrs({
     `}
 `;
 
-const MobileLabel = styled(Space)`
+const MobileLabel = styled.div<{ isDetailed?: boolean }>`
   position: absolute;
   bottom: 0;
-  left: 18px;
 
-  ${props => props.theme.media('medium')`
-    display: none;
-  `}
-`;
+  ${props =>
+    props.isDetailed
+      ? `
+        left: 18px;
 
-const SearchAllLabel = styled(Space)`
-  position: absolute;
-  bottom: 0;
+        ${props.theme.media('medium')`
+          display: none;
+        `}
+    `
+      : ``}
 `;
 
 const StoryInformation = styled(Space).attrs({
@@ -106,14 +107,13 @@ type Props = {
   articles: Article[];
   dynamicImageSizes?: BreakpointSizes;
   isDetailed?: boolean;
-  showSearchLabel?: boolean;
+  isOverviewCard?: boolean;
 };
 
 const StoriesGrid: FunctionComponent<Props> = ({
   articles,
   dynamicImageSizes,
   isDetailed,
-  showSearchLabel,
 }: Props) => {
   return (
     <StoriesContainer isDetailed={isDetailed}>
@@ -143,19 +143,13 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   sizes={dynamicImageSizes}
                   quality="low"
                 />
-                {showSearchLabel ? (
-                  <SearchAllLabel>
-                    <LabelsList labels={[{ text: article.format.label }]} />
-                  </SearchAllLabel>
-                ) : (
-                  <MobileLabel>
-                    <LabelsList labels={[{ text: article.format.label }]} />
-                  </MobileLabel>
-                )}
+                <MobileLabel isDetailed={isDetailed}>
+                  <LabelsList labels={[{ text: article.format.label }]} />
+                </MobileLabel>
               </ImageWrapper>
             )}
             <Details isDetailed={isDetailed}>
-              {!showSearchLabel && (
+              {isDetailed && (
                 <DesktopLabel>
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </DesktopLabel>
