@@ -22,7 +22,6 @@ export const embedSlice = (props?: EmbedSliceProps) => {
         fieldset: 'Embed',
       },
       caption: singleLineText('Caption', {
-        placeholder: 'Caption',
         overrideTextOptions: props?.overrideTextOptions || [
           'paragraph',
           'hyperlink',
@@ -30,7 +29,9 @@ export const embedSlice = (props?: EmbedSliceProps) => {
           'em',
         ],
       }),
-      collapsedContent: multiLineText('Collapsed content'),
+      collapsedContent: multiLineText('Collapsed content', {
+        overrideTextOptions: ['heading2', 'heading3', 'paragraph', 'strong'],
+      }),
     },
   };
 };
