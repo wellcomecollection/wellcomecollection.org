@@ -7,7 +7,7 @@ import {
   PropsWithChildren,
 } from 'react';
 import styled from 'styled-components';
-import { plus } from '@weco/common/icons';
+import { plus, minus } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -17,14 +17,11 @@ type IconContainerProps = {
 };
 
 const IconContainer = styled.div<IconContainerProps>`
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  background: ${props =>
-    props.theme.color(props.open ? 'black' : 'accent.green')};
-
   .icon {
-    transition: transform 300ms ease;
+    border-radius: 50%;
+    border: 2px solid black;
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -55,13 +52,21 @@ type ContentProps = {
   hidden: boolean;
 };
 
-const Content = styled.div<ContentProps>`
+const Content = styled(Space).attrs({
+  h: {
+    size: 'l',
+    properties: ['padding-left', 'padding-right'],
+  },
+})<ContentProps>`
   display: ${props => (props.hidden ? 'none' : 'block')};
 `;
 
 type Props = PropsWithChildren<{
   id: string;
-  controlText: string;
+  controlText: {
+    closedText: string;
+    openedText: string;
+  };
 }>;
 
 const ExplanatoryText: FunctionComponent<Props> = ({
@@ -87,15 +92,12 @@ const ExplanatoryText: FunctionComponent<Props> = ({
         >
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
             <IconContainer open={showContent}>
-              <Icon
-                icon={plus}
-                rotate={showContent ? 45 : undefined}
-                matchText={true}
-                iconColor="white"
-              />
+              <Icon icon={showContent ? minus : plus} />
             </IconContainer>
           </Space>
-          <ControlText>{controlText}</ControlText>
+          <ControlText>
+            {showContent ? controlText.openedText : controlText.closedText}
+          </ControlText>
         </Control>
       )}
       <Content id={id} aria-hidden={!showContent} hidden={!showContent}>

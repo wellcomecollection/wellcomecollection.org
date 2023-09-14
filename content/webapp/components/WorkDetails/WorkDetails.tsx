@@ -467,7 +467,10 @@ const WorkDetails: FunctionComponent<Props> = ({
                 >
                   <ExplanatoryText
                     id="licenseDetail"
-                    controlText="Can I use this?"
+                    controlText={{
+                      closedText: 'Can I use this?',
+                      openedText: 'TODO',
+                    }}
                   >
                     <>
                       {digitalLocationInfo.license.humanReadableText && (

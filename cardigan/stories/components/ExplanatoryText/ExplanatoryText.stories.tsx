@@ -5,7 +5,7 @@ const Template = args => <ExplanatoryText {...args} />;
 export const basic = Template.bind({});
 basic.args = {
   id: 'test',
-  controlText: 'Show me more',
+  controlText: { closedText: 'Show me more', openedText: 'Show me less' },
   children: <p style={{ marginTop: '30px' }}>{singleLineOfText()}</p>,
 };
 basic.storyName = 'ExplanatoryText';
