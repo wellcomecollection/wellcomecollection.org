@@ -73,6 +73,7 @@ test.describe('Search page interactions', () => {
       await page.click(colourSelectorFilterDropDown);
     }
 
+    await expectItemIsVisible(imageSearchResultsContainer, page);
     await page.click(catalogueSectionSelector);
     await safeWaitForNavigation(page);
 
