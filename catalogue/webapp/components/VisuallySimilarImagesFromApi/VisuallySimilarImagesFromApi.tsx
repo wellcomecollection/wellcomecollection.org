@@ -66,7 +66,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       const { image: fullImage } = await getImage({
         id: originalId,
         toggles,
-        include: ['visuallySimilar'],
+        include: ['withSimilarFeatures'],
       });
       if (fullImage.type === 'Image') {
         setSimilarImages(fullImage.visuallySimilar || []);

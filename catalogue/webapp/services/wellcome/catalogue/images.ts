@@ -17,8 +17,6 @@ import {
 import { toIsoDateString } from '@weco/catalogue/services/wellcome/catalogue/index';
 
 type ImageInclude =
-  | 'visuallySimilar'
-  | 'withSimilarColors'
   | 'withSimilarFeatures'
   | 'source.contributors'
   | 'source.languages'

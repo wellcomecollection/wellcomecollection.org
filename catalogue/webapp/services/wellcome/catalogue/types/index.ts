@@ -219,7 +219,7 @@ export type Image = {
     contributors?: Contributor[];
     type: string;
   };
-  visuallySimilar?: Image[];
+  withSimilarFeatures?: Image[];
   aspectRatio?: number;
 };
 
