@@ -19,7 +19,7 @@ const imagesUrl = `${baseUrl}/search/images`;
 
 const searchBarInput = `#search-searchbar`;
 const colourSelectorFilterDropDown = `button[aria-controls="images.color"]`;
-const colourSelector = `button[data-test-id="swatch-green"]`;
+const colourSelector = `button[data-test-id="swatch-red"]`;
 
 const fillActionSearchInput = async (
   value: string,
