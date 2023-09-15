@@ -54,7 +54,7 @@ export type ExhibitionPrismicDocument = prismic.PrismicDocument<
     articles: prismic.GroupField<{
       item: prismic.ContentRelationshipField<'articles'>;
     }>;
-    accessResourcesPdfs: prismic.GroupField<{
+    accessResourcesPdfs?: prismic.GroupField<{ // If we fetch an exhibition as a linked document then this field won't be present
       linkText: prismic.RichTextField;
       documentLink: prismic.LinkToMediaField;
     }>;
