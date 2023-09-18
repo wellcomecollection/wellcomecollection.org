@@ -1,9 +1,9 @@
 import title from './parts/title';
 import promo from './parts/promo';
 import list from './parts/list';
-import link, { documentLink } from './parts/link';
+import { documentLink } from './parts/link';
 import number from './parts/number';
-import articleBody from './parts/article-body';
+import { articleBody } from './parts/bodies';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import { singleLineText } from './parts/text';
 import { CustomType } from './types/CustomType';

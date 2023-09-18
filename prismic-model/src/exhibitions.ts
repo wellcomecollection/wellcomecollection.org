@@ -2,11 +2,11 @@ import title from './parts/title';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
-import { documentLink } from './parts/link';
+import { documentLink, mediaLink } from './parts/link';
 import list from './parts/list';
-import { singleLineText } from './parts/text';
+import { singleLineText, multiLineText } from './parts/text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import body from './parts/body';
+import { body } from './parts/bodies';
 import booleanDeprecated from './parts/boolean-deprecated';
 import number from './parts/number';
 import { CustomType } from './types/CustomType';
@@ -45,12 +45,12 @@ const exhibitions: CustomType = {
         item: documentLink('Article', { linkedType: 'articles' }),
       }),
     },
-    Resources: {
-      resources: list('Resources', {
-        resource: documentLink('Resource', {
-          linkedType: 'exhibition-resources',
-        }),
+    'Access content': {
+      accessResourcesPdfs: list('Access pdfs', {
+        linkText: singleLineText('Link text'),
+        documentLink: mediaLink('Document link'),
       }),
+      accessResourcesText: multiLineText('Text and links'),
     },
     Contributors: contributorsWithTitle(),
     Promo: {

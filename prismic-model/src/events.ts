@@ -8,7 +8,7 @@ import embed from './parts/embed';
 import booleanDeprecated from './parts/boolean-deprecated';
 import keyword from './parts/keyword';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import body from './parts/body';
+import { body } from './parts/bodies';
 import boolean from './parts/boolean';
 import number from './parts/number';
 import { CustomType } from './types/CustomType';

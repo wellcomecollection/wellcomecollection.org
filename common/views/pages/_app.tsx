@@ -27,6 +27,7 @@ import { useOnPageLoad } from '../../services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
 import { NextPage } from 'next';
 import { deserialiseProps } from '@weco/common/utils/json';
+import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -121,25 +122,25 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         <ServerDataContext.Provider value={serverData}>
           <UserProvider>
             <AppContextProvider>
-              <ThemeProvider theme={theme}>
-                <GlobalStyle
-                  toggles={serverData.toggles}
-                  isFontsLoaded={useIsFontsLoaded()}
-                />
-                <OutboundLinkTracker>
-                  <LoadingIndicator />
-                  {!pageProps.err &&
-                    getLayout(
-                      <Component {...(deserialiseProps(pageProps) as any)} />
+              <SearchContextProvider>
+                <ThemeProvider theme={theme}>
+                  <GlobalStyle
+                    toggles={serverData.toggles}
+                    isFontsLoaded={useIsFontsLoaded()}
+                  />
+                  <OutboundLinkTracker>
+                    <LoadingIndicator />
+                    {!pageProps.err &&
+                      getLayout(<Component {...deserialiseProps(pageProps)} />)}
+                    {pageProps.err && (
+                      <ErrorPage
+                        statusCode={pageProps.err.statusCode}
+                        title={pageProps.err.message}
+                      />
                     )}
-                  {pageProps.err && (
-                    <ErrorPage
-                      statusCode={pageProps.err.statusCode}
-                      title={pageProps.err.message}
-                    />
-                  )}
-                </OutboundLinkTracker>
-              </ThemeProvider>
+                  </OutboundLinkTracker>
+                </ThemeProvider>
+              </SearchContextProvider>
             </AppContextProvider>
           </UserProvider>
         </ServerDataContext.Provider>

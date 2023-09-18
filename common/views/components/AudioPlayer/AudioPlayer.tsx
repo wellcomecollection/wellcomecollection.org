@@ -37,11 +37,17 @@ const PlayPauseInner = styled.div`
   justify-content: center;
 `;
 
-const AudioPlayerGrid = styled.div`
+const AudioPlayerGrid = styled(Space).attrs({
+  h: { size: 's', properties: ['row-gap'], overrides: { medium: 2, large: 2 } },
+  v: {
+    size: 's',
+    properties: ['column-gap'],
+    overrides: { medium: 2, large: 2 },
+  },
+})`
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 5px;
 `;
 
 const SecondRow = styled.div`

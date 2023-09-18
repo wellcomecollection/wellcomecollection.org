@@ -5,7 +5,7 @@ import { Contributor, ContributorBasic } from './contributors';
 import { EventBasic } from './events';
 import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
-import { Resource } from './resource';
+import { Link } from '@weco/content/types/link';
 import { Season } from './seasons';
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
@@ -52,6 +52,8 @@ export type Exhibition = GenericContentFields & {
   relatedIds: string[];
   seasons: Season[];
   contributors: Contributor[];
+  accessResourcesPdfs: (Link & { size: number })[];
+  accessResourcesText?: prismic.RichTextField;
 };
 
 export type Exhibit = {

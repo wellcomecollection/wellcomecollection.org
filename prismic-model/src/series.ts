@@ -1,6 +1,6 @@
 import title from './parts/title';
 import promo from './parts/promo';
-import body from './parts/body';
+import { body } from './parts/bodies';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import list from './parts/list';
 import select from './parts/select';

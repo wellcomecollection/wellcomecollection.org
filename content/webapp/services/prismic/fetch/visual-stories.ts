@@ -13,19 +13,8 @@ const fetchLinks = [
 const visualStoriesFetcher = fetcher<VisualStoryDocument>(
   'visual-stories',
   fetchLinks
-);
+  );
 
 export const fetchVisualStory = visualStoriesFetcher.getById;
+export const fetchVisualStories = visualStoriesFetcher.getByType;
 
-export const fetchVisualStories = (
-  client: GetServerSidePropsPrismicClient,
-  params: GetByTypeParams
-): Promise<prismic.Query<VisualStoryDocument>> => {
-  return visualStoriesFetcher.getByType(client, {
-    ...params,
-    orderings: [
-      { field: 'my.visual-stories.datePublished', direction: 'desc' },
-      { field: 'document.first_publication_date', direction: 'desc' },
-    ],
-  });
-};

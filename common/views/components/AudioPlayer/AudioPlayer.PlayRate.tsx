@@ -3,12 +3,17 @@ import styled from 'styled-components';
 import { AppContext } from '../AppContext/AppContext';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import { font } from '@weco/common/utils/classnames';
+import Space from '../styled/Space';
 
-const PlayRateWrapper = styled.div.attrs({
+const PlayRateWrapper = styled(Space).attrs({
+  h: {
+    size: 'xs',
+    properties: ['column-gap'],
+    overrides: { medium: 1, large: 1 },
+  },
   className: font('intr', 6),
 })`
   display: flex;
-  gap: 5px;
 `;
 
 const PlayRateRadio = styled.input.attrs({

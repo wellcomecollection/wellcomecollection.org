@@ -5,9 +5,6 @@
       "path": "./identity/webapp"
     },
     {
-      "path": "./catalogue/webapp"
-    },
-    {
       "path": "./content/webapp"
     },
     {

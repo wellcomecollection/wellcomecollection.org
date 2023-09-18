@@ -49,6 +49,62 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'aggregationsInSearch',
+      title: 'Aggregations in search',
+      initialValue: true,
+      description:
+        'Whether to enable aggregations in search. Aggregations are an expensive part of the query, and they can be temporarily disabled if the API is having performance issues.',
+      type: 'permanent',
+    },
+    {
+      id: 'aggregationsInSearchGenres',
+      title: 'Aggregations in search (genres)',
+      initialValue: false,
+      description:
+        'Whether to enable aggregations in search. Aggregations are an expensive part of the query, and they can be temporarily disabled if the API is having performance issues.',
+      type: 'experimental',
+    },
+    {
+      id: 'aggregationsInSearchAvailabilities',
+      title: 'Aggregations in search (availabilities)',
+      initialValue: false,
+      description:
+        'Whether to enable aggregations in search. Aggregations are an expensive part of the query, and they can be temporarily disabled if the API is having performance issues.',
+      type: 'experimental',
+    },
+    {
+      id: 'aggregationsInSearchWorkType',
+      title: 'Aggregations in search (workType)',
+      initialValue: false,
+      description:
+        'Whether to enable aggregations in search. Aggregations are an expensive part of the query, and they can be temporarily disabled if the API is having performance issues.',
+      type: 'experimental',
+    },
+    {
+      id: 'aggregationsInSearchSubjects',
+      title: 'Aggregations in search (subjects)',
+      initialValue: false,
+      description:
+        'Whether to enable aggregations in search. Aggregations are an expensive part of the query, and they can be temporarily disabled if the API is having performance issues.',
+      type: 'experimental',
+    },
+    {
+      id: 'aggregationsInSearchContributors',
+      title: 'Aggregations in search (contributors)',
+      initialValue: false,
+      description:
+        'Whether to enable aggregations in search. Aggregations are an expensive part of the query, and they can be temporarily disabled if the API is having performance issues.',
+      type: 'experimental',
+    },
+    {
+      id: 'aggregationsInSearchLanguages',
+      title: 'Aggregations in search (languages)',
+      initialValue: false,
+      description:
+        'Whether to enable aggregations in search. Aggregations are an expensive part of the query, and they can be temporarily disabled if the API is having performance issues.',
+      type: 'experimental',
+    },
+    {
       id: 'worksTabbedNav',
       title: 'Works page: Tabbed navigation',
       initialValue: false,
@@ -61,14 +117,6 @@ const toggles = {
       title: 'Visual Stories Prototype',
       initialValue: false,
       description: 'Allows access to visual stories pages.',
-      type: 'experimental',
-    },
-    {
-      id: 'polly',
-      title: 'Text-to-speech Amazon Polly',
-      initialValue: false,
-      description:
-        'Displays an audio player with text-to-speech audio on selected articles',
       type: 'experimental',
     },
   ] as const,

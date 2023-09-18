@@ -1,5 +1,5 @@
-import CopyUrl from '@weco/catalogue/components/CopyUrl/CopyUrl';
-import Readme from '@weco/catalogue/components/CopyUrl/README.md';
+import CopyUrl from '@weco/content/components/CopyUrl/CopyUrl';
+import Readme from '@weco/content/components/CopyUrl/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (

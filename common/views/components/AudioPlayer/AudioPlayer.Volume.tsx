@@ -4,11 +4,17 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import { volumeMuted, volume as volumeIcon } from '@weco/common/icons';
 import { formatVolume } from './AudioPlayer.formatters';
+import Space from '../styled/Space';
 
-const VolumeWrapper = styled.div`
+const VolumeWrapper = styled(Space).attrs({
+  h: {
+    size: 'xs',
+    properties: ['column-gap'],
+    overrides: { medium: 1, large: 1 },
+  },
+})`
   display: flex;
   align-items: center;
-  gap: 5px;
 
   input {
     width: 60px;

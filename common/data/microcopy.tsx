@@ -149,3 +149,7 @@ export const searchPlaceholderText = {
   images: 'Search for images',
   works: 'Search the catalogue',
 };
+
+export const visualStoryLinkText = 'Explore information to help you plan and prepare for your visit';
+
+export const exhibitionGuideLinkText = 'Explore Audio description, British Sign Language and captions and transcripts';

@@ -24,7 +24,7 @@ import {
 const imagesUrl = `${baseUrl}/search/images`;
 const searchBarInput = `#search-searchbar`;
 const colourSelectorFilterDropDown = `button[aria-controls="images.color"]`;
-const colourSelector = `button[data-test-id="swatch-green"]`;
+const colourSelector = `button[data-test-id="swatch-red"]`;
 const imageSearchResultsContainer =
   '[data-test-id="image-search-results-container"]';
 const imagesResultsListItem = `${imageSearchResultsContainer} li`;
