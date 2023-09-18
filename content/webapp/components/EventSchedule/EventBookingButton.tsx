@@ -20,7 +20,7 @@ const BookingButtonLink: FunctionComponent<Props> = ({ event }) => {
     return (
       <div data-eventbrite-ticket-id={event.eventbriteId}>
         <ButtonSolidLink
-          link={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
+          link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
           icon={ticketAvailable}
           text="Book free tickets"
         />
