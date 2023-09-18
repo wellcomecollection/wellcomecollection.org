@@ -8,7 +8,7 @@ export const audioPlayerSlice = () => {
     nonRepeat: {
       title,
       audio: mediaLink('Audio'),
-      collapsedContent: multiLineText('Collapsed content', {
+      collapsibleContent: multiLineText('Collapsible content', {
         overrideTextOptions: ['heading2', 'heading3', 'paragraph', 'strong'],
       }),
     },

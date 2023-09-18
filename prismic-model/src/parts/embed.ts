@@ -29,7 +29,7 @@ export const embedSlice = (props?: EmbedSliceProps) => {
           'em',
         ],
       }),
-      collapsedContent: multiLineText('Collapsed content', {
+      collapsibleContent: multiLineText('Collapsible content', {
         overrideTextOptions: ['heading2', 'heading3', 'paragraph', 'strong'],
       }),
     },
