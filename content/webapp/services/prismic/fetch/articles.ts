@@ -89,6 +89,7 @@ const graphQuery = `{
             }
           }
         }
+        body
       }
     }
   }
