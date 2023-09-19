@@ -48,6 +48,7 @@ const ControlText = styled.span`
 `;
 
 const Content = styled(Space).attrs({
+  className: 'body-text spaced-text',
   h: {
     size: 'l',
     properties: ['padding-left', 'padding-right'],
