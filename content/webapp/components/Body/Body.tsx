@@ -487,7 +487,6 @@ const Body: FunctionComponent<Props> = ({
                   <LayoutWidth width={isShortFilm ? 12 : minWidth}>
                     <VideoEmbed
                       {...slice.value}
-                      index={i}
                       hasFullSizePoster={isShortFilm}
                     />
                   </LayoutWidth>
@@ -496,7 +495,7 @@ const Body: FunctionComponent<Props> = ({
               {slice.type === 'soundcloudEmbed' && (
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
-                    <SoundCloudEmbed {...slice.value} index={i} />
+                    <SoundCloudEmbed {...slice.value} id={i} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}

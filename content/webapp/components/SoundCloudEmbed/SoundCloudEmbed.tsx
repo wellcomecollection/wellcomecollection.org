@@ -14,14 +14,14 @@ const Figure = styled.figure`
 `;
 
 export type Props = {
-  index: number;
+  id: number | string;
   embedUrl: string;
   caption?: prismic.RichTextField;
   transcript?: prismic.RichTextField;
 };
 
 const SoundCloudEmbed: FunctionComponent<Props> = ({
-  index,
+  id,
   embedUrl,
   caption,
   transcript,
@@ -38,7 +38,7 @@ const SoundCloudEmbed: FunctionComponent<Props> = ({
 
       {transcript && (
         <CollapsibleContent
-          id={`embedSoundCloudTranscript-${index}`}
+          id={`embedSoundCloudTranscript-${id}`}
           controlText={{
             contentShowingText: 'Hide the transcript',
             defaultText: 'Show the transcript',
