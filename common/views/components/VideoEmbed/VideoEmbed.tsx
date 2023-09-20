@@ -8,6 +8,7 @@ import CollapsibleContent from '../CollapsibleContent';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 
 export type Props = {
+  index: number;
   embedUrl: string;
   caption?: prismic.RichTextField;
   transcript?: prismic.RichTextField;
@@ -52,6 +53,7 @@ const VideoTrigger = styled.button<{ hasFullSizePoster?: boolean }>`
 `;
 
 const VideoEmbed: FunctionComponent<Props> = ({
+  index,
   embedUrl,
   caption,
   transcript,
@@ -116,7 +118,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
 
       {transcript && (
         <CollapsibleContent
-          id={`embedVideoTranscript-${Math.floor(Math.random() * 1000) + 1}`}
+          id={`embedVideoTranscript-${index}`}
           controlText={{
             defaultText: 'Read the transcript',
             contentShowingText: 'Hide the transcript',

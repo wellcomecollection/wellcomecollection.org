@@ -301,6 +301,7 @@ const Body: FunctionComponent<Props> = ({
   };
   const isShortFilm = contentType === 'short-film';
   const isVisualStory = contentType === 'visual-story';
+  console.log(filteredBody);
 
   return (
     <BodyWrapper
@@ -487,6 +488,7 @@ const Body: FunctionComponent<Props> = ({
                   <LayoutWidth width={isShortFilm ? 12 : minWidth}>
                     <VideoEmbed
                       {...slice.value}
+                      index={i}
                       hasFullSizePoster={isShortFilm}
                     />
                   </LayoutWidth>
@@ -495,7 +497,7 @@ const Body: FunctionComponent<Props> = ({
               {slice.type === 'soundcloudEmbed' && (
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
-                    <SoundCloudEmbed {...slice.value} />
+                    <SoundCloudEmbed {...slice.value} index={i} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
