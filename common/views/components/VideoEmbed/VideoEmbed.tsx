@@ -116,7 +116,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
 
       {transcript && (
         <CollapsibleContent
-          id={`embedVideoTranscript-${Math.floor(Math.random() * 1000) + 1}`}
+          id={`embedVideoTranscript-${id}`}
           controlText={{
             defaultText: 'Read the transcript',
             contentShowingText: 'Hide the transcript',
