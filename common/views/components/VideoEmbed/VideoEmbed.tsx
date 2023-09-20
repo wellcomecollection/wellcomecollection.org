@@ -81,7 +81,6 @@ const VideoEmbed: FunctionComponent<Props> = ({
     firstScript.parentNode?.insertBefore(s, firstScript);
   }, []);
 
-  // TODO figure out how to not move the whole featured section...
   return (
     <>
       <VideoEmbedWrapper>
