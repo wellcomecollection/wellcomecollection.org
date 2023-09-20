@@ -1,10 +1,9 @@
 import { FunctionComponent, useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import * as prismic from '@prismicio/client';
-import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
+import { PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
@@ -17,6 +16,7 @@ import {
   ExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
 import { Container } from '@weco/common/views/components/styled/Container';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 
 const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
@@ -114,9 +114,9 @@ const PrismicImageWrapper = styled.div`
 `;
 
 const Transcription = styled(Space).attrs({
-  className: `spaced-text ${font('intr', 5)}`,
+  className: font('intr', 5),
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['margin-top'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   border-left: 20px solid ${props => props.theme.color('accent.lightBlue')};
 `;
@@ -170,11 +170,7 @@ const Stop: FunctionComponent<{
   const { isEnhanced } = useContext(AppContext);
   const hasShowFullTranscriptionButton =
     (transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
-  const transcriptionFirstParagraph = transcription?.slice(0, 1);
   const [isFullTranscription, setIsFullTranscription] = useState(true);
-  const [transcriptionText, setTranscriptionText] = useState(
-    transcriptionFirstParagraph
-  );
   const hasContext = isNotUndefined(context);
 
   useEffect(() => {
@@ -182,12 +178,6 @@ const Stop: FunctionComponent<{
     // JavaScript is available
     setIsFullTranscription(false);
   }, []);
-
-  useEffect(() => {
-    setTranscriptionText(
-      isFullTranscription ? transcription : transcriptionFirstParagraph
-    );
-  }, [isFullTranscription]);
 
   // Heading levels will vary depending on the inclusion of optional headings on the page
   const contextHeadingLevel = titlesUsed.standalone ? 3 : 2;
@@ -274,45 +264,36 @@ const Stop: FunctionComponent<{
                   <PrismicHtmlBlock html={caption} />
                 </Caption>
               )}
-              {transcriptionText && transcriptionText.length > 0 && (
+              {hasShowFullTranscriptionButton && (
                 <Transcription>
                   <TranscriptTitle level={audioTranscriptHeadingLevel}>
                     {stop.number ? `Stop ${stop.number}: ` : ''}Audio transcript
                   </TranscriptTitle>
-                  <div id={`transcription-text-${index}`}>
-                    <PrismicHtmlBlock
-                      html={transcriptionText as prismic.RichTextField}
-                    />
-                  </div>
-                  {hasShowFullTranscriptionButton && (
-                    <ButtonSolid
-                      colors={
-                        hasContext
-                          ? themeValues.buttonColors.charcoalTransparentCharcoal
-                          : themeValues.buttonColors.greenTransparentGreen
-                      }
-                      ariaControls={`transcription-text-${index}`}
-                      ariaExpanded={isFullTranscription}
-                      clickHandler={() => {
-                        setIsFullTranscription(!isFullTranscription);
-                      }}
-                      trackingEvent={{
-                        category: 'ExhibitionCaptions',
-                        action: 'read full transcript',
-                        label: stop.anchorId,
-                      }}
-                      dataGtmTrigger={
-                        isFullTranscription
-                          ? 'hide_transcript'
-                          : 'show_transcript'
-                      }
-                      text={
-                        isFullTranscription
-                          ? 'Hide full transcript'
-                          : 'Read full transcript'
-                      }
-                    />
-                  )}
+                  <CollapsibleContent
+                    id="TODO"
+                    controlText={{
+                      defaultText: 'Read full transcript',
+                      contentShowingText: 'Hide full transcript',
+                    }}
+                    // TODO, should we track every collapsible content?
+                    trackingEvent={{
+                      category: 'ExhibitionCaptions',
+                      action: 'read full transcript',
+                      label: stop.anchorId,
+                    }}
+                    // TODO figure out how to still track this - make it available on all?
+                    dataGtmTrigger={
+                      isFullTranscription
+                        ? 'hide_transcript'
+                        : 'show_transcript'
+                    }
+                  >
+                    <div id={`transcription-text-${index}`}>
+                      <PrismicHtmlBlock
+                        html={transcription as prismic.RichTextField}
+                      />
+                    </div>
+                  </CollapsibleContent>
                 </Transcription>
               )}
             </CaptionTranscription>

@@ -45,6 +45,7 @@ const Control = styled.button.attrs({
 const ControlText = styled.span`
   text-decoration: underline;
   font-weight: normal;
+  margin: 0;
 `;
 
 const Content = styled(Space).attrs({
