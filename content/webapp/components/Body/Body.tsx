@@ -495,7 +495,7 @@ const Body: FunctionComponent<Props> = ({
               {slice.type === 'soundcloudEmbed' && (
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
-                    <SoundCloudEmbed {...slice.value} />
+                    <SoundCloudEmbed {...slice.value} id={i} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}

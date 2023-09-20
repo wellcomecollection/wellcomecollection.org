@@ -4,12 +4,13 @@ import captionedImageGallerySlice from '../captioned-image-gallery-slice';
 import gifVideoSlice from '../gif-video-slice';
 import iframeSlice from '../iframe-slice';
 import title from '../title';
-import link, { documentLink, mediaLink, webLink } from '../link';
+import link, { documentLink, webLink } from '../link';
 import text from '../keyword';
-import embed from '../embed';
 import heading from '../heading';
 import booleanDeprecated from '../boolean-deprecated';
-import { textAndIconsSlice } from '../textAndIcons';
+import { embedSlice } from '../embed';
+import { textAndIconsSlice } from '../text-and-icons';
+import { audioPlayerSlice } from '../audio-player';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {
@@ -88,23 +89,8 @@ export default {
           text: singleLineText('Standfirst'),
         },
       }),
-      embed: slice('Embed', {
-        nonRepeat: {
-          embed: embed('Embed (Youtube, SoundCloud, etc)'),
-          caption: singleLineText('Caption'),
-        },
-      }),
-      map: slice('Map', {
-        nonRepeat: {
-          title,
-          geolocation: {
-            type: 'GeoPoint',
-            config: {
-              label: 'Geo point',
-            },
-          },
-        },
-      }),
+      embed: embedSlice(),
+      audioPlayer: audioPlayerSlice(),
       collectionVenue: slice("Collection venue's hours", {
         nonRepeat: {
           content: documentLink('Content item', {
@@ -178,10 +164,15 @@ export default {
         },
       }),
       textAndIcons: textAndIconsSlice(),
-      audioPlayer: slice('Audio Player', {
+      map: slice('Map', {
         nonRepeat: {
           title,
-          audio: mediaLink('Audio'),
+          geolocation: {
+            type: 'GeoPoint',
+            config: {
+              label: 'Geo point',
+            },
+          },
         },
       }),
     },

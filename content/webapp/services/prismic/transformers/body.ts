@@ -291,6 +291,7 @@ function transformAudioPlayerSlice(slice: AudioPlayerSlice): BodySlice {
     value: {
       title: asTitle(slice.primary.title),
       audioFile: transformLink(slice.primary.audio) || '',
+      transcript: slice.primary.transcript,
     },
   };
 }
@@ -332,6 +333,7 @@ export function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
       value: {
         embedUrl: getVimeoEmbedUrl(embed),
         caption: slice.primary.caption,
+        transcript: slice.primary.transcript,
       },
     };
   }
@@ -343,6 +345,7 @@ export function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
       value: {
         embedUrl: getSoundCloudEmbedUrl(embed),
         caption: slice.primary.caption,
+        transcript: slice.primary.transcript,
       },
     };
   }
@@ -354,6 +357,7 @@ export function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
       value: {
         embedUrl: getYouTubeEmbedUrl(embed),
         caption: slice.primary.caption,
+        transcript: slice.primary.transcript,
       },
     };
   }

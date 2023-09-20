@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState, FunctionComponent } from 'react';
+import styled from 'styled-components';
+import * as prismic from '@prismicio/client';
 import { dasherize } from '@weco/common/utils/grammar';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { play, pause } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
-import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import { useAVTracking } from '@weco/common/hooks/useAVTracking';
 import Volume from './AudioPlayer.Volume';
 import PlayRate from './AudioPlayer.PlayRate';
 import Scrubber from './AudioPlayer.Scrubber';
 import { formatPlayerTime } from './AudioPlayer.formatters';
+import CollapsibleContent from '../CollapsibleContent';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 
 const AudioPlayerWrapper = styled.figure`
   margin: 0;
@@ -57,6 +60,7 @@ const SecondRow = styled.div`
 export type AudioPlayerProps = {
   audioFile: string;
   title: string;
+  transcript?: prismic.RichTextField;
   idPrefix?: string;
   titleProps?: { role: string; 'aria-level': number };
 };
@@ -64,6 +68,7 @@ export type AudioPlayerProps = {
 export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   audioFile,
   title,
+  transcript,
   idPrefix,
   titleProps = {},
 }) => {
@@ -164,97 +169,113 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   };
 
   return (
-    <AudioPlayerWrapper>
-      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <figcaption className={font('intb', 5)} {...titleProps}>
-          {title}
-        </figcaption>
-      </Space>
+    <>
+      <AudioPlayerWrapper>
+        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <figcaption className={font('intb', 5)} {...titleProps}>
+            {title}
+          </figcaption>
+        </Space>
 
-      <AudioPlayerGrid>
-        <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
-          <PlayPauseInner>
-            <span className="visually-hidden">
-              {isPlaying ? 'Pause' : 'Play'}
-            </span>
-            <Icon iconColor="accent.green" icon={isPlaying ? pause : play} />
-          </PlayPauseInner>
-        </PlayPauseButton>
-
-        <div style={{ width: '100%' }}>
-          <Scrubber
-            startTime={startTime}
-            duration={duration}
-            id={id}
-            onChange={onScrubberChange}
-            progressBarRef={progressBarRef}
-          />
-        </div>
-        {audioPlayerRef.current && (
-          <Volume audioPlayer={audioPlayerRef.current} id={id} />
-        )}
-        <SecondRow>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div
-              className={font('intr', 6)}
-              style={{
-                fontVariantNumeric: 'tabular-nums',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              <span>
-                <span className="visually-hidden">
-                  Elapsed time: {formatPlayerTime(currentTime).nonVisual}
-                </span>
-                <span aria-hidden="true">
-                  {formatPlayerTime(currentTime).visual}
-                </span>
+        <AudioPlayerGrid>
+          <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
+            <PlayPauseInner>
+              <span className="visually-hidden">
+                {isPlaying ? 'Pause' : 'Play'}
               </span>
-              {!Number.isNaN(duration) && (
-                <>
-                  {' '}
-                  <span aria-hidden="true">/</span>{' '}
-                  <span>
-                    <span className="visually-hidden">
-                      Total time: {formatPlayerTime(duration).nonVisual}
-                    </span>
-                    <span aria-hidden="true">
-                      {formatPlayerTime(duration).visual}
-                    </span>
+              <Icon iconColor="accent.green" icon={isPlaying ? pause : play} />
+            </PlayPauseInner>
+          </PlayPauseButton>
+
+          <div style={{ width: '100%' }}>
+            <Scrubber
+              startTime={startTime}
+              duration={duration}
+              id={id}
+              onChange={onScrubberChange}
+              progressBarRef={progressBarRef}
+            />
+          </div>
+          {audioPlayerRef.current && (
+            <Volume audioPlayer={audioPlayerRef.current} id={id} />
+          )}
+          <SecondRow>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div
+                className={font('intr', 6)}
+                style={{
+                  fontVariantNumeric: 'tabular-nums',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <span>
+                  <span className="visually-hidden">
+                    Elapsed time: {formatPlayerTime(currentTime).nonVisual}
                   </span>
-                </>
+                  <span aria-hidden="true">
+                    {formatPlayerTime(currentTime).visual}
+                  </span>
+                </span>
+                {!Number.isNaN(duration) && (
+                  <>
+                    {' '}
+                    <span aria-hidden="true">/</span>{' '}
+                    <span>
+                      <span className="visually-hidden">
+                        Total time: {formatPlayerTime(duration).nonVisual}
+                      </span>
+                      <span aria-hidden="true">
+                        {formatPlayerTime(duration).visual}
+                      </span>
+                    </span>
+                  </>
+                )}
+              </div>
+              {audioPlayerRef.current && (
+                <PlayRate id={id} audioPlayer={audioPlayerRef.current} />
               )}
             </div>
-            {audioPlayerRef.current && (
-              <PlayRate id={id} audioPlayer={audioPlayerRef.current} />
-            )}
-          </div>
-        </SecondRow>
-      </AudioPlayerGrid>
+          </SecondRow>
+        </AudioPlayerGrid>
 
-      <audio
-        onLoadedMetadata={onLoadedMetadata}
-        onPlay={event => {
-          trackPlay(event);
-          setIsPlaying(true);
-        }}
-        onEnded={trackEnded}
-        onPause={() => setIsPlaying(false)}
-        onTimeUpdate={event => {
-          onTimeUpdate();
-          trackTimeUpdate(event);
-        }}
-        preload="metadata"
-        ref={audioPlayerRef}
-        src={audioFile}
-      >
-        <p>
-          Your browser does not support the <code>audio</code> element.
-          <a href={audioFile}>Download the audio</a>
-          instead.
-        </p>
-      </audio>
-    </AudioPlayerWrapper>
+        <audio
+          onLoadedMetadata={onLoadedMetadata}
+          onPlay={event => {
+            trackPlay(event);
+            setIsPlaying(true);
+          }}
+          onEnded={trackEnded}
+          onPause={() => setIsPlaying(false)}
+          onTimeUpdate={event => {
+            onTimeUpdate();
+            trackTimeUpdate(event);
+          }}
+          preload="metadata"
+          ref={audioPlayerRef}
+          src={audioFile}
+        >
+          <p>
+            Your browser does not support the <code>audio</code> element.
+            <a href={audioFile}>Download the audio</a>
+            instead.
+          </p>
+        </audio>
+      </AudioPlayerWrapper>
+
+      {transcript && (
+        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <CollapsibleContent
+            id={`audioPlayerTranscript-${title}`}
+            controlText={{
+              contentShowingText: 'Hide the transcript',
+              defaultText: 'Read the transcript',
+            }}
+          >
+            <PrismicHtmlBlock html={transcript} />
+          </CollapsibleContent>
+        </Space>
+      )}
+    </>
   );
 };
 
