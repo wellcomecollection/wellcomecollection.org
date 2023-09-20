@@ -301,7 +301,6 @@ const Body: FunctionComponent<Props> = ({
   };
   const isShortFilm = contentType === 'short-film';
   const isVisualStory = contentType === 'visual-story';
-  console.log(filteredBody);
 
   return (
     <BodyWrapper
