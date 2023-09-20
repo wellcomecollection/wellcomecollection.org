@@ -36,7 +36,7 @@ const SoundCloudEmbed: FunctionComponent<Props> = ({
       />
       {caption && <Caption caption={caption} />}
 
-      {transcript && (
+      {!!(transcript?.length && transcript.length > 0) && (
         <CollapsibleContent
           id={`embedSoundCloudTranscript-${id}`}
           controlText={{

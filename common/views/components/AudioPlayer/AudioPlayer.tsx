@@ -262,7 +262,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         </audio>
       </AudioPlayerWrapper>
 
-      {transcript && (
+      {!!(transcript?.length && transcript.length > 0) && (
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <CollapsibleContent
             id={`audioPlayerTranscript-${title}`}
