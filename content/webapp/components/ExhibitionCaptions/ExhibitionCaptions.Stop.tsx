@@ -116,7 +116,7 @@ const PrismicImageWrapper = styled.div`
 const Transcription = styled(Space).attrs({
   className: font('intr', 5),
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom', 'margin-top'] },
 })`
   border-left: 20px solid ${props => props.theme.color('accent.lightBlue')};
 `;
