@@ -1,8 +1,9 @@
 import body, { slice } from './body';
 import boolean from '../boolean';
+import { embedSlice } from '../embed';
 import { documentLink } from '../link';
 import { multiLineText, singleLineText } from '../text';
-import { textAndIconsSlice } from '../textAndIcons';
+import { textAndIconsSlice } from '../text-and-icons';
 
 export default {
   fieldset: 'Slice zone',
@@ -42,20 +43,7 @@ export default {
         },
       },
       editorialImage: body.config.choices.editorialImage,
-      embed: {
-        type: 'Slice',
-        fieldset: 'Embed',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'Embed',
-          },
-          caption: singleLineText('Caption', {
-            placeholder: 'Caption',
-            overrideTextOptions: ['hyperlink', 'em'],
-          }),
-        },
-      },
+      embed: embedSlice({ overrideTextOptions: ['hyperlink', 'em'] }),
       textAndImage: slice('Text and image', {
         description: 'Side-by-side',
         nonRepeat: {

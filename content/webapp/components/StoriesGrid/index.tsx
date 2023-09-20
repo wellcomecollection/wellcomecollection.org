@@ -60,14 +60,20 @@ const DesktopLabel = styled(Space).attrs({
     `}
 `;
 
-const MobileLabel = styled(Space)`
+const MobileLabel = styled.div<{ isDetailed?: boolean }>`
   position: absolute;
   bottom: 0;
-  left: 18px;
 
-  ${props => props.theme.media('medium')`
-    display: none;
-  `}
+  ${props =>
+    props.isDetailed
+      ? `
+        left: 18px;
+
+        ${props.theme.media('medium')`
+          display: none;
+        `}
+    `
+      : ``}
 `;
 
 const StoryInformation = styled(Space).attrs({
@@ -136,16 +142,17 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   sizes={dynamicImageSizes}
                   quality="low"
                 />
-
-                <MobileLabel>
+                <MobileLabel isDetailed={isDetailed}>
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </MobileLabel>
               </ImageWrapper>
             )}
             <Details isDetailed={isDetailed}>
-              <DesktopLabel>
-                <LabelsList labels={[{ text: article.format.label }]} />
-              </DesktopLabel>
+              {isDetailed && (
+                <DesktopLabel>
+                  <LabelsList labels={[{ text: article.format.label }]} />
+                </DesktopLabel>
+              )}
 
               <h3 className={font('wb', 4)}>{article.title}</h3>
 

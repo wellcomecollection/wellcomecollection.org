@@ -1,12 +1,16 @@
 import { FunctionComponent, useState, useEffect } from 'react';
+import styled from 'styled-components';
+import * as prismic from '@prismicio/client';
+
 import Caption from '../Caption/Caption';
 import { IframeContainer } from '../Iframe/Iframe';
-import * as prismic from '@prismicio/client';
-import styled from 'styled-components';
+import CollapsibleContent from '../CollapsibleContent';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 
 export type Props = {
   embedUrl: string;
   caption?: prismic.RichTextField;
+  transcript?: prismic.RichTextField;
   hasFullSizePoster?: boolean;
 };
 
@@ -50,6 +54,7 @@ const VideoTrigger = styled.button<{ hasFullSizePoster?: boolean }>`
 const VideoEmbed: FunctionComponent<Props> = ({
   embedUrl,
   caption,
+  transcript,
   hasFullSizePoster,
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
@@ -77,36 +82,50 @@ const VideoEmbed: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <VideoEmbedWrapper>
-      <IframeContainer>
-        {isActive ? (
-          <iframe
-            className="iframe"
-            title="Video"
-            allowFullScreen={true}
-            allow="autoplay; picture-in-picture"
-            src={`${embedUrl}&enablejsapi=1&autoplay=1`}
-            frameBorder="0"
-          />
-        ) : (
-          <VideoTrigger
-            onClick={() => setIsActive(true)}
-            hasFullSizePoster={hasFullSizePoster}
-          >
-            <span className="visually-hidden">Play video</span>
-            <YouTubePlay />
-            <img
-              src={`https://img.youtube.com/vi/${id}/${
-                hasFullSizePoster ? 'maxresdefault' : 'hqdefault'
-              }.jpg`}
-              alt=""
+    <>
+      <VideoEmbedWrapper>
+        <IframeContainer>
+          {isActive ? (
+            <iframe
+              className="iframe"
+              title="Video"
+              allowFullScreen={true}
+              allow="autoplay; picture-in-picture"
+              src={`${embedUrl}&enablejsapi=1&autoplay=1`}
+              frameBorder="0"
             />
-          </VideoTrigger>
-        )}
-      </IframeContainer>
+          ) : (
+            <VideoTrigger
+              onClick={() => setIsActive(true)}
+              hasFullSizePoster={hasFullSizePoster}
+            >
+              <span className="visually-hidden">Play video</span>
+              <YouTubePlay />
+              <img
+                src={`https://img.youtube.com/vi/${id}/${
+                  hasFullSizePoster ? 'maxresdefault' : 'hqdefault'
+                }.jpg`}
+                alt=""
+              />
+            </VideoTrigger>
+          )}
+        </IframeContainer>
 
-      {caption && <Caption caption={caption} />}
-    </VideoEmbedWrapper>
+        {caption && <Caption caption={caption} />}
+      </VideoEmbedWrapper>
+
+      {transcript && (
+        <CollapsibleContent
+          id={`embedVideoTranscript-${Math.floor(Math.random() * 1000) + 1}`}
+          controlText={{
+            defaultText: 'Read the transcript',
+            contentShowingText: 'Hide the transcript',
+          }}
+        >
+          <PrismicHtmlBlock html={transcript} />
+        </CollapsibleContent>
+      )}
+    </>
   );
 };
 

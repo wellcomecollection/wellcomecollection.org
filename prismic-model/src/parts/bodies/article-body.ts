@@ -1,10 +1,11 @@
 import body, { slice } from './body';
 import heading from '../heading';
-import { mediaLink, webLink } from '../link';
+import { webLink } from '../link';
 import keyword from '../keyword';
 import { multiLineText, singleLineText } from '../text';
 import gifVideoSlice from '../gif-video-slice';
-import title from '../title';
+import { audioPlayerSlice } from '../audio-player';
+import { embedSlice } from '../embed';
 
 export default {
   fieldset: 'Body content',
@@ -123,20 +124,8 @@ export default {
         },
       },
       quoteV2: body.config.choices.quote,
-      embed: {
-        type: 'Slice',
-        fieldset: 'Embed',
-        'non-repeat': {
-          embed: {
-            type: 'Embed',
-            fieldset: 'Embed',
-          },
-          caption: singleLineText('Caption', {
-            placeholder: 'Caption',
-            overrideTextOptions: ['hyperlink', 'em'],
-          }),
-        },
-      },
+      audioPlayer: audioPlayerSlice(),
+      embed: embedSlice({ overrideTextOptions: ['hyperlink', 'em'] }),
       discussion: slice('Discussion', {
         nonRepeat: {
           title: heading('Title', { level: 2 }),
@@ -150,12 +139,6 @@ export default {
         repeat: {
           link: webLink('Link'),
           linkText: keyword('Link text'),
-        },
-      }),
-      audioPlayer: slice('Audio Player', {
-        nonRepeat: {
-          title,
-          audio: mediaLink('Audio'),
         },
       }),
     },

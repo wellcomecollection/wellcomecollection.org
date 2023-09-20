@@ -64,7 +64,7 @@ export function transformExhibition(
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
   );
-  const accessResourcesPdfs = data.accessResourcesPdfs.map(i => {
+  const accessResourcesPdfs = data.accessResourcesPdfs?.map(i => {
     const text = asText(i.linkText) || '';
     const url = transformLink(i.documentLink) || '';
     const size = Math.round(parseInt(i.documentLink.size) / 1000) || 0;

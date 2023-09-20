@@ -19,7 +19,7 @@ const imagesUrl = `${baseUrl}/search/images`;
 
 const searchBarInput = `#search-searchbar`;
 const colourSelectorFilterDropDown = `button[aria-controls="images.color"]`;
-const colourSelector = `button[data-test-id="swatch-green"]`;
+const colourSelector = `button[data-test-id="swatch-red"]`;
 
 const fillActionSearchInput = async (
   value: string,
@@ -73,6 +73,7 @@ test.describe('Search page interactions', () => {
       await page.click(colourSelectorFilterDropDown);
     }
 
+    await expectItemIsVisible(imageSearchResultsContainer, page);
     await page.click(catalogueSectionSelector);
     await safeWaitForNavigation(page);
 

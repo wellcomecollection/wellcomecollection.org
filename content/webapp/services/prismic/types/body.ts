@@ -84,6 +84,7 @@ export type Embed = prismic.Slice<
   {
     embed: prismic.EmbedField;
     caption: prismic.RichTextField;
+    transcript: prismic.RichTextField;
   }
 >;
 
@@ -138,6 +139,7 @@ export type AudioPlayer = prismic.Slice<
   {
     title: prismic.RichTextField;
     audio: prismic.LinkToMediaField;
+    transcript: prismic.RichTextField;
   }
 >;
 

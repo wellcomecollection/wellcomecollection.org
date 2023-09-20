@@ -1,7 +1,9 @@
 import { FunctionComponent } from 'react';
-import Caption from '@weco/common/views/components/Caption/Caption';
-import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
+import * as prismic from '@prismicio/client';
+import Caption from '@weco/common/views/components/Caption/Caption';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 const Figure = styled.figure`
   margin: 0;
@@ -14,18 +16,39 @@ const Figure = styled.figure`
 export type Props = {
   embedUrl: string;
   caption?: prismic.RichTextField;
+  transcript?: prismic.RichTextField;
 };
 
-const SoundCloudEmbed: FunctionComponent<Props> = ({ embedUrl, caption }) => (
-  <Figure>
-    <iframe
-      width="100%"
-      height="140"
-      title="soundcloud player"
-      src={embedUrl}
-    />
-    {caption && <Caption caption={caption} />}
-  </Figure>
-);
+const SoundCloudEmbed: FunctionComponent<Props> = ({
+  embedUrl,
+  caption,
+  transcript,
+}) => {
+  return (
+    <Figure>
+      <iframe
+        width="100%"
+        height="140"
+        title="soundcloud player"
+        src={embedUrl}
+      />
+      {caption && <Caption caption={caption} />}
+
+      {transcript && (
+        <CollapsibleContent
+          id={`embedSoundCloudTranscript-${
+            Math.floor(Math.random() * 1000) + 1
+          }`}
+          controlText={{
+            contentShowingText: 'Hide the transcript',
+            defaultText: 'Show the transcript',
+          }}
+        >
+          <PrismicHtmlBlock html={transcript} />
+        </CollapsibleContent>
+      )}
+    </Figure>
+  );
+};
 
 export default SoundCloudEmbed;
