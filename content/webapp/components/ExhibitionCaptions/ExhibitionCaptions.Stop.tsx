@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useContext, useEffect } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import * as prismic from '@prismicio/client';
 import { PaletteColor } from '@weco/common/views/themes/config';
@@ -170,14 +170,7 @@ const Stop: FunctionComponent<{
   const { isEnhanced } = useContext(AppContext);
   const hasShowFullTranscriptionButton =
     (transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
-  const [isFullTranscription, setIsFullTranscription] = useState(true);
   const hasContext = isNotUndefined(context);
-
-  useEffect(() => {
-    // Show full audio transcripts by default and hide them once we know
-    // JavaScript is available
-    setIsFullTranscription(false);
-  }, []);
 
   // Heading levels will vary depending on the inclusion of optional headings on the page
   const contextHeadingLevel = titlesUsed.standalone ? 3 : 2;
@@ -270,23 +263,11 @@ const Stop: FunctionComponent<{
                     {stop.number ? `Stop ${stop.number}: ` : ''}Audio transcript
                   </TranscriptTitle>
                   <CollapsibleContent
-                    id="TODO"
+                    id={`transcript-${stop.number}`}
                     controlText={{
                       defaultText: 'Read full transcript',
                       contentShowingText: 'Hide full transcript',
                     }}
-                    // TODO, should we track every collapsible content?
-                    trackingEvent={{
-                      category: 'ExhibitionCaptions',
-                      action: 'read full transcript',
-                      label: stop.anchorId,
-                    }}
-                    // TODO figure out how to still track this - make it available on all?
-                    dataGtmTrigger={
-                      isFullTranscription
-                        ? 'hide_transcript'
-                        : 'show_transcript'
-                    }
                   >
                     <div id={`transcription-text-${index}`}>
                       <PrismicHtmlBlock
