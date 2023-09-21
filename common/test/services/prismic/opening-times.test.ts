@@ -11,11 +11,7 @@ import {
   groupConsecutiveExceptionalDays,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
-import {
-  ExceptionalOpeningHoursDay,
-  OverrideType,
-  Venue,
-} from '../../../model/opening-hours';
+import { OverrideType, Venue } from '../../../model/opening-hours';
 import * as dateUtils from '../../../utils/dates';
 
 const venuesWithoutExceptionalDates = venues.map(venue => {
@@ -29,42 +25,6 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
 });
 
 const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx')!;
-
-function closedHours({
-  on: overrideDate,
-  type: overrideType,
-}: {
-  on: Date;
-  type: OverrideType;
-}): ExceptionalOpeningHoursDay {
-  return {
-    overrideDate,
-    overrideType,
-    opens: '00:00',
-    closes: '00:00',
-    isClosed: true,
-  };
-}
-
-function modifiedHours({
-  on: overrideDate,
-  type: overrideType,
-  opens,
-  closes,
-}: {
-  on: Date;
-  type: OverrideType;
-  opens: string;
-  closes: string;
-}): ExceptionalOpeningHoursDay {
-  return {
-    overrideDate,
-    overrideType,
-    opens,
-    closes,
-    isClosed: false,
-  };
-}
 
 describe('opening-times', () => {
   describe('getOverrideDatesForAllVenues: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
@@ -143,10 +103,15 @@ describe('opening-times', () => {
         openingHours: {
           ...libraryVenue.openingHours,
           exceptional: [
-            closedHours({ on: new Date('2003-03-03'), type: 'other' }),
-            closedHours({ on: new Date('2001-01-01'), type: 'other' }),
-            closedHours({ on: new Date('2002-02-02'), type: 'other' }),
-          ],
+            new Date('2003-03-03'),
+            new Date('2001-01-01'),
+            new Date('2002-02-02'),
+          ].map(overrideDate => ({
+            overrideDate,
+            overrideType: 'other' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+          })),
         },
       };
       const result = getOverrideDatesForAllVenues([venue]);
@@ -282,47 +247,22 @@ describe('opening-times', () => {
   describe('groupExceptionalVenueDays', () => {
     it('groups exceptional days, so that each day within a group fall within 14 days of the first day', () => {
       const In2021 = {
-        december21st: closedHours({
-          on: new Date('2021-12-21'),
-          type: 'Bank holiday',
-        }),
-
-        december29th: closedHours({
-          on: new Date('2021-12-29'),
-          type: 'Bank holiday',
-        }),
+        december21st: { overrideDate: new Date('2021-12-21') },
+        december29th: { overrideDate: new Date('2021-12-29') },
       };
 
       const In2022 = {
-        december28th: closedHours({
-          on: new Date('2022-12-28'),
-          type: 'Christmas and New Year',
-        }),
-
-        december29th: closedHours({
-          on: new Date('2022-12-29'),
-          type: 'Christmas and New Year',
-        }),
-
-        december30th: closedHours({
-          on: new Date('2022-12-30'),
-          type: 'Christmas and New Year',
-        }),
-
-        december31st: closedHours({
-          on: new Date('2022-12-31'),
-          type: 'Christmas and New Year',
-        }),
+        december28th: { overrideDate: new Date('2022-12-28') },
+        december29th: { overrideDate: new Date('2022-12-29') },
+        december30th: { overrideDate: new Date('2022-12-30') },
+        december31st: { overrideDate: new Date('2022-12-31') },
       };
 
       const In2023 = {
-        january1st: closedHours({
-          on: new Date('2023-01-01'),
-          type: 'Christmas and New Year',
-        }),
+        january1st: { overrideDate: new Date('2023-01-01') },
       };
 
-      const exceptionalDays: ExceptionalOpeningHoursDay[] = [
+      const exceptionalDays = [
         In2021.december21st,
         In2022.december28th,
         In2022.december29th,
@@ -443,37 +383,14 @@ describe('opening-times', () => {
   });
 
   describe('getUpcomingExceptionalOpeningHours', () => {
-    const december29th = closedHours({
-      on: new Date('2021-12-29'),
-      type: 'Christmas and New Year',
-    });
+    const december29th = { overrideDate: new Date('2021-12-29') };
+    const december30th = { overrideDate: new Date('2021-12-30') };
+    const december31st = { overrideDate: new Date('2021-12-31') };
+    const january1st = { overrideDate: new Date('2022-01-01') };
+    const february4th = { overrideDate: new Date('2022-02-04') };
+    const february5th = { overrideDate: new Date('2022-02-05') };
 
-    const december30th = closedHours({
-      on: new Date('2021-12-30'),
-      type: 'Christmas and New Year',
-    });
-
-    const december31st = closedHours({
-      on: new Date('2021-12-31'),
-      type: 'Christmas and New Year',
-    });
-
-    const january1st = closedHours({
-      on: new Date('2022-01-01'),
-      type: 'Christmas and New Year',
-    });
-
-    const february4th = closedHours({
-      on: new Date('2022-02-04'),
-      type: 'Bank holiday',
-    });
-
-    const february5th = closedHours({
-      on: new Date('2022-02-05'),
-      type: 'Bank holiday',
-    });
-
-    const exceptionalPeriods: ExceptionalOpeningHoursDay[][] = [
+    const exceptionalPeriods = [
       [december29th, december30th, december31st, january1st],
       [february4th, february5th],
     ];
@@ -501,13 +418,8 @@ describe('opening-times', () => {
     });
 
     it('returns exceptional periods that start today', () => {
-      const exceptionalPeriods: ExceptionalOpeningHoursDay[][] = [
-        [
-          closedHours({
-            on: new Date('2022-09-19T00:00:00.000+0100'),
-            type: 'Bank holiday',
-          }),
-        ],
+      const exceptionalPeriods = [
+        [{ overrideDate: new Date('2022-09-19T00:00:00.000+0100') }],
       ];
 
       const spyOnToday = jest.spyOn(dateUtils, 'today');
@@ -689,37 +601,12 @@ describe('opening-times', () => {
 
   describe('groupConsecutiveExceptionalDays', () => {
     it('puts consecutive exceptional dates into groups', () => {
-      const december29th = closedHours({
-        on: new Date('2021-12-29'),
-        type: 'Christmas and New Year',
-      });
-
-      const december30th = closedHours({
-        on: new Date('2021-12-30'),
-        type: 'Christmas and New Year',
-      });
-
-      const december31st = closedHours({
-        on: new Date('2021-12-31'),
-        type: 'Christmas and New Year',
-      });
-
-      const january1st = modifiedHours({
-        on: new Date('2022-01-01'),
-        type: 'Christmas and New Year',
-        opens: '12:00',
-        closes: '14:00',
-      });
-
-      const february4th = closedHours({
-        on: new Date('2022-02-04'),
-        type: 'Bank holiday',
-      });
-
-      const february5th = closedHours({
-        on: new Date('2022-02-05'),
-        type: 'Bank holiday',
-      });
+      const december29th = { overrideDate: new Date('2021-12-29') };
+      const december30th = { overrideDate: new Date('2021-12-30') };
+      const december31st = { overrideDate: new Date('2021-12-31') };
+      const january1st = { overrideDate: new Date('2022-01-01') };
+      const february4th = { overrideDate: new Date('2022-02-04') };
+      const february5th = { overrideDate: new Date('2022-02-05') };
 
       const result = groupConsecutiveExceptionalDays([
         january1st,
