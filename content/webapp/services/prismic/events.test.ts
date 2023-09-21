@@ -5,7 +5,7 @@ import {
   orderEventsByNextAvailableDate,
   upcomingDatesFullyBooked,
 } from './events';
-import * as dateUtils from '@weco/common/utils/dates';
+import mockToday from '@weco/common/test/utils/date-mocks';
 
 describe('orderEventsByNextAvailableDate', () => {
   it('returns events in the right order', () => {
@@ -53,10 +53,7 @@ describe('orderEventsByNextAvailableDate', () => {
       title: 'What You See / Don’t See When…',
     };
 
-    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
-    spyOnFuture.mockImplementation(
-      (d: Date) => d > new Date('2022-11-18T12:00:00Z')
-    );
+    mockToday({ as: new Date('2022-11-18T12:00:00Z') });
 
     const result = orderEventsByNextAvailableDate([evWhatYouSee]);
     expect(result).toEqual([evWhatYouSee]);
@@ -284,9 +281,7 @@ describe('groupEventsByDay', () => {
 });
 
 describe('isEventPast', () => {
-  const now = new Date('2011-01-01T12:00:00Z');
-
-  jest.spyOn(dateUtils, 'isPast').mockImplementation((d: Date) => d < now);
+  mockToday({ as: new Date('2011-01-01T12:00:00Z') });
 
   it('marks an event as past if every time is in the past', () => {
     const event = {

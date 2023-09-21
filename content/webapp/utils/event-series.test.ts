@@ -1,6 +1,6 @@
 import { HasTimes } from '@weco/content/types/events';
 import { isUpcoming } from './event-series';
-import * as dateUtils from '@weco/common/utils/dates';
+import mockToday from '@weco/common/test/utils/date-mocks';
 
 function createEvent({
   startDateTime,
@@ -39,9 +39,7 @@ describe('isUpcoming', () => {
   });
 
   it('an event which started earlier today and hasn’t finished yet is upcoming', () => {
-    jest
-      .spyOn(dateUtils, 'isFuture')
-      .mockImplementation((d: Date) => d > mondayAt9am);
+    mockToday({ as: mondayAt9am });
 
     const event = createEvent({
       startDateTime: mondayAt7am,
@@ -52,9 +50,7 @@ describe('isUpcoming', () => {
   });
 
   it('an event which started earlier today and is already finished is past', () => {
-    jest
-      .spyOn(dateUtils, 'isFuture')
-      .mockImplementation((d: Date) => d > mondayAt11am);
+    mockToday({ as: mondayAt11am });
 
     const event = createEvent({
       startDateTime: mondayAt7am,
@@ -65,9 +61,7 @@ describe('isUpcoming', () => {
   });
 
   it('an event which started earlier today and finishes tomorrow is upcoming', () => {
-    jest
-      .spyOn(dateUtils, 'isFuture')
-      .mockImplementation((d: Date) => d > mondayAt9am);
+    mockToday({ as: mondayAt9am });
 
     const event = createEvent({
       startDateTime: mondayAt7am,
