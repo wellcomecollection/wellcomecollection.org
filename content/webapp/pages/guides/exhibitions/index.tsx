@@ -73,7 +73,7 @@ const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
       title="Exhibition Guides"
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: '/guides/exhibitions' }}
-      jsonLd={{ '@type': 'WebPage' }} // TODO
+      jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="exhibition-guides"
       image={image}
