@@ -6,13 +6,14 @@ import {
   exceptionalFromRegular,
   createExceptionalOpeningHoursDays,
   getUpcomingExceptionalOpeningHours,
-  getVenueById,
   getTodaysVenueHours,
   groupConsecutiveExceptionalDays,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
 import { OverrideType, Venue } from '../../../model/opening-hours';
 import mockToday from '@weco/common/test/utils/date-mocks';
+import { libraryVenue } from '@weco/common/test/fixtures/components/library-venue';
+import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
 
 const venuesWithoutExceptionalDates = venues.map(venue => {
   return {
@@ -23,8 +24,6 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
     },
   };
 });
-
-const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx')!;
 
 describe('opening-times', () => {
   describe('getOverrideDatesForAllVenues: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
@@ -93,7 +92,7 @@ describe('opening-times', () => {
     it('does not include a date more than once', () => {
       const result = getOverrideDatesForAllVenues(venues);
       const uniqueDates = new Set(
-        result.map(date => date.overrideDate?.toString())
+        result.map(date => date.overrideDate.toString())
       );
       expect(result.length).toEqual(uniqueDates.size);
     });
@@ -425,8 +424,7 @@ describe('opening-times', () => {
 
   describe('getVenueById', () => {
     it('returns a venue object with a matching id from an array of venues', () => {
-      const result = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
-      expect(result.name).toEqual('Galleries and Reading Room');
+      expect(galleriesVenue.name).toEqual('Galleries and Reading Room');
     });
   });
 
