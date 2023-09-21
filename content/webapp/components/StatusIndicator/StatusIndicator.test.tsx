@@ -1,5 +1,5 @@
 import { formatDateRangeWithMessage } from './StatusIndicator';
-import * as dateUtils from '@weco/common/utils/dates';
+import mockToday from '@weco/common/test/utils/date-mocks';
 
 describe('formatDateRangeWithMessage', () => {
   it('formats a range that hasn’t started yet', () => {
@@ -66,10 +66,7 @@ describe('formatDateRangeWithMessage', () => {
       //
       // Somebody looking at the website on noon on Sunday should see it as
       // still open.
-      const spyOnToday = jest.spyOn(dateUtils, 'today');
-      spyOnToday.mockImplementation(
-        () => new Date('2022-10-16T12:00:00.000+0100')
-      );
+      mockToday({ as: new Date('2022-10-16T12:00:00.000+0100') });
 
       const inTheAir = {
         start: new Date('2022-05-19T00:00:00.000+0100'),
@@ -82,8 +79,7 @@ describe('formatDateRangeWithMessage', () => {
     });
 
     it('says "Final week" if the last day is tomorrow', () => {
-      const spyOnToday = jest.spyOn(dateUtils, 'today');
-      spyOnToday.mockImplementation(() => new Date());
+      mockToday({ as: new Date() });
 
       const end = new Date();
       end.setDate(end.getDate() + 1);
@@ -149,11 +145,7 @@ describe('formatDateRangeWithMessage', () => {
     // as not yet open.
     const wednesday = new Date('2022-05-18T12:00:00.000+0100');
 
-    const spyOnToday = jest.spyOn(dateUtils, 'today');
-    spyOnToday.mockImplementation(() => wednesday);
-
-    const spyOnIsFuture = jest.spyOn(dateUtils, 'isFuture');
-    spyOnIsFuture.mockImplementation(d => wednesday < d);
+    mockToday({ as: wednesday });
 
     const inTheAir = {
       start: new Date('2022-05-19T00:00:00.000+0100'),
