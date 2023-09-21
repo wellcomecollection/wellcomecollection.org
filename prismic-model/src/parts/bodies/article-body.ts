@@ -126,12 +126,6 @@ export default {
       quoteV2: body.config.choices.quote,
       audioPlayer: audioPlayerSlice(),
       embed: embedSlice({ overrideTextOptions: ['hyperlink', 'em'] }),
-      discussion: slice('Discussion', {
-        nonRepeat: {
-          title: heading('Title', { level: 2 }),
-          text: multiLineText('Text'),
-        },
-      }),
       tagList: slice('Tag List', {
         nonRepeat: {
           title: heading('Title', { level: 2 }),
