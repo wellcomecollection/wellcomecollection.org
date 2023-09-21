@@ -21,7 +21,7 @@ const VisualStoryV1 = () => {
   return (
     <PageLayout
       title="Visual stories - V1"
-      description="TODO" // TODO
+      description="TODO"
       url={{ pathname: '/visual-stories/v1' }}
       jsonLd={[]}
       openGraphType="website"

@@ -20,11 +20,11 @@ import {
   location,
   a11Y,
   a11YVisual,
-  information,
-  family,
   IconSvg,
   britishSignLanguage,
   audioDescribed,
+  download,
+  arrow,
 } from '@weco/common/icons';
 import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
@@ -45,8 +45,6 @@ import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { download } from '@weco/common/icons';
-import { arrow } from '@weco/common/icons';
 
 const ResourcesList = styled(PlainList)`
   display: flex;
@@ -64,15 +62,15 @@ const ResourcesItem = styled.li`
         flex-basis: calc(50% - 15px);
       `}
 `;
-const ResourceLink = styled(Space).attrs(props => ({
+const ResourceLink = styled(Space).attrs({
   as: 'a',
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] }
-  }))<{ borderColor: PaletteColor, href: string, underlineText?: boolean }>`
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})<{ borderColor: PaletteColor; href: string; underlineText?: boolean }>`
   display: block;
   height: 100%;
   width: 100%;
-  text-decoration: ${props => props.underlineText ? 'underline' : 'none'};
+  text-decoration: ${props => (props.underlineText ? 'underline' : 'none')};
   border: 1px solid ${props => props.theme.color('warmNeutral.400')};
   border-left: 10px solid ${props => props.theme.color(props.borderColor)};
 
@@ -97,15 +95,21 @@ const ResourceLinkIconWrapper = styled.span`
   right: 10px;
 `;
 
-function getBorderColor({ type, i }: {type?: string, i: number}): PaletteColor {
+function getBorderColor({
+  type,
+  i,
+}: {
+  type?: string;
+  i: number;
+}): PaletteColor {
   if (type === 'visual-story') {
-    return 'accent.turquoise'
+    return 'accent.turquoise';
   } else if (type === 'exhibition-guide') {
-    return 'accent.salmon'
+    return 'accent.salmon';
   } else if (i % 2 === 0) {
-    return 'accent.blue'
+    return 'accent.blue';
   } else {
-    return 'accent.purple'
+    return 'accent.purple';
   }
 }
 
@@ -185,12 +189,6 @@ function getPlaceObject(
   );
 }
 
-// These options are defined in exhibition-resources.ts
-const resourceIcons: { [key: string]: IconSvg } = {
-  information,
-  family,
-};
-
 function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [exhibition.bslInfo, exhibition.audioDescriptionInfo]
     .filter(Boolean)
@@ -248,10 +246,14 @@ export const AccessibilityServices = styled.p.attrs({
 type Props = {
   exhibition: ExhibitionType;
   pages: PageType[];
-  accessResourceLinks: (Link & {type: string})[];
+  accessResourceLinks: (Link & { type: string })[];
 };
 
-const Exhibition: FunctionComponent<Props> = ({ exhibition, pages, accessResourceLinks }) => {
+const Exhibition: FunctionComponent<Props> = ({
+  exhibition,
+  pages,
+  accessResourceLinks,
+}) => {
   type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
@@ -296,7 +298,11 @@ const Exhibition: FunctionComponent<Props> = ({ exhibition, pages, accessResourc
     ? getFeaturedMedia(exhibition)
     : undefined;
 
-  const hasResources = Boolean(exhibition.accessResourcesText || exhibition.accessResourcesPdfs.length > 0 || accessResourceLinks.length > 0);
+  const hasResources = Boolean(
+    exhibition.accessResourcesText ||
+      exhibition.accessResourcesPdfs.length > 0 ||
+      accessResourceLinks.length > 0
+  );
 
   const Header = (
     <PageHeader
@@ -336,42 +342,65 @@ const Exhibition: FunctionComponent<Props> = ({ exhibition, pages, accessResourc
       {hasResources && (
         <>
           <h2 className={font('wb', 3)}>Exhibition access content</h2>
-          {(accessResourceLinks.length > 0 || exhibition.accessResourcesPdfs.length > 0) &&
+          {(accessResourceLinks.length > 0 ||
+            exhibition.accessResourcesPdfs.length > 0) && (
             <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
               <ResourcesList>
                 {accessResourceLinks.map((link, i) => {
-                  const borderColor = getBorderColor({type: link.type, i})
-                  return (<ResourcesItem>
-                    <ResourceLink borderColor={borderColor} key={i} href={link.url}>
-                      {link.type === 'exhibition-guide' && <h3 className={font('intb', 4)}>Digital exhibition guide</h3>}
-                      {link.type === 'visual-story' && <h3 className={font('intb', 4)}>Visual story</h3>}
-                      <span className={font('intr', 6)}>{link.text}</span>
-                      <ResourceLinkIconWrapper>
-                        <Icon icon={arrow} />
-                      </ResourceLinkIconWrapper>
-                    </ResourceLink>
-                  </ResourcesItem>)
+                  const borderColor = getBorderColor({ type: link.type, i });
+                  return (
+                    <ResourcesItem key={link.url}>
+                      <ResourceLink
+                        borderColor={borderColor}
+                        key={i}
+                        href={link.url}
+                      >
+                        {link.type === 'exhibition-guide' && (
+                          <h3 className={font('intb', 4)}>
+                            Digital exhibition guide
+                          </h3>
+                        )}
+                        {link.type === 'visual-story' && (
+                          <h3 className={font('intb', 4)}>Visual story</h3>
+                        )}
+                        <span className={font('intr', 6)}>{link.text}</span>
+                        <ResourceLinkIconWrapper>
+                          <Icon icon={arrow} />
+                        </ResourceLinkIconWrapper>
+                      </ResourceLink>
+                    </ResourcesItem>
+                  );
                 })}
                 {exhibition.accessResourcesPdfs.map((pdf, i) => {
-                  const borderColor = getBorderColor({type: undefined, i})
-                  return (<ResourcesItem>
-                    <ResourceLink borderColor={borderColor} key={i} href={pdf.url} underlineText={true}>
-                      <span className={font('intr', 5)}>
-                        {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
+                  const borderColor = getBorderColor({ type: undefined, i });
+                  return (
+                    <ResourcesItem key={pdf.url}>
+                      <ResourceLink
+                        borderColor={borderColor}
+                        key={i}
+                        href={pdf.url}
+                        underlineText={true}
+                      >
+                        <span className={font('intr', 5)}>
+                          {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
                         </span>
                         <ResourceLinkIconWrapper>
-                        <Icon icon={download} />
-                      </ResourceLinkIconWrapper>
-                    </ResourceLink>
-                  </ResourcesItem>)
+                          <Icon icon={download} />
+                        </ResourceLinkIconWrapper>
+                      </ResourceLink>
+                    </ResourcesItem>
+                  );
                 })}
               </ResourcesList>
             </Space>
-          }
+          )}
           {/* TODO improve styling of download links - defaultSerializer */}
-          {exhibition.accessResourcesText &&
-            <PrismicHtmlBlock html={exhibition.accessResourcesText} htmlSerializer={defaultSerializer} />
-          }
+          {exhibition.accessResourcesText && (
+            <PrismicHtmlBlock
+              html={exhibition.accessResourcesText}
+              htmlSerializer={defaultSerializer}
+            />
+          )}
         </>
       )}
 
