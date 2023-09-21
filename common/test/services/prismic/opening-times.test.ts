@@ -92,7 +92,7 @@ describe('opening-times', () => {
     it('does not include a date more than once', () => {
       const result = getOverrideDatesForAllVenues(venues);
       const uniqueDates = new Set(
-        result.map(date => date.overrideDate?.toString())
+        result.map(date => date.overrideDate.toString())
       );
       expect(result.length).toEqual(uniqueDates.size);
     });
