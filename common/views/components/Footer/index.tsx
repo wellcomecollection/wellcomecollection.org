@@ -174,11 +174,21 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           </FindUsContainer>
 
           <OpeningTimesContainer>
-            <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
-            <OpeningTimes venues={venues} />
-            <Space as="p" v={{ size: 'm', properties: ['margin-top'] }}>
-              <a href="/opening-times">Opening times</a>
-            </Space>
+            {Array.isArray(venues) && venues.length > 0 ? (
+              <>
+                <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
+                <OpeningTimes venues={venues} />
+                <Space as="p" v={{ size: 'm', properties: ['margin-top'] }}>
+                  <a href="/opening-times">Opening times</a>
+                </Space>
+              </>
+            ) : (
+              <>
+                <Space as="p" v={{ size: 'm', properties: ['margin-bottom'] }}>
+                  <a href="/opening-times">Opening times</a>
+                </Space>
+              </>
+            )}
           </OpeningTimesContainer>
 
           <InternalNavigationContainer>
