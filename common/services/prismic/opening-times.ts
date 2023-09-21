@@ -56,7 +56,7 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
     .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
     .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
       const isAlreadyInResult = result.some(t =>
-        isSameDay(t.overrideDate, thisOverride.overrideDate, 'UTC')
+        isSameDay(t.overrideDate, thisOverride.overrideDate, 'London')
       );
 
       if (!isAlreadyInResult) {
