@@ -14,7 +14,6 @@ export default function () {
         placeholder:
           'title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink',
       }),
-      // TODO: Media link
       video: mediaLink('Video', { placeholder: 'Video' }),
       playbackRate: select('Playback rate', {
         options: [
