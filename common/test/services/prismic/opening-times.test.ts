@@ -11,11 +11,7 @@ import {
   groupConsecutiveExceptionalDays,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
-import {
-  ExceptionalOpeningHoursDay,
-  OverrideType,
-  Venue,
-} from '../../../model/opening-hours';
+import { OverrideType, Venue } from '../../../model/opening-hours';
 import mockToday from '@weco/common/test/utils/date-mocks';
 
 const venuesWithoutExceptionalDates = venues.map(venue => {
@@ -250,112 +246,41 @@ describe('opening-times', () => {
 
   describe('groupExceptionalVenueDays', () => {
     it('groups exceptional days, so that each day within a group fall within 14 days of the first day', () => {
-      const exceptionalDays: ExceptionalOpeningHoursDay[] = [
-        {
-          overrideDate: new Date('2021-12-21'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-12-28'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-12-29'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2021-12-29'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-12-30'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-12-31'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2023-01-01'),
-          overrideType: 'Christmas and New Year',
-          opens: '20:00',
-          closes: '21:00',
-          isClosed: false,
-        },
+      const In2021 = {
+        december21st: { overrideDate: new Date('2021-12-21') },
+        december29th: { overrideDate: new Date('2021-12-29') },
+      };
+
+      const In2022 = {
+        december28th: { overrideDate: new Date('2022-12-28') },
+        december29th: { overrideDate: new Date('2022-12-29') },
+        december30th: { overrideDate: new Date('2022-12-30') },
+        december31st: { overrideDate: new Date('2022-12-31') },
+      };
+
+      const In2023 = {
+        january1st: { overrideDate: new Date('2023-01-01') },
+      };
+
+      const exceptionalDays = [
+        In2021.december21st,
+        In2022.december28th,
+        In2022.december29th,
+        In2021.december29th,
+        In2022.december30th,
+        In2022.december31st,
+        In2023.january1st,
       ];
       const result = groupExceptionalVenueDays(exceptionalDays);
 
       expect(result).toEqual([
+        [In2021.december21st, In2021.december29th],
         [
-          {
-            overrideDate: new Date('2021-12-21'),
-            overrideType: 'Bank holiday',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2021-12-29'),
-            overrideType: 'Bank holiday',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-        ],
-        [
-          {
-            overrideDate: new Date('2022-12-28'),
-            overrideType: 'Christmas and New Year',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2022-12-29'),
-            overrideType: 'Bank holiday',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2022-12-30'),
-            overrideType: 'Christmas and New Year',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2022-12-31'),
-            overrideType: 'Christmas and New Year',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2023-01-01'),
-            overrideType: 'Christmas and New Year',
-            opens: '20:00',
-            closes: '21:00',
-            isClosed: false,
-          },
+          In2022.december28th,
+          In2022.december29th,
+          In2022.december30th,
+          In2022.december31st,
+          In2023.january1st,
         ],
       ]);
     });
@@ -458,53 +383,16 @@ describe('opening-times', () => {
   });
 
   describe('getUpcomingExceptionalOpeningHours', () => {
-    const exceptionalPeriods: ExceptionalOpeningHoursDay[][] = [
-      [
-        {
-          overrideDate: new Date('2021-12-29'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2021-12-30'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2021-12-31'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-01-01'),
-          overrideType: 'Christmas and New Year',
-          opens: '12:00',
-          closes: '14:00',
-          isClosed: false,
-        },
-      ],
-      [
-        {
-          overrideDate: new Date('2022-02-04'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-02-05'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-      ],
+    const december29th = { overrideDate: new Date('2021-12-29') };
+    const december30th = { overrideDate: new Date('2021-12-30') };
+    const december31st = { overrideDate: new Date('2021-12-31') };
+    const january1st = { overrideDate: new Date('2022-01-01') };
+    const february4th = { overrideDate: new Date('2022-02-04') };
+    const february5th = { overrideDate: new Date('2022-02-05') };
+
+    const exceptionalPeriods = [
+      [december29th, december30th, december31st, january1st],
+      [february4th, february5th],
     ];
 
     it('returns an empty array if no exceptional periods have days that occur in the next 42 days', () => {
@@ -519,50 +407,13 @@ describe('opening-times', () => {
 
       const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual([
-        [
-          {
-            overrideDate: new Date('2021-12-29'),
-            overrideType: 'Christmas and New Year',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2021-12-30'),
-            overrideType: 'Christmas and New Year',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2021-12-31'),
-            overrideType: 'Christmas and New Year',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2022-01-01'),
-            overrideType: 'Christmas and New Year',
-            opens: '12:00',
-            closes: '14:00',
-            isClosed: false,
-          },
-        ],
+        [december29th, december30th, december31st, january1st],
       ]);
     });
 
     it('returns exceptional periods that start today', () => {
-      const exceptionalPeriods: ExceptionalOpeningHoursDay[][] = [
-        [
-          {
-            overrideDate: new Date('2022-09-19T00:00:00.000+0100'),
-            overrideType: 'Bank holiday',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-        ],
+      const exceptionalPeriods = [
+        [{ overrideDate: new Date('2022-09-19T00:00:00.000+0100') }],
       ];
 
       mockToday({ as: new Date('2022-09-19T00:00:00Z') });
@@ -721,98 +572,25 @@ describe('opening-times', () => {
 
   describe('groupConsecutiveExceptionalDays', () => {
     it('puts consecutive exceptional dates into groups', () => {
+      const december29th = { overrideDate: new Date('2021-12-29') };
+      const december30th = { overrideDate: new Date('2021-12-30') };
+      const december31st = { overrideDate: new Date('2021-12-31') };
+      const january1st = { overrideDate: new Date('2022-01-01') };
+      const february4th = { overrideDate: new Date('2022-02-04') };
+      const february5th = { overrideDate: new Date('2022-02-05') };
+
       const result = groupConsecutiveExceptionalDays([
-        {
-          overrideDate: new Date('2022-01-01'),
-          overrideType: 'Christmas and New Year',
-          opens: '12:00',
-          closes: '14:00',
-          isClosed: false,
-        },
-        {
-          overrideDate: new Date('2021-12-31'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-02-05'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2021-12-30'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2021-12-29'),
-          overrideType: 'Christmas and New Year',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
-        {
-          overrideDate: new Date('2022-02-04'),
-          overrideType: 'Bank holiday',
-          opens: '00:00',
-          closes: '00:00',
-          isClosed: true,
-        },
+        january1st,
+        december31st,
+        february5th,
+        december30th,
+        december29th,
+        february4th,
       ]);
 
       expect(result).toEqual([
-        [
-          {
-            overrideDate: new Date('2021-12-29'),
-            overrideType: 'Christmas and New Year',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2021-12-30'),
-            overrideType: 'Christmas and New Year',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2021-12-31'),
-            overrideType: 'Christmas and New Year',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2022-01-01'),
-            overrideType: 'Christmas and New Year',
-            opens: '12:00',
-            closes: '14:00',
-            isClosed: false,
-          },
-        ],
-        [
-          {
-            overrideDate: new Date('2022-02-04'),
-            overrideType: 'Bank holiday',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-          {
-            overrideDate: new Date('2022-02-05'),
-            overrideType: 'Bank holiday',
-            opens: '00:00',
-            closes: '00:00',
-            isClosed: true,
-          },
-        ],
+        [december29th, december30th, december31st, january1st],
+        [february4th, february5th],
       ]);
     });
   });
