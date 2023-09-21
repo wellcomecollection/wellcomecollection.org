@@ -16,7 +16,7 @@ import {
   OverrideType,
   Venue,
 } from '../../../model/opening-hours';
-import * as dateUtils from '../../../utils/dates';
+import mockToday from '@weco/common/test/utils/date-mocks';
 
 const venuesWithoutExceptionalDates = venues.map(venue => {
   return {
@@ -508,21 +508,15 @@ describe('opening-times', () => {
     ];
 
     it('returns an empty array if no exceptional periods have days that occur in the next 42 days', () => {
-      const spyOnLondon = jest.spyOn(dateUtils, 'today');
-      // set specific date, so we have something consistent to test against
-      spyOnLondon.mockImplementation(() => {
-        return new Date('2021-10-30');
-      });
+      mockToday({ as: new Date('2021-10-30') });
+
       const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual([]);
     });
 
     it('returns exceptional periods that have days that occur in the next 42 days', () => {
-      const spyOnLondon = jest.spyOn(dateUtils, 'today');
-      // set specific date, so we have something consistent to test against
-      spyOnLondon.mockImplementation(() => {
-        return new Date('2021-12-10');
-      });
+      mockToday({ as: new Date('2021-12-10') });
+
       const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual([
         [
@@ -571,10 +565,7 @@ describe('opening-times', () => {
         ],
       ];
 
-      const spyOnToday = jest.spyOn(dateUtils, 'today');
-      spyOnToday.mockImplementation(() => {
-        return new Date('2022-09-19T00:00:00Z');
-      });
+      mockToday({ as: new Date('2022-09-19T00:00:00Z') });
 
       const result = getUpcomingExceptionalOpeningHours(exceptionalPeriods);
       expect(result).toEqual(exceptionalPeriods);
@@ -590,11 +581,7 @@ describe('opening-times', () => {
 
   describe("getTodaysVenueHours: returns the venue's opening times for the current day", () => {
     it('returns the regular opening hours, if there are no exceptional opening times for the day.', () => {
-      const spyOnToday = jest.spyOn(dateUtils, 'today');
-      // set Day as Wednesday, so we have something consistent to test against
-      spyOnToday.mockImplementation(() => {
-        return new Date('2022-01-19T00:00:00Z');
-      });
+      mockToday({ as: new Date('2022-01-19T00:00:00Z') });
 
       const result = getTodaysVenueHours(libraryVenue);
 
@@ -607,11 +594,7 @@ describe('opening-times', () => {
     });
 
     it('returns the exceptional times if there are some for the day.', () => {
-      const spyOnToday = jest.spyOn(dateUtils, 'today');
-      // set Day to a date we have exceptional opening times for
-      spyOnToday.mockImplementation(() => {
-        return new Date('2023-01-01T00:00:00Z');
-      });
+      mockToday({ as: new Date('2023-01-01T00:00:00Z') });
 
       const result = getTodaysVenueHours(libraryVenue);
       expect(result).toEqual({
@@ -698,11 +681,7 @@ describe('opening-times', () => {
       };
 
       it('says we’re open on Sunday', () => {
-        const spyOnToday = jest.spyOn(dateUtils, 'today');
-
-        spyOnToday.mockImplementation(() => {
-          return new Date('2022-09-18T12:00:00+0100');
-        });
+        mockToday({ as: new Date('2022-09-18T12:00:00+0100') });
 
         const result = getTodaysVenueHours(galleryDuringStateFuneral);
         expect(result).toEqual({
@@ -714,11 +693,7 @@ describe('opening-times', () => {
       });
 
       it('says we’re closed on Monday', () => {
-        const spyOnToday = jest.spyOn(dateUtils, 'today');
-
-        spyOnToday.mockImplementation(() => {
-          return new Date('2022-09-19T12:00:00+0100');
-        });
+        mockToday({ as: new Date('2022-09-19T12:00:00+0100') });
 
         const result = getTodaysVenueHours(galleryDuringStateFuneral);
         expect(result).toEqual({
@@ -731,11 +706,7 @@ describe('opening-times', () => {
       });
 
       it('says we’re open on Tuesday', () => {
-        const spyOnToday = jest.spyOn(dateUtils, 'today');
-
-        spyOnToday.mockImplementation(() => {
-          return new Date('2022-09-20T12:00:00+0100');
-        });
+        mockToday({ as: new Date('2022-09-20T12:00:00+0100') });
 
         const result = getTodaysVenueHours(galleryDuringStateFuneral);
         expect(result).toEqual({

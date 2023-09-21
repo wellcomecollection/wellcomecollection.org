@@ -2,7 +2,7 @@ import { createClient as createPrismicClient } from '@weco/common/services/prism
 import { GetServerSidePropsPrismicClient } from '.';
 import { fetchExhibitions } from './exhibitions';
 import { asText } from '../transformers';
-import * as dateUtils from '@weco/common/utils/dates';
+import mockToday from '@weco/common/test/utils/date-mocks';
 
 const client: GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient',
@@ -27,8 +27,7 @@ describe('fetchExhibitions', () => {
   it(
     'fetches exhibitions up to and including their closing day, but not after',
     async () => {
-      const spyOnToday = jest.spyOn(dateUtils, 'today');
-      spyOnToday.mockImplementation(() => new Date('2023-04-23T12:00:00Z'));
+      mockToday({ as: new Date('2023-04-23T12:00:00Z') });
 
       const closingDayResponse = await fetchExhibitions(client, {
         period: 'current-and-coming-up',
@@ -53,7 +52,7 @@ describe('fetchExhibitions', () => {
         { id: 'ZJ1zCxAAACMAczPA', title: 'The Cult of Beauty' },
       ]);
 
-      spyOnToday.mockImplementation(() => new Date('2023-04-24T12:00:00Z'));
+      mockToday({ as: new Date('2023-04-24T12:00:00Z') });
 
       const nextDayResponse = await fetchExhibitions(client, {
         period: 'current-and-coming-up',

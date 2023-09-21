@@ -1,9 +1,8 @@
-import * as dateUtils from '@weco/common/utils/dates';
+import mockToday from '@weco/common/test/utils/date-mocks';
 import { getEarliestFutureDateRange } from './EventDateRange';
 
 describe('getEarliestFutureDateRange', () => {
-  const spyOnToday = jest.spyOn(dateUtils, 'today');
-  spyOnToday.mockImplementation(() => new Date('2022-08-30'));
+  mockToday({ as: new Date('2022-08-30') });
 
   it('picks the single range available if it’s after now', () => {
     const dateRanges = [
