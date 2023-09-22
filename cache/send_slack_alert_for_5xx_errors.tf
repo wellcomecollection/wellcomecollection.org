@@ -1,36 +1,104 @@
-module "slack_alerts_for_5xx" {
-  source      = "./modules/lambda"
-
+data "archive_file" "slack_alerts_for_5xx" {
+  type        = "zip"
   source_file = "${path.module}/send_slack_alert_for_5xx_errors.js"
-  handler     = "send_slack_alert_for_5xx_errors.handler"
-  runtime     = "nodejs16.x"
+  output_path = "${path.module}/send_slack_alert_for_5xx_errors.js.zip"
+}
 
-  description     = "Send alerts to Slack when there are 5xx alerts in the CloudFront logs"
-  name            = "send_slack_alert_for_5xx_errors"
+moved {
+  from = module.slack_alerts_for_5xx.data.archive_file.deployment_package
+  to = data.archive_file.slack_alerts_for_5xx
+}
 
-  environment_variables = {
-    WEBHOOK_URL = local.slack_webhook_url
+moved {
+  from = module.slack_alerts_for_5xx.aws_lambda_function.lambda_function
+  to = module.slack_alerts_for_5xx_new.aws_lambda_function.main
+}
+
+moved {
+  from = module.slack_alerts_for_5xx.aws_cloudwatch_log_group.cloudwatch_log_group
+  to = module.slack_alerts_for_5xx_new.aws_cloudwatch_log_group.lambda
+}
+
+moved {
+  from = module.slack_alerts_for_5xx.aws_iam_role.iam_role
+  to = module.slack_alerts_for_5xx_new.aws_iam_role.lambda
+}
+
+module "slack_alerts_for_5xx_new" {
+  source = "github.com/wellcomecollection/terraform-aws-lambda.git?ref=v1.2.0"
+
+  name        = "send_slack_alert_for_5xx_errors"
+  description = "Send alerts to Slack when there are 5xx alerts in the CloudFront logs"
+
+  handler = "send_slack_alert_for_5xx_errors.handler"
+  runtime = "nodejs16.x"
+
+  filename         = data.archive_file.slack_alerts_for_5xx.output_path
+  source_code_hash = data.archive_file.slack_alerts_for_5xx.output_base64sha256
+
+  environment = {
+    variables = {
+      WEBHOOK_URL = local.slack_webhook_url
+    }
   }
 
-  # TODO: We should be able to pull this from the monitoring remote state,
-  # but I don't see it defined there.  Is this topic defined in Terraform?
-  alarm_topic_arn = "arn:aws:sns:us-east-1:130871440101:experience_lambda_error_alarm"
+  dead_letter_config = {
+    target_arn = aws_sqs_queue.send_slack_alert_for_5xx_errors_dlq.arn
+  }
+
+  error_alarm_topic_arn = data.terraform_remote_state.monitoring.outputs.experience_cloudfront_error_alerts_topic_arn
 
   # Note: we used to specify a 30 second timeout here, but occasionally
   # the Lambda would error if there were lots of log events.
   timeout = 300
+
+  # For now we skip sending logs to Elasticsearch, just while we get it working
+  # with the new module.
+  forward_logs_to_elastic = false
+}
+
+moved {
+  from = module.slack_alerts_for_5xx.aws_cloudwatch_metric_alarm.lambda_alarm
+  to = module.slack_alerts_for_5xx_new.aws_cloudwatch_metric_alarm.lambda_errors["arn:aws:sns:us-east-1:130871440101:experience_useast1_lambda_error_alarm"]
+}
+
+moved {
+  from = module.slack_alerts_for_5xx.aws_sqs_queue.lambda_dlq
+  to = aws_sqs_queue.send_slack_alert_for_5xx_errors_dlq
+}
+
+resource "aws_sqs_queue" "send_slack_alert_for_5xx_errors_dlq" {
+  name = "lambda-send_slack_alert_for_5xx_errors_dlq"
+}
+
+resource "aws_iam_role_policy" "send_slack_alert_for_5xx_errors_dlq" {
+  name   = "${module.slack_alerts_for_5xx_new.lambda_role.name}_lambda_dlq"
+  role   = module.slack_alerts_for_5xx_new.lambda_role.name
+  policy = data.aws_iam_policy_document.send_slack_alert_for_5xx_errors_dlq.json
+}
+
+data "aws_iam_policy_document" "send_slack_alert_for_5xx_errors_dlq" {
+  statement {
+    actions = [
+      "sqs:SendMessage",
+    ]
+
+    resources = [
+      aws_sqs_queue.send_slack_alert_for_5xx_errors_dlq.arn,
+    ]
+  }
 }
 
 resource "aws_lambda_permission" "allow_lambda" {
-  statement_id  = "AllowExecutionFromS3Bucket_${module.slack_alerts_for_5xx.function_name}"
+  statement_id  = "AllowExecutionFromS3Bucket_${module.slack_alerts_for_5xx_new.lambda.function_name}"
   action        = "lambda:InvokeFunction"
-  function_name = module.slack_alerts_for_5xx.function_name
+  function_name = module.slack_alerts_for_5xx_new.lambda.function_name
   principal     = "s3.amazonaws.com"
   source_arn    = aws_s3_bucket.cloudfront_logs.arn
 }
 
 resource "aws_iam_role_policy" "allow_s3_read" {
-  role   = module.slack_alerts_for_5xx.role_name
+  role   = module.slack_alerts_for_5xx_new.lambda_role.name
   policy = data.aws_iam_policy_document.allow_s3_read.json
 }
 
@@ -49,7 +117,7 @@ data "aws_iam_policy_document" "allow_s3_read" {
 }
 
 resource "aws_iam_role_policy" "allow_get_secrets" {
-  role   = module.slack_alerts_for_5xx.role_name
+  role   = module.slack_alerts_for_5xx_new.lambda_role.name
   policy = data.aws_iam_policy_document.allow_get_secrets.json
 }
 
