@@ -39,7 +39,7 @@ const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
           return (
             closedGroup.length > 0 && (
               <li key={i}>
-                {firstDate && <HTMLDayDate date={firstDate} />}
+                <HTMLDayDate date={firstDate} />
                 {lastDate && (
                   <>
                     &ndash;
