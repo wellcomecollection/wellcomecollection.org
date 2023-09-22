@@ -1,3 +1,6 @@
+// License/Licence is due to US/UK spelling
+// APIs and their data use the former (US's "license") whilst our UI uses the latter (UK's "licence").
+//
 // We have to deal with licenses from two sources:
 //
 //    - the catalogue API (in the catalogue app), which returns the LicenseAPIData type
