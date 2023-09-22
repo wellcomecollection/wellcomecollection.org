@@ -473,32 +473,45 @@ const WorkDetails: FunctionComponent<Props> = ({
                       {digitalLocationInfo.license.humanReadableText && (
                         <WorkDetailsText
                           contents={
-                            digitalLocationInfo.license.humanReadableText
+                            <>
+                              <p>
+                                <strong>
+                                  {digitalLocationInfo.license.label} (
+                                  {digitalLocationInfo.license.id})
+                                </strong>
+                              </p>
+                              {digitalLocationInfo.license.humanReadableText}
+                            </>
                           }
                         />
                       )}
                       <WorkDetailsText
                         contents={
                           <>
-                            Credit: {work.title.replace(/\.$/g, '')}.
-                            {credit && (
-                              <>
-                                {' '}
-                                <a
-                                  href={`https://wellcomecollection.org/works/${work.id}`}
-                                >
-                                  {credit}
+                            <p>
+                              <strong>Credit</strong>
+                            </p>
+                            <p>
+                              {work.title.replace(/\.$/g, '')}.
+                              {credit && (
+                                <>
+                                  {' '}
+                                  <a
+                                    href={`https://wellcomecollection.org/works/${work.id}`}
+                                  >
+                                    {credit}
+                                  </a>
+                                  .
+                                </>
+                              )}{' '}
+                              {digitalLocationInfo.license.url ? (
+                                <a href={digitalLocationInfo.license.url}>
+                                  {digitalLocationInfo.license.label}
                                 </a>
-                                .
-                              </>
-                            )}{' '}
-                            {digitalLocationInfo.license.url ? (
-                              <a href={digitalLocationInfo.license.url}>
-                                {digitalLocationInfo.license.label}
-                              </a>
-                            ) : (
-                              digitalLocationInfo.license.label
-                            )}
+                              ) : (
+                                digitalLocationInfo.license.label
+                              )}
+                            </p>
                           </>
                         }
                       />
