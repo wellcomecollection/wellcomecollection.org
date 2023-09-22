@@ -293,7 +293,7 @@ export function groupConsecutiveExceptionalDays<T extends HasOverrideDate>(
 
       if (
         lastDayOfGroup &&
-        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup, 'UTC')
+        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup, 'London')
       ) {
         group.push(date);
       } else {
