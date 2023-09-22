@@ -16,7 +16,6 @@ import {
   TextSlice,
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
-  Discussion as DiscussionSlice,
   AudioPlayer as AudioPlayerSlice,
   Body,
   TextAndImageSlice,
@@ -217,16 +216,6 @@ function transformTitledTextListSlice(slice: TitledTextListSlice): BodySlice {
     type: 'titledTextList',
     value: {
       items: slice.items.map(item => transformTitledTextItem(item)),
-    },
-  };
-}
-
-function transformDiscussionSlice(slice: DiscussionSlice): BodySlice {
-  return {
-    type: 'discussion',
-    value: {
-      title: asTitle(slice.primary.title),
-      text: asRichText(slice.primary.text) || [],
     },
   };
 }
@@ -469,9 +458,6 @@ export function transformBody(body: Body): BodySlice[] {
 
         case 'infoBlock':
           return transformInfoBlockSlice(slice);
-
-        case 'discussion':
-          return transformDiscussionSlice(slice);
 
         case 'tagList':
           return transformTagListSlice(slice);

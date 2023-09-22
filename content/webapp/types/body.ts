@@ -8,7 +8,6 @@ import { Props as GifVideoProps } from '../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '../components/TitledTextList/TitledTextList';
 import { Props as TagsGroupProps } from '@weco/common/views/components/TagsGroup/TagsGroup';
 import { Props as MapProps } from '../components/Map/Map';
-import { Props as DiscussionProps } from '../components/Discussion/Discussion';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import {
   TextAndIconsItem,
@@ -91,7 +90,6 @@ export type BodySlice =
   | Slice<'imageGallery', ImageGalleryProps>
   | Slice<'gifVideo', GifVideoProps>
   | Slice<'titledTextList', TitledTextListProps>
-  | Slice<'discussion', DiscussionProps>
   | Slice<'infoBlock', InfoBlockProps>
   | Slice<'iframe', IframeProps>
   | Slice<'quote', QuoteProps>

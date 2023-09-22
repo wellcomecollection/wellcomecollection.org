@@ -7,9 +7,9 @@
  * We use slices exclusively on the `body` property of our custom types,
  * so this script queries that.
  *
- * e.g. we notice we have a "Discussion" slice, but need to know if it's used.
+ * e.g. we notice we have a "Text" slice, but need to know if it's used.
  *
- * yarn sliceAnalysis --type discussion.
+ * yarn sliceAnalysis --type text.
  *
  * Another aspect to slices is that you can label them. For instance we label images
  * in order to give them different weighting on the page. For this we run:
