@@ -8,6 +8,10 @@ export type OverrideType =
   | 'Late Spectacular'
   | 'other';
 
+export type HasOverrideDate = {
+  overrideDate: Date;
+};
+
 export type OverrideDate = {
   overrideDate: Date;
   overrideType: OverrideType;
