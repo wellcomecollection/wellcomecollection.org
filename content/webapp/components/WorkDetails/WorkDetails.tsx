@@ -24,7 +24,7 @@ import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import ExplanatoryText from './ExplanatoryText';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import { toLink as itemLink } from '../ItemLink';
 import { toLink as conceptLink } from '../ConceptLink';
 import { trackGaEvent } from '@weco/common/utils/ga';
@@ -465,9 +465,9 @@ const WorkDetails: FunctionComponent<Props> = ({
                     properties: ['margin-top'],
                   }}
                 >
-                  <ExplanatoryText
+                  <CollapsibleContent
                     id="licenseDetail"
-                    controlText="Can I use this?"
+                    controlText={{ defaultText: 'Licence and reuse' }}
                   >
                     <>
                       {digitalLocationInfo.license.humanReadableText && (
@@ -503,7 +503,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                         }
                       />
                     </>
-                  </ExplanatoryText>
+                  </CollapsibleContent>
                 </Space>
               )}
             </>
