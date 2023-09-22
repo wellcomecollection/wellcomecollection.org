@@ -21,16 +21,13 @@ type CatalogueLicenseData = {
   type: 'License';
 };
 
-type CcIcons = 'cc' | 'ccBy' | 'ccNc' | 'ccNd' | 'ccPdm' | 'ccZero' | 'ccSa';
 export type LicenseData = CatalogueLicenseData & {
-  icons: CcIcons[];
   description?: string;
   humanReadableText?: ReactElement;
 };
 
 const additionalData = {
   pdm: {
-    icons: ['ccPdm'],
     humanReadableText: (
       <p>
         You can use this work for any purpose without restriction under
@@ -43,7 +40,6 @@ const additionalData = {
     ),
   },
   'cc-0': {
-    icons: ['ccZero'],
     description: 'Free to use for any purpose',
     humanReadableText: (
       <p>
@@ -57,7 +53,6 @@ const additionalData = {
     ),
   },
   'cc-by': {
-    icons: ['cc', 'ccBy'],
     description: 'Free to use with attribution',
     humanReadableText: (
       <p>
@@ -72,7 +67,6 @@ const additionalData = {
     ),
   },
   'cc-by-nc': {
-    icons: ['cc', 'ccBy', 'ccNc'],
     description: 'Free to use with attribution for non-commercial purposes',
     humanReadableText: (
       <p>
@@ -88,7 +82,6 @@ const additionalData = {
     ),
   },
   'cc-by-nc-nd': {
-    icons: ['cc', 'ccBy', 'ccNc', 'ccNd'],
     description:
       'Free to use with attribution for non-commercial purposes. No modifications permitted.',
     humanReadableText: (
@@ -106,7 +99,6 @@ const additionalData = {
     ),
   },
   'cc-by-nd': {
-    icons: ['cc', 'ccBy', 'ccNd'],
     description: 'Free to use with attribution. No modifications permitted.',
     humanReadabaleText: (
       <p>
@@ -122,7 +114,6 @@ const additionalData = {
     ),
   },
   'cc-by-sa': {
-    icons: ['cc', 'ccBy'],
     humanReadableText: (
       <p>
         You can use this work for any purpose, including commercial uses,
@@ -137,7 +128,6 @@ const additionalData = {
     ),
   },
   'cc-by-nc-sa': {
-    icons: ['cc', 'ccBy', 'ccNc'],
     humanReadableText: (
       <p>
         You can copy and distribute this work, as long as it is not primarily
@@ -153,7 +143,6 @@ const additionalData = {
     ),
   },
   ogl: {
-    icons: [],
     humanReadableText: (
       <p>
         You have permission to make copies of this work under an Open Government
@@ -168,7 +157,6 @@ const additionalData = {
     ),
   },
   opl: {
-    icons: [],
     humanReadableText: (
       <p>
         You are free to copy, publish, distribute and transmit the information;
@@ -183,7 +171,6 @@ const additionalData = {
     ),
   },
   inc: {
-    icons: [],
     humanReadableText: (
       <>
         <p>
