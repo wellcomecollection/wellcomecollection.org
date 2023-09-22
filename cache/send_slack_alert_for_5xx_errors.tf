@@ -32,8 +32,12 @@ module "slack_alerts_for_5xx_new" {
   # the Lambda would error if there were lots of log events.
   timeout = 300
 
-  # For now we skip sending logs to Elasticsearch, just while we get it working
-  # with the new module.
+  # TODO: Send logs from this Lambda to Elasticsearch, like our other Lambdas.
+  #
+  # Sending logs to Elasticsearch from a Lambda in us-east-1 needs a few
+  # extra pieces to get working, including secrets and a Kinesis stream --
+  # it's more fiddly than I care to get working right now, but it doesn't
+  # feel impossible.
   forward_logs_to_elastic = false
 }
 
