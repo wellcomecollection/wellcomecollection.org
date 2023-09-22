@@ -4,26 +4,6 @@ data "archive_file" "slack_alerts_for_5xx" {
   output_path = "${path.module}/send_slack_alert_for_5xx_errors.js.zip"
 }
 
-moved {
-  from = module.slack_alerts_for_5xx.data.archive_file.deployment_package
-  to = data.archive_file.slack_alerts_for_5xx
-}
-
-moved {
-  from = module.slack_alerts_for_5xx.aws_lambda_function.lambda_function
-  to = module.slack_alerts_for_5xx_new.aws_lambda_function.main
-}
-
-moved {
-  from = module.slack_alerts_for_5xx.aws_cloudwatch_log_group.cloudwatch_log_group
-  to = module.slack_alerts_for_5xx_new.aws_cloudwatch_log_group.lambda
-}
-
-moved {
-  from = module.slack_alerts_for_5xx.aws_iam_role.iam_role
-  to = module.slack_alerts_for_5xx_new.aws_iam_role.lambda
-}
-
 module "slack_alerts_for_5xx_new" {
   source = "github.com/wellcomecollection/terraform-aws-lambda.git?ref=v1.2.0"
 
@@ -55,16 +35,6 @@ module "slack_alerts_for_5xx_new" {
   # For now we skip sending logs to Elasticsearch, just while we get it working
   # with the new module.
   forward_logs_to_elastic = false
-}
-
-moved {
-  from = module.slack_alerts_for_5xx.aws_cloudwatch_metric_alarm.lambda_alarm
-  to = module.slack_alerts_for_5xx_new.aws_cloudwatch_metric_alarm.lambda_errors["arn:aws:sns:us-east-1:130871440101:experience_useast1_lambda_error_alarm"]
-}
-
-moved {
-  from = module.slack_alerts_for_5xx.aws_sqs_queue.lambda_dlq
-  to = aws_sqs_queue.send_slack_alert_for_5xx_errors_dlq
 }
 
 resource "aws_sqs_queue" "send_slack_alert_for_5xx_errors_dlq" {
