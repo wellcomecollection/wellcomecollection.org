@@ -467,7 +467,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                 >
                   <CollapsibleContent
                     id="licenseDetail"
-                    controlText={{ defaultText: 'Licence and reuse' }}
+                    controlText={{ defaultText: 'Licence and re-use' }}
                   >
                     <>
                       {digitalLocationInfo.license.humanReadableText && (
