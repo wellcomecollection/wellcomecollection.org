@@ -272,6 +272,16 @@ export function createExceptionalOpeningHoursDays(
   });
 }
 
+/** Given a single list of exceptional dates, split them into a list of lists,
+ * where each list is a consecutive run of dates.
+ *
+ * e.g. input  = [Jan 1, Jan 2, Jan 3, Feb 4, Mar 5, Mar 6]
+ *
+ *      output = [[Jan 1, Jan 2, Jan 3],
+ *                [Feb 4],
+ *                [Mar 5, Mar 6]]
+ *
+ */
 export function groupConsecutiveExceptionalDays<T extends HasOverrideDate>(
   dates: T[]
 ): T[][] {
@@ -283,7 +293,7 @@ export function groupConsecutiveExceptionalDays<T extends HasOverrideDate>(
 
       if (
         lastDayOfGroup &&
-        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup, 'UTC')
+        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup, 'London')
       ) {
         group.push(date);
       } else {
