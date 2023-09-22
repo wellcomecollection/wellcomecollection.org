@@ -1,19 +1,27 @@
 import { DateRange } from '../model/date-range';
 import { formatDayDate } from './format-date';
 
-// This is to allow us to mock values in tests, e.g.
-//
-//    import * as dateUtils from '@weco/common/utils/dates';
-//
-//    const spyOnToday = jest.spyOn(dateUtils, 'today');
-//    spyOnToday.mockImplementation(() =>
-//      new Date('2022-09-19T00:00:00Z')
-//    );
-//
-// If you're doing local debugging, you can also override the return value
-// to make the site think it's a different date, e.g. to test opening times.
-// (Note: this may not affect all parts of the site.)
-//
+/** Returns the current date/time.
+ *
+ * We use this function rather than calling `new Date()` directly for two reasons:
+ *
+ *    1.  In tests, you can override the return value of this function in a single test
+ *        using the `mockToday()` helper, for example:
+ *
+ *            import mockToday from '@weco/common/test/utils/date-mocks';
+ *
+ *            mockToday({ as: new Date('2021-10-30') });
+ *
+ *        Within the context of this test, any code that calls `today()` will be told
+ *        that the current date is 30 October 2021.
+ *
+ *    2.  In local development, you can override the return value of this function to
+ *        make the site think it's a different date.
+ *
+ *        e.g. if you have this function return a date that's a week in the future, you'll
+ *        see how the opening times render on that day.
+ *
+ */
 export function today(): Date {
   return new Date();
 }

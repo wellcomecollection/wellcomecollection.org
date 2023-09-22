@@ -1,4 +1,4 @@
-import * as dateUtils from '@weco/common/utils/dates';
+import mockToday from '@weco/common/test/utils/date-mocks';
 import { getMonthsInDateRange, groupEventsByMonth } from './group-event-utils';
 
 describe('getMonthsInDateRange', () => {
@@ -37,10 +37,7 @@ describe('getMonthsInDateRange', () => {
 
 describe('groupEventsByMonth', () => {
   it('groups events correctly', () => {
-    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
-    spyOnFuture.mockImplementation(
-      (d: Date) => d > new Date('2022-09-08T00:00:00Z')
-    );
+    mockToday({ as: new Date('2022-09-08T00:00:00Z') });
 
     // This is based on the state of the "What's on" page on 8 September 2022
     const evShockingTreatment = {
@@ -243,10 +240,7 @@ describe('groupEventsByMonth', () => {
   };
 
   it('skips months that have already passed', () => {
-    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
-    spyOnFuture.mockImplementation(
-      (d: Date) => d > new Date('2022-11-02T00:00:00Z')
-    );
+    mockToday({ as: new Date('2022-11-02T00:00:00Z') });
 
     // Note that the HIV and AIDS event has multiple dates: one in October,
     // two in November.
@@ -266,10 +260,7 @@ describe('groupEventsByMonth', () => {
   });
 
   it('includes multi-day events which have started but not finished', () => {
-    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
-    spyOnFuture.mockImplementation(
-      (d: Date) => d > new Date('2022-11-05T00:00:00Z')
-    );
+    mockToday({ as: new Date('2022-11-05T00:00:00Z') });
 
     // Notice that on 5 November, the "Light's Up" event has already started,
     // but it runs into February so we should make sure to include it
@@ -287,10 +278,7 @@ describe('groupEventsByMonth', () => {
   });
 
   it('puts multi-day events at the right order in the list', () => {
-    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
-    spyOnFuture.mockImplementation(
-      (d: Date) => d > new Date('2022-11-09T00:00:00Z')
-    );
+    mockToday({ as: new Date('2022-11-09T00:00:00Z') });
 
     // Notice that on 9 November, the "HIV and AIDS" event has already
     // had its first event in the month (on 8 Nov), and the event promo
@@ -319,10 +307,7 @@ describe('groupEventsByMonth', () => {
   });
 
   it('includes festivals that are midway through their run', () => {
-    const spyOnFuture = jest.spyOn(dateUtils, 'isFuture');
-    spyOnFuture.mockImplementation(
-      (d: Date) => d > new Date('2022-11-18T12:00:00Z')
-    );
+    mockToday({ as: new Date('2022-11-18T12:00:00Z') });
 
     // The "What You See" event is a three-day festival from 17–19 Nov
     // with a single entry in the 'times' block; on 18 Nov it's on

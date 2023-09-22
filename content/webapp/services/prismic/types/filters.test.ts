@@ -1,11 +1,10 @@
 import { Period } from '@weco/common/types/periods';
 import { getExhibitionPeriodFilters, getEventFilters } from './filters';
-import * as dateUtils from '@weco/common/utils/dates';
+import mockToday from '@weco/common/test/utils/date-mocks';
 
 describe('getPeriodFilters', () => {
   it('uses the current time for current-and-coming-up', () => {
-    const spyOnToday = jest.spyOn(dateUtils, 'today');
-    spyOnToday.mockImplementation(() => new Date('2022-09-19T00:00:00Z'));
+    mockToday({ as: new Date('2022-09-19T00:00:00Z') });
 
     const result = getEventFilters({
       period: 'current-and-coming-up',
@@ -19,8 +18,7 @@ describe('getPeriodFilters', () => {
   });
 
   it('uses the current time for past', () => {
-    const spyOnToday = jest.spyOn(dateUtils, 'today');
-    spyOnToday.mockImplementation(() => new Date('2022-09-19T00:00:00Z'));
+    mockToday({ as: new Date('2022-09-19T00:00:00Z') });
 
     const result = getEventFilters({
       period: 'past',
@@ -85,8 +83,7 @@ describe('getExhibitionPeriodFilters', () => {
   ])(
     'the exhibition period filter for `$period` is $expectedFilters',
     ({ period, expectedFilters }) => {
-      const spyOnToday = jest.spyOn(dateUtils, 'today');
-      spyOnToday.mockImplementation(() => new Date('2023-04-24T12:00:00Z'));
+      mockToday({ as: new Date('2023-04-24T12:00:00Z') });
 
       const result = getExhibitionPeriodFilters({
         period: period as Period,

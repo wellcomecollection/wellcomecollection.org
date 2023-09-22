@@ -1,9 +1,9 @@
 import { LicenseType } from '@weco/common/model/license';
 import { Article } from '@weco/content/types/articles';
-import { Card } from '@weco/content/types/card';
 import { Event } from '@weco/content/types/events';
 import { faker } from '@faker-js/faker';
 import { RichTextField as PrismicRichTextField } from '@prismicio/client';
+import { Season } from '@weco/content/types/seasons';
 
 export function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * max) + min;
@@ -54,7 +54,11 @@ export const interpretations = [
 
 export const url = faker.internet.url();
 
-export const bannerCardItem: Card = {
+export const bannerCardItem: Season = {
+  type: 'seasons',
+  id: 'bannerCardItem',
+  body: [],
+  labels: [],
   title: 'What does it mean to be human, now?',
   start: new Date('2021-01-05T00:00:00.000Z'),
   end: new Date('2021-01-26T00:00:00.000Z'),
@@ -76,7 +80,6 @@ export const bannerCardItem: Card = {
         copyrightHolder: undefined,
         copyrightLink: undefined,
       },
-      crops: {},
     },
     link: null,
   },
@@ -335,13 +338,11 @@ export const prismicRichTextMultiline = [
 ] as PrismicRichTextField;
 
 export const text = () =>
-  Array(2)
-    .fill()
-    .map(() => ({
-      type: 'paragraph',
-      text: `${faker.random.words(30)}`,
-      spans: [],
-    }));
+  Array(2).fill({
+    type: 'paragraph',
+    text: `${faker.random.words(30)}`,
+    spans: [],
+  });
 
 export const smallText = () => [
   {
@@ -356,31 +357,19 @@ export const videoEmbed = {
 };
 
 export const event: Event = {
+  type: 'events',
+  id: 'x123',
   title: 'Event title',
-  contributorsTitle: '',
-  contributors: [],
+  audiences: [],
+  availableOnline: true,
   body: [],
-  promo: {
-    caption:
-      'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
-    image: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
-      width: 3200,
-      height: 1800,
-      alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
-      tasl: {
-        title: 'Exploring Research event',
-        author: 'Steven Pocock',
-        sourceName: 'Wellcome Collection',
-        sourceLink: null,
-        license: 'CC-BY-NC' as LicenseType,
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-    },
-    link: null,
-  },
+  bookingInformation: null,
+  bookingType: 'First come, first served',
+  contributors: [],
+  cost: null,
+  eventbriteId: '',
+  format: { id: 'WlYVBiQAACcAWcu9', title: 'Seminar', description: null },
+  hasEarlyRegistration: false,
   image: {
     contentUrl:
       'https://images.prismic.io/wellcomecollection/a4e2a07674bb171ba0b7d7dc7dcf09f1694e13ff_sdp_20181009_0007.jpg?auto=compress,format',
@@ -417,63 +406,31 @@ export const event: Event = {
       },
     },
   },
-  squareImage: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
-    width: 3200,
-    height: 3200,
-    alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
-    tasl: {
-      title: 'Exploring Research event',
-      author: 'Steven Pocock',
-      sourceName: 'Wellcome Collection',
-      sourceLink: null,
-      license: 'CC-BY-NC' as LicenseType,
-      copyrightHolder: null,
-      copyrightLink: null,
+  interpretations: [],
+  isCompletelySoldOut: false,
+  isPast: false,
+  isRelaxedPerformance: false,
+  isOnline: true,
+  labels: [],
+  locations: [
+    {
+      id: 'WoLtUioAACkANrUM',
+      title: 'Viewing Room',
+      body: [],
+      labels: [],
+      level: 2,
+      capacity: 20,
+      information: [
+        {
+          type: 'paragraph',
+          text: 'We’ll be in the Viewing Room. It’s next to the Library entrance on level 2, which you can reach by taking the lift or the stairs.',
+          spans: [],
+        },
+      ],
     },
-    crops: {},
-  },
-  widescreenImage: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
-    width: 3200,
-    height: 1800,
-    alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
-    tasl: {
-      title: 'Exploring Research event',
-      author: 'Steven Pocock',
-      sourceName: 'Wellcome Collection',
-      sourceLink: null,
-      license: 'CC-BY-NC' as LicenseType,
-      copyrightHolder: null,
-      copyrightLink: null,
-    },
-    crops: {},
-  },
-  primaryLabels: [{ text: 'Seminar' }],
-  secondaryLabels: [],
-  place: {
-    id: 'WoLtUioAACkANrUM',
-    title: 'Viewing Room',
-    contributors: [],
-    body: [],
-    labels: [],
-    level: 2,
-    capacity: 20,
-    information: [
-      {
-        type: 'paragraph',
-        text: 'We’ll be in the Viewing Room. It’s next to the Library entrance on level 2, which you can reach by taking the lift or the stairs.',
-        spans: [],
-      },
-    ],
-  },
-  audiences: [],
-  bookingInformation: null,
-  bookingType: 'First come, first served',
-  cost: null,
-  format: { id: 'WlYVBiQAACcAWcu9', title: 'Seminar', description: null },
+  ],
+  onlineHasEarlyRegistration: false,
+  onlinePolicies: [],
   policies: [
     {
       id: 'W3RLAikAACcAF2oO',
@@ -487,11 +444,28 @@ export const event: Event = {
       ],
     },
   ],
-  isDropIn: false,
-  series: [],
-  schedule: [],
-  eventbriteId: '',
-  isCompletelySoldOut: false,
+  primaryLabels: [{ text: 'Seminar' }],
+  promo: {
+    caption:
+      'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
+    image: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
+      width: 3200,
+      height: 1800,
+      alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+      tasl: {
+        title: 'Exploring Research event',
+        author: 'Steven Pocock',
+        sourceName: 'Wellcome Collection',
+        sourceLink: null,
+        license: 'CC-BY-NC' as LicenseType,
+        copyrightHolder: null,
+        copyrightLink: null,
+      },
+    },
+    link: null,
+  },
   ticketSalesStart: null,
   times: [
     {
@@ -502,21 +476,14 @@ export const event: Event = {
       isFullyBooked: { inVenue: false, online: false },
     },
   ],
-  displayStart: new Date('2018-10-23T17:00:00.000Z'),
-  displayEnd: new Date('2018-10-23T18:30:00.000Z'),
-  dateRange: {
-    firstDate: new Date('2018-10-23T17:00:00.000Z'),
-    lastDate: new Date('2018-10-23T18:30:00.000Z'),
-    repeats: 1,
-  },
-  isPast: false,
-  isRelaxedPerformance: false,
-  isOnline: true,
-  availableOnline: true,
+  seasons: [],
+  schedule: [],
+  secondaryLabels: [],
+  series: [],
 };
 
 export const imageGallery = () => {
-  const items = Array(4).fill().map(captionedImage);
+  const items = Array(4).fill(captionedImage());
   return {
     id: '123',
     title: singleLineOfText(),
@@ -599,7 +566,6 @@ export const article: Article = {
   type: 'articles',
   id: 'YLoCLhAAACEAfyuO',
   title: 'A dark cloud',
-  contributorsTitle: '',
   contributors: [
     {
       role: {
@@ -644,6 +610,8 @@ export const article: Article = {
       weight: 'standalone',
       value: {
         title: '',
+        isStandalone: false,
+        isFrames: false,
         items: [
           {
             image: {
@@ -676,6 +644,7 @@ export const article: Article = {
                 },
               },
             },
+            hasRoundedCorners: false,
             caption: [],
           },
         ],

@@ -114,7 +114,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
         {caption && <Caption caption={caption} />}
       </VideoEmbedWrapper>
 
-      {transcript && (
+      {!!(transcript?.length && transcript.length > 0) && (
         <CollapsibleContent
           id={`embedVideoTranscript-${id}`}
           controlText={{
