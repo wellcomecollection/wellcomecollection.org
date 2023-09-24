@@ -303,7 +303,7 @@ describe('opening-times', () => {
     });
   });
 
-  describe("backfillExceptionalVenueDays: returns the venue's exceptional opening times for each date, and if there is no exceptional opening time for a specific date, then it uses the venue's regular opening times for that day.", () => {
+  describe("createExceptionalOpeningHoursDays: returns the venue's exceptional opening times for each date, and if there is no exceptional opening time for a specific date, then it uses the venue's regular opening times for that day.", () => {
     it('returns an exceptional override date type for each of the dates provided', () => {
       const result = createExceptionalOpeningHoursDays(libraryVenue, [
         {
