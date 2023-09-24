@@ -259,10 +259,10 @@ export function createExceptionalOpeningHoursDays(
     const days = sortedDates
       .map(date => {
         const matchingVenueGroup = groupedExceptionalDays.find(group =>
-          group.find(day => isSameDay(day.overrideDate, date, 'UTC'))
+          group.find(day => isSameDay(day.overrideDate, date, 'London'))
         );
         const matchingDay = matchingVenueGroup?.find(day =>
-          isSameDay(day.overrideDate, date, 'UTC')
+          isSameDay(day.overrideDate, date, 'London')
         );
         const backfillDay = exceptionalFromRegular(venue, date, type);
         return matchingDay || backfillDay;
