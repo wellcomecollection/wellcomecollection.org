@@ -13,7 +13,6 @@ import {
   getLocationLink,
   getLocationShelfmark,
 } from '../../utils/works';
-import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Download from '../Download/Download';
@@ -49,6 +48,8 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
+import { CopyContent, CopyUrl } from '@weco/content/components/CopyButtons';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -60,6 +61,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   shouldShowItemLink,
 }: Props) => {
   const isArchive = useContext(IsArchiveContext);
+  const { creditReformat } = useToggles();
   const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const transformedIIIFManifest = useTransformedManifest(work);
@@ -512,6 +514,46 @@ const WorkDetails: FunctionComponent<Props> = ({
                                 digitalLocationInfo.license.label
                               )}
                             </p>
+
+                            {/* We are working under a toggle as to determine what to do with credit vs. attribution */}
+                            {creditReformat && (
+                              <>
+                                <p>
+                                  <strong>Credit (new)</strong>
+                                </p>
+                                <CopyContent
+                                  CTA="Copy credit information"
+                                  content={`${work.title.replace(
+                                    /\.$/g,
+                                    ''
+                                  )}. ${digitalLocationInfo.license.label}. ${
+                                    credit && `Source: ${credit}.`
+                                  } https://wellcomecollection.org/works/${
+                                    work.id
+                                  }`}
+                                  displayedContent={
+                                    <p>
+                                      <strong>(Title) </strong>
+                                      {work.title.replace(/\.$/g, '')}.{' '}
+                                      {digitalLocation?.credit && (
+                                        <>
+                                          <strong>(Credit) </strong>
+                                          {digitalLocation?.credit}.{' '}
+                                        </>
+                                      )}
+                                      <strong>(License label) </strong>
+                                      {digitalLocationInfo.license.label}.{' '}
+                                      {iiifCredit && (
+                                        <>
+                                          <strong>(Attribution) </strong>Source:{' '}
+                                          {iiifCredit}.
+                                        </>
+                                      )}
+                                    </p>
+                                  }
+                                />
+                              </>
+                            )}
                           </>
                         }
                       />

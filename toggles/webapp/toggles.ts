@@ -119,6 +119,14 @@ const toggles = {
       description: 'Allows access to visual stories pages.',
       type: 'experimental',
     },
+    {
+      id: 'creditReformat',
+      title: "Reformat work's credit section",
+      initialValue: false,
+      description:
+        'This will display two credit section in a work page, the first being the current one and the second one is the one we want to trial',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
