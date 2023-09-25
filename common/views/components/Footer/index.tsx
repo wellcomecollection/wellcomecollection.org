@@ -183,11 +183,10 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
                 </Space>
               </>
             ) : (
-              <>
-                <Space as="p" v={{ size: 'm', properties: ['margin-bottom'] }}>
-                  <a href="/opening-times">Opening times</a>
-                </Space>
-              </>
+              // Error pages do not receive serverData so should only display openingtimes link
+              <Space as="p" v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <a href="/opening-times">Opening times</a>
+              </Space>
             )}
           </OpeningTimesContainer>
 
