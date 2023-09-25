@@ -1,13 +1,13 @@
 import { FunctionComponent, MouseEvent, useContext, useState } from 'react';
-import { font, classNames } from '../../../utils/classnames';
-import { getPrismicLicenseData } from '../../../utils/licenses';
-import { trackGaEvent } from '../../../utils/ga';
-import { AppContext } from '../../components/AppContext/AppContext';
-import Icon from '../Icon/Icon';
-import Space from '../styled/Space';
 import styled from 'styled-components';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { getPrismicLicenseData } from '@weco/common/utils/licenses';
+import { trackGaEvent } from '@weco/common/utils/ga';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { cross, information } from '@weco/common/icons';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import Icon from '../Icon/Icon';
+import Space from '../styled/Space';
 
 type StyledTaslProps = {
   positionAtTop: boolean;
