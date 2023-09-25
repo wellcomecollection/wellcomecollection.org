@@ -49,6 +49,7 @@ import {
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyContent, CopyUrl } from '@weco/content/components/CopyButtons';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -60,6 +61,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   shouldShowItemLink,
 }: Props) => {
   const isArchive = useContext(IsArchiveContext);
+  const { creditReformat } = useToggles();
   const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const transformedIIIFManifest = useTransformedManifest(work);
@@ -111,8 +113,15 @@ const WorkDetails: FunctionComponent<Props> = ({
 
   // iiif-image locations have credit info.
   // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
-  const credit = digitalLocation?.credit || iiifCredit;
 
+  // CREDIT for IMAGES in our API: https://api.wellcomecollection.org/catalogue/v2/images/rdetybc6 locations[0].credit
+  // Works won't have a credit, if the page doesn't have one, don't display anything
+  const credit = digitalLocation?.credit;
+
+  // works and images
+  const attribution = iiifCredit;
+
+  console.log({ credit, attribution });
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
 
@@ -491,37 +500,67 @@ const WorkDetails: FunctionComponent<Props> = ({
                             <p>
                               <strong>Credit</strong>
                             </p>
-
-                            <CopyContent
-                              CTA="Copy credit information"
-                              content={`${work.title.replace(/\.$/g, '')}. ${
+                            <p>
+                              {work.title.replace(/\.$/g, '')}.
+                              {credit && (
+                                <>
+                                  {' '}
+                                  <a
+                                    href={`https://wellcomecollection.org/works/${work.id}`}
+                                  >
+                                    {credit}
+                                  </a>
+                                  .
+                                </>
+                              )}{' '}
+                              {digitalLocationInfo.license.url ? (
+                                <a href={digitalLocationInfo.license.url}>
+                                  {digitalLocationInfo.license.label}
+                                </a>
+                              ) : (
                                 digitalLocationInfo.license.label
-                              }. ${
-                                credit && `Source: ${credit}.`
-                              } https://wellcomecollection.org/works/${
-                                work.id
-                              }`}
-                              displayedContent={
+                              )}
+                            </p>
+                            {creditReformat && (
+                              <>
                                 <p>
-                                  {work.title.replace(/\.$/g, '')}.
-                                  {/* Which is which? */}
-                                  {credit && (
-                                    <>
-                                      {' '}
-                                      <a
-                                        href={`https://wellcomecollection.org/works/${work.id}`}
-                                      >
-                                        {credit}
-                                      </a>
-                                      .
-                                    </>
-                                  )}{' '}
-                                  {digitalLocationInfo.license.label}.
-                                  {/* Which is which? */}
-                                  {credit && <> Source: {credit}.</>}
+                                  <strong>Credit (new)</strong>
                                 </p>
-                              }
-                            />
+                                <CopyContent
+                                  CTA="Copy credit information"
+                                  content={`${work.title.replace(
+                                    /\.$/g,
+                                    ''
+                                  )}. ${digitalLocationInfo.license.label}. ${
+                                    credit && `Source: ${credit}.`
+                                  } https://wellcomecollection.org/works/${
+                                    work.id
+                                  }`}
+                                  displayedContent={
+                                    <p>
+                                      <strong>Title: </strong>
+                                      {work.title.replace(/\.$/g, '')}.{' '}
+                                      {/* Which is which? */}
+                                      {credit && (
+                                        <>
+                                          <strong>Credit: </strong>
+                                          {credit}.
+                                        </>
+                                      )}{' '}
+                                      <strong>License label: </strong>
+                                      {digitalLocationInfo.license.label}.{' '}
+                                      {/* Which is which? */}
+                                      {attribution && (
+                                        <>
+                                          <strong>Attribution</strong> Source:{' '}
+                                          {attribution}.
+                                        </>
+                                      )}
+                                    </p>
+                                  }
+                                />
+                              </>
+                            )}
                           </>
                         }
                       />
