@@ -29,46 +29,39 @@ it('identifies dates in the future', () => {
 describe('isSameDay', () => {
   it('says a day is the same as itself', () => {
     const day = new Date(2001, 1, 1, 1, 1, 1);
-    const result = isSameDay(day, day, 'London');
+    const result = isSameDay(day, day);
 
     expect(result).toEqual(true);
   });
 
-  describe('ComparisonMode', () => {
-    const september19Midnight = new Date(
-      // = Sep 18 2022 23:00:00 UTC
-      'Mon Sep 19 2022 00:00:00 GMT+0100 (British Summer Time)'
-    );
-    const september18TwentyThreeThirty = new Date(
-      // = Sep 18 2022 22:30:00 UTC
-      'Sun Sep 18 2022 23:30:00 GMT+0100 (British Summer Time)'
-    );
-    const september19MidnightThirty = new Date(
-      // = Sep 18 2022 23:30:00 UTC
-      'Mon Sep 19 2022 00:30:00 GMT+0100 (British Summer Time)'
-    );
-    const september19Midday = new Date(
-      // = Sep 19 2022 11:00:00 UTC
-      'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
-    );
+  const september19Midnight = new Date(
+    // = Sep 18 2022 23:00:00 UTC
+    'Mon Sep 19 2022 00:00:00 GMT+0100 (British Summer Time)'
+  );
+  const september18TwentyThreeThirty = new Date(
+    // = Sep 18 2022 22:30:00 UTC
+    'Sun Sep 18 2022 23:30:00 GMT+0100 (British Summer Time)'
+  );
+  const september19MidnightThirty = new Date(
+    // = Sep 18 2022 23:30:00 UTC
+    'Mon Sep 19 2022 00:30:00 GMT+0100 (British Summer Time)'
+  );
+  const september19Midday = new Date(
+    // = Sep 19 2022 11:00:00 UTC
+    'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
+  );
 
-    it('says midnight {x} BST in London is on the same day as midday {x} BST using a comparison mode of "London"', () => {
-      const result = isSameDay(
-        september19Midnight,
-        september19Midday,
-        'London'
-      );
-      expect(result).toEqual(true);
-    });
+  it('says midnight {x} BST is on the same day as midday {x} BST', () => {
+    const result = isSameDay(september19Midnight, september19Midday);
+    expect(result).toEqual(true);
+  });
 
-    it('says 23:30 {x} BST in London is not on the same day as 00:30 {x+1} BST using a comparison mode of "London"', () => {
-      const result = isSameDay(
-        september18TwentyThreeThirty,
-        september19MidnightThirty,
-        'London'
-      );
-      expect(result).toEqual(false);
-    });
+  it('says 23:30 {x} BST is not on the same day as 00:30 {x+1} BST', () => {
+    const result = isSameDay(
+      september18TwentyThreeThirty,
+      september19MidnightThirty
+    );
+    expect(result).toEqual(false);
   });
 
   each([
@@ -87,7 +80,7 @@ describe('isSameDay', () => {
     // completely different days
     [new Date(2001, 2, 3, 1, 1, 1), new Date(2022, 5, 7, 19, 11, 13)],
   ]).test('identifies %s and %s as different (London time)', (a, b) => {
-    const result = isSameDay(a, b, 'London');
+    const result = isSameDay(a, b);
     expect(result).toEqual(false);
   });
 });
@@ -202,7 +195,7 @@ describe('startOfWeek and endOfWeek', () => {
   ])(
     'the week containing $day starts on $expectedStart',
     ({ day, expectedStart }) => {
-      expect(isSameDay(startOfWeek(day), expectedStart, 'London')).toBeTruthy();
+      expect(isSameDay(startOfWeek(day), expectedStart)).toBeTruthy();
     }
   );
 
@@ -213,7 +206,7 @@ describe('startOfWeek and endOfWeek', () => {
   ])(
     'the week containing $day ends on $expectedEnd',
     ({ day, expectedEnd }) => {
-      expect(isSameDay(endOfWeek(day), expectedEnd, 'London')).toBeTruthy();
+      expect(isSameDay(endOfWeek(day), expectedEnd)).toBeTruthy();
     }
   );
 });
@@ -247,8 +240,8 @@ describe('getNextWeekendDateRange', () => {
   ])('the next weekend after $day is $weekend', ({ day, weekend }) => {
     const range = getNextWeekendDateRange(day);
 
-    expect(isSameDay(range.start, weekend.start, 'London')).toBeTruthy();
-    expect(isSameDay(range.end, weekend.end, 'London')).toBeTruthy();
+    expect(isSameDay(range.start, weekend.start)).toBeTruthy();
+    expect(isSameDay(range.end, weekend.end)).toBeTruthy();
   });
 });
 

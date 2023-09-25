@@ -26,8 +26,8 @@ export function formatDateRangeWithMessage({
 }): { text: string; color: PaletteColor } {
   const closesInThisWeek = isSameDayOrBefore(end, addDays(today(), 6));
 
-  const opensToday = isSameDay(start, today(), 'London');
-  const closesToday = isSameDay(end, today(), 'London');
+  const opensToday = isSameDay(start, today());
+  const closesToday = isSameDay(end, today());
 
   if (!opensToday && isFuture(start)) {
     return { text: 'Coming soon', color: 'neutral.500' };
