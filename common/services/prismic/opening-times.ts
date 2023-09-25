@@ -248,21 +248,21 @@ type ExceptionalOpeningHoursGroup = ExceptionalOpeningHoursDay[];
  */
 export function createExceptionalOpeningHoursDays(
   venue: Venue,
-  allVenueExceptionalPeriods?: ExceptionalPeriod[]
+  allVenueExceptionalPeriods: ExceptionalPeriod[]
 ): ExceptionalOpeningHoursGroup[] {
   const groupedExceptionalDays = groupExceptionalVenueDays(
     venue.openingHours.exceptional
   );
-  return (allVenueExceptionalPeriods ?? []).map(period => {
+  return allVenueExceptionalPeriods.map(period => {
     const sortedDates = period.dates.sort((a, b) => countDaysBetween(a, b));
     const type = period.type || 'other';
     const days = sortedDates
       .map(date => {
         const matchingVenueGroup = groupedExceptionalDays.find(group =>
-          group.find(day => isSameDay(day.overrideDate, date, 'UTC'))
+          group.find(day => isSameDay(day.overrideDate, date, 'London'))
         );
         const matchingDay = matchingVenueGroup?.find(day =>
-          isSameDay(day.overrideDate, date, 'UTC')
+          isSameDay(day.overrideDate, date, 'London')
         );
         const backfillDay = exceptionalFromRegular(venue, date, type);
         return matchingDay || backfillDay;
