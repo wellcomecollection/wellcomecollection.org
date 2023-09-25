@@ -56,7 +56,7 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
     .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
     .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
       const isAlreadyInResult = result.some(t =>
-        isSameDay(t.overrideDate, thisOverride.overrideDate, 'London')
+        isSameDay(t.overrideDate, thisOverride.overrideDate)
       );
 
       if (!isAlreadyInResult) {
@@ -259,10 +259,10 @@ export function createExceptionalOpeningHoursDays(
     const days = sortedDates
       .map(date => {
         const matchingVenueGroup = groupedExceptionalDays.find(group =>
-          group.find(day => isSameDay(day.overrideDate, date, 'London'))
+          group.find(day => isSameDay(day.overrideDate, date))
         );
         const matchingDay = matchingVenueGroup?.find(day =>
-          isSameDay(day.overrideDate, date, 'London')
+          isSameDay(day.overrideDate, date)
         );
         const backfillDay = exceptionalFromRegular(venue, date, type);
         return matchingDay || backfillDay;
@@ -293,7 +293,7 @@ export function groupConsecutiveExceptionalDays<T extends HasOverrideDate>(
 
       if (
         lastDayOfGroup &&
-        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup, 'London')
+        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup)
       ) {
         group.push(date);
       } else {
@@ -335,7 +335,7 @@ export function getTodaysVenueHours(
   const todaysDate = today();
   const todayString = formatDayName(todaysDate);
   const exceptionalOpeningHours = venue.openingHours.exceptional.find(i =>
-    isSameDay(todaysDate, i.overrideDate, 'London')
+    isSameDay(todaysDate, i.overrideDate)
   );
   const regularOpeningHours = venue.openingHours.regular.find(
     i => i.dayOfWeek === todayString

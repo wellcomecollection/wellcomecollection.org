@@ -8,7 +8,6 @@ import {
   isPast,
   isSameDay,
   isSameDayOrBefore,
-  isSameMonth,
   minDate,
   maxDate,
   startOfWeek,
@@ -29,79 +28,38 @@ it('identifies dates in the future', () => {
 describe('isSameDay', () => {
   it('says a day is the same as itself', () => {
     const day = new Date(2001, 1, 1, 1, 1, 1);
-    const result = isSameDay(day, day, 'UTC');
+    const result = isSameDay(day, day);
 
     expect(result).toEqual(true);
   });
 
-  describe('ComparisonMode', () => {
-    const september19Midnight = new Date(
-      // = Sep 18 2022 23:00:00 UTC
-      'Mon Sep 19 2022 00:00:00 GMT+0100 (British Summer Time)'
-    );
-    const september18TwentyThreeThirty = new Date(
-      // = Sep 18 2022 22:30:00 UTC
-      'Sun Sep 18 2022 23:30:00 GMT+0100 (British Summer Time)'
-    );
-    const september19MidnightThirty = new Date(
-      // = Sep 18 2022 23:30:00 UTC
-      'Mon Sep 19 2022 00:30:00 GMT+0100 (British Summer Time)'
-    );
-    const september19Midday = new Date(
-      // = Sep 19 2022 11:00:00 UTC
-      'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
-    );
+  const september19Midnight = new Date(
+    // = Sep 18 2022 23:00:00 UTC
+    'Mon Sep 19 2022 00:00:00 GMT+0100 (British Summer Time)'
+  );
+  const september18TwentyThreeThirty = new Date(
+    // = Sep 18 2022 22:30:00 UTC
+    'Sun Sep 18 2022 23:30:00 GMT+0100 (British Summer Time)'
+  );
+  const september19MidnightThirty = new Date(
+    // = Sep 18 2022 23:30:00 UTC
+    'Mon Sep 19 2022 00:30:00 GMT+0100 (British Summer Time)'
+  );
+  const september19Midday = new Date(
+    // = Sep 19 2022 11:00:00 UTC
+    'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
+  );
 
-    it('says midnight {x} BST in London is on the same day as midday {x} BST using a comparison mode of "London"', () => {
-      const result = isSameDay(
-        september19Midnight,
-        september19Midday,
-        'London'
-      );
-      expect(result).toEqual(true);
-    });
-
-    it('says midnight {x} BST in London is not on the same day as midday {x} BST using a comparison mode of "UTC"', () => {
-      const result = isSameDay(september19Midnight, september19Midday, 'UTC');
-      expect(result).toEqual(false);
-    });
-
-    it('says 23:30 {x} BST in London is not on the same day as 00:30 {x+1} BST using a comparison mode of "London"', () => {
-      const result = isSameDay(
-        september18TwentyThreeThirty,
-        september19MidnightThirty,
-        'London'
-      );
-      expect(result).toEqual(false);
-    });
-
-    it('says 23:30 {x} BST in London is on the same day as 00:30 {x+1} BST using a comparison mode of "UTC"', () => {
-      const result = isSameDay(
-        september18TwentyThreeThirty,
-        september19MidnightThirty,
-        'UTC'
-      );
-      expect(result).toEqual(true);
-    });
+  it('says midnight {x} BST is on the same day as midday {x} BST', () => {
+    const result = isSameDay(september19Midnight, september19Midday);
+    expect(result).toEqual(true);
   });
 
-  each([
-    // same day of the week as returned by Date.getDay()
-    [new Date(2001, 2, 3, 1, 1, 1), new Date(2001, 2, 10, 1, 1, 1)],
-
-    // same year/month, different day
-    [new Date(2001, 2, 3, 1, 1, 1), new Date(2001, 2, 10, 1, 1, 1)],
-
-    // same year/day, different month
-    [new Date(2001, 2, 3, 1, 1, 1), new Date(2001, 10, 3, 1, 1, 1)],
-
-    // same month/day, different year
-    [new Date(2001, 2, 3, 1, 1, 1), new Date(2022, 2, 3, 1, 1, 1)],
-
-    // completely different days
-    [new Date(2001, 2, 3, 1, 1, 1), new Date(2022, 5, 7, 19, 11, 13)],
-  ]).test('identifies %s and %s as different', (a, b) => {
-    const result = isSameDay(a, b, 'UTC');
+  it('says 23:30 {x} BST is not on the same day as 00:30 {x+1} BST', () => {
+    const result = isSameDay(
+      september18TwentyThreeThirty,
+      september19MidnightThirty
+    );
     expect(result).toEqual(false);
   });
 
@@ -121,7 +79,7 @@ describe('isSameDay', () => {
     // completely different days
     [new Date(2001, 2, 3, 1, 1, 1), new Date(2022, 5, 7, 19, 11, 13)],
   ]).test('identifies %s and %s as different (London time)', (a, b) => {
-    const result = isSameDay(a, b, 'London');
+    const result = isSameDay(a, b);
     expect(result).toEqual(false);
   });
 });
@@ -179,47 +137,6 @@ describe('isSameDayOrBefore', () => {
   });
 });
 
-describe('isSameMonth', () => {
-  it('says a day is the same as itself', () => {
-    const day = new Date(2001, 1, 1, 1, 1, 1);
-    const result = isSameMonth(day, day);
-
-    expect(result).toEqual(true);
-  });
-
-  it('says two times on the same day are the same', () => {
-    const result = isSameMonth(
-      new Date(2001, 1, 1, 1, 1, 1),
-      new Date(2001, 1, 1, 13, 24, 37)
-    );
-
-    expect(result).toEqual(true);
-  });
-
-  it('says two days in the same month are the same', () => {
-    const result = isSameMonth(
-      new Date(2001, 1, 1, 1, 1, 1),
-      new Date(2001, 1, 13, 4, 21, 53)
-    );
-
-    expect(result).toEqual(true);
-  });
-
-  each([
-    // same year/day, different month
-    [new Date(2001, 2, 1, 1, 1, 1), new Date(2001, 3, 1, 1, 1, 1)],
-
-    // same month of year, different year
-    [new Date(2001, 2, 1, 1, 1, 1), new Date(2005, 2, 1, 1, 1, 1)],
-
-    // completely different months
-    [new Date(2001, 2, 3, 1, 1, 1), new Date(2022, 5, 7, 19, 11, 13)],
-  ]).test('identifies %s and %s as different', (a, b) => {
-    const result = isSameMonth(a, b);
-    expect(result).toEqual(false);
-  });
-});
-
 //
 //    September 2022
 // Su Mo Tu We Th Fr Sa
@@ -236,7 +153,7 @@ describe('startOfWeek and endOfWeek', () => {
   ])(
     'the week containing $day starts on $expectedStart',
     ({ day, expectedStart }) => {
-      expect(isSameDay(startOfWeek(day), expectedStart, 'UTC')).toBeTruthy();
+      expect(isSameDay(startOfWeek(day), expectedStart)).toBeTruthy();
     }
   );
 
@@ -247,7 +164,7 @@ describe('startOfWeek and endOfWeek', () => {
   ])(
     'the week containing $day ends on $expectedEnd',
     ({ day, expectedEnd }) => {
-      expect(isSameDay(endOfWeek(day), expectedEnd, 'UTC')).toBeTruthy();
+      expect(isSameDay(endOfWeek(day), expectedEnd)).toBeTruthy();
     }
   );
 });
@@ -281,8 +198,8 @@ describe('getNextWeekendDateRange', () => {
   ])('the next weekend after $day is $weekend', ({ day, weekend }) => {
     const range = getNextWeekendDateRange(day);
 
-    expect(isSameDay(range.start, weekend.start, 'London')).toBeTruthy();
-    expect(isSameDay(range.end, weekend.end, 'London')).toBeTruthy();
+    expect(isSameDay(range.start, weekend.start)).toBeTruthy();
+    expect(isSameDay(range.end, weekend.end)).toBeTruthy();
   });
 });
 
