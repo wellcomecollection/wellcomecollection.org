@@ -34,13 +34,6 @@ export function isFuture(date: Date): boolean {
   return date > today();
 }
 
-export function isSameMonth(date1: Date, date2: Date): boolean {
-  return (
-    date1.getUTCFullYear() === date2.getUTCFullYear() &&
-    date1.getUTCMonth() === date2.getUTCMonth()
-  );
-}
-
 /** Returns true if `date1` is on the same day as `date2`, false otherwise.
  *
  * This compares the dates in London, not UTC.  See the tests for examples

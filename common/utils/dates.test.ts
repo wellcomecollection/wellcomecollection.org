@@ -8,7 +8,6 @@ import {
   isPast,
   isSameDay,
   isSameDayOrBefore,
-  isSameMonth,
   minDate,
   maxDate,
   startOfWeek,
@@ -135,47 +134,6 @@ describe('isSameDayOrBefore', () => {
 
     expect(isSameDayOrBefore(date1, date2)).toEqual(true);
     expect(isSameDayOrBefore(date2, date1)).toEqual(false);
-  });
-});
-
-describe('isSameMonth', () => {
-  it('says a day is the same as itself', () => {
-    const day = new Date(2001, 1, 1, 1, 1, 1);
-    const result = isSameMonth(day, day);
-
-    expect(result).toEqual(true);
-  });
-
-  it('says two times on the same day are the same', () => {
-    const result = isSameMonth(
-      new Date(2001, 1, 1, 1, 1, 1),
-      new Date(2001, 1, 1, 13, 24, 37)
-    );
-
-    expect(result).toEqual(true);
-  });
-
-  it('says two days in the same month are the same', () => {
-    const result = isSameMonth(
-      new Date(2001, 1, 1, 1, 1, 1),
-      new Date(2001, 1, 13, 4, 21, 53)
-    );
-
-    expect(result).toEqual(true);
-  });
-
-  each([
-    // same year/day, different month
-    [new Date(2001, 2, 1, 1, 1, 1), new Date(2001, 3, 1, 1, 1, 1)],
-
-    // same month of year, different year
-    [new Date(2001, 2, 1, 1, 1, 1), new Date(2005, 2, 1, 1, 1, 1)],
-
-    // completely different months
-    [new Date(2001, 2, 3, 1, 1, 1), new Date(2022, 5, 7, 19, 11, 13)],
-  ]).test('identifies %s and %s as different', (a, b) => {
-    const result = isSameMonth(a, b);
-    expect(result).toEqual(false);
   });
 });
 
