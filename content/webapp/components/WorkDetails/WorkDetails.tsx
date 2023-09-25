@@ -113,15 +113,8 @@ const WorkDetails: FunctionComponent<Props> = ({
 
   // iiif-image locations have credit info.
   // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
+  const credit = digitalLocation?.credit || iiifCredit;
 
-  // CREDIT for IMAGES in our API: https://api.wellcomecollection.org/catalogue/v2/images/rdetybc6 locations[0].credit
-  // Works won't have a credit, if the page doesn't have one, don't display anything
-  const credit = digitalLocation?.credit;
-
-  // works and images
-  const attribution = iiifCredit;
-
-  console.log({ credit, attribution });
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
 
@@ -541,19 +534,19 @@ const WorkDetails: FunctionComponent<Props> = ({
                                       <strong>Title: </strong>
                                       {work.title.replace(/\.$/g, '')}.{' '}
                                       {/* Which is which? */}
-                                      {credit && (
+                                      {digitalLocation?.credit && (
                                         <>
                                           <strong>Credit: </strong>
-                                          {credit}.
+                                          {digitalLocation?.credit}.
                                         </>
                                       )}{' '}
                                       <strong>License label: </strong>
                                       {digitalLocationInfo.license.label}.{' '}
                                       {/* Which is which? */}
-                                      {attribution && (
+                                      {iiifCredit && (
                                         <>
                                           <strong>Attribution</strong> Source:{' '}
-                                          {attribution}.
+                                          {iiifCredit}.
                                         </>
                                       )}
                                     </p>
