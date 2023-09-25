@@ -514,6 +514,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                                 digitalLocationInfo.license.label
                               )}
                             </p>
+
+                            {/* We are working under a toggle as to determine what to do with credit vs. attribution */}
                             {creditReformat && (
                               <>
                                 <p>
@@ -531,21 +533,19 @@ const WorkDetails: FunctionComponent<Props> = ({
                                   }`}
                                   displayedContent={
                                     <p>
-                                      <strong>Title: </strong>
+                                      <strong>(Title) </strong>
                                       {work.title.replace(/\.$/g, '')}.{' '}
-                                      {/* Which is which? */}
                                       {digitalLocation?.credit && (
                                         <>
-                                          <strong>Credit: </strong>
-                                          {digitalLocation?.credit}.
+                                          <strong>(Credit) </strong>
+                                          {digitalLocation?.credit}.{' '}
                                         </>
-                                      )}{' '}
-                                      <strong>License label: </strong>
+                                      )}
+                                      <strong>(License label) </strong>
                                       {digitalLocationInfo.license.label}.{' '}
-                                      {/* Which is which? */}
                                       {iiifCredit && (
                                         <>
-                                          <strong>Attribution</strong> Source:{' '}
+                                          <strong>(Attribution) </strong>Source:{' '}
                                           {iiifCredit}.
                                         </>
                                       )}
