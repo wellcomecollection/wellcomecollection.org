@@ -14,7 +14,7 @@ import { font } from '@weco/common/utils/classnames';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { chat, clear } from '@weco/common/icons';
 import { InferDataInterface } from '../../../services/prismic/types';
 import { transformLink } from '../../../services/prismic/transformers';

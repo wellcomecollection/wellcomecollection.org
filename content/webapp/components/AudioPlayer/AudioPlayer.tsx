@@ -12,8 +12,8 @@ import Volume from './AudioPlayer.Volume';
 import PlayRate from './AudioPlayer.PlayRate';
 import Scrubber from './AudioPlayer.Scrubber';
 import { formatPlayerTime } from './AudioPlayer.formatters';
-import CollapsibleContent from '../CollapsibleContent';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 const AudioPlayerWrapper = styled.figure`
   margin: 0;

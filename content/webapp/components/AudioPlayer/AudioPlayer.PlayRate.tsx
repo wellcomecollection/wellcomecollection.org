@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import { font } from '@weco/common/utils/classnames';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 
 const PlayRateWrapper = styled(Space).attrs({
   h: {
