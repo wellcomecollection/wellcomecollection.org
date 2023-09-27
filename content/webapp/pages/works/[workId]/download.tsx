@@ -29,8 +29,8 @@ import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
-import { removeTrailingFullStop } from '@weco/common/utils/string';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { removeTrailingFullStop } from '@weco/content/utils/string';
 
 type CreditProps = {
   workId: string;

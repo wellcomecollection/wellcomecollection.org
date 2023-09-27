@@ -1,9 +1,9 @@
 import CompactCard from '../CompactCard/CompactCard';
 import { FunctionComponent } from 'react';
-import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Space from '@weco/common/views/components/styled/Space';
-import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
+import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic, getArticleColor } from '../../types/articles';

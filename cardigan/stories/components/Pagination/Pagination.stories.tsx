@@ -1,6 +1,6 @@
 import Pagination, {
   Props,
-} from '@weco/common/views/components/Pagination/Pagination';
+} from '@weco/content/components/Pagination/Pagination';
 
 const Template = (args: Props) => (
   <Pagination totalPages={args.totalPages} ariaLabel="Cardigan pagination" />

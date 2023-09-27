@@ -1,5 +1,5 @@
-import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
-import Readme from '@weco/common/views/components/BackToResults/README.md';
+import BackToResults from '@weco/content/components/BackToResults/BackToResults';
+import Readme from '@weco/content/components/BackToResults/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 

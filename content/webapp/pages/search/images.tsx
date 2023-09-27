@@ -7,7 +7,7 @@ import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSe
 import Space from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Sort from '@weco/content/components/Sort/Sort';
@@ -29,7 +29,7 @@ import { imagesFilters } from '@weco/content/services/wellcome/catalogue/filters
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
 // Types

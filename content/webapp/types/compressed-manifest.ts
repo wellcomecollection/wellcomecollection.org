@@ -2,7 +2,7 @@ import {
   toCommonParts,
   fromCommonParts,
   CommonParts,
-} from '@weco/common/utils/compressed-array';
+} from '@weco/content/utils/compressed-array';
 import { TransformedCanvas, TransformedManifest } from './manifest';
 
 type CompressedTransformedCanvases = {

@@ -38,7 +38,7 @@ import useTransformedManifest from '../../hooks/useTransformedManifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
-import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
+import ExpandableList from '@weco/content/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import LibraryMembersBar from '../LibraryMembersBar/LibraryMembersBar';
 import { eye } from '@weco/common/icons';

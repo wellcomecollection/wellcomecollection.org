@@ -1,4 +1,4 @@
-import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+import SegmentedControl from '@weco/content/components/SegmentedControl/SegmentedControl';
 
 const Template = args => <SegmentedControl {...args} />;
 export const basic = Template.bind({});

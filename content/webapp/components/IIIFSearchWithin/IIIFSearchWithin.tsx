@@ -15,7 +15,7 @@ import ItemViewerContext, {
 } from '../ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
-import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
+import ClearSearch from '@weco/content/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';

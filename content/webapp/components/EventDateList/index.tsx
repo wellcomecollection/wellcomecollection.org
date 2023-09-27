@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange/DateRange';
 import { HasTimes } from '@weco/content/types/events';
 import EventStatus from '../EventStatus';
 import Space from '@weco/common/views/components/styled/Space';

@@ -10,7 +10,7 @@ import CardGrid from '../CardGrid/CardGrid';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import SegmentedControl, {
   ItemID,
-} from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+} from '@weco/content/components/SegmentedControl/SegmentedControl';
 import Space from '@weco/common/views/components/styled/Space';
 import { Container } from '@weco/common/views/components/styled/Container';
 

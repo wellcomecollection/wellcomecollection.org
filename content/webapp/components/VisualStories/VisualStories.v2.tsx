@@ -9,7 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import theme from '@weco/common/views/themes/default';
 import { font } from '@weco/common/utils/classnames';
-import Contact from '@weco/common/views/components/Contact/Contact';
+import Contact from '@weco/content/components/Contact/Contact';
 
 export const V2Prototype = () => {
   return (

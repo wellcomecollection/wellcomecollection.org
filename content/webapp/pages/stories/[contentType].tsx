@@ -20,9 +20,9 @@ import {
   transformSeries,
   transformSeriesToSeriesBasic,
 } from '@weco/content/services/prismic/transformers/series';
-import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { articleSeriesLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const contentTypes = ['comic'] as const;
 type ContentType = (typeof contentTypes)[number];

@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { Label as LabelType, LabelColor } from '../../../model/labels';
 import Label from '../../components/Label/Label';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 
 const List = styled(Space).attrs({

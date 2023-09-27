@@ -3,13 +3,13 @@ import { themeValues } from '@weco/common/views/themes/config';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import Table from '@weco/common/views/components/Table/Table';
+import Table from '@weco/content/components/Table/Table';
 import {
   RGB,
   HSL,
   hexToRgb,
   rgbToHsl,
-} from '@weco/common/utils/convert-colors';
+} from '@weco/content/utils/convert-colors';
 
 type PaletteColors = {
   [id: string]: Category;

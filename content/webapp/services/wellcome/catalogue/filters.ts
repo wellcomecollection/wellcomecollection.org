@@ -5,7 +5,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { ArticleAggregations } from '@weco/content/services/wellcome/content/types';
 import { quoteVal } from '@weco/common/utils/csv';
-import { toHtmlId } from '@weco/common/utils/string';
+import { toHtmlId } from '@weco/content/utils/string';
 import { ImagesProps } from '@weco/content/components/ImagesLink';
 import { WorksProps } from '@weco/content/components/WorksLink';
 import { StoriesProps } from '@weco/content/components/StoriesLink';
@@ -90,9 +90,9 @@ function filterOptionsWithNonAggregates({
     .map(value =>
       isString(value)
         ? {
-          value,
-          label: value,
-        }
+            value,
+            label: value,
+          }
         : value
     )
     .filter(({ value }) => !aggregationValues.includes(value))
@@ -284,17 +284,17 @@ const partOfFilter = ({
   excludeFromMoreFilters: true,
   options: props['partOf.title']
     ? filterOptionsWithNonAggregates({
-      options: [
-        {
-          id: props['partOf.title'],
-          value: props['partOf.title'],
-          label: props['partOf.title'],
-          count: 0,
-          selected: !!props['partOf.title'],
-        },
-      ],
-      selectedValues: [props['partOf.title']],
-    })
+        options: [
+          {
+            id: props['partOf.title'],
+            value: props['partOf.title'],
+            label: props['partOf.title'],
+            count: 0,
+            selected: !!props['partOf.title'],
+          },
+        ],
+        selectedValues: [props['partOf.title']],
+      })
     : [],
 });
 
@@ -525,20 +525,20 @@ const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
 const worksFilters: (
   props: WorksFilterProps
 ) => Filter<keyof WorksProps>[] = props =>
-    [
-      workTypeFilter,
-      productionDatesFilter,
-      availabilitiesFilter,
-      subjectsFilter,
-      genresFilter,
-      contributorsAgentFilter,
-      languagesFilter,
-      partOfFilter,
-    ].map(f => f(props));
+  [
+    workTypeFilter,
+    productionDatesFilter,
+    availabilitiesFilter,
+    subjectsFilter,
+    genresFilter,
+    contributorsAgentFilter,
+    languagesFilter,
+    partOfFilter,
+  ].map(f => f(props));
 
 const storiesFilters: (
   props: StoriesFilterProps
 ) => Filter<keyof StoriesProps>[] = props =>
-    [storiesFormatFilter, storiesContributorFilter].map(f => f(props));
+  [storiesFormatFilter, storiesContributorFilter].map(f => f(props));
 
 export { worksFilters, imagesFilters, storiesFilters };

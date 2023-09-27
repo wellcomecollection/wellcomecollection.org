@@ -2,7 +2,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import { FunctionComponent } from 'react';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
 import { Video } from '../../services/iiif/types/manifest/v3';
-import { useAVTracking } from '@weco/common/hooks/useAVTracking';
+import { useAVTracking } from '@weco/content/hooks/useAVTracking';
 type Props = {
   video: Video;
   showDownloadOptions: boolean;

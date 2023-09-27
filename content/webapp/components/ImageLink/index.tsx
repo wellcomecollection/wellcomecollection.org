@@ -10,7 +10,7 @@ import {
   stringCodec,
 } from '@weco/common/utils/routes';
 import { LinkProps } from '@weco/common/model/link-props';
-import { ImageLinkSource } from '@weco/common/data/segment-values';
+import { ImageLinkSource } from '@weco/content/data/segment-values';
 
 const emptyImageProps: ImageProps = {
   id: '',

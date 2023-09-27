@@ -1,5 +1,5 @@
-import Message from '@weco/common/views/components/Message/Message';
-import Readme from '@weco/common/views/components/Message/README.md';
+import Message from '@weco/content/components/Message/Message';
+import Readme from '@weco/content/components/Message/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (

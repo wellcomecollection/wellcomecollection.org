@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import SearchBar, {
   ValidLocations,
-} from '@weco/common/views/components/SearchBar/SearchBar';
+} from '@weco/content/components/SearchBar/SearchBar';
 import { linkResolver, getQueryPropertyValue } from '@weco/common/utils/search';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import {

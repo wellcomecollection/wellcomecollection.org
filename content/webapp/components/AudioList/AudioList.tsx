@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
-import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
-import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
+import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
+import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
 import { IIIFExternalWebResource, ContentResource } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import PlainList from '@weco/common/views/components/styled/PlainList';

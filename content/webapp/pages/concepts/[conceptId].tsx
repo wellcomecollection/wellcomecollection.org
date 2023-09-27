@@ -15,12 +15,12 @@ import { toLink as toImagesLink } from '@weco/content/components/ImagesLink';
 import { toLink as toWorksLink } from '@weco/content/components/WorksLink';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { capitalize, formatNumber } from '@weco/common/utils/grammar';
-import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
 // Components
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import { Container } from '@weco/common/views/components/styled/Container';
 
@@ -36,7 +36,7 @@ import {
 
 // Styles
 import Space from '@weco/common/views/components/styled/Space';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import TabNav from '@weco/content/components/TabNav/TabNav';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Pageview } from '@weco/common/services/conversion/track';

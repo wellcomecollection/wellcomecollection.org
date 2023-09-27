@@ -4,7 +4,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
+import Control from '@weco/content/components/Buttons/Control/Control';
 import { useContext } from 'react';
 import { arrow } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
@@ -22,17 +22,16 @@ const StyledPaginatorButtons = styled.div`
   top: 12px;
 `;
 
-/* eslint-disable react/display-name */
 const PaginatorButtons = ({
   workId,
   currentPage,
   prevLink,
   nextLink,
 }: {
-  workId: string,
-  currentPage: number,
-  prevLink?: LinkProps,
-  nextLink?: LinkProps,
+  workId: string;
+  currentPage: number;
+  prevLink?: LinkProps;
+  nextLink?: LinkProps;
 }) => {
   return (
     <PaginatorWrapper>
@@ -109,57 +108,57 @@ export const CanvasPaginator = () => {
   const matchingPreviousPage = Math.ceil(prev / thumbnailsPageSize);
   const prevLink = prev
     ? {
-      href: {
-        ...link.href,
-        query: {
-          ...link.href.query,
-          canvas: prev,
-          // Keep thumbnails page in sync with the chosen canvas
-          page: matchingPreviousPage,
+        href: {
+          ...link.href,
+          query: {
+            ...link.href.query,
+            canvas: prev,
+            // Keep thumbnails page in sync with the chosen canvas
+            page: matchingPreviousPage,
+          },
         },
-      },
-      as: {
-        ...link.as,
-        query: {
-          ...link.as.query,
-          canvas: prev,
-          // Keep thumbnails page in sync with the chosen canvas
-          page: matchingPreviousPage,
+        as: {
+          ...link.as,
+          query: {
+            ...link.as.query,
+            canvas: prev,
+            // Keep thumbnails page in sync with the chosen canvas
+            page: matchingPreviousPage,
+          },
         },
-      },
-    }
+      }
     : undefined;
 
   const nextLink = next
     ? {
-      href: {
-        ...link.href,
-        query: {
-          ...link.href.query,
-          canvas: next,
-          // Keep thumbnails page in sync with the chosen canvas
-          page: matchingNextPage,
+        href: {
+          ...link.href,
+          query: {
+            ...link.href.query,
+            canvas: next,
+            // Keep thumbnails page in sync with the chosen canvas
+            page: matchingNextPage,
+          },
         },
-      },
-      as: {
-        ...link.as,
-        query: {
-          ...link.as.query,
-          canvas: next,
-          // Keep thumbnails page in sync with the chosen canvas
-          page: matchingNextPage,
+        as: {
+          ...link.as,
+          query: {
+            ...link.as.query,
+            canvas: next,
+            // Keep thumbnails page in sync with the chosen canvas
+            page: matchingNextPage,
+          },
         },
-      },
-    }
+      }
     : undefined;
 
-  const props = { workId, currentPage, prevLink, nextLink }
+  const props = { workId, currentPage, prevLink, nextLink };
   return (
     <StyledPaginatorButtons>
       <PaginatorButtons {...props} />
     </StyledPaginatorButtons>
-  )
-}
+  );
+};
 
 export const ThumbnailsPaginator = () => {
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
@@ -182,47 +181,47 @@ export const ThumbnailsPaginator = () => {
   const prev = currentPage > 1 ? currentPage - 1 : 0;
   const prevLink = prev
     ? {
-      href: {
-        ...link.href,
-        query: {
-          ...link.href.query,
-          page: prev,
+        href: {
+          ...link.href,
+          query: {
+            ...link.href.query,
+            page: prev,
+          },
         },
-      },
-      as: {
-        ...link.as,
-        query: {
-          ...link.as.query,
-          page: prev,
+        as: {
+          ...link.as,
+          query: {
+            ...link.as.query,
+            page: prev,
+          },
         },
-      },
-    }
+      }
     : undefined;
 
   const nextLink = next
     ? {
-      href: {
-        ...link.href,
-        query: {
-          ...link.href.query,
-          page: next,
+        href: {
+          ...link.href,
+          query: {
+            ...link.href.query,
+            page: next,
+          },
         },
-      },
-      as: {
-        ...link.as,
-        query: {
-          ...link.as.query,
-          page: next,
+        as: {
+          ...link.as,
+          query: {
+            ...link.as.query,
+            page: next,
+          },
         },
-      },
-    }
+      }
     : undefined;
-  const props = { workId, currentPage, prevLink, nextLink }
+  const props = { workId, currentPage, prevLink, nextLink };
   return (
     <StyledPaginatorButtons>
       <PaginatorButtons {...props} />
     </StyledPaginatorButtons>
-  )
-}
+  );
+};
 
 export default ThumbnailsPaginator;

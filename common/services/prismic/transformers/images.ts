@@ -1,5 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { ImageType } from '../../../model/image';
+import { ImageType } from '@weco/common/model/image';
 import { isUndefined } from '@weco/common/utils/type-guards';
 import { transformTaslFromString } from '.';
 

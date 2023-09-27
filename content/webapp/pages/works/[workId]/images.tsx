@@ -9,7 +9,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
 import IIIFViewer from '@weco/content/components/IIIFViewer';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -23,7 +23,7 @@ import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { isNotUndefined } from '@weco/common/utils/type-guards';

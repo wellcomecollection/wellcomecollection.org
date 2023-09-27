@@ -4,7 +4,7 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
-import { LabelField } from '@weco/common/model/label-field';
+import { LabelField } from '@weco/content/model/label-field';
 import * as prismic from '@prismicio/client';
 
 const HeadingLink = styled.a.attrs({

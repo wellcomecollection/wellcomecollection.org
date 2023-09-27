@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getCookie, setCookie } from 'cookies-next';
-import cookies from '@weco/common/data/cookies';
+import cookies from '@weco/content/data/cookies';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '../Icon/Icon';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import usePrevious from '@weco/common/hooks/usePrevious';
 import { cross, information } from '@weco/common/icons';
 import { GlobalAlertPrismicDocument } from '@weco/common/services/prismic/documents';

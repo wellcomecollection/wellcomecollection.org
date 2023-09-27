@@ -12,7 +12,7 @@ import {
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
-import { expandedViewImageButton } from '@weco/common/text/aria-labels';
+import { expandedViewImageButton } from '@weco/content/text/aria-labels';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 

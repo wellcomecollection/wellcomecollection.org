@@ -1,29 +1,32 @@
 import { AppProps } from 'next/app';
 import React, { useEffect, FunctionComponent, ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
-import theme, { GlobalStyle } from '../../views/themes/default';
-import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
-import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
-import { AppContextProvider } from '../components/AppContext/AppContext';
-import ErrorPage from '../components/ErrorPage/ErrorPage';
-import { Pageview, trackPageview } from '../../services/conversion/track';
-import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
+import theme, { GlobalStyle } from '@weco/common/views/themes/default';
+import OutboundLinkTracker from '@weco/common/views/components/OutboundLinkTracker/OutboundLinkTracker';
+import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
+import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
+import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import {
+  Pageview,
+  trackPageview,
+} from '@weco/common/services/conversion/track';
+import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import {
   isServerData,
   defaultServerData,
   ServerData,
-} from '../../server-data/types';
-import { ServerDataContext } from '../../server-data/Context';
-import UserProvider from '../components/UserProvider/UserProvider';
-import { ApmContextProvider } from '../components/ApmContext/ApmContext';
-import { AppErrorProps } from '../../services/app';
-import usePrismicPreview from '../../services/app/usePrismicPreview';
-import useMaintainPageHeight from '../../services/app/useMaintainPageHeight';
+} from '@weco/common/server-data/types';
+import { ServerDataContext } from '@weco/common/server-data/Context';
+import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
+import { ApmContextProvider } from '@weco/common/views/components/ApmContext/ApmContext';
+import { AppErrorProps } from '@weco/common/services/app';
+import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
+import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import {
   GaDimensions,
   useGoogleAnalyticsUA,
-} from '../../services/app/google-analytics';
-import { useOnPageLoad } from '../../services/app/useOnPageLoad';
+} from '@weco/common/services/app/google-analytics';
+import { useOnPageLoad } from '@weco/common/services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
 import { NextPage } from 'next';
 import { deserialiseProps } from '@weco/common/utils/json';

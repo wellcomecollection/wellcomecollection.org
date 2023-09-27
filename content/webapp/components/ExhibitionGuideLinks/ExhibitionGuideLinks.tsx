@@ -7,7 +7,7 @@ import {
   speechToText,
 } from '@weco/common/icons';
 import TypeOption from './TypeOption';
-import cookies from '@weco/common/data/cookies';
+import cookies from '@weco/content/data/cookies';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 

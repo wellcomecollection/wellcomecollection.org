@@ -4,7 +4,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
@@ -24,7 +24,7 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { EventBasic } from '@weco/content/types/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Period } from '@weco/common/types/periods';
 
 export type Props = {

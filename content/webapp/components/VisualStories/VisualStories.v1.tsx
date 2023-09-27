@@ -6,7 +6,7 @@ import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThis
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { anchorLinks } from './VisualStories.data';
-import Contact from '@weco/common/views/components/Contact/Contact';
+import Contact from '@weco/content/components/Contact/Contact';
 import { font } from '@weco/common/utils/classnames';
 
 export const V1Prototype = () => {

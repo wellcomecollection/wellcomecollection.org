@@ -4,7 +4,7 @@ import { Link } from '../../types/link';
 import { convertItemToCardProps } from '../../types/card';
 import BookPromo from '../BookPromo/BookPromo';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import Card from '../Card/Card';

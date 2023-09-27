@@ -1,5 +1,5 @@
-import Contact from '@weco/common/views/components/Contact/Contact';
-import Readme from '@weco/common/views/components/Contact/README.md';
+import Contact from '@weco/content/components/Contact/Contact';
+import Readme from '@weco/content/components/Contact/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const args = {

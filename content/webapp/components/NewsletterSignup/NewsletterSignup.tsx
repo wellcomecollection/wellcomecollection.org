@@ -9,7 +9,7 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import {
   newsletterAddressBook,
   secondaryAddressBooks,
-} from '@weco/common/data/dotdigital';
+} from '@weco/content/data/dotdigital';
 
 const PlainList = styled.ul`
   list-style: none;

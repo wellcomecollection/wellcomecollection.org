@@ -8,12 +8,12 @@ import Space from '@weco/common/views/components/styled/Space';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import Sort from '@weco/content/components/Sort/Sort';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import { DividerWrapper } from '@weco/common/views/components/SubNavigation/SubNavigation.styles';
+import { DividerWrapper } from '@weco/content/components/SubNavigation/SubNavigation.styles';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import {
   fromQuery,
@@ -37,7 +37,7 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { hasFilters, linkResolver } from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
-import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
 // Types

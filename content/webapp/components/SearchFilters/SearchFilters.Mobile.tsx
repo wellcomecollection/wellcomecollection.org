@@ -7,7 +7,7 @@ import React, {
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
+import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -22,7 +22,7 @@ import ButtonSolid, {
   ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
+import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
 import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';

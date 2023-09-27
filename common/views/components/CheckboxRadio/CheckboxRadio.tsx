@@ -5,8 +5,8 @@ import {
   ReactNode,
 } from 'react';
 import styled from 'styled-components';
-import Space from '../styled/Space';
-import Icon from '../Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import { check, indicator } from '@weco/common/icons';
 
 const CheckboxRadioLabel = styled.label`

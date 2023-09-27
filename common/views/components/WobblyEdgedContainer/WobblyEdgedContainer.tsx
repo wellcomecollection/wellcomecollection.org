@@ -1,7 +1,7 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-import Layout8 from '../Layout8/Layout8';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 
 const WobblyEdgeContainer = styled.div`

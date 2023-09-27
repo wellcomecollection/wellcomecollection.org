@@ -1,5 +1,5 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
-import Layout from '../Layout/Layout';
+import Layout from '@weco/common/views/components/Layout/Layout';
 
 type Props = PropsWithChildren<{
   isCentered?: boolean;

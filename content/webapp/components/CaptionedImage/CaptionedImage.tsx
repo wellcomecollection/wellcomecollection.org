@@ -3,7 +3,7 @@ import Caption from '@weco/common/views/components/Caption/Caption';
 import styled from 'styled-components';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
 import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
-import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
+import HeightRestrictedPrismicImage from '@weco/content/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import ZoomedPrismicImage from '../ZoomedPrismicImage/ZoomedPrismicImage';
 

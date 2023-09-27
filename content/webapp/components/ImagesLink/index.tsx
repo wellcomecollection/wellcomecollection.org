@@ -13,7 +13,7 @@ import {
   decodeQuery,
   quotedCsvCodec,
 } from '@weco/common/utils/routes';
-import { ImagesLinkSource } from '@weco/common/data/segment-values';
+import { ImagesLinkSource } from '@weco/content/data/segment-values';
 
 export type ImagesProps = FromCodecMap<typeof codecMap>;
 

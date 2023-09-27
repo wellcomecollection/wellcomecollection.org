@@ -5,7 +5,7 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
+import OpeningTimes from '@weco/content/components/OpeningTimes/OpeningTimes';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import styled from 'styled-components';

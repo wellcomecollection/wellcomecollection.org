@@ -1,4 +1,4 @@
-import { LabelField } from '@weco/common/model/label-field';
+import { LabelField } from '@weco/content/model/label-field';
 
 export type Resource = LabelField & {
   icon?: string;
