@@ -1,7 +1,7 @@
 import { useState, useRef, FunctionComponent } from 'react';
 import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { workWithPartOf } from '@weco/common/test/fixtures/catalogueApi/work';
+import { workWithPartOf } from '@weco/content/test/fixtures/catalogueApi/work';
 import prismicData from '@weco/common/test/fixtures/prismicData/prismic-data';
 import ItemRequestModal from '../../components/ItemRequestModal/ItemRequestModal';
 import { getItemsWithPhysicalLocation } from '../../utils/works';
