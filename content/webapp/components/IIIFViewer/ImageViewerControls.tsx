@@ -3,7 +3,7 @@ import ItemViewerContext, {
 } from '../ItemViewerContext/ItemViewerContext';
 import { useContext, FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
-import Control from '@weco/content/components/Buttons/Control/Control';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
 import styled from 'styled-components';
 import { rotateRight, zoomIn } from '@weco/common/icons';
 

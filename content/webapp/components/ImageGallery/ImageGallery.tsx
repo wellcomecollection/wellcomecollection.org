@@ -13,7 +13,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import Control from '@weco/content/components/Buttons/Control/Control';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
