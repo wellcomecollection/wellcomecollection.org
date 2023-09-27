@@ -13,7 +13,7 @@ import {
   decodeQuery,
   encodeQuery,
 } from '@weco/common/utils/routes';
-import { WorksLinkSource } from '@weco/content/data/segment-values';
+import { WorksLinkSource } from '@weco/common/data/segment-values';
 
 const emptyWorksProps: WorksProps = {
   query: '',
