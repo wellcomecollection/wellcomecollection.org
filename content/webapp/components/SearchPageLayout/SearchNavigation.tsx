@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import SearchBar from '@weco/content/components/SearchBar/SearchBar';
+import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
 import SubNavigation from '@weco/content/components/SubNavigation/SubNavigation';
 

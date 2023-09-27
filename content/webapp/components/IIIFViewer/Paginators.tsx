@@ -4,7 +4,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import Control from '@weco/content/components/Buttons/Control/Control';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { useContext } from 'react';
 import { arrow } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';

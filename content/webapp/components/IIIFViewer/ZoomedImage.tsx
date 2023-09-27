@@ -9,7 +9,7 @@ import {
 import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import Control from '@weco/content/components/Buttons/Control/Control';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { cross, minus, plus, rotateRight } from '@weco/common/icons';
