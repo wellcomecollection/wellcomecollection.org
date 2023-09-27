@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import cookies from '@weco/content/data/cookies';
+import cookies from '@weco/common/data/cookies';
 import { hasCookie, setCookie } from 'cookies-next';
 import { font } from '@weco/common/utils/classnames';
 import { useState, useEffect, FunctionComponent } from 'react';

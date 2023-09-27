@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { hasCookie, setCookie } from 'cookies-next';
-import cookies from '@weco/content/data/cookies';
+import cookies from '@weco/common/data/cookies';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';

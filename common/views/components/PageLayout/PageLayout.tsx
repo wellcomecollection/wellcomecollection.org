@@ -27,7 +27,7 @@ import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import cookies from '@weco/content/data/cookies';
+import cookies from '@weco/common/data/cookies';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
