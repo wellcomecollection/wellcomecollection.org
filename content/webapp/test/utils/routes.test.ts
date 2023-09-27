@@ -6,7 +6,7 @@ import {
   toString,
   toMaybeString,
   toNumber,
-} from '../../utils/routes';
+} from '@weco/common/utils/routes';
 
 const params: ParsedUrlQuery = {
   // &string=string
