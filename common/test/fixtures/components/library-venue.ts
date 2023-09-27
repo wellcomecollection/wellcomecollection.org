@@ -1,4 +1,4 @@
-import { Venue } from '../../../model/opening-hours';
+import { Venue } from '@weco/common/model/opening-hours';
 
 export const libraryVenue: Venue = {
   id: 'WsuS_R8AACS1Nwlx',

@@ -1,5 +1,5 @@
 import { font } from '@weco/common/utils/classnames';
-import Number from '@weco/common/views/components/Number/Number';
+import Number from '@weco/content/components/Number/Number';
 import { ComponentPropsWithoutRef, FunctionComponent } from 'react';
 
 type NumberProps = ComponentPropsWithoutRef<typeof Number>;

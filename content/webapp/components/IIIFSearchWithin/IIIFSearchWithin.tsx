@@ -15,7 +15,7 @@ import ItemViewerContext, {
 } from '../ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
-import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
+import ClearSearch from '@weco/content/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
@@ -117,8 +117,9 @@ const Hit: FunctionComponent<HitProps> = ({
   return (
     <>
       <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
-        {`Found on image ${matchingCanvasParam}${totalCanvases ? ` / ${totalCanvases}` : ''
-          }`}
+        {`Found on image ${matchingCanvasParam}${
+          totalCanvases ? ` / ${totalCanvases}` : ''
+        }`}
         {label}
       </HitData>
       <span role="presentation">…{hit.before}</span>
@@ -166,7 +167,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         ).json();
         setIsLoading(false);
         setSearchResults && setSearchResults(results);
-      } catch (error) { }
+      } catch (error) {}
     } else {
       setSearchResults && setSearchResults(results);
     }

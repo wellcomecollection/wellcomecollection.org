@@ -16,13 +16,13 @@ import {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/content/utils/page-header';
-import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
@@ -39,7 +39,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import styled from 'styled-components';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const ContentTypeWrapper = styled.div`
   display: flex;

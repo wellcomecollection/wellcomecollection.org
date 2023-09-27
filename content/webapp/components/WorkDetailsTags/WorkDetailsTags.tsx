@@ -1,6 +1,4 @@
-import Tags, {
-  Props as TagsProps,
-} from '@weco/common/views/components/Tags/Tags';
+import Tags, { Props as TagsProps } from '@weco/content/components/Tags/Tags';
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
 import { FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';

@@ -11,7 +11,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Manifest } from '@iiif/presentation-3';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
-import { removeIdiomaticTextTags } from '@weco/common/utils/string';
+import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -19,7 +19,7 @@ import IIIFViewer, {
   queryParamToArrayIndex,
 } from '@weco/content/components/IIIFViewer';
 import VideoPlayer from '@weco/content/components/VideoPlayer/VideoPlayer';
-import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
@@ -50,14 +50,14 @@ import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import {
   CompressedTransformedManifest,
   fromCompressedManifest,
   toCompressedTransformedManifest,
 } from '@weco/content/types/compressed-manifest';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
-import { fetchJson } from '@weco/common/utils/http';
+import { fetchJson } from '@weco/content/utils/http';
 import { ParentManifest } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import { getCollectionManifests } from '@weco/content/utils/iiif/v3';
 

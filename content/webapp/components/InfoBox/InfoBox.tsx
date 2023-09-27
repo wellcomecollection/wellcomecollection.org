@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { LabelField } from '@weco/common/model/label-field';
+import { LabelField } from '@weco/content/model/label-field';
 import Space from '@weco/common/views/components/styled/Space';
 import { IconSvg } from '@weco/common/icons';
 

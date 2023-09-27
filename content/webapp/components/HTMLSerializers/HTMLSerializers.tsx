@@ -3,8 +3,8 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { JSXFunctionSerializer } from '@prismicio/react';
 import * as prismic from '@prismicio/client';
-import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
-import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
+import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
+import { getMimeTypeFromExtension } from '@weco/content/utils/mime';
 import styled from 'styled-components';
 
 const DocumentType = styled.span`

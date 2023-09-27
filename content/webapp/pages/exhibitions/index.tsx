@@ -22,13 +22,13 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isFuture } from '@weco/common/utils/dates';
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
-import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import Pagination from '@weco/content/components/Pagination/Pagination';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 export type ExhibitionsProps = {

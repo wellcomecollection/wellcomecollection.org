@@ -6,7 +6,7 @@ import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule'
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
-import Message from '@weco/common/views/components/Message/Message';
+import Message from '@weco/content/components/Message/Message';
 import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
@@ -19,7 +19,7 @@ import { Event, EventBasic, Interpretation } from '@weco/content/types/events';
 import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
-import { LabelField } from '@weco/common/model/label-field';
+import { LabelField } from '@weco/content/model/label-field';
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
@@ -63,7 +63,7 @@ import { a11y } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { AppErrorProps } from '@weco/common/services/app';
-import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',

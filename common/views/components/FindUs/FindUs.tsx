@@ -7,7 +7,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
-import PlainList from '../styled/PlainList';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const PlainLink = styled.a`
   transition: color 200ms ease;

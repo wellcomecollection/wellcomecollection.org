@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { getCrop } from '@weco/common/model/image';
-import { breakpoints } from '@weco/common/utils/breakpoints';
+import { breakpoints } from '@weco/content/utils/breakpoints';
 import ImageWithTasl from '../components/ImageWithTasl/ImageWithTasl';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { FeaturedMedia } from '@weco/common/views/components/PageHeader/PageHeader';

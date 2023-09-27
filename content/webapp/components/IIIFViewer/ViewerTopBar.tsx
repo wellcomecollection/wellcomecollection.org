@@ -10,8 +10,8 @@ import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
-import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
+import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import {
   chevrons,
   collapse,
@@ -27,7 +27,7 @@ import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs({
   className: font('intb', 5),
-}) <{ isDark?: boolean }>`
+})<{ isDark?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
@@ -138,7 +138,7 @@ const TopBar = styled.div<{
 const Sidebar = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
-}) <{ isZooming: boolean }>`
+})<{ isZooming: boolean }>`
   grid-column: left-edge / desktop-sidebar-end;
   display: flex;
   justify-content: flex-start;
@@ -234,20 +234,20 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
 
   const iiifImageDownloadOptions = iiifImageLocation
     ? getDownloadOptionsFromImageUrl({
-      url: iiifImageLocation.url,
-      width: transformedIIIFImage.width,
-      height: transformedIIIFImage.height,
-    })
+        url: iiifImageLocation.url,
+        width: transformedIIIFImage.width,
+        height: transformedIIIFImage.height,
+      })
     : [];
 
   // We also want to offer download options for each canvas image
   // in the iiif-presentation manifest when it is being viewed.
   const canvasImageDownloads = mainImageService['@id']
     ? getDownloadOptionsFromImageUrl({
-      url: mainImageService['@id'],
-      width: currentCanvas && currentCanvas.width,
-      height: currentCanvas && currentCanvas.height,
-    })
+        url: mainImageService['@id'],
+        width: currentCanvas && currentCanvas.width,
+        height: currentCanvas && currentCanvas.height,
+      })
     : [];
 
   // If there is no manifest we show the downloads
@@ -255,10 +255,10 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const downloadOptions =
     !transformedManifest || downloadEnabled
       ? [
-        ...iiifImageDownloadOptions,
-        ...canvasImageDownloads,
-        ...(manifestDownloadOptions || []),
-      ]
+          ...iiifImageDownloadOptions,
+          ...canvasImageDownloads,
+          ...(manifestDownloadOptions || []),
+        ]
       : [];
   return (
     <TopBar
@@ -403,7 +403,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                   }}
                 >
                   {document.fullscreenElement ||
-                    document['webkitFullscreenElement'] ? (
+                  document['webkitFullscreenElement'] ? (
                     <>
                       <Icon icon={collapse} />
                       Exit full screen

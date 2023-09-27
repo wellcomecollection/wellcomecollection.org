@@ -25,7 +25,7 @@ import { EventBasic } from '@weco/content/types/events';
 import { Guide } from '@weco/content/types/guides';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange/DateRange';
 
 type PartialFeaturedCard = {
   id: string;

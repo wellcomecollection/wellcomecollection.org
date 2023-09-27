@@ -2,9 +2,9 @@ import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
+import SearchBar from '@weco/content/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
-import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
+import SubNavigation from '@weco/content/components/SubNavigation/SubNavigation';
 
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';

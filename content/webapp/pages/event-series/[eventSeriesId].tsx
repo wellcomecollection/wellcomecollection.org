@@ -28,12 +28,12 @@ import {
 } from '@weco/content/services/prismic/transformers/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { font } from '@weco/common/utils/classnames';
 import { today } from '@weco/common/utils/dates';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import { getPage } from '@weco/content/utils/query-params';
 
 type Props = {

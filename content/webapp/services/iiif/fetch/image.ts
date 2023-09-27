@@ -1,4 +1,4 @@
-import { fetchJson } from '@weco/common/utils/http';
+import { fetchJson } from '@weco/content/utils/http';
 import { IIIFImage } from '../types/image/v2';
 
 export async function fetchIIIFImageJson(

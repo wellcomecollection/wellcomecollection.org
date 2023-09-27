@@ -28,12 +28,12 @@ import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Head
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import cookies from '@weco/common/data/cookies';
+import cookies from '@weco/content/data/cookies';
 import ExhibitionGuideStops from '@weco/content/components/ExhibitionGuideStops/ExhibitionGuideStops';
 import { getTypeColor } from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
-import useHotjar from '@weco/common/hooks/useHotjar';
+import useHotjar from '@weco/content/hooks/useHotjar';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { font } from '@weco/common/utils/classnames';
 
 const ButtonWrapper = styled(Space).attrs({

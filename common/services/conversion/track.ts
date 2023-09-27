@@ -1,9 +1,9 @@
 import { getCookie } from 'cookies-next';
-import cookies from '@weco/common/data/cookies';
+import cookies from '@weco/content/data/cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
-import { PageviewName } from '@weco/common/data/segment-values';
+import { PageviewName } from '@weco/content/data/segment-values';
 declare global {
   interface Window {
     // Segment.io requires `analytics: any;`

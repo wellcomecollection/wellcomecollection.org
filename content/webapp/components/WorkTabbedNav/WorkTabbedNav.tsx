@@ -1,6 +1,6 @@
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { FunctionComponent } from 'react';
-import SubNavigation from '@weco/common/views/components/SubNavigation/SubNavigation';
+import SubNavigation from '@weco/content/components/SubNavigation/SubNavigation';
 import { listView, eye } from '@weco/common/icons';
 import { toLink as itemLink } from '../ItemLink';
 

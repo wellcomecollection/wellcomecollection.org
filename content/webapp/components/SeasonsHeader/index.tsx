@@ -6,11 +6,11 @@ import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
 
 // Components
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange/DateRange';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Layout8 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import PageHeaderStandfirst from '../PageHeaderStandfirst/PageHeaderStandfirst';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';

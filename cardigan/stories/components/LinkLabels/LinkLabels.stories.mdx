@@ -1,6 +1,6 @@
 import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import Readme from '@weco/common/views/components/LinkLabels/README.md';
+import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
+import Readme from '@weco/content/components/LinkLabels/README.md';
 import * as stories from './LinkLabels.stories.tsx';
 
 <Meta title={`Components/LinkLabels`} component={LinkLabels} />
@@ -11,14 +11,17 @@ import * as stories from './LinkLabels.stories.tsx';
 
 <Description>A set of LinkLabels can appear on their own:</Description>
 
-  <Story story={stories.basic} />
+{' '}
+<Story story={stories.basic} />
 
 <Description>They can also appear with a heading:</Description>
 
-  <Story story={stories.withHeading} />
+{' '}
+<Story story={stories.withHeading} />
 
 <Description>and with an icon:</Description>
 
-  <Story story={stories.withIcon} />
+{' '}
+<Story story={stories.withIcon} />
 
 <ArgsTable />

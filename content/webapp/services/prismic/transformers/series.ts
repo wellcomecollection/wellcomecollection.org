@@ -7,7 +7,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformContributors } from './contributors';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
-import { getSeriesColor } from '../../../utils/colors';
+import { getSeriesColor } from '@weco/content/utils/colors';
 
 export function transformSeries(document: SeriesPrismicDocument): Series {
   const { data } = document;

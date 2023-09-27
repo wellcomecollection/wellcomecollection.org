@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 // Components
 import Space from '@weco/common/views/components/styled/Space';
-import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
+import OpeningTimes from '@weco/content/components/OpeningTimes/OpeningTimes';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import FindUs from '../FindUs/FindUs';
 import FooterNav from './Footer.Nav';

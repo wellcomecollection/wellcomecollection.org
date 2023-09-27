@@ -1,4 +1,4 @@
-import NewsletterPromo from '@weco/common/views/components/NewsletterPromo/NewsletterPromo';
+import NewsletterPromo from '@weco/content/components/NewsletterPromo/NewsletterPromo';
 
 const Template = args => <NewsletterPromo {...args} />;
 export const basic = Template.bind({});

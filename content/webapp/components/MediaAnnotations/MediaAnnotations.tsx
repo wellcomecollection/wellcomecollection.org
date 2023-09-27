@@ -1,6 +1,6 @@
 import { ReactElement, FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
-import DownloadLink from '@weco/common/views/components/DownloadLink/DownloadLink';
+import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
 import { Video } from '@weco/content/services/iiif/types/manifest/v3';
 
 type Props = {

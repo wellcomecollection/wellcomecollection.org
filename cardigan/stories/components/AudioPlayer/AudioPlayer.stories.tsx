@@ -1,5 +1,5 @@
-import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
-import Readme from '@weco/common/views/components/AudioPlayer/README.md';
+import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
+import Readme from '@weco/content/components/AudioPlayer/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (

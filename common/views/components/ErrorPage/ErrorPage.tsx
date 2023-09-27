@@ -10,18 +10,18 @@ import {
   DefaultErrorText,
   NotFoundErrorText,
   errorMessages,
-} from '../../../data/errors';
-import { headerBackgroundLs } from '../../../utils/backgrounds';
-import { underConstruction } from '../../../icons';
+} from '@weco/common/data/errors';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { underConstruction } from '@weco/common/icons';
 
 // Components
-import Icon from '../Icon/Icon';
-import Layout8 from '../Layout8/Layout8';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import PageHeader, { headerSpaceSize } from '../PageHeader/PageHeader';
 import PageLayout from '../PageLayout/PageLayout';
 import SpacingSection from '../styled/SpacingSection';
 import SpacingComponent from '../styled/SpacingComponent';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
 
 const ToggleMessageBar = styled(Space).attrs({

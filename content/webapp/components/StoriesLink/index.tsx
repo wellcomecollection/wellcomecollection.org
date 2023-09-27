@@ -11,7 +11,7 @@ import {
   encodeQuery,
   decodeQuery,
 } from '@weco/common/utils/routes';
-import { StoriesLinkSource } from '@weco/common/data/segment-values';
+import { StoriesLinkSource } from '@weco/content/data/segment-values';
 export type StoriesProps = FromCodecMap<typeof codecMap>;
 const emptyStoriesProps: StoriesProps = {
   query: '',

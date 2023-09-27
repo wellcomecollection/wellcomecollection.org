@@ -4,7 +4,7 @@ import { DocsContainer } from '@storybook/addon-docs/blocks';
 import theme from '@weco/common/views/themes/default';
 import { ContextDecorator } from '@weco/cardigan/config/decorators';
 import wellcomeTheme from './wellcome-theme';
-import { grid } from '@weco/common/utils/classnames';
+import { grid } from '@weco/content/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 export const decorators = [
@@ -45,7 +45,7 @@ export const parameters = {
   },
   previewTabs: {
     canvas: { hidden: true },
-    'storybook/docs/panel': { hidden:true }
+    'storybook/docs/panel': { hidden: true },
   },
   docs: {
     theme: wellcomeTheme,
@@ -55,7 +55,7 @@ export const parameters = {
       </DocsContainer>
     ),
   },
-   a11y: {
+  a11y: {
     config: {
       rules: [
         {
@@ -66,7 +66,7 @@ export const parameters = {
     },
   },
   chromatic: {
-    viewports: [375, 1200] 
+    viewports: [375, 1200],
   },
   nextRouter: {
     Provider: RouterContext.Provider,

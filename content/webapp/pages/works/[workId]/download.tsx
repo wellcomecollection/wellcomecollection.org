@@ -29,7 +29,7 @@ import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type CreditProps = {
   workId: string;

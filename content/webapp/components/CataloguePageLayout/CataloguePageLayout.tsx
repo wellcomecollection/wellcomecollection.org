@@ -5,7 +5,7 @@ import PageLayout, {
 } from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { wellcomeImagesRedirectBanner } from '@weco/common/data/microcopy';
-import cookies from '@weco/common/data/cookies';
+import cookies from '@weco/content/data/cookies';
 
 type Props = {
   hideTopContent?: boolean;

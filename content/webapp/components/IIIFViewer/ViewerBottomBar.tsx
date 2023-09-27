@@ -7,8 +7,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
-import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
+import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { ShameButton } from './ViewerTopBar';
 import { expand, gridView, singlePage } from '@weco/common/icons';
 

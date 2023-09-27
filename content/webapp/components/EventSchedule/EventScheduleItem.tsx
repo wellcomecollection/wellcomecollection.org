@@ -3,7 +3,7 @@ import { grid, font } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
 import EventbriteButtons from '../EventbriteButtons/EventbriteButtons';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import Message from '@weco/common/views/components/Message/Message';
+import Message from '@weco/content/components/Message/Message';
 import { formatTime, formatDayDate } from '@weco/common/utils/format-date';
 import { Event } from '../../types/events';
 import Space from '@weco/common/views/components/styled/Space';
