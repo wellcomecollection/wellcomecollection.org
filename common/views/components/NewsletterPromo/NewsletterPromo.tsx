@@ -7,7 +7,7 @@ import TextInput from '../TextInput/TextInput';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { newsletterAddressBook } from '@weco/content/data/dotdigital';
+import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import { Container } from '@weco/common/views/components/styled/Container';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import theme from '@weco/common/views/themes/default';
