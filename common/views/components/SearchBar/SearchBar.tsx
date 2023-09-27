@@ -14,7 +14,7 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { themeValues } from '@weco/common/views/themes/config';
 
-import ClearSearch from '@weco/content/components/ClearSearch/ClearSearch';
+import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 const Container = styled.div`
