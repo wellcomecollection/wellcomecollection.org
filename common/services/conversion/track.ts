@@ -1,5 +1,5 @@
 import { getCookie } from 'cookies-next';
-import cookies from '@weco/content/data/cookies';
+import cookies from '@weco/common/data/cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
