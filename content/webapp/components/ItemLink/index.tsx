@@ -8,7 +8,7 @@ import {
   maybeStringCodec,
 } from '@weco/common/utils/routes';
 import { LinkProps } from '@weco/common/model/link-props';
-import { ItemLinkSource } from '@weco/content/data/segment-values';
+import { ItemLinkSource } from '@weco/common/data/segment-values';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const emptyItemProps: ItemProps = {
