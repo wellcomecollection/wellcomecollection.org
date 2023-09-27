@@ -4,8 +4,8 @@ import * as prismic from '@prismicio/client';
 
 import Caption from '../Caption/Caption';
 import { IframeContainer } from '../Iframe/Iframe';
-import CollapsibleContent from '../CollapsibleContent';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 export type Props = {
   embedUrl: string;

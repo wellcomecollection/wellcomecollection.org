@@ -4,7 +4,7 @@ import { getCookie, setCookie } from 'cookies-next';
 import cookies from '@weco/content/data/cookies';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import usePrevious from '@weco/common/hooks/usePrevious';
 import { cross, information } from '@weco/common/icons';

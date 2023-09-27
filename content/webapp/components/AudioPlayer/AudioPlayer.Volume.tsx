@@ -4,7 +4,7 @@ import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { volumeMuted, volume as volumeIcon } from '@weco/common/icons';
 import { formatVolume } from './AudioPlayer.formatters';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 
 const VolumeWrapper = styled(Space).attrs({
   h: {

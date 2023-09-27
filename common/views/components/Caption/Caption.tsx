@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent, ReactNode } from 'react';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 
