@@ -49,7 +49,6 @@ import {
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyContent, CopyUrl } from '@weco/content/components/CopyButtons';
-import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -61,13 +60,11 @@ const WorkDetails: FunctionComponent<Props> = ({
   shouldShowItemLink,
 }: Props) => {
   const isArchive = useContext(IsArchiveContext);
-  const { creditReformat } = useToggles();
   const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const transformedIIIFManifest = useTransformedManifest(work);
   const {
     video,
-    iiifCredit,
     downloadEnabled,
     downloadOptions: manifestDownloadOptions,
     collectionManifestsCount,
@@ -110,10 +107,6 @@ const WorkDetails: FunctionComponent<Props> = ({
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-
-  // iiif-image locations have credit info.
-  // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
-  const credit = digitalLocation?.credit || iiifCredit;
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -467,8 +460,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                             <>
                               <p>
                                 <strong>
-                                  {digitalLocationInfo.license.label} (
-                                  {digitalLocationInfo.license.id})
+                                  {digitalLocationInfo.license.label}
                                 </strong>
                               </p>
                               {digitalLocationInfo.license.humanReadableText}
@@ -483,89 +475,44 @@ const WorkDetails: FunctionComponent<Props> = ({
                             <p>
                               <strong>Credit</strong>
                             </p>
-                            <p>
-                              {work.title.replace(/\.$/g, '')}.
-                              {credit && (
-                                <>
-                                  {' '}
-                                  <a
-                                    href={`https://wellcomecollection.org/works/${work.id}`}
-                                  >
-                                    {credit}
-                                  </a>
-                                  .
-                                </>
-                              )}{' '}
-                              {digitalLocationInfo.license.url ? (
-                                <a href={digitalLocationInfo.license.url}>
-                                  {digitalLocationInfo.license.label}
-                                </a>
-                              ) : (
+                            <CopyContent
+                              CTA="Copy credit information"
+                              content={`${work.title.replace(/\.$/g, '')}. ${
+                                digitalLocation?.credit
+                                  ? `${digitalLocation.credit}. `
+                                  : ''
+                              }${
                                 digitalLocationInfo.license.label
-                              )}
-                            </p>
+                              }. Source: Wellcome Collection. https://wellcomecollection.org/works/${
+                                work.id
+                              }`}
+                              displayedContent={
+                                <p>
+                                  {/* Regex removes trailing full-stops.  */}
+                                  {work.title.replace(/\.$/g, '')}.{' '}
+                                  {digitalLocation?.credit && (
+                                    <>{digitalLocation?.credit}. </>
+                                  )}
+                                  {digitalLocationInfo.license.label}. Source:
+                                  Wellcome Collection.
+                                </p>
+                              }
+                            />
                           </>
                         }
                       />
 
-                      {/* We are working under a toggle as to determine what to do with credit vs. attribution */}
-                      {creditReformat && (
-                        <>
-                          <WorkDetailsText
-                            contents={
-                              <>
-                                <p>
-                                  <strong>Credit (new)</strong>
-                                </p>
-                                <CopyContent
-                                  CTA="Copy credit information"
-                                  content={`${work.title.replace(
-                                    /\.$/g,
-                                    ''
-                                  )}. ${
-                                    digitalLocation?.credit
-                                      ? `${digitalLocation.credit}. `
-                                      : ''
-                                  }${
-                                    digitalLocationInfo.license.label
-                                  }. Source: Wellcome Collection. https://wellcomecollection.org/works/${
-                                    work.id
-                                  }`}
-                                  displayedContent={
-                                    <p>
-                                      <strong>(Title) </strong>
-                                      {/* Regex removes trailing full-stops.  */}
-                                      {work.title.replace(/\.$/g, '')}.{' '}
-                                      {digitalLocation?.credit && (
-                                        <>
-                                          <strong>(Credit) </strong>
-                                          {digitalLocation?.credit}.{' '}
-                                        </>
-                                      )}
-                                      <strong>(License label) </strong>
-                                      {digitalLocationInfo.license.label}.{' '}
-                                      <strong>(Attribution) </strong>Source:
-                                      Wellcome Collection.
-                                    </p>
-                                  }
-                                />
-                              </>
-                            }
-                          />
-
-                          {locationOfWork && (
-                            <WorkDetailsText
-                              contents={
-                                <>
-                                  <p>
-                                    <strong>Provider</strong>
-                                  </p>
-                                  <p>{locationOfWork.contents}</p>
-                                </>
-                              }
-                            />
-                          )}
-                        </>
+                      {locationOfWork && (
+                        <WorkDetailsText
+                          contents={
+                            <>
+                              <p>
+                                <strong>Provider</strong>
+                              </p>
+                              <p>{locationOfWork.contents}</p>
+                            </>
+                          }
+                        />
                       )}
                     </>
                   </CollapsibleContent>
