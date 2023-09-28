@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { defaultServerData, SimplifiedServerData } from './types';
 import { SimplifiedPrismicData } from './prismic';
-import { Toggles } from '@weco/toggles';
+import { ToggleId, TestId } from '@weco/toggles';
 
 /**
  * `AppData` is data that we retrieve from ServerData (data cached on the filesystem)
@@ -18,9 +18,13 @@ export const ServerDataContext =
  * Over:
  * `const { toggles: { toggleName } } = useContext(ServerDataContext)`
  */
-export const useToggles = (): Toggles => {
+export const useToggles = (): Record<ToggleId | TestId, boolean | undefined> => {
   const data = useContext(ServerDataContext);
-  return data.toggles;
+  const toggles = Object.keys(data.toggles).reduce((acc, key) => {
+    acc[key] = data.toggles[key].value;
+  return acc;
+}, {});
+  return toggles;
 };
 
 export const usePrismicData = (): SimplifiedPrismicData => {
