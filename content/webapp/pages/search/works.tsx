@@ -261,14 +261,14 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const aggregations = serverData.toggles.aggregationsInSearch
+  const aggregations = serverData.toggles.aggregationsInSearch?.value
     ? [
-      serverData.toggles.aggregationsInSearchWorkType ? 'workType' : undefined,
-      serverData.toggles.aggregationsInSearchAvailabilities ? 'availabilities' : undefined,
-      serverData.toggles.aggregationsInSearchGenres ? 'genres.label' : undefined,
-      serverData.toggles.aggregationsInSearchLanguages ? 'languages' : undefined,
-      serverData.toggles.aggregationsInSearchSubjects ? 'subjects.label' : undefined,
-      serverData.toggles.aggregationsInSearchContributors ? 'contributors.agent.label' : undefined,
+      serverData.toggles.aggregationsInSearchWorkType?.value ? 'workType' : undefined,
+      serverData.toggles.aggregationsInSearchAvailabilities?.value ? 'availabilities' : undefined,
+      serverData.toggles.aggregationsInSearchGenres?.value ? 'genres.label' : undefined,
+      serverData.toggles.aggregationsInSearchLanguages?.value ? 'languages' : undefined,
+      serverData.toggles.aggregationsInSearchSubjects?.value ? 'subjects.label' : undefined,
+      serverData.toggles.aggregationsInSearchContributors?.value ? 'contributors.agent.label' : undefined,
     ].filter(isNotUndefined)
     : [];
 
