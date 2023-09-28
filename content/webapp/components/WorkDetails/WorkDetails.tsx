@@ -420,17 +420,6 @@ const WorkDetails: FunctionComponent<Props> = ({
 
           {digitalLocationInfo?.license && (
             <>
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top'],
-                }}
-              >
-                <WorkDetailsText
-                  title="Licence"
-                  text={[digitalLocationInfo.license.label]}
-                />
-              </Space>
               {digitalLocation?.accessConditions[0]?.terms && (
                 <Space
                   v={{
@@ -487,6 +476,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                           }
                         />
                       )}
+
                       <WorkDetailsText
                         contents={
                           <>
@@ -514,9 +504,15 @@ const WorkDetails: FunctionComponent<Props> = ({
                                 digitalLocationInfo.license.label
                               )}
                             </p>
+                          </>
+                        }
+                      />
 
-                            {/* We are working under a toggle as to determine what to do with credit vs. attribution */}
-                            {creditReformat && (
+                      {/* We are working under a toggle as to determine what to do with credit vs. attribution */}
+                      {creditReformat && (
+                        <>
+                          <WorkDetailsText
+                            contents={
                               <>
                                 <p>
                                   <strong>Credit (new)</strong>
@@ -534,6 +530,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                                   displayedContent={
                                     <p>
                                       <strong>(Title) </strong>
+                                      {/* Regex removes trailing full-stops.  */}
                                       {work.title.replace(/\.$/g, '')}.{' '}
                                       {digitalLocation?.credit && (
                                         <>
@@ -543,20 +540,29 @@ const WorkDetails: FunctionComponent<Props> = ({
                                       )}
                                       <strong>(License label) </strong>
                                       {digitalLocationInfo.license.label}.{' '}
-                                      {iiifCredit && (
-                                        <>
-                                          <strong>(Attribution) </strong>Source:{' '}
-                                          {iiifCredit}.
-                                        </>
-                                      )}
+                                      <strong>(Attribution) </strong>Source:
+                                      Wellcome Collection.
                                     </p>
                                   }
                                 />
                               </>
-                            )}
-                          </>
-                        }
-                      />
+                            }
+                          />
+
+                          {locationOfWork && (
+                            <WorkDetailsText
+                              contents={
+                                <>
+                                  <p>
+                                    <strong>Provider</strong>
+                                  </p>
+                                  <p>{locationOfWork.contents}</p>
+                                </>
+                              }
+                            />
+                          )}
+                        </>
+                      )}
                     </>
                   </CollapsibleContent>
                 </Space>
