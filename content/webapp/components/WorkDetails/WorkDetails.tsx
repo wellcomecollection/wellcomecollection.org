@@ -522,9 +522,13 @@ const WorkDetails: FunctionComponent<Props> = ({
                                   content={`${work.title.replace(
                                     /\.$/g,
                                     ''
-                                  )}. ${digitalLocationInfo.license.label}. ${
-                                    credit && `Source: ${credit}.`
-                                  } https://wellcomecollection.org/works/${
+                                  )}. ${
+                                    digitalLocation?.credit
+                                      ? `${digitalLocation.credit}. `
+                                      : ''
+                                  }${
+                                    digitalLocationInfo.license.label
+                                  }. Source: Wellcome Collection. https://wellcomecollection.org/works/${
                                     work.id
                                   }`}
                                   displayedContent={
