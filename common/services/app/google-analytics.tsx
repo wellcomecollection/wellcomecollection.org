@@ -22,19 +22,20 @@ type Props = {
   };
 };
 
-const togglesGaCanIgnore = ['stagingApi', 'apiToolbar', 'disableRequesting'];
-
-export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
-  // We send toggles as an event parameter to GA4 so we can determine the condition in which a particular event took place.
-  // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en,
-  // so instead of sending the whole toggles JSON blob we send a concatenated string of only the toggles that are turned on. We also remove toggles we know we don't care about.
-  const toggles = data.toggles
-    ? Object.keys(data.toggles)
-        .filter(toggle => {
-          return !togglesGaCanIgnore.includes(toggle);
-        })
-        .map(toggle => {
-          switch (data.toggles?.[toggle]) {
+// We send toggles as an event parameter to GA4 so we can determine the condition in which a particular event took place.
+// GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en
+// So instead of sending the whole toggles JSON blob we send a concatenated string of only the toggle names (preceeded with a ! if the toggle is false). We also remove toggles we know we don't care about, i.e. those that aren't part of a test
+function createToggleString(toggles: Toggles | undefined): string | null {
+  const testToggles = toggles ? Object.keys(toggles).reduce((acc, key) => {
+    if (toggles?.[key].type === 'test') {
+        acc[key] = toggles?.[key].value;
+    }
+    return acc;
+  }, {}) : null;
+  return testToggles
+    ? Object.keys(testToggles)
+      .map(toggle => {
+          switch (testToggles[toggle]) {
             case true:
               return toggle;
             case false:
@@ -45,14 +46,19 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
         })
         .join(',')
     : null;
+}
 
-  return toggles ? (
+export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
+
+  const toggleString = createToggleString(data.toggles)
+
+  return toggleString ? (
     <script
       dangerouslySetInnerHTML={{
         __html: `
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-          toggles: '${toggles}'
+          toggles: '${toggleString}'
         });
         `,
       }}
