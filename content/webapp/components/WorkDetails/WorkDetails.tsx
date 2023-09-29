@@ -49,6 +49,7 @@ import {
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyContent, CopyUrl } from '@weco/content/components/CopyButtons';
+import { removeTrailingFullStop } from '@weco/common/utils/string';
 
 type Props = {
   work: Work;
@@ -477,7 +478,9 @@ const WorkDetails: FunctionComponent<Props> = ({
                             </p>
                             <CopyContent
                               CTA="Copy credit information"
-                              content={`${work.title.replace(/\.$/g, '')}. ${
+                              content={`${removeTrailingFullStop(
+                                work.title
+                              )}. ${
                                 digitalLocation?.credit
                                   ? `${digitalLocation.credit}. `
                                   : ''
@@ -489,7 +492,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                               displayedContent={
                                 <p>
                                   {/* Regex removes trailing full-stops.  */}
-                                  {work.title.replace(/\.$/g, '')}.{' '}
+                                  {removeTrailingFullStop(work.title)}.{' '}
                                   {digitalLocation?.credit && (
                                     <>{digitalLocation?.credit}. </>
                                   )}

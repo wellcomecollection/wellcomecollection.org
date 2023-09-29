@@ -19,7 +19,7 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import MultipleManifestList from './MultipleManifestList';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
-import { toHtmlId } from '@weco/common/utils/string';
+import { removeTrailingFullStop, toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -229,7 +229,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
               </p>
             )}
             <p>
-              <strong>Credit:</strong> {work.title.replace(/\.$/g, '')}.{' '}
+              <strong>Credit:</strong> {removeTrailingFullStop(work.title)}.{' '}
               {digitalLocation?.credit && <>{digitalLocation?.credit}. </>}
               Source:{' '}
               <WorkLink id={work.id} source="viewer_credit">
