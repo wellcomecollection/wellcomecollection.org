@@ -1,6 +1,6 @@
 import { CatalogueImagesApiProps, CatalogueResultsList, Image } from './types';
 import { rootUris, notFound, looksLikeCanonicalId, catalogueQuery } from '.';
-import { Toggles } from '@weco/toggles';
+import { ToggleId, TestId } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   emptyImagesProps,
@@ -24,7 +24,7 @@ type ImageInclude =
 
 type GetImageProps = {
   id: string;
-  toggles: Toggles;
+  toggles: Record<ToggleId | TestId, boolean | undefined>;
   include?: ImageInclude[];
 };
 
