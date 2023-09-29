@@ -448,31 +448,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                                 {digitalLocationInfo.license.label}
                               </strong>
                             </p>
-                            <CopyContent
-                              CTA="Copy credit information"
-                              content={`${removeTrailingFullStop(
-                                work.title
-                              )}. ${
-                                digitalLocation?.credit
-                                  ? `${digitalLocation.credit}. `
-                                  : ''
-                              }${
-                                digitalLocationInfo.license.label
-                              }. Source: Wellcome Collection. https://wellcomecollection.org/works/${
-                                work.id
-                              }`}
-                              displayedContent={
-                                <p>
-                                  {/* Regex removes trailing full-stops.  */}
-                                  {removeTrailingFullStop(work.title)}.{' '}
-                                  {digitalLocation?.credit && (
-                                    <>{digitalLocation?.credit}. </>
-                                  )}
-                                  {digitalLocationInfo.license.label}. Source:
-                                  Wellcome Collection.
-                                </p>
-                              }
-                            />
+                            {digitalLocationInfo.license.humanReadableText}
                           </>
                         }
                       />
@@ -486,7 +462,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                           </p>
                           <CopyContent
                             CTA="Copy credit information"
-                            content={`${work.title.replace(/\.$/g, '')}. ${
+                            content={`${removeTrailingFullStop(work.title)}. ${
                               digitalLocation?.credit
                                 ? `${digitalLocation.credit}. `
                                 : ''
@@ -498,7 +474,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                             displayedContent={
                               <p>
                                 {/* Regex removes trailing full-stops.  */}
-                                {work.title.replace(/\.$/g, '')}.{' '}
+                                {removeTrailingFullStop(work.title)}.{' '}
                                 {digitalLocation?.credit && (
                                   <>{digitalLocation?.credit}. </>
                                 )}
