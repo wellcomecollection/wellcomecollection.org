@@ -358,6 +358,25 @@ function isInterestingError(hit) {
     return false;
   }
 
+  // These are timeouts from the staging CloudFront distribution.
+  //
+  // We turn off our staging services outside UK office hours, because we only
+  // use them for testing -- but bots occasionally try to fetch the site
+  // out-of-hours, and get an error from the load balancer.
+  //
+  // These errors are rarely going to be issues in our code and are quite noisy
+  // in Slack, so we can turn them off.
+  //
+  // We'll still hear about 500 Internal Server Error responses, which might
+  // indicate an error in our app code that we want to fix before deploying to
+  // prod, but 502/503 errors aren't giving us that type of actionable info.
+  if (
+    (hit.status === 502 || hit.status === 503) &&
+    hit.host.includes('.www-stage.')
+  ) {
+    return false;
+  }
+
   // These are hits from the CloudFront distribution we use for end-to-end
   // tests.  Any errors here are either opportunistic bots we don't care
   // about, or a failure which will be surfaced elsewhere by the end-to-end
