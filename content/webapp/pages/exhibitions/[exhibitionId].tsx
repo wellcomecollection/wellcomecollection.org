@@ -22,8 +22,10 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Link } from '../../types/link';
-import { visualStoryLinkText, exhibitionGuideLinkText } from '@weco/common/data/microcopy';
-
+import {
+  visualStoryLinkText,
+  exhibitionGuideLinkText,
+} from '@weco/common/data/microcopy';
 
 type ExhibitionProps = {
   exhibition: ExhibitionType;
@@ -60,7 +62,11 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
     {exhibition.format && exhibition.format.title === 'Installation' ? (
       <Installation installation={exhibition} />
     ) : (
-      <Exhibition exhibition={exhibition} pages={pages} accessResourceLinks={accessResourceLinks} />
+      <Exhibition
+        exhibition={exhibition}
+        pages={pages}
+        accessResourceLinks={accessResourceLinks}
+      />
     )}
   </PageLayout>
 );
@@ -77,7 +83,8 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const client = createClient(context);
-  const { exhibition, pages, visualStories, exhibitionGuides } = await fetchExhibition(client, exhibitionId);
+  const { exhibition, pages, visualStories, exhibitionGuides } =
+    await fetchExhibition(client, exhibitionId);
 
   if (exhibition) {
     const exhibitionDoc = transformExhibition(exhibition);
@@ -88,16 +95,18 @@ export const getServerSideProps: GetServerSideProps<
         text: visualStoryLinkText,
         url,
         type: 'visual-story',
+      };
+    });
+    const exhibitionGuidesLinks = exhibitionGuides.results.map(
+      exhibitionGuide => {
+        const url = linkResolver(exhibitionGuide);
+        return {
+          text: exhibitionGuideLinkText,
+          url,
+          type: 'exhibition-guide',
+        };
       }
-    })
-    const exhibitionGuidesLinks = exhibitionGuides.results.map(exhibitionGuide => {
-      const url = linkResolver(exhibitionGuide);
-      return {
-        text: exhibitionGuideLinkText,
-        url,
-        type: 'exhibition-guide',
-      }
-    })
+    );
 
     const jsonLd = exhibitionLd(exhibitionDoc);
 

@@ -14,9 +14,7 @@ import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhi
 import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
 import { VisualStoryDocument } from '../types/visual-stories';
-import {
-  eventAccessOptionsFields,
-} from '../fetch-links';
+import { eventAccessOptionsFields } from '../fetch-links';
 import { Period } from '@weco/common/types/periods';
 import { getExhibitionPeriodFilters } from '../types/filters';
 import {
@@ -83,12 +81,13 @@ export async function fetchExhibition(
     filters: [prismic.filter.at('my.exhibition-guides.related-exhibition', id)],
   });
 
-  const [exhibition, pages, visualStories, exhibitionGuides] = await Promise.all([
-    exhibitionPromise,
-    pageQueryPromise,
-    visualStoriesQueryPromise,
-    exhibitionGuidesQueryPromise
-  ]);
+  const [exhibition, pages, visualStories, exhibitionGuides] =
+    await Promise.all([
+      exhibitionPromise,
+      pageQueryPromise,
+      visualStoriesQueryPromise,
+      exhibitionGuidesQueryPromise,
+    ]);
 
   return {
     exhibition,
