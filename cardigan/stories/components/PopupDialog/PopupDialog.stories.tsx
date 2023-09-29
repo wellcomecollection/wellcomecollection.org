@@ -1,5 +1,5 @@
-import PopupDialog from '@weco/content/components/PopupDialog/PopupDialog';
-import Readme from '@weco/content/components/PopupDialog/README.md';
+import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
+import Readme from '@weco/common/views/components/PopupDialog/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (

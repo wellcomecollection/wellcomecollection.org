@@ -14,8 +14,8 @@ import {
 } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import Rotator from '../styled/Rotator';
-import Control from '../Buttons/Control/Control';
+import Rotator from '@weco/common/views/components/styled/Rotator';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { arrow } from '@weco/common/icons';
 
 const ControlsWrap = styled.div`
