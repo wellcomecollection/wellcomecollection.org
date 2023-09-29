@@ -427,97 +427,80 @@ const WorkDetails: FunctionComponent<Props> = ({
                   />
                 </Space>
               )}
-              {/* TODO remove this hack once we figure out a better way to display copyrights
-              This was a sensitive issue to fix asap 
-              https://github.com/wellcomecollection/wellcomecollection.org/issues/9964 */}
-              {![
-                'wys2bdym',
-                'avqn5jd8',
-                'vsp8ce9z',
-                'a3v24ekj',
-                'ex597wgz',
-                'erqm9zxq',
-                'y2w42fqa',
-                'uzcvr64w',
-                'b5m8zwvd',
-                'bbbwbh85',
-                'y6ntecuu',
-              ].includes(work.id) && (
-                <Space
-                  v={{
-                    size: 'l',
-                    properties: ['margin-top'],
-                  }}
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['margin-top'],
+                }}
+              >
+                <CollapsibleContent
+                  id="licenseDetail"
+                  controlText={{ defaultText: 'Licence and re-use' }}
                 >
-                  <CollapsibleContent
-                    id="licenseDetail"
-                    controlText={{ defaultText: 'Licence and re-use' }}
-                  >
-                    <>
-                      {digitalLocationInfo.license.humanReadableText && (
-                        <WorkDetailsText
-                          contents={
-                            <>
-                              <p>
-                                <strong>
-                                  {digitalLocationInfo.license.label}
-                                </strong>
-                              </p>
-                              {digitalLocationInfo.license.humanReadableText}
-                            </>
-                          }
-                        />
-                      )}
-
+                  <>
+                    {digitalLocationInfo.license.humanReadableText && (
                       <WorkDetailsText
                         contents={
                           <>
                             <p>
-                              <strong>Credit</strong>
+                              <strong>
+                                {digitalLocationInfo.license.label}
+                              </strong>
                             </p>
-                            <CopyContent
-                              CTA="Copy credit information"
-                              content={`${work.title.replace(/\.$/g, '')}. ${
-                                digitalLocation?.credit
-                                  ? `${digitalLocation.credit}. `
-                                  : ''
-                              }${
-                                digitalLocationInfo.license.label
-                              }. Source: Wellcome Collection. https://wellcomecollection.org/works/${
-                                work.id
-                              }`}
-                              displayedContent={
-                                <p>
-                                  {/* Regex removes trailing full-stops.  */}
-                                  {work.title.replace(/\.$/g, '')}.{' '}
-                                  {digitalLocation?.credit && (
-                                    <>{digitalLocation?.credit}. </>
-                                  )}
-                                  {digitalLocationInfo.license.label}. Source:
-                                  Wellcome Collection.
-                                </p>
-                              }
-                            />
+                            {digitalLocationInfo.license.humanReadableText}
                           </>
                         }
                       />
+                    )}
 
-                      {locationOfWork && (
-                        <WorkDetailsText
-                          contents={
-                            <>
+                    <WorkDetailsText
+                      contents={
+                        <>
+                          <p>
+                            <strong>Credit</strong>
+                          </p>
+                          <CopyContent
+                            CTA="Copy credit information"
+                            content={`${work.title.replace(/\.$/g, '')}. ${
+                              digitalLocation?.credit
+                                ? `${digitalLocation.credit}. `
+                                : ''
+                            }${
+                              digitalLocationInfo.license.label
+                            }. Source: Wellcome Collection. https://wellcomecollection.org/works/${
+                              work.id
+                            }`}
+                            displayedContent={
                               <p>
-                                <strong>Provider</strong>
+                                {/* Regex removes trailing full-stops.  */}
+                                {work.title.replace(/\.$/g, '')}.{' '}
+                                {digitalLocation?.credit && (
+                                  <>{digitalLocation?.credit}. </>
+                                )}
+                                {digitalLocationInfo.license.label}. Source:
+                                Wellcome Collection.
                               </p>
-                              <p>{locationOfWork.contents}</p>
-                            </>
-                          }
-                        />
-                      )}
-                    </>
-                  </CollapsibleContent>
-                </Space>
-              )}
+                            }
+                          />
+                        </>
+                      }
+                    />
+
+                    {locationOfWork && (
+                      <WorkDetailsText
+                        contents={
+                          <>
+                            <p>
+                              <strong>Provider</strong>
+                            </p>
+                            <p>{locationOfWork.contents}</p>
+                          </>
+                        }
+                      />
+                    )}
+                  </>
+                </CollapsibleContent>
+              </Space>
             </>
           )}
         </WorkDetailsSection>
