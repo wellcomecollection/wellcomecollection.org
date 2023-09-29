@@ -146,7 +146,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     matchingManifest?.label &&
     getMultiVolumeLabel(matchingManifest.label, work?.title || '');
 
-  const { iiifCredit, structures, searchService } = { ...transformedManifest };
+  const { structures, searchService } = { ...transformedManifest };
 
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
@@ -155,7 +155,9 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
 
-  const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
+  const locationOfWork = work.notes.find(
+    note => note.noteType.id === 'location-of-original'
+  );
 
   return (
     <>
@@ -227,14 +229,19 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
               </p>
             )}
             <p>
-              <strong>Credit:</strong> {work.title.replace(/\.$/g, '')}.
+              <strong>Credit:</strong> {work.title.replace(/\.$/g, '')}.{' '}
+              {digitalLocation?.credit && <>{digitalLocation?.credit}. </>}
+              Source:{' '}
+              <WorkLink id={work.id} source="viewer_credit">
+                Wellcome Collection
+              </WorkLink>
+              .
             </p>
-            {credit && (
+
+            {locationOfWork && (
               <p>
-                <WorkLink id={work.id} source="viewer_credit">
-                  <a>{credit}</a>
-                </WorkLink>
-                .
+                <strong>Provider: </strong>
+                {locationOfWork.contents}
               </p>
             )}
           </div>

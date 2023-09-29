@@ -8,6 +8,7 @@ import { Work } from '.';
 import { Label } from '@weco/common/model/labels';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
+import { Note } from '@weco/content/services/wellcome/catalogue/types';
 
 export type WorkBasic = OptionalToUndefined<{
   id: string;
@@ -19,10 +20,11 @@ export type WorkBasic = OptionalToUndefined<{
   archiveLabels?: ArchiveLabels;
   cardLabels: Label[];
   primaryContributorLabel?: string;
+  notes: Note[];
 }>;
 
 export function toWorkBasic(work: Work): WorkBasic {
-  const { id, title, thumbnail, referenceNumber } = work;
+  const { id, title, thumbnail, referenceNumber, notes } = work;
 
   // We only send a lang if it's unambiguous -- better to send
   // no language than the wrong one.
@@ -43,5 +45,6 @@ export function toWorkBasic(work: Work): WorkBasic {
     primaryContributorLabel: work.contributors.find(
       contributor => contributor.primary
     )?.agent.label,
+    notes,
   };
 }
