@@ -184,7 +184,7 @@ test.describe('Scenario 4: A user wants to know how they can make use of an item
     if (isMobile(page)) {
       await page.click('text="Show info"');
     }
-    await page.click('text="Licence and credit"');
+    await page.getByTestId('licence-and-reuse').click();
     await page.waitForSelector(`css=body >> text="Licence:"`);
     await page.waitForSelector(`css=body >> text="Credit:"`);
   });

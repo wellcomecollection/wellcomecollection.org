@@ -392,7 +392,7 @@ export const getServerSideProps: GetServerSideProps<
   const work = await getWork({
     id: context.query.workId,
     toggles: serverData.toggles,
-    include: ['items', 'languages', 'contributors', 'production'],
+    include: ['items', 'languages', 'contributors', 'production', 'notes'],
   });
 
   if (work.type === 'Error') {

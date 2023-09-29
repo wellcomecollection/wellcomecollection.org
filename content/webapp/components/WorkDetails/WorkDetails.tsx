@@ -49,6 +49,7 @@ import {
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyContent, CopyUrl } from '@weco/content/components/CopyButtons';
+import { removeTrailingFullStop } from '@weco/common/utils/string';
 
 type Props = {
   work: Work;
@@ -447,7 +448,31 @@ const WorkDetails: FunctionComponent<Props> = ({
                                 {digitalLocationInfo.license.label}
                               </strong>
                             </p>
-                            {digitalLocationInfo.license.humanReadableText}
+                            <CopyContent
+                              CTA="Copy credit information"
+                              content={`${removeTrailingFullStop(
+                                work.title
+                              )}. ${
+                                digitalLocation?.credit
+                                  ? `${digitalLocation.credit}. `
+                                  : ''
+                              }${
+                                digitalLocationInfo.license.label
+                              }. Source: Wellcome Collection. https://wellcomecollection.org/works/${
+                                work.id
+                              }`}
+                              displayedContent={
+                                <p>
+                                  {/* Regex removes trailing full-stops.  */}
+                                  {removeTrailingFullStop(work.title)}.{' '}
+                                  {digitalLocation?.credit && (
+                                    <>{digitalLocation?.credit}. </>
+                                  )}
+                                  {digitalLocationInfo.license.label}. Source:
+                                  Wellcome Collection.
+                                </p>
+                              }
+                            />
                           </>
                         }
                       />
