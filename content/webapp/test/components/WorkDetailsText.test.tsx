@@ -1,5 +1,5 @@
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
-import WorkDetailsText from './WorkDetailsText';
+import WorkDetailsText from '@weco/content/components/WorkDetails/WorkDetails.Text';
 
 describe('WorkDetailsText', () => {
   it('renders HTML as-is', () => {

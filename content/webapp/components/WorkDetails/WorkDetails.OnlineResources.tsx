@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef, FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { getItemsByLocationType } from '../../utils/works';
-import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
+import { getItemsByLocationType } from '@weco/content/utils/works';
+import WorkDetailsSection from './WorkDetails.Section';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
-import styled from 'styled-components';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const ShowHideButton = styled.button.attrs({

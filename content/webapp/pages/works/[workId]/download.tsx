@@ -21,7 +21,7 @@ import Download from '@weco/content/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
-import WorkDetailsText from '@weco/content/components/WorkDetailsText/WorkDetailsText';
+import WorkDetailsText from '@weco/content/components/WorkDetails/WorkDetails.Text';
 import { serialiseProps } from '@weco/common/utils/json';
 import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';

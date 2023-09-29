@@ -21,7 +21,7 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '../WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '../ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
-import WorkDetails from '../WorkDetails/WorkDetails';
+import WorkDetails from '../WorkDetails';
 import ArchiveTree from '../ArchiveTree';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
