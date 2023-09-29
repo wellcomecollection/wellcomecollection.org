@@ -94,7 +94,7 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
   }, []);
 
   return (
-    <Item data-test-id={testId}>
+    <Item data-testid={testId}>
       <AccordionInner onClick={() => setIsActive(!isActive)}>
         <AccordionButton
           aria-expanded={isActive ? 'true' : 'false'}
@@ -214,7 +214,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         </Space>
       </Inner>
       <Inner>
-        <AccordionItem title="Licence and credit" testId="license-and-credit">
+        <AccordionItem title="Licence and re-use" testId="licence-and-reuse">
           <div className={font('intr', 6)}>
             {license && license.label && (
               <p>
