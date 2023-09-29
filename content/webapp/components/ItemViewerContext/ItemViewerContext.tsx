@@ -85,6 +85,7 @@ const work: WorkBasic & Pick<Work, 'description'> = {
   archiveLabels: undefined,
   cardLabels: [],
   primaryContributorLabel: undefined,
+  notes: [],
 };
 
 const ItemViewerContext = createContext<Props>({

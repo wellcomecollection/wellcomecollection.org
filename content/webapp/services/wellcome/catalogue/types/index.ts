@@ -185,7 +185,7 @@ type Language = {
   type: 'Language';
 };
 
-type Note = {
+export type Note = {
   contents: string[];
   noteType: NoteType;
   type: 'Note';
