@@ -4,7 +4,7 @@ import { DocsContainer } from '@storybook/addon-docs/blocks';
 import theme from '@weco/common/views/themes/default';
 import { ContextDecorator } from '@weco/cardigan/config/decorators';
 import wellcomeTheme from './wellcome-theme';
-import { grid } from '@weco/content/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 export const decorators = [

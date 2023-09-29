@@ -9,8 +9,8 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import BookImage from '@weco/content/components/BookImage/BookImage';
-import PageHeaderReadme from '@weco/content/components/PageHeader/README.md';
-import ShortFilmPageHeaderReadme from '@weco/content/components/PageHeader/ShortFilm_README.md';
+import PageHeaderReadme from '@weco/common/views/components/PageHeader/README.md';
+import ShortFilmPageHeaderReadme from '@weco/common/views/components/PageHeader/ShortFilm_README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { LicenseType } from '@weco/common/model/license';
 import Body from '@weco/content/components/Body/Body';

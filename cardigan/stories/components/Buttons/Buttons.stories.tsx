@@ -4,7 +4,7 @@ import DropdownButton from '@weco/common/views/components/DropdownButton/Dropdow
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import PlainList from '@weco/common/views/components/styled/PlainList';
-import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { chevron, digitalImage, eye, gridView } from '@weco/common/icons';
 import ControlReadme from '@weco/common/views/components/Buttons/Control/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
