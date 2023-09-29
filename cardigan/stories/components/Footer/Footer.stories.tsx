@@ -1,6 +1,6 @@
-import Footer from '@weco/content/components/Footer';
+import Footer from '@weco/common/views/components/Footer';
 import { venues } from '@weco/common/test/fixtures/components/venues';
-import Readme from '@weco/content/components/Footer/README.md';
+import Readme from '@weco/common/views/components/Footer/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (
