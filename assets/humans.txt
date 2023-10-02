@@ -22,7 +22,6 @@ Digital Production (digitisation):
  Ezra Little
 
 Digital Editorial Content:
- Danny Birchall
  Lalita Kaplish
  Alice White
  Helen Babbs
@@ -44,10 +43,7 @@ Digital Platform:
  Gareth Estchild
  David McCormick
  Jamie Parkinson
- Jonathan Tweed
- Jenn Phillips-Bacher
  Natalie Pollecutt
- Alex Chan
  Paul Butcher
  Raphaëlle Cantin
  Adilson Mendes Bacelar
@@ -61,6 +57,10 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Danny Birchall
+ Jonathan Tweed
+ Jenn Phillips-Bacher
+ Alex Chan
  Dominique Marshall
  Tom Scott
  Harrison Pim
