@@ -21,7 +21,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
-import { useToggles } from '@weco/common/server-data/Context';
+import { ServerDataContext } from '@weco/common/server-data/Context';
 
 type Props = {
   images: Image[];
@@ -79,7 +79,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const [isActive, setIsActive] = useState(false);
-  const toggles = useToggles();
+  const data = useContext(ServerDataContext);
 
   const imageMap = useMemo<Record<string, Image>>(
     () => images.reduce((a, image) => ({ ...a, [image.id]: image }), {}),
@@ -105,7 +105,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
         setIsActive(true);
       } else {
         // if it's not, fetch the image and then update
-        const { image } = await getImage({ id: hash, toggles });
+        const { image } = await getImage({ id: hash, toggles: data.toggles });
         if (image.type === 'Image') {
           imageMap[image.id] = image;
           setExpandedImage(image);

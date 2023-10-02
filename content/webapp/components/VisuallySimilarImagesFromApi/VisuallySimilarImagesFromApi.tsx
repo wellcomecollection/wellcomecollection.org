@@ -1,11 +1,11 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
-import { useToggles } from '@weco/common/server-data/Context';
+import { ServerDataContext } from '@weco/common/server-data/Context';
 import IIIFImage from '@weco/content/components/IIIFImage/IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
@@ -58,14 +58,14 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   const [requestState, setRequestState] = useState<State>('initial');
-  const toggles = useToggles();
+  const data = useContext(ServerDataContext);
 
   useEffect(() => {
     setRequestState('loading');
     const fetchVisuallySimilarImages = async () => {
       const { image: fullImage } = await getImage({
         id: originalId,
-        toggles,
+        toggles: data.toggles,
         include: ['withSimilarFeatures'],
       });
       if (fullImage.type === 'Image') {
