@@ -100,7 +100,10 @@ export function eventLd(event: Event): JsonLdObj[] {
       return objToJsonLd(
         {
           name: event.title,
-          // TODO: This is not always at Wellcome, but we don't collect that yet
+          // Theoretically an event might not be at Wellcome, in which case we'd
+          // want to change this, but we don't have any information about external
+          // locations in our Prismic model (or anywhere else!) so hard-coding this
+          // is fine for now.
           location: {
             '@type': 'Place',
             name: 'Wellcome Collection',

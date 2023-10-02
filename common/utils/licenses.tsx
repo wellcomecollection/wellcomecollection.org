@@ -1,3 +1,6 @@
+// License/Licence is due to US/UK spelling
+// APIs and their data use the former (US's "license") whilst our UI uses the latter (UK's "licence").
+//
 // We have to deal with licenses from two sources:
 //
 //    - the catalogue API (in the catalogue app), which returns the LicenseAPIData type
@@ -18,133 +21,177 @@ type CatalogueLicenseData = {
   type: 'License';
 };
 
-type CcIcons = 'cc' | 'ccBy' | 'ccNc' | 'ccNd' | 'ccPdm' | 'ccZero' | 'ccSa';
 export type LicenseData = CatalogueLicenseData & {
-  icons: CcIcons[];
   description?: string;
   humanReadableText?: ReactElement;
 };
 
 const additionalData = {
   pdm: {
-    icons: ['ccPdm'],
     humanReadableText: (
-      <>
-        <div>
-          You can use this work for any purpose without restriction under
-          copyright law.
-        </div>
-        <div>
-          Public Domain Mark (PDM) terms and conditions{' '}
-          <a href="https://creativecommons.org/publicdomain/mark/1.0">
-            https://creativecommons.org/publicdomain/mark/1.0
-          </a>
-        </div>
-      </>
+      <p>
+        You can use this work for any purpose without restriction under
+        copyright law.{' '}
+        <a href="https://creativecommons.org/publicdomain/mark/1.0">
+          Read more about this licence
+        </a>
+        .
+      </p>
     ),
   },
   'cc-0': {
-    icons: ['ccZero'],
     description: 'Free to use for any purpose',
     humanReadableText: (
-      <>
-        <div>
-          You can use this work for any purpose without restriction under
-          copyright law.
-        </div>
-        <div>
-          Creative Commons Zero (CC0) terms and conditions{' '}
-          <a href="https://creativecommons.org/publicdomain/zero/1.0">
-            https://creativecommons.org/publicdomain/zero/1.0
-          </a>
-        </div>
-      </>
+      <p>
+        You can use this work for any purpose without restriction under
+        copyright law.{' '}
+        <a href="https://creativecommons.org/publicdomain/zero/1.0">
+          Read more about this licence
+        </a>
+        .
+      </p>
     ),
   },
   'cc-by': {
-    icons: ['cc', 'ccBy'],
     description: 'Free to use with attribution',
     humanReadableText: (
-      <>
-        <div>
-          You can use this work for any purpose, including commercial uses,
-          without restriction under copyright law. You should also provide
-          attribution to the original work, source and licence.
-        </div>
-        <div>
-          Creative Commons Attribution (CC BY 4.0) terms and conditions{' '}
-          <a href="https://creativecommons.org/licenses/by/4.0">
-            https://creativecommons.org/licenses/by/4.0
-          </a>
-        </div>
-      </>
+      <p>
+        You can use this work for any purpose, including commercial uses,
+        without restriction under copyright law. You should also provide
+        attribution to the original work, source and licence.{' '}
+        <a href="https://creativecommons.org/licenses/by/4.0">
+          Read more about this licence
+        </a>
+        .
+      </p>
     ),
   },
   'cc-by-nc': {
-    icons: ['cc', 'ccBy', 'ccNc'],
     description: 'Free to use with attribution for non-commercial purposes',
     humanReadableText: (
-      <>
-        <div>
-          You can use this work for any purpose, as long as it is not primarily
-          intended for or directed to commercial advantage or monetary
-          compensation. You should also provide attribution to the original
-          work, source and licence.
-        </div>
-        <div>
-          Creative Commons Attribution Non-Commercial (CC BY-NC 4.0) terms and
-          conditions{' '}
-          <a href="https://creativecommons.org/licenses/by-nc/4.0">
-            https://creativecommons.org/licenses/by-nc/4.0
-          </a>
-        </div>
-      </>
+      <p>
+        You can use this work for any purpose, as long as it is not primarily
+        intended for or directed to commercial advantage or monetary
+        compensation. You should also provide attribution to the original work,
+        source and licence.{' '}
+        <a href="https://creativecommons.org/licenses/by-nc/4.0">
+          Read more about this licence
+        </a>
+        .
+      </p>
     ),
   },
   'cc-by-nc-nd': {
-    icons: ['cc', 'ccBy', 'ccNc', 'ccNd'],
     description:
       'Free to use with attribution for non-commercial purposes. No modifications permitted.',
     humanReadableText: (
-      <>
-        <div>
-          You can copy and distribute this work, as long as it is not primarily
-          intended for or directed to commercial advantage or monetary
-          compensation. You should also provide attribution to the original
-          work, source and licence.
-        </div>
-        <div>
-          If you make any modifications to or derivatives of the work, it may
-          not be distributed.
-        </div>
-        <div>
-          Creative Commons Attribution Non-Commercial No-Derivatives (CC
-          BY-NC-ND 4.0) terms and conditions{' '}
-          <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
-            https://creativecommons.org/licenses/by-nc-nd/4.0/
-          </a>
-        </div>
-      </>
+      <p>
+        You can copy and distribute this work, as long as it is not primarily
+        intended for or directed to commercial advantage or monetary
+        compensation. You should also provide attribution to the original work,
+        source and licence. If you make any modifications to or derivatives of
+        the work, it may not be distributed.{' '}
+        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+          Read more about this licence
+        </a>
+        .
+      </p>
     ),
   },
   'cc-by-nd': {
-    icons: ['cc', 'ccBy', 'ccNd'],
     description: 'Free to use with attribution. No modifications permitted.',
+    humanReadabaleText: (
+      <p>
+        You can use this work for any purpose, including commercial uses. You
+        should provide attribution to the original work, source and licence. If
+        you make any modifications to or derivatives of the work, it may not be
+        distributed.{' '}
+        <a href="https://creativecommons.org/licenses/by-nd/4.0/">
+          Read more about this licence
+        </a>
+        .
+      </p>
+    ),
   },
   'cc-by-sa': {
-    icons: ['cc', 'ccBy'],
+    humanReadableText: (
+      <p>
+        You can use this work for any purpose, including commercial uses,
+        without restriction under copyright law. You should also provide
+        attribution to the original work, source and licence. If you distribute
+        this work, you must use the same licence as the original.{' '}
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/">
+          Read more about this licence
+        </a>
+        .
+      </p>
+    ),
   },
   'cc-by-nc-sa': {
-    icons: ['cc', 'ccBy', 'ccNc'],
+    humanReadableText: (
+      <p>
+        You can copy and distribute this work, as long as it is not primarily
+        intended for or directed to commercial advantage or monetary
+        compensation. You should also provide attribution to the original work,
+        source and licence. If you distribute this work, you must use the same
+        licence as the original.{' '}
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+          Read more about this licence
+        </a>
+        .
+      </p>
+    ),
   },
   ogl: {
-    icons: [],
+    humanReadableText: (
+      <p>
+        You have permission to make copies of this work under an Open Government
+        License. This licence permits unrestricted use, distribution, and
+        reproduction in any medium, provided the original author and source are
+        credited.{' '}
+        <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">
+          Read more about this licence
+        </a>
+        .
+      </p>
+    ),
   },
   opl: {
-    icons: [],
+    humanReadableText: (
+      <p>
+        You are free to copy, publish, distribute and transmit the information;
+        adapt the information; exploit the information commercially and
+        non-commercially. You should also provide attribution to the original
+        work, source and licence.{' '}
+        <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">
+          Read more about this licence
+        </a>
+        .
+      </p>
+    ),
   },
   inc: {
-    icons: [],
+    humanReadableText: (
+      <>
+        <p>
+          It is possible this item is protected by copyright and/or related
+          rights. You may be able to use this digital item under a copyright
+          exception, otherwise you need to obtain permission from the
+          rights-holder(s). These may be identified elsewhere in the catalogue
+          record.{' '}
+          <a href="http://rightsstatements.org/vocab/InC/1.0/">
+            Read more about copyright
+          </a>
+          .
+        </p>
+        <p>
+          <a href="https://www.gov.uk/guidance/exceptions-to-copyright">
+            Read further guidance
+          </a>{' '}
+          on copyright exceptions in the UK.
+        </p>
+      </>
+    ),
   },
 };
 

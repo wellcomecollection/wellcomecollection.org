@@ -34,8 +34,6 @@ import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import TitledTextList from '../TitledTextList/TitledTextList';
 import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
-import Discussion from '../Discussion/Discussion';
-import WobblyEdgedContainer from '@weco/common/views/components/WobblyEdgedContainer/WobblyEdgedContainer';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '../Card/Card';
@@ -569,16 +567,6 @@ const Body: FunctionComponent<Props> = ({
                   <LayoutWidth width={minWidth}>
                     <InfoBlock {...slice.value} />
                   </LayoutWidth>
-                </SpacingComponent>
-              )}
-              {slice.type === 'discussion' && (
-                <SpacingComponent sliceType={slice.type}>
-                  <WobblyEdgedContainer>
-                    <Discussion
-                      title={slice.value.title}
-                      text={slice.value.text}
-                    />
-                  </WobblyEdgedContainer>
                 </SpacingComponent>
               )}
               {slice.type === 'tagList' && (

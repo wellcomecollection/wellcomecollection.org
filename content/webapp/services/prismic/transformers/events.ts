@@ -457,8 +457,7 @@ export function transformEventBasicTimes(
   const everyDayHasSomething = daysInScheduleRange.every(d =>
     scheduleTimes.some(
       s =>
-        isSameDay(d, s.range.startDateTime, 'UTC') ||
-        isSameDay(d, s.range.endDateTime, 'UTC')
+        isSameDay(d, s.range.startDateTime) || isSameDay(d, s.range.endDateTime)
     )
   );
 

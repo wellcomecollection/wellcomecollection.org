@@ -115,14 +115,6 @@ export type Contact = prismic.Slice<
   }
 >;
 
-export type Discussion = prismic.Slice<
-  'discussion',
-  {
-    title: prismic.RichTextField;
-    text: prismic.RichTextField;
-  }
->;
-
 export type TagList = prismic.Slice<
   'tagList',
   {
@@ -201,7 +193,6 @@ export type SliceTypes =
   | Map
   | CollectionVenue
   | Contact
-  | Discussion
   | TagList
   | InfoBlock
   | TitledTextList

@@ -14,14 +14,6 @@ export function workLd(work: WorkType): JsonLdObj {
 
   return objToJsonLd(
     {
-      additionalType: undefined, // TODO: needs API
-      locationCreated: undefined, // TODO: needs API
-      genre: undefined, // TODO: needs API
-      datePublished: undefined, // TODO: needs API
-      dateCreated: undefined, // TODO: needs API
-      dateModified: undefined, // TODO: needs API
-      alternativeHeadline: undefined, // TODO: needs API
-      publishedBy: undefined, // TODO: needs API
       creator: creators,
       keywords,
       name: work.title,

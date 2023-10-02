@@ -104,12 +104,6 @@ export default {
           content: documentLink('Content item', { linkedType: 'teams' }),
         },
       }),
-      discussion: slice('Discussion', {
-        nonRepeat: {
-          title: heading('Title', { level: 2 }),
-          text: multiLineText('Text'),
-        },
-      }),
       tagList: slice('Tag List', {
         nonRepeat: {
           title: heading('Title', { level: 2 }),

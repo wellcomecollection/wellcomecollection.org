@@ -117,8 +117,9 @@ const Hit: FunctionComponent<HitProps> = ({
   return (
     <>
       <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
-        {`Found on image ${matchingCanvasParam}${totalCanvases ? ` / ${totalCanvases}` : ''
-          }`}
+        {`Found on image ${matchingCanvasParam}${
+          totalCanvases ? ` / ${totalCanvases}` : ''
+        }`}
         {label}
       </HitData>
       <span role="presentation">…{hit.before}</span>
@@ -166,7 +167,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         ).json();
         setIsLoading(false);
         setSearchResults && setSearchResults(results);
-      } catch (error) { }
+      } catch (error) {}
     } else {
       setSearchResults && setSearchResults(results);
     }

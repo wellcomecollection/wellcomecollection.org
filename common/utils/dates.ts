@@ -1,19 +1,27 @@
 import { DateRange } from '../model/date-range';
 import { formatDayDate } from './format-date';
 
-// This is to allow us to mock values in tests, e.g.
-//
-//    import * as dateUtils from '@weco/common/utils/dates';
-//
-//    const spyOnToday = jest.spyOn(dateUtils, 'today');
-//    spyOnToday.mockImplementation(() =>
-//      new Date('2022-09-19T00:00:00Z')
-//    );
-//
-// If you're doing local debugging, you can also override the return value
-// to make the site think it's a different date, e.g. to test opening times.
-// (Note: this may not affect all parts of the site.)
-//
+/** Returns the current date/time.
+ *
+ * We use this function rather than calling `new Date()` directly for two reasons:
+ *
+ *    1.  In tests, you can override the return value of this function in a single test
+ *        using the `mockToday()` helper, for example:
+ *
+ *            import mockToday from '@weco/common/test/utils/date-mocks';
+ *
+ *            mockToday({ as: new Date('2021-10-30') });
+ *
+ *        Within the context of this test, any code that calls `today()` will be told
+ *        that the current date is 30 October 2021.
+ *
+ *    2.  In local development, you can override the return value of this function to
+ *        make the site think it's a different date.
+ *
+ *        e.g. if you have this function return a date that's a week in the future, you'll
+ *        see how the opening times render on that day.
+ *
+ */
 export function today(): Date {
   return new Date();
 }
@@ -26,38 +34,15 @@ export function isFuture(date: Date): boolean {
   return date > today();
 }
 
-export function isSameMonth(date1: Date, date2: Date): boolean {
-  return (
-    date1.getUTCFullYear() === date2.getUTCFullYear() &&
-    date1.getUTCMonth() === date2.getUTCMonth()
-  );
-}
-
-type ComparisonMode = 'UTC' | 'London';
-
 /** Returns true if `date1` is on the same day as `date2`, false otherwise.
  *
- * Note: this function supports UTC or London comparisons.  We suspect we always
- * want London comparisons -- uses of this function should be examined and tested
- * to decide the correct behaviour, and updated as necessary.
+ * This compares the dates in London, not UTC.  See the tests for examples
+ * of edge cases where there are different UTC days but this function still
+ * returns true.
  *
- * If we get to a point where every comparison uses London, we should delete the
- * mode argument and document that requirement explicitly.
- *
- * TODO: This should really be London-only.  See https://github.com/wellcomecollection/wellcomecollection.org/issues/9874
  */
-export function isSameDay(
-  date1: Date,
-  date2: Date,
-  mode: ComparisonMode
-): boolean {
-  if (mode === 'UTC') {
-    return (
-      isSameMonth(date1, date2) && date1.getUTCDate() === date2.getUTCDate()
-    );
-  } else {
-    return formatDayDate(date1) === formatDayDate(date2);
-  }
+export function isSameDay(date1: Date, date2: Date): boolean {
+  return formatDayDate(date1) === formatDayDate(date2);
 }
 
 /** Returns true if `date1` is on the same day or before `date2`,
@@ -77,7 +62,7 @@ export function isSameDay(
  *
  */
 export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
-  return isSameDay(date1, date2, 'London') || date1 <= date2;
+  return isSameDay(date1, date2) || date1 <= date2;
 }
 
 type LondonTZ = 'GMT' | 'BST';

@@ -13,9 +13,6 @@ import { transformPage } from './pages';
 import { MultiContent } from '../../../types/multi-content';
 import { transformCard } from './card';
 
-// TODO:
-// * free text search
-// * excludes
 export function parseQuery(query: string): StructuredSearchQuery {
   const structuredQuery = searchQueryParser.parse(query, {
     keywords: [

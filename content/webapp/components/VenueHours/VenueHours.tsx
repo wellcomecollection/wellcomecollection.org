@@ -161,9 +161,10 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const exceptionalPeriods = groupOverrideDates(allOverrideDates);
   const completeExceptionalPeriods =
     completeDateRangeForExceptionalPeriods(exceptionalPeriods);
-  const exceptionalOpeningHours = venue
-    ? createExceptionalOpeningHoursDays(venue, completeExceptionalPeriods)
-    : [];
+  const exceptionalOpeningHours = createExceptionalOpeningHoursDays(
+    venue,
+    completeExceptionalPeriods
+  );
 
   const upcomingExceptionalOpeningHours =
     exceptionalOpeningHours &&

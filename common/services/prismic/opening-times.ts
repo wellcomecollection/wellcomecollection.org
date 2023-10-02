@@ -6,6 +6,7 @@ import {
   Venue,
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
+  HasOverrideDate,
 } from '../../model/opening-hours';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
@@ -55,7 +56,7 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
     .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
     .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
       const isAlreadyInResult = result.some(t =>
-        isSameDay(t.overrideDate, thisOverride.overrideDate, 'UTC')
+        isSameDay(t.overrideDate, thisOverride.overrideDate)
       );
 
       if (!isAlreadyInResult) {
@@ -180,9 +181,9 @@ export function completeDateRangeForExceptionalPeriods(
  * Each group will have at most 14 days between the first day and the last day.
  *
  */
-export function groupExceptionalVenueDays(
-  exceptionalDays: ExceptionalOpeningHoursDay[]
-): ExceptionalOpeningHoursDay[][] {
+export function groupExceptionalVenueDays<T extends HasOverrideDate>(
+  exceptionalDays: T[]
+): T[][] {
   return exceptionalDays.length > 0
     ? exceptionalDays
         .sort((a, b) => countDaysBetween(a.overrideDate, b.overrideDate))
@@ -203,7 +204,7 @@ export function groupExceptionalVenueDays(
             }
             return acc;
           },
-          [[]] as ExceptionalOpeningHoursDay[][]
+          [[]] as T[][]
         )
     : [];
 }
@@ -247,19 +248,19 @@ type ExceptionalOpeningHoursGroup = ExceptionalOpeningHoursDay[];
  */
 export function createExceptionalOpeningHoursDays(
   venue: Venue,
-  allVenueExceptionalPeriods?: ExceptionalPeriod[]
+  allVenueExceptionalPeriods: ExceptionalPeriod[]
 ): ExceptionalOpeningHoursGroup[] {
   const groupedExceptionalDays = groupExceptionalVenueDays(
     venue.openingHours.exceptional
   );
-  return (allVenueExceptionalPeriods ?? []).map(period => {
+  return allVenueExceptionalPeriods.map(period => {
     const sortedDates = period.dates.sort((a, b) => countDaysBetween(a, b));
     const type = period.type || 'other';
     const days = sortedDates
       .map(date => {
         const matchingDay = groupedExceptionalDays
           .flat()
-          .find(day => isSameDay(day.overrideDate, date, 'UTC'));
+          .find(day => isSameDay(day.overrideDate, date));
         const backfillDay = exceptionalFromRegular(venue, date, type);
         return matchingDay || backfillDay;
       })
@@ -268,9 +269,19 @@ export function createExceptionalOpeningHoursDays(
   });
 }
 
-export function groupConsecutiveExceptionalDays(
-  dates: ExceptionalOpeningHoursGroup
-): ExceptionalOpeningHoursGroup[] {
+/** Given a single list of exceptional dates, split them into a list of lists,
+ * where each list is a consecutive run of dates.
+ *
+ * e.g. input  = [Jan 1, Jan 2, Jan 3, Feb 4, Mar 5, Mar 6]
+ *
+ *      output = [[Jan 1, Jan 2, Jan 3],
+ *                [Feb 4],
+ *                [Mar 5, Mar 6]]
+ *
+ */
+export function groupConsecutiveExceptionalDays<T extends HasOverrideDate>(
+  dates: T[]
+): T[][] {
   return dates
     .sort((a, b) => (a.overrideDate > b.overrideDate ? 1 : -1))
     .reduce((acc, date) => {
@@ -279,7 +290,7 @@ export function groupConsecutiveExceptionalDays(
 
       if (
         lastDayOfGroup &&
-        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup, 'UTC')
+        isSameDay(addDays(date.overrideDate, -1), lastDayOfGroup)
       ) {
         group.push(date);
       } else {
@@ -287,7 +298,7 @@ export function groupConsecutiveExceptionalDays(
       }
 
       return acc;
-    }, [] as ExceptionalOpeningHoursGroup[]);
+    }, [] as T[][]);
 }
 
 /** Returns a list of all exceptional periods that we want to display.
@@ -296,9 +307,9 @@ export function groupConsecutiveExceptionalDays(
  * the site on an exceptional day, it highlights the exceptional hours.  We filter
  * this list so we’re not displaying dates very far in the future.
  */
-export function getUpcomingExceptionalOpeningHours(
-  openingHoursGroups: ExceptionalOpeningHoursGroup[]
-): ExceptionalOpeningHoursGroup[] {
+export function getUpcomingExceptionalOpeningHours<T extends HasOverrideDate>(
+  openingHoursGroups: T[][]
+): T[][] {
   return openingHoursGroups.filter(period =>
     period.some(
       d =>
@@ -321,7 +332,7 @@ export function getTodaysVenueHours(
   const todaysDate = today();
   const todayString = formatDayName(todaysDate);
   const exceptionalOpeningHours = venue.openingHours.exceptional.find(i =>
-    isSameDay(todaysDate, i.overrideDate, 'London')
+    isSameDay(todaysDate, i.overrideDate)
   );
   const regularOpeningHours = venue.openingHours.regular.find(
     i => i.dayOfWeek === todayString

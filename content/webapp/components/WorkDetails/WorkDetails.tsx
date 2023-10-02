@@ -13,7 +13,6 @@ import {
   getLocationLink,
   getLocationShelfmark,
 } from '../../utils/works';
-import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Download from '../Download/Download';
@@ -24,7 +23,7 @@ import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import ExplanatoryText from './ExplanatoryText';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import { toLink as itemLink } from '../ItemLink';
 import { toLink as conceptLink } from '../ConceptLink';
 import { trackGaEvent } from '@weco/common/utils/ga';
@@ -49,6 +48,8 @@ import {
 } from '../../utils/requesting';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
+import { CopyContent, CopyUrl } from '@weco/content/components/CopyButtons';
+import { removeTrailingFullStop } from '@weco/common/utils/string';
 
 type Props = {
   work: Work;
@@ -65,7 +66,6 @@ const WorkDetails: FunctionComponent<Props> = ({
   const transformedIIIFManifest = useTransformedManifest(work);
   const {
     video,
-    iiifCredit,
     downloadEnabled,
     downloadOptions: manifestDownloadOptions,
     collectionManifestsCount,
@@ -108,10 +108,6 @@ const WorkDetails: FunctionComponent<Props> = ({
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-
-  // iiif-image locations have credit info.
-  // iiif-presentation locations don't have credit info., so we fall back to the data in the manifest
-  const credit = digitalLocation?.credit || iiifCredit;
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -418,17 +414,6 @@ const WorkDetails: FunctionComponent<Props> = ({
 
           {digitalLocationInfo?.license && (
             <>
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top'],
-                }}
-              >
-                <WorkDetailsText
-                  title="Licence"
-                  text={[digitalLocationInfo.license.label]}
-                />
-              </Space>
               {digitalLocation?.accessConditions[0]?.terms && (
                 <Space
                   v={{
@@ -443,69 +428,80 @@ const WorkDetails: FunctionComponent<Props> = ({
                   />
                 </Space>
               )}
-              {/* TODO remove this hack once we figure out a better way to display copyrights
-              This was a sensitive issue to fix asap 
-              https://github.com/wellcomecollection/wellcomecollection.org/issues/9964 */}
-              {![
-                'wys2bdym',
-                'avqn5jd8',
-                'vsp8ce9z',
-                'a3v24ekj',
-                'ex597wgz',
-                'erqm9zxq',
-                'y2w42fqa',
-                'uzcvr64w',
-                'b5m8zwvd',
-                'bbbwbh85',
-                'y6ntecuu',
-              ].includes(work.id) && (
-                <Space
-                  v={{
-                    size: 'l',
-                    properties: ['margin-top'],
-                  }}
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['margin-top'],
+                }}
+              >
+                <CollapsibleContent
+                  id="licenseDetail"
+                  controlText={{ defaultText: 'Licence and re-use' }}
                 >
-                  <ExplanatoryText
-                    id="licenseDetail"
-                    controlText="Can I use this?"
-                  >
-                    <>
-                      {digitalLocationInfo.license.humanReadableText && (
-                        <WorkDetailsText
-                          contents={
-                            digitalLocationInfo.license.humanReadableText
-                          }
-                        />
-                      )}
+                  <>
+                    {digitalLocationInfo.license.humanReadableText && (
                       <WorkDetailsText
                         contents={
                           <>
-                            Credit: {work.title.replace(/\.$/g, '')}.
-                            {credit && (
-                              <>
-                                {' '}
-                                <a
-                                  href={`https://wellcomecollection.org/works/${work.id}`}
-                                >
-                                  {credit}
-                                </a>
-                                .
-                              </>
-                            )}{' '}
-                            {digitalLocationInfo.license.url ? (
-                              <a href={digitalLocationInfo.license.url}>
+                            <p>
+                              <strong>
                                 {digitalLocationInfo.license.label}
-                              </a>
-                            ) : (
-                              digitalLocationInfo.license.label
-                            )}
+                              </strong>
+                            </p>
+                            {digitalLocationInfo.license.humanReadableText}
                           </>
                         }
                       />
-                    </>
-                  </ExplanatoryText>
-                </Space>
-              )}
+                    )}
+
+                    <WorkDetailsText
+                      contents={
+                        <>
+                          <p>
+                            <strong>Credit</strong>
+                          </p>
+                          <CopyContent
+                            CTA="Copy credit information"
+                            content={`${removeTrailingFullStop(work.title)}. ${
+                              digitalLocation?.credit
+                                ? `${digitalLocation.credit}. `
+                                : ''
+                            }${
+                              digitalLocationInfo.license.label
+                            }. Source: Wellcome Collection. https://wellcomecollection.org/works/${
+                              work.id
+                            }`}
+                            displayedContent={
+                              <p>
+                                {/* Regex removes trailing full-stops.  */}
+                                {removeTrailingFullStop(work.title)}.{' '}
+                                {digitalLocation?.credit && (
+                                  <>{digitalLocation?.credit}. </>
+                                )}
+                                {digitalLocationInfo.license.label}. Source:
+                                Wellcome Collection.
+                              </p>
+                            }
+                          />
+                        </>
+                      }
+                    />
+
+                    {locationOfWork && (
+                      <WorkDetailsText
+                        contents={
+                          <>
+                            <p>
+                              <strong>Provider</strong>
+                            </p>
+                            <p>{locationOfWork.contents}</p>
+                          </>
+                        }
+                      />
+                    )}
+                  </>
+                </CollapsibleContent>
+              </Space>
             </>
           )}
         </WorkDetailsSection>
