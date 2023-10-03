@@ -13,11 +13,11 @@ import {
   getDigitalLocationOfType,
   getDigitalLocationInfo,
 } from '@weco/content/utils/works';
-import { removeIdiomaticTextTags } from '@weco/common/utils/string';
+import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '../CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/content/utils/json-ld';
-import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
+import BackToResults from '@weco/content/components/BackToResults/BackToResults';
 import WorkHeader from '../WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '../ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';

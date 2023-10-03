@@ -2,7 +2,7 @@ import { useContext, FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import { toLink as itemLink } from '../ItemLink';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
+import { volumesNavigationLabel } from '@weco/content/text/aria-labels';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { queryParamToArrayIndex } from '.';
 import {

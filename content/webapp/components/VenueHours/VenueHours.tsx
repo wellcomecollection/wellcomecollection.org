@@ -2,7 +2,7 @@ import { FunctionComponent, Fragment } from 'react';
 import { formatDayName, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';

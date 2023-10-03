@@ -1,4 +1,4 @@
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange/DateRange';
 
 const now = new Date('2022-03-01T13:15:00Z');
 const oneHourFromNow = new Date('2022-03-01T13:15:00Z');

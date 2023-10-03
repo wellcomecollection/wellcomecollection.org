@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import TabNav from '@weco/content/components/TabNav/TabNav';
 import Space from '@weco/common/views/components/styled/Space';
-import Readme from '@weco/common/views/components/TabNav/README.md';
+import Readme from '@weco/content/components/TabNav/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { Container } from '@weco/common/views/components/styled/Container';
 

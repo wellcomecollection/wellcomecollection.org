@@ -1,6 +1,6 @@
 import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent } from 'react';
-import TextWithDot from '@weco/common/views/components/TextWithDot';
+import TextWithDot from '@weco/content/components/TextWithDot';
 import {
   addDays,
   isFuture,

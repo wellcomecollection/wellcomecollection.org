@@ -8,14 +8,14 @@ import {
 import styled from 'styled-components';
 import { hasCookie, setCookie } from 'cookies-next';
 import cookies from '@weco/common/data/cookies';
-import Icon from '../Icon/Icon';
-import Space from '../styled/Space';
-import { font } from '../../../utils/classnames';
-import getFocusableElements from '../../../utils/get-focusable-elements';
-import { trackGaEvent } from '../../../utils/ga';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+import { font } from '@weco/common/utils/classnames';
+import getFocusableElements from '@weco/common/utils/get-focusable-elements';
+import { trackGaEvent } from '@weco/common/utils/ga';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import { chat, clear } from '../../../icons';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { chat, clear } from '@weco/common/icons';
 import { InferDataInterface } from '../../../services/prismic/types';
 import { transformLink } from '../../../services/prismic/transformers';
 

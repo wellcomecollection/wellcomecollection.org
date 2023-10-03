@@ -14,7 +14,7 @@ import { transformSeries, transformSeriesToSeriesBasic } from './series';
 import { SeriesPrismicDocument } from '../types/series';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { Format } from '../../../types/format';
-import { ArticleFormatId } from '@weco/common/data/content-format-ids';
+import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 import { transformContributors } from './contributors';
 import { noAltTextBecausePromo } from './images';
 import {

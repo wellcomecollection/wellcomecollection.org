@@ -1,6 +1,6 @@
 import { FunctionComponent, RefObject, Dispatch, SetStateAction } from 'react';
-import { trackGaEvent, GaEvent } from '../../../utils/ga';
-import Icon from '../Icon/Icon';
+import { trackGaEvent, GaEvent } from '@weco/common/utils/ga';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import { clear } from '@weco/common/icons';
 import styled from 'styled-components';
 

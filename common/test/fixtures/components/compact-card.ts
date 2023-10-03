@@ -1,4 +1,4 @@
-import { ImageType } from '../../../model/image';
+import { ImageType } from '@weco/common/model/image';
 
 export const mockImage: ImageType = {
   contentUrl:

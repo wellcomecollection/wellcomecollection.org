@@ -15,7 +15,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange/DateRange';
 
 const DateWrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },

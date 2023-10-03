@@ -1,6 +1,6 @@
-import { font, classNames } from '../../../utils/classnames';
-import { breadcrumbsLd } from '../../../utils/json-ld';
-import Space from '../styled/Space';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { breadcrumbsLd } from '@weco/common/utils/json-ld';
+import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { BreadcrumbItems } from '../../../model/breadcrumbs';

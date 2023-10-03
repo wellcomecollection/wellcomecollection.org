@@ -1,5 +1,5 @@
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import Readme from '@weco/common/views/components/LinkLabels/README.md';
+import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
+import Readme from '@weco/content/components/LinkLabels/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { clock } from '@weco/common/icons';
 

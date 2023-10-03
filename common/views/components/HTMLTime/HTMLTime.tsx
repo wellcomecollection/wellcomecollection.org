@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { formatTime } from '../../../utils/format-date';
+import { formatTime } from '@weco/common/utils/format-date';
 
 type Props = {
   date: Date;

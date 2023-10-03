@@ -1,5 +1,5 @@
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
-import Readme from '@weco/common/views/components/MoreLink/README.md';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import Readme from '@weco/content/components/MoreLink/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (

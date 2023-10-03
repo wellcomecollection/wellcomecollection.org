@@ -4,7 +4,7 @@ import {
   PropsWithChildren,
   useState,
 } from 'react';
-import { LinkProps } from '../../../model/link-props';
+import { LinkProps } from '@weco/common/model/link-props';
 
 const defaultLink = {
   href: {

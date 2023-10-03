@@ -1,7 +1,7 @@
 import { Event } from '../../types/events';
 import { FunctionComponent } from 'react';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import Message from '@weco/common/views/components/Message/Message';
+import Message from '@weco/content/components/Message/Message';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';

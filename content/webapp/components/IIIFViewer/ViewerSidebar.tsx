@@ -12,14 +12,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
+import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import MultipleManifestList from './MultipleManifestList';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
-import { removeTrailingFullStop, toHtmlId } from '@weco/common/utils/string';
+import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -252,7 +252,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
             <ViewerStructures />
           </AccordionItem>
         )}
-        {/* 
+        {/*
           Note: this check for `behavior === 'multi-part'` is repeated in items.tsx to
           avoid sending unnecessary data about parent manifests that we're not going
           to render.  If you change the display condition here, you'll likely want to

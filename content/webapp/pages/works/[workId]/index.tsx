@@ -7,7 +7,7 @@ import { getServerData } from '@weco/common/server-data';
 import Work from '@weco/content/components/Work/Work';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {
   work: WorkType;

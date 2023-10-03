@@ -21,7 +21,7 @@ import {
   TextAndImageSlice,
   TextAndIconsSlice,
 } from '../types/body';
-import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
+import { Props as ContactProps } from '@weco/content/components/Contact/Contact';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,

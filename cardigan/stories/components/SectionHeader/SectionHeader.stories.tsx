@@ -1,5 +1,5 @@
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import Readme from '@weco/common/views/components/SectionHeader/README.md';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+import Readme from '@weco/content/components/SectionHeader/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (

@@ -2,16 +2,16 @@ import { useState, useContext, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font } from '@weco/common/utils/classnames';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '../TextInput/TextInput';
 import { trackGaEvent } from '@weco/common/utils/ga';
 import useValidation from '@weco/common/hooks/useValidation';
-import ButtonSolid from '../ButtonSolid/ButtonSolid';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import { Container } from '@weco/common/views/components/styled/Container';
-import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import theme from '@weco/common/views/themes/default';
-import Layout8 from '../Layout8/Layout8';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 
 const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',

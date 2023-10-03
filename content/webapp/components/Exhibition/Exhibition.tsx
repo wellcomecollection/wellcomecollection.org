@@ -3,7 +3,7 @@ import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -12,7 +12,7 @@ import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { Page as PageType } from '../../types/pages';
 import Space from '@weco/common/views/components/styled/Space';
-import { LabelField } from '@weco/common/model/label-field';
+import { LabelField } from '@weco/content/model/label-field';
 import {
   calendar,
   clock,
@@ -184,12 +184,6 @@ function getPlaceObject(
     }
   );
 }
-
-// These options are defined in exhibition-resources.ts
-const resourceIcons: { [key: string]: IconSvg } = {
-  information,
-  family,
-};
 
 function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [exhibition.bslInfo, exhibition.audioDescriptionInfo]
