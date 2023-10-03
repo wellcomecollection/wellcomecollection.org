@@ -1,5 +1,5 @@
 import { LicenseData } from '@weco/common/utils/licenses';
-import { removeTrailingFullStop } from '@weco/common/utils/string';
+import { removeTrailingFullStop } from '@weco/content/utils/string';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Space from '@weco/common/views/components/styled/Space';
 import { CopyContent } from '@weco/content/components/CopyButtons';

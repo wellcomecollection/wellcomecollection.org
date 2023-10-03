@@ -1,5 +1,5 @@
 import { font } from '@weco/common/utils/classnames';
-import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
+import ExpandableList from '@weco/content/components/ExpandableList/ExpandableList';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsSection from './WorkDetails.Section';
 import WorkDetailsText from './WorkDetails.Text';
