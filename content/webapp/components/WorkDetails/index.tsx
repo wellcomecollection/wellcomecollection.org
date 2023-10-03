@@ -28,11 +28,11 @@ import {
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import OnlineResources from './WorkDetails.OnlineResources';
-import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyUrl } from '@weco/content/components/CopyButtons';
 import WorkDetailsAvailableOnline from './WorkDetails.AvailableOnline';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 
 type Props = {
   work: Work;
