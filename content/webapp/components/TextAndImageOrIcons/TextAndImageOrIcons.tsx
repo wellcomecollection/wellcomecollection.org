@@ -88,41 +88,45 @@ export type Props = {
 };
 
 const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
+  // Icons can be added indefinitely without necessarily having an image, so we are filtering it here
+  const icons: ImageType[] = [];
+  if (item.type === 'icons') {
+    icons.push(...item.icons.filter(icon => icon));
+  }
+
   return (
-    <>
-      <DividingLine>
-        <MediaAndTextWrap>
-          {item.type === 'icons' && item.icons.length > 0 && (
-            <ImageOrIcons isIcons={true}>
-              {/* We're enforcing a maximum of 6 icons within a slice */}
-              {item.icons.slice(0, 6).map((icon, index) => {
-                return (
-                  <div key={index}>
-                    <PrismicImage image={icon} quality="low" maxWidth={100} />
-                  </div>
-                );
-              })}
-            </ImageOrIcons>
-          )}
-          {item.type === 'image' && item.image && (
-            <ImageOrIcons isPortrait={item.image.width < item.image.height}>
-              <CaptionedImage
-                image={item.image}
-                caption={[]}
-                hasRoundedCorners={false}
-                isZoomable={item.isZoomable}
-              />
-            </ImageOrIcons>
-          )}
-          <Text>
-            <PrismicHtmlBlock
-              html={item.text}
-              htmlSerializer={defaultSerializer}
+    <DividingLine>
+      <MediaAndTextWrap>
+        {item.type === 'icons' && icons.length > 0 && (
+          <ImageOrIcons isIcons={true}>
+            {/* We're enforcing a maximum of 6 icons within a slice  */}
+            {icons.slice(0, 6).map((icon, index) => {
+              return (
+                <div key={index}>
+                  <PrismicImage image={icon} quality="low" maxWidth={100} />
+                </div>
+              );
+            })}
+          </ImageOrIcons>
+        )}
+        {item.type === 'image' && item.image && (
+          <ImageOrIcons isPortrait={item.image.width < item.image.height}>
+            <CaptionedImage
+              image={item.image}
+              caption={[]}
+              hasRoundedCorners={false}
+              isZoomable={item.isZoomable}
             />
-          </Text>
-        </MediaAndTextWrap>
-      </DividingLine>
-    </>
+          </ImageOrIcons>
+        )}
+        <Text>
+          <PrismicHtmlBlock
+            html={item.text}
+            htmlSerializer={defaultSerializer}
+          />
+        </Text>
+      </MediaAndTextWrap>
+    </DividingLine>
   );
 };
 
