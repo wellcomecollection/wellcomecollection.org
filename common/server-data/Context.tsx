@@ -18,7 +18,10 @@ export const ServerDataContext =
  * Over:
  * `const { toggles: { toggleName } } = useContext(ServerDataContext)`
  */
-export const useToggles = (): Record<ToggleId | TestId, boolean | undefined> => {
+
+type ClientToggleValues = Record<ToggleId | TestId, boolean | undefined>;
+
+export const useToggles = (): ClientToggleValues => {
   const data = useContext(ServerDataContext);
   const toggles = Object.keys(data.toggles).reduce((acc, key) => {
     acc[key] = data.toggles[key].value;
