@@ -79,7 +79,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const [isActive, setIsActive] = useState(false);
-  const data = useContext(ServerDataContext);
+  const {toggles} = useContext(ServerDataContext);
 
   const imageMap = useMemo<Record<string, Image>>(
     () => images.reduce((a, image) => ({ ...a, [image.id]: image }), {}),
@@ -105,7 +105,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
         setIsActive(true);
       } else {
         // if it's not, fetch the image and then update
-        const { image } = await getImage({ id: hash, toggles: data.toggles });
+        const { image } = await getImage({ id: hash, toggles });
         if (image.type === 'Image') {
           imageMap[image.id] = image;
           setExpandedImage(image);

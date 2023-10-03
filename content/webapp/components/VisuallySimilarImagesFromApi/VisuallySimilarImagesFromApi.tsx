@@ -58,14 +58,14 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   const [requestState, setRequestState] = useState<State>('initial');
-  const data = useContext(ServerDataContext);
+  const {toggles} = useContext(ServerDataContext);
 
   useEffect(() => {
     setRequestState('loading');
     const fetchVisuallySimilarImages = async () => {
       const { image: fullImage } = await getImage({
         id: originalId,
-        toggles: data.toggles,
+        toggles,
         include: ['withSimilarFeatures'],
       });
       if (fullImage.type === 'Image') {
