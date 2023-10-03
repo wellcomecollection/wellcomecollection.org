@@ -1,6 +1,6 @@
 import { CatalogueImagesApiProps, CatalogueResultsList, Image } from './types';
 import { rootUris, notFound, looksLikeCanonicalId, catalogueQuery } from '.';
-import { Toggles, ToggleId, TestId } from '@weco/toggles';
+import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   emptyImagesProps,
