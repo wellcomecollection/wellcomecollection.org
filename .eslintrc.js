@@ -17,6 +17,7 @@ const sharedExtends = [
 
 const sharedRules = {
   'no-multi-spaces': 'off',
+  'eol-last': 'error',
   'no-multi-str': 'off',
   'no-mixed-operators': 'off',
   'no-return-assign': 'off',
