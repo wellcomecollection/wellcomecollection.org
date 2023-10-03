@@ -49,7 +49,7 @@ import {
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyContent, CopyUrl } from '@weco/content/components/CopyButtons';
-import { removeTrailingFullStop } from '@weco/common/utils/string';
+import { removeTrailingFullStop } from '@weco/content/utils/string';
 
 type Props = {
   work: Work;
