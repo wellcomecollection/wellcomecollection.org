@@ -11,10 +11,12 @@ import {
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
-import Space from '../styled/Space';
-import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import Space from '@weco/common/views/components/styled/Space';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
-import { AppContext } from '../AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 

@@ -12,7 +12,7 @@ import {
   workWithPartOf,
   workWithLibrarySeriesPartOf,
   workWithMixedPartOf,
-} from '@weco/common/test/fixtures/catalogueApi/work';
+} from '@weco/content/test/fixtures/catalogueApi/work';
 import { uiTree, idArray } from '../__mocks__/uiTree';
 
 describe('getProductionDates', () => {

@@ -4,7 +4,7 @@ import {
   PhysicalItem,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
-import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
+import ExpandableList from '@weco/content/components/ExpandableList/ExpandableList';
 import {
   useAbortSignalEffect,
   abortErrorHandler,

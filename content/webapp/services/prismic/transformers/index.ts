@@ -14,9 +14,9 @@ import { transformImagePromo } from './images';
 import { WithPageFormat } from '../types/pages';
 import { WithEventFormat } from '../types/events';
 import { Format } from '../../../types/format';
-import { LabelField } from '@weco/common/model/label-field';
+import { LabelField } from '@weco/content/model/label-field';
 import { ArticleFormat } from '../types/article-format';
-import { ArticleFormatId } from '@weco/common/data/content-format-ids';
+import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 
 import { transformBody } from './body';
 import { isStandfirst } from '../../../types/body';

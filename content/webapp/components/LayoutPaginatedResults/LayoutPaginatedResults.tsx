@@ -15,7 +15,7 @@ import { BookBasic } from '@weco/content/types/books';
 import { Guide } from '@weco/content/types/guides';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import { pluralize } from '@weco/common/utils/grammar';
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 

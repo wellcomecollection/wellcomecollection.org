@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import { searchFilterCheckBox } from '@weco/common/text/aria-labels';
+import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';

@@ -25,9 +25,9 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl, {
   Item,
   ItemID,
-} from '@weco/common/views/components/SegmentedControl/SegmentedControl';
+} from '@weco/content/components/SegmentedControl/SegmentedControl';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -82,7 +82,7 @@ import {
 } from '@weco/content/services/prismic/transformers/whats-on';
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 const segmentedControlItems: Item[] = [

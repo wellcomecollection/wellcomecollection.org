@@ -2,8 +2,8 @@ import {
   ResultsLite,
   CollectionVenuePrismicDocumentLite,
 } from '../../../server-data/prismic';
-import { DayOfWeek, formatTime } from '../../../utils/format-date';
-import { Venue, OpeningHoursDay } from '../../../model/opening-hours';
+import { DayOfWeek, formatTime } from '@weco/common/utils/format-date';
+import { Venue, OpeningHoursDay } from '@weco/common/model/opening-hours';
 import {
   CollectionVenuePrismicDocument,
   DayField,

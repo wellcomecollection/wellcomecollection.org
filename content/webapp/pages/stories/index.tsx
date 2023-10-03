@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import { ArticleBasic } from '@weco/content/types/articles';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -34,11 +34,11 @@ import { StoriesLanding } from '@weco/content/types/stories-landing';
 import { StoriesLandingPrismicDocument } from '@weco/content/services/prismic/types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
+import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/transformers/series';
 import { Series, SeriesBasic } from '@weco/content/types/series';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 type Props = {

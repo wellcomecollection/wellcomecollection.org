@@ -1,5 +1,5 @@
 import { Meta, Story, ArgsTable } from '@storybook/addon-docs/blocks';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange/DateRange';
 import * as stories from './DateRange.stories.tsx';
 
 <Meta title={`Components/DateRange`} component={DateRange} />
@@ -7,13 +7,18 @@ import * as stories from './DateRange.stories.tsx';
 # DateRange
 
 ## Same day
-  <Story story={stories.sameDay} />
+
+{' '}
+<Story story={stories.sameDay} />
 
 ## Across multiple days
-  <Story story={stories.acrossMultipleDays} />
+
+{' '}
+<Story story={stories.acrossMultipleDays} />
 
 ## With date/time on separate lines
 
-  <Story story={stories.withSplit} />
+{' '}
+<Story story={stories.withSplit} />
 
 <ArgsTable />

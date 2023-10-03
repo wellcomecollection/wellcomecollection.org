@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 // Components
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import Sort from '@weco/content/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
@@ -25,7 +25,7 @@ import {
   linkResolver,
 } from '@weco/common/utils/search';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
-import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
 // Types

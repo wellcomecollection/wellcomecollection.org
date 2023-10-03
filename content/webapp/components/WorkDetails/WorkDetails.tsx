@@ -38,7 +38,7 @@ import useTransformedManifest from '../../hooks/useTransformedManifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
-import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
+import ExpandableList from '@weco/content/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import LibraryMembersBar from '../LibraryMembersBar/LibraryMembersBar';
 import { eye } from '@weco/common/icons';
@@ -49,7 +49,7 @@ import {
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyContent, CopyUrl } from '@weco/content/components/CopyButtons';
-import { removeTrailingFullStop } from '@weco/common/utils/string';
+import { removeTrailingFullStop } from '@weco/content/utils/string';
 
 type Props = {
   work: Work;

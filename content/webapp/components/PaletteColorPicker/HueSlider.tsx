@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { clamp } from '@weco/common/utils/numeric';
+import { clamp } from '@weco/content/utils/numeric';
 
 type Props = {
   hue: number;

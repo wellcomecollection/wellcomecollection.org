@@ -8,9 +8,9 @@ import {
   getUpcomingExceptionalOpeningHours,
   getTodaysVenueHours,
   groupConsecutiveExceptionalDays,
-} from '../../../services/prismic/opening-times';
-import { venues } from '../../../test/fixtures/components/venues';
-import { OverrideType, Venue } from '../../../model/opening-hours';
+} from '@weco/common/services/prismic/opening-times';
+import { venues } from '@weco/common/test/fixtures/components/venues';
+import { OverrideType, Venue } from '@weco/common/model/opening-hours';
 import mockToday from '@weco/common/test/utils/date-mocks';
 import { libraryVenue } from '@weco/common/test/fixtures/components/library-venue';
 import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';

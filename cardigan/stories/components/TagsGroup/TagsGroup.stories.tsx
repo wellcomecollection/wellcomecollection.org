@@ -1,5 +1,5 @@
-import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
-import Readme from '@weco/common/views/components/TagsGroup/README.md';
+import TagsGroup from '@weco/content/components/TagsGroup/TagsGroup';
+import Readme from '@weco/content/components/TagsGroup/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (

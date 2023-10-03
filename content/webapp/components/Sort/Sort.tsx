@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
-import Select from '@weco/common/views/components/Select/Select';
+import Select from '@weco/content/components/Select/Select';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   DefaultSortValuesType,

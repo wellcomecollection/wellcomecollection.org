@@ -1,7 +1,7 @@
 import { Contributor } from './contributors';
 import { GenericContentFields } from './generic-content-fields';
 import { Format } from './format';
-import { LabelField } from '@weco/common/model/label-field';
+import { LabelField } from '@weco/content/model/label-field';
 import { Place, PlaceBasic } from './places';
 import { Season } from './seasons';
 import { Label } from '@weco/common/model/labels';

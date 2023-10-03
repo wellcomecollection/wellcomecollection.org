@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import debounce from 'lodash.debounce';
-import { prefixedPropertyStyleObject } from '../../../utils/prefixed-property-style-object';
+import { prefixedPropertyStyleObject } from '@weco/common/utils/prefixed-property-style-object';
 import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
 

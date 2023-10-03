@@ -1,6 +1,6 @@
 import React, { FunctionComponent, PropsWithChildren, useEffect } from 'react';
 import ReactGA from 'react-ga';
-import { isExternal } from '../../../utils/domain';
+import { isExternal } from '@weco/common/utils/domain';
 
 const OutboundLinkTracker: FunctionComponent<PropsWithChildren> = ({
   children,

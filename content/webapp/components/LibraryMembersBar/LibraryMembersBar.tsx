@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { useLoginURLWithReturnToCurrent } from '@weco/common/utils/useLoginURLWithReturnToCurrent';
+import { useLoginURLWithReturnToCurrent } from '@weco/content/utils/useLoginURLWithReturnToCurrent';
 import { font } from '@weco/common/utils/classnames';
 import { memberCard } from '@weco/common/icons';
 import { trackGaEvent } from '@weco/common/utils/ga';

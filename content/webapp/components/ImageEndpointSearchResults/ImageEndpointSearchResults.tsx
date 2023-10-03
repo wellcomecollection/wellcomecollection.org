@@ -11,7 +11,7 @@ import PhotoAlbum, {
 } from 'react-photo-album';
 import styled from 'styled-components';
 
-import { hexToRgb } from '@weco/common/utils/convert-colors';
+import { hexToRgb } from '@weco/content/utils/convert-colors';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 

@@ -7,7 +7,7 @@ import EventDateRange from '../EventDateRange/EventDateRange';
 import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
 import Space from '@weco/common/views/components/styled/Space';
-import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
+import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
 
 type Props = {
   event: EventBasic;

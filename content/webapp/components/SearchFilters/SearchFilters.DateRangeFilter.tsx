@@ -1,5 +1,5 @@
-import { useControlledState } from '@weco/common/utils/useControlledState';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+import { useControlledState } from '@weco/content/utils/useControlledState';
+import NumberInput from '@weco/content/components/NumberInput/NumberInput';
 import { DateRangeFilter as DateRangeFilterType } from '@weco/content/services/wellcome/catalogue/filters';
 import Space from '@weco/common/views/components/styled/Space';
 

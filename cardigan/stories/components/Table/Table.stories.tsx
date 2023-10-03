@@ -1,4 +1,4 @@
-import Table from '@weco/common/views/components/Table/Table';
+import Table from '@weco/content/components/Table/Table';
 
 const Template = args => <Table {...args} />;
 export const colHeaders = Template.bind({});

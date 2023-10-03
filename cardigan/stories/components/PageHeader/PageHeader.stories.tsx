@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { font } from '@weco/common/utils/classnames';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
-import TextWithDot from '@weco/common/views/components/TextWithDot';
+import TextWithDot from '@weco/content/components/TextWithDot';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';

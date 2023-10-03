@@ -45,7 +45,7 @@ export const parameters = {
   },
   previewTabs: {
     canvas: { hidden: true },
-    'storybook/docs/panel': { hidden:true }
+    'storybook/docs/panel': { hidden: true },
   },
   docs: {
     theme: wellcomeTheme,
@@ -55,7 +55,7 @@ export const parameters = {
       </DocsContainer>
     ),
   },
-   a11y: {
+  a11y: {
     config: {
       rules: [
         {
@@ -66,7 +66,7 @@ export const parameters = {
     },
   },
   chromatic: {
-    viewports: [375, 1200] 
+    viewports: [375, 1200],
   },
   nextRouter: {
     Provider: RouterContext.Provider,

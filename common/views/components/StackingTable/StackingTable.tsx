@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Space from '../styled/Space';
-import { font } from '../../../utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
+import { font } from '@weco/common/utils/classnames';
 import { fontFamilyMixin } from '../../themes/typography';
 import { ReactElement, FunctionComponent, ReactNode } from 'react';
 

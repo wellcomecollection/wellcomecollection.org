@@ -1,4 +1,4 @@
-import { ArticleFormatId } from '@weco/common/data/content-format-ids';
+import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 import * as prismic from '@prismicio/client';
 import { WellcomeAggregation, WellcomeResultList } from '../../index';
 

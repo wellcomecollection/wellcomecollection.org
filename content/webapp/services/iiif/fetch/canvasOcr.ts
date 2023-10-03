@@ -1,4 +1,4 @@
-import { fetchJson } from '@weco/common/utils/http';
+import { fetchJson } from '@weco/content/utils/http';
 import { TransformedCanvas } from '../../../types/manifest';
 
 export type TextJson = {

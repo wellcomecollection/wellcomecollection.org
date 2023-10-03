@@ -1,5 +1,5 @@
-import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
-import Readme from '@weco/common/views/components/InfoBlock/README.md';
+import InfoBlock from '@weco/content/components/InfoBlock/InfoBlock';
+import Readme from '@weco/content/components/InfoBlock/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (

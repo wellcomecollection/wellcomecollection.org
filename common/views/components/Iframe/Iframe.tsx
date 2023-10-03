@@ -1,7 +1,7 @@
 import { Component, createRef, ReactElement } from 'react';
 import styled from 'styled-components';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import PrismicImage from '../PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { cross } from '@weco/common/icons';

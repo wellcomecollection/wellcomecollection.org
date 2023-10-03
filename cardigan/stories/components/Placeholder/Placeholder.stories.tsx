@@ -1,5 +1,5 @@
-import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
-import Readme from '@weco/common/views/components/Placeholder/README.md';
+import Placeholder from '@weco/content/components/Placeholder/Placeholder';
+import Readme from '@weco/content/components/Placeholder/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (

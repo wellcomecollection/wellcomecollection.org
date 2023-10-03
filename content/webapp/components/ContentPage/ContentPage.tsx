@@ -11,7 +11,7 @@ import PageHeader, {
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import BannerCard from '../BannerCard/BannerCard';
+import BannerCard from '@weco/content/components/BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
 import { Contributor } from '@weco/content/types/contributors';
 
