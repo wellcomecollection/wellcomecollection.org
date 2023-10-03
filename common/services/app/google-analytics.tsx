@@ -27,15 +27,17 @@ type Props = {
 // So instead of sending the whole toggles JSON blob, we only look at the "test" typed toggles and send a concatenated string made of the toggles' name
 // , preceeded with a! if its value is false.
 function createToggleString(toggles: Toggles | undefined): string | null {
-  const testToggles = toggles ? Object.keys(toggles).reduce((acc, key) => {
-    if (toggles?.[key].type === 'test') {
-        acc[key] = toggles?.[key].value;
-    }
-    return acc;
-  }, {}) : null;
+  const testToggles = toggles
+    ? Object.keys(toggles).reduce((acc, key) => {
+        if (toggles?.[key].type === 'test') {
+          acc[key] = toggles?.[key].value;
+        }
+        return acc;
+      }, {})
+    : null;
   return testToggles
     ? Object.keys(testToggles)
-      .map(toggle => {
+        .map(toggle => {
           switch (testToggles[toggle]) {
             case true:
               return toggle;
@@ -50,8 +52,7 @@ function createToggleString(toggles: Toggles | undefined): string | null {
 }
 
 export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
-
-  const toggleString = createToggleString(data.toggles)
+  const toggleString = createToggleString(data.toggles);
 
   return toggleString ? (
     <script

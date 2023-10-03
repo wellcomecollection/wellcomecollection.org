@@ -79,7 +79,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const [isActive, setIsActive] = useState(false);
-  const {toggles} = useContext(ServerDataContext);
+  const { toggles } = useContext(ServerDataContext);
 
   const imageMap = useMemo<Record<string, Image>>(
     () => images.reduce((a, image) => ({ ...a, [image.id]: image }), {}),

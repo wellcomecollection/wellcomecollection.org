@@ -58,7 +58,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   const [requestState, setRequestState] = useState<State>('initial');
-  const {toggles} = useContext(ServerDataContext);
+  const { toggles } = useContext(ServerDataContext);
 
   useEffect(() => {
     setRequestState('loading');

@@ -25,8 +25,8 @@ export const useToggles = (): ClientToggleValues => {
   const data = useContext(ServerDataContext);
   const toggles = Object.keys(data.toggles).reduce((acc, key) => {
     acc[key] = data.toggles[key].value;
-  return acc;
-}, {});
+    return acc;
+  }, {});
   return toggles;
 };
 
