@@ -50,14 +50,15 @@ async function findCloudFrontHitsFromLog(bucket, key) {
     .createReadStream()
     .pipe(zlib.createGunzip());
 
-  const lineReader = readline.createInterface({ input: input });
+  const lineReader = readline.createInterface({ input });
 
   let fields = [];
-  let result = [];
+  const result = [];
 
   lineReader.on('line', line => {
     // Skip the first header line.
     if (line.startsWith('#Version')) {
+      // do nothing
     }
     // The second line tells us what the fields are.
     else if (line.startsWith('#Fields')) {
@@ -73,7 +74,7 @@ async function findCloudFrontHitsFromLog(bucket, key) {
         host: hit['x-host-header'],
         path: decodeURIComponent(hit['cs-uri-stem']),
         ipAddress: hit['c-ip'],
-        date: new Date(`${hit['date']}T${hit['time']}Z`),
+        date: new Date(`${hit.date}T${hit.time}Z`),
 
         // The CloudFront log records this as a string, but it's more convenient
         // downstream if we can treat it as a number.
@@ -81,7 +82,10 @@ async function findCloudFrontHitsFromLog(bucket, key) {
 
         // Note: if the request contained an empty query string, CloudFront
         // will log this as '-'
-        query: hit['cs-uri-query'] !== '-' ? decodeURIComponent(hit['cs-uri-query']) : null,
+        query:
+          hit['cs-uri-query'] !== '-'
+            ? decodeURIComponent(hit['cs-uri-query'])
+            : null,
       });
 
       result.push(hit);
@@ -217,13 +221,13 @@ function createDisplayUrl(protocol, host, path, query) {
   if (path.startsWith('/account') && query !== null) {
     const originalParams = new URLSearchParams(query);
 
-    const redactedParams = Array.from(originalParams.entries()).map(function (
-      param
-    ) {
-      const key = param[0];
-      const value = param[1];
-      return [key, `[${value.slice(0, 3)}... REDACTED]`];
-    });
+    const redactedParams = Array.from(originalParams.entries()).map(
+      function (param) {
+        const key = param[0];
+        const value = param[1];
+        return [key, `[${value.slice(0, 3)}... REDACTED]`];
+      }
+    );
     const redactedQuery = new URLSearchParams(redactedParams).toString();
 
     return `${protocol}://${host}${path}?${redactedQuery}`
