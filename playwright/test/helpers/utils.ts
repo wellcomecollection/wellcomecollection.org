@@ -21,8 +21,9 @@ export async function makeDefaultToggleCookies(
     'https://toggles.wellcomecollection.org/toggles.json'
   );
   const { toggles } = data;
-
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   return toggles.map((t: any) => {
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     return {
       name: `${togglePrefix}${t.id}`,
       value: t.defaultValue.toString(),

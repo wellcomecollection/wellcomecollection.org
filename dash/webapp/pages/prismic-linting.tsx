@@ -5,8 +5,9 @@ import Issue from '../components/Issue';
 import { getHumanFriendlyDateString } from '../utils/formatting';
 
 const fontFamily = 'Gadget, sans-serif';
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function getPrismicLintingReport(): Promise<any> {
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   const reportUrl =
     'https://dash.wellcomecollection.org/prismic-linting/report.json';
 

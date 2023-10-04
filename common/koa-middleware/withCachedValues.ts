@@ -10,7 +10,9 @@ export const withCachedValues = compose([withPrismicPreviewStatus]);
 export async function route(
   path: string,
   page: string,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   router: Router<any, any>,
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   app: NextServer,
   extraParams: Record<string, string> = {}
 ) {
@@ -31,7 +33,9 @@ type Handle = (
   req: IncomingMessage,
   res: ServerResponse,
   parsedUrl?: UrlWithParsedQuery | undefined
+  /* eslint-disable @typescript-eslint/no-explicit-any */
 ) => Promise<any>;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export function handleAllRoute(handle: Handle) {
   return async function (ctx, extraCtxParams = {}) {

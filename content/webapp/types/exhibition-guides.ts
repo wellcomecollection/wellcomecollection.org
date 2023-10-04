@@ -61,5 +61,7 @@ export type ExhibitionGuideType = (typeof typeNames)[number];
 export function isValidType(
   type: string | string[] | undefined
 ): type is ExhibitionGuideType {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   return typeNames.includes(type as any);
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 }
