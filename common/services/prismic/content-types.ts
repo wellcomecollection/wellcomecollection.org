@@ -18,7 +18,8 @@ const contentTypes = [
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function isContentType(type: any): type is ContentType {
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   return typeof type && contentTypes.includes(type);
 }

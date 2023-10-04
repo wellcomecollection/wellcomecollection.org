@@ -15,7 +15,9 @@ import {
 
 jest
   .spyOn(Context, 'usePrismicData')
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   .mockImplementation(() => prismicData as any);
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 const renderComponent = (event: Event) => {
   return render(

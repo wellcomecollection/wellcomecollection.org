@@ -12,8 +12,10 @@ export function transformSeason(document: SeasonPrismicDocument): Season {
     start: transformTimestamp(data.start),
     end: transformTimestamp(data.end),
     datePublished: document.first_publication_date
-      ? transformTimestamp(document.first_publication_date as any)
-      : undefined,
+      ? /* eslint-disable @typescript-eslint/no-explicit-any */
+        transformTimestamp(document.first_publication_date as any)
+      : /* eslint-enable @typescript-eslint/no-explicit-any */
+        undefined,
     ...genericFields,
     labels: [{ text: 'Season' }],
     promo: promo && promo.image && promo,

@@ -87,14 +87,20 @@ export function asTitle(title: prismic.RichTextField): string {
 }
 
 export function transformSingleLevelGroup(
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   frag: Record<string, any>[],
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   singlePropertyName: string
 ) {
-  return (frag || [])
-    .filter(fragItem =>
-      isFilledLinkToDocumentWithData(fragItem[singlePropertyName])
-    )
-    .map<Record<string, any>>(fragItem => fragItem[singlePropertyName]);
+  return (
+    (frag || [])
+      .filter(fragItem =>
+        isFilledLinkToDocumentWithData(fragItem[singlePropertyName])
+      )
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      .map<Record<string, any>>(fragItem => fragItem[singlePropertyName])
+  );
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 }
 
 export function transformLabelType(

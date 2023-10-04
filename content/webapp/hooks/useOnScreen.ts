@@ -17,7 +17,9 @@ export default function useOnScreen({
       ([entry]) => {
         if (entry.isIntersecting) {
           const midPointOfRoot =
+            /* eslint-disable @typescript-eslint/no-non-null-assertion */
             entry.rootBounds!.top + entry.rootBounds!.height / 2;
+          /* eslint-enable @typescript-eslint/no-non-null-assertion */
           const targetTop = entry.boundingClientRect.top;
           const targetBottom = entry.boundingClientRect.bottom;
           const topPassedMidPoint = targetTop < midPointOfRoot;

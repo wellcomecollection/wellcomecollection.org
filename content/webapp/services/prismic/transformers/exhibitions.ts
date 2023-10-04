@@ -18,6 +18,7 @@ import { transformQuery } from './paginated-results';
 import { transformMultiContent } from './multi-content';
 import {
   transformLink,
+  transformTimestamp,
 } from '@weco/common/services/prismic/transformers';
 import {
   asHtml,
@@ -35,7 +36,6 @@ import {
 } from './contributors';
 import * as prismic from '@prismicio/client';
 import { noAltTextBecausePromo } from './images';
-import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 function transformExhibitionFormat(
   format: ExhibitionFormatPrismicDocument
@@ -68,12 +68,12 @@ export function transformExhibition(
     const text = asText(i.linkText) || '';
     const url = transformLink(i.documentLink) || '';
     const size = Math.round(parseInt(i.documentLink.size) / 1000) || 0;
-    return ({
+    return {
       text,
       url,
       size,
-    })
-  })
+    };
+  });
 
   const accessResourcesText = asRichText(data.accessResourcesText);
 

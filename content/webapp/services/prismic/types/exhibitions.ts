@@ -45,7 +45,9 @@ export type ExhibitionPrismicDocument = prismic.PrismicDocument<
         //    'event' is referenced directly or indirectly in its own type annotation.
         //
         // TODO: Find a better way to do this which doesn't upset the type checker.
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         InferDataInterface<any>
+        /* eslint-enable @typescript-eslint/no-explicit-any */
       >;
     }>;
     events: prismic.GroupField<{

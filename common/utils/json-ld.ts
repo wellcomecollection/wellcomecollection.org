@@ -83,7 +83,9 @@ function imageLd(image: Image) {
     image &&
     objToJsonLd(
       {
+        /* eslint-disable @typescript-eslint/no-non-null-assertion */
         url: convertImageUri((image.contentUrl || image.url)!, 1200),
+        /* eslint-enable @typescript-eslint/no-non-null-assertion */
         width: image.width,
         height: image.height,
       },

@@ -54,7 +54,9 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
 }
 
 export function transformLink(
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   link?: prismic.LinkField<string, string, any>
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 ): string | undefined {
   if (link) {
     if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {

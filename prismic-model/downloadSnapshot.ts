@@ -9,7 +9,9 @@ import { error, success } from './console';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 
 /** Returns a list of all the Prismic documents in a given snapshot directory. */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function getPrismicDocuments(snapshotFile: string): any[] {
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   return JSON.parse(fs.readFileSync(snapshotFile).toString());
 }
 

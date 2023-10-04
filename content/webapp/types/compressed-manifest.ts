@@ -79,8 +79,10 @@ export function fromCompressedManifest(
       thumbnailImage:
         thumbnailImageUrl[index] && thumbnailImageWidth[index]
           ? {
+              /* eslint-disable @typescript-eslint/no-non-null-assertion */
               url: thumbnailImageUrl[index]!,
               width: thumbnailImageWidth[index]!,
+              /* eslint-enable @typescript-eslint/no-non-null-assertion */
             }
           : undefined,
     };

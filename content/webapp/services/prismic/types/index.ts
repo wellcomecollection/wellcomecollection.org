@@ -11,9 +11,10 @@ import {
   isFilledLinkToDocumentWithData,
   InferDataInterface,
 } from '@weco/common/services/prismic/types';
-
 export type InferCustomType<T> = T extends prismic.PrismicDocument<
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   any,
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   infer CustomType
 >
   ? CustomType
@@ -161,7 +162,9 @@ export type WithExhibitionParents = {
       //    'event' is referenced directly or indirectly in its own type annotation.
       //
       // TODO: Find a better way to do this which doesn't upset the type checker.
+      /* eslint-disable @typescript-eslint/no-explicit-any */
       InferDataInterface<any>
+      /* eslint-enable @typescript-eslint/no-explicit-any */
     >;
   }>;
 };

@@ -39,13 +39,13 @@ export function getTogglesFromContext(
   const toggles = [...togglesResp.toggles].reduce(
     (acc, toggle) => ({
       ...acc,
-      [toggle.id]:
-      {
-        value: allCookies[`toggle_${toggle.id}`] === 'true'
-          ? true
-          : toggle.defaultValue,
+      [toggle.id]: {
+        value:
+          allCookies[`toggle_${toggle.id}`] === 'true'
+            ? true
+            : toggle.defaultValue,
         type: toggle.type,
-      }
+      },
     }),
     {} as Toggles
   );
@@ -65,8 +65,8 @@ export function getTogglesFromContext(
       ...acc,
       [test.id]: {
         value: testToggleValue(test.id),
-        type: 'test'
-      }
+        type: 'test',
+      },
     };
   }, {} as Toggles);
   return { ...toggles, ...tests } as Toggles;

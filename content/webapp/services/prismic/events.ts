@@ -26,7 +26,9 @@ function getNextDateInFuture(event: HasTimes): Date | undefined {
     // If we do return an empty list here, it implies there's a mismatch
     // between what different functions think of as a "future" event, so
     // drop a warning so we know to investigate.
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const eventId = (event as any).id;
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     console.warn(
       `No future times – why did we call getNextDateInFuture(${eventId})?`
     );

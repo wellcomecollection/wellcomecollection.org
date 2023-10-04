@@ -138,7 +138,9 @@ describe('transformEventBasicTimes', () => {
         isFullyBooked: { inVenue: false, online: false },
       },
     ];
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const document: any = {
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       data: {
         schedule: [{ event: { link_type: 'Document' }, isNotLinked: null }],
       },
@@ -161,7 +163,9 @@ describe('transformEventBasicTimes', () => {
         isFullyBooked: { inVenue: false, online: false },
       },
     ];
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const document: any = {
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       data: {
         schedule: [
           {
@@ -263,8 +267,9 @@ describe('transformEventBasicTimes', () => {
       isFullyBooked: null,
       onlineIsFullyBooked: null,
     };
-
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const document: any = {
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       data: {
         schedule: [
           {

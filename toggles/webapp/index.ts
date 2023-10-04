@@ -12,5 +12,7 @@ export type TogglesResp = { toggles: PublishedToggle[]; tests: ABTest[] };
 
 // Don't be tempted to make the keys on this optional - keeping them
 // as required means we catch dead code left over from removed toggles
-export type Toggles = Record<ToggleId | TestId, { value: boolean | undefined, type: ToggleTypes} >
-
+export type Toggles = Record<
+  ToggleId | TestId,
+  { value: boolean | undefined; type: ToggleTypes }
+>;

@@ -23,7 +23,9 @@ describe('createRegularDay', () => {
   };
 
   it('gets the opening times for a venue which is open today', () => {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const day = createRegularDay('Monday', venue as any);
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     expect(day.opens).toBe('10:00');
     expect(day.closes).toBe('18:00');
@@ -31,7 +33,9 @@ describe('createRegularDay', () => {
   });
 
   it('gets the opening times for a closed venue', () => {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const day = createRegularDay('Tuesday', venue as any);
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     expect(day.opens).toBe('00:00');
     expect(day.closes).toBe('00:00');

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState, JSX, FunctionComponent } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import Link, { LinkProps } from 'next/link';
+import { LinkProps } from 'next/link';
 
 // Helpers/Utils
 import { appError, AppErrorProps } from '@weco/common/services/app';

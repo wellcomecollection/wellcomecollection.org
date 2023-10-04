@@ -15,7 +15,9 @@ const useInterval = (callback: Callback, delay: number | undefined) => {
   useEffect(() => {
     function tick() {
       if (savedCallback.current) {
+        /* eslint-disable @typescript-eslint/no-non-null-assertion */
         savedCallback.current!();
+        /* eslint-enable @typescript-eslint/no-non-null-assertion */
       }
     }
     if (isNotUndefined(delay)) {
