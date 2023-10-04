@@ -162,6 +162,7 @@ const WorkDetails: FunctionComponent<Props> = ({
           shouldShowItemLink={shouldShowItemLink}
           digitalLocationInfo={digitalLocationInfo}
           digitalLocation={digitalLocation}
+          locationOfWork={locationOfWork}
         />
       )}
 
