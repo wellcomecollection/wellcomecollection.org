@@ -53,7 +53,9 @@ export function transformPromoToCaptionedImage(
 ): CaptionedImage | undefined {
   // We could do more complicated checking here, but this is what we always use.
   if (frag.length > 0) {
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     const promo = frag[0]!;
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
     return transformCaptionedImage(promo.primary, crop);
   } else {
     return undefined;

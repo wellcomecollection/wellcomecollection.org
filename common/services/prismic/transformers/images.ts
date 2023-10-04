@@ -43,8 +43,9 @@ function transformFilledImage(image: prismic.FilledImageFieldImage): ImageType {
       acc[key] = image;
       return acc;
     }, {});
-
+  /* eslint-disable @typescript-eslint/no-non-null-assertion */
   const alt = image.alt!;
+  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   const simpleCrops = Object.keys(crops)
     .filter(key => {

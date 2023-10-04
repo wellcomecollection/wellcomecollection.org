@@ -42,7 +42,9 @@ export function transformPage(document: PagePrismicDocument): Page {
     (parent, index) => {
       return {
         ...transformPage(parent as PagePrismicDocument),
+        /* eslint-disable @typescript-eslint/no-non-null-assertion */
         order: data.parents[index].order!,
+        /* eslint-enable @typescript-eslint/no-non-null-assertion */
         type: parent.type,
       };
     }
