@@ -44,7 +44,8 @@ const aggregations: CatalogueResultsList<Image> = {
         {
           data: {
             id: 'cc-by-nc-nd',
-            label: 'Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)',
+            label:
+              'Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)',
             type: 'License',
           },
           count: 0,
@@ -73,7 +74,7 @@ const aggregations: CatalogueResultsList<Image> = {
     },
     type: 'Aggregations',
   },
-  _requestUrl: ''
+  _requestUrl: '',
 };
 
 export default aggregations;

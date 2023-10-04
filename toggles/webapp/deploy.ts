@@ -64,8 +64,8 @@ export async function deploy(client: S3Client): Promise<void> {
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en
   // So instead of sending the whole toggles JSON blob we send a concatenated string of only the toggle names (preceeded with a ! if the toggle is false).
   const potentialToggleString = togglesAndTests.tests
-  .map(toggle => `!${toggle.id}`) // replicating the condition of all toggles being false gives the longest possible string.
-  .join(',');
+    .map(toggle => `!${toggle.id}`) // replicating the condition of all toggles being false gives the longest possible string.
+    .join(',');
 
   // We throw an error here if this string could exceed 100 characters, i.e. if all test toggle values were false.
   // This is a bit of a hack due to GA limiting the amount of characters we can send.
