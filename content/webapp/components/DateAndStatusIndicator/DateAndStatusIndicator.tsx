@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';

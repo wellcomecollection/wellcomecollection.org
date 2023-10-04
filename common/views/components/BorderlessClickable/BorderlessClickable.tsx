@@ -10,10 +10,10 @@ import {
   BaseButton,
   BaseButtonInner,
   ButtonIconWrapper,
-} from '../ButtonSolid/ButtonSolid';
-import Icon from '../Icon/Icon';
-import { classNames, font } from '../../../utils/classnames';
-import { GaEvent, trackGaEvent } from '../../../utils/ga';
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { classNames, font } from '@weco/common/utils/classnames';
+import { GaEvent, trackGaEvent } from '@weco/common/utils/ga';
 import { IconSvg } from '@weco/common/icons';
 
 type ClickableElement = 'a' | 'button';

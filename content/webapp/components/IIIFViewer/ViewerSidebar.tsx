@@ -12,14 +12,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
+import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import MultipleManifestList from './MultipleManifestList';
 import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import WorkTitle from '../WorkTitle/WorkTitle';
-import { toHtmlId } from '@weco/common/utils/string';
+import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -94,7 +94,7 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
   }, []);
 
   return (
-    <Item data-test-id={testId}>
+    <Item data-testid={testId}>
       <AccordionInner onClick={() => setIsActive(!isActive)}>
         <AccordionButton
           aria-expanded={isActive ? 'true' : 'false'}
@@ -146,7 +146,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     matchingManifest?.label &&
     getMultiVolumeLabel(matchingManifest.label, work?.title || '');
 
-  const { iiifCredit, structures, searchService } = { ...transformedManifest };
+  const { structures, searchService } = { ...transformedManifest };
 
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
@@ -155,7 +155,9 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
 
-  const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
+  const locationOfWork = work.notes.find(
+    note => note.noteType.id === 'location-of-original'
+  );
 
   return (
     <>
@@ -214,7 +216,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         </Space>
       </Inner>
       <Inner>
-        <AccordionItem title="Licence and credit" testId="license-and-credit">
+        <AccordionItem title="Licence and re-use" testId="licence-and-reuse">
           <div className={font('intr', 6)}>
             {license && license.label && (
               <p>
@@ -227,14 +229,19 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
               </p>
             )}
             <p>
-              <strong>Credit:</strong> {work.title.replace(/\.$/g, '')}.
+              <strong>Credit:</strong> {removeTrailingFullStop(work.title)}.{' '}
+              {digitalLocation?.credit && <>{digitalLocation?.credit}. </>}
+              Source:{' '}
+              <WorkLink id={work.id} source="viewer_credit">
+                Wellcome Collection
+              </WorkLink>
+              .
             </p>
-            {credit && (
+
+            {locationOfWork && (
               <p>
-                <WorkLink id={work.id} source="viewer_credit">
-                  <a>{credit}</a>
-                </WorkLink>
-                .
+                <strong>Provider: </strong>
+                {locationOfWork.contents}
               </p>
             )}
           </div>

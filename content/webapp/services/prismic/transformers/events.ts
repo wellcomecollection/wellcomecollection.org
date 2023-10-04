@@ -36,8 +36,8 @@ import {
   transformEventSeriesToEventSeriesBasic,
 } from './event-series';
 import { transformPlace } from './places';
-import isEmptyObj from '@weco/common/utils/is-empty-object';
-import { LabelField } from '@weco/common/model/label-field';
+import isEmptyObj from '@weco/content/utils/is-empty-object';
+import { LabelField } from '@weco/content/model/label-field';
 import {
   InferDataInterface,
   isFilledLinkToWebField,

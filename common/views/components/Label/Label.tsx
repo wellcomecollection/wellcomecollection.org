@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Label as LabelType, LabelColor } from '../../../model/labels';
-import { font } from '../../../utils/classnames';
-import Space from '../styled/Space';
+import { font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 type LabelContainerProps = {

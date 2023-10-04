@@ -20,7 +20,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;

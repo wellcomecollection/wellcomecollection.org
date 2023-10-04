@@ -19,7 +19,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Link } from '../../types/link';
 import {

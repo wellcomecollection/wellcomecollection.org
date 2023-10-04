@@ -1,8 +1,8 @@
-import Table from '@weco/common/views/components/Table/Table';
+import Table from '@weco/content/components/Table/Table';
 import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 
 const Font = styled.div`
   padding: 10px 0 25px;

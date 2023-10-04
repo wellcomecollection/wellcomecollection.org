@@ -1,6 +1,6 @@
 import { Image, PromoSliceZone } from '../types';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import isEmptyObj from '@weco/common/utils/is-empty-object';
+import isEmptyObj from '@weco/content/utils/is-empty-object';
 import { Crop, ImageType } from '@weco/common/model/image';
 import { ImagePromo } from '../../../types/image-promo';
 import { asRichText, asText } from '.';

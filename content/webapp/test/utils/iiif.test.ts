@@ -17,7 +17,7 @@ import {
   physicalDescriptionMetadataItem,
   manifestWithVideo,
   clickThroughService,
-} from '@weco/common/__mocks__/iiif-manifest-v3';
+} from '@weco/content/__mocks__/iiif-manifest-v3';
 
 import b16641097 from '@weco/content/test/fixtures/iiif/manifests/b16641097';
 import b3223756x from '@weco/content/test/fixtures/iiif/manifests/b3223756x';

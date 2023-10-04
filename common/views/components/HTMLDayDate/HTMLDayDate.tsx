@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { formatDayDate } from '../../../utils/format-date';
+import { formatDayDate } from '@weco/common/utils/format-date';
 
 type Props = {
   date: Date;

@@ -20,8 +20,8 @@ import {
 } from '@weco/common/data/hardcoded-ids';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { PageFormatIds } from '@weco/common/data/content-format-ids';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+import { PageFormatIds } from '@weco/content/data/content-format-ids';
 import { links } from '@weco/common/views/components/Header/Header';
 import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -46,7 +46,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 export type Props = {
   page: PageType;

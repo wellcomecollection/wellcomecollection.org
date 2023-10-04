@@ -47,7 +47,7 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import * as prismic from '@prismicio/client';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {
   season: Season;

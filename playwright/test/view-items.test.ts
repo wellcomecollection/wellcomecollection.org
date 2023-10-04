@@ -54,6 +54,11 @@ const test = base.extend({
   },
 });
 
+// We've repeatedly had tests in this test file (not always the same one) fail once on a timeout, only to always pass on a retry.
+// I'll allow this file to retry once, see if it helps and makes our alerts more relevant.
+// I'm also allowing them to run in parallel, hoping it'll help with timeouts as its considered a slow test file.
+test.describe.configure({ mode: 'parallel', retries: 1 });
+
 test.describe('Scenario 1: A user wants a large-scale view of an item', () => {
   test('the images are scalable', async ({ page, context }) => {
     await multiVolumeItem(context, page);
@@ -184,7 +189,7 @@ test.describe('Scenario 4: A user wants to know how they can make use of an item
     if (isMobile(page)) {
       await page.click('text="Show info"');
     }
-    await page.click('text="Licence and credit"');
+    await page.getByTestId('licence-and-reuse').click();
     await page.waitForSelector(`css=body >> text="Licence:"`);
     await page.waitForSelector(`css=body >> text="Credit:"`);
   });

@@ -1,4 +1,4 @@
-import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
+import RadioGroup from '@weco/content/components/RadioGroup/RadioGroup';
 import { useState } from 'react';
 
 const Template = () => {

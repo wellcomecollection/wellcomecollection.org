@@ -1,14 +1,14 @@
 import { FunctionComponent, SyntheticEvent } from 'react';
 import NextLink, { LinkProps } from 'next/link';
-import { classNames } from '../../../utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
   SolidButton,
   ButtonSolidBaseProps,
-} from '../ButtonSolid/ButtonSolid';
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import Icon from '../Icon/Icon';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {

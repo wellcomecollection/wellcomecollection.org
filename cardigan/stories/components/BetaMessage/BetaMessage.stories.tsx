@@ -1,4 +1,4 @@
-import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 const Template = args => <BetaMessage {...args} />;
 
 export const basic = Template.bind({});

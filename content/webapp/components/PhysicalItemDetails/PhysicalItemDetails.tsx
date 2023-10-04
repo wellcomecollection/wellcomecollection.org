@@ -23,7 +23,7 @@ import ItemRequestModal from '../ItemRequestModal/ItemRequestModal';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { itemIsRequestable } from '../../utils/requesting';
-import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
+import Placeholder from '@weco/content/components/Placeholder/Placeholder';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 import { trackGaEvent } from '@weco/common/utils/ga';

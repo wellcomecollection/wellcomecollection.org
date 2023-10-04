@@ -1,6 +1,6 @@
 import { DateRange as DateRangeType } from '@weco/common/model/date-range';
 import { isSameDayOrBefore, today } from '@weco/common/utils/dates';
-import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange/DateRange';
 import { FunctionComponent } from 'react';
 import { HasTimeRanges } from '../../types/events';
 

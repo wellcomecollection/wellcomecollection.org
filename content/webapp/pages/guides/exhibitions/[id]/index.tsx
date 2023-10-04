@@ -30,7 +30,7 @@ import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Head
 import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides/OtherExhibitionGuides';
 import ExhibitionGuideLinks from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;

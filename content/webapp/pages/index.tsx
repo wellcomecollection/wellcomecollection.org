@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import Head from 'next/head';
 import { font } from '@weco/common/utils/classnames';
-import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -11,7 +11,7 @@ import { ArticleBasic } from '@weco/content/types/articles';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '@weco/content/components/SimpleCardGrid/SimpleCardGrid';
-import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
@@ -49,7 +49,7 @@ import {
 } from '@weco/content/types/body';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },

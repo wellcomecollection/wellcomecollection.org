@@ -6,7 +6,7 @@ import { ReactElement, FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import ExhibitionCaptions from '../ExhibitionCaptions/ExhibitionCaptions';
 import styled from 'styled-components';
-import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
+import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import GridFactory, {
   threeUpGridSizesMap,

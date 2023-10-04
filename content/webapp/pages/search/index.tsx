@@ -8,7 +8,7 @@ import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoRe
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
-import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -43,7 +43,7 @@ import {
   ContentResultsList,
 } from '@weco/content/services/wellcome/content/types/api';
 import { WellcomeApiError } from '@weco/content/services/wellcome';
-import { cacheTTL, setCacheControl } from '@weco/common/utils/setCacheControl';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 

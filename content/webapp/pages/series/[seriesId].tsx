@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
@@ -32,7 +32,7 @@ import {
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -40,7 +40,7 @@ import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items'
 import styled from 'styled-components';
 import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
-import { setCacheControl } from '@weco/common/utils/setCacheControl';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const SeriesItem = styled.div<{ isFirst: boolean }>`
   border-top: ${props =>
