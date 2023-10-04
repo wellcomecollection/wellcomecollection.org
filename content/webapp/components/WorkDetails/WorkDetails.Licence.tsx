@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import styled from 'styled-components';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { removeTrailingFullStop } from '@weco/content/utils/string';
@@ -6,7 +7,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { CopyContent } from '@weco/content/components/CopyButtons';
 import WorkDetailsText from './WorkDetails.Text';
 import { Note } from '@weco/content/services/wellcome/catalogue/types';
-import { ReactElement } from 'react';
 
 const LicenceContents = styled.div`
   /*  Hack to remove the spacing between the title and the first paragraph */
