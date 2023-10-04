@@ -1,7 +1,7 @@
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent, PropsWithChildren, useContext } from 'react';
 import styled from 'styled-components';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 

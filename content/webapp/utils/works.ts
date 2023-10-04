@@ -293,7 +293,7 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
 }
 
-type DigitalLocationInfo = {
+export type DigitalLocationInfo = {
   accessCondition: string | undefined;
   license: LicenseData | undefined;
 };

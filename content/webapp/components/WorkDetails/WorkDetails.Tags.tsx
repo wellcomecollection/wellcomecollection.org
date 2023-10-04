@@ -1,6 +1,6 @@
 import Tags, { Props as TagsProps } from '@weco/content/components/Tags/Tags';
-import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
 import { FunctionComponent } from 'react';
+import WorkDetailsProperty from './WorkDetails.Property';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 

@@ -1,4 +1,3 @@
-import NextLink from 'next/link';
 import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { toLink as worksLink } from '../WorksLink';
@@ -9,25 +8,17 @@ import {
   getDownloadOptionsFromImageUrl,
   getHoldings,
   getItemsWithPhysicalLocation,
-  getLocationLabel,
-  getLocationLink,
-  getLocationShelfmark,
 } from '../../utils/works';
 import Space from '@weco/common/views/components/styled/Space';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import Download from '../Download/Download';
-import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
-import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
-import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
-import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
-import VideoPlayer from '../VideoPlayer/VideoPlayer';
-import AudioList from '../AudioList/AudioList';
+import WorkDetailsSection from './WorkDetails.Section';
+import WorkDetailsText from './WorkDetails.Text';
+import WorkDetailsList from './WorkDetails.List';
+import WorkDetailsTags from './WorkDetails.Tags';
+import WhereToFindIt from './WorkDetails.WhereToFind';
+import WorkDetailsHoldings from './WorkDetails.Holdings';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import { toLink as itemLink } from '../ItemLink';
 import { toLink as conceptLink } from '../ConceptLink';
-import { trackGaEvent } from '@weco/common/utils/ga';
-import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import {
@@ -36,20 +27,12 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import useTransformedManifest from '../../hooks/useTransformedManifest';
 import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
-import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
-import OnlineResources from './OnlineResources';
-import ExpandableList from '@weco/content/components/ExpandableList/ExpandableList';
-import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import LibraryMembersBar from '../LibraryMembersBar/LibraryMembersBar';
-import { eye } from '@weco/common/icons';
-import {
-  itemIsRequestable,
-  itemIsTemporarilyUnavailable,
-} from '../../utils/requesting';
+import OnlineResources from './WorkDetails.OnlineResources';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
-import { CopyContent, CopyUrl } from '@weco/content/components/CopyButtons';
-import { removeTrailingFullStop } from '@weco/content/utils/string';
+import { CopyUrl } from '@weco/content/components/CopyButtons';
+import WorkDetailsAvailableOnline from './WorkDetails.AvailableOnline';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 
 type Props = {
   work: Work;
@@ -61,18 +44,13 @@ const WorkDetails: FunctionComponent<Props> = ({
   shouldShowItemLink,
 }: Props) => {
   const isArchive = useContext(IsArchiveContext);
-  const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const transformedIIIFManifest = useTransformedManifest(work);
   const {
     video,
     downloadEnabled,
     downloadOptions: manifestDownloadOptions,
-    collectionManifestsCount,
-    canvasCount,
     audio,
-    clickThroughService,
-    tokenService,
   } = { ...transformedIIIFManifest };
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -96,11 +74,6 @@ const WorkDetails: FunctionComponent<Props> = ({
         height: transformedIIIFImage?.height,
       })
     : [];
-
-  const downloadOptions = [
-    ...(manifestDownloadOptions || []),
-    ...iiifImageDownloadOptions,
-  ];
 
   // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
   // we use the former
@@ -169,342 +142,27 @@ const WorkDetails: FunctionComponent<Props> = ({
     }
   }
 
-  const showDownloadOptions = determineDownloadVisibility(downloadEnabled);
-
   const holdings = getHoldings(work);
 
   const showAvailableOnlineSection =
     digitalLocation &&
     (shouldShowItemLink || (audio?.sounds || []).length > 0 || video);
 
-  const renderWhereToFindIt = () => {
-    return (
-      <WorkDetailsSection headingText="Where to find it">
-        {physicalItems.some(
-          item => itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
-        ) && (
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <LibraryMembersBar />
-          </Space>
-        )}
-        {locationOfWork && (
-          <WorkDetailsText
-            title={locationOfWork.noteType.label}
-            html={locationOfWork.contents}
-            allowDangerousRawHtml={true}
-          />
-        )}
-        <PhysicalItems work={work} items={physicalItems} />
-      </WorkDetailsSection>
-    );
-  };
-
-  const renderHoldings = () => {
-    return (
-      <>
-        {holdings.length > 0 ? (
-          <WorkDetailsSection headingText="Holdings">
-            {holdings.map((holding, i) => {
-              const locationLabel =
-                holding.location && getLocationLabel(holding.location);
-              const locationShelfmark =
-                holding.location && getLocationShelfmark(holding.location);
-              const locationLink =
-                holding.location && getLocationLink(holding.location);
-              return (
-                <Space
-                  key={i}
-                  v={
-                    i + 1 !== holdings.length
-                      ? { size: 'l', properties: ['margin-bottom'] }
-                      : { size: 'l', properties: [] }
-                  }
-                >
-                  {holding.enumeration.length > 0 && (
-                    <Space
-                      key={i}
-                      v={{ size: 's', properties: ['margin-bottom'] }}
-                    >
-                      <ExpandableList
-                        listItems={holding.enumeration}
-                        initialItems={10}
-                      />
-                    </Space>
-                  )}
-                  <Space
-                    key={i}
-                    v={{ size: 's', properties: ['margin-bottom'] }}
-                  >
-                    {locationLink && (
-                      <a className={font('intr', 5)} href={locationLink.url}>
-                        {locationLink.linkText}
-                      </a>
-                    )}
-
-                    {locationShelfmark && (
-                      <WorkDetailsText
-                        title="Location"
-                        noSpacing={true}
-                        text={`${locationLabel} ${locationShelfmark}`}
-                      />
-                    )}
-
-                    {holding.note && (
-                      <WorkDetailsText
-                        title="Note"
-                        inlineHeading={true}
-                        noSpacing={true}
-                        text={holding.note}
-                      />
-                    )}
-                  </Space>
-                </Space>
-              );
-            })}
-          </WorkDetailsSection>
-        ) : null}
-      </>
-    );
-  };
-
   const renderContent = () => (
     <>
       {showAvailableOnlineSection && (
-        <WorkDetailsSection headingText="Available online">
-          <ConditionalWrapper
-            condition={Boolean(tokenService && !shouldShowItemLink)}
-            wrapper={children =>
-              itemUrl && (
-                <IIIFClickthrough
-                  clickThroughService={clickThroughService}
-                  tokenService={tokenService}
-                  trackingId={work.id}
-                >
-                  {children}
-                </IIIFClickthrough>
-              )
-            }
-          >
-            {video && (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <VideoPlayer
-                  video={video}
-                  // Note: because we can't prevent people from downloading videos if
-                  // they're available online, any videos where we want to prevent
-                  // download are restricted in Sierra.
-                  //
-                  // This means that any videos which can be viewed can also be downloaded.
-                  //
-                  // See discussion in https://wellcome.slack.com/archives/C8X9YKM5X/p1641833044030400
-                  showDownloadOptions={true}
-                />
-              </Space>
-            )}
-
-            {audio?.sounds && audio.sounds.length > 0 && (
-              <AudioList
-                items={audio?.sounds || []}
-                thumbnail={audio?.thumbnail}
-                transcript={audio?.transcript}
-                workTitle={work.title}
-              />
-            )}
-
-            {shouldShowItemLink && (
-              <>
-                {work.thumbnail && (
-                  <Space
-                    v={{
-                      size: 's',
-                      properties: ['margin-bottom'],
-                    }}
-                  >
-                    <ConditionalWrapper
-                      condition={Boolean(itemUrl)}
-                      wrapper={children =>
-                        itemUrl && (
-                          <NextLink
-                            href={itemUrl.href}
-                            as={itemUrl.as}
-                            onClick={() =>
-                              trackGaEvent({
-                                category: 'WorkDetails',
-                                action: 'follow image link',
-                                label: work.id,
-                              })
-                            }
-                          >
-                            {children}
-                          </NextLink>
-                        )
-                      }
-                    >
-                      <img
-                        style={{
-                          width: 'auto',
-                          height: 'auto',
-                        }}
-                        alt={`view ${work.title}`}
-                        src={work.thumbnail.url}
-                      />
-                    </ConditionalWrapper>
-                  </Space>
-                )}
-
-                <div style={{ display: 'flex' }}>
-                  {itemUrl && (
-                    <Space
-                      as="span"
-                      h={{
-                        size: 'm',
-                        properties: ['margin-right'],
-                      }}
-                    >
-                      <ButtonSolidLink
-                        icon={eye}
-                        text="View"
-                        trackingEvent={{
-                          category: 'WorkDetails',
-                          action: 'follow view link',
-                          label: itemUrl?.href?.query?.workId?.toString(),
-                        }}
-                        link={{ ...itemUrl }}
-                      />
-                    </Space>
-                  )}
-
-                  {showDownloadOptions && (
-                    <Download
-                      ariaControlsId="itemDownloads"
-                      workId={work.id}
-                      downloadOptions={downloadOptions}
-                    />
-                  )}
-                </div>
-                {((collectionManifestsCount && collectionManifestsCount > 0) ||
-                  (canvasCount && canvasCount > 0)) && (
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['margin-top'],
-                    }}
-                  >
-                    <p
-                      className={`${font('lr', 6)}`}
-                      style={{ marginBottom: 0 }}
-                    >
-                      Contains:{' '}
-                      {collectionManifestsCount && collectionManifestsCount > 0
-                        ? `${collectionManifestsCount} ${
-                            collectionManifestsCount === 1
-                              ? 'volume'
-                              : 'volumes'
-                          }`
-                        : canvasCount && canvasCount > 0
-                        ? `${canvasCount} ${
-                            canvasCount === 1 ? 'image' : 'images'
-                          }`
-                        : ''}
-                    </p>
-                  </Space>
-                )}
-              </>
-            )}
-          </ConditionalWrapper>
-
-          {digitalLocationInfo?.license && (
-            <>
-              {digitalLocation?.accessConditions[0]?.terms && (
-                <Space
-                  v={{
-                    size: 'l',
-                    properties: ['margin-top'],
-                  }}
-                >
-                  <WorkDetailsText
-                    title="Access conditions"
-                    noSpacing={true}
-                    text={digitalLocation?.accessConditions[0]?.terms}
-                  />
-                </Space>
-              )}
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top'],
-                }}
-              >
-                <CollapsibleContent
-                  id="licenseDetail"
-                  controlText={{ defaultText: 'Licence and re-use' }}
-                >
-                  <>
-                    {digitalLocationInfo.license.humanReadableText && (
-                      <WorkDetailsText
-                        contents={
-                          <>
-                            <p>
-                              <strong>
-                                {digitalLocationInfo.license.label}
-                              </strong>
-                            </p>
-                            {digitalLocationInfo.license.humanReadableText}
-                          </>
-                        }
-                      />
-                    )}
-
-                    <WorkDetailsText
-                      contents={
-                        <>
-                          <p>
-                            <strong>Credit</strong>
-                          </p>
-                          <CopyContent
-                            CTA="Copy credit information"
-                            content={`${removeTrailingFullStop(work.title)}. ${
-                              digitalLocation?.credit
-                                ? `${digitalLocation.credit}. `
-                                : ''
-                            }${
-                              digitalLocationInfo.license.label
-                            }. Source: Wellcome Collection. https://wellcomecollection.org/works/${
-                              work.id
-                            }`}
-                            displayedContent={
-                              <p>
-                                {/* Regex removes trailing full-stops.  */}
-                                {removeTrailingFullStop(work.title)}.{' '}
-                                {digitalLocation?.credit && (
-                                  <>{digitalLocation?.credit}. </>
-                                )}
-                                {digitalLocationInfo.license.label}. Source:
-                                Wellcome Collection.
-                              </p>
-                            }
-                          />
-                        </>
-                      }
-                    />
-
-                    {locationOfWork && (
-                      <WorkDetailsText
-                        contents={
-                          <>
-                            <p>
-                              <strong>Provider</strong>
-                            </p>
-                            <p>{locationOfWork.contents}</p>
-                          </>
-                        }
-                      />
-                    )}
-                  </>
-                </CollapsibleContent>
-              </Space>
-            </>
-          )}
-        </WorkDetailsSection>
+        <WorkDetailsAvailableOnline
+          work={work}
+          downloadOptions={[
+            ...(manifestDownloadOptions || []),
+            ...iiifImageDownloadOptions,
+          ]}
+          showDownloadOptions={determineDownloadVisibility(downloadEnabled)}
+          itemUrl={itemLink({ workId: work.id, source: 'work', props: {} })}
+          shouldShowItemLink={shouldShowItemLink}
+          digitalLocationInfo={digitalLocationInfo}
+          digitalLocation={digitalLocation}
+        />
       )}
 
       <OnlineResources work={work} />
@@ -749,9 +407,15 @@ const WorkDetails: FunctionComponent<Props> = ({
         </WorkDetailsSection>
       )}
 
-      {renderHoldings()}
+      {holdings && <WorkDetailsHoldings holdings={holdings} />}
 
-      {(locationOfWork || physicalItems.length > 0) && renderWhereToFindIt()}
+      {(locationOfWork || physicalItems.length > 0) && (
+        <WhereToFindIt
+          work={work}
+          locationOfWork={locationOfWork}
+          physicalItems={physicalItems}
+        />
+      )}
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={font('intr', 5)}>

@@ -252,7 +252,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
             <ViewerStructures />
           </AccordionItem>
         )}
-        {/* 
+        {/*
           Note: this check for `behavior === 'multi-part'` is repeated in items.tsx to
           avoid sending unnecessary data about parent manifests that we're not going
           to render.  If you change the display condition here, you'll likely want to
