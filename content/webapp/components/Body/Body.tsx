@@ -472,7 +472,6 @@ const Body: FunctionComponent<Props> = ({
                   </LayoutWidth>
                 </SpacingComponent>
               )}
-              {/* TODO: remove this slice type if we're not using it? */}
               {slice.type === 'searchResults' && (
                 <SpacingComponent sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>

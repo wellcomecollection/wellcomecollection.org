@@ -11,7 +11,7 @@ const interpretationTypes: CustomType = {
     'Interpretation type': {
       title,
       // TODO: This should be a Key text field
-      // see: https://prismic.io/docs/core-concepts/key-text
+      // see: https://prismic.io/docs/field#key-text
       abbreviation: singleLineText('Abbreviation', {
         overrideTextOptions: ['paragraph'],
       }),

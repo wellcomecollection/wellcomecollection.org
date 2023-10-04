@@ -1,6 +1,5 @@
 import Map from '@weco/content/components/Map/Map';
 
-// TODO fix snapshots
 const Template = args => <Map {...args} />;
 export const basic = Template.bind({});
 basic.args = {

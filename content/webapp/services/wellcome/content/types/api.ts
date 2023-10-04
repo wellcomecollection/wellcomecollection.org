@@ -22,7 +22,7 @@ export type Article = {
   publicationDate: string;
   contributors: Contributor[];
   format: ArticleFormat;
-  image?: prismic.EmptyImageFieldImage | prismic.FilledImageFieldImage; // TODO
+  image?: prismic.EmptyImageFieldImage | prismic.FilledImageFieldImage;
   caption?: string;
   type: 'Article';
 };

@@ -1,10 +1,12 @@
 import { CloudFrontRequest } from 'aws-lambda';
 
+export type ToggleTypes = 'permanent' | 'experimental' | 'test';
+
 type ToggleBase = {
   id: string;
   title: string;
   description: string;
-  type: 'permanent' | 'experimental';
+  type: ToggleTypes;
 };
 
 export type ToggleDefinition = ToggleBase & {
@@ -20,6 +22,7 @@ export type ABTest = {
   title: string;
   range: [number, number];
   when: (request: CloudFrontRequest) => boolean;
+  type: 'test';
 };
 
 const toggles = {
