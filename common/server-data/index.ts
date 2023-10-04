@@ -123,7 +123,9 @@ export const getServerData = async (
 
   const toggles = getTogglesFromContext(togglesResp, context);
 
-  const isEnableToggleValid = Object.keys(toggles).some(id => id === enableToggle);
+  const isEnableToggleValid = Object.keys(toggles).some(
+    id => id === enableToggle
+  );
 
   if (enableToggle && isEnableToggleValid) {
     context.res.setHeader('Set-Cookie', `toggle_${enableToggle}=true; Path=/`);

@@ -19,7 +19,7 @@
     "e2e-stage": "yarn test:playwright && yarn test:playwright:mobile",
     "run-concurrently": "./scripts/run-concurrently.sh",
     "run-concurrently:clean": "./scripts/run-concurrently.sh -c",
-    "lint": "eslint \"**/*.{ts,tsx}\"",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "lint:css": "stylelint \"**/*.{js,ts,tsx}\""
   },
   "repository": {

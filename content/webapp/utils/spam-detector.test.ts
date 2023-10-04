@@ -15,7 +15,7 @@ describe('requests that probably aren’t spam', () => {
 describe('requests that probably are spam', () => {
   test.each([
     {
-      query: '⏩ casino jackpot win win win ⏪'
+      query: '⏩ casino jackpot win win win ⏪',
     },
     {
       query:
@@ -23,7 +23,7 @@ describe('requests that probably are spam', () => {
     },
     {
       query:
-        '华体会官网登录入口手机-【copy url：spam123.abc】-金狮贵宾会官网登录中心-【copy url：spam123.abc】-8su'
+        '华体会官网登录入口手机-【copy url：spam123.abc】-金狮贵宾会官网登录中心-【copy url：spam123.abc】-8su',
     },
     {
       query:
