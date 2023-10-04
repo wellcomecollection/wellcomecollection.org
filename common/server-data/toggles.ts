@@ -40,9 +40,12 @@ export function getTogglesFromContext(
     (acc, toggle) => ({
       ...acc,
       [toggle.id]:
-        allCookies[`toggle_${toggle.id}`] === 'true'
+      {
+        value: allCookies[`toggle_${toggle.id}`] === 'true'
           ? true
           : toggle.defaultValue,
+        type: toggle.type,
+      }
     }),
     {} as Toggles
   );
@@ -60,10 +63,13 @@ export function getTogglesFromContext(
     }
     return {
       ...acc,
-      [test.id]: testToggleValue(test.id),
+      [test.id]: {
+        value: testToggleValue(test.id),
+        type: 'test'
+      }
     };
   }, {} as Toggles);
-  return { ...toggles, ...tests };
+  return { ...toggles, ...tests } as Toggles;
 }
 
 export default togglesHandler;

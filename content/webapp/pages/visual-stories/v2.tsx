@@ -5,8 +5,7 @@ import { V2Prototype } from '@weco/content/components/VisualStories';
 
 export const getServerSideProps = async context => {
   const serverData = await getServerData(context);
-
-  if (!serverData?.toggles?.visualStories) {
+  if (!serverData?.toggles?.visualStories?.value) {
     return { notFound: true };
   }
 

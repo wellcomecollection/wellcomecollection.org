@@ -8,7 +8,7 @@ export type GlobalApiOptions = {
 };
 
 export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
-  env: toggles?.stagingApi ? 'stage' : 'prod',
+  env: toggles?.stagingApi?.value ? 'stage' : 'prod',
 });
 
 // Used as a helper to return a typesafe empty results list

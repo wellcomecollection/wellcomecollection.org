@@ -14,6 +14,7 @@ import { inlineFonts } from './base/inline-fonts';
 import { fonts } from './base/fonts';
 import { themeValues, spacingUnits, Size } from './config';
 import { grid } from './grid';
+import { Toggles } from '@weco/toggles';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty =
@@ -98,7 +99,7 @@ const cls = {
 } as any as Classes & SizedClasses;
 
 export type GlobalStyleProps = {
-  toggles?: { [key: string]: boolean | undefined };
+  toggles?: Toggles;
   isFontsLoaded?: boolean;
 };
 
