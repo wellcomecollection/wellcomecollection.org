@@ -158,7 +158,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
           ) : (
             <>
               <PaginationWrapper verticalSpacing="l">
-                <span>{pluralize(works.totalResults, 'result')}</span>
+                <span aria-live="assertive">
+                  {pluralize(works.totalResults, 'result')}
+                </span>
 
                 <SortPaginationWrapper>
                   <Sort

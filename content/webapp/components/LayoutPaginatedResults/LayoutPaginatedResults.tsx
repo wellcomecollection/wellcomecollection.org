@@ -70,7 +70,9 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
     {paginatedResults.totalPages > 1 && (
       <Layout12>
         <PaginationWrapper verticalSpacing="l">
-          <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
+          <span aria-live="assertive">
+            {pluralize(paginatedResults.totalResults, 'result')}
+          </span>
 
           <Pagination
             totalPages={paginatedResults.totalPages}

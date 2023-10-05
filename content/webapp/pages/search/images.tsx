@@ -172,7 +172,9 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
             ) : (
               <>
                 <PaginationWrapper verticalSpacing="l">
-                  <span>{pluralize(images.totalResults, 'result')}</span>
+                  <span aria-live="assertive">
+                    {pluralize(images.totalResults, 'result')}
+                  </span>
 
                   <SortPaginationWrapper>
                     <Sort

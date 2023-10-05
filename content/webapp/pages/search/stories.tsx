@@ -136,7 +136,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           ) : (
             <Container>
               <PaginationWrapper verticalSpacing="l">
-                <span>
+                <span aria-live="assertive">
                   {pluralize(storyResponseList.totalResults, 'result')}
                 </span>
 
