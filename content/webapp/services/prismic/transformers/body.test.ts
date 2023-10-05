@@ -39,6 +39,7 @@ describe('transformBody', () => {
             'https://www.youtube.com/watch?v=RTlA8X0EJ7w&list=PL1C12C48F8E360BC2&index=13',
         },
         caption: [],
+        transcript: [],
       },
     };
 
@@ -52,6 +53,7 @@ describe('transformBody', () => {
           embedUrl:
             'https://www.youtube-nocookie.com/embed/RTlA8X0EJ7w?rel=0&list=PL1C12C48F8E360BC2',
           caption: [],
+          transcript: [],
         },
       },
     ]);
@@ -80,6 +82,7 @@ describe('transformBody', () => {
           embed_url: 'https://www.youtube.com/watch?v=RwUS2ev53b8',
         },
         caption: [],
+        transcript: [],
       },
     };
 
@@ -93,6 +96,7 @@ describe('transformBody', () => {
           embedUrl:
             'https://www.youtube-nocookie.com/embed/RwUS2ev53b8?rel=0&feature=oembed',
           caption: [],
+          transcript: [],
         },
       },
     ]);

@@ -54,6 +54,7 @@ const beingHuman: Exhibition = {
         title: 'Exhibition highlights',
         items: [
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/aaa66f4b6df13144401f101cb66b3804f0e4dbb0_ep_000832_016.jpg?auto=compress,format',
@@ -62,13 +63,13 @@ const beingHuman: Exhibition = {
               alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, on which are hung 9 photographs showing flooded landscapes. In the foreground is a life-size artwork of a figure resembling an astronaut. carrying a large net containing assorted objects including a suitcase.',
               tasl: {
                 title: 'Refugee Astronaut by Yinka Shonibare CBE',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
-                copyrightHolder: null,
-                copyrightLink: null,
+                sourceLink: undefined,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '16:9': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/e2c81532c37a9f24adae242406606b6d8d2a5ba1_ep_000832_016.jpg?auto=compress,format',
@@ -77,13 +78,12 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, on which are hung 9 photographs showing flooded landscapes. In the foreground is a life-size artwork of a figure resembling an astronaut. carrying a large net containing assorted objects including a suitcase.',
                   tasl: {
                     title: 'Refugee Astronaut by Yinka Shonibare CBE',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    sourceLink: undefined,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -93,13 +93,12 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, on which are hung 9 photographs showing flooded landscapes. In the foreground is a life-size artwork of a figure resembling an astronaut. carrying a large net containing assorted objects including a suitcase.',
                   tasl: {
                     title: 'Refugee Astronaut by Yinka Shonibare CBE',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    sourceLink: undefined,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '32:15': {
                   contentUrl:
@@ -109,13 +108,12 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, on which are hung 9 photographs showing flooded landscapes. In the foreground is a life-size artwork of a figure resembling an astronaut. carrying a large net containing assorted objects including a suitcase.',
                   tasl: {
                     title: 'Refugee Astronaut by Yinka Shonibare CBE',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    sourceLink: undefined,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -138,6 +136,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/b6eeb509-8569-44e3-9d8e-e19790580846_EP_001057_045_Full.jpg?auto=compress,format',
@@ -146,14 +145,14 @@ const beingHuman: Exhibition = {
               alt: 'Photograph of an exhibit in a gallery space of an artwork which resembles a juke box.',
               tasl: {
                 title: 'Interactive jukebox by Kin and Bethan Laura Wood',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
+                sourceLink: undefined,
                 license: 'CC-BY-NC',
-                copyrightHolder: null,
-                copyrightLink: null,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '32:15': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/b6eeb509-8569-44e3-9d8e-e19790580846_EP_001057_045_Full.jpg?auto=compress,format&rect=0,398,4000,1875&w=3200&h=1500',
@@ -162,14 +161,13 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of an exhibit in a gallery space of an artwork which resembles a juke box.',
                   tasl: {
                     title: 'Interactive jukebox by Kin and Bethan Laura Wood',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '16:9': {
                   contentUrl:
@@ -179,14 +177,13 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of an exhibit in a gallery space of an artwork which resembles a juke box.',
                   tasl: {
                     title: 'Interactive jukebox by Kin and Bethan Laura Wood',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -196,14 +193,13 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of an exhibit in a gallery space of an artwork which resembles a juke box.',
                   tasl: {
                     title: 'Interactive jukebox by Kin and Bethan Laura Wood',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -235,6 +231,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/9efd94a784deef2d260f0a9f73979518c58ea95e_ep_000832_022.jpg?auto=compress,format',
@@ -243,14 +240,14 @@ const beingHuman: Exhibition = {
               alt: "Photograph of a artwork banner hung in a gallery setting on a stained wood wall. On the banner is written the words 'water is life'. Below the words is an illustrated human figure in black and white, set in the context of land, sky and weather.",
               tasl: {
                 title: 'Water is life by Isaac Murdoch',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
+                sourceLink: undefined,
                 license: 'CC-BY-NC',
-                copyrightHolder: null,
-                copyrightLink: null,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 square: {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/ff6aa31ad3539ca376157bbf0b80f67c64072ce0_ep_000832_022.jpg?auto=compress,format',
@@ -259,14 +256,13 @@ const beingHuman: Exhibition = {
                   alt: "Photograph of a artwork banner hung in a gallery setting on a stained wood wall. On the banner is written the words 'water is life'. Below the words is an illustrated human figure in black and white, set in the context of land, sky and weather.",
                   tasl: {
                     title: 'Water is life by Isaac Murdoch',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '16:9': {
                   contentUrl:
@@ -276,14 +272,13 @@ const beingHuman: Exhibition = {
                   alt: "Photograph of a artwork banner hung in a gallery setting on a stained wood wall. On the banner is written the words 'water is life'. Below the words is an illustrated human figure in black and white, set in the context of land, sky and weather.",
                   tasl: {
                     title: 'Water is life by Isaac Murdoch',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '32:15': {
                   contentUrl:
@@ -293,14 +288,13 @@ const beingHuman: Exhibition = {
                   alt: "Photograph of a artwork banner hung in a gallery setting on a stained wood wall. On the banner is written the words 'water is life'. Below the words is an illustrated human figure in black and white, set in the context of land, sky and weather.",
                   tasl: {
                     title: 'Water is life by Isaac Murdoch',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -323,6 +317,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/9c7b617f39fc5e3ca89e1a19fe8cf556c593ee93_ep_000832_030.jpg?auto=compress,format',
@@ -331,14 +326,14 @@ const beingHuman: Exhibition = {
               alt: 'Photograph of an exhibition display case containing ceramic artworks which resemble pots or vases, coloured in light pinks and yellows. The surface of the objects are sometimes cracked, sometimes textured.',
               tasl: {
                 title: 'Medical Heirlooms by Tamsin Van Essen',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
+                sourceLink: undefined,
                 license: 'CC-BY-NC',
-                copyrightHolder: null,
-                copyrightLink: null,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 square: {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/6074db7b153fe25ef96581343b20b7c82f68398f_ep_000832_030.jpg?auto=compress,format',
@@ -347,14 +342,13 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of an exhibition display case containing ceramic artworks which resemble pots or vases, coloured in light pinks and yellows. The surface of the objects are sometimes cracked, sometimes textured.',
                   tasl: {
                     title: 'Medical Heirlooms by Tamsin Van Essen',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '16:9': {
                   contentUrl:
@@ -364,14 +358,13 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of an exhibition display case containing ceramic artworks which resemble pots or vases, coloured in light pinks and yellows. The surface of the objects are sometimes cracked, sometimes textured.',
                   tasl: {
                     title: 'Medical Heirlooms by Tamsin Van Essen',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '32:15': {
                   contentUrl:
@@ -381,14 +374,13 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of an exhibition display case containing ceramic artworks which resemble pots or vases, coloured in light pinks and yellows. The surface of the objects are sometimes cracked, sometimes textured.',
                   tasl: {
                     title: 'Medical Heirlooms by Tamsin Van Essen',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -411,6 +403,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/9901862d-680e-4a10-82cf-f2d328d628c9_SDP_20201005_0278-124-Edit.jpg?auto=compress,format',
@@ -419,14 +412,14 @@ const beingHuman: Exhibition = {
               alt: 'A photograph showing a visitor looking at an exhibition exhibit of a mannequin wearing a white hazmat suit, visor and green apron standing on a low wooden platform. On the green apron there is a portrait of the carer that would have been wearing the suit whilst treating Ebola patients. To the right is the back of another visitor who is looking at a different exhibit.',
               tasl: {
                 title: 'PPE portrait project by Mary Beth Heffernan',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
+                sourceLink: undefined,
                 license: 'CC-BY-NC',
-                copyrightHolder: null,
-                copyrightLink: null,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '32:15': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/9901862d-680e-4a10-82cf-f2d328d628c9_SDP_20201005_0278-124-Edit.jpg?auto=compress,format&rect=0,478,2000,938&w=3200&h=1500',
@@ -435,14 +428,13 @@ const beingHuman: Exhibition = {
                   alt: 'A photograph showing a visitor looking at an exhibition exhibit of a mannequin wearing a white hazmat suit, visor and green apron standing on a low wooden platform. On the green apron there is a portrait of the carer that would have been wearing the suit whilst treating Ebola patients. To the right is the back of another visitor who is looking at a different exhibit.',
                   tasl: {
                     title: 'PPE portrait project by Mary Beth Heffernan',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '16:9': {
                   contentUrl:
@@ -452,14 +444,13 @@ const beingHuman: Exhibition = {
                   alt: 'A photograph showing a visitor looking at an exhibition exhibit of a mannequin wearing a white hazmat suit, visor and green apron standing on a low wooden platform. On the green apron there is a portrait of the carer that would have been wearing the suit whilst treating Ebola patients. To the right is the back of another visitor who is looking at a different exhibit.',
                   tasl: {
                     title: 'PPE portrait project by Mary Beth Heffernan',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -469,14 +460,13 @@ const beingHuman: Exhibition = {
                   alt: 'A photograph showing a visitor looking at an exhibition exhibit of a mannequin wearing a white hazmat suit, visor and green apron standing on a low wooden platform. On the green apron there is a portrait of the carer that would have been wearing the suit whilst treating Ebola patients. To the right is the back of another visitor who is looking at a different exhibit.',
                   tasl: {
                     title: 'PPE portrait project by Mary Beth Heffernan',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -499,6 +489,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/7e6de614916d5baa9692195c40ef522e9b9777ca_ep000832_0073.jpg?auto=compress,format',
@@ -507,13 +498,13 @@ const beingHuman: Exhibition = {
               alt: 'Photograph of a gallery wall showing a framed photograph of a woman in bright red dress in a medical clinic.',
               tasl: {
                 title: 'Eleven by Kia La Beija',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
-                copyrightHolder: null,
-                copyrightLink: null,
+                sourceLink: undefined,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '16:9': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/51b90f66cde2485dfc64411c9ffb0d116a4050c9_ep000832_0073.jpg?auto=compress,format',
@@ -522,13 +513,12 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of a gallery wall showing a framed photograph of a woman in bright red dress in a medical clinic.',
                   tasl: {
                     title: 'Eleven by Kia La Beija',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    sourceLink: undefined,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -538,13 +528,12 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of a gallery wall showing a framed photograph of a woman in bright red dress in a medical clinic.',
                   tasl: {
                     title: 'Eleven by Kia La Beija',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    sourceLink: undefined,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '32:15': {
                   contentUrl:
@@ -554,13 +543,12 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of a gallery wall showing a framed photograph of a woman in bright red dress in a medical clinic.',
                   tasl: {
                     title: 'Eleven by Kia La Beija',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    sourceLink: undefined,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -583,6 +571,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/18dc041d-d885-4450-8446-596ba4b5b58a__J5A0489.jpg?auto=compress,format',
@@ -592,14 +581,14 @@ const beingHuman: Exhibition = {
               tasl: {
                 title:
                   '5318008, a breast milk scented bronze sculpture by Tasha Marks',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
+                sourceLink: undefined,
                 license: 'CC-BY-NC',
-                copyrightHolder: null,
-                copyrightLink: null,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '32:15': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/18dc041d-d885-4450-8446-596ba4b5b58a__J5A0489.jpg?auto=compress,format&rect=0,396,4000,1875&w=3200&h=1500',
@@ -609,14 +598,13 @@ const beingHuman: Exhibition = {
                   tasl: {
                     title:
                       '5318008, a breast milk scented bronze sculpture by Tasha Marks',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '16:9': {
                   contentUrl:
@@ -627,14 +615,13 @@ const beingHuman: Exhibition = {
                   tasl: {
                     title:
                       '5318008, a breast milk scented bronze sculpture by Tasha Marks',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -645,14 +632,13 @@ const beingHuman: Exhibition = {
                   tasl: {
                     title:
                       '5318008, a breast milk scented bronze sculpture by Tasha Marks',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -675,6 +661,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/7fe17cff0aee0951a90d3fb088fd360963fd8a20_ep000832_0076.jpg?auto=compress,format',
@@ -683,14 +670,14 @@ const beingHuman: Exhibition = {
               alt: "Photograph of an artwork on a display plinth in a gallery space. The artwork consists of 2 gas canisters and a pressure cooker, each one has a map of the earth's landmasses carved out of its casing.",
               tasl: {
                 title: "World under pressure by Batoul S'Himi",
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
+                sourceLink: undefined,
                 license: 'CC-BY-NC',
-                copyrightHolder: null,
-                copyrightLink: null,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '16:9': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/60c915dfc9aab0e023f8464d9df2406fa36d00bf_ep000832_0076.jpg?auto=compress,format',
@@ -699,14 +686,13 @@ const beingHuman: Exhibition = {
                   alt: "Photograph of an artwork on a display plinth in a gallery space. The artwork consists of 2 gas canisters and a pressure cooker, each one has a map of the earth's landmasses carved out of its casing.",
                   tasl: {
                     title: "World under pressure by Batoul S'Himi",
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '32:15': {
                   contentUrl:
@@ -716,14 +702,13 @@ const beingHuman: Exhibition = {
                   alt: "Photograph of an artwork on a display plinth in a gallery space. The artwork consists of 2 gas canisters and a pressure cooker, each one has a map of the earth's landmasses carved out of its casing.",
                   tasl: {
                     title: "World under pressure by Batoul S'Himi",
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -733,14 +718,13 @@ const beingHuman: Exhibition = {
                   alt: "Photograph of an artwork on a display plinth in a gallery space. The artwork consists of 2 gas canisters and a pressure cooker, each one has a map of the earth's landmasses carved out of its casing.",
                   tasl: {
                     title: "World under pressure by Batoul S'Himi",
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -753,6 +737,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/37bbbbbae3b004444a26103c5fae3f0ef0ae76ab_ep_000832_033.jpg?auto=compress,format',
@@ -761,14 +746,14 @@ const beingHuman: Exhibition = {
               alt: "Photograph of an exhibition display case, which contains a red collection box bearing a sticker which says, 'Help the normals'. Next to the collection box on one side is part of a comic strip and on the other side are 2 pill boxes with the words 'Dignity' and other smaller text printed on the packaging.",
               tasl: {
                 title: 'Help the normals by Dolly Sen',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
+                sourceLink: undefined,
                 license: 'CC-BY-NC',
-                copyrightHolder: null,
-                copyrightLink: null,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '32:15': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/0cc1b2ba03927c69da233a9da1cdd1aaacb0ddac_ep_000832_033.jpg?auto=compress,format',
@@ -777,14 +762,13 @@ const beingHuman: Exhibition = {
                   alt: "Photograph of an exhibition display case, which contains a red collection box bearing a sticker which says, 'Help the normals'. Next to the collection box on one side is part of a comic strip and on the other side are 2 pill boxes with the words 'Dignity' and other smaller text printed on the packaging.",
                   tasl: {
                     title: 'Help the normals by Dolly Sen',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '16:9': {
                   contentUrl:
@@ -794,14 +778,13 @@ const beingHuman: Exhibition = {
                   alt: "Photograph of an exhibition display case, which contains a red collection box bearing a sticker which says, 'Help the normals'. Next to the collection box on one side is part of a comic strip and on the other side are 2 pill boxes with the words 'Dignity' and other smaller text printed on the packaging.",
                   tasl: {
                     title: 'Help the normals by Dolly Sen',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -811,14 +794,13 @@ const beingHuman: Exhibition = {
                   alt: "Photograph of an exhibition display case, which contains a red collection box bearing a sticker which says, 'Help the normals'. Next to the collection box on one side is part of a comic strip and on the other side are 2 pill boxes with the words 'Dignity' and other smaller text printed on the packaging.",
                   tasl: {
                     title: 'Help the normals by Dolly Sen',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -841,6 +823,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/6697d8eadc297459f032f8eeebc6b37c930e4d35_ep_000832_007.jpg?auto=compress,format',
@@ -850,14 +833,14 @@ const beingHuman: Exhibition = {
               tasl: {
                 title:
                   'No Human Being Is Illegal (In All our Glory) by Deborah Kelly and collaborators',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
+                sourceLink: undefined,
                 license: 'CC-BY-NC',
-                copyrightHolder: null,
-                copyrightLink: null,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '16:9': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/d5d2b76a31f6767214c1c23bd090f7eb50d5a716_ep_000832_007.jpg?auto=compress,format',
@@ -867,14 +850,13 @@ const beingHuman: Exhibition = {
                   tasl: {
                     title:
                       'No Human Being Is Illegal (In All our Glory) by Deborah Kelly and collaborators',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '32:15': {
                   contentUrl:
@@ -885,14 +867,13 @@ const beingHuman: Exhibition = {
                   tasl: {
                     title:
                       'No Human Being Is Illegal (In All our Glory) by Deborah Kelly and collaborators',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -903,14 +884,13 @@ const beingHuman: Exhibition = {
                   tasl: {
                     title:
                       'No Human Being Is Illegal (In All our Glory) by Deborah Kelly and collaborators',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -923,6 +903,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/a79aa1d4e44ba080d7780cb2d4e8f9a6e27ab12d_ep_000832_038.jpg?auto=compress,format',
@@ -931,14 +912,14 @@ const beingHuman: Exhibition = {
               alt: 'Photograph of the contents of an exhibition display case. The objects on display include a scientific pipet, petri dishes, latex gloves, specimen tubes and a jar.',
               tasl: {
                 title: 'DNA editing kit',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
+                sourceLink: undefined,
                 license: 'CC-BY-NC',
-                copyrightHolder: null,
-                copyrightLink: null,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '16:9': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/5c803253f2a4366e4d66a336bd043b165d364289_ep_000832_038.jpg?auto=compress,format',
@@ -947,14 +928,13 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of the contents of an exhibition display case. The objects on display include a scientific pipet, petri dishes, latex gloves, specimen tubes and a jar.',
                   tasl: {
                     title: 'DNA editing kit',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -964,14 +944,13 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of the contents of an exhibition display case. The objects on display include a scientific pipet, petri dishes, latex gloves, specimen tubes and a jar.',
                   tasl: {
                     title: 'DNA editing kit',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '32:15': {
                   contentUrl:
@@ -981,14 +960,13 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of the contents of an exhibition display case. The objects on display include a scientific pipet, petri dishes, latex gloves, specimen tubes and a jar.',
                   tasl: {
                     title: 'DNA editing kit',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
+                    sourceLink: undefined,
                     license: 'CC-BY-NC',
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },
@@ -1001,6 +979,7 @@ const beingHuman: Exhibition = {
             ],
           },
           {
+            hasRoundedCorners: false,
             image: {
               contentUrl:
                 'https://images.prismic.io/wellcomecollection/1c4a250965a3f9bd17e636f5fc008b88e1e4c649_ep_000832_027.jpg?auto=compress,format',
@@ -1009,13 +988,13 @@ const beingHuman: Exhibition = {
               alt: 'Photograph of a gallery installation showing a bench with yellow cushions facing a large video projection. The projection shows the inside of a McDonalds restaurant looking down from a high viewpoint in which the restaurant floor is beginning to flood with water.',
               tasl: {
                 title: 'Flooded McDonalds by Superflex',
-                author: null,
+                author: undefined,
                 sourceName: 'Wellcome Collection',
-                sourceLink: null,
-                copyrightHolder: null,
-                copyrightLink: null,
+                sourceLink: undefined,
+                copyrightHolder: undefined,
+                copyrightLink: undefined,
               },
-              crops: {
+              richCrops: {
                 '32:15': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/35e056eb53143a449cd612828899b160cb63b3a8_ep_000832_027.jpg?auto=compress,format',
@@ -1024,13 +1003,12 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of a gallery installation showing a bench with yellow cushions facing a large video projection. The projection shows the inside of a McDonalds restaurant looking down from a high viewpoint in which the restaurant floor is beginning to flood with water.',
                   tasl: {
                     title: 'Flooded McDonalds by Superflex',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    sourceLink: undefined,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 '16:9': {
                   contentUrl:
@@ -1040,13 +1018,12 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of a gallery installation showing a bench with yellow cushions facing a large video projection. The projection shows the inside of a McDonalds restaurant looking down from a high viewpoint in which the restaurant floor is beginning to flood with water.',
                   tasl: {
                     title: 'Flooded McDonalds by Superflex',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    sourceLink: undefined,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
@@ -1056,13 +1033,12 @@ const beingHuman: Exhibition = {
                   alt: 'Photograph of a gallery installation showing a bench with yellow cushions facing a large video projection. The projection shows the inside of a McDonalds restaurant looking down from a high viewpoint in which the restaurant floor is beginning to flood with water.',
                   tasl: {
                     title: 'Flooded McDonalds by Superflex',
-                    author: null,
+                    author: undefined,
                     sourceName: 'Wellcome Collection',
-                    sourceLink: null,
-                    copyrightHolder: null,
-                    copyrightLink: null,
+                    sourceLink: undefined,
+                    copyrightHolder: undefined,
+                    copyrightLink: undefined,
                   },
-                  crops: {},
                 },
               },
             },

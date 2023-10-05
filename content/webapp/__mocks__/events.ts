@@ -67,6 +67,8 @@ const baseEvent: Event = {
   isOnline: false,
   availableOnline: false,
   contributors: [],
+  onlinePolicies: [],
+  onlineHasEarlyRegistration: false,
 };
 
 export const eventWithOneLocation: Event = {
