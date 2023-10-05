@@ -10,12 +10,14 @@ import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import { Filter } from '@weco/content/services/wellcome/catalogue/filters';
 import { getColorDisplayName } from '@weco/content/components/PaletteColorPicker';
+import { pluralize } from '@weco/common/utils/grammar';
 
 type ResetActiveFilters = {
   query?: string;
   resetFilters: LinkProps;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
+  totalResults: number;
 };
 
 const ColorSwatch = styled.span<{ hexColor: string }>`
@@ -35,10 +37,7 @@ const Wrapper = styled(Space).attrs({
 `;
 
 const IconWrapper = styled(Space).attrs({
-  h: {
-    size: 'xs',
-    properties: ['margin-right'],
-  },
+  h: { size: 'xs', properties: ['margin-right'] },
 })`
   vertical-align: middle;
 `;
@@ -53,13 +52,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
   children,
 }: CancelFilterProps) => {
   return (
-    <Space
-      as="span"
-      h={{
-        size: 'm',
-        properties: ['margin-right'],
-      }}
-    >
+    <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
       <IconWrapper as="span">
         <Icon icon={cross} matchText={true} iconColor="neutral.500" />
       </IconWrapper>
@@ -74,6 +67,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   resetFilters,
   filters,
   linkResolver,
+  totalResults,
 }: ResetActiveFilters) => {
   // This is a hack until we decide exactly what it is we want the
   // reset filters to do
@@ -109,15 +103,12 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   return (
     <Wrapper>
       <div className={font('intb', 5)} role="status">
+        <div className="visually-hidden">
+          {pluralize(totalResults, 'result')}
+        </div>
         <div>
           <h2 style={{ display: 'inline' }}>
-            <Space
-              as="span"
-              h={{
-                size: 'm',
-                properties: ['margin-right'],
-              }}
-            >
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               Active filters:
             </Space>
           </h2>

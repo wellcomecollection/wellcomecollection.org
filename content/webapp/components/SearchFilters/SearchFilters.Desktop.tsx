@@ -43,6 +43,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   linkResolver,
   activeFiltersCount,
   searchFormId,
+  totalResults,
   hasNoResults,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const { isEnhanced } = useContext(AppContext);
@@ -95,6 +96,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           linkResolver={linkResolver}
           resetFilters={linkResolver({ query })}
           filters={filters}
+          totalResults={totalResults}
         />
       )}
     </>

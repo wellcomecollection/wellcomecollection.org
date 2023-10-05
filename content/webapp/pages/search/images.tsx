@@ -155,6 +155,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                   );
               }}
               filters={filters}
+              totalResults={images.totalResults}
               hasNoResults={hasNoResults}
             />
           </Space>
