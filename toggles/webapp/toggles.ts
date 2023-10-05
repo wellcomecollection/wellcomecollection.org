@@ -1,6 +1,6 @@
 import { CloudFrontRequest } from 'aws-lambda';
 
-export type ToggleTypes = 'permanent' | 'experimental' | 'test';
+export type ToggleTypes = 'permanent' | 'experimental' | 'test' | 'stage';
 
 type ToggleBase = {
   id: string;
