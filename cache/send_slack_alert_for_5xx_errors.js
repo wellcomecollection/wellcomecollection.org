@@ -42,6 +42,7 @@ const zlib = require('zlib');
  *      { date: '2022-05-18', time: '14:11:09', cs-uri-stem: '/works/atry66dj/items' }
  *
  */
+
 async function findCloudFrontHitsFromLog(bucket, key) {
   const s3 = new AWS.S3();
 
