@@ -35,20 +35,25 @@ export function getTogglesFromContext(
   togglesResp: TogglesResp,
   context: Context
 ): Toggles {
+  const isStage = context.req.headers.host?.startsWith('www-stage');
   const allCookies = getCookies(context);
-  const toggles = [...togglesResp.toggles].reduce(
-    (acc, toggle) => ({
-      ...acc,
-      [toggle.id]: {
-        value:
-          allCookies[`toggle_${toggle.id}`] === 'true'
-            ? true
-            : toggle.defaultValue,
-        type: toggle.type,
-      },
-    }),
-    {} as Toggles
-  );
+  const toggles = [...togglesResp.toggles]
+    .filter(toggle => {
+      return !(!isStage && toggle.type === 'stage');
+    })
+    .reduce(
+      (acc, toggle) => ({
+        ...acc,
+        [toggle.id]: {
+          value:
+            allCookies[`toggle_${toggle.id}`] === 'true'
+              ? true
+              : toggle.defaultValue,
+          type: toggle.type,
+        },
+      }),
+      {} as Toggles
+    );
   const tests = [...togglesResp.tests].reduce((acc, test) => {
     function testToggleValue(Id: string): boolean | undefined {
       const cookieValue = allCookies[`toggle_${Id}`];
