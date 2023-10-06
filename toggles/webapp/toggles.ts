@@ -27,6 +27,7 @@ export type ABTest = {
 
 const toggles = {
   // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
+  // Toggles of type 'stage' will only be applied on stage
   toggles: [
     {
       id: 'disableRequesting',
