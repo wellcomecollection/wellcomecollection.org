@@ -143,7 +143,7 @@ type Toggle = {
   title: string;
   defaultValue: boolean;
   description: string;
-  type: 'permanent' | 'experimental';
+  type: 'permanent' | 'experimental' | 'test' | 'stage';
 };
 
 type ToggleStates = { [id: string]: boolean | undefined };
@@ -154,6 +154,7 @@ type AbTest = {
   range: [number, number];
   defaultValue: boolean;
   description: string;
+  type: 'stage';
 };
 
 const IndexPage: FunctionComponent = () => {
@@ -167,7 +168,17 @@ const IndexPage: FunctionComponent = () => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
       .then(json => {
-        setToggles(json.toggles);
+        setToggles([
+          ...json.toggles,
+          {
+            // TODO remove this test data
+            id: 'stageToggle',
+            title: 'Stage toggle',
+            description: 'For testing stage toggles',
+            type: 'stage',
+            defaultValue: false,
+          },
+        ]);
         setAbTests(json.tests);
       });
 
@@ -247,6 +258,16 @@ const IndexPage: FunctionComponent = () => {
 
           <ListOfToggles
             toggles={toggles.filter(t => t.type === 'experimental')}
+            toggleStates={toggleStates}
+            setToggleStates={setToggleStates}
+          />
+
+          <hr style={{ margin: '3em' }} />
+
+          <h2>Stage</h2>
+
+          <ListOfToggles
+            toggles={toggles.filter(t => t.type === 'stage')}
             toggleStates={toggleStates}
             setToggleStates={setToggleStates}
           />
