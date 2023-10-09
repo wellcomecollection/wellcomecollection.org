@@ -1,7 +1,6 @@
 import { propsToQuery } from './routes';
 import { ParsedUrlQuery } from 'querystring';
 import { isNotUndefined } from './type-guards';
-import { getColorDisplayName } from '@weco/content/components/PaletteColorPicker';
 import { Filter } from '@weco/content/services/wellcome/catalogue/filters';
 
 export type DefaultSortValuesType = {
@@ -104,7 +103,7 @@ export const hasFilters = ({
 
 /**
  * Gets the active filters' labels as they are needed for aria-live readings
- * @param {string[]} filters - Available filter options
+ * @param {Filter[]} filters - Available filter options
  */
 export const getActiveFiltersLabel = ({
   filters,
@@ -129,6 +128,70 @@ export const getActiveFiltersLabel = ({
     .filter(isNotUndefined)
     .flat();
 };
+
+// FILTERS: Colour
+type ColorSwatch = {
+  hexValue: string;
+  colorName: string;
+};
+export const palette: ColorSwatch[] = [
+  {
+    hexValue: 'e02020',
+    colorName: 'Red',
+  },
+  {
+    hexValue: 'ff47d1',
+    colorName: 'Pink',
+  },
+  {
+    hexValue: 'fa6400',
+    colorName: 'Orange',
+  },
+  {
+    hexValue: 'f7b500',
+    colorName: 'Yellow',
+  },
+  {
+    hexValue: '8b572a',
+    colorName: 'Brown',
+  },
+  {
+    hexValue: '6dd400',
+    colorName: 'Green',
+  },
+  {
+    hexValue: '22bbff',
+    colorName: 'Blue',
+  },
+  {
+    hexValue: '8339e8',
+    colorName: 'Violet',
+  },
+  {
+    hexValue: '000000',
+    colorName: 'Black',
+  },
+  {
+    hexValue: 'd9d3d3',
+    colorName: 'Grey',
+  },
+];
+
+/**
+ * Gets the display name from the hex string
+ * @param {string | null} color - colour's hex string
+ */
+export function getColorDisplayName(color: string | null): string | null {
+  if (color) {
+    const matchingPaletteColor = palette.find(
+      swatch => swatch.hexValue.toUpperCase() === color.toUpperCase()
+    );
+    const hexValue = `#${color.toUpperCase()}`;
+    return matchingPaletteColor ? matchingPaletteColor.colorName : hexValue;
+  } else {
+    return 'None';
+  }
+}
 
 // ROUTING
 // TODO review if the removal of `source` is still necessary. At the time of writing, we couldn't find a working example

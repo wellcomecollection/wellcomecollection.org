@@ -9,7 +9,7 @@ import { cross } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import { Filter } from '@weco/content/services/wellcome/catalogue/filters';
-import { getColorDisplayName } from '@weco/content/components/PaletteColorPicker';
+import { getColorDisplayName } from '@weco/common/utils/search';
 
 type ResetActiveFilters = {
   query?: string;

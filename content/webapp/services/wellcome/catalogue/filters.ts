@@ -1,4 +1,3 @@
-import { palette } from '@weco/content/components/PaletteColorPicker';
 import {
   ImageAggregations,
   WorkAggregations,
@@ -11,6 +10,7 @@ import { WorksProps } from '@weco/content/components/WorksLink';
 import { StoriesProps } from '@weco/content/components/StoriesLink';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { formatNumber } from '@weco/common/utils/grammar';
+import { palette } from '@weco/common/utils/search';
 
 export type DateRangeFilter<Ids extends string = string> = {
   type: 'dateRange';
