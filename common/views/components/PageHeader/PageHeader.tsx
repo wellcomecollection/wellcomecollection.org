@@ -107,6 +107,9 @@ type Props = {
   sectionLevelPage?: boolean;
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
+  // EDIT: The comment above is 5 years old, we believe the change is simple
+  // and created a ticket to address it
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/10288
   TitleTopper?: ReactNode;
 };
 
