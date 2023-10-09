@@ -168,17 +168,7 @@ const IndexPage: FunctionComponent = () => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
       .then(json => {
-        setToggles([
-          ...json.toggles,
-          {
-            // TODO remove this test data
-            id: 'stageToggle',
-            title: 'Stage toggle',
-            description: 'For testing stage toggles',
-            type: 'stage',
-            defaultValue: false,
-          },
-        ]);
+        setToggles(json.toggles);
         setAbTests(json.tests);
       });
 
