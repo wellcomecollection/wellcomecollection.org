@@ -10,7 +10,6 @@ import HueSlider from './HueSlider';
 import { hexToHsv, hsvToHex } from '@weco/content/utils/convert-colors';
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { getColorDisplayName, palette } from '@weco/common/utils/search';
 
 export type PaletteColorPickerProps = {
   name: string;
@@ -18,6 +17,54 @@ export type PaletteColorPickerProps = {
   onChangeColor: (color?: string) => void;
   form?: string;
 };
+
+type ColorSwatch = {
+  hexValue: string;
+  colorName: string;
+};
+
+export const palette: ColorSwatch[] = [
+  {
+    hexValue: 'e02020',
+    colorName: 'Red',
+  },
+  {
+    hexValue: 'ff47d1',
+    colorName: 'Pink',
+  },
+  {
+    hexValue: 'fa6400',
+    colorName: 'Orange',
+  },
+  {
+    hexValue: 'f7b500',
+    colorName: 'Yellow',
+  },
+  {
+    hexValue: '8b572a',
+    colorName: 'Brown',
+  },
+  {
+    hexValue: '6dd400',
+    colorName: 'Green',
+  },
+  {
+    hexValue: '22bbff',
+    colorName: 'Blue',
+  },
+  {
+    hexValue: '8339e8',
+    colorName: 'Violet',
+  },
+  {
+    hexValue: '000000',
+    colorName: 'Black',
+  },
+  {
+    hexValue: 'd9d3d3',
+    colorName: 'Grey',
+  },
+];
 
 const Wrapper = styled.div`
   padding-top: 6px;
@@ -86,6 +133,18 @@ const TextWrapper = styled.div`
   align-items: center;
   margin-top: 8px;
 `;
+
+export function getColorDisplayName(color: string | null): string | null {
+  if (color) {
+    const matchingPaletteColor = palette.find(
+      swatch => swatch.hexValue.toUpperCase() === color.toUpperCase()
+    );
+    const hexValue = `#${color.toUpperCase()}`;
+    return matchingPaletteColor ? matchingPaletteColor.colorName : hexValue;
+  } else {
+    return 'None';
+  }
+}
 
 const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
   name,
