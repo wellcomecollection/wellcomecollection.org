@@ -44,7 +44,7 @@ const DynamicFilterArray = ({
     // We need to have the excluded filters still in the form so their values gets retained in the URL
     // when more filtering is done (e.g. partOf.title)
     return isHidden || f.excludeFromMoreFilters ? (
-      <div className="is-hidden">
+      <div className="is-hidden" key={f.id}>
         {f.type === 'checkbox' && (
           <CheckboxFilter
             {...(!showMoreFiltersModal && { form: searchFormId })}
