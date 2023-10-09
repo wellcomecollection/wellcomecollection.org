@@ -1,4 +1,6 @@
-const aggregations = {
+import { WorkAggregations } from '../types';
+
+const aggregations: { aggregations?: WorkAggregations } = {
   aggregations: {
     workType: {
       buckets: [

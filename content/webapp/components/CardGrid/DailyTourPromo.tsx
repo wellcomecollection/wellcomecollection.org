@@ -12,7 +12,7 @@ const image = {
   crops: {},
 };
 
-const data: EventBasic = {
+export const data: EventBasic = {
   id: 'tours',
   title: 'Daily Guided Tours and Discussions',
   times: [],

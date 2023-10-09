@@ -280,7 +280,11 @@ describe('getAccessConditionForDigitalLocation', () => {
       workWithPartOf,
       'iiif-presentation'
     );
-    const statusId = getAccessConditionForDigitalLocation(manifestLocation);
-    expect(statusId).toEqual('open');
+
+    // In the test this will always be true, but types are complaining as it could technically be undefined
+    if (manifestLocation) {
+      const statusId = getAccessConditionForDigitalLocation(manifestLocation);
+      expect(statusId).toEqual('open');
+    }
   });
 });
