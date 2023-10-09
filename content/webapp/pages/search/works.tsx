@@ -34,11 +34,8 @@ import {
   WellcomeResultList,
 } from '@weco/content/services/wellcome';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import {
-  getActiveFiltersLabel,
-  hasFilters,
-  linkResolver,
-} from '@weco/common/utils/search';
+import { linkResolver } from '@weco/common/utils/search';
+import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';

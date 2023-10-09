@@ -19,12 +19,8 @@ import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
-import {
-  getActiveFiltersLabel,
-  getQueryPropertyValue,
-  hasFilters,
-  linkResolver,
-} from '@weco/common/utils/search';
+import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
+import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
