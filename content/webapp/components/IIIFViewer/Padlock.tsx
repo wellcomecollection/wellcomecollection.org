@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-// TODO names and colours from theme
+
 const StyledPadlock = styled.div`
   display: inline-block;
   width: 50px;
