@@ -122,7 +122,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 }}
                 filters={filters}
                 hasNoResults={hasNoResults}
-                totalResults={storyResponseList.totalResults}
               />
             </Space>
           </Container>

@@ -141,7 +141,6 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   }}
                   filters={filters}
                   hasNoResults={hasNoResults}
-                  totalResults={works.totalResults}
                 />
               </Space>
 

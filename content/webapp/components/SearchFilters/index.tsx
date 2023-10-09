@@ -16,7 +16,6 @@ type Props = {
   changeHandler: () => void;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
-  totalResults: number;
   hasNoResults?: boolean;
 };
 
@@ -28,7 +27,6 @@ const SearchFilters: FunctionComponent<Props> = ({
   changeHandler,
   filters,
   linkResolver,
-  totalResults,
   hasNoResults,
 }: Props): ReactElement<Props> => {
   const { windowSize } = useContext(AppContext);
@@ -64,7 +62,6 @@ const SearchFilters: FunctionComponent<Props> = ({
     filters,
     linkResolver,
     activeFiltersCount,
-    totalResults,
     hasNoResults,
   };
 
