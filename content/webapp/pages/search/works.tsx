@@ -34,7 +34,11 @@ import {
   WellcomeResultList,
 } from '@weco/content/services/wellcome';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { hasFilters, linkResolver } from '@weco/common/utils/search';
+import {
+  getActiveFiltersLabel,
+  hasFilters,
+  linkResolver,
+} from '@weco/common/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -88,6 +92,8 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
     ],
     queryParams: Object.keys(query),
   });
+
+  const activeFiltersLabels = getActiveFiltersLabel({ filters });
 
   return (
     <>
@@ -158,8 +164,14 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
           ) : (
             <>
               <PaginationWrapper verticalSpacing="l">
-                <span aria-live="assertive">
+                <span role="status">
                   {pluralize(works.totalResults, 'result')}
+                  {activeFiltersLabels.length > 0 && (
+                    <span className="visually-hidden">
+                      {' '}
+                      filtered with: {activeFiltersLabels.join(', ')}
+                    </span>
+                  )}
                 </span>
 
                 <SortPaginationWrapper>

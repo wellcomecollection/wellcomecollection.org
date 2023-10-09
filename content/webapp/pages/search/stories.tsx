@@ -20,6 +20,7 @@ import { getServerData } from '@weco/common/server-data';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
 import {
+  getActiveFiltersLabel,
   getQueryPropertyValue,
   hasFilters,
   linkResolver,
@@ -80,6 +81,8 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     queryParams: Object.keys(query),
   });
 
+  const activeFiltersLabels = getActiveFiltersLabel({ filters });
+
   const sortOptions = [
     // Default value to be left empty as to not be reflected in URL query
     {
@@ -136,8 +139,14 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           ) : (
             <Container>
               <PaginationWrapper verticalSpacing="l">
-                <span aria-live="assertive">
+                <span role="status">
                   {pluralize(storyResponseList.totalResults, 'result')}
+                  {activeFiltersLabels.length > 0 && (
+                    <span className="visually-hidden">
+                      {' '}
+                      filtered with: {activeFiltersLabels.join(', ')}
+                    </span>
+                  )}
                 </span>
 
                 <SortPaginationWrapper>

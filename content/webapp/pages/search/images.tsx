@@ -27,7 +27,11 @@ import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/content/services/wellcome/catalogue/filters';
 import { emptyResultList } from '@weco/content/services/wellcome';
-import { hasFilters, linkResolver } from '@weco/common/utils/search';
+import {
+  getActiveFiltersLabel,
+  hasFilters,
+  linkResolver,
+} from '@weco/common/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
@@ -106,6 +110,8 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
     },
   ];
 
+  const activeFiltersLabels = getActiveFiltersLabel({ filters });
+
   return (
     <>
       <Head>
@@ -172,8 +178,14 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
             ) : (
               <>
                 <PaginationWrapper verticalSpacing="l">
-                  <span aria-live="assertive">
+                  <span role="status">
                     {pluralize(images.totalResults, 'result')}
+                    {activeFiltersLabels.length > 0 && (
+                      <span className="visually-hidden">
+                        {' '}
+                        filtered with: {activeFiltersLabels.join(', ')}
+                      </span>
+                    )}
                   </span>
 
                   <SortPaginationWrapper>
