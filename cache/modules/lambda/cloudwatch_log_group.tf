@@ -11,6 +11,7 @@ resource "aws_iam_role_policy" "cloudwatch_logs" {
 }
 
 # TODO: Scope this more tightly
+# https://github.com/wellcomecollection/wellcomecollection.org/issues/10266
 data "aws_iam_policy_document" "cloudwatch_logs" {
   statement {
     actions = [
