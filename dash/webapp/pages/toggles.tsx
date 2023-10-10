@@ -143,7 +143,7 @@ type Toggle = {
   title: string;
   defaultValue: boolean;
   description: string;
-  type: 'permanent' | 'experimental';
+  type: 'permanent' | 'experimental' | 'test' | 'stage';
 };
 
 type ToggleStates = { [id: string]: boolean | undefined };
@@ -154,6 +154,7 @@ type AbTest = {
   range: [number, number];
   defaultValue: boolean;
   description: string;
+  type: 'stage';
 };
 
 const IndexPage: FunctionComponent = () => {
@@ -247,6 +248,16 @@ const IndexPage: FunctionComponent = () => {
 
           <ListOfToggles
             toggles={toggles.filter(t => t.type === 'experimental')}
+            toggleStates={toggleStates}
+            setToggleStates={setToggleStates}
+          />
+
+          <hr style={{ margin: '3em' }} />
+
+          <h2>Stage</h2>
+
+          <ListOfToggles
+            toggles={toggles.filter(t => t.type === 'stage')}
             toggleStates={toggleStates}
             setToggleStates={setToggleStates}
           />
