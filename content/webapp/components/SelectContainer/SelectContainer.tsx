@@ -30,7 +30,7 @@ const StyledSelect = styled.div.attrs({
     font-weight: inherit;
     appearance: none;
     padding: 8px 42px 8px 16px;
-    border: ${props => `1px solid 
+    border: ${props => `1px solid
         ${props.theme.color(props.darkBg ? 'neutral.300' : 'neutral.600')}`};
     border-radius: ${props =>
       props.isPill ? 20 : props.theme.borderRadiusUnit}px;
@@ -61,7 +61,7 @@ const StyledSelect = styled.div.attrs({
     &:focus-visible,
     &:focus {
       box-shadow: ${props => props.theme.focusBoxShadow};
-      outline: 0;
+      outline: ${props => props.theme.highContrastOutlineFix};
     }
 
     :focus:not(:focus-visible) {

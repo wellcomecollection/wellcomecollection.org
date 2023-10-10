@@ -96,7 +96,7 @@ export const TextInputInput = styled.input.attrs(props => ({
   width: 100%;
 
   &:focus {
-    outline: 0;
+    outline: ${props => props.theme.highContrastOutlineFix};
     border-color: ${props => props.theme.color('accent.turquoise')};
   }
 
