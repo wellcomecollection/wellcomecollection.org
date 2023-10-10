@@ -20,17 +20,13 @@ import {
 
 const ONE_WEEK = 7;
 
-// How many days ahead of exceptional opening dates should we start showing
-// them on the website?
-//
 // We need to make sure exceptional opening times appear on the website so
 // that people who are travelling a long way (e.g. from overseas) have enough
 // time to plan their visit to Wellcome Collection, especially in advance,
 // e.g. over the Christmas/New Year's holiday.
 //
-// TODO: Do we need any limit here, or can we show exceptional opening times
-// as soon as they're entered in Prismic? If there is a reason, document it
-// here; if not, remove this limit.
+// It was decided that six weeks in advance should suffice
+// https://wellcome.slack.com/archives/C3N7J05TK/p1668523930526009
 const EXCEPTIONAL_OPENING_DATES_ADVANCE_NOTICE_PERIOD = 6 * ONE_WEEK;
 
 /** Returns a list of OverrideDate for which any venue has exceptional hours.
