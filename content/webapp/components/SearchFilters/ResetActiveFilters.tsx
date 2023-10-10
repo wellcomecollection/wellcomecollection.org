@@ -35,10 +35,7 @@ const Wrapper = styled(Space).attrs({
 `;
 
 const IconWrapper = styled(Space).attrs({
-  h: {
-    size: 'xs',
-    properties: ['margin-right'],
-  },
+  h: { size: 'xs', properties: ['margin-right'] },
 })`
   vertical-align: middle;
 `;
@@ -53,13 +50,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
   children,
 }: CancelFilterProps) => {
   return (
-    <Space
-      as="span"
-      h={{
-        size: 'm',
-        properties: ['margin-right'],
-      }}
-    >
+    <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
       <IconWrapper as="span">
         <Icon icon={cross} matchText={true} iconColor="neutral.500" />
       </IconWrapper>
@@ -108,16 +99,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
 
   return (
     <Wrapper>
-      <div className={font('intb', 5)} role="status">
+      <div className={font('intb', 5)}>
         <div>
           <h2 style={{ display: 'inline' }}>
-            <Space
-              as="span"
-              h={{
-                size: 'm',
-                properties: ['margin-right'],
-              }}
-            >
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               Active filters:
             </Space>
           </h2>

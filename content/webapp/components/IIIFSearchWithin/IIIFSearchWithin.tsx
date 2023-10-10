@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import NextLink from 'next/link';
 import {
   useState,
   useContext,
@@ -19,11 +20,11 @@ import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import NextLink from 'next/link';
 import { arrayIndexToQueryParam } from '@weco/content/components/IIIFViewer';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
+import { pluralize } from '@weco/common/utils/grammar';
 
 const Highlight = styled.span`
   background: ${props => props.theme.color('accent.purple')};
@@ -235,10 +236,9 @@ const IIIFSearchWithin: FunctionComponent = () => {
       </SearchForm>
       <div aria-live="polite">
         {isLoading && <Loading />}
-        {Boolean(searchResults?.within?.total !== null && query.query) && (
-          <ResultsHeader data-test-id="results-header">
-            {searchResults?.within?.total}{' '}
-            {searchResults?.within?.total === 1 ? 'result' : 'results'}
+        {searchResults !== null && Boolean(query.query) && (
+          <ResultsHeader data-test-id="results-header" aria-live="assertive">
+            {pluralize(searchResults.within.total ?? 0, 'result')}
           </ResultsHeader>
         )}
         <ResultsList>

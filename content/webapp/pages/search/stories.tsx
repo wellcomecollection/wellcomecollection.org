@@ -19,11 +19,8 @@ import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
-import {
-  getQueryPropertyValue,
-  hasFilters,
-  linkResolver,
-} from '@weco/common/utils/search';
+import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
+import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
@@ -79,6 +76,8 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     filters: filters.map(f => f.id),
     queryParams: Object.keys(query),
   });
+
+  const activeFiltersLabels = getActiveFiltersLabel({ filters });
 
   const sortOptions = [
     // Default value to be left empty as to not be reflected in URL query
@@ -136,8 +135,14 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           ) : (
             <Container>
               <PaginationWrapper verticalSpacing="l">
-                <span>
+                <span role="status">
                   {pluralize(storyResponseList.totalResults, 'result')}
+                  {activeFiltersLabels.length > 0 && (
+                    <span className="visually-hidden">
+                      {' '}
+                      filtered with: {activeFiltersLabels.join(', ')}
+                    </span>
+                  )}
                 </span>
 
                 <SortPaginationWrapper>

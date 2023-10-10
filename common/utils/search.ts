@@ -81,24 +81,6 @@ export const getUrlQueryFromSortValue = (
   return { sort, sortOrder };
 };
 
-// FILTERS
-/**
- * Compare filter options to query parameters,
- * telling us if the user has applied any filters.
- * This is used for SearchNoResult's rendered copy
- * @param {string[]} filters - Available filter options
- * @param {string[]} queryParams - URL query parameters
- */
-export const hasFilters = ({
-  filters,
-  queryParams,
-}: {
-  filters: string[];
-  queryParams: string[];
-}): boolean => {
-  return !!filters.filter(element => queryParams.includes(element)).length;
-};
-
 // ROUTING
 // TODO review if the removal of `source` is still necessary. At the time of writing, we couldn't find a working example
 // and are waiting to see if it's still needed after moving to NextLinks which remove it themselves.
