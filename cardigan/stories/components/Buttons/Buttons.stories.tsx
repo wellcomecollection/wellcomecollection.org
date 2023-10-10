@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
-import PlainList from '@weco/common/views/components/styled/PlainList';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { chevron, digitalImage, eye, gridView } from '@weco/common/icons';
 import ControlReadme from '@weco/common/views/components/Buttons/Control/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import Download from '@weco/content/components/Download/Download';
+import SearchFilters from '@weco/content/components/SearchFilters';
+import { linkResolver } from '@weco/common/utils/search';
 
 const ButtonSolidTemplate = args => <ButtonSolid {...args} />;
 export const buttonSolid = ButtonSolidTemplate.bind({});
@@ -65,54 +65,80 @@ toolbarSegmentedControl.args = {
 };
 toolbarSegmentedControl.storyName = 'ToolbarSegmentedControl';
 
-const DropdownButtonTemplate = args => {
+const DownloadButtonTemplate = args => {
+  return <Download ariaControlsId="itemDownloads" workId="test" {...args} />;
+};
+export const downloadButton = DownloadButtonTemplate.bind({});
+downloadButton.args = {
+  isInline: false,
+  useDarkControl: false,
+  downloadOptions: [
+    { id: 'test', label: 'download small image', format: 'image/jpeg' },
+    { id: 'test2', label: 'download large image', format: 'image/jpeg' },
+    { id: 'test3', label: 'download video', format: 'video/mp4' },
+  ],
+};
+downloadButton.storyName = 'DownloadButton';
+
+const FilterDropdownTemplate = args => {
   return (
-    <DropdownButton label="Filters" buttonType={args.buttonType} id="example">
-      <div>
-        <PlainList>
-          <li>
-            <CheckboxRadio
-              id="1"
-              type="checkbox"
-              text="Manuscripts (1,856)"
-              checked={false}
-              onChange={null}
-            />
-          </li>
-          <li>
-            <CheckboxRadio
-              id="2"
-              type="checkbox"
-              text="Archives (1,784)"
-              checked={false}
-              onChange={null}
-            />
-          </li>
-          <li>
-            <CheckboxRadio
-              id="3"
-              type="checkbox"
-              text="Images (2,122)"
-              checked={false}
-              onChange={null}
-            />
-          </li>
-          <li>
-            <CheckboxRadio
-              id="4"
-              type="checkbox"
-              text="Books (12,465)"
-              checked={false}
-              onChange={null}
-            />
-          </li>
-        </PlainList>
-      </div>
-    </DropdownButton>
+    <SearchFilters
+      {...args}
+      changeHandler={() => {
+        // do nothing
+      }}
+      linkResolver={params => linkResolver({ params, pathname: '/' })}
+    />
   );
 };
-export const dropdownButton = DropdownButtonTemplate.bind({});
-dropdownButton.args = {
-  isInline: false,
+export const filterDropdown = FilterDropdownTemplate.bind({});
+filterDropdown.args = {
+  filters: [
+    {
+      type: 'checkbox',
+      id: 'contributors',
+      label: 'Contributors',
+      options: [
+        {
+          id: 'bbb',
+          value: 'johndoe',
+          label: 'John Doe',
+          selected: false,
+        },
+        {
+          id: 'ccc',
+          value: 'janedoe',
+          label: 'Jane Doe',
+          selected: false,
+        },
+        {
+          id: 'ddd',
+          value: 'joebloggs',
+          label: 'Joe Bloggs',
+          selected: false,
+        },
+        {
+          id: 'eee',
+          value: 'johnsmith',
+          label: 'John Smith',
+          selected: false,
+        },
+        {
+          id: 'fff',
+          value: 'poppypoppyseed',
+          label: 'Poppy von Poppyseed',
+          selected: false,
+        },
+      ],
+    },
+    {
+      type: 'dateRange',
+      id: 'dates',
+      label: 'Dates',
+      from: { id: 'from' },
+      to: { id: 'to' },
+    },
+    { type: 'color', name: 'color' },
+  ],
 };
-dropdownButton.storyName = 'DropdownButton';
+filterDropdown.storyName = 'FilterDropdown';
