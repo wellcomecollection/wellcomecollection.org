@@ -148,7 +148,7 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   useEffect(() => {
     dropdownRef &&
       dropdownRef.current &&
-      setFocusables(getFocusableElements(dropdownRef.current));
+      setFocusables(getFocusableElements(dropdownRef.current, true));
   }, [children]);
 
   useEffect(() => {
