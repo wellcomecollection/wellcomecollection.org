@@ -49,7 +49,7 @@ const AccordionInner = styled(Space).attrs({
 
     &:active,
     &:focus {
-      outline: 0;
+      outline: ${props => props.theme.highContrastOutlineFix};
       box-shadow: ${props => props.theme.focusBoxShadow};
     }
 

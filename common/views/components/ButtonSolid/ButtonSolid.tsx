@@ -41,7 +41,7 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   &:focus-visible,
   &:focus {
     box-shadow: ${props => props.theme.focusBoxShadow};
-    outline: 0;
+    outline: ${props => props.theme.highContrastOutlineFix};
   }
 
   :focus:not(:focus-visible) {
@@ -188,7 +188,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         }
 
         &:focus {
-          outline: 0;
+          outline: ${props => props.theme.highContrastOutlineFix};
         }
       `
       : `
