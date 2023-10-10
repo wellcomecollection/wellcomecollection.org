@@ -38,6 +38,20 @@ export const getServerSideProps = async context => {
   }
 
   const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
+
+  // We want to check if the VS belongs to an event or an exhibition
+  // If so, it should be redirected immediately
+  if (visualStoryDocument?.data['related-exhibition'].id) {
+    const { type, id } = visualStoryDocument?.data['related-exhibition'];
+
+    return {
+      redirect: {
+        permanent: true,
+        destination: `/${type}/${id}/visual-stories`,
+      },
+    };
+  }
+
   if (visualStoryDocument) {
     const visualStory = transformVisualStory(visualStoryDocument);
     const jsonLd = visualStoryLd(visualStory);
@@ -64,7 +78,9 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
   );
   const Header = (
     <PageHeader
-      breadcrumbs={{ items: [] }}
+      breadcrumbs={{
+        items: [],
+      }} // TODO https://github.com/wellcomecollection/wellcomecollection.org/issues/10300
       labels={{ labels: [] }}
       title={visualStory.title}
       isContentTypeInfoBeforeMedia={true}
