@@ -31,7 +31,7 @@ resource "aws_cloudfront_cache_policy" "static_content" {
 
 resource "aws_cloudfront_cache_policy" "weco_apps" {
   name    = "weco-apps"
-  comment = "A general-purpose policy for the wc.org apps, including all their usual query strings"
+  comment = "A general-purpose policy for the wc.org apps"
 
   min_ttl     = 0
   default_ttl = local.one_hour
@@ -67,19 +67,7 @@ resource "aws_cloudfront_cache_policy" "weco_apps" {
     }
 
     query_strings_config {
-      query_string_behavior = "whitelist"
-
-      query_strings {
-        items = sort(
-          distinct(
-            concat(
-              local.content_query_params,
-              local.works_query_params,
-              local.images_query_params
-            )
-          )
-        )
-      }
+      query_string_behavior = "all"
     }
   }
 }
