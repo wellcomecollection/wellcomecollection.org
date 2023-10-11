@@ -14,13 +14,41 @@ import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandf
 import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
-
 import Body from '@weco/content/components/Body/Body';
+import { VisualStoryDocument } from '@weco/content/services/prismic/types/visual-stories';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 
 type Props = {
   visualStory: VisualStory;
   jsonLd: JsonLdObj;
   pageview: Pageview;
+};
+
+export const returnVisualStoryProps = ({
+  visualStoryDocument,
+  serverData,
+}: {
+  visualStoryDocument?: VisualStoryDocument;
+  serverData: SimplifiedServerData;
+}) => {
+  if (visualStoryDocument) {
+    const visualStory = transformVisualStory(visualStoryDocument);
+    const jsonLd = visualStoryLd(visualStory);
+
+    return {
+      props: serialiseProps({
+        visualStory,
+        serverData,
+        jsonLd,
+        pageview: {
+          name: 'visual-story',
+          properties: {},
+        },
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
 };
 
 export const getServerSideProps = async context => {
@@ -55,24 +83,7 @@ export const getServerSideProps = async context => {
     };
   }
 
-  if (visualStoryDocument) {
-    const visualStory = transformVisualStory(visualStoryDocument);
-    const jsonLd = visualStoryLd(visualStory);
-
-    return {
-      props: serialiseProps({
-        visualStory,
-        serverData,
-        jsonLd,
-        pageview: {
-          name: 'visual-story',
-          properties: {},
-        },
-      }),
-    };
-  } else {
-    return { notFound: true };
-  }
+  returnVisualStoryProps({ visualStoryDocument, serverData });
 };
 
 const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
