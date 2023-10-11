@@ -150,7 +150,7 @@ export const typography = css<GlobalStyleProps>`
     &:focus-visible,
     &:focus {
       box-shadow: ${props => props.theme.focusBoxShadow};
-      outline: 0;
+      outline: ${props => props.theme.highContrastOutlineFix};
     }
 
     :focus:not(:focus-visible) {

@@ -38,7 +38,7 @@ const Tab = styled.button.attrs((props: TabProps) => ({
     box-shadow: ${props => props.theme.focusBoxShadow};
     position: relative;
     z-index: 1;
-    outline: 0;
+    outline: ${props => props.theme.highContrastOutlineFix};
   }
 
   padding: 0;
