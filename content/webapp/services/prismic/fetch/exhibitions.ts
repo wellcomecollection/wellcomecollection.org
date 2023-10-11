@@ -113,7 +113,7 @@ export const fetchExhibitions = (
   { filters = [], order = 'desc', period, page = 1 }: GetExhibitionsProps = {}
 ): Promise<prismic.Query<ExhibitionPrismicDocument>> => {
   const orderings: prismic.Ordering[] = [
-    { field: 'my.exhibitions.isPermament', direction: 'desc' },
+    { field: 'my.exhibitions.isPermanent', direction: 'desc' },
     { field: endField, direction: order },
   ];
 
