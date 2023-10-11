@@ -254,12 +254,9 @@ export function createExceptionalOpeningHoursDays(
     const type = period.type || 'other';
     const days = sortedDates
       .map(date => {
-        const matchingVenueGroup = groupedExceptionalDays.find(group =>
-          group.find(day => isSameDay(day.overrideDate, date))
-        );
-        const matchingDay = matchingVenueGroup?.find(day =>
-          isSameDay(day.overrideDate, date)
-        );
+        const matchingDay = groupedExceptionalDays
+          .flat()
+          .find(day => isSameDay(day.overrideDate, date));
         const backfillDay = exceptionalFromRegular(venue, date, type);
         return matchingDay || backfillDay;
       })

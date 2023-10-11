@@ -21,7 +21,7 @@ test.describe('tzitzit links', () => {
     await gotoWithoutCache(`${baseUrl}/works/fedcvz22/items`, page);
 
     await page.waitForSelector(
-      'li >> text="(no tzitzit, this image is in copyright)"'
+      'li >> text="This image is labelled as in copyright. Check before using."'
     );
   });
 
