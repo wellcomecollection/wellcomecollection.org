@@ -58,7 +58,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
           {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
             <Preview>
               <PreviewImage
-                alt={`view ${work.title}`}
+                alt=""
                 src={convertIiifImageUri(work.thumbnail.url, 120)}
               />
             </Preview>
