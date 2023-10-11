@@ -83,7 +83,7 @@ export const getServerSideProps = async context => {
     };
   }
 
-  returnVisualStoryProps({ visualStoryDocument, serverData });
+  return returnVisualStoryProps({ visualStoryDocument, serverData });
 };
 
 const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
