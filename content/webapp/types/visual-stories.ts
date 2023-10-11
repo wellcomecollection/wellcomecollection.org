@@ -8,6 +8,11 @@ export type VisualStory = GenericContentFields & {
   onThisPage: Link[];
   contributors: Contributor[];
   datePublished?: Date;
+  relatedDocument?: {
+    title?: string;
+    id: string;
+    type: 'exhibitions'; // TODO add 'events' as an option when doing https://github.com/wellcomecollection/wellcomecollection.org/issues/10308
+  };
   siteSection?: SiteSection;
   showOnThisPage: boolean;
 };
