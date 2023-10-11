@@ -4,7 +4,7 @@ function getFocusableElements<E extends Element = Element>(
   keepNegativeTabIndex?: boolean
 ): E[] {
   const selectors = keepNegativeTabIndex
-    ? 'button:not([disabled]), input, select, textarea, [role=slider]'
+    ? 'button:not([disabled]), [href], input, select, textarea, [tabindex], [role=slider]'
     : 'button:not([disabled]), [href]:not([tabindex="-1"]), input, select, textarea, [tabindex]:not([tabindex="-1"]), [role=slider]';
   return [...el.querySelectorAll<E>(selectors)];
 }
