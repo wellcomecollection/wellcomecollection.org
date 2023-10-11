@@ -229,7 +229,7 @@ const Body: FunctionComponent<Props> = ({
                     textColor={sectionTheme.featuredCardText}
                     isReversed={false}
                   >
-                    <h2 className={font('wb', 2)}>{firstItem.title}</h2>
+                    <h3 className={font('wb', 2)}>{firstItem.title}</h3>
                     {isCardType && firstItem.description && (
                       <p className={font('intr', 5)}>{firstItem.description}</p>
                     )}

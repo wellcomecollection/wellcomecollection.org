@@ -157,7 +157,7 @@ const FeaturedCardExhibitionBody = ({
 }: FeaturedCardExhibitionBodyProps) => {
   return (
     <div data-test-id="featured-exhibition">
-      <h2 className={font('wb', 2)}>{exhibition.title}</h2>
+      <h3 className={font('wb', 2)}>{exhibition.title}</h3>
       {!exhibition.statusOverride && exhibition.start && exhibition.end && (
         <DateWrapper as="p">
           <DateRange start={exhibition.start} end={exhibition.end} />
