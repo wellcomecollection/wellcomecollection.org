@@ -52,7 +52,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
       <div>
         <ImageWrapper>
           <PrismicImage
-            image={image}
+            image={{ ...image, alt: '' }}
             sizes={{
               xlarge: 1 / 4,
               large: 1 / 3,
