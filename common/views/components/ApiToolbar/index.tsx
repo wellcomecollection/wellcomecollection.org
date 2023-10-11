@@ -51,12 +51,12 @@ export function setTzitzitParams({
 }): ApiToolbarLink | undefined {
   const licenceId = licence?.id.toUpperCase();
 
-  // We should not be using in copyright images in Stories.
-  // TODO: Double check this is our policy with the Editorial team.
+  // We want to restrict the use of in copyright images in Stories.
+  // The Editorial team might chose to use them but any work on it should be done manually.
   if (licenceId === 'INC')
     return {
       id: 'tzitzit',
-      label: '(no tzitzit, this image is in copyright)',
+      label: 'This image is labelled as in copyright. Check before using.',
     };
 
   const params = new URLSearchParams();
