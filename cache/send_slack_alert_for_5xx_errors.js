@@ -376,7 +376,7 @@ function isInterestingError(hit) {
   // prod, but 502/503 errors aren't giving us that type of actionable info.
   if (
     (hit.status === 502 || hit.status === 503) &&
-    hit.host.includes('.www-stage.')
+    hit.host.includes('www-stage.')
   ) {
     return false;
   }
