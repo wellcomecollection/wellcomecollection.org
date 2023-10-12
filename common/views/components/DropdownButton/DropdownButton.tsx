@@ -148,7 +148,7 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   useEffect(() => {
     dropdownRef &&
       dropdownRef.current &&
-      setFocusables(getFocusableElements(dropdownRef.current));
+      setFocusables(getFocusableElements(dropdownRef.current, true));
   }, [children]);
 
   useEffect(() => {
@@ -157,7 +157,7 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
     } else {
       focusables.forEach(focusable => focusable.setAttribute('tabIndex', '-1'));
     }
-  }, [isActive, children, focusables]);
+  }, [isActive, focusables]);
 
   const buttonProps = {
     isActive,
