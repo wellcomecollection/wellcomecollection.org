@@ -130,7 +130,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         <Wrapper>
           {storyResponseList.totalResults === 0 ? (
             <Container>
-              <SearchNoResults query={queryString} />
+              <SearchNoResults
+                query={queryString}
+                hasFilters={hasActiveFilters}
+              />
             </Container>
           ) : (
             <Container>
