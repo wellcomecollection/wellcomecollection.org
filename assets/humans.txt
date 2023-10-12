@@ -46,7 +46,6 @@ Digital Platform:
  Natalie Pollecutt
  Paul Butcher
  Raphaëlle Cantin
- Adilson Mendes Bacelar
  Georgia E Whitney
  Agnès Garoux
  Jason Jaworski
@@ -62,6 +61,7 @@ Access:
  Jonathan Tweed
  Jenn Phillips-Bacher
  Alex Chan
+ Adilson Mendes Bacelar
  Dominique Marshall
  Tom Scott
  Harrison Pim
