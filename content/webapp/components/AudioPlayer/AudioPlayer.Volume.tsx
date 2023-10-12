@@ -33,9 +33,10 @@ const MuteUnmuteButton = styled.button.attrs<MuteUnmuteButtonProps>(
 type VolumeProps = {
   audioPlayer: HTMLAudioElement;
   id: string;
+  title: string;
 };
 
-const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id }) => {
+const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id, title }) => {
   const [volume, setVolume] = useState(audioPlayer.volume);
   const [isMuted, setIsMuted] = useState(audioPlayer.muted);
   const [showVolume, setShowVolume] = useState(false);
@@ -86,7 +87,7 @@ const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id }) => {
     <VolumeWrapper>
       <MuteUnmuteButton onClick={onVolumeButtonClick}>
         <span className="visually-hidden">
-          {isMuted ? 'Unmute player' : 'Mute player'}
+          {`${title} ${isMuted ? 'Unmute player' : 'Mute player'}`}
         </span>
         <Icon
           iconColor="neutral.600"

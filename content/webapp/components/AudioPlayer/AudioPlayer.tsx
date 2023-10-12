@@ -181,7 +181,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
             <PlayPauseInner>
               <span className="visually-hidden">
-                {isPlaying ? 'Pause' : 'Play'}
+                {`${title} ${isPlaying ? 'Pause' : 'Play'}`}
               </span>
               <Icon iconColor="accent.green" icon={isPlaying ? pause : play} />
             </PlayPauseInner>
@@ -197,7 +197,11 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
             />
           </div>
           {audioPlayerRef.current && (
-            <Volume audioPlayer={audioPlayerRef.current} id={id} />
+            <Volume
+              audioPlayer={audioPlayerRef.current}
+              id={id}
+              title={title}
+            />
           )}
           <SecondRow>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
