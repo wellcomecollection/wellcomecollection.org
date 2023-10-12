@@ -157,7 +157,7 @@ describe('ChangeEmail', () => {
       });
 
       expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter a valid email address/i
+        /Enter an email address in the correct format, like name@example.com/i
       );
     });
 
@@ -179,7 +179,7 @@ describe('ChangeEmail', () => {
       });
 
       expect(await screen.findByRole('alert')).toHaveTextContent(
-        /enter a valid email address/i
+        /Enter an email address in the correct format, like name@example.com/i
       );
     });
 
