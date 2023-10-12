@@ -173,9 +173,6 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
     isPill,
     disabled: hasNoOptions,
   };
-  // TODO still able to tab to dates inputs - is that the current behaviour on live?
-  // TODO getting stuck on dates?
-  // TODO try no js
 
   return (
     <FocusTrap active={isActive} focusTrapOptions={{ preventScroll: false }}>
