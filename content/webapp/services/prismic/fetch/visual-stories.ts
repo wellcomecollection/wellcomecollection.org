@@ -21,7 +21,7 @@ type GetVisualStoriesProps = {
 export const fetchVisualStories = (
   client: GetServerSidePropsPrismicClient,
   { filters = [] }: GetVisualStoriesProps = {}
-): Promise<prismic.Query<VisualStoryDocument> | undefined> => {
+): Promise<prismic.Query<VisualStoryDocument>> => {
   return visualStoriesFetcher.getByType(client, {
     filters,
     page: 1,

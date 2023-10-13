@@ -99,33 +99,30 @@ export function fetcher<Document extends prismic.PrismicDocument>(
     getByType: async (
       { client }: GetServerSidePropsPrismicClient,
       params: GetByTypeParams = {}
-    ): Promise<prismic.Query<Document> | undefined> => {
+    ): Promise<prismic.Query<Document>> => {
       const filters = isString(params.filters)
         ? [params.filters]
         : Array.isArray(params.filters)
         ? params.filters
         : [];
-      try {
-        const response = isString(contentType)
-          ? await client.getByType<Document>(contentType, {
-              ...params,
-              fetchLinks,
-              filters: [...filters, delistFilter],
-            })
-          : await client.get<Document>({
-              ...params,
-              fetchLinks,
-              filters: [
-                ...filters,
-                delistFilter,
-                prismic.filter.any('document.type', contentType),
-              ],
-            });
 
-        return response;
-      } catch (e) {
-        return undefined;
-      }
+      const response = isString(contentType)
+        ? await client.getByType<Document>(contentType, {
+            ...params,
+            fetchLinks,
+            filters: [...filters, delistFilter],
+          })
+        : await client.get<Document>({
+            ...params,
+            fetchLinks,
+            filters: [
+              ...filters,
+              delistFilter,
+              prismic.filter.any('document.type', contentType),
+            ],
+          });
+
+      return response;
     },
   };
 }
