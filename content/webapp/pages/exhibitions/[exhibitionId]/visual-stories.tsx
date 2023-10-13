@@ -25,7 +25,7 @@ export const getServerSideProps = async context => {
     ],
   });
 
-  if (visualStoriesQuery.results.length === 0) {
+  if (!visualStoriesQuery || visualStoriesQuery.results.length === 0) {
     return { notFound: true };
   }
 
