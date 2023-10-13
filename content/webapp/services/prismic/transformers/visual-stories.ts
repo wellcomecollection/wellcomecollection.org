@@ -31,7 +31,7 @@ export function transformVisualStory(
       ? transformTimestamp(data.datePublished)
       : undefined,
     relatedDocument:
-      'id' in relatedDocument
+      relatedDocument && 'id' in relatedDocument
         ? {
             title: asText(relatedDocument.data?.title || ''),
             id: relatedDocument.id,
