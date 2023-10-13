@@ -90,7 +90,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   const hasActiveFilters = hasFilters({
     filters: [
       ...filters.map(f => f.id),
-      // similar to /works, source.production.dates is one dropdown byt two properties, so we're specifying them in their individual format
+      // similar to /works, source.production.dates is one dropdown but two properties, so we're specifying them in their individual format
       'source.production.dates.from',
       'source.production.dates.to',
     ],
