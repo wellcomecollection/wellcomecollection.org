@@ -14,9 +14,12 @@ const visualStories: CustomType = {
   json: {
     Main: {
       title,
-      'related-exhibition': documentLink('Related Exhibition', {
-        linkedType: 'exhibitions',
-      }),
+      'related-document': documentLink(
+        'Related Document (e.g. Exhibition or Event)',
+        {
+          linkedType: 'exhibitions',
+        }
+      ),
       datePublished: timestamp('Date published'),
       showOnThisPage: boolean(
         "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body",

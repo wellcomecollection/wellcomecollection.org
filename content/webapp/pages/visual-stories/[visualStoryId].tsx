@@ -72,9 +72,9 @@ export const getServerSideProps = async context => {
   // If so, it should be redirected immediately
   if (
     visualStoryDocument &&
-    'id' in visualStoryDocument.data['related-exhibition']
+    'id' in visualStoryDocument.data['related-document']
   ) {
-    const { type, id } = visualStoryDocument.data['related-exhibition'];
+    const { type, id } = visualStoryDocument.data['related-document'];
 
     return {
       redirect: {

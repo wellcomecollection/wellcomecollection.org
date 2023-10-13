@@ -18,6 +18,7 @@ export function transformVisualStory(
   ) as SiteSection;
   const contributors = transformContributors(document);
   const promo = genericFields.promo;
+  const relatedDocument = data['related-document'];
 
   return {
     type: 'visual-stories',
@@ -30,11 +31,11 @@ export function transformVisualStory(
       ? transformTimestamp(data.datePublished)
       : undefined,
     relatedDocument:
-      'id' in data['related-exhibition']
+      'id' in relatedDocument
         ? {
-            title: asText(data['related-exhibition'].data?.title || ''),
-            id: data['related-exhibition'].id,
-            type: data['related-exhibition'].type,
+            title: asText(relatedDocument.data?.title || ''),
+            id: relatedDocument.id,
+            type: relatedDocument.type,
           }
         : undefined,
     siteSection,
