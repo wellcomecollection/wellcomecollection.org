@@ -17,6 +17,7 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import Body from '@weco/content/components/Body/Body';
 import { VisualStoryDocument } from '@weco/content/services/prismic/types/visual-stories';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { capitalize } from '@weco/common/utils/grammar';
 
 type Props = {
   visualStory: VisualStory;
@@ -87,14 +88,29 @@ export const getServerSideProps = async context => {
 };
 
 const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
+  const { relatedDocument } = visualStory;
+
   const ContentTypeInfo = visualStory.standfirst && (
     <PageHeaderStandfirst html={visualStory.standfirst} />
   );
+
   const Header = (
     <PageHeader
       breadcrumbs={{
-        items: [],
-      }} // TODO https://github.com/wellcomecollection/wellcomecollection.org/issues/10300
+        items:
+          relatedDocument && relatedDocument.title
+            ? [
+                {
+                  text: `${capitalize(relatedDocument.type as string)}`,
+                  url: `/${relatedDocument.type}`,
+                },
+                {
+                  text: relatedDocument.title,
+                  url: `/${relatedDocument.type}/${relatedDocument.id}`,
+                },
+              ]
+            : [],
+      }}
       labels={{ labels: [] }}
       title={visualStory.title}
       isContentTypeInfoBeforeMedia={true}
@@ -110,6 +126,7 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
       jsonLd={jsonLd}
       openGraphType="website"
       hideNewsletterPromo={true}
+      siteSection={visualStory.siteSection}
     >
       <ContentPage
         id={visualStory.id}
