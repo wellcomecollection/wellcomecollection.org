@@ -17,7 +17,7 @@ const visualStories: CustomType = {
       'related-document': documentLink(
         'Related Document (e.g. Exhibition or Event)',
         {
-          linkedType: 'exhibitions',
+          linkedTypes: ['exhibitions', 'events'],
         }
       ),
       datePublished: timestamp('Date published'),
