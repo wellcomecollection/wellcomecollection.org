@@ -27,6 +27,11 @@ const CloseCookieNotice = styled.button`
   align-items: center;
   margin-left: 1em;
   background: none;
+
+  &:focus {
+    box-shadow: ${props => props.theme.focusBoxShadow};
+    outline: ${props => props.theme.highContrastOutlineFix};
+  }
 `;
 
 const CookieMessage = styled.div`
