@@ -175,7 +175,10 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   };
 
   return (
-    <FocusTrap active={isActive} focusTrapOptions={{ preventScroll: false }}>
+    <FocusTrap
+      active={isActive}
+      focusTrapOptions={{ preventScroll: false, clickOutsideDeactivates: true }}
+    >
       <DropdownWrapper ref={dropdownWrapperRef}>
         {buttonType === 'inline' && (
           <ButtonSolid
