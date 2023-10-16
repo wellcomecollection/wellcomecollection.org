@@ -22,10 +22,6 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import SegmentedControl, {
-  Item,
-  ItemID,
-} from '@weco/content/components/SegmentedControl/SegmentedControl';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -84,22 +80,25 @@ import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
+import SubNavigation, {
+  SelectableTextLink,
+} from 'components/SubNavigation/SubNavigation';
 
-const segmentedControlItems: Item[] = [
+const segmentedControlItems: SelectableTextLink[] = [
   {
     id: 'current-and-coming-up',
     url: '/whats-on',
-    text: 'Everything',
+    name: 'Everything',
   },
   {
     id: 'today',
     url: '/whats-on/today',
-    text: 'Today',
+    name: 'Today',
   },
   {
     id: 'this-weekend',
     url: '/whats-on/this-weekend',
-    text: 'This weekend',
+    name: 'This weekend',
   },
 ];
 
@@ -206,7 +205,7 @@ const OpeningTimes = styled.div`
 `;
 
 type HeaderProps = {
-  activeId: ItemID;
+  activeId: string;
   todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
   featuredText?: FeaturedTextType;
 };
@@ -298,11 +297,10 @@ const Header: FunctionComponent<HeaderProps> = ({
             }}
             className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
           >
-            <SegmentedControl
-              ariaCurrentText="page"
-              id="whatsOnFilter"
-              activeId={activeId}
+            <SubNavigation
+              currentSection={activeId}
               items={segmentedControlItems}
+              label="date filter"
             />
           </Space>
         </div>
@@ -421,7 +419,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
   const extraTitleText = segmentedControlItems.find(item => item.id === period);
   const pageTitle = extraTitleText
-    ? `What’s on${` - ${extraTitleText.text}`}`
+    ? `What’s on${` - ${extraTitleText.name}`}`
     : `What’s on`;
 
   const { collectionVenues } = usePrismicData();

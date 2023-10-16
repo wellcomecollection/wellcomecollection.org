@@ -101,11 +101,6 @@ const ConceptWorksHeader = styled(Space).attrs({
     theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};
 `;
 
-const withSelectedStatus = (selectedTab: string, tabDefinition) => {
-  tabDefinition.selected = selectedTab === tabDefinition.id;
-  return tabDefinition;
-};
-
 // tabDefinitions is an ordered list of the image or works tabs in a page.
 // (hence not just having an object and doing a [selectedTab] lookup)
 // Return the currently selected one.
@@ -351,9 +346,7 @@ export const ConceptPage: NextPage<Props> = ({
                 id="images"
                 selectedTab={selectedImagesTab}
                 variant="white"
-                items={imagesTabs.map(tabData =>
-                  withSelectedStatus(selectedImagesTab, tabData.tab)
-                )}
+                items={imagesTabs.map(t => t.tab)}
                 setSelectedTab={setSelectedImagesTab}
                 trackWithSegment={true}
               />
@@ -378,9 +371,7 @@ export const ConceptPage: NextPage<Props> = ({
                 <TabNav
                   id="works"
                   selectedTab={selectedWorksTab}
-                  items={worksTabs.map(tabData =>
-                    withSelectedStatus(selectedWorksTab, tabData.tab)
-                  )}
+                  items={worksTabs.map(t => t.tab)}
                   setSelectedTab={setSelectedWorksTab}
                   trackWithSegment={true}
                 />

@@ -19,7 +19,7 @@ const IconWrapper = styled.span`
   }
 `;
 
-type SelectableTextLink = {
+export type SelectableTextLink = {
   name: string;
   id: string;
   url: string | LinkProps;

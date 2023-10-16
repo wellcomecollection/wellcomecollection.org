@@ -36,7 +36,6 @@ function sendEvent({ id, trackWithSegment }: SendEventProps) {
 type SelectableTextLink = {
   id: string;
   text: ReactNode;
-  selected: boolean;
 };
 
 type Props = {
@@ -120,10 +119,10 @@ const TabNav: FunctionComponent<Props> = ({
             id={`tab-${item.id}`}
             role="tab"
             aria-controls={`tabpanel-${item.id}`}
-            tabIndex={item.selected ? 0 : -1}
-            aria-selected={item.selected}
+            tabIndex={item.id === selectedTab ? 0 : -1}
+            aria-selected={item.id === selectedTab}
             onClick={e => {
-              if (!item.selected) {
+              if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
                   behavior: 'smooth',
                   inline: 'start',
@@ -137,7 +136,7 @@ const TabNav: FunctionComponent<Props> = ({
             }}
             onKeyDown={handleKeyDown}
           >
-            <NavItemInner selected={item.selected} variant={variant}>
+            <NavItemInner selected={item.id === selectedTab} variant={variant}>
               {item.text}
             </NavItemInner>
           </Tab>

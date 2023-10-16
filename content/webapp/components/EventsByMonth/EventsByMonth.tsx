@@ -8,15 +8,13 @@ import { groupEventsByMonth, startOf } from './group-event-utils';
 // Components
 import CardGrid from '../CardGrid/CardGrid';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import SegmentedControl, {
-  ItemID,
-} from '@weco/content/components/SegmentedControl/SegmentedControl';
 import Space from '@weco/common/views/components/styled/Space';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 // Types
 import { EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
+import TabNav from 'components/TabNav/TabNav';
 
 type Props = {
   events: EventBasic[];
@@ -28,7 +26,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   // What's On page, e.g. a group for May, June, July, ...
   const monthsWithEvents = groupEventsByMonth(events).map(
     ({ month, events }) => {
-      const id = `${month.month}-${month.year}`.toLowerCase() as ItemID;
+      const id = `${month.month}-${month.year}`.toLowerCase();
 
       return {
         id,
@@ -43,7 +41,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   // We assume that there will always be some upcoming events scheduled,
   // which means there will be at least one month in `monthsWithEvents`
   // that has some events in it (as long as we have JS)
-  const [activeId, setActiveId] = useState<ItemID | undefined>();
+  const [activeId, setActiveId] = useState<string | undefined>();
 
   return (
     <div>
@@ -51,11 +49,13 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         <CssGridContainer>
           <div className="css-grid">
             <div className={cssGrid(gridSize12)}>
-              <SegmentedControl
+              <TabNav
                 id="monthControls"
-                activeId={activeId || monthsWithEvents[0].id}
-                setActiveId={setActiveId}
+                selectedTab={activeId || monthsWithEvents[0].id}
+                variant="yellow"
                 items={monthsWithEvents}
+                setSelectedTab={setActiveId}
+                trackWithSegment={true}
               />
             </div>
           </div>
