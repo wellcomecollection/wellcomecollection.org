@@ -20,8 +20,7 @@ const PlainLink = styled.a`
     border: none;
   }
 
-  &:hover,
-  &:focus {
+  &:hover {
     color: ${props => props.theme.color('accent.lightGreen')};
   }
 `;

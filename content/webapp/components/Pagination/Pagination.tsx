@@ -29,7 +29,7 @@ const Container = styled.nav.attrs({
       'medium',
       'max-width'
     )(`
-    ${props.isHiddenMobile && 'display: none;'}; 
+    ${props.isHiddenMobile && 'display: none;'};
   `)}
 `;
 
@@ -68,7 +68,7 @@ const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
     )};
     transform: rotate(${props.prev ? '90' : '270'}deg);
 
-    &:hover, &:focus {
+    &:hover {
       background-color: ${props.theme.color(
         props.hasDarkBg ? 'neutral.600' : 'neutral.300'
       )};

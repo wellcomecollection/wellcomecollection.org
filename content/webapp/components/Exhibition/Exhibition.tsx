@@ -74,8 +74,7 @@ const ResourceLink = styled(Space).attrs({
   border: 1px solid ${props => props.theme.color('warmNeutral.400')};
   border-left: 10px solid ${props => props.theme.color(props.borderColor)};
 
-  &:hover,
-  &:focus {
+  &:hover {
     background: ${props => props.theme.color('neutral.400')};
   }
 

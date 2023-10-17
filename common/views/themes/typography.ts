@@ -146,7 +146,9 @@ export const typography = css<GlobalStyleProps>`
     &:hover {
       text-decoration: none;
     }
+  }
 
+  * {
     &:focus-visible,
     &:focus {
       box-shadow: ${props => props.theme.focusBoxShadow};

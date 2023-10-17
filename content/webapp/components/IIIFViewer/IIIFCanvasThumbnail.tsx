@@ -22,10 +22,6 @@ const IIIFViewerThumb = styled.span`
   [aria-current='true'] & {
     background: ${props => props.theme.color('neutral.700')};
   }
-
-  &:focus {
-    outline: ${props => `1px solid ${props.theme.color('yellow')}`};
-  }
 `;
 
 const IIIFViewerThumbInner = styled.span`
