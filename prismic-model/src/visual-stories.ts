@@ -14,9 +14,6 @@ const visualStories: CustomType = {
   json: {
     Main: {
       title,
-      'related-exhibition': documentLink('Related Exhibition', {
-        linkedType: 'exhibitions',
-      }),
       'related-document': documentLink(
         'Related Document (e.g. Exhibition or Event)',
         {
