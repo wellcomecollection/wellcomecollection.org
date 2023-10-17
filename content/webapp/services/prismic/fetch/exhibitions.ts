@@ -75,7 +75,7 @@ export async function fetchExhibition(
   });
 
   const visualStoriesQueryPromise = fetchVisualStories(client, {
-    filters: [prismic.filter.at('my.visual-stories.related-exhibition', id)],
+    filters: [prismic.filter.at('my.visual-stories.related-document', id)],
   });
   const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
     filters: [prismic.filter.at('my.exhibition-guides.related-exhibition', id)],

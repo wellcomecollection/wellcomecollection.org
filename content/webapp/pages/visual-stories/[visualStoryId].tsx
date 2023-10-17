@@ -71,10 +71,10 @@ export const getServerSideProps = async context => {
   // We want to check if the VS belongs to an event or an exhibition
   // If so, it should be redirected immediately
   if (
-    visualStoryDocument &&
-    'id' in visualStoryDocument.data['related-exhibition']
+    visualStoryDocument?.data['related-document'] &&
+    'id' in visualStoryDocument.data['related-document']
   ) {
-    const { type, id } = visualStoryDocument.data['related-exhibition'];
+    const { type, id } = visualStoryDocument.data['related-document'];
 
     return {
       redirect: {
