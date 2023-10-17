@@ -232,7 +232,7 @@ const Homepage: FunctionComponent<Props> = ({
           </SpacingSection>
         )}
 
-        {nextSevenDaysEvents.length + exhibitions.length > 2 && (
+        {nextSevenDaysEvents.length + exhibitions.length > 0 && (
           <SpacingSection>
             <SpacingComponent>
               <SectionHeader title="This week" />
