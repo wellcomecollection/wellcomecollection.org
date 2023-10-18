@@ -72,7 +72,7 @@ import {
   ResourcesItem,
   ResourceLink,
   ResourceLinkIconWrapper,
-} from '@weco/content/components/Exhibition/Exhibition';
+} from '@weco/content/components/styled/AccessResources';
 import Icon from '@weco/common/views/components/Icon/Icon';
 
 const DateWrapper = styled.div.attrs({
