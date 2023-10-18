@@ -1,4 +1,6 @@
-// TODO will be rewritten as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10323
+// TODO Rewrite as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10338
+// We found out that using test content for this was not realistic so we need real static content.
+
 // import { test as base, expect } from '@playwright/test';
 // import { visualStory } from './contexts';
 // import { baseUrl } from './helpers/urls';
@@ -15,17 +17,4 @@
 //     ]);
 //     await use(context);
 //   },
-// });
-
-// test.describe('visual-stories', () => {
-//   test('if it has a related document, it redirects to the relevant URL', async ({
-//     page,
-//     context,
-//   }) => {
-//     await visualStory('ZLe87hAAACIAwzqH', context, page);
-
-//     expect(page.url()).toBe(
-//       `${baseUrl}/exhibitions/Wt4AACAAAFCxRfQM/visual-stories`
-//     );
-//   });
 // });
