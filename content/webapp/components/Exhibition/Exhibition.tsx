@@ -46,7 +46,7 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
 
-const ResourcesList = styled(PlainList)`
+export const ResourcesList = styled(PlainList)`
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
@@ -54,7 +54,8 @@ const ResourcesList = styled(PlainList)`
     gap: 30px;
   `}
 `;
-const ResourcesItem = styled.li`
+
+export const ResourcesItem = styled.li`
   flex: 0 0 100%;
   position: relative;
   min-height: 103px;
@@ -62,7 +63,8 @@ const ResourcesItem = styled.li`
         flex-basis: calc(50% - 15px);
       `}
 `;
-const ResourceLink = styled(Space).attrs({
+
+export const ResourceLink = styled(Space).attrs({
   as: 'a',
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -89,7 +91,7 @@ const ResourceLink = styled(Space).attrs({
   }
 `;
 
-const ResourceLinkIconWrapper = styled.span`
+export const ResourceLinkIconWrapper = styled.span`
   position: absolute;
   bottom: 10px;
   right: 10px;
