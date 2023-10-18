@@ -102,6 +102,7 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
     />
   );
 
+  // Ensures the canonical link points the the desired URL should there be a related Event or Exhibition
   const visualStoryPath = visualStory.relatedDocument?.id
     ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.id}/visual-stories`
     : `/visual-stories/${visualStory.id}`;
