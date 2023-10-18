@@ -58,10 +58,6 @@ export const getServerSideProps = async context => {
   const { visualStoryId } = context.query;
   const serverData = await getServerData(context);
 
-  if (!serverData?.toggles?.visualStories?.value) {
-    return { notFound: true };
-  }
-
   if (!looksLikePrismicId(visualStoryId)) {
     return { notFound: true };
   }
