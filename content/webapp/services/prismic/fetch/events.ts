@@ -21,6 +21,8 @@ import {
 import { cardFetchLinks } from '../types/card';
 import { placesFetchLinks } from '../types/places';
 import { backgroundTexturesFetchLink } from '../types/background-textures';
+import { fetchVisualStories } from './visual-stories';
+import { VisualStoryDocument } from '../types/visual-stories';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
@@ -41,7 +43,28 @@ const fetchLinks = [
 
 const eventsFetcher = fetcher<EventPrismicDocument>('events', fetchLinks);
 
-export const fetchEvent = eventsFetcher.getById;
+type FetchEventResult = {
+  event?: EventPrismicDocument;
+  visualStories: prismic.Query<VisualStoryDocument>;
+};
+export async function fetchEvent(
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<FetchEventResult> {
+  const eventPromise = eventsFetcher.getById(client, id);
+  const visualStoriesQueryPromise = fetchVisualStories(client, {
+    filters: [prismic.filter.at('my.visual-stories.related-document', id)],
+  });
+  const [event, visualStories] = await Promise.all([
+    eventPromise,
+    visualStoriesQueryPromise,
+  ]);
+
+  return {
+    event,
+    visualStories,
+  };
+}
 
 export const fetchEventScheduleItems = async (
   { client }: GetServerSidePropsPrismicClient,
