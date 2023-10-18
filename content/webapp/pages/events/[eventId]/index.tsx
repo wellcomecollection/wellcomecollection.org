@@ -31,6 +31,7 @@ import {
   IconSvg,
   speechToText,
   ticket,
+  arrow,
 } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -59,11 +60,20 @@ import EventDateList from '@weco/content/components/EventDateList';
 import EventStatus from '@weco/content/components/EventStatus';
 
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { a11y } from '@weco/common/data/microcopy';
+import { a11y, visualStoryLinkText } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { AppErrorProps } from '@weco/common/services/app';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { Link } from '@weco/content/types/link';
+import {
+  ResourcesList,
+  ResourcesItem,
+  ResourceLink,
+  ResourceLinkIconWrapper,
+} from '@weco/content/components/Exhibition/Exhibition';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
@@ -88,6 +98,7 @@ const EmailTeamCopy = styled(Space).attrs({
 
 type EventProps = {
   event: Event;
+  accessResourceLinks: (Link & { type: string })[];
   jsonLd: JsonLdObj[];
   gaDimensions: GaDimensions;
   pageview: Pageview;
@@ -126,7 +137,11 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
  * but instead are rewritten to the index file. Please observe
  * this setup in the next.config file for this app
  */
-const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
+const EventPage: NextPage<EventProps> = ({
+  event,
+  accessResourceLinks,
+  jsonLd,
+}) => {
   const [scheduledIn, setScheduledIn] = useState<EventBasic>();
 
   // This is used to populate the 'Part of' in the breadcrumb trail.
@@ -283,6 +298,7 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
               />
             </>
           )}
+
         {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
           <>
             <EventbriteButtons event={event} />
@@ -364,6 +380,38 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
               )}
           </>
         )}
+
+        {accessResourceLinks.length > 0 && (
+          <>
+            <h2 className={font('wb', 3)}>Event access content</h2>
+            {accessResourceLinks.length > 0 && (
+              <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+                <ResourcesList>
+                  {accessResourceLinks.map((link, i) => {
+                    return (
+                      <ResourcesItem key={link.url}>
+                        <ResourceLink
+                          borderColor={'accent.turquoise'}
+                          key={i}
+                          href={link.url}
+                        >
+                          {link.type === 'visual-story' && (
+                            <h3 className={font('intb', 4)}>Visual story</h3>
+                          )}
+                          <span className={font('intr', 6)}>{link.text}</span>
+                          <ResourceLinkIconWrapper>
+                            <Icon icon={arrow} />
+                          </ResourceLinkIconWrapper>
+                        </ResourceLink>
+                      </ResourcesItem>
+                    );
+                  })}
+                </ResourcesList>
+              </Space>
+            )}
+          </>
+        )}
+
         <InfoBox
           title="Need to know"
           items={
@@ -449,34 +497,44 @@ export const getServerSideProps: GetServerSideProps<
   const { eventId } = context.query;
 
   const client = createClient(context);
-  const eventDocument = await fetchEvent(client, eventId as string);
+  const { event, visualStories } = await fetchEvent(client, eventId as string);
 
-  if (!eventDocument) {
+  if (!event) {
     return {
       notFound: true,
     };
   }
 
-  const scheduleIds = getScheduleIds(eventDocument);
+  const scheduleIds = getScheduleIds(event);
 
   const scheduleQuery =
     scheduleIds.length > 0
       ? await fetchEventScheduleItems(client, scheduleIds)
       : undefined;
 
-  const event = transformEvent(eventDocument, scheduleQuery);
+  const eventDoc = transformEvent(event, scheduleQuery);
 
-  const jsonLd = eventLd(event);
+  const jsonLd = eventLd(eventDoc);
+
+  const visualStoriesLinks = visualStories.results.map(visualStory => {
+    const url = linkResolver(visualStory);
+    return {
+      text: visualStoryLinkText,
+      url,
+      type: 'visual-story',
+    };
+  });
 
   return {
     props: serialiseProps({
-      event,
+      event: eventDoc,
+      accessResourceLinks: visualStoriesLinks,
       jsonLd,
       serverData,
       gaDimensions: {
-        partOf: event.seasons
+        partOf: eventDoc.seasons
           .map(season => season.id)
-          .concat(event.series.map(series => series.id)),
+          .concat(eventDoc.series.map(series => series.id)),
       },
       pageview: {
         name: 'event',
