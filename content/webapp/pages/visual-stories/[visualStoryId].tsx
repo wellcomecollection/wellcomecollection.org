@@ -68,22 +68,6 @@ export const getServerSideProps = async context => {
 
   const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
 
-  // We want to check if the VS belongs to an event or an exhibition
-  // If so, it should be redirected immediately
-  if (
-    visualStoryDocument?.data['related-document'] &&
-    'id' in visualStoryDocument.data['related-document']
-  ) {
-    const { type, id } = visualStoryDocument.data['related-document'];
-
-    return {
-      redirect: {
-        permanent: true,
-        destination: `/${type}/${id}/visual-stories`,
-      },
-    };
-  }
-
   return returnVisualStoryProps({ visualStoryDocument, serverData });
 };
 
@@ -118,11 +102,16 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
     />
   );
 
+  // Ensures the canonical link points the the desired URL should there be a related Event or Exhibition
+  const visualStoryPath = visualStory.relatedDocument?.id
+    ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.id}/visual-stories`
+    : `/visual-stories/${visualStory.id}`;
+
   return (
     <PageLayout
       title={visualStory.title}
       description={visualStory.promo?.caption || ''}
-      url={{ pathname: `/visual-stories/${visualStory.id}` }}
+      url={{ pathname: visualStoryPath }}
       jsonLd={jsonLd}
       openGraphType="website"
       hideNewsletterPromo={true}
