@@ -102,11 +102,15 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
     />
   );
 
+  const visualStoryPath = visualStory.relatedDocument?.id
+    ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.id}/visual-stories`
+    : `/visual-stories/${visualStory.id}`;
+
   return (
     <PageLayout
       title={visualStory.title}
       description={visualStory.promo?.caption || ''}
-      url={{ pathname: `/visual-stories/${visualStory.id}` }}
+      url={{ pathname: visualStoryPath }}
       jsonLd={jsonLd}
       openGraphType="website"
       hideNewsletterPromo={true}
