@@ -121,6 +121,9 @@ const colors = {
   // Validation, should only be used for that purpose. Consider other colours for other purposes.
   'validation.red': '#e01b2f',
   'validation.green': '#0b7051',
+
+  // Focus, should only be used for that purpose.
+  'focus.yellow': '#ffea00',
 };
 
 const getColor = (name: PaletteColor): string => {
@@ -244,7 +247,7 @@ export const themeValues = {
     xlarge: 30,
   },
   basicBoxShadow: `0 2px 8px 0 rgba(0, 0, 0, 0.4)`,
-  focusBoxShadow: `0 0 0 3px ${colors.yellow}`,
+  focusBoxShadow: `0 0 0 3px ${colors['focus.yellow']}`,
   // Problem: https://github.com/wellcomecollection/wellcomecollection.org/issues/10237
   // Solution: https://benmyers.dev/blog/whcm-outlines/
   highContrastOutlineFix: `3px solid transparent`,

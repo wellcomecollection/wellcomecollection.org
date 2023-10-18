@@ -158,6 +158,10 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
     color: ${props.theme.color(
       props?.colors?.text || props.theme.buttonColors.default.text
     )};
+
+    &:focus-visible {
+      border: 2px solid ${props.theme.color('black')};
+    }
   `}
 
   ${props =>
