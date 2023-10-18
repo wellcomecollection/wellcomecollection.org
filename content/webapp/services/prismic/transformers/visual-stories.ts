@@ -1,6 +1,6 @@
 import { VisualStory } from '@weco/content/types/visual-stories';
 import { VisualStoryDocument } from '../types/visual-stories';
-import { transformGenericFields } from '.';
+import { asText, transformGenericFields } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformOnThisPage } from './pages';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
@@ -18,6 +18,8 @@ export function transformVisualStory(
   ) as SiteSection;
   const contributors = transformContributors(document);
   const promo = genericFields.promo;
+  const relatedDocument = data['related-document'];
+
   return {
     type: 'visual-stories',
     ...genericFields,
@@ -28,6 +30,14 @@ export function transformVisualStory(
     datePublished: data.datePublished
       ? transformTimestamp(data.datePublished)
       : undefined,
+    relatedDocument:
+      relatedDocument && 'id' in relatedDocument
+        ? {
+            title: asText(relatedDocument.data?.title || ''),
+            id: relatedDocument.id,
+            type: relatedDocument.type,
+          }
+        : undefined,
     siteSection,
   };
 }

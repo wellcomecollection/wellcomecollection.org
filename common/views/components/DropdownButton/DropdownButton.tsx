@@ -19,6 +19,7 @@ import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
+import FocusTrap from 'focus-trap-react';
 
 const DropdownWrapper = styled.div`
   display: inline-flex;
@@ -174,57 +175,73 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
   };
 
   return (
-    <DropdownWrapper ref={dropdownWrapperRef}>
-      {buttonType === 'inline' && (
-        <ButtonSolid
-          {...buttonProps}
-          size="small"
-          hoverUnderline={true}
-          colors={
-            isOnDark
-              ? themeValues.buttonColors.whiteTransparentWhite
-              : themeValues.buttonColors.marbleWhiteCharcoal
-          }
-        />
-      )}
-      {buttonType === 'outlined' && (
-        <ButtonSolid
-          {...buttonProps}
-          colors={
-            isOnDark
-              ? themeValues.buttonColors.whiteTransparentWhite
-              : themeValues.buttonColors.greenTransparentGreen
-          }
-        />
-      )}
-      {buttonType === 'borderless' && (
-        <BorderlessButton
-          aria-controls={id}
-          aria-expanded={isActive}
-          isActive={isActive}
-          clickHandler={() => setIsActive(!isActive)}
-          icon={chevron}
-          iconLeft={iconLeft}
-          type="button"
-          text={label}
-          aria-label={ariaLabel}
-        />
-      )}
-      {isEnhanced && (
-        <Popper
-          id={id}
-          ref={popperRef}
-          style={styles.popper}
-          {...(isEnhanced ? attributes.popper : {})}
-          isVisible={isPopperVisible}
-        >
-          <CSSTransition
-            in={isActive}
-            classNames="fade"
-            timeout={350}
-            onEnter={() => setIsPopperVisible(true)}
-            onExited={() => setIsPopperVisible(false)}
+    <FocusTrap
+      active={isActive}
+      focusTrapOptions={{ preventScroll: false, clickOutsideDeactivates: true }}
+    >
+      <DropdownWrapper ref={dropdownWrapperRef}>
+        {buttonType === 'inline' && (
+          <ButtonSolid
+            {...buttonProps}
+            size="small"
+            hoverUnderline={true}
+            colors={
+              isOnDark
+                ? themeValues.buttonColors.whiteTransparentWhite
+                : themeValues.buttonColors.marbleWhiteCharcoal
+            }
+          />
+        )}
+        {buttonType === 'outlined' && (
+          <ButtonSolid
+            {...buttonProps}
+            colors={
+              isOnDark
+                ? themeValues.buttonColors.whiteTransparentWhite
+                : themeValues.buttonColors.greenTransparentGreen
+            }
+          />
+        )}
+        {buttonType === 'borderless' && (
+          <BorderlessButton
+            aria-controls={id}
+            aria-expanded={isActive}
+            isActive={isActive}
+            clickHandler={() => setIsActive(!isActive)}
+            icon={chevron}
+            iconLeft={iconLeft}
+            type="button"
+            text={label}
+            aria-label={ariaLabel}
+          />
+        )}
+        {isEnhanced && (
+          <Popper
+            id={id}
+            ref={popperRef}
+            style={styles.popper}
+            {...(isEnhanced ? attributes.popper : {})}
+            isVisible={isPopperVisible}
           >
+            <CSSTransition
+              in={isActive}
+              classNames="fade"
+              timeout={350}
+              onEnter={() => setIsPopperVisible(true)}
+              onExited={() => setIsPopperVisible(false)}
+            >
+              <Dropdown
+                isActive={isActive}
+                isEnhanced={isEnhanced}
+                ref={dropdownRef}
+              >
+                {children}
+              </Dropdown>
+            </CSSTransition>
+          </Popper>
+        )}
+        <noscript>
+          <Popper id={id} ref={popperRef} isVisible={true}>
             <Dropdown
               isActive={isActive}
               isEnhanced={isEnhanced}
@@ -232,21 +249,10 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
             >
               {children}
             </Dropdown>
-          </CSSTransition>
-        </Popper>
-      )}
-      <noscript>
-        <Popper id={id} ref={popperRef} isVisible={true}>
-          <Dropdown
-            isActive={isActive}
-            isEnhanced={isEnhanced}
-            ref={dropdownRef}
-          >
-            {children}
-          </Dropdown>
-        </Popper>
-      </noscript>
-    </DropdownWrapper>
+          </Popper>
+        </noscript>
+      </DropdownWrapper>
+    </FocusTrap>
   );
 };
 

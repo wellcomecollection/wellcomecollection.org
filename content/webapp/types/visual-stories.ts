@@ -8,6 +8,11 @@ export type VisualStory = GenericContentFields & {
   onThisPage: Link[];
   contributors: Contributor[];
   datePublished?: Date;
+  relatedDocument?: {
+    title?: string;
+    id: string;
+    type: 'exhibitions' | 'events';
+  };
   siteSection?: SiteSection;
   showOnThisPage: boolean;
 };

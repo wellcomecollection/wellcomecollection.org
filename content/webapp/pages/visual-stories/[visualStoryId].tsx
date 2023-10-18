@@ -14,8 +14,10 @@ import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandf
 import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
-
 import Body from '@weco/content/components/Body/Body';
+import { VisualStoryDocument } from '@weco/content/services/prismic/types/visual-stories';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { capitalize } from '@weco/common/utils/grammar';
 
 type Props = {
   visualStory: VisualStory;
@@ -23,21 +25,13 @@ type Props = {
   pageview: Pageview;
 };
 
-export const getServerSideProps = async context => {
-  setCacheControl(context.res);
-  const client = createClient(context);
-  const { visualStoryId } = context.query;
-  const serverData = await getServerData(context);
-
-  if (!serverData?.toggles?.visualStories?.value) {
-    return { notFound: true };
-  }
-
-  if (!looksLikePrismicId(visualStoryId)) {
-    return { notFound: true };
-  }
-
-  const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
+export const returnVisualStoryProps = ({
+  visualStoryDocument,
+  serverData,
+}: {
+  visualStoryDocument?: VisualStoryDocument;
+  serverData: SimplifiedServerData;
+}) => {
   if (visualStoryDocument) {
     const visualStory = transformVisualStory(visualStoryDocument);
     const jsonLd = visualStoryLd(visualStory);
@@ -58,13 +52,65 @@ export const getServerSideProps = async context => {
   }
 };
 
+export const getServerSideProps = async context => {
+  setCacheControl(context.res);
+  const client = createClient(context);
+  const { visualStoryId } = context.query;
+  const serverData = await getServerData(context);
+
+  if (!serverData?.toggles?.visualStories?.value) {
+    return { notFound: true };
+  }
+
+  if (!looksLikePrismicId(visualStoryId)) {
+    return { notFound: true };
+  }
+
+  const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
+
+  // We want to check if the VS belongs to an event or an exhibition
+  // If so, it should be redirected immediately
+  if (
+    visualStoryDocument?.data['related-document'] &&
+    'id' in visualStoryDocument.data['related-document']
+  ) {
+    const { type, id } = visualStoryDocument.data['related-document'];
+
+    return {
+      redirect: {
+        permanent: true,
+        destination: `/${type}/${id}/visual-stories`,
+      },
+    };
+  }
+
+  return returnVisualStoryProps({ visualStoryDocument, serverData });
+};
+
 const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
+  const { relatedDocument } = visualStory;
+
   const ContentTypeInfo = visualStory.standfirst && (
     <PageHeaderStandfirst html={visualStory.standfirst} />
   );
+
   const Header = (
     <PageHeader
-      breadcrumbs={{ items: [] }}
+      breadcrumbs={{
+        items:
+          relatedDocument && relatedDocument.title
+            ? [
+                {
+                  text: `${capitalize(relatedDocument.type as string)}`,
+                  url: `/${relatedDocument.type}`,
+                },
+                {
+                  text: relatedDocument.title,
+                  url: `/${relatedDocument.type}/${relatedDocument.id}`,
+                },
+              ]
+            : [],
+      }}
       labels={{ labels: [] }}
       title={visualStory.title}
       isContentTypeInfoBeforeMedia={true}
@@ -80,6 +126,7 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
       jsonLd={jsonLd}
       openGraphType="website"
       hideNewsletterPromo={true}
+      siteSection={visualStory.siteSection}
     >
       <ContentPage
         id={visualStory.id}

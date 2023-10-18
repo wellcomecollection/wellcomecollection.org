@@ -226,6 +226,24 @@ export const event = async (
   await gotoWithoutCache(`${baseUrl}/events/${id}`, page);
 };
 
+export const visualStory = async (
+  id: string,
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  const VSCookie = [
+    ...requiredCookies,
+    {
+      name: 'toggle_visualStories',
+      value: 'true',
+      path: '/',
+      domain: new URL(baseUrl).host,
+    },
+  ]; // TODO remove when the toggle is removed https://github.com/wellcomecollection/wellcomecollection.org/issues/10320
+  await context.addCookies(VSCookie);
+  await gotoWithoutCache(`${baseUrl}/visual-stories/${id}`, page);
+};
+
 const isMobile = (page: Page): boolean =>
   (page.viewportSize()?.width ?? 0) <= devices['iPhone 11'].viewport.width;
 

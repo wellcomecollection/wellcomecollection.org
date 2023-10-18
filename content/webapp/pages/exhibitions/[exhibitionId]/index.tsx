@@ -21,7 +21,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { Link } from '../../types/link';
+import { Link } from '@weco/content/types/link';
 import {
   visualStoryLinkText,
   exhibitionGuideLinkText,
