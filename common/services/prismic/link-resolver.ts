@@ -8,7 +8,7 @@ type DataProps = {
   id: string;
   type: string;
   data: {
-    'related-document'?: {
+    relatedDocument?: {
       id: string;
       type: string;
     };
@@ -24,7 +24,7 @@ function linkResolver(doc: Props | DataProps): string {
   if (type === 'visual-stories') {
     if ('data' in doc) {
       const {
-        data: { 'related-document': relatedDocument },
+        data: { relatedDocument },
       } = doc;
 
       if (relatedDocument) {

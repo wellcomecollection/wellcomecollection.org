@@ -19,7 +19,7 @@ export const getServerSideProps = async context => {
   const visualStoriesQuery = await fetchVisualStories(client, {
     filters: [
       prismic.filter.at(
-        'my.visual-stories.related-document',
+        'my.visual-stories.relatedDocument',
         context.query.eventId
       ),
     ],
