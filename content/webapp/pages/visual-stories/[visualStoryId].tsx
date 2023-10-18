@@ -68,22 +68,6 @@ export const getServerSideProps = async context => {
 
   const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
 
-  // We want to check if the VS belongs to an event or an exhibition
-  // If so, it should be redirected immediately
-  if (
-    visualStoryDocument?.data['related-document'] &&
-    'id' in visualStoryDocument.data['related-document']
-  ) {
-    const { type, id } = visualStoryDocument.data['related-document'];
-
-    return {
-      redirect: {
-        permanent: true,
-        destination: `/${type}/${id}/visual-stories`,
-      },
-    };
-  }
-
   return returnVisualStoryProps({ visualStoryDocument, serverData });
 };
 
