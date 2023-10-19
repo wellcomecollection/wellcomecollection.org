@@ -75,10 +75,10 @@ export async function fetchExhibition(
   });
 
   const visualStoriesQueryPromise = fetchVisualStories(client, {
-    filters: [prismic.filter.at('my.visual-stories.related-document', id)],
+    filters: [prismic.filter.at('my.visual-stories.relatedDocument', id)],
   });
   const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
-    filters: [prismic.filter.at('my.exhibition-guides.related-exhibition', id)],
+    filters: [prismic.filter.at('my.exhibition-guides.related-exhibition', id)], // TODO consider renaming field to follow naming convention
   });
 
   const [exhibition, pages, visualStories, exhibitionGuides] =

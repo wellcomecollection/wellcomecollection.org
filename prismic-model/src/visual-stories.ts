@@ -14,8 +14,15 @@ const visualStories: CustomType = {
   json: {
     Main: {
       title,
-      'related-document': documentLink(
+      relatedDocument: documentLink(
         'Related Document (e.g. Exhibition or Event)',
+        {
+          linkedTypes: ['exhibitions', 'events'],
+        }
+      ),
+      // TODO delete in subsequent PR
+      'related-document': documentLink(
+        'Deprecated: Related Document (e.g. Exhibition or Event)',
         {
           linkedTypes: ['exhibitions', 'events'],
         }

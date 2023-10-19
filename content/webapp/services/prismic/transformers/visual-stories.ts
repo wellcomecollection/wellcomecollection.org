@@ -18,7 +18,7 @@ export function transformVisualStory(
   ) as SiteSection;
   const contributors = transformContributors(document);
   const promo = genericFields.promo;
-  const relatedDocument = data['related-document'];
+  const { relatedDocument } = data;
 
   return {
     type: 'visual-stories',
