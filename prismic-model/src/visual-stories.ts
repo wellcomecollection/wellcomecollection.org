@@ -20,13 +20,6 @@ const visualStories: CustomType = {
           linkedTypes: ['exhibitions', 'events'],
         }
       ),
-      // TODO delete in subsequent PR
-      'related-document': documentLink(
-        'Deprecated: Related Document (e.g. Exhibition or Event)',
-        {
-          linkedTypes: ['exhibitions', 'events'],
-        }
-      ),
       datePublished: timestamp('Date published'),
       showOnThisPage: boolean(
         "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body",
