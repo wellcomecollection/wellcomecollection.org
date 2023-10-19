@@ -66,6 +66,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   const firstControl = useRef<HTMLButtonElement>(null);
   const lastControl = useRef<HTMLButtonElement>(null);
   const zoomedImage = useRef<HTMLDivElement>(null);
+
   function setupViewer(imageInfoSrc: string, viewerId: string) {
     fetch(imageInfoSrc)
       .then(response => response.json())
@@ -93,6 +94,14 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
         });
         osdViewer.addOnceHandler('tile-loaded', () => {
           doZoomIn(osdViewer);
+        });
+        osdViewer.addHandler('tile-loaded', () => {
+          // Prevent NVDA arrow key events escaping the viewer (https://stackoverflow.com/a/41523306)
+          osdViewer.container.setAttribute('role', 'toolbar');
+          osdViewer.container.setAttribute(
+            'aria-description',
+            'use arrow keys to pan the image'
+          );
         });
         setViewer(osdViewer);
       })
