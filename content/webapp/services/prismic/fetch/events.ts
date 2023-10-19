@@ -53,7 +53,7 @@ export async function fetchEvent(
 ): Promise<FetchEventResult> {
   const eventPromise = eventsFetcher.getById(client, id);
   const visualStoriesQueryPromise = fetchVisualStories(client, {
-    filters: [prismic.filter.at('my.visual-stories.related-document', id)],
+    filters: [prismic.filter.at('my.visual-stories.relatedDocument', id)],
   });
   const [event, visualStories] = await Promise.all([
     eventPromise,
