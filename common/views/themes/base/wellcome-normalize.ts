@@ -1,3 +1,5 @@
+import { themeValues } from '../config';
+
 export const wellcomeNormalize = `
 input,
 button {
@@ -23,6 +25,18 @@ fieldset {
 img {
   width: 100%;
   height: auto;
+}
+
+* {
+  &:focus-visible,
+  &:focus {
+    box-shadow: ${themeValues.focusBoxShadow};
+    outline: ${themeValues.highContrastOutlineFix};
+  }
+
+  :focus:not(:focus-visible) {
+    box-shadow: none;
+  }
 }
 
 // TODO verify if this is used (maybe by a library?)

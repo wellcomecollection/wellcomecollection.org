@@ -148,18 +148,6 @@ export const typography = css<GlobalStyleProps>`
     }
   }
 
-  * {
-    &:focus-visible,
-    &:focus {
-      box-shadow: ${props => props.theme.focusBoxShadow};
-      outline: ${props => props.theme.highContrastOutlineFix};
-    }
-
-    :focus:not(:focus-visible) {
-      box-shadow: none;
-    }
-  }
-
   p {
     margin-top: 0;
     margin-bottom: 1.6em;
