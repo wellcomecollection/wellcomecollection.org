@@ -49,7 +49,6 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Query } from '@weco/content/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
@@ -274,25 +273,13 @@ export const getServerSideProps: GetServerSideProps<
 
   const aggregations = serverData.toggles.aggregationsInSearch?.value
     ? [
-        serverData.toggles.aggregationsInSearchWorkType?.value
-          ? 'workType'
-          : undefined,
-        serverData.toggles.aggregationsInSearchAvailabilities?.value
-          ? 'availabilities'
-          : undefined,
-        serverData.toggles.aggregationsInSearchGenres?.value
-          ? 'genres.label'
-          : undefined,
-        serverData.toggles.aggregationsInSearchLanguages?.value
-          ? 'languages'
-          : undefined,
-        serverData.toggles.aggregationsInSearchSubjects?.value
-          ? 'subjects.label'
-          : undefined,
-        serverData.toggles.aggregationsInSearchContributors?.value
-          ? 'contributors.agent.label'
-          : undefined,
-      ].filter(isNotUndefined)
+        'workType',
+        'availabilities',
+        'genres.label',
+        'languages',
+        'subjects.label',
+        'contributors.agent.label',
+      ]
     : [];
 
   const worksApiProps = {
