@@ -12,7 +12,7 @@ const { proceed } = yargs(process.argv)
     description: 'Run with verbose logging',
     default: false,
   })
-  .parse();
+  .parseSync();
 
 // set region if not set (as not set by the SDK by default)
 if (!AWS.config.region) {
@@ -20,6 +20,12 @@ if (!AWS.config.region) {
     region: 'eu-west-1',
   });
 }
+
+// this may or may not be needed depending on the way your aws profiles are set up
+// const credentials = new AWS.SharedIniFileCredentials({
+//   profile: 'platform-developer',
+// });
+// AWS.config.credentials = credentials;
 
 const error = (message: string) => {
   console.error(chalk.redBright(message));
