@@ -39,6 +39,10 @@ img {
   }
 }
 
+.openseadragon-canvas:focus {
+  border: 2px solid ${themeValues.color('focus.yellow')}!important;
+}
+
 // TODO verify if this is used (maybe by a library?)
 .scale {
   transform: scale(0);
