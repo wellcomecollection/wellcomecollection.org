@@ -140,6 +140,10 @@ export function articleSeriesLd(series: Series): JsonLdObj {
 }
 
 export function visualStoryLd(visualStory: VisualStory): JsonLdObj {
+  const visualStoryPath = visualStory.relatedDocument?.id
+    ? `${visualStory.relatedDocument.type}/${visualStory.relatedDocument.id}/visual-stories`
+    : `visual-stories/${visualStory.id}`;
+
   return objToJsonLd(
     {
       dateCreated: visualStory.datePublished,
@@ -147,7 +151,7 @@ export function visualStoryLd(visualStory: VisualStory): JsonLdObj {
       headline: visualStory.title,
       image: visualStory.promo?.image?.contentUrl,
       publisher: orgLd(wellcomeCollectionGallery),
-      url: `https://wellcomecollection.org/visual-stories/${visualStory.id}`,
+      url: `https://wellcomecollection.org/${visualStoryPath}`,
     },
     {
       type: 'WebPage',

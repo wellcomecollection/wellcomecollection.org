@@ -12,14 +12,11 @@ export const getServerSideProps = async context => {
   setCacheControl(context.res);
   const client = createClient(context);
   const serverData = await getServerData(context);
-  if (!serverData?.toggles?.visualStories?.value) {
-    return { notFound: true };
-  }
 
   const visualStoriesQuery = await fetchVisualStories(client, {
     filters: [
       prismic.filter.at(
-        'my.visual-stories.related-document',
+        'my.visual-stories.relatedDocument',
         context.query.exhibitionId
       ),
     ],

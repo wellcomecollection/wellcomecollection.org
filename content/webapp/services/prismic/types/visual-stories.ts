@@ -7,7 +7,7 @@ export type VisualStoryDocument = prismic.PrismicDocument<
   {
     datePublished: prismic.TimestampField;
     showOnThisPage: boolean;
-    'related-document': prismic.ContentRelationshipField<
+    relatedDocument: prismic.ContentRelationshipField<
       'exhibitions' | 'events',
       'en-gb',
       InferDataInterface<ExhibitionPrismicDocument>
