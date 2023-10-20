@@ -21,12 +21,6 @@ if (!AWS.config.region) {
   });
 }
 
-// this may or may not be needed depending on the way your aws profiles are set up
-// const credentials = new AWS.SharedIniFileCredentials({
-//   profile: 'platform-developer',
-// });
-// AWS.config.credentials = credentials;
-
 const error = (message: string) => {
   console.error(chalk.redBright(message));
   process.exit(1);
