@@ -20,6 +20,7 @@ export const getServerSideProps = async context => {
         context.query.eventId
       ),
     ],
+    hasDelistFilter: false,
   });
 
   if (!visualStoriesQuery || visualStoriesQuery.results.length === 0) {

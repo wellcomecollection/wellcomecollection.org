@@ -98,26 +98,31 @@ export function fetcher<Document extends prismic.PrismicDocument>(
      */
     getByType: async (
       { client }: GetServerSidePropsPrismicClient,
-      params: GetByTypeParams = {}
+      params: GetByTypeParams = {},
+      hasDelistFilter = true
     ): Promise<prismic.Query<Document>> => {
-      const filters = isString(params.filters)
+      const paramsFilters = isString(params.filters)
         ? [params.filters]
         : Array.isArray(params.filters)
         ? params.filters
         : [];
 
+      const filters = [
+        ...paramsFilters,
+        hasDelistFilter ? delistFilter : '',
+      ].filter(f => f);
+
       const response = isString(contentType)
         ? await client.getByType<Document>(contentType, {
             ...params,
             fetchLinks,
-            filters: [...filters, delistFilter],
+            filters,
           })
         : await client.get<Document>({
             ...params,
             fetchLinks,
             filters: [
               ...filters,
-              delistFilter,
               prismic.filter.any('document.type', contentType),
             ],
           });
