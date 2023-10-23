@@ -130,7 +130,7 @@ const NewsletterPromo: FunctionComponent = () => {
                   errorMessage={
                     isSubmitError
                       ? 'There was a problem. Please try again.'
-                      : 'Enter a valid email address.'
+                      : 'Enter an email address in the correct format, like name@example.com'
                   }
                   value={value}
                   setValue={setValue}

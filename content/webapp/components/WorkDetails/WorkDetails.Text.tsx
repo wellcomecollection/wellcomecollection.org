@@ -15,11 +15,6 @@ const LimitWidth = styled.div.attrs({
    * into an arrow, which can be an issue e.g. for year ranges <1800->
    **/
   font-variant-ligatures: no-contextual;
-
-  /* This ensures any newlines in the API data are rendered on the page,
-   * e.g. lettering with newlines on https://wellcomecollection.org/works/cphumehx
-   **/
-  white-space: break-spaces;
 `;
 
 type TextProps = BaseProps & {

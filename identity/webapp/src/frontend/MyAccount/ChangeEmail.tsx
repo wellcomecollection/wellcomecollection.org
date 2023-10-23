@@ -108,7 +108,8 @@ export const ChangeEmail: React.FunctionComponent<
               required: 'Enter an email address',
               pattern: {
                 value: validEmailPattern,
-                message: 'Enter a valid email address',
+                message:
+                  'Enter an email address in the correct format, like name@example.com',
               },
               validate: {
                 hasChanged: newValue => {
