@@ -38,16 +38,6 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   white-space: nowrap;
   cursor: pointer;
 
-  &:focus-visible,
-  &:focus {
-    box-shadow: ${props => props.theme.focusBoxShadow};
-    outline: ${props => props.theme.highContrastOutlineFix};
-  }
-
-  :focus:not(:focus-visible) {
-    box-shadow: none;
-  }
-
   &.disabled {
     pointer-events: none;
   }
@@ -186,10 +176,6 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         &:not([disabled]):hover {
           box-shadow: ${props.theme.focusBoxShadow};
         }
-
-        &:focus {
-          outline: ${props => props.theme.highContrastOutlineFix};
-        }
       `
       : `
 
@@ -200,6 +186,10 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
 
         &:not([disabled]):hover {
           text-decoration: underline;
+        }
+
+        &:focus-visible {
+          border: 2px solid ${props.theme.color('black')};
         }
       `};
 `;

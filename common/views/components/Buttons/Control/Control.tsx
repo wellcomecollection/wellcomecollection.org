@@ -58,8 +58,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
       fill: ${props.theme.color('accent.green')};
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
       background: ${props.theme.color('accent.green')};
 
       .icon__shape {
@@ -87,8 +86,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
       fill: ${props.theme.color('white')};
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
       background: ${props.theme.color('black')};
     }
 
@@ -108,8 +106,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
       fill: ${props.theme.color('white')};
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
       .icon__shape {
         fill: ${props.theme.color('yellow')};
       }
@@ -133,8 +130,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
       fill: ${props.theme.color('neutral.700')};
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
       background: ${props.theme.color('yellow')};
 
       .icon__shape {

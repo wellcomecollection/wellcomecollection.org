@@ -62,9 +62,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   border-radius: 9999px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 
-  &:hover,
-  &:focus {
-    outline: ${props => props.theme.highContrastOutlineFix};
+  &:hover {
     border: 0;
     color: ${props => props.theme.color('white')};
     background: ${props => props.theme.color('accent.purple')};
@@ -123,16 +121,6 @@ const PopupDialogClose = styled.button`
   position: absolute;
   top: 10px;
   right: 10px;
-
-  &:focus-visible,
-  &:focus {
-    box-shadow: ${props => props.theme.focusBoxShadow};
-    outline: ${props => props.theme.highContrastOutlineFix};
-  }
-
-  :focus:not(:focus-visible) {
-    box-shadow: none;
-  }
 `;
 
 const PopupDialogCTA = styled(Space).attrs({
@@ -157,9 +145,7 @@ const PopupDialogCTA = styled(Space).attrs({
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
 
-  &:hover,
-  &:focus {
-    outline: ${props => props.theme.highContrastOutlineFix};
+  &:hover {
     color: ${props => props.theme.color('accent.purple')};
     border-color: ${props => props.theme.color('accent.purple')};
     background: ${props => props.theme.color('white')};

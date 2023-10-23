@@ -14,11 +14,6 @@ const StyledInput = styled.input`
   &::-webkit-outer-spin-button {
     margin: 0;
   }
-
-  &:focus {
-    border: 2px solid ${props => props.theme.color('black')};
-    padding: 11px;
-  }
 `;
 
 type Props = {

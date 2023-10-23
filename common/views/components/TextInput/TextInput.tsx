@@ -25,13 +25,8 @@ export const TextInputWrap = styled.div.attrs<TextInputWrapProps>(props => ({
 
   &:focus-within {
     box-shadow: ${props => props.theme.focusBoxShadow};
-
-    label {
-      font-size: 14px;
-      transform: translateY(0%);
-      top: 4px;
-    }
   }
+
   overflow: hidden;
 
   ${props =>
@@ -95,11 +90,6 @@ export const TextInputInput = styled.input.attrs(props => ({
   font-size: inherit;
   width: 100%;
 
-  &:focus {
-    outline: ${props => props.theme.highContrastOutlineFix};
-    border-color: ${props => props.theme.color('accent.turquoise')};
-  }
-
   &::-ms-clear {
     display: none;
   }
@@ -109,7 +99,7 @@ export const TextInputInput = styled.input.attrs(props => ({
     `
       &,
       &:focus {
-        border-color: ${props.theme.color('validation.red')};
+        border: 3px solid ${props.theme.color('validation.red')};
       }
     `}
 `;

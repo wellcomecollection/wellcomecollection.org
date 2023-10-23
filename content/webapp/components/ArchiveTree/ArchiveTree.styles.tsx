@@ -72,15 +72,6 @@ export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
   list-style: ${props => (props.isEnhanced ? 'none' : 'disc')};
   padding: 0;
 
-  &:focus-visible,
-  &:focus {
-    outline: 2px solid ${props => props.theme.color('black')};
-  }
-
-  :focus:not(:focus-visible) {
-    outline: none;
-  }
-
   &.guideline::before,
   &.guideline::after {
     content: '';
@@ -191,15 +182,6 @@ export const StyledLink = styled.a<StyledLinkProps>`
       : 0};
   padding-right: ${props => `${props.theme.spacingUnit * 2}px`};
   /* stylelint-enable declaration-block-no-redundant-longhand-properties */
-
-  &:focus-visible,
-  &:focus {
-    outline: auto;
-  }
-
-  :focus:not(:focus-visible) {
-    outline: none;
-  }
 
   &:focus,
   &:hover {

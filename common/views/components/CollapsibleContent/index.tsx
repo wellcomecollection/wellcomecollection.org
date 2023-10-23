@@ -31,15 +31,6 @@ const Control = styled.button.attrs({
 
   cursor: pointer;
   padding: 0;
-
-  &:focus-visible,
-  &:focus {
-    outline: initial;
-  }
-
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
 `;
 
 const ControlText = styled.span`

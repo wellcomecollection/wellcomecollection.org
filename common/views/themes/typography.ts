@@ -146,16 +146,6 @@ export const typography = css<GlobalStyleProps>`
     &:hover {
       text-decoration: none;
     }
-
-    &:focus-visible,
-    &:focus {
-      box-shadow: ${props => props.theme.focusBoxShadow};
-      outline: ${props => props.theme.highContrastOutlineFix};
-    }
-
-    :focus:not(:focus-visible) {
-      box-shadow: none;
-    }
   }
 
   p {
