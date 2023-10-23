@@ -11,6 +11,7 @@ import { Project } from './projects';
 import { Season } from './seasons';
 import { ExhibitionGuide, ExhibitionGuideBasic } from './exhibition-guides';
 import { Card } from './card';
+import { VisualStory } from './visual-stories';
 
 export type MultiContent =
   | Page
@@ -27,4 +28,5 @@ export type MultiContent =
   | Season
   | ExhibitionGuide
   | ExhibitionGuideBasic
+  | VisualStory
   | Card;

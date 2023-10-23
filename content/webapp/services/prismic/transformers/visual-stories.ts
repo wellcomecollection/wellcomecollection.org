@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import { VisualStory } from '@weco/content/types/visual-stories';
 import { VisualStoryDocument } from '../types/visual-stories';
 import { asText, transformGenericFields } from '.';
@@ -6,6 +7,8 @@ import { transformOnThisPage } from './pages';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { transformContributors } from './contributors';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { transformQuery } from './paginated-results';
 
 export function transformVisualStory(
   document: VisualStoryDocument
@@ -39,5 +42,18 @@ export function transformVisualStory(
           }
         : undefined,
     siteSection,
+  };
+}
+export function transformVisualStories(
+  query: prismic.Query<VisualStoryDocument>
+): PaginatedResults<VisualStory> {
+  // TODO determine ordering?
+  const paginatedResult = transformQuery(query, exhibition =>
+    transformVisualStory(exhibition)
+  );
+
+  return {
+    ...paginatedResult,
+    results: paginatedResult.results,
   };
 }

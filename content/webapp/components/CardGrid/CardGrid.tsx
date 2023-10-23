@@ -77,7 +77,8 @@ const CardGrid: FunctionComponent<Props> = ({
               {(item.type === 'pages' ||
                 item.type === 'series' ||
                 item.type === 'projects' ||
-                item.type === 'guides') && (
+                item.type === 'guides' ||
+                item.type === 'visual-stories') && (
                 <Card item={convertItemToCardProps(item)} />
               )}
             </div>

@@ -14,20 +14,26 @@ const visualStoriesFetcher = fetcher<VisualStoryDocument>(
   'visual-stories',
   fetchLinks
 );
+
 type GetVisualStoriesProps = {
   filters?: string[];
+  page?: number;
   hasDelistFilter?: boolean;
 };
 
 export const fetchVisualStories = (
   client: GetServerSidePropsPrismicClient,
-  { filters = [], hasDelistFilter = true }: GetVisualStoriesProps = {}
+  { filters = [], page = 1, hasDelistFilter = true }: GetVisualStoriesProps = {}
 ): Promise<prismic.Query<VisualStoryDocument>> => {
   return visualStoriesFetcher.getByType(
     client,
     {
       filters,
-      page: 1,
+      page,
+      orderings: {
+        field: 'document.first_publication_date',
+        direction: 'desc',
+      },
     },
     hasDelistFilter
   );

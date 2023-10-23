@@ -12,6 +12,7 @@ import { Exhibition } from './exhibitions';
 import { Guide } from './guides';
 import { Project } from './projects';
 import { ExhibitionGuide, ExhibitionGuideBasic } from './exhibition-guides';
+import { VisualStory } from './visual-stories';
 
 export type Card = {
   type: 'card';
@@ -40,6 +41,7 @@ export function convertItemToCardProps(
     | Project
     | ExhibitionGuide
     | ExhibitionGuideBasic
+    | VisualStory
 ): Card {
   const format =
     'format' in item
