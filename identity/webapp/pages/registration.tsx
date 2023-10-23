@@ -202,6 +202,7 @@ const RegistrationPage: NextPage<Props> = ({
                             <Checkbox
                               name="termsAndConditions"
                               id="termsAndConditions"
+                              type="checkbox"
                               value={String(value)}
                               onChange={(e: FormEvent<HTMLInputElement>) =>
                                 onChange(e.currentTarget.checked)
