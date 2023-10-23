@@ -12,7 +12,7 @@ const { proceed } = yargs(process.argv)
     description: 'Run with verbose logging',
     default: false,
   })
-  .parse();
+  .parseSync();
 
 // set region if not set (as not set by the SDK by default)
 if (!AWS.config.region) {
