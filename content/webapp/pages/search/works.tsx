@@ -208,6 +208,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                     totalPages={works.totalPages}
                     ariaLabel="Catalogue search pagination"
                     isHiddenMobile
+                    formId={'search-page-form'}
                   />
                 </SortPaginationWrapper>
               </PaginationWrapper>
@@ -220,6 +221,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 <Pagination
                   totalPages={works.totalPages}
                   ariaLabel="Catalogue search pagination"
+                  formId={'search-page-form'}
                 />
               </PaginationWrapper>
             </>
