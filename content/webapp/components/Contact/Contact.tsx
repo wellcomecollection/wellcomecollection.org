@@ -32,7 +32,7 @@ const PhoneNumber = styled.span.attrs({ className: font('intr', 4) })`
 `;
 
 const WithIconWrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom', 'column-gap'] },
+  v: { size: 's', properties: ['margin-bottom', 'row-gap'] },
 })`
   display: flex;
   align-items: center;

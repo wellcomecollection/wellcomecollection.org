@@ -11,10 +11,10 @@ import { prefixedPropertyStyleObject } from '@weco/common/utils/prefixed-propert
 import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
-const Edge = styled.div.attrs({
-  // This edge is deliberately random. We don't want Chromatic shout when
-  // there's inevitably a visual difference between builds.
-  // https://www.chromatic.com/docs/ignoring-elements#ignore-dom-elements
+// This edge is deliberately random. We don't want Chromatic shout when
+// there's inevitably a visual difference between builds.
+// https://www.chromatic.com/docs/ignoring-elements#ignore-dom-elements
+const Edge = styled.div.attrs<{ 'data-chromatic'?: 'ignore' }>({
   'data-chromatic': 'ignore',
 })<{
   backgroundColor: PaletteColor;

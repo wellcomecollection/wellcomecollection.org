@@ -18,7 +18,7 @@ type Props = {
   item: CardType;
 };
 
-export const CardOuter = styled.a.attrs({
+export const CardOuter = styled.a.attrs<{ 'data-gtm-trigger'?: 'card_link' }>({
   'data-gtm-trigger': 'card_link',
 })`
   height: 100%;

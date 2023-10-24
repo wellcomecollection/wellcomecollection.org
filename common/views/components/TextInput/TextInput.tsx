@@ -104,7 +104,9 @@ export const TextInputInput = styled.input.attrs(props => ({
     `}
 `;
 
-const TextInputCheckmark = styled.span.attrs({
+const TextInputCheckmark = styled.span.attrs<{
+  'data-testid'?: 'TextInputCheckmark';
+}>({
   'data-testid': 'TextInputCheckmark',
 })`
   position: absolute;

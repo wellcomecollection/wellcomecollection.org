@@ -1,5 +1,6 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
+import { KnownTarget } from 'styled-components/dist/types';
 import * as prismic from '@prismicio/client';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -38,13 +39,13 @@ const StandaloneTitle = styled(Space).attrs({
 type LevelProps = { level: number };
 
 const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
-  as: `h${props.level}`,
+  as: `h${props.level}` as KnownTarget,
   className: font('wb', 3),
   v: { size: 'm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 const TranscriptTitle = styled(Space).attrs<LevelProps>(props => ({
-  as: `h${props.level}`,
+  as: `h${props.level}` as KnownTarget,
   className: font('wb', 4),
   v: { size: 'm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
@@ -56,13 +57,13 @@ type ContextContainerProps = {
 const ContextContainer = styled(Space).attrs<ContextContainerProps>(props => ({
   v: props.hasPadding
     ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
-    : null,
+    : undefined,
 }))<ContextContainerProps>`
   background: ${props => props.theme.color(props.backgroundColor)};
 `;
 
 const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
-  as: `h${props.level}`,
+  as: `h${props.level}` as KnownTarget,
   className: font('wb', 3),
   v: { size: 's', properties: ['margin-bottom'] },
 }))<LevelProps>``;

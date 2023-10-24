@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import Head from 'next/head';
 
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import Space from '@weco/common/views/components/styled/Space';
+import Space, {
+  VerticalSpaceProperty,
+} from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import Pagination from '@weco/content/components/Pagination/Pagination';
@@ -54,7 +56,12 @@ type WrapperProps = {
   hasNoResults: boolean;
 };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
-  v: { size: 'xl', properties: [props.hasNoResults ? '' : 'margin-bottom'] },
+  v: {
+    size: 'xl',
+    properties: [props.hasNoResults ? '' : 'margin-bottom'].filter(
+      Boolean
+    ) as VerticalSpaceProperty[],
+  },
 }))<WrapperProps>`
   ${props =>
     props.hasNoResults

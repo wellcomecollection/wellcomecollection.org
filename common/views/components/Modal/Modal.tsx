@@ -45,7 +45,6 @@ const Overlay = styled.div`
 
 const CloseButton = styled(Space).attrs({
   as: 'button',
-  type: 'button',
   v: { size: 'm', properties: ['top'] },
   h: { size: 'm', properties: ['left'] },
 })`

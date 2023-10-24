@@ -81,11 +81,13 @@ type SwatchProps = {
   ariaPressed: boolean;
 };
 
-const Swatch = styled.button.attrs((props: SwatchProps) => ({
-  type: 'button',
-  className: font('intr', 5),
-  'aria-pressed': !!props.ariaPressed,
-}))<SwatchProps>`
+const Swatch = styled.button.attrs<{ ariaPressed: boolean; hexColor: string }>(
+  (props: SwatchProps) => ({
+    type: 'button',
+    className: font('intr', 5),
+    'aria-pressed': !!props.ariaPressed,
+  })
+)<SwatchProps>`
   position: relative;
   padding-left: 40px;
   flex: 1 0 50%;

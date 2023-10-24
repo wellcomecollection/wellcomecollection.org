@@ -1,9 +1,11 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
-import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
+import Space, {
+  HorizontalSpaceProperty,
+} from '@weco/common/views/components/styled/Space';
 import { IconSvg } from '@weco/common/icons';
 
 type ItemProps = {
@@ -27,10 +29,9 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   href: props.url || undefined,
   h: {
     size: 's',
-    properties: [
-      'margin-right',
-      props.addBorder ? 'padding-left' : undefined,
-    ].filter(Boolean),
+    properties: ['margin-right', props.addBorder ? 'padding-left' : ''].filter(
+      Boolean
+    ) as HorizontalSpaceProperty[],
   },
   className: font('intr', 5),
 }))<LinkOrSpanSpaceAttrs>`

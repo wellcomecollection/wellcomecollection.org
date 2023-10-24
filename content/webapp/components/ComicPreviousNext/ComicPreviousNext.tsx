@@ -21,7 +21,8 @@ const Root = styled.div`
   `}
 `;
 
-const Link = styled.a.attrs({
+type LinkProps = { 'data-gtm-trigger'?: 'comic_prev_next_link' };
+const Link = styled.a.attrs<LinkProps>({
   'data-gtm-trigger': 'comic_prev_next_link',
 })<{ isNext: boolean }>`
   position: absolute;

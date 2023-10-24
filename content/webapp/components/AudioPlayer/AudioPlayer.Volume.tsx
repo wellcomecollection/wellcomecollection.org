@@ -21,7 +21,7 @@ const VolumeWrapper = styled(Space).attrs({
   }
 `;
 
-type MuteUnmuteButtonProps = { isMuted: boolean };
+type MuteUnmuteButtonProps = { isMuted: boolean; ariaPressed?: boolean };
 const MuteUnmuteButton = styled.button.attrs<MuteUnmuteButtonProps>(
   ({ isMuted }) => ({
     ariaPressed: isMuted,
@@ -85,7 +85,7 @@ const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id, title }) => {
   };
   return (
     <VolumeWrapper>
-      <MuteUnmuteButton onClick={onVolumeButtonClick}>
+      <MuteUnmuteButton isMuted={isMuted} onClick={onVolumeButtonClick}>
         <span className="visually-hidden">
           {`${title} ${isMuted ? 'Unmute player' : 'Mute player'}`}
         </span>

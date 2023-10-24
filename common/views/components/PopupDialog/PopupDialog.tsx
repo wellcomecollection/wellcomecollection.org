@@ -26,7 +26,6 @@ type PopupDialogOpenProps = {
 const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   'aria-hidden': props.isActive ? 'true' : 'false',
   'aria-controls': 'user-initiated-dialog-window',
-  tabIndex: props.isActive ? '-1' : '0',
   as: 'button',
   v: {
     size: 'm',
@@ -275,6 +274,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
         title="open dialog"
         ref={openDialogRef}
         isActive={isActive}
+        tabIndex={isActive ? -1 : 0}
         shouldStartAnimation={shouldStartAnimation}
         onClick={() => {
           setIsActive(true);

@@ -194,9 +194,13 @@ export const HeaderItem = styled.li`
 `}
 `;
 
-export const HeaderLink = styled.a.attrs({
+type HeaderLinkProps = {
+  burgerMenuisActive: boolean;
+  'data-gtm-trigger'?: 'header_nav_link';
+};
+export const HeaderLink = styled.a.attrs<HeaderLinkProps>({
   'data-gtm-trigger': 'header_nav_link',
-})<{ burgerMenuisActive: boolean }>`
+})`
   padding: 1.4rem 0.3rem;
   display: inline-block;
   text-decoration: none;

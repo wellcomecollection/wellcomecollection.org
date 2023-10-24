@@ -68,9 +68,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
   },
   h: {
     size: 'm',
-    properties: [props.plain ? '' : 'padding-left', 'padding-right'].filter(
-      Boolean
-    ),
+    properties: props.plain ? [] : ['padding-left', 'padding-right'],
   },
   className: font('intb', 5),
 }))<ThProps>`
@@ -100,9 +98,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
   },
   h: {
     size: 'm',
-    properties: [props.plain ? '' : 'padding-left', 'padding-right'].filter(
-      Boolean
-    ),
+    properties: props.plain ? [] : ['padding-left', 'padding-right'],
   },
 }))<TdProps>`
   text-align: left;

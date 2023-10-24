@@ -20,7 +20,9 @@ const AudioPlayerWrapper = styled.figure`
 `;
 
 type PlayPauseButtonProps = { isPlaying: boolean };
-const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(props => ({
+const PlayPauseButton = styled.button.attrs<
+  PlayPauseButtonProps & { ariaPressed?: boolean }
+>(props => ({
   ariaPressed: props.isPlaying,
 }))<PlayPauseButtonProps>`
   padding: 0;
@@ -41,10 +43,14 @@ const PlayPauseInner = styled.div`
 `;
 
 const AudioPlayerGrid = styled(Space).attrs({
-  h: { size: 's', properties: ['row-gap'], overrides: { medium: 2, large: 2 } },
-  v: {
+  h: {
     size: 's',
     properties: ['column-gap'],
+    overrides: { medium: 2, large: 2 },
+  },
+  v: {
+    size: 's',
+    properties: ['row-gap'],
     overrides: { medium: 2, large: 2 },
   },
 })`
