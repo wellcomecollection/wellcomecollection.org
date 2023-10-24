@@ -350,7 +350,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                 <Space h={{ size: 's', properties: ['margin-right'] }}>
                   <Download
                     ariaControlsId="itemDownloads"
-                    workId={work.id}
                     downloadOptions={downloadOptions}
                     useDarkControl={true}
                     isInline={true}

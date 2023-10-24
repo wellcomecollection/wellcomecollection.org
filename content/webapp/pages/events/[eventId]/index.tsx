@@ -310,11 +310,6 @@ const EventPage: NextPage<EventProps> = ({
                   <>
                     <ButtonSolidLink
                       link={event.thirdPartyBooking.url}
-                      trackingEvent={{
-                        category: 'component',
-                        action: 'booking-tickets:click',
-                        label: 'event-page',
-                      }}
                       icon={ticket}
                       text="Check for tickets"
                       dataGtmTrigger="click_to_book"
@@ -337,11 +332,6 @@ const EventPage: NextPage<EventProps> = ({
                 ) : (
                   <ButtonSolidLink
                     link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page (email to book)',
-                    }}
                     icon={email}
                     text="Email to book"
                     dataGtmTrigger="click_to_book"

@@ -137,7 +137,6 @@ const WorkDetailsAvailableOnline = ({
               {showDownloadOptions && (
                 <Download
                   ariaControlsId="itemDownloads"
-                  workId={work.id}
                   downloadOptions={downloadOptions}
                 />
               )}
