@@ -14,7 +14,6 @@ export type Props = {
   ariaLabel: string;
   hasDarkBg?: boolean;
   isHiddenMobile?: boolean;
-  isLoading?: boolean;
 };
 
 const Container = styled.nav.attrs({
@@ -33,7 +32,7 @@ const Container = styled.nav.attrs({
   `)}
 `;
 
-const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
+const ChevronWrapper = styled.a<{ prev?: boolean; hasDarkBg?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +93,6 @@ export const Pagination: FunctionComponent<Props> = ({
   ariaLabel,
   hasDarkBg,
   isHiddenMobile,
-  isLoading,
 }) => {
   const router = useRouter();
   const { query, pathname } = router;
@@ -137,7 +135,7 @@ export const Pagination: FunctionComponent<Props> = ({
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
           legacyBehavior
         >
-          <ChevronWrapper hasDarkBg={hasDarkBg} prev disabled={isLoading}>
+          <ChevronWrapper hasDarkBg={hasDarkBg} prev>
             <Icon icon={chevron} />
             <span className="visually-hidden">
               {`Previous (page ${currentPage - 1})`}
@@ -175,7 +173,7 @@ export const Pagination: FunctionComponent<Props> = ({
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
           legacyBehavior
         >
-          <ChevronWrapper hasDarkBg={hasDarkBg} disabled={isLoading}>
+          <ChevronWrapper hasDarkBg={hasDarkBg}>
             <Icon icon={chevron} />
             <span className="visually-hidden">
               {`Next (page ${currentPage + 1})`}
