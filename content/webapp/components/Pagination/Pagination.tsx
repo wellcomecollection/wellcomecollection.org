@@ -152,6 +152,9 @@ export const Pagination: FunctionComponent<Props> = ({
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             form={isFocused ? 'search-page-form' : ''}
+            // We only use the formId if the input is focused
+            // as we can have more than one paginator on the same page
+            // and don't want to submit the same input with different values
             aria-label={`Jump to page ${currentPage} of ${formatNumber(
               totalPages
             )}`}
