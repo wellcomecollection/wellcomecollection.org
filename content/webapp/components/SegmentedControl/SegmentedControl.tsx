@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -237,12 +236,6 @@ const SegmentedControl: FunctionComponent<Props> = ({
   ): boolean | undefined {
     const url = e.currentTarget.href;
     const isHash = url.startsWith('#');
-
-    trackGaEvent({
-      category: 'SegmentedControl',
-      action: 'select segment',
-      label: item.text,
-    });
 
     setActiveId && setActiveId(item.id);
     isEnhanced && setIsActive(false);

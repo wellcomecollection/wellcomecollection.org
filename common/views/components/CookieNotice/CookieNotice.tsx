@@ -7,7 +7,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { clear, cookies as cookiesIcon } from '@weco/common/icons';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { addDays, today } from '@weco/common/utils/dates';
 
 const CookieNoticeStyle = styled.div.attrs({
@@ -57,19 +56,13 @@ type Props = {
   source: string;
 };
 
-const CookieNotice: FunctionComponent<Props> = ({ source }) => {
+const CookieNotice: FunctionComponent<Props> = () => {
   const [shouldRender, setShouldRender] = useState(true);
   function hideCookieNotice() {
     // Remember that the user has accepted cookies for the next month.
     setCookie(cookies.cookiesAccepted, 'true', {
       path: '/',
       expires: addDays(today(), 30),
-    });
-
-    trackGaEvent({
-      category: 'CookieNotice',
-      action: 'click close cookie notice button',
-      label: source,
     });
 
     setShouldRender(false);

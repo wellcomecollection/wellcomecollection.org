@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { BookBasic } from '@weco/content/types/books';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -59,16 +58,7 @@ type Props = {
 const BookPromo: FunctionComponent<Props> = ({ book }) => {
   const { id, title, subtitle, promo, cover } = book;
   return (
-    <LinkSpace
-      url={`/books/${id}`}
-      onClick={() => {
-        trackGaEvent({
-          category: 'BookPromo',
-          action: 'follow link',
-          label: title,
-        });
-      }}
-    >
+    <LinkSpace url={`/books/${id}`}>
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
         <BookImage
           image={{

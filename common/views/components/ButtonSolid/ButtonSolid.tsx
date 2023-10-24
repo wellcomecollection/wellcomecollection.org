@@ -8,7 +8,6 @@ import {
 import styled from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
-import { trackGaEvent, GaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { IconSvg } from '@weco/common/icons';
@@ -101,7 +100,6 @@ export type ButtonSolidBaseProps = {
   icon?: IconSvg;
   type?: ButtonTypes;
   isTextHidden?: boolean;
-  trackingEvent?: GaEvent;
   ariaControls?: string;
   ariaExpanded?: boolean;
   dataGtmTrigger?: string;
@@ -200,7 +198,6 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
     text,
     type,
     isTextHidden,
-    trackingEvent,
     clickHandler,
     ariaControls,
     ariaExpanded,
@@ -218,7 +215,6 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
 ) => {
   function handleClick(event: SyntheticEvent<HTMLButtonElement>) {
     clickHandler && clickHandler(event);
-    trackingEvent && trackGaEvent(trackingEvent);
   }
 
   return (

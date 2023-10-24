@@ -23,7 +23,6 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
   return (
     <Layout12>
       <FeaturedCard
-        id="featured-card"
         image={
           image && {
             ...image,

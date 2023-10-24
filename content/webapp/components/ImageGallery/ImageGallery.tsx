@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
 import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -281,7 +280,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
     if (closeButtonRef.current) {
       closeButtonRef.current.tabIndex = 0;
       closeButtonRef.current.focus();
-      showAllImages(true);
+      setIsActive(true);
     }
 
     if (openButtonRef.current) {
@@ -297,27 +296,11 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
       if (headingRef.current) {
         headingRef.current.scrollIntoView();
       }
-
-      trackGaEvent({
-        category: 'Control',
-        action: 'close ImageGallery',
-        label: id.toString(),
-      });
     }
 
     if (closeButtonRef.current) {
       closeButtonRef.current.tabIndex = -1;
     }
-  }
-
-  function showAllImages(isButton?: boolean) {
-    trackGaEvent({
-      category: `${isButton ? 'Button' : 'CaptionedImage'}`,
-      action: 'open ImageGallery',
-      label: id.toString(),
-    });
-
-    setIsActive(true);
   }
 
   const itemsToShow = () => (isActive ? items : [items[0]]);

@@ -1,7 +1,6 @@
 import { FunctionComponent, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -50,12 +49,6 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({ audioPlayer, id }) => {
   }, [audioPlaybackRate]);
 
   function updatePlaybackRate(speed: number) {
-    trackGaEvent({
-      category: 'Audio',
-      action: `set speed to ${speed}x`,
-      label: id,
-    });
-
     setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
   }
