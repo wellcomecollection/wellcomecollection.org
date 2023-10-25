@@ -98,6 +98,9 @@ const WorkDetailsAvailableOnline = ({
                   wrapper={children =>
                     itemUrl && (
                       <NextLink
+                        style={{
+                          display: 'inline-block',
+                        }}
                         href={itemUrl.href}
                         as={itemUrl.as}
                         onClick={() =>
@@ -117,6 +120,7 @@ const WorkDetailsAvailableOnline = ({
                     style={{
                       width: 'auto',
                       height: 'auto',
+                      display: 'block',
                     }}
                     alt={`view ${work.title}`}
                     src={work.thumbnail.url}

@@ -42,58 +42,14 @@ import { EventBasic } from '../../types/events';
 import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
-import PlainList from '@weco/common/views/components/styled/PlainList';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
-
-const ResourcesList = styled(PlainList)`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  ${props => props.theme.media('medium')`
-    gap: 30px;
-  `}
-`;
-const ResourcesItem = styled.li`
-  flex: 0 0 100%;
-  position: relative;
-  min-height: 103px;
-  ${props => props.theme.media('medium')`
-        flex-basis: calc(50% - 15px);
-      `}
-`;
-const ResourceLink = styled(Space).attrs({
-  as: 'a',
-  h: { size: 's', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-})<{ borderColor: PaletteColor; href: string; underlineText?: boolean }>`
-  display: block;
-  height: 100%;
-  width: 100%;
-  text-decoration: ${props => (props.underlineText ? 'underline' : 'none')};
-  border: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  border-left: 10px solid ${props => props.theme.color(props.borderColor)};
-
-  &:hover,
-  &:focus {
-    background: ${props => props.theme.color('neutral.400')};
-  }
-
-  h3 {
-    margin-bottom: 0;
-  }
-
-  span {
-    display: block;
-    max-width: 260px;
-  }
-`;
-
-const ResourceLinkIconWrapper = styled.span`
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-`;
+import {
+  ResourcesList,
+  ResourcesItem,
+  ResourceLink,
+  ResourceLinkIconWrapper,
+} from '@weco/content/components/styled/AccessResources';
 
 function getBorderColor({
   type,

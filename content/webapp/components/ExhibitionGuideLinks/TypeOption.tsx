@@ -22,8 +22,7 @@ const TypeLink = styled.a<{ backgroundColor: PaletteColor }>`
   text-decoration: none;
   background: ${props => props.theme.color(props.backgroundColor)};
 
-  &:hover,
-  &:focus {
+  &:hover {
     background: ${props => props.theme.color('neutral.400')};
   }
 `;

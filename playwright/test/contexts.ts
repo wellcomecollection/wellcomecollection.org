@@ -231,16 +231,7 @@ export const visualStory = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
-  const VSCookie = [
-    ...requiredCookies,
-    {
-      name: 'toggle_visualStories',
-      value: 'true',
-      path: '/',
-      domain: new URL(baseUrl).host,
-    },
-  ]; // TODO remove when the toggle is removed https://github.com/wellcomecollection/wellcomecollection.org/issues/10320
-  await context.addCookies(VSCookie);
+  await context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/visual-stories/${id}`, page);
 };
 

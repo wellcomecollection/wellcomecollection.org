@@ -39,8 +39,7 @@ export const IframeContainer = styled.div.attrs({
     width: 100%;
     height: 100%;
 
-    &:hover,
-    &:focus {
+    &:hover {
       .overlay {
         background: transparent;
       }

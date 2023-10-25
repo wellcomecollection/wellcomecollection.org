@@ -47,8 +47,7 @@ const AccordionInner = styled(Space).attrs({
     color: inherit;
     font-size: inherit;
 
-    &:active,
-    &:focus {
+    &:active {
       outline: ${props => props.theme.highContrastOutlineFix};
       box-shadow: ${props => props.theme.focusBoxShadow};
     }

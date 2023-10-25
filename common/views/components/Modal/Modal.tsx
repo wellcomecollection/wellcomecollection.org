@@ -60,15 +60,6 @@ const CloseButton = styled(Space).attrs({
   outline: 0;
   z-index: 1;
 
-  &:focus-visible,
-  &:focus {
-    outline: 2px solid ${props => props.theme.color('black')};
-  }
-
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
-
   .icon {
     position: absolute;
     left: 50%;

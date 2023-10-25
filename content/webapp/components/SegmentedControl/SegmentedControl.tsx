@@ -108,8 +108,7 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   ${props =>
     props.theme.makeSpacePropertyValues('m', ['padding-left', 'padding-right'])}
 
-  &:hover,
-  &:focus {
+  &:hover {
     background: ${props =>
       props.theme.color(props.isActive ? 'neutral.600' : 'warmNeutral.400')};
   }

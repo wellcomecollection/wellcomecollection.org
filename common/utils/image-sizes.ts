@@ -1,5 +1,5 @@
-// We add 2048 as Wordpresses image service only supports image resizing up till then
-// TODO We no longer use Wordpresses image service so should probably revisit this
+// We chose 2048 for the maxWidth as we used the Wordpress image service which only supported image resizing up till then.
+// This could be updated in the future, but as there are no current complaints regarding quality levels, we're keeping as is for now.
 const maxWidth = 2048;
 export const supportedSizes = [
   160,

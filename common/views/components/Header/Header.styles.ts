@@ -225,8 +225,7 @@ export const HeaderLink = styled.a.attrs({
   `}
   }
 
-  &:hover,
-  &:focus {
+  &:hover {
     &::after {
       width: 100%;
 

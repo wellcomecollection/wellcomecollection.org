@@ -22,16 +22,26 @@ fieldset {
   padding: 0;
 }
 
-.openseadragon-canvas:focus {
-  border: 2px solid ${themeValues.color('yellow')}!important;
-  border-width: 2px 2px 0;
-}
-
 img {
   width: 100%;
   height: auto;
 }
 
+* {
+  &:focus-visible,
+  &:focus {
+    box-shadow: ${themeValues.focusBoxShadow};
+    outline: ${themeValues.highContrastOutlineFix};
+  }
+
+  :focus:not(:focus-visible) {
+    box-shadow: none;
+  }
+}
+
+.openseadragon-canvas:focus {
+  border: 2px solid ${themeValues.color('focus.yellow')}!important;
+}
 
 // TODO verify if this is used (maybe by a library?)
 .scale {

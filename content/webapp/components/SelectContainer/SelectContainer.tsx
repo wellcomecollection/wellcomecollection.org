@@ -57,16 +57,6 @@ const StyledSelect = styled.div.attrs({
     &:hover {
       box-shadow: ${props => props.theme.focusBoxShadow};
     }
-
-    &:focus-visible,
-    &:focus {
-      box-shadow: ${props => props.theme.focusBoxShadow};
-      outline: ${props => props.theme.highContrastOutlineFix};
-    }
-
-    :focus:not(:focus-visible) {
-      box-shadow: none;
-    }
   }
 `;
 

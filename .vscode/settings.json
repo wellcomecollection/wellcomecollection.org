@@ -1,8 +1,12 @@
 {
   // We add this to avoid having linting commits in CI
+  "editor.tabSize": 2,
+  "files.encoding": "utf8",
   "editor.codeActionsOnSave": {
+    "editor.insertSpaces": true,
     "source.fixAll.eslint": true,
-    "source.fixAll.stylelint": true
+    "source.fixAll.stylelint": true,
+    "files.trimTrailingWhitespace": true,
   },
   "stylelint.validate": ["typescriptreact"],
 }

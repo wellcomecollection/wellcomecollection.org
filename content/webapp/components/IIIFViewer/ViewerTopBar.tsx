@@ -39,8 +39,7 @@ export const ShameButton = styled.button.attrs({
   display: flex;
   align-items: center;
 
-  &:not([disabled]):hover,
-  &:not([disabled]):focus {
+  &:not([disabled]):hover {
     cursor: pointer;
   }
 
@@ -92,8 +91,7 @@ export const ShameButton = styled.button.attrs({
     color: ${props.theme.color('accent.green')};
     border: 1px solid ${props.theme.color('accent.green')};
 
-    &:not([disabled]):hover,
-    &:not([disabled]):focus {
+    &:not([disabled]):hover {
       background: ${props.theme.color('accent.green')};
       color: ${props.theme.color('white')};
     }
