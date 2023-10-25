@@ -44,11 +44,8 @@ const WorkHeader: FunctionComponent<Props> = ({
     <>
       <WorkHeaderContainer>
         <Space
-          $v={{
-            size: 'm',
-            properties: ['margin-bottom'],
-          }}
           className={grid({ s: 12, m: 12, l: 10, xl: 10 })}
+          $v={{ size: 'm', properties: ['margin-bottom'] }}
         >
           <SpacingComponent>
             <WorkTitleWrapper
@@ -120,11 +117,8 @@ const WorkHeader: FunctionComponent<Props> = ({
       {!isArchive && (
         <WorkHeaderContainer>
           <Space
-            $v={{
-              size: 'm',
-              properties: ['margin-bottom'],
-            }}
             className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
+            $v={{ size: 'm', properties: ['margin-bottom'] }}
           >
             <Divider lineColor="neutral.400" />
           </Space>

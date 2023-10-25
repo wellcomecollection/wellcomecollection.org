@@ -204,8 +204,8 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
       <VenueHoursTimes $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <Space
           as="h2"
-          $h={{ size: 'm', properties: ['padding-right'] }}
           className={font('wb', 3)}
+          $h={{ size: 'm', properties: ['padding-right'] }}
         >
           {isFeatured ? venue.name : 'Opening hours'}
         </Space>
@@ -231,10 +231,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         return (
           <Fragment key={`JauntyBox-${i}`}>
             <JauntyBox
-              $v={{
-                size: 'l',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
+              $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
               $topLeft={randomPx()}
               $topRight={randomPx()}
               $bottomRight={randomPx()}
@@ -285,10 +282,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         );
       })}
       <Space
-        $v={{
-          size: 's',
-          properties: ['margin-top'],
-        }}
+        $v={{ size: 's', properties: ['margin-top'] }}
         style={{ clear: 'both' }}
       >
         {isFeatured && venue.linkText && venue.url && (

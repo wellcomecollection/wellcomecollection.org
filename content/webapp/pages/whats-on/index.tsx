@@ -217,13 +217,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   featuredText,
 }) => {
   return (
-    <Space
-      $v={{
-        size: 'l',
-        properties: ['padding-top'],
-      }}
-      className="row"
-    >
+    <Space $v={{ size: 'l', properties: ['padding-top'] }}>
       <Container>
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
@@ -279,11 +273,8 @@ const Header: FunctionComponent<HeaderProps> = ({
           </div>
           {featuredText && featuredText.value && (
             <Space
-              $v={{
-                size: 's',
-                properties: ['margin-top', 'margin-bottom'],
-              }}
               className={grid({ s: 12, m: 10, l: 8, xl: 8 })}
+              $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
             >
               <FeaturedText
                 html={featuredText.value}
@@ -292,11 +283,8 @@ const Header: FunctionComponent<HeaderProps> = ({
             </Space>
           )}
           <Space
-            $v={{
-              size: 'm',
-              properties: ['margin-top', 'margin-bottom'],
-            }}
             className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
+            $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           >
             <SegmentedControl
               ariaCurrentText="page"
@@ -546,10 +534,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           {period !== 'current-and-coming-up' && (
             <SpacingSection>
               <Space
-                $v={{
-                  size: 'm',
-                  properties: ['padding-top', 'margin-bottom'],
-                }}
+                $v={{ size: 'm', properties: ['padding-top', 'margin-bottom'] }}
               >
                 <Layout12>
                   <div

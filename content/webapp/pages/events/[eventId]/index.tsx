@@ -229,10 +229,7 @@ const EventPage: NextPage<EventProps> = ({
       ContentTypeInfo={
         <>
           <Space
-            $v={{
-              size: 's',
-              properties: ['margin-bottom'],
-            }}
+            $v={{ size: 's', properties: ['margin-bottom'] }}
             style={{ display: 'flex', flexWrap: 'wrap' }}
           >
             <div style={{ display: 'inline' }}>
@@ -391,9 +388,9 @@ const EventPage: NextPage<EventProps> = ({
                     return (
                       <ResourcesItem key={link.url}>
                         <ResourceLink
-                          $borderColor={'accent.turquoise'}
                           key={i}
                           href={link.url}
+                          $borderColor="accent.turquoise"
                         >
                           {link.type === 'visual-story' && (
                             <h3 className={font('intb', 4)}>Visual story</h3>

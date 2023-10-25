@@ -57,13 +57,7 @@ const Newsletter: FunctionComponent<Props> = ({ result }) => {
       />
 
       <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-        <Space
-          $v={{
-            size: 'xl',
-            properties: ['padding-bottom'],
-          }}
-          className="row"
-        >
+        <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
           <Layout8>
             <NewsletterSignup
               isSuccess={result === 'success'}

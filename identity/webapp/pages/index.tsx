@@ -218,18 +218,10 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
 
   return (
     <PageWrapper title="Your library account">
-      <Header
-        $v={{
-          size: 'l',
-          properties: ['margin-bottom'],
-        }}
-      >
+      <Header $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <Layout12>
           <Space
-            $v={{
-              size: 'l',
-              properties: ['padding-top', 'padding-bottom'],
-            }}
+            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <Title>Library account</Title>
           </Space>

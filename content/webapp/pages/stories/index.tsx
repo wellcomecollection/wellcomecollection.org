@@ -184,12 +184,7 @@ const StoriesPage: FunctionComponent<Props> = ({
       {introText && (
         <Layout8 shift={false}>
           <div className="body-text spaced-text">
-            <Space
-              $v={{
-                size: 'xl',
-                properties: ['margin-bottom'],
-              }}
-            >
+            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
               <FeaturedText
                 html={introText}
                 htmlSerializer={defaultSerializer}

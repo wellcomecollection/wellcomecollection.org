@@ -179,22 +179,16 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
         <Container>
           <Grid>
             <Space
-              $v={{
-                size: 'l',
-                properties: ['padding-top'],
-              }}
               className={grid({ s: 12 })}
+              $v={{ size: 'l', properties: ['padding-top'] }}
             >
               <SearchForm searchCategory="works" location="page" />
             </Space>
           </Grid>
           <Grid>
             <Space
-              $v={{
-                size: 's',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
               className={grid({ s: 12 })}
+              $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
             >
               <BackToResults />
             </Space>
@@ -206,11 +200,11 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
             <Container>
               <Grid>
                 <Space
+                  className={grid({ s: 12 })}
                   $v={{
                     size: 's',
                     properties: ['padding-top', 'padding-bottom'],
                   }}
-                  className={grid({ s: 12 })}
                 >
                   <ArchiveBreadcrumb work={work} />
                 </Space>

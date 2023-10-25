@@ -124,13 +124,10 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
         <SpacingSection>
           <SpacingComponent>
             <Space
-              $v={{
-                size: 'l',
-                properties: ['margin-top'],
-              }}
               as="h1"
               id="work-info"
               className={font('intb', 1)}
+              $v={{ size: 'l', properties: ['margin-top'] }}
             >
               {displayTitle}
             </Space>
