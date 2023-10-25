@@ -119,8 +119,8 @@ type ButtonSolidProps = ButtonSolidBaseProps & {
 };
 
 type SolidButtonStyledProps = {
-  href?: string;
-  ariaLabel?: string;
+  $href?: string;
+  $ariaLabel?: string;
   $size?: ButtonSize;
   $colors?: ButtonColors;
   $isPill?: boolean;
@@ -140,9 +140,9 @@ const getPadding = (size: ButtonSize = 'medium') => {
 
 export const SolidButton = styled(BaseButton).attrs<SolidButtonStyledProps>(
   props => ({
-    'aria-label': props.ariaLabel,
+    'aria-label': props.$ariaLabel,
     className: classNames({
-      'link-reset': !!props.href,
+      'link-reset': !!props.$href,
     }),
   })
 )<SolidButtonStyledProps>`
@@ -220,14 +220,14 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
 
   return (
     <SolidButton
+      ref={ref}
       type={type}
       aria-controls={ariaControls}
       aria-expanded={ariaExpanded}
-      data-gtm-trigger={dataGtmTrigger}
       aria-live={ariaLive}
+      data-gtm-trigger={dataGtmTrigger}
       onClick={handleClick}
       disabled={disabled}
-      ref={ref}
       form={form}
       $size={size}
       $colors={colors}

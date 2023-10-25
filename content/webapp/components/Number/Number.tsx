@@ -40,8 +40,8 @@ const Number: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => (
   <Wrapper
     as="span"
-    $h={{ size: 's', properties: ['margin-left'] }}
     className={font('wb', 5)}
+    $h={{ size: 's', properties: ['margin-left'] }}
     $backgroundColor={backgroundColor}
   >
     <NumberSpan $parentBackgroundColor={backgroundColor}>{number}</NumberSpan>

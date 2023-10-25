@@ -159,8 +159,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
           </Space>
 
           <Space
-            $v={{ size: 's', properties: ['margin-bottom'] }}
             as="fieldset"
+            $v={{ size: 's', properties: ['margin-bottom'] }}
           >
             <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
               <legend className={font('intb', 4)}>
@@ -171,8 +171,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               {secondaryAddressBooks.map(addressBook => (
                 <Space
                   as="li"
-                  $v={{ size: 'm', properties: ['margin-bottom'] }}
                   key={addressBook.slug}
+                  $v={{ size: 'm', properties: ['margin-bottom'] }}
                 >
                   <CheckboxRadio
                     id={addressBook.slug}

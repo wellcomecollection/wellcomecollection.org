@@ -8,8 +8,8 @@ import styled from 'styled-components';
 // space top and bottom via margins:
 
 // <Space
-//   $h={size: 's', properties: ['padding-left'],
-//   $v=size: 'l', properties: ['margin-top', 'margin-bottom']}}
+//   $h={{ size: 's', properties: ['padding-left'] }},
+//   $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
 // />
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';

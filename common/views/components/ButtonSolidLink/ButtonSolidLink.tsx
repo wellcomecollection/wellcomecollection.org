@@ -59,8 +59,8 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         aria-expanded={ariaExpanded}
         data-gtm-trigger={dataGtmTrigger}
         onClick={handleClick}
-        href={getHref(link)}
-        ariaLabel={ariaLabel}
+        $href={getHref(link)}
+        $ariaLabel={ariaLabel}
         $size={size}
         $colors={colors}
       >

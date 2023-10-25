@@ -51,7 +51,7 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
 
   /* IE doesn't support :focus-within, but you can't test for :focus-within
   using @supports. Fortunately, IE doesn't support @supports, so this only
-  targets browsers that support @suports (> IE11) */
+  targets browsers that support @supports (> IE11) */
   @supports (display: block) {
     font-size: inherit;
     transform: translateY(-50%);

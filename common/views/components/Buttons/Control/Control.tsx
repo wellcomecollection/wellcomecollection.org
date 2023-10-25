@@ -14,28 +14,9 @@ const ControlInner = styled.div`
   height: 100%;
 `;
 
-type WrapperProps = {
-  ariaControls?: string;
-  ariaExpanded?: boolean;
-  ariaPressed?: 'true' | 'false' | 'mixed';
-  dataGtmTrigger?: string;
-  $colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
-  tabIndex?: number;
-  id?: string;
-  disabled?: boolean;
-  extraClasses?: string;
-};
-
-const Wrapper = styled.button.attrs<WrapperProps>(props => ({
-  'aria-controls': props.ariaControls || undefined,
-  'aria-expanded': props.ariaExpanded || undefined,
-  'aria-pressed': props.ariaPressed || undefined,
-  'data-gtm-trigger': props.dataGtmTrigger || undefined,
-  tabIndex: props.tabIndex || undefined,
-  id: props.id || undefined,
-  disabled: props.disabled || undefined,
-  className: props.extraClasses || undefined,
-}))<WrapperProps>`
+const Wrapper = styled.button.attrs<{ $extraClasses?: string }>(props => ({
+  className: props.$extraClasses || undefined,
+}))<{ $colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white' }>`
   display: inline-block;
   border-radius: 50%;
   padding: 0;
@@ -208,15 +189,15 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
   ref: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ) => {
   const attrs = {
-    ariaControls,
-    ariaExpanded,
-    ariaPressed,
-    dataGtmTrigger,
-    tabIndex,
     id,
-    $colorScheme: colorScheme,
     disabled,
-    extraClasses,
+    'aria-controls': ariaControls,
+    'aria-expanded': ariaExpanded,
+    'aria-pressed': ariaPressed,
+    'data-gtm-trigger': dataGtmTrigger,
+    'tab-index': tabIndex,
+    $extraClasses: extraClasses,
+    $colorScheme: colorScheme,
     onClick: handleClick,
   };
 

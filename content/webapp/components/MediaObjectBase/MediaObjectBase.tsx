@@ -62,11 +62,11 @@ const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => ({
 }))<HasImageProps>``;
 
 type LinkOrDivSpaceAttrs = {
-  url?: string;
+  $url?: string;
 };
 const LinkOrDivSpace = styled(Space).attrs<LinkOrDivSpaceAttrs>(props => ({
-  as: props.url ? 'a' : 'div',
-  href: props.url || undefined,
+  as: props.$url ? 'a' : 'div',
+  href: props.$url,
 }))<LinkOrDivSpaceAttrs>`
   text-decoration: none;
 
@@ -110,20 +110,18 @@ const MediaObjectBase: FunctionComponent<Props> = ({
 
   return (
     <LinkOrDivSpace
+      className={classNames({
+        grid: true,
+        [extraClasses || '']: Boolean(extraClasses),
+      })}
       $v={{
         size: 'l',
         properties:
           x === y ? ['padding-top'] : ['padding-top', 'padding-bottom'],
       }}
-      url={urlProp}
-      className={classNames({
-        grid: true,
-        [extraClasses || '']: Boolean(extraClasses),
-      })}
+      $url={urlProp}
       onClick={() => {
-        if (onClick) {
-          onClick();
-        }
+        if (onClick) onClick();
       }}
     >
       <ImageWrapper $hasImage={Boolean(Image)}>{Image}</ImageWrapper>

@@ -8,12 +8,12 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import BookImage from '@weco/content/components/BookImage/BookImage';
 
 type LinkSpaceAttrs = {
-  url: string;
+  $url: string;
 };
 
 const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   as: 'a',
-  href: props.url,
+  href: props.$url,
   $v: { size: 'xl', properties: ['padding-top'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 }))<LinkSpaceAttrs>`
@@ -60,7 +60,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
   const { id, title, subtitle, promo, cover } = book;
   return (
     <LinkSpace
-      url={`/books/${id}`}
+      $url={`/books/${id}`}
       onClick={() => {
         trackGaEvent({
           category: 'BookPromo',
