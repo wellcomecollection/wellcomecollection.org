@@ -23,7 +23,7 @@ const StoriesContainer = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
 const StoryWrapper = styled(Space).attrs<{
   $isDetailed?: boolean;
 }>(props => ({
-  v: props.$isDetailed
+  $v: props.$isDetailed
     ? { size: 'xl', properties: ['padding-bottom'] }
     : undefined,
   className: props.$isDetailed ? 'grid' : grid({ s: 6, m: 6, l: 3, xl: 3 }),

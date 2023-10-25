@@ -47,9 +47,9 @@ const ContentTypeInfo = (
     />
     <ContentTypeWrapper>
       <Space
+        className={font('intr', 6)}
         $h={{ size: 's', properties: ['margin-right'] }}
         $v={{ size: 's', properties: ['margin-top'] }}
-        className={font('intr', 6)}
       >
         <p style={{ marginBottom: 0 }}>
           <span>By </span>

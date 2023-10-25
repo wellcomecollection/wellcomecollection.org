@@ -33,15 +33,16 @@ const CardOuter = styled.a<CardOuterProps>`
   `}
 `;
 
-type TextWrapperProps = {
+const TextWrapper = styled(Space).attrs({
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+})<{
   $highlightColor: 'yellow' | 'accent.salmon';
-};
-
-const TextWrapper = styled.div<TextWrapperProps>`
+}>`
+  border-left: 4px solid ${props => props.theme.color(props.$highlightColor)};
   ${props => props.theme.media('large')`
     flex-grow: 2;
   `};
-  border-left: 4px solid ${props => props.theme.color(props.$highlightColor)};
 `;
 
 type ImageWrapperProps = {
@@ -133,12 +134,7 @@ const BannerCard: FunctionComponent<Props> = ({
         });
       }}
     >
-      <Space
-        as={TextWrapper}
-        $highlightColor={highlightColor}
-        $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
-        $h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
-      >
+      <TextWrapper $highlightColor={highlightColor}>
         {type && (
           <LabelsList
             labels={[{ text: type }]}
@@ -146,9 +142,9 @@ const BannerCard: FunctionComponent<Props> = ({
           />
         )}
         <Space
-          $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           as="h2"
           className={font('wb', 2)}
+          $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
         >
           {title}
         </Space>
@@ -164,7 +160,7 @@ const BannerCard: FunctionComponent<Props> = ({
           icon={arrowSmall}
           text={`Explore ${type}`}
         />
-      </Space>
+      </TextWrapper>
       {image && (
         <ImageWrapper $imageUrl={convertImageUri(image.contentUrl, 640)} />
       )}
