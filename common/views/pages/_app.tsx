@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app';
 import React, { useEffect, FunctionComponent, ReactElement } from 'react';
-import { ThemeProvider } from 'styled-components';
+import { StyleSheetManager, ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import OutboundLinkTracker from '@weco/common/views/components/OutboundLinkTracker/OutboundLinkTracker';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
@@ -126,23 +126,27 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
           <UserProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <ThemeProvider theme={theme}>
-                  <GlobalStyle
-                    toggles={serverData.toggles}
-                    isFontsLoaded={useIsFontsLoaded()}
-                  />
-                  <OutboundLinkTracker>
-                    <LoadingIndicator />
-                    {!pageProps.err &&
-                      getLayout(<Component {...deserialiseProps(pageProps)} />)}
-                    {pageProps.err && (
-                      <ErrorPage
-                        statusCode={pageProps.err.statusCode}
-                        title={pageProps.err.message}
-                      />
-                    )}
-                  </OutboundLinkTracker>
-                </ThemeProvider>
+                <StyleSheetManager enableVendorPrefixes>
+                  <ThemeProvider theme={theme}>
+                    <GlobalStyle
+                      toggles={serverData.toggles}
+                      isFontsLoaded={useIsFontsLoaded()}
+                    />
+                    <OutboundLinkTracker>
+                      <LoadingIndicator />
+                      {!pageProps.err &&
+                        getLayout(
+                          <Component {...deserialiseProps(pageProps)} />
+                        )}
+                      {pageProps.err && (
+                        <ErrorPage
+                          statusCode={pageProps.err.statusCode}
+                          title={pageProps.err.message}
+                        />
+                      )}
+                    </OutboundLinkTracker>
+                  </ThemeProvider>
+                </StyleSheetManager>
               </SearchContextProvider>
             </AppContextProvider>
           </UserProvider>
