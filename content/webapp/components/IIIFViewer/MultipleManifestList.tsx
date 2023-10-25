@@ -21,7 +21,7 @@ const MultipleManifestList: FunctionComponent = () => {
         {manifests.map((manifest, i) => (
           <Item
             key={manifest.id}
-            isActive={i === queryParamToArrayIndex(query.manifest)}
+            $isActive={i === queryParamToArrayIndex(query.manifest)}
           >
             <NextLink
               replace={true}

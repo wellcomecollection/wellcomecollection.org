@@ -20,11 +20,11 @@ export const ContextDecorator: FunctionComponent<PropsWithChildren> = ({
 const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
   return (
     <Space
-      v={{
+      $v={{
         size: 'xl',
         properties: ['margin-top'],
       }}
-      h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+      $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       className="body-text"
       style={{
         border: '1px solid #eee',
@@ -48,7 +48,7 @@ const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
       >
         README
       </span>
-      <Space v={{ size: 'm', properties: ['padding-top'] }}>
+      <Space $v={{ size: 'm', properties: ['padding-top'] }}>
         <Readme />
       </Space>
     </Space>
@@ -56,7 +56,7 @@ const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
 };
 
 type ReadmeDecoratorProps = PropsWithChildren<{
-  WrappedComponent: ComponentType;
+  WrappedComponent: PropsWithChildren<ComponentType>;
   args: Record<string, unknown>;
   Readme: ComponentType;
   order?: 'componentFirst' | 'readmeFirst';

@@ -14,20 +14,20 @@ import { Article } from '@weco/content/services/wellcome/content/types/api';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
-const StoriesContainer = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
-  className: props.isDetailed
+const StoriesContainer = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
+  className: props.$isDetailed
     ? ''
     : 'grid grid--scroll grid--theme-4 card-theme card-theme--transparent',
-}))<{ isDetailed?: boolean }>``;
+}))``;
 
 const StoryWrapper = styled(Space).attrs<{
-  isDetailed?: boolean;
+  $isDetailed?: boolean;
 }>(props => ({
-  v: props.isDetailed
+  v: props.$isDetailed
     ? { size: 'xl', properties: ['padding-bottom'] }
     : undefined,
-  className: props.isDetailed ? 'grid' : grid({ s: 6, m: 6, l: 3, xl: 3 }),
-}))<{ isDetailed?: boolean }>`
+  className: props.$isDetailed ? 'grid' : grid({ s: 6, m: 6, l: 3, xl: 3 }),
+}))`
   text-decoration: none;
 
   &:last-child {
@@ -41,31 +41,31 @@ const StoryWrapper = styled(Space).attrs<{
   }
 `;
 
-const ImageWrapper = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
-  className: props.isDetailed ? grid({ s: 12, m: 6, l: 4, xl: 4 }) : '',
-}))<{ isDetailed?: boolean }>`
+const ImageWrapper = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
+  className: props.$isDetailed ? grid({ s: 12, m: 6, l: 4, xl: 4 }) : '',
+}))`
   position: relative;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
 `;
 
-const Details = styled.div.attrs<{ isDetailed?: boolean }>(props => ({
-  className: props.isDetailed ? grid({ s: 12, m: 6, l: 8, xl: 8 }) : '',
-}))<{ isDetailed?: boolean }>``;
+const Details = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
+  className: props.$isDetailed ? grid({ s: 12, m: 6, l: 8, xl: 8 }) : '',
+}))<{ $isDetailed?: boolean }>``;
 
 const DesktopLabel = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 's', properties: ['margin-bottom'] },
 })`
   ${props => props.theme.media('medium', 'max-width')`
       display: none;
     `}
 `;
 
-const MobileLabel = styled.div<{ isDetailed?: boolean }>`
+const MobileLabel = styled.div<{ $isDetailed?: boolean }>`
   position: absolute;
   bottom: 0;
 
   ${props =>
-    props.isDetailed
+    props.$isDetailed
       ? `
         left: 18px;
 
@@ -78,7 +78,7 @@ const MobileLabel = styled.div<{ isDetailed?: boolean }>`
 
 const StoryInformation = styled(Space).attrs({
   className: font('intr', 5),
-  v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -115,7 +115,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
   isDetailed,
 }: Props) => {
   return (
-    <StoriesContainer isDetailed={isDetailed}>
+    <StoriesContainer $isDetailed={isDetailed}>
       {articles.map(article => {
         const image = transformImage(article.image);
         const croppedImage = getCrop(image, isDetailed ? '16:9' : '32:15');
@@ -125,10 +125,10 @@ const StoriesGrid: FunctionComponent<Props> = ({
             key={article.id}
             as="a"
             href={linkResolver({ id: article.id, type: 'articles' })}
-            isDetailed={isDetailed}
+            $isDetailed={isDetailed}
           >
             {croppedImage && (
-              <ImageWrapper isDetailed={isDetailed}>
+              <ImageWrapper $isDetailed={isDetailed}>
                 <PrismicImage
                   image={{
                     // We intentionally omit the alt text on promos, so screen reader
@@ -142,12 +142,12 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   sizes={dynamicImageSizes}
                   quality="low"
                 />
-                <MobileLabel isDetailed={isDetailed}>
+                <MobileLabel $isDetailed={isDetailed}>
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </MobileLabel>
               </ImageWrapper>
             )}
-            <Details isDetailed={isDetailed}>
+            <Details $isDetailed={isDetailed}>
               {isDetailed && (
                 <DesktopLabel>
                   <LabelsList labels={[{ text: article.format.label }]} />

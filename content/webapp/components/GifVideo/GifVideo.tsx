@@ -29,7 +29,7 @@ const PlayPause = styled.button.attrs({
 
 const Text = styled.span.attrs({
   className: font('lr', 5),
-})<{ isPlaying: boolean }>`
+})<{ $isPlaying: boolean }>`
   display: block;
   background: ${props => props.theme.color('neutral.700')};
   padding: 6px;
@@ -37,7 +37,7 @@ const Text = styled.span.attrs({
   color: ${props => props.theme.color('white')};
 
   &::before {
-    content: '${props => (props.isPlaying ? 'pause' : 'play')}';
+    content: '${props => (props.$isPlaying ? 'pause' : 'play')}';
   }
 `;
 
@@ -192,7 +192,7 @@ const GifVideo: FunctionComponent<Props> = ({
         </Video>
         {canPlay && !showControls && (
           <PlayPause onClick={manualControlGif}>
-            <Text isPlaying={isPlaying} />
+            <Text $isPlaying={isPlaying} />
           </PlayPause>
         )}
         {tasl &&

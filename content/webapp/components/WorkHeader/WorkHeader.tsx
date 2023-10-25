@@ -44,7 +44,7 @@ const WorkHeader: FunctionComponent<Props> = ({
     <>
       <WorkHeaderContainer>
         <Space
-          v={{
+          $v={{
             size: 'm',
             properties: ['margin-bottom'],
           }}
@@ -60,7 +60,7 @@ const WorkHeader: FunctionComponent<Props> = ({
             </WorkTitleWrapper>
 
             {primaryContributorLabel && (
-              <Space h={{ size: 'm', properties: ['margin-right'] }}>
+              <Space $h={{ size: 'm', properties: ['margin-right'] }}>
                 <LinkLabels items={[{ text: primaryContributorLabel }]} />
               </Space>
             )}
@@ -88,7 +88,7 @@ const WorkHeader: FunctionComponent<Props> = ({
 
             {cardLabels.length > 0 && (
               <Space
-                v={{
+                $v={{
                   size: 'm',
                   properties: ['margin-top'],
                 }}
@@ -103,7 +103,7 @@ const WorkHeader: FunctionComponent<Props> = ({
             {Boolean(
               collectionManifestsCount && collectionManifestsCount > 0
             ) && (
-              <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                 <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
                   <Number
                     backgroundColor="yellow"
@@ -120,7 +120,7 @@ const WorkHeader: FunctionComponent<Props> = ({
       {!isArchive && (
         <WorkHeaderContainer>
           <Space
-            v={{
+            $v={{
               size: 'm',
               properties: ['margin-bottom'],
             }}

@@ -26,14 +26,14 @@ const Wrapper = styled(Space)`
 `;
 
 const FilterDropdownsContainer = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom'] },
   className: font('intr', 5),
-})<{ isEnhanced?: boolean }>`
+  $v: { size: 'm', properties: ['margin-bottom'] },
+})<{ $isEnhanced?: boolean }>`
   display: flex;
   align-items: center;
 
   /* Wrap if old style or if new style without Javascript */
-  ${props => !props.isEnhanced && `flex-wrap: wrap;`}
+  ${props => !props.$isEnhanced && `flex-wrap: wrap;`}
 `;
 
 const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
@@ -54,9 +54,9 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     <>
       <Wrapper
         ref={wrapperRef}
-        h={{ size: 'm', properties: ['padding-right'] }}
+        $h={{ size: 'm', properties: ['padding-right'] }}
       >
-        <FilterDropdownsContainer isEnhanced={isEnhanced}>
+        <FilterDropdownsContainer $isEnhanced={isEnhanced}>
           {isEnhanced && (
             /**
              * I had to extract this component so that useLayoutEffect

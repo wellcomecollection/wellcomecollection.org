@@ -65,7 +65,7 @@ const WorkDetailsAvailableOnline = ({
         }
       >
         {video && (
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <VideoPlayer
               video={video}
               // Note: because we can't prevent people from downloading videos if
@@ -92,7 +92,7 @@ const WorkDetailsAvailableOnline = ({
         {shouldShowItemLink && (
           <>
             {work.thumbnail && (
-              <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
                 <ConditionalWrapper
                   condition={Boolean(itemUrl)}
                   wrapper={children =>
@@ -133,7 +133,7 @@ const WorkDetailsAvailableOnline = ({
               {itemUrl && (
                 <Space
                   as="span"
-                  h={{ size: 'm', properties: ['margin-right'] }}
+                  $h={{ size: 'm', properties: ['margin-right'] }}
                 >
                   <ButtonSolidLink
                     icon={eye}
@@ -158,7 +158,7 @@ const WorkDetailsAvailableOnline = ({
             </div>
             {((collectionManifestsCount && collectionManifestsCount > 0) ||
               (canvasCount && canvasCount > 0)) && (
-              <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                 <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
                   Contains:{' '}
                   {collectionManifestsCount && collectionManifestsCount > 0

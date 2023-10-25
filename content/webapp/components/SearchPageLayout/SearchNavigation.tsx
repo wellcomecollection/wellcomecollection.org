@@ -119,7 +119,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
         </h1>
 
         <SearchBarContainer
-          v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+          $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
         >
           <SearchBar
             inputValue={inputValue}

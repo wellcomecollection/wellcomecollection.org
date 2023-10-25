@@ -18,7 +18,7 @@ export const TreeInstructions = styled.p.attrs({
   display: none;
 `;
 
-export const Tree = styled.div<{ isEnhanced?: boolean }>`
+export const Tree = styled.div<{ $isEnhanced?: boolean }>`
   ul {
     position: relative;
     padding-left: 0;
@@ -31,7 +31,7 @@ export const Tree = styled.div<{ isEnhanced?: boolean }>`
     &::before {
       display: none;
       position: absolute;
-      content: ${props => (props.isEnhanced ? `'${instructions}'` : null)};
+      content: ${props => (props.$isEnhanced ? `'${instructions}'` : null)};
       z-index: 2;
       top: 0;
       background: ${props => props.theme.color('yellow')};
@@ -57,7 +57,7 @@ export const Tree = styled.div<{ isEnhanced?: boolean }>`
 `;
 
 export const ButtonWrap = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
     width: 100%;
@@ -66,10 +66,10 @@ export const ButtonWrap = styled(Space).attrs({
 `;
 
 export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
-  className: props.showGuideline ? 'guideline' : '',
+  className: props.$showGuideline ? 'guideline' : '',
 }))<TreeItemProps>`
   position: relative;
-  list-style: ${props => (props.isEnhanced ? 'none' : 'disc')};
+  list-style: ${props => (props.$isEnhanced ? 'none' : 'disc')};
   padding: 0;
 
   &.guideline::before,
@@ -100,7 +100,7 @@ export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
   }
 `;
 
-export const TreeControl = styled.span<{ highlightCondition?: string }>`
+export const TreeControl = styled.span<{ $highlightCondition?: string }>`
   display: inline-block;
   cursor: pointer;
   height: ${`${controlDimensions.controlHeight}px`};
@@ -125,14 +125,14 @@ export const TreeControl = styled.span<{ highlightCondition?: string }>`
 
     background: ${props =>
       props.theme.color(
-        props.highlightCondition === 'primary'
+        props.$highlightCondition === 'primary'
           ? 'yellow'
-          : props.highlightCondition === 'secondary'
+          : props.$highlightCondition === 'secondary'
           ? 'lightYellow'
           : 'neutral.300'
       )};
     border: ${props =>
-      props.highlightCondition === 'secondary'
+      props.$highlightCondition === 'secondary'
         ? `1px solid ${props.theme.color('yellow')}`
         : `2px solid ${props.theme.color('white')}`};
     border-radius: 50%;
@@ -150,8 +150,8 @@ export const TreeControl = styled.span<{ highlightCondition?: string }>`
 `;
 
 type StyledLinkProps = {
-  isCurrent?: boolean;
-  hasControl?: boolean;
+  $isCurrent?: boolean;
+  $hasControl?: boolean;
   'data-gtm-trigger': 'tree_link';
   'data-gtm-data-tree-level': number;
 };
@@ -162,10 +162,10 @@ export const StyledLink = styled.a<StyledLinkProps>`
   line-height: 1;
   color: ${props => props.theme.color('black')};
   background: ${props =>
-    props.isCurrent ? props.theme.color('yellow') : 'transparent'};
+    props.$isCurrent ? props.theme.color('yellow') : 'transparent'};
   cursor: pointer;
   margin-left: ${props =>
-    props.hasControl
+    props.$hasControl
       ? `-${controlDimensions.controlWidth / 2}px`
       : `${controlDimensions.controlWidth / 2}px`};
   text-decoration: none;
@@ -175,9 +175,9 @@ export const StyledLink = styled.a<StyledLinkProps>`
   padding-top: ${props => `${props.theme.spacingUnit}px`};
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
   padding-left: ${props =>
-    props.hasControl
+    props.$hasControl
       ? `${controlDimensions.circleWidth / 2 + props.theme.spacingUnit}px`
-      : props.isCurrent
+      : props.$isCurrent
       ? `${props.theme.spacingUnit}px`
       : 0};
   padding-right: ${props => `${props.theme.spacingUnit * 2}px`};

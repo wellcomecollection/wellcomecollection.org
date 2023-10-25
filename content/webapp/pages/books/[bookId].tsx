@@ -54,7 +54,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({ label, value }) => (
 
 const BookMetadata: FunctionComponent<{ book: Book }> = ({ book }) => (
   <Space
-    v={{
+    $v={{
       size: 'm',
       properties: ['margin-top', 'margin-bottom'],
     }}
@@ -123,7 +123,7 @@ const BookPage: FunctionComponent<Props> = props => {
 
   const { book } = props;
   const FeaturedMedia = book.cover && (
-    <Space v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
+    <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
       <Layout8>
         <BookImage
           image={{ ...book.cover }}

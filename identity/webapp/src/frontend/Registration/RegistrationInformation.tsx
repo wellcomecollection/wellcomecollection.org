@@ -18,7 +18,7 @@ const RegistrationInformation: FunctionComponent<Props> = ({ email }) => {
         Email address: <strong className={font('intb', 5)}>{email}</strong>
       </p>
       <Space
-        v={{
+        $v={{
           size: 'm',
           properties: ['margin-top', 'margin-bottom'],
         }}

@@ -18,20 +18,17 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { Period } from '@weco/common/types/periods';
 
 type IsActiveProps = {
-  isActive: boolean;
+  $isActive: boolean;
 };
 
 type DrawerItemProps = {
-  isFirst: boolean;
+  $isFirst: boolean;
 };
 
 const DrawerItem = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['padding-top', 'padding-bottom'],
-  },
   as: 'li',
   className: font('wb', 4),
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })<DrawerItemProps>`
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 
@@ -43,26 +40,26 @@ const DrawerItem = styled(Space).attrs({
   }
 
   ${props =>
-    props.isFirst &&
+    props.$isFirst &&
     `
     border-top: 1px solid ${props.theme.color('neutral.300')};
   `}
 `;
 
-const List = styled(PlainList)<{ isEnhanced: boolean }>`
+const List = styled(PlainList)<{ $isEnhanced: boolean }>`
   border: 1px solid ${props => props.theme.color('black')};
   overflow: hidden;
-  display: ${props => (props.isEnhanced ? 'none' : 'flex')};
+  display: ${props => (props.$isEnhanced ? 'none' : 'flex')};
 
   ${props =>
-    props.isEnhanced &&
+    props.$isEnhanced &&
     props.theme.media('medium')`
       display: flex;
   `}
 `;
 
 type ItemProps = {
-  isLast: boolean;
+  $isLast: boolean;
 };
 
 const Item = styled.li.attrs({
@@ -74,7 +71,7 @@ const Item = styled.li.attrs({
   border-right: 1px solid ${props => props.theme.color('black')};
 
   ${props =>
-    props.isLast &&
+    props.$isLast &&
     `
     border-right: 0;
   `}
@@ -82,7 +79,7 @@ const Item = styled.li.attrs({
 
 const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
-    'is-active': props.isActive,
+    'is-active': props.$isActive,
   }),
 }))<IsActiveProps>`
   display: block;
@@ -99,9 +96,9 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
     border: none;
   }
 
-  color: ${props => props.theme.color(props.isActive ? 'white' : 'black')};
+  color: ${props => props.theme.color(props.$isActive ? 'white' : 'black')};
   background-color: ${props =>
-    props.theme.color(props.isActive ? 'black' : 'white')};
+    props.theme.color(props.$isActive ? 'black' : 'white')};
 
   ${props =>
     props.theme.makeSpacePropertyValues('m', ['padding-top', 'padding-bottom'])}
@@ -110,7 +107,7 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
 
   &:hover {
     background: ${props =>
-      props.theme.color(props.isActive ? 'neutral.600' : 'warmNeutral.400')};
+      props.theme.color(props.$isActive ? 'neutral.600' : 'warmNeutral.400')};
   }
 `;
 
@@ -121,9 +118,9 @@ const Drawer = styled.div`
 `;
 
 const MobileControlsContainer = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: font('wb', 4),
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   display: flex;
   color: ${props => props.theme.color('white')};
@@ -131,10 +128,10 @@ const MobileControlsContainer = styled(Space).attrs({
 `;
 
 const MobileControlsModal = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})<{ isActive: boolean }>`
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})<IsActiveProps>`
   background-color: ${props => props.theme.color('white')};
-  display: ${props => (props.isActive ? 'block' : 'none')};
+  display: ${props => (props.$isActive ? 'block' : 'none')};
   position: fixed;
   z-index: 6; /*  Ensures that it's above the fixed header on mobile */
   top: 0;
@@ -143,12 +140,12 @@ const MobileControlsModal = styled(Space).attrs({
   bottom: 0;
 `;
 
-const Button = styled.button<{ isActive: boolean }>`
+const Button = styled.button<IsActiveProps>`
   padding: 0;
   width: 100%;
 
   ${props =>
-    props.isActive &&
+    props.$isActive &&
     `
       width: auto;
       position: fixed;
@@ -264,7 +261,7 @@ const SegmentedControl: FunctionComponent<Props> = ({
     <div>
       {isEnhanced && (
         <Drawer>
-          <Button isActive={isActive}>
+          <Button $isActive={isActive}>
             {items
               .filter(item => item.id === activeId)
               .map(item => (
@@ -283,11 +280,13 @@ const SegmentedControl: FunctionComponent<Props> = ({
                 </Fragment>
               ))}
           </Button>
-          <MobileControlsModal isActive={isActive} id={id}>
-            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>See:</Space>
+          <MobileControlsModal $isActive={isActive} id={id}>
+            <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+              See:
+            </Space>
             <PlainList>
               {items.map((item, i) => (
-                <DrawerItem isFirst={i === 0} key={item.id}>
+                <DrawerItem $isFirst={i === 0} key={item.id}>
                   <a onClick={e => onClick(e, item)} href={item.url}>
                     {item.text}
                   </a>
@@ -297,11 +296,11 @@ const SegmentedControl: FunctionComponent<Props> = ({
           </MobileControlsModal>
         </Drawer>
       )}
-      <List isEnhanced={isEnhanced}>
+      <List $isEnhanced={isEnhanced}>
         {items.map((item, i) => (
-          <Item key={item.id} isLast={i === items.length - 1}>
+          <Item key={item.id} $isLast={i === items.length - 1}>
             <ItemInner
-              isActive={isEnhanced && item.id === activeId}
+              $isActive={isEnhanced && item.id === activeId}
               onClick={e => onClick(e, item)}
               href={item.url}
               aria-current={

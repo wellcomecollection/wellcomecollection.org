@@ -41,10 +41,7 @@ const ArchiveDetailsContainer = styled.div`
 `;
 
 const WorkDetailsWrapper = styled(Space).attrs({
-  v: {
-    size: 'xl',
-    properties: ['padding-top'],
-  },
+  $v: { size: 'xl', properties: ['padding-top'] },
 })`
   flex: 1;
 `;
@@ -182,7 +179,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
         <Container>
           <Grid>
             <Space
-              v={{
+              $v={{
                 size: 'l',
                 properties: ['padding-top'],
               }}
@@ -193,7 +190,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
           </Grid>
           <Grid>
             <Space
-              v={{
+              $v={{
                 size: 's',
                 properties: ['padding-top', 'padding-bottom'],
               }}
@@ -209,7 +206,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
             <Container>
               <Grid>
                 <Space
-                  v={{
+                  $v={{
                     size: 's',
                     properties: ['padding-top', 'padding-bottom'],
                   }}

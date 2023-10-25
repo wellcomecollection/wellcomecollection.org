@@ -40,11 +40,11 @@ const SuccessPage: NextPage<Props> = ({ email }) => {
   return (
     <PageWrapper title="Registration">
       <Layout10>
-        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
               <Layout8>
-                <Space v={{ size: 'xl', properties: ['padding-top'] }}>
+                <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
                   <ApplicationReceived email={email} />
                 </Space>
               </Layout8>

@@ -453,7 +453,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   );
 
   return isArchive ? (
-    <Space h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
+    <Space $h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
       {renderContent()}
     </Space>
   ) : (

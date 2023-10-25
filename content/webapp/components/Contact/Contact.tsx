@@ -7,14 +7,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { phone as phoneIcon, email as emailIcon } from '@weco/common/icons';
 
 const Wrapper = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left'] },
   className: 'body-text',
+  $h: { size: 'm', properties: ['padding-left'] },
 })`
   border-left: 5px solid ${props => props.theme.color('accent.turquoise')};
 `;
 
 const TitleWrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 's', properties: ['margin-bottom'] },
 })`
   display: block;
 `;
@@ -23,8 +23,8 @@ const Title = styled.span.attrs({ className: font('intb', 4) })``;
 
 const Subtitle = styled(Space).attrs({
   as: 'span',
-  h: { size: 's', properties: ['margin-left'] },
   className: font('intr', 4),
+  $h: { size: 's', properties: ['margin-left'] },
 })``;
 
 const PhoneNumber = styled.span.attrs({ className: font('intr', 4) })`
@@ -32,8 +32,8 @@ const PhoneNumber = styled.span.attrs({ className: font('intr', 4) })`
 `;
 
 const WithIconWrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom'] },
-  h: { size: 's', properties: ['column-gap'] },
+  $v: { size: 's', properties: ['margin-bottom'] },
+  $h: { size: 's', properties: ['column-gap'] },
 })`
   display: flex;
   align-items: center;

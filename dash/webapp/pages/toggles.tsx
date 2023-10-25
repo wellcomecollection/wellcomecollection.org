@@ -11,9 +11,9 @@ import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';
 
-const Button = styled.button<{ opaque?: boolean }>`
-  border: ${props => (props.opaque ? 'none' : '2px solid #007868')};
-  color: ${props => (props.opaque ? 'black' : '#007868')};
+const Button = styled.button<{ $opaque?: boolean }>`
+  border: ${props => (props.$opaque ? 'none' : '2px solid #007868')};
+  color: ${props => (props.$opaque ? 'black' : '#007868')};
   display: inline-block;
   border-radius: 2px;
   padding: 6px 10px;
@@ -29,13 +29,13 @@ const ResetButton = styled(Button)`
   font-size: 1.03rem;
 `;
 
-const Status = styled.div<{ active?: boolean }>`
+const Status = styled.div<{ $active?: boolean }>`
   width: 10px;
   height: 10px;
   margin-left: 10px;
   margin-right: 5px;
   border-radius: 50%;
-  background: ${props => (props.active ? 'green' : 'lightgrey')};
+  background: ${props => (props.$active ? 'green' : 'lightgrey')};
 `;
 
 const TextBox = styled.p`
@@ -88,7 +88,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                 color: 'grey',
               }}
             >
-              Public status: <Status active={toggle.defaultValue} />{' '}
+              Public status: <Status $active={toggle.defaultValue} />{' '}
               {toggle.defaultValue === true ? 'on' : 'off'}
             </div>
             <p>{toggle.description}</p>
@@ -326,6 +326,7 @@ const IndexPage: FunctionComponent = () => {
                     👎 No thanks
                   </Button>
                   <Button
+                    $opaque
                     onClick={() => {
                       setCookie(toggle.id, null);
                       setToggleStates({
@@ -333,7 +334,6 @@ const IndexPage: FunctionComponent = () => {
                         [toggle.id]: undefined,
                       });
                     }}
-                    opaque
                   >
                     Forget my choice
                   </Button>

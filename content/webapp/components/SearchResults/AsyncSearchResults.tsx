@@ -32,7 +32,7 @@ class AsyncSearchResults extends Component<Props, State> {
     return (
       <Fragment>
         {this.props.title && (
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <div className="grid">
               <div className={grid({ s: 12 })}>
                 <h2 className={font('wb', 3)} style={{ marginBottom: 0 }}>

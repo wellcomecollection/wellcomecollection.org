@@ -130,7 +130,7 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
       />
       {partitionedExhibitionItems.currentAndUpcoming.length > 0 && (
         <>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <SectionHeader title="Current exhibitions" />
           </Space>
           <SpacingSection>
@@ -145,10 +145,10 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
       {partitionedExhibitionItems.past.length > 0 && (
         <>
           {!period && (
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <SectionHeader title="Past Exhibitions" />
               <Layout12>
-                <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                   <p style={{ marginBottom: 0 }}>{pastExhibitionsStrapline}</p>
                 </Space>
               </Layout12>
@@ -162,7 +162,7 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
             />
             {exhibitions.totalPages > 1 && (
               <Container>
-                <PaginationWrapper verticalSpacing="m" alignRight>
+                <PaginationWrapper $verticalSpacing="m" $alignRight>
                   <Pagination
                     totalPages={exhibitions.totalPages}
                     ariaLabel="Exhibitions pagination"

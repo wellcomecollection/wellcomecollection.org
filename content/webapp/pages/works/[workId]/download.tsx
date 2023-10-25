@@ -124,7 +124,7 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
         <SpacingSection>
           <SpacingComponent>
             <Space
-              v={{
+              $v={{
                 size: 'l',
                 properties: ['margin-top'],
               }}

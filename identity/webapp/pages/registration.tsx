@@ -116,11 +116,11 @@ const RegistrationPage: NextPage<Props> = ({
   return (
     <PageWrapper title="Registration">
       <Layout10>
-        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
               <Layout8>
-                <Space v={{ size: 'xl', properties: ['padding-top'] }}>
+                <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
                   <RegistrationInformation email={email} />
 
                   <form
@@ -217,7 +217,7 @@ const RegistrationPage: NextPage<Props> = ({
                           </FlexStartCheckbox>
                         )}
                       />
-                      <Space v={{ size: 's', properties: ['margin-top'] }}>
+                      <Space $v={{ size: 's', properties: ['margin-top'] }}>
                         <ErrorMessage
                           errors={formState.errors}
                           name="termsAndConditions"

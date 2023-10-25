@@ -19,7 +19,7 @@ type WrapperProps = {
   ariaExpanded?: boolean;
   ariaPressed?: 'true' | 'false' | 'mixed';
   dataGtmTrigger?: string;
-  colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
+  $colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
   tabIndex?: number;
   id?: string;
   disabled?: boolean;
@@ -49,7 +49,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   }
 
   ${props =>
-    props.colorScheme === 'light' &&
+    props.$colorScheme === 'light' &&
     `
     background: ${props.theme.color('white')};
     border: 2px solid ${props.theme.color('accent.green')};
@@ -77,7 +77,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   `}
 
   ${props =>
-    props.colorScheme === 'dark' &&
+    props.$colorScheme === 'dark' &&
     `
     border: 0;
     background: ${props.theme.color('accent.green')};
@@ -96,7 +96,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   `}
 
   ${props =>
-    props.colorScheme === 'on-black' &&
+    props.$colorScheme === 'on-black' &&
     `
     border: 0;
     border-radius: 0;
@@ -121,7 +121,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   `}
 
   ${props =>
-    props.colorScheme === 'black-on-white' &&
+    props.$colorScheme === 'black-on-white' &&
     `
     background: ${props.theme.color('white')};
     border: none;
@@ -214,7 +214,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     dataGtmTrigger,
     tabIndex,
     id,
-    colorScheme,
+    $colorScheme: colorScheme,
     disabled,
     extraClasses,
     onClick: handleClick,

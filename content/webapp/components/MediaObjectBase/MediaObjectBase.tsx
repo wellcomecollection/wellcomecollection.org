@@ -51,12 +51,12 @@ const BaseTitleWrapper = styled.h3.attrs({
 `;
 
 export type HasImageProps = {
-  hasImage: boolean;
+  $hasImage: boolean;
 };
 
 // Ability to add custom prop types in TS and styled components
 const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => ({
-  className: props.hasImage
+  className: props.$hasImage
     ? grid({ s: 9, m: 9, l: 9, xl: 9 })
     : grid(gridSize12),
 }))<HasImageProps>``;
@@ -110,7 +110,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
 
   return (
     <LinkOrDivSpace
-      v={{
+      $v={{
         size: 'l',
         properties:
           x === y ? ['padding-top'] : ['padding-top', 'padding-bottom'],
@@ -126,11 +126,11 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         }
       }}
     >
-      <ImageWrapper hasImage={Boolean(Image)}>{Image}</ImageWrapper>
-      <TextWrapper hasImage={Boolean(Image)}>
+      <ImageWrapper $hasImage={Boolean(Image)}>{Image}</ImageWrapper>
+      <TextWrapper $hasImage={Boolean(Image)}>
         {primaryLabels.length > 0 && (
           <Space
-            v={{ size: 's', properties: ['margin-bottom'] }}
+            $v={{ size: 's', properties: ['margin-bottom'] }}
             style={{ display: 'flex' }}
           >
             <LabelsList labels={primaryLabels} />
@@ -156,7 +156,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         )}
         {secondaryLabels.length > 0 && (
           <Space
-            v={{ size: 's', properties: ['margin-top'] }}
+            $v={{ size: 's', properties: ['margin-top'] }}
             style={{ display: 'flex' }}
           >
             <LabelsList labels={secondaryLabels} defaultLabelColor="black" />

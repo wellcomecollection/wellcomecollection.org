@@ -185,7 +185,7 @@ const StoriesPage: FunctionComponent<Props> = ({
         <Layout8 shift={false}>
           <div className="body-text spaced-text">
             <Space
-              v={{
+              $v={{
                 size: 'xl',
                 properties: ['margin-bottom'],
               }}
@@ -201,7 +201,7 @@ const StoriesPage: FunctionComponent<Props> = ({
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">
-          <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
             <Layout12>
               <FeaturedCardArticle
                 article={firstArticle}
@@ -212,12 +212,12 @@ const StoriesPage: FunctionComponent<Props> = ({
           </Space>
           <div className="row__wobbly-background" />
           <StoryPromoContainer>
-            <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+            <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
               <div className="grid grid--scroll grid--theme-4 card-theme card-theme--transparent">
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
                         <StoryPromo article={article} position={i} />
                       </Space>
                     </div>

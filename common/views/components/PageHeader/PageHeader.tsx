@@ -24,13 +24,15 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 const Container = styled.div<{
-  backgroundTexture?: string;
+  $backgroundTexture?: string;
 }>`
   position: relative;
   background-image: ${props =>
-    props.backgroundTexture ? `url(${props.backgroundTexture})` : 'undefined'};
+    props.$backgroundTexture
+      ? `url(${props.$backgroundTexture})`
+      : 'undefined'};
   background-size: ${props =>
-    props.backgroundTexture ? 'cover' : 'undefined'};
+    props.$backgroundTexture ? 'cover' : 'undefined'};
 `;
 
 const Wrapper = styled(Space)`
@@ -45,9 +47,9 @@ const Wrapper = styled(Space)`
 export const headerSpaceSize = 'l';
 const HeroPictureBackground = styled.div.attrs({
   className: 'is-hidden-print',
-})<{ bgColor: PaletteColor }>`
+})<{ $bgColor: PaletteColor }>`
   position: absolute;
-  background-color: ${props => props.theme.color(props.bgColor)};
+  background-color: ${props => props.theme.color(props.$bgColor)};
   height: 50%;
   width: 100%;
   bottom: -${props => props.theme.spaceAtBreakpoints.small[headerSpaceSize]}px;
@@ -136,7 +138,7 @@ const PageHeader: FunctionComponent<Props> = ({
     highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
     ) : (
-      <SectionPageHeader sectionLevelPage={sectionLevelPage ?? false}>
+      <SectionPageHeader $sectionLevelPage={sectionLevelPage ?? false}>
         {title}
       </SectionPageHeader>
     );
@@ -146,13 +148,13 @@ const PageHeader: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Container backgroundTexture={backgroundTexture}>
+      <Container $backgroundTexture={backgroundTexture}>
         {Background}
         <Layout
           gridSizes={sectionLevelPage ? gridSize12 : sectionLevelPageGridLayout}
         >
           <Wrapper
-            v={{
+            $v={{
               size: 'l',
               properties:
                 isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
@@ -164,7 +166,7 @@ const PageHeader: FunctionComponent<Props> = ({
               // We need to keep some space below the breadcrumbs to prevent
               // 'highlighted' headings from being partially concealed
               <Space
-                v={{
+                $v={{
                   size: 'm',
                   properties: ['margin-top', 'margin-bottom'],
                   overrides: { large: 4 },
@@ -176,7 +178,7 @@ const PageHeader: FunctionComponent<Props> = ({
             <ConditionalWrapper
               condition={sectionLevelPage ?? false}
               wrapper={children => (
-                <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'l', properties: ['margin-top'] }}>
                   {children}
                 </Space>
               )}
@@ -187,7 +189,7 @@ const PageHeader: FunctionComponent<Props> = ({
 
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
-                v={{ size: 'm', properties: ['margin-bottom'] }}
+                $v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={font('intr', 4)}
               >
                 {ContentTypeInfo}
@@ -207,7 +209,7 @@ const PageHeader: FunctionComponent<Props> = ({
 
         {HeroPicture && (
           <div style={{ position: 'relative', height: '100%' }}>
-            <HeroPictureBackground bgColor={heroImageBgColor} />
+            <HeroPictureBackground $bgColor={heroImageBgColor} />
 
             <HeroPictureContainer>
               <WobblyBottom backgroundColor={heroImageBgColor}>
@@ -223,7 +225,7 @@ const PageHeader: FunctionComponent<Props> = ({
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
         <Layout gridSizes={sectionLevelPageGridLayout}>
           <Space
-            v={{
+            $v={{
               size: 'l',
               properties: ['margin-top'],
             }}

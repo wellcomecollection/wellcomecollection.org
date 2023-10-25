@@ -56,7 +56,7 @@ type WrapperProps = {
   hasNoResults: boolean;
 };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
-  v: {
+  $v: {
     size: 'xl',
     properties: [props.hasNoResults ? '' : 'margin-bottom'].filter(
       Boolean
@@ -146,7 +146,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
         <Container>
           <Space
-            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <SearchFilters
               query={queryString}
@@ -172,7 +172,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       )}
 
       <Wrapper hasNoResults={hasNoResults}>
-        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+        <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
           <Container>
             {hasNoResults ? (
               <SearchNoResults
@@ -181,7 +181,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               />
             ) : (
               <>
-                <PaginationWrapper verticalSpacing="l">
+                <PaginationWrapper $verticalSpacing="l">
                   <span role="status">
                     {pluralize(images.totalResults, 'result')}
                     {activeFiltersLabels.length > 0 && (
@@ -232,7 +232,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                   <ImageEndpointSearchResults images={images.results} />
                 </main>
 
-                <PaginationWrapper verticalSpacing="l" alignRight>
+                <PaginationWrapper $verticalSpacing="l" $alignRight>
                   <Pagination
                     totalPages={images.totalPages}
                     ariaLabel="Image search pagination"

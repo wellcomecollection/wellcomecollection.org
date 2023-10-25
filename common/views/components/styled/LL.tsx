@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
 type LLProps = {
-  small?: boolean;
-  lighten?: boolean;
-  position?: 'relative' | 'absolute';
+  $small?: boolean;
+  $lighten?: boolean;
+  $position?: 'relative' | 'absolute';
 };
 
-// We could use `zoom` for props.small, but it isn't supported in Firefox
+// We could use `zoom` for props.$small, but it isn't supported in Firefox
 // see: https://bugzilla.mozilla.org/show_bug.cgi?id=390936
 const LL = styled.div<LLProps>`
   opacity: 0.2;
-  width: ${props => (props.small ? '25px' : '50px')};
-  height: ${props => (props.small ? '40px' : '80px')};
+  width: ${props => (props.$small ? '25px' : '50px')};
+  height: ${props => (props.$small ? '40px' : '80px')};
 
   position: absolute;
   top: 50%;
@@ -21,7 +21,7 @@ const LL = styled.div<LLProps>`
   animation: animate-ll;
 
   ${props =>
-    props.position === 'relative' &&
+    props.$position === 'relative' &&
     ` position: relative;
       top: 0;
       transform: translateX(-50%);`}
@@ -32,9 +32,9 @@ const LL = styled.div<LLProps>`
     position: absolute;
     top: 0;
     bottom: 0;
-    width: ${props => (props.small ? '10px' : '20px')};
+    width: ${props => (props.$small ? '10px' : '20px')};
     background: ${props =>
-      props.theme.color(props.lighten ? 'neutral.500' : 'black')};
+      props.theme.color(props.$lighten ? 'neutral.500' : 'black')};
   }
 
   &::before {

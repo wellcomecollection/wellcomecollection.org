@@ -56,9 +56,9 @@ const Newsletter: FunctionComponent<Props> = ({ result }) => {
         highlightHeading={true}
       />
 
-      <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
         <Space
-          v={{
+          $v={{
             size: 'xl',
             properties: ['padding-bottom'],
           }}

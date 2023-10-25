@@ -30,7 +30,7 @@ const SearchResults: FunctionComponent<Props> = ({
   <Fragment>
     {title && (
       <Space
-        v={!summary ? { size: 'l', properties: ['margin-bottom'] } : undefined}
+        $v={!summary ? { size: 'l', properties: ['margin-bottom'] } : undefined}
       >
         <div className="grid">
           <div className={grid({ s: 12 })}>
@@ -40,7 +40,7 @@ const SearchResults: FunctionComponent<Props> = ({
       </Space>
     )}
     {summary && (
-      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>{summary}</Space>
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>{summary}</Space>
     )}
 
     {items.map((item, index) => (

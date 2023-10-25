@@ -42,9 +42,9 @@ import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
-const SeriesItem = styled.div<{ isFirst: boolean }>`
+const SeriesItem = styled.div<{ $isFirst: boolean }>`
   border-top: ${props =>
-    `${props.isFirst ? '0' : '1px'} solid ${props.theme.color(
+    `${props.$isFirst ? '0' : '1px'} solid ${props.theme.color(
       'warmNeutral.400'
     )}`};
 `;
@@ -218,7 +218,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
       >
         <>
           {articles.results.map((article, index) => (
-            <SeriesItem key={index} isFirst={index === 0}>
+            <SeriesItem key={index} $isFirst={index === 0}>
               <ArticleCard
                 article={article}
                 showPosition={true}
@@ -230,7 +230,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
             </SeriesItem>
           ))}
           {scheduledItems.map((item, index) => (
-            <SeriesItem key={index} isFirst={false}>
+            <SeriesItem key={index} $isFirst={false}>
               <ArticleScheduleItemCard
                 item={item}
                 xOfY={{
@@ -242,7 +242,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
           ))}
         </>
         {articles.totalPages > 1 && (
-          <PaginationWrapper verticalSpacing="m" alignRight>
+          <PaginationWrapper $verticalSpacing="m" $alignRight>
             <Pagination
               totalPages={articles.totalPages}
               ariaLabel="Series pagination"

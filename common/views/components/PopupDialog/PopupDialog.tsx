@@ -20,19 +20,19 @@ import { InferDataInterface } from '../../../services/prismic/types';
 import { transformLink } from '../../../services/prismic/transformers';
 
 type PopupDialogOpenProps = {
-  isActive: boolean;
-  shouldStartAnimation: boolean;
+  $shouldStartAnimation: boolean;
+  $isActive: boolean;
 };
 const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
-  'aria-hidden': props.isActive ? 'true' : 'false',
+  'aria-hidden': props.$isActive ? 'true' : 'false',
   'aria-controls': 'user-initiated-dialog-window',
   as: 'button',
-  v: {
+  $v: {
     size: 'm',
     properties: ['padding-top', 'padding-bottom'],
     overrides: { small: 4, medium: 4, large: 4 },
   },
-  h: {
+  $h: {
     size: 'm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
@@ -45,19 +45,20 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   color: ${props => props.theme.color('accent.purple')};
   position: fixed;
   transform: ${props =>
-    props.isActive || !props.shouldStartAnimation
+    props.$isActive || !props.$shouldStartAnimation
       ? 'translateY(10px)'
       : 'translateY(0)'};
   bottom: 20px;
   left: 20px;
   z-index: 3;
   background: ${props => props.theme.color('white')};
-  opacity: ${props => (props.isActive || !props.shouldStartAnimation ? 0 : 1)};
+  opacity: ${props =>
+    props.$isActive || !props.$shouldStartAnimation ? 0 : 1};
   transition:
     opacity 500ms ease,
     filter 500ms ease,
     transform 500ms ease;
-  transition-delay: ${props => (props.isActive ? '0ms' : '500ms')};
+  transition-delay: ${props => (props.$isActive ? '0ms' : '500ms')};
   border-radius: 9999px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 
@@ -73,17 +74,17 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
 `;
 
 type PopupDialogWindowProps = {
-  isActive: boolean;
+  $isActive: boolean;
 };
 const PopupDialogWindow = styled(Space).attrs({
   'aria-modal': true,
   id: 'user-initiated-dialog-window',
-  v: {
+  $v: {
     size: 'l',
     properties: ['padding-top', 'padding-bottom'],
     overrides: { small: 6, medium: 6, large: 6 },
   },
-  h: {
+  $h: {
     size: 'l',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 6, medium: 6, large: 6 },
@@ -93,14 +94,14 @@ const PopupDialogWindow = styled(Space).attrs({
   color: ${props => props.theme.color('accent.purple')};
   border-radius: 20px 0;
   box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.7);
-  opacity: ${props => (props.isActive ? 1 : 0)};
-  pointer-events: ${props => (props.isActive ? 'all' : 'none')};
+  opacity: ${props => (props.$isActive ? 1 : 0)};
+  pointer-events: ${props => (props.$isActive ? 'all' : 'none')};
   transform: ${props =>
-    props.isActive ? 'translateY(0)' : 'translateY(10px)'};
+    props.$isActive ? 'translateY(0)' : 'translateY(10px)'};
   transition:
     opacity 500ms ease,
     transform 500ms ease;
-  transition-delay: ${props => (props.isActive ? '500ms' : '0ms')};
+  transition-delay: ${props => (props.$isActive ? '500ms' : '0ms')};
   position: fixed;
   bottom: 20px;
   left: 20px;
@@ -124,12 +125,12 @@ const PopupDialogClose = styled.button`
 
 const PopupDialogCTA = styled(Space).attrs({
   as: 'a',
-  v: {
+  $v: {
     size: 'm',
     properties: ['padding-top', 'padding-bottom'],
     overrides: { small: 3, medium: 3, large: 3 },
   },
-  h: {
+  $h: {
     size: 'm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
@@ -273,9 +274,9 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
       <PopupDialogOpen
         title="open dialog"
         ref={openDialogRef}
-        isActive={isActive}
         tabIndex={isActive ? -1 : 0}
-        shouldStartAnimation={shouldStartAnimation}
+        $shouldStartAnimation={shouldStartAnimation}
+        $isActive={isActive}
         onClick={() => {
           setIsActive(true);
           setFocusable(true);
@@ -290,7 +291,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
         }}
       >
         <Space
-          h={{
+          $h={{
             size: 's',
             properties: ['margin-right'],
             overrides: { medium: 2, large: 2 },
@@ -300,7 +301,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
         </Space>
         {openButtonText}
       </PopupDialogOpen>
-      <PopupDialogWindow ref={dialogWindowRef} isActive={isActive}>
+      <PopupDialogWindow ref={dialogWindowRef} $isActive={isActive}>
         <PopupDialogClose
           title="close dialog"
           ref={closeDialogRef}
@@ -322,7 +323,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           <Icon icon={clear} title="Close dialog" iconColor="accent.purple" />
         </PopupDialogClose>
         <Space
-          h={{
+          $h={{
             size: 'm',
             properties: ['padding-right'],
             overrides: { small: 4, medium: 4, large: 4 },

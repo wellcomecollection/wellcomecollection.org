@@ -233,7 +233,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
     <>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
       <ContentTypeWrapper>
-        <Space v={{ size: 's', properties: ['margin-top'] }}>
+        <Space $v={{ size: 's', properties: ['margin-top'] }}>
           <ContentTypeText>
             {article.contributors.length > 0 &&
               article.contributors.map(({ contributor, role }, i) => (

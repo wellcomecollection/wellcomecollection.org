@@ -125,12 +125,12 @@ const Header: FunctionComponent<Props> = ({
       focusTrapOptions={{ preventScroll: true }}
     >
       <header className="is-hidden-print">
-        <Wrapper isBurgerOpen={burgerMenuIsActive}>
+        <Wrapper $isBurgerOpen={burgerMenuIsActive}>
           <GridCell>
             <HeaderContainer>
               <Burger>
                 <BurgerTrigger
-                  burgerMenuisActive={burgerMenuIsActive}
+                  $burgerMenuisActive={burgerMenuIsActive}
                   // We only add the link to the footer nav when javascript is not available
                   // The footer nav is always available in that scenario, but not necessarily when javascript is enabled
                   href={isEnhanced ? '/' : '#footer-nav-1'}
@@ -146,14 +146,14 @@ const Header: FunctionComponent<Props> = ({
                   <span />
                 </BurgerTrigger>
               </Burger>
-              <HeaderBrand isMinimalHeader={isMinimalHeader}>
+              <HeaderBrand $isMinimalHeader={isMinimalHeader}>
                 <a href="/">
                   <WellcomeCollectionBlack />
                 </a>
               </HeaderBrand>
               <NavLoginWrapper>
                 <HeaderNav
-                  burgerMenuisActive={burgerMenuIsActive}
+                  $burgerMenuisActive={burgerMenuIsActive}
                   id="header-nav"
                   aria-labelledby="header-burger-trigger"
                 >
@@ -161,7 +161,7 @@ const Header: FunctionComponent<Props> = ({
                     {(customNavLinks || links).map((link, i) => (
                       <HeaderItem key={i}>
                         <HeaderLink
-                          burgerMenuisActive={link.siteSection === siteSection}
+                          $burgerMenuisActive={link.siteSection === siteSection}
                           href={link.href}
                           {...(link.siteSection === siteSection
                             ? { 'aria-current': true }

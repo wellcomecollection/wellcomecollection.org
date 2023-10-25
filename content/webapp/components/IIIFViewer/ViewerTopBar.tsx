@@ -27,7 +27,7 @@ import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs({
   className: font('intb', 5),
-})<{ isDark?: boolean }>`
+})<{ $isDark?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
@@ -62,7 +62,7 @@ export const ShameButton = styled.button.attrs({
   overflow: hidden;
 
   ${props =>
-    props.isDark &&
+    props.$isDark &&
     `
     border: 2px solid transparent;
     color: ${props.theme.color('white')};
@@ -85,7 +85,7 @@ export const ShameButton = styled.button.attrs({
   `}
 
   ${props =>
-    !props.isDark &&
+    !props.$isDark &&
     `
     background: ${props.theme.color('white')};
     color: ${props.theme.color('accent.green')};
@@ -99,10 +99,10 @@ export const ShameButton = styled.button.attrs({
 `;
 
 const TopBar = styled.div<{
-  isZooming: boolean;
-  isDesktopSidebarActive: boolean;
+  $isZooming: boolean;
+  $isDesktopSidebarActive: boolean;
 }>`
-  display: ${props => (props.isZooming ? 'none' : 'grid')};
+  display: ${props => (props.$isZooming ? 'none' : 'grid')};
   min-height: 52px;
   position: relative;
   z-index: 3;
@@ -121,22 +121,22 @@ const TopBar = styled.div<{
   `}
 
   ${props =>
-    !props.isDesktopSidebarActive &&
+    !props.$isDesktopSidebarActive &&
     `
       grid-template-columns: [left-edge] min-content [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   `}
 
   ${props =>
-    !props.isDesktopSidebarActive &&
+    !props.$isDesktopSidebarActive &&
     props.theme.media('xlarge')`
       grid-template-columns: [left-edge] min-content [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   `}
 `;
 
 const Sidebar = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 's', properties: ['padding-left', 'padding-right'] },
-})<{ isZooming: boolean }>`
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
+})<{ $isZooming: boolean }>`
   grid-column: left-edge / desktop-sidebar-end;
   display: flex;
   justify-content: flex-start;
@@ -148,15 +148,15 @@ const Sidebar = styled(Space).attrs({
   `)}
 
   ${props =>
-    !props.isZooming &&
+    !props.$isZooming &&
     props.theme.media('medium')(`
       border-right: 1px solid ${props.theme.color('black')};
   `)}
 `;
 
 const Main = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 's', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
 })`
   display: flex;
   justify-content: flex-end;
@@ -260,17 +260,17 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       : [];
   return (
     <TopBar
-      isZooming={showZoomed}
-      isDesktopSidebarActive={isDesktopSidebarActive}
+      $isZooming={showZoomed}
+      $isDesktopSidebarActive={isDesktopSidebarActive}
     >
-      <Sidebar isZooming={showZoomed}>
+      <Sidebar $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
             <ShameButton
               data-gtm-trigger="toggle_side_panel"
               data-test-id="toggle-info-desktop"
               className="viewer-desktop"
-              isDark
+              $isDark
               onClick={() => {
                 setIsDesktopSidebarActive(!isDesktopSidebarActive);
                 trackGaEvent({
@@ -293,7 +293,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
             <ShameButton
               data-test-id="toggle-info-mobile"
               className="viewer-mobile"
-              isDark
+              $isDark
               onClick={() => {
                 setIsMobileSidebarActive(!isMobileSidebarActive);
               }}
@@ -363,7 +363,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
           {isEnhanced && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {!showZoomed && (
-                <Space h={{ size: 's', properties: ['margin-right'] }}>
+                <Space $h={{ size: 's', properties: ['margin-right'] }}>
                   <Download
                     ariaControlsId="itemDownloads"
                     workId={work.id}
@@ -376,7 +376,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               {isFullscreenEnabled && (
                 <ShameButton
                   className="viewer-desktop"
-                  isDark
+                  $isDark
                   onClick={() => {
                     if (viewerRef && viewerRef.current) {
                       if (

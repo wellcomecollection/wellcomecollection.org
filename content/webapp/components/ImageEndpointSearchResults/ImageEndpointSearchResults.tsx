@@ -208,8 +208,8 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
           {imagesWithDimensions.map((result: GalleryImageProps) => (
             <li key={result.id}>
               <Space
-                h={{ size: 'l', properties: ['margin-right'] }}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
+                $h={{ size: 'l', properties: ['margin-right'] }}
+                $v={{ size: 'l', properties: ['margin-bottom'] }}
               >
                 <ImageCard
                   id={result.id}

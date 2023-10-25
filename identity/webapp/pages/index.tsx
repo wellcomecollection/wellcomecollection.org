@@ -1,8 +1,8 @@
 import React, {
   FunctionComponent,
-  ComponentProps,
   useState,
   ComponentPropsWithoutRef,
+  PropsWithChildren,
 } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { GetServerSideProps, NextPage } from 'next';
@@ -28,6 +28,7 @@ import {
   ItemStatus,
   ItemPickup,
   ButtonWrapper,
+  StatusAlertProps,
 } from '../src/frontend/MyAccount/MyAccount.style';
 import { InlineLoading } from '../src/frontend/MyAccount/Loading';
 import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
@@ -118,21 +119,14 @@ const RequestsFailed: FunctionComponent<{ retry: () => void }> = ({
   </p>
 );
 
-const AccountStatus: FunctionComponent<ComponentProps<typeof StatusAlert>> = ({
+const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
   type,
   children,
 }) => {
   return (
     <StatusAlert type={type}>
       <Icon icon={info2} />
-      <Space
-        h={{
-          size: 's',
-          properties: ['margin-left'],
-        }}
-      >
-        {children}
-      </Space>
+      <Space $h={{ size: 's', properties: ['margin-left'] }}>{children}</Space>
     </StatusAlert>
   );
 };
@@ -225,14 +219,14 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   return (
     <PageWrapper title="Your library account">
       <Header
-        v={{
+        $v={{
           size: 'l',
           properties: ['margin-bottom'],
         }}
       >
         <Layout12>
           <Space
-            v={{
+            $v={{
               size: 'l',
               properties: ['padding-top', 'padding-bottom'],
             }}
@@ -257,11 +251,11 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           {isPasswordUpdated && (
             <AccountStatus type="success">Password updated</AccountStatus>
           )}
-          <SectionHeading addBottomPadding={true}>
+          <SectionHeading $addBottomPadding={true}>
             Personal details
           </SectionHeading>
           <Container>
-            <Wrapper removeBottomPadding={true}>
+            <Wrapper $removeBottomPadding={true}>
               <DetailList
                 listItems={[
                   {
@@ -296,7 +290,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
 
-          <SectionHeading addBottomPadding={true}>Item requests</SectionHeading>
+          <SectionHeading $addBottomPadding={true}>
+            Item requests
+          </SectionHeading>
           <Container>
             <Wrapper>
               {(() => {
@@ -304,7 +300,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                   case 'initial':
                   case 'loading':
                     return (
-                      <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+                      <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
                         <InlineLoading />
                       </Space>
                     );
@@ -316,7 +312,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                         <Space
                           as="p"
                           className={font('intr', 5)}
-                          v={{
+                          $v={{
                             size: 's',
                             properties: ['margin-bottom'],
                             overrides: { small: 1 },
@@ -331,11 +327,11 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                           <Space
                             as="p"
                             className={font('intb', 5)}
-                            v={{ size: 's', properties: ['margin-bottom'] }}
+                            $v={{ size: 's', properties: ['margin-bottom'] }}
                           >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
                           <ProgressBar>
                             <ProgressIndicator
-                              percentage={
+                              $percentage={
                                 (requestedItems.totalResults /
                                   allowedRequests) *
                                 100
@@ -362,7 +358,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                     </ItemTitle>
                                     {result.item.title && (
                                       <Space
-                                        v={{
+                                        $v={{
                                           size: 's',
                                           properties: ['margin-top'],
                                         }}
@@ -394,7 +390,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                           />
                           <Space
                             className={font('intr', 5)}
-                            v={{
+                            $v={{
                               size: 'l',
                               properties: ['margin-top'],
                             }}
@@ -414,7 +410,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
 
-          <SectionHeading addBottomPadding={true}>
+          <SectionHeading $addBottomPadding={true}>
             Cancel library membership
           </SectionHeading>
           <Container>

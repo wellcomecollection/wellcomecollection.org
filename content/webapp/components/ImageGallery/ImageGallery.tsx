@@ -49,8 +49,8 @@ function makeSizesForFrames(isThreeUp: boolean) {
 }
 
 const FrameGridWrap = styled(Space).attrs({
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'xl', properties: ['margin-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   position: relative;
 
@@ -60,7 +60,7 @@ const FrameGridWrap = styled(Space).attrs({
   `)}
 `;
 
-type FrameGridProps = { isThreeUp: boolean };
+type FrameGridProps = { $isThreeUp: boolean };
 const FrameGrid = styled.div<FrameGridProps>`
   display: grid;
   width: 100%;
@@ -73,7 +73,7 @@ const FrameGrid = styled.div<FrameGridProps>`
 
   ${props =>
     props.theme.media('large')(`
-    ${props.isThreeUp && `grid-template-columns: 1fr 1fr 1fr;`}
+    ${props.$isThreeUp && `grid-template-columns: 1fr 1fr 1fr;`}
   `)}
 `;
 
@@ -83,8 +83,8 @@ const FrameItem = styled.div`
 `;
 
 const GalleryTitle = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom'] },
   as: 'span',
+  $v: { size: 'm', properties: ['margin-bottom'] },
 })`
   display: flex;
 
@@ -94,9 +94,9 @@ const GalleryTitle = styled(Space).attrs({
 `;
 
 type GalleryProps = {
-  isActive: boolean;
-  isStandalone: boolean;
-  pageBackground: 'warmNeutral.300' | 'white';
+  $isActive: boolean;
+  $isStandalone: boolean;
+  $pageBackground: 'warmNeutral.300' | 'white';
 };
 const Gallery = styled.div<GalleryProps>`
   position: relative;
@@ -114,7 +114,7 @@ const Gallery = styled.div<GalleryProps>`
   }
 
   ${props =>
-    !props.isActive &&
+    !props.$isActive &&
     `
       img:hover {
         filter: brightness(80%);
@@ -122,7 +122,7 @@ const Gallery = styled.div<GalleryProps>`
     `}
 
   ${props =>
-    props.isActive &&
+    props.$isActive &&
     `
     .caption {
       display: block;
@@ -134,18 +134,19 @@ const Gallery = styled.div<GalleryProps>`
 
     color: ${props.theme.color('white')};
     background: linear-gradient(
-      ${props.theme.color(props.pageBackground)} 100px,
+      ${props.theme.color(props.$pageBackground)} 100px,
       ${props.theme.color('neutral.700')} 100px
     );
 
     ${props.theme.media('medium')(`
       background: linear-gradient(
-        ${props.theme.color(props.pageBackground)} 200px,
+        ${props.theme.color(props.$pageBackground)} 200px,
         ${props.theme.color('neutral.700')} 200px
       );
 
       ${
-        props.isStandalone && `background: ${props.theme.color('neutral.700')};`
+        props.$isStandalone &&
+        `background: ${props.theme.color('neutral.700')};`
       }
     `)}
   `}
@@ -153,7 +154,7 @@ const Gallery = styled.div<GalleryProps>`
   transition: all 400ms ease;
 
   ${props =>
-    props.isStandalone &&
+    props.$isStandalone &&
     `
     background: ${props.theme.color('neutral.700')};
 
@@ -179,9 +180,9 @@ const Gallery = styled.div<GalleryProps>`
     opacity: 0;
     transition: opacity 400ms ease;
 
-    ${props => props.isActive && `opacity: 0.1;`}
+    ${props => props.$isActive && `opacity: 0.1;`}
 
-    ${props => props.isStandalone && `top: 0;`}
+    ${props => props.$isStandalone && `top: 0;`}
 
     ${props =>
       props.theme.media('medium')(`
@@ -191,10 +192,7 @@ const Gallery = styled.div<GalleryProps>`
 `;
 
 const CloseWrapper = styled(Space).attrs({
-  v: {
-    size: 'm',
-    properties: ['padding-top'],
-  },
+  $v: { size: 'm', properties: ['padding-top'] },
 })`
   position: absolute;
   display: none;
@@ -225,9 +223,9 @@ const WobblyEdgeWrapper = styled.div`
   width: 100%;
 `;
 
-type ButtonContainerProps = { isHidden: boolean };
+type ButtonContainerProps = { $isHidden: boolean };
 const ButtonContainer = styled.div<ButtonContainerProps>`
-  display: ${props => (props.isHidden ? 'none' : 'block')};
+  display: ${props => (props.$isHidden ? 'none' : 'block')};
   position: absolute;
   bottom: 24px;
   left: 50%;
@@ -235,17 +233,14 @@ const ButtonContainer = styled.div<ButtonContainerProps>`
   z-index: 2;
 `;
 
-type ControlContainerProps = { isActive: boolean };
+type ControlContainerProps = { $isActive: boolean };
 const ControlContainer = styled(Space).attrs<ControlContainerProps>(props => ({
-  v: {
-    size: 'm',
-    properties: ['padding-bottom'],
-  },
-  h: { size: 'm', properties: ['padding-right'] },
   className: classNames({
     close: true,
-    'is-hidden': !props.isActive,
+    'is-hidden': !props.$isActive,
   }),
+  $v: { size: 'm', properties: ['padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-right'] },
 }))<ControlContainerProps>`
   display: flex;
   justify-content: flex-end;
@@ -341,7 +336,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
       {!isStandalone && !isFrames && (
         <Layout8>
           <GalleryTitle>
-            <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+            <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
               <Icon icon={gallery} />
             </Space>
             <h2 id={`gallery-${id}`} className={font('wb', 3)} ref={headingRef}>
@@ -351,10 +346,10 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
         </Layout8>
       )}
       <Gallery
-        isActive={isActive}
-        isStandalone={isStandalone || isFrames}
         id={`image-gallery-${id}`}
-        pageBackground={pageBackground}
+        $isActive={isActive}
+        $isStandalone={isStandalone || isFrames}
+        $pageBackground={pageBackground}
       >
         <div
           className="background"
@@ -368,7 +363,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
         <Layout>
           {comicPreviousNext && <ComicPreviousNext {...comicPreviousNext} />}
           <Space
-            v={
+            $v={
               isStandalone || isFrames
                 ? { size: 'xl', properties: ['padding-top'] }
                 : undefined
@@ -388,7 +383,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
 
             {!isStandalone && !isFrames && (
               <CloseWrapper>
-                <ControlContainer isActive={isActive}>
+                <ControlContainer $isActive={isActive}>
                   <Control
                     tabIndex={-1}
                     ariaControls={`image-gallery-${id}`}
@@ -406,7 +401,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             )}
             {isFrames && (
               <FrameGridWrap>
-                <FrameGrid isThreeUp={isThreeUp}>
+                <FrameGrid $isThreeUp={isThreeUp}>
                   {itemsToShow().map(captionedImage => (
                     <FrameItem key={captionedImage.image.contentUrl}>
                       <PrismicImage
@@ -423,7 +418,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             {!isFrames &&
               itemsToShow().map((captionedImage, i) => (
                 <Space
-                  v={
+                  $v={
                     isActive
                       ? {
                           size: 'xl',
@@ -448,7 +443,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                     preCaptionNode={
                       items.length > 1 ? (
                         <Space
-                          v={{
+                          $v={{
                             size: 'm',
                             properties: ['margin-bottom'],
                           }}
@@ -463,7 +458,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
               ))}
 
             {!isStandalone && !isFrames && (
-              <ButtonContainer isHidden={isActive}>
+              <ButtonContainer $isHidden={isActive}>
                 <ButtonSolid
                   ref={openButtonRef}
                   ariaControls={`image-gallery-${id}`}

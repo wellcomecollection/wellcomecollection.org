@@ -10,9 +10,9 @@ export const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
 `;
 
 export const RulesListWrapper = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   className: font('intr', 5),
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   border: 1px solid ${props => props.theme.color('neutral.300')};
   border-radius: ${props => props.theme.borderRadiusUnit}px;
@@ -20,7 +20,7 @@ export const RulesListWrapper = styled(Space).attrs({
 
 export const RulesListItem = styled(Space).attrs({
   as: 'li',
-  h: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 's', properties: ['margin-bottom'] },
 })`
   display: flex;
   align-items: center;

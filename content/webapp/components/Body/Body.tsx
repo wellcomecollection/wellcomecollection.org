@@ -54,9 +54,9 @@ import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPrevi
 import { PaletteColor } from '@weco/common/views/themes/config';
 import TextAndImageOrIcons from '../TextAndImageOrIcons/TextAndImageOrIcons';
 
-const BodyWrapper = styled.div<{ splitBackground: boolean }>`
+const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>
-    props.splitBackground &&
+    props.$splitBackground &&
     `
   > div:first-child {
     background: linear-gradient(180deg, ${props.theme.color(
@@ -113,20 +113,21 @@ type SectionTheme = {
 
 type ContentListSlice = BodySlice & { type: 'contentList' };
 
-const Wrapper = styled(Space).attrs<{
-  rowBackgroundColor: PaletteColor;
-  cardBackgroundColor: PaletteColor;
-}>(props => ({
+type WrapperProps = {
+  $cardBackgroundColor: PaletteColor;
+  $rowBackgroundColor: PaletteColor;
+};
+const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   className: classNames({
     'row card-theme': true,
-    'bg-dark': props.rowBackgroundColor === 'neutral.700',
-    [`card-theme--${props.cardBackgroundColor}`]: [
+    'bg-dark': props.$rowBackgroundColor === 'neutral.700',
+    [`card-theme--${props.$cardBackgroundColor}`]: [
       'white',
       'transparent',
-    ].includes(props.cardBackgroundColor),
+    ].includes(props.$cardBackgroundColor),
   }),
-}))<{ rowBackgroundColor: PaletteColor; cardBackgroundColor: PaletteColor }>`
-  background-color: ${props => props.theme.color(props.rowBackgroundColor)};
+}))<{ $rowBackgroundColor: PaletteColor }>`
+  background-color: ${props => props.theme.color(props.$rowBackgroundColor)};
 `;
 
 const Body: FunctionComponent<Props> = ({
@@ -256,7 +257,7 @@ const Body: FunctionComponent<Props> = ({
                     />
                   )}
                   <Wrapper
-                    v={{
+                    $v={{
                       size: 'xl',
                       properties:
                         isLast && sectionTheme.rowBackground === 'white'
@@ -265,16 +266,16 @@ const Body: FunctionComponent<Props> = ({
                           ? ['padding-bottom']
                           : ['padding-top', 'padding-bottom'],
                     }}
-                    rowBackgroundColor={sectionTheme.rowBackground}
-                    cardBackgroundColor={sectionTheme.cardBackground}
+                    $cardBackgroundColor={sectionTheme.cardBackground}
+                    $rowBackgroundColor={sectionTheme.rowBackground}
                   >
                     {section.value.title && (
-                      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                         <SectionHeader title={section.value.title} />
                       </Space>
                     )}
                     {featuredItem && (
-                      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                         <Layout12>{featuredItem}</Layout12>
                       </Space>
                     )}
@@ -302,8 +303,8 @@ const Body: FunctionComponent<Props> = ({
 
   return (
     <BodyWrapper
-      splitBackground={isShortFilm}
       className={`content-type-${contentType}`}
+      $splitBackground={isShortFilm}
     >
       {filteredBody.length < 1 && (
         <AdditionalContent
@@ -321,7 +322,7 @@ const Body: FunctionComponent<Props> = ({
             <Layout8 shift={!sectionLevelPage}>
               <div className="body-text spaced-text">
                 <Space
-                  v={{
+                  $v={{
                     size: sectionLevelPage ? 'xl' : 'l',
                     properties: ['margin-bottom'],
                   }}
@@ -347,7 +348,7 @@ const Body: FunctionComponent<Props> = ({
           ) && (
             <>
               {slice.type === 'text' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <div
                       className={classNames({
@@ -388,7 +389,7 @@ const Body: FunctionComponent<Props> = ({
               )}
 
               {slice.type === 'textAndImage' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <Layout8>
                     <TextAndImageOrIcons item={slice.value} />
                   </Layout8>
@@ -396,7 +397,7 @@ const Body: FunctionComponent<Props> = ({
               )}
 
               {slice.type === 'textAndIcons' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <Layout8>
                     <TextAndImageOrIcons item={slice.value} />
                   </Layout8>
@@ -406,28 +407,28 @@ const Body: FunctionComponent<Props> = ({
               {/* TODO: use one layout for all image weights if/when it's established
               that width isn't an adequate means to illustrate a difference */}
               {slice.type === 'picture' && slice.weight === 'default' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={isVisualStory ? 8 : 10}>
                     <CaptionedImage {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'picture' && slice.weight === 'standalone' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <Layout12>
                     <CaptionedImage {...slice.value} />
                   </Layout12>
                 </SpacingComponent>
               )}
               {slice.type === 'picture' && slice.weight === 'supporting' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <CaptionedImage {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'imageGallery' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <ImageGallery
                     {...slice.value}
                     id={imageGalleryIdCount++}
@@ -436,21 +437,21 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
               {slice.type === 'quote' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <Quote {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'titledTextList' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <TitledTextList {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'contentList' && !isLanding && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     {/* FIXME: this makes what-we-do contentLists synchronous, but it's hacky. */}
                     {pageId === prismicPageIds.whatWeDo ? (
@@ -473,14 +474,14 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
               {slice.type === 'searchResults' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <AsyncSearchResults {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'videoEmbed' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={isShortFilm ? 12 : minWidth}>
                     <VideoEmbed
                       {...slice.value}
@@ -490,42 +491,42 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
               {slice.type === 'soundcloudEmbed' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <SoundCloudEmbed {...slice.value} id={i} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'map' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <Map {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'gifVideo' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <Layout10>
                     <GifVideo {...slice.value} />
                   </Layout10>
                 </SpacingComponent>
               )}
               {slice.type === 'iframe' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <Layout10>
                     <Iframe {...slice.value} />
                   </Layout10>
                 </SpacingComponent>
               )}
               {slice.type === 'contact' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <Contact {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'collectionVenue' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   {slice.value.showClosingTimes ? (
                     <LayoutWidth width={minWidth}>
                       <VenueClosedPeriods venue={slice.value.content} />
@@ -562,21 +563,21 @@ const Body: FunctionComponent<Props> = ({
                 </SpacingComponent>
               )}
               {slice.type === 'infoBlock' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <InfoBlock {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'tagList' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <TagsGroup {...slice.value} />
                   </LayoutWidth>
                 </SpacingComponent>
               )}
               {slice.type === 'audioPlayer' && (
-                <SpacingComponent sliceType={slice.type}>
+                <SpacingComponent $sliceType={slice.type}>
                   <LayoutWidth width={minWidth}>
                     <AudioPlayer {...slice.value} />
                   </LayoutWidth>

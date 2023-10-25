@@ -34,10 +34,10 @@ type Props = {
   hideContributors?: true;
 };
 
-const Wrapper = styled.div<{ isCreamy: boolean }>`
+const Wrapper = styled.div<{ $isCreamy: boolean }>`
   overflow: auto;
   ${props =>
-    props.isCreamy &&
+    props.$isCreamy &&
     `background-color: ${props.theme.color('warmNeutral.300')}`};
 `;
 
@@ -76,11 +76,11 @@ const ContentPage = ({
           Header
         ) : (
           // This space is coupled to the `bottom` value in PageHeader.js
-          <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
+          <Space $v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
             {Header}
           </Space>
         )}
-        <Wrapper isCreamy={isCreamy}>
+        <Wrapper $isCreamy={isCreamy}>
           {shouldRenderBody() && <SpacingSection>{Body}</SpacingSection>}
           {children && (
             <SpacingSection>
@@ -107,7 +107,7 @@ const ContentPage = ({
           )}
         </Wrapper>
       </article>
-      <Wrapper isCreamy={isCreamy}>
+      <Wrapper $isCreamy={isCreamy}>
         {RelatedContent.length > 0 && (
           <SpacingSection>
             {Children.map(RelatedContent, child => (

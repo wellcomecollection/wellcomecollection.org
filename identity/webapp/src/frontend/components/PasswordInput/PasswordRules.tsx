@@ -10,7 +10,7 @@ type DotProps = {
   isValid: boolean;
 };
 
-const RuleDot = styled.span<DotProps>`
+const RuleDot = styled.span<{ $isValid: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -19,7 +19,7 @@ const RuleDot = styled.span<DotProps>`
   border-radius: 50%;
   border: 1px solid ${props => props.theme.color('neutral.300')};
   background: ${props =>
-    props.theme.color(props.isValid ? 'accent.green' : 'white')};
+    props.theme.color(props.$isValid ? 'accent.green' : 'white')};
 
   .icon {
     transform: scale(0.8);
@@ -28,8 +28,8 @@ const RuleDot = styled.span<DotProps>`
 
 const Dot: FunctionComponent<DotProps> = ({ isValid }) => {
   return (
-    <Space h={{ size: 's', properties: ['margin-right'] }}>
-      <RuleDot isValid={isValid}>
+    <Space $h={{ size: 's', properties: ['margin-right'] }}>
+      <RuleDot $isValid={isValid}>
         {isValid && <Icon icon={check} matchText iconColor="white" />}
       </RuleDot>
     </Space>
@@ -51,7 +51,7 @@ export const PasswordRules: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <RulesListWrapper>
-      <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
         Your password must contain:
       </Space>
       <PlainList>

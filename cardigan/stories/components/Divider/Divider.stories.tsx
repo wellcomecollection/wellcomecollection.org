@@ -3,11 +3,11 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import Readme from '@weco/common/views/components/Divider/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
-const Container = styled.div<{ backgroundColor: 'white' | 'black' }>`
+const Container = styled.div<{ $backgroundColor: 'white' | 'black' }>`
   padding: 2rem 0;
   ${props =>
-    props.backgroundColor &&
-    `background-color: ${props.theme.color(props.backgroundColor)}`};
+    props.$backgroundColor &&
+    `background-color: ${props.theme.color(props.$backgroundColor)}`};
 `;
 
 const Wrapper = styled.div`
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 const Template = args => {
   const { backgroundColor, ...rest } = args;
   return (
-    <Container backgroundColor={backgroundColor}>
+    <Container $backgroundColor={backgroundColor}>
       <Wrapper>
         <ReadmeDecorator
           WrappedComponent={Divider}

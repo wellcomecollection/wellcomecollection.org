@@ -123,16 +123,16 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
       <Layout10 isCentered={false}>
         <SpacingSection>
           <Space
-            v={{ size: 'l', properties: ['margin-top'] }}
+            $v={{ size: 'l', properties: ['margin-top'] }}
             className={font('wb', 1)}
           >
-            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
               <h1
                 className={font('wb', 0)}
               >{`Choose the ${exhibitionGuide.title} guide for you`}</h1>
             </Space>
           </Space>
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             <ExhibitionGuideLinks
               availableTypes={exhibitionGuide.availableTypes}
               pathname={pathname}

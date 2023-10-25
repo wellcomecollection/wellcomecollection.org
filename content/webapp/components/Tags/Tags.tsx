@@ -21,27 +21,24 @@ const TagInner = styled.span`
 `;
 
 type PartWithSeparatorProps = {
-  separator: string;
-  isLast: boolean;
+  $separator: string;
+  $isLast: boolean;
 };
 
 const PartWithSeparator = styled.span.attrs({
   className: font('intr', 5),
 })<PartWithSeparatorProps>`
   &::after {
-    display: ${props => (props.isLast ? 'none' : 'inline')};
+    display: ${props => (props.$isLast ? 'none' : 'inline')};
 
     /* non-breaking space (\u00A0) keeps characters that would otherwise break (e.g. hyphens) stuck to the preceding text */
-    content: '\u00A0${props => props.separator}\u00A0';
+    content: '\u00A0${props => props.$separator}\u00A0';
   }
 `;
 
 const LinkWrapper = styled(Space).attrs({
-  v: {
-    size: 's',
-    properties: ['margin-bottom'],
-  },
-  h: { size: 's', properties: ['margin-right'] },
+  $v: { size: 's', properties: ['margin-bottom'] },
+  $h: { size: 's', properties: ['margin-right'] },
 })`
   display: inline-block;
 `;
@@ -58,7 +55,7 @@ const Tags: FunctionComponent<Props> = ({
   separator = '–',
 }) => {
   return (
-    <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
+    <Space $v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
       <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
         {tags.map(({ textParts, linkAttributes }, i) => {
@@ -66,15 +63,15 @@ const Tags: FunctionComponent<Props> = ({
             <LinkWrapper as="li" key={i}>
               <NextLink {...linkAttributes} passHref legacyBehavior>
                 <SolidButton
-                  size="small"
-                  colors={themeValues.buttonColors.pumiceTransparentCharcoal}
+                  $size="small"
+                  $colors={themeValues.buttonColors.pumiceTransparentCharcoal}
                 >
                   <TagInner>
                     {textParts.map((part, i, arr) => (
                       <PartWithSeparator
                         key={part}
-                        separator={i === 0 ? '|' : separator}
-                        isLast={i === arr.length - 1}
+                        $separator={i === 0 ? '|' : separator}
+                        $isLast={i === arr.length - 1}
                       >
                         <span
                           className={

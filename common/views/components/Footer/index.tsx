@@ -21,9 +21,9 @@ type Props = {
 
 // Styles
 const Wrapper = styled(Space).attrs({
-  className: `${font('intr', 5)} is-hidden-print`,
-  v: { size: 'xl', properties: ['padding-top'] },
   as: 'footer',
+  className: `${font('intr', 5)} is-hidden-print`,
+  $v: { size: 'xl', properties: ['padding-top'] },
 })`
   position: relative;
   background-color: ${props => props.theme.color('black')};
@@ -31,7 +31,7 @@ const Wrapper = styled(Space).attrs({
 `;
 
 const FooterBasicSection = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-bottom'] },
+  $v: { size: 'l', properties: ['padding-bottom'] },
 })``;
 
 /** ************************ */
@@ -45,7 +45,7 @@ const FooterNavigationContainer = styled(FooterBasicSection)`
 `;
 
 const FindUsContainer = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-bottom'] },
+  $v: { size: 'l', properties: ['padding-bottom'] },
 })`
   flex: 1 1 100%;
 
@@ -131,7 +131,7 @@ const SocialsContainer = styled(Space)`
 /** ********************** */
 
 const FooterBottom = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-bottom'] },
+  $v: { size: 'xl', properties: ['padding-bottom'] },
 })`
   display: flex;
   flex-wrap: wrap;
@@ -178,13 +178,13 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
               <>
                 <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
                 <OpeningTimes venues={venues} />
-                <Space as="p" v={{ size: 'm', properties: ['margin-top'] }}>
+                <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
                   <a href="/opening-times">Opening times</a>
                 </Space>
               </>
             ) : (
               // Error pages do not receive serverData so should only display openingtimes link
-              <Space as="p" v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <Space as="p" $v={{ size: 'm', properties: ['margin-bottom'] }}>
                 <a href="/opening-times">Opening times</a>
               </Space>
             )}

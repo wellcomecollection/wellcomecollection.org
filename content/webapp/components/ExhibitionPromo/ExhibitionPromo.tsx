@@ -18,8 +18,8 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 
 const DateWrapper = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom'] },
   className: font('intr', 5),
+  $v: { size: 'm', properties: ['margin-bottom'] },
 })`
   padding: 0;
 `;

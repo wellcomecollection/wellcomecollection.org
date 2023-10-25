@@ -19,10 +19,10 @@ import { IconSvg } from '@weco/common/icons';
 type ClickableElement = 'a' | 'button';
 
 type StyleProps = {
-  isActive?: boolean;
+  $isActive?: boolean;
 };
 
-export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
+const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
   background: transparent;
   color: ${props => props.theme.color('neutral.700')};
   padding: 10px 8px;
@@ -32,7 +32,7 @@ export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
   }
 
   ${props =>
-    props.isActive &&
+    props.$isActive &&
     `
     background: ${props.theme.color('neutral.300')};
   `}
@@ -65,14 +65,14 @@ const Button: ForwardRefRenderFunction<
   return (
     <BorderlessClickableStyle
       as={as}
-      isActive={isActive}
+      $isActive={isActive}
       ref={ref}
       {...elementProps}
     >
-      <BaseButtonInner isInline={true}>
+      <BaseButtonInner $isInline={true}>
         <>
           {iconLeft && (
-            <ButtonIconWrapper iconAfter={false}>
+            <ButtonIconWrapper $iconAfter={false}>
               {/* This is all a little hacky and will need some tidy up */}
               {/* We currently only use this in the header sign in button */}
               <span
@@ -91,7 +91,7 @@ const Button: ForwardRefRenderFunction<
             {text}
           </span>
           {icon && (
-            <ButtonIconWrapper iconAfter={true}>
+            <ButtonIconWrapper $iconAfter={true}>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}

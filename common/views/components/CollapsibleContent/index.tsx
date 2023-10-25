@@ -12,9 +12,7 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-const IconContainer = styled.div<{
-  open: boolean;
-}>`
+const IconContainer = styled.div`
   .icon {
     border-radius: 50%;
     border: 2px solid black;
@@ -41,14 +39,14 @@ const ControlText = styled.span`
 
 const Content = styled(Space).attrs({
   className: 'body-text spaced-text',
-  h: {
+  $h: {
     size: 'l',
     properties: ['padding-left', 'padding-right'],
   },
 })<{
-  hidden: boolean;
+  $hidden: boolean;
 }>`
-  display: ${props => (props.hidden ? 'none' : 'block')};
+  display: ${props => (props.$hidden ? 'none' : 'block')};
 `;
 
 type Props = PropsWithChildren<{
@@ -80,8 +78,8 @@ const CollapsibleContent: FunctionComponent<Props> = ({
             setShowContent(!showContent);
           }}
         >
-          <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-            <IconContainer open={showContent}>
+          <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
+            <IconContainer>
               <Icon icon={showContent ? minus : plus} />
             </IconContainer>
           </Space>
@@ -92,8 +90,8 @@ const CollapsibleContent: FunctionComponent<Props> = ({
           </ControlText>
         </Control>
       )}
-      <Content id={id} aria-hidden={!showContent} hidden={!showContent}>
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>{children}</Space>
+      <Content id={id} aria-hidden={!showContent} $hidden={!showContent}>
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>{children}</Space>
       </Content>
     </div>
   );

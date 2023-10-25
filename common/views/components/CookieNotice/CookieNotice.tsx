@@ -35,7 +35,7 @@ const CookieMessage = styled.div`
 `;
 
 const CookieNoticeWrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
+  $v: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
 })`
   display: flex;
   justify-content: space-between;
@@ -47,7 +47,7 @@ const Text = styled.h2`
 `;
 
 const CookieMessageText = styled(Space).attrs({
-  h: {
+  $h: {
     size: 's',
     properties: ['margin-left', 'margin-right'],
   },

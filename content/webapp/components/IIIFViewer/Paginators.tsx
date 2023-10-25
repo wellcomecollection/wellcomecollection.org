@@ -36,8 +36,8 @@ const PaginatorButtons = ({
   return (
     <PaginatorWrapper>
       {prevLink && (
-        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-          <Rotator rotate={270}>
+        <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Rotator $rotate={270}>
             <Control
               scroll={false}
               replace={true}
@@ -57,8 +57,8 @@ const PaginatorButtons = ({
         </Space>
       )}
       {nextLink && (
-        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-          <Rotator rotate={90}>
+        <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Rotator $rotate={90}>
             <Control
               scroll={false}
               replace={true}

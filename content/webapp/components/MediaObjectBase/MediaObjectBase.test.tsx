@@ -24,7 +24,7 @@ const grid10 = grid({ s: 10, m: 10, l: 10, xl: 10 });
 const grid12 = grid({ s: 12, m: 12, l: 12, xl: 12 });
 
 const ImageWrapper = styled.div.attrs<HasImageProps>(props => {
-  if (props.hasImage) {
+  if (props.$hasImage) {
     return {
       className: grid2,
     };
@@ -35,7 +35,7 @@ const ImageWrapper = styled.div.attrs<HasImageProps>(props => {
 })<HasImageProps>``;
 
 const TextWrapper = styled.div.attrs<HasImageProps>(props => {
-  if (props.hasImage) {
+  if (props.$hasImage) {
     return {
       className: grid10,
     };

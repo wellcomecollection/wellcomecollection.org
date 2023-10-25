@@ -28,7 +28,7 @@ const MediaAnnotations: FunctionComponent<Props> = ({
       {media.annotations &&
         media.annotations.format === 'application/pdf' &&
         media.annotations.id && (
-          <Space v={{ size: 's', properties: ['margin-top'] }}>
+          <Space $v={{ size: 's', properties: ['margin-top'] }}>
             <DownloadLink
               href={media.annotations.id}
               linkText={`Transcript of ${typeString}`}

@@ -14,7 +14,7 @@ const TagsGroup: FunctionComponent<Props> = ({ tags, title }: Props) => {
       {title && (
         <Space
           as="h2"
-          v={{ size: 'm', properties: ['margin-bottom'] }}
+          $v={{ size: 'm', properties: ['margin-bottom'] }}
           className={font('wb', 5)}
         >
           {title}

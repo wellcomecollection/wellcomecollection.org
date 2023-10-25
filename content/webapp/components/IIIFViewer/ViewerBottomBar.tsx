@@ -22,8 +22,8 @@ const BottomBar = styled.div`
 `;
 
 const LeftZone = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left'] },
 })`
   display: flex;
   justify-content: flex-start;
@@ -31,7 +31,7 @@ const LeftZone = styled(Space).attrs({
 `;
 
 const RightZone = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   justify-content: flex-end;
@@ -99,9 +99,9 @@ const ViewerBottomBar: FunctionComponent = () => {
       <RightZone>
         {isEnhanced && isFullscreenEnabled && (
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Space h={{ size: 'm', properties: ['margin-right'] }}>
+            <Space $h={{ size: 'm', properties: ['margin-right'] }}>
               <ShameButton
-                isDark
+                $isDark
                 onClick={() => {
                   if (viewerRef?.current) {
                     if (

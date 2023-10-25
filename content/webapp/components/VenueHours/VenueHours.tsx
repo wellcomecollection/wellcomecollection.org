@@ -49,10 +49,10 @@ const VenueHoursTimes = styled(Space)`
 `;
 
 type JauntyBoxProps = {
-  topLeft: string;
-  topRight: string;
-  bottomLeft: string;
-  bottomRight: string;
+  $topLeft: string;
+  $topRight: string;
+  $bottomLeft: string;
+  $bottomRight: string;
 };
 const JauntyBox = styled(Space)<JauntyBoxProps>`
   display: inline-block;
@@ -68,12 +68,12 @@ const JauntyBox = styled(Space)<JauntyBoxProps>`
       margin-right: -24px;
     `)}
 
-  clip-path: ${({ topLeft, topRight, bottomRight, bottomLeft }) =>
+  clip-path: ${({ $topLeft, $topRight, $bottomRight, $bottomLeft }) =>
     `polygon(
-      ${topLeft} ${topLeft},
-      calc(100% - ${topRight}) ${topRight},
-      100% calc(100% - ${bottomRight}),
-      ${bottomLeft} 100%
+      ${$topLeft} ${$topLeft},
+      calc(100% - ${$topRight}) ${$topRight},
+      100% calc(100% - ${$bottomRight}),
+      ${$bottomLeft} 100%
     )`};
 `;
 
@@ -175,12 +175,12 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
     <>
       {isFeatured && (
         <>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <span className="is-hidden-s">
               <Divider />
             </span>
           </Space>
-          <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <VenueHoursImage $v={{ size: 'm', properties: ['margin-bottom'] }}>
             {venue.image?.contentUrl && (
               <PrismicImage
                 image={{
@@ -201,10 +201,10 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           </VenueHoursImage>
         </>
       )}
-      <VenueHoursTimes v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <VenueHoursTimes $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <Space
           as="h2"
-          h={{ size: 'm', properties: ['padding-right'] }}
+          $h={{ size: 'm', properties: ['padding-right'] }}
           className={font('wb', 3)}
         >
           {isFeatured ? venue.name : 'Opening hours'}
@@ -231,20 +231,20 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         return (
           <Fragment key={`JauntyBox-${i}`}>
             <JauntyBox
-              v={{
+              $v={{
                 size: 'l',
                 properties: ['padding-top', 'padding-bottom'],
               }}
-              topLeft={randomPx()}
-              topRight={randomPx()}
-              bottomRight={randomPx()}
-              bottomLeft={randomPx()}
+              $topLeft={randomPx()}
+              $topRight={randomPx()}
+              $bottomRight={randomPx()}
+              $bottomLeft={randomPx()}
             >
               <h3 className={font('intb', 5)}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Space
                     as="span"
-                    h={{ size: 's', properties: ['margin-right'] }}
+                    $h={{ size: 's', properties: ['margin-right'] }}
                   >
                     <Icon icon={clock} />
                   </Space>
@@ -285,7 +285,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         );
       })}
       <Space
-        v={{
+        $v={{
           size: 's',
           properties: ['margin-top'],
         }}

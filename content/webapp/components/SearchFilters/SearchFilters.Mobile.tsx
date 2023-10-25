@@ -30,13 +30,13 @@ import DateRangeFilter from './SearchFilters.DateRangeFilter';
 import { font } from '@weco/common/utils/classnames';
 
 const SearchFiltersContainer = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('white')};
 `;
 
 const ShameButtonWrap = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
     width: 100%;
@@ -45,19 +45,19 @@ const ShameButtonWrap = styled(Space).attrs({
 `;
 
 const FiltersHeader = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   text-align: center;
 `;
 
 const ActiveFilters = styled(Space).attrs({
-  h: {
+  $h: {
     size: 'xs',
     properties: ['margin-left', 'padding-left', 'padding-right'],
   },
-  v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: inline-block;
   color: ${props => props.theme.color('black')};
@@ -68,7 +68,7 @@ const ActiveFilters = styled(Space).attrs({
 `;
 
 const FiltersBody = styled(Space).attrs({
-  h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
 })`
   input[type='number'] {
     min-width: calc(24px + 4ch);
@@ -76,7 +76,7 @@ const FiltersBody = styled(Space).attrs({
 `;
 
 const FilterSection = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
@@ -89,8 +89,8 @@ const FiltersScrollable = styled.div`
 `;
 
 const FiltersFooter = styled(Space).attrs({
-  h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -117,7 +117,7 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
           return (
             <Space
               as="li"
-              v={{ size: 'l', properties: ['margin-bottom'] }}
+              $v={{ size: 'l', properties: ['margin-bottom'] }}
               // TODO remove index from key once we resolve the doubled IDs issue
               // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
               // as we now sometimes get "Warning: Encountered two children with the same key" console errors
@@ -217,7 +217,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           aria-controls="mobile-filters-modal"
           aria-label="open filters"
         >
-          <Space h={{ size: 's', properties: ['margin-right'] }}>
+          <Space $h={{ size: 's', properties: ['margin-right'] }}>
             <Icon icon={filter} />
           </Space>
           Filters{' '}

@@ -14,8 +14,8 @@ import { cross } from '@weco/common/icons';
 import FocusTrap from 'focus-trap-react';
 
 type BaseModalProps = {
-  width?: string | null;
-  maxWidth?: string;
+  $width?: string | null;
+  $maxWidth?: string;
 };
 
 type Props = PropsWithChildren<{
@@ -45,8 +45,8 @@ const Overlay = styled.div`
 
 const CloseButton = styled(Space).attrs({
   as: 'button',
-  v: { size: 'm', properties: ['top'] },
-  h: { size: 'm', properties: ['left'] },
+  $v: { size: 'm', properties: ['top'] },
+  $h: { size: 'm', properties: ['left'] },
 })`
   position: fixed;
   width: 28px;
@@ -74,9 +74,9 @@ const CloseButton = styled(Space).attrs({
   `)}
 `;
 
-const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+const BaseModalWindow = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
 })<BaseModalProps>`
   z-index: 10001;
   top: 0;
@@ -127,9 +127,9 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
     height: auto;
     max-height: 90vh;
     max-width: ${
-      props.maxWidth || props.width || `${props.theme.sizes.large}px`
+      props.$maxWidth || props.$width || `${props.theme.sizes.large}px`
     };
-    width: ${(props.maxWidth && '80%') || props.width || 'auto'};
+    width: ${(props.$maxWidth && '80%') || props.$width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;
 
     &,
@@ -149,9 +149,9 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   }
 `;
 
-const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-})<BaseModalProps>`
+const FiltersModal = styled(BaseModalWindow).attrs({
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
   overflow: hidden;
   padding-left: 0;
   padding-right: 0;
@@ -252,11 +252,11 @@ const Modal: FunctionComponent<Props> = ({
           nodeRef={nodeRef}
         >
           <ModalWindow
-            width={width}
-            maxWidth={maxWidth}
             id={id}
             hidden={!isActive}
             ref={nodeRef}
+            $width={width}
+            $maxWidth={maxWidth}
           >
             {!removeCloseButton && (
               <CloseButton

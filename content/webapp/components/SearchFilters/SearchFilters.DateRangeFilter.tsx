@@ -17,7 +17,7 @@ const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
 
   return (
     <>
-      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+      <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
         <NumberInput
           name={f.from.id}
           label="From"

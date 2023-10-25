@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-// Sorry to have done this, but this file is riddled with errors.
-// I'll sort it in another PR.
+// TODO: To fix when we create a new Storybook - this component could actually be deleted
+// But needs to be replaced in Storybook instances
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/9158
 import styled from 'styled-components';
 import {
   useRef,
@@ -23,8 +24,8 @@ const ControlsWrap = styled.div`
 `;
 
 type ScrollButtonWrapProps = {
-  isActive?: boolean;
-  isLeft?: boolean;
+  $isActive?: boolean;
+  $isLeft?: boolean;
 };
 
 const ScrollButtonWrap = styled.div<ScrollButtonWrapProps>`
@@ -32,19 +33,19 @@ const ScrollButtonWrap = styled.div<ScrollButtonWrapProps>`
   z-index: 2;
   top: 50%;
   cursor: pointer;
-  pointer-events: ${props => (props.isActive ? 'all' : 'none')};
-  opacity: ${props => (props.isActive ? 1 : 0.2)};
+  pointer-events: ${props => (props.$isActive ? 'all' : 'none')};
+  opacity: ${props => (props.$isActive ? 1 : 0.2)};
   transition: opacity ${props => props.theme.transitionProperties};
 
   ${props =>
-    props.isLeft &&
+    props.$isLeft &&
     `
     left: 0;
     transform: translateX(-50%) translateY(-50%) scale(0.6);
   `}
 
   ${props =>
-    !props.isLeft &&
+    !props.$isLeft &&
     `
     right: 0;
     transform: translateX(50%) translateY(-50%) scale(0.6);
@@ -52,7 +53,7 @@ const ScrollButtonWrap = styled.div<ScrollButtonWrapProps>`
 
   ${props => props.theme.media('medium')`
     transform: ${
-      props.isLeft
+      props.$isLeft
         ? 'translateX(-50%) translateY(-50%)'
         : 'translateX(50%) translateY(-50%)'
     };
@@ -60,11 +61,11 @@ const ScrollButtonWrap = styled.div<ScrollButtonWrapProps>`
 `;
 
 type ScrollButtonsProps = {
-  isActive?: boolean;
+  $isActive?: boolean;
 };
 
 const ScrollButtons = styled.div<ScrollButtonsProps>`
-  display: ${props => (props.isActive ? 'block' : 'none')};
+  display: ${props => (props.$isActive ? 'block' : 'none')};
 `;
 
 const TableWrap = styled.div`
@@ -117,10 +118,10 @@ const TableCaption = styled.caption.attrs({
 
 const TableTbody = styled.tbody``;
 
-const TableTr = styled.tr`
+const TableTr = styled.tr<{ $withBorder?: boolean }>`
   ${TableTbody} & {
     border-bottom: ${props =>
-      props.withBorder
+      props.$withBorder
         ? `1px dotted
       ${props => props.theme.color('neutral.500')}`
         : 'none'};
@@ -128,21 +129,21 @@ const TableTr = styled.tr`
 
   ${TableTbody}.has-row-headers & {
     border-top: ${props =>
-      props.withBorder
+      props.$withBorder
         ? `1px dotted
       ${props => props.theme.color('neutral.500')}`
         : 'none'};
   }
 `;
 
-const TableTh = styled(Space).attrs({
+const TableTh = styled(Space).attrs<{ $plain: boolean }>({
   as: 'th',
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 's', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
 })`
   font-weight: bold;
   background: ${props =>
-    props.plain ? 'transparent' : props.theme.color('warmNeutral.400')};
+    props.$plain ? 'transparent' : props.theme.color('warmNeutral.400')};
   white-space: nowrap;
 
   ${TableTbody}.has-row-headers & {
@@ -151,12 +152,12 @@ const TableTh = styled(Space).attrs({
   }
 `;
 
-const TableTd = styled(Space).attrs({
+const TableTd = styled(Space).attrs<{ $vAlign?: string }>({
   as: 'td',
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 's', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
 })`
-  vertical-align: ${props => props.vAlign};
+  vertical-align: ${props => props.$vAlign};
   white-space: nowrap;
   height: 53px;
 `;
@@ -172,9 +173,10 @@ export type Props = {
 
 type TableRowProps = {
   items: (string | ReactElement)[];
-  hasHeader: boolean;
   vAlign: 'top' | 'middle' | 'bottom';
   withBorder: boolean;
+  hasHeader?: boolean;
+  plain?: boolean;
 };
 
 const TableRow = ({
@@ -185,26 +187,26 @@ const TableRow = ({
   plain,
 }: TableRowProps) => {
   return (
-    <TableTr withBorder={withBorder}>
+    <TableTr $withBorder={withBorder}>
       {items.map((item, index) => (
         <Fragment key={index}>
           {hasHeader && index === 0 ? (
             isValidElement(item) ? (
-              <TableTh scope="row" plain={plain}>
+              <TableTh scope="row" $plain={plain}>
                 {item}
               </TableTh>
             ) : (
               <TableTh
                 scope="row"
-                plain={plain}
+                $plain={plain}
                 dangerouslySetInnerHTML={{ __html: item }}
               />
             )
           ) : isValidElement(item) ? (
-            <TableTd vAlign={vAlign}>{item}</TableTd>
+            <TableTd $vAlign={vAlign}>{item}</TableTd>
           ) : (
             <TableTd
-              vAlign={vAlign}
+              $vAlign={vAlign}
               dangerouslySetInnerHTML={{ __html: item }}
             />
           )}
@@ -236,17 +238,19 @@ const Table: FunctionComponent<Props> = ({
 
   function getUiData() {
     return {
-      tableWidth: tableRef && tableRef.current.offsetWidth,
-      tableWrapScrollLeft: tableWrapRef && tableWrapRef.current.scrollLeft,
-      tableWrapWidth: tableWrapRef && tableWrapRef.current.offsetWidth,
+      tableWidth: tableRef?.current && tableRef.current.offsetWidth,
+      tableWrapScrollLeft:
+        tableWrapRef?.current && tableWrapRef.current.scrollLeft,
+      tableWrapWidth: tableWrapRef?.current && tableWrapRef.current.offsetWidth,
     };
   }
 
   function checkOverflow() {
     setIsOverflown(
-      tableRef &&
-        tableWrapRef &&
-        tableRef.current.offsetWidth > tableWrapRef.current.offsetWidth
+      (tableRef?.current &&
+        tableWrapRef?.current &&
+        tableRef.current.offsetWidth > tableWrapRef.current.offsetWidth) ||
+        false
     );
   }
 
@@ -264,7 +268,7 @@ const Table: FunctionComponent<Props> = ({
     // 2. scroll tableWrapper
     const distance = isLeft ? -200 : 200;
 
-    tableWrapRef &&
+    tableWrapRef?.current &&
       tableWrapRef.current.scrollTo({
         top: 0,
         left: tableWrapScrollLeft + distance,
@@ -319,13 +323,17 @@ const Table: FunctionComponent<Props> = ({
         </h2>
       )}
       <ControlsWrap ref={controlsRef}>
-        <ScrollButtons isActive={isOverflown}>
-          <ScrollButtonWrap isLeft isActive={isLeftActive} ref={leftButtonRef}>
-            <Rotator rotate={180}>
+        <ScrollButtons $isActive={isOverflown}>
+          <ScrollButtonWrap
+            ref={leftButtonRef}
+            $isLeft
+            $isActive={isLeftActive}
+          >
+            <Rotator $rotate={180}>
               <Control colorScheme="light" icon={arrow} text="" />
             </Rotator>
           </ScrollButtonWrap>
-          <ScrollButtonWrap isActive={isRightActive} ref={rightButtonRef}>
+          <ScrollButtonWrap $isActive={isRightActive} ref={rightButtonRef}>
             <Control colorScheme="light" icon={arrow} text="" />
           </ScrollButtonWrap>
         </ScrollButtons>
@@ -337,14 +345,14 @@ const Table: FunctionComponent<Props> = ({
                 <TableTr>
                   {headerRow.map((item, index) =>
                     isValidElement ? (
-                      <TableTh key={index} plain={plain} scope="col">
+                      <TableTh key={index} $plain={plain} scope="col">
                         {item}
                       </TableTh>
                     ) : (
                       <TableTh
                         key={index}
-                        plain={plain}
                         scope="col"
+                        $plain={plain}
                         dangerouslySetInnerHTML={{ __html: item }}
                       />
                     )
@@ -357,10 +365,10 @@ const Table: FunctionComponent<Props> = ({
                 <TableRow
                   key={index}
                   items={row}
+                  plain={plain}
                   hasHeader={hasRowHeaders}
                   vAlign={vAlign}
                   withBorder={withBorder}
-                  plain={plain}
                 />
               ))}
             </TableTbody>

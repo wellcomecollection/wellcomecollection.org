@@ -144,19 +144,19 @@ const Index: FunctionComponent = () => {
                       {issues.length > 1 && (
                         <>
                           {errors.length > 0 && (
-                            <Issue type="error">
+                            <Issue $type="error">
                               {errors.length} error
                               {errors.length !== 1 ? 's' : ''}
                             </Issue>
                           )}
                           {warnings.length > 0 && (
-                            <Issue type="error">
+                            <Issue $type="error">
                               {warnings.length} warning
                               {warnings.length !== 1 ? 's' : ''}
                             </Issue>
                           )}
                           {notices.length > 0 && (
-                            <Issue type="error">
+                            <Issue $type="error">
                               {notices.length} notice
                               {notices.length !== 1 ? 's' : ''}
                             </Issue>
@@ -167,7 +167,7 @@ const Index: FunctionComponent = () => {
                       {groupIssues(issues).map(({ group, issues }) => {
                         return (
                           <Issue
-                            type={group.type}
+                            $type={group.type}
                             key={`${group.type}-${group.message}`}
                           >
                             <Description>
@@ -210,7 +210,7 @@ const Index: FunctionComponent = () => {
                     borderTop: '1px solid #d9d6ce',
                   }}
                 >
-                  <Issue type="success">
+                  <Issue $type="success">
                     No issues reported on the following pages.
                   </Issue>
 
