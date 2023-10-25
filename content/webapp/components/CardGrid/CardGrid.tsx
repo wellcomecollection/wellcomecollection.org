@@ -89,8 +89,8 @@ const CardGrid: FunctionComponent<Props> = ({
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {links.map(link => (
               <Space
-                $v={{ size: 'm', properties: ['margin-top'] }}
                 key={link.url}
+                $v={{ size: 'm', properties: ['margin-top'] }}
               >
                 <MoreLink url={link.url} name={link.text} />
               </Space>

@@ -119,7 +119,7 @@ type ButtonSolidProps = ButtonSolidBaseProps & {
 };
 
 type SolidButtonStyledProps = {
-  $href?: string;
+  href?: string;
   $ariaLabel?: string;
   $size?: ButtonSize;
   $colors?: ButtonColors;
@@ -142,7 +142,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonStyledProps>(
   props => ({
     'aria-label': props.$ariaLabel,
     className: classNames({
-      'link-reset': !!props.$href,
+      'link-reset': !!props.href,
     }),
   })
 )<SolidButtonStyledProps>`
