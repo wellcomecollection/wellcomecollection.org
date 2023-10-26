@@ -9634,10 +9634,10 @@ cookiejar@^2.1.4:
   resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.4.tgz#ee669c1fea2cf42dc31585469d193fef0d65771b"
   integrity sha512-LDx6oHrK+PhzLKJU9j5S7/Y3jM/mUHvD/DeI1WQmJn652iPC5Y4TBzC9l+5OMOXlyTTA+SmVUPm0HQUwpD5Jqw==
 
-cookies-next@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/cookies-next/-/cookies-next-2.1.1.tgz#8d82f1b78fccfb19d9d7c26766fa5707a3ec4695"
-  integrity sha512-AZGZPdL1hU3jCjN2UMJTGhLOYzNUN9Gm+v8BdptYIHUdwz397Et1p+sZRfvAl8pKnnmMdX2Pk9xDRKCGBum6GA==
+cookies-next@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cookies-next/-/cookies-next-4.0.0.tgz#36d5c0d5899cf729a2580fd065071bdfa13783ca"
+  integrity sha512-3TyzeltFCGgdOlVOVTPClSq+YV9ZCdOyA3aHRZv9f5aSgg7EyI4NSvXFOCgzT/xIxeHR4Rz8/z5Tdo9oPqaVpA==
   dependencies:
     "@types/cookie" "^0.4.1"
     "@types/node" "^16.10.2"
