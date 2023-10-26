@@ -16,7 +16,11 @@ import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
-import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
+import {
+  getQueryPropertyValue,
+  linkResolver,
+  SEARCH_PAGES_FORM_ID,
+} from '@weco/common/utils/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -30,7 +34,6 @@ import { emptyResultList } from '@weco/content/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { fromQuery, StoriesProps } from '@weco/content/components/StoriesLink';
 import { storiesFilters } from '@weco/content/services/wellcome/catalogue/filters';
-import { SEARCH_FORM_ID } from '.';
 
 type Props = {
   storyResponseList: ContentResultsList<Article>;
@@ -104,9 +107,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 linkResolver={params =>
                   linkResolver({ params, pathname: '/search/stories' })
                 }
-                searchFormId={SEARCH_FORM_ID}
+                searchFormId={SEARCH_PAGES_FORM_ID}
                 changeHandler={() => {
-                  const form = document.getElementById(SEARCH_FORM_ID);
+                  const form = document.getElementById(SEARCH_PAGES_FORM_ID);
                   form &&
                     form.dispatchEvent(
                       new window.Event('submit', {
@@ -146,7 +149,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
                 <SortPaginationWrapper>
                   <Sort
-                    formId={SEARCH_FORM_ID}
+                    formId={SEARCH_PAGES_FORM_ID}
                     options={sortOptions}
                     jsLessOptions={{
                       sort: [
@@ -170,7 +173,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                     }}
                   />
                   <Pagination
-                    formId={SEARCH_FORM_ID}
+                    formId={SEARCH_PAGES_FORM_ID}
                     totalPages={storyResponseList.totalPages}
                     ariaLabel="Stories search pagination"
                     isHiddenMobile
@@ -193,7 +196,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
               <PaginationWrapper verticalSpacing="l" alignRight>
                 <Pagination
-                  formId={SEARCH_FORM_ID}
+                  formId={SEARCH_PAGES_FORM_ID}
                   totalPages={storyResponseList.totalPages}
                   ariaLabel="Stories search pagination"
                 />

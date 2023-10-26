@@ -31,7 +31,7 @@ import {
   WellcomeResultList,
 } from '@weco/content/services/wellcome';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { linkResolver } from '@weco/common/utils/search';
+import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
@@ -44,7 +44,6 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Query } from '@weco/content/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { SEARCH_FORM_ID } from '.';
 
 type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
@@ -127,9 +126,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   linkResolver={params =>
                     linkResolver({ params, pathname: '/search/works' })
                   }
-                  searchFormId={SEARCH_FORM_ID}
+                  searchFormId={SEARCH_PAGES_FORM_ID}
                   changeHandler={() => {
-                    const form = document.getElementById(SEARCH_FORM_ID);
+                    const form = document.getElementById(SEARCH_PAGES_FORM_ID);
                     form &&
                       form.dispatchEvent(
                         new window.Event('submit', {
@@ -169,7 +168,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
                 <SortPaginationWrapper>
                   <Sort
-                    formId={SEARCH_FORM_ID}
+                    formId={SEARCH_PAGES_FORM_ID}
                     options={[
                       // Default value to be left empty so it's not added to the URL query
                       { value: '', text: 'Relevance' },
@@ -202,7 +201,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   />
 
                   <Pagination
-                    formId={SEARCH_FORM_ID}
+                    formId={SEARCH_PAGES_FORM_ID}
                     totalPages={works.totalPages}
                     ariaLabel="Catalogue search pagination"
                     isHiddenMobile
@@ -216,7 +215,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
               <PaginationWrapper verticalSpacing="l" alignRight>
                 <Pagination
-                  formId={SEARCH_FORM_ID}
+                  formId={SEARCH_PAGES_FORM_ID}
                   totalPages={works.totalPages}
                   ariaLabel="Catalogue search pagination"
                 />
