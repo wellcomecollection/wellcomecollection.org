@@ -16,6 +16,7 @@ import {
 } from '@weco/common/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
 import { searchPlaceholderText } from '@weco/common/data/microcopy';
+import { SEARCH_FORM_ID } from '@weco/content/pages/search';
 
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`
@@ -101,7 +102,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
     <>
       <form
         role="search"
-        id="search-page-form"
+        id={SEARCH_FORM_ID}
         onSubmit={event => {
           event.preventDefault();
 
@@ -125,7 +126,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
             inputValue={inputValue}
             setInputValue={setInputValue}
             placeholder={searchPlaceholderText[currentSearchCategory]}
-            form="search-page-form"
+            form={SEARCH_FORM_ID}
             location="search"
           />
         </SearchBarContainer>
