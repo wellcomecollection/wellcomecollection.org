@@ -2,7 +2,6 @@ import { FunctionComponent, MouseEvent, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { getPrismicLicenseData } from '@weco/common/utils/licenses';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { cross, information } from '@weco/common/icons';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
@@ -204,11 +203,6 @@ const Tasl: FunctionComponent<Props> = ({
   const [isActive, setIsActive] = useState(false);
   function toggleWithAnalytics(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    trackGaEvent({
-      category: 'Tasl',
-      action: isActive ? 'closed' : 'opened',
-      label: title || 'no title',
-    });
 
     setIsActive(!isActive);
   }

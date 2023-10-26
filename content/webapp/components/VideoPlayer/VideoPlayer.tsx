@@ -1,4 +1,3 @@
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { FunctionComponent } from 'react';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
 import { Video } from '../../services/iiif/types/manifest/v3';
@@ -19,11 +18,6 @@ const VideoPlayer: FunctionComponent<Props> = ({
       <video
         onPlay={event => {
           trackPlay(event);
-          trackGaEvent({
-            category: 'Video',
-            action: 'play video',
-            label: video.id,
-          });
         }}
         onEnded={trackEnded}
         onTimeUpdate={trackTimeUpdate}

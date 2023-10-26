@@ -61,11 +61,7 @@ const CardGrid: FunctionComponent<Props> = ({
                 <EventPromo event={item} position={i} fromDate={fromDate} />
               )}
               {item.type === 'articles' && (
-                <StoryPromo
-                  article={item}
-                  position={i}
-                  hidePromoText={hidePromoText}
-                />
+                <StoryPromo article={item} hidePromoText={hidePromoText} />
               )}
               {item.type === 'exhibition-guides' && (
                 <ExhibitionGuidePromo exhibitionGuide={item} />

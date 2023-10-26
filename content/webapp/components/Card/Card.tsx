@@ -2,7 +2,6 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Card as CardType } from '@weco/content/types/card';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
@@ -169,16 +168,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
   const image = getCrop(item.image, '16:9');
 
   return (
-    <CardOuter
-      href={item.link}
-      onClick={() => {
-        trackGaEvent({
-          category: 'Card',
-          action: 'follow link',
-          label: `${item.title || ''}`,
-        });
-      }}
-    >
+    <CardOuter href={item.link}>
       <CardImageWrapper>
         {image && (
           <PrismicImage

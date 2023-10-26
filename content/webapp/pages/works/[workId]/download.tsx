@@ -136,7 +136,6 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
             {downloadEnabled && allDownloadOptions.length !== 0 ? (
               <Download
                 ariaControlsId="itemDownloads"
-                workId={work.id}
                 downloadOptions={allDownloadOptions}
               />
             ) : (

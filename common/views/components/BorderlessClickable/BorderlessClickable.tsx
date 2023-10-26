@@ -13,7 +13,6 @@ import {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { GaEvent, trackGaEvent } from '@weco/common/utils/ga';
 import { IconSvg } from '@weco/common/icons';
 
 type ClickableElement = 'a' | 'button';
@@ -115,16 +114,14 @@ const BorderlessLink = forwardRef<HTMLButtonElement, BorderlessLinkProps>(Link);
 
 type BorderlessButtonProps = Props &
   ComponentProps<'button'> & {
-    trackingEvent?: GaEvent;
     clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
   };
 const ButtonOuter = (
-  { clickHandler, trackingEvent, ...elementProps }: BorderlessButtonProps,
+  { clickHandler, ...elementProps }: BorderlessButtonProps,
   ref
 ) => {
   function onClick(event: SyntheticEvent<HTMLButtonElement>) {
     clickHandler && clickHandler(event);
-    trackingEvent && trackGaEvent(trackingEvent);
   }
 
   return (

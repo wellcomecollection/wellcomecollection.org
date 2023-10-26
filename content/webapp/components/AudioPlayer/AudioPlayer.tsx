@@ -6,7 +6,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { play, pause } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { useAVTracking } from '@weco/content/hooks/useAVTracking';
 import Volume from './AudioPlayer.Volume';
 import PlayRate from './AudioPlayer.PlayRate';
@@ -130,18 +129,8 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
     setIsPlaying(!prevValue);
 
     if (prevValue) {
-      trackGaEvent({
-        category: 'Audio',
-        action: 'pause audio',
-        label: id,
-      });
       audioPlayerRef.current.pause();
     } else {
-      trackGaEvent({
-        category: 'Audio',
-        action: 'play audio',
-        label: id,
-      });
       audioPlayerRef.current.play();
     }
   };

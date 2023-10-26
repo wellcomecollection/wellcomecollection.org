@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -47,13 +46,6 @@ const ExhibitionPromo: FunctionComponent<Props> = ({
       data-component-state={JSON.stringify({ position })}
       id={exhibition.id}
       href={url}
-      onClick={() => {
-        trackGaEvent({
-          category: 'ExhibitionPromo',
-          action: 'follow link',
-          label: `${exhibition.id} | position: ${position}`,
-        });
-      }}
     >
       <CardImageWrapper>
         {isNotUndefined(image) ? (

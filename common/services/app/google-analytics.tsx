@@ -1,17 +1,8 @@
-import { FunctionComponent, useEffect } from 'react';
-import ReactGA from 'react-ga';
+import { FunctionComponent } from 'react';
 import { Toggles } from '@weco/toggles';
-
-export const GOOGLE_ANALYTICS_UA_ID = 'UA-55614-6';
-
-const gaCookieFlags = 'SameSite=None;secure';
 
 export type GaDimensions = {
   partOf: string[];
-};
-
-const gaDimensionKeys = {
-  partOf: 'dimension3',
 };
 
 // Don't use the next/script `Script` component for these as in
@@ -91,46 +82,3 @@ export const GoogleTagManagerNoScript: FunctionComponent = () => (
     ></iframe>
   </noscript>
 );
-
-export const GoogleAnalyticsUA: FunctionComponent = () => (
-  <script
-    id="google-analytics-ua"
-    dangerouslySetInnerHTML={{
-      // we don't initialize analytics here, as that is done by ReactGA
-      // See `useGoogleAnalyticsUA`
-      __html: `
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());`,
-    }}
-  />
-);
-
-export const useGoogleAnalyticsUA = ({
-  toggles,
-  gaDimensions,
-}: {
-  toggles: Toggles;
-  gaDimensions?: GaDimensions;
-}): void =>
-  useEffect(() => {
-    ReactGA.initialize([
-      {
-        trackingId: GOOGLE_ANALYTICS_UA_ID,
-        titleCase: false,
-        gaOptions: { cookieFlags: gaCookieFlags },
-      },
-    ]);
-
-    // This allows us to send a gaDimensions prop from a data fetching method
-    // e.g. `getServerSideProps` and store it in the page views.
-    // TODO: Probably best moving this into the PageLayout so it's called explicitly.
-    if (gaDimensions?.partOf?.length) {
-      ReactGA.set({
-        [gaDimensionKeys.partOf]: gaDimensions.partOf.join(','),
-      });
-    }
-
-    ReactGA.set({
-      dimension5: JSON.stringify(toggles),
-    });
-  }, []);

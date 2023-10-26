@@ -22,10 +22,7 @@ import { ApmContextProvider } from '@weco/common/views/components/ApmContext/Apm
 import { AppErrorProps } from '@weco/common/services/app';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
-import {
-  GaDimensions,
-  useGoogleAnalyticsUA,
-} from '@weco/common/services/app/google-analytics';
+import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { useOnPageLoad } from '@weco/common/services/app/useOnPageLoad';
 import ReactGA from 'react-ga';
 import { NextPage } from 'next';
@@ -93,11 +90,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
   }, []);
-
-  useGoogleAnalyticsUA({
-    toggles: serverData.toggles,
-    gaDimensions: pageProps.gaDimensions,
-  });
 
   useOnPageLoad(url => ReactGA.pageview(url));
 

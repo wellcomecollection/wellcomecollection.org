@@ -49,11 +49,6 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                 ) : (
                   <ButtonSolidLink
                     link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page',
-                    }}
                     icon={ticket}
                     dataGtmTrigger="click_to_book"
                     text={
@@ -73,11 +68,6 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                 ) : (
                   <ButtonSolidLink
                     link={`https://www.eventbrite.com/e/${event.onlineEventbriteId}`}
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page',
-                    }}
                     icon={ticket}
                     dataGtmTrigger="click_to_book"
                     text={

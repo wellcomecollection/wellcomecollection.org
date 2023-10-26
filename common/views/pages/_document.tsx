@@ -12,7 +12,6 @@ import * as snippet from '@segment/snippet';
 import { Toggles } from '@weco/toggles';
 import {
   Ga4DataLayer,
-  GoogleAnalyticsUA,
   GoogleTagManager,
   GoogleTagManagerNoScript,
   GaDimensions,
@@ -85,7 +84,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
             }}
           />
           <GoogleTagManager />
-          <GoogleAnalyticsUA />
           <script
             dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
           />

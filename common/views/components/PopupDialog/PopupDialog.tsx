@@ -12,7 +12,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { chat, clear } from '@weco/common/icons';
@@ -223,10 +222,6 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
     ) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
-      trackGaEvent({
-        category: 'PopupDialog',
-        action: 'close dialog',
-      });
     }
   }
 
@@ -234,10 +229,6 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
     if (event.keyCode === 27 && isActiveRef.current) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
-      trackGaEvent({
-        category: 'PopupDialog',
-        action: 'close dialog',
-      });
     }
   }
 
@@ -283,11 +274,6 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           closeDialogRef &&
             closeDialogRef.current &&
             closeDialogRef.current.focus();
-
-          trackGaEvent({
-            category: 'PopupDialog',
-            action: 'open dialog',
-          });
         }}
       >
         <Space
@@ -313,11 +299,6 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             openDialogRef &&
               openDialogRef.current &&
               openDialogRef.current.focus();
-
-            trackGaEvent({
-              category: 'PopupDialog',
-              action: 'close dialog',
-            });
           }}
         >
           <Icon icon={clear} title="Close dialog" iconColor="accent.purple" />

@@ -2,7 +2,6 @@
 /* eslint-disable dot-notation */
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import Download from '@weco/content/components/Download/Download';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -273,11 +272,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               $isDark
               onClick={() => {
                 setIsDesktopSidebarActive(!isDesktopSidebarActive);
-                trackGaEvent({
-                  category: 'Control',
-                  action: 'Toggle item viewer sidebar',
-                  label: `${work.id}`,
-                });
               }}
             >
               <Icon
@@ -319,11 +313,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                     dataGtmTrigger: 'item_view_page_button',
                     clickHandler() {
                       setGridVisible(false);
-                      trackGaEvent({
-                        category: 'Control',
-                        action: 'clicked work viewer Detail view button',
-                        label: `${work.id}`,
-                      });
                     },
                   },
                   {
@@ -333,11 +322,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                     dataGtmTrigger: 'item_view_grid_button',
                     clickHandler() {
                       setGridVisible(true);
-                      trackGaEvent({
-                        category: 'Control',
-                        action: 'clicked work viewer Grid view button',
-                        label: `${work.id}`,
-                      });
                     },
                   },
                 ]}
@@ -366,7 +350,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                 <Space $h={{ size: 's', properties: ['margin-right'] }}>
                   <Download
                     ariaControlsId="itemDownloads"
-                    workId={work.id}
                     downloadOptions={downloadOptions}
                     useDarkControl={true}
                     isInline={true}

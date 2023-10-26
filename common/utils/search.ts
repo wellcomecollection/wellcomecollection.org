@@ -22,6 +22,8 @@ export type ReturnedResults<T> = {
   totalResults: number;
 };
 
+export const SEARCH_PAGES_FORM_ID = 'search-page-form';
+
 /**
  * Takes query result and checks for errors to log before returning required data.
  * @param {string} categoryName - e.g. works

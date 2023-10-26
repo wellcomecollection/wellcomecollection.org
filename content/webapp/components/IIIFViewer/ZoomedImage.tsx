@@ -7,7 +7,6 @@ import {
   FunctionComponent,
 } from 'react';
 import styled from 'styled-components';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
@@ -141,11 +140,6 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     if (viewer.isOpen()) {
       doZoomIn(viewer);
     }
-    trackGaEvent({
-      category: 'Control',
-      action: 'zoom in ImageViewer',
-      label: 'zoomedImage',
-    });
   }
 
   function handleZoomOut(viewer) {
@@ -153,21 +147,11 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     if (viewer.isOpen()) {
       doZoomOut(viewer);
     }
-    trackGaEvent({
-      category: 'Control',
-      action: 'zoom out ImageViewer',
-      label: 'zoomedImage',
-    });
   }
 
   function handleRotate(viewer) {
     if (!viewer) return;
     viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
-    trackGaEvent({
-      category: 'Control',
-      action: 'rotate ImageViewer',
-      label: 'zoomedImage',
-    });
   }
 
   function handleTrapStartKeyDown(event) {

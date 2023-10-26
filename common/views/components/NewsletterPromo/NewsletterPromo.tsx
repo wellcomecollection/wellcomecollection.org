@@ -4,7 +4,6 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '../TextInput/TextInput';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
@@ -87,7 +86,6 @@ const NewsletterPromo: FunctionComponent = () => {
     switch (result) {
       case 'ok':
         setIsSuccess(true);
-        trackGaEvent({ category: 'NewsletterPromo', action: 'submit email' });
         break;
       case 'error':
         setIsSubmitError(true);

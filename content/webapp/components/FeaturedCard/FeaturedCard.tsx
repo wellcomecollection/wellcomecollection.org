@@ -16,7 +16,6 @@ import { grid, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Page } from '@weco/content/types/pages';
 import { EventSeries } from '@weco/content/types/event-series';
@@ -28,7 +27,6 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 
 type PartialFeaturedCard = {
-  id: string;
   image?: ImageType;
   labels: Label[];
   link: Link;
@@ -44,7 +42,6 @@ export function convertCardToFeaturedCardProps(
   item: Card
 ): PartialFeaturedCard {
   return {
-    id: item.title || 'card',
     // We intentionally omit the alt text on promos, so screen reader
     // users don't have to listen to the alt text before hearing the
     // title of the item in the list.
@@ -71,7 +68,6 @@ export function convertItemToFeaturedCardProps(
     | Guide
 ): PartialFeaturedCard {
   return {
-    id: item.id,
     image: item.promo?.image && {
       ...item.promo.image,
       // We intentionally omit the alt text on promos, so screen reader
@@ -254,7 +250,6 @@ const FeaturedCardShim = styled.div.attrs<{ $background: PaletteColor }>({
 `;
 
 const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
-  id,
   image,
   labels,
   children,
@@ -265,17 +260,7 @@ const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
 }) => {
   return (
     <FeaturedCardWrap>
-      <FeaturedCardLink
-        href={link.url}
-        $isReversed={isReversed}
-        onClick={() => {
-          trackGaEvent({
-            category: 'FeaturedCard',
-            action: 'follow link',
-            label: `${id}`,
-          });
-        }}
-      >
+      <FeaturedCardLink href={link.url} $isReversed={isReversed}>
         <FeaturedCardLeft>
           {image && (
             <PrismicImage

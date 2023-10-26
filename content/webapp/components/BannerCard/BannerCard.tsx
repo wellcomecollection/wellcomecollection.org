@@ -2,7 +2,6 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { Season } from '@weco/content/types/seasons';
 import Space from '@weco/common/views/components/styled/Space';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -123,17 +122,7 @@ const BannerCard: FunctionComponent<Props> = ({
       linkResolver({ id: item.id, type: item.type }),
   };
   return (
-    <CardOuter
-      href={link}
-      $background={background}
-      onClick={() => {
-        trackGaEvent({
-          category: 'BannerCard',
-          action: 'follow link',
-          label: `${title || ''}`,
-        });
-      }}
-    >
+    <CardOuter href={link} $background={background}>
       <TextWrapper $highlightColor={highlightColor}>
         {type && (
           <LabelsList

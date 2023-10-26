@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { LinkProps } from '@weco/common/model/link-props';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { GaEvent, trackGaEvent } from '@weco/common/utils/ga';
 import { IconSvg } from '@weco/common/icons';
 
 const ControlInner = styled.div`
@@ -136,7 +135,6 @@ type CommonProps = {
   extraClasses?: string;
   icon: IconSvg;
   text: string;
-  trackingEvent?: GaEvent;
   disabled?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
@@ -180,7 +178,6 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     text,
     disabled,
     clickHandler,
-    trackingEvent,
     ariaControls,
     ariaExpanded,
     ariaPressed,
@@ -202,10 +199,6 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
   };
 
   function handleClick(event) {
-    if (trackingEvent) {
-      trackGaEvent(trackingEvent);
-    }
-
     if (clickHandler) {
       clickHandler(event);
     }

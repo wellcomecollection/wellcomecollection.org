@@ -214,11 +214,6 @@ const IIIFSearchWithin: FunctionComponent = () => {
           {value !== '' && (
             <ClearSearch
               inputRef={inputRef}
-              gaEvent={{
-                category: 'IIIFViewer',
-                action: 'clear search',
-                label: 'item-search-within',
-              }}
               clickHandler={handleClearResults}
               setValue={setValue}
               right={10}

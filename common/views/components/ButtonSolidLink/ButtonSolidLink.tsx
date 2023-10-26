@@ -7,7 +7,6 @@ import {
   SolidButton,
   ButtonSolidBaseProps,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
@@ -26,7 +25,6 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   link,
   icon,
   isTextHidden,
-  trackingEvent,
   clickHandler,
   ariaControls,
   ariaExpanded,
@@ -38,7 +36,6 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
 }) => {
   function handleClick(event: SyntheticEvent<HTMLButtonElement>): void {
     clickHandler && clickHandler(event);
-    trackingEvent && trackGaEvent(trackingEvent);
   }
 
   const isNextLink = typeof link === 'object';
