@@ -128,6 +128,8 @@ const StoryPromoContainer = styled(Container)`
   }
 `;
 
+export const SEARCH_FORM_ID = 'search-page-form';
+
 export const SearchPage: NextPageWithLayout<Props> = ({
   works,
   images,

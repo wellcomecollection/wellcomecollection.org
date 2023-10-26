@@ -3,7 +3,6 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import styled from 'styled-components';
 
-// Components
 import Space from '@weco/common/views/components/styled/Space';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
@@ -21,8 +20,6 @@ import {
   WorksProps as WorksRouteProps,
 } from '@weco/content/components/WorksLink';
 import { Container } from '@weco/common/views/components/styled/Container';
-
-// Utils & Helpers
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -40,8 +37,6 @@ import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
-
-// Types
 import {
   toWorkBasic,
   WorkAggregations,
@@ -49,6 +44,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Query } from '@weco/content/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import { SEARCH_FORM_ID } from '.';
 
 type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
@@ -63,6 +59,7 @@ const SortPaginationWrapper = styled.div`
   align-items: center;
   flex-wrap: wrap;
 `;
+
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   works,
   worksRouteProps,
@@ -130,9 +127,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   linkResolver={params =>
                     linkResolver({ params, pathname: '/search/works' })
                   }
-                  searchFormId="search-page-form"
+                  searchFormId={SEARCH_FORM_ID}
                   changeHandler={() => {
-                    const form = document.getElementById('search-page-form');
+                    const form = document.getElementById(SEARCH_FORM_ID);
                     form &&
                       form.dispatchEvent(
                         new window.Event('submit', {
@@ -172,7 +169,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
                 <SortPaginationWrapper>
                   <Sort
-                    formId="search-page-form"
+                    formId={SEARCH_FORM_ID}
                     options={[
                       // Default value to be left empty so it's not added to the URL query
                       { value: '', text: 'Relevance' },
@@ -205,10 +202,10 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   />
 
                   <Pagination
+                    formId={SEARCH_FORM_ID}
                     totalPages={works.totalPages}
                     ariaLabel="Catalogue search pagination"
                     isHiddenMobile
-                    formId={'search-page-form'}
                   />
                 </SortPaginationWrapper>
               </PaginationWrapper>
@@ -219,9 +216,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
               <PaginationWrapper verticalSpacing="l" alignRight>
                 <Pagination
+                  formId={SEARCH_FORM_ID}
                   totalPages={works.totalPages}
                   ariaLabel="Catalogue search pagination"
-                  formId={'search-page-form'}
                 />
               </PaginationWrapper>
             </>

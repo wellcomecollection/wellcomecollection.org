@@ -1,7 +1,6 @@
 import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 
-// Components
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
@@ -11,8 +10,6 @@ import StoriesGrid from '@weco/content/components/StoriesGrid';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import { Container } from '@weco/common/views/components/styled/Container';
-
-// Utils & Helpers
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -24,8 +21,6 @@ import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
-
-// Types
 import { Query } from '@weco/content/types/search';
 import {
   Article,
@@ -35,6 +30,7 @@ import { emptyResultList } from '@weco/content/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { fromQuery, StoriesProps } from '@weco/content/components/StoriesLink';
 import { storiesFilters } from '@weco/content/services/wellcome/catalogue/filters';
+import { SEARCH_FORM_ID } from '.';
 
 type Props = {
   storyResponseList: ContentResultsList<Article>;
@@ -108,9 +104,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 linkResolver={params =>
                   linkResolver({ params, pathname: '/search/stories' })
                 }
-                searchFormId="search-page-form"
+                searchFormId={SEARCH_FORM_ID}
                 changeHandler={() => {
-                  const form = document.getElementById('search-page-form');
+                  const form = document.getElementById(SEARCH_FORM_ID);
                   form &&
                     form.dispatchEvent(
                       new window.Event('submit', {
@@ -150,7 +146,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
                 <SortPaginationWrapper>
                   <Sort
-                    formId="search-page-form"
+                    formId={SEARCH_FORM_ID}
                     options={sortOptions}
                     jsLessOptions={{
                       sort: [
@@ -174,10 +170,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                     }}
                   />
                   <Pagination
+                    formId={SEARCH_FORM_ID}
                     totalPages={storyResponseList.totalPages}
                     ariaLabel="Stories search pagination"
                     isHiddenMobile
-                    formId={'search-page-form'}
                   />
                 </SortPaginationWrapper>
               </PaginationWrapper>
@@ -197,9 +193,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
               <PaginationWrapper verticalSpacing="l" alignRight>
                 <Pagination
+                  formId={SEARCH_FORM_ID}
                   totalPages={storyResponseList.totalPages}
                   ariaLabel="Stories search pagination"
-                  formId={'search-page-form'}
                 />
               </PaginationWrapper>
             </Container>

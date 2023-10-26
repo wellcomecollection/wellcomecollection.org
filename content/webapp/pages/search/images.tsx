@@ -12,7 +12,6 @@ import SearchFilters from '@weco/content/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Sort from '@weco/content/components/Sort/Sort';
 import { Container } from '@weco/common/views/components/styled/Container';
-
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -32,8 +31,6 @@ import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
-
-// Types
 import {
   CatalogueResultsList,
   Image,
@@ -41,6 +38,7 @@ import {
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Query } from '@weco/content/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import { SEARCH_FORM_ID } from '.';
 
 type Props = {
   images: CatalogueResultsList<Image>;
@@ -146,9 +144,9 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               linkResolver={params =>
                 linkResolver({ params, pathname: '/search/images' })
               }
-              searchFormId="search-page-form"
+              searchFormId={SEARCH_FORM_ID}
               changeHandler={() => {
-                const form = document.getElementById('search-page-form');
+                const form = document.getElementById(SEARCH_FORM_ID);
                 form &&
                   form.dispatchEvent(
                     new window.Event('submit', {
@@ -187,7 +185,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
 
                   <SortPaginationWrapper>
                     <Sort
-                      formId="search-page-form"
+                      formId={SEARCH_FORM_ID}
                       options={sortOptions}
                       jsLessOptions={{
                         sort: [
@@ -213,11 +211,11 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                     />
 
                     <Pagination
+                      formId={SEARCH_FORM_ID}
                       totalPages={images.totalPages}
                       ariaLabel="Image search pagination"
                       hasDarkBg
                       isHiddenMobile
-                      formId={'search-page-form'}
                     />
                   </SortPaginationWrapper>
                 </PaginationWrapper>
@@ -228,10 +226,10 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
 
                 <PaginationWrapper verticalSpacing="l" alignRight>
                   <Pagination
+                    formId={SEARCH_FORM_ID}
                     totalPages={images.totalPages}
                     ariaLabel="Image search pagination"
                     hasDarkBg
-                    formId={'search-page-form'}
                   />
                 </PaginationWrapper>
               </>
