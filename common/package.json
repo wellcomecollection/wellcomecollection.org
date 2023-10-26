@@ -49,7 +49,7 @@
     "react-ga": "^3.3.1",
     "react-popper": "^2.3.0",
     "react-transition-group": "^4.3.0",
-    "styled-components": "^5.3.8",
+    "styled-components": "^6.1.0",
     "timezone-mock": "^1.3.6",
     "ts-jest": "29.1.0",
     "typescript": "^5.0.4",
