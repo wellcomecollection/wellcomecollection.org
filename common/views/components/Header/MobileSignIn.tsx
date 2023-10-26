@@ -5,7 +5,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { user as userIcon } from '@weco/common/icons';
-import { trackGaEvent } from '@weco/common/utils/ga';
 
 const StyledComponent = styled.div.attrs({
   className: font('intr', 5),
@@ -57,31 +56,13 @@ const MobileSignIn: FunctionComponent = () => {
         <a
           href="/account/api/auth/login"
           data-gtm-trigger="library_account_login"
-          onClick={() => {
-            trackGaEvent({
-              category: 'library_account',
-              action: 'login',
-              label: window.location.pathname,
-            });
-          }}
         >
           Sign in to your library account
         </a>
       )}
       {user && (
         <>
-          <a
-            href="/account"
-            onClick={() => {
-              trackGaEvent({
-                category: 'library_account',
-                action: 'view',
-                label: window.location.pathname,
-              });
-            }}
-          >
-            Library account
-          </a>
+          <a href="/account">Library account</a>
           <a href="/account/api/auth/logout">Sign out</a>
         </>
       )}

@@ -1,13 +1,8 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { arrowSmall } from '@weco/common/icons';
 import styled from 'styled-components';
-
-type Props = {
-  id: string;
-};
 
 const Wrapper = styled.a.attrs({
   className: font('intb', 5),
@@ -16,17 +11,8 @@ const Wrapper = styled.a.attrs({
   align-items: center;
 `;
 
-const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => (
-  <Wrapper
-    href="#dates"
-    onClick={() => {
-      trackGaEvent({
-        category: 'EventDatesLink',
-        action: 'follow link',
-        label: id,
-      });
-    }}
-  >
+const EventDatesLink: FunctionComponent = () => (
+  <Wrapper href="#dates">
     <Icon icon={arrowSmall} iconColor="black" rotate={90} />
     <span>See all dates</span>
   </Wrapper>

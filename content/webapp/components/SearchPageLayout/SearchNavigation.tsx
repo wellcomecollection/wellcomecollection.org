@@ -8,7 +8,6 @@ import SubNavigation from '@weco/content/components/SubNavigation/SubNavigation'
 
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import {
   getUrlQueryFromSortValue,
   getQueryPropertyValue,
@@ -105,12 +104,6 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
         id={SEARCH_PAGES_FORM_ID}
         onSubmit={event => {
           event.preventDefault();
-
-          trackGaEvent({
-            category: 'SearchForm',
-            action: 'submit search',
-            label: router.query.query as string,
-          });
 
           updateUrl(event.currentTarget);
         }}

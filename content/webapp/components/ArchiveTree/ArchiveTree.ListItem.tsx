@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { chevron } from '@weco/common/icons';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import WorkLink from '../WorkLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -294,13 +293,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           <TreeControl
             data-gtm-trigger="tree_chevron"
             highlightCondition={highlightCondition}
-            onClick={() => {
-              trackGaEvent({
-                category: 'ArchiveTree',
-                action: 'Chevron clicked',
-                label: item.work.id,
-              });
-            }}
           >
             <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
           </TreeControl>
@@ -324,11 +316,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             onClick={event => {
               event.stopPropagation();
               setShowArchiveTree(false);
-              trackGaEvent({
-                category: 'ArchiveTree',
-                action: 'Link clicked',
-                label: item.work.id,
-              });
             }}
             hasControl={hasControl}
           >

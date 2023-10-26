@@ -243,9 +243,7 @@ const EventPage: NextPage<EventProps> = ({
               further down the page, but if there's only one date we can skip it.
              */}
             <Space h={{ size: 's', properties: ['margin-left'] }}>
-              {!event.isPast && event.times.length > 1 && (
-                <EventDatesLink id={event.id} />
-              )}
+              {!event.isPast && event.times.length > 1 && <EventDatesLink />}
             </Space>
           </Space>
           {event.isPast && <EventStatus text="Past" color="neutral.500" />}
@@ -312,11 +310,6 @@ const EventPage: NextPage<EventProps> = ({
                   <>
                     <ButtonSolidLink
                       link={event.thirdPartyBooking.url}
-                      trackingEvent={{
-                        category: 'component',
-                        action: 'booking-tickets:click',
-                        label: 'event-page',
-                      }}
                       icon={ticket}
                       text="Check for tickets"
                       dataGtmTrigger="click_to_book"
@@ -339,11 +332,6 @@ const EventPage: NextPage<EventProps> = ({
                 ) : (
                   <ButtonSolidLink
                     link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page (email to book)',
-                    }}
                     icon={email}
                     text="Email to book"
                     dataGtmTrigger="click_to_book"

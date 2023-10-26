@@ -6,7 +6,6 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import { useLoginURLWithReturnToCurrent } from '@weco/content/utils/useLoginURLWithReturnToCurrent';
 import { font } from '@weco/common/utils/classnames';
 import { memberCard } from '@weco/common/icons';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { useToggles } from '@weco/common/server-data/Context';
 import { requestingDisabled } from '@weco/common/data/microcopy';
 
@@ -38,13 +37,6 @@ const SignInLink: FunctionComponent = () => {
         href={loginURL}
         data-gtm-trigger="library_account_login"
         className={font('intr', 5)}
-        onClick={() => {
-          trackGaEvent({
-            category: 'library_account',
-            action: 'login',
-            label: window.location.pathname,
-          });
-        }}
       >
         sign in to your library account to request items
       </a>

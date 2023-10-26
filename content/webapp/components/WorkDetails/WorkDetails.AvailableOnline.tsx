@@ -8,7 +8,6 @@ import AudioList from '@weco/content/components/AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Download from '@weco/content/components/Download/Download';
 import WorkDetailsLicence from './WorkDetails.Licence';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { eye } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { LinkProps } from '@weco/common/model/link-props';
@@ -57,7 +56,6 @@ const WorkDetailsAvailableOnline = ({
             <IIIFClickthrough
               clickThroughService={clickThroughService}
               tokenService={tokenService}
-              trackingId={work.id}
             >
               {children}
             </IIIFClickthrough>
@@ -103,13 +101,6 @@ const WorkDetailsAvailableOnline = ({
                         }}
                         href={itemUrl.href}
                         as={itemUrl.as}
-                        onClick={() =>
-                          trackGaEvent({
-                            category: 'WorkDetails',
-                            action: 'follow image link',
-                            label: work.id,
-                          })
-                        }
                       >
                         {children}
                       </NextLink>
@@ -138,11 +129,6 @@ const WorkDetailsAvailableOnline = ({
                   <ButtonSolidLink
                     icon={eye}
                     text="View"
-                    trackingEvent={{
-                      category: 'WorkDetails',
-                      action: 'follow view link',
-                      label: itemUrl?.href?.query?.workId?.toString(),
-                    }}
                     link={{ ...itemUrl }}
                   />
                 </Space>
@@ -151,7 +137,6 @@ const WorkDetailsAvailableOnline = ({
               {showDownloadOptions && (
                 <Download
                   ariaControlsId="itemDownloads"
-                  workId={work.id}
                   downloadOptions={downloadOptions}
                 />
               )}

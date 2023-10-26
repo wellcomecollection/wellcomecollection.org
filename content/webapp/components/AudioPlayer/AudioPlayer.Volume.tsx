@@ -1,6 +1,5 @@
 import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { volumeMuted, volume as volumeIcon } from '@weco/common/icons';
 import { formatVolume } from './AudioPlayer.formatters';
@@ -76,11 +75,6 @@ const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id, title }) => {
   };
 
   const onVolumeButtonClick = () => {
-    trackGaEvent({
-      category: 'Audio',
-      action: `${isMuted ? 'unmute' : 'mute'} audio`,
-      label: id,
-    });
     setIsMuted(!isMuted);
   };
   return (

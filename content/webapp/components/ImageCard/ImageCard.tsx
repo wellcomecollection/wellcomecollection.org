@@ -2,7 +2,6 @@ import { FunctionComponent, SyntheticEvent, useContext } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { ImageType } from '@weco/common/model/image';
 
 import IIIFImage from '../IIIFImage/IIIFImage';
@@ -42,12 +41,9 @@ const ImageCard: FunctionComponent<Props> = ({
       <StyledLink
         style={{ width: image.width }} // this is here to prevent the generation of multiple styles
         onClick={event => {
-          trackGaEvent({
-            category: 'ImageCard',
-            action: 'open ExpandedImage modal',
-            label: id,
-          });
-          if (onClick) onClick(event);
+          if (onClick) {
+            onClick(event);
+          }
         }}
         id={id}
         data-gtm-trigger={isEnhanced ? 'open_image_modal' : undefined}

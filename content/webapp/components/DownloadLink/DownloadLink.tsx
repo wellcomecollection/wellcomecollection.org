@@ -1,4 +1,3 @@
-import { trackGaEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -64,7 +63,6 @@ type DisplayText =
 type Props = {
   isTabbable?: boolean;
   href: string;
-  trackingEvent?: GaEvent;
   format?: DownloadFormat;
   width?: 'full' | number;
   mimeType: string;
@@ -73,7 +71,6 @@ type Props = {
 const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
   href,
-  trackingEvent,
   linkText,
   format,
   width,
@@ -94,7 +91,6 @@ const DownloadLink: FunctionComponent<Props> = ({
           name: 'download',
           properties: { width, mimeType, tags: trackingTags },
         });
-        trackingEvent && trackGaEvent(trackingEvent);
       }}
     >
       <span

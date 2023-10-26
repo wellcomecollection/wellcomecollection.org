@@ -54,11 +54,6 @@ const AudioList: FunctionComponent<Props> = ({
             href={transcript.id}
             linkText={`Transcript of ${workTitle} audio`}
             format="PDF"
-            trackingEvent={{
-              category: 'Download link',
-              action: 'follow audio annotation link',
-              label: transcript.id,
-            }}
             mimeType="application/pdf"
             trackingTags={['annotation']}
           />

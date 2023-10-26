@@ -6,7 +6,6 @@ import {
   ReactNode,
   KeyboardEvent,
 } from 'react';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { Wrapper, TabsContainer, Tab, NavItemInner } from './TabNav.styles';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
@@ -17,11 +16,6 @@ type SendEventProps = {
 };
 
 function sendEvent({ id, trackWithSegment }: SendEventProps) {
-  trackGaEvent({
-    category: 'TabNav',
-    action: 'Tab clicked',
-    label: id,
-  });
   if (trackWithSegment) {
     trackSegmentEvent({
       name: 'Click tab nav',

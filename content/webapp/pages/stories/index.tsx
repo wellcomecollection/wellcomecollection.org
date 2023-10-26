@@ -214,11 +214,11 @@ const StoriesPage: FunctionComponent<Props> = ({
           <StoryPromoContainer>
             <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
               <div className="grid grid--scroll grid--theme-4 card-theme card-theme--transparent">
-                {articles.slice(1, 5).map((article, i) => {
+                {articles.slice(1, 5).map(article => {
                   return (
                     <div className="grid__cell" key={article.id}>
                       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                        <StoryPromo article={article} position={i} />
+                        <StoryPromo article={article} />
                       </Space>
                     </div>
                   );

@@ -66,7 +66,7 @@ toolbarSegmentedControl.args = {
 toolbarSegmentedControl.storyName = 'ToolbarSegmentedControl';
 
 const DownloadButtonTemplate = args => {
-  return <Download ariaControlsId="itemDownloads" workId="test" {...args} />;
+  return <Download ariaControlsId="itemDownloads" {...args} />;
 };
 export const downloadButton = DownloadButtonTemplate.bind({});
 downloadButton.args = {
