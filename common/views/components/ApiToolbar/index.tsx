@@ -125,7 +125,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
   const [mini, setMini] = useState<boolean>(false);
 
   useIsomorphicLayoutEffect(() => {
-    setMini(getCookie(cookies.apiToolbarMini) === true);
+    setMini(Boolean(getCookie(cookies.apiToolbarMini)));
   }, []);
 
   const propValue = (prop: ApiToolbarLink) => {

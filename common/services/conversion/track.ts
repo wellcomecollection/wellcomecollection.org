@@ -124,7 +124,7 @@ function trackSegmentEvent({
 }
 
 function track(conversion: Conversion) {
-  const debug = getCookie(cookies.analyticsDebug) === true;
+  const debug = Boolean(getCookie(cookies.analyticsDebug));
   // We make toggles available of the dataLayer for GTM, so can use them here too
   const togglesString = window?.dataLayer?.find(data => data.toggles)?.toggles;
   const toggles = togglesString ? togglesString.split(',') : [];
