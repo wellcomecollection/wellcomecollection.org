@@ -246,6 +246,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
             <Pagination
               totalPages={articles.totalPages}
               ariaLabel="Series pagination"
+              formId={'search-page-form'}
             />
           </PaginationWrapper>
         )}

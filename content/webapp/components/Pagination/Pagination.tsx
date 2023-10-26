@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import { font } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 
@@ -14,7 +15,7 @@ export type Props = {
   ariaLabel: string;
   hasDarkBg?: boolean;
   isHiddenMobile?: boolean;
-  isLoading?: boolean;
+  formId?: string;
 };
 
 const Container = styled.nav.attrs({
@@ -33,7 +34,7 @@ const Container = styled.nav.attrs({
   `)}
 `;
 
-const ChevronWrapper = styled.button<{ prev?: boolean; hasDarkBg?: boolean }>`
+const ChevronWrapper = styled.a<{ prev?: boolean; hasDarkBg?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +95,7 @@ export const Pagination: FunctionComponent<Props> = ({
   ariaLabel,
   hasDarkBg,
   isHiddenMobile,
-  isLoading,
+  formId,
 }) => {
   const router = useRouter();
   const { query, pathname } = router;
@@ -137,7 +138,7 @@ export const Pagination: FunctionComponent<Props> = ({
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
           legacyBehavior
         >
-          <ChevronWrapper hasDarkBg={hasDarkBg} prev disabled={isLoading}>
+          <ChevronWrapper hasDarkBg={hasDarkBg} prev>
             <Icon icon={chevron} />
             <span className="visually-hidden">
               {`Previous (page ${currentPage - 1})`}
@@ -145,15 +146,20 @@ export const Pagination: FunctionComponent<Props> = ({
           </ChevronWrapper>
         </Link>
       )}
-
       {isEnhanced ? (
-        <>
+        <ConditionalWrapper
+          condition={!formId}
+          wrapper={children => <form>{children}</form>}
+        >
           <span aria-hidden>Showing page</span>
           <PageSelectorInput
             name="page"
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            form={isFocused ? 'search-page-form' : ''}
+            // We only use the formId if the input is focused
+            // as we can have more than one paginator on the same page
+            // and don't want to submit the same input with different values
+            form={isFocused ? formId : ''}
             aria-label={`Jump to page ${currentPage} of ${formatNumber(
               totalPages
             )}`}
@@ -162,20 +168,19 @@ export const Pagination: FunctionComponent<Props> = ({
             darkBg={hasDarkBg}
           />
           <span aria-hidden>/ {formatNumber(totalPages)}</span>
-        </>
+        </ConditionalWrapper>
       ) : (
         <span>
           Page <strong>{currentPage}</strong> of {formatNumber(totalPages)}
         </span>
       )}
-
       {showNext && (
         <Link
           passHref
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
           legacyBehavior
         >
-          <ChevronWrapper hasDarkBg={hasDarkBg} disabled={isLoading}>
+          <ChevronWrapper hasDarkBg={hasDarkBg}>
             <Icon icon={chevron} />
             <span className="visually-hidden">
               {`Next (page ${currentPage + 1})`}

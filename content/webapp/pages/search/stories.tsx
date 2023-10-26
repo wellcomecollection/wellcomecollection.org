@@ -177,6 +177,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                     totalPages={storyResponseList.totalPages}
                     ariaLabel="Stories search pagination"
                     isHiddenMobile
+                    formId={'search-page-form'}
                   />
                 </SortPaginationWrapper>
               </PaginationWrapper>
@@ -198,6 +199,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 <Pagination
                   totalPages={storyResponseList.totalPages}
                   ariaLabel="Stories search pagination"
+                  formId={'search-page-form'}
                 />
               </PaginationWrapper>
             </Container>
