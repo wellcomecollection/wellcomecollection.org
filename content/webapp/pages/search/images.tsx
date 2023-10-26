@@ -224,6 +224,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                       ariaLabel="Image search pagination"
                       hasDarkBg
                       isHiddenMobile
+                      formId={'search-page-form'}
                     />
                   </SortPaginationWrapper>
                 </PaginationWrapper>
@@ -237,6 +238,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                     totalPages={images.totalPages}
                     ariaLabel="Image search pagination"
                     hasDarkBg
+                    formId={'search-page-form'}
                   />
                 </PaginationWrapper>
               </>

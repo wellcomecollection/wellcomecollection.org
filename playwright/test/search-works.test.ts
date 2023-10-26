@@ -84,7 +84,7 @@ const navigateToNextPage = async (page: Page) => {
 
   await Promise.all([
     safeWaitForNavigation(page),
-    page.click('[data-testid="pagination"] button'),
+    page.click('[data-testid="pagination"] a'),
   ]);
 };
 

@@ -7,7 +7,7 @@ import Pagination from './Pagination';
 const useRouter = jest.spyOn(require('next/router'), 'useRouter');
 
 describe('Pagination', () => {
-  it('omits the "Previous" button if we’re on page 1', () => {
+  it('omits the "Previous" link if we’re on page 1', () => {
     useRouter.mockImplementationOnce(() => ({ query: {} }));
 
     const { container } = renderWithTheme(
@@ -16,7 +16,7 @@ describe('Pagination', () => {
     expect(container.innerHTML.includes('Previous')).toBe(false);
   });
 
-  it('include the "Previous" button if we’re after page 1', async () => {
+  it('include the "Previous" link if we’re after page 1', async () => {
     useRouter.mockImplementationOnce(() => ({ query: { page: '5' } }));
 
     const { container, getByRole } = renderWithTheme(
@@ -24,11 +24,11 @@ describe('Pagination', () => {
     );
     expect(container.innerHTML.includes('Previous')).toBe(true);
     await expect(
-      getByRole('button', { name: 'Previous (page 4)' })
+      getByRole('link', { name: 'Previous (page 4)' })
     ).toHaveAttribute('href', '?page=4');
   });
 
-  it('omits the "Next" button if we’re on the last page', () => {
+  it('omits the "Next" link if we’re on the last page', () => {
     useRouter.mockImplementationOnce(() => ({ query: { page: '10' } }));
 
     const { container } = renderWithTheme(
@@ -44,9 +44,10 @@ describe('Pagination', () => {
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
     expect(container.innerHTML.includes('Next')).toBe(true);
-    await expect(
-      getByRole('button', { name: 'Next (page 6)' })
-    ).toHaveAttribute('href', '?page=6');
+    await expect(getByRole('link', { name: 'Next (page 6)' })).toHaveAttribute(
+      'href',
+      '?page=6'
+    );
   });
 
   it('includes the pathname and query parameters when linking to the next/previous pages', async () => {
@@ -59,14 +60,12 @@ describe('Pagination', () => {
       <Pagination totalPages={10} ariaLabel="Results pagination" />
     );
     await expect(
-      getByRole('button', { name: 'Previous (page 4)' })
+      getByRole('link', { name: 'Previous (page 4)' })
     ).toHaveAttribute(
       'href',
       '/search/works?page=4&locations=available-online'
     );
-    await expect(
-      getByRole('button', { name: 'Next (page 6)' })
-    ).toHaveAttribute(
+    await expect(getByRole('link', { name: 'Next (page 6)' })).toHaveAttribute(
       'href',
       '/search/works?page=6&locations=available-online'
     );
