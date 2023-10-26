@@ -75,7 +75,7 @@
     "nodemon": "^2.0.15",
     "ts-jest": "29.1.0",
     "typescript": "5.0.4",
-    "typescript-plugin-styled-components": "^1.4.4",
+    "typescript-plugin-styled-components": "^3.0.0",
     "whatwg-fetch": "^3.6.2"
   }
 }
