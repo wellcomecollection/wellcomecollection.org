@@ -13,7 +13,6 @@ import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
-import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import ItemViewerContext, {
   Query,
@@ -117,14 +116,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
 
 Cell.displayName = 'Cell';
 
-// TODO these seem unused; should they be removed?
-type GridViewerElProps = {
-  isVisible?: boolean;
-  isFullscreen?: boolean;
-  infoBarIsVisible?: boolean;
-};
-
-const GridViewerEl = styled.div<GridViewerElProps>`
+const GridViewerEl = styled.div`
   outline: none;
   position: fixed;
   top: 0;
@@ -142,7 +134,6 @@ const GridViewer: FunctionComponent = () => {
     gridVisible,
     setGridVisible,
     transformedManifest,
-    isFullscreen,
     searchResults,
     query,
     work,
@@ -154,7 +145,6 @@ const GridViewer: FunctionComponent = () => {
   const columnCount = Math.round(mainAreaWidth / itemWidth);
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
-  const { isVisible } = useContext(GlobalInfoBarContext);
   const { canvases } = { ...transformedManifest } || [];
 
   useEffect(() => {
@@ -185,12 +175,7 @@ const GridViewer: FunctionComponent = () => {
   }, []);
 
   return (
-    <GridViewerEl
-      isVisible={gridVisible}
-      isFullscreen={isFullscreen}
-      tabIndex={0}
-      infoBarIsVisible={isVisible}
-    >
+    <GridViewerEl tabIndex={0}>
       <FixedSizeGrid
         columnCount={columnCount}
         columnWidth={columnWidth}
