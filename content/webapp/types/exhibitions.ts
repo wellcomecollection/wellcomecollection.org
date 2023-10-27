@@ -52,7 +52,7 @@ export type Exhibition = GenericContentFields & {
   relatedIds: string[];
   seasons: Season[];
   contributors: Contributor[];
-  accessResourcesPdfs: (Link & { size: number })[];
+  accessResourcesPdfs: AccessPDF[];
   accessResourcesText?: prismic.RichTextField;
 };
 
@@ -66,3 +66,5 @@ export type ExhibitionRelatedContent = {
   exhibitionOfs: (Exhibition | EventBasic)[];
   exhibitionAbouts: ExhibitionAbout[];
 };
+
+export type AccessPDF = Link & { size: number };

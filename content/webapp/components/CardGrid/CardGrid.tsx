@@ -61,11 +61,7 @@ const CardGrid: FunctionComponent<Props> = ({
                 <EventPromo event={item} position={i} fromDate={fromDate} />
               )}
               {item.type === 'articles' && (
-                <StoryPromo
-                  article={item}
-                  position={i}
-                  hidePromoText={hidePromoText}
-                />
+                <StoryPromo article={item} hidePromoText={hidePromoText} />
               )}
               {item.type === 'exhibition-guides' && (
                 <ExhibitionGuidePromo exhibitionGuide={item} />
@@ -86,11 +82,11 @@ const CardGrid: FunctionComponent<Props> = ({
       </CssGridContainer>
       {links && links.length > 0 && (
         <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {links.map(link => (
               <Space
-                v={{ size: 'm', properties: ['margin-top'] }}
                 key={link.url}
+                $v={{ size: 'm', properties: ['margin-top'] }}
               >
                 <MoreLink url={link.url} name={link.text} />
               </Space>

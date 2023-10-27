@@ -4,7 +4,8 @@ import {
   Exhibition,
   ExhibitionBasic,
   ExhibitionRelatedContent,
-} from '../../../types/exhibitions';
+  AccessPDF,
+} from '@weco/content/types/exhibitions';
 import {
   ExhibitionPrismicDocument,
   ExhibitionRelatedContentPrismicDocument,
@@ -64,16 +65,25 @@ export function transformExhibition(
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
   );
-  const accessResourcesPdfs = data.accessResourcesPdfs?.map(i => {
-    const text = asText(i.linkText) || '';
-    const url = transformLink(i.documentLink) || '';
-    const size = Math.round(parseInt(i.documentLink.size) / 1000) || 0;
-    return {
-      text,
-      url,
-      size,
-    };
-  });
+
+  const accessResourcesPdfs: AccessPDF[] = data.accessResourcesPdfs
+    ?.map(i => {
+      const size = Math.round(parseInt(i.documentLink.size) / 1000) || 0;
+
+      // Filter out empty access document blocks
+      if (size > 0) {
+        const text = asText(i.linkText) || '';
+        const url = transformLink(i.documentLink) || '';
+
+        return {
+          text,
+          url,
+          size,
+        };
+      }
+      return undefined;
+    })
+    .filter((doc): doc is AccessPDF => !!doc);
 
   const accessResourcesText = asRichText(data.accessResourcesText);
 

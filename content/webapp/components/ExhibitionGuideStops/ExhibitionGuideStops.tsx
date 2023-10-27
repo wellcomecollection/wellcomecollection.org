@@ -15,8 +15,8 @@ import GridFactory, {
 import { font } from '@weco/common/utils/classnames';
 
 const Stop = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   background: ${props => props.theme.color('warmNeutral.300')};
   height: 100%;
@@ -38,7 +38,7 @@ const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   titleProps,
 }) => (
   <VideoPlayerWrapper>
-    <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+    <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
       <figcaption className={font('intb', 5)} {...titleProps}>
         {title}
       </figcaption>

@@ -13,7 +13,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const Cell = styled(Space).attrs({
-  h: { size: 'm', properties: ['margin-right'] },
+  $h: { size: 'm', properties: ['margin-right'] },
 })`
   background-color: ${props => props.theme.color('neutral.200')};
   color: ${props => props.theme.color('black')};
@@ -27,13 +27,9 @@ const Cell = styled(Space).attrs({
   }
 `;
 
-type LinkProps = {
-  href: string;
-};
-
 const Link = styled(Space).attrs({
   as: 'a',
-})<LinkProps>`
+})`
   display: flex;
   padding: 6px;
 `;

@@ -79,11 +79,6 @@ const SearchBar: FunctionComponent<Props> = ({
           <ClearSearch
             inputRef={inputRef || defaultInputRef}
             setValue={setInputValue}
-            gaEvent={{
-              category: 'SearchForm',
-              action: 'clear search',
-              label: 'search',
-            }}
             right={16}
           />
         )}

@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 
 const CaptionText = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left'] },
+  $h: { size: 'm', properties: ['padding-left'] },
 })`
   text-align: left;
   border-left: 1px solid currentColor;
@@ -23,13 +23,13 @@ const CaptionWrapper = styled.div`
 `;
 
 const Wrapper = styled(Space).attrs({
-  v: {
+  $v: {
     size: 'm',
     properties: ['margin-top'],
   },
   className: `${font('lr', 6)} caption`,
-})<{ width?: number }>`
-  ${props => (props.width ? `width: ${props.width}px;` : '')}
+})<{ $width?: number }>`
+  ${props => (props.$width ? `width: ${props.$width}px;` : '')}
 
   margin-left: auto;
   margin-right: auto;
@@ -54,7 +54,7 @@ const Caption: FunctionComponent<Props> = ({
     // _before_ the img alt unless the figcaption is wrapped. On balance, it
     // makes sense to have more accessible markup at the expense of it being
     // less valid.
-    <Wrapper width={width}>
+    <Wrapper $width={width}>
       <figcaption>
         <CaptionWrapper>
           {preCaptionNode}

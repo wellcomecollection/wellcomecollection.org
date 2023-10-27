@@ -55,7 +55,7 @@ const SubNavigation: FunctionComponent<Props> = ({
                   legacyBehavior
                 >
                   <NavItemInner
-                    selected={isSelected}
+                    $selected={isSelected}
                     aria-current={isSelected ? 'page' : 'false'}
                     onClick={e => {
                       if (!isSelected) {
@@ -70,7 +70,7 @@ const SubNavigation: FunctionComponent<Props> = ({
                     {item.icon && (
                       <Space
                         as="span"
-                        h={{ size: 's', properties: ['margin-right'] }}
+                        $h={{ size: 's', properties: ['margin-right'] }}
                       >
                         <IconWrapper>
                           <Icon icon={item.icon} />

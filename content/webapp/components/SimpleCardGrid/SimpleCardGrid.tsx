@@ -23,7 +23,6 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
   return (
     <Layout12>
       <FeaturedCard
-        id="featured-card"
         image={
           image && {
             ...image,
@@ -87,7 +86,7 @@ const CardGrid: FunctionComponent<Props> = ({
         </div>
       </CssGridContainer>
       {featuredCard && !isFeaturedFirst && (
-        <Space v={{ size: 'l', properties: ['padding-top'] }}>
+        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
           <CardGridFeaturedCard item={featuredCard} />
         </Space>
       )}

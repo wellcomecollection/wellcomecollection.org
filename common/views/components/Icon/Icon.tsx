@@ -4,9 +4,9 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 import { IconSvg } from '@weco/common/icons';
 
 type WrapperProps = {
-  rotate?: number;
-  iconColor?: PaletteColor;
-  matchText?: boolean;
+  $rotate?: number;
+  $iconColor?: PaletteColor;
+  $matchText?: boolean;
 };
 
 const Wrapper = styled.span.attrs({
@@ -18,11 +18,12 @@ const Wrapper = styled.span.attrs({
   position: relative;
   user-select: none;
 
-  ${props => props.iconColor && `color: ${props.theme.color(props.iconColor)};`}
-  ${props => props.rotate && `transform: rotate(${props.rotate}deg);`}
+  ${props =>
+    props.$iconColor && `color: ${props.theme.color(props.$iconColor)};`}
+  ${props => props.$rotate && `transform: rotate(${props.$rotate}deg);`}
 
   ${props =>
-    props.matchText &&
+    props.$matchText &&
     `
     height: 1em;
     width: 1em;
@@ -59,10 +60,10 @@ const Icon: FunctionComponent<Props> = ({
   attrs = {},
 }: Props) => (
   <Wrapper
-    rotate={rotate}
-    iconColor={iconColor}
-    matchText={matchText}
     aria-hidden={title ? true : undefined}
+    $rotate={rotate}
+    $iconColor={iconColor}
+    $matchText={matchText}
   >
     <svg
       className="icon__svg"

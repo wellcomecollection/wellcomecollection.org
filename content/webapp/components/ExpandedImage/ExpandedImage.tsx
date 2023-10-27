@@ -48,8 +48,8 @@ const ImageInfoWrapper = styled.div`
 `;
 
 const MetadataWrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
   className: font('intr', 5),
+  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -68,7 +68,7 @@ const ModalTitle = styled.h2.attrs({
 `;
 
 const ImageWrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'l', properties: ['margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -121,7 +121,7 @@ const InfoWrapper = styled.div`
 `;
 
 const ViewImageButtonWrapper = styled(Space).attrs({
-  h: { size: 'm', properties: ['margin-right'] },
+  $h: { size: 'm', properties: ['margin-right'] },
 })`
   display: inline-block;
 `;
@@ -310,7 +310,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
         )}
         <InfoWrapper>
           {(displayTitle || displayContributor || license) && (
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               {displayTitle && (
                 <ModalTitle
                   dangerouslySetInnerHTML={{ __html: displayTitle }}
@@ -341,7 +341,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           )}
 
           {expandedImageLink && (
-            <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
               <ViewImageButtonWrapper>
                 <ButtonSolidLink
                   text="View image"

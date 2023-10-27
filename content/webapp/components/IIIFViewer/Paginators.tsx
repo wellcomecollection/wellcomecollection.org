@@ -3,7 +3,6 @@ import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import Rotator from '@weco/common/views/components/styled/Rotator';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { useContext } from 'react';
 import { arrow } from '@weco/common/icons';
@@ -23,21 +22,17 @@ const StyledPaginatorButtons = styled.div`
 `;
 
 const PaginatorButtons = ({
-  workId,
-  currentPage,
   prevLink,
   nextLink,
 }: {
-  workId: string;
-  currentPage: number;
   prevLink?: LinkProps;
   nextLink?: LinkProps;
 }) => {
   return (
     <PaginatorWrapper>
       {prevLink && (
-        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-          <Rotator rotate={270}>
+        <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Rotator $rotate={270}>
             <Control
               scroll={false}
               replace={true}
@@ -45,20 +40,13 @@ const PaginatorButtons = ({
               colorScheme="light"
               icon={arrow}
               text="Previous page"
-              clickHandler={() => {
-                trackGaEvent({
-                  category: 'Control',
-                  action: 'clicked work viewer previous page link',
-                  label: `${workId} | page: ${currentPage}`,
-                });
-              }}
             />
           </Rotator>
         </Space>
       )}
       {nextLink && (
-        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-          <Rotator rotate={90}>
+        <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Rotator $rotate={90}>
             <Control
               scroll={false}
               replace={true}
@@ -66,13 +54,6 @@ const PaginatorButtons = ({
               colorScheme="light"
               icon={arrow}
               text="Next page"
-              clickHandler={() => {
-                trackGaEvent({
-                  category: 'Control',
-                  action: 'clicked work viewer next page link',
-                  label: `${workId} | page: ${currentPage}`,
-                });
-              }}
             />
           </Rotator>
         </Space>
@@ -88,7 +69,6 @@ export const CanvasPaginator = () => {
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
   const { canvases } = { ...transformedManifest };
   const totalResults = canvases?.length || 1;
-  const workId = work.id;
   const link = itemLink({
     workId: work.id,
     props: {
@@ -152,10 +132,9 @@ export const CanvasPaginator = () => {
       }
     : undefined;
 
-  const props = { workId, currentPage, prevLink, nextLink };
   return (
     <StyledPaginatorButtons>
-      <PaginatorButtons {...props} />
+      <PaginatorButtons prevLink={prevLink} nextLink={nextLink} />
     </StyledPaginatorButtons>
   );
 };
@@ -164,7 +143,6 @@ export const ThumbnailsPaginator = () => {
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
   const { canvases } = { ...transformedManifest };
   const totalResults = canvases?.length || 1;
-  const workId = work.id;
   const link = itemLink({
     workId: work.id,
     props: {
@@ -216,10 +194,10 @@ export const ThumbnailsPaginator = () => {
         },
       }
     : undefined;
-  const props = { workId, currentPage, prevLink, nextLink };
+
   return (
     <StyledPaginatorButtons>
-      <PaginatorButtons {...props} />
+      <PaginatorButtons prevLink={prevLink} nextLink={nextLink} />
     </StyledPaginatorButtons>
   );
 };

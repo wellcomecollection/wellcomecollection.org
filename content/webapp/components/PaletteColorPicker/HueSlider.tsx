@@ -31,12 +31,12 @@ const HueBar = styled.div`
 `;
 
 type HandleProps = {
-  leftOffset: number;
+  $leftOffset: number;
 };
 
-const Handle = styled.span.attrs<HandleProps>(({ leftOffset }) => ({
+const Handle = styled.span.attrs<HandleProps>(({ $leftOffset }) => ({
   style: {
-    left: `${leftOffset * 100}%`,
+    left: `${$leftOffset * 100}%`,
   },
 }))<HandleProps>`
   display: inline-block;
@@ -167,7 +167,7 @@ const HueSlider: FunctionComponent<Props> = ({
       aria-valuetext={hue.toString()}
       {...otherProps}
     >
-      <Handle leftOffset={isDragging ? position : hue / 360} />
+      <Handle $leftOffset={isDragging ? position : hue / 360} />
     </HueBar>
   );
 };

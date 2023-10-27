@@ -17,15 +17,15 @@ type Props = PropsWithChildren<{
 }>;
 
 const InfoContainer = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })`
   background-color: ${props => props.theme.color('yellow')};
 `;
 
 const InfoIconWrapper = styled(Space).attrs({
-  h: { size: 's', properties: ['margin-right'] },
   className: font('intb', 4),
+  $h: { size: 's', properties: ['margin-right'] },
 })`
   float: left;
 `;
@@ -45,7 +45,7 @@ const InfoBox: FunctionComponent<Props> = ({ title, items, children }) => {
             {title && <h3 className={font('intb', 5)}>{title}</h3>}
             {description && (
               <Space
-                v={{ size: 'm', properties: ['margin-bottom'] }}
+                $v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={font('intr', 5)}
               >
                 <PrismicHtmlBlock html={description} />

@@ -33,19 +33,19 @@ export const PasswordInput: React.FunctionComponent<
 
   return (
     <>
-      <TextInputWrap hasErrorBorder={fieldState.invalid}>
+      <TextInputWrap $hasErrorBorder={fieldState.invalid}>
         <TextInputLabel
           htmlFor={props.id}
-          isEnhanced={true}
-          hasValue={!!field.value}
+          $isEnhanced={true}
+          $hasValue={!!field.value}
         >
           {props.label}
         </TextInputLabel>
         <TextInputInput
-          hasErrorBorder={fieldState.invalid}
           id={props.id || props.name}
-          type={isVisible ? 'text' : 'password'}
           {...field}
+          $hasErrorBorder={fieldState.invalid}
+          $type={isVisible ? 'text' : 'password'}
         />
         <ShowPasswordButton
           onClick={toggleVisibility}

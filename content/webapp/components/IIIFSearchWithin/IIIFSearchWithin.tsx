@@ -51,7 +51,7 @@ const SearchButtonWrapper = styled.div`
 
 const ResultsHeader = styled(Space).attrs({
   as: 'h3',
-  v: { size: 'm', properties: ['margin-top'] },
+  $v: { size: 'm', properties: ['margin-top'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
@@ -93,7 +93,7 @@ const Loading = () => (
       height: '80px',
     }}
   >
-    <LL small={true} lighten={true} />
+    <LL $small={true} $lighten={true} />
     <span className="visually-hidden">Loading</span>
   </div>
 );
@@ -117,7 +117,7 @@ const Hit: FunctionComponent<HitProps> = ({
       : '';
   return (
     <>
-      <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
+      <HitData $v={{ size: 's', properties: ['margin-bottom'] }}>
         {`Found on image ${matchingCanvasParam}${
           totalCanvases ? ` / ${totalCanvases}` : ''
         }`}
@@ -214,11 +214,6 @@ const IIIFSearchWithin: FunctionComponent = () => {
           {value !== '' && (
             <ClearSearch
               inputRef={inputRef}
-              gaEvent={{
-                category: 'IIIFViewer',
-                action: 'clear search',
-                label: 'item-search-within',
-              }}
               clickHandler={handleClearResults}
               setValue={setValue}
               right={10}

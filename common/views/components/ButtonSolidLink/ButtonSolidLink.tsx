@@ -7,7 +7,6 @@ import {
   SolidButton,
   ButtonSolidBaseProps,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 
@@ -26,20 +25,17 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   link,
   icon,
   isTextHidden,
-  trackingEvent,
   clickHandler,
   ariaControls,
   ariaExpanded,
   dataGtmTrigger,
   size,
-  hoverUnderline,
   ariaLabel,
   colors,
   isIconAfter,
 }) => {
   function handleClick(event: SyntheticEvent<HTMLButtonElement>): void {
     clickHandler && clickHandler(event);
-    trackingEvent && trackGaEvent(trackingEvent);
   }
 
   const isNextLink = typeof link === 'object';
@@ -60,11 +56,10 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         aria-expanded={ariaExpanded}
         data-gtm-trigger={dataGtmTrigger}
         onClick={handleClick}
-        size={size}
         href={getHref(link)}
-        ariaLabel={ariaLabel}
-        colors={colors}
-        hoverUnderline={hoverUnderline}
+        $ariaLabel={ariaLabel}
+        $size={size}
+        $colors={colors}
       >
         <BaseButtonInner>
           {isIconAfter && (
@@ -77,7 +72,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
             </span>
           )}
           {icon && (
-            <ButtonIconWrapper iconAfter={isIconAfter}>
+            <ButtonIconWrapper $iconAfter={isIconAfter}>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}

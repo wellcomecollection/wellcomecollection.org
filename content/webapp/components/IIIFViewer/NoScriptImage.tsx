@@ -48,7 +48,7 @@ export const NoScriptImage = ({ urlTemplate, canvasOcr }) => {
   return (
     <>
       <NoScriptLoadingWrapper>
-        <LL lighten={true} />
+        <LL $lighten={true} />
       </NoScriptLoadingWrapper>
       <DelayVisibility>
         <CanvasPaginator />

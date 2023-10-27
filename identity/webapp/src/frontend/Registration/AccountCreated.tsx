@@ -12,7 +12,7 @@ export const AccountCreated: React.FunctionComponent = () => {
   return (
     <PageWrapper title="Account created">
       <Layout10>
-        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
               <SectionHeading as="h1">

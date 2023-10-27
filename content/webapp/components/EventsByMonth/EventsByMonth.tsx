@@ -47,7 +47,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
 
   return (
     <div>
-      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <CssGridContainer>
           <div className="css-grid">
             <div className={cssGrid(gridSize12)}>

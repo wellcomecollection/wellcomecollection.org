@@ -2,7 +2,6 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Card as CardType } from '@weco/content/types/card';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
@@ -18,7 +17,7 @@ type Props = {
   item: CardType;
 };
 
-export const CardOuter = styled.a.attrs({
+export const CardOuter = styled.a.attrs<{ 'data-gtm-trigger'?: 'card_link' }>({
   'data-gtm-trigger': 'card_link',
 })`
   height: 100%;
@@ -77,12 +76,12 @@ export const CardOuter = styled.a.attrs({
 `;
 
 export const CardPostBody = styled(Space).attrs({
-  v: {
+  $v: {
     size: 'm',
     properties: ['padding-bottom'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  h: {
+  $h: {
     size: 'm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
@@ -103,8 +102,8 @@ export const CardPostBody = styled(Space).attrs({
 `;
 
 export const CardBody = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top'] },
-  h: {
+  $v: { size: 'm', properties: ['padding-top'] },
+  $h: {
     size: 'm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
@@ -158,9 +157,9 @@ const Description = styled.p.attrs({
 `;
 
 export const CardTitle = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom'] },
   as: 'h3',
   className: font('wb', 3),
+  $v: { size: 's', properties: ['margin-bottom'] },
 })`
   transition: color 400ms ease;
 `;
@@ -169,16 +168,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
   const image = getCrop(item.image, '16:9');
 
   return (
-    <CardOuter
-      href={item.link}
-      onClick={() => {
-        trackGaEvent({
-          category: 'Card',
-          action: 'follow link',
-          label: `${item.title || ''}`,
-        });
-      }}
-    >
+    <CardOuter href={item.link}>
       <CardImageWrapper>
         {image && (
           <PrismicImage

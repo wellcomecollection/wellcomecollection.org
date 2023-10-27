@@ -25,7 +25,7 @@ import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 
 const ThumbnailSpacer = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   height: 400px;
 
@@ -78,7 +78,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     <div style={style}>
       {scrollVelocity > 1 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL lighten={true} />
+          <LL $lighten={true} />
         </div>
       ) : (
         currentCanvas && (
@@ -117,6 +117,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
 
 Cell.displayName = 'Cell';
 
+// TODO these seem unused; should they be removed?
 type GridViewerElProps = {
   isVisible?: boolean;
   isFullscreen?: boolean;

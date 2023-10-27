@@ -40,14 +40,13 @@ function getFormatString(format: string): DownloadFormat | undefined {
 
 const Wrapper = styled.div.attrs({
   className: font('intr', 5),
-})<{ isEnhanced: boolean }>`
+})<{ $isEnhanced: boolean }>`
   position: relative;
-  ${props => (props.isEnhanced ? 'display: inline-block;' : '')}
+  ${props => (props.$isEnhanced ? 'display: inline-block;' : '')}
 `;
 
 type Props = {
   ariaControlsId: string;
-  workId: string;
   downloadOptions: DownloadOption[];
   useDarkControl?: boolean;
   isInline?: boolean;
@@ -55,7 +54,6 @@ type Props = {
 
 const Download: FunctionComponent<Props> = ({
   ariaControlsId,
-  workId,
   downloadOptions,
   useDarkControl = false,
   isInline = false,
@@ -64,7 +62,7 @@ const Download: FunctionComponent<Props> = ({
   const { isEnhanced } = useContext(AppContext);
 
   return (
-    <Wrapper isEnhanced={isEnhanced} ref={downloadsContainer}>
+    <Wrapper $isEnhanced={isEnhanced} ref={downloadsContainer}>
       {downloadOptions.length > 0 && (
         <>
           <DropdownButton
@@ -77,11 +75,6 @@ const Download: FunctionComponent<Props> = ({
               <SpacingComponent>
                 <PlainList>
                   {downloadOptions.map(option => {
-                    const action = option.id?.match(/\/full\/full\//)
-                      ? 'download large work image'
-                      : option.id?.match(/\/full\/760/)
-                      ? 'download small work image'
-                      : option.label;
                     const format = getFormatString(option.format);
 
                     return (
@@ -96,11 +89,6 @@ const Download: FunctionComponent<Props> = ({
                           format={format}
                           width={option.width}
                           mimeType={option.format}
-                          trackingEvent={{
-                            category: 'Button',
-                            action,
-                            label: workId,
-                          }}
                         />
                       </li>
                     );

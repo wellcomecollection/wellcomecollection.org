@@ -1,5 +1,5 @@
 import { ComponentType, FunctionComponent, PropsWithChildren } from 'react';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider, StyleSheetManager } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
@@ -8,23 +8,25 @@ export const ContextDecorator: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle isFontsLoaded={true} />
-      <AppContextProvider>
-        <div className="enhanced">{children}</div>
-      </AppContextProvider>
-    </ThemeProvider>
+    <StyleSheetManager enableVendorPrefixes>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle isFontsLoaded={true} />
+        <AppContextProvider>
+          <div className="enhanced">{children}</div>
+        </AppContextProvider>
+      </ThemeProvider>
+    </StyleSheetManager>
   );
 };
 
 const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
   return (
     <Space
-      v={{
+      $v={{
         size: 'xl',
         properties: ['margin-top'],
       }}
-      h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+      $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       className="body-text"
       style={{
         border: '1px solid #eee',
@@ -48,7 +50,7 @@ const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
       >
         README
       </span>
-      <Space v={{ size: 'm', properties: ['padding-top'] }}>
+      <Space $v={{ size: 'm', properties: ['padding-top'] }}>
         <Readme />
       </Space>
     </Space>
@@ -56,7 +58,7 @@ const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
 };
 
 type ReadmeDecoratorProps = PropsWithChildren<{
-  WrappedComponent: ComponentType;
+  WrappedComponent: PropsWithChildren<ComponentType>;
   args: Record<string, unknown>;
   Readme: ComponentType;
   order?: 'componentFirst' | 'readmeFirst';

@@ -7,12 +7,12 @@ import Space from '@weco/common/views/components/styled/Space';
 type WrapperProps = { isLast: boolean };
 
 const CheckboxRadioWrapper = styled(Space).attrs<WrapperProps>(props => ({
-  v: {
+  $v: {
     size: 'm',
     properties: ['padding-top', 'padding-bottom'],
     overrides: { small: 3, medium: 3, large: 3 },
   },
-  h: !props.isLast ? { size: 'm', properties: ['margin-right'] } : undefined,
+  $h: !props.isLast ? { size: 'm', properties: ['margin-right'] } : undefined,
 }))<WrapperProps>`
   display: inline-flex;
   justify-content: center;

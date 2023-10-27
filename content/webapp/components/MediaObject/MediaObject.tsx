@@ -17,17 +17,17 @@ export type Props = {
 };
 
 type ImageWrapperProp = {
-  hasImage: boolean;
+  $hasImage: boolean;
 };
 
 const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => ({
-  className: props.hasImage
+  className: props.$hasImage
     ? grid({ s: 2, m: 2, l: 2, xl: 2 })
     : grid(gridSize12),
 }))<ImageWrapperProp>``;
 
 const TextWrapper = styled.div.attrs<HasImageProps>(props => ({
-  className: props.hasImage
+  className: props.$hasImage
     ? grid({ s: 10, m: 10, l: 10, xl: 10 })
     : grid(gridSize12),
 }))<HasImageProps>``;

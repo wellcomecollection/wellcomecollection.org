@@ -7,12 +7,12 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import styled from 'styled-components';
 import { rotateRight, zoomIn } from '@weco/common/icons';
 
-const ImageViewerControlsEl = styled.div<{ showControls?: boolean }>`
+const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
   position: absolute;
   bottom: 0;
   left: 73%;
   z-index: 1;
-  opacity: ${props => (props.showControls ? 1 : 0)};
+  opacity: ${props => (props.$showControls ? 1 : 0)};
   transition: opacity 300ms ease;
   display: flex;
 
@@ -91,10 +91,10 @@ const ImageViewerControls: FunctionComponent = () => {
   const { canvas } = query;
 
   return (
-    <ImageViewerControlsEl showControls={showControls}>
+    <ImageViewerControlsEl $showControls={showControls}>
       <Space
-        h={{ size: 's', properties: ['margin-left'] }}
-        v={{ size: 'l', properties: ['margin-bottom'] }}
+        $h={{ size: 's', properties: ['margin-left'] }}
+        $v={{ size: 'l', properties: ['margin-bottom'] }}
       >
         <Control
           colorScheme="black-on-white"
@@ -106,8 +106,8 @@ const ImageViewerControls: FunctionComponent = () => {
         />
       </Space>
       <Space
-        h={{ size: 's', properties: ['margin-left'] }}
-        v={{ size: 'l', properties: ['margin-bottom'] }}
+        $h={{ size: 's', properties: ['margin-left'] }}
+        $v={{ size: 'l', properties: ['margin-bottom'] }}
       >
         <Control
           colorScheme="black-on-white"

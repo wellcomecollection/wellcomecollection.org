@@ -15,12 +15,12 @@ const TypeItem = styled.li`
       `}
 `;
 
-const TypeLink = styled.a<{ backgroundColor: PaletteColor }>`
+const TypeLink = styled.a<{ $backgroundColor: PaletteColor }>`
   display: block;
   height: 100%;
   width: 100%;
   text-decoration: none;
-  background: ${props => props.theme.color(props.backgroundColor)};
+  background: ${props => props.theme.color(props.$backgroundColor)};
 
   &:hover {
     background: ${props => props.theme.color('neutral.400')};
@@ -49,10 +49,10 @@ const TypeOption: FunctionComponent<Props> = ({
   onClick,
 }) => (
   <TypeItem>
-    <TypeLink href={url} backgroundColor={backgroundColor} onClick={onClick}>
+    <TypeLink href={url} $backgroundColor={backgroundColor} onClick={onClick}>
       <Space
-        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+        $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       >
         <h2 className={font('wb', 3)}>{title}</h2>
         <p className={font('intr', 5)}>{text}</p>

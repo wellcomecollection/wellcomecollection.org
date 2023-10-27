@@ -25,8 +25,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
 
 const ToggleMessageBar = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('yellow')};
   display: flex;
@@ -74,10 +74,10 @@ const TogglesMessage: FunctionComponent = () => {
   return toggles.length > 0 ? (
     <Layout8>
       <ToggleMessageBar>
-        <Space h={{ size: 's', properties: ['margin-right'] }}>
+        <Space $h={{ size: 's', properties: ['margin-right'] }}>
           <Icon icon={underConstruction} />
         </Space>
-        <Space h={{ size: 's', properties: ['margin-right'] }}>
+        <Space $h={{ size: 's', properties: ['margin-right'] }}>
           You have the following{' '}
           <a href="https://dash.wellcomecollection.org/toggles">toggles</a>{' '}
           enabled:{' '}
@@ -114,7 +114,7 @@ const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
       openGraphType="website"
       hideNewsletterPromo={true}
     >
-      <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
+      <Space $v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader
           breadcrumbs={{ items: [] }}
           labels={undefined}

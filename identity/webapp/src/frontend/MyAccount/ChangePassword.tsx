@@ -187,11 +187,11 @@ export const ChangePassword: React.FunctionComponent<
               <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
-          <Space v={{ size: 's', properties: ['margin-top'] }}>
+          <Space $v={{ size: 's', properties: ['margin-top'] }}>
             <PasswordRules {...passwordRules} />
           </Space>
         </FieldMargin>
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           <ButtonSolid type={ButtonTypes.submit} text="Update password" />
         </Space>
       </form>

@@ -14,9 +14,9 @@ const List = styled(PlainList)`
   border-radius: 5px;
 `;
 
-const Item = styled.li<{ isActive: boolean }>`
+const Item = styled.li<{ $isActive: boolean }>`
   ${props =>
-    props.isActive &&
+    props.$isActive &&
     `
     background: ${props.theme.color('neutral.600')};
   `}
@@ -31,15 +31,9 @@ const Button = styled.button.attrs({
 
 const ButtonInner = styled(Space).attrs({
   as: 'span',
-  h: {
-    size: 'xs',
-    properties: ['padding-right', 'padding-left'],
-  },
-  v: {
-    size: 'xs',
-    properties: ['padding-top', 'padding-bottom'],
-  },
   className: font('intb', 5),
+  $h: { size: 'xs', properties: ['padding-right', 'padding-left'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })<{ isActive: boolean }>`
   display: flex;
   align-items: center;
@@ -67,7 +61,7 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
   return (
     <List>
       {items.map(item => (
-        <Item isActive={activeId === item.id} key={item.id}>
+        <Item $isActive={activeId === item.id} key={item.id}>
           <Button
             onClick={item.clickHandler}
             data-gtm-trigger={item.dataGtmTrigger}
@@ -78,7 +72,7 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
                 iconColor={activeId === item.id ? 'yellow' : 'neutral.600'}
               />
               <Space
-                h={
+                $h={
                   hideLabels
                     ? undefined
                     : {

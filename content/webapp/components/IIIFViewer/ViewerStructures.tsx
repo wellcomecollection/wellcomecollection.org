@@ -19,14 +19,14 @@ export const List = styled(PlainList)`
 
 export const Item = styled(Space).attrs({
   as: 'li',
-  v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: font('intr', 5),
-})<{ isActive: boolean }>`
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})<{ $isActive: boolean }>`
   position: relative;
 
   ${props =>
-    props.isActive &&
+    props.$isActive &&
     `
       background: #222; // FIXME: we don't have a shade between dark-charcoal and black in the palette (light-black?)
 
@@ -64,7 +64,7 @@ const ViewerStructures: FunctionComponent = () => {
         return (
           <Item
             key={i}
-            isActive={canvas === arrayIndexToQueryParam(canvasIndex)}
+            $isActive={canvas === arrayIndexToQueryParam(canvasIndex)}
           >
             <NextLink
               replace={true}

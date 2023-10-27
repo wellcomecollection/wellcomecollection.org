@@ -49,20 +49,20 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
             </div>
           )}
           <Space
-            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <Layout8>
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <TextWrapper>
-                  <Space h={{ size: 'm', properties: ['padding-left'] }}>
+                  <Space $h={{ size: 'm', properties: ['padding-left'] }}>
                     {labels.length > 0 && (
                       <LabelsList
                         labels={labels}
                         defaultLabelColor="accent.salmon"
                       />
                     )}
-                    <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
                         <h1
                           className={font('wb', 1)}
                           style={{ display: 'inline-block', marginBottom: 0 }}

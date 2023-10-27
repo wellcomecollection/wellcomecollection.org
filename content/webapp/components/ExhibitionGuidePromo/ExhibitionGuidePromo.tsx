@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody, CardImageWrapper, CardTitle } from '../Card/Card';
@@ -20,13 +19,6 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
         exhibitionGuide.promo?.link ||
         `/guides/exhibitions/${exhibitionGuide.id}`
       }
-      onClick={() => {
-        trackGaEvent({
-          category: 'ExhibitionGuide',
-          action: 'follow link',
-          label: `${exhibitionGuide.id}`,
-        });
-      }}
     >
       {exhibitionGuide.promo?.image && (
         <CardImageWrapper>
@@ -53,7 +45,7 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
         <div>
           <CardTitle>{exhibitionGuide.title}</CardTitle>
           {exhibitionGuide.promo?.caption && (
-            <Space v={{ size: 's', properties: ['margin-top'] }}>
+            <Space $v={{ size: 's', properties: ['margin-top'] }}>
               <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
                 {exhibitionGuide.promo.caption}
               </p>

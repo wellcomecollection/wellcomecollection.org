@@ -12,7 +12,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { chat, clear } from '@weco/common/icons';
@@ -20,20 +19,19 @@ import { InferDataInterface } from '../../../services/prismic/types';
 import { transformLink } from '../../../services/prismic/transformers';
 
 type PopupDialogOpenProps = {
-  isActive: boolean;
-  shouldStartAnimation: boolean;
+  $shouldStartAnimation: boolean;
+  $isActive: boolean;
 };
 const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
-  'aria-hidden': props.isActive ? 'true' : 'false',
+  'aria-hidden': props.$isActive ? 'true' : 'false',
   'aria-controls': 'user-initiated-dialog-window',
-  tabIndex: props.isActive ? '-1' : '0',
   as: 'button',
-  v: {
+  $v: {
     size: 'm',
     properties: ['padding-top', 'padding-bottom'],
     overrides: { small: 4, medium: 4, large: 4 },
   },
-  h: {
+  $h: {
     size: 'm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
@@ -46,19 +44,20 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
   color: ${props => props.theme.color('accent.purple')};
   position: fixed;
   transform: ${props =>
-    props.isActive || !props.shouldStartAnimation
+    props.$isActive || !props.$shouldStartAnimation
       ? 'translateY(10px)'
       : 'translateY(0)'};
   bottom: 20px;
   left: 20px;
   z-index: 3;
   background: ${props => props.theme.color('white')};
-  opacity: ${props => (props.isActive || !props.shouldStartAnimation ? 0 : 1)};
+  opacity: ${props =>
+    props.$isActive || !props.$shouldStartAnimation ? 0 : 1};
   transition:
     opacity 500ms ease,
     filter 500ms ease,
     transform 500ms ease;
-  transition-delay: ${props => (props.isActive ? '0ms' : '500ms')};
+  transition-delay: ${props => (props.$isActive ? '0ms' : '500ms')};
   border-radius: 9999px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 
@@ -74,17 +73,17 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
 `;
 
 type PopupDialogWindowProps = {
-  isActive: boolean;
+  $isActive: boolean;
 };
 const PopupDialogWindow = styled(Space).attrs({
   'aria-modal': true,
   id: 'user-initiated-dialog-window',
-  v: {
+  $v: {
     size: 'l',
     properties: ['padding-top', 'padding-bottom'],
     overrides: { small: 6, medium: 6, large: 6 },
   },
-  h: {
+  $h: {
     size: 'l',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 6, medium: 6, large: 6 },
@@ -94,14 +93,14 @@ const PopupDialogWindow = styled(Space).attrs({
   color: ${props => props.theme.color('accent.purple')};
   border-radius: 20px 0;
   box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.7);
-  opacity: ${props => (props.isActive ? 1 : 0)};
-  pointer-events: ${props => (props.isActive ? 'all' : 'none')};
+  opacity: ${props => (props.$isActive ? 1 : 0)};
+  pointer-events: ${props => (props.$isActive ? 'all' : 'none')};
   transform: ${props =>
-    props.isActive ? 'translateY(0)' : 'translateY(10px)'};
+    props.$isActive ? 'translateY(0)' : 'translateY(10px)'};
   transition:
     opacity 500ms ease,
     transform 500ms ease;
-  transition-delay: ${props => (props.isActive ? '500ms' : '0ms')};
+  transition-delay: ${props => (props.$isActive ? '500ms' : '0ms')};
   position: fixed;
   bottom: 20px;
   left: 20px;
@@ -125,12 +124,12 @@ const PopupDialogClose = styled.button`
 
 const PopupDialogCTA = styled(Space).attrs({
   as: 'a',
-  v: {
+  $v: {
     size: 'm',
     properties: ['padding-top', 'padding-bottom'],
     overrides: { small: 3, medium: 3, large: 3 },
   },
-  h: {
+  $h: {
     size: 'm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
@@ -223,10 +222,6 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
     ) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
-      trackGaEvent({
-        category: 'PopupDialog',
-        action: 'close dialog',
-      });
     }
   }
 
@@ -234,10 +229,6 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
     if (event.keyCode === 27 && isActiveRef.current) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
-      trackGaEvent({
-        category: 'PopupDialog',
-        action: 'close dialog',
-      });
     }
   }
 
@@ -274,23 +265,19 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
       <PopupDialogOpen
         title="open dialog"
         ref={openDialogRef}
-        isActive={isActive}
-        shouldStartAnimation={shouldStartAnimation}
+        tabIndex={isActive ? -1 : 0}
+        $shouldStartAnimation={shouldStartAnimation}
+        $isActive={isActive}
         onClick={() => {
           setIsActive(true);
           setFocusable(true);
           closeDialogRef &&
             closeDialogRef.current &&
             closeDialogRef.current.focus();
-
-          trackGaEvent({
-            category: 'PopupDialog',
-            action: 'open dialog',
-          });
         }}
       >
         <Space
-          h={{
+          $h={{
             size: 's',
             properties: ['margin-right'],
             overrides: { medium: 2, large: 2 },
@@ -300,7 +287,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
         </Space>
         {openButtonText}
       </PopupDialogOpen>
-      <PopupDialogWindow ref={dialogWindowRef} isActive={isActive}>
+      <PopupDialogWindow ref={dialogWindowRef} $isActive={isActive}>
         <PopupDialogClose
           title="close dialog"
           ref={closeDialogRef}
@@ -312,17 +299,12 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             openDialogRef &&
               openDialogRef.current &&
               openDialogRef.current.focus();
-
-            trackGaEvent({
-              category: 'PopupDialog',
-              action: 'close dialog',
-            });
           }}
         >
           <Icon icon={clear} title="Close dialog" iconColor="accent.purple" />
         </PopupDialogClose>
         <Space
-          h={{
+          $h={{
             size: 'm',
             properties: ['padding-right'],
             overrides: { small: 4, medium: 4, large: 4 },

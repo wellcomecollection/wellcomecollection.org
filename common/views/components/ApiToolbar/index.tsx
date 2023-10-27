@@ -13,8 +13,8 @@ export type ApiToolbarLink = {
   link?: string;
 };
 
-const ToolbarContainer = styled.div<{ mini: boolean }>`
-  display: ${props => (props.mini ? 'inline-block' : 'flex')};
+const ToolbarContainer = styled.div<{ $mini: boolean }>`
+  display: ${props => (props.$mini ? 'inline-block' : 'flex')};
   background-color: ${props => props.theme.color('accent.purple')};
   color: ${props => props.theme.color('white')};
   z-index: 100;
@@ -125,7 +125,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
   const [mini, setMini] = useState<boolean>(false);
 
   useIsomorphicLayoutEffect(() => {
-    setMini(getCookie(cookies.apiToolbarMini) === true);
+    setMini(Boolean(getCookie(cookies.apiToolbarMini)));
   }, []);
 
   const propValue = (prop: ApiToolbarLink) => {
@@ -133,7 +133,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
   };
 
   return (
-    <ToolbarContainer mini={mini}>
+    <ToolbarContainer $mini={mini}>
       <div
         style={{
           display: 'flex',

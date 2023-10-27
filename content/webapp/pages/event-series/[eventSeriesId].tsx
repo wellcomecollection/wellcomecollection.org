@@ -184,12 +184,12 @@ const EventSeriesPage: FunctionComponent<Props> = ({
         )}
 
         {pastEvents.results.length > 0 && (
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
             <SearchResults items={pastEvents.results} title="Past events" />
           </Space>
         )}
         {pastEvents.totalPages > 1 && (
-          <PaginationWrapper verticalSpacing="m" alignRight>
+          <PaginationWrapper $verticalSpacing="m" $alignRight>
             <Pagination
               totalPages={pastEvents.totalPages}
               ariaLabel="Series pagination"

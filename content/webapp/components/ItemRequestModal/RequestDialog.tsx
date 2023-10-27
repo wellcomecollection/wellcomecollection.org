@@ -1,7 +1,6 @@
 import { FunctionComponent, FormEvent, useState } from 'react';
 import { useAvailableDates } from './useAvailableDates';
 import { isRequestableDate } from '../../utils/dates';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { allowedRequests } from '@weco/common/values/requests';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -19,8 +18,8 @@ import { themeValues } from '@weco/common/views/themes/config';
 import { dateAsValue, dateFromValue } from './format-date';
 
 const PickUpDate = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'l', properties: ['column-gap'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['column-gap'] },
 })`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
@@ -45,8 +44,8 @@ const PickUpDateInputWrapper = styled.div`
 `;
 
 const ConfirmRequestButtonWrapper = styled(Space).attrs({
-  h: { size: 'l', properties: ['margin-right'] },
-  v: { size: 's', properties: ['margin-bottom'] },
+  $h: { size: 'l', properties: ['margin-right'] },
+  $v: { size: 's', properties: ['margin-bottom'] },
 })`
   display: inline-block;
 `;
@@ -106,11 +105,6 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         excludedDays: availableDates.regularClosedDays,
       })
     ) {
-      trackGaEvent({
-        category: 'requesting',
-        action: 'confirm_request',
-        label: `/works/${work.id}`,
-      });
       confirmRequest(pickUpDateValue);
     }
   }
@@ -127,17 +121,17 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
       <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
         You are about to request the following item:
       </p>
-      <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
         <p style={{ marginBottom: 0 }}>
           {work.title && <WorkTitle>{work.title}</WorkTitle>}
           {item.title && <span>{item.title}</span>}
         </p>
       </Space>
 
-      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <PickUpDate>
           <PickUpDateDescription>
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
               <p style={{ marginBottom: 0 }}>
                 Select the date you would like to view this item in the library.
               </p>

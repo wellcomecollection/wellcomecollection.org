@@ -25,7 +25,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   ref: ForwardedRef<HTMLInputElement>
 ) => (
   <label>
-    <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+    <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
       {label}
     </Space>
     {/* @types/react has some issues currently with react refs */}

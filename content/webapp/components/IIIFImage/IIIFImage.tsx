@@ -13,13 +13,13 @@ import {
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 // Not typed as PaletteColor as we want the averageColor of each image
-const StyledImage = styled(Image)<{ background: string }>`
-  background-color: ${props => props.background};
+const StyledImage = styled(Image)<{ $background: string }>`
+  background-color: ${props => props.$background};
   color: ${props => props.theme.color('neutral.700')};
 `;
 
 const StyledImageContainer = styled.div<{
-  background: string;
+  $background: string;
 }>`
   height: 100%;
   display: flex;
@@ -33,7 +33,7 @@ const StyledImageContainer = styled.div<{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${props => props.background};
+    background-color: ${props => props.$background};
     filter: saturate(50%);
     z-index: -1;
   }
@@ -74,7 +74,7 @@ const IIIFImage: FunctionComponent<Props> = ({
   // We may be able to use this in future but, until then, render our own img element.
   if (layout === 'raw') {
     return (
-      <StyledImageContainer background={background}>
+      <StyledImageContainer $background={background}>
         <img
           src={convertIiifImageUri(image.contentUrl, width)}
           srcSet={''}
@@ -87,7 +87,7 @@ const IIIFImage: FunctionComponent<Props> = ({
 
   return (
     <StyledImageContainer
-      background={background}
+      $background={background}
       style={{ height: image.height }} // to not have styledComponents generate too many classes
     >
       <StyledImage
@@ -98,7 +98,7 @@ const IIIFImage: FunctionComponent<Props> = ({
         width={image.width}
         height={image.height}
         priority={priority}
-        background="transparent"
+        $background="transparent"
         sizes={sizesString}
       />
     </StyledImageContainer>
