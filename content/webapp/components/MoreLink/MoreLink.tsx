@@ -9,15 +9,9 @@ type Props = {
   url: string | LinkProps;
   name: string;
   colors?: ButtonColors;
-  hoverUnderline?: boolean;
 };
 
-const MoreLink: FunctionComponent<Props> = ({
-  url,
-  name,
-  colors,
-  hoverUnderline,
-}) => {
+const MoreLink: FunctionComponent<Props> = ({ url, name, colors }) => {
   return (
     <ButtonSolidLink
       colors={colors || themeValues.buttonColors.charcoalTransparentCharcoal}
@@ -25,7 +19,6 @@ const MoreLink: FunctionComponent<Props> = ({
       text={name}
       link={url}
       icon={arrowSmall}
-      hoverUnderline={hoverUnderline}
     />
   );
 };

@@ -99,24 +99,26 @@ const IndexPage: FunctionComponent = () => {
             </li>
           </ul>
 
-          <table>
-            <tr>
-              <td style={{ paddingRight: '1em' }}>
-                {prismicLintResults && prismicLintResults.totalErrors === 0 && (
-                  <Issue type="success">0 issues</Issue>
-                )}
-                {prismicLintResults && prismicLintResults.totalErrors > 0 && (
-                  <Issue type="error">
-                    {prismicLintResults.totalErrors} issue
-                    {prismicLintResults.totalErrors > 1 ? 's' : ''}
-                  </Issue>
-                )}
-              </td>
-              <td>
-                <a href="/prismic-linting">Prismic linting report</a>
-              </td>
-            </tr>
-          </table>
+          {prismicLintResults && (
+            <table>
+              <tr>
+                <td style={{ paddingRight: '1em' }}>
+                  {prismicLintResults.totalErrors === 0 && (
+                    <Issue type="success">0 issues</Issue>
+                  )}
+                  {prismicLintResults.totalErrors > 0 && (
+                    <Issue type="error">
+                      {prismicLintResults.totalErrors} issue
+                      {prismicLintResults.totalErrors > 1 ? 's' : ''}
+                    </Issue>
+                  )}
+                </td>
+                <td>
+                  <a href="/prismic-linting">Prismic linting report</a>
+                </td>
+              </tr>
+            </table>
+          )}
         </div>
       </div>
     </>

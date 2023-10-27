@@ -9,7 +9,7 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: block;
 
@@ -58,7 +58,7 @@ export const Details = styled.div`
 
 export const WorkInformation = styled(Space).attrs({
   className: font('intr', 5),
-  v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

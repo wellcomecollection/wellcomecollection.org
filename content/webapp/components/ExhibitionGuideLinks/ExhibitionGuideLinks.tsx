@@ -12,8 +12,8 @@ import { plainListStyles } from '@weco/common/views/components/styled/PlainList'
 import Space from '@weco/common/views/components/styled/Space';
 
 const TypeList = styled(Space).attrs({
-  v: { size: 'l', properties: ['row-gap'] },
-  h: { size: 'l', properties: ['column-gap'] },
+  $v: { size: 'l', properties: ['row-gap'] },
+  $h: { size: 'l', properties: ['column-gap'] },
 })`
   ${plainListStyles};
   display: grid;

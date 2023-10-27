@@ -9,7 +9,7 @@ import { themeValues } from '@weco/common/views/themes/config';
 import { font } from '@weco/common/utils/classnames';
 
 const Wrapper = styled(Space).attrs({
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 16px solid ${props => props.theme.color('yellow')};
 `;
@@ -36,7 +36,7 @@ const InfoBlock: FunctionComponent<Props> = ({
         <PrismicHtmlBlock html={text} />
       </div>
       {link && linkText && (
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           <ButtonSolidLink
             colors={themeValues.buttonColors.greenTransparentGreen}
             link={link}

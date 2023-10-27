@@ -30,17 +30,17 @@ import { useToggles } from '@weco/common/server-data/Context';
 import { themeValues } from '@weco/common/views/themes/config';
 
 const Wrapper = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
-})<{ underline: boolean }>`
+  $v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
+})<{ $underline: boolean }>`
   ${props =>
-    props.underline &&
+    props.$underline &&
     `
     border-bottom: 1px solid ${props.theme.color('warmNeutral.400')};
   `}
 `;
 
 type ButtonWrapperProps = {
-  styleChangeWidth: number;
+  $styleChangeWidth: number;
 };
 
 const ButtonWrapper = styled.div<ButtonWrapperProps>`
@@ -50,7 +50,7 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
     transform: translateY(-1.2em);
   }
 
-  @media (max-width: ${props => props.styleChangeWidth}px) {
+  @media (max-width: ${props => props.$styleChangeWidth}px) {
     margin-top: ${props => props.theme.spacingUnit * 2}px;
 
     & > button {
@@ -199,7 +199,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       );
 
       dataRow.push(
-        <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
+        <ButtonWrapper $styleChangeWidth={isArchive ? 980 : 620}>
           {requestButton}
         </ButtonWrapper>
       );
@@ -230,9 +230,9 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           openButtonRef={requestButtonRef}
         />
       )}
-      <Wrapper underline={!isLast}>
+      <Wrapper $underline={!isLast}>
         {(title || itemNote) && (
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
             <DetailHeading>{title}</DetailHeading>
             {itemNote && (
               <span dangerouslySetInnerHTML={{ __html: itemNote }} />
@@ -247,7 +247,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         />
 
         {(accessNote || isHeldByUser) && (
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'm', properties: ['margin-top'] }}>
             <DetailHeading>Note</DetailHeading>
             <Placeholder
               nRows={3}

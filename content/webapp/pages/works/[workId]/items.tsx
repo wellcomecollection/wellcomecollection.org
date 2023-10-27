@@ -215,7 +215,7 @@ const ItemPage: NextPage<Props> = ({
       )}
 
       {worksTabbedNav && (
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           <Container>
             <Grid>
               <WorkHeader
@@ -229,7 +229,7 @@ const ItemPage: NextPage<Props> = ({
       )}
 
       {isNotUndefined(audio) && audio?.sounds?.length > 0 && (
-        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <Layout12>
             <AudioList
               items={audio.sounds || []}
@@ -242,7 +242,9 @@ const ItemPage: NextPage<Props> = ({
       )}
       {video && (
         <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+          <Space
+            $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+          >
             <VideoPlayer
               video={video}
               // Note: because we can't prevent people from downloading videos if
@@ -264,7 +266,7 @@ const ItemPage: NextPage<Props> = ({
         !mainImageService &&
         !iiifImageLocation && (
           <Layout12>
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
                 <BetaMessage message={unavailableImageMessage} />
               </div>
@@ -273,7 +275,7 @@ const ItemPage: NextPage<Props> = ({
         )}
       {pdf && !mainImageService && (
         <IframePdfViewer
-          v={{
+          $v={{
             size: 'l',
             properties: ['margin-bottom'],
           }}
@@ -303,8 +305,8 @@ const ItemPage: NextPage<Props> = ({
           {isAnyImageOpen && origin && (
             <Space
               style={{ display: 'inline-flex' }}
-              h={{ size: 'm', properties: ['margin-right'] }}
-              v={{ size: 'm', properties: ['margin-top'] }}
+              $h={{ size: 'm', properties: ['margin-right'] }}
+              $v={{ size: 'm', properties: ['margin-top'] }}
             >
               <ButtonSolid
                 dataGtmTrigger="show_the_content"

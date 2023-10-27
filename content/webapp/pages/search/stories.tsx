@@ -95,12 +95,12 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   ];
 
   return (
-    <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+    <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
       {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
         <>
           <Container>
             <Space
-              v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+              $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
             >
               <SearchFilters
                 query={queryString}
@@ -136,7 +136,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             </Container>
           ) : (
             <Container>
-              <PaginationWrapper verticalSpacing="l">
+              <PaginationWrapper $verticalSpacing="l">
                 <span role="status">
                   {pluralize(storyResponseList.totalResults, 'result')}
                   {activeFiltersLabels.length > 0 && (
@@ -194,7 +194,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 />
               </main>
 
-              <PaginationWrapper verticalSpacing="l" alignRight>
+              <PaginationWrapper $verticalSpacing="l" $alignRight>
                 <Pagination
                   formId={SEARCH_PAGES_FORM_ID}
                   totalPages={storyResponseList.totalPages}

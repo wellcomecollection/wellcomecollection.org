@@ -50,41 +50,41 @@ const SpacingScale = () => {
 const ScaleTemplate = () => <SpacingScale />;
 export const scale = ScaleTemplate.bind({});
 
-const ColorSection = styled.div<{ bgColor: PaletteColor }>`
-  background-color: ${props => props.theme.color(props.bgColor)};
+const ColorSection = styled.div<{ $bgColor: PaletteColor }>`
+  background-color: ${props => props.theme.color(props.$bgColor)};
   color: ${props => props.theme.color('white')};
 `;
 
 export const Spacing: FunctionComponent = () => {
   return (
-    <ColorSection bgColor="warmNeutral.300">
+    <ColorSection $bgColor="warmNeutral.300">
       <SpacingSection>
-        <ColorSection bgColor="accent.green" style={{ minHeight: '200px' }}>
+        <ColorSection $bgColor="accent.green" style={{ minHeight: '200px' }}>
           Section
         </ColorSection>
       </SpacingSection>
       <SpacingSection>
-        <ColorSection bgColor="accent.green" style={{ minHeight: '200px' }}>
+        <ColorSection $bgColor="accent.green" style={{ minHeight: '200px' }}>
           Section
           <SpacingComponent>
-            <ColorSection bgColor="accent.blue" style={{ minHeight: '100px' }}>
+            <ColorSection $bgColor="accent.blue" style={{ minHeight: '100px' }}>
               Component
             </ColorSection>
           </SpacingComponent>
           <SpacingComponent>
-            <ColorSection bgColor="accent.blue" style={{ minHeight: '100px' }}>
+            <ColorSection $bgColor="accent.blue" style={{ minHeight: '100px' }}>
               Component
             </ColorSection>
           </SpacingComponent>
           <SpacingComponent>
-            <ColorSection bgColor="accent.blue" style={{ minHeight: '100px' }}>
+            <ColorSection $bgColor="accent.blue" style={{ minHeight: '100px' }}>
               Component
             </ColorSection>
           </SpacingComponent>
         </ColorSection>
       </SpacingSection>
       <SpacingSection>
-        <ColorSection bgColor="accent.green" style={{ minHeight: '200px' }}>
+        <ColorSection $bgColor="accent.green" style={{ minHeight: '200px' }}>
           Section
         </ColorSection>
       </SpacingSection>

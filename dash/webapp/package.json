@@ -11,12 +11,11 @@
   "dependencies": {
     "@babel/core": "^7.2.0",
     "@types/react": "^18.2.7",
-    "@types/styled-components": "^5.1.26",
     "next": "^13.2.3",
     "next-cookies": "^1.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^5.3.8",
+    "styled-components": "^6.1.0",
     "typescript": "^4.9.5"
   }
 }

@@ -99,7 +99,7 @@ const NewsletterPromo: FunctionComponent = () => {
     <Space
       className="is-hidden-print"
       style={{ backgroundColor: theme.color('lightYellow') }}
-      v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+      $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
     >
       <Container>
         <Layout8>
@@ -142,7 +142,7 @@ const NewsletterPromo: FunctionComponent = () => {
                   <a href="/newsletter">All our newsletters</a>
                 </p>
 
-                <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'l', properties: ['margin-top'] }}>
                   <CheckboxRadio
                     id="MARKETINGPERMISSIONS"
                     name="cd_MARKETINGPERMISSIONS"

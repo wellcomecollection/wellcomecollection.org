@@ -17,12 +17,7 @@ const RegistrationInformation: FunctionComponent<Props> = ({ email }) => {
       <p style={{ marginBottom: 0 }}>
         Email address: <strong className={font('intb', 5)}>{email}</strong>
       </p>
-      <Space
-        v={{
-          size: 'm',
-          properties: ['margin-top', 'margin-bottom'],
-        }}
-      >
+      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
         <Divider />
       </Space>
     </>

@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import Head from 'next/head';
 
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import Space from '@weco/common/views/components/styled/Space';
+import Space, {
+  VerticalSpaceProperty,
+} from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import Pagination from '@weco/content/components/Pagination/Pagination';
@@ -51,7 +53,12 @@ type WrapperProps = {
   hasNoResults: boolean;
 };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
-  v: { size: 'xl', properties: [props.hasNoResults ? '' : 'margin-bottom'] },
+  $v: {
+    size: 'xl',
+    properties: [props.hasNoResults ? '' : 'margin-bottom'].filter(
+      Boolean
+    ) as VerticalSpaceProperty[],
+  },
 }))<WrapperProps>`
   ${props =>
     props.hasNoResults
@@ -136,7 +143,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
         <Container>
           <Space
-            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <SearchFilters
               query={queryString}
@@ -162,7 +169,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       )}
 
       <Wrapper hasNoResults={hasNoResults}>
-        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+        <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
           <Container>
             {hasNoResults ? (
               <SearchNoResults
@@ -171,7 +178,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               />
             ) : (
               <>
-                <PaginationWrapper verticalSpacing="l">
+                <PaginationWrapper $verticalSpacing="l">
                   <span role="status">
                     {pluralize(images.totalResults, 'result')}
                     {activeFiltersLabels.length > 0 && (
@@ -223,7 +230,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                   <ImageEndpointSearchResults images={images.results} />
                 </main>
 
-                <PaginationWrapper verticalSpacing="l" alignRight>
+                <PaginationWrapper $verticalSpacing="l" $alignRight>
                   <Pagination
                     formId={SEARCH_PAGES_FORM_ID}
                     totalPages={images.totalPages}

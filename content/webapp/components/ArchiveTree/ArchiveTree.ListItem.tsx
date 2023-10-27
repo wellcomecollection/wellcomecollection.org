@@ -174,10 +174,10 @@ const ListItem: FunctionComponent<ListItemProps> = ({
 
   return (
     <TreeItem
-      isEnhanced={isEnhanced}
-      showGuideline={isEnhanced && hasControl && item.openStatus && level > 1}
       id={item.work.id}
       role={isEnhanced ? 'treeitem' : undefined}
+      $isEnhanced={isEnhanced}
+      $showGuideline={isEnhanced && hasControl && item.openStatus && level > 1}
       aria-level={isEnhanced ? level : undefined}
       aria-setsize={isEnhanced ? setSize : undefined}
       aria-posinset={isEnhanced ? posInSet : undefined}
@@ -292,7 +292,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         {isEnhanced && level > 1 && hasControl && (
           <TreeControl
             data-gtm-trigger="tree_chevron"
-            highlightCondition={highlightCondition}
+            $highlightCondition={highlightCondition}
           >
             <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
           </TreeControl>
@@ -309,15 +309,15 @@ const ListItem: FunctionComponent<ListItemProps> = ({
               [font('intr', 6)]: level > 1,
             })}
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
-            isCurrent={currentWorkId === item.work.id}
             ref={currentWorkId === item.work.id ? selected : undefined}
+            $isCurrent={currentWorkId === item.work.id}
+            $hasControl={hasControl}
             data-gtm-trigger="tree_link"
             data-gtm-data-tree-level={level}
             onClick={event => {
               event.stopPropagation();
               setShowArchiveTree(false);
             }}
-            hasControl={hasControl}
           >
             <WorkTitle title={item.work.title} />
             <RefNumber>{item.work.referenceNumber}</RefNumber>

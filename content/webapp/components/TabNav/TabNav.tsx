@@ -131,7 +131,7 @@ const TabNav: FunctionComponent<Props> = ({
             }}
             onKeyDown={handleKeyDown}
           >
-            <NavItemInner selected={item.selected} variant={variant}>
+            <NavItemInner $selected={item.selected} $variant={variant}>
               {item.text}
             </NavItemInner>
           </Tab>

@@ -8,11 +8,11 @@ import { BorderlessLink } from '@weco/common/views/components/BorderlessClickabl
 import { user as userIcon } from '@weco/common/icons';
 
 type AccountAProps = {
-  last?: true;
+  $last?: true;
 };
 const AccountA = styled(Space).attrs<AccountAProps>(props => ({
-  v: props.last ? undefined : { size: 's', properties: ['margin-bottom'] },
-}))<AccountAProps>`
+  $v: props.$last ? undefined : { size: 's', properties: ['margin-bottom'] },
+}))`
   display: block;
   text-decoration: none;
 
@@ -79,7 +79,7 @@ const DesktopSignIn: FunctionComponent = () => {
               <AccountA as="a" href="/account">
                 Library account
               </AccountA>
-              <AccountA as="a" href="/account/api/auth/logout" last>
+              <AccountA as="a" href="/account/api/auth/logout" $last>
                 Sign out
               </AccountA>
             </span>

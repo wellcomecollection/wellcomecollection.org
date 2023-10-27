@@ -84,7 +84,7 @@ const ImagePage: FunctionComponent<Props> = ({
         />
       ) : (
         <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <div style={{ marginTop: '98px' }}>
               <BetaMessage message={unavailableImageMessage} />
             </div>

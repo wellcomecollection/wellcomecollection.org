@@ -9,10 +9,10 @@ type Props = {
   backgroundColor?: PaletteColor;
 };
 
-const Wrapper = styled(Space)<{ backgroundColor?: PaletteColor }>`
+const Wrapper = styled(Space)<{ $backgroundColor?: PaletteColor }>`
   background-color: ${props =>
     props.theme.color(
-      props.backgroundColor ? props.backgroundColor : 'accent.purple'
+      props.$backgroundColor ? props.$backgroundColor : 'accent.purple'
     )};
 
   transform: rotateZ(-6deg);
@@ -23,11 +23,11 @@ const Wrapper = styled(Space)<{ backgroundColor?: PaletteColor }>`
   text-align: center;
 `;
 
-const NumberSpan = styled.span<{ parentBackgroundColor?: PaletteColor }>`
+const NumberSpan = styled.span<{ $parentBackgroundColor?: PaletteColor }>`
   color: ${props =>
     props.theme.color(
-      props.parentBackgroundColor === 'yellow' ||
-        props.parentBackgroundColor === 'accent.salmon'
+      props.$parentBackgroundColor === 'yellow' ||
+        props.$parentBackgroundColor === 'accent.salmon'
         ? 'black'
         : 'white'
     )};
@@ -40,11 +40,11 @@ const Number: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => (
   <Wrapper
     as="span"
-    h={{ size: 's', properties: ['margin-left'] }}
     className={font('wb', 5)}
-    backgroundColor={backgroundColor}
+    $h={{ size: 's', properties: ['margin-left'] }}
+    $backgroundColor={backgroundColor}
   >
-    <NumberSpan parentBackgroundColor={backgroundColor}>{number}</NumberSpan>
+    <NumberSpan $parentBackgroundColor={backgroundColor}>{number}</NumberSpan>
   </Wrapper>
 );
 

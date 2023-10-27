@@ -18,7 +18,7 @@ type Props = {
 type State = 'initial' | 'loading' | 'success' | 'failed';
 
 const Wrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
+  $v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
 })`
   display: flex;
   align-items: center;
@@ -80,9 +80,9 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
 
   if (requestState === 'loading' && !similarImages.length)
     return (
-      <Space v={{ size: 'xl', properties: ['margin-bottom', 'margin-top'] }}>
+      <Space $v={{ size: 'xl', properties: ['margin-bottom', 'margin-top'] }}>
         <div style={{ height: '120px' }}>
-          <LL small position="relative" />
+          <LL $small $position="relative" />
         </div>
       </Space>
     );

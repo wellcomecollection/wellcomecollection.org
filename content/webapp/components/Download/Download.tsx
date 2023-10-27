@@ -40,9 +40,9 @@ function getFormatString(format: string): DownloadFormat | undefined {
 
 const Wrapper = styled.div.attrs({
   className: font('intr', 5),
-})<{ isEnhanced: boolean }>`
+})<{ $isEnhanced: boolean }>`
   position: relative;
-  ${props => (props.isEnhanced ? 'display: inline-block;' : '')}
+  ${props => (props.$isEnhanced ? 'display: inline-block;' : '')}
 `;
 
 type Props = {
@@ -62,7 +62,7 @@ const Download: FunctionComponent<Props> = ({
   const { isEnhanced } = useContext(AppContext);
 
   return (
-    <Wrapper isEnhanced={isEnhanced} ref={downloadsContainer}>
+    <Wrapper $isEnhanced={isEnhanced} ref={downloadsContainer}>
       {downloadOptions.length > 0 && (
         <>
           <DropdownButton

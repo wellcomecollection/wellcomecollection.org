@@ -6,7 +6,9 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 
-export const IframeContainer = styled.div.attrs({
+export const IframeContainer = styled.div.attrs<{
+  'data-chromatic'?: 'ignore';
+}>({
   'data-chromatic': 'ignore',
 })`
   padding-bottom: 56.25%; /* 16:9 */

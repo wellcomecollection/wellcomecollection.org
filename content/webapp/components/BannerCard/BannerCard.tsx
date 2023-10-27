@@ -13,7 +13,7 @@ import { getCrop } from '@weco/common/model/image';
 import { themeValues } from '@weco/common/views/themes/config';
 
 type CardOuterProps = {
-  background: 'neutral.700' | 'warmNeutral.300';
+  $background: 'neutral.700' | 'warmNeutral.300';
 };
 
 const CardOuter = styled.a<CardOuterProps>`
@@ -21,10 +21,10 @@ const CardOuter = styled.a<CardOuterProps>`
   flex-direction: column-reverse;
   overflow: hidden;
   text-decoration: none;
-  background: ${props => props.theme.color(props.background)};
+  background: ${props => props.theme.color(props.$background)};
   color: ${props =>
     props.theme.color(
-      props.background === 'neutral.700' ? 'warmNeutral.300' : 'black'
+      props.$background === 'neutral.700' ? 'warmNeutral.300' : 'black'
     )};
 
   ${props => props.theme.media('large')`
@@ -32,23 +32,24 @@ const CardOuter = styled.a<CardOuterProps>`
   `}
 `;
 
-type TextWrapperProps = {
-  highlightColor: 'yellow' | 'accent.salmon';
-};
-
-const TextWrapper = styled.div<TextWrapperProps>`
+const TextWrapper = styled(Space).attrs({
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+})<{
+  $highlightColor: 'yellow' | 'accent.salmon';
+}>`
+  border-left: 4px solid ${props => props.theme.color(props.$highlightColor)};
   ${props => props.theme.media('large')`
     flex-grow: 2;
   `};
-  border-left: 4px solid ${props => props.theme.color(props.highlightColor)};
 `;
 
 type ImageWrapperProps = {
-  imageUrl: string;
+  $imageUrl: string;
 };
 
 const ImageWrapper = styled.div<ImageWrapperProps>`
-  background-image: url(${props => props.imageUrl});
+  background-image: url(${props => props.$imageUrl});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
@@ -61,8 +62,8 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
 `;
 
 const DateRangeWrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
   className: font('intr', 5),
+  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.400')};
 `;
@@ -121,13 +122,8 @@ const BannerCard: FunctionComponent<Props> = ({
       linkResolver({ id: item.id, type: item.type }),
   };
   return (
-    <CardOuter href={link} background={background}>
-      <Space
-        as={TextWrapper}
-        highlightColor={highlightColor}
-        v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
-        h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
-      >
+    <CardOuter href={link} $background={background}>
+      <TextWrapper $highlightColor={highlightColor}>
         {type && (
           <LabelsList
             labels={[{ text: type }]}
@@ -135,9 +131,9 @@ const BannerCard: FunctionComponent<Props> = ({
           />
         )}
         <Space
-          v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           as="h2"
           className={font('wb', 2)}
+          $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
         >
           {title}
         </Space>
@@ -153,9 +149,9 @@ const BannerCard: FunctionComponent<Props> = ({
           icon={arrowSmall}
           text={`Explore ${type}`}
         />
-      </Space>
+      </TextWrapper>
       {image && (
-        <ImageWrapper imageUrl={convertImageUri(image.contentUrl, 640)} />
+        <ImageWrapper $imageUrl={convertImageUri(image.contentUrl, 640)} />
       )}
     </CardOuter>
   );

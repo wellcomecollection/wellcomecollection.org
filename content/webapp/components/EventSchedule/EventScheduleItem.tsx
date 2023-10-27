@@ -19,7 +19,7 @@ type Props = {
 };
 
 const GridWrapper = styled(Space).attrs({
-  v: {
+  $v: {
     size: 'l',
     properties: ['margin-bottom', 'padding-bottom'],
   },
@@ -28,7 +28,7 @@ const GridWrapper = styled(Space).attrs({
 `;
 
 const EventContainer = styled(Space).attrs({
-  v: {
+  $v: {
     size: 'm',
     properties: [
       'margin-top',
@@ -37,7 +37,7 @@ const EventContainer = styled(Space).attrs({
       'padding-bottom',
     ],
   },
-  h: {
+  $h: {
     size: 'm',
     properties: ['padding-left', 'padding-right'],
   },
@@ -48,7 +48,7 @@ const EventContainer = styled(Space).attrs({
 `;
 
 const EventTimesWrapper = styled(Space).attrs({
-  v: {
+  $v: {
     size: 'm',
     properties: ['margin-bottom'],
   },
@@ -69,7 +69,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
 
   return (
     <Space
-      v={{ size: 's', properties: ['margin-bottom'] }}
+      $v={{ size: 's', properties: ['margin-bottom'] }}
       className={font('intr', 5)}
       style={{ display: 'flex', alignItems: 'center' }}
     >
@@ -80,7 +80,10 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
             {i !== locations.length - 1 && (
               <Space
                 aria-hidden="true"
-                h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+                $h={{
+                  size: 's',
+                  properties: ['padding-left', 'padding-right'],
+                }}
               >
                 |
               </Space>
@@ -121,12 +124,12 @@ const EventScheduleItem: FunctionComponent<Props> = ({
         <div className={grid({ s: 12, m: 12, l: 9, xl: 10 })}>
           <div>
             {event.primaryLabels.length > 0 && (
-              <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
                 <LabelsList labels={event.primaryLabels} />
               </Space>
             )}
             <Space
-              v={{ size: 's', properties: ['margin-bottom'] }}
+              $v={{ size: 's', properties: ['margin-bottom'] }}
               as="h5"
               className={font('wb', 3)}
             >
@@ -137,7 +140,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
 
             {event.promo?.caption && (
               <Space
-                v={{ size: 'm', properties: ['margin-bottom'] }}
+                $v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={font('intr', 5)}
                 dangerouslySetInnerHTML={{ __html: event.promo?.caption }}
               />
@@ -145,7 +148,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
 
             {!isNotLinked && (
               <Space
-                v={{
+                $v={{
                   size: 'm',
                   properties: ['margin-top', 'margin-bottom'],
                 }}
@@ -176,7 +179,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             {!isEventPast(event) &&
               (event.eventbriteId || event.onlineEventbriteId) &&
               !waitForTicketSales && (
-                <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
                   <EventbriteButtons event={event} />
                 </Space>
               )}
@@ -184,7 +187,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             {!isEventPast(event) &&
               event.bookingEnquiryTeam &&
               !waitForTicketSales && (
-                <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                   <EventBookingButton event={event} />
                 </Space>
               )}
@@ -193,13 +196,13 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               !event.eventbriteId &&
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (
-                <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                   <Message text="Just turn up" />
                 </Space>
               )}
 
             {event.secondaryLabels.length > 0 && (
-              <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                 <LabelsList
                   labels={event.secondaryLabels}
                   defaultLabelColor="black"

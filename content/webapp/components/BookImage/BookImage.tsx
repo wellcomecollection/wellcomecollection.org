@@ -23,7 +23,7 @@ type Props = ComponentProps<typeof PrismicImage>;
 const BookImage: FunctionComponent<Props> = props => {
   return (
     <BookPromoImageContainer>
-      <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
+      <BookPromoImage $v={{ size: 'l', properties: ['bottom'] }}>
         <PrismicImage {...props} />
       </BookPromoImage>
     </BookPromoImageContainer>

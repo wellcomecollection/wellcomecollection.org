@@ -68,7 +68,7 @@ const GridFactory: FunctionComponent<Props> = ({
       <div className="grid">
         {items.map((item, index) => (
           <Space
-            v={{ size: 'l', properties: ['margin-bottom'] }}
+            $v={{ size: 'l', properties: ['margin-bottom'] }}
             key={index}
             className={grid(gridSizes[index % gridSizes.length])}
           >

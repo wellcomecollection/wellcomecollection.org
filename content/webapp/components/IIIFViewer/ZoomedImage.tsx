@@ -185,18 +185,18 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     <ZoomedImageContainer ref={zoomedImage} onKeyDown={handleKeyDown}>
       <Controls>
         <Space
-          v={{
+          $v={{
             size: 'l',
             properties: ['margin-top', 'margin-bottom'],
           }}
-          h={{
+          $h={{
             size: 'l',
             properties: ['margin-left', 'margin-right'],
           }}
         >
           <Space
             as="span"
-            h={{
+            $h={{
               size: 'm',
               properties: ['margin-left'],
             }}
@@ -213,7 +213,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           </Space>
           <Space
             as="span"
-            h={{
+            $h={{
               size: 'm',
               properties: ['margin-left'],
             }}
@@ -229,7 +229,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           </Space>
           <Space
             as="span"
-            h={{
+            $h={{
               size: 'm',
               properties: ['margin-left'],
             }}
@@ -245,7 +245,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           </Space>
           <Space
             as="span"
-            h={{
+            $h={{
               size: 'm',
               properties: ['margin-left'],
             }}

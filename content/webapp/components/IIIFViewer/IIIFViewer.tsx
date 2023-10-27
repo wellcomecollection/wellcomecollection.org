@@ -64,13 +64,13 @@ const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
 });
 
 type GridProps = {
-  isFullSupportBrowser: boolean;
+  $isFullSupportBrowser: boolean;
 };
 
 const Grid = styled.div<GridProps>`
   display: grid;
   height: ${props =>
-    props.isFullSupportBrowser
+    props.$isFullSupportBrowser
       ? `calc(100vh - ${props.theme.navHeight}px)`
       : 'auto'};
   overflow: hidden;
@@ -97,17 +97,17 @@ const Grid = styled.div<GridProps>`
 `;
 
 const Sidebar = styled.div<{
-  isActiveMobile: boolean;
-  isActiveDesktop: boolean;
-  isFullSupportBrowser: boolean;
+  $isActiveMobile: boolean;
+  $isActiveDesktop: boolean;
+  $isFullSupportBrowser: boolean;
 }>`
   display: ${props =>
-    props.isActiveMobile || !props.isFullSupportBrowser ? 'inherit' : 'none'};
+    props.$isActiveMobile || !props.$isFullSupportBrowser ? 'inherit' : 'none'};
   align-content: start;
 
   ${props =>
     props.theme.media('medium')(`
-      display: ${props.isActiveDesktop ? 'inherit' : 'none'};
+      display: ${props.$isActiveDesktop ? 'inherit' : 'none'};
     `)}
 
   grid-area: desktop-main-start / left-edge / bottom-edge /right-edge;
@@ -124,9 +124,7 @@ const Sidebar = styled.div<{
   z-index: 5;
 `;
 
-const Topbar = styled.div<{
-  isDesktopSidebarActive: boolean;
-}>`
+const Topbar = styled.div`
   background: ${props => props.theme.color('neutral.700')};
   grid-area: top-edge / left-edge / desktop-topbar-end / right-edge;
 
@@ -140,8 +138,8 @@ const Topbar = styled.div<{
 `;
 
 const Main = styled.div<{
-  isDesktopSidebarActive: boolean;
-  isFullSupportBrowser: boolean;
+  $isDesktopSidebarActive: boolean;
+  $isFullSupportBrowser: boolean;
 }>`
   background: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
@@ -151,9 +149,9 @@ const Main = styled.div<{
     transition: filter ${props => props.theme.transitionProperties};
   }
 
-  width: ${props => (props.isFullSupportBrowser ? 'auto' : '100vw')};
+  width: ${props => (props.$isFullSupportBrowser ? 'auto' : '100vw')};
   grid-area: ${props =>
-    props.isFullSupportBrowser
+    props.$isFullSupportBrowser
       ? 'desktop-main-start / left-edge / mobile-main-end / right-edge'
       : 'auto'};
 
@@ -161,7 +159,7 @@ const Main = styled.div<{
     props.theme.media('medium')(`
       width: auto;
       grid-area: desktop-main-start / ${
-        props.isDesktopSidebarActive ? 'main-start' : 'left-edge'
+        props.$isDesktopSidebarActive ? 'main-start' : 'left-edge'
       } / bottom-edge / right-edge;
     `)}
 `;
@@ -170,9 +168,7 @@ const Zoom = styled.div`
   grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
 `;
 
-const BottomBar = styled.div<{
-  isMobileSidebarActive: boolean;
-}>`
+const BottomBar = styled.div`
   display: inherit;
 
   ${props => props.theme.media('medium')`
@@ -186,11 +182,11 @@ const BottomBar = styled.div<{
 
 // TODO: check that we can't reach thumbnails by keyboard/screenreader
 const ThumbnailsWrapper = styled.div<{
-  isActive: boolean;
-  isDesktopSidebarActive: boolean;
+  $isActive: boolean;
+  $isDesktopSidebarActive: boolean;
 }>`
   background: ${props => props.theme.color('black')};
-  transform: translateY(${props => (props.isActive ? '0' : '100%')});
+  transform: translateY(${props => (props.$isActive ? '0' : '100%')});
   transition: transform 250ms ease;
   z-index: 3;
   grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
@@ -200,7 +196,7 @@ const ThumbnailsWrapper = styled.div<{
   `}
 
   ${props =>
-    !props.isDesktopSidebarActive &&
+    !props.$isDesktopSidebarActive &&
     props.theme.media('medium')`
       grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
   `}
@@ -322,12 +318,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         errorHandler: handleImageError,
       }}
     >
-      <Grid ref={viewerRef} isFullSupportBrowser={isFullSupportBrowser}>
+      <Grid ref={viewerRef} $isFullSupportBrowser={isFullSupportBrowser}>
         <Sidebar
           data-test-id="viewer-sidebar"
-          isActiveMobile={isMobileSidebarActive}
-          isActiveDesktop={isDesktopSidebarActive}
-          isFullSupportBrowser={isFullSupportBrowser}
+          $isActiveMobile={isMobileSidebarActive}
+          $isActiveDesktop={isDesktopSidebarActive}
+          $isFullSupportBrowser={isFullSupportBrowser}
         >
           <DelayVisibility>
             <ViewerSidebar
@@ -336,15 +332,15 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             />
           </DelayVisibility>
         </Sidebar>
-        <Topbar isDesktopSidebarActive={isDesktopSidebarActive}>
+        <Topbar>
           <DelayVisibility>
             <ViewerTopBar iiifImageLocation={iiifImageLocation} />
           </DelayVisibility>
         </Topbar>
         <Main
-          isDesktopSidebarActive={isDesktopSidebarActive}
-          isFullSupportBrowser={isFullSupportBrowser}
           ref={mainAreaRef}
+          $isDesktopSidebarActive={isDesktopSidebarActive}
+          $isFullSupportBrowser={isFullSupportBrowser}
         >
           <DelayVisibility>
             {!showZoomed && <ImageViewerControls />}
@@ -378,12 +374,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         )}
         {isFullSupportBrowser && (
           <>
-            <BottomBar isMobileSidebarActive={isMobileSidebarActive}>
+            <BottomBar>
               <ViewerBottomBar />
             </BottomBar>
             <ThumbnailsWrapper
-              isActive={gridVisible}
-              isDesktopSidebarActive={isDesktopSidebarActive}
+              $isActive={gridVisible}
+              $isDesktopSidebarActive={isDesktopSidebarActive}
             >
               {<GridViewer />}
             </ThumbnailsWrapper>

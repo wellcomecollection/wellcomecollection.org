@@ -29,8 +29,8 @@ const DownloadLinkUnStyled = styled.a`
 `;
 
 const Format = styled(Space).attrs({
-  h: { size: 'm', properties: ['margin-left'] },
   className: font('intb', 5),
+  $h: { size: 'm', properties: ['margin-left'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -42,9 +42,9 @@ const TextToDisplay = styled.span`
 /**
  * TODO: figure out why Icon isn't able to be wrapped by styled...
  */
-const IconWrapper = styled.span<{ forceInline: boolean }>`
+const IconWrapper = styled.span<{ $forceInline: boolean }>`
   div {
-    ${({ forceInline }) => forceInline && 'top: 5px;'}
+    ${({ $forceInline }) => $forceInline && 'top: 5px;'}
   }
 `;
 
@@ -100,7 +100,7 @@ const DownloadLink: FunctionComponent<Props> = ({
             : undefined
         }
       >
-        <IconWrapper forceInline={!!children}>
+        <IconWrapper $forceInline={!!children}>
           <Icon icon={download} matchText={!!children} />
         </IconWrapper>
         <TextToDisplay>{linkText || children}</TextToDisplay>

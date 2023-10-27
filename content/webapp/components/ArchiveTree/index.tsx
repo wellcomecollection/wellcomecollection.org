@@ -252,7 +252,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
             id="collection-contents-modal"
             openButtonRef={openButtonRef}
           >
-            <Tree isEnhanced={isEnhanced}>
+            <Tree $isEnhanced={isEnhanced}>
               {isEnhanced && (
                 <TreeInstructions>{instructions}</TreeInstructions>
               )}
@@ -274,10 +274,10 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
       ) : (
         <TreeContainer>
           <Space
-            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <h2 className={font('wb', 4)}>Collection contents</h2>
-            <Tree isEnhanced={isEnhanced}>
+            <Tree $isEnhanced={isEnhanced}>
               {isEnhanced && (
                 <TreeInstructions>{instructions}</TreeInstructions>
               )}

@@ -268,7 +268,7 @@ const Exhibition: FunctionComponent<Props> = ({
       ContentTypeInfo={
         <Fragment>
           {!exhibition.isPermanent && (
-            <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
               {DateInfo}
             </Space>
           )}
@@ -300,16 +300,16 @@ const Exhibition: FunctionComponent<Props> = ({
           <h2 className={font('wb', 3)}>Exhibition access content</h2>
           {(accessResourceLinks.length > 0 ||
             exhibition.accessResourcesPdfs.length > 0) && (
-            <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+            <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
               <ResourcesList>
                 {accessResourceLinks.map((link, i) => {
                   const borderColor = getBorderColor({ type: link.type, i });
                   return (
                     <ResourcesItem key={link.url}>
                       <ResourceLink
-                        borderColor={borderColor}
                         key={i}
                         href={link.url}
+                        $borderColor={borderColor}
                       >
                         {link.type === 'exhibition-guide' && (
                           <h3 className={font('intb', 4)}>
@@ -332,10 +332,10 @@ const Exhibition: FunctionComponent<Props> = ({
                   return (
                     <ResourcesItem key={pdf.url}>
                       <ResourceLink
-                        borderColor={borderColor}
                         key={i}
                         href={pdf.url}
-                        underlineText={true}
+                        $borderColor={borderColor}
+                        $underlineText={true}
                       >
                         <span className={font('intr', 5)}>
                           {`${pdf.text} PDF`} {`(${pdf.size}kb)`}

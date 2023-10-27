@@ -6,10 +6,10 @@ import Space from '@weco/common/views/components/styled/Space';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 
-type OverlayProps = { isActive: boolean };
+type OverlayProps = { $isActive: boolean };
 const Overlay = styled.div.attrs<OverlayProps>(props => ({
   className: classNames({
-    'is-hidden': !props.isActive,
+    'is-hidden': !props.$isActive,
   }),
 }))<OverlayProps>`
   position: absolute;
@@ -20,7 +20,7 @@ const Overlay = styled.div.attrs<OverlayProps>(props => ({
 `;
 
 const SearchBarWrapper = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-bottom'] },
+  $v: { size: 'xl', properties: ['padding-bottom'] },
 })`
   position: absolute;
   width: 100%;
@@ -79,7 +79,7 @@ const HeaderSearch = ({
   }, [isActive]);
 
   return (
-    <Overlay isActive={isActive}>
+    <Overlay $isActive={isActive}>
       <SearchBarWrapper
         ref={isActive ? wrapperRef : undefined}
         onClick={e => e.stopPropagation()}

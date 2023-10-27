@@ -89,8 +89,8 @@ const ThirdParty = styled.span.attrs({
 `;
 
 const EmailTeamCopy = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-top'] },
   className: font('intb', 5),
+  $v: { size: 's', properties: ['margin-top'] },
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -229,10 +229,7 @@ const EventPage: NextPage<EventProps> = ({
       ContentTypeInfo={
         <>
           <Space
-            v={{
-              size: 's',
-              properties: ['margin-bottom'],
-            }}
+            $v={{ size: 's', properties: ['margin-bottom'] }}
             style={{ display: 'flex', flexWrap: 'wrap' }}
           >
             <div style={{ display: 'inline' }}>
@@ -242,7 +239,7 @@ const EventPage: NextPage<EventProps> = ({
               This 'All dates' link takes the user to the complete list of dates
               further down the page, but if there's only one date we can skip it.
              */}
-            <Space h={{ size: 's', properties: ['margin-left'] }}>
+            <Space $h={{ size: 's', properties: ['margin-left'] }}>
               {!event.isPast && event.times.length > 1 && <EventDatesLink />}
             </Space>
           </Space>
@@ -315,7 +312,7 @@ const EventPage: NextPage<EventProps> = ({
                       dataGtmTrigger="click_to_book"
                     />
                     {event.thirdPartyBooking.name && (
-                      <Space v={{ size: 's', properties: ['margin-top'] }}>
+                      <Space $v={{ size: 's', properties: ['margin-top'] }}>
                         <ThirdParty>
                           with {event.thirdPartyBooking.name}
                         </ThirdParty>
@@ -355,12 +352,12 @@ const EventPage: NextPage<EventProps> = ({
               !(event.schedule && event.schedule.length > 1) && (
                 <>
                   {!event.hasEarlyRegistration && !event.cost && (
-                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <Message text="Just turn up" />
                     </Space>
                   )}
                   {event.hasEarlyRegistration && (
-                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <Message text="Arrive early to register" />
                     </Space>
                   )}
@@ -373,15 +370,15 @@ const EventPage: NextPage<EventProps> = ({
           <>
             <h2 className={font('wb', 3)}>Event access content</h2>
             {accessResourceLinks.length > 0 && (
-              <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+              <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
                 <ResourcesList>
                   {accessResourceLinks.map((link, i) => {
                     return (
                       <ResourcesItem key={link.url}>
                         <ResourceLink
-                          borderColor={'accent.turquoise'}
                           key={i}
                           href={link.url}
+                          $borderColor="accent.turquoise"
                         >
                           {link.type === 'visual-story' && (
                             <h3 className={font('intb', 4)}>Visual story</h3>

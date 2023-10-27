@@ -27,16 +27,16 @@ const DropdownWrapper = styled.div`
 `;
 
 type DropdownProps = {
-  isActive: boolean;
-  isEnhanced: boolean;
+  $isActive: boolean;
+  $isEnhanced: boolean;
 };
 const Dropdown = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })<DropdownProps>`
   background-color: ${props => props.theme.color('white')};
   margin-top: -2px;
-  z-index: ${props => (props.isActive ? 2 : 1)};
+  z-index: ${props => (props.$isActive ? 2 : 1)};
   overflow: auto;
   white-space: nowrap;
   transition:
@@ -48,7 +48,7 @@ const Dropdown = styled(Space).attrs({
   &,
   &.fade-exit-done {
     z-index: -1;
-    pointer-events: ${props => (props.isEnhanced ? 'none' : 'all')};
+    pointer-events: ${props => (props.$isEnhanced ? 'none' : 'all')};
   }
 
   &.fade-enter,
@@ -62,7 +62,7 @@ const Dropdown = styled(Space).attrs({
   &.fade-enter,
   &.fade-exit-active,
   &.fade-exit-done {
-    opacity: ${props => (props.isEnhanced ? 0 : 1)};
+    opacity: ${props => (props.$isEnhanced ? 0 : 1)};
     transform: translateY(5px);
   }
 
@@ -73,12 +73,12 @@ const Dropdown = styled(Space).attrs({
   }
 `;
 
-const Popper = styled.div<{ isVisible: boolean }>`
+const Popper = styled.div<{ $isVisible: boolean }>`
   width: max-content;
-  height: ${props => (props.isVisible ? 'auto' : 0)};
+  height: ${props => (props.$isVisible ? 'auto' : 0)};
   max-width: calc(100vw - 20px);
-  z-index: ${props => (props.isVisible ? 1 : -1)};
-  opacity: ${props => (props.isVisible ? 1 : 0)};
+  z-index: ${props => (props.$isVisible ? 1 : -1)};
+  opacity: ${props => (props.$isVisible ? 1 : 0)};
 
   ${props => props.theme.media('large')`
     max-width: calc(50vw - 20px);
@@ -184,7 +184,6 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
           <ButtonSolid
             {...buttonProps}
             size="small"
-            hoverUnderline={true}
             colors={
               isOnDark
                 ? themeValues.buttonColors.whiteTransparentWhite
@@ -221,7 +220,7 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
             ref={popperRef}
             style={styles.popper}
             {...(isEnhanced ? attributes.popper : {})}
-            isVisible={isPopperVisible}
+            $isVisible={isPopperVisible}
           >
             <CSSTransition
               in={isActive}
@@ -231,9 +230,9 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
               onExited={() => setIsPopperVisible(false)}
             >
               <Dropdown
-                isActive={isActive}
-                isEnhanced={isEnhanced}
                 ref={dropdownRef}
+                $isActive={isActive}
+                $isEnhanced={isEnhanced}
               >
                 {children}
               </Dropdown>
@@ -241,11 +240,11 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
           </Popper>
         )}
         <noscript>
-          <Popper id={id} ref={popperRef} isVisible={true}>
+          <Popper id={id} ref={popperRef} $isVisible={true}>
             <Dropdown
-              isActive={isActive}
-              isEnhanced={isEnhanced}
               ref={dropdownRef}
+              $isActive={isActive}
+              $isEnhanced={isEnhanced}
             >
               {children}
             </Dropdown>

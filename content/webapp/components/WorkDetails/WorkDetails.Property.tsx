@@ -6,24 +6,21 @@ import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 type InlineHeadingProps = {
-  inlineHeading?: boolean;
+  $inlineHeading?: boolean;
 };
 
 const Wrapper = styled.div.attrs({
   className: font('intr', 5, { small: 3, medium: 3 }),
 })<InlineHeadingProps>`
-  ${props => (props.inlineHeading ? 'display: flex;' : '')}
+  ${props => (props.$inlineHeading ? 'display: flex;' : '')}
 `;
 
 const Title = styled(Space).attrs<InlineHeadingProps>(props => ({
   as: 'h3',
-  h: {
-    size: 's',
-    properties: props.inlineHeading ? ['margin-right'] : [],
-  },
   className: font('intb', 5, { small: 3, medium: 3 }),
+  $h: { size: 's', properties: props.$inlineHeading ? ['margin-right'] : [] },
 }))<InlineHeadingProps>`
-  ${props => (!props.inlineHeading ? 'margin: 0;' : '')}
+  ${props => (!props.$inlineHeading ? 'margin: 0;' : '')}
   margin-bottom: 0;
 `;
 
@@ -44,8 +41,8 @@ const WorkDetailsProperty: FunctionComponent<Props> = ({
       condition={!noSpacing}
       wrapper={children => <SpacingComponent>{children}</SpacingComponent>}
     >
-      <Wrapper inlineHeading={inlineHeading}>
-        {title && <Title inlineHeading={inlineHeading}>{title}</Title>}
+      <Wrapper $inlineHeading={inlineHeading}>
+        {title && <Title $inlineHeading={inlineHeading}>{title}</Title>}
         {children}
       </Wrapper>
     </ConditionalWrapper>

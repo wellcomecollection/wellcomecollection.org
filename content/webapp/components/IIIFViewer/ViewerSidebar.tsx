@@ -25,8 +25,8 @@ import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const Inner = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   h1 {
     display: -webkit-box;
@@ -38,8 +38,8 @@ const Inner = styled(Space).attrs({
 `;
 
 const AccordionInner = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   className: font('intb', 5),
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
     width: 100%;
@@ -172,7 +172,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
         {work.primaryContributorLabel && (
           <Space
-            h={{ size: 'm', properties: ['margin-right'] }}
+            $h={{ size: 'm', properties: ['margin-right'] }}
             data-test-id="work-contributors"
           >
             <LinkLabels items={[{ text: work.primaryContributorLabel }]} />
@@ -197,7 +197,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </div>
         )}
 
-        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           <WorkLink id={work.id} source="viewer_back_link">
             <a
               className={font('intr', 5)}
@@ -205,7 +205,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
             >
               Catalogue details
               <Space
-                h={{ size: 's', properties: ['margin-left'] }}
+                $h={{ size: 's', properties: ['margin-left'] }}
                 style={{ display: 'flex', alignItems: 'center' }}
               >
                 <Icon icon={arrow} matchText={true} iconColor="white" />

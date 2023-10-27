@@ -30,7 +30,6 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   ariaExpanded,
   dataGtmTrigger,
   size,
-  hoverUnderline,
   ariaLabel,
   colors,
   isIconAfter,
@@ -57,11 +56,10 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         aria-expanded={ariaExpanded}
         data-gtm-trigger={dataGtmTrigger}
         onClick={handleClick}
-        size={size}
         href={getHref(link)}
-        ariaLabel={ariaLabel}
-        colors={colors}
-        hoverUnderline={hoverUnderline}
+        $ariaLabel={ariaLabel}
+        $size={size}
+        $colors={colors}
       >
         <BaseButtonInner>
           {isIconAfter && (
@@ -74,7 +72,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
             </span>
           )}
           {icon && (
-            <ButtonIconWrapper iconAfter={isIconAfter}>
+            <ButtonIconWrapper $iconAfter={isIconAfter}>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}

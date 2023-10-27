@@ -1,12 +1,12 @@
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const Image = styled.img<{ highlightImage?: boolean; zoomOnClick?: boolean }>`
+const Image = styled.img<{ $highlightImage?: boolean; $zoomOnClick?: boolean }>`
   ${props =>
-    props.highlightImage
+    props.$highlightImage
       ? `filter: grayscale(100%) brightness(70%) sepia(40%) hue-rotate(-120deg) saturate(400%) contrast(1);`
       : ''}; /* the filter is used for highlighting thumbnails that contain search terms */
-  cursor: ${props => (props.zoomOnClick ? 'zoom-in' : undefined)};
+  cursor: ${props => (props.$zoomOnClick ? 'zoom-in' : undefined)};
 `;
 
 type Props = {
@@ -45,14 +45,14 @@ const IIIFViewerImage = (
 ) => {
   return (
     <Image
-      zoomOnClick={zoomOnClick}
-      highlightImage={highlightImage}
       ref={ref}
       tabIndex={tabIndex}
       lang={lang}
       width={width}
       height={height}
       className="image"
+      $zoomOnClick={zoomOnClick}
+      $highlightImage={highlightImage}
       onLoad={loadHandler}
       onClick={clickHandler}
       onKeyDown={({ key, keyCode }) => {

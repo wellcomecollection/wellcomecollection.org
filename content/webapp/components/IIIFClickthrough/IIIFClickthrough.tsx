@@ -67,7 +67,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
             />
           )}
           {clickThroughService?.['@id'] && origin && (
-            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
               <ButtonSolid
                 dataGtmTrigger="show_the_content"
                 text="Show the content"

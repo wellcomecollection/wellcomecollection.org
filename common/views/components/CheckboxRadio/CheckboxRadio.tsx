@@ -15,7 +15,7 @@ const CheckboxRadioLabel = styled.label`
   cursor: pointer;
 `;
 
-const CheckboxRadioBox = styled.span<{ type: string }>`
+const CheckboxRadioBox = styled.span<{ $type: string }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +25,7 @@ const CheckboxRadioBox = styled.span<{ type: string }>`
   width: 1.3em;
   height: 1.3em;
   border: 1px solid ${props => props.theme.color('black')};
-  border-radius: ${props => (props.type === 'radio' ? '50%' : '0')};
+  border-radius: ${props => (props.$type === 'radio' ? '50%' : '0')};
 
   .icon {
     position: absolute;
@@ -35,8 +35,8 @@ const CheckboxRadioBox = styled.span<{ type: string }>`
   }
 `;
 
-const CheckboxRadioInput = styled.input.attrs(props => ({
-  type: props.type === 'checkbox' ? 'checkbox' : 'radio',
+const CheckboxRadioInput = styled.input.attrs<{ $type: string }>(props => ({
+  type: props.$type === 'checkbox' ? 'checkbox' : 'radio',
 }))`
   position: absolute;
   opacity: 0;
@@ -92,12 +92,12 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   return (
     <CheckboxRadioLabel htmlFor={id}>
       <CheckBoxWrapper>
-        <CheckboxRadioInput id={id} type={type} {...inputProps} />
-        <CheckboxRadioBox type={type}>
+        <CheckboxRadioInput id={id} $type={type} {...inputProps} />
+        <CheckboxRadioBox $type={type}>
           <Icon icon={type === 'checkbox' ? check : indicator} />
         </CheckboxRadioBox>
       </CheckBoxWrapper>
-      <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+      <Space as="span" $h={{ size: 's', properties: ['margin-left'] }}>
         {text}
       </Space>
     </CheckboxRadioLabel>

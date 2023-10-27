@@ -9,8 +9,8 @@ import { defaultSerializer } from '../HTMLSerializers/HTMLSerializers';
 import Space from '@weco/common/views/components/styled/Space';
 
 const MediaAndTextWrap = styled(Space).attrs({
-  h: { size: 'l', properties: ['column-gap'] },
-  v: { size: 'l', properties: ['row-gap'] },
+  $h: { size: 'l', properties: ['column-gap'] },
+  $v: { size: 'l', properties: ['row-gap'] },
 })`
   display: flex;
   flex-wrap: wrap;
@@ -41,15 +41,15 @@ const DividingLine = styled.div`
 `;
 
 const ImageOrIcons = styled(Space).attrs({
-  h: { size: 'm', properties: ['column-gap'] },
-  v: { size: 'm', properties: ['row-gap'] },
-})<{ isIcons?: boolean; isPortrait?: boolean }>`
+  $h: { size: 'm', properties: ['column-gap'] },
+  $v: { size: 'm', properties: ['row-gap'] },
+})<{ $isIcons?: boolean; $isPortrait?: boolean }>`
   position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  flex: 0 0
-    ${props => (props.isIcons || props.isPortrait ? 'max(60%, 300px)' : '100%')};
+  flex: ${props =>
+    props.$isIcons || props.$isPortrait ? '0 0 max(60%, 300px)' : '0 0 100%'};
 
   ${props =>
     props.theme.media('medium')(`
@@ -57,8 +57,8 @@ const ImageOrIcons = styled(Space).attrs({
   `)}
 
   > * {
-    flex: ${props => (props.isIcons ? '0 0 30%' : undefined)};
-    flex: ${props => (props.isPortrait ? '0 0 85%' : undefined)};
+    flex: ${props => (props.$isIcons ? '0 0 30%' : undefined)};
+    flex: ${props => (props.$isPortrait ? '0 0 85%' : undefined)};
   }
 `;
 
@@ -98,7 +98,7 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
     <DividingLine>
       <MediaAndTextWrap>
         {item.type === 'icons' && icons.length > 0 && (
-          <ImageOrIcons isIcons={true}>
+          <ImageOrIcons $isIcons={true}>
             {/* We're enforcing a maximum of 6 icons within a slice  */}
             {icons.slice(0, 6).map((icon, index) => {
               return (
@@ -110,7 +110,7 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
           </ImageOrIcons>
         )}
         {item.type === 'image' && item.image && (
-          <ImageOrIcons isPortrait={item.image.width < item.image.height}>
+          <ImageOrIcons $isPortrait={item.image.width < item.image.height}>
             <CaptionedImage
               image={item.image}
               caption={[]}

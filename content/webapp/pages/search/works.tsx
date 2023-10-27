@@ -114,12 +114,15 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+      <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
         <Container>
           {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
             <>
               <Space
-                v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+                $v={{
+                  size: 'l',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
               >
                 <SearchFilters
                   query={queryString}
@@ -155,7 +158,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             />
           ) : (
             <>
-              <PaginationWrapper verticalSpacing="l">
+              <PaginationWrapper $verticalSpacing="l">
                 <span role="status">
                   {pluralize(works.totalResults, 'result')}
                   {activeFiltersLabels.length > 0 && (
@@ -213,7 +216,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 <WorksSearchResults works={works.results} />
               </main>
 
-              <PaginationWrapper verticalSpacing="l" alignRight>
+              <PaginationWrapper $verticalSpacing="l" $alignRight>
                 <Pagination
                   formId={SEARCH_PAGES_FORM_ID}
                   totalPages={works.totalPages}

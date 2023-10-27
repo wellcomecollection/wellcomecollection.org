@@ -20,8 +20,8 @@ const WatchIconWrapper = styled.div`
 `;
 
 const WatchText = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-left'] },
   className: font('intr', 6),
+  $h: { size: 's', properties: ['margin-left'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
 `;

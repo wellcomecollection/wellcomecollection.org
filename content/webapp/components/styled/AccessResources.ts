@@ -21,17 +21,17 @@ export const ResourcesItem = styled.li`
       `}
 `;
 
-export const ResourceLink = styled(Space).attrs({
+export const ResourceLink = styled(Space).attrs<{ href: string }>({
   as: 'a',
-  h: { size: 's', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-})<{ borderColor: PaletteColor; href: string; underlineText?: boolean }>`
+  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})<{ $borderColor: PaletteColor; $underlineText?: boolean }>`
   display: block;
   height: 100%;
   width: 100%;
-  text-decoration: ${props => (props.underlineText ? 'underline' : 'none')};
+  text-decoration: ${props => (props.$underlineText ? 'underline' : 'none')};
   border: 1px solid ${props => props.theme.color('warmNeutral.400')};
-  border-left: 10px solid ${props => props.theme.color(props.borderColor)};
+  border-left: 10px solid ${props => props.theme.color(props.$borderColor)};
 
   &:hover {
     background: ${props => props.theme.color('neutral.400')};

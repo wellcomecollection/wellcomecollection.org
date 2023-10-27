@@ -87,7 +87,7 @@ export const ApplicationReceived: FunctionComponent<{ email: string }> = ({
         </a>
         .
       </p>
-      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <Divider />
       </Space>
       <p>

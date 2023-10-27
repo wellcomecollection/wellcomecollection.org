@@ -6,7 +6,7 @@ import { formatVolume } from './AudioPlayer.formatters';
 import Space from '@weco/common/views/components/styled/Space';
 
 const VolumeWrapper = styled(Space).attrs({
-  h: {
+  $h: {
     size: 'xs',
     properties: ['column-gap'],
     overrides: { medium: 1, large: 1 },
@@ -20,10 +20,10 @@ const VolumeWrapper = styled(Space).attrs({
   }
 `;
 
-type MuteUnmuteButtonProps = { isMuted: boolean };
+type MuteUnmuteButtonProps = { $isMuted: boolean; ariaPressed?: boolean };
 const MuteUnmuteButton = styled.button.attrs<MuteUnmuteButtonProps>(
-  ({ isMuted }) => ({
-    ariaPressed: isMuted,
+  ({ $isMuted }) => ({
+    ariaPressed: $isMuted,
   })
 )`
   padding: 0;
@@ -79,7 +79,7 @@ const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id, title }) => {
   };
   return (
     <VolumeWrapper>
-      <MuteUnmuteButton onClick={onVolumeButtonClick}>
+      <MuteUnmuteButton $isMuted={isMuted} onClick={onVolumeButtonClick}>
         <span className="visually-hidden">
           {`${title} ${isMuted ? 'Unmute player' : 'Mute player'}`}
         </span>

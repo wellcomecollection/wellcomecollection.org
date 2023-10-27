@@ -8,7 +8,7 @@ import { dasherizeShorten } from '@weco/common/utils/grammar';
 import ZoomedPrismicImage from '../ZoomedPrismicImage/ZoomedPrismicImage';
 
 type CaptionedImageFigureProps = {
-  isBody?: boolean;
+  $isBody?: boolean;
 };
 
 const CaptionedImageFigure = styled.figure<CaptionedImageFigureProps>`
@@ -18,7 +18,7 @@ const CaptionedImageFigure = styled.figure<CaptionedImageFigureProps>`
   text-align: center;
 
   ${props =>
-    props.isBody &&
+    props.$isBody &&
     `
     text-align: left;
 
@@ -30,18 +30,18 @@ const CaptionedImageFigure = styled.figure<CaptionedImageFigureProps>`
 `;
 
 type ImageContainerInnerProps = {
-  aspectRatio: number;
-  hasRoundedCorners: boolean;
+  $aspectRatio: number;
+  $hasRoundedCorners: boolean;
 };
 
 const ImageContainerInner = styled.div<ImageContainerInnerProps>`
   position: relative;
   max-height: 80vh;
-  aspect-ratio: ${props => props.aspectRatio};
+  aspect-ratio: ${props => props.$aspectRatio};
   margin: 0 auto;
 
   ${props =>
-    props.hasRoundedCorners &&
+    props.$hasRoundedCorners &&
     `
     > div:first-child {
       border-radius:  clamp(10px, 2vw, 26px);
@@ -54,7 +54,7 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
 
     ${props =>
       props.theme.media('large')(`
-        max-width: ${props.aspectRatio > 1 ? '80%' : '50%'};
+        max-width: ${props.$aspectRatio > 1 ? '80%' : '50%'};
       `)};
   }
 `;
@@ -83,10 +83,10 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1653466941113029
 
   return (
-    <CaptionedImageFigure isBody={isBody}>
+    <CaptionedImageFigure $isBody={isBody}>
       <ImageContainerInner
-        aspectRatio={image.width / image.height}
-        hasRoundedCorners={hasRoundedCorners}
+        $aspectRatio={image.width / image.height}
+        $hasRoundedCorners={hasRoundedCorners}
       >
         {isZoomable && <ZoomedPrismicImage image={image} />}
         <ImageWithTasl
