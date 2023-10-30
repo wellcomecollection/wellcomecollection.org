@@ -2,7 +2,6 @@ import { FunctionComponent, useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import Tasl from '@weco/common/views/components/Tasl/Tasl';
 import Caption from '@weco/common/views/components/Caption/Caption';
 import { Tasl as TaslType } from '@weco/common/model/tasl';
@@ -29,7 +28,7 @@ const PlayPause = styled.button.attrs({
 
 const Text = styled.span.attrs({
   className: font('lr', 5),
-})<{ isPlaying: boolean }>`
+})<{ $isPlaying: boolean }>`
   display: block;
   background: ${props => props.theme.color('neutral.700')};
   padding: 6px;
@@ -37,7 +36,7 @@ const Text = styled.span.attrs({
   color: ${props => props.theme.color('white')};
 
   &::before {
-    content: '${props => (props.isPlaying ? 'pause' : 'play')}';
+    content: '${props => (props.$isPlaying ? 'pause' : 'play')}';
   }
 `;
 
@@ -134,11 +133,6 @@ const GifVideo: FunctionComponent<Props> = ({
         pauseVideo(video);
       }
     }
-    trackGaEvent({
-      category: 'GifVideo',
-      action: isPlaying ? 'pause video' : 'play video',
-      label: videoUrl,
-    });
   };
 
   useEffect(() => {
@@ -192,7 +186,7 @@ const GifVideo: FunctionComponent<Props> = ({
         </Video>
         {canPlay && !showControls && (
           <PlayPause onClick={manualControlGif}>
-            <Text isPlaying={isPlaying} />
+            <Text $isPlaying={isPlaying} />
           </PlayPause>
         )}
         {tasl &&

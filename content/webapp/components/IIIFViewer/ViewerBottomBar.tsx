@@ -1,7 +1,6 @@
 // https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
 /* eslint-disable dot-notation */
 import styled from 'styled-components';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext } from 'react';
@@ -22,8 +21,8 @@ const BottomBar = styled.div`
 `;
 
 const LeftZone = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left'] },
 })`
   display: flex;
   justify-content: flex-start;
@@ -31,7 +30,7 @@ const LeftZone = styled(Space).attrs({
 `;
 
 const RightZone = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   justify-content: flex-end;
@@ -46,7 +45,6 @@ const ViewerBottomBar: FunctionComponent = () => {
     transformedManifest,
     gridVisible,
     setGridVisible,
-    work,
     showZoomed,
     isMobileSidebarActive,
     viewerRef,
@@ -69,11 +67,6 @@ const ViewerBottomBar: FunctionComponent = () => {
                   dataGtmTrigger: 'item_view_page_button',
                   clickHandler() {
                     setGridVisible(false);
-                    trackGaEvent({
-                      category: 'Control',
-                      action: 'clicked work viewer Detail view button',
-                      label: work.id,
-                    });
                   },
                 },
                 {
@@ -83,11 +76,6 @@ const ViewerBottomBar: FunctionComponent = () => {
                   dataGtmTrigger: 'item_view_grid_button',
                   clickHandler() {
                     setGridVisible(true);
-                    trackGaEvent({
-                      category: 'Control',
-                      action: 'clicked work viewer Grid view button',
-                      label: work.id,
-                    });
                   },
                 },
               ]}
@@ -99,9 +87,9 @@ const ViewerBottomBar: FunctionComponent = () => {
       <RightZone>
         {isEnhanced && isFullscreenEnabled && (
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Space h={{ size: 'm', properties: ['margin-right'] }}>
+            <Space $h={{ size: 'm', properties: ['margin-right'] }}>
               <ShameButton
-                isDark
+                $isDark
                 onClick={() => {
                   if (viewerRef?.current) {
                     if (

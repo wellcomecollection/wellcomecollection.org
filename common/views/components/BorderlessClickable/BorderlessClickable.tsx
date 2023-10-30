@@ -13,16 +13,15 @@ import {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { GaEvent, trackGaEvent } from '@weco/common/utils/ga';
 import { IconSvg } from '@weco/common/icons';
 
 type ClickableElement = 'a' | 'button';
 
 type StyleProps = {
-  isActive?: boolean;
+  $isActive?: boolean;
 };
 
-export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
+const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
   background: transparent;
   color: ${props => props.theme.color('neutral.700')};
   padding: 10px 8px;
@@ -32,7 +31,7 @@ export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
   }
 
   ${props =>
-    props.isActive &&
+    props.$isActive &&
     `
     background: ${props.theme.color('neutral.300')};
   `}
@@ -65,14 +64,14 @@ const Button: ForwardRefRenderFunction<
   return (
     <BorderlessClickableStyle
       as={as}
-      isActive={isActive}
+      $isActive={isActive}
       ref={ref}
       {...elementProps}
     >
-      <BaseButtonInner isInline={true}>
+      <BaseButtonInner $isInline={true}>
         <>
           {iconLeft && (
-            <ButtonIconWrapper iconAfter={false}>
+            <ButtonIconWrapper $iconAfter={false}>
               {/* This is all a little hacky and will need some tidy up */}
               {/* We currently only use this in the header sign in button */}
               <span
@@ -91,7 +90,7 @@ const Button: ForwardRefRenderFunction<
             {text}
           </span>
           {icon && (
-            <ButtonIconWrapper iconAfter={true}>
+            <ButtonIconWrapper $iconAfter={true}>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
@@ -115,16 +114,14 @@ const BorderlessLink = forwardRef<HTMLButtonElement, BorderlessLinkProps>(Link);
 
 type BorderlessButtonProps = Props &
   ComponentProps<'button'> & {
-    trackingEvent?: GaEvent;
     clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
   };
 const ButtonOuter = (
-  { clickHandler, trackingEvent, ...elementProps }: BorderlessButtonProps,
+  { clickHandler, ...elementProps }: BorderlessButtonProps,
   ref
 ) => {
   function onClick(event: SyntheticEvent<HTMLButtonElement>) {
     clickHandler && clickHandler(event);
-    trackingEvent && trackGaEvent(trackingEvent);
   }
 
   return (

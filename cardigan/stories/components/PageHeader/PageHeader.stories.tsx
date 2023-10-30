@@ -47,9 +47,9 @@ const ContentTypeInfo = (
     />
     <ContentTypeWrapper>
       <Space
-        h={{ size: 's', properties: ['margin-right'] }}
-        v={{ size: 's', properties: ['margin-top'] }}
         className={font('intr', 6)}
+        $h={{ size: 's', properties: ['margin-right'] }}
+        $v={{ size: 's', properties: ['margin-top'] }}
       >
         <p style={{ marginBottom: 0 }}>
           <span>By </span>
@@ -139,7 +139,7 @@ const exhibitionPictureImages = [
 const EventContentTypeInfo = () => (
   <>
     <Space
-      v={{
+      $v={{
         size: 's',
         properties: ['margin-bottom'],
       }}
@@ -319,7 +319,7 @@ book.args = {
   isContentTypeInfoBeforeMedia: true,
   breadcrumbs: { items: [{ text: 'Books', url: '#' }] },
   FeaturedMedia: (
-    <Space v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
+    <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
       <Layout8>
         <BookImage
           image={bookImage}

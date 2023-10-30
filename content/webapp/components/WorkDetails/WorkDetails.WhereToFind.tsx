@@ -25,7 +25,7 @@ const WhereToFindIt = ({ work, physicalItems, locationOfWork }: Props) => {
       {physicalItems.some(
         item => itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
       ) && (
-        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
           <LibraryMembersBar />
         </Space>
       )}

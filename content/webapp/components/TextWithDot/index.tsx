@@ -11,7 +11,7 @@ const Wrapper = styled.span`
 
 const DotWrapper = styled(Space).attrs({
   as: 'span',
-  h: { size: 'xs', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   display: flex;
   align-items: center;
@@ -26,7 +26,7 @@ const TextWithDot: FunctionComponent<Props> = ({
 }) => (
   <Wrapper className={className}>
     <DotWrapper>
-      <Dot dotColor={dotColor} />
+      <Dot $dotColor={dotColor} />
     </DotWrapper>
     {text}
   </Wrapper>

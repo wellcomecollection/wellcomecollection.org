@@ -79,7 +79,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
       <IIIFViewerThumbInner>
         <ImageContainer>
           {!thumbnailLoaded && !isRestricted && (
-            <LL small={true} lighten={true} />
+            <LL $small={true} $lighten={true} />
           )}
           {isRestricted ? (
             <>
@@ -104,7 +104,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
         </ImageContainer>
         <div>
           <>
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
               <IIIFViewerThumbNumber>
                 {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
               </IIIFViewerThumbNumber>

@@ -21,7 +21,7 @@ const YellowBox = styled.div`
 `;
 
 const TitleWrapper = styled(Space).attrs({
-  h: { size: 's', properties: ['margin-left'] },
+  $h: { size: 's', properties: ['margin-left'] },
 })`
   display: inline;
 `;

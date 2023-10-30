@@ -25,7 +25,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -216,7 +215,7 @@ const ItemPage: NextPage<Props> = ({
       )}
 
       {worksTabbedNav && (
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           <Container>
             <Grid>
               <WorkHeader
@@ -230,7 +229,7 @@ const ItemPage: NextPage<Props> = ({
       )}
 
       {isNotUndefined(audio) && audio?.sounds?.length > 0 && (
-        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <Layout12>
             <AudioList
               items={audio.sounds || []}
@@ -243,7 +242,9 @@ const ItemPage: NextPage<Props> = ({
       )}
       {video && (
         <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+          <Space
+            $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+          >
             <VideoPlayer
               video={video}
               // Note: because we can't prevent people from downloading videos if
@@ -265,7 +266,7 @@ const ItemPage: NextPage<Props> = ({
         !mainImageService &&
         !iiifImageLocation && (
           <Layout12>
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
                 <BetaMessage message={unavailableImageMessage} />
               </div>
@@ -274,7 +275,7 @@ const ItemPage: NextPage<Props> = ({
         )}
       {pdf && !mainImageService && (
         <IframePdfViewer
-          v={{
+          $v={{
             size: 'l',
             properties: ['margin-bottom'],
           }}
@@ -304,18 +305,13 @@ const ItemPage: NextPage<Props> = ({
           {isAnyImageOpen && origin && (
             <Space
               style={{ display: 'inline-flex' }}
-              h={{ size: 'm', properties: ['margin-right'] }}
-              v={{ size: 'm', properties: ['margin-top'] }}
+              $h={{ size: 'm', properties: ['margin-right'] }}
+              $v={{ size: 'm', properties: ['margin-top'] }}
             >
               <ButtonSolid
                 dataGtmTrigger="show_the_content"
                 text="Show the content"
                 clickHandler={() => {
-                  trackGaEvent({
-                    category: 'ButtonSolidLink',
-                    action: 'follow link "Show the content"',
-                    label: `workId: ${workId}`,
-                  });
                   const authServiceWindow = window.open(
                     `${authService?.['@id'] || ''}?origin=${origin}`
                   );
@@ -328,17 +324,7 @@ const ItemPage: NextPage<Props> = ({
             </Space>
           )}
           <WorkLink id={workId} source="item_auth_modal_back_to_work_link">
-            <a
-              onClick={() => {
-                trackGaEvent({
-                  category: 'ButtonSolidLink',
-                  action: 'follow link to work page',
-                  label: `workId: ${workId}`,
-                });
-              }}
-            >
-              Take me back to the item page
-            </a>
+            <a>Take me back to the item page</a>
           </WorkLink>
         </div>
       </Modal>

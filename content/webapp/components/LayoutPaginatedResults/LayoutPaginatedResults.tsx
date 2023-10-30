@@ -69,7 +69,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
 
     {paginatedResults.totalPages > 1 && (
       <Layout12>
-        <PaginationWrapper verticalSpacing="l">
+        <PaginationWrapper $verticalSpacing="l">
           <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
 
           <Pagination
@@ -79,13 +79,13 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
           />
         </PaginationWrapper>
 
-        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
           <Divider />
         </Space>
       </Layout12>
     )}
 
-    <Space v={{ size: 'l', properties: ['margin-top'] }}>
+    <Space $v={{ size: 'l', properties: ['margin-top'] }}>
       {paginatedResults.results.length > 0 ? (
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
       ) : (
@@ -97,7 +97,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
 
     {paginatedResults.totalPages > 1 && (
       <Layout12>
-        <PaginationWrapper verticalSpacing="l" alignRight>
+        <PaginationWrapper $verticalSpacing="l" $alignRight>
           <Pagination
             totalPages={paginatedResults.totalPages}
             ariaLabel="Results pagination"

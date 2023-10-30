@@ -12,7 +12,7 @@ export const DefaultErrorText: FunctionComponent = () => (
   <Layout8>
     <Space
       className="body-text"
-      v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+      $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
     >
       <p>
         Looks like something’s not working properly our end. We’ll try to fix it
@@ -38,7 +38,7 @@ export const NotFoundErrorText: FunctionComponent = () => (
   <Layout8>
     <Space
       className="body-text"
-      v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+      $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
     >
       <p>
         We can’t find the page you’re looking for. Maybe one of these will help:
@@ -70,6 +70,25 @@ export const NotFoundErrorText: FunctionComponent = () => (
       <p>
         Still can’t find what you want? Contact us if you’ve got a specific
         query:{' '}
+        <a href="mailto:digital@wellcomecollection.org">
+          digital@wellcomecollection.org
+        </a>
+        .
+      </p>
+    </Space>
+  </Layout8>
+);
+
+export const GoneErrorText: FunctionComponent = () => (
+  <Layout8>
+    <Space
+      className="body-text"
+      $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+    >
+      <p>This work has been deleted from our public catalogue.</p>
+      <p>
+        If that doesn&apos;t seem right or isn&apos;t what you expected, email
+        us at{' '}
         <a href="mailto:digital@wellcomecollection.org">
           digital@wellcomecollection.org
         </a>

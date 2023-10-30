@@ -15,8 +15,8 @@ const PasswordInputContainer = styled.div`
 `;
 
 const VisibilityButton = styled(SolidButton).attrs(props => ({
-  colors: props.theme.buttonColors.greenTransparentGreen,
   type: 'button',
+  $colors: props.theme.buttonColors.greenTransparentGreen,
 }))`
   height: 55px;
 `;

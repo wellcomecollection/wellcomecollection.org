@@ -27,7 +27,7 @@ const PlainLink = styled.a`
 
 const FindUs: FunctionComponent = () => (
   <>
-    <Space v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
+    <Space $v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
       <PlainLink href={wellcomeCollectionAddress.addressMap}>
         {wellcomeCollectionAddress.streetAddress}
         <br />
@@ -50,12 +50,12 @@ const FindUs: FunctionComponent = () => (
       </a>
     </p>
     <PlainList>
-      <Space as="li" v={{ size: 's', properties: ['padding-bottom'] }}>
+      <Space as="li" $v={{ size: 's', properties: ['padding-bottom'] }}>
         <a href={`/pages/${prismicPageIds.gettingHere}`}>Getting here</a>
       </Space>
       <Space
         as="li"
-        v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+        $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
       >
         <a href={`/pages/${prismicPageIds.access}`}>Accessibility</a>
       </Space>

@@ -1,4 +1,4 @@
-import { Component, Fragment, ReactElement } from 'react';
+import { Component, ReactElement } from 'react';
 import SearchResults from './SearchResults';
 import { font, grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -30,9 +30,9 @@ class AsyncSearchResults extends Component<Props, State> {
 
   render(): ReactElement {
     return (
-      <Fragment>
+      <>
         {this.props.title && (
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <div className="grid">
               <div className={grid({ s: 12 })}>
                 <h2 className={font('wb', 3)} style={{ marginBottom: 0 }}>
@@ -59,7 +59,7 @@ class AsyncSearchResults extends Component<Props, State> {
         {this.state.items && this.state.items.length > 0 && (
           <SearchResults items={this.state.items} />
         )}
-      </Fragment>
+      </>
     );
   }
 }

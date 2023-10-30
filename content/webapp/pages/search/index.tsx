@@ -70,25 +70,25 @@ type SeeMoreButtonProps = {
 };
 
 const StoriesSection = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('neutral.200')};
 `;
 
 const ImagesSection = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
 `;
 
 const WorksSection = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })``;
 
 const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   return (
-    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
       <h3 className={font('intb', 2)}>{sectionName}</h3>
     </Space>
   );
@@ -168,13 +168,12 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         },
       }}
       colors={theme.buttonColors.yellowYellowBlack}
-      hoverUnderline
     />
   );
 
   return (
     <main>
-      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         {!stories && !images && !works ? (
           <Container>
             <SearchNoResults query={queryString} />
@@ -198,7 +197,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                   />
                 </StoryPromoContainer>
                 <Container>
-                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                  <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text="All stories"
                       pathname="/search/stories"
@@ -216,7 +215,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
                   <ImageEndpointSearchResults images={images.pageResults} />
 
-                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                  <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text="All images"
                       pathname="/search/images"
@@ -234,7 +233,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
                   <WorksSearchResults works={works.pageResults} />
 
-                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                  <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text="All works"
                       pathname="/search/works"

@@ -18,12 +18,12 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
     <PageWrapper title="Error">
       <Layout10>
-        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
               <CustomError errorDescription={errorDescription}>
                 <SolidButton
-                  colors={themeValues.buttonColors.greenTransparentGreen}
+                  $colors={themeValues.buttonColors.greenTransparentGreen}
                 >
                   <a
                     href="mailto:library@wellcomecollection.org"

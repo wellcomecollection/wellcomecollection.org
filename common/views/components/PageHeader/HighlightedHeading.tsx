@@ -7,7 +7,7 @@ const Heading = styled(Space)`
   display: block;
   background-color: ${props => props.theme.color('white')};
 
-  @supports (box-decoration-break: clone) {
+  @supports (-webkit-box-decoration-break: clone) {
     display: inline;
     line-height: calc(1.1em + 12px);
     box-decoration-break: clone;
@@ -22,11 +22,11 @@ const HighlightedHeading: FunctionComponent<Props> = ({ text }: Props) => {
   return (
     <h1 className={font('wb', 2)}>
       <Heading
-        v={{
+        $v={{
           size: 's',
           properties: ['padding-top', 'padding-bottom'],
         }}
-        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       >
         {text}
       </Heading>

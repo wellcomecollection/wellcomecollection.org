@@ -5,11 +5,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 
 const List = styled(Space).attrs({
-  v: {
-    size: 'xs',
-    properties: ['row-gap'],
-  },
-  h: { size: 'xs', properties: ['column-gap'] },
+  $v: { size: 'xs', properties: ['row-gap'] },
+  $h: { size: 'xs', properties: ['column-gap'] },
 })`
   display: flex;
   padding: 0;
@@ -27,7 +24,7 @@ const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',
 }: Props) => (
-  <Space h={{ size: 'm', properties: ['padding-right'] }}>
+  <Space $h={{ size: 'm', properties: ['padding-right'] }}>
     <List as="ul">
       {labels.filter(Boolean).map((label, i) => (
         <li key={`${label.text}-${i}`}>

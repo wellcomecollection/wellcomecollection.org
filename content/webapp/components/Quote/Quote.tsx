@@ -11,15 +11,15 @@ export type Props = {
   isPullOrReview: boolean;
 };
 
-const Blockquote = styled.blockquote.attrs<{ isPullOrReview: boolean }>(
+const Blockquote = styled.blockquote.attrs<{ $isPullOrReview: boolean }>(
   props => ({
     className: classNames({
-      'quote--pull': props.isPullOrReview,
-      [font('intr', 2)]: props.isPullOrReview,
+      'quote--pull': props.$isPullOrReview,
+      [font('intr', 2)]: props.$isPullOrReview,
       quote: true,
     }),
   })
-)<{ isPullOrReview: boolean }>`
+)`
   margin: 0;
 `;
 
@@ -37,9 +37,11 @@ const Quote: FunctionComponent<Props> = ({
   isPullOrReview,
 }) => {
   return (
-    <Blockquote isPullOrReview={isPullOrReview}>
+    <Blockquote $isPullOrReview={isPullOrReview}>
       <Space
-        v={citation ? { size: 'xs', properties: ['margin-bottom'] } : undefined}
+        $v={
+          citation ? { size: 'xs', properties: ['margin-bottom'] } : undefined
+        }
       >
         <PrismicHtmlBlock html={text} />
       </Space>

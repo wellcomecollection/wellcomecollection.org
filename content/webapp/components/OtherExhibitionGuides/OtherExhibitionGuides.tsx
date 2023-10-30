@@ -18,9 +18,9 @@ const OtherExhibitionGuides: FunctionComponent<Props> = ({
   otherExhibitionGuides,
 }) => (
   <PromoContainer>
-    <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
+    <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <Layout8 shift={false}>
-        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
           <h2 className={font('wb', 3)}>Other exhibition guides available</h2>
         </Space>
       </Layout8>

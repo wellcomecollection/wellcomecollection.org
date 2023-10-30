@@ -5,7 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { NavLink, links } from '@weco/common/views/components/Header/Header';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 
-const NavList = styled.ul<{ isInline: boolean | undefined }>`
+const NavList = styled.ul<{ $isInline?: boolean }>`
   list-style-type: none;
   display: inline-block;
   padding: 0;
@@ -16,7 +16,7 @@ const NavList = styled.ul<{ isInline: boolean | undefined }>`
   }
 
   ${props =>
-    props.isInline &&
+    props.$isInline &&
     `
       display: flex;
       flex-direction: column;
@@ -41,7 +41,7 @@ const NavList = styled.ul<{ isInline: boolean | undefined }>`
 
 const NavLinkElement = styled(Space).attrs({
   className: font('intr', 5),
-  v: {
+  $v: {
     size: 's',
     properties: ['padding-top', 'padding-bottom'],
   },
@@ -93,7 +93,7 @@ const FooterNav = ({
 
   return (
     <nav aria-label={ariaLabel}>
-      <NavList aria-label="Footer navigation" isInline={isInline}>
+      <NavList aria-label="Footer navigation" $isInline={isInline}>
         {itemsList.map((link, i) => {
           // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here
           const isBurgerMenuLink = type === 'InternalNavigation' && i === 0;

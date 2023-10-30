@@ -64,15 +64,13 @@ export const Tab = styled.button.attrs({
 `;
 
 type NavItemInnerProps = {
-  selected: boolean;
-  variant?: 'yellow' | 'white';
+  $selected: boolean;
+  $variant?: 'yellow' | 'white';
 };
-export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
-  return {
-    as: 'span',
-    className: classNames({ selected: props.selected }),
-  };
-})<NavItemInnerProps>`
+export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => ({
+  as: 'span',
+  className: classNames({ selected: props.$selected }),
+}))<NavItemInnerProps>`
   display: block;
   position: relative;
   z-index: 1;
@@ -80,11 +78,11 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   cursor: pointer;
   color: ${props =>
     props.theme.color(
-      props.variant === 'white'
-        ? props.selected
+      props.$variant === 'white'
+        ? props.$selected
           ? 'white'
           : 'warmNeutral.400'
-        : props.selected
+        : props.$selected
         ? 'black'
         : 'neutral.600'
     )};
@@ -99,15 +97,15 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     width: 0;
     background-color: ${props =>
       props.theme.color(
-        props.selected
-          ? props.variant === 'white'
+        props.$selected
+          ? props.$variant === 'white'
             ? 'white'
-            : props.variant === 'yellow'
+            : props.$variant === 'yellow'
             ? 'yellow'
             : 'black'
-          : props.variant === 'white'
+          : props.$variant === 'white'
           ? 'warmNeutral.400'
-          : props.variant === 'yellow'
+          : props.$variant === 'yellow'
           ? 'lightYellow'
           : 'neutral.600'
       )};

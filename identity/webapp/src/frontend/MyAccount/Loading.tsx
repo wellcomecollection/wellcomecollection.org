@@ -4,7 +4,7 @@ import LL from '@weco/common/views/components/styled/LL';
 
 export const Loading: React.FunctionComponent = () => (
   <>
-    <LL lighten={false} />
+    <LL $lighten={false} />
     <span className="visually-hidden" role="status" aria-label="loading">
       Loading
     </span>
@@ -19,7 +19,7 @@ const InlineWrapper = styled.div`
 
 export const InlineLoading: React.FunctionComponent = () => (
   <InlineWrapper>
-    <LL small={true} lighten={true} />
+    <LL $small={true} $lighten={true} />
     <span className="visually-hidden">Loading</span>
   </InlineWrapper>
 );

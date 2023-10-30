@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import TextWithDot from '@weco/content/components/TextWithDot';
 import EventDateRange from '../EventDateRange/EventDateRange';
@@ -68,8 +67,8 @@ const DateInfo = styled.p.attrs({
 `;
 
 const LocationWrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
   className: font('intr', 5),
+  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -88,13 +87,6 @@ const EventPromo: FunctionComponent<Props> = ({
       data-component="EventPromo"
       data-component-state={JSON.stringify({ position })}
       href={(event.promo && event.promo.link) || `/events/${event.id}`}
-      onClick={() => {
-        trackGaEvent({
-          category: 'EventPromo',
-          action: 'follow link',
-          label: `${event.id} | position: ${position}`,
-        });
-      }}
     >
       <CardImageWrapper>
         {event.promo?.image && (
@@ -128,14 +120,14 @@ const EventPromo: FunctionComponent<Props> = ({
           {(event.isOnline || event.locations.length > 0) && (
             <LocationWrapper>
               <Icon icon={location} matchText />
-              <Space h={{ size: 'xs', properties: ['margin-left'] }}>
+              <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
                 {getLocationText(event.isOnline, event.locations)}
               </Space>
             </LocationWrapper>
           )}
 
           {event.availableOnline && (
-            <Space v={{ size: 's', properties: ['margin-top'] }}>
+            <Space $v={{ size: 's', properties: ['margin-top'] }}>
               <WatchLabel text="Available to watch" />
             </Space>
           )}
@@ -156,7 +148,7 @@ const EventPromo: FunctionComponent<Props> = ({
           )}
 
           {upcomingDatesFullyBooked(event) && (
-            <Space v={{ size: 'm', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'm', properties: ['margin-top'] }}>
               <TextWithDot
                 className={font('intr', 5)}
                 dotColor="validation.red"
@@ -195,11 +187,11 @@ const EventPromo: FunctionComponent<Props> = ({
       )}
       {event.secondaryLabels.length > 0 && (
         <Space
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          v={{ size: 'm', properties: ['padding-bottom'] }}
+          $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          $v={{ size: 'm', properties: ['padding-bottom'] }}
         >
           <Divider lineColor="white" />
-          <Space v={{ size: 's', properties: ['padding-top'] }}>
+          <Space $v={{ size: 's', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}
               defaultLabelColor="black"

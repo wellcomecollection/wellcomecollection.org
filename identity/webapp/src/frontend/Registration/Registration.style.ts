@@ -36,7 +36,7 @@ export const SuccessMessage = styled(AlertBox)`
 
 export const HighlightMessage = styled(Space).attrs({
   as: 'p',
-  h: { size: 'm', properties: ['padding-left'] },
+  $h: { size: 'm', properties: ['padding-left'] },
 })`
   border-left: 13px solid ${props => props.theme.color('yellow')};
 `;
@@ -81,7 +81,7 @@ export const Cancel = styled.button.attrs({
 `;
 
 export const YellowBorder = styled(Space).attrs({
-  h: { size: 's', properties: ['padding-left'] },
+  $h: { size: 's', properties: ['padding-left'] },
 })`
   border-left: 10px solid ${props => props.theme.color('yellow')};
 `;

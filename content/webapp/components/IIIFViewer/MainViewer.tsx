@@ -39,11 +39,11 @@ type OverlayPositionData = {
 };
 
 type SearchTermHighlightProps = {
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-  rotation: number;
+  $top: number;
+  $left: number;
+  $width: number;
+  $height: number;
+  $rotation: number;
 };
 
 type RotationValue = 0 | 90 | 180 | 270;
@@ -53,12 +53,12 @@ const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   opacity: 0.5;
   position: absolute;
   z-index: 1;
-  top: ${props => `${props.top}px`};
-  left: ${props => `${props.left}px`};
-  width: ${props => `${props.width}px`};
-  height: ${props => `${props.height}px`};
+  top: ${props => `${props.$top}px`};
+  left: ${props => `${props.$left}px`};
+  width: ${props => `${props.$width}px`};
+  height: ${props => `${props.$height}px`};
   transform-origin: 0 0;
-  transform: ${props => `rotate(${props.rotation}deg)`};
+  transform: ${props => `rotate(${props.$rotation}deg)`};
 `;
 
 const MessageContainer = styled.div`
@@ -269,7 +269,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     <div style={style}>
       {scrollVelocity === 3 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL lighten={true} />
+          <LL $lighten={true} />
         </div>
       ) : isRestricted ? (
         <MessageContainer>
@@ -283,7 +283,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         </MessageContainer>
       ) : (
         <>
-          {!mainLoaded && <LL lighten={true} />}
+          {!mainLoaded && <LL $lighten={true} />}
           {(imageType === 'main' || mainLoaded) &&
             urlTemplateMain &&
             infoUrl && (
@@ -293,11 +293,11 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     return (
                       <SearchTermHighlight
                         key={i}
-                        top={item.overlayTop}
-                        left={item.overlayLeft}
-                        width={item.highlight.w}
-                        height={item.highlight.h}
-                        rotation={item.rotation}
+                        $top={item.overlayTop}
+                        $left={item.overlayLeft}
+                        $width={item.highlight.w}
+                        $height={item.highlight.h}
+                        $rotation={item.rotation}
                       />
                     );
                   })}

@@ -77,15 +77,17 @@ const Swatches = styled.div`
 `;
 
 type SwatchProps = {
-  hexColor: string;
+  $hexColor: string;
   ariaPressed: boolean;
 };
 
-const Swatch = styled.button.attrs((props: SwatchProps) => ({
-  type: 'button',
-  className: font('intr', 5),
-  'aria-pressed': !!props.ariaPressed,
-}))<SwatchProps>`
+const Swatch = styled.button.attrs<{ ariaPressed: boolean; $hexColor: string }>(
+  (props: SwatchProps) => ({
+    type: 'button',
+    className: font('intr', 5),
+    'aria-pressed': !!props.ariaPressed,
+  })
+)<SwatchProps>`
   position: relative;
   padding-left: 40px;
   flex: 1 0 50%;
@@ -103,7 +105,7 @@ const Swatch = styled.button.attrs((props: SwatchProps) => ({
     height: 32px;
     width: 32px;
     border-radius: 50%;
-    background-color: ${({ hexColor }) => `#${hexColor}`};
+    background-color: ${({ $hexColor }) => `#${$hexColor}`};
     border: ${({ ariaPressed }) => (ariaPressed ? '3px solid #555' : 'none')};
   }
 `;
@@ -112,9 +114,9 @@ const Slider = styled(HueSlider)`
   margin-top: 15px;
 `;
 
-const ColorLabel = styled.span<{ active: boolean }>`
+const ColorLabel = styled.span<{ $active: boolean }>`
   font-style: italic;
-  color: ${({ active }) => (active ? '#121212' : '#565656')};
+  color: ${({ $active }) => ($active ? '#121212' : '#565656')};
   font-size: 14px;
 `;
 
@@ -198,7 +200,7 @@ const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
               <Swatch
                 key={swatch.hexValue}
                 data-test-id={`swatch-${swatch.colorName.toLowerCase()}`}
-                hexColor={swatch.hexValue}
+                $hexColor={swatch.hexValue}
                 ariaPressed={colorState === swatch.hexValue}
                 onClick={() => setColorState(swatch.hexValue)}
               >
@@ -211,7 +213,7 @@ const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
             onChangeHue={h => setColorState(hsvToHex({ h, s: 80, v: 90 }))}
           />
           <TextWrapper>
-            <ColorLabel active={!!colorState} role="status">
+            <ColorLabel $active={!!colorState} role="status">
               {getColorDisplayName(colorState || null)}
             </ColorLabel>
             <ClearButton onClick={() => setColorState(undefined)}>

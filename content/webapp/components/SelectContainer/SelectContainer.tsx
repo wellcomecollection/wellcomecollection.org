@@ -4,25 +4,23 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
-import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 
 type StyledSelectProps = {
-  isFontsLoaded: boolean;
-  isPill?: boolean;
-  darkBg?: boolean;
+  $isPill?: boolean;
+  $darkBg?: boolean;
 };
 
 const StyledSelect = styled.div.attrs({
   className: font('intr', 6),
 })<StyledSelectProps>`
   position: relative;
-  ${({ isPill }) => isPill && 'display: inline-block;'}
+  ${({ $isPill }) => $isPill && 'display: inline-block;'}
 
   .icon {
     position: absolute;
     pointer-events: none;
     ${props =>
-      props.isPill ? 'top: 4px; right: 10px;' : 'top: 6px; right: 6px;'};
+      props.$isPill ? 'top: 4px; right: 10px;' : 'top: 6px; right: 6px;'};
   }
 
   select {
@@ -31,17 +29,17 @@ const StyledSelect = styled.div.attrs({
     appearance: none;
     padding: 8px 42px 8px 16px;
     border: ${props => `1px solid
-        ${props.theme.color(props.darkBg ? 'neutral.300' : 'neutral.600')}`};
+        ${props.theme.color(props.$darkBg ? 'neutral.300' : 'neutral.600')}`};
     border-radius: ${props =>
-      props.isPill ? 20 : props.theme.borderRadiusUnit}px;
+      props.$isPill ? 20 : props.theme.borderRadiusUnit}px;
     background-color: ${props =>
-      props.theme.color(props.darkBg ? 'black' : 'transparent')};
+      props.theme.color(props.$darkBg ? 'black' : 'transparent')};
     color: ${props =>
       props.theme.color(
-        props.darkBg ? 'white' : 'black'
+        props.$darkBg ? 'white' : 'black'
       )}; /* This avoids the default blue links on iOS */
     width: 100%;
-    ${props => (props.isPill ? 'line-height: 1;' : '')}
+    ${props => (props.$isPill ? 'line-height: 1;' : '')}
 
     option {
       background-color: ${props => props.theme.color('white')};
@@ -65,14 +63,14 @@ const Label = styled.label`
   align-items: center;
 `;
 
-const LabelContent = styled(Space).attrs<{ hideLabel?: boolean }>(props => ({
+const LabelContent = styled(Space).attrs<{ $hideLabel?: boolean }>(props => ({
   as: 'span',
-  h: { size: 's', properties: ['margin-right'] },
   className: classNames({
     [font('intb', 5)]: true,
-    'visually-hidden': !!props.hideLabel,
+    'visually-hidden': !!props.$hideLabel,
   }),
-}))<{ hideLabel?: boolean }>`
+  $h: { size: 's', properties: ['margin-right'] },
+}))`
   white-space: nowrap;
 `;
 
@@ -91,12 +89,10 @@ const SelectContainer: FunctionComponent<Props> = ({
   isPill,
   darkBg,
 }) => {
-  const isFontsLoaded = useIsFontsLoaded();
-
   return (
-    <StyledSelect isFontsLoaded={isFontsLoaded} isPill={isPill} darkBg={darkBg}>
+    <StyledSelect $isPill={isPill} $darkBg={darkBg}>
       <Label>
-        <LabelContent hideLabel={hideLabel}>{label}</LabelContent>
+        <LabelContent $hideLabel={hideLabel}>{label}</LabelContent>
         {children}
       </Label>
       <Icon icon={chevron} />

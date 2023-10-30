@@ -6,14 +6,13 @@ import DropdownButton from '@weco/common/views/components/DropdownButton/Dropdow
 import Space from '@weco/common/views/components/styled/Space';
 import { BorderlessLink } from '@weco/common/views/components/BorderlessClickable/BorderlessClickable';
 import { user as userIcon } from '@weco/common/icons';
-import { trackGaEvent } from '@weco/common/utils/ga';
 
 type AccountAProps = {
-  last?: true;
+  $last?: true;
 };
 const AccountA = styled(Space).attrs<AccountAProps>(props => ({
-  v: props.last ? undefined : { size: 's', properties: ['margin-bottom'] },
-}))<AccountAProps>`
+  $v: props.$last ? undefined : { size: 's', properties: ['margin-bottom'] },
+}))`
   display: block;
   text-decoration: none;
 
@@ -77,20 +76,10 @@ const DesktopSignIn: FunctionComponent = () => {
             buttonType="borderless"
           >
             <span className={font('intr', 6)}>
-              <AccountA
-                as="a"
-                onClick={() => {
-                  trackGaEvent({
-                    category: 'library_account',
-                    action: 'view',
-                    label: window.location.pathname,
-                  });
-                }}
-                href="/account"
-              >
+              <AccountA as="a" href="/account">
                 Library account
               </AccountA>
-              <AccountA as="a" href="/account/api/auth/logout" last>
+              <AccountA as="a" href="/account/api/auth/logout" $last>
                 Sign out
               </AccountA>
             </span>

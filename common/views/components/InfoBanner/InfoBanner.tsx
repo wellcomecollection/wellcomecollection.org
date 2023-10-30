@@ -19,7 +19,7 @@ type Props = {
 };
 
 const BannerContainer = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   className: font('intr', 5),
 })`
   background-color: ${props => props.theme.color('yellow')};
@@ -35,7 +35,7 @@ const CopyContainer = styled.div`
 `;
 
 const Copy = styled(Space).attrs({
-  h: { size: 'm', properties: ['margin-right'] },
+  $h: { size: 'm', properties: ['margin-right'] },
   className: 'body-text spaced-text',
 })`
   align-self: center;
@@ -94,8 +94,8 @@ const InfoBanner: FunctionComponent<Props> = ({
       <BannerWrapper>
         <CopyContainer>
           <Space
-            h={{ size: 'm', properties: ['margin-right'] }}
-            v={{ size: 'xs', properties: ['margin-top'] }}
+            $h={{ size: 'm', properties: ['margin-right'] }}
+            $v={{ size: 'xs', properties: ['margin-top'] }}
           >
             <Icon icon={information} />
             <span className="visually-hidden" id="note">
@@ -106,7 +106,7 @@ const InfoBanner: FunctionComponent<Props> = ({
             <PrismicHtmlBlock html={text} />
           </Copy>
         </CopyContainer>
-        <Space v={{ size: 'xs', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
           <CloseButton onClick={hideInfoBanner} aria-controls="notification">
             <Icon icon={cross} title="Close notification" />
             <span className="visually-hidden">close notification</span>
