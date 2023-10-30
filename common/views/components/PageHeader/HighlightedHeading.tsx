@@ -10,7 +10,7 @@ const Heading = styled(Space)`
   @supports (-webkit-box-decoration-break: clone) {
     display: inline;
     line-height: calc(1.1em + 12px);
-    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 `;
 
