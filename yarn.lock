@@ -4964,7 +4964,7 @@
   dependencies:
     imgix-url-builder "^0.0.4"
 
-"@prismicio/react@^2.6.3":
+"@prismicio/react@^2.7.3":
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/@prismicio/react/-/react-2.7.3.tgz#ff8d4e9957969c78d7de5513d5c4afc75a5db599"
   integrity sha512-4Fr19mcJPCDCQUvCYUjphgFH6bzoNeamIVubDvDTdedYYGT+SjKCwNRIElDJIh6QMCU8zqvVAT4jAS3Tok5hlw==
