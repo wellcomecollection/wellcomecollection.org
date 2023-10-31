@@ -3,70 +3,70 @@ import { CheckInterval, CheckOptions } from 'node-updown/lib/types/Check';
 const contentChecks = [
   {
     url: '/',
-    alias: 'Experience: Content: Homepage',
+    alias: 'Content: Homepage',
   },
   {
     url: '/stories',
-    alias: 'Experience: Content: Stories',
+    alias: 'Content: Stories',
   },
   {
     url: '/whats-on',
-    alias: "Experience: Content: What's on",
+    alias: "Content: What's on",
   },
   {
     url: '/visit-us',
-    alias: 'Experience: Content: Visit us',
+    alias: 'Content: Visit us',
   },
   {
     url: '/articles/Wcj2kSgAAB-3C4Uj',
-    alias: 'Experience: Content: Story',
+    alias: 'Content: Story',
   },
   {
     url: '/events/W4VKXR4AAB4AeXU7',
-    alias: 'Experience: Content: Event',
+    alias: 'Content: Event',
   },
   {
     url: '/exhibitions/WZwh4ioAAJ3usf86',
-    alias: 'Experience: Content: Exhibition',
+    alias: 'Content: Exhibition',
   },
   {
     url: '/collections',
-    alias: 'Experience: Content: Collections search',
+    alias: 'Content: Collections search',
   },
   {
     url: '/robots.txt',
-    alias: 'Experience: Content: robots.txt',
+    alias: 'Content: robots.txt',
   },
 ].flatMap(withOriginPrefix('content'));
 
 const worksChecks = [
   {
     url: '/works?query=botany',
-    alias: 'Experience: Works: Works search',
+    alias: 'Works: Works search',
   },
   {
     url: '/works/e7vav3ss',
-    alias: 'Experience: Works: Work',
+    alias: 'Works: Work',
   },
   {
     url: '/works/e7vav3ss/items',
-    alias: 'Experience: Works: Work items',
+    alias: 'Works: Work items',
   },
   {
     url: '/images?query=skeletons',
-    alias: 'Experience: Works: Images search',
+    alias: 'Works: Images search',
   },
   {
     url: '/works/pbxd2mgd/images?id=q6h754ua',
-    alias: 'Experience: Works: Image',
+    alias: 'Works: Image',
   },
   {
     url: '/search/images?query=skeletons',
-    alias: 'Experience: Works: Images search',
+    alias: 'Works: Images search',
   },
   {
     url: '/concepts/v3m7uhy9',
-    alias: 'Experience: Works: Concept',
+    alias: 'Works: Concept',
   },
 ].flatMap(withOriginPrefix('works'));
 
@@ -96,7 +96,7 @@ const apiChecks = [
 const expectedChecks = contentChecks.concat(worksChecks, apiChecks, [
   {
     url: 'https://i.wellcomecollection.org/assets/icons/favicon-16x16.png',
-    alias: 'Experience: Assets: Favicon',
+    alias: 'Assets: Favicon',
     period: 60 as CheckInterval,
   },
   {
