@@ -64,6 +64,10 @@ const worksChecks = [
     url: '/search/images?query=skeletons',
     alias: 'Experience: Works: Images search',
   },
+  {
+    url: '/concepts/v3m7uhy9',
+    alias: 'Experience: Works: Concept',
+  },
 ].flatMap(withOriginPrefix('works'));
 
 const apiChecks = [
