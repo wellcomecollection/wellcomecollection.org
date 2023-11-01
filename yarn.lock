@@ -8011,10 +8011,10 @@ babel-plugin-react-docgen@^4.2.1:
     lodash "^4.17.15"
     react-docgen "^5.0.0"
 
-babel-plugin-react-require@^3.1.1:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-require/-/babel-plugin-react-require-3.1.3.tgz#ba3d7305b044a90c35c32c5a9ab943fd68e1638d"
-  integrity sha512-kDXhW2iPTL81x4Ye2aUMdEXQ56JP0sBJmRQRXJPH5FsNB7fOc/YCsHTqHv8IovPyw9Rk07gdd7MVUz8tUmRBCA==
+babel-plugin-react-require@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-require/-/babel-plugin-react-require-4.0.1.tgz#42dfd7827be3d4aa4aeedbe9ac5e4f2fb1d30087"
+  integrity sha512-IBNN+iig+smS1XJndVNxqVlbLIssMkSlg42AK+UZhUOuCeB0jXnqHnaC33UGbkCt9ad899zMoVyPKQ31KKTquQ==
 
 babel-plugin-react@^1.0.0:
   version "1.0.0"

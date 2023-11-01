@@ -25,7 +25,7 @@
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^6.2.1",
     "babel-loader": "^9.1.2",
-    "babel-plugin-react-require": "^3.1.1",
+    "babel-plugin-react-require": "^4.0.1",
     "babel-preset-react-app": "^9.1.2",
     "chromatic": "^6.7.3",
     "css-loader": "^6.7.3",
