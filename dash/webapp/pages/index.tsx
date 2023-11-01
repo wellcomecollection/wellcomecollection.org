@@ -104,10 +104,10 @@ const IndexPage: FunctionComponent = () => {
               <tr>
                 <td style={{ paddingRight: '1em' }}>
                   {prismicLintResults.totalErrors === 0 && (
-                    <Issue type="success">0 issues</Issue>
+                    <Issue $type="success">0 issues</Issue>
                   )}
                   {prismicLintResults.totalErrors > 0 && (
-                    <Issue type="error">
+                    <Issue $type="error">
                       {prismicLintResults.totalErrors} issue
                       {prismicLintResults.totalErrors > 1 ? 's' : ''}
                     </Issue>

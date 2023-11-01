@@ -42,11 +42,11 @@ const Index: FunctionComponent = () => {
           >
             <main>
               {resultsList.totalErrors === 0 && (
-                <Issue type="success">no linting issues detected</Issue>
+                <Issue $type="success">no linting issues detected</Issue>
               )}
 
               {resultsList.totalErrors > 0 && (
-                <Issue type="error">
+                <Issue $type="error">
                   {resultsList.totalErrors} linting issue
                   {resultsList.totalErrors > 1 && 's'} detected
                 </Issue>

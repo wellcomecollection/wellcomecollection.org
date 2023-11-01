@@ -33,7 +33,7 @@ const config = function () {
     assetPrefix:
       isProd && prodSubdomain
         ? `https://${prodSubdomain}.wellcomecollection.org${basePath}`
-        : '',
+        : undefined,
     basePath,
     // We handle compression in the nginx sidecar
     // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!

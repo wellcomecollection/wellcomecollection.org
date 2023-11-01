@@ -78,3 +78,22 @@ export const NotFoundErrorText: FunctionComponent = () => (
     </Space>
   </Layout8>
 );
+
+export const GoneErrorText: FunctionComponent = () => (
+  <Layout8>
+    <Space
+      className="body-text"
+      $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+    >
+      <p>This work has been deleted from our public catalogue.</p>
+      <p>
+        If that doesn&apos;t seem right or isn&apos;t what you expected, email
+        us at{' '}
+        <a href="mailto:digital@wellcomecollection.org">
+          digital@wellcomecollection.org
+        </a>
+        .
+      </p>
+    </Space>
+  </Layout8>
+);
