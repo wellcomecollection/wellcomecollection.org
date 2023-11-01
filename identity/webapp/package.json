@@ -73,7 +73,7 @@
     "msw": "^0.27.0",
     "nodemon": "^2.0.15",
     "ts-jest": "29.1.0",
-    "typescript": "5.0.4",
+    "typescript": "5.2.2",
     "typescript-plugin-styled-components": "^3.0.0",
     "whatwg-fetch": "^3.6.2"
   }
