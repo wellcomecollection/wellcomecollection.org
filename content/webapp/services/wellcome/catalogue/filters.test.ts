@@ -71,9 +71,7 @@ describe('filter options', () => {
   });
 
   it('filters duplicate labels from the aggregation buckets', () =>  {
-    const aggregations =  {aggregations: {
-      'subjects.label': {
-      buckets: [
+    const subjectsWithDuplicates = [
         {
           data: {
             label: 'University of Glasgow. Library.',
@@ -97,10 +95,12 @@ describe('filter options', () => {
           },
           count: 5,
           type: 'AggregationBucket',
-        }]}}};
+        }];
 
+    var aggregationsWithDuplicates = structuredClone(worksAggregations)
+    aggregationsWithDuplicates.aggregations.['subjects.label'].buckets = subjectsWithDuplicates
     const filter = worksFilters({
-      works: worksAggregations,
+      works: aggregationsWithDuplicates,
       props: {},
     }).find(f => f.id === 'subjects.label') as CheckboxFilter;
 
