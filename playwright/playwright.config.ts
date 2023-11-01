@@ -9,7 +9,6 @@ const browsers =
   process.env.browsers === 'all' ? allSupportedBrowsers : [chromium];
 
 const config: PlaywrightTestConfig = {
-  timeout: 60000,
   use: {
     headless: !debug,
   },
