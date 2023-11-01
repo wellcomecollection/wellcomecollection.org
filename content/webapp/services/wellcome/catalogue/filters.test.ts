@@ -98,7 +98,7 @@ describe('filter options', () => {
         }];
 
     var aggregationsWithDuplicates = structuredClone(worksAggregations)
-    aggregationsWithDuplicates.aggregations.['subjects.label'].buckets = subjectsWithDuplicates
+    aggregationsWithDuplicates.aggregations['subjects.label'].buckets = subjectsWithDuplicates
     const filter = worksFilters({
       works: aggregationsWithDuplicates,
       props: {},
