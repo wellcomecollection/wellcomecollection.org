@@ -102,10 +102,16 @@ function filterOptionsWithNonAggregates({
       label,
       selected: true,
     }));
-
-  return nonAggregateOptions
-    .concat(options)
+  
+  return distinctByLabel(nonAggregateOptions
+    .concat(options))
     .filter(option => showEmptyBuckets || option.count || option.selected);
+}
+
+function distinctByLabel(options: FilterOption[]): FilterOption[] {
+  return options.filter(
+    (thisInstance, i, arr) => arr.findIndex(firstInstance => firstInstance.label == thisInstance.label) === i
+  )
 }
 
 /** Creates the label for a filter in the GUI.

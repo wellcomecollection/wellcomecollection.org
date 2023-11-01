@@ -69,4 +69,41 @@ describe('filter options', () => {
 
     expect(filter.options.length).toBe(7);
   });
+
+  it('filters duplicate labels from the aggregation buckets', () =>  {
+    const aggregations =  {aggregations: {
+      'subjects.label': {
+      buckets: [
+        {
+          data: {
+            label: 'University of Glasgow. Library.',
+            type: 'Subject',
+          },
+          count: 100,
+          type: 'AggregationBucket',
+        },
+        {
+          data: {
+            label: 'Public Health.',
+            type: 'Subject',
+          },
+          count: 65705,
+          type: 'AggregationBucket',
+        },
+        {
+          data: {
+            label: 'University of Glasgow. Library.',
+            type: 'Subject',
+          },
+          count: 5,
+          type: 'AggregationBucket',
+        }]}}};
+
+    const filter = worksFilters({
+      works: worksAggregations,
+      props: {},
+    }).find(f => f.id === 'subjects.label') as CheckboxFilter;
+
+    expect(filter.options.length).toBe(2);
+  })
 });
