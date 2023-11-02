@@ -70,40 +70,50 @@ describe('filter options', () => {
     expect(filter.options.length).toBe(7);
   });
 
-  it('filters duplicate labels from the aggregation buckets', () =>  {
-    const subjectsWithDuplicates = [
-        {
-          data: {
-            label: 'University of Glasgow. Library.',
-            type: 'Subject',
-          },
-          count: 100,
-          type: 'AggregationBucket',
+  it('filters duplicate labels from the aggregation buckets', () => {
+    const aggregationsWithDuplicates = {
+      aggregations: {
+        workType: { buckets: [] },
+        availabilities: { buckets: [] },
+        'subjects.label': {
+          buckets: [
+            {
+              data: {
+                label: 'University of Glasgow. Library.',
+                type: 'Subject',
+              },
+              count: 100,
+              type: 'AggregationBucket',
+            },
+            {
+              data: {
+                label: 'Public Health.',
+                type: 'Subject',
+              },
+              count: 65705,
+              type: 'AggregationBucket',
+            },
+            {
+              data: {
+                label: 'University of Glasgow. Library.',
+                type: 'Subject',
+              },
+              count: 5,
+              type: 'AggregationBucket',
+            },
+          ],
         },
-        {
-          data: {
-            label: 'Public Health.',
-            type: 'Subject',
-          },
-          count: 65705,
-          type: 'AggregationBucket',
-        },
-        {
-          data: {
-            label: 'University of Glasgow. Library.',
-            type: 'Subject',
-          },
-          count: 5,
-          type: 'AggregationBucket',
-        }];
+      },
+    };
 
-    var aggregationsWithDuplicates = structuredClone(worksAggregations)
-    aggregationsWithDuplicates.aggregations['subjects.label'].buckets = subjectsWithDuplicates
     const filter = worksFilters({
       works: aggregationsWithDuplicates,
-      props: {},
+      props: fromWorksQuery({
+        'subjects.label': 'something else',
+      }),
     }).find(f => f.id === 'subjects.label') as CheckboxFilter;
 
-    expect(filter.options.length).toBe(2);
-  })
+    expect(filter.options.length).toBe(3);
+    expect(filter.options).toBe('banana');
+  });
 });

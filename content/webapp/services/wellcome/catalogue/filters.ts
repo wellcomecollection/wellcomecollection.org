@@ -85,34 +85,74 @@ function filterOptionsWithNonAggregates({
   selectedValues: (string | SelectedValue)[];
   showEmptyBuckets?: boolean;
 }): FilterOption[] {
-  const aggregationValues = options.map(option => option.value);
-  const nonAggregateOptions: FilterOption[] = selectedValues
-    .map(value =>
-      isString(value)
-        ? {
-            value,
-            label: value,
-          }
-        : value
-    )
-    .filter(({ value }) => !aggregationValues.includes(value))
-    .map(({ label, value }) => ({
-      id: toHtmlId(value),
-      value,
-      label,
-      selected: true,
-    }));
-  
-  return distinctByLabel(nonAggregateOptions
-    .concat(options))
-    .filter(option => showEmptyBuckets || option.count || option.selected);
+  const aggregationLabels: string[] = options.map(option => option.label);
+  const selectedLabels: string[] = selectedValues.map(value =>
+    isString(value) ? value : value.label
+  );
+  const uniqueLabels = [...new Set(aggregationLabels.concat(selectedLabels))];
+
+  const optionsByLabel: Map<string, FilterOption> = options.reduce(
+    (acc, option) => {
+      const alreadyFound = acc.get(option.label);
+      if (alreadyFound) {
+        alreadyFound.count += option.count;
+      } else acc.set(option.label, option);
+      return acc;
+    },
+    new Map<string, FilterOption>()
+  );
+
+  const allOptions: FilterOption[] = uniqueLabels.map(
+    value =>
+      optionsByLabel.get(value) || {
+        id: value,
+        value,
+        label: value,
+        selected: true,
+      }
+  );
+
+  allOptions.sort((lhs, rhs) => {
+    const countDiff = (rhs.count || -1) - (lhs.count || -1);
+    const diff =
+      countDiff === 0 ? lhs.label.localeCompare(rhs.label) : countDiff;
+    return diff;
+  });
+
+  return allOptions.filter(
+    option => showEmptyBuckets || option.count || option.selected
+  );
+
+  // const nonAggregateOptions: FilterOption[] = selectedValues
+  //   .map(value =>
+  //     isString(value)
+  //       ? {
+  //           id: value,
+  //           label: value,
+  //         }
+  //       : value
+  //   )
+  //   .filter(({ value }) => !aggregationValues.includes(value))
+  //   .map(({ label, value }) => ({
+  //     id: toHtmlId(value),
+  //     value,
+  //     label,
+  //     selected: true,
+  //   }));
+
+  // return distinctByLabel(nonAggregateOptions.concat(options)).filter(
+  //   option => showEmptyBuckets || option.count || option.selected
+  // );
 }
 
-function distinctByLabel(options: FilterOption[]): FilterOption[] {
-  return options.filter(
-    (thisInstance, i, arr) => arr.findIndex(firstInstance => firstInstance.label == thisInstance.label) === i
-  )
-}
+// function distinctByLabel(options: FilterOption[]): FilterOption[] {
+//   return options.filter(
+//     (thisInstance, i, arr) =>
+//       arr.findIndex(
+//         firstInstance => firstInstance.label == thisInstance.label
+//       ) === i
+//   );
+// }
 
 /** Creates the label for a filter in the GUI.
  *
