@@ -103,8 +103,8 @@ function filterOptionsWithNonAggregates({
   );
 
   return allOptions
-    .sort(optionOrder)
-    .filter(option => showEmptyBuckets || option.count || option.selected);
+    .filter(option => showEmptyBuckets || option.count || option.selected)
+    .sort(optionOrder);
 }
 /**
  * Sorting definition for FilterOptions.
@@ -120,10 +120,7 @@ function filterOptionsWithNonAggregates({
  */
 function optionOrder(lhs: FilterOption, rhs: FilterOption): number {
   const countDiff = (rhs.count || Infinity) - (lhs.count || Infinity);
-  const diff =
-    countDiff === 0 || (!lhs.count && !rhs.count)
-      ? lhs.label.localeCompare(rhs.label)
-      : countDiff;
+  const diff = countDiff || lhs.label.localeCompare(rhs.label);
   return diff;
 }
 
