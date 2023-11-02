@@ -112,47 +112,17 @@ function filterOptionsWithNonAggregates({
       }
   );
 
-  allOptions.sort((lhs, rhs) => {
-    const countDiff = (rhs.count || -1) - (lhs.count || -1);
-    const diff =
-      countDiff === 0 ? lhs.label.localeCompare(rhs.label) : countDiff;
-    return diff;
-  });
-
-  return allOptions.filter(
-    option => showEmptyBuckets || option.count || option.selected
-  );
-
-  // const nonAggregateOptions: FilterOption[] = selectedValues
-  //   .map(value =>
-  //     isString(value)
-  //       ? {
-  //           id: value,
-  //           label: value,
-  //         }
-  //       : value
-  //   )
-  //   .filter(({ value }) => !aggregationValues.includes(value))
-  //   .map(({ label, value }) => ({
-  //     id: toHtmlId(value),
-  //     value,
-  //     label,
-  //     selected: true,
-  //   }));
-
-  // return distinctByLabel(nonAggregateOptions.concat(options)).filter(
-  //   option => showEmptyBuckets || option.count || option.selected
-  // );
+  return allOptions
+    .sort((lhs, rhs) => {
+      const countDiff = (rhs.count || Infinity) - (lhs.count || Infinity);
+      const diff =
+        countDiff === 0 || (!lhs.count && !rhs.count)
+          ? lhs.label.localeCompare(rhs.label)
+          : countDiff;
+      return diff;
+    })
+    .filter(option => showEmptyBuckets || option.count || option.selected);
 }
-
-// function distinctByLabel(options: FilterOption[]): FilterOption[] {
-//   return options.filter(
-//     (thisInstance, i, arr) =>
-//       arr.findIndex(
-//         firstInstance => firstInstance.label == thisInstance.label
-//       ) === i
-//   );
-// }
 
 /** Creates the label for a filter in the GUI.
  *
