@@ -89,20 +89,10 @@ function filterOptionsWithNonAggregates({
   const selectedLabels: string[] = selectedValues.map(value =>
     isString(value) ? value : value.label
   );
-  const uniqueLabels = [...new Set(aggregationLabels.concat(selectedLabels))];
 
-  const optionsByLabel: Map<string, FilterOption> = options.reduce(
-    (acc, option) => {
-      const alreadyFound = acc.get(option.label);
-      if (alreadyFound) {
-        alreadyFound.count += option.count;
-      } else acc.set(option.label, option);
-      return acc;
-    },
-    new Map<string, FilterOption>()
-  );
+  const optionsByLabel = mergeOptionCounts(options);
 
-  const allOptions: FilterOption[] = uniqueLabels.map(
+  const allOptions = [...new Set(aggregationLabels.concat(selectedLabels))].map(
     value =>
       optionsByLabel.get(value) || {
         id: value,
@@ -113,17 +103,51 @@ function filterOptionsWithNonAggregates({
   );
 
   return allOptions
-    .sort((lhs, rhs) => {
-      const countDiff = (rhs.count || Infinity) - (lhs.count || Infinity);
-      const diff =
-        countDiff === 0 || (!lhs.count && !rhs.count)
-          ? lhs.label.localeCompare(rhs.label)
-          : countDiff;
-      return diff;
-    })
+    .sort(optionOrder)
     .filter(option => showEmptyBuckets || option.count || option.selected);
 }
+/**
+ * Sorting definition for FilterOptions.
+ *
+ * FilterOptions are ordered by count descending then label ascending,
+ * This places the most common values at the top, and presents a sensible
+ * and predictable ordering when any two values are equally as common.
+ *
+ * There is an exception to that general rule, in that values with
+ * no matching documents are presented at the top, rather than the bottom.
+ * This is expected either when a requested value is bogus, or is
+ * filtered out by the search term or other queries.
+ */
+function optionOrder(lhs: FilterOption, rhs: FilterOption): number {
+  const countDiff = (rhs.count || Infinity) - (lhs.count || Infinity);
+  const diff =
+    countDiff === 0 || (!lhs.count && !rhs.count)
+      ? lhs.label.localeCompare(rhs.label)
+      : countDiff;
+  return diff;
+}
 
+/**
+ * Creates a map of labels to filter options.
+ *
+ * Options received from the API may contain multiple entries with identical
+ * labels.
+ * This is expected where:
+ *  - There are two genuinely different concepts with the same name (e.g. John Smith)
+ *  - The same concept has been identified differently in the source data (e.g. MeSH vs LCSH)
+ *
+ * The filters used in the UI operate on labels, so these differences are irrelevant
+ * in this context, and can cause problems, so homonymous options are to be merged.
+ */
+function mergeOptionCounts(options: FilterOption[]): Map<string, FilterOption> {
+  return options.reduce((acc, option) => {
+    const matchingOption = acc.get(option.label);
+    if (matchingOption && matchingOption.count) {
+      matchingOption.count += option.count || 0;
+    } else acc.set(option.label, option);
+    return acc;
+  }, new Map<string, FilterOption>());
+}
 /** Creates the label for a filter in the GUI.
  *
  * Note: we intentionally omit the count when we have a filter whose

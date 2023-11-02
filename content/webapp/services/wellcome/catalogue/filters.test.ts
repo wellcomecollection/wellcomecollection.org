@@ -94,6 +94,55 @@ describe('filter options', () => {
     ]);
   });
 
+  it('presents options with zero matching records at the top of the list', () => {
+    const filter = worksFilters({
+      works: worksAggregationsWith('subjects.label', [
+        {
+          data: {
+            label: 'Astronauts',
+            type: 'Subject',
+          },
+          count: 3,
+          type: 'AggregationBucket',
+        },
+        {
+          data: {
+            label: 'Zouaves',
+            type: 'Subject',
+          },
+          count: 0,
+          type: 'AggregationBucket',
+        },
+        {
+          data: {
+            label: 'Zeppelins',
+            type: 'Subject',
+          },
+          count: 1,
+          type: 'AggregationBucket',
+        },
+        {
+          data: {
+            label: 'Aardvarks',
+            type: 'Subject',
+          },
+          count: 2,
+          type: 'AggregationBucket',
+        },
+      ]),
+      props: fromWorksQuery({ 'subjects.label': 'Zouaves' }),
+    }).find(f => f.id === 'subjects.label') as CheckboxFilter;
+
+    expect(filter.options.map(option => option.count)).toEqual([0, 3, 2, 1]);
+
+    expect(filter.options.map(option => option.label)).toEqual([
+      'Zouaves',
+      'Astronauts',
+      'Aardvarks',
+      'Zeppelins',
+    ]);
+  });
+
   describe('when options in the query are not present in the API aggregation', () => {
     it('includes the selected option from the query', () => {
       const filter = worksFilters({
@@ -142,6 +191,56 @@ describe('filter options', () => {
         'Bananas',
         'Zeppelins',
         'Aardvarks',
+      ]);
+    });
+
+    it('treats the absence of a count the same as a zero count', () => {
+      const filter = worksFilters({
+        works: worksAggregationsWith('subjects.label', [
+          {
+            data: {
+              label: 'Aardvarks',
+              type: 'Subject',
+            },
+            count: 0,
+            type: 'AggregationBucket',
+          },
+          {
+            data: {
+              label: 'XYZZY',
+              type: 'Subject',
+            },
+            count: 0,
+            type: 'AggregationBucket',
+          },
+          {
+            data: {
+              label: 'Plugh!',
+              type: 'Subject',
+            },
+            count: 999,
+            type: 'AggregationBucket',
+          },
+        ]),
+        props: fromWorksQuery({
+          'subjects.label': '"Zeppelins", "Bananas", "Aardvarks", "XYZZY"',
+        }),
+      }).find(f => f.id === 'subjects.label') as CheckboxFilter;
+
+      expect(filter.options.map(option => option.count)).toEqual([
+        0,
+        undefined,
+        0,
+        undefined,
+        999,
+      ]);
+
+      expect(filter.options.map(option => option.label)).toEqual([
+        'Aardvarks',
+        'Bananas',
+        'XYZZY',
+        'Zeppelins',
+        'Plugh!',
       ]);
     });
   });
