@@ -220,6 +220,7 @@ test('(6) | The user is searching for works from a particular year; it should be
 
   if (isMobile(page)) {
     await page.click(`"Show results"`);
+    await expect(page.getByRole('button', { name: 'Filters 1' })).toBeVisible();
   } else {
     await expect(
       page.getByRole('link', { name: 'remove From 1939' })
